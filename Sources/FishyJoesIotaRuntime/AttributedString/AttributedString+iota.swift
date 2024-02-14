@@ -1,6 +1,6 @@
 import Foundation
 
-extension AttributedString: IotaMutator {
+extension AttributedString: IotaReferenceMutator {
     public typealias Constructor = @convention(c) (_ ptr: UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject
     fileprivate static var constructor = Env.CallbackMap<Constructor>()
 
@@ -11,10 +11,6 @@ extension AttributedString: IotaMutator {
     public static func toIota(_ value: AttributedString, env: Env) throws -> foreignObject {
         let ptr = Box(value).retainedOpaque()
         return try env.check { exn in constructor[env](ptr, exn) }
-    }
-
-    public static func mutateIota<R>(_ this: foreignObject, env: Env, body: (inout AttributedString) throws -> R) throws -> R {
-        try body(&Box<AttributedString>.peekIota(this, env: env).value)
     }
 }
 
@@ -163,7 +159,7 @@ public func __iota_Foundation_AttributedString_append(
 ) -> VoidConverter.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
-        return try AttributedString.mutateIota(_iotaThis, env: env) { mutatingSelf in
+        return try AttributedString.withMutatingIota(_iotaThis, env: env) { mutatingSelf in
             return try VoidConverter.toIota(
                 mutatingSelf.append(
                     try AttributedString.peekIota(attributedString, env: env)
@@ -183,7 +179,7 @@ public func __iota_Foundation_AttributedString_appendSubstring(
 ) -> VoidConverter.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
-        return try AttributedString.mutateIota(_iotaThis, env: env) { mutatingSelf in
+        return try AttributedString.withMutatingIota(_iotaThis, env: env) { mutatingSelf in
             return try VoidConverter.toIota(
                 mutatingSelf.append(
                     try AttributedSubstring.peekIota(substring, env: env)
@@ -204,7 +200,7 @@ public func __iota_Foundation_AttributedString_insert(
 ) -> VoidConverter.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
-        return try AttributedString.mutateIota(_iotaThis, env: env) { mutatingSelf in
+        return try AttributedString.withMutatingIota(_iotaThis, env: env) { mutatingSelf in
             return try VoidConverter.toIota(
                 mutatingSelf.insert(
                     try AttributedString.peekIota(attributedString, env: env),
@@ -226,7 +222,7 @@ public func __iota_Foundation_AttributedString_insertSubstring(
 ) -> VoidConverter.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
-        return try AttributedString.mutateIota(_iotaThis, env: env) { mutatingSelf in
+        return try AttributedString.withMutatingIota(_iotaThis, env: env) { mutatingSelf in
             return try VoidConverter.toIota(
                 mutatingSelf.insert(
                     try AttributedSubstring.peekIota(substring, env: env),
@@ -248,7 +244,7 @@ public func __iota_Foundation_AttributedString_replaceSubrange(
 ) -> VoidConverter.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
-        return try AttributedString.mutateIota(_iotaThis, env: env) { mutatingSelf in
+        return try AttributedString.withMutatingIota(_iotaThis, env: env) { mutatingSelf in
             return try VoidConverter.toIota(
                 mutatingSelf.replaceSubrange(
                     try RangeConverter<AttributedString.Index>.peekIota(range, env: env),
@@ -270,7 +266,7 @@ public func __iota_Foundation_AttributedString_replaceSubrangeWithSubstring(
 ) -> VoidConverter.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
-        return try AttributedString.mutateIota(_iotaThis, env: env) { mutatingSelf in
+        return try AttributedString.withMutatingIota(_iotaThis, env: env) { mutatingSelf in
             return try VoidConverter.toIota(
                 mutatingSelf.replaceSubrange(
                     try RangeConverter<AttributedString.Index>.peekIota(range, env: env),
@@ -291,7 +287,7 @@ public func __iota_Foundation_AttributedString_removeSubrange(
 ) -> VoidConverter.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
-        return try AttributedString.mutateIota(_iotaThis, env: env) { mutatingSelf in
+        return try AttributedString.withMutatingIota(_iotaThis, env: env) { mutatingSelf in
             return try VoidConverter.toIota(
                 mutatingSelf.removeSubrange(
                     try RangeConverter<AttributedString.Index>.peekIota(range, env: env)
@@ -311,7 +307,7 @@ public func __iota_Foundation_AttributedString_setAttributes(
 ) -> VoidConverter.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
-        return try AttributedString.mutateIota(_iotaThis, env: env) { mutatingSelf in
+        return try AttributedString.withMutatingIota(_iotaThis, env: env) { mutatingSelf in
             return try VoidConverter.toIota(
                 mutatingSelf.setAttributes(
                     try AttributeContainer.peekIota(attributes, env: env)
@@ -332,7 +328,7 @@ public func __iota_Foundation_AttributedString_setAttributesForRange(
 ) -> VoidConverter.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
-        return try AttributedString.mutateIota(_iotaThis, env: env) { mutatingSelf in
+        return try AttributedString.withMutatingIota(_iotaThis, env: env) { mutatingSelf in
             return try VoidConverter.toIota(
                 mutatingSelf[try RangeConverter<AttributedString.Index>.peekIota(range, env: env)].setAttributes(
                     try AttributeContainer.peekIota(attributes, env: env)
@@ -353,7 +349,7 @@ public func __iota_Foundation_AttributedString_mergeAttributes(
 ) -> VoidConverter.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
-        return try AttributedString.mutateIota(_iotaThis, env: env) { mutatingSelf in
+        return try AttributedString.withMutatingIota(_iotaThis, env: env) { mutatingSelf in
             return try VoidConverter.toIota(
                 mutatingSelf.mergeAttributes(
                     try AttributeContainer.peekIota(attributes, env: env),
@@ -376,7 +372,7 @@ public func __iota_Foundation_AttributedString_mergeAttributesForRange(
 ) -> VoidConverter.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
-        return try AttributedString.mutateIota(_iotaThis, env: env) { mutatingSelf in
+        return try AttributedString.withMutatingIota(_iotaThis, env: env) { mutatingSelf in
             return try VoidConverter.toIota(
                 mutatingSelf[try RangeConverter<AttributedString.Index>.peekIota(range, env: env)].mergeAttributes(
                     try AttributeContainer.peekIota(attributes, env: env),
@@ -398,7 +394,7 @@ public func __iota_Foundation_AttributedString_replaceAttributes(
 ) -> VoidConverter.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
-        return try AttributedString.mutateIota(_iotaThis, env: env) { mutatingSelf in
+        return try AttributedString.withMutatingIota(_iotaThis, env: env) { mutatingSelf in
             return try VoidConverter.toIota(
                 mutatingSelf.replaceAttributes(
                     try AttributeContainer.peekIota(attributes, env: env),
@@ -421,7 +417,7 @@ public func __iota_Foundation_AttributedString_replaceAttributesForRange(
 ) -> VoidConverter.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
-        return try AttributedString.mutateIota(_iotaThis, env: env) { mutatingSelf in
+        return try AttributedString.withMutatingIota(_iotaThis, env: env) { mutatingSelf in
             return try VoidConverter.toIota(
                 mutatingSelf[try RangeConverter<AttributedString.Index>.peekIota(range, env: env)].replaceAttributes(
                     try AttributeContainer.peekIota(attributes, env: env),

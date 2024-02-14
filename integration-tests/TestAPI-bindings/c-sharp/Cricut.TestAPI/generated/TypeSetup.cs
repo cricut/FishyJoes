@@ -262,6 +262,7 @@ namespace Cricut.TestAPI {
             IntPtr envRef,
             _TestAPI_Structs_MemberwiseStructConstructor constructor,
             _TestAPI_Structs_MemberwiseStruct_immutableGetter get_immutable,
+            _TestAPI_Structs_MemberwiseStruct_immutableSetter set_immutable,
             _TestAPI_Structs_MemberwiseStruct_mutableGetter get_mutable,
             _TestAPI_Structs_MemberwiseStruct_mutableSetter set_mutable,
             out CreatedRef _exn
@@ -519,10 +520,26 @@ namespace Cricut.TestAPI {
             FishyJoes_TestAPI_registerTypes();
 
             Once("setup_Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>", () => {
+                Console.WriteLine("setting up ((Swift.Int) -> Swift.Int, (Swift.Int) -> Swift.Int) -> (Swift.Int) -> Swift.Int...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function2Converter_setup<System.Func<nint, nint>, System.Func<nint, nint>, System.Func<nint, nint>>(
+                    Loader.env,
+                    "Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>",
+                    out exn
+                ));
+            });
+            Once("setup_Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>", () => {
                 Console.WriteLine("setting up ((Int) -> Int, (Int) -> Int) -> (Int) -> Int...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function2Converter_setup<System.Func<nint, nint>, System.Func<nint, nint>, System.Func<nint, nint>>(
                     Loader.env,
                     "Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>",
+                    out exn
+                ));
+            });
+            Once("setup_Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>", () => {
+                Console.WriteLine("setting up (Optional<Array<Optional<Swift.Int>>>) -> Optional<Array<Optional<Swift.Int>>>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function1Converter_setup<System.Collections.Generic.IList<nint?>?, System.Collections.Generic.IList<nint?>?>(
+                    Loader.env,
+                    "Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>",
                     out exn
                 ));
             });
@@ -535,10 +552,82 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Function1Converter<OptionalConverter<Swift.UInt8>, OptionalConverter<Swift.UInt8>>", () => {
+                Console.WriteLine("setting up (Optional<Swift.UInt8>) -> Optional<Swift.UInt8>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function1Converter_setup<byte?, byte?>(
+                    Loader.env,
+                    "Function1Converter<OptionalConverter<Swift.UInt8>, OptionalConverter<Swift.UInt8>>",
+                    out exn
+                ));
+            });
+            Once("setup_Function1Converter<OptionalConverter<Swift.UInt8>, OptionalConverter<Swift.UInt8>>", () => {
                 Console.WriteLine("setting up (Optional<UInt8>) -> Optional<UInt8>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function1Converter_setup<byte?, byte?>(
                     Loader.env,
                     "Function1Converter<OptionalConverter<Swift.UInt8>, OptionalConverter<Swift.UInt8>>",
+                    out exn
+                ));
+            });
+            Once("setup_Function3Converter<Swift.Float, Swift.Double, Swift.Int, FutureConverter<Swift.Double>>", () => {
+                Console.WriteLine("setting up (Swift.Float, Swift.Double, Swift.Int) -> Future<Swift.Double>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function3Converter_setup<System.Threading.Tasks.Task<double>, float, double, nint>(
+                    Loader.env,
+                    "Function3Converter<Swift.Float, Swift.Double, Swift.Int, FutureConverter<Swift.Double>>",
+                    out exn
+                ));
+            });
+            Once("setup_Function3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>", () => {
+                Console.WriteLine("setting up (Swift.Float, Swift.Double, Swift.Int) -> Swift.Double...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function3Converter_setup<double, float, double, nint>(
+                    Loader.env,
+                    "Function3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>",
+                    out exn
+                ));
+            });
+            Once("setup_Function1Converter<Swift.Int, FutureConverter<Swift.Int>>", () => {
+                Console.WriteLine("setting up (Swift.Int) -> Future<Swift.Int>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function1Converter_setup<System.Threading.Tasks.Task<nint>, nint>(
+                    Loader.env,
+                    "Function1Converter<Swift.Int, FutureConverter<Swift.Int>>",
+                    out exn
+                ));
+            });
+            Once("setup_Function1Converter<Swift.Int, Swift.Int>", () => {
+                Console.WriteLine("setting up (Swift.Int) -> Swift.Int...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function1Converter_setup<nint, nint>(
+                    Loader.env,
+                    "Function1Converter<Swift.Int, Swift.Int>",
+                    out exn
+                ));
+            });
+            Once("setup_Function6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Swift.Int, Swift.Int>", () => {
+                Console.WriteLine("setting up (Swift.String, Swift.Int, Swift.Double, Swift.String, () -> Swift.Int, Swift.Int) -> Swift.Int...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function6Converter_setup<nint, string, nint, double, string, System.Func<nint>, nint>(
+                    Loader.env,
+                    "Function6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Swift.Int, Swift.Int>",
+                    out exn
+                ));
+            });
+            Once("setup_Function5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Function0Converter<Swift.Int>>", () => {
+                Console.WriteLine("setting up (Swift.String, Swift.Int, Swift.Double, Swift.String, () -> Swift.Int) -> () -> Swift.Int...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function5Converter_setup<System.Func<nint>, string, nint, double, string, System.Func<nint>>(
+                    Loader.env,
+                    "Function5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Function0Converter<Swift.Int>>",
+                    out exn
+                ));
+            });
+            Once("setup_Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, FutureConverter<ArrayConverter<Swift.String>>>", () => {
+                Console.WriteLine("setting up (Swift.String, Swift.String, Swift.String, Swift.String) -> Future<Array<Swift.String>>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function4Converter_setup<System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>, string, string, string, string>(
+                    Loader.env,
+                    "Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, FutureConverter<ArrayConverter<Swift.String>>>",
+                    out exn
+                ));
+            });
+            Once("setup_Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>", () => {
+                Console.WriteLine("setting up (Swift.String, Swift.String, Swift.String, Swift.String) -> Array<Swift.String>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function4Converter_setup<System.Collections.Generic.IList<string>, string, string, string, string>(
+                    Loader.env,
+                    "Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>",
                     out exn
                 ));
             });
@@ -582,11 +671,123 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_Function0Converter<FutureConverter<Swift.Int>>", () => {
+                Console.WriteLine("setting up () -> Future<Swift.Int>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function0Converter_setup<System.Threading.Tasks.Task<nint>>(
+                    Loader.env,
+                    "Function0Converter<FutureConverter<Swift.Int>>",
+                    out exn
+                ));
+            });
+            Once("setup_Function0Converter<Swift.Int>", () => {
+                Console.WriteLine("setting up () -> Swift.Int...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function0Converter_setup<nint>(
+                    Loader.env,
+                    "Function0Converter<Swift.Int>",
+                    out exn
+                ));
+            });
             Once("setup_Function0Converter<Swift.Int>", () => {
                 Console.WriteLine("setting up () -> Int...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function0Converter_setup<nint>(
                     Loader.env,
                     "Function0Converter<Swift.Int>",
+                    out exn
+                ));
+            });
+            Once("setup_FutureConverter<Function1Converter<Swift.Int, Swift.Int>>", () => {
+                Console.WriteLine("setting up Future<(Swift.Int) -> Swift.Int>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<System.Func<nint, nint>>(
+                    Loader.env,
+                    "FutureConverter<Function1Converter<Swift.Int, Swift.Int>>",
+                    out exn
+                ));
+            });
+            Once("setup_FutureConverter<Function0Converter<Swift.Int>>", () => {
+                Console.WriteLine("setting up Future<() -> Swift.Int>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<System.Func<nint>>(
+                    Loader.env,
+                    "FutureConverter<Function0Converter<Swift.Int>>",
+                    out exn
+                ));
+            });
+            Once("setup_FutureConverter<FutureConverter<ArrayConverter<Swift.String>>>", () => {
+                Console.WriteLine("setting up Future<Future<Array<Swift.String>>>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>>(
+                    Loader.env,
+                    "FutureConverter<FutureConverter<ArrayConverter<Swift.String>>>",
+                    out exn
+                ));
+            });
+            Once("setup_FutureConverter<FutureConverter<Swift.Double>>", () => {
+                Console.WriteLine("setting up Future<Future<Swift.Double>>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<System.Threading.Tasks.Task<double>>(
+                    Loader.env,
+                    "FutureConverter<FutureConverter<Swift.Double>>",
+                    out exn
+                ));
+            });
+            Once("setup_FutureConverter<FutureConverter<Swift.Int>>", () => {
+                Console.WriteLine("setting up Future<Future<Swift.Int>>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<System.Threading.Tasks.Task<nint>>(
+                    Loader.env,
+                    "FutureConverter<FutureConverter<Swift.Int>>",
+                    out exn
+                ));
+            });
+            Once("setup_FutureConverter<ArrayConverter<Swift.String>>", () => {
+                Console.WriteLine("setting up Future<Array<Swift.String>>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<System.Collections.Generic.IList<string>>(
+                    Loader.env,
+                    "FutureConverter<ArrayConverter<Swift.String>>",
+                    out exn
+                ));
+            });
+            Once("setup_FutureConverter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>", () => {
+                Console.WriteLine("setting up Future<Optional<Array<Optional<Swift.Int>>>>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<System.Collections.Generic.IList<nint?>?>(
+                    Loader.env,
+                    "FutureConverter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>",
+                    out exn
+                ));
+            });
+            Once("setup_FutureConverter<OptionalConverter<Swift.UInt8>>", () => {
+                Console.WriteLine("setting up Future<Optional<Swift.UInt8>>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<byte?>(
+                    Loader.env,
+                    "FutureConverter<OptionalConverter<Swift.UInt8>>",
+                    out exn
+                ));
+            });
+            Once("setup_FutureConverter<Swift.Double>", () => {
+                Console.WriteLine("setting up Future<Swift.Double>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<double>(
+                    Loader.env,
+                    "FutureConverter<Swift.Double>",
+                    out exn
+                ));
+            });
+            Once("setup_FutureConverter<Swift.Int>", () => {
+                Console.WriteLine("setting up Future<Swift.Int>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<nint>(
+                    Loader.env,
+                    "FutureConverter<Swift.Int>",
+                    out exn
+                ));
+            });
+            Once("setup_FutureConverter<Swift.String>", () => {
+                Console.WriteLine("setting up Future<Swift.String>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<string>(
+                    Loader.env,
+                    "FutureConverter<Swift.String>",
+                    out exn
+                ));
+            });
+            Once("setup_FutureConverter<FishyJoesCommonRuntime.VoidConverter>", () => {
+                Console.WriteLine("setting up Future<Void>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup(
+                    Loader.env,
+                    "FutureConverter<FishyJoesCommonRuntime.VoidConverter>",
                     out exn
                 ));
             });
@@ -1569,6 +1770,9 @@ namespace Cricut.TestAPI {
                     bag<_TestAPI_Structs_MemberwiseStruct_immutableGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.MemberwiseStruct>().Immutable)
                     )),
+                    bag<_TestAPI_Structs_MemberwiseStruct_immutableSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Structs.MemberwiseStruct>().Immutable = newValue.Consume<string>();
+                    })),
                     bag<_TestAPI_Structs_MemberwiseStruct_mutableGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.MemberwiseStruct>().Mutable)
                     )),

@@ -200,20 +200,18 @@ public func SwiftFunctionImpl_invoke6(
 extension Function0Converter: IotaConverter where R: IotaConverter {
     public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
         let escapingRef = try IotaReference(value, env: env)
-        let initThread = Thread.current
         return {
-            guard initThread == Thread.current else {
-                fatalError("Callback invoked on different thread")
-            }
-            return try R.consumeIota(
-                object: FunctionInfo[env, Self.self].invoke(
-                    escapingRef.object,
-                    [
-                    ],
+            try env.syncOnThread {
+                try R.consumeIota(
+                    object: FunctionInfo[env, Self.self].invoke(
+                        escapingRef.object,
+                        [
+                        ],
+                        env: env
+                    ),
                     env: env
-                ),
-                env: env
-            )
+                )
+            }
         }
     }
 
@@ -229,22 +227,19 @@ extension Function0Converter: IotaConverter where R: IotaConverter {
 extension Function1Converter: IotaConverter where R: IotaConverter, P0: IotaConverter {
     public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
         let escapingRef = try IotaReference(value, env: env)
-        let initThread = Thread.current
         return { p0 in
-            guard initThread == Thread.current else {
-                fatalError("Callback invoked on different thread")
-            }
-
-            return try R.consumeIota(
-                object: FunctionInfo[env, Self.self].invoke(
-                    escapingRef.object,
-                    [
-                        P0.toIotaObject(p0, env: env),
-                    ],
+            try env.syncOnThread {
+                try R.consumeIota(
+                    object: FunctionInfo[env, Self.self].invoke(
+                        escapingRef.object,
+                        [
+                            P0.toIotaObject(p0, env: env),
+                        ],
+                        env: env
+                    ),
                     env: env
-                ),
-                env: env
-            )
+                )
+            }
         }
     }
 
@@ -261,23 +256,20 @@ extension Function1Converter: IotaConverter where R: IotaConverter, P0: IotaConv
 extension Function2Converter: IotaConverter where R: IotaConverter, P0: IotaConverter, P1: IotaConverter {
     public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
         let escapingRef = try IotaReference(value, env: env)
-        let initThread = Thread.current
         return { p0, p1 in
-            guard initThread == Thread.current else {
-                fatalError("Callback invoked on different thread")
-            }
-
-            return try R.consumeIota(
-                object: FunctionInfo[env, Self.self].invoke(
-                    escapingRef.object,
-                    [
-                        P0.toIotaObject(p0, env: env),
-                        P1.toIotaObject(p1, env: env),
-                    ],
+            try env.syncOnThread {
+                try R.consumeIota(
+                    object: FunctionInfo[env, Self.self].invoke(
+                        escapingRef.object,
+                        [
+                            P0.toIotaObject(p0, env: env),
+                            P1.toIotaObject(p1, env: env),
+                        ],
+                        env: env
+                    ),
                     env: env
-                ),
-                env: env
-            )
+                )
+            }
         }
     }
 
@@ -295,24 +287,21 @@ extension Function2Converter: IotaConverter where R: IotaConverter, P0: IotaConv
 extension Function3Converter: IotaConverter where R: IotaConverter, P0: IotaConverter, P1: IotaConverter, P2: IotaConverter {
     public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
         let escapingRef = try IotaReference(value, env: env)
-        let initThread = Thread.current
         return { p0, p1, p2 in
-            guard initThread == Thread.current else {
-                fatalError("Callback invoked on different thread")
-            }
-
-            return try R.consumeIota(
-                object: FunctionInfo[env, Self.self].invoke(
-                    escapingRef.object,
-                    [
-                        P0.toIotaObject(p0, env: env),
-                        P1.toIotaObject(p1, env: env),
-                        P2.toIotaObject(p2, env: env),
-                    ],
+            try env.syncOnThread {
+                try R.consumeIota(
+                    object: FunctionInfo[env, Self.self].invoke(
+                        escapingRef.object,
+                        [
+                            P0.toIotaObject(p0, env: env),
+                            P1.toIotaObject(p1, env: env),
+                            P2.toIotaObject(p2, env: env),
+                        ],
+                        env: env
+                    ),
                     env: env
-                ),
-                env: env
-            )
+                )
+            }
         }
     }
 
@@ -331,25 +320,22 @@ extension Function3Converter: IotaConverter where R: IotaConverter, P0: IotaConv
 extension Function4Converter: IotaConverter where R: IotaConverter, P0: IotaConverter, P1: IotaConverter, P2: IotaConverter, P3: IotaConverter {
     public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
         let escapingRef = try IotaReference(value, env: env)
-        let initThread = Thread.current
         return { p0, p1, p2, p3 in
-            guard initThread == Thread.current else {
-                fatalError("Callback invoked on different thread")
-            }
-
-            return try R.consumeIota(
-                object: FunctionInfo[env, Self.self].invoke(
-                    escapingRef.object,
-                    [
-                        P0.toIotaObject(p0, env: env),
-                        P1.toIotaObject(p1, env: env),
-                        P2.toIotaObject(p2, env: env),
-                        P3.toIotaObject(p3, env: env),
-                    ],
+            try env.syncOnThread {
+                try R.consumeIota(
+                    object: FunctionInfo[env, Self.self].invoke(
+                        escapingRef.object,
+                        [
+                            P0.toIotaObject(p0, env: env),
+                            P1.toIotaObject(p1, env: env),
+                            P2.toIotaObject(p2, env: env),
+                            P3.toIotaObject(p3, env: env),
+                        ],
+                        env: env
+                    ),
                     env: env
-                ),
-                env: env
-            )
+                )
+            }
         }
     }
 
@@ -369,26 +355,23 @@ extension Function4Converter: IotaConverter where R: IotaConverter, P0: IotaConv
 extension Function5Converter: IotaConverter where R: IotaConverter, P0: IotaConverter, P1: IotaConverter, P2: IotaConverter, P3: IotaConverter, P4: IotaConverter {
     public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
         let escapingRef = try IotaReference(value, env: env)
-        let initThread = Thread.current
         return { p0, p1, p2, p3, p4 in
-            guard initThread == Thread.current else {
-                fatalError("Callback invoked on different thread")
-            }
-
-            return try R.consumeIota(
-                object: FunctionInfo[env, Self.self].invoke(
-                    escapingRef.object,
-                    [
-                        P0.toIotaObject(p0, env: env),
-                        P1.toIotaObject(p1, env: env),
-                        P2.toIotaObject(p2, env: env),
-                        P3.toIotaObject(p3, env: env),
-                        P4.toIotaObject(p4, env: env),
-                    ],
+            try env.syncOnThread {
+                try R.consumeIota(
+                    object: FunctionInfo[env, Self.self].invoke(
+                        escapingRef.object,
+                        [
+                            P0.toIotaObject(p0, env: env),
+                            P1.toIotaObject(p1, env: env),
+                            P2.toIotaObject(p2, env: env),
+                            P3.toIotaObject(p3, env: env),
+                            P4.toIotaObject(p4, env: env),
+                        ],
+                        env: env
+                    ),
                     env: env
-                ),
-                env: env
-            )
+                )
+            }
         }
     }
 
@@ -409,26 +392,24 @@ extension Function5Converter: IotaConverter where R: IotaConverter, P0: IotaConv
 extension Function6Converter: IotaConverter where R: IotaConverter, P0: IotaConverter, P1: IotaConverter, P2: IotaConverter, P3: IotaConverter, P4: IotaConverter, P5: IotaConverter {
     public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
         let escapingRef = try IotaReference(value, env: env)
-        let initThread = Thread.current
         return { p0, p1, p2, p3, p4, p5 in
-            guard initThread == Thread.current else {
-                fatalError("Callback invoked on different thread")
-            }
-            return try R.consumeIota(
-                object: FunctionInfo[env, Self.self].invoke(
-                    escapingRef.object,
-                    [
-                        P0.toIotaObject(p0, env: env),
-                        P1.toIotaObject(p1, env: env),
-                        P2.toIotaObject(p2, env: env),
-                        P3.toIotaObject(p3, env: env),
-                        P4.toIotaObject(p4, env: env),
-                        P5.toIotaObject(p5, env: env),
-                    ],
+            try env.syncOnThread {
+                try R.consumeIota(
+                    object: FunctionInfo[env, Self.self].invoke(
+                        escapingRef.object,
+                        [
+                            P0.toIotaObject(p0, env: env),
+                            P1.toIotaObject(p1, env: env),
+                            P2.toIotaObject(p2, env: env),
+                            P3.toIotaObject(p3, env: env),
+                            P4.toIotaObject(p4, env: env),
+                            P5.toIotaObject(p5, env: env),
+                        ],
+                        env: env
+                    ),
                     env: env
-                ),
-                env: env
-            )
+                )
+            }
         }
     }
 
@@ -449,63 +430,77 @@ extension Function6Converter: IotaConverter where R: IotaConverter, P0: IotaConv
 
 extension AsyncFunction0Converter: IotaConverter where R: IotaConverter {
     public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
-        fatalError("not implemented")
+        let futureFunc = try FutureFunctionConverter.peekIota(value, env: env)
+        return fromFutureFunction(futureFunc)
     }
     public static func toIota(_ value: @escaping SwiftType, env: Env) throws -> foreignObject {
-        fatalError("not implemented")
+        let futureFunc = toFutureFunction(value)
+        return try FutureFunctionConverter.toIota(futureFunc, env: env)
     }
 }
 
 extension AsyncFunction1Converter: IotaConverter where R: IotaConverter, P0: IotaConverter {
     public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
-        fatalError("not implemented")
+        let futureFunc = try FutureFunctionConverter.peekIota(value, env: env)
+        return fromFutureFunction(futureFunc)
     }
     public static func toIota(_ value: @escaping SwiftType, env: Env) throws -> foreignObject {
-        fatalError("not implemented")
+        let futureFunc = toFutureFunction(value)
+        return try FutureFunctionConverter.toIota(futureFunc, env: env)
     }
 }
 
 extension AsyncFunction2Converter: IotaConverter where R: IotaConverter, P0: IotaConverter, P1: IotaConverter {
     public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
-        fatalError("not implemented")
+        let futureFunc = try FutureFunctionConverter.peekIota(value, env: env)
+        return fromFutureFunction(futureFunc)
     }
     public static func toIota(_ value: @escaping SwiftType, env: Env) throws -> foreignObject {
-        fatalError("not implemented")
+        let futureFunc = toFutureFunction(value)
+        return try FutureFunctionConverter.toIota(futureFunc, env: env)
     }
 }
 
 extension AsyncFunction3Converter: IotaConverter where R: IotaConverter, P0: IotaConverter, P1: IotaConverter, P2: IotaConverter {
     public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
-        fatalError("not implemented")
+        let futureFunc = try FutureFunctionConverter.peekIota(value, env: env)
+        return fromFutureFunction(futureFunc)
     }
     public static func toIota(_ value: @escaping SwiftType, env: Env) throws -> foreignObject {
-        fatalError("not implemented")
+        let futureFunc = toFutureFunction(value)
+        return try FutureFunctionConverter.toIota(futureFunc, env: env)
     }
 }
 
 extension AsyncFunction4Converter: IotaConverter where R: IotaConverter, P0: IotaConverter, P1: IotaConverter, P2: IotaConverter, P3: IotaConverter {
     public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
-        fatalError("not implemented")
+        let futureFunc = try FutureFunctionConverter.peekIota(value, env: env)
+        return fromFutureFunction(futureFunc)
     }
     public static func toIota(_ value: @escaping SwiftType, env: Env) throws -> foreignObject {
-        fatalError("not implemented")
+        let futureFunc = toFutureFunction(value)
+        return try FutureFunctionConverter.toIota(futureFunc, env: env)
     }
 }
 
 extension AsyncFunction5Converter: IotaConverter where R: IotaConverter, P0: IotaConverter, P1: IotaConverter, P2: IotaConverter, P3: IotaConverter, P4: IotaConverter {
     public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
-        fatalError("not implemented")
+        let futureFunc = try FutureFunctionConverter.peekIota(value, env: env)
+        return fromFutureFunction(futureFunc)
     }
     public static func toIota(_ value: @escaping SwiftType, env: Env) throws -> foreignObject {
-        fatalError("not implemented")
+        let futureFunc = toFutureFunction(value)
+        return try FutureFunctionConverter.toIota(futureFunc, env: env)
     }
 }
 
 extension AsyncFunction6Converter: IotaConverter where R: IotaConverter, P0: IotaConverter, P1: IotaConverter, P2: IotaConverter, P3: IotaConverter, P4: IotaConverter, P5: IotaConverter {
     public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
-        fatalError("not implemented")
+        let futureFunc = try FutureFunctionConverter.peekIota(value, env: env)
+        return fromFutureFunction(futureFunc)
     }
     public static func toIota(_ value: @escaping SwiftType, env: Env) throws -> foreignObject {
-        fatalError("not implemented")
+        let futureFunc = toFutureFunction(value)
+        return try FutureFunctionConverter.toIota(futureFunc, env: env)
     }
 }

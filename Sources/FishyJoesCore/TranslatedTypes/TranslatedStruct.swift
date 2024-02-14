@@ -117,7 +117,7 @@ struct TranslatedStruct: TranslatedType {
 
             fragment.outputBlock("public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {") {
                 for storedVar in storedVariables {
-                    guard storedVar.isPubliclyWritable else { continue }
+                    guard storedVar.isMutable else { continue }
                     let resolved = context.resolve(type: storedVar.typeName.better)
                     fragment.output("try env.setNamedProperty(this, \"\(storedVar.name)\", \(resolved.converterType.name).toNode(value.\(storedVar.name), env: env))")
                 }
@@ -135,7 +135,7 @@ struct TranslatedStruct: TranslatedType {
                         hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment)
                         hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment)
                         for storedVar in storedVariables {
-                            // Limitation is wasm implementation of napi_create_class doesn't allow constructors to assign to non-mutable property.
+                            // Limitation in wasm implementation of napi_create_class doesn't allow constructors to assign to non-mutable property.
                             // let mutable = storedVar.isPubliclyWritable
                             let mutable = true
                             fragment.output("\"\(storedVar.name)\": (.stored(mutable: \(mutable)), isStatic: \(storedVar.isStatic)),")
@@ -361,7 +361,7 @@ struct TranslatedStruct: TranslatedType {
                     }
                 }
             ] + (
-                !storedVar.isPubliclyWritable ? [] : [
+                storedVar.isMutable ? [
                     .value(
                         name: "set_\(storedVar.name)",
                         type: setType
@@ -371,7 +371,7 @@ struct TranslatedStruct: TranslatedType {
                             fragment.output(resolved.cSharpType.isObject ? "newValue.Consume<\(resolved.cSharpType.name)>();" : "newValue;")
                         }
                     },
-                ]
+                ] : []
             )
         }
     }
@@ -419,14 +419,14 @@ struct TranslatedStruct: TranslatedType {
                     fragment.output("ffi.Pointer.fromFunction(\(dartType.name()).ffi_get_\(storedVar.name)\(defaultValue)),")
                 }
             ] + (
-                !storedVar.isPubliclyWritable ? [] : [
+                storedVar.isMutable ? [
                     .value(
                         name: "set_\(storedVar.name)",
                         type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(setType)>>")
                     ) { fragment in
                         fragment.output("ffi.Pointer.fromFunction(\(dartType.name()).ffi_set_\(storedVar.name)),")
                     },
-                ]
+                ] : []
             )
         }
     }
@@ -508,20 +508,17 @@ struct TranslatedStruct: TranslatedType {
             }
             fragment.blankLine()
 
-            fragment.outputBlock("public static func mutateIota<R>(_ this: foreignObject, env: Env, body: (inout Self) throws -> R) throws -> R {") {
-                fragment.output("var mutatingSelf = try peekIota(this, env: env)")
-                fragment.output("let result = try body(&mutatingSelf)")
+            fragment.outputBlock("public static func mutateIota(_ this: foreignObject, to value: Self, env: Env) throws {") {
                 for storedVar in storedVariables {
                     let resolved = context.resolve(type: storedVar.typeName.better)
                     if storedVar.isMutable {
                         fragment.outputBlock("try env.check { exn in _\(storedVar.name)Setter[env](", closeWith: ")}") {
                             fragment.output("this,")
-                            fragment.output("try \(resolved.converterType.name).toIota(mutatingSelf.\(storedVar.name), env: env),")
+                            fragment.output("try \(resolved.converterType.name).toIota(value.\(storedVar.name), env: env),")
                             fragment.output("exn")
                         }
                     }
                 }
-                fragment.output("return result")
             }
         }
 

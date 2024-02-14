@@ -28,7 +28,10 @@ struct TranslatedFunction: TranslatedType {
         self.kotlinName = "(\(isAsync ? "suspend " : "")(\(kotlinArgs)) -> \(returnType.kotlinPackageQualifiedName))"
         self.containedNamedTypes = parameters.map { $0.containedNamedTypes }.joined() + returnType.containedNamedTypes
         self.jniType = .object("kotlin/jvm/functions/Function\(parameters.count + (isAsync ? 1 : 0))")
-        self.dartType = .function(args: parameters.map(\.dartType), return: returnType.dartType)
+        self.dartType = .function(
+            args: parameters.map(\.dartType),
+            return: isAsync ? .future(returnType.dartType) : returnType.dartType
+        )
         if returnType.sourceType == .void {
             self.cSharpType = .named(
                 package: "System",
@@ -49,6 +52,29 @@ struct TranslatedFunction: TranslatedType {
         )
     }
 
+    var translatedFutureReturn: TranslatedType {
+        TranslatedFuture(output: returnType)
+    }
+
+    var translatedFutureFunction: TranslatedType {
+        if isAsync {
+            return TranslatedFunction(
+                parameters: parameters,
+                returnType: translatedFutureReturn,
+                isAsync: false
+            )
+        } else {
+            return self
+        }
+    }
+
+    func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
+        // Since async functions depend on some converter types not present in the source, ensure they're properly registered and set up.
+        context.addToTypeCache(translatedFutureReturn)
+        context.addToTypeCache(translatedFutureFunction)
+        return []
+    }
+
     func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>] {
         return (
             returnType.sourceType == .void ? [] : [
@@ -64,6 +90,10 @@ struct TranslatedFunction: TranslatedType {
     }
 
     func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>] {
+        if isAsync {
+            // All of the async setup is done in the translatedFutureFunction's setup
+            return []
+        }
         return [
             .type(typeValue: returnType.dartType)
         ] + parameters.map { param in

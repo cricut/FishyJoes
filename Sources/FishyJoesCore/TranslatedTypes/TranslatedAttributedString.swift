@@ -1,6 +1,6 @@
 import SourceryRuntime
 
-var translatedAttributedString = ExternalTranslatedType(
+let translatedAttributedString = ExternalTranslatedType(
     sourceType: BetterType.named(.foundation("AttributedString")),
     converterType: nil,
     neutralName: "AttributedString",
@@ -14,7 +14,7 @@ var translatedAttributedString = ExternalTranslatedType(
     definingModule: Module.runtime
 )
 
-var translatedAttributedSubstring = ExternalTranslatedType(
+let translatedAttributedSubstring = ExternalTranslatedType(
     sourceType: BetterType.named(.foundation("AttributedSubstring")),
     converterType: nil,
     neutralName: "AttributedSubstring",
@@ -28,7 +28,7 @@ var translatedAttributedSubstring = ExternalTranslatedType(
     definingModule: Module.runtime
 )
 
-var translatedAttributeContainer = ExternalTranslatedType(
+let translatedAttributeContainer = ExternalTranslatedType(
     sourceType: BetterType.named(.foundation("AttributeContainer")),
     converterType: nil,
     neutralName: "AttributeContainer",
@@ -42,7 +42,7 @@ var translatedAttributeContainer = ExternalTranslatedType(
     definingModule: Module.runtime
 )
 
-var translatedAttributeContainerFoundationAttributes = ExternalTranslatedType(
+let translatedAttributeContainerFoundationAttributes = ExternalTranslatedType(
     sourceType: BetterType.named(.foundation("AttributeContainer.FoundationAttributes")),
     converterType: nil,
     neutralName: "AttributeContainer.FoundationAttributes",
@@ -56,7 +56,7 @@ var translatedAttributeContainerFoundationAttributes = ExternalTranslatedType(
     definingModule: Module.runtime
 )
 
-var translatedAttributedStringIndex = ExternalTranslatedType(
+let translatedAttributedStringIndex = ExternalTranslatedType(
     sourceType: BetterType.named(.foundation("AttributedString.Index")),
     converterType: nil,
     neutralName: "AttributedString.Index",
@@ -70,7 +70,7 @@ var translatedAttributedStringIndex = ExternalTranslatedType(
     definingModule: Module.runtime
 )
 
-var translatedAttributedStringUnicodeScalarView = ExternalTranslatedType(
+let translatedAttributedStringUnicodeScalarView = ExternalTranslatedType(
     sourceType: BetterType.named(.foundation("AttributedString.UnicodeScalarView")),
     converterType: nil,
     neutralName: "AttributedString.UnicodeScalarView",
@@ -84,7 +84,7 @@ var translatedAttributedStringUnicodeScalarView = ExternalTranslatedType(
     definingModule: Module.runtime
 )
 
-var translatedAttributedStringCharacterView = ExternalTranslatedType(
+let translatedAttributedStringCharacterView = ExternalTranslatedType(
     sourceType: BetterType.named(.foundation("AttributedString.CharacterView")),
     converterType: nil,
     neutralName: "AttributedString.CharacterView",
@@ -98,7 +98,7 @@ var translatedAttributedStringCharacterView = ExternalTranslatedType(
     definingModule: Module.runtime
 )
 
-var translatedAttributedStringRuns = ExternalTranslatedType(
+let translatedAttributedStringRuns = ExternalTranslatedType(
     sourceType: BetterType.named(.foundation("AttributedString.Runs")),
     converterType: nil,
     neutralName: "AttributedString.Runs",
@@ -112,7 +112,7 @@ var translatedAttributedStringRuns = ExternalTranslatedType(
     definingModule: Module.runtime
 )
 
-var translatedAttributedStringRunsIndex = ExternalTranslatedType(
+let translatedAttributedStringRunsIndex = ExternalTranslatedType(
     sourceType: BetterType.named(.foundation("AttributedString.Runs.Index")),
     converterType: nil,
     neutralName: "AttributedString.Runs.Index",
@@ -126,7 +126,7 @@ var translatedAttributedStringRunsIndex = ExternalTranslatedType(
     definingModule: Module.runtime
 )
 
-var translatedAttributedStringRunsRun = ExternalTranslatedType(
+let translatedAttributedStringRunsRun = ExternalTranslatedType(
     sourceType: BetterType.named(.foundation("AttributedString.Runs.Run")),
     converterType: nil,
     neutralName: "AttributedString.Runs.Run",

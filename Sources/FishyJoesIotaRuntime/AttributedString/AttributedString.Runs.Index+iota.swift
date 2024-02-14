@@ -1,6 +1,6 @@
 import Foundation
 
-extension AttributedString.Runs.Index: IotaMutator {
+extension AttributedString.Runs.Index: IotaReferenceMutator {
     public typealias Constructor = @convention(c) (_ ptr: UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject
     fileprivate static var constructor = Env.CallbackMap<Constructor>()
 
@@ -11,10 +11,6 @@ extension AttributedString.Runs.Index: IotaMutator {
     public static func toIota(_ value: AttributedString.Runs.Index, env: Env) throws -> foreignObject {
         let ptr = Box(value).retainedOpaque()
         return try env.check { exn in constructor[env](ptr, exn) }
-    }
-
-    public static func mutateIota<R>(_ this: foreignObject, env: Env, body: (inout AttributedString.Runs.Index) throws -> R) throws -> R {
-        try body(&Box<AttributedString.Runs.Index>.peekIota(this, env: env).value)
     }
 }
 

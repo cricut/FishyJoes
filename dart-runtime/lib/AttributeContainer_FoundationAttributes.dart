@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_import
+
 import './AttributeContainer.dart';
 import 'dart:ffi' as ffi;
 import 'runtime.dart';
@@ -29,7 +31,7 @@ class AttributeContainer_FoundationAttributes extends SwiftReference {
             )
         )
     ;
-    void set link(Uri? value) {
+    set link(Uri? value) {
         GCRef.using(this, (_thisHandle) =>
             GCRef.using(value, (_valueHandle) =>
                 check((exn) =>
@@ -48,7 +50,7 @@ class AttributeContainer_FoundationAttributes extends SwiftReference {
             )
         )
     ;
-    void set languageIdentifier(String? value) {
+    set languageIdentifier(String? value) {
         GCRef.using(this, (_thisHandle) =>
             GCRef.using(value, (_valueHandle) =>
                 check((exn) =>
@@ -58,6 +60,7 @@ class AttributeContainer_FoundationAttributes extends SwiftReference {
         )
         ;
     }
+    @override
     int get hashCode =>
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
@@ -82,6 +85,7 @@ class AttributeContainer_FoundationAttributes extends SwiftReference {
         )
     ;
 
+    @override
     bool operator ==(
         Object? other,
     ) =>

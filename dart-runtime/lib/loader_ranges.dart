@@ -52,7 +52,7 @@ extension LoaderRange on Loader {
     ffi.malloc.free(cName);
   }
 
-  void FishyJoesCommonRuntime_RangeConverter_setup<T extends Comparable>(Env env, String name, OutCreatedRef exn) {
+  void FishyJoesCommonRuntime_RangeConverter_setup<T extends Comparable<dynamic>>(Env env, String name, OutCreatedRef exn) {
     _rangeConverterSetup(
       env,
       name,
@@ -67,7 +67,7 @@ extension LoaderRange on Loader {
     );
   }
 
-  void FishyJoesCommonRuntime_ClosedRangeConverter_setup<T extends Comparable>(Env env, String name, OutCreatedRef exn) {
+  void FishyJoesCommonRuntime_ClosedRangeConverter_setup<T extends Comparable<dynamic>>(Env env, String name, OutCreatedRef exn) {
     _rangeConverterSetup(
       env,
       name,

@@ -29,9 +29,6 @@ let java_TestAPI_Structs_MemberwiseStruct_asyncGetMutable: @convention(c) (
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)
         return try swiftTask(env: _javaEnv) { _javaEnv, _vm in
-            defer {
-                try? _javaThisRef.destroy()
-            }
             let _swiftThis = try TestAPI.Structs.MemberwiseStruct.fromJava(_javaThisRef.object, env: _javaEnv)
             let value: Swift.String.SwiftType = try await {
                 try Env.relinquishJVMThread(on: _vm)

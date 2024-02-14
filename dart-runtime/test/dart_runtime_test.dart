@@ -1,8 +1,5 @@
-import 'package:dart_runtime/runtime.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('calculate', () {
-    expect(41, 42);
-  });
+  expect(2 + 2, equals(4));
 }

@@ -60,19 +60,16 @@ extension TestAPI.Structs.MemberwiseStruct: IotaMutator {
         }
     }
 
-    public static func mutateIota<R>(_ this: foreignObject, env: Env, body: (inout Self) throws -> R) throws -> R {
-        var mutatingSelf = try peekIota(this, env: env)
-        let result = try body(&mutatingSelf)
+    public static func mutateIota(_ this: foreignObject, to value: Self, env: Env) throws {
         try env.check { exn in _immutableSetter[env](
             this,
-            try Swift.String.toIota(mutatingSelf.immutable, env: env),
+            try Swift.String.toIota(value.immutable, env: env),
             exn
         )}
         try env.check { exn in _mutableSetter[env](
             this,
-            try Swift.String.toIota(mutatingSelf.mutable, env: env),
+            try Swift.String.toIota(value.mutable, env: env),
             exn
         )}
-        return result
     }
 }

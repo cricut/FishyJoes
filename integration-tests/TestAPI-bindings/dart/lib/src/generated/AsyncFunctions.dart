@@ -44,54 +44,151 @@ class AsyncFunctions {
     });
 
     /// <!-- FishyJoes.export(const42) -->
-    static int Function() get const42 =>
+    static Future<int> Function() get const42 =>
         check((exn) =>
-            consumeCreatedRef<int Function()>(f__iota_get_TestAPI_AsyncFunctions_const42(Loader.shared.env, exn))
+            consumeCreatedRef<Future<int> Function()>(f__iota_get_TestAPI_AsyncFunctions_const42(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(abs) -->
-    static int Function(int) get abs =>
+    static Future<int> Function(int) get abs =>
         check((exn) =>
-            consumeCreatedRef<int Function(int)>(f__iota_get_TestAPI_AsyncFunctions_abs(Loader.shared.env, exn))
+            consumeCreatedRef<Future<int> Function(int)>(f__iota_get_TestAPI_AsyncFunctions_abs(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(intCompose) -->
-    static int Function(int) Function(int Function(int), int Function(int)) get intCompose =>
+    static Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int)) get intCompose =>
         check((exn) =>
-            consumeCreatedRef<int Function(int) Function(int Function(int), int Function(int))>(f__iota_get_TestAPI_AsyncFunctions_intCompose(Loader.shared.env, exn))
+            consumeCreatedRef<Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int))>(f__iota_get_TestAPI_AsyncFunctions_intCompose(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(add3Things) -->
-    static double Function(double, double, int) get add3Things =>
+    static Future<double> Function(double, double, int) get add3Things =>
         check((exn) =>
-            consumeCreatedRef<double Function(double, double, int)>(f__iota_get_TestAPI_AsyncFunctions_add3Things(Loader.shared.env, exn))
+            consumeCreatedRef<Future<double> Function(double, double, int)>(f__iota_get_TestAPI_AsyncFunctions_add3Things(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(makeList) -->
-    static List<String> Function(String, String, String, String) get makeList =>
+    static Future<List<String>> Function(String, String, String, String) get makeList =>
         check((exn) =>
-            consumeCreatedRef<List<String> Function(String, String, String, String)>(f__iota_get_TestAPI_AsyncFunctions_makeList(Loader.shared.env, exn))
+            consumeCreatedRef<Future<List<String>> Function(String, String, String, String)>(f__iota_get_TestAPI_AsyncFunctions_makeList(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(fifthThing) -->
-    static int Function() Function(String, int, double, String, int Function()) get fifthThing =>
+    static Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function()) get fifthThing =>
         check((exn) =>
-            consumeCreatedRef<int Function() Function(String, int, double, String, int Function())>(f__iota_get_TestAPI_AsyncFunctions_fifthThing(Loader.shared.env, exn))
+            consumeCreatedRef<Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function())>(f__iota_get_TestAPI_AsyncFunctions_fifthThing(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(sixthThing) -->
-    static int Function(String, int, double, String, int Function(), int) get sixthThing =>
+    static Future<int> Function(String, int, double, String, Future<int> Function(), int) get sixthThing =>
         check((exn) =>
-            consumeCreatedRef<int Function(String, int, double, String, int Function(), int)>(f__iota_get_TestAPI_AsyncFunctions_sixthThing(Loader.shared.env, exn))
+            consumeCreatedRef<Future<int> Function(String, int, double, String, Future<int> Function(), int)>(f__iota_get_TestAPI_AsyncFunctions_sixthThing(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(willThrow) -->
-    static int Function() get willThrow =>
+    static Future<int> Function() get willThrow =>
         check((exn) =>
-            consumeCreatedRef<int Function()>(f__iota_get_TestAPI_AsyncFunctions_willThrow(Loader.shared.env, exn))
+            consumeCreatedRef<Future<int> Function()>(f__iota_get_TestAPI_AsyncFunctions_willThrow(Loader.shared.env, exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(exercise0) -->
+    static Future<String> exercise0(
+        Future<int> Function() fn,
+    ) =>
+        GCRef.using(fn, (_fnHandle) =>
+            consumeCreatedRef<Future<String>>(check((OutCreatedRef _exn) => f__iota_TestAPI_AsyncFunctions_exercise0(Loader.shared.env, _fnHandle.ptr, _exn)))
         )
     ;
 
+    /// <!-- FishyJoes.export(exercise1) -->
+    static Future<String> exercise1(
+        Future<int> Function(int) fn,
+    ) =>
+        GCRef.using(fn, (_fnHandle) =>
+            consumeCreatedRef<Future<String>>(check((OutCreatedRef _exn) => f__iota_TestAPI_AsyncFunctions_exercise1(Loader.shared.env, _fnHandle.ptr, _exn)))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(exercise2) -->
+    static Future<String> exercise2(
+        Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int)) fn,
+    ) =>
+        GCRef.using(fn, (_fnHandle) =>
+            consumeCreatedRef<Future<String>>(check((OutCreatedRef _exn) => f__iota_TestAPI_AsyncFunctions_exercise2(Loader.shared.env, _fnHandle.ptr, _exn)))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(exercise3) -->
+    static Future<String> exercise3(
+        Future<double> Function(double, double, int) fn,
+    ) =>
+        GCRef.using(fn, (_fnHandle) =>
+            consumeCreatedRef<Future<String>>(check((OutCreatedRef _exn) => f__iota_TestAPI_AsyncFunctions_exercise3(Loader.shared.env, _fnHandle.ptr, _exn)))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(exercise4) -->
+    static Future<String> exercise4(
+        Future<List<String>> Function(String, String, String, String) fn,
+    ) =>
+        GCRef.using(fn, (_fnHandle) =>
+            consumeCreatedRef<Future<String>>(check((OutCreatedRef _exn) => f__iota_TestAPI_AsyncFunctions_exercise4(Loader.shared.env, _fnHandle.ptr, _exn)))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(exercise5) -->
+    static Future<String> exercise5(
+        Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function()) fn,
+    ) =>
+        GCRef.using(fn, (_fnHandle) =>
+            consumeCreatedRef<Future<String>>(check((OutCreatedRef _exn) => f__iota_TestAPI_AsyncFunctions_exercise5(Loader.shared.env, _fnHandle.ptr, _exn)))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(exercise6) -->
+    static Future<String> exercise6(
+        Future<int> Function(String, int, double, String, Future<int> Function(), int) fn,
+    ) =>
+        GCRef.using(fn, (_fnHandle) =>
+            consumeCreatedRef<Future<String>>(check((OutCreatedRef _exn) => f__iota_TestAPI_AsyncFunctions_exercise6(Loader.shared.env, _fnHandle.ptr, _exn)))
+        )
+    ;
+
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef fn,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_AsyncFunctions_exercise0;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef fn,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_AsyncFunctions_exercise1;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef fn,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_AsyncFunctions_exercise2;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef fn,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_AsyncFunctions_exercise3;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef fn,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_AsyncFunctions_exercise4;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef fn,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_AsyncFunctions_exercise5;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef fn,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_AsyncFunctions_exercise6;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn

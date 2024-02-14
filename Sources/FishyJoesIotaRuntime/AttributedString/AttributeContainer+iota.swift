@@ -1,6 +1,6 @@
 import Foundation
 
-extension AttributeContainer: IotaMutator {
+extension AttributeContainer: IotaReferenceMutator {
     public typealias Constructor = @convention(c) (_ ptr: UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject
     fileprivate static var constructor = Env.CallbackMap<Constructor>()
 
@@ -11,10 +11,6 @@ extension AttributeContainer: IotaMutator {
     public static func toIota(_ value: AttributeContainer, env: Env) throws -> foreignObject {
         let ptr = Box(value).retainedOpaque()
         return try env.check { exn in constructor[env](ptr, exn) }
-    }
-
-    public static func mutateIota<R>(_ this: foreignObject, env: Env, body: (inout AttributeContainer) throws -> R) throws -> R {
-        try body(&Box<AttributeContainer>.peekIota(this, env: env).value)
     }
 }
 
@@ -39,7 +35,7 @@ public func __iota_FishyJoesRuntime_AttributeContainer_merge(
 ) -> VoidConverter.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
-        return try AttributeContainer.mutateIota(_iotaThis, env: env) { mutatingSelf in
+        return try AttributeContainer.withMutatingIota(_iotaThis, env: env) { mutatingSelf in
             return try VoidConverter.toIota(
                 mutatingSelf.merge(
                     try AttributeContainer.peekIota(other, env: env),

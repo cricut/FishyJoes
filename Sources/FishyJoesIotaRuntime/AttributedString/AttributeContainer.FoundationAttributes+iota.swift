@@ -1,6 +1,6 @@
 import Foundation
 
-extension AttributeContainer.FoundationAttributes: IotaMutator {
+extension AttributeContainer.FoundationAttributes: IotaReferenceMutator {
     public typealias Constructor = @convention(c) (_ ptr: UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject
     fileprivate static var constructor = Env.CallbackMap<Constructor>()
 
@@ -11,10 +11,6 @@ extension AttributeContainer.FoundationAttributes: IotaMutator {
     public static func toIota(_ value: AttributeContainer.FoundationAttributes, env: Env) throws -> foreignObject {
         let ptr = Box(value).retainedOpaque()
         return try env.check { exn in constructor[env](ptr, exn) }
-    }
-
-    public static func mutateIota<R>(_ this: foreignObject, env: Env, body: (inout AttributeContainer.FoundationAttributes) throws -> R) throws -> R {
-        try body(&Box<AttributeContainer.FoundationAttributes>.peekIota(this, env: env).value)
     }
 }
 
@@ -53,7 +49,7 @@ public func __iota_set_FishyJoesRuntime_AttributeContainer_FoundationAttributes_
 ) {
     let env = Env(envRef)
     return env.catching(to: _exn) {
-        try AttributeContainer.FoundationAttributes.mutateIota(_iotaThis, env: env) { value in
+        try AttributeContainer.FoundationAttributes.withMutatingIota(_iotaThis, env: env) { value in
             value.link = try OptionalConverter<Foundation.URL>.peekIota(newValue, env: env)
         }
     }
@@ -83,7 +79,7 @@ public func __iota_set_FishyJoesRuntime_AttributeContainer_FoundationAttributes_
 ) {
     let env = Env(envRef)
     return env.catching(to: _exn) {
-        try AttributeContainer.FoundationAttributes.mutateIota(_iotaThis, env: env) { value in
+        try AttributeContainer.FoundationAttributes.withMutatingIota(_iotaThis, env: env) { value in
             value.languageIdentifier = try OptionalConverter<Swift.String>.peekIota(newValue, env: env)
         }
     }

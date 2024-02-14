@@ -43,6 +43,10 @@ extension BetterType {
     static func result(_ success: BetterType, _ failure: BetterType) -> BetterType {
         .generic(base: .swift("Result"), args: [success, failure])
     }
+
+    static func future(_ output: BetterType) -> BetterType {
+        .generic(base: .runtime("Future"), args: [output])
+    }
 }
 
 extension SourceryRuntime.`Type` {

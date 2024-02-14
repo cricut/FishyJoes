@@ -45,9 +45,6 @@ let java_TestAPI_Structs_MutableStruct_incrementAsync: @convention(c) (
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)
         return try swiftTask(env: _javaEnv) { _javaEnv, _vm in
-            defer {
-                try? _javaThisRef.destroy()
-            }
             return try await TestAPI.Structs.MutableStruct.mutateJava(_javaThisRef.object, env: &_javaEnv) { mutatingSelf, _javaEnv in
                 let value: FishyJoesCommonRuntime.VoidConverter.SwiftType = try await {
                     try Env.relinquishJVMThread(on: _vm)
@@ -69,9 +66,6 @@ let java_TestAPI_Structs_MutableStruct_asyncGetI: @convention(c) (
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)
         return try swiftTask(env: _javaEnv) { _javaEnv, _vm in
-            defer {
-                try? _javaThisRef.destroy()
-            }
             let _swiftThis = try TestAPI.Structs.MutableStruct.fromJava(_javaThisRef.object, env: _javaEnv)
             let value: Swift.Int.SwiftType = try await {
                 try Env.relinquishJVMThread(on: _vm)

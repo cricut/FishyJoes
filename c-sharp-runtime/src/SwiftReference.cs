@@ -21,6 +21,10 @@ namespace Cricut.FishyJoesRuntime {
             this.reference = reference.__ptr;
         }
 
+        internal static SwiftReference Create(ConsumedRef reference) {
+            return new SwiftReference(reference);
+        }
+
         ~SwiftReference() {
             Dispose();
         }
@@ -35,15 +39,15 @@ namespace Cricut.FishyJoesRuntime {
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private extern static void FishyJoesCommonRuntime_AnyBox_releaseRef(
-            IntPtr envRef, 
-            ConsumedRef swiftReference, 
+            IntPtr envRef,
+            ConsumedRef swiftReference,
             out CreatedRef exn
         );
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef FishyJoesCommonRuntime_AnyBox_toString(
-            IntPtr envRef, 
-            UnownedRef swiftReference, 
+            IntPtr envRef,
+            UnownedRef swiftReference,
             out CreatedRef exn
         );
 
@@ -51,16 +55,19 @@ namespace Cricut.FishyJoesRuntime {
     }
 
     public partial class Loader {
+        delegate CreatedRef AnyBoxConstructor(ConsumedRef ptr, out CreatedRef exn);
         delegate UnownedRef AnyBoxRefGetter(UnownedRef obj, out CreatedRef exn);
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         extern static void FishyJoesCommonRuntime_AnyBox_setup(
-            IntPtr envRef, 
+            IntPtr envRef,
+            AnyBoxConstructor constructor,
             AnyBoxRefGetter refGetter
         );
 
         private static void setupReferences() {
             FishyJoesCommonRuntime_AnyBox_setup(
                 env,
+                Loader.bag<AnyBoxConstructor>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => new CreatedRef(SwiftReference.Create(ptr)))),
                 Loader.bag<AnyBoxRefGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => obj.Peek<SwiftReference>().internalReference))
             );
         }

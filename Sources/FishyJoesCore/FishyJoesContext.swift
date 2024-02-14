@@ -492,6 +492,14 @@ public class FishyJoesContext {
         return resolved
     }
 
+    // Used to add types to the cache that don't show up in user code.
+    // Currently only used by `Future`
+    func addToTypeCache(_ translatedType: TranslatedType) {
+        let type = translatedType.sourceType
+        if typeCache.keys.contains(type) { return }
+        typeCache[type] = .type(translatedType)
+    }
+
     func ts(method: Method, explicitThis: Bool = false) -> TypeScriptAnnotations.Method? {
         nodeTranslator.ts(method: method, explicitThis: explicitThis, context: self)
     }

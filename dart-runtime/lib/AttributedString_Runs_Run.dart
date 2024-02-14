@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_import
+
 import 'AttributedString_Index.dart';
 import 'AttributeContainer.dart';
 import 'dart:ffi' as ffi;
@@ -20,6 +22,7 @@ class AttributedString_Runs_Run extends SwiftReference {
             )
         )
     ;
+
     /// The attributes associated with of the portion of the attributed string that this run description represents.
     /// <!-- FishyJoes.export(attributes) -->
     AttributeContainer get attributes =>
@@ -29,6 +32,8 @@ class AttributedString_Runs_Run extends SwiftReference {
             )
         )
     ;
+
+    @override
     int get hashCode =>
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
@@ -36,6 +41,8 @@ class AttributedString_Runs_Run extends SwiftReference {
             )
         )
     ;
+
+    @override
     bool operator ==(
         Object? other,
     ) =>
