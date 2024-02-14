@@ -41,9 +41,11 @@ class AProtocolImplementation {
     bool baz;
 
     AProtocolImplementation({
-        required this.foo,
-        required this.baz
-    });
+        required String foo,
+        required bool baz
+    }):
+        this.foo = foo,
+        this.baz = baz;
 
     static CreatedRef ffi_constructor(
         ConsumedRef foo,

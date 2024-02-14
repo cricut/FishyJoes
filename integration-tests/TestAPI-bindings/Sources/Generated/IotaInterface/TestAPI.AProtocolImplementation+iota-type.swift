@@ -60,19 +60,16 @@ extension TestAPI.AProtocolImplementation: IotaMutator {
         }
     }
 
-    public static func mutateIota<R>(_ this: foreignObject, env: Env, body: (inout Self) throws -> R) throws -> R {
-        var mutatingSelf = try peekIota(this, env: env)
-        let result = try body(&mutatingSelf)
+    public static func mutateIota(_ this: foreignObject, to value: Self, env: Env) throws {
         try env.check { exn in _fooSetter[env](
             this,
-            try Swift.String.toIota(mutatingSelf.foo, env: env),
+            try Swift.String.toIota(value.foo, env: env),
             exn
         )}
         try env.check { exn in _bazSetter[env](
             this,
-            try Swift.Bool.toIota(mutatingSelf.baz, env: env),
+            try Swift.Bool.toIota(value.baz, env: env),
             exn
         )}
-        return result
     }
 }

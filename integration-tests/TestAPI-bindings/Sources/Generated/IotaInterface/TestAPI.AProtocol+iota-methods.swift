@@ -65,7 +65,7 @@ public func __iota_set_TestAPI_AProtocol_foo(
 ) {
     let env = Env(envRef)
     env.catching(to: _exn) {
-        try TestAPI.AProtocol.mutateIota(_iotaThis, env: env) { value in
+        try TestAPI.AProtocol.withMutatingIota(_iotaThis, env: env) { value in
             value.foo = try Swift.String.peekIota(newValue, env: env)
         }
     }
@@ -92,7 +92,7 @@ public func __iota_set_TestAPI_AProtocol_baz(
 ) {
     let env = Env(envRef)
     env.catching(to: _exn) {
-        try TestAPI.AProtocol.mutateIota(_iotaThis, env: env) { value in
+        try TestAPI.AProtocol.withMutatingIota(_iotaThis, env: env) { value in
             value.baz = try Swift.Bool.peekIota(newValue, env: env)
         }
     }
