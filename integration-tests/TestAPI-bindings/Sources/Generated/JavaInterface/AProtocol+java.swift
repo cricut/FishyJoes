@@ -120,6 +120,8 @@ extension _AProtocolConverter: JavaMutator {
         externalWitnessConstructor = try env.GetMethodID(externalWitnessClass, "<init>", "(J)V")
         externalCompanionClass = try env.globalRef(env.FindClass("com/cricut/testapi/AProtocol$Companion"))
         _JavaAProtocol._hasADefaultImplementationMethodID = try env.GetMethodID(javaClass, "hasADefaultImplementation", "()J")
+        _JavaAProtocol._fooGetMethodID = try env.GetMethodID(javaClass, "getFoo", "()Ljava/lang/String;")
+        _JavaAProtocol._fooSetMethodID = try env.GetMethodID(javaClass, "setFoo", "(Ljava/lang/String;)V")
         _JavaAProtocol._bazGetMethodID = try env.GetMethodID(javaClass, "getBaz", "()Z")
         _JavaAProtocol._bazSetMethodID = try env.GetMethodID(javaClass, "setBaz", "(Z)V")
     }

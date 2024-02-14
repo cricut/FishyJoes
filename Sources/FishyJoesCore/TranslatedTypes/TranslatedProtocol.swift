@@ -249,6 +249,12 @@ struct TranslatedProtocol: TranslatedType {
                         fragment.output("\(foreignProtocolType)._\(defaultMethod.callName)MethodID = try env.GetMethodID(javaClass, \"\(defaultMethod.callName)\", \"\(jniSignature)\")")
                     }
                 }
+                for computedVar in computedVariables {
+                    let resolved = context.resolve(type: computedVar.typeName.better)
+                    let jniSignature = resolved.jniType.asSignature
+                    fragment.output("\(foreignProtocolType)._\(computedVar.name)GetMethodID = try env.GetMethodID(javaClass, \"get\(computedVar.name.capitalized)\", \"()\(jniSignature)\")")
+                    fragment.output("\(foreignProtocolType)._\(computedVar.name)SetMethodID = try env.GetMethodID(javaClass, \"set\(computedVar.name.capitalized)\", \"(\(jniSignature))V\")")
+                }
             }
         }
 
