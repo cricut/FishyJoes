@@ -58,7 +58,7 @@ struct Method: Hashable {
         self.implemented = implemented
     }
 
-    init?(_ method: SourceryMethod) {
+    init?(_ method: SourceryMethod, isProtocolDef: Bool) {
         guard let exportAnnotation = method.exportAnnotation else { return nil }
         self.name = method.name
         self.callName = method.callName
@@ -76,6 +76,7 @@ struct Method: Hashable {
 
         var parameters: [SwiftFormal] = []
         var omitParameters = Set(exportAnnotation.omitParameters)
+
         for parameter in method.parameters {
             if omitParameters.contains(parameter.name) {
                 precondition(parameter.defaultValue != nil, "Can't omit non-default parameter")
@@ -85,15 +86,23 @@ struct Method: Hashable {
             parameters.append(
                 SwiftFormal(
                     label: parameter.argumentLabel,
-                    name: parameter.name,
+                    name: isProtocolDef ? (parameter.asSource.starts(with: "_ ") ? "" : parameter.name) : parameter.name,
                     type: parameter.typeName.better,
                     defaultValue: parameter.defaultValue
                 )
             )
         }
+        
         precondition(omitParameters.isEmpty, "Can't find parameters \(omitParameters) to omit")
         self.parameters = parameters
         self.implemented = method.definedInType?.isExtension ?? false
+    }
+
+    init?(_ method: SourceryMethod) {
+        guard let inst = Method(method, isProtocolDef: false) else {
+            return nil
+        }
+        self = inst
     }
 }
 
