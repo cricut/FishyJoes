@@ -35,19 +35,26 @@ final class KotlinTranslator: Translator {
             containingNamespace = context.module.name
             selfExpression = context.module.name
         }
-
         var formals = [(name: "_javaEnv", type: "UnsafeMutablePointer<JNIEnv?>")]
         if method.implemented {
             formals.append((name: "_javaCompanionThis", type: "jobject"))
         }
         formals.append((name: "_javaThis", type: "jobject"))
-        formals.append(
-            contentsOf:
-                method.parameters.map { parameter in
-                    let resolved = context.resolve(type: parameter.type, generics: exportAnnotation.genericOverrides)
-                    return (name: parameter.name, type: resolved.converterType.name + ".CType")
-                }
-        )
+        do {
+            var unnamedParamCnt = 1
+            formals.append(
+                contentsOf:
+                    method.parameters.map { parameter in
+                        let resolved = context.resolve(type: parameter.type, generics: exportAnnotation.genericOverrides)
+                        var name = parameter.name
+                        if name.isEmpty {
+                            name = "_\(unnamedParamCnt)"
+                            unnamedParamCnt += 1
+                        }
+                        return (name: name, type: resolved.converterType.name + ".CType")
+                    }
+            )
+        }
 
         let fragment = context.swiftFragment(
             "JavaInterface/\(containingNamespace)+javadecl.swift",
@@ -91,11 +98,16 @@ final class KotlinTranslator: Translator {
         fragment.outputBlock(" -> \(returnSignature) = { \(formals.map(\.name).joined(separator: ", ")) in", closeWith: "}") {
             fragment.outputBlock("FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in", closeWith: "}") {
                 let callName = method.sourceKind == .initializer ? "" : ".\(method.callName)"
-
                 if method.isAsync {
+                    var unnamedParamCnt = 1
                     for parameter in method.parameters {
+                        var name = parameter.name
+                        if name.isEmpty {
+                            name = "_\(unnamedParamCnt)"
+                            unnamedParamCnt += 1
+                        }
                         let resolved = context.resolve(type: parameter.type, generics: exportAnnotation.genericOverrides)
-                        fragment.output("let \(parameter.name) = try \(resolved.converterType.name).fromJava(\(parameter.name), env: _javaEnv)")
+                        fragment.output("let \(name) = try \(resolved.converterType.name).fromJava(\(name), env: _javaEnv)")
                     }
                     if !method.isStatic {
                         fragment.output("let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)")
@@ -150,9 +162,15 @@ final class KotlinTranslator: Translator {
                         fragment.outputBlock("return try \(returnType.converterType.name).toJava(") {
                             fragment.outputBlock("\(selfExpression)\(callName)(", closeWith: "),") {
                                 fragment.outputMap(method.parameters, separator: ",") { formal in
+                                    var unnamedParamCnt = 1
+                                    var name = formal.name
+                                    if name.isEmpty {
+                                        name = "_\(unnamedParamCnt)"
+                                        unnamedParamCnt += 1
+                                    }
                                     let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
                                     return (formal.label.map { "\($0): " } ?? "") +
-                                    "try \(resolved.converterType.name).fromJava(\(formal.name), env: _javaEnv)"
+                                    "try \(resolved.converterType.name).fromJava(\(name), env: _javaEnv)"
                                 }
                             }
                             fragment.output("env: _javaEnv")
