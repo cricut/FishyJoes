@@ -36,5 +36,8 @@ internal class ProtocolTests {
 
         assertEquals("4123431 notBazzed", b.hasADefaultImplementation(x = 1238746, y = 918223.898349))
         assertEquals("bazzy 2", b.hasADefaultImplementation(x = 2, y = 0.128768794))
+
+        assertEquals(3.7838466771424932E9, a.hasADefaultImplementation2(a = "923.2185", b = true, c = 0.0898714))
+        assertEquals(1.9556754407899822E-5, a.hasADefaultImplementation2(a = "923.2185", b = false, c = 0.0898714))
     }
 }
