@@ -39,5 +39,8 @@ internal class ProtocolTests {
 
         assertEquals(3.7838466771424932E9, a.hasADefaultImplementation2(a = "923.2185", b = true, c = 0.0898714))
         assertEquals(1.9556754407899822E-5, a.hasADefaultImplementation2(a = "923.2185", b = false, c = 0.0898714))
+
+        assertEquals(0.9589049888649063, b.hasADefaultImplementation2(a = "0.9870923", b = true, c = 1.123123))
+        assertEquals(1.686253813623996, b.hasADefaultImplementation2(a = "0.9870923", b = false, c = 1.123123))
     }
 }
