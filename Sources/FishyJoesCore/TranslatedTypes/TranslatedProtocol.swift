@@ -103,6 +103,11 @@ struct TranslatedProtocol: TranslatedType {
 
         fragment.outputBlock("struct \(foreignProtocolType): \(sourceType.nonNamespacedName) {") {
             fragment.output("let _javaWitness: JavaReference")
+            let hasStaticMethods = methods.contains(where: { $0.isStatic })
+            let hasStaticVariables = computedVariables.contains(where: { $0.isStatic })
+            if hasStaticMethods || hasStaticVariables {
+                fragment.output("static let _javaWitness: JavaReference = { _javaWitness }()")
+            }
 
             for variable in computedVariables {
                 fragment.output()
@@ -117,7 +122,7 @@ struct TranslatedProtocol: TranslatedType {
                     methodIDs.append((idHandle: setID, name: "set_\(name)", signature: "(\(resolved.jniType.asSignature))V"))
                     fragment.output("static var \(setID): jmethodID?")
                 }
-                fragment.outputBlock("public var \(name): \(type) {") {
+                fragment.outputBlock("\(variable.isStatic ? "static " : "")public var \(name): \(type) {") {
                     fragment.outputBlock("get {") {
                         fragment.output("let env = try! _javaWitness.currentThreadEnv()")
                         fragment.outputBlock("return try! \(resolved.converterType.name).fromJava(") {
@@ -140,9 +145,9 @@ struct TranslatedProtocol: TranslatedType {
                 let returnSignature = "\(method.isThrowing ? " throws" : "") -> \(method.returnType.name)"
                 fragment.output("static var _\(method.callName)MethodID: jmethodID?")
                 if method.implemented {
-                    fragment.output("public var \(method.callName)Impl: (\(method.swiftClosureSignature()))? = nil")
+                    fragment.output("\(method.isStatic ? "static " : "")public var \(method.callName)Impl: (\(method.swiftClosureSignature()))? = nil")
                 }
-                fragment.outputBlock("public func \(method.name)\(returnSignature) {") {
+                fragment.outputBlock("\(method.isStatic ? "static " : "")public func \(method.name)\(returnSignature) {") {
                     if method.implemented {
                         fragment.output("guard let \(method.callName)Impl = \(method.callName)Impl else", newLineTerminated: false)
                         fragment.outputBlock(" {", closeWith: "}") {
@@ -247,7 +252,9 @@ struct TranslatedProtocol: TranslatedType {
                     let resolved = context.resolve(type: computedVar.typeName.better)
                     let jniSignature = resolved.jniType.asSignature
                     fragment.output("\(foreignProtocolType)._\(computedVar.name)GetMethodID = try env.GetMethodID(javaClass, \"get\(computedVar.name.capitalized)\", \"()\(jniSignature)\")")
-                    fragment.output("\(foreignProtocolType)._\(computedVar.name)SetMethodID = try env.GetMethodID(javaClass, \"set\(computedVar.name.capitalized)\", \"(\(jniSignature))V\")")
+                    if computedVar.isMutable {
+                        fragment.output("\(foreignProtocolType)._\(computedVar.name)SetMethodID = try env.GetMethodID(javaClass, \"set\(computedVar.name.capitalized)\", \"(\(jniSignature))V\")")
+                    }
                 }
                 for normalMethod in normalMethods {
                     let jniSignature = normalMethod.jniSignature(context: context)
