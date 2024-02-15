@@ -147,7 +147,19 @@ struct TranslatedProtocol: TranslatedType {
                 if method.implemented {
                     fragment.output("\(method.isStatic ? "static " : "")public var \(method.callName)Impl: (\(method.swiftClosureSignature()))? = nil")
                 }
-                fragment.outputBlock("\(method.isStatic ? "static " : "")public func \(method.name)\(returnSignature) {") {
+                var paramSigs = [String]()
+                do {
+                    var unnamedParamCnt = 1
+                    for param in method.parameters {
+                        var paramName = param.name
+                        if paramName.isEmpty {
+                            paramName = "_ _\(unnamedParamCnt)"
+                            unnamedParamCnt += 1
+                        }
+                        paramSigs.append("\(paramName): \(param.type.name)")
+                    }
+                }
+                fragment.outputBlock("\(method.isStatic ? "static " : "")public func \(method.callName)(\(paramSigs.joined(separator: ", ")))\(returnSignature) {") {
                     if method.implemented {
                         fragment.output("guard let \(method.callName)Impl = \(method.callName)Impl else", newLineTerminated: false)
                         fragment.outputBlock(" {", closeWith: "}") {
@@ -161,10 +173,16 @@ struct TranslatedProtocol: TranslatedType {
                             fragment.outputBlock("env.Call\(resolvedReturn.jniType.valueType)Method(", closeWith: "),") {
                                 fragment.output("_javaWitness.object,")
                                 fragment.output("Self._\(method.callName)MethodID", newLineTerminated: false)
+                                var unnamedParamCnt = 1
                                 for param in method.parameters {
+                                    var name = param.name
+                                    if name.isEmpty {
+                                        name = "_\(unnamedParamCnt)"
+                                        unnamedParamCnt += 1
+                                    }
                                     fragment.output(",")
                                     let resolved = context.resolve(type: param.type)
-                                    fragment.output("jvalue(try \(resolved.converterType.name).toJava(\(param.name), env: env))", newLineTerminated: false)
+                                    fragment.output("jvalue(try \(resolved.converterType.name).toJava(\(name), env: env))", newLineTerminated: false)
                                 }
                                 fragment.output()
                             }
