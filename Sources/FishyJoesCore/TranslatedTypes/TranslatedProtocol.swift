@@ -105,6 +105,7 @@ struct TranslatedProtocol: TranslatedType {
             fragment.output("let _javaWitness: JavaReference")
 
             for variable in computedVariables {
+                fragment.output()
                 let name = variable.name
                 let type = variable.typeName.better.name
                 let resolved = context.resolve(type: variable.typeName.better)
@@ -134,6 +135,7 @@ struct TranslatedProtocol: TranslatedType {
                 }
             }
             for method in methods {
+                fragment.output()
                 let resolvedReturn = context.resolve(type: method.returnType)
                 let returnSignature = "\(method.isThrowing ? " throws" : "") -> \(method.returnType.name)"
                 fragment.output("static var _\(method.callName)MethodID: jmethodID?")
@@ -163,7 +165,6 @@ struct TranslatedProtocol: TranslatedType {
                             }
                             fragment.output("env: env")
                         }
-                        // fragment.output("_\(method.callName)(\(method.parameters.map(\.name).joined(separator: ", ")))")
                     }
                 }
             }
@@ -174,9 +175,9 @@ struct TranslatedProtocol: TranslatedType {
         for defaultMethod in defaultMethods {
             fragment.outputBlock("struct \(foreignProtocolType)_sans_\(defaultMethod.callName): \(sourceType.nonNamespacedName) {", closeWith: "}") {
                 fragment.output("var wrapped: \(sourceType.nonNamespacedName)")
-                fragment.output()
 
                 for variable in computedVariables {
+                    fragment.output()
                     let name = variable.name
                     let type = variable.typeName.better.name
                     let resolved = context.resolve(type: variable.typeName.better)
@@ -188,9 +189,9 @@ struct TranslatedProtocol: TranslatedType {
                             fragment.output("wrapped.\(name) = newValue")
                         }
                     }
-                    fragment.output()
                 }
                 for method in methods {
+                    fragment.output()
                     guard method.name != defaultMethod.name else {
                         continue
                     }
