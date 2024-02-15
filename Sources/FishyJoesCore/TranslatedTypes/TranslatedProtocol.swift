@@ -191,16 +191,17 @@ struct TranslatedProtocol: TranslatedType {
                     }
                 }
                 for method in methods {
-                    fragment.output()
                     guard method.name != defaultMethod.name else {
                         continue
                     }
+                    fragment.output()
                     let returnSignature = "\(method.isThrowing ? " throws" : "") -> \(method.returnType.name)"
                     fragment.outputBlock("public func \(method.name)\(returnSignature) {", closeWith: "}") {
                         fragment.output("wrapped.\(method.callName)(\(method.parameters.map { "\($0.name): \($0.name)" }.joined(separator: ", ")))")
                     }
                 }
             }
+            fragment.output()
         }
 
         fragment.outputBlock("extension \(converterType.name): JavaMutator {") {

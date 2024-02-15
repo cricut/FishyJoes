@@ -9,6 +9,7 @@ import TestAPI
 
 struct _JavaAProtocol: AProtocol {
     let _javaWitness: JavaReference
+
     static var _fooGetMethodID: jmethodID?
     static var _fooSetMethodID: jmethodID?
     public var foo: String {
@@ -25,6 +26,7 @@ struct _JavaAProtocol: AProtocol {
             try! env.CallVoidMethod(_javaWitness.object, Self._fooSetMethodID, jvalue(javaNewValue))
         }
     }
+
     static var _bazGetMethodID: jmethodID?
     static var _bazSetMethodID: jmethodID?
     public var baz: Bool {
@@ -41,6 +43,7 @@ struct _JavaAProtocol: AProtocol {
             try! env.CallVoidMethod(_javaWitness.object, Self._bazSetMethodID, jvalue(javaNewValue))
         }
     }
+
     static var _barMethodID: jmethodID?
     public func bar(x: Int, y: Int) -> AProtocol {
         let env = try! _javaWitness.currentThreadEnv()
@@ -54,6 +57,7 @@ struct _JavaAProtocol: AProtocol {
             env: env
         )
     }
+
     static var _hasADefaultImplementationMethodID: jmethodID?
     public var hasADefaultImplementationImpl: ((Int, Double) -> String)? = nil
     public func hasADefaultImplementation(x: Int, y: Double) -> String {
@@ -61,6 +65,15 @@ struct _JavaAProtocol: AProtocol {
             return _JavaAProtocol_sans_hasADefaultImplementation(wrapped: self).hasADefaultImplementation(x: x, y: y)
         }
         return hasADefaultImplementationImpl(x, y)
+    }
+
+    static var _hasADefaultImplementation2MethodID: jmethodID?
+    public var hasADefaultImplementation2Impl: ((String, Bool, Double) -> Double)? = nil
+    public func hasADefaultImplementation2(a: String, b: Bool, c: Double) -> Double {
+        guard let hasADefaultImplementation2Impl = hasADefaultImplementation2Impl else {
+            return _JavaAProtocol_sans_hasADefaultImplementation2(wrapped: self).hasADefaultImplementation2(a: a, b: b, c: c)
+        }
+        return hasADefaultImplementation2Impl(a, b, c)
     }
 }
 
@@ -88,7 +101,42 @@ struct _JavaAProtocol_sans_hasADefaultImplementation: AProtocol {
     public func bar(x: Int, y: Int) -> AProtocol {
         wrapped.bar(x: x, y: y)
     }
+
+    public func hasADefaultImplementation2(a: String, b: Bool, c: Double) -> Double {
+        wrapped.hasADefaultImplementation2(a: a, b: b, c: c)
+    }
 }
+
+struct _JavaAProtocol_sans_hasADefaultImplementation2: AProtocol {
+    var wrapped: AProtocol
+
+    public var foo: String {
+        get {
+            wrapped.foo
+        }
+        set {
+            wrapped.foo = newValue
+        }
+    }
+
+    public var baz: Bool {
+        get {
+            wrapped.baz
+        }
+        set {
+            wrapped.baz = newValue
+        }
+    }
+
+    public func bar(x: Int, y: Int) -> AProtocol {
+        wrapped.bar(x: x, y: y)
+    }
+
+    public func hasADefaultImplementation(x: Int, y: Double) -> String {
+        wrapped.hasADefaultImplementation(x: x, y: y)
+    }
+}
+
 extension _AProtocolConverter: JavaMutator {
     public typealias CType = jobject?
     public static var javaClass: jclass?
@@ -125,5 +173,6 @@ extension _AProtocolConverter: JavaMutator {
         _JavaAProtocol._barMethodID = try env.GetMethodID(javaClass, "bar", "(JJ)Lcom/cricut/testapi/AProtocol;")
         externalCompanionClass = try env.globalRef(env.FindClass("com/cricut/testapi/AProtocol$Companion"))
         _JavaAProtocol._hasADefaultImplementationMethodID = try env.GetMethodID(javaClass, "hasADefaultImplementation", "(JD)Ljava/lang/String;")
+        _JavaAProtocol._hasADefaultImplementation2MethodID = try env.GetMethodID(javaClass, "hasADefaultImplementation2", "(Ljava/lang/String;ZD)D")
     }
 }

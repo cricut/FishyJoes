@@ -12,6 +12,8 @@ public protocol AProtocol {
     var baz: Bool { get set }
 
     func hasADefaultImplementation(x: Int, y: Double) -> String
+    
+    func hasADefaultImplementation2(a: String, b: Bool, c: Double) -> Double
 }
 
 extension AProtocol {
@@ -19,6 +21,14 @@ extension AProtocol {
     public func hasADefaultImplementation(x: Int, y: Double) -> String {
         let b = bar(x: x, y: Int(round(y * 3.14159265359)))
         return b.baz ? "bazzy \(b.foo)" : "\(b.foo) notBazzed"
+    }
+
+    /// <!-- FishyJoes.export(hasADefaultImplementation2) -->
+    public func hasADefaultImplementation2(a: String, b: Bool, c: Double) -> Double {
+        guard let d = Double(a) else {
+            return -3.14159265359
+        }
+        return b ? pow(d, 3.23) : pow(c, 4.5)
     }
 }
 
