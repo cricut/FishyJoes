@@ -39,7 +39,7 @@ struct TranslatedFunction: TranslatedType {
         } else if returnType.sourceType == .void {
             return .named(
                 package: "System",
-                name: "Action<\(parameters.map(\.cSharpType.name).joined(separator: ", "))>"
+                name: "Action" + (parameters.isEmpty ? "" : "<\(parameters.map(\.cSharpType.name).joined(separator: ", "))>")
             )
         } else {
             return .named(

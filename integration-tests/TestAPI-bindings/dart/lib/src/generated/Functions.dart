@@ -153,6 +153,15 @@ class Functions {
         consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_Functions_willThrow(Loader.shared.env, _exn)))
     ;
 
+    /// <!-- FishyJoes.export(thunkTwiceMaker) -->
+    static void Function() thunkTwiceMaker(
+        void Function() thunk,
+    ) =>
+        GCRef.using(thunk, (_thunkHandle) =>
+            consumeCreatedRef<void Function()>(check((OutCreatedRef _exn) => f__iota_TestAPI_Functions_thunkTwiceMaker(Loader.shared.env, _thunkHandle.ptr, _exn)))
+        )
+    ;
+
     static late CreatedRef Function(
         Env env,
         UnownedRef fn,
@@ -188,6 +197,11 @@ class Functions {
         UnownedRef fn,
         OutCreatedRef _exn
     ) f__iota_TestAPI_Functions_exercise6;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef thunk,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_Functions_thunkTwiceMaker;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn

@@ -51,5 +51,13 @@ namespace Cricut.TestAPI.Tests {
         void testSwiftThrows() {
             Assert.Throws<Exception>(() => Functions.WillThrow());
         }
+
+        [Fact]
+        void TestThunkMaker() {
+            var timesCalled = 0;
+            var thunk = Functions.ThunkTwiceMaker(() => { timesCalled++; });
+            thunk();
+            Assert.Equal(2, timesCalled);
+        }
     }
 }

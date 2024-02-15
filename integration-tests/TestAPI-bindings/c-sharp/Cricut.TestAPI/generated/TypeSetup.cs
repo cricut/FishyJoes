@@ -726,6 +726,14 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_Function0Converter<FutureConverter<FishyJoesCommonRuntime.VoidConverter>>", () => {
+                Console.WriteLine("setting up () -> Future<Void>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function0Converter_setup<System.Threading.Tasks.Task>(
+                    Loader.env,
+                    "Function0Converter<FutureConverter<FishyJoesCommonRuntime.VoidConverter>>",
+                    out exn
+                ));
+            });
             Once("setup_Function0Converter<Swift.Int>", () => {
                 Console.WriteLine("setting up () -> Swift.Int...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function0Converter_setup<nint>(
@@ -744,6 +752,21 @@ namespace Cricut.TestAPI {
             });
             Once("setup_AsyncFunction0Converter<Swift.Int>", () => {
                 Console.WriteLine("setting up () async -> Int...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_AsyncFunction0Converter_setup(
+                    Loader.env,
+                    out exn
+                ));
+            });
+            Once("setup_Function0Converter<FishyJoesCommonRuntime.VoidConverter>", () => {
+                Console.WriteLine("setting up () -> Void...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function0Converter_setup(
+                    Loader.env,
+                    "Function0Converter<FishyJoesCommonRuntime.VoidConverter>",
+                    out exn
+                ));
+            });
+            Once("setup_AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>", () => {
+                Console.WriteLine("setting up () async -> Void...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_AsyncFunction0Converter_setup(
                     Loader.env,
                     out exn
@@ -810,6 +833,14 @@ namespace Cricut.TestAPI {
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<System.Threading.Tasks.Task<nint>>(
                     Loader.env,
                     "FutureConverter<FutureConverter<Swift.Int>>",
+                    out exn
+                ));
+            });
+            Once("setup_FutureConverter<FutureConverter<FishyJoesCommonRuntime.VoidConverter>>", () => {
+                Console.WriteLine("setting up Future<Future<Void>>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<System.Threading.Tasks.Task>(
+                    Loader.env,
+                    "FutureConverter<FutureConverter<FishyJoesCommonRuntime.VoidConverter>>",
                     out exn
                 ));
             });

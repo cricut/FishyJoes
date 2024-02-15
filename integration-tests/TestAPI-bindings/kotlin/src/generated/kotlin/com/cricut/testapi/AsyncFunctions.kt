@@ -166,6 +166,18 @@ sealed class AsyncFunctions {
             fn: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)
         ): kotlinx.coroutines.Deferred<kotlin.String>
 
+        /**
+         * <!-- FishyJoes.export(thunkTwiceMaker) -->
+         */
+        fun thunkTwiceMaker(
+            thunk: (suspend () -> kotlin.Unit)
+        ): (suspend () -> kotlin.Unit) = __jni_thunkTwiceMaker(thunk)
+        @JvmStatic
+        @JvmName("__jni_thunkTwiceMaker")
+        private external fun __jni_thunkTwiceMaker(
+            thunk: (suspend () -> kotlin.Unit)
+        ): (suspend () -> kotlin.Unit)
+
         init { loadNativeLibs() }
     }
 }
