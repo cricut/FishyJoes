@@ -126,7 +126,6 @@ extension Method {
             jniSignature += resolved.jniType.asSignature
         }
         let returnType = context.resolve(type: returnType, generics: exportAnnotation.genericOverrides)
-        let returnSignature = isAsync ? "FutureConverter<\(returnType.converterType.name)>.CType" : "\(returnType.converterType.name).CType"
         jniSignature = "(\(jniSignature))\(isAsync ? "Lkotlinx/coroutines/Deferred;" : returnType.jniType.asSignature)"
         return jniSignature
     }
