@@ -6,7 +6,7 @@ import java.lang.Exception
 /**
  * <!-- FishyJoes.exportReference(TestProtocolClass, conformances: [TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol]) -->
  */
-class TestProtocolClass private constructor(_swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference), TestPropertiesProtocol, TestOptionalsProtocol, TestMethodsProtocol {
+class TestProtocolClass private constructor(_swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference), TestMethodsProtocol, TestOptionalsProtocol, TestPropertiesProtocol {
     /**
      * <!-- FishyJoes.export(corge) -->
      */
