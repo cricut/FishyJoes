@@ -105,5 +105,8 @@ internal class ProtocolTests {
         assertEquals(null, a.flarp)
         a.flarp = "Excellent observation Kiki!"
         assertEquals("Excellent observation Kiki!", a.flarp)
+        assertEquals(42.909, a.wombat(null))
+        assertEquals(null, a.wombat(zxc = 57))
+        assertEquals(7890.2, a.wombat(56))
     }
 }
