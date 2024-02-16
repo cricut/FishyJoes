@@ -1,0 +1,90 @@
+// Generated using Sourcery 2.0.2 — https://github.com/krzysztofzablocki/Sourcery
+// DO NOT EDIT
+// swiftlint:disable:next blanket_disable_command superfluous_disable_command
+// swiftlint:disable unused_closure_parameter syntactic_sugar attributes
+import CommonInterface
+import FishyJoesJavaRuntime
+import Foundation
+import TestAPI
+
+struct _JavaTestOptionalsProtocol: TestOptionalsProtocol {
+    let _javaWitness: JavaReference
+
+    static var _flarpGetMethodID: jmethodID?
+    static var _flarpSetMethodID: jmethodID?
+    public var flarp: Optional<String> {
+        get {
+            let env = try! _javaWitness.currentThreadEnv()
+            return try! OptionalConverter<Swift.String>.fromJava(
+                env.CallObjectMethod(_javaWitness.object, Self._flarpGetMethodID),
+                env: env
+            )
+        }
+        set {
+            let env = try! _javaWitness.currentThreadEnv()
+            let javaNewValue = try! OptionalConverter<Swift.String>.toJava(newValue, env: env)
+            try! env.CallVoidMethod(_javaWitness.object, Self._flarpSetMethodID, jvalue(javaNewValue))
+        }
+    }
+
+    static var _wombatMethodID: jmethodID?
+    public func wombat(zxc: Optional<Int>) -> Optional<Double> {
+        let env = try! _javaWitness.currentThreadEnv()
+        return try! OptionalConverter<Swift.Double>.fromJava(
+            env.CallObjectMethod(
+                _javaWitness.object,
+                Self._wombatMethodID,
+                jvalue(try OptionalConverter<Swift.Int>.toJava(zxc, env: env))
+            ),
+            env: env
+        )
+    }
+
+    static var _spqrMethodID: jmethodID?
+    public func spqr(_ _1: AssociatedDataEnum) -> Int {
+        let env = try! _javaWitness.currentThreadEnv()
+        return try! Swift.Int.fromJava(
+            env.CallLongMethod(
+                _javaWitness.object,
+                Self._spqrMethodID,
+                jvalue(try TestAPI.AssociatedDataEnum.toJava(_1, env: env))
+            ),
+            env: env
+        )
+    }
+}
+
+extension _TestOptionalsProtocolConverter: JavaMutator {
+    public typealias CType = jobject?
+    public static var javaClass: jclass?
+    public static var externalWitnessClass: jclass?
+    public static var externalWitnessConstructor: jmethodID?
+    public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
+        if env.IsInstanceOf(value, AnyBox.javaClass) {
+            return try Box<SwiftType>.fromJava(value, env: env).value
+        }
+        return _JavaTestOptionalsProtocol(_javaWitness: try JavaReference(local: value, env: env))
+    }
+    public static func toJava(_ value: SwiftType, env: Env) throws -> jobject? {
+        try env.NewObject(
+            externalWitnessClass,
+            externalWitnessConstructor,
+            jvalue(j: jlong(UInt(bitPattern: Box(value).retainedOpaque())))
+        )
+    }
+    public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout SwiftType) throws -> R) throws -> R {
+        try body(&Box<SwiftType>.fromJava(this, env: env).value)
+    }
+    public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout SwiftType, inout Env) async throws -> R) async throws -> R {
+        try await body(&Box<SwiftType>.fromJava(this, env: env).value, &env)
+    }
+    public static func javaSetup(env: Env) throws {
+        javaClass = try env.globalRef(env.FindClass("com/cricut/testapi/TestOptionalsProtocol"))
+        externalWitnessClass = try env.globalRef(env.FindClass("com/cricut/testapi/_ExternalWitness_TestOptionalsProtocol"))
+        externalWitnessConstructor = try env.GetMethodID(externalWitnessClass, "<init>", "(J)V")
+        _JavaTestOptionalsProtocol._flarpGetMethodID = try env.GetMethodID(javaClass, "getFlarp", "()Ljava/lang/String;")
+        _JavaTestOptionalsProtocol._flarpSetMethodID = try env.GetMethodID(javaClass, "setFlarp", "(Ljava/lang/String;)V")
+        _JavaTestOptionalsProtocol._wombatMethodID = try env.GetMethodID(javaClass, "wombat", "(Ljava/lang/Long;)Ljava/lang/Double;")
+        _JavaTestOptionalsProtocol._spqrMethodID = try env.GetMethodID(javaClass, "spqr", "(Lcom/cricut/testapi/AssociatedDataEnum;)J")
+    }
+}

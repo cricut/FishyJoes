@@ -195,8 +195,14 @@ class KotlinClass: NestedClass {
             }
             fragment.output("@JvmName(\"__jni_\(method.name)\")")
             fragment.outputBlock("private external fun __jni_\(method.name)(", newLineTerminated: false) {
+                var unnamedParamsCnt = 1
                 fragment.outputMap(method.parameters, separator: ",") { parameter in
-                    return "\(parameter.name): \(parameter.type.jvmType)"
+                    var paramName = parameter.name
+                    if paramName.isEmpty {
+                        paramName = "_\(unnamedParamsCnt)"
+                        unnamedParamsCnt += 1
+                    }
+                    return "\(paramName): \(parameter.type.jvmType)"
                 }
             }
             if method.isSuspend {

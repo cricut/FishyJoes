@@ -501,6 +501,62 @@ namespace Cricut.TestAPI {
         );
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void _TestMethodsProtocolConverter_setup(
+            IntPtr envRef,
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void _TestOptionalsProtocolConverter_setup(
+            IntPtr envRef,
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void _TestPropertiesProtocolConverter_setup(
+            IntPtr envRef,
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_TestProtocolClass_setup(
+            IntPtr envRef,
+            SwiftReference.ConstructorDelegate constructorMethod,
+            out CreatedRef _exn
+        );
+
+        delegate CreatedRef Cricut_TestAPI_TestProtocolEnum_new_qux(
+            out CreatedRef _exn
+        );
+        unsafe delegate void Cricut_TestAPI_TestProtocolEnum_extract_qux(
+            UnownedRef obj,
+            out CreatedRef _exn
+        );
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_TestProtocolEnum_setup(
+            IntPtr envRef,
+            FishyJoesRuntime.EnumDiscriminator discriminator,
+            Cricut_TestAPI_TestProtocolEnum_new_qux qux_constructor,
+            Cricut_TestAPI_TestProtocolEnum_extract_qux qux_extractor,
+            out CreatedRef _exn
+        );
+
+        delegate CreatedRef _TestAPI_TestProtocolStructConstructor(
+            ConsumedRef corge,
+            out CreatedRef exn
+        );
+        delegate CreatedRef _TestAPI_TestProtocolStruct_corgeGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_TestProtocolStruct_corgeSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_TestProtocolStruct_setup(
+            IntPtr envRef,
+            _TestAPI_TestProtocolStructConstructor constructor,
+            _TestAPI_TestProtocolStruct_corgeGetter get_corge,
+            _TestAPI_TestProtocolStruct_corgeSetter set_corge,
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Tuples_setup(
             IntPtr envRef,
             out CreatedRef _exn
@@ -1163,6 +1219,13 @@ namespace Cricut.TestAPI {
             });
             Once("setup_OptionalConverter<TestAPI.SimpleEnum>", () => {
                 Console.WriteLine("setting up Optional<SimpleEnum>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_OptionalConverter_setup(
+                    Loader.env,
+                    out exn
+                ));
+            });
+            Once("setup_OptionalConverter<Swift.String>", () => {
+                Console.WriteLine("setting up Optional<String>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_OptionalConverter_setup(
                     Loader.env,
                     out exn
@@ -2168,6 +2231,88 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup__TestMethodsProtocolConverter", () => {
+                Console.WriteLine("setting up TestAPI.TestMethodsProtocol...");
+                Utilities.Check((out CreatedRef exn) => _TestMethodsProtocolConverter_setup(
+                    Loader.env,
+                    out exn
+                ));
+            });
+            Once("setup__TestOptionalsProtocolConverter", () => {
+                Console.WriteLine("setting up TestAPI.TestOptionalsProtocol...");
+                Utilities.Check((out CreatedRef exn) => _TestOptionalsProtocolConverter_setup(
+                    Loader.env,
+                    out exn
+                ));
+            });
+            Once("setup__TestPropertiesProtocolConverter", () => {
+                Console.WriteLine("setting up TestAPI.TestPropertiesProtocol...");
+                Utilities.Check((out CreatedRef exn) => _TestPropertiesProtocolConverter_setup(
+                    Loader.env,
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.TestProtocolClass", () => {
+                Console.WriteLine("setting up TestAPI.TestProtocolClass...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_TestProtocolClass_setup(
+                    Loader.env,
+                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.TestProtocolClass(ptr));
+                    })),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.TestProtocolEnum", () => {
+                Console.WriteLine("setting up TestAPI.TestProtocolEnum...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_TestProtocolEnum_setup(
+                    Loader.env,
+                    bag<FishyJoesRuntime.EnumDiscriminator>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
+                        var enumeration = obj.Peek<Cricut.TestAPI.TestProtocolEnum>();
+                        if (enumeration is Cricut.TestAPI.TestProtocolEnum.Qux) { return (nint)0; }
+                        throw new Exception($"Found unexpected subclass of Cricut.TestAPI.TestProtocolEnum: {enumeration}");
+                    })),
+                    bag<Cricut_TestAPI_TestProtocolEnum_new_qux>(
+                        (
+                            out CreatedRef exn
+                        ) => Catching(out exn, () => 
+                            new CreatedRef(new Cricut.TestAPI.TestProtocolEnum.Qux(
+                            ))
+                        )
+                    ),
+                    bag<Cricut_TestAPI_TestProtocolEnum_extract_qux>(
+                        (
+                            UnownedRef obj,
+                            out CreatedRef exn
+                        ) => {
+                            try {
+                                var enumeration = obj.Peek<Cricut.TestAPI.TestProtocolEnum.Qux>();
+                                exn = CreatedRef.Null;
+                            } catch (Exception e) {
+                                exn = new CreatedRef(e);
+                            }
+                        }
+                    ),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.TestProtocolStruct", () => {
+                Console.WriteLine("setting up TestAPI.TestProtocolStruct...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_TestProtocolStruct_setup(
+                    Loader.env,
+                    bag<_TestAPI_TestProtocolStructConstructor>((ConsumedRef corge, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.TestProtocolStruct(
+                            corge.Consume<string>()
+                        ));
+                    })),
+                    bag<_TestAPI_TestProtocolStruct_corgeGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.TestProtocolStruct>().Corge)
+                    )),
+                    bag<_TestAPI_TestProtocolStruct_corgeSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.TestProtocolStruct>().Corge = newValue.Consume<string>();
+                    })),
+                    out exn
+                ));
+            });
             Once("setup_TestAPI.Tuples", () => {
                 Console.WriteLine("setting up TestAPI.Tuples...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Tuples_setup(
@@ -2179,6 +2324,22 @@ namespace Cricut.TestAPI {
                 Console.WriteLine("setting up TestAPI.URLs...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_URLs_setup(
                     Loader.env,
+                    out exn
+                ));
+            });
+            Once("setup_Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>", () => {
+                Console.WriteLine("setting up (Bool, Double, Array<String>)...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Tuple3Converter_setup<bool, double, System.Collections.Generic.IList<string>>(
+                    Loader.env,
+                    "Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>",
+                    out exn
+                ));
+            });
+            Once("setup_Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>", () => {
+                Console.WriteLine("setting up (Bool, Int, String)...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Tuple3Converter_setup<bool, nint, string>(
+                    Loader.env,
+                    "Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>",
                     out exn
                 ));
             });

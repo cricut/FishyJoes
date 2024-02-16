@@ -1842,6 +1842,196 @@ export declare namespace TestAPI {
         ): number;
     }
 
+    /**
+     * <!-- FishyJoes.exportReference(TestProtocolClass, conformances: [TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol]) -->
+     */
+    export class TestProtocolClass {
+        private constructor()
+        private _inhibitStructuralTyping: any
+
+        /**
+         * <!-- FishyJoes.export(corge) -->
+         */
+        corge: string;
+
+        /**
+         * <!-- FishyJoes.export(frob) -->
+         */
+        readonly frob: number[];
+
+        /**
+         * <!-- FishyJoes.export(flarp) -->
+         */
+        flarp?: string;
+
+        /**
+         * <!-- FishyJoes.export(foo) -->
+         */
+        foo(
+        ): void;
+
+        /**
+         * <!-- FishyJoes.export(bar) -->
+         */
+        bar(
+        ): boolean;
+
+        /**
+         * <!-- FishyJoes.export(baz) -->
+         */
+        baz(
+            qux: boolean
+        ): void;
+
+        /**
+         * <!-- FishyJoes.export(garply) -->
+         */
+        garply(
+            str: string
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(xyzzy) -->
+         */
+        xyzzy(
+            thud: number,
+            grault: number[]
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(plugh) -->
+         */
+        plugh(
+            fred: [boolean, number, string[]]
+        ): [boolean, number, string];
+
+        /**
+         * <!-- FishyJoes.export(init) -->
+         */
+        static init(
+            corge: string
+        ): TestAPI.TestProtocolClass;
+
+        /**
+         * <!-- FishyJoes.export(wombat) -->
+         */
+        wombat(
+            zxc: Optional<number>
+        ): Optional<number>;
+
+        /**
+         * <!-- FishyJoes.export(spqr) -->
+         */
+        spqr(
+            pippo: TestAPI.AssociatedDataEnum
+        ): number;
+    }
+
+    export type TestProtocolEnum = "qux";
+    export namespace TestProtocolEnum {
+        /**
+         * <!-- FishyJoes.export(bar) -->
+         */
+        function bar(
+            self: TestAPI.TestProtocolEnum
+        ): boolean;
+
+        /**
+         * <!-- FishyJoes.export(baz) -->
+         */
+        function baz(
+            self: TestAPI.TestProtocolEnum,
+            qux: boolean
+        ): void;
+
+        /**
+         * <!-- FishyJoes.export(foo) -->
+         */
+        function foo(
+            self: TestAPI.TestProtocolEnum
+        ): void;
+
+        /**
+         * <!-- FishyJoes.export(garply) -->
+         */
+        function garply(
+            self: TestAPI.TestProtocolEnum,
+            str: string
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(plugh) -->
+         */
+        function plugh(
+            self: TestAPI.TestProtocolEnum,
+            fred: [boolean, number, string[]]
+        ): [boolean, number, string];
+
+        /**
+         * <!-- FishyJoes.export(xyzzy) -->
+         */
+        function xyzzy(
+            self: TestAPI.TestProtocolEnum,
+            thud: number,
+            grault: number[]
+        ): string;
+    }
+
+    /**
+     * <!-- FishyJoes.export(TestProtocolStruct, conformances: [TestMethodsProtocol, TestPropertiesProtocol]) -->
+     */
+    export class TestProtocolStruct {
+        constructor(corge: string)
+
+        corge: string;
+
+        /**
+         * <!-- FishyJoes.export(frob) -->
+         */
+        readonly frob: number[];
+
+        /**
+         * <!-- FishyJoes.export(foo) -->
+         */
+        foo(
+        ): void;
+
+        /**
+         * <!-- FishyJoes.export(bar) -->
+         */
+        bar(
+        ): boolean;
+
+        /**
+         * <!-- FishyJoes.export(baz) -->
+         */
+        baz(
+            qux: boolean
+        ): void;
+
+        /**
+         * <!-- FishyJoes.export(garply) -->
+         */
+        garply(
+            str: string
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(xyzzy) -->
+         */
+        xyzzy(
+            thud: number,
+            grault: number[]
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(plugh) -->
+         */
+        plugh(
+            fred: [boolean, number, string[]]
+        ): [boolean, number, string];
+    }
+
     export type Tuples = never;
     export namespace Tuples {
         /**
