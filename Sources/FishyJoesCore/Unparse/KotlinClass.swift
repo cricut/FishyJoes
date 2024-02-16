@@ -147,11 +147,17 @@ class KotlinClass: NestedClass {
                     fragment.output("override ", newLineTerminated: false)
                 }
                 fragment.outputBlock("\(method.isSuspend ? "suspend " : "")fun \(method.name)(", newLineTerminated: false) {
+                    var unnamedParamCnt = 1
                     let filteredParameters = method.parameters.filter { !excludedCompatibilityParameters.contains($0.name) }
                     fragment.outputMap(filteredParameters, separator: ",") { parameter in
                         let labelComment = parameter.labelComment.map { "/* \($0) */ " } ?? ""
                         let defaultValue = parameter.defaultValue.map { " = \($0)" } ?? ""
-                        return "\(labelComment)\(parameter.name): \(parameter.type.kotlinType)\(defaultValue)"
+                        var paramName = parameter.name
+                        if paramName.isEmpty {
+                            paramName = "_\(unnamedParamCnt)"
+                            unnamedParamCnt += 1
+                        }
+                        return "\(labelComment)\(paramName): \(parameter.type.kotlinType)\(defaultValue)"
                     }
                 }
                 if method.returnType != KType.void {
