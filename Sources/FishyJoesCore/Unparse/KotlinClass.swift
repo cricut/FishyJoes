@@ -401,8 +401,18 @@ class KotlinEnumClass: KotlinClass {
                     fragment.output(" : \(unqualifiedName)()")
                 }
             }
-            fields.filter { !$0.isStatic }.forEach { output(field: $0, to: fragment) }
-            methods.filter { !$0.isStatic }.forEach { output(method: $0, to: fragment) }
+            fields.filter { !$0.isStatic }.forEach {
+                // For enums, we are doing a sealed class in Kotlin, not an interface, therefore there is no override on the fields.
+                var unOverride = $0
+                unOverride.isOverride = false
+                output(field: $0, to: fragment)
+            }
+            methods.filter { !$0.isStatic }.forEach {
+                // For enums, we are doing a sealed class in Kotlin, not an interface, therefore there is no override on the methods.
+                var unOverride = $0
+                unOverride.isOverride = false
+                output(method: unOverride, to: fragment)
+            }
 
             fragment.blankLine()
 
