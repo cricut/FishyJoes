@@ -52,6 +52,21 @@ internal class ProtocolTests {
         assertEquals(true, a.bar())
         a.baz(true)
         assertEquals("garply Navigate a nostril! garpity garp", a.garply("Navigate a nostril!"))
+        assertEquals("thud: 42; grault: [1.234, 45.234890198, 892.8]", a.xyzzy(42, arrayListOf(1.234, 45.234890198, 892.80)))
+        assertEquals(
+            kotlin.Triple<Boolean, Long, kotlin.String>(
+                false,
+                3,
+                "Take a left at your intestines -<*>- Take the second right past Mars"
+            ),
+            a.plugh(
+                kotlin.Triple<Boolean, Double, kotlin.collections.List<kotlin.String>>(
+                    true,
+                    3.14159265359,
+                    arrayListOf("Take a left at your intestines", "Take the second right past Mars")
+                )
+            )
+        )
     }
 
     @Test
