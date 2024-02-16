@@ -3,6 +3,7 @@ package com.cricut.testapi
 import kotlinx.coroutines.*
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.DisplayNameGenerator.Simple
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import java.lang.Exception
@@ -108,5 +109,11 @@ internal class ProtocolTests {
         assertEquals(42.909, a.wombat(null))
         assertEquals(null, a.wombat(zxc = 57))
         assertEquals(7890.2, a.wombat(56))
+
+        assertEquals(23947889, a.spqr(AssociatedDataEnum.Thing(23947889)))
+        assertEquals(89708973, a.spqr(AssociatedDataEnum.Other("zxc", 89708973)))
+        assertEquals(45, a.spqr(AssociatedDataEnum.Bar("shme", AssociatedDataEnum.NoValue)))
+        assertEquals(42, a.spqr(AssociatedDataEnum.NoValue))
+        assertEquals(1, a.spqr(AssociatedDataEnum.SimpleEnum(SimpleEnum.Blue)))
     }
 }
