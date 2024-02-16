@@ -46,6 +46,15 @@ internal class ProtocolTests {
     }
 
     @Test
+    fun testProtocolEnum() {
+        val a = TestProtocolEnum.Qux
+        a.foo()
+        assertEquals(true, a.bar())
+        a.baz(true)
+        assertEquals("garply Navigate a nostril! garpity garp", a.garply("Navigate a nostril!"))
+    }
+
+    @Test
     fun testProtocolStruct() {
         val a = TestProtocolStruct(corge = "Raft a river of lava-ah!")
         assertEquals("Raft a river of lava-ah!", a.corge)
