@@ -75,7 +75,7 @@ internal class ProtocolTests {
         assertEquals("Raft a river of lava-ah!", a.corge)
         a.corge = "Spank a plankton too! (take that)"
         assertEquals("Spank a plankton too! (take that)", a.corge)
-        assert(arrayListOf(3.14159265359, 42.0, -1.23456789) == a.frob)
+        assertEquals(arrayListOf(3.14159265359, 42.0, -1.23456789), a.frob)
         assertEquals(
             kotlin.Triple<Boolean, Long, kotlin.String>(
                 true,
@@ -95,5 +95,12 @@ internal class ProtocolTests {
         a.baz(qux = true)
         assertEquals("garp garpity An octopus in your neighborhood? garpee", a.garply("An octopus in your neighborhood?"))
         assertEquals("thud: 42 | grault: [1.234, 45.234890198, 892.8]", a.xyzzy(42, arrayListOf(1.234, 45.234890198, 892.80)))
+    }
+
+    @Test
+    fun testProtocolClass() {
+        val a = TestProtocolClass.init(corge = "Step inside it's a wilder ride!")
+        assertEquals("Step inside it's a wilder ride!", a.corge)
+        assertEquals(arrayListOf(42.0, -1.23456789, 3.14159265359), a.frob)
     }
 }
