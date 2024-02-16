@@ -115,5 +115,25 @@ internal class ProtocolTests {
         assertEquals(45, a.spqr(AssociatedDataEnum.Bar("shme", AssociatedDataEnum.NoValue)))
         assertEquals(42, a.spqr(AssociatedDataEnum.NoValue))
         assertEquals(1, a.spqr(AssociatedDataEnum.SimpleEnum(SimpleEnum.Blue)))
+
+        a.foo()
+        assertEquals(true, a.bar())
+        a.baz(false)
+        assertEquals("garplify Surfin' on a sine wave parguino", a.garply("Surfin' on a sine wave"))
+        assertEquals("thud: 42 \\|/ grault: [1.234, 45.234890198, 892.8]", a.xyzzy(42, arrayListOf(1.234, 45.234890198, 892.80)))
+        assertEquals(
+            kotlin.Triple<Boolean, Long, kotlin.String>(
+                true,
+                83,
+                "Please let this be a normal field trip _-^= I knew I should've stayed home today"
+            ),
+            a.plugh(
+                kotlin.Triple<Boolean, Double, kotlin.collections.List<kotlin.String>>(
+                    true,
+                    92.47,
+                    arrayListOf("Please let this be a normal field trip", "I knew I should've stayed home today")
+                )
+            )
+        )
     }
 }
