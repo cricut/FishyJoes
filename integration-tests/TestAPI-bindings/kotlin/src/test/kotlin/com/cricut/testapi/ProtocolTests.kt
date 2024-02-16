@@ -55,5 +55,19 @@ internal class ProtocolTests {
         a.corge = "Spank a plankton too! (take that)"
         assertEquals("Spank a plankton too! (take that)", a.corge)
         assert(arrayListOf(3.14159265359, 42.0, -1.23456789) == a.frob)
+        assertEquals(
+            kotlin.Triple<Boolean, Long, kotlin.String>(
+                true,
+                51,
+                "Ride on the magic school bus *>-<* You might get baked into a pie"
+            ),
+            a.plugh(
+                kotlin.Triple<Boolean, Double, kotlin.collections.List<kotlin.String>>(
+                    true,
+                    42.9,
+                    arrayListOf("Ride on the magic school bus", "You might get baked into a pie")
+                )
+            )
+        )
     }
 }
