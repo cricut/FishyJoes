@@ -168,11 +168,16 @@ class KotlinClass: NestedClass {
                     fragment.output(" = \(body)\(method.returnType.toKotlinType)")
                 } else if external {
                     var arguments: [String] = []
+                    var unnamedParamCnt = 1
                     for parameter in method.parameters {
+                        var paramName = parameter.name
+                        if paramName.isEmpty {
+                            paramName = "_\(unnamedParamCnt)"
+                        }
                         if excludedCompatibilityParameters.contains(parameter.name) {
                             arguments.append("(\(parameter.defaultValue!))\(parameter.type.toJVMType)")
                         } else {
-                            arguments.append("\(parameter.name)\(parameter.type.toJVMType)")
+                            arguments.append("\(paramName)\(parameter.type.toJVMType)")
                         }
                     }
                     fragment.output(" = __jni_\(method.name)(\(arguments.joined(separator: ", ")))", newLineTerminated: false)
