@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import java.lang.Exception
+import kotlin.test.*
 
 @kotlinx.coroutines.ExperimentalCoroutinesApi
 internal class ProtocolTests {
@@ -20,7 +21,7 @@ internal class ProtocolTests {
         }
     }
     @Test
-    fun testProtocols() {
+    fun testAProtocol() {
         val a = AProtocolImplementation(foo = "Garply", baz = false)
         assertEquals("Garply", a.foo)
         assertEquals(false, a.baz)
@@ -42,5 +43,17 @@ internal class ProtocolTests {
 
         assertEquals(0.9589049888649063, b.hasADefaultImplementation2(a = "0.9870923", b = true, c = 1.123123))
         assertEquals(1.686253813623996, b.hasADefaultImplementation2(a = "0.9870923", b = false, c = 1.123123))
+    }
+
+    @Test
+    fun testProtocolStruct() {
+        val a = TestProtocolStruct(corge = "Raft a river of lava-ah!")
+        assertEquals("Raft a river of lava-ah!", a.corge)
+        a.foo()
+        assertEquals(false, a.bar())
+        a.baz(qux = true)
+        a.corge = "Spank a plankton too! (take that)"
+        assertEquals("Spank a plankton too! (take that)", a.corge)
+        assert(arrayListOf(3.14159265359, 42.0, -1.23456789) == a.frob)
     }
 }

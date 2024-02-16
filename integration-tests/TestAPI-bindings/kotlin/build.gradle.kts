@@ -101,6 +101,11 @@ tasks {
         sourceCompatibility = JavaVersion.VERSION_11.toString()
         targetCompatibility = JavaVersion.VERSION_11.toString()
     }
+    tasks {
+        test {
+            useJUnitPlatform()
+        }
+    }
 }
 
 dependencies {
@@ -111,4 +116,5 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    testImplementation(kotlin("test"))
 }
