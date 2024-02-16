@@ -70,5 +70,6 @@ internal class ProtocolTests {
         assertEquals(false, a.bar())
         a.baz(qux = true)
         assertEquals("garp garpity An octopus in your neighborhood? garpee", a.garply("An octopus in your neighborhood?"))
+        assertEquals("thud: 42 | grault: [1.234, 45.234890198, 892.8]", a.xyzzy(42, arrayListOf(1.234, 45.234890198, 892.80)))
     }
 }
