@@ -49,9 +49,6 @@ internal class ProtocolTests {
     fun testProtocolStruct() {
         val a = TestProtocolStruct(corge = "Raft a river of lava-ah!")
         assertEquals("Raft a river of lava-ah!", a.corge)
-        a.foo()
-        assertEquals(false, a.bar())
-        a.baz(qux = true)
         a.corge = "Spank a plankton too! (take that)"
         assertEquals("Spank a plankton too! (take that)", a.corge)
         assert(arrayListOf(3.14159265359, 42.0, -1.23456789) == a.frob)
@@ -69,5 +66,9 @@ internal class ProtocolTests {
                 )
             )
         )
+        a.foo()
+        assertEquals(false, a.bar())
+        a.baz(qux = true)
+        assertEquals("garp garpity An octopus in your neighborhood? garpee", a.garply("An octopus in your neighborhood?"))
     }
 }
