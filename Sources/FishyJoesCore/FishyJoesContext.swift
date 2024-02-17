@@ -163,19 +163,26 @@ public class FishyJoesContext {
             typeCache[name.withoutModule] = .alias(name)
             moduleDefinedTypes.append(translatedType.asExternal)
         }
-
+        
         // Translate
-        var seenMethods: Set<Method> = []
+        var methodsToTranslateForTypeDict = [Type: Set<SourceryMethod>]()
         for type in templateContext.types.types {
-            for method in type.rawMethods.compactMap(Method.init) {
-                if seenMethods.contains(method) {
-                    continue
-                }
+            if type is SourceryProtocol {
+                methodsToTranslateForTypeDict[type] = type.methodsPreferringImplemented()
+            } else {
+                methodsToTranslateForTypeDict[type] = Set(type.rawMethods)
+            }
+        }
+        
+        for (type, methods) in methodsToTranslateForTypeDict {
+            for method in methods.compactMap(Method.init) {
                 debugContext = "Translating method \(type.name).\(method.name)"
-                seenMethods.insert(method)
                 collectedFragments.append(contentsOf: kotlinTranslator.translate(method: method, context: self))
                 collectedFragments.append(contentsOf: iotaTranslator.translate(method: method, context: self))
             }
+        }
+
+        for type in templateContext.types.types {
             for variable in type.rawVariables {
                 debugContext = "Translating variable \(type.name).\(variable.name)"
                 guard variable.exportAnnotation != nil else { continue }

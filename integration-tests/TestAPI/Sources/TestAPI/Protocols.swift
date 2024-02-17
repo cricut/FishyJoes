@@ -11,8 +11,10 @@ public protocol AProtocol {
     /// <!-- FishyJoes.export(baz) -->
     var baz: Bool { get set }
 
+    /// <!-- FishyJoes.export(hasADefaultImplementation) -->
     func hasADefaultImplementation(x: Int, y: Double) -> String
     
+    /// <!-- FishyJoes.export(hasADefaultImplementation2) -->
     func hasADefaultImplementation2(a: String, b: Bool, c: Double) -> Double
 }
 

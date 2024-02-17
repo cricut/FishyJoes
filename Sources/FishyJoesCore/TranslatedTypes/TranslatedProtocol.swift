@@ -53,7 +53,8 @@ struct TranslatedProtocol: TranslatedType {
 //            }
 //        }
 //        self.methods = methods
-        self.methods = type.rawMethods.compactMap{ Method($0, isProtocolDef: true) }
+        let methodsToConvert = type.methodsPreferringImplemented()
+        self.methods = methodsToConvert.compactMap{ Method($0, isProtocolDef: true) }
 
         self.computedVariables = type.variables.filter { $0.exportAnnotation != nil }
         self.documentation = type.documentation

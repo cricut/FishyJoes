@@ -213,3 +213,55 @@ extension Type {
         return result
     }
 }
+
+extension Type {
+    // Default implementation methods replace unimplemented methods for Protocols
+    func methodsPreferringImplemented() -> Set<SourceryMethod> {
+        var methodsPreferringImplemented = Set<SourceryMethod>()
+        for method in rawMethods {
+            let equalExcludingImplementedMethods = methodsPreferringImplemented.filter {
+                $0.isEqualExcludingDefinedIn(other: method)
+            }
+            if !equalExcludingImplementedMethods.isEmpty {
+                for equalExcludingImplementedMethod in equalExcludingImplementedMethods {
+                    if equalExcludingImplementedMethod.isDefaultImplementationMethod {
+                        methodsPreferringImplemented.remove(method)
+                        methodsPreferringImplemented.insert(equalExcludingImplementedMethod)
+                    } else if method.isDefaultImplementationMethod {
+                        methodsPreferringImplemented.remove(equalExcludingImplementedMethod)
+                        methodsPreferringImplemented.insert(method)
+                    }
+                }
+            } else {
+                methodsPreferringImplemented.insert(method)
+            }
+        }
+        return methodsPreferringImplemented
+    }
+}
+
+extension SourceryMethod {
+    func isEqualExcludingDefinedIn(other: SourceryMethod) -> Bool {
+        name == other.name &&
+        selectorName == other.selectorName &&
+        callName == other.callName &&
+        parameters == other.parameters &&
+        returnTypeName == returnTypeName &&
+        returnType == other.returnType &&
+        isAsync == other.isAsync &&
+        `throws` == other.`throws` &&
+        `rethrows` == other.`rethrows` &&
+        accessLevel == other.accessLevel &&
+        isStatic == other.isStatic &&
+        isClass == other.isClass &&
+        isFailableInitializer == other.isFailableInitializer &&
+        documentation == other.documentation &&
+        annotations == other.annotations &&
+        documentation == other.documentation &&
+        attributes == other.attributes
+    }
+
+    var isDefaultImplementationMethod: Bool {
+        definedInType?.isExtension ?? false
+    }
+}

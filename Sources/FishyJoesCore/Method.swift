@@ -136,3 +136,20 @@ extension Method {
         "(\(parameters.map { $0.type.name}.joined(separator: ", "))) -> \(returnType.name)"
     }
 }
+
+extension Method {
+    func isEqualExcludingImplemented(other: Method) -> Bool {
+        name == other.name &&
+        callName == other.callName &&
+        exportAnnotation == other.exportAnnotation &&
+        parameters == other.parameters &&
+        returnType == other.returnType &&
+        documentation == other.documentation &&
+        definedIn == other.definedIn &&
+        isStatic == other.isStatic &&
+        isMutating == other.isMutating &&
+        isThrowing == other.isThrowing &&
+        isAsync == other.isAsync &&
+        deprecation == other.deprecation
+    }
+}
