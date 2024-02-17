@@ -16,17 +16,6 @@ private class _ExternalWitness_TestOptionalsProtocol private constructor(_swiftR
     private external fun __jni_set_flarp(newValue: kotlin.String?)
 
     /**
-     * <!-- FishyJoes.export(wombat) -->
-     */
-    override fun wombat(
-        zxc: Long?
-    ): Double? = __jni_wombat(zxc)
-    @JvmName("__jni_wombat")
-    private external fun __jni_wombat(
-        zxc: Long?
-    ): Double?
-
-    /**
      * <!-- FishyJoes.export(spqr) -->
      */
     override fun spqr(
@@ -36,6 +25,17 @@ private class _ExternalWitness_TestOptionalsProtocol private constructor(_swiftR
     private external fun __jni_spqr(
         _1: com.cricut.testapi.AssociatedDataEnum
     ): Long
+
+    /**
+     * <!-- FishyJoes.export(wombat) -->
+     */
+    override fun wombat(
+        zxc: Long?
+    ): Double? = __jni_wombat(zxc)
+    @JvmName("__jni_wombat")
+    private external fun __jni_wombat(
+        zxc: Long?
+    ): Double?
 
     companion object {
         init { loadNativeLibs() }

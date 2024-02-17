@@ -63,14 +63,6 @@ class TestProtocolClass extends SwiftReference {
         )
         ;
     }
-    /// <!-- FishyJoes.export(frob) -->
-    List<double> get frob =>
-        GCRef.using(this, (_thisHandle) =>
-            check((exn) =>
-                consumeCreatedRef<List<double>>(f__iota_get_TestAPI_TestProtocolClass_frob(Loader.shared.env, _thisHandle.ptr, exn))
-            )
-        )
-    ;
     /// <!-- FishyJoes.export(flarp) -->
     String? get flarp =>
         GCRef.using(this, (_thisHandle) =>
@@ -89,14 +81,14 @@ class TestProtocolClass extends SwiftReference {
         )
         ;
     }
-    /// <!-- FishyJoes.export(foo) -->
-    void foo(
-    ) =>
+    /// <!-- FishyJoes.export(frob) -->
+    List<double> get frob =>
         GCRef.using(this, (_thisHandle) =>
-            check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolClass_foo(Loader.shared.env, _thisHandle.ptr, _exn))
+            check((exn) =>
+                consumeCreatedRef<List<double>>(f__iota_get_TestAPI_TestProtocolClass_frob(Loader.shared.env, _thisHandle.ptr, exn))
+            )
         )
     ;
-
     /// <!-- FishyJoes.export(bar) -->
     bool bar(
     ) =>
@@ -114,6 +106,14 @@ class TestProtocolClass extends SwiftReference {
         )
     ;
 
+    /// <!-- FishyJoes.export(foo) -->
+    void foo(
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolClass_foo(Loader.shared.env, _thisHandle.ptr, _exn))
+        )
+    ;
+
     /// <!-- FishyJoes.export(garply) -->
     String garply(
         String str,
@@ -125,15 +125,12 @@ class TestProtocolClass extends SwiftReference {
         )
     ;
 
-    /// <!-- FishyJoes.export(xyzzy) -->
-    String xyzzy(
-        int thud,
-        List<double> grault,
+    /// <!-- FishyJoes.export(init) -->
+    static TestAPI.TestProtocolClass init(
+        String corge,
     ) =>
-        GCRef.using(this, (_thisHandle) =>
-            GCRef.using(grault, (_graultHandle) =>
-                consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolClass_xyzzy(Loader.shared.env, _thisHandle.ptr, thud, _graultHandle.ptr, _exn)))
-            )
+        GCRef.using(corge, (_corgeHandle) =>
+            consumeCreatedRef<TestAPI.TestProtocolClass>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolClass_init(Loader.shared.env, _corgeHandle.ptr, _exn)))
         )
     ;
 
@@ -148,12 +145,14 @@ class TestProtocolClass extends SwiftReference {
         )
     ;
 
-    /// <!-- FishyJoes.export(init) -->
-    static TestAPI.TestProtocolClass init(
-        String corge,
+    /// <!-- FishyJoes.export(spqr) -->
+    int spqr(
+        TestAPI.AssociatedDataEnum pippo,
     ) =>
-        GCRef.using(corge, (_corgeHandle) =>
-            consumeCreatedRef<TestAPI.TestProtocolClass>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolClass_init(Loader.shared.env, _corgeHandle.ptr, _exn)))
+        GCRef.using(this, (_thisHandle) =>
+            GCRef.using(pippo, (_pippoHandle) =>
+                check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolClass_spqr(Loader.shared.env, _thisHandle.ptr, _pippoHandle.ptr, _exn))
+            )
         )
     ;
 
@@ -168,13 +167,14 @@ class TestProtocolClass extends SwiftReference {
         )
     ;
 
-    /// <!-- FishyJoes.export(spqr) -->
-    int spqr(
-        TestAPI.AssociatedDataEnum pippo,
+    /// <!-- FishyJoes.export(xyzzy) -->
+    String xyzzy(
+        int thud,
+        List<double> grault,
     ) =>
         GCRef.using(this, (_thisHandle) =>
-            GCRef.using(pippo, (_pippoHandle) =>
-                check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolClass_spqr(Loader.shared.env, _thisHandle.ptr, _pippoHandle.ptr, _exn))
+            GCRef.using(grault, (_graultHandle) =>
+                consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolClass_xyzzy(Loader.shared.env, _thisHandle.ptr, thud, _graultHandle.ptr, _exn)))
             )
         )
     ;

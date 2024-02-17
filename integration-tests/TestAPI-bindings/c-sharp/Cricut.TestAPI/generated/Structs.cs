@@ -24,20 +24,6 @@ namespace Cricut.TestAPI {
             }
 
             /// <summary>
-            /// <!-- FishyJoes.export(create) -->
-            /// </summary>
-            public static Cricut.TestAPI.Structs.MutableStruct Create(
-            ) {
-                return Check((out CreatedRef _exn) => __iota_TestAPI_Structs_MutableStruct_create(Loader.env, out _exn)).Consume<Cricut.TestAPI.Structs.MutableStruct>();
-            }
-
-            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern CreatedRef __iota_TestAPI_Structs_MutableStruct_create(
-                IntPtr envRef,
-                out CreatedRef exn
-            );
-
-            /// <summary>
             /// <!-- FishyJoes.export(increment) -->
             /// </summary>
             public void Increment(
@@ -50,6 +36,20 @@ namespace Cricut.TestAPI {
             private static extern void __iota_TestAPI_Structs_MutableStruct_increment(
                 IntPtr envRef,
                 UnownedRef self,
+                out CreatedRef exn
+            );
+
+            /// <summary>
+            /// <!-- FishyJoes.export(create) -->
+            /// </summary>
+            public static Cricut.TestAPI.Structs.MutableStruct Create(
+            ) {
+                return Check((out CreatedRef _exn) => __iota_TestAPI_Structs_MutableStruct_create(Loader.env, out _exn)).Consume<Cricut.TestAPI.Structs.MutableStruct>();
+            }
+
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern CreatedRef __iota_TestAPI_Structs_MutableStruct_create(
+                IntPtr envRef,
                 out CreatedRef exn
             );
 

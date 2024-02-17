@@ -12,6 +12,91 @@ namespace Cricut.TestAPI {
         internal Methods(ConsumedRef reference): base(reference) {}
 
         /// <summary>
+        /// <!-- FishyJoes.export(garply) -->
+        /// </summary>
+        public nint GetGarply() {
+            using var thisHandle = new GCRef(this);
+            return Check((out CreatedRef exn) =>
+                __iota_get_TestAPI_Methods_garply(Loader.env, thisHandle.ptr, out exn)
+            );
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __iota_get_TestAPI_Methods_garply(IntPtr envRef, UnownedRef self, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(instanceGet) -->
+        /// </summary>
+        public nint GetInstanceGet() {
+            using var thisHandle = new GCRef(this);
+            return Check((out CreatedRef exn) =>
+                __iota_get_TestAPI_Methods_instanceGet(Loader.env, thisHandle.ptr, out exn)
+            );
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __iota_get_TestAPI_Methods_instanceGet(IntPtr envRef, UnownedRef self, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.exportAsMethod(instanceGetMethod) -->
+        /// </summary>
+        public nint GetInstanceGetMethod() {
+            using var thisHandle = new GCRef(this);
+            return Check((out CreatedRef exn) =>
+                __iota_get_TestAPI_Methods_instanceGetMethod(Loader.env, thisHandle.ptr, out exn)
+            );
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __iota_get_TestAPI_Methods_instanceGetMethod(IntPtr envRef, UnownedRef self, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(instanceModifiable) -->
+        /// </summary>
+        public nint GetInstanceModifiable() {
+            using var thisHandle = new GCRef(this);
+            return Check((out CreatedRef exn) =>
+                __iota_get_TestAPI_Methods_instanceModifiable(Loader.env, thisHandle.ptr, out exn)
+            );
+        }
+        public void SetInstanceModifiable(nint value) {
+            using var thisHandle = new GCRef(this);
+            Check((out CreatedRef exn) =>
+                __iota_set_TestAPI_Methods_instanceModifiable(Loader.env, thisHandle.ptr, value, out exn)
+            );
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __iota_get_TestAPI_Methods_instanceModifiable(IntPtr envRef, UnownedRef self, out CreatedRef exn);
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern void __iota_set_TestAPI_Methods_instanceModifiable(IntPtr envRef, UnownedRef self, nint value, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(instanceStored) -->
+        /// </summary>
+        public nint InstanceStored {
+            get {
+                using var thisHandle = new GCRef(this);
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Methods_instanceStored(Loader.env, thisHandle.ptr, out exn)
+                );
+            }
+            set {
+                using var thisHandle = new GCRef(this);
+                Check((out CreatedRef exn) =>
+                    __iota_set_TestAPI_Methods_instanceStored(Loader.env, thisHandle.ptr, value, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __iota_get_TestAPI_Methods_instanceStored(IntPtr envRef, UnownedRef self, out CreatedRef exn);
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern void __iota_set_TestAPI_Methods_instanceStored(IntPtr envRef, UnownedRef self, nint value, out CreatedRef exn);
+
+        /// <summary>
         /// <!-- FishyJoes.export(staticGet) -->
         /// </summary>
         public static nint GetStaticGet() {
@@ -76,91 +161,6 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern void __iota_set_TestAPI_Methods_staticStored(IntPtr envRef, nint value, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(instanceGet) -->
-        /// </summary>
-        public nint GetInstanceGet() {
-            using var thisHandle = new GCRef(this);
-            return Check((out CreatedRef exn) =>
-                __iota_get_TestAPI_Methods_instanceGet(Loader.env, thisHandle.ptr, out exn)
-            );
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __iota_get_TestAPI_Methods_instanceGet(IntPtr envRef, UnownedRef self, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(garply) -->
-        /// </summary>
-        public nint GetGarply() {
-            using var thisHandle = new GCRef(this);
-            return Check((out CreatedRef exn) =>
-                __iota_get_TestAPI_Methods_garply(Loader.env, thisHandle.ptr, out exn)
-            );
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __iota_get_TestAPI_Methods_garply(IntPtr envRef, UnownedRef self, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.exportAsMethod(instanceGetMethod) -->
-        /// </summary>
-        public nint GetInstanceGetMethod() {
-            using var thisHandle = new GCRef(this);
-            return Check((out CreatedRef exn) =>
-                __iota_get_TestAPI_Methods_instanceGetMethod(Loader.env, thisHandle.ptr, out exn)
-            );
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __iota_get_TestAPI_Methods_instanceGetMethod(IntPtr envRef, UnownedRef self, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(instanceModifiable) -->
-        /// </summary>
-        public nint GetInstanceModifiable() {
-            using var thisHandle = new GCRef(this);
-            return Check((out CreatedRef exn) =>
-                __iota_get_TestAPI_Methods_instanceModifiable(Loader.env, thisHandle.ptr, out exn)
-            );
-        }
-        public void SetInstanceModifiable(nint value) {
-            using var thisHandle = new GCRef(this);
-            Check((out CreatedRef exn) =>
-                __iota_set_TestAPI_Methods_instanceModifiable(Loader.env, thisHandle.ptr, value, out exn)
-            );
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __iota_get_TestAPI_Methods_instanceModifiable(IntPtr envRef, UnownedRef self, out CreatedRef exn);
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern void __iota_set_TestAPI_Methods_instanceModifiable(IntPtr envRef, UnownedRef self, nint value, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(instanceStored) -->
-        /// </summary>
-        public nint InstanceStored {
-            get {
-                using var thisHandle = new GCRef(this);
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Methods_instanceStored(Loader.env, thisHandle.ptr, out exn)
-                );
-            }
-            set {
-                using var thisHandle = new GCRef(this);
-                Check((out CreatedRef exn) =>
-                    __iota_set_TestAPI_Methods_instanceStored(Loader.env, thisHandle.ptr, value, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __iota_get_TestAPI_Methods_instanceStored(IntPtr envRef, UnownedRef self, out CreatedRef exn);
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern void __iota_set_TestAPI_Methods_instanceStored(IntPtr envRef, UnownedRef self, nint value, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(create) -->

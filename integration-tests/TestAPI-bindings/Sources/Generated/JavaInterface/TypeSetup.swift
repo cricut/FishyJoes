@@ -312,11 +312,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try env.RegisterNatives(
             TestAPI.Collections.CollectionHolder.externalWitnessClass ?? TestAPI.Collections.CollectionHolder.javaClass,
             JNINativeMethod(
-                name: bag.add("__jni_get_staticProperty"),
-                signature: bag.add("()Ljava/util/List;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Collections_CollectionHolder_staticProperty, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
                 name: bag.add("__jni_get_staticMutableProperty"),
                 signature: bag.add("()Ljava/util/List;"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_Collections_CollectionHolder_staticMutableProperty, to: UnsafeMutableRawPointer.self)
@@ -325,17 +320,17 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_set_staticMutableProperty"),
                 signature: bag.add("(Ljava/util/List;)V"),
                 fnPtr: unsafeBitCast(java_set_TestAPI_Collections_CollectionHolder_staticMutableProperty, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_staticProperty"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Collections_CollectionHolder_staticProperty, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.Primitives.PrimitiveHolder...")
         try TestAPI.Primitives.PrimitiveHolder.javaSetup(env: env)
         try env.RegisterNatives(
             TestAPI.Primitives.PrimitiveHolder.externalWitnessClass ?? TestAPI.Primitives.PrimitiveHolder.javaClass,
-            JNINativeMethod(
-                name: bag.add("__jni_get_staticProperty"),
-                signature: bag.add("()Ljava/util/List;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_PrimitiveHolder_staticProperty, to: UnsafeMutableRawPointer.self)
-            ),
             JNINativeMethod(
                 name: bag.add("__jni_get_staticMutableProperty"),
                 signature: bag.add("()Ljava/util/List;"),
@@ -345,6 +340,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_set_staticMutableProperty"),
                 signature: bag.add("(Ljava/util/List;)V"),
                 fnPtr: unsafeBitCast(java_set_TestAPI_Primitives_PrimitiveHolder_staticMutableProperty, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_staticProperty"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_PrimitiveHolder_staticProperty, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.Structs.MemberwiseStruct...")
@@ -352,14 +352,14 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try env.RegisterNatives(
             TestAPI.Structs.MemberwiseStruct.externalWitnessClass ?? TestAPI.Structs.MemberwiseStruct.javaClass,
             JNINativeMethod(
-                name: bag.add("__jni_create"),
-                signature: bag.add("()Lcom/cricut/testapi/Structs$MemberwiseStruct;"),
-                fnPtr: unsafeBitCast(java_TestAPI_Structs_MemberwiseStruct_create, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
                 name: bag.add("__jni_asyncGetMutable"),
                 signature: bag.add("()Lkotlinx/coroutines/Deferred;"),
                 fnPtr: unsafeBitCast(java_TestAPI_Structs_MemberwiseStruct_asyncGetMutable, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_create"),
+                signature: bag.add("()Lcom/cricut/testapi/Structs$MemberwiseStruct;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Structs_MemberwiseStruct_create, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.Structs.MutableStruct...")
@@ -367,9 +367,9 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try env.RegisterNatives(
             TestAPI.Structs.MutableStruct.externalWitnessClass ?? TestAPI.Structs.MutableStruct.javaClass,
             JNINativeMethod(
-                name: bag.add("__jni_create"),
-                signature: bag.add("()Lcom/cricut/testapi/Structs$MutableStruct;"),
-                fnPtr: unsafeBitCast(java_TestAPI_Structs_MutableStruct_create, to: UnsafeMutableRawPointer.self)
+                name: bag.add("__jni_asyncGetI"),
+                signature: bag.add("()Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Structs_MutableStruct_asyncGetI, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_increment"),
@@ -382,9 +382,9 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_TestAPI_Structs_MutableStruct_incrementAsync, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_asyncGetI"),
-                signature: bag.add("()Lkotlinx/coroutines/Deferred;"),
-                fnPtr: unsafeBitCast(java_TestAPI_Structs_MutableStruct_asyncGetI, to: UnsafeMutableRawPointer.self)
+                name: bag.add("__jni_create"),
+                signature: bag.add("()Lcom/cricut/testapi/Structs$MutableStruct;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Structs_MutableStruct_create, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.Structs.PuttingTypesIntoQuestionablePlaces...")
@@ -407,14 +407,14 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try env.RegisterNatives(
             TestAPI.Structs.ReferenceStruct.externalWitnessClass ?? TestAPI.Structs.ReferenceStruct.javaClass,
             JNINativeMethod(
-                name: bag.add("__jni_create"),
-                signature: bag.add("()Lcom/cricut/testapi/Structs$ReferenceStruct;"),
-                fnPtr: unsafeBitCast(java_TestAPI_Structs_ReferenceStruct_create, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
                 name: bag.add("__jni_asyncGetMutable"),
                 signature: bag.add("()Lkotlinx/coroutines/Deferred;"),
                 fnPtr: unsafeBitCast(java_TestAPI_Structs_ReferenceStruct_asyncGetMutable, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_create"),
+                signature: bag.add("()Lcom/cricut/testapi/Structs$ReferenceStruct;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Structs_ReferenceStruct_create, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_immutable"),
@@ -465,16 +465,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java__AProtocolConverter_bar, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_foo"),
-                signature: bag.add("()Ljava/lang/String;"),
-                fnPtr: unsafeBitCast(java_get__AProtocolConverter_foo, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_set_foo"),
-                signature: bag.add("(Ljava/lang/String;)V"),
-                fnPtr: unsafeBitCast(java_set__AProtocolConverter_foo, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
                 name: bag.add("__jni_get_baz"),
                 signature: bag.add("()Z"),
                 fnPtr: unsafeBitCast(java_get__AProtocolConverter_baz, to: UnsafeMutableRawPointer.self)
@@ -483,6 +473,16 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_set_baz"),
                 signature: bag.add("(Z)V"),
                 fnPtr: unsafeBitCast(java_set__AProtocolConverter_baz, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_foo"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_get__AProtocolConverter_foo, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_set_foo"),
+                signature: bag.add("(Ljava/lang/String;)V"),
+                fnPtr: unsafeBitCast(java_set__AProtocolConverter_foo, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.AProtocolImplementation...")
@@ -505,14 +505,14 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_TestAPI_AssociatedDataEnum_plus, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_staticThing"),
-                signature: bag.add("()Lcom/cricut/testapi/AssociatedDataEnum;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_AssociatedDataEnum_staticThing, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
                 name: bag.add("__jni_get_intValue"),
                 signature: bag.add("()J"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_AssociatedDataEnum_intValue, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_staticThing"),
+                signature: bag.add("()Lcom/cricut/testapi/AssociatedDataEnum;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_AssociatedDataEnum_staticThing, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.AsyncFunctions...")
@@ -555,9 +555,19 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_TestAPI_AsyncFunctions_exercise6, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_get_add3Things"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function4;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_AsyncFunctions_add3Things, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_get_const42"),
                 signature: bag.add("()Lkotlin/jvm/functions/Function1;"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_AsyncFunctions_const42, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_fifthThing"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function6;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_AsyncFunctions_fifthThing, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_abs"),
@@ -570,19 +580,9 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_get_TestAPI_AsyncFunctions_intCompose, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_add3Things"),
-                signature: bag.add("()Lkotlin/jvm/functions/Function4;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_AsyncFunctions_add3Things, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
                 name: bag.add("__jni_get_makeList"),
                 signature: bag.add("()Lkotlin/jvm/functions/Function5;"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_AsyncFunctions_makeList, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_fifthThing"),
-                signature: bag.add("()Lkotlin/jvm/functions/Function6;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_AsyncFunctions_fifthThing, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_sixthThing"),
@@ -600,26 +600,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try env.RegisterNatives(
             TestAPI.AttributedStrings.externalWitnessClass ?? TestAPI.AttributedStrings.javaClass,
             JNINativeMethod(
-                name: bag.add("__jni_echo"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString;)Lcom/cricut/fishyjoes/runtime/AttributedString;"),
-                fnPtr: unsafeBitCast(java_TestAPI_AttributedStrings_echo, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_firstIndex"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString;)Lcom/cricut/fishyjoes/runtime/AttributedString$Index;"),
-                fnPtr: unsafeBitCast(java_TestAPI_AttributedStrings_firstIndex, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_lastIndex"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString;)Lcom/cricut/fishyjoes/runtime/AttributedString$Index;"),
-                fnPtr: unsafeBitCast(java_TestAPI_AttributedStrings_lastIndex, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_fullRange"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString;)Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
-                fnPtr: unsafeBitCast(java_TestAPI_AttributedStrings_fullRange, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
                 name: bag.add("__jni_attributedCharacters"),
                 signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString;)Ljava/util/List;"),
                 fnPtr: unsafeBitCast(java_TestAPI_AttributedStrings_attributedCharacters, to: UnsafeMutableRawPointer.self)
@@ -630,24 +610,34 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_TestAPI_AttributedStrings_attributesPreferringDuplicatesNearerStart, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_echo"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString;)Lcom/cricut/fishyjoes/runtime/AttributedString;"),
+                fnPtr: unsafeBitCast(java_TestAPI_AttributedStrings_echo, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_emptyAttributeRuns"),
                 signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString;)Ljava/util/List;"),
                 fnPtr: unsafeBitCast(java_TestAPI_AttributedStrings_emptyAttributeRuns, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_simple"),
-                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_AttributedStrings_simple, to: UnsafeMutableRawPointer.self)
+                name: bag.add("__jni_firstIndex"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString;)Lcom/cricut/fishyjoes/runtime/AttributedString$Index;"),
+                fnPtr: unsafeBitCast(java_TestAPI_AttributedStrings_firstIndex, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_fullRange"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString;)Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
+                fnPtr: unsafeBitCast(java_TestAPI_AttributedStrings_fullRange, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_lastIndex"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString;)Lcom/cricut/fishyjoes/runtime/AttributedString$Index;"),
+                fnPtr: unsafeBitCast(java_TestAPI_AttributedStrings_lastIndex, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_accent"),
                 signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString;"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_AttributedStrings_accent, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_script"),
-                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_AttributedStrings_script, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_chinese"),
@@ -678,6 +668,16 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_get_polyglot"),
                 signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString;"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_AttributedStrings_polyglot, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_script"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_AttributedStrings_script, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_simple"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_AttributedStrings_simple, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.Bytes...")
@@ -710,34 +710,14 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try env.RegisterNatives(
             TestAPI.ClosedRanges.externalWitnessClass ?? TestAPI.ClosedRanges.javaClass,
             JNINativeMethod(
-                name: bag.add("__jni_echoUInt8Range"),
+                name: bag.add("__jni_echoDoubleRange"),
                 signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;)Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
-                fnPtr: unsafeBitCast(java_TestAPI_ClosedRanges_echoUInt8Range, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_TestAPI_ClosedRanges_echoDoubleRange, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_echoUInt16Range"),
+                name: bag.add("__jni_echoFloatRange"),
                 signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;)Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
-                fnPtr: unsafeBitCast(java_TestAPI_ClosedRanges_echoUInt16Range, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_echoUInt32Range"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;)Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
-                fnPtr: unsafeBitCast(java_TestAPI_ClosedRanges_echoUInt32Range, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_echoUInt64Range"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;)Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
-                fnPtr: unsafeBitCast(java_TestAPI_ClosedRanges_echoUInt64Range, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_echoUIntRange"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;)Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
-                fnPtr: unsafeBitCast(java_TestAPI_ClosedRanges_echoUIntRange, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_echoInt8Range"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;)Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
-                fnPtr: unsafeBitCast(java_TestAPI_ClosedRanges_echoInt8Range, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_TestAPI_ClosedRanges_echoFloatRange, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_echoInt16Range"),
@@ -755,19 +735,14 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_TestAPI_ClosedRanges_echoInt64Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_echoInt8Range"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;)Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_TestAPI_ClosedRanges_echoInt8Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_echoIntRange"),
                 signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;)Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
                 fnPtr: unsafeBitCast(java_TestAPI_ClosedRanges_echoIntRange, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_echoFloatRange"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;)Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
-                fnPtr: unsafeBitCast(java_TestAPI_ClosedRanges_echoFloatRange, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_echoDoubleRange"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;)Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
-                fnPtr: unsafeBitCast(java_TestAPI_ClosedRanges_echoDoubleRange, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_echoStringRange"),
@@ -775,34 +750,39 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_TestAPI_ClosedRanges_echoStringRange, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_uInt8Range"),
-                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_ClosedRanges_uInt8Range, to: UnsafeMutableRawPointer.self)
+                name: bag.add("__jni_echoUInt16Range"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;)Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_TestAPI_ClosedRanges_echoUInt16Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_uInt16Range"),
-                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_ClosedRanges_uInt16Range, to: UnsafeMutableRawPointer.self)
+                name: bag.add("__jni_echoUInt32Range"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;)Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_TestAPI_ClosedRanges_echoUInt32Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_uInt32Range"),
-                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_ClosedRanges_uInt32Range, to: UnsafeMutableRawPointer.self)
+                name: bag.add("__jni_echoUInt64Range"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;)Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_TestAPI_ClosedRanges_echoUInt64Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_uInt64Range"),
-                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_ClosedRanges_uInt64Range, to: UnsafeMutableRawPointer.self)
+                name: bag.add("__jni_echoUInt8Range"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;)Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_TestAPI_ClosedRanges_echoUInt8Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_uIntRange"),
-                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_ClosedRanges_uIntRange, to: UnsafeMutableRawPointer.self)
+                name: bag.add("__jni_echoUIntRange"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;)Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_TestAPI_ClosedRanges_echoUIntRange, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_int8Range"),
+                name: bag.add("__jni_get_doubleRange"),
                 signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_ClosedRanges_int8Range, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_get_TestAPI_ClosedRanges_doubleRange, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_floatRange"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_ClosedRanges_floatRange, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_int16Range"),
@@ -820,24 +800,44 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_get_TestAPI_ClosedRanges_int64Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_get_int8Range"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_ClosedRanges_int8Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_get_intRange"),
                 signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_ClosedRanges_intRange, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_floatRange"),
-                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_ClosedRanges_floatRange, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_doubleRange"),
-                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_ClosedRanges_doubleRange, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
                 name: bag.add("__jni_get_stringRange"),
                 signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_ClosedRanges_stringRange, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_uInt16Range"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_ClosedRanges_uInt16Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_uInt32Range"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_ClosedRanges_uInt32Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_uInt64Range"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_ClosedRanges_uInt64Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_uInt8Range"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_ClosedRanges_uInt8Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_uIntRange"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_ClosedRanges_uIntRange, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.Collections...")
@@ -845,14 +845,14 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try env.RegisterNatives(
             TestAPI.Collections.externalWitnessClass ?? TestAPI.Collections.javaClass,
             JNINativeMethod(
+                name: bag.add("__jni_collectionMapper"),
+                signature: bag.add("(Ljava/util/List;Lkotlin/jvm/functions/Function1;)Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Collections_collectionMapper, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_echoArrayOfInt"),
                 signature: bag.add("(Ljava/util/List;)Ljava/util/List;"),
                 fnPtr: unsafeBitCast(java_TestAPI_Collections_echoArrayOfInt, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_echoSetOfInt"),
-                signature: bag.add("(Ljava/util/Set;)Ljava/util/Set;"),
-                fnPtr: unsafeBitCast(java_TestAPI_Collections_echoSetOfInt, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_echoDictionaryOfIntToInt"),
@@ -865,34 +865,19 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_TestAPI_Collections_echoMaybeArrayOfMaybeInt, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_echoMaybeSetOfMaybeInt"),
-                signature: bag.add("(Ljava/util/Set;)Ljava/util/Set;"),
-                fnPtr: unsafeBitCast(java_TestAPI_Collections_echoMaybeSetOfMaybeInt, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
                 name: bag.add("__jni_echoMaybeDictionaryOfIntToMaybeInt"),
                 signature: bag.add("(Ljava/util/Map;)Ljava/util/Map;"),
                 fnPtr: unsafeBitCast(java_TestAPI_Collections_echoMaybeDictionaryOfIntToMaybeInt, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_collectionMapper"),
-                signature: bag.add("(Ljava/util/List;Lkotlin/jvm/functions/Function1;)Ljava/util/List;"),
-                fnPtr: unsafeBitCast(java_TestAPI_Collections_collectionMapper, to: UnsafeMutableRawPointer.self)
+                name: bag.add("__jni_echoMaybeSetOfMaybeInt"),
+                signature: bag.add("(Ljava/util/Set;)Ljava/util/Set;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Collections_echoMaybeSetOfMaybeInt, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_arrayOfInt"),
-                signature: bag.add("()Ljava/util/List;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Collections_arrayOfInt, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_setOfInt"),
-                signature: bag.add("()Ljava/util/Set;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Collections_setOfInt, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_dictionaryOfIntToInt"),
-                signature: bag.add("()Ljava/util/Map;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Collections_dictionaryOfIntToInt, to: UnsafeMutableRawPointer.self)
+                name: bag.add("__jni_echoSetOfInt"),
+                signature: bag.add("(Ljava/util/Set;)Ljava/util/Set;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Collections_echoSetOfInt, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_arrayOfBigTuples"),
@@ -900,19 +885,24 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_get_TestAPI_Collections_arrayOfBigTuples, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_get_arrayOfInt"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Collections_arrayOfInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_defaultCollectionHolder"),
+                signature: bag.add("()Lcom/cricut/testapi/Collections$CollectionHolder;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Collections_defaultCollectionHolder, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_dictionaryOfIntToInt"),
+                signature: bag.add("()Ljava/util/Map;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Collections_dictionaryOfIntToInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_get_maybeArrayOfInt"),
                 signature: bag.add("()Ljava/util/List;"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_Collections_maybeArrayOfInt, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_maybeSetOfInt"),
-                signature: bag.add("()Ljava/util/Set;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Collections_maybeSetOfInt, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_maybeDictionaryOfIntToInt"),
-                signature: bag.add("()Ljava/util/Map;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Collections_maybeDictionaryOfIntToInt, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_maybeArrayOfMaybeInt"),
@@ -920,9 +910,9 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_get_TestAPI_Collections_maybeArrayOfMaybeInt, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_maybeSetOfMaybeInt"),
-                signature: bag.add("()Ljava/util/Set;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Collections_maybeSetOfMaybeInt, to: UnsafeMutableRawPointer.self)
+                name: bag.add("__jni_get_maybeDictionaryOfIntToInt"),
+                signature: bag.add("()Ljava/util/Map;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Collections_maybeDictionaryOfIntToInt, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_maybeDictionaryOfIntToMaybeInt"),
@@ -930,9 +920,19 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_get_TestAPI_Collections_maybeDictionaryOfIntToMaybeInt, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_defaultCollectionHolder"),
-                signature: bag.add("()Lcom/cricut/testapi/Collections$CollectionHolder;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Collections_defaultCollectionHolder, to: UnsafeMutableRawPointer.self)
+                name: bag.add("__jni_get_maybeSetOfInt"),
+                signature: bag.add("()Ljava/util/Set;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Collections_maybeSetOfInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_maybeSetOfMaybeInt"),
+                signature: bag.add("()Ljava/util/Set;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Collections_maybeSetOfMaybeInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_setOfInt"),
+                signature: bag.add("()Ljava/util/Set;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Collections_setOfInt, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.DefaultArguments...")
@@ -1015,9 +1015,19 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_TestAPI_Functions_willThrow, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_get_add3Things"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function3;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Functions_add3Things, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_get_const42"),
                 signature: bag.add("()Lkotlin/jvm/functions/Function0;"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_Functions_const42, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_fifthThing"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function5;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Functions_fifthThing, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_abs"),
@@ -1030,19 +1040,9 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_get_TestAPI_Functions_intCompose, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_add3Things"),
-                signature: bag.add("()Lkotlin/jvm/functions/Function3;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Functions_add3Things, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
                 name: bag.add("__jni_get_makeList"),
                 signature: bag.add("()Lkotlin/jvm/functions/Function4;"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_Functions_makeList, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_fifthThing"),
-                signature: bag.add("()Lkotlin/jvm/functions/Function5;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Functions_fifthThing, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_sixthThing"),
@@ -1055,34 +1055,14 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try env.RegisterNatives(
             TestAPI.Methods.externalWitnessClass ?? TestAPI.Methods.javaClass,
             JNINativeMethod(
-                name: bag.add("__jni_create"),
-                signature: bag.add("()Lcom/cricut/testapi/Methods;"),
-                fnPtr: unsafeBitCast(java_TestAPI_Methods_create, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_doublePlusGood"),
-                signature: bag.add("(JD)J"),
-                fnPtr: unsafeBitCast(java_TestAPI_Methods_doublePlusGood, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
                 name: bag.add("__jni_async42"),
                 signature: bag.add("()Lkotlinx/coroutines/Deferred;"),
                 fnPtr: unsafeBitCast(java_TestAPI_Methods_async42, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_asyncYield"),
-                signature: bag.add("()Lkotlinx/coroutines/Deferred;"),
-                fnPtr: unsafeBitCast(java_TestAPI_Methods_asyncYield, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_asyncSleep"),
-                signature: bag.add("()Lkotlinx/coroutines/Deferred;"),
-                fnPtr: unsafeBitCast(java_TestAPI_Methods_asyncSleep, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_asyncVoid"),
-                signature: bag.add("()Lkotlinx/coroutines/Deferred;"),
-                fnPtr: unsafeBitCast(java_TestAPI_Methods_asyncVoid, to: UnsafeMutableRawPointer.self)
+                name: bag.add("__jni_asyncCallbackFunc0"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function1;)Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Methods_asyncCallbackFunc0, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_asyncDouble"),
@@ -1095,14 +1075,34 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_TestAPI_Methods_asyncMultipleArgs, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_asyncSleep"),
+                signature: bag.add("()Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Methods_asyncSleep, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_asyncThrowing"),
                 signature: bag.add("()Lkotlinx/coroutines/Deferred;"),
                 fnPtr: unsafeBitCast(java_TestAPI_Methods_asyncThrowing, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_asyncCallbackFunc0"),
-                signature: bag.add("(Lkotlin/jvm/functions/Function1;)Lkotlinx/coroutines/Deferred;"),
-                fnPtr: unsafeBitCast(java_TestAPI_Methods_asyncCallbackFunc0, to: UnsafeMutableRawPointer.self)
+                name: bag.add("__jni_asyncVoid"),
+                signature: bag.add("()Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Methods_asyncVoid, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_asyncYield"),
+                signature: bag.add("()Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Methods_asyncYield, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_create"),
+                signature: bag.add("()Lcom/cricut/testapi/Methods;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Methods_create, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_doublePlusGood"),
+                signature: bag.add("(JD)J"),
+                fnPtr: unsafeBitCast(java_TestAPI_Methods_doublePlusGood, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_staticAsync42"),
@@ -1110,19 +1110,9 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_TestAPI_Methods_staticAsync42, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_staticAsyncYield"),
-                signature: bag.add("()Lkotlinx/coroutines/Deferred;"),
-                fnPtr: unsafeBitCast(java_TestAPI_Methods_staticAsyncYield, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_staticAsyncSleep"),
-                signature: bag.add("()Lkotlinx/coroutines/Deferred;"),
-                fnPtr: unsafeBitCast(java_TestAPI_Methods_staticAsyncSleep, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_staticAsyncVoid"),
-                signature: bag.add("()Lkotlinx/coroutines/Deferred;"),
-                fnPtr: unsafeBitCast(java_TestAPI_Methods_staticAsyncVoid, to: UnsafeMutableRawPointer.self)
+                name: bag.add("__jni_staticAsyncCallbackFunc0"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function1;)Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Methods_staticAsyncCallbackFunc0, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_staticAsyncDouble"),
@@ -1135,14 +1125,59 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_TestAPI_Methods_staticAsyncMultipleArgs, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_staticAsyncSleep"),
+                signature: bag.add("()Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Methods_staticAsyncSleep, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_staticAsyncThrowing"),
                 signature: bag.add("()Lkotlinx/coroutines/Deferred;"),
                 fnPtr: unsafeBitCast(java_TestAPI_Methods_staticAsyncThrowing, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_staticAsyncCallbackFunc0"),
-                signature: bag.add("(Lkotlin/jvm/functions/Function1;)Lkotlinx/coroutines/Deferred;"),
-                fnPtr: unsafeBitCast(java_TestAPI_Methods_staticAsyncCallbackFunc0, to: UnsafeMutableRawPointer.self)
+                name: bag.add("__jni_staticAsyncVoid"),
+                signature: bag.add("()Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Methods_staticAsyncVoid, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_staticAsyncYield"),
+                signature: bag.add("()Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Methods_staticAsyncYield, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_garply"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Methods_garply, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_instanceGet"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Methods_instanceGet, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_instanceGetMethod"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Methods_instanceGetMethod, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_instanceModifiable"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Methods_instanceModifiable, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_set_instanceModifiable"),
+                signature: bag.add("(J)V"),
+                fnPtr: unsafeBitCast(java_set_TestAPI_Methods_instanceModifiable, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_instanceStored"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Methods_instanceStored, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_set_instanceStored"),
+                signature: bag.add("(J)V"),
+                fnPtr: unsafeBitCast(java_set_TestAPI_Methods_instanceStored, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_staticGet"),
@@ -1173,41 +1208,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_set_staticStored"),
                 signature: bag.add("(J)V"),
                 fnPtr: unsafeBitCast(java_set_TestAPI_Methods_staticStored, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_instanceGet"),
-                signature: bag.add("()J"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Methods_instanceGet, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_garply"),
-                signature: bag.add("()J"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Methods_garply, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_instanceGetMethod"),
-                signature: bag.add("()J"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Methods_instanceGetMethod, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_instanceModifiable"),
-                signature: bag.add("()J"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Methods_instanceModifiable, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_set_instanceModifiable"),
-                signature: bag.add("(J)V"),
-                fnPtr: unsafeBitCast(java_set_TestAPI_Methods_instanceModifiable, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_instanceStored"),
-                signature: bag.add("()J"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Methods_instanceStored, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_set_instanceStored"),
-                signature: bag.add("(J)V"),
-                fnPtr: unsafeBitCast(java_set_TestAPI_Methods_instanceStored, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.Primitives...")
@@ -1220,34 +1220,19 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_TestAPI_Primitives_echoBool, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_echoUInt8"),
-                signature: bag.add("(B)B"),
-                fnPtr: unsafeBitCast(java_TestAPI_Primitives_echoUInt8, to: UnsafeMutableRawPointer.self)
+                name: bag.add("__jni_echoDouble"),
+                signature: bag.add("(D)D"),
+                fnPtr: unsafeBitCast(java_TestAPI_Primitives_echoDouble, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_echoUInt16"),
-                signature: bag.add("(S)S"),
-                fnPtr: unsafeBitCast(java_TestAPI_Primitives_echoUInt16, to: UnsafeMutableRawPointer.self)
+                name: bag.add("__jni_echoFloat"),
+                signature: bag.add("(F)F"),
+                fnPtr: unsafeBitCast(java_TestAPI_Primitives_echoFloat, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_echoUInt32"),
-                signature: bag.add("(I)I"),
-                fnPtr: unsafeBitCast(java_TestAPI_Primitives_echoUInt32, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_echoUInt64"),
+                name: bag.add("__jni_echoInt"),
                 signature: bag.add("(J)J"),
-                fnPtr: unsafeBitCast(java_TestAPI_Primitives_echoUInt64, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_echoUInt"),
-                signature: bag.add("(J)J"),
-                fnPtr: unsafeBitCast(java_TestAPI_Primitives_echoUInt, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_echoInt8"),
-                signature: bag.add("(B)B"),
-                fnPtr: unsafeBitCast(java_TestAPI_Primitives_echoInt8, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_TestAPI_Primitives_echoInt, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_echoInt16"),
@@ -1265,19 +1250,34 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_TestAPI_Primitives_echoInt64, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_echoInt"),
+                name: bag.add("__jni_echoInt8"),
+                signature: bag.add("(B)B"),
+                fnPtr: unsafeBitCast(java_TestAPI_Primitives_echoInt8, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoUInt"),
                 signature: bag.add("(J)J"),
-                fnPtr: unsafeBitCast(java_TestAPI_Primitives_echoInt, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_TestAPI_Primitives_echoUInt, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_echoFloat"),
-                signature: bag.add("(F)F"),
-                fnPtr: unsafeBitCast(java_TestAPI_Primitives_echoFloat, to: UnsafeMutableRawPointer.self)
+                name: bag.add("__jni_echoUInt16"),
+                signature: bag.add("(S)S"),
+                fnPtr: unsafeBitCast(java_TestAPI_Primitives_echoUInt16, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_echoDouble"),
-                signature: bag.add("(D)D"),
-                fnPtr: unsafeBitCast(java_TestAPI_Primitives_echoDouble, to: UnsafeMutableRawPointer.self)
+                name: bag.add("__jni_echoUInt32"),
+                signature: bag.add("(I)I"),
+                fnPtr: unsafeBitCast(java_TestAPI_Primitives_echoUInt32, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoUInt64"),
+                signature: bag.add("(J)J"),
+                fnPtr: unsafeBitCast(java_TestAPI_Primitives_echoUInt64, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoUInt8"),
+                signature: bag.add("(B)B"),
+                fnPtr: unsafeBitCast(java_TestAPI_Primitives_echoUInt8, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_maybeEchoBool"),
@@ -1285,34 +1285,19 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_TestAPI_Primitives_maybeEchoBool, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_maybeEchoUInt8"),
-                signature: bag.add("(Lkotlin/UByte;)Lkotlin/UByte;"),
-                fnPtr: unsafeBitCast(java_TestAPI_Primitives_maybeEchoUInt8, to: UnsafeMutableRawPointer.self)
+                name: bag.add("__jni_maybeEchoDouble"),
+                signature: bag.add("(Ljava/lang/Double;)Ljava/lang/Double;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Primitives_maybeEchoDouble, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_maybeEchoUInt16"),
-                signature: bag.add("(Lkotlin/UShort;)Lkotlin/UShort;"),
-                fnPtr: unsafeBitCast(java_TestAPI_Primitives_maybeEchoUInt16, to: UnsafeMutableRawPointer.self)
+                name: bag.add("__jni_maybeEchoFloat"),
+                signature: bag.add("(Ljava/lang/Float;)Ljava/lang/Float;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Primitives_maybeEchoFloat, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_maybeEchoUInt32"),
-                signature: bag.add("(Lkotlin/UInt;)Lkotlin/UInt;"),
-                fnPtr: unsafeBitCast(java_TestAPI_Primitives_maybeEchoUInt32, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_maybeEchoUInt64"),
-                signature: bag.add("(Lkotlin/ULong;)Lkotlin/ULong;"),
-                fnPtr: unsafeBitCast(java_TestAPI_Primitives_maybeEchoUInt64, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_maybeEchoUInt"),
-                signature: bag.add("(Lkotlin/ULong;)Lkotlin/ULong;"),
-                fnPtr: unsafeBitCast(java_TestAPI_Primitives_maybeEchoUInt, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_maybeEchoInt8"),
-                signature: bag.add("(Ljava/lang/Byte;)Ljava/lang/Byte;"),
-                fnPtr: unsafeBitCast(java_TestAPI_Primitives_maybeEchoInt8, to: UnsafeMutableRawPointer.self)
+                name: bag.add("__jni_maybeEchoInt"),
+                signature: bag.add("(Ljava/lang/Long;)Ljava/lang/Long;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Primitives_maybeEchoInt, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_maybeEchoInt16"),
@@ -1330,19 +1315,34 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_TestAPI_Primitives_maybeEchoInt64, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_maybeEchoInt"),
-                signature: bag.add("(Ljava/lang/Long;)Ljava/lang/Long;"),
-                fnPtr: unsafeBitCast(java_TestAPI_Primitives_maybeEchoInt, to: UnsafeMutableRawPointer.self)
+                name: bag.add("__jni_maybeEchoInt8"),
+                signature: bag.add("(Ljava/lang/Byte;)Ljava/lang/Byte;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Primitives_maybeEchoInt8, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_maybeEchoFloat"),
-                signature: bag.add("(Ljava/lang/Float;)Ljava/lang/Float;"),
-                fnPtr: unsafeBitCast(java_TestAPI_Primitives_maybeEchoFloat, to: UnsafeMutableRawPointer.self)
+                name: bag.add("__jni_maybeEchoUInt"),
+                signature: bag.add("(Lkotlin/ULong;)Lkotlin/ULong;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Primitives_maybeEchoUInt, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_maybeEchoDouble"),
-                signature: bag.add("(Ljava/lang/Double;)Ljava/lang/Double;"),
-                fnPtr: unsafeBitCast(java_TestAPI_Primitives_maybeEchoDouble, to: UnsafeMutableRawPointer.self)
+                name: bag.add("__jni_maybeEchoUInt16"),
+                signature: bag.add("(Lkotlin/UShort;)Lkotlin/UShort;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Primitives_maybeEchoUInt16, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_maybeEchoUInt32"),
+                signature: bag.add("(Lkotlin/UInt;)Lkotlin/UInt;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Primitives_maybeEchoUInt32, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_maybeEchoUInt64"),
+                signature: bag.add("(Lkotlin/ULong;)Lkotlin/ULong;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Primitives_maybeEchoUInt64, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_maybeEchoUInt8"),
+                signature: bag.add("(Lkotlin/UByte;)Lkotlin/UByte;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Primitives_maybeEchoUInt8, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_valueMapper"),
@@ -1350,194 +1350,9 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_TestAPI_Primitives_valueMapper, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_falseBool"),
-                signature: bag.add("()Z"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_falseBool, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_trueBool"),
-                signature: bag.add("()Z"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_trueBool, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_zeroUInt8"),
-                signature: bag.add("()B"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_zeroUInt8, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_minUInt8"),
-                signature: bag.add("()B"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_minUInt8, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_maxUInt8"),
-                signature: bag.add("()B"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_maxUInt8, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_zeroUInt16"),
-                signature: bag.add("()S"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_zeroUInt16, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_minUInt16"),
-                signature: bag.add("()S"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_minUInt16, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_maxUInt16"),
-                signature: bag.add("()S"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_maxUInt16, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_zeroUInt32"),
-                signature: bag.add("()I"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_zeroUInt32, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_minUInt32"),
-                signature: bag.add("()I"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_minUInt32, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_maxUInt32"),
-                signature: bag.add("()I"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_maxUInt32, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_zeroUInt64"),
+                name: bag.add("__jni_get_bitCountInt"),
                 signature: bag.add("()J"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_zeroUInt64, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_minUInt64"),
-                signature: bag.add("()J"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_minUInt64, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_maxUInt64"),
-                signature: bag.add("()J"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_maxUInt64, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_zeroUInt"),
-                signature: bag.add("()J"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_zeroUInt, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_minUInt"),
-                signature: bag.add("()J"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_minUInt, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_maxUInt"),
-                signature: bag.add("()J"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_maxUInt, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_zeroInt8"),
-                signature: bag.add("()B"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_zeroInt8, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_minInt8"),
-                signature: bag.add("()B"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_minInt8, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_maxInt8"),
-                signature: bag.add("()B"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_maxInt8, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_zeroInt16"),
-                signature: bag.add("()S"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_zeroInt16, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_minInt16"),
-                signature: bag.add("()S"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_minInt16, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_maxInt16"),
-                signature: bag.add("()S"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_maxInt16, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_zeroInt32"),
-                signature: bag.add("()I"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_zeroInt32, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_minInt32"),
-                signature: bag.add("()I"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_minInt32, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_maxInt32"),
-                signature: bag.add("()I"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_maxInt32, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_zeroInt64"),
-                signature: bag.add("()J"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_zeroInt64, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_minInt64"),
-                signature: bag.add("()J"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_minInt64, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_maxInt64"),
-                signature: bag.add("()J"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_maxInt64, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_zeroInt"),
-                signature: bag.add("()J"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_zeroInt, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_minInt"),
-                signature: bag.add("()J"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_minInt, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_maxInt"),
-                signature: bag.add("()J"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_maxInt, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_zeroFloat"),
-                signature: bag.add("()F"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_zeroFloat, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_minFloat"),
-                signature: bag.add("()F"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_minFloat, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_maxFloat"),
-                signature: bag.add("()F"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_maxFloat, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_zeroDouble"),
-                signature: bag.add("()D"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_zeroDouble, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_minDouble"),
-                signature: bag.add("()D"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_minDouble, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_maxDouble"),
-                signature: bag.add("()D"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_maxDouble, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_bitCountInt, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_bitCountUInt"),
@@ -1545,9 +1360,14 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_bitCountUInt, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_bitCountInt"),
-                signature: bag.add("()J"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_bitCountInt, to: UnsafeMutableRawPointer.self)
+                name: bag.add("__jni_get_defaultPrimitiveHolder"),
+                signature: bag.add("()Lcom/cricut/testapi/Primitives$PrimitiveHolder;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_defaultPrimitiveHolder, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_falseBool"),
+                signature: bag.add("()Z"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_falseBool, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_manyBool"),
@@ -1555,34 +1375,19 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyBool, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_manyUInt8"),
+                name: bag.add("__jni_get_manyDouble"),
                 signature: bag.add("()Ljava/util/List;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyUInt8, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyDouble, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_manyUInt16"),
+                name: bag.add("__jni_get_manyFloat"),
                 signature: bag.add("()Ljava/util/List;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyUInt16, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyFloat, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_manyUInt32"),
+                name: bag.add("__jni_get_manyInt"),
                 signature: bag.add("()Ljava/util/List;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyUInt32, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_manyUInt64"),
-                signature: bag.add("()Ljava/util/List;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyUInt64, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_manyUInt"),
-                signature: bag.add("()Ljava/util/List;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyUInt, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_manyInt8"),
-                signature: bag.add("()Ljava/util/List;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyInt8, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyInt, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_manyInt16"),
@@ -1600,19 +1405,9 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyInt64, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_manyInt"),
+                name: bag.add("__jni_get_manyInt8"),
                 signature: bag.add("()Ljava/util/List;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyInt, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_manyFloat"),
-                signature: bag.add("()Ljava/util/List;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyFloat, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_manyDouble"),
-                signature: bag.add("()Ljava/util/List;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyDouble, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyInt8, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_manyMaybeBool"),
@@ -1620,34 +1415,19 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyMaybeBool, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_manyMaybeUInt8"),
+                name: bag.add("__jni_get_manyMaybeDouble"),
                 signature: bag.add("()Ljava/util/List;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyMaybeUInt8, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyMaybeDouble, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_manyMaybeUInt16"),
+                name: bag.add("__jni_get_manyMaybeFloat"),
                 signature: bag.add("()Ljava/util/List;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyMaybeUInt16, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyMaybeFloat, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_manyMaybeUInt32"),
+                name: bag.add("__jni_get_manyMaybeInt"),
                 signature: bag.add("()Ljava/util/List;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyMaybeUInt32, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_manyMaybeUInt64"),
-                signature: bag.add("()Ljava/util/List;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyMaybeUInt64, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_manyMaybeUInt"),
-                signature: bag.add("()Ljava/util/List;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyMaybeUInt, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_manyMaybeInt8"),
-                signature: bag.add("()Ljava/util/List;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyMaybeInt8, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyMaybeInt, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_manyMaybeInt16"),
@@ -1665,24 +1445,244 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyMaybeInt64, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_manyMaybeInt"),
+                name: bag.add("__jni_get_manyMaybeInt8"),
                 signature: bag.add("()Ljava/util/List;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyMaybeInt, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyMaybeInt8, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_manyMaybeFloat"),
+                name: bag.add("__jni_get_manyMaybeUInt"),
                 signature: bag.add("()Ljava/util/List;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyMaybeFloat, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyMaybeUInt, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_manyMaybeDouble"),
+                name: bag.add("__jni_get_manyMaybeUInt16"),
                 signature: bag.add("()Ljava/util/List;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyMaybeDouble, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyMaybeUInt16, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_defaultPrimitiveHolder"),
-                signature: bag.add("()Lcom/cricut/testapi/Primitives$PrimitiveHolder;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_defaultPrimitiveHolder, to: UnsafeMutableRawPointer.self)
+                name: bag.add("__jni_get_manyMaybeUInt32"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyMaybeUInt32, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_manyMaybeUInt64"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyMaybeUInt64, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_manyMaybeUInt8"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyMaybeUInt8, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_manyUInt"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyUInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_manyUInt16"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyUInt16, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_manyUInt32"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyUInt32, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_manyUInt64"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyUInt64, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_manyUInt8"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_manyUInt8, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_maxDouble"),
+                signature: bag.add("()D"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_maxDouble, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_maxFloat"),
+                signature: bag.add("()F"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_maxFloat, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_maxInt"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_maxInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_maxInt16"),
+                signature: bag.add("()S"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_maxInt16, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_maxInt32"),
+                signature: bag.add("()I"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_maxInt32, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_maxInt64"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_maxInt64, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_maxInt8"),
+                signature: bag.add("()B"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_maxInt8, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_maxUInt"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_maxUInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_maxUInt16"),
+                signature: bag.add("()S"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_maxUInt16, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_maxUInt32"),
+                signature: bag.add("()I"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_maxUInt32, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_maxUInt64"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_maxUInt64, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_maxUInt8"),
+                signature: bag.add("()B"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_maxUInt8, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_minDouble"),
+                signature: bag.add("()D"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_minDouble, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_minFloat"),
+                signature: bag.add("()F"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_minFloat, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_minInt"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_minInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_minInt16"),
+                signature: bag.add("()S"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_minInt16, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_minInt32"),
+                signature: bag.add("()I"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_minInt32, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_minInt64"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_minInt64, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_minInt8"),
+                signature: bag.add("()B"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_minInt8, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_minUInt"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_minUInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_minUInt16"),
+                signature: bag.add("()S"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_minUInt16, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_minUInt32"),
+                signature: bag.add("()I"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_minUInt32, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_minUInt64"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_minUInt64, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_minUInt8"),
+                signature: bag.add("()B"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_minUInt8, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_trueBool"),
+                signature: bag.add("()Z"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_trueBool, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_zeroDouble"),
+                signature: bag.add("()D"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_zeroDouble, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_zeroFloat"),
+                signature: bag.add("()F"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_zeroFloat, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_zeroInt"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_zeroInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_zeroInt16"),
+                signature: bag.add("()S"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_zeroInt16, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_zeroInt32"),
+                signature: bag.add("()I"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_zeroInt32, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_zeroInt64"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_zeroInt64, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_zeroInt8"),
+                signature: bag.add("()B"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_zeroInt8, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_zeroUInt"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_zeroUInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_zeroUInt16"),
+                signature: bag.add("()S"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_zeroUInt16, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_zeroUInt32"),
+                signature: bag.add("()I"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_zeroUInt32, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_zeroUInt64"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_zeroUInt64, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_zeroUInt8"),
+                signature: bag.add("()B"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Primitives_zeroUInt8, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.Ranges...")
@@ -1690,9 +1690,29 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try env.RegisterNatives(
             TestAPI.Ranges.externalWitnessClass ?? TestAPI.Ranges.javaClass,
             JNINativeMethod(
-                name: bag.add("__jni_echoUInt8Range"),
+                name: bag.add("__jni_echoInt16Range"),
                 signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;)Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
-                fnPtr: unsafeBitCast(java_TestAPI_Ranges_echoUInt8Range, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_TestAPI_Ranges_echoInt16Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoInt32Range"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;)Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Ranges_echoInt32Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoInt64Range"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;)Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Ranges_echoInt64Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoInt8Range"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;)Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Ranges_echoInt8Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoIntRange"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;)Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Ranges_echoIntRange, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_echoUInt16Range"),
@@ -1710,64 +1730,14 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_TestAPI_Ranges_echoUInt64Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_echoUInt8Range"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;)Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Ranges_echoUInt8Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_echoUIntRange"),
                 signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;)Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
                 fnPtr: unsafeBitCast(java_TestAPI_Ranges_echoUIntRange, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_echoInt8Range"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;)Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
-                fnPtr: unsafeBitCast(java_TestAPI_Ranges_echoInt8Range, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_echoInt16Range"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;)Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
-                fnPtr: unsafeBitCast(java_TestAPI_Ranges_echoInt16Range, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_echoInt32Range"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;)Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
-                fnPtr: unsafeBitCast(java_TestAPI_Ranges_echoInt32Range, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_echoInt64Range"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;)Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
-                fnPtr: unsafeBitCast(java_TestAPI_Ranges_echoInt64Range, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_echoIntRange"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;)Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
-                fnPtr: unsafeBitCast(java_TestAPI_Ranges_echoIntRange, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_uInt8Range"),
-                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Ranges_uInt8Range, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_uInt16Range"),
-                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Ranges_uInt16Range, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_uInt32Range"),
-                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Ranges_uInt32Range, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_uInt64Range"),
-                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Ranges_uInt64Range, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_uIntRange"),
-                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Ranges_uIntRange, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_int8Range"),
-                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Ranges_int8Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_int16Range"),
@@ -1785,9 +1755,39 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_get_TestAPI_Ranges_int64Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_get_int8Range"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Ranges_int8Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_get_intRange"),
                 signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_Ranges_intRange, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_uInt16Range"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Ranges_uInt16Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_uInt32Range"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Ranges_uInt32Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_uInt64Range"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Ranges_uInt64Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_uInt8Range"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Ranges_uInt8Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_uIntRange"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Ranges_uIntRange, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.SimpleEnum...")
@@ -1795,24 +1795,19 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try env.RegisterNatives(
             TestAPI.SimpleEnum.externalWitnessClass ?? TestAPI.SimpleEnum.javaClass,
             JNINativeMethod(
-                name: bag.add("__jni_pickAColor"),
-                signature: bag.add("(J)Lcom/cricut/testapi/SimpleEnum;"),
-                fnPtr: unsafeBitCast(java_TestAPI_SimpleEnum_pickAColor, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
                 name: bag.add("__jni_hexMethod"),
                 signature: bag.add("()Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(java_TestAPI_SimpleEnum_hexMethod, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_pickAColor"),
+                signature: bag.add("(J)Lcom/cricut/testapi/SimpleEnum;"),
+                fnPtr: unsafeBitCast(java_TestAPI_SimpleEnum_pickAColor, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_resetFavoriteColor"),
                 signature: bag.add("()V"),
                 fnPtr: unsafeBitCast(java_TestAPI_SimpleEnum_resetFavoriteColor, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_hex"),
-                signature: bag.add("()J"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_SimpleEnum_hex, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_favoriteColor"),
@@ -1823,6 +1818,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_set_favoriteColor"),
                 signature: bag.add("(Lcom/cricut/testapi/SimpleEnum;)V"),
                 fnPtr: unsafeBitCast(java_set_TestAPI_SimpleEnum_favoriteColor, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_hex"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_SimpleEnum_hex, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.Strings...")
@@ -1835,19 +1835,9 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_TestAPI_Strings_echo, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_simple"),
-                signature: bag.add("()Ljava/lang/String;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Strings_simple, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
                 name: bag.add("__jni_get_accent"),
                 signature: bag.add("()Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_Strings_accent, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_script"),
-                signature: bag.add("()Ljava/lang/String;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Strings_script, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_chinese"),
@@ -1873,6 +1863,16 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_get_emojiMulti"),
                 signature: bag.add("()Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_Strings_emojiMulti, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_script"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Strings_script, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_simple"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Strings_simple, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.Structs...")
@@ -1881,11 +1881,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try _TestMethodsProtocolConverter.javaSetup(env: env)
         try env.RegisterNatives(
             _TestMethodsProtocolConverter.externalWitnessClass ?? _TestMethodsProtocolConverter.javaClass,
-            JNINativeMethod(
-                name: bag.add("__jni_foo"),
-                signature: bag.add("()V"),
-                fnPtr: unsafeBitCast(java__TestMethodsProtocolConverter_foo, to: UnsafeMutableRawPointer.self)
-            ),
             JNINativeMethod(
                 name: bag.add("__jni_bar"),
                 signature: bag.add("()Z"),
@@ -1897,19 +1892,24 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java__TestMethodsProtocolConverter_baz, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_foo"),
+                signature: bag.add("()V"),
+                fnPtr: unsafeBitCast(java__TestMethodsProtocolConverter_foo, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_garply"),
                 signature: bag.add("(Ljava/lang/String;)Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(java__TestMethodsProtocolConverter_garply, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_xyzzy"),
-                signature: bag.add("(JLjava/util/List;)Ljava/lang/String;"),
-                fnPtr: unsafeBitCast(java__TestMethodsProtocolConverter_xyzzy, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
                 name: bag.add("__jni_plugh"),
                 signature: bag.add("(Lkotlin/Triple;)Lkotlin/Triple;"),
                 fnPtr: unsafeBitCast(java__TestMethodsProtocolConverter_plugh, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_xyzzy"),
+                signature: bag.add("(JLjava/util/List;)Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java__TestMethodsProtocolConverter_xyzzy, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up _TestOptionalsProtocolConverter...")
@@ -1917,14 +1917,14 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try env.RegisterNatives(
             _TestOptionalsProtocolConverter.externalWitnessClass ?? _TestOptionalsProtocolConverter.javaClass,
             JNINativeMethod(
-                name: bag.add("__jni_wombat"),
-                signature: bag.add("(Ljava/lang/Long;)Ljava/lang/Double;"),
-                fnPtr: unsafeBitCast(java__TestOptionalsProtocolConverter_wombat, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
                 name: bag.add("__jni_spqr"),
                 signature: bag.add("(Lcom/cricut/testapi/AssociatedDataEnum;)J"),
                 fnPtr: unsafeBitCast(java__TestOptionalsProtocolConverter_spqr, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_wombat"),
+                signature: bag.add("(Ljava/lang/Long;)Ljava/lang/Double;"),
+                fnPtr: unsafeBitCast(java__TestOptionalsProtocolConverter_wombat, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_flarp"),
@@ -1962,11 +1962,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try env.RegisterNatives(
             TestAPI.TestProtocolClass.externalWitnessClass ?? TestAPI.TestProtocolClass.javaClass,
             JNINativeMethod(
-                name: bag.add("__jni_foo"),
-                signature: bag.add("()V"),
-                fnPtr: unsafeBitCast(java_TestAPI_TestProtocolClass_foo, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
                 name: bag.add("__jni_bar"),
                 signature: bag.add("()Z"),
                 fnPtr: unsafeBitCast(java_TestAPI_TestProtocolClass_bar, to: UnsafeMutableRawPointer.self)
@@ -1977,19 +1972,14 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_TestAPI_TestProtocolClass_baz, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_foo"),
+                signature: bag.add("()V"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestProtocolClass_foo, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_garply"),
                 signature: bag.add("(Ljava/lang/String;)Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(java_TestAPI_TestProtocolClass_garply, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_xyzzy"),
-                signature: bag.add("(JLjava/util/List;)Ljava/lang/String;"),
-                fnPtr: unsafeBitCast(java_TestAPI_TestProtocolClass_xyzzy, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_plugh"),
-                signature: bag.add("(Lkotlin/Triple;)Lkotlin/Triple;"),
-                fnPtr: unsafeBitCast(java_TestAPI_TestProtocolClass_plugh, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_init"),
@@ -1997,14 +1987,24 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_TestAPI_TestProtocolClass_init, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_wombat"),
-                signature: bag.add("(Ljava/lang/Long;)Ljava/lang/Double;"),
-                fnPtr: unsafeBitCast(java_TestAPI_TestProtocolClass_wombat, to: UnsafeMutableRawPointer.self)
+                name: bag.add("__jni_plugh"),
+                signature: bag.add("(Lkotlin/Triple;)Lkotlin/Triple;"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestProtocolClass_plugh, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_spqr"),
                 signature: bag.add("(Lcom/cricut/testapi/AssociatedDataEnum;)J"),
                 fnPtr: unsafeBitCast(java_TestAPI_TestProtocolClass_spqr, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_wombat"),
+                signature: bag.add("(Ljava/lang/Long;)Ljava/lang/Double;"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestProtocolClass_wombat, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_xyzzy"),
+                signature: bag.add("(JLjava/util/List;)Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestProtocolClass_xyzzy, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_corge"),
@@ -2017,11 +2017,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_set_TestAPI_TestProtocolClass_corge, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_frob"),
-                signature: bag.add("()Ljava/util/List;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_TestProtocolClass_frob, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
                 name: bag.add("__jni_get_flarp"),
                 signature: bag.add("()Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_TestProtocolClass_flarp, to: UnsafeMutableRawPointer.self)
@@ -2030,17 +2025,17 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_set_flarp"),
                 signature: bag.add("(Ljava/lang/String;)V"),
                 fnPtr: unsafeBitCast(java_set_TestAPI_TestProtocolClass_flarp, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_frob"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestProtocolClass_frob, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.TestProtocolEnum...")
         try TestAPI.TestProtocolEnum.javaSetup(env: env)
         try env.RegisterNatives(
             TestAPI.TestProtocolEnum.externalWitnessClass ?? TestAPI.TestProtocolEnum.javaClass,
-            JNINativeMethod(
-                name: bag.add("__jni_foo"),
-                signature: bag.add("()V"),
-                fnPtr: unsafeBitCast(java_TestAPI_TestProtocolEnum_foo, to: UnsafeMutableRawPointer.self)
-            ),
             JNINativeMethod(
                 name: bag.add("__jni_bar"),
                 signature: bag.add("()Z"),
@@ -2052,30 +2047,30 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_TestAPI_TestProtocolEnum_baz, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_foo"),
+                signature: bag.add("()V"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestProtocolEnum_foo, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_garply"),
                 signature: bag.add("(Ljava/lang/String;)Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(java_TestAPI_TestProtocolEnum_garply, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_xyzzy"),
-                signature: bag.add("(JLjava/util/List;)Ljava/lang/String;"),
-                fnPtr: unsafeBitCast(java_TestAPI_TestProtocolEnum_xyzzy, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
                 name: bag.add("__jni_plugh"),
                 signature: bag.add("(Lkotlin/Triple;)Lkotlin/Triple;"),
                 fnPtr: unsafeBitCast(java_TestAPI_TestProtocolEnum_plugh, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_xyzzy"),
+                signature: bag.add("(JLjava/util/List;)Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestProtocolEnum_xyzzy, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.TestProtocolStruct...")
         try TestAPI.TestProtocolStruct.javaSetup(env: env)
         try env.RegisterNatives(
             TestAPI.TestProtocolStruct.externalWitnessClass ?? TestAPI.TestProtocolStruct.javaClass,
-            JNINativeMethod(
-                name: bag.add("__jni_foo"),
-                signature: bag.add("()V"),
-                fnPtr: unsafeBitCast(java_TestAPI_TestProtocolStruct_foo, to: UnsafeMutableRawPointer.self)
-            ),
             JNINativeMethod(
                 name: bag.add("__jni_bar"),
                 signature: bag.add("()Z"),
@@ -2087,19 +2082,24 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_TestAPI_TestProtocolStruct_baz, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_foo"),
+                signature: bag.add("()V"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestProtocolStruct_foo, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_garply"),
                 signature: bag.add("(Ljava/lang/String;)Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(java_TestAPI_TestProtocolStruct_garply, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_xyzzy"),
-                signature: bag.add("(JLjava/util/List;)Ljava/lang/String;"),
-                fnPtr: unsafeBitCast(java_TestAPI_TestProtocolStruct_xyzzy, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
                 name: bag.add("__jni_plugh"),
                 signature: bag.add("(Lkotlin/Triple;)Lkotlin/Triple;"),
                 fnPtr: unsafeBitCast(java_TestAPI_TestProtocolStruct_plugh, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_xyzzy"),
+                signature: bag.add("(JLjava/util/List;)Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestProtocolStruct_xyzzy, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_frob"),
@@ -2152,9 +2152,9 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_TestAPI_URLs_echo, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_simple"),
+                name: bag.add("__jni_get_localFile"),
                 signature: bag.add("()Ljava/net/URL;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_URLs_simple, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_get_TestAPI_URLs_localFile, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_remoteFile"),
@@ -2162,9 +2162,9 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_get_TestAPI_URLs_remoteFile, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_localFile"),
+                name: bag.add("__jni_get_simple"),
                 signature: bag.add("()Ljava/net/URL;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_URLs_localFile, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_get_TestAPI_URLs_simple, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up Foundation.AttributedString.Runs.Run...")

@@ -6,7 +6,7 @@ import java.lang.Exception
 /**
  * <!-- FishyJoes.exportReference(TestProtocolClass, conformances: [TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol]) -->
  */
-class TestProtocolClass private constructor(_swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference), TestMethodsProtocol, TestOptionalsProtocol, TestPropertiesProtocol {
+class TestProtocolClass private constructor(_swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference), TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol {
     /**
      * <!-- FishyJoes.export(corge) -->
      */
@@ -17,14 +17,6 @@ class TestProtocolClass private constructor(_swiftReference: Long): com.cricut.f
     private external fun __jni_get_corge(): kotlin.String
     @JvmName("__jni_set_corge")
     private external fun __jni_set_corge(newValue: kotlin.String)
-
-    /**
-     * <!-- FishyJoes.export(frob) -->
-     */
-    override val frob: kotlin.collections.List<Double>
-      get() = __jni_get_frob()
-    @JvmName("__jni_get_frob")
-    private external fun __jni_get_frob(): kotlin.collections.List<Double>
 
     /**
      * <!-- FishyJoes.export(flarp) -->
@@ -38,13 +30,12 @@ class TestProtocolClass private constructor(_swiftReference: Long): com.cricut.f
     private external fun __jni_set_flarp(newValue: kotlin.String?)
 
     /**
-     * <!-- FishyJoes.export(foo) -->
+     * <!-- FishyJoes.export(frob) -->
      */
-    override fun foo(
-    ): kotlin.Unit = __jni_foo()
-    @JvmName("__jni_foo")
-    private external fun __jni_foo(
-    ): kotlin.Unit
+    override val frob: kotlin.collections.List<Double>
+      get() = __jni_get_frob()
+    @JvmName("__jni_get_frob")
+    private external fun __jni_get_frob(): kotlin.collections.List<Double>
 
     /**
      * <!-- FishyJoes.export(bar) -->
@@ -67,6 +58,15 @@ class TestProtocolClass private constructor(_swiftReference: Long): com.cricut.f
     ): kotlin.Unit
 
     /**
+     * <!-- FishyJoes.export(foo) -->
+     */
+    override fun foo(
+    ): kotlin.Unit = __jni_foo()
+    @JvmName("__jni_foo")
+    private external fun __jni_foo(
+    ): kotlin.Unit
+
+    /**
      * <!-- FishyJoes.export(garply) -->
      */
     override fun garply(
@@ -75,19 +75,6 @@ class TestProtocolClass private constructor(_swiftReference: Long): com.cricut.f
     @JvmName("__jni_garply")
     private external fun __jni_garply(
         str: kotlin.String
-    ): kotlin.String
-
-    /**
-     * <!-- FishyJoes.export(xyzzy) -->
-     */
-    override fun xyzzy(
-        thud: Long,
-        grault: kotlin.collections.List<Double>
-    ): kotlin.String = __jni_xyzzy(thud, grault)
-    @JvmName("__jni_xyzzy")
-    private external fun __jni_xyzzy(
-        thud: Long,
-        grault: kotlin.collections.List<Double>
     ): kotlin.String
 
     /**
@@ -102,6 +89,17 @@ class TestProtocolClass private constructor(_swiftReference: Long): com.cricut.f
     ): kotlin.Triple<Boolean, Long, kotlin.String>
 
     /**
+     * <!-- FishyJoes.export(spqr) -->
+     */
+    override fun spqr(
+        pippo: com.cricut.testapi.AssociatedDataEnum
+    ): Long = __jni_spqr(pippo)
+    @JvmName("__jni_spqr")
+    private external fun __jni_spqr(
+        pippo: com.cricut.testapi.AssociatedDataEnum
+    ): Long
+
+    /**
      * <!-- FishyJoes.export(wombat) -->
      */
     override fun wombat(
@@ -113,15 +111,17 @@ class TestProtocolClass private constructor(_swiftReference: Long): com.cricut.f
     ): Double?
 
     /**
-     * <!-- FishyJoes.export(spqr) -->
+     * <!-- FishyJoes.export(xyzzy) -->
      */
-    override fun spqr(
-        pippo: com.cricut.testapi.AssociatedDataEnum
-    ): Long = __jni_spqr(pippo)
-    @JvmName("__jni_spqr")
-    private external fun __jni_spqr(
-        pippo: com.cricut.testapi.AssociatedDataEnum
-    ): Long
+    override fun xyzzy(
+        thud: Long,
+        grault: kotlin.collections.List<Double>
+    ): kotlin.String = __jni_xyzzy(thud, grault)
+    @JvmName("__jni_xyzzy")
+    private external fun __jni_xyzzy(
+        thud: Long,
+        grault: kotlin.collections.List<Double>
+    ): kotlin.String
 
     companion object {
         /**

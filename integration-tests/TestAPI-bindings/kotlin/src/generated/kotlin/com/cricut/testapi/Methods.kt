@@ -8,20 +8,20 @@ import java.lang.Exception
  */
 class Methods private constructor(_swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference) {
     /**
-     * <!-- FishyJoes.export(instanceGet) -->
-     */
-    val instanceGet: Long
-      get() = __jni_get_instanceGet()
-    @JvmName("__jni_get_instanceGet")
-    private external fun __jni_get_instanceGet(): Long
-
-    /**
      * <!-- FishyJoes.export(garply) -->
      */
     val garply: Long
       get() = __jni_get_garply()
     @JvmName("__jni_get_garply")
     private external fun __jni_get_garply(): Long
+
+    /**
+     * <!-- FishyJoes.export(instanceGet) -->
+     */
+    val instanceGet: Long
+      get() = __jni_get_instanceGet()
+    @JvmName("__jni_get_instanceGet")
+    private external fun __jni_get_instanceGet(): Long
 
     /**
      * <!-- FishyJoes.export(instanceModifiable) -->
@@ -55,19 +55,6 @@ class Methods private constructor(_swiftReference: Long): com.cricut.fishyjoes.r
     ): Long
 
     /**
-     * <!-- FishyJoes.export(doublePlusGood) -->
-     */
-    fun doublePlusGood(
-        a: Long,
-        b: Double
-    ): Long = __jni_doublePlusGood(a, b)
-    @JvmName("__jni_doublePlusGood")
-    private external fun __jni_doublePlusGood(
-        a: Long,
-        b: Double
-    ): Long
-
-    /**
      * <!-- FishyJoes.export(async42) -->
      */
     suspend fun async42(
@@ -77,31 +64,15 @@ class Methods private constructor(_swiftReference: Long): com.cricut.fishyjoes.r
     ): kotlinx.coroutines.Deferred<Long>
 
     /**
-     * <!-- FishyJoes.export(asyncYield) -->
+     * <!-- FishyJoes.export(asyncCallbackFunc0) -->
      */
-    suspend fun asyncYield(
-    ): Long = __jni_asyncYield().await()
-    @JvmName("__jni_asyncYield")
-    private external fun __jni_asyncYield(
+    suspend fun asyncCallbackFunc0(
+        callback: (suspend () -> Long)
+    ): Long = __jni_asyncCallbackFunc0(callback).await()
+    @JvmName("__jni_asyncCallbackFunc0")
+    private external fun __jni_asyncCallbackFunc0(
+        callback: (suspend () -> Long)
     ): kotlinx.coroutines.Deferred<Long>
-
-    /**
-     * <!-- FishyJoes.export(asyncSleep) -->
-     */
-    suspend fun asyncSleep(
-    ): Long = __jni_asyncSleep().await()
-    @JvmName("__jni_asyncSleep")
-    private external fun __jni_asyncSleep(
-    ): kotlinx.coroutines.Deferred<Long>
-
-    /**
-     * <!-- FishyJoes.export(asyncVoid) -->
-     */
-    suspend fun asyncVoid(
-    ): kotlin.Unit = __jni_asyncVoid().await()
-    @JvmName("__jni_asyncVoid")
-    private external fun __jni_asyncVoid(
-    ): kotlinx.coroutines.Deferred<kotlin.Unit>
 
     /**
      * <!-- FishyJoes.export(asyncDouble) -->
@@ -128,6 +99,15 @@ class Methods private constructor(_swiftReference: Long): com.cricut.fishyjoes.r
     ): kotlinx.coroutines.Deferred<Long>
 
     /**
+     * <!-- FishyJoes.export(asyncSleep) -->
+     */
+    suspend fun asyncSleep(
+    ): Long = __jni_asyncSleep().await()
+    @JvmName("__jni_asyncSleep")
+    private external fun __jni_asyncSleep(
+    ): kotlinx.coroutines.Deferred<Long>
+
+    /**
      * <!-- FishyJoes.export(asyncThrowing) -->
      */
     suspend fun asyncThrowing(
@@ -137,15 +117,35 @@ class Methods private constructor(_swiftReference: Long): com.cricut.fishyjoes.r
     ): kotlinx.coroutines.Deferred<kotlin.Unit>
 
     /**
-     * <!-- FishyJoes.export(asyncCallbackFunc0) -->
+     * <!-- FishyJoes.export(asyncVoid) -->
      */
-    suspend fun asyncCallbackFunc0(
-        callback: (suspend () -> Long)
-    ): Long = __jni_asyncCallbackFunc0(callback).await()
-    @JvmName("__jni_asyncCallbackFunc0")
-    private external fun __jni_asyncCallbackFunc0(
-        callback: (suspend () -> Long)
+    suspend fun asyncVoid(
+    ): kotlin.Unit = __jni_asyncVoid().await()
+    @JvmName("__jni_asyncVoid")
+    private external fun __jni_asyncVoid(
+    ): kotlinx.coroutines.Deferred<kotlin.Unit>
+
+    /**
+     * <!-- FishyJoes.export(asyncYield) -->
+     */
+    suspend fun asyncYield(
+    ): Long = __jni_asyncYield().await()
+    @JvmName("__jni_asyncYield")
+    private external fun __jni_asyncYield(
     ): kotlinx.coroutines.Deferred<Long>
+
+    /**
+     * <!-- FishyJoes.export(doublePlusGood) -->
+     */
+    fun doublePlusGood(
+        a: Long,
+        b: Double
+    ): Long = __jni_doublePlusGood(a, b)
+    @JvmName("__jni_doublePlusGood")
+    private external fun __jni_doublePlusGood(
+        a: Long,
+        b: Double
+    ): Long
 
     companion object {
         /**
@@ -214,34 +214,16 @@ class Methods private constructor(_swiftReference: Long): com.cricut.fishyjoes.r
         ): kotlinx.coroutines.Deferred<Long>
 
         /**
-         * <!-- FishyJoes.export(staticAsyncYield) -->
+         * <!-- FishyJoes.export(staticAsyncCallbackFunc0) -->
          */
-        suspend fun staticAsyncYield(
-        ): Long = __jni_staticAsyncYield().await()
+        suspend fun staticAsyncCallbackFunc0(
+            callback: (suspend () -> Long)
+        ): Long = __jni_staticAsyncCallbackFunc0(callback).await()
         @JvmStatic
-        @JvmName("__jni_staticAsyncYield")
-        private external fun __jni_staticAsyncYield(
+        @JvmName("__jni_staticAsyncCallbackFunc0")
+        private external fun __jni_staticAsyncCallbackFunc0(
+            callback: (suspend () -> Long)
         ): kotlinx.coroutines.Deferred<Long>
-
-        /**
-         * <!-- FishyJoes.export(staticAsyncSleep) -->
-         */
-        suspend fun staticAsyncSleep(
-        ): Long = __jni_staticAsyncSleep().await()
-        @JvmStatic
-        @JvmName("__jni_staticAsyncSleep")
-        private external fun __jni_staticAsyncSleep(
-        ): kotlinx.coroutines.Deferred<Long>
-
-        /**
-         * <!-- FishyJoes.export(staticAsyncVoid) -->
-         */
-        suspend fun staticAsyncVoid(
-        ): kotlin.Unit = __jni_staticAsyncVoid().await()
-        @JvmStatic
-        @JvmName("__jni_staticAsyncVoid")
-        private external fun __jni_staticAsyncVoid(
-        ): kotlinx.coroutines.Deferred<kotlin.Unit>
 
         /**
          * <!-- FishyJoes.export(staticAsyncDouble) -->
@@ -270,6 +252,16 @@ class Methods private constructor(_swiftReference: Long): com.cricut.fishyjoes.r
         ): kotlinx.coroutines.Deferred<Long>
 
         /**
+         * <!-- FishyJoes.export(staticAsyncSleep) -->
+         */
+        suspend fun staticAsyncSleep(
+        ): Long = __jni_staticAsyncSleep().await()
+        @JvmStatic
+        @JvmName("__jni_staticAsyncSleep")
+        private external fun __jni_staticAsyncSleep(
+        ): kotlinx.coroutines.Deferred<Long>
+
+        /**
          * <!-- FishyJoes.export(staticAsyncThrowing) -->
          */
         suspend fun staticAsyncThrowing(
@@ -280,15 +272,23 @@ class Methods private constructor(_swiftReference: Long): com.cricut.fishyjoes.r
         ): kotlinx.coroutines.Deferred<kotlin.Unit>
 
         /**
-         * <!-- FishyJoes.export(staticAsyncCallbackFunc0) -->
+         * <!-- FishyJoes.export(staticAsyncVoid) -->
          */
-        suspend fun staticAsyncCallbackFunc0(
-            callback: (suspend () -> Long)
-        ): Long = __jni_staticAsyncCallbackFunc0(callback).await()
+        suspend fun staticAsyncVoid(
+        ): kotlin.Unit = __jni_staticAsyncVoid().await()
         @JvmStatic
-        @JvmName("__jni_staticAsyncCallbackFunc0")
-        private external fun __jni_staticAsyncCallbackFunc0(
-            callback: (suspend () -> Long)
+        @JvmName("__jni_staticAsyncVoid")
+        private external fun __jni_staticAsyncVoid(
+        ): kotlinx.coroutines.Deferred<kotlin.Unit>
+
+        /**
+         * <!-- FishyJoes.export(staticAsyncYield) -->
+         */
+        suspend fun staticAsyncYield(
+        ): Long = __jni_staticAsyncYield().await()
+        @JvmStatic
+        @JvmName("__jni_staticAsyncYield")
+        private external fun __jni_staticAsyncYield(
         ): kotlinx.coroutines.Deferred<Long>
 
         init { loadNativeLibs() }

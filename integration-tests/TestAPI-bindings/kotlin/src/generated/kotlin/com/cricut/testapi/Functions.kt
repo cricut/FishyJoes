@@ -11,6 +11,15 @@ sealed class Functions {
 
     companion object {
         /**
+         * <!-- FishyJoes.export(add3Things) -->
+         */
+        val add3Things: ((Float, Double, Long) -> Double)
+          get() = __jni_get_add3Things()
+        @JvmStatic
+        @JvmName("__jni_get_add3Things")
+        private external fun __jni_get_add3Things(): ((Float, Double, Long) -> Double)
+
+        /**
          * <!-- FishyJoes.export(const42) -->
          */
         val const42: (() -> Long)
@@ -18,6 +27,15 @@ sealed class Functions {
         @JvmStatic
         @JvmName("__jni_get_const42")
         private external fun __jni_get_const42(): (() -> Long)
+
+        /**
+         * <!-- FishyJoes.export(fifthThing) -->
+         */
+        val fifthThing: ((kotlin.String, Long, Double, kotlin.String, (() -> Long)) -> (() -> Long))
+          get() = __jni_get_fifthThing()
+        @JvmStatic
+        @JvmName("__jni_get_fifthThing")
+        private external fun __jni_get_fifthThing(): ((kotlin.String, Long, Double, kotlin.String, (() -> Long)) -> (() -> Long))
 
         /**
          * <!-- FishyJoes.export(abs) -->
@@ -38,15 +56,6 @@ sealed class Functions {
         private external fun __jni_get_intCompose(): ((((Long) -> Long), ((Long) -> Long)) -> ((Long) -> Long))
 
         /**
-         * <!-- FishyJoes.export(add3Things) -->
-         */
-        val add3Things: ((Float, Double, Long) -> Double)
-          get() = __jni_get_add3Things()
-        @JvmStatic
-        @JvmName("__jni_get_add3Things")
-        private external fun __jni_get_add3Things(): ((Float, Double, Long) -> Double)
-
-        /**
          * <!-- FishyJoes.export(makeList) -->
          */
         val makeList: ((kotlin.String, kotlin.String, kotlin.String, kotlin.String) -> kotlin.collections.List<kotlin.String>)
@@ -54,15 +63,6 @@ sealed class Functions {
         @JvmStatic
         @JvmName("__jni_get_makeList")
         private external fun __jni_get_makeList(): ((kotlin.String, kotlin.String, kotlin.String, kotlin.String) -> kotlin.collections.List<kotlin.String>)
-
-        /**
-         * <!-- FishyJoes.export(fifthThing) -->
-         */
-        val fifthThing: ((kotlin.String, Long, Double, kotlin.String, (() -> Long)) -> (() -> Long))
-          get() = __jni_get_fifthThing()
-        @JvmStatic
-        @JvmName("__jni_get_fifthThing")
-        private external fun __jni_get_fifthThing(): ((kotlin.String, Long, Double, kotlin.String, (() -> Long)) -> (() -> Long))
 
         /**
          * <!-- FishyJoes.export(sixthThing) -->

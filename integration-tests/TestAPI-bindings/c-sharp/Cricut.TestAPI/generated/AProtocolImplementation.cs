@@ -9,15 +9,15 @@ namespace Cricut.TestAPI {
     /// <!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->
     /// </summary>
     public record AProtocolImplementation {
-        public string Foo { get; set; }
         public bool Baz { get; set; }
+        public string Foo { get; set; }
 
         public AProtocolImplementation(
-            string Foo,
-            bool Baz
+            bool Baz,
+            string Foo
         ) {
-            this.Foo = Foo;
             this.Baz = Baz;
+            this.Foo = Foo;
         }
 
         /// <summary>

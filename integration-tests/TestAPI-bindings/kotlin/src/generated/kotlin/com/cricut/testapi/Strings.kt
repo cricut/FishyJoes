@@ -11,15 +11,6 @@ sealed class Strings {
 
     companion object {
         /**
-         * <!-- FishyJoes.export(simple) -->
-         */
-        val simple: kotlin.String
-          get() = __jni_get_simple()
-        @JvmStatic
-        @JvmName("__jni_get_simple")
-        private external fun __jni_get_simple(): kotlin.String
-
-        /**
          * <!-- FishyJoes.export(accent) -->
          */
         val accent: kotlin.String
@@ -27,15 +18,6 @@ sealed class Strings {
         @JvmStatic
         @JvmName("__jni_get_accent")
         private external fun __jni_get_accent(): kotlin.String
-
-        /**
-         * <!-- FishyJoes.export(script) -->
-         */
-        val script: kotlin.String
-          get() = __jni_get_script()
-        @JvmStatic
-        @JvmName("__jni_get_script")
-        private external fun __jni_get_script(): kotlin.String
 
         /**
          * <!-- FishyJoes.export(chinese) -->
@@ -81,6 +63,24 @@ sealed class Strings {
         @JvmStatic
         @JvmName("__jni_get_emojiMulti")
         private external fun __jni_get_emojiMulti(): kotlin.String
+
+        /**
+         * <!-- FishyJoes.export(script) -->
+         */
+        val script: kotlin.String
+          get() = __jni_get_script()
+        @JvmStatic
+        @JvmName("__jni_get_script")
+        private external fun __jni_get_script(): kotlin.String
+
+        /**
+         * <!-- FishyJoes.export(simple) -->
+         */
+        val simple: kotlin.String
+          get() = __jni_get_simple()
+        @JvmStatic
+        @JvmName("__jni_get_simple")
+        private external fun __jni_get_simple(): kotlin.String
 
         /**
          * <!-- FishyJoes.export(echo) -->

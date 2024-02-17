@@ -33,19 +33,6 @@ extension TestAPI.Structs.ReferenceStruct: FishyJoesNodeRuntime.NodeConverter {
             env: env,
             name: "Structs.ReferenceStruct",
             properties: [
-                "create": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0, hasNamedOptions: false) { env in
-                            let result = try TestAPI.Structs.ReferenceStruct.toNode(
-                                TestAPI.Structs.ReferenceStruct(
-                                ),
-                                env: env.env
-                            )
-                            return result
-                        }
-                    },
-                    isStatic: true
-                ),
                 "asyncGetMutable": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncGetMutable", expectedArgumentCount: 0, hasNamedOptions: false) { env in
@@ -75,6 +62,19 @@ extension TestAPI.Structs.ReferenceStruct: FishyJoesNodeRuntime.NodeConverter {
                         }
                     },
                     isStatic: false
+                ),
+                "create": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try TestAPI.Structs.ReferenceStruct.toNode(
+                                TestAPI.Structs.ReferenceStruct(
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
                 ),
                 "immutable": (
                     .accessor(

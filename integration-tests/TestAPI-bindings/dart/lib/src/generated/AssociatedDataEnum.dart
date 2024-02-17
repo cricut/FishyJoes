@@ -177,18 +177,18 @@ sealed class AssociatedDataEnum {
         });
     }
 
-    /// <!-- FishyJoes.export(staticThing) -->
-    static TestAPI.AssociatedDataEnum get staticThing =>
-        check((exn) =>
-            consumeCreatedRef<TestAPI.AssociatedDataEnum>(f__iota_get_TestAPI_AssociatedDataEnum_staticThing(Loader.shared.env, exn))
-        )
-    ;
     /// <!-- FishyJoes.export(intValue) -->
     int get intValue =>
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
                 f__iota_get_TestAPI_AssociatedDataEnum_intValue(Loader.shared.env, _thisHandle.ptr, exn)
             )
+        )
+    ;
+    /// <!-- FishyJoes.export(staticThing) -->
+    static TestAPI.AssociatedDataEnum get staticThing =>
+        check((exn) =>
+            consumeCreatedRef<TestAPI.AssociatedDataEnum>(f__iota_get_TestAPI_AssociatedDataEnum_staticThing(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(plus) -->

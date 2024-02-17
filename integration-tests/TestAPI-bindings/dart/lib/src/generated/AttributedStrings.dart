@@ -46,22 +46,10 @@ class AttributedStrings {
         throw UnsupportedError('This class is supposed to be uninhabited');
     });
 
-    /// <!-- FishyJoes.export(simple) -->
-    static FishyJoesRuntime.AttributedString get simple =>
-        check((exn) =>
-            consumeCreatedRef<FishyJoesRuntime.AttributedString>(f__iota_get_TestAPI_AttributedStrings_simple(Loader.shared.env, exn))
-        )
-    ;
     /// <!-- FishyJoes.export(accent) -->
     static FishyJoesRuntime.AttributedString get accent =>
         check((exn) =>
             consumeCreatedRef<FishyJoesRuntime.AttributedString>(f__iota_get_TestAPI_AttributedStrings_accent(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(script) -->
-    static FishyJoesRuntime.AttributedString get script =>
-        check((exn) =>
-            consumeCreatedRef<FishyJoesRuntime.AttributedString>(f__iota_get_TestAPI_AttributedStrings_script(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(chinese) -->
@@ -100,42 +88,18 @@ class AttributedStrings {
             consumeCreatedRef<FishyJoesRuntime.AttributedString>(f__iota_get_TestAPI_AttributedStrings_polyglot(Loader.shared.env, exn))
         )
     ;
-    /// <!-- FishyJoes.export(echo) -->
-    static FishyJoesRuntime.AttributedString echo(
-        FishyJoesRuntime.AttributedString string,
-    ) =>
-        GCRef.using(string, (_stringHandle) =>
-            consumeCreatedRef<FishyJoesRuntime.AttributedString>(check((OutCreatedRef _exn) => f__iota_TestAPI_AttributedStrings_echo(Loader.shared.env, _stringHandle.ptr, _exn)))
+    /// <!-- FishyJoes.export(script) -->
+    static FishyJoesRuntime.AttributedString get script =>
+        check((exn) =>
+            consumeCreatedRef<FishyJoesRuntime.AttributedString>(f__iota_get_TestAPI_AttributedStrings_script(Loader.shared.env, exn))
         )
     ;
-
-    /// <!-- FishyJoes.export(firstIndex) -->
-    static FishyJoesRuntime.AttributedString_Index firstIndex(
-        FishyJoesRuntime.AttributedString /* of */ string,
-    ) =>
-        GCRef.using(string, (_stringHandle) =>
-            consumeCreatedRef<FishyJoesRuntime.AttributedString_Index>(check((OutCreatedRef _exn) => f__iota_TestAPI_AttributedStrings_firstIndex(Loader.shared.env, _stringHandle.ptr, _exn)))
+    /// <!-- FishyJoes.export(simple) -->
+    static FishyJoesRuntime.AttributedString get simple =>
+        check((exn) =>
+            consumeCreatedRef<FishyJoesRuntime.AttributedString>(f__iota_get_TestAPI_AttributedStrings_simple(Loader.shared.env, exn))
         )
     ;
-
-    /// <!-- FishyJoes.export(lastIndex) -->
-    static FishyJoesRuntime.AttributedString_Index lastIndex(
-        FishyJoesRuntime.AttributedString /* of */ string,
-    ) =>
-        GCRef.using(string, (_stringHandle) =>
-            consumeCreatedRef<FishyJoesRuntime.AttributedString_Index>(check((OutCreatedRef _exn) => f__iota_TestAPI_AttributedStrings_lastIndex(Loader.shared.env, _stringHandle.ptr, _exn)))
-        )
-    ;
-
-    /// <!-- FishyJoes.export(fullRange) -->
-    static FishyJoesRuntime.SwiftRange<FishyJoesRuntime.AttributedString_Index> fullRange(
-        FishyJoesRuntime.AttributedString /* of */ string,
-    ) =>
-        GCRef.using(string, (_stringHandle) =>
-            consumeCreatedRef<FishyJoesRuntime.SwiftRange<FishyJoesRuntime.AttributedString_Index>>(check((OutCreatedRef _exn) => f__iota_TestAPI_AttributedStrings_fullRange(Loader.shared.env, _stringHandle.ptr, _exn)))
-        )
-    ;
-
     /// <!-- FishyJoes.export(attributedCharacters) -->
     static List<FishyJoesRuntime.AttributedSubstring> attributedCharacters(
         FishyJoesRuntime.AttributedString /* of */ string,
@@ -154,12 +118,48 @@ class AttributedStrings {
         )
     ;
 
+    /// <!-- FishyJoes.export(echo) -->
+    static FishyJoesRuntime.AttributedString echo(
+        FishyJoesRuntime.AttributedString string,
+    ) =>
+        GCRef.using(string, (_stringHandle) =>
+            consumeCreatedRef<FishyJoesRuntime.AttributedString>(check((OutCreatedRef _exn) => f__iota_TestAPI_AttributedStrings_echo(Loader.shared.env, _stringHandle.ptr, _exn)))
+        )
+    ;
+
     /// <!-- FishyJoes.export(emptyAttributeRuns) -->
     static List<FishyJoesRuntime.AttributedString_Runs_Run> emptyAttributeRuns(
         FishyJoesRuntime.AttributedString /* of */ string,
     ) =>
         GCRef.using(string, (_stringHandle) =>
             consumeCreatedRef<List<FishyJoesRuntime.AttributedString_Runs_Run>>(check((OutCreatedRef _exn) => f__iota_TestAPI_AttributedStrings_emptyAttributeRuns(Loader.shared.env, _stringHandle.ptr, _exn)))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(firstIndex) -->
+    static FishyJoesRuntime.AttributedString_Index firstIndex(
+        FishyJoesRuntime.AttributedString /* of */ string,
+    ) =>
+        GCRef.using(string, (_stringHandle) =>
+            consumeCreatedRef<FishyJoesRuntime.AttributedString_Index>(check((OutCreatedRef _exn) => f__iota_TestAPI_AttributedStrings_firstIndex(Loader.shared.env, _stringHandle.ptr, _exn)))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(fullRange) -->
+    static FishyJoesRuntime.SwiftRange<FishyJoesRuntime.AttributedString_Index> fullRange(
+        FishyJoesRuntime.AttributedString /* of */ string,
+    ) =>
+        GCRef.using(string, (_stringHandle) =>
+            consumeCreatedRef<FishyJoesRuntime.SwiftRange<FishyJoesRuntime.AttributedString_Index>>(check((OutCreatedRef _exn) => f__iota_TestAPI_AttributedStrings_fullRange(Loader.shared.env, _stringHandle.ptr, _exn)))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(lastIndex) -->
+    static FishyJoesRuntime.AttributedString_Index lastIndex(
+        FishyJoesRuntime.AttributedString /* of */ string,
+    ) =>
+        GCRef.using(string, (_stringHandle) =>
+            consumeCreatedRef<FishyJoesRuntime.AttributedString_Index>(check((OutCreatedRef _exn) => f__iota_TestAPI_AttributedStrings_lastIndex(Loader.shared.env, _stringHandle.ptr, _exn)))
         )
     ;
 

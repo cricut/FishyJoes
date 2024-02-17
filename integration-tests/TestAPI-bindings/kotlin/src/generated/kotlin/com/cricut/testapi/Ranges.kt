@@ -11,13 +11,49 @@ sealed class Ranges {
 
     companion object {
         /**
-         * <!-- FishyJoes.export(uInt8Range) -->
+         * <!-- FishyJoes.export(int16Range) -->
          */
-        val uInt8Range: com.cricut.fishyjoes.runtime.SwiftRange<UByte>
-          get() = __jni_get_uInt8Range()
+        val int16Range: com.cricut.fishyjoes.runtime.SwiftRange<Short>
+          get() = __jni_get_int16Range()
         @JvmStatic
-        @JvmName("__jni_get_uInt8Range")
-        private external fun __jni_get_uInt8Range(): com.cricut.fishyjoes.runtime.SwiftRange<UByte>
+        @JvmName("__jni_get_int16Range")
+        private external fun __jni_get_int16Range(): com.cricut.fishyjoes.runtime.SwiftRange<Short>
+
+        /**
+         * <!-- FishyJoes.export(int32Range) -->
+         */
+        val int32Range: com.cricut.fishyjoes.runtime.SwiftRange<Int>
+          get() = __jni_get_int32Range()
+        @JvmStatic
+        @JvmName("__jni_get_int32Range")
+        private external fun __jni_get_int32Range(): com.cricut.fishyjoes.runtime.SwiftRange<Int>
+
+        /**
+         * <!-- FishyJoes.export(int64Range) -->
+         */
+        val int64Range: com.cricut.fishyjoes.runtime.SwiftRange<Long>
+          get() = __jni_get_int64Range()
+        @JvmStatic
+        @JvmName("__jni_get_int64Range")
+        private external fun __jni_get_int64Range(): com.cricut.fishyjoes.runtime.SwiftRange<Long>
+
+        /**
+         * <!-- FishyJoes.export(int8Range) -->
+         */
+        val int8Range: com.cricut.fishyjoes.runtime.SwiftRange<Byte>
+          get() = __jni_get_int8Range()
+        @JvmStatic
+        @JvmName("__jni_get_int8Range")
+        private external fun __jni_get_int8Range(): com.cricut.fishyjoes.runtime.SwiftRange<Byte>
+
+        /**
+         * <!-- FishyJoes.export(intRange) -->
+         */
+        val intRange: com.cricut.fishyjoes.runtime.SwiftRange<Long>
+          get() = __jni_get_intRange()
+        @JvmStatic
+        @JvmName("__jni_get_intRange")
+        private external fun __jni_get_intRange(): com.cricut.fishyjoes.runtime.SwiftRange<Long>
 
         /**
          * <!-- FishyJoes.export(uInt16Range) -->
@@ -47,6 +83,15 @@ sealed class Ranges {
         private external fun __jni_get_uInt64Range(): com.cricut.fishyjoes.runtime.SwiftRange<ULong>
 
         /**
+         * <!-- FishyJoes.export(uInt8Range) -->
+         */
+        val uInt8Range: com.cricut.fishyjoes.runtime.SwiftRange<UByte>
+          get() = __jni_get_uInt8Range()
+        @JvmStatic
+        @JvmName("__jni_get_uInt8Range")
+        private external fun __jni_get_uInt8Range(): com.cricut.fishyjoes.runtime.SwiftRange<UByte>
+
+        /**
          * <!-- FishyJoes.export(uIntRange) -->
          */
         val uIntRange: com.cricut.fishyjoes.runtime.SwiftRange<ULong>
@@ -54,123 +99,6 @@ sealed class Ranges {
         @JvmStatic
         @JvmName("__jni_get_uIntRange")
         private external fun __jni_get_uIntRange(): com.cricut.fishyjoes.runtime.SwiftRange<ULong>
-
-        /**
-         * <!-- FishyJoes.export(int8Range) -->
-         */
-        val int8Range: com.cricut.fishyjoes.runtime.SwiftRange<Byte>
-          get() = __jni_get_int8Range()
-        @JvmStatic
-        @JvmName("__jni_get_int8Range")
-        private external fun __jni_get_int8Range(): com.cricut.fishyjoes.runtime.SwiftRange<Byte>
-
-        /**
-         * <!-- FishyJoes.export(int16Range) -->
-         */
-        val int16Range: com.cricut.fishyjoes.runtime.SwiftRange<Short>
-          get() = __jni_get_int16Range()
-        @JvmStatic
-        @JvmName("__jni_get_int16Range")
-        private external fun __jni_get_int16Range(): com.cricut.fishyjoes.runtime.SwiftRange<Short>
-
-        /**
-         * <!-- FishyJoes.export(int32Range) -->
-         */
-        val int32Range: com.cricut.fishyjoes.runtime.SwiftRange<Int>
-          get() = __jni_get_int32Range()
-        @JvmStatic
-        @JvmName("__jni_get_int32Range")
-        private external fun __jni_get_int32Range(): com.cricut.fishyjoes.runtime.SwiftRange<Int>
-
-        /**
-         * <!-- FishyJoes.export(int64Range) -->
-         */
-        val int64Range: com.cricut.fishyjoes.runtime.SwiftRange<Long>
-          get() = __jni_get_int64Range()
-        @JvmStatic
-        @JvmName("__jni_get_int64Range")
-        private external fun __jni_get_int64Range(): com.cricut.fishyjoes.runtime.SwiftRange<Long>
-
-        /**
-         * <!-- FishyJoes.export(intRange) -->
-         */
-        val intRange: com.cricut.fishyjoes.runtime.SwiftRange<Long>
-          get() = __jni_get_intRange()
-        @JvmStatic
-        @JvmName("__jni_get_intRange")
-        private external fun __jni_get_intRange(): com.cricut.fishyjoes.runtime.SwiftRange<Long>
-
-        /**
-         * <!-- FishyJoes.export(echoUInt8Range) -->
-         */
-        fun echoUInt8Range(
-            range: com.cricut.fishyjoes.runtime.SwiftRange<UByte>
-        ): com.cricut.fishyjoes.runtime.SwiftRange<UByte> = __jni_echoUInt8Range(range)
-        @JvmStatic
-        @JvmName("__jni_echoUInt8Range")
-        private external fun __jni_echoUInt8Range(
-            range: com.cricut.fishyjoes.runtime.SwiftRange<UByte>
-        ): com.cricut.fishyjoes.runtime.SwiftRange<UByte>
-
-        /**
-         * <!-- FishyJoes.export(echoUInt16Range) -->
-         */
-        fun echoUInt16Range(
-            range: com.cricut.fishyjoes.runtime.SwiftRange<UShort>
-        ): com.cricut.fishyjoes.runtime.SwiftRange<UShort> = __jni_echoUInt16Range(range)
-        @JvmStatic
-        @JvmName("__jni_echoUInt16Range")
-        private external fun __jni_echoUInt16Range(
-            range: com.cricut.fishyjoes.runtime.SwiftRange<UShort>
-        ): com.cricut.fishyjoes.runtime.SwiftRange<UShort>
-
-        /**
-         * <!-- FishyJoes.export(echoUInt32Range) -->
-         */
-        fun echoUInt32Range(
-            range: com.cricut.fishyjoes.runtime.SwiftRange<UInt>
-        ): com.cricut.fishyjoes.runtime.SwiftRange<UInt> = __jni_echoUInt32Range(range)
-        @JvmStatic
-        @JvmName("__jni_echoUInt32Range")
-        private external fun __jni_echoUInt32Range(
-            range: com.cricut.fishyjoes.runtime.SwiftRange<UInt>
-        ): com.cricut.fishyjoes.runtime.SwiftRange<UInt>
-
-        /**
-         * <!-- FishyJoes.export(echoUInt64Range) -->
-         */
-        fun echoUInt64Range(
-            range: com.cricut.fishyjoes.runtime.SwiftRange<ULong>
-        ): com.cricut.fishyjoes.runtime.SwiftRange<ULong> = __jni_echoUInt64Range(range)
-        @JvmStatic
-        @JvmName("__jni_echoUInt64Range")
-        private external fun __jni_echoUInt64Range(
-            range: com.cricut.fishyjoes.runtime.SwiftRange<ULong>
-        ): com.cricut.fishyjoes.runtime.SwiftRange<ULong>
-
-        /**
-         * <!-- FishyJoes.export(echoUIntRange) -->
-         */
-        fun echoUIntRange(
-            range: com.cricut.fishyjoes.runtime.SwiftRange<ULong>
-        ): com.cricut.fishyjoes.runtime.SwiftRange<ULong> = __jni_echoUIntRange(range)
-        @JvmStatic
-        @JvmName("__jni_echoUIntRange")
-        private external fun __jni_echoUIntRange(
-            range: com.cricut.fishyjoes.runtime.SwiftRange<ULong>
-        ): com.cricut.fishyjoes.runtime.SwiftRange<ULong>
-
-        /**
-         * <!-- FishyJoes.export(echoInt8Range) -->
-         */
-        fun echoInt8Range(
-            range: com.cricut.fishyjoes.runtime.SwiftRange<Byte>
-        ): com.cricut.fishyjoes.runtime.SwiftRange<Byte> = __jni_echoInt8Range(range)
-        @JvmStatic
-        @JvmName("__jni_echoInt8Range")
-        private external fun __jni_echoInt8Range(
-            range: com.cricut.fishyjoes.runtime.SwiftRange<Byte>
-        ): com.cricut.fishyjoes.runtime.SwiftRange<Byte>
 
         /**
          * <!-- FishyJoes.export(echoInt16Range) -->
@@ -209,6 +137,18 @@ sealed class Ranges {
         ): com.cricut.fishyjoes.runtime.SwiftRange<Long>
 
         /**
+         * <!-- FishyJoes.export(echoInt8Range) -->
+         */
+        fun echoInt8Range(
+            range: com.cricut.fishyjoes.runtime.SwiftRange<Byte>
+        ): com.cricut.fishyjoes.runtime.SwiftRange<Byte> = __jni_echoInt8Range(range)
+        @JvmStatic
+        @JvmName("__jni_echoInt8Range")
+        private external fun __jni_echoInt8Range(
+            range: com.cricut.fishyjoes.runtime.SwiftRange<Byte>
+        ): com.cricut.fishyjoes.runtime.SwiftRange<Byte>
+
+        /**
          * <!-- FishyJoes.export(echoIntRange) -->
          */
         fun echoIntRange(
@@ -219,6 +159,66 @@ sealed class Ranges {
         private external fun __jni_echoIntRange(
             range: com.cricut.fishyjoes.runtime.SwiftRange<Long>
         ): com.cricut.fishyjoes.runtime.SwiftRange<Long>
+
+        /**
+         * <!-- FishyJoes.export(echoUInt16Range) -->
+         */
+        fun echoUInt16Range(
+            range: com.cricut.fishyjoes.runtime.SwiftRange<UShort>
+        ): com.cricut.fishyjoes.runtime.SwiftRange<UShort> = __jni_echoUInt16Range(range)
+        @JvmStatic
+        @JvmName("__jni_echoUInt16Range")
+        private external fun __jni_echoUInt16Range(
+            range: com.cricut.fishyjoes.runtime.SwiftRange<UShort>
+        ): com.cricut.fishyjoes.runtime.SwiftRange<UShort>
+
+        /**
+         * <!-- FishyJoes.export(echoUInt32Range) -->
+         */
+        fun echoUInt32Range(
+            range: com.cricut.fishyjoes.runtime.SwiftRange<UInt>
+        ): com.cricut.fishyjoes.runtime.SwiftRange<UInt> = __jni_echoUInt32Range(range)
+        @JvmStatic
+        @JvmName("__jni_echoUInt32Range")
+        private external fun __jni_echoUInt32Range(
+            range: com.cricut.fishyjoes.runtime.SwiftRange<UInt>
+        ): com.cricut.fishyjoes.runtime.SwiftRange<UInt>
+
+        /**
+         * <!-- FishyJoes.export(echoUInt64Range) -->
+         */
+        fun echoUInt64Range(
+            range: com.cricut.fishyjoes.runtime.SwiftRange<ULong>
+        ): com.cricut.fishyjoes.runtime.SwiftRange<ULong> = __jni_echoUInt64Range(range)
+        @JvmStatic
+        @JvmName("__jni_echoUInt64Range")
+        private external fun __jni_echoUInt64Range(
+            range: com.cricut.fishyjoes.runtime.SwiftRange<ULong>
+        ): com.cricut.fishyjoes.runtime.SwiftRange<ULong>
+
+        /**
+         * <!-- FishyJoes.export(echoUInt8Range) -->
+         */
+        fun echoUInt8Range(
+            range: com.cricut.fishyjoes.runtime.SwiftRange<UByte>
+        ): com.cricut.fishyjoes.runtime.SwiftRange<UByte> = __jni_echoUInt8Range(range)
+        @JvmStatic
+        @JvmName("__jni_echoUInt8Range")
+        private external fun __jni_echoUInt8Range(
+            range: com.cricut.fishyjoes.runtime.SwiftRange<UByte>
+        ): com.cricut.fishyjoes.runtime.SwiftRange<UByte>
+
+        /**
+         * <!-- FishyJoes.export(echoUIntRange) -->
+         */
+        fun echoUIntRange(
+            range: com.cricut.fishyjoes.runtime.SwiftRange<ULong>
+        ): com.cricut.fishyjoes.runtime.SwiftRange<ULong> = __jni_echoUIntRange(range)
+        @JvmStatic
+        @JvmName("__jni_echoUIntRange")
+        private external fun __jni_echoUIntRange(
+            range: com.cricut.fishyjoes.runtime.SwiftRange<ULong>
+        ): com.cricut.fishyjoes.runtime.SwiftRange<ULong>
 
         init { loadNativeLibs() }
     }

@@ -46,64 +46,16 @@ class Collections {
         throw UnsupportedError('This class is supposed to be uninhabited');
     });
 
-    /// <!-- FishyJoes.export(arrayOfInt) -->
-    static List<int> get arrayOfInt =>
-        check((exn) =>
-            consumeCreatedRef<List<int>>(f__iota_get_TestAPI_Collections_arrayOfInt(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(setOfInt) -->
-    static Set<int> get setOfInt =>
-        check((exn) =>
-            consumeCreatedRef<Set<int>>(f__iota_get_TestAPI_Collections_setOfInt(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(dictionaryOfIntToInt) -->
-    static Map<int, int> get dictionaryOfIntToInt =>
-        check((exn) =>
-            consumeCreatedRef<Map<int, int>>(f__iota_get_TestAPI_Collections_dictionaryOfIntToInt(Loader.shared.env, exn))
-        )
-    ;
     /// <!-- FishyJoes.export(arrayOfBigTuples) -->
     static List<tuple.Tuple4<int, int, int, int>> get arrayOfBigTuples =>
         check((exn) =>
             consumeCreatedRef<List<tuple.Tuple4<int, int, int, int>>>(f__iota_get_TestAPI_Collections_arrayOfBigTuples(Loader.shared.env, exn))
         )
     ;
-    /// <!-- FishyJoes.export(maybeArrayOfInt) -->
-    static List<int>? get maybeArrayOfInt =>
+    /// <!-- FishyJoes.export(arrayOfInt) -->
+    static List<int> get arrayOfInt =>
         check((exn) =>
-            consumeCreatedRef<List<int>?>(f__iota_get_TestAPI_Collections_maybeArrayOfInt(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(maybeSetOfInt) -->
-    static Set<int>? get maybeSetOfInt =>
-        check((exn) =>
-            consumeCreatedRef<Set<int>?>(f__iota_get_TestAPI_Collections_maybeSetOfInt(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(maybeDictionaryOfIntToInt) -->
-    static Map<int, int>? get maybeDictionaryOfIntToInt =>
-        check((exn) =>
-            consumeCreatedRef<Map<int, int>?>(f__iota_get_TestAPI_Collections_maybeDictionaryOfIntToInt(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(maybeArrayOfMaybeInt) -->
-    static List<int?>? get maybeArrayOfMaybeInt =>
-        check((exn) =>
-            consumeCreatedRef<List<int?>?>(f__iota_get_TestAPI_Collections_maybeArrayOfMaybeInt(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(maybeSetOfMaybeInt) -->
-    static Set<int?>? get maybeSetOfMaybeInt =>
-        check((exn) =>
-            consumeCreatedRef<Set<int?>?>(f__iota_get_TestAPI_Collections_maybeSetOfMaybeInt(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(maybeDictionaryOfIntToMaybeInt) -->
-    static Map<int, int?>? get maybeDictionaryOfIntToMaybeInt =>
-        check((exn) =>
-            consumeCreatedRef<Map<int, int?>?>(f__iota_get_TestAPI_Collections_maybeDictionaryOfIntToMaybeInt(Loader.shared.env, exn))
+            consumeCreatedRef<List<int>>(f__iota_get_TestAPI_Collections_arrayOfInt(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(defaultCollectionHolder) -->
@@ -112,21 +64,72 @@ class Collections {
             consumeCreatedRef<TestAPI.Collections_CollectionHolder>(f__iota_get_TestAPI_Collections_defaultCollectionHolder(Loader.shared.env, exn))
         )
     ;
+    /// <!-- FishyJoes.export(dictionaryOfIntToInt) -->
+    static Map<int, int> get dictionaryOfIntToInt =>
+        check((exn) =>
+            consumeCreatedRef<Map<int, int>>(f__iota_get_TestAPI_Collections_dictionaryOfIntToInt(Loader.shared.env, exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(maybeArrayOfInt) -->
+    static List<int>? get maybeArrayOfInt =>
+        check((exn) =>
+            consumeCreatedRef<List<int>?>(f__iota_get_TestAPI_Collections_maybeArrayOfInt(Loader.shared.env, exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(maybeArrayOfMaybeInt) -->
+    static List<int?>? get maybeArrayOfMaybeInt =>
+        check((exn) =>
+            consumeCreatedRef<List<int?>?>(f__iota_get_TestAPI_Collections_maybeArrayOfMaybeInt(Loader.shared.env, exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(maybeDictionaryOfIntToInt) -->
+    static Map<int, int>? get maybeDictionaryOfIntToInt =>
+        check((exn) =>
+            consumeCreatedRef<Map<int, int>?>(f__iota_get_TestAPI_Collections_maybeDictionaryOfIntToInt(Loader.shared.env, exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(maybeDictionaryOfIntToMaybeInt) -->
+    static Map<int, int?>? get maybeDictionaryOfIntToMaybeInt =>
+        check((exn) =>
+            consumeCreatedRef<Map<int, int?>?>(f__iota_get_TestAPI_Collections_maybeDictionaryOfIntToMaybeInt(Loader.shared.env, exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(maybeSetOfInt) -->
+    static Set<int>? get maybeSetOfInt =>
+        check((exn) =>
+            consumeCreatedRef<Set<int>?>(f__iota_get_TestAPI_Collections_maybeSetOfInt(Loader.shared.env, exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(maybeSetOfMaybeInt) -->
+    static Set<int?>? get maybeSetOfMaybeInt =>
+        check((exn) =>
+            consumeCreatedRef<Set<int?>?>(f__iota_get_TestAPI_Collections_maybeSetOfMaybeInt(Loader.shared.env, exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(setOfInt) -->
+    static Set<int> get setOfInt =>
+        check((exn) =>
+            consumeCreatedRef<Set<int>>(f__iota_get_TestAPI_Collections_setOfInt(Loader.shared.env, exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(collectionMapper) -->
+    static List<int?>? collectionMapper(
+        List<int?>? collection,
+        List<int?>? Function(List<int?>?) mapper,
+    ) =>
+        GCRef.using(collection, (_collectionHandle) =>
+            GCRef.using(mapper, (_mapperHandle) =>
+                consumeCreatedRef<List<int?>?>(check((OutCreatedRef _exn) => f__iota_TestAPI_Collections_collectionMapper(Loader.shared.env, _collectionHandle.ptr, _mapperHandle.ptr, _exn)))
+            )
+        )
+    ;
+
     /// <!-- FishyJoes.export(echoArrayOfInt) -->
     static List<int> echoArrayOfInt(
         List<int> arrayOfInt,
     ) =>
         GCRef.using(arrayOfInt, (_arrayOfIntHandle) =>
             consumeCreatedRef<List<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Collections_echoArrayOfInt(Loader.shared.env, _arrayOfIntHandle.ptr, _exn)))
-        )
-    ;
-
-    /// <!-- FishyJoes.export(echoSetOfInt) -->
-    static Set<int> echoSetOfInt(
-        Set<int> setOfInt,
-    ) =>
-        GCRef.using(setOfInt, (_setOfIntHandle) =>
-            consumeCreatedRef<Set<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Collections_echoSetOfInt(Loader.shared.env, _setOfIntHandle.ptr, _exn)))
         )
     ;
 
@@ -148,15 +151,6 @@ class Collections {
         )
     ;
 
-    /// <!-- FishyJoes.export(echoMaybeSetOfMaybeInt) -->
-    static Set<int?>? echoMaybeSetOfMaybeInt(
-        Set<int?>? maybeSetOfMaybeInt,
-    ) =>
-        GCRef.using(maybeSetOfMaybeInt, (_maybeSetOfMaybeIntHandle) =>
-            consumeCreatedRef<Set<int?>?>(check((OutCreatedRef _exn) => f__iota_TestAPI_Collections_echoMaybeSetOfMaybeInt(Loader.shared.env, _maybeSetOfMaybeIntHandle.ptr, _exn)))
-        )
-    ;
-
     /// <!-- FishyJoes.export(echoMaybeDictionaryOfIntToMaybeInt) -->
     static Map<int, int?>? echoMaybeDictionaryOfIntToMaybeInt(
         Map<int, int?>? maybeDictionaryOfIntToMaybeInt,
@@ -166,15 +160,21 @@ class Collections {
         )
     ;
 
-    /// <!-- FishyJoes.export(collectionMapper) -->
-    static List<int?>? collectionMapper(
-        List<int?>? collection,
-        List<int?>? Function(List<int?>?) mapper,
+    /// <!-- FishyJoes.export(echoMaybeSetOfMaybeInt) -->
+    static Set<int?>? echoMaybeSetOfMaybeInt(
+        Set<int?>? maybeSetOfMaybeInt,
     ) =>
-        GCRef.using(collection, (_collectionHandle) =>
-            GCRef.using(mapper, (_mapperHandle) =>
-                consumeCreatedRef<List<int?>?>(check((OutCreatedRef _exn) => f__iota_TestAPI_Collections_collectionMapper(Loader.shared.env, _collectionHandle.ptr, _mapperHandle.ptr, _exn)))
-            )
+        GCRef.using(maybeSetOfMaybeInt, (_maybeSetOfMaybeIntHandle) =>
+            consumeCreatedRef<Set<int?>?>(check((OutCreatedRef _exn) => f__iota_TestAPI_Collections_echoMaybeSetOfMaybeInt(Loader.shared.env, _maybeSetOfMaybeIntHandle.ptr, _exn)))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(echoSetOfInt) -->
+    static Set<int> echoSetOfInt(
+        Set<int> setOfInt,
+    ) =>
+        GCRef.using(setOfInt, (_setOfIntHandle) =>
+            consumeCreatedRef<Set<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Collections_echoSetOfInt(Loader.shared.env, _setOfIntHandle.ptr, _exn)))
         )
     ;
 

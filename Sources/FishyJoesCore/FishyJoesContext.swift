@@ -175,7 +175,7 @@ public class FishyJoesContext {
         }
         
         for (type, methods) in methodsToTranslateForTypeDict {
-            for method in methods.compactMap(Method.init) {
+            for method in methods.sorted(by: { $0.name < $1.name }).compactMap(Method.init) {
                 debugContext = "Translating method \(type.name).\(method.name)"
                 collectedFragments.append(contentsOf: kotlinTranslator.translate(method: method, context: self))
                 collectedFragments.append(contentsOf: iotaTranslator.translate(method: method, context: self))
@@ -183,7 +183,7 @@ public class FishyJoesContext {
         }
 
         for type in templateContext.types.types {
-            for variable in type.rawVariables {
+            for variable in type.rawVariables.sorted(by: { $0.name < $1.name }) {
                 debugContext = "Translating variable \(type.name).\(variable.name)"
                 guard variable.exportAnnotation != nil else { continue }
                 collectedFragments.append(contentsOf: kotlinTranslator.translate(variable: variable, context: self))

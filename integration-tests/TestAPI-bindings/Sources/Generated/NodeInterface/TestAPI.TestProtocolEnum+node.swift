@@ -22,19 +22,6 @@ extension TestAPI.TestProtocolEnum: FishyJoesNodeRuntime.NodeConverter {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let object = try env.createObject()
         let props = try NodeClass.descriptorsFor(properties: [
-            "foo": (
-                .method { env, info in
-                    FishyJoesNodeRuntime.callbackBody(env, info, name: "foo", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                        let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
-                            env.argument(at: 0, converter: TestAPI.TestProtocolEnum.self).foo(
-                            ),
-                            env: env.env
-                        )
-                        return result
-                    }
-                },
-                isStatic: true
-            ),
             "bar": (
                 .method { env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "bar", expectedArgumentCount: 1, hasNamedOptions: false) { env in
@@ -62,12 +49,39 @@ extension TestAPI.TestProtocolEnum: FishyJoesNodeRuntime.NodeConverter {
                 },
                 isStatic: true
             ),
+            "foo": (
+                .method { env, info in
+                    FishyJoesNodeRuntime.callbackBody(env, info, name: "foo", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                        let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
+                            env.argument(at: 0, converter: TestAPI.TestProtocolEnum.self).foo(
+                            ),
+                            env: env.env
+                        )
+                        return result
+                    }
+                },
+                isStatic: true
+            ),
             "garply": (
                 .method { env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "garply", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                         let result = try Swift.String.toNode(
                             env.argument(at: 0, converter: TestAPI.TestProtocolEnum.self).garply(
                                 try env.argument(at: 1, converter: Swift.String.self)
+                            ),
+                            env: env.env
+                        )
+                        return result
+                    }
+                },
+                isStatic: true
+            ),
+            "plugh": (
+                .method { env, info in
+                    FishyJoesNodeRuntime.callbackBody(env, info, name: "plugh", expectedArgumentCount: 2, hasNamedOptions: false) { env in
+                        let result = try Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.toNode(
+                            env.argument(at: 0, converter: TestAPI.TestProtocolEnum.self).plugh(
+                                fred: try env.argument(at: 1, converter: Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>.self)
                             ),
                             env: env.env
                         )
@@ -83,20 +97,6 @@ extension TestAPI.TestProtocolEnum: FishyJoesNodeRuntime.NodeConverter {
                             env.argument(at: 0, converter: TestAPI.TestProtocolEnum.self).xyzzy(
                                 thud: try env.argument(at: 1, converter: Swift.Int.self),
                                 grault: try env.argument(at: 2, converter: ArrayConverter<Swift.Double>.self)
-                            ),
-                            env: env.env
-                        )
-                        return result
-                    }
-                },
-                isStatic: true
-            ),
-            "plugh": (
-                .method { env, info in
-                    FishyJoesNodeRuntime.callbackBody(env, info, name: "plugh", expectedArgumentCount: 2, hasNamedOptions: false) { env in
-                        let result = try Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.toNode(
-                            env.argument(at: 0, converter: TestAPI.TestProtocolEnum.self).plugh(
-                                fred: try env.argument(at: 1, converter: Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>.self)
                             ),
                             env: env.env
                         )

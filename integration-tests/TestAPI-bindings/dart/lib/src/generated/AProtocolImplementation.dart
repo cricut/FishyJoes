@@ -40,26 +40,40 @@ import 'package:tuple/tuple.dart' as tuple;
 
 /// <!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->
 class AProtocolImplementation {
-    String foo;
     bool baz;
+    String foo;
 
     AProtocolImplementation({
-        required String foo,
-        required bool baz
+        required bool baz,
+        required String foo
     }):
-        this.foo = foo,
-        this.baz = baz;
+        this.baz = baz,
+        this.foo = foo;
 
     static CreatedRef ffi_constructor(
-        ConsumedRef foo,
         bool baz,
+        ConsumedRef foo,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(AProtocolImplementation(
-            foo: consumeRef(foo),
             baz: baz,
+            foo: consumeRef(foo),
         ))
     );
+
+    static bool ffi_get_baz(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<AProtocolImplementation>(obj).baz
+    ) ?? false;
+    static void ffi_set_baz(
+        UnownedRef obj,
+        bool newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        peekRef<AProtocolImplementation>(obj).baz = newValue;
+    });
 
     static CreatedRef ffi_get_foo(
         UnownedRef obj,
@@ -77,22 +91,8 @@ class AProtocolImplementation {
         peekRef<AProtocolImplementation>(obj).foo = consumeRef<String>(newValue);
     });
 
-    static bool ffi_get_baz(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catching(exn, () =>
-        peekRef<AProtocolImplementation>(obj).baz
-    ) ?? false;
-    static void ffi_set_baz(
-        UnownedRef obj,
-        bool newValue,
-        OutCreatedRef exn
-    ) => catching(exn, () {
-        peekRef<AProtocolImplementation>(obj).baz = newValue;
-    });
-
     @override
-    String toString() => 'AProtocolImplementation(foo: $foo, baz: $baz)';
+    String toString() => 'AProtocolImplementation(baz: $baz, foo: $foo)';
 
     @override
     bool operator ==(Object other) {
@@ -101,8 +101,8 @@ class AProtocolImplementation {
             other.runtimeType == runtimeType &&
             other is AProtocolImplementation &&
             (
-                const DeepCollectionEquality().equals(other.foo, foo) &&
-                const DeepCollectionEquality().equals(other.baz, baz)
+                const DeepCollectionEquality().equals(other.baz, baz) &&
+                const DeepCollectionEquality().equals(other.foo, foo)
             )
         );
     }
@@ -110,16 +110,16 @@ class AProtocolImplementation {
     @override
     int get hashCode => Object.hash(
         runtimeType,
-        const DeepCollectionEquality().hash(foo), 
-        const DeepCollectionEquality().hash(baz)
+        const DeepCollectionEquality().hash(baz), 
+        const DeepCollectionEquality().hash(foo)
     );
 
     AProtocolImplementation copyWith({
-        String? foo,
-        bool? baz
+        bool? baz,
+        String? foo
     }) => AProtocolImplementation(
-        foo: foo ?? this.foo,
-        baz: baz ?? this.baz
+        baz: baz ?? this.baz,
+        foo: foo ?? this.foo
     );
 
     /// <!-- FishyJoes.export(bar) -->

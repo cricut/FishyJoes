@@ -46,10 +46,10 @@ class URLs {
         throw UnsupportedError('This class is supposed to be uninhabited');
     });
 
-    /// <!-- FishyJoes.export(simple) -->
-    static Uri get simple =>
+    /// <!-- FishyJoes.export(localFile) -->
+    static Uri get localFile =>
         check((exn) =>
-            consumeCreatedRef<Uri>(f__iota_get_TestAPI_URLs_simple(Loader.shared.env, exn))
+            consumeCreatedRef<Uri>(f__iota_get_TestAPI_URLs_localFile(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(remoteFile) -->
@@ -58,10 +58,10 @@ class URLs {
             consumeCreatedRef<Uri>(f__iota_get_TestAPI_URLs_remoteFile(Loader.shared.env, exn))
         )
     ;
-    /// <!-- FishyJoes.export(localFile) -->
-    static Uri get localFile =>
+    /// <!-- FishyJoes.export(simple) -->
+    static Uri get simple =>
         check((exn) =>
-            consumeCreatedRef<Uri>(f__iota_get_TestAPI_URLs_localFile(Loader.shared.env, exn))
+            consumeCreatedRef<Uri>(f__iota_get_TestAPI_URLs_simple(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(echo) -->

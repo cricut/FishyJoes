@@ -125,18 +125,18 @@ class Structs_MemberwiseStruct {
         mutable: mutable ?? this.mutable
     );
 
-    /// <!-- FishyJoes.export(create) -->
-    static TestAPI.Structs_MemberwiseStruct create(
-    ) =>
-        consumeCreatedRef<TestAPI.Structs_MemberwiseStruct>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_MemberwiseStruct_create(Loader.shared.env, _exn)))
-    ;
-
     /// <!-- FishyJoes.export(asyncGetMutable) -->
     Future<String> asyncGetMutable(
     ) =>
         GCRef.using(this, (_thisHandle) =>
             consumeCreatedRef<Future<String>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_MemberwiseStruct_asyncGetMutable(Loader.shared.env, _thisHandle.ptr, _exn)))
         )
+    ;
+
+    /// <!-- FishyJoes.export(create) -->
+    static TestAPI.Structs_MemberwiseStruct create(
+    ) =>
+        consumeCreatedRef<TestAPI.Structs_MemberwiseStruct>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_MemberwiseStruct_create(Loader.shared.env, _exn)))
     ;
 
     static late CreatedRef Function(

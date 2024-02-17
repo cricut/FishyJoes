@@ -21,12 +21,12 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
             env: env,
             name: "ClosedRanges",
             properties: [
-                "echoUInt8Range": (
+                "echoDoubleRange": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt8Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let result = try ClosedRangeConverter<Swift.UInt8>.toNode(
-                                TestAPI.ClosedRanges.echoUInt8Range(
-                                    try env.argument(at: 0, converter: ClosedRangeConverter<Swift.UInt8>.self)
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoDoubleRange", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try ClosedRangeConverter<Swift.Double>.toNode(
+                                TestAPI.ClosedRanges.echoDoubleRange(
+                                    try env.argument(at: 0, converter: ClosedRangeConverter<Swift.Double>.self)
                                 ),
                                 env: env.env
                             )
@@ -35,68 +35,12 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoUInt16Range": (
+                "echoFloatRange": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt16Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let result = try ClosedRangeConverter<Swift.UInt16>.toNode(
-                                TestAPI.ClosedRanges.echoUInt16Range(
-                                    try env.argument(at: 0, converter: ClosedRangeConverter<Swift.UInt16>.self)
-                                ),
-                                env: env.env
-                            )
-                            return result
-                        }
-                    },
-                    isStatic: true
-                ),
-                "echoUInt32Range": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt32Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let result = try ClosedRangeConverter<Swift.UInt32>.toNode(
-                                TestAPI.ClosedRanges.echoUInt32Range(
-                                    try env.argument(at: 0, converter: ClosedRangeConverter<Swift.UInt32>.self)
-                                ),
-                                env: env.env
-                            )
-                            return result
-                        }
-                    },
-                    isStatic: true
-                ),
-                "echoUInt64Range": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt64Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let result = try ClosedRangeConverter<Swift.UInt64>.toNode(
-                                TestAPI.ClosedRanges.echoUInt64Range(
-                                    try env.argument(at: 0, converter: ClosedRangeConverter<Swift.UInt64>.self)
-                                ),
-                                env: env.env
-                            )
-                            return result
-                        }
-                    },
-                    isStatic: true
-                ),
-                "echoUIntRange": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUIntRange", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let result = try ClosedRangeConverter<Swift.UInt>.toNode(
-                                TestAPI.ClosedRanges.echoUIntRange(
-                                    try env.argument(at: 0, converter: ClosedRangeConverter<Swift.UInt>.self)
-                                ),
-                                env: env.env
-                            )
-                            return result
-                        }
-                    },
-                    isStatic: true
-                ),
-                "echoInt8Range": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt8Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let result = try ClosedRangeConverter<Swift.Int8>.toNode(
-                                TestAPI.ClosedRanges.echoInt8Range(
-                                    try env.argument(at: 0, converter: ClosedRangeConverter<Swift.Int8>.self)
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoFloatRange", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try ClosedRangeConverter<Swift.Float>.toNode(
+                                TestAPI.ClosedRanges.echoFloatRange(
+                                    try env.argument(at: 0, converter: ClosedRangeConverter<Swift.Float>.self)
                                 ),
                                 env: env.env
                             )
@@ -147,40 +91,26 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
+                "echoInt8Range": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt8Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try ClosedRangeConverter<Swift.Int8>.toNode(
+                                TestAPI.ClosedRanges.echoInt8Range(
+                                    try env.argument(at: 0, converter: ClosedRangeConverter<Swift.Int8>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
                 "echoIntRange": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoIntRange", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try ClosedRangeConverter<Swift.Int>.toNode(
                                 TestAPI.ClosedRanges.echoIntRange(
                                     try env.argument(at: 0, converter: ClosedRangeConverter<Swift.Int>.self)
-                                ),
-                                env: env.env
-                            )
-                            return result
-                        }
-                    },
-                    isStatic: true
-                ),
-                "echoFloatRange": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoFloatRange", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let result = try ClosedRangeConverter<Swift.Float>.toNode(
-                                TestAPI.ClosedRanges.echoFloatRange(
-                                    try env.argument(at: 0, converter: ClosedRangeConverter<Swift.Float>.self)
-                                ),
-                                env: env.env
-                            )
-                            return result
-                        }
-                    },
-                    isStatic: true
-                ),
-                "echoDoubleRange": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoDoubleRange", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let result = try ClosedRangeConverter<Swift.Double>.toNode(
-                                TestAPI.ClosedRanges.echoDoubleRange(
-                                    try env.argument(at: 0, converter: ClosedRangeConverter<Swift.Double>.self)
                                 ),
                                 env: env.env
                             )
@@ -203,66 +133,92 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "uInt8Range": (
+                "echoUInt16Range": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt16Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try ClosedRangeConverter<Swift.UInt16>.toNode(
+                                TestAPI.ClosedRanges.echoUInt16Range(
+                                    try env.argument(at: 0, converter: ClosedRangeConverter<Swift.UInt16>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
+                "echoUInt32Range": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt32Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try ClosedRangeConverter<Swift.UInt32>.toNode(
+                                TestAPI.ClosedRanges.echoUInt32Range(
+                                    try env.argument(at: 0, converter: ClosedRangeConverter<Swift.UInt32>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
+                "echoUInt64Range": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt64Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try ClosedRangeConverter<Swift.UInt64>.toNode(
+                                TestAPI.ClosedRanges.echoUInt64Range(
+                                    try env.argument(at: 0, converter: ClosedRangeConverter<Swift.UInt64>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
+                "echoUInt8Range": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt8Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try ClosedRangeConverter<Swift.UInt8>.toNode(
+                                TestAPI.ClosedRanges.echoUInt8Range(
+                                    try env.argument(at: 0, converter: ClosedRangeConverter<Swift.UInt8>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
+                "echoUIntRange": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUIntRange", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try ClosedRangeConverter<Swift.UInt>.toNode(
+                                TestAPI.ClosedRanges.echoUIntRange(
+                                    try env.argument(at: 0, converter: ClosedRangeConverter<Swift.UInt>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
+                "doubleRange": (
                     .accessor(
                         getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "uInt8Range", expectedArgumentCount: 0) { env in
-                                try ClosedRangeConverter<Swift.UInt8>.toNode(TestAPI.ClosedRanges.uInt8Range, env: env.env)
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "doubleRange", expectedArgumentCount: 0) { env in
+                                try ClosedRangeConverter<Swift.Double>.toNode(TestAPI.ClosedRanges.doubleRange, env: env.env)
                             }
                         },
                         setter: nil
                     ),
                     isStatic: true
                 ),
-                "uInt16Range": (
+                "floatRange": (
                     .accessor(
                         getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "uInt16Range", expectedArgumentCount: 0) { env in
-                                try ClosedRangeConverter<Swift.UInt16>.toNode(TestAPI.ClosedRanges.uInt16Range, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: true
-                ),
-                "uInt32Range": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "uInt32Range", expectedArgumentCount: 0) { env in
-                                try ClosedRangeConverter<Swift.UInt32>.toNode(TestAPI.ClosedRanges.uInt32Range, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: true
-                ),
-                "uInt64Range": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "uInt64Range", expectedArgumentCount: 0) { env in
-                                try ClosedRangeConverter<Swift.UInt64>.toNode(TestAPI.ClosedRanges.uInt64Range, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: true
-                ),
-                "uIntRange": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "uIntRange", expectedArgumentCount: 0) { env in
-                                try ClosedRangeConverter<Swift.UInt>.toNode(TestAPI.ClosedRanges.uIntRange, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: true
-                ),
-                "int8Range": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "int8Range", expectedArgumentCount: 0) { env in
-                                try ClosedRangeConverter<Swift.Int8>.toNode(TestAPI.ClosedRanges.int8Range, env: env.env)
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "floatRange", expectedArgumentCount: 0) { env in
+                                try ClosedRangeConverter<Swift.Float>.toNode(TestAPI.ClosedRanges.floatRange, env: env.env)
                             }
                         },
                         setter: nil
@@ -302,6 +258,17 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
+                "int8Range": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "int8Range", expectedArgumentCount: 0) { env in
+                                try ClosedRangeConverter<Swift.Int8>.toNode(TestAPI.ClosedRanges.int8Range, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
                 "intRange": (
                     .accessor(
                         getter: { env, info in
@@ -313,33 +280,66 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "floatRange": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "floatRange", expectedArgumentCount: 0) { env in
-                                try ClosedRangeConverter<Swift.Float>.toNode(TestAPI.ClosedRanges.floatRange, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: true
-                ),
-                "doubleRange": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "doubleRange", expectedArgumentCount: 0) { env in
-                                try ClosedRangeConverter<Swift.Double>.toNode(TestAPI.ClosedRanges.doubleRange, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: true
-                ),
                 "stringRange": (
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "stringRange", expectedArgumentCount: 0) { env in
                                 try ClosedRangeConverter<Swift.String>.toNode(TestAPI.ClosedRanges.stringRange, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                "uInt16Range": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "uInt16Range", expectedArgumentCount: 0) { env in
+                                try ClosedRangeConverter<Swift.UInt16>.toNode(TestAPI.ClosedRanges.uInt16Range, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                "uInt32Range": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "uInt32Range", expectedArgumentCount: 0) { env in
+                                try ClosedRangeConverter<Swift.UInt32>.toNode(TestAPI.ClosedRanges.uInt32Range, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                "uInt64Range": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "uInt64Range", expectedArgumentCount: 0) { env in
+                                try ClosedRangeConverter<Swift.UInt64>.toNode(TestAPI.ClosedRanges.uInt64Range, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                "uInt8Range": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "uInt8Range", expectedArgumentCount: 0) { env in
+                                try ClosedRangeConverter<Swift.UInt8>.toNode(TestAPI.ClosedRanges.uInt8Range, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                "uIntRange": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "uIntRange", expectedArgumentCount: 0) { env in
+                                try ClosedRangeConverter<Swift.UInt>.toNode(TestAPI.ClosedRanges.uIntRange, env: env.env)
                             }
                         },
                         setter: nil

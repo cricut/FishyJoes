@@ -7,8 +7,8 @@ import java.lang.Exception
  * <!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->
  */
 data class AProtocolImplementation(
-    override var foo: kotlin.String,
-    override var baz: Boolean
+    override var baz: Boolean,
+    override var foo: kotlin.String
 ): AProtocol {
     /**
      * <!-- FishyJoes.export(bar) -->

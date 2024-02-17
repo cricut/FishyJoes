@@ -33,11 +33,11 @@ struct TranslatedStruct: TranslatedType {
         self.dartType = .named(package: context.module.dartNamespace, name: context.dartTranslator.fakeNamespace(exportAnnotation.name))
         self.jniType = .object(context.kotlinTranslator.javaClassName(nodeName, in: context))
 
-        self.storedVariables = type.storedVariables
+        self.storedVariables = type.storedVariables.sorted(by: { $0.name < $1.name })
         self.computedVariables =
-            (type.computedVariables + type.staticVariables).filter { $0.exportAnnotation != nil }
+            (type.computedVariables + type.staticVariables).filter { $0.exportAnnotation != nil }.sorted(by: { $0.name < $1.name })
 
-        self.methods = type.methods.compactMap { Method($0) }
+        self.methods = type.methods.compactMap { Method($0) }.sorted(by: { $0.name < $1.name })
         self.documentation = type.documentation
         self.isInhabited = type.isInhabited
         self.definingModule = context.module

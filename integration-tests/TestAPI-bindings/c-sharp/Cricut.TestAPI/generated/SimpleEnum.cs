@@ -18,19 +18,6 @@ namespace Cricut.TestAPI {
         public sealed record Blue : SimpleEnum;
 
         /// <summary>
-        /// <!-- FishyJoes.export(hex) -->
-        /// </summary>
-        public nint GetHex() {
-            using var thisHandle = new GCRef(this);
-            return Check((out CreatedRef exn) =>
-                __iota_get_TestAPI_SimpleEnum_hex(Loader.env, thisHandle.ptr, out exn)
-            );
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __iota_get_TestAPI_SimpleEnum_hex(IntPtr envRef, UnownedRef self, out CreatedRef exn);
-
-        /// <summary>
         /// <!-- FishyJoes.export(favoriteColor) -->
         /// </summary>
         public static Cricut.TestAPI.SimpleEnum FavoriteColor {
@@ -54,20 +41,17 @@ namespace Cricut.TestAPI {
         private static extern void __iota_set_TestAPI_SimpleEnum_favoriteColor(IntPtr envRef, UnownedRef value, out CreatedRef exn);
 
         /// <summary>
-        /// <!-- FishyJoes.export(pickAColor) -->
+        /// <!-- FishyJoes.export(hex) -->
         /// </summary>
-        public static Cricut.TestAPI.SimpleEnum? PickAColor(
-            nint rawValue
-        ) {
-            return Check((out CreatedRef _exn) => __iota_TestAPI_SimpleEnum_pickAColor(Loader.env, rawValue, out _exn)).Consume<Cricut.TestAPI.SimpleEnum?>();
+        public nint GetHex() {
+            using var thisHandle = new GCRef(this);
+            return Check((out CreatedRef exn) =>
+                __iota_get_TestAPI_SimpleEnum_hex(Loader.env, thisHandle.ptr, out exn)
+            );
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_TestAPI_SimpleEnum_pickAColor(
-            IntPtr envRef,
-            nint rawValue,
-            out CreatedRef exn
-        );
+        private static extern nint __iota_get_TestAPI_SimpleEnum_hex(IntPtr envRef, UnownedRef self, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(hexMethod) -->
@@ -82,6 +66,22 @@ namespace Cricut.TestAPI {
         private static extern CreatedRef __iota_TestAPI_SimpleEnum_hexMethod(
             IntPtr envRef,
             UnownedRef self,
+            out CreatedRef exn
+        );
+
+        /// <summary>
+        /// <!-- FishyJoes.export(pickAColor) -->
+        /// </summary>
+        public static Cricut.TestAPI.SimpleEnum? PickAColor(
+            nint rawValue
+        ) {
+            return Check((out CreatedRef _exn) => __iota_TestAPI_SimpleEnum_pickAColor(Loader.env, rawValue, out _exn)).Consume<Cricut.TestAPI.SimpleEnum?>();
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_TestAPI_SimpleEnum_pickAColor(
+            IntPtr envRef,
+            nint rawValue,
             out CreatedRef exn
         );
 
