@@ -42,7 +42,7 @@ class KotlinClass: NestedClass {
     var innerClasses: [KotlinClass] = []
     var methods: [Method]
     var fields: [Variable]
-    var conformances: [String] = []
+    var conformances: Set<String> = []
 
     init(
         module: Module,
@@ -50,7 +50,7 @@ class KotlinClass: NestedClass {
         name: String,
         methods: [Method],
         fields: [Variable],
-        conformances: [String]
+        conformances: Set<String>
     ) {
         self.name = name
         self.documentation = documentation
@@ -283,7 +283,7 @@ class KotlinProductClass: KotlinClass {
         name: String,
         constructor: Constructor,
         fieldsAndMethods: [MethodOrVariable],
-        conformances: [String] = []
+        conformances: Set<String> = []
     ) {
         self.isPrivate = isPrivate
         self.constructor = constructor
@@ -337,7 +337,7 @@ class KotlinProductClass: KotlinClass {
             }
         }
         if !conformances.isEmpty {
-            fragment.output(": \(conformances.joined(separator: ", "))", newLineTerminated: false)
+            fragment.output(": \(Array(conformances).sorted(by: { $0 < $1 }).joined(separator: ", "))", newLineTerminated: false)
         }
         fragment.outputBlock(" {") {
             fields.filter { !$0.isStatic }.forEach { output(field: $0, to: fragment) }
@@ -369,7 +369,7 @@ class KotlinEnumClass: KotlinClass {
         name: String,
         cases: [Case],
         fieldsAndMethods: [MethodOrVariable],
-        conformances: [String] = []
+        conformances: Set<String> = []
     ) {
         self.cases = cases
         let fields: [Variable] = fieldsAndMethods.compactMap {
@@ -443,7 +443,7 @@ class KotlinInterface: KotlinClass {
         documentation: [String],
         name: String,
         fieldsAndMethods: [MethodOrVariable],
-        conformances: [String] = []
+        conformances: Set<String> = []
     ) {
         let fields: [Variable] = fieldsAndMethods.compactMap {
             guard case let .variable(field) = $0 else {

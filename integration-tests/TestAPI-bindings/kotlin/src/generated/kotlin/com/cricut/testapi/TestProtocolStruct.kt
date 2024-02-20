@@ -8,7 +8,7 @@ import java.lang.Exception
  */
 data class TestProtocolStruct(
     override var corge: kotlin.String
-): TestPropertiesProtocol, TestMethodsProtocol {
+): TestMethodsProtocol, TestPropertiesProtocol {
     /**
      * <!-- FishyJoes.export(frob) -->
      */

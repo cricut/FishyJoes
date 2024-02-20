@@ -503,7 +503,7 @@ final class KotlinTranslator: Translator {
     func conform(_ kotlinClass: KotlinClass, to protoName: String, context: FishyJoesContext) {
         let resolved = context.resolve(type: .named(.init(name: protoName, module: nil)))
         
-        kotlinClass.conformances.append(resolved.kotlinName)
+        kotlinClass.conformances.insert(resolved.kotlinName)
         
         if let proto = resolved as? TranslatedProtocol {
             let protoDefs = Set(

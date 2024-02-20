@@ -325,7 +325,7 @@ struct TranslatedProtocol: TranslatedType {
                 name: "_ExternalWitness_\(kotlinName)",
                 constructor: .reference,
                 fieldsAndMethods: {
-                    var nonDefaultMethods = methods.filter { !$0.implemented }
+                    let nonDefaultMethods = methods.filter { !$0.implemented }
                     var fAndM = computedVariables.compactMap { context.kotlin(field: $0, useNativeName: false)}
                     fAndM.append(contentsOf: nonDefaultMethods.compactMap { context.kotlin(method: $0) })
                     return fAndM
