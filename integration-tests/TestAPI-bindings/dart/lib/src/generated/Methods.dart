@@ -45,19 +45,55 @@ class Methods extends SwiftReference {
         createRef(Methods(ref))
     );
 
-    /// <!-- FishyJoes.export(garply) -->
-    int get garply =>
-        GCRef.using(this, (_thisHandle) =>
-            check((exn) =>
-                f__iota_get_TestAPI_Methods_garply(Loader.shared.env, _thisHandle.ptr, exn)
-            )
+    /// <!-- FishyJoes.export(staticGet) -->
+    static int get staticGet =>
+        check((exn) =>
+            f__iota_get_TestAPI_Methods_staticGet(Loader.shared.env, exn)
         )
     ;
+    /// <!-- FishyJoes.exportAsMethod(staticGetMethod) -->
+    static int get staticGetMethod =>
+        check((exn) =>
+            f__iota_get_TestAPI_Methods_staticGetMethod(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(staticModifiable) -->
+    static int get staticModifiable =>
+        check((exn) =>
+            f__iota_get_TestAPI_Methods_staticModifiable(Loader.shared.env, exn)
+        )
+    ;
+    static void set staticModifiable(int value) {
+        check((exn) =>
+            f__iota_set_TestAPI_Methods_staticModifiable(Loader.shared.env, value, exn)
+        )
+        ;
+    }
+    /// <!-- FishyJoes.export(staticStored) -->
+    static int get staticStored =>
+        check((exn) =>
+            f__iota_get_TestAPI_Methods_staticStored(Loader.shared.env, exn)
+        )
+    ;
+    static void set staticStored(int value) {
+        check((exn) =>
+            f__iota_set_TestAPI_Methods_staticStored(Loader.shared.env, value, exn)
+        )
+        ;
+    }
     /// <!-- FishyJoes.export(instanceGet) -->
     int get instanceGet =>
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
                 f__iota_get_TestAPI_Methods_instanceGet(Loader.shared.env, _thisHandle.ptr, exn)
+            )
+        )
+    ;
+    /// <!-- FishyJoes.export(garply) -->
+    int get garply =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                f__iota_get_TestAPI_Methods_garply(Loader.shared.env, _thisHandle.ptr, exn)
             )
         )
     ;
@@ -101,42 +137,22 @@ class Methods extends SwiftReference {
         )
         ;
     }
-    /// <!-- FishyJoes.export(staticGet) -->
-    static int get staticGet =>
-        check((exn) =>
-            f__iota_get_TestAPI_Methods_staticGet(Loader.shared.env, exn)
+    /// <!-- FishyJoes.export(create) -->
+    static TestAPI.Methods create(
+    ) =>
+        consumeCreatedRef<TestAPI.Methods>(check((OutCreatedRef _exn) => f__iota_TestAPI_Methods_create(Loader.shared.env, _exn)))
+    ;
+
+    /// <!-- FishyJoes.export(doublePlusGood) -->
+    int doublePlusGood(
+        int a,
+        double b,
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            check((OutCreatedRef _exn) => f__iota_TestAPI_Methods_doublePlusGood(Loader.shared.env, _thisHandle.ptr, a, b, _exn))
         )
     ;
-    /// <!-- FishyJoes.exportAsMethod(staticGetMethod) -->
-    static int get staticGetMethod =>
-        check((exn) =>
-            f__iota_get_TestAPI_Methods_staticGetMethod(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(staticModifiable) -->
-    static int get staticModifiable =>
-        check((exn) =>
-            f__iota_get_TestAPI_Methods_staticModifiable(Loader.shared.env, exn)
-        )
-    ;
-    static void set staticModifiable(int value) {
-        check((exn) =>
-            f__iota_set_TestAPI_Methods_staticModifiable(Loader.shared.env, value, exn)
-        )
-        ;
-    }
-    /// <!-- FishyJoes.export(staticStored) -->
-    static int get staticStored =>
-        check((exn) =>
-            f__iota_get_TestAPI_Methods_staticStored(Loader.shared.env, exn)
-        )
-    ;
-    static void set staticStored(int value) {
-        check((exn) =>
-            f__iota_set_TestAPI_Methods_staticStored(Loader.shared.env, value, exn)
-        )
-        ;
-    }
+
     /// <!-- FishyJoes.export(async42) -->
     Future<int> async42(
     ) =>
@@ -145,14 +161,27 @@ class Methods extends SwiftReference {
         )
     ;
 
-    /// <!-- FishyJoes.export(asyncCallbackFunc0) -->
-    Future<int> asyncCallbackFunc0(
-        Future<int> Function() callback,
+    /// <!-- FishyJoes.export(asyncYield) -->
+    Future<int> asyncYield(
     ) =>
         GCRef.using(this, (_thisHandle) =>
-            GCRef.using(callback, (_callbackHandle) =>
-                consumeCreatedRef<Future<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Methods_asyncCallbackFunc0(Loader.shared.env, _thisHandle.ptr, _callbackHandle.ptr, _exn)))
-            )
+            consumeCreatedRef<Future<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Methods_asyncYield(Loader.shared.env, _thisHandle.ptr, _exn)))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(asyncSleep) -->
+    Future<int> asyncSleep(
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            consumeCreatedRef<Future<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Methods_asyncSleep(Loader.shared.env, _thisHandle.ptr, _exn)))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(asyncVoid) -->
+    Future<void> asyncVoid(
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            consumeCreatedRef<Future<void>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Methods_asyncVoid(Loader.shared.env, _thisHandle.ptr, _exn)))
         )
     ;
 
@@ -177,14 +206,6 @@ class Methods extends SwiftReference {
         )
     ;
 
-    /// <!-- FishyJoes.export(asyncSleep) -->
-    Future<int> asyncSleep(
-    ) =>
-        GCRef.using(this, (_thisHandle) =>
-            consumeCreatedRef<Future<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Methods_asyncSleep(Loader.shared.env, _thisHandle.ptr, _exn)))
-        )
-    ;
-
     /// <!-- FishyJoes.export(asyncThrowing) -->
     Future<void> asyncThrowing(
     ) =>
@@ -193,35 +214,14 @@ class Methods extends SwiftReference {
         )
     ;
 
-    /// <!-- FishyJoes.export(asyncVoid) -->
-    Future<void> asyncVoid(
+    /// <!-- FishyJoes.export(asyncCallbackFunc0) -->
+    Future<int> asyncCallbackFunc0(
+        Future<int> Function() callback,
     ) =>
         GCRef.using(this, (_thisHandle) =>
-            consumeCreatedRef<Future<void>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Methods_asyncVoid(Loader.shared.env, _thisHandle.ptr, _exn)))
-        )
-    ;
-
-    /// <!-- FishyJoes.export(asyncYield) -->
-    Future<int> asyncYield(
-    ) =>
-        GCRef.using(this, (_thisHandle) =>
-            consumeCreatedRef<Future<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Methods_asyncYield(Loader.shared.env, _thisHandle.ptr, _exn)))
-        )
-    ;
-
-    /// <!-- FishyJoes.export(create) -->
-    static TestAPI.Methods create(
-    ) =>
-        consumeCreatedRef<TestAPI.Methods>(check((OutCreatedRef _exn) => f__iota_TestAPI_Methods_create(Loader.shared.env, _exn)))
-    ;
-
-    /// <!-- FishyJoes.export(doublePlusGood) -->
-    int doublePlusGood(
-        int a,
-        double b,
-    ) =>
-        GCRef.using(this, (_thisHandle) =>
-            check((OutCreatedRef _exn) => f__iota_TestAPI_Methods_doublePlusGood(Loader.shared.env, _thisHandle.ptr, a, b, _exn))
+            GCRef.using(callback, (_callbackHandle) =>
+                consumeCreatedRef<Future<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Methods_asyncCallbackFunc0(Loader.shared.env, _thisHandle.ptr, _callbackHandle.ptr, _exn)))
+            )
         )
     ;
 
@@ -231,13 +231,22 @@ class Methods extends SwiftReference {
         consumeCreatedRef<Future<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Methods_staticAsync42(Loader.shared.env, _exn)))
     ;
 
-    /// <!-- FishyJoes.export(staticAsyncCallbackFunc0) -->
-    static Future<int> staticAsyncCallbackFunc0(
-        Future<int> Function() callback,
+    /// <!-- FishyJoes.export(staticAsyncYield) -->
+    static Future<int> staticAsyncYield(
     ) =>
-        GCRef.using(callback, (_callbackHandle) =>
-            consumeCreatedRef<Future<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Methods_staticAsyncCallbackFunc0(Loader.shared.env, _callbackHandle.ptr, _exn)))
-        )
+        consumeCreatedRef<Future<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Methods_staticAsyncYield(Loader.shared.env, _exn)))
+    ;
+
+    /// <!-- FishyJoes.export(staticAsyncSleep) -->
+    static Future<int> staticAsyncSleep(
+    ) =>
+        consumeCreatedRef<Future<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Methods_staticAsyncSleep(Loader.shared.env, _exn)))
+    ;
+
+    /// <!-- FishyJoes.export(staticAsyncVoid) -->
+    static Future<void> staticAsyncVoid(
+    ) =>
+        consumeCreatedRef<Future<void>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Methods_staticAsyncVoid(Loader.shared.env, _exn)))
     ;
 
     /// <!-- FishyJoes.export(staticAsyncDouble) -->
@@ -257,28 +266,19 @@ class Methods extends SwiftReference {
         )
     ;
 
-    /// <!-- FishyJoes.export(staticAsyncSleep) -->
-    static Future<int> staticAsyncSleep(
-    ) =>
-        consumeCreatedRef<Future<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Methods_staticAsyncSleep(Loader.shared.env, _exn)))
-    ;
-
     /// <!-- FishyJoes.export(staticAsyncThrowing) -->
     static Future<void> staticAsyncThrowing(
     ) =>
         consumeCreatedRef<Future<void>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Methods_staticAsyncThrowing(Loader.shared.env, _exn)))
     ;
 
-    /// <!-- FishyJoes.export(staticAsyncVoid) -->
-    static Future<void> staticAsyncVoid(
+    /// <!-- FishyJoes.export(staticAsyncCallbackFunc0) -->
+    static Future<int> staticAsyncCallbackFunc0(
+        Future<int> Function() callback,
     ) =>
-        consumeCreatedRef<Future<void>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Methods_staticAsyncVoid(Loader.shared.env, _exn)))
-    ;
-
-    /// <!-- FishyJoes.export(staticAsyncYield) -->
-    static Future<int> staticAsyncYield(
-    ) =>
-        consumeCreatedRef<Future<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Methods_staticAsyncYield(Loader.shared.env, _exn)))
+        GCRef.using(callback, (_callbackHandle) =>
+            consumeCreatedRef<Future<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Methods_staticAsyncCallbackFunc0(Loader.shared.env, _callbackHandle.ptr, _exn)))
+        )
     ;
 
     static late CreatedRef Function(

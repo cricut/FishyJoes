@@ -46,10 +46,22 @@ class Strings {
         throw UnsupportedError('This class is supposed to be uninhabited');
     });
 
+    /// <!-- FishyJoes.export(simple) -->
+    static String get simple =>
+        check((exn) =>
+            consumeCreatedRef<String>(f__iota_get_TestAPI_Strings_simple(Loader.shared.env, exn))
+        )
+    ;
     /// <!-- FishyJoes.export(accent) -->
     static String get accent =>
         check((exn) =>
             consumeCreatedRef<String>(f__iota_get_TestAPI_Strings_accent(Loader.shared.env, exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(script) -->
+    static String get script =>
+        check((exn) =>
+            consumeCreatedRef<String>(f__iota_get_TestAPI_Strings_script(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(chinese) -->
@@ -80,18 +92,6 @@ class Strings {
     static String get emojiMulti =>
         check((exn) =>
             consumeCreatedRef<String>(f__iota_get_TestAPI_Strings_emojiMulti(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(script) -->
-    static String get script =>
-        check((exn) =>
-            consumeCreatedRef<String>(f__iota_get_TestAPI_Strings_script(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(simple) -->
-    static String get simple =>
-        check((exn) =>
-            consumeCreatedRef<String>(f__iota_get_TestAPI_Strings_simple(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(echo) -->

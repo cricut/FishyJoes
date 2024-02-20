@@ -16,14 +16,6 @@ interface AProtocol {
      */
     var baz: Boolean
     /**
-     * <!-- FishyJoes.export(bar) -->
-     */
-    fun bar(
-        x: Long,
-        y: Long
-    ): com.cricut.testapi.AProtocol
-
-    /**
      * <!-- FishyJoes.export(hasADefaultImplementation) -->
      */
     fun hasADefaultImplementation(
@@ -39,6 +31,14 @@ interface AProtocol {
         b: Boolean,
         c: Double
     ): Double = __jni__default_hasADefaultImplementation2(this, a, b, c)
+
+    /**
+     * <!-- FishyJoes.export(bar) -->
+     */
+    fun bar(
+        x: Long,
+        y: Long
+    ): com.cricut.testapi.AProtocol
 
     companion object {
         /**

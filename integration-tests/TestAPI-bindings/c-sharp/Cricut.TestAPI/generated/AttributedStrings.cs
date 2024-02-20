@@ -12,6 +12,20 @@ namespace Cricut.TestAPI {
         private AttributedStrings() {}
 
         /// <summary>
+        /// <!-- FishyJoes.export(simple) -->
+        /// </summary>
+        public static Cricut.FishyJoesRuntime.AttributedString Simple {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_AttributedStrings_simple(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString>()
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_AttributedStrings_simple(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
         /// <!-- FishyJoes.export(accent) -->
         /// </summary>
         public static Cricut.FishyJoesRuntime.AttributedString Accent {
@@ -24,6 +38,20 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_get_TestAPI_AttributedStrings_accent(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(script) -->
+        /// </summary>
+        public static Cricut.FishyJoesRuntime.AttributedString Script {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_AttributedStrings_script(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString>()
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_AttributedStrings_script(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(chinese) -->
@@ -110,32 +138,72 @@ namespace Cricut.TestAPI {
         private static extern CreatedRef __iota_get_TestAPI_AttributedStrings_polyglot(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
-        /// <!-- FishyJoes.export(script) -->
+        /// <!-- FishyJoes.export(echo) -->
         /// </summary>
-        public static Cricut.FishyJoesRuntime.AttributedString Script {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_AttributedStrings_script(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString>()
-                );
-            }
+        public static Cricut.FishyJoesRuntime.AttributedString Echo(
+            Cricut.FishyJoesRuntime.AttributedString _string
+        ) {
+            using var _stringHandle = new GCRef(_string);
+            return Check((out CreatedRef _exn) => __iota_TestAPI_AttributedStrings_echo(Loader.env, _stringHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString>();
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_AttributedStrings_script(IntPtr envRef, out CreatedRef exn);
+        private static extern CreatedRef __iota_TestAPI_AttributedStrings_echo(
+            IntPtr envRef,
+            UnownedRef _string,
+            out CreatedRef exn
+        );
 
         /// <summary>
-        /// <!-- FishyJoes.export(simple) -->
+        /// <!-- FishyJoes.export(firstIndex) -->
         /// </summary>
-        public static Cricut.FishyJoesRuntime.AttributedString Simple {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_AttributedStrings_simple(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString>()
-                );
-            }
+        public static Cricut.FishyJoesRuntime.AttributedString.Index FirstIndex(
+            Cricut.FishyJoesRuntime.AttributedString /* of */ _string
+        ) {
+            using var _stringHandle = new GCRef(_string);
+            return Check((out CreatedRef _exn) => __iota_TestAPI_AttributedStrings_firstIndex(Loader.env, _stringHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString.Index>();
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_AttributedStrings_simple(IntPtr envRef, out CreatedRef exn);
+        private static extern CreatedRef __iota_TestAPI_AttributedStrings_firstIndex(
+            IntPtr envRef,
+            UnownedRef _string,
+            out CreatedRef exn
+        );
+
+        /// <summary>
+        /// <!-- FishyJoes.export(lastIndex) -->
+        /// </summary>
+        public static Cricut.FishyJoesRuntime.AttributedString.Index LastIndex(
+            Cricut.FishyJoesRuntime.AttributedString /* of */ _string
+        ) {
+            using var _stringHandle = new GCRef(_string);
+            return Check((out CreatedRef _exn) => __iota_TestAPI_AttributedStrings_lastIndex(Loader.env, _stringHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString.Index>();
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_TestAPI_AttributedStrings_lastIndex(
+            IntPtr envRef,
+            UnownedRef _string,
+            out CreatedRef exn
+        );
+
+        /// <summary>
+        /// <!-- FishyJoes.export(fullRange) -->
+        /// </summary>
+        public static Cricut.FishyJoesRuntime.SwiftRange<Cricut.FishyJoesRuntime.AttributedString.Index> FullRange(
+            Cricut.FishyJoesRuntime.AttributedString /* of */ _string
+        ) {
+            using var _stringHandle = new GCRef(_string);
+            return Check((out CreatedRef _exn) => __iota_TestAPI_AttributedStrings_fullRange(Loader.env, _stringHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.SwiftRange<Cricut.FishyJoesRuntime.AttributedString.Index>>();
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_TestAPI_AttributedStrings_fullRange(
+            IntPtr envRef,
+            UnownedRef _string,
+            out CreatedRef exn
+        );
 
         /// <summary>
         /// <!-- FishyJoes.export(attributedCharacters) -->
@@ -172,23 +240,6 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <!-- FishyJoes.export(echo) -->
-        /// </summary>
-        public static Cricut.FishyJoesRuntime.AttributedString Echo(
-            Cricut.FishyJoesRuntime.AttributedString _string
-        ) {
-            using var _stringHandle = new GCRef(_string);
-            return Check((out CreatedRef _exn) => __iota_TestAPI_AttributedStrings_echo(Loader.env, _stringHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString>();
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_TestAPI_AttributedStrings_echo(
-            IntPtr envRef,
-            UnownedRef _string,
-            out CreatedRef exn
-        );
-
-        /// <summary>
         /// <!-- FishyJoes.export(emptyAttributeRuns) -->
         /// </summary>
         public static System.Collections.Generic.IList<Cricut.FishyJoesRuntime.AttributedString.RunsView.Run> EmptyAttributeRuns(
@@ -200,57 +251,6 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_TestAPI_AttributedStrings_emptyAttributeRuns(
-            IntPtr envRef,
-            UnownedRef _string,
-            out CreatedRef exn
-        );
-
-        /// <summary>
-        /// <!-- FishyJoes.export(firstIndex) -->
-        /// </summary>
-        public static Cricut.FishyJoesRuntime.AttributedString.Index FirstIndex(
-            Cricut.FishyJoesRuntime.AttributedString /* of */ _string
-        ) {
-            using var _stringHandle = new GCRef(_string);
-            return Check((out CreatedRef _exn) => __iota_TestAPI_AttributedStrings_firstIndex(Loader.env, _stringHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString.Index>();
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_TestAPI_AttributedStrings_firstIndex(
-            IntPtr envRef,
-            UnownedRef _string,
-            out CreatedRef exn
-        );
-
-        /// <summary>
-        /// <!-- FishyJoes.export(fullRange) -->
-        /// </summary>
-        public static Cricut.FishyJoesRuntime.SwiftRange<Cricut.FishyJoesRuntime.AttributedString.Index> FullRange(
-            Cricut.FishyJoesRuntime.AttributedString /* of */ _string
-        ) {
-            using var _stringHandle = new GCRef(_string);
-            return Check((out CreatedRef _exn) => __iota_TestAPI_AttributedStrings_fullRange(Loader.env, _stringHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.SwiftRange<Cricut.FishyJoesRuntime.AttributedString.Index>>();
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_TestAPI_AttributedStrings_fullRange(
-            IntPtr envRef,
-            UnownedRef _string,
-            out CreatedRef exn
-        );
-
-        /// <summary>
-        /// <!-- FishyJoes.export(lastIndex) -->
-        /// </summary>
-        public static Cricut.FishyJoesRuntime.AttributedString.Index LastIndex(
-            Cricut.FishyJoesRuntime.AttributedString /* of */ _string
-        ) {
-            using var _stringHandle = new GCRef(_string);
-            return Check((out CreatedRef _exn) => __iota_TestAPI_AttributedStrings_lastIndex(Loader.env, _stringHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString.Index>();
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_TestAPI_AttributedStrings_lastIndex(
             IntPtr envRef,
             UnownedRef _string,
             out CreatedRef exn

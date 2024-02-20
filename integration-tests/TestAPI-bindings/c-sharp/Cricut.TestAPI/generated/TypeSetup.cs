@@ -55,122 +55,96 @@ namespace Cricut.TestAPI {
 
         delegate CreatedRef _TestAPI_Collections_CollectionHolderConstructor(
             ConsumedRef boolArray,
-            ConsumedRef boolDictionary,
             ConsumedRef boolSet,
+            ConsumedRef boolDictionary,
             ConsumedRef integerArray,
-            ConsumedRef integerDictionary,
             ConsumedRef integerSet,
+            ConsumedRef integerDictionary,
             ConsumedRef stringArray,
-            ConsumedRef stringDictionary,
             ConsumedRef stringSet,
+            ConsumedRef stringDictionary,
             out CreatedRef exn
         );
         delegate CreatedRef _TestAPI_Collections_CollectionHolder_boolArrayGetter(UnownedRef obj, out CreatedRef exn);
         delegate void _TestAPI_Collections_CollectionHolder_boolArraySetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
-        delegate CreatedRef _TestAPI_Collections_CollectionHolder_boolDictionaryGetter(UnownedRef obj, out CreatedRef exn);
-        delegate void _TestAPI_Collections_CollectionHolder_boolDictionarySetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
         delegate CreatedRef _TestAPI_Collections_CollectionHolder_boolSetGetter(UnownedRef obj, out CreatedRef exn);
         delegate void _TestAPI_Collections_CollectionHolder_boolSetSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_Collections_CollectionHolder_boolDictionaryGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Collections_CollectionHolder_boolDictionarySetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
         delegate CreatedRef _TestAPI_Collections_CollectionHolder_integerArrayGetter(UnownedRef obj, out CreatedRef exn);
         delegate void _TestAPI_Collections_CollectionHolder_integerArraySetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
-        delegate CreatedRef _TestAPI_Collections_CollectionHolder_integerDictionaryGetter(UnownedRef obj, out CreatedRef exn);
-        delegate void _TestAPI_Collections_CollectionHolder_integerDictionarySetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
         delegate CreatedRef _TestAPI_Collections_CollectionHolder_integerSetGetter(UnownedRef obj, out CreatedRef exn);
         delegate void _TestAPI_Collections_CollectionHolder_integerSetSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_Collections_CollectionHolder_integerDictionaryGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Collections_CollectionHolder_integerDictionarySetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
         delegate CreatedRef _TestAPI_Collections_CollectionHolder_stringArrayGetter(UnownedRef obj, out CreatedRef exn);
         delegate void _TestAPI_Collections_CollectionHolder_stringArraySetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
-        delegate CreatedRef _TestAPI_Collections_CollectionHolder_stringDictionaryGetter(UnownedRef obj, out CreatedRef exn);
-        delegate void _TestAPI_Collections_CollectionHolder_stringDictionarySetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
         delegate CreatedRef _TestAPI_Collections_CollectionHolder_stringSetGetter(UnownedRef obj, out CreatedRef exn);
         delegate void _TestAPI_Collections_CollectionHolder_stringSetSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_Collections_CollectionHolder_stringDictionaryGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Collections_CollectionHolder_stringDictionarySetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Collections_CollectionHolder_setup(
             IntPtr envRef,
             _TestAPI_Collections_CollectionHolderConstructor constructor,
             _TestAPI_Collections_CollectionHolder_boolArrayGetter get_boolArray,
             _TestAPI_Collections_CollectionHolder_boolArraySetter set_boolArray,
-            _TestAPI_Collections_CollectionHolder_boolDictionaryGetter get_boolDictionary,
-            _TestAPI_Collections_CollectionHolder_boolDictionarySetter set_boolDictionary,
             _TestAPI_Collections_CollectionHolder_boolSetGetter get_boolSet,
             _TestAPI_Collections_CollectionHolder_boolSetSetter set_boolSet,
+            _TestAPI_Collections_CollectionHolder_boolDictionaryGetter get_boolDictionary,
+            _TestAPI_Collections_CollectionHolder_boolDictionarySetter set_boolDictionary,
             _TestAPI_Collections_CollectionHolder_integerArrayGetter get_integerArray,
             _TestAPI_Collections_CollectionHolder_integerArraySetter set_integerArray,
-            _TestAPI_Collections_CollectionHolder_integerDictionaryGetter get_integerDictionary,
-            _TestAPI_Collections_CollectionHolder_integerDictionarySetter set_integerDictionary,
             _TestAPI_Collections_CollectionHolder_integerSetGetter get_integerSet,
             _TestAPI_Collections_CollectionHolder_integerSetSetter set_integerSet,
+            _TestAPI_Collections_CollectionHolder_integerDictionaryGetter get_integerDictionary,
+            _TestAPI_Collections_CollectionHolder_integerDictionarySetter set_integerDictionary,
             _TestAPI_Collections_CollectionHolder_stringArrayGetter get_stringArray,
             _TestAPI_Collections_CollectionHolder_stringArraySetter set_stringArray,
-            _TestAPI_Collections_CollectionHolder_stringDictionaryGetter get_stringDictionary,
-            _TestAPI_Collections_CollectionHolder_stringDictionarySetter set_stringDictionary,
             _TestAPI_Collections_CollectionHolder_stringSetGetter get_stringSet,
             _TestAPI_Collections_CollectionHolder_stringSetSetter set_stringSet,
+            _TestAPI_Collections_CollectionHolder_stringDictionaryGetter get_stringDictionary,
+            _TestAPI_Collections_CollectionHolder_stringDictionarySetter set_stringDictionary,
             out CreatedRef _exn
         );
 
         delegate CreatedRef _TestAPI_Primitives_PrimitiveHolderConstructor(
             bool b,
             ConsumedRef bq,
-            double d,
-            ConsumedRef dq,
-            float f,
-            ConsumedRef fq,
-            nint i,
-            short i16,
-            ConsumedRef i16q,
-            int i32,
-            ConsumedRef i32q,
-            long i64,
-            ConsumedRef i64q,
-            sbyte i8,
-            ConsumedRef i8q,
-            ConsumedRef iq,
-            nuint ui,
+            byte ui8,
+            ConsumedRef ui8q,
             ushort ui16,
             ConsumedRef ui16q,
             uint ui32,
             ConsumedRef ui32q,
             ulong ui64,
             ConsumedRef ui64q,
-            byte ui8,
-            ConsumedRef ui8q,
+            nuint ui,
             ConsumedRef uiq,
+            sbyte i8,
+            ConsumedRef i8q,
+            short i16,
+            ConsumedRef i16q,
+            int i32,
+            ConsumedRef i32q,
+            long i64,
+            ConsumedRef i64q,
+            nint i,
+            ConsumedRef iq,
+            float f,
+            ConsumedRef fq,
+            double d,
+            ConsumedRef dq,
             out CreatedRef exn
         );
         delegate bool _TestAPI_Primitives_PrimitiveHolder_bGetter(UnownedRef obj, out CreatedRef exn);
         delegate void _TestAPI_Primitives_PrimitiveHolder_bSetter(UnownedRef obj, bool newValue, out CreatedRef exn);
         delegate CreatedRef _TestAPI_Primitives_PrimitiveHolder_bqGetter(UnownedRef obj, out CreatedRef exn);
         delegate void _TestAPI_Primitives_PrimitiveHolder_bqSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
-        delegate double _TestAPI_Primitives_PrimitiveHolder_dGetter(UnownedRef obj, out CreatedRef exn);
-        delegate void _TestAPI_Primitives_PrimitiveHolder_dSetter(UnownedRef obj, double newValue, out CreatedRef exn);
-        delegate CreatedRef _TestAPI_Primitives_PrimitiveHolder_dqGetter(UnownedRef obj, out CreatedRef exn);
-        delegate void _TestAPI_Primitives_PrimitiveHolder_dqSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
-        delegate float _TestAPI_Primitives_PrimitiveHolder_fGetter(UnownedRef obj, out CreatedRef exn);
-        delegate void _TestAPI_Primitives_PrimitiveHolder_fSetter(UnownedRef obj, float newValue, out CreatedRef exn);
-        delegate CreatedRef _TestAPI_Primitives_PrimitiveHolder_fqGetter(UnownedRef obj, out CreatedRef exn);
-        delegate void _TestAPI_Primitives_PrimitiveHolder_fqSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
-        delegate nint _TestAPI_Primitives_PrimitiveHolder_iGetter(UnownedRef obj, out CreatedRef exn);
-        delegate void _TestAPI_Primitives_PrimitiveHolder_iSetter(UnownedRef obj, nint newValue, out CreatedRef exn);
-        delegate short _TestAPI_Primitives_PrimitiveHolder_i16Getter(UnownedRef obj, out CreatedRef exn);
-        delegate void _TestAPI_Primitives_PrimitiveHolder_i16Setter(UnownedRef obj, short newValue, out CreatedRef exn);
-        delegate CreatedRef _TestAPI_Primitives_PrimitiveHolder_i16qGetter(UnownedRef obj, out CreatedRef exn);
-        delegate void _TestAPI_Primitives_PrimitiveHolder_i16qSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
-        delegate int _TestAPI_Primitives_PrimitiveHolder_i32Getter(UnownedRef obj, out CreatedRef exn);
-        delegate void _TestAPI_Primitives_PrimitiveHolder_i32Setter(UnownedRef obj, int newValue, out CreatedRef exn);
-        delegate CreatedRef _TestAPI_Primitives_PrimitiveHolder_i32qGetter(UnownedRef obj, out CreatedRef exn);
-        delegate void _TestAPI_Primitives_PrimitiveHolder_i32qSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
-        delegate long _TestAPI_Primitives_PrimitiveHolder_i64Getter(UnownedRef obj, out CreatedRef exn);
-        delegate void _TestAPI_Primitives_PrimitiveHolder_i64Setter(UnownedRef obj, long newValue, out CreatedRef exn);
-        delegate CreatedRef _TestAPI_Primitives_PrimitiveHolder_i64qGetter(UnownedRef obj, out CreatedRef exn);
-        delegate void _TestAPI_Primitives_PrimitiveHolder_i64qSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
-        delegate sbyte _TestAPI_Primitives_PrimitiveHolder_i8Getter(UnownedRef obj, out CreatedRef exn);
-        delegate void _TestAPI_Primitives_PrimitiveHolder_i8Setter(UnownedRef obj, sbyte newValue, out CreatedRef exn);
-        delegate CreatedRef _TestAPI_Primitives_PrimitiveHolder_i8qGetter(UnownedRef obj, out CreatedRef exn);
-        delegate void _TestAPI_Primitives_PrimitiveHolder_i8qSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
-        delegate CreatedRef _TestAPI_Primitives_PrimitiveHolder_iqGetter(UnownedRef obj, out CreatedRef exn);
-        delegate void _TestAPI_Primitives_PrimitiveHolder_iqSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
-        delegate nuint _TestAPI_Primitives_PrimitiveHolder_uiGetter(UnownedRef obj, out CreatedRef exn);
-        delegate void _TestAPI_Primitives_PrimitiveHolder_uiSetter(UnownedRef obj, nuint newValue, out CreatedRef exn);
+        delegate byte _TestAPI_Primitives_PrimitiveHolder_ui8Getter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Primitives_PrimitiveHolder_ui8Setter(UnownedRef obj, byte newValue, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_Primitives_PrimitiveHolder_ui8qGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Primitives_PrimitiveHolder_ui8qSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
         delegate ushort _TestAPI_Primitives_PrimitiveHolder_ui16Getter(UnownedRef obj, out CreatedRef exn);
         delegate void _TestAPI_Primitives_PrimitiveHolder_ui16Setter(UnownedRef obj, ushort newValue, out CreatedRef exn);
         delegate CreatedRef _TestAPI_Primitives_PrimitiveHolder_ui16qGetter(UnownedRef obj, out CreatedRef exn);
@@ -183,12 +157,38 @@ namespace Cricut.TestAPI {
         delegate void _TestAPI_Primitives_PrimitiveHolder_ui64Setter(UnownedRef obj, ulong newValue, out CreatedRef exn);
         delegate CreatedRef _TestAPI_Primitives_PrimitiveHolder_ui64qGetter(UnownedRef obj, out CreatedRef exn);
         delegate void _TestAPI_Primitives_PrimitiveHolder_ui64qSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
-        delegate byte _TestAPI_Primitives_PrimitiveHolder_ui8Getter(UnownedRef obj, out CreatedRef exn);
-        delegate void _TestAPI_Primitives_PrimitiveHolder_ui8Setter(UnownedRef obj, byte newValue, out CreatedRef exn);
-        delegate CreatedRef _TestAPI_Primitives_PrimitiveHolder_ui8qGetter(UnownedRef obj, out CreatedRef exn);
-        delegate void _TestAPI_Primitives_PrimitiveHolder_ui8qSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate nuint _TestAPI_Primitives_PrimitiveHolder_uiGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Primitives_PrimitiveHolder_uiSetter(UnownedRef obj, nuint newValue, out CreatedRef exn);
         delegate CreatedRef _TestAPI_Primitives_PrimitiveHolder_uiqGetter(UnownedRef obj, out CreatedRef exn);
         delegate void _TestAPI_Primitives_PrimitiveHolder_uiqSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate sbyte _TestAPI_Primitives_PrimitiveHolder_i8Getter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Primitives_PrimitiveHolder_i8Setter(UnownedRef obj, sbyte newValue, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_Primitives_PrimitiveHolder_i8qGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Primitives_PrimitiveHolder_i8qSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate short _TestAPI_Primitives_PrimitiveHolder_i16Getter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Primitives_PrimitiveHolder_i16Setter(UnownedRef obj, short newValue, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_Primitives_PrimitiveHolder_i16qGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Primitives_PrimitiveHolder_i16qSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate int _TestAPI_Primitives_PrimitiveHolder_i32Getter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Primitives_PrimitiveHolder_i32Setter(UnownedRef obj, int newValue, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_Primitives_PrimitiveHolder_i32qGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Primitives_PrimitiveHolder_i32qSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate long _TestAPI_Primitives_PrimitiveHolder_i64Getter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Primitives_PrimitiveHolder_i64Setter(UnownedRef obj, long newValue, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_Primitives_PrimitiveHolder_i64qGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Primitives_PrimitiveHolder_i64qSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate nint _TestAPI_Primitives_PrimitiveHolder_iGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Primitives_PrimitiveHolder_iSetter(UnownedRef obj, nint newValue, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_Primitives_PrimitiveHolder_iqGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Primitives_PrimitiveHolder_iqSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate float _TestAPI_Primitives_PrimitiveHolder_fGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Primitives_PrimitiveHolder_fSetter(UnownedRef obj, float newValue, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_Primitives_PrimitiveHolder_fqGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Primitives_PrimitiveHolder_fqSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate double _TestAPI_Primitives_PrimitiveHolder_dGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Primitives_PrimitiveHolder_dSetter(UnownedRef obj, double newValue, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_Primitives_PrimitiveHolder_dqGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Primitives_PrimitiveHolder_dqSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Primitives_PrimitiveHolder_setup(
             IntPtr envRef,
@@ -197,36 +197,10 @@ namespace Cricut.TestAPI {
             _TestAPI_Primitives_PrimitiveHolder_bSetter set_b,
             _TestAPI_Primitives_PrimitiveHolder_bqGetter get_bq,
             _TestAPI_Primitives_PrimitiveHolder_bqSetter set_bq,
-            _TestAPI_Primitives_PrimitiveHolder_dGetter get_d,
-            _TestAPI_Primitives_PrimitiveHolder_dSetter set_d,
-            _TestAPI_Primitives_PrimitiveHolder_dqGetter get_dq,
-            _TestAPI_Primitives_PrimitiveHolder_dqSetter set_dq,
-            _TestAPI_Primitives_PrimitiveHolder_fGetter get_f,
-            _TestAPI_Primitives_PrimitiveHolder_fSetter set_f,
-            _TestAPI_Primitives_PrimitiveHolder_fqGetter get_fq,
-            _TestAPI_Primitives_PrimitiveHolder_fqSetter set_fq,
-            _TestAPI_Primitives_PrimitiveHolder_iGetter get_i,
-            _TestAPI_Primitives_PrimitiveHolder_iSetter set_i,
-            _TestAPI_Primitives_PrimitiveHolder_i16Getter get_i16,
-            _TestAPI_Primitives_PrimitiveHolder_i16Setter set_i16,
-            _TestAPI_Primitives_PrimitiveHolder_i16qGetter get_i16q,
-            _TestAPI_Primitives_PrimitiveHolder_i16qSetter set_i16q,
-            _TestAPI_Primitives_PrimitiveHolder_i32Getter get_i32,
-            _TestAPI_Primitives_PrimitiveHolder_i32Setter set_i32,
-            _TestAPI_Primitives_PrimitiveHolder_i32qGetter get_i32q,
-            _TestAPI_Primitives_PrimitiveHolder_i32qSetter set_i32q,
-            _TestAPI_Primitives_PrimitiveHolder_i64Getter get_i64,
-            _TestAPI_Primitives_PrimitiveHolder_i64Setter set_i64,
-            _TestAPI_Primitives_PrimitiveHolder_i64qGetter get_i64q,
-            _TestAPI_Primitives_PrimitiveHolder_i64qSetter set_i64q,
-            _TestAPI_Primitives_PrimitiveHolder_i8Getter get_i8,
-            _TestAPI_Primitives_PrimitiveHolder_i8Setter set_i8,
-            _TestAPI_Primitives_PrimitiveHolder_i8qGetter get_i8q,
-            _TestAPI_Primitives_PrimitiveHolder_i8qSetter set_i8q,
-            _TestAPI_Primitives_PrimitiveHolder_iqGetter get_iq,
-            _TestAPI_Primitives_PrimitiveHolder_iqSetter set_iq,
-            _TestAPI_Primitives_PrimitiveHolder_uiGetter get_ui,
-            _TestAPI_Primitives_PrimitiveHolder_uiSetter set_ui,
+            _TestAPI_Primitives_PrimitiveHolder_ui8Getter get_ui8,
+            _TestAPI_Primitives_PrimitiveHolder_ui8Setter set_ui8,
+            _TestAPI_Primitives_PrimitiveHolder_ui8qGetter get_ui8q,
+            _TestAPI_Primitives_PrimitiveHolder_ui8qSetter set_ui8q,
             _TestAPI_Primitives_PrimitiveHolder_ui16Getter get_ui16,
             _TestAPI_Primitives_PrimitiveHolder_ui16Setter set_ui16,
             _TestAPI_Primitives_PrimitiveHolder_ui16qGetter get_ui16q,
@@ -239,12 +213,38 @@ namespace Cricut.TestAPI {
             _TestAPI_Primitives_PrimitiveHolder_ui64Setter set_ui64,
             _TestAPI_Primitives_PrimitiveHolder_ui64qGetter get_ui64q,
             _TestAPI_Primitives_PrimitiveHolder_ui64qSetter set_ui64q,
-            _TestAPI_Primitives_PrimitiveHolder_ui8Getter get_ui8,
-            _TestAPI_Primitives_PrimitiveHolder_ui8Setter set_ui8,
-            _TestAPI_Primitives_PrimitiveHolder_ui8qGetter get_ui8q,
-            _TestAPI_Primitives_PrimitiveHolder_ui8qSetter set_ui8q,
+            _TestAPI_Primitives_PrimitiveHolder_uiGetter get_ui,
+            _TestAPI_Primitives_PrimitiveHolder_uiSetter set_ui,
             _TestAPI_Primitives_PrimitiveHolder_uiqGetter get_uiq,
             _TestAPI_Primitives_PrimitiveHolder_uiqSetter set_uiq,
+            _TestAPI_Primitives_PrimitiveHolder_i8Getter get_i8,
+            _TestAPI_Primitives_PrimitiveHolder_i8Setter set_i8,
+            _TestAPI_Primitives_PrimitiveHolder_i8qGetter get_i8q,
+            _TestAPI_Primitives_PrimitiveHolder_i8qSetter set_i8q,
+            _TestAPI_Primitives_PrimitiveHolder_i16Getter get_i16,
+            _TestAPI_Primitives_PrimitiveHolder_i16Setter set_i16,
+            _TestAPI_Primitives_PrimitiveHolder_i16qGetter get_i16q,
+            _TestAPI_Primitives_PrimitiveHolder_i16qSetter set_i16q,
+            _TestAPI_Primitives_PrimitiveHolder_i32Getter get_i32,
+            _TestAPI_Primitives_PrimitiveHolder_i32Setter set_i32,
+            _TestAPI_Primitives_PrimitiveHolder_i32qGetter get_i32q,
+            _TestAPI_Primitives_PrimitiveHolder_i32qSetter set_i32q,
+            _TestAPI_Primitives_PrimitiveHolder_i64Getter get_i64,
+            _TestAPI_Primitives_PrimitiveHolder_i64Setter set_i64,
+            _TestAPI_Primitives_PrimitiveHolder_i64qGetter get_i64q,
+            _TestAPI_Primitives_PrimitiveHolder_i64qSetter set_i64q,
+            _TestAPI_Primitives_PrimitiveHolder_iGetter get_i,
+            _TestAPI_Primitives_PrimitiveHolder_iSetter set_i,
+            _TestAPI_Primitives_PrimitiveHolder_iqGetter get_iq,
+            _TestAPI_Primitives_PrimitiveHolder_iqSetter set_iq,
+            _TestAPI_Primitives_PrimitiveHolder_fGetter get_f,
+            _TestAPI_Primitives_PrimitiveHolder_fSetter set_f,
+            _TestAPI_Primitives_PrimitiveHolder_fqGetter get_fq,
+            _TestAPI_Primitives_PrimitiveHolder_fqSetter set_fq,
+            _TestAPI_Primitives_PrimitiveHolder_dGetter get_d,
+            _TestAPI_Primitives_PrimitiveHolder_dSetter set_d,
+            _TestAPI_Primitives_PrimitiveHolder_dqGetter get_dq,
+            _TestAPI_Primitives_PrimitiveHolder_dqSetter set_dq,
             out CreatedRef _exn
         );
 
@@ -304,22 +304,22 @@ namespace Cricut.TestAPI {
         );
 
         delegate CreatedRef _TestAPI_AProtocolImplementationConstructor(
-            bool baz,
             ConsumedRef foo,
+            bool baz,
             out CreatedRef exn
         );
-        delegate bool _TestAPI_AProtocolImplementation_bazGetter(UnownedRef obj, out CreatedRef exn);
-        delegate void _TestAPI_AProtocolImplementation_bazSetter(UnownedRef obj, bool newValue, out CreatedRef exn);
         delegate CreatedRef _TestAPI_AProtocolImplementation_fooGetter(UnownedRef obj, out CreatedRef exn);
         delegate void _TestAPI_AProtocolImplementation_fooSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate bool _TestAPI_AProtocolImplementation_bazGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_AProtocolImplementation_bazSetter(UnownedRef obj, bool newValue, out CreatedRef exn);
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_AProtocolImplementation_setup(
             IntPtr envRef,
             _TestAPI_AProtocolImplementationConstructor constructor,
-            _TestAPI_AProtocolImplementation_bazGetter get_baz,
-            _TestAPI_AProtocolImplementation_bazSetter set_baz,
             _TestAPI_AProtocolImplementation_fooGetter get_foo,
             _TestAPI_AProtocolImplementation_fooSetter set_foo,
+            _TestAPI_AProtocolImplementation_bazGetter get_baz,
+            _TestAPI_AProtocolImplementation_bazSetter set_baz,
             out CreatedRef _exn
         );
 
@@ -1557,17 +1557,17 @@ namespace Cricut.TestAPI {
                 Console.WriteLine("setting up TestAPI.Collections.CollectionHolder...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Collections_CollectionHolder_setup(
                     Loader.env,
-                    bag<_TestAPI_Collections_CollectionHolderConstructor>((ConsumedRef boolArray, ConsumedRef boolDictionary, ConsumedRef boolSet, ConsumedRef integerArray, ConsumedRef integerDictionary, ConsumedRef integerSet, ConsumedRef stringArray, ConsumedRef stringDictionary, ConsumedRef stringSet, out CreatedRef exn) => Catching(out exn, () => {
+                    bag<_TestAPI_Collections_CollectionHolderConstructor>((ConsumedRef boolArray, ConsumedRef boolSet, ConsumedRef boolDictionary, ConsumedRef integerArray, ConsumedRef integerSet, ConsumedRef integerDictionary, ConsumedRef stringArray, ConsumedRef stringSet, ConsumedRef stringDictionary, out CreatedRef exn) => Catching(out exn, () => {
                         return new CreatedRef(new Cricut.TestAPI.Collections.CollectionHolder(
                             boolArray.Consume<System.Collections.Generic.IList<bool>>(),
-                            boolDictionary.Consume<System.Collections.Generic.IDictionary<bool, bool>>(),
                             boolSet.Consume<System.Collections.Generic.ISet<bool>>(),
+                            boolDictionary.Consume<System.Collections.Generic.IDictionary<bool, bool>>(),
                             integerArray.Consume<System.Collections.Generic.IList<nint>>(),
-                            integerDictionary.Consume<System.Collections.Generic.IDictionary<nint, nint>>(),
                             integerSet.Consume<System.Collections.Generic.ISet<nint>>(),
+                            integerDictionary.Consume<System.Collections.Generic.IDictionary<nint, nint>>(),
                             stringArray.Consume<System.Collections.Generic.IList<string>>(),
-                            stringDictionary.Consume<System.Collections.Generic.IDictionary<string, string>>(),
-                            stringSet.Consume<System.Collections.Generic.ISet<string>>()
+                            stringSet.Consume<System.Collections.Generic.ISet<string>>(),
+                            stringDictionary.Consume<System.Collections.Generic.IDictionary<string, string>>()
                         ));
                     })),
                     bag<_TestAPI_Collections_CollectionHolder_boolArrayGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
@@ -1576,17 +1576,17 @@ namespace Cricut.TestAPI {
                     bag<_TestAPI_Collections_CollectionHolder_boolArraySetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().BoolArray = newValue.Consume<System.Collections.Generic.IList<bool>>();
                     })),
-                    bag<_TestAPI_Collections_CollectionHolder_boolDictionaryGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
-                        new CreatedRef(obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().BoolDictionary)
-                    )),
-                    bag<_TestAPI_Collections_CollectionHolder_boolDictionarySetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().BoolDictionary = newValue.Consume<System.Collections.Generic.IDictionary<bool, bool>>();
-                    })),
                     bag<_TestAPI_Collections_CollectionHolder_boolSetGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().BoolSet)
                     )),
                     bag<_TestAPI_Collections_CollectionHolder_boolSetSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().BoolSet = newValue.Consume<System.Collections.Generic.ISet<bool>>();
+                    })),
+                    bag<_TestAPI_Collections_CollectionHolder_boolDictionaryGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().BoolDictionary)
+                    )),
+                    bag<_TestAPI_Collections_CollectionHolder_boolDictionarySetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().BoolDictionary = newValue.Consume<System.Collections.Generic.IDictionary<bool, bool>>();
                     })),
                     bag<_TestAPI_Collections_CollectionHolder_integerArrayGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().IntegerArray)
@@ -1594,17 +1594,17 @@ namespace Cricut.TestAPI {
                     bag<_TestAPI_Collections_CollectionHolder_integerArraySetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().IntegerArray = newValue.Consume<System.Collections.Generic.IList<nint>>();
                     })),
-                    bag<_TestAPI_Collections_CollectionHolder_integerDictionaryGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
-                        new CreatedRef(obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().IntegerDictionary)
-                    )),
-                    bag<_TestAPI_Collections_CollectionHolder_integerDictionarySetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().IntegerDictionary = newValue.Consume<System.Collections.Generic.IDictionary<nint, nint>>();
-                    })),
                     bag<_TestAPI_Collections_CollectionHolder_integerSetGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().IntegerSet)
                     )),
                     bag<_TestAPI_Collections_CollectionHolder_integerSetSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().IntegerSet = newValue.Consume<System.Collections.Generic.ISet<nint>>();
+                    })),
+                    bag<_TestAPI_Collections_CollectionHolder_integerDictionaryGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().IntegerDictionary)
+                    )),
+                    bag<_TestAPI_Collections_CollectionHolder_integerDictionarySetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().IntegerDictionary = newValue.Consume<System.Collections.Generic.IDictionary<nint, nint>>();
                     })),
                     bag<_TestAPI_Collections_CollectionHolder_stringArrayGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().StringArray)
@@ -1612,17 +1612,17 @@ namespace Cricut.TestAPI {
                     bag<_TestAPI_Collections_CollectionHolder_stringArraySetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().StringArray = newValue.Consume<System.Collections.Generic.IList<string>>();
                     })),
-                    bag<_TestAPI_Collections_CollectionHolder_stringDictionaryGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
-                        new CreatedRef(obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().StringDictionary)
-                    )),
-                    bag<_TestAPI_Collections_CollectionHolder_stringDictionarySetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().StringDictionary = newValue.Consume<System.Collections.Generic.IDictionary<string, string>>();
-                    })),
                     bag<_TestAPI_Collections_CollectionHolder_stringSetGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().StringSet)
                     )),
                     bag<_TestAPI_Collections_CollectionHolder_stringSetSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().StringSet = newValue.Consume<System.Collections.Generic.ISet<string>>();
+                    })),
+                    bag<_TestAPI_Collections_CollectionHolder_stringDictionaryGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().StringDictionary)
+                    )),
+                    bag<_TestAPI_Collections_CollectionHolder_stringDictionarySetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().StringDictionary = newValue.Consume<System.Collections.Generic.IDictionary<string, string>>();
                     })),
                     out exn
                 ));
@@ -1631,34 +1631,34 @@ namespace Cricut.TestAPI {
                 Console.WriteLine("setting up TestAPI.Primitives.PrimitiveHolder...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Primitives_PrimitiveHolder_setup(
                     Loader.env,
-                    bag<_TestAPI_Primitives_PrimitiveHolderConstructor>((bool b, ConsumedRef bq, double d, ConsumedRef dq, float f, ConsumedRef fq, nint i, short i16, ConsumedRef i16q, int i32, ConsumedRef i32q, long i64, ConsumedRef i64q, sbyte i8, ConsumedRef i8q, ConsumedRef iq, nuint ui, ushort ui16, ConsumedRef ui16q, uint ui32, ConsumedRef ui32q, ulong ui64, ConsumedRef ui64q, byte ui8, ConsumedRef ui8q, ConsumedRef uiq, out CreatedRef exn) => Catching(out exn, () => {
+                    bag<_TestAPI_Primitives_PrimitiveHolderConstructor>((bool b, ConsumedRef bq, byte ui8, ConsumedRef ui8q, ushort ui16, ConsumedRef ui16q, uint ui32, ConsumedRef ui32q, ulong ui64, ConsumedRef ui64q, nuint ui, ConsumedRef uiq, sbyte i8, ConsumedRef i8q, short i16, ConsumedRef i16q, int i32, ConsumedRef i32q, long i64, ConsumedRef i64q, nint i, ConsumedRef iq, float f, ConsumedRef fq, double d, ConsumedRef dq, out CreatedRef exn) => Catching(out exn, () => {
                         return new CreatedRef(new Cricut.TestAPI.Primitives.PrimitiveHolder(
                             b,
                             bq.Consume<bool?>(),
-                            d,
-                            dq.Consume<double?>(),
-                            f,
-                            fq.Consume<float?>(),
-                            i,
-                            i16,
-                            i16q.Consume<short?>(),
-                            i32,
-                            i32q.Consume<int?>(),
-                            i64,
-                            i64q.Consume<long?>(),
-                            i8,
-                            i8q.Consume<sbyte?>(),
-                            iq.Consume<nint?>(),
-                            ui,
+                            ui8,
+                            ui8q.Consume<byte?>(),
                             ui16,
                             ui16q.Consume<ushort?>(),
                             ui32,
                             ui32q.Consume<uint?>(),
                             ui64,
                             ui64q.Consume<ulong?>(),
-                            ui8,
-                            ui8q.Consume<byte?>(),
-                            uiq.Consume<nuint?>()
+                            ui,
+                            uiq.Consume<nuint?>(),
+                            i8,
+                            i8q.Consume<sbyte?>(),
+                            i16,
+                            i16q.Consume<short?>(),
+                            i32,
+                            i32q.Consume<int?>(),
+                            i64,
+                            i64q.Consume<long?>(),
+                            i,
+                            iq.Consume<nint?>(),
+                            f,
+                            fq.Consume<float?>(),
+                            d,
+                            dq.Consume<double?>()
                         ));
                     })),
                     bag<_TestAPI_Primitives_PrimitiveHolder_bGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
@@ -1673,95 +1673,17 @@ namespace Cricut.TestAPI {
                     bag<_TestAPI_Primitives_PrimitiveHolder_bqSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Bq = newValue.Consume<bool?>();
                     })),
-                    bag<_TestAPI_Primitives_PrimitiveHolder_dGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().D
+                    bag<_TestAPI_Primitives_PrimitiveHolder_ui8Getter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui8
                     )),
-                    bag<_TestAPI_Primitives_PrimitiveHolder_dSetter>((UnownedRef obj, double newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().D = newValue;
+                    bag<_TestAPI_Primitives_PrimitiveHolder_ui8Setter>((UnownedRef obj, byte newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui8 = newValue;
                     })),
-                    bag<_TestAPI_Primitives_PrimitiveHolder_dqGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
-                        new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Dq)
+                    bag<_TestAPI_Primitives_PrimitiveHolder_ui8qGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui8q)
                     )),
-                    bag<_TestAPI_Primitives_PrimitiveHolder_dqSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Dq = newValue.Consume<double?>();
-                    })),
-                    bag<_TestAPI_Primitives_PrimitiveHolder_fGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().F
-                    )),
-                    bag<_TestAPI_Primitives_PrimitiveHolder_fSetter>((UnownedRef obj, float newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().F = newValue;
-                    })),
-                    bag<_TestAPI_Primitives_PrimitiveHolder_fqGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
-                        new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Fq)
-                    )),
-                    bag<_TestAPI_Primitives_PrimitiveHolder_fqSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Fq = newValue.Consume<float?>();
-                    })),
-                    bag<_TestAPI_Primitives_PrimitiveHolder_iGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I
-                    )),
-                    bag<_TestAPI_Primitives_PrimitiveHolder_iSetter>((UnownedRef obj, nint newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I = newValue;
-                    })),
-                    bag<_TestAPI_Primitives_PrimitiveHolder_i16Getter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I16
-                    )),
-                    bag<_TestAPI_Primitives_PrimitiveHolder_i16Setter>((UnownedRef obj, short newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I16 = newValue;
-                    })),
-                    bag<_TestAPI_Primitives_PrimitiveHolder_i16qGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
-                        new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I16q)
-                    )),
-                    bag<_TestAPI_Primitives_PrimitiveHolder_i16qSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I16q = newValue.Consume<short?>();
-                    })),
-                    bag<_TestAPI_Primitives_PrimitiveHolder_i32Getter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I32
-                    )),
-                    bag<_TestAPI_Primitives_PrimitiveHolder_i32Setter>((UnownedRef obj, int newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I32 = newValue;
-                    })),
-                    bag<_TestAPI_Primitives_PrimitiveHolder_i32qGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
-                        new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I32q)
-                    )),
-                    bag<_TestAPI_Primitives_PrimitiveHolder_i32qSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I32q = newValue.Consume<int?>();
-                    })),
-                    bag<_TestAPI_Primitives_PrimitiveHolder_i64Getter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I64
-                    )),
-                    bag<_TestAPI_Primitives_PrimitiveHolder_i64Setter>((UnownedRef obj, long newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I64 = newValue;
-                    })),
-                    bag<_TestAPI_Primitives_PrimitiveHolder_i64qGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
-                        new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I64q)
-                    )),
-                    bag<_TestAPI_Primitives_PrimitiveHolder_i64qSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I64q = newValue.Consume<long?>();
-                    })),
-                    bag<_TestAPI_Primitives_PrimitiveHolder_i8Getter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I8
-                    )),
-                    bag<_TestAPI_Primitives_PrimitiveHolder_i8Setter>((UnownedRef obj, sbyte newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I8 = newValue;
-                    })),
-                    bag<_TestAPI_Primitives_PrimitiveHolder_i8qGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
-                        new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I8q)
-                    )),
-                    bag<_TestAPI_Primitives_PrimitiveHolder_i8qSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I8q = newValue.Consume<sbyte?>();
-                    })),
-                    bag<_TestAPI_Primitives_PrimitiveHolder_iqGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
-                        new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Iq)
-                    )),
-                    bag<_TestAPI_Primitives_PrimitiveHolder_iqSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Iq = newValue.Consume<nint?>();
-                    })),
-                    bag<_TestAPI_Primitives_PrimitiveHolder_uiGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui
-                    )),
-                    bag<_TestAPI_Primitives_PrimitiveHolder_uiSetter>((UnownedRef obj, nuint newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui = newValue;
+                    bag<_TestAPI_Primitives_PrimitiveHolder_ui8qSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui8q = newValue.Consume<byte?>();
                     })),
                     bag<_TestAPI_Primitives_PrimitiveHolder_ui16Getter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui16
@@ -1799,23 +1721,101 @@ namespace Cricut.TestAPI {
                     bag<_TestAPI_Primitives_PrimitiveHolder_ui64qSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui64q = newValue.Consume<ulong?>();
                     })),
-                    bag<_TestAPI_Primitives_PrimitiveHolder_ui8Getter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui8
+                    bag<_TestAPI_Primitives_PrimitiveHolder_uiGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui
                     )),
-                    bag<_TestAPI_Primitives_PrimitiveHolder_ui8Setter>((UnownedRef obj, byte newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui8 = newValue;
-                    })),
-                    bag<_TestAPI_Primitives_PrimitiveHolder_ui8qGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
-                        new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui8q)
-                    )),
-                    bag<_TestAPI_Primitives_PrimitiveHolder_ui8qSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui8q = newValue.Consume<byte?>();
+                    bag<_TestAPI_Primitives_PrimitiveHolder_uiSetter>((UnownedRef obj, nuint newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui = newValue;
                     })),
                     bag<_TestAPI_Primitives_PrimitiveHolder_uiqGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Uiq)
                     )),
                     bag<_TestAPI_Primitives_PrimitiveHolder_uiqSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Uiq = newValue.Consume<nuint?>();
+                    })),
+                    bag<_TestAPI_Primitives_PrimitiveHolder_i8Getter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I8
+                    )),
+                    bag<_TestAPI_Primitives_PrimitiveHolder_i8Setter>((UnownedRef obj, sbyte newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I8 = newValue;
+                    })),
+                    bag<_TestAPI_Primitives_PrimitiveHolder_i8qGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I8q)
+                    )),
+                    bag<_TestAPI_Primitives_PrimitiveHolder_i8qSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I8q = newValue.Consume<sbyte?>();
+                    })),
+                    bag<_TestAPI_Primitives_PrimitiveHolder_i16Getter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I16
+                    )),
+                    bag<_TestAPI_Primitives_PrimitiveHolder_i16Setter>((UnownedRef obj, short newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I16 = newValue;
+                    })),
+                    bag<_TestAPI_Primitives_PrimitiveHolder_i16qGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I16q)
+                    )),
+                    bag<_TestAPI_Primitives_PrimitiveHolder_i16qSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I16q = newValue.Consume<short?>();
+                    })),
+                    bag<_TestAPI_Primitives_PrimitiveHolder_i32Getter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I32
+                    )),
+                    bag<_TestAPI_Primitives_PrimitiveHolder_i32Setter>((UnownedRef obj, int newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I32 = newValue;
+                    })),
+                    bag<_TestAPI_Primitives_PrimitiveHolder_i32qGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I32q)
+                    )),
+                    bag<_TestAPI_Primitives_PrimitiveHolder_i32qSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I32q = newValue.Consume<int?>();
+                    })),
+                    bag<_TestAPI_Primitives_PrimitiveHolder_i64Getter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I64
+                    )),
+                    bag<_TestAPI_Primitives_PrimitiveHolder_i64Setter>((UnownedRef obj, long newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I64 = newValue;
+                    })),
+                    bag<_TestAPI_Primitives_PrimitiveHolder_i64qGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I64q)
+                    )),
+                    bag<_TestAPI_Primitives_PrimitiveHolder_i64qSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I64q = newValue.Consume<long?>();
+                    })),
+                    bag<_TestAPI_Primitives_PrimitiveHolder_iGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I
+                    )),
+                    bag<_TestAPI_Primitives_PrimitiveHolder_iSetter>((UnownedRef obj, nint newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I = newValue;
+                    })),
+                    bag<_TestAPI_Primitives_PrimitiveHolder_iqGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Iq)
+                    )),
+                    bag<_TestAPI_Primitives_PrimitiveHolder_iqSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Iq = newValue.Consume<nint?>();
+                    })),
+                    bag<_TestAPI_Primitives_PrimitiveHolder_fGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().F
+                    )),
+                    bag<_TestAPI_Primitives_PrimitiveHolder_fSetter>((UnownedRef obj, float newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().F = newValue;
+                    })),
+                    bag<_TestAPI_Primitives_PrimitiveHolder_fqGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Fq)
+                    )),
+                    bag<_TestAPI_Primitives_PrimitiveHolder_fqSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Fq = newValue.Consume<float?>();
+                    })),
+                    bag<_TestAPI_Primitives_PrimitiveHolder_dGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().D
+                    )),
+                    bag<_TestAPI_Primitives_PrimitiveHolder_dSetter>((UnownedRef obj, double newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().D = newValue;
+                    })),
+                    bag<_TestAPI_Primitives_PrimitiveHolder_dqGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Dq)
+                    )),
+                    bag<_TestAPI_Primitives_PrimitiveHolder_dqSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Dq = newValue.Consume<double?>();
                     })),
                     out exn
                 ));
@@ -1894,23 +1894,23 @@ namespace Cricut.TestAPI {
                 Console.WriteLine("setting up TestAPI.AProtocolImplementation...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_AProtocolImplementation_setup(
                     Loader.env,
-                    bag<_TestAPI_AProtocolImplementationConstructor>((bool baz, ConsumedRef foo, out CreatedRef exn) => Catching(out exn, () => {
+                    bag<_TestAPI_AProtocolImplementationConstructor>((ConsumedRef foo, bool baz, out CreatedRef exn) => Catching(out exn, () => {
                         return new CreatedRef(new Cricut.TestAPI.AProtocolImplementation(
-                            baz,
-                            foo.Consume<string>()
+                            foo.Consume<string>(),
+                            baz
                         ));
-                    })),
-                    bag<_TestAPI_AProtocolImplementation_bazGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
-                        obj.Peek<Cricut.TestAPI.AProtocolImplementation>().Baz
-                    )),
-                    bag<_TestAPI_AProtocolImplementation_bazSetter>((UnownedRef obj, bool newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.AProtocolImplementation>().Baz = newValue;
                     })),
                     bag<_TestAPI_AProtocolImplementation_fooGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.AProtocolImplementation>().Foo)
                     )),
                     bag<_TestAPI_AProtocolImplementation_fooSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.AProtocolImplementation>().Foo = newValue.Consume<string>();
+                    })),
+                    bag<_TestAPI_AProtocolImplementation_bazGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.AProtocolImplementation>().Baz
+                    )),
+                    bag<_TestAPI_AProtocolImplementation_bazSetter>((UnownedRef obj, bool newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.AProtocolImplementation>().Baz = newValue;
                     })),
                     out exn
                 ));

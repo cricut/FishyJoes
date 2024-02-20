@@ -46,34 +46,10 @@ class Ranges {
         throw UnsupportedError('This class is supposed to be uninhabited');
     });
 
-    /// <!-- FishyJoes.export(int16Range) -->
-    static FishyJoesRuntime.SwiftRange<int> get int16Range =>
+    /// <!-- FishyJoes.export(uInt8Range) -->
+    static FishyJoesRuntime.SwiftRange<int> get uInt8Range =>
         check((exn) =>
-            consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(f__iota_get_TestAPI_Ranges_int16Range(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(int32Range) -->
-    static FishyJoesRuntime.SwiftRange<int> get int32Range =>
-        check((exn) =>
-            consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(f__iota_get_TestAPI_Ranges_int32Range(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(int64Range) -->
-    static FishyJoesRuntime.SwiftRange<int> get int64Range =>
-        check((exn) =>
-            consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(f__iota_get_TestAPI_Ranges_int64Range(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(int8Range) -->
-    static FishyJoesRuntime.SwiftRange<int> get int8Range =>
-        check((exn) =>
-            consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(f__iota_get_TestAPI_Ranges_int8Range(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(intRange) -->
-    static FishyJoesRuntime.SwiftRange<int> get intRange =>
-        check((exn) =>
-            consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(f__iota_get_TestAPI_Ranges_intRange(Loader.shared.env, exn))
+            consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(f__iota_get_TestAPI_Ranges_uInt8Range(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(uInt16Range) -->
@@ -94,60 +70,48 @@ class Ranges {
             consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(f__iota_get_TestAPI_Ranges_uInt64Range(Loader.shared.env, exn))
         )
     ;
-    /// <!-- FishyJoes.export(uInt8Range) -->
-    static FishyJoesRuntime.SwiftRange<int> get uInt8Range =>
-        check((exn) =>
-            consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(f__iota_get_TestAPI_Ranges_uInt8Range(Loader.shared.env, exn))
-        )
-    ;
     /// <!-- FishyJoes.export(uIntRange) -->
     static FishyJoesRuntime.SwiftRange<int> get uIntRange =>
         check((exn) =>
             consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(f__iota_get_TestAPI_Ranges_uIntRange(Loader.shared.env, exn))
         )
     ;
-    /// <!-- FishyJoes.export(echoInt16Range) -->
-    static FishyJoesRuntime.SwiftRange<int> echoInt16Range(
-        FishyJoesRuntime.SwiftRange<int> range,
-    ) =>
-        GCRef.using(range, (_rangeHandle) =>
-            consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Ranges_echoInt16Range(Loader.shared.env, _rangeHandle.ptr, _exn)))
+    /// <!-- FishyJoes.export(int8Range) -->
+    static FishyJoesRuntime.SwiftRange<int> get int8Range =>
+        check((exn) =>
+            consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(f__iota_get_TestAPI_Ranges_int8Range(Loader.shared.env, exn))
         )
     ;
-
-    /// <!-- FishyJoes.export(echoInt32Range) -->
-    static FishyJoesRuntime.SwiftRange<int> echoInt32Range(
-        FishyJoesRuntime.SwiftRange<int> range,
-    ) =>
-        GCRef.using(range, (_rangeHandle) =>
-            consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Ranges_echoInt32Range(Loader.shared.env, _rangeHandle.ptr, _exn)))
+    /// <!-- FishyJoes.export(int16Range) -->
+    static FishyJoesRuntime.SwiftRange<int> get int16Range =>
+        check((exn) =>
+            consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(f__iota_get_TestAPI_Ranges_int16Range(Loader.shared.env, exn))
         )
     ;
-
-    /// <!-- FishyJoes.export(echoInt64Range) -->
-    static FishyJoesRuntime.SwiftRange<int> echoInt64Range(
-        FishyJoesRuntime.SwiftRange<int> range,
-    ) =>
-        GCRef.using(range, (_rangeHandle) =>
-            consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Ranges_echoInt64Range(Loader.shared.env, _rangeHandle.ptr, _exn)))
+    /// <!-- FishyJoes.export(int32Range) -->
+    static FishyJoesRuntime.SwiftRange<int> get int32Range =>
+        check((exn) =>
+            consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(f__iota_get_TestAPI_Ranges_int32Range(Loader.shared.env, exn))
         )
     ;
-
-    /// <!-- FishyJoes.export(echoInt8Range) -->
-    static FishyJoesRuntime.SwiftRange<int> echoInt8Range(
-        FishyJoesRuntime.SwiftRange<int> range,
-    ) =>
-        GCRef.using(range, (_rangeHandle) =>
-            consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Ranges_echoInt8Range(Loader.shared.env, _rangeHandle.ptr, _exn)))
+    /// <!-- FishyJoes.export(int64Range) -->
+    static FishyJoesRuntime.SwiftRange<int> get int64Range =>
+        check((exn) =>
+            consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(f__iota_get_TestAPI_Ranges_int64Range(Loader.shared.env, exn))
         )
     ;
-
-    /// <!-- FishyJoes.export(echoIntRange) -->
-    static FishyJoesRuntime.SwiftRange<int> echoIntRange(
+    /// <!-- FishyJoes.export(intRange) -->
+    static FishyJoesRuntime.SwiftRange<int> get intRange =>
+        check((exn) =>
+            consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(f__iota_get_TestAPI_Ranges_intRange(Loader.shared.env, exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(echoUInt8Range) -->
+    static FishyJoesRuntime.SwiftRange<int> echoUInt8Range(
         FishyJoesRuntime.SwiftRange<int> range,
     ) =>
         GCRef.using(range, (_rangeHandle) =>
-            consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Ranges_echoIntRange(Loader.shared.env, _rangeHandle.ptr, _exn)))
+            consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Ranges_echoUInt8Range(Loader.shared.env, _rangeHandle.ptr, _exn)))
         )
     ;
 
@@ -178,21 +142,57 @@ class Ranges {
         )
     ;
 
-    /// <!-- FishyJoes.export(echoUInt8Range) -->
-    static FishyJoesRuntime.SwiftRange<int> echoUInt8Range(
-        FishyJoesRuntime.SwiftRange<int> range,
-    ) =>
-        GCRef.using(range, (_rangeHandle) =>
-            consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Ranges_echoUInt8Range(Loader.shared.env, _rangeHandle.ptr, _exn)))
-        )
-    ;
-
     /// <!-- FishyJoes.export(echoUIntRange) -->
     static FishyJoesRuntime.SwiftRange<int> echoUIntRange(
         FishyJoesRuntime.SwiftRange<int> range,
     ) =>
         GCRef.using(range, (_rangeHandle) =>
             consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Ranges_echoUIntRange(Loader.shared.env, _rangeHandle.ptr, _exn)))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(echoInt8Range) -->
+    static FishyJoesRuntime.SwiftRange<int> echoInt8Range(
+        FishyJoesRuntime.SwiftRange<int> range,
+    ) =>
+        GCRef.using(range, (_rangeHandle) =>
+            consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Ranges_echoInt8Range(Loader.shared.env, _rangeHandle.ptr, _exn)))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(echoInt16Range) -->
+    static FishyJoesRuntime.SwiftRange<int> echoInt16Range(
+        FishyJoesRuntime.SwiftRange<int> range,
+    ) =>
+        GCRef.using(range, (_rangeHandle) =>
+            consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Ranges_echoInt16Range(Loader.shared.env, _rangeHandle.ptr, _exn)))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(echoInt32Range) -->
+    static FishyJoesRuntime.SwiftRange<int> echoInt32Range(
+        FishyJoesRuntime.SwiftRange<int> range,
+    ) =>
+        GCRef.using(range, (_rangeHandle) =>
+            consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Ranges_echoInt32Range(Loader.shared.env, _rangeHandle.ptr, _exn)))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(echoInt64Range) -->
+    static FishyJoesRuntime.SwiftRange<int> echoInt64Range(
+        FishyJoesRuntime.SwiftRange<int> range,
+    ) =>
+        GCRef.using(range, (_rangeHandle) =>
+            consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Ranges_echoInt64Range(Loader.shared.env, _rangeHandle.ptr, _exn)))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(echoIntRange) -->
+    static FishyJoesRuntime.SwiftRange<int> echoIntRange(
+        FishyJoesRuntime.SwiftRange<int> range,
+    ) =>
+        GCRef.using(range, (_rangeHandle) =>
+            consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Ranges_echoIntRange(Loader.shared.env, _rangeHandle.ptr, _exn)))
         )
     ;
 

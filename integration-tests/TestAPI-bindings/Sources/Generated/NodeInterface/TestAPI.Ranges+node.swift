@@ -21,68 +21,12 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
             env: env,
             name: "Ranges",
             properties: [
-                "echoInt16Range": (
+                "echoUInt8Range": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt16Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let result = try RangeConverter<Swift.Int16>.toNode(
-                                TestAPI.Ranges.echoInt16Range(
-                                    try env.argument(at: 0, converter: RangeConverter<Swift.Int16>.self)
-                                ),
-                                env: env.env
-                            )
-                            return result
-                        }
-                    },
-                    isStatic: true
-                ),
-                "echoInt32Range": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt32Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let result = try RangeConverter<Swift.Int32>.toNode(
-                                TestAPI.Ranges.echoInt32Range(
-                                    try env.argument(at: 0, converter: RangeConverter<Swift.Int32>.self)
-                                ),
-                                env: env.env
-                            )
-                            return result
-                        }
-                    },
-                    isStatic: true
-                ),
-                "echoInt64Range": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt64Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let result = try RangeConverter<Swift.Int64>.toNode(
-                                TestAPI.Ranges.echoInt64Range(
-                                    try env.argument(at: 0, converter: RangeConverter<Swift.Int64>.self)
-                                ),
-                                env: env.env
-                            )
-                            return result
-                        }
-                    },
-                    isStatic: true
-                ),
-                "echoInt8Range": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt8Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let result = try RangeConverter<Swift.Int8>.toNode(
-                                TestAPI.Ranges.echoInt8Range(
-                                    try env.argument(at: 0, converter: RangeConverter<Swift.Int8>.self)
-                                ),
-                                env: env.env
-                            )
-                            return result
-                        }
-                    },
-                    isStatic: true
-                ),
-                "echoIntRange": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoIntRange", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let result = try RangeConverter<Swift.Int>.toNode(
-                                TestAPI.Ranges.echoIntRange(
-                                    try env.argument(at: 0, converter: RangeConverter<Swift.Int>.self)
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt8Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try RangeConverter<Swift.UInt8>.toNode(
+                                TestAPI.Ranges.echoUInt8Range(
+                                    try env.argument(at: 0, converter: RangeConverter<Swift.UInt8>.self)
                                 ),
                                 env: env.env
                             )
@@ -133,20 +77,6 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoUInt8Range": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt8Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let result = try RangeConverter<Swift.UInt8>.toNode(
-                                TestAPI.Ranges.echoUInt8Range(
-                                    try env.argument(at: 0, converter: RangeConverter<Swift.UInt8>.self)
-                                ),
-                                env: env.env
-                            )
-                            return result
-                        }
-                    },
-                    isStatic: true
-                ),
                 "echoUIntRange": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUIntRange", expectedArgumentCount: 1, hasNamedOptions: false) { env in
@@ -161,55 +91,81 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "int16Range": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "int16Range", expectedArgumentCount: 0) { env in
-                                try RangeConverter<Swift.Int16>.toNode(TestAPI.Ranges.int16Range, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
+                "echoInt8Range": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt8Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try RangeConverter<Swift.Int8>.toNode(
+                                TestAPI.Ranges.echoInt8Range(
+                                    try env.argument(at: 0, converter: RangeConverter<Swift.Int8>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
                     isStatic: true
                 ),
-                "int32Range": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "int32Range", expectedArgumentCount: 0) { env in
-                                try RangeConverter<Swift.Int32>.toNode(TestAPI.Ranges.int32Range, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
+                "echoInt16Range": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt16Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try RangeConverter<Swift.Int16>.toNode(
+                                TestAPI.Ranges.echoInt16Range(
+                                    try env.argument(at: 0, converter: RangeConverter<Swift.Int16>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
                     isStatic: true
                 ),
-                "int64Range": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "int64Range", expectedArgumentCount: 0) { env in
-                                try RangeConverter<Swift.Int64>.toNode(TestAPI.Ranges.int64Range, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
+                "echoInt32Range": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt32Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try RangeConverter<Swift.Int32>.toNode(
+                                TestAPI.Ranges.echoInt32Range(
+                                    try env.argument(at: 0, converter: RangeConverter<Swift.Int32>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
                     isStatic: true
                 ),
-                "int8Range": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "int8Range", expectedArgumentCount: 0) { env in
-                                try RangeConverter<Swift.Int8>.toNode(TestAPI.Ranges.int8Range, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
+                "echoInt64Range": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt64Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try RangeConverter<Swift.Int64>.toNode(
+                                TestAPI.Ranges.echoInt64Range(
+                                    try env.argument(at: 0, converter: RangeConverter<Swift.Int64>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
                     isStatic: true
                 ),
-                "intRange": (
+                "echoIntRange": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoIntRange", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try RangeConverter<Swift.Int>.toNode(
+                                TestAPI.Ranges.echoIntRange(
+                                    try env.argument(at: 0, converter: RangeConverter<Swift.Int>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
+                "uInt8Range": (
                     .accessor(
                         getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "intRange", expectedArgumentCount: 0) { env in
-                                try RangeConverter<Swift.Int>.toNode(TestAPI.Ranges.intRange, env: env.env)
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "uInt8Range", expectedArgumentCount: 0) { env in
+                                try RangeConverter<Swift.UInt8>.toNode(TestAPI.Ranges.uInt8Range, env: env.env)
                             }
                         },
                         setter: nil
@@ -249,22 +205,66 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "uInt8Range": (
+                "uIntRange": (
                     .accessor(
                         getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "uInt8Range", expectedArgumentCount: 0) { env in
-                                try RangeConverter<Swift.UInt8>.toNode(TestAPI.Ranges.uInt8Range, env: env.env)
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "uIntRange", expectedArgumentCount: 0) { env in
+                                try RangeConverter<Swift.UInt>.toNode(TestAPI.Ranges.uIntRange, env: env.env)
                             }
                         },
                         setter: nil
                     ),
                     isStatic: true
                 ),
-                "uIntRange": (
+                "int8Range": (
                     .accessor(
                         getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "uIntRange", expectedArgumentCount: 0) { env in
-                                try RangeConverter<Swift.UInt>.toNode(TestAPI.Ranges.uIntRange, env: env.env)
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "int8Range", expectedArgumentCount: 0) { env in
+                                try RangeConverter<Swift.Int8>.toNode(TestAPI.Ranges.int8Range, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                "int16Range": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "int16Range", expectedArgumentCount: 0) { env in
+                                try RangeConverter<Swift.Int16>.toNode(TestAPI.Ranges.int16Range, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                "int32Range": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "int32Range", expectedArgumentCount: 0) { env in
+                                try RangeConverter<Swift.Int32>.toNode(TestAPI.Ranges.int32Range, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                "int64Range": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "int64Range", expectedArgumentCount: 0) { env in
+                                try RangeConverter<Swift.Int64>.toNode(TestAPI.Ranges.int64Range, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                "intRange": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "intRange", expectedArgumentCount: 0) { env in
+                                try RangeConverter<Swift.Int>.toNode(TestAPI.Ranges.intRange, env: env.env)
                             }
                         },
                         setter: nil

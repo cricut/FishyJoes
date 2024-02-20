@@ -35,11 +35,11 @@ extension TestAPI.URLs: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "localFile": (
+                "simple": (
                     .accessor(
                         getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "localFile", expectedArgumentCount: 0) { env in
-                                try Foundation.URL.toNode(TestAPI.URLs.localFile, env: env.env)
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "simple", expectedArgumentCount: 0) { env in
+                                try Foundation.URL.toNode(TestAPI.URLs.simple, env: env.env)
                             }
                         },
                         setter: nil
@@ -57,11 +57,11 @@ extension TestAPI.URLs: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "simple": (
+                "localFile": (
                     .accessor(
                         getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "simple", expectedArgumentCount: 0) { env in
-                                try Foundation.URL.toNode(TestAPI.URLs.simple, env: env.env)
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "localFile", expectedArgumentCount: 0) { env in
+                                try Foundation.URL.toNode(TestAPI.URLs.localFile, env: env.env)
                             }
                         },
                         setter: nil

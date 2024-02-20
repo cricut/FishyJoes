@@ -41,58 +41,58 @@ import 'package:tuple/tuple.dart' as tuple;
 /// <!-- FishyJoes.export(Collections.CollectionHolder) -->
 class Collections_CollectionHolder {
     List<bool> boolArray;
-    Map<bool, bool> boolDictionary;
     Set<bool> boolSet;
+    Map<bool, bool> boolDictionary;
     List<int> integerArray;
-    Map<int, int> integerDictionary;
     Set<int> integerSet;
+    Map<int, int> integerDictionary;
     List<String> stringArray;
-    Map<String, String> stringDictionary;
     Set<String> stringSet;
+    Map<String, String> stringDictionary;
 
     Collections_CollectionHolder({
         required List<bool> boolArray,
-        required Map<bool, bool> boolDictionary,
         required Set<bool> boolSet,
+        required Map<bool, bool> boolDictionary,
         required List<int> integerArray,
-        required Map<int, int> integerDictionary,
         required Set<int> integerSet,
+        required Map<int, int> integerDictionary,
         required List<String> stringArray,
-        required Map<String, String> stringDictionary,
-        required Set<String> stringSet
+        required Set<String> stringSet,
+        required Map<String, String> stringDictionary
     }):
         this.boolArray = boolArray,
-        this.boolDictionary = boolDictionary,
         this.boolSet = boolSet,
+        this.boolDictionary = boolDictionary,
         this.integerArray = integerArray,
-        this.integerDictionary = integerDictionary,
         this.integerSet = integerSet,
+        this.integerDictionary = integerDictionary,
         this.stringArray = stringArray,
-        this.stringDictionary = stringDictionary,
-        this.stringSet = stringSet;
+        this.stringSet = stringSet,
+        this.stringDictionary = stringDictionary;
 
     static CreatedRef ffi_constructor(
         ConsumedRef boolArray,
-        ConsumedRef boolDictionary,
         ConsumedRef boolSet,
+        ConsumedRef boolDictionary,
         ConsumedRef integerArray,
-        ConsumedRef integerDictionary,
         ConsumedRef integerSet,
+        ConsumedRef integerDictionary,
         ConsumedRef stringArray,
-        ConsumedRef stringDictionary,
         ConsumedRef stringSet,
+        ConsumedRef stringDictionary,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(Collections_CollectionHolder(
             boolArray: consumeRef(boolArray),
-            boolDictionary: consumeRef(boolDictionary),
             boolSet: consumeRef(boolSet),
+            boolDictionary: consumeRef(boolDictionary),
             integerArray: consumeRef(integerArray),
-            integerDictionary: consumeRef(integerDictionary),
             integerSet: consumeRef(integerSet),
+            integerDictionary: consumeRef(integerDictionary),
             stringArray: consumeRef(stringArray),
-            stringDictionary: consumeRef(stringDictionary),
             stringSet: consumeRef(stringSet),
+            stringDictionary: consumeRef(stringDictionary),
         ))
     );
 
@@ -112,22 +112,6 @@ class Collections_CollectionHolder {
         peekRef<Collections_CollectionHolder>(obj).boolArray = consumeRef<List<bool>>(newValue);
     });
 
-    static CreatedRef ffi_get_boolDictionary(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<Collections_CollectionHolder>(obj).boolDictionary
-        )
-    );
-    static void ffi_set_boolDictionary(
-        UnownedRef obj,
-        ConsumedRef newValue,
-        OutCreatedRef exn
-    ) => catching(exn, () {
-        peekRef<Collections_CollectionHolder>(obj).boolDictionary = consumeRef<Map<bool, bool>>(newValue);
-    });
-
     static CreatedRef ffi_get_boolSet(
         UnownedRef obj,
         OutCreatedRef exn
@@ -142,6 +126,22 @@ class Collections_CollectionHolder {
         OutCreatedRef exn
     ) => catching(exn, () {
         peekRef<Collections_CollectionHolder>(obj).boolSet = consumeRef<Set<bool>>(newValue);
+    });
+
+    static CreatedRef ffi_get_boolDictionary(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Collections_CollectionHolder>(obj).boolDictionary
+        )
+    );
+    static void ffi_set_boolDictionary(
+        UnownedRef obj,
+        ConsumedRef newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        peekRef<Collections_CollectionHolder>(obj).boolDictionary = consumeRef<Map<bool, bool>>(newValue);
     });
 
     static CreatedRef ffi_get_integerArray(
@@ -160,22 +160,6 @@ class Collections_CollectionHolder {
         peekRef<Collections_CollectionHolder>(obj).integerArray = consumeRef<List<int>>(newValue);
     });
 
-    static CreatedRef ffi_get_integerDictionary(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<Collections_CollectionHolder>(obj).integerDictionary
-        )
-    );
-    static void ffi_set_integerDictionary(
-        UnownedRef obj,
-        ConsumedRef newValue,
-        OutCreatedRef exn
-    ) => catching(exn, () {
-        peekRef<Collections_CollectionHolder>(obj).integerDictionary = consumeRef<Map<int, int>>(newValue);
-    });
-
     static CreatedRef ffi_get_integerSet(
         UnownedRef obj,
         OutCreatedRef exn
@@ -190,6 +174,22 @@ class Collections_CollectionHolder {
         OutCreatedRef exn
     ) => catching(exn, () {
         peekRef<Collections_CollectionHolder>(obj).integerSet = consumeRef<Set<int>>(newValue);
+    });
+
+    static CreatedRef ffi_get_integerDictionary(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Collections_CollectionHolder>(obj).integerDictionary
+        )
+    );
+    static void ffi_set_integerDictionary(
+        UnownedRef obj,
+        ConsumedRef newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        peekRef<Collections_CollectionHolder>(obj).integerDictionary = consumeRef<Map<int, int>>(newValue);
     });
 
     static CreatedRef ffi_get_stringArray(
@@ -208,22 +208,6 @@ class Collections_CollectionHolder {
         peekRef<Collections_CollectionHolder>(obj).stringArray = consumeRef<List<String>>(newValue);
     });
 
-    static CreatedRef ffi_get_stringDictionary(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<Collections_CollectionHolder>(obj).stringDictionary
-        )
-    );
-    static void ffi_set_stringDictionary(
-        UnownedRef obj,
-        ConsumedRef newValue,
-        OutCreatedRef exn
-    ) => catching(exn, () {
-        peekRef<Collections_CollectionHolder>(obj).stringDictionary = consumeRef<Map<String, String>>(newValue);
-    });
-
     static CreatedRef ffi_get_stringSet(
         UnownedRef obj,
         OutCreatedRef exn
@@ -240,8 +224,24 @@ class Collections_CollectionHolder {
         peekRef<Collections_CollectionHolder>(obj).stringSet = consumeRef<Set<String>>(newValue);
     });
 
+    static CreatedRef ffi_get_stringDictionary(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Collections_CollectionHolder>(obj).stringDictionary
+        )
+    );
+    static void ffi_set_stringDictionary(
+        UnownedRef obj,
+        ConsumedRef newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        peekRef<Collections_CollectionHolder>(obj).stringDictionary = consumeRef<Map<String, String>>(newValue);
+    });
+
     @override
-    String toString() => 'Collections_CollectionHolder(boolArray: $boolArray, boolDictionary: $boolDictionary, boolSet: $boolSet, integerArray: $integerArray, integerDictionary: $integerDictionary, integerSet: $integerSet, stringArray: $stringArray, stringDictionary: $stringDictionary, stringSet: $stringSet)';
+    String toString() => 'Collections_CollectionHolder(boolArray: $boolArray, boolSet: $boolSet, boolDictionary: $boolDictionary, integerArray: $integerArray, integerSet: $integerSet, integerDictionary: $integerDictionary, stringArray: $stringArray, stringSet: $stringSet, stringDictionary: $stringDictionary)';
 
     @override
     bool operator ==(Object other) {
@@ -251,14 +251,14 @@ class Collections_CollectionHolder {
             other is Collections_CollectionHolder &&
             (
                 const DeepCollectionEquality().equals(other.boolArray, boolArray) &&
-                const DeepCollectionEquality().equals(other.boolDictionary, boolDictionary) &&
                 const DeepCollectionEquality().equals(other.boolSet, boolSet) &&
+                const DeepCollectionEquality().equals(other.boolDictionary, boolDictionary) &&
                 const DeepCollectionEquality().equals(other.integerArray, integerArray) &&
-                const DeepCollectionEquality().equals(other.integerDictionary, integerDictionary) &&
                 const DeepCollectionEquality().equals(other.integerSet, integerSet) &&
+                const DeepCollectionEquality().equals(other.integerDictionary, integerDictionary) &&
                 const DeepCollectionEquality().equals(other.stringArray, stringArray) &&
-                const DeepCollectionEquality().equals(other.stringDictionary, stringDictionary) &&
-                const DeepCollectionEquality().equals(other.stringSet, stringSet)
+                const DeepCollectionEquality().equals(other.stringSet, stringSet) &&
+                const DeepCollectionEquality().equals(other.stringDictionary, stringDictionary)
             )
         );
     }
@@ -267,38 +267,44 @@ class Collections_CollectionHolder {
     int get hashCode => Object.hash(
         runtimeType,
         const DeepCollectionEquality().hash(boolArray), 
-        const DeepCollectionEquality().hash(boolDictionary), 
         const DeepCollectionEquality().hash(boolSet), 
+        const DeepCollectionEquality().hash(boolDictionary), 
         const DeepCollectionEquality().hash(integerArray), 
-        const DeepCollectionEquality().hash(integerDictionary), 
         const DeepCollectionEquality().hash(integerSet), 
+        const DeepCollectionEquality().hash(integerDictionary), 
         const DeepCollectionEquality().hash(stringArray), 
-        const DeepCollectionEquality().hash(stringDictionary), 
-        const DeepCollectionEquality().hash(stringSet)
+        const DeepCollectionEquality().hash(stringSet), 
+        const DeepCollectionEquality().hash(stringDictionary)
     );
 
     Collections_CollectionHolder copyWith({
         List<bool>? boolArray,
-        Map<bool, bool>? boolDictionary,
         Set<bool>? boolSet,
+        Map<bool, bool>? boolDictionary,
         List<int>? integerArray,
-        Map<int, int>? integerDictionary,
         Set<int>? integerSet,
+        Map<int, int>? integerDictionary,
         List<String>? stringArray,
-        Map<String, String>? stringDictionary,
-        Set<String>? stringSet
+        Set<String>? stringSet,
+        Map<String, String>? stringDictionary
     }) => Collections_CollectionHolder(
         boolArray: boolArray ?? this.boolArray,
-        boolDictionary: boolDictionary ?? this.boolDictionary,
         boolSet: boolSet ?? this.boolSet,
+        boolDictionary: boolDictionary ?? this.boolDictionary,
         integerArray: integerArray ?? this.integerArray,
-        integerDictionary: integerDictionary ?? this.integerDictionary,
         integerSet: integerSet ?? this.integerSet,
+        integerDictionary: integerDictionary ?? this.integerDictionary,
         stringArray: stringArray ?? this.stringArray,
-        stringDictionary: stringDictionary ?? this.stringDictionary,
-        stringSet: stringSet ?? this.stringSet
+        stringSet: stringSet ?? this.stringSet,
+        stringDictionary: stringDictionary ?? this.stringDictionary
     );
 
+    /// <!-- FishyJoes.export(staticProperty) -->
+    static List<int?> get staticProperty =>
+        check((exn) =>
+            consumeCreatedRef<List<int?>>(f__iota_get_TestAPI_Collections_CollectionHolder_staticProperty(Loader.shared.env, exn))
+        )
+    ;
     /// <!-- FishyJoes.export(staticMutableProperty) -->
     static List<int?> get staticMutableProperty =>
         check((exn) =>
@@ -313,12 +319,6 @@ class Collections_CollectionHolder {
         )
         ;
     }
-    /// <!-- FishyJoes.export(staticProperty) -->
-    static List<int?> get staticProperty =>
-        check((exn) =>
-            consumeCreatedRef<List<int?>>(f__iota_get_TestAPI_Collections_CollectionHolder_staticProperty(Loader.shared.env, exn))
-        )
-    ;
 
     static late CreatedRef Function(
         Env env,

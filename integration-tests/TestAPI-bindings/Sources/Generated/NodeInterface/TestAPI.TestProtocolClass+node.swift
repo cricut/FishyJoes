@@ -33,6 +33,19 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
             env: env,
             name: "TestProtocolClass",
             properties: [
+                "foo": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "foo", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
+                                env.this(converter: TestAPI.TestProtocolClass.self).foo(
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                ),
                 "bar": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "bar", expectedArgumentCount: 0, hasNamedOptions: false) { env in
@@ -60,11 +73,12 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "foo": (
+                "garply": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "foo", expectedArgumentCount: 0, hasNamedOptions: false) { env in
-                            let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
-                                env.this(converter: TestAPI.TestProtocolClass.self).foo(
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "garply", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try Swift.String.toNode(
+                                env.this(converter: TestAPI.TestProtocolClass.self).garply(
+                                    try env.argument(at: 0, converter: Swift.String.self)
                                 ),
                                 env: env.env
                             )
@@ -73,12 +87,27 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "garply": (
+                "xyzzy": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "garply", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "xyzzy", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
-                                env.this(converter: TestAPI.TestProtocolClass.self).garply(
-                                    try env.argument(at: 0, converter: Swift.String.self)
+                                env.this(converter: TestAPI.TestProtocolClass.self).xyzzy(
+                                    thud: try env.argument(at: 0, converter: Swift.Int.self),
+                                    grault: try env.argument(at: 1, converter: ArrayConverter<Swift.Double>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                ),
+                "plugh": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "plugh", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.toNode(
+                                env.this(converter: TestAPI.TestProtocolClass.self).plugh(
+                                    fred: try env.argument(at: 0, converter: Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>.self)
                                 ),
                                 env: env.env
                             )
@@ -101,34 +130,6 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "plugh": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "plugh", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let result = try Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.toNode(
-                                env.this(converter: TestAPI.TestProtocolClass.self).plugh(
-                                    fred: try env.argument(at: 0, converter: Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>.self)
-                                ),
-                                env: env.env
-                            )
-                            return result
-                        }
-                    },
-                    isStatic: false
-                ),
-                "spqr": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "spqr", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let result = try Swift.Int.toNode(
-                                env.this(converter: TestAPI.TestProtocolClass.self).spqr(
-                                    try env.argument(at: 0, converter: TestAPI.AssociatedDataEnum.self)
-                                ),
-                                env: env.env
-                            )
-                            return result
-                        }
-                    },
-                    isStatic: false
-                ),
                 "wombat": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "wombat", expectedArgumentCount: 1, hasNamedOptions: false) { env in
@@ -143,13 +144,12 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "xyzzy": (
+                "spqr": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "xyzzy", expectedArgumentCount: 2, hasNamedOptions: false) { env in
-                            let result = try Swift.String.toNode(
-                                env.this(converter: TestAPI.TestProtocolClass.self).xyzzy(
-                                    thud: try env.argument(at: 0, converter: Swift.Int.self),
-                                    grault: try env.argument(at: 1, converter: ArrayConverter<Swift.Double>.self)
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "spqr", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try Swift.Int.toNode(
+                                env.this(converter: TestAPI.TestProtocolClass.self).spqr(
+                                    try env.argument(at: 0, converter: TestAPI.AssociatedDataEnum.self)
                                 ),
                                 env: env.env
                             )
@@ -175,6 +175,17 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                         }),
                     isStatic: false
                 ),
+                "frob": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "frob", expectedArgumentCount: 0) { env in
+                                try ArrayConverter<Swift.Double>.toNode(env.this(converter: TestAPI.TestProtocolClass.self).frob, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: false
+                ),
                 "flarp": (
                     .accessor(
                         getter: { env, info in
@@ -190,17 +201,6 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                                 return nil
                             }
                         }),
-                    isStatic: false
-                ),
-                "frob": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "frob", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<Swift.Double>.toNode(env.this(converter: TestAPI.TestProtocolClass.self).frob, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
                     isStatic: false
                 ),
             ],

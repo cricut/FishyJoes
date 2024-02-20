@@ -5,33 +5,15 @@ import java.lang.Exception
 
 private class _ExternalWitness_TestMethodsProtocol private constructor(_swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference), TestMethodsProtocol {
     /**
-     * <!-- FishyJoes.export(bar) -->
+     * <!-- FishyJoes.export(plugh) -->
      */
-    override fun bar(
-    ): Boolean = __jni_bar()
-    @JvmName("__jni_bar")
-    private external fun __jni_bar(
-    ): Boolean
-
-    /**
-     * <!-- FishyJoes.export(baz) -->
-     */
-    override fun baz(
-        qux: Boolean
-    ): kotlin.Unit = __jni_baz(qux)
-    @JvmName("__jni_baz")
-    private external fun __jni_baz(
-        qux: Boolean
-    ): kotlin.Unit
-
-    /**
-     * <!-- FishyJoes.export(foo) -->
-     */
-    override fun foo(
-    ): kotlin.Unit = __jni_foo()
-    @JvmName("__jni_foo")
-    private external fun __jni_foo(
-    ): kotlin.Unit
+    override fun plugh(
+        fred: kotlin.Triple<Boolean, Double, kotlin.collections.List<kotlin.String>>
+    ): kotlin.Triple<Boolean, Long, kotlin.String> = __jni_plugh(fred)
+    @JvmName("__jni_plugh")
+    private external fun __jni_plugh(
+        fred: kotlin.Triple<Boolean, Double, kotlin.collections.List<kotlin.String>>
+    ): kotlin.Triple<Boolean, Long, kotlin.String>
 
     /**
      * <!-- FishyJoes.export(garply) -->
@@ -45,15 +27,33 @@ private class _ExternalWitness_TestMethodsProtocol private constructor(_swiftRef
     ): kotlin.String
 
     /**
-     * <!-- FishyJoes.export(plugh) -->
+     * <!-- FishyJoes.export(baz) -->
      */
-    override fun plugh(
-        fred: kotlin.Triple<Boolean, Double, kotlin.collections.List<kotlin.String>>
-    ): kotlin.Triple<Boolean, Long, kotlin.String> = __jni_plugh(fred)
-    @JvmName("__jni_plugh")
-    private external fun __jni_plugh(
-        fred: kotlin.Triple<Boolean, Double, kotlin.collections.List<kotlin.String>>
-    ): kotlin.Triple<Boolean, Long, kotlin.String>
+    override fun baz(
+        qux: Boolean
+    ): kotlin.Unit = __jni_baz(qux)
+    @JvmName("__jni_baz")
+    private external fun __jni_baz(
+        qux: Boolean
+    ): kotlin.Unit
+
+    /**
+     * <!-- FishyJoes.export(bar) -->
+     */
+    override fun bar(
+    ): Boolean = __jni_bar()
+    @JvmName("__jni_bar")
+    private external fun __jni_bar(
+    ): Boolean
+
+    /**
+     * <!-- FishyJoes.export(foo) -->
+     */
+    override fun foo(
+    ): kotlin.Unit = __jni_foo()
+    @JvmName("__jni_foo")
+    private external fun __jni_foo(
+    ): kotlin.Unit
 
     /**
      * <!-- FishyJoes.export(xyzzy) -->

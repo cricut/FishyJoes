@@ -37,6 +37,19 @@ namespace Cricut.TestAPI {
         private static extern void __iota_set_TestAPI_TestProtocolClass_corge(IntPtr envRef, UnownedRef self, UnownedRef value, out CreatedRef exn);
 
         /// <summary>
+        /// <!-- FishyJoes.export(frob) -->
+        /// </summary>
+        public System.Collections.Generic.IList<double> GetFrob() {
+            using var thisHandle = new GCRef(this);
+            return Check((out CreatedRef exn) =>
+                __iota_get_TestAPI_TestProtocolClass_frob(Loader.env, thisHandle.ptr, out exn).Consume<System.Collections.Generic.IList<double>>()
+            );
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_TestProtocolClass_frob(IntPtr envRef, UnownedRef self, out CreatedRef exn);
+
+        /// <summary>
         /// <!-- FishyJoes.export(flarp) -->
         /// </summary>
         public string? Flarp {
@@ -62,17 +75,20 @@ namespace Cricut.TestAPI {
         private static extern void __iota_set_TestAPI_TestProtocolClass_flarp(IntPtr envRef, UnownedRef self, UnownedRef value, out CreatedRef exn);
 
         /// <summary>
-        /// <!-- FishyJoes.export(frob) -->
+        /// <!-- FishyJoes.export(foo) -->
         /// </summary>
-        public System.Collections.Generic.IList<double> GetFrob() {
-            using var thisHandle = new GCRef(this);
-            return Check((out CreatedRef exn) =>
-                __iota_get_TestAPI_TestProtocolClass_frob(Loader.env, thisHandle.ptr, out exn).Consume<System.Collections.Generic.IList<double>>()
-            );
+        public void Foo(
+        ) {
+            using var _thisHandle = new GCRef(this);
+            Check((out CreatedRef _exn) => __iota_TestAPI_TestProtocolClass_foo(Loader.env, _thisHandle.ptr, out _exn));
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_TestProtocolClass_frob(IntPtr envRef, UnownedRef self, out CreatedRef exn);
+        private static extern void __iota_TestAPI_TestProtocolClass_foo(
+            IntPtr envRef,
+            UnownedRef self,
+            out CreatedRef exn
+        );
 
         /// <summary>
         /// <!-- FishyJoes.export(bar) -->
@@ -109,22 +125,6 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <!-- FishyJoes.export(foo) -->
-        /// </summary>
-        public void Foo(
-        ) {
-            using var _thisHandle = new GCRef(this);
-            Check((out CreatedRef _exn) => __iota_TestAPI_TestProtocolClass_foo(Loader.env, _thisHandle.ptr, out _exn));
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern void __iota_TestAPI_TestProtocolClass_foo(
-            IntPtr envRef,
-            UnownedRef self,
-            out CreatedRef exn
-        );
-
-        /// <summary>
         /// <!-- FishyJoes.export(garply) -->
         /// </summary>
         public string Garply(
@@ -144,19 +144,23 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <!-- FishyJoes.export(init) -->
+        /// <!-- FishyJoes.export(xyzzy) -->
         /// </summary>
-        public static Cricut.TestAPI.TestProtocolClass Init(
-            string corge
+        public string Xyzzy(
+            nint thud,
+            System.Collections.Generic.IList<double> grault
         ) {
-            using var _corgeHandle = new GCRef(corge);
-            return Check((out CreatedRef _exn) => __iota_TestAPI_TestProtocolClass_init(Loader.env, _corgeHandle.ptr, out _exn)).Consume<Cricut.TestAPI.TestProtocolClass>();
+            using var _thisHandle = new GCRef(this);
+            using var _graultHandle = new GCRef(grault);
+            return Check((out CreatedRef _exn) => __iota_TestAPI_TestProtocolClass_xyzzy(Loader.env, _thisHandle.ptr, thud, _graultHandle.ptr, out _exn)).Consume<string>();
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_TestAPI_TestProtocolClass_init(
+        private static extern CreatedRef __iota_TestAPI_TestProtocolClass_xyzzy(
             IntPtr envRef,
-            UnownedRef corge,
+            UnownedRef self,
+            nint thud,
+            UnownedRef grault,
             out CreatedRef exn
         );
 
@@ -180,21 +184,19 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <!-- FishyJoes.export(spqr) -->
+        /// <!-- FishyJoes.export(init) -->
         /// </summary>
-        public nint Spqr(
-            Cricut.TestAPI.AssociatedDataEnum pippo
+        public static Cricut.TestAPI.TestProtocolClass Init(
+            string corge
         ) {
-            using var _thisHandle = new GCRef(this);
-            using var _pippoHandle = new GCRef(pippo);
-            return Check((out CreatedRef _exn) => __iota_TestAPI_TestProtocolClass_spqr(Loader.env, _thisHandle.ptr, _pippoHandle.ptr, out _exn));
+            using var _corgeHandle = new GCRef(corge);
+            return Check((out CreatedRef _exn) => __iota_TestAPI_TestProtocolClass_init(Loader.env, _corgeHandle.ptr, out _exn)).Consume<Cricut.TestAPI.TestProtocolClass>();
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __iota_TestAPI_TestProtocolClass_spqr(
+        private static extern CreatedRef __iota_TestAPI_TestProtocolClass_init(
             IntPtr envRef,
-            UnownedRef self,
-            UnownedRef pippo,
+            UnownedRef corge,
             out CreatedRef exn
         );
 
@@ -218,23 +220,21 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <!-- FishyJoes.export(xyzzy) -->
+        /// <!-- FishyJoes.export(spqr) -->
         /// </summary>
-        public string Xyzzy(
-            nint thud,
-            System.Collections.Generic.IList<double> grault
+        public nint Spqr(
+            Cricut.TestAPI.AssociatedDataEnum pippo
         ) {
             using var _thisHandle = new GCRef(this);
-            using var _graultHandle = new GCRef(grault);
-            return Check((out CreatedRef _exn) => __iota_TestAPI_TestProtocolClass_xyzzy(Loader.env, _thisHandle.ptr, thud, _graultHandle.ptr, out _exn)).Consume<string>();
+            using var _pippoHandle = new GCRef(pippo);
+            return Check((out CreatedRef _exn) => __iota_TestAPI_TestProtocolClass_spqr(Loader.env, _thisHandle.ptr, _pippoHandle.ptr, out _exn));
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_TestAPI_TestProtocolClass_xyzzy(
+        private static extern nint __iota_TestAPI_TestProtocolClass_spqr(
             IntPtr envRef,
             UnownedRef self,
-            nint thud,
-            UnownedRef grault,
+            UnownedRef pippo,
             out CreatedRef exn
         );
 

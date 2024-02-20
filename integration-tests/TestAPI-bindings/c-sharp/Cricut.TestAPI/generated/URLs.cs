@@ -12,18 +12,18 @@ namespace Cricut.TestAPI {
         private URLs() {}
 
         /// <summary>
-        /// <!-- FishyJoes.export(localFile) -->
+        /// <!-- FishyJoes.export(simple) -->
         /// </summary>
-        public static System.Uri LocalFile {
+        public static System.Uri Simple {
             get {
                 return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_URLs_localFile(Loader.env, out exn).Consume<System.Uri>()
+                    __iota_get_TestAPI_URLs_simple(Loader.env, out exn).Consume<System.Uri>()
                 );
             }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_URLs_localFile(IntPtr envRef, out CreatedRef exn);
+        private static extern CreatedRef __iota_get_TestAPI_URLs_simple(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(remoteFile) -->
@@ -40,18 +40,18 @@ namespace Cricut.TestAPI {
         private static extern CreatedRef __iota_get_TestAPI_URLs_remoteFile(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
-        /// <!-- FishyJoes.export(simple) -->
+        /// <!-- FishyJoes.export(localFile) -->
         /// </summary>
-        public static System.Uri Simple {
+        public static System.Uri LocalFile {
             get {
                 return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_URLs_simple(Loader.env, out exn).Consume<System.Uri>()
+                    __iota_get_TestAPI_URLs_localFile(Loader.env, out exn).Consume<System.Uri>()
                 );
             }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_URLs_simple(IntPtr envRef, out CreatedRef exn);
+        private static extern CreatedRef __iota_get_TestAPI_URLs_localFile(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(echo) -->

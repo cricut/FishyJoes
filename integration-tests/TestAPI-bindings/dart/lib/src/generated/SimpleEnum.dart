@@ -107,6 +107,14 @@ sealed class SimpleEnum {
         });
     }
 
+    /// <!-- FishyJoes.export(hex) -->
+    int get hex =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                f__iota_get_TestAPI_SimpleEnum_hex(Loader.shared.env, _thisHandle.ptr, exn)
+            )
+        )
+    ;
     /// <!-- FishyJoes.export(favoriteColor) -->
     static TestAPI.SimpleEnum get favoriteColor =>
         check((exn) =>
@@ -121,27 +129,19 @@ sealed class SimpleEnum {
         )
         ;
     }
-    /// <!-- FishyJoes.export(hex) -->
-    int get hex =>
-        GCRef.using(this, (_thisHandle) =>
-            check((exn) =>
-                f__iota_get_TestAPI_SimpleEnum_hex(Loader.shared.env, _thisHandle.ptr, exn)
-            )
-        )
+    /// <!-- FishyJoes.export(pickAColor) -->
+    static TestAPI.SimpleEnum? pickAColor(
+        int rawValue,
+    ) =>
+        consumeCreatedRef<TestAPI.SimpleEnum?>(check((OutCreatedRef _exn) => f__iota_TestAPI_SimpleEnum_pickAColor(Loader.shared.env, rawValue, _exn)))
     ;
+
     /// <!-- FishyJoes.export(hexMethod) -->
     String hexMethod(
     ) =>
         GCRef.using(this, (_thisHandle) =>
             consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_SimpleEnum_hexMethod(Loader.shared.env, _thisHandle.ptr, _exn)))
         )
-    ;
-
-    /// <!-- FishyJoes.export(pickAColor) -->
-    static TestAPI.SimpleEnum? pickAColor(
-        int rawValue,
-    ) =>
-        consumeCreatedRef<TestAPI.SimpleEnum?>(check((OutCreatedRef _exn) => f__iota_TestAPI_SimpleEnum_pickAColor(Loader.shared.env, rawValue, _exn)))
     ;
 
     /// <!-- FishyJoes.export(resetFavoriteColor) -->
