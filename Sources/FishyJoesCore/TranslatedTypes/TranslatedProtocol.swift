@@ -124,12 +124,19 @@ struct TranslatedProtocol: TranslatedType {
                     fragment.output("static var \(setID): jmethodID?")
                 }
                 fragment.outputBlock("\(variable.isStatic ? "static " : "")public var \(name): \(type) {") {
-                    fragment.outputBlock("get {") {
+                    func gnr8GetterCode(fragment: SourceFragment) {
                         fragment.output("let env = try! _javaWitness.currentThreadEnv()")
                         fragment.outputBlock("return try! \(resolved.converterType.name).fromJava(") {
                             fragment.output("env.Call\(resolved.jniType.valueType)Method(_javaWitness.object, Self.\(getID)),")
                             fragment.output("env: env")
                         }
+                    }
+                    if variable.isMutable {
+                        fragment.outputBlock("get {") {
+                            gnr8GetterCode(fragment: fragment)
+                        }
+                    } else {
+                        gnr8GetterCode(fragment: fragment)
                     }
                     if variable.isMutable {
                         fragment.outputBlock("set {") {
