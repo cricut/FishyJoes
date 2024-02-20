@@ -60,6 +60,20 @@ struct TranslatedProtocol: TranslatedType {
         self.documentation = type.documentation
         self.className = context.kotlinTranslator.javaClassName(kotlinName, in: context)
         self.externalWitnessClassName = context.kotlinTranslator.javaClassName("_ExternalWitness_\(kotlinName)", in: context)
+        
+        enforceProtocolThrows()
+    }
+
+    func enforceProtocolThrows() {
+        let nonThrowingMethods = methods.filter { !$0.isThrowing }
+        guard nonThrowingMethods.isEmpty else {
+            fatalError("All Protocol methods exported through FishyJoes must be throwing, it's the law 👮!")
+        }
+
+        let nonThrowingGetters = computedVariables.filter { !$0.`throws` && $0.writeAccess == AccessLevel.none.rawValue }
+        guard nonThrowingGetters.isEmpty else {
+            fatalError("All Protocol get only property getters exported through FishyJoes must be throwing, it's the law 👮!")
+        }
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
