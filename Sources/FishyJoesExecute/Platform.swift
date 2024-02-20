@@ -8,6 +8,7 @@ struct BuildConfiguration: Hashable {
     let fat: Bool
     let codeCoverage: Bool
     var baseDockerContext: Lazy<DockerContext?>
+    let disableParallelism: Bool
 }
 
 enum Platform: CustomStringConvertible, Hashable {
@@ -130,6 +131,9 @@ enum Platform: CustomStringConvertible, Hashable {
         args.append(contentsOf: ["--configuration", configuration.debug ? "debug" : "release"])
         if configuration.codeCoverage {
             args.append(contentsOf: Platform.coverageFlags)
+        }
+        if configuration.disableParallelism {
+            args.append(contentsOf: ["-j", "1"])
         }
         let path: String
         var env: [String: String] = [
