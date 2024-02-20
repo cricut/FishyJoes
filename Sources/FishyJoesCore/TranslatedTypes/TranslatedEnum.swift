@@ -84,8 +84,8 @@ struct TranslatedEnum: TranslatedType {
         }
         self.jniType = .object(context.kotlinTranslator.javaClassName(nodeName, in: context))
         self.documentation = type.documentation
-        self.methods = type.methods.compactMap { Method($0) }.sorted(by: { $0.name < $1.name })
-        self.fields = type.variables.filter { $0.exportAnnotation != nil }.sorted(by: { $0.name < $1.name })
+        self.methods = type.methods.compactMap { Method($0) }
+        self.fields = type.variables.filter { $0.exportAnnotation != nil }
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
         self.conformances = exportAnnotation.conformances
