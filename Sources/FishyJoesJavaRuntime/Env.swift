@@ -40,7 +40,7 @@ public struct Env {
         }
         return result
     }
-    
+
     public func jvm() throws -> JVM {
         return JVM(javaVM: try javaNonNull(GetJavaVM()))
     }

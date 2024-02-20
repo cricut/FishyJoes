@@ -297,7 +297,7 @@ final class KotlinTranslator: Translator {
                         if let nativeMethods = allMethods[resolved.converterType.name] {
                             let protocolDefaultMethods = nativeMethods.filter { $0.isProtocolDefault }
                             let normalMethods = nativeMethods.filter { !$0.isProtocolDefault }
-                            
+
                             if !protocolDefaultMethods.isEmpty {
                                 typeSetupFragment.outputBlock("try env.RegisterNatives(", closeWith: ")") {
                                     typeSetupFragment.output("\(resolved.converterType.name).externalCompanionClass", newLineTerminated: false)
@@ -324,7 +324,7 @@ final class KotlinTranslator: Translator {
                                 }
                                 typeSetupFragment.output()
                             }
-                            
+
                             usedMethods.insert(resolved.converterType.name)
                         }
                     }
@@ -337,7 +337,7 @@ final class KotlinTranslator: Translator {
         guard droppedMethods.isEmpty else {
             fatalErr("methods for \(droppedMethods) were never set up! Probably a bug.")
         }
-        
+
         let module = context.module
         let repName = "\(module.name)LoaderRepresentative"
         let ktFragment = SourceFragment(
@@ -502,15 +502,15 @@ final class KotlinTranslator: Translator {
 
     func conform(_ kotlinClass: KotlinClass, to protoName: String, context: FishyJoesContext) {
         let resolved = context.resolve(type: .named(.init(name: protoName, module: nil)))
-        
+
         kotlinClass.conformances.insert(resolved.kotlinName)
-        
+
         if let proto = resolved as? TranslatedProtocol {
             let protoDefs = Set(
                 proto.methods.compactMap { context.kotlin(method: $0).map(OverrideSignature.init) } +
                 proto.computedVariables.compactMap { context.kotlin(field: $0).map(OverrideSignature.init) }
             )
-            
+
             kotlinClass.methods = kotlinClass.methods.map { method in
                 var modified = method
                 if protoDefs.contains(OverrideSignature(.method(method))) {
@@ -541,10 +541,9 @@ final class KotlinTranslator: Translator {
                         }
                         return modified
                     }
-                    
+
                     product.constructor = .public(fields: overriddenConstructorFields, arguments: constructorArguments)
                 }
-                
             }
         }
     }
@@ -558,7 +557,7 @@ extension KotlinClass {
     }
 }
 
-fileprivate struct OverrideSignature: Hashable {
+private struct OverrideSignature: Hashable {
     let isStatic: Bool
     let name: String
     let parameters: [KotlinClass.KType]?

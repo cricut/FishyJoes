@@ -284,7 +284,7 @@ struct TranslatedStruct: TranslatedType {
                         case .variable(let field): return field
                         case nil: return nil
                         }
-                    }, 
+                    },
                     arguments: []
                 ),
                 fieldsAndMethods:

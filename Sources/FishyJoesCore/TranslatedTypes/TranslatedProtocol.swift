@@ -20,7 +20,7 @@ struct TranslatedProtocol: TranslatedType {
     let documentation: [String]
     let className: String
     let externalWitnessClassName: String
-    
+
     init(context: FishyJoesContext, type: SourceryProtocol) {
         guard let exportAnnotation = type.exportAnnotation else {
             fatalErr("type not annotated for export")
@@ -38,11 +38,11 @@ struct TranslatedProtocol: TranslatedType {
         self.jniType = .object(context.kotlinTranslator.javaClassName(nodeName, in: context))
         self.cSharpType = .named(package: context.module.cSharpNamespace, name: exportAnnotation.cSharpName)
         self.dartType = .named(package: context.module.dartNamespace, name: context.dartTranslator.fakeNamespace(exportAnnotation.name))
-        
+
         self.definingModule = context.module
         self.definingTSNamespace = context.module.name
         self.isInhabited = type.isInhabited
-        
+
         self.conformances = exportAnnotation.conformances
 //        var methods = type.methods.compactMap { Method($0) }
 //        for method in type.rawMethods {
@@ -54,7 +54,7 @@ struct TranslatedProtocol: TranslatedType {
 //        }
 //        self.methods = methods
         let methodsToConvert = type.methodsPreferringImplemented()
-        self.methods = methodsToConvert.compactMap{ Method($0, isProtocolDef: true) }
+        self.methods = methodsToConvert.compactMap { Method($0, isProtocolDef: true) }
 
         self.computedVariables = type.variables.filter { $0.exportAnnotation != nil }
         self.documentation = type.documentation
@@ -195,7 +195,7 @@ struct TranslatedProtocol: TranslatedType {
         }
 
         fragment.output()
-        
+
         for defaultMethod in defaultMethods {
             fragment.outputBlock("struct \(foreignProtocolType)_sans_\(defaultMethod.callName): \(sourceType.nonNamespacedName) {", closeWith: "}") {
                 fragment.output("var wrapped: \(sourceType.nonNamespacedName)")
@@ -235,7 +235,7 @@ struct TranslatedProtocol: TranslatedType {
             fragment.output("public static var externalWitnessClass: jclass?")
 
             fragment.output("public static var externalWitnessConstructor: jmethodID?")
-            
+
             if !defaultMethods.isEmpty {
                 fragment.output("public static var externalCompanionClass: jclass?")
             }
@@ -258,7 +258,7 @@ struct TranslatedProtocol: TranslatedType {
             fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout SwiftType) throws -> R) throws -> R {") {
                 fragment.output("try body(&Box<SwiftType>.fromJava(this, env: env).value)")
             }
-            
+
             fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout SwiftType, inout Env) async throws -> R) async throws -> R {") {
                 fragment.output("try await body(&Box<SwiftType>.fromJava(this, env: env).value, &env)")
             }

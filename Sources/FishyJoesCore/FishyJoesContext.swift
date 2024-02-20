@@ -163,9 +163,9 @@ public class FishyJoesContext {
             typeCache[name.withoutModule] = .alias(name)
             moduleDefinedTypes.append(translatedType.asExternal)
         }
-        
+
         // Translate
-        var methodsToTranslateForTypeDict = [Type: Array<SourceryMethod>]()
+        var methodsToTranslateForTypeDict = [Type: [SourceryMethod]]()
         for type in templateContext.types.types {
             if type is SourceryProtocol {
                 methodsToTranslateForTypeDict[type] = type.methodsPreferringImplemented()
@@ -173,7 +173,7 @@ public class FishyJoesContext {
                 methodsToTranslateForTypeDict[type] = type.rawMethods
             }
         }
-        
+
         for (type, methods) in methodsToTranslateForTypeDict {
             for method in methods.compactMap(Method.init) {
                 debugContext = "Translating method \(type.name).\(method.name)"

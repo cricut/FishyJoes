@@ -190,7 +190,7 @@ extension BetterType {
             return "Self"
         }
     }
-    
+
     var nonNamespacedName: String {
         switch self {
         case let .named(name):

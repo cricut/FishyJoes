@@ -115,11 +115,11 @@ class KotlinClass: NestedClass {
             if field.isPubliclyWritable {
                 fragment.output("  set(value) { __jni_set_\(field.name)(value\(field.type.toJVMType)) } ")
             }
-            
+
             if field.isStatic {
                 fragment.output("@JvmStatic")
             }
-            
+
             fragment.output("@JvmName(\"__jni_get_\(field.name)\")")
             fragment.output("private external fun __jni_get_\(field.name)(): \(field.type.jvmType)")
             if field.isMutable {
@@ -139,7 +139,7 @@ class KotlinClass: NestedClass {
             let compatibilityParameters = Set(method.compatibilityOrder)
             for compatibilityIndex in 0...method.compatibilityOrder.count {
                 let excludedCompatibilityParameters = Set(method.compatibilityOrder[compatibilityIndex...])
-                
+
                 if let deprecation = method.deprecation {
                     fragment.output("@Deprecated(\"\(deprecation.quotedMessage)\")")
                 }
@@ -287,7 +287,7 @@ class KotlinProductClass: KotlinClass {
     ) {
         self.isPrivate = isPrivate
         self.constructor = constructor
-        
+
         let fields: [Variable] = fieldsAndMethods.compactMap {
             guard case let .variable(field) = $0 else {
                 return nil
@@ -466,15 +466,15 @@ class KotlinInterface: KotlinClass {
             conformances: conformances
         )
     }
-    
+
     override func output(to fragment: SourceFragment) {
         document(documentation, fragment: fragment)
-        fragment.outputBlock("interface \(unqualifiedName) {")  {
+        fragment.outputBlock("interface \(unqualifiedName) {") {
             fields.filter { !$0.isStatic }.forEach { output(field: $0, to: fragment, external: false) }
             methods.filter { !$0.isStatic }.forEach { output(method: $0, to: fragment, external: false) }
-            
+
             fragment.blankLine()
-            
+
             fragment.outputBlock("companion object {") {
                 fields.filter { $0.isStatic }.forEach { output(field: $0, to: fragment) }
                 methods.filter { $0.isStatic }.forEach {

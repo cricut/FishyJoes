@@ -31,7 +31,7 @@ public class JavaReference {
             self.object = nil
         }
     }
-    
+
     /// Gets or creates the JNI environment associated with the current thread
     public func currentThreadEnv() throws -> Env {
         var envRaw: UnsafeMutableRawPointer?

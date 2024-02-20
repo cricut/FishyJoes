@@ -92,7 +92,7 @@ struct Method: Hashable {
                 )
             )
         }
-        
+
         precondition(omitParameters.isEmpty, "Can't find parameters \(omitParameters) to omit")
         self.parameters = parameters
         self.implemented = method.definedInType?.isExtension ?? false

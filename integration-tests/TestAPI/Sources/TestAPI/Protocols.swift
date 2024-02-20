@@ -7,13 +7,13 @@ public protocol AProtocol {
 
     /// <!-- FishyJoes.export(bar) -->
     func bar(x: Int, y: Int) -> AProtocol
-    
+
     /// <!-- FishyJoes.export(baz) -->
     var baz: Bool { get set }
 
     /// <!-- FishyJoes.export(hasADefaultImplementation) -->
     func hasADefaultImplementation(x: Int, y: Double) -> String
-    
+
     /// <!-- FishyJoes.export(hasADefaultImplementation2) -->
     func hasADefaultImplementation2(a: String, b: Bool, c: Double) -> Double
 }
@@ -141,9 +141,9 @@ public struct TestProtocolStruct: TestMethodsProtocol, TestPropertiesProtocol {
     public func plugh(fred: (Bool, Double, [String])) -> (Bool, Int, String) {
         (!fred.0 || fred.1 == 42.9, Int(fred.1 + 9), fred.2.joined(separator: " *>-<* "))
     }
-    
+
     public var corge: String
-    
+
     public init(corge: String) {
         self.corge = corge
     }
@@ -213,4 +213,3 @@ public class TestProtocolClass: TestMethodsProtocol, TestPropertiesProtocol, Tes
         pippo.intValue
     }
 }
-
