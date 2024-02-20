@@ -12,18 +12,18 @@ interface TestOptionalsProtocol {
      */
     var flarp: kotlin.String?
     /**
-     * <!-- FishyJoes.export(spqr) -->
-     */
-    fun spqr(
-        _1: com.cricut.testapi.AssociatedDataEnum
-    ): Long
-
-    /**
      * <!-- FishyJoes.export(wombat) -->
      */
     fun wombat(
         zxc: Long?
     ): Double?
+
+    /**
+     * <!-- FishyJoes.export(spqr) -->
+     */
+    fun spqr(
+        _1: com.cricut.testapi.AssociatedDataEnum
+    ): Long
 
     companion object {
     }

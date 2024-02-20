@@ -8,24 +8,9 @@ import java.lang.Exception
  */
 interface TestMethodsProtocol {
     /**
-     * <!-- FishyJoes.export(plugh) -->
+     * <!-- FishyJoes.export(foo) -->
      */
-    fun plugh(
-        fred: kotlin.Triple<Boolean, Double, kotlin.collections.List<kotlin.String>>
-    ): kotlin.Triple<Boolean, Long, kotlin.String>
-
-    /**
-     * <!-- FishyJoes.export(garply) -->
-     */
-    fun garply(
-        _1: kotlin.String
-    ): kotlin.String
-
-    /**
-     * <!-- FishyJoes.export(baz) -->
-     */
-    fun baz(
-        qux: Boolean
+    fun foo(
     ): kotlin.Unit
 
     /**
@@ -35,10 +20,18 @@ interface TestMethodsProtocol {
     ): Boolean
 
     /**
-     * <!-- FishyJoes.export(foo) -->
+     * <!-- FishyJoes.export(baz) -->
      */
-    fun foo(
+    fun baz(
+        qux: Boolean
     ): kotlin.Unit
+
+    /**
+     * <!-- FishyJoes.export(garply) -->
+     */
+    fun garply(
+        _1: kotlin.String
+    ): kotlin.String
 
     /**
      * <!-- FishyJoes.export(xyzzy) -->
@@ -47,6 +40,13 @@ interface TestMethodsProtocol {
         thud: Long,
         grault: kotlin.collections.List<Double>
     ): kotlin.String
+
+    /**
+     * <!-- FishyJoes.export(plugh) -->
+     */
+    fun plugh(
+        fred: kotlin.Triple<Boolean, Double, kotlin.collections.List<kotlin.String>>
+    ): kotlin.Triple<Boolean, Long, kotlin.String>
 
     companion object {
     }

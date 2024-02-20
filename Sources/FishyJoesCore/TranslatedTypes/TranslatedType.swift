@@ -216,8 +216,8 @@ extension Type {
 
 extension Type {
     // Default implementation methods replace unimplemented methods for Protocols
-    func methodsPreferringImplemented() -> Set<SourceryMethod> {
-        var methodsPreferringImplemented = Set<SourceryMethod>()
+    func methodsPreferringImplemented() -> Array<SourceryMethod> {
+        var methodsPreferringImplemented = Array<SourceryMethod>()
         for method in rawMethods {
             let equalExcludingImplementedMethods = methodsPreferringImplemented.filter {
                 $0.isEqualExcludingDefinedIn(other: method)
@@ -225,15 +225,23 @@ extension Type {
             if !equalExcludingImplementedMethods.isEmpty {
                 for equalExcludingImplementedMethod in equalExcludingImplementedMethods {
                     if equalExcludingImplementedMethod.isDefaultImplementationMethod {
-                        methodsPreferringImplemented.remove(method)
-                        methodsPreferringImplemented.insert(equalExcludingImplementedMethod)
+                        guard let index = methodsPreferringImplemented.firstIndex(of: method) else {
+                            assertionFailure("method should exist in methodsPreferringImplemented")
+                            continue
+                        }
+                        methodsPreferringImplemented.remove(at: index)
+                        methodsPreferringImplemented.insert(equalExcludingImplementedMethod, at: index)
                     } else if method.isDefaultImplementationMethod {
-                        methodsPreferringImplemented.remove(equalExcludingImplementedMethod)
-                        methodsPreferringImplemented.insert(method)
+                        guard let index = methodsPreferringImplemented.firstIndex(of: equalExcludingImplementedMethod) else {
+                            assertionFailure("equalExcludingImplementedMethod should exist in methodsPreferringImplemented")
+                            continue
+                        }
+                        methodsPreferringImplemented.remove(at: index)
+                        methodsPreferringImplemented.insert(method, at: index)
                     }
                 }
             } else {
-                methodsPreferringImplemented.insert(method)
+                methodsPreferringImplemented.append(method)
             }
         }
         return methodsPreferringImplemented

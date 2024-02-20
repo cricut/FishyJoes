@@ -165,12 +165,12 @@ public class FishyJoesContext {
         }
         
         // Translate
-        var methodsToTranslateForTypeDict = [Type: Set<SourceryMethod>]()
+        var methodsToTranslateForTypeDict = [Type: Array<SourceryMethod>]()
         for type in templateContext.types.types {
             if type is SourceryProtocol {
                 methodsToTranslateForTypeDict[type] = type.methodsPreferringImplemented()
             } else {
-                methodsToTranslateForTypeDict[type] = Set(type.rawMethods)
+                methodsToTranslateForTypeDict[type] = type.rawMethods
             }
         }
         

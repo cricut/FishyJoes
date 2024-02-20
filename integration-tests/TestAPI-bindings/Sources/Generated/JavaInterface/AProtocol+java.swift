@@ -44,6 +44,20 @@ struct _JavaAProtocol: AProtocol {
         }
     }
 
+    static var _barMethodID: jmethodID?
+    public func bar(x: Int, y: Int) -> AProtocol {
+        let env = try! _javaWitness.currentThreadEnv()
+        return try! _AProtocolConverter.fromJava(
+            env.CallObjectMethod(
+                _javaWitness.object,
+                Self._barMethodID,
+                jvalue(try Swift.Int.toJava(x, env: env)),
+                jvalue(try Swift.Int.toJava(y, env: env))
+            ),
+            env: env
+        )
+    }
+
     static var _hasADefaultImplementationMethodID: jmethodID?
     public var hasADefaultImplementationImpl: ((Int, Double) -> String)? = nil
     public func hasADefaultImplementation(x: Int, y: Double) -> String {
@@ -60,20 +74,6 @@ struct _JavaAProtocol: AProtocol {
             return _JavaAProtocol_sans_hasADefaultImplementation2(wrapped: self).hasADefaultImplementation2(a: a, b: b, c: c)
         }
         return hasADefaultImplementation2Impl(a, b, c)
-    }
-
-    static var _barMethodID: jmethodID?
-    public func bar(x: Int, y: Int) -> AProtocol {
-        let env = try! _javaWitness.currentThreadEnv()
-        return try! _AProtocolConverter.fromJava(
-            env.CallObjectMethod(
-                _javaWitness.object,
-                Self._barMethodID,
-                jvalue(try Swift.Int.toJava(x, env: env)),
-                jvalue(try Swift.Int.toJava(y, env: env))
-            ),
-            env: env
-        )
     }
 }
 
@@ -98,12 +98,12 @@ struct _JavaAProtocol_sans_hasADefaultImplementation: AProtocol {
         }
     }
 
-    public func hasADefaultImplementation2(a: String, b: Bool, c: Double) -> Double {
-        wrapped.hasADefaultImplementation2(a: a, b: b, c: c)
-    }
-
     public func bar(x: Int, y: Int) -> AProtocol {
         wrapped.bar(x: x, y: y)
+    }
+
+    public func hasADefaultImplementation2(a: String, b: Bool, c: Double) -> Double {
+        wrapped.hasADefaultImplementation2(a: a, b: b, c: c)
     }
 }
 
@@ -128,12 +128,12 @@ struct _JavaAProtocol_sans_hasADefaultImplementation2: AProtocol {
         }
     }
 
-    public func hasADefaultImplementation(x: Int, y: Double) -> String {
-        wrapped.hasADefaultImplementation(x: x, y: y)
-    }
-
     public func bar(x: Int, y: Int) -> AProtocol {
         wrapped.bar(x: x, y: y)
+    }
+
+    public func hasADefaultImplementation(x: Int, y: Double) -> String {
+        wrapped.hasADefaultImplementation(x: x, y: y)
     }
 }
 
