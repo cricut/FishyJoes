@@ -173,6 +173,7 @@ class KotlinClass: NestedClass {
                         var paramName = parameter.name
                         if paramName.isEmpty {
                             paramName = "_\(unnamedParamCnt)"
+                            unnamedParamCnt += 1
                         }
                         if excludedCompatibilityParameters.contains(parameter.name) {
                             arguments.append("(\(parameter.defaultValue!))\(parameter.type.toJVMType)")
