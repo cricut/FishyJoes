@@ -51,14 +51,6 @@ public struct AProtocolImplementation: AProtocol {
     }
 }
 
-///// <!-- FishyJoes.export(TestStaticProtocol) -->
-//public protocol TestStaticProtocol {
-//    /// <!-- FishyJoes.export(blarg) -->
-//    static var blarg: String { get }
-//    /// <!-- FishyJoes.export(wibble) -->
-//    static func wibble() -> String
-//}
-
 /// <!-- FishyJoes.export(TestMethodsProtocol) -->
 public protocol TestMethodsProtocol {
     /// <!-- FishyJoes.export(foo) -->
@@ -123,9 +115,6 @@ public enum TestProtocolEnum: TestMethodsProtocol {
     }
 }
 
-///// <!-- FishyJoes.export(TestProtocolStruct, conformances: [TestMethodsProtocol, TestPropertiesProtocol, TestStaticProtocol]) -->
-//public struct TestProtocolStruct: TestMethodsProtocol, TestPropertiesProtocol, TestStaticProtocol {
-/// <!-- FishyJoes.export(TestProtocolStruct, conformances: [TestMethodsProtocol, TestPropertiesProtocol]) -->
 public struct TestProtocolStruct: TestMethodsProtocol, TestPropertiesProtocol {
     /// <!-- FishyJoes.export(foo) -->
     public func foo() {
@@ -161,15 +150,6 @@ public struct TestProtocolStruct: TestMethodsProtocol, TestPropertiesProtocol {
     public var frob: [Double] {
         [3.14159265359, 42.0, -1.23456789]
     }
-
-//    /// <!-- FishyJoes.export(blarg) -->
-//    public static var blarg: String {
-//        "Such a fine thing to do."
-//    }
-//    /// <!-- FishyJoes.export(wibble) -->
-//    public static func wibble() -> String {
-//        "Wibbledy wobbledy, timey whimey"
-//    }
 }
 
 /// <!-- FishyJoes.exportReference(TestProtocolClass, conformances: [TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol]) -->
