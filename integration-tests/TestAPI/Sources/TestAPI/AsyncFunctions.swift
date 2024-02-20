@@ -82,5 +82,4 @@ public enum AsyncFunctions {
             try await thunk()
         }
     }
-
 }
