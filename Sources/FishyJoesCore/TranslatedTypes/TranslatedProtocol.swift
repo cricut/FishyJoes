@@ -191,7 +191,7 @@ struct TranslatedProtocol: TranslatedType {
                         fragment.output("guard let \(method.callName)Impl = \(method.callName)Impl else", newLineTerminated: false)
                         fragment.outputBlock(" {", closeWith: "}") {
                             let methodCallStr = "\(method.callName)(\(method.parameters.map { "\($0.name): \($0.name)" }.joined(separator: ", ")))"
-                            fragment.output("return \(foreignProtocolType)_sans_\(method.callName)(wrapped: self).\(methodCallStr)")
+                            fragment.output("return \(method.isThrowing ? "try " : "")\(foreignProtocolType)_sans_\(method.callName)(wrapped: self).\(methodCallStr)")
                         }
                         fragment.output("return \(method.callName)Impl(\(method.parameters.map { $0.name }.joined(separator: ", ")))")
                     } else {
@@ -246,7 +246,7 @@ struct TranslatedProtocol: TranslatedType {
                     fragment.output()
                     let returnSignature = "\(method.isThrowing ? " throws" : "") -> \(method.returnType.name)"
                     fragment.outputBlock("public func \(method.name)\(returnSignature) {", closeWith: "}") {
-                        fragment.output("wrapped.\(method.callName)(\(method.parameters.map { "\($0.name): \($0.name)" }.joined(separator: ", ")))")
+                        fragment.output("\(method.isThrowing ? "try " : "")wrapped.\(method.callName)(\(method.parameters.map { "\($0.name): \($0.name)" }.joined(separator: ", ")))")
                     }
                 }
             }

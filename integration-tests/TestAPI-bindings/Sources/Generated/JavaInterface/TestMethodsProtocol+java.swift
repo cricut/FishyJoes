@@ -11,7 +11,7 @@ struct _JavaTestMethodsProtocol: TestMethodsProtocol {
     let _javaWitness: JavaReference
 
     static var _fooMethodID: jmethodID?
-    public func foo() {
+    public func foo() throws {
         let env = try! _javaWitness.currentThreadEnv()
         return try! FishyJoesCommonRuntime.VoidConverter.fromJava(
             env.CallVoidMethod(
@@ -23,7 +23,7 @@ struct _JavaTestMethodsProtocol: TestMethodsProtocol {
     }
 
     static var _barMethodID: jmethodID?
-    public func bar() -> Bool {
+    public func bar() throws -> Bool {
         let env = try! _javaWitness.currentThreadEnv()
         return try! Swift.Bool.fromJava(
             env.CallBooleanMethod(
@@ -35,7 +35,7 @@ struct _JavaTestMethodsProtocol: TestMethodsProtocol {
     }
 
     static var _bazMethodID: jmethodID?
-    public func baz(qux: Bool) {
+    public func baz(qux: Bool) throws {
         let env = try! _javaWitness.currentThreadEnv()
         return try! FishyJoesCommonRuntime.VoidConverter.fromJava(
             env.CallVoidMethod(
@@ -48,7 +48,7 @@ struct _JavaTestMethodsProtocol: TestMethodsProtocol {
     }
 
     static var _garplyMethodID: jmethodID?
-    public func garply(_ _1: String) -> String {
+    public func garply(_ _1: String) throws -> String {
         let env = try! _javaWitness.currentThreadEnv()
         return try! Swift.String.fromJava(
             env.CallObjectMethod(
@@ -61,7 +61,7 @@ struct _JavaTestMethodsProtocol: TestMethodsProtocol {
     }
 
     static var _xyzzyMethodID: jmethodID?
-    public func xyzzy(thud: Int, grault: Array<Double>) -> String {
+    public func xyzzy(thud: Int, grault: Array<Double>) throws -> String {
         let env = try! _javaWitness.currentThreadEnv()
         return try! Swift.String.fromJava(
             env.CallObjectMethod(
@@ -75,7 +75,7 @@ struct _JavaTestMethodsProtocol: TestMethodsProtocol {
     }
 
     static var _plughMethodID: jmethodID?
-    public func plugh(fred: (Bool, Double, Array<String>)) -> (Bool, Int, String) {
+    public func plugh(fred: (Bool, Double, Array<String>)) throws -> (Bool, Int, String) {
         let env = try! _javaWitness.currentThreadEnv()
         return try! Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.fromJava(
             env.CallObjectMethod(
