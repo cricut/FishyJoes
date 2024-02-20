@@ -115,6 +115,7 @@ public enum TestProtocolEnum: TestMethodsProtocol {
     }
 }
 
+/// <!-- FishyJoes.export(TestProtocolStruct, conformances: [TestMethodsProtocol, TestPropertiesProtocol]) -->
 public struct TestProtocolStruct: TestMethodsProtocol, TestPropertiesProtocol {
     /// <!-- FishyJoes.export(foo) -->
     public func foo() {
