@@ -214,7 +214,6 @@ struct TranslatedProtocol: TranslatedType {
                     fragment.output()
                     let name = variable.name
                     let type = variable.typeName.better.name
-                    let resolved = context.resolve(type: variable.typeName.better)
                     fragment.outputBlock("public var \(name): \(type) {") {
                         fragment.outputBlock("get {") {
                             fragment.output("wrapped.\(name)")
