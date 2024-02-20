@@ -67,12 +67,12 @@ struct TranslatedProtocol: TranslatedType {
     func enforceProtocolThrows() {
         let nonThrowingMethods = methods.filter { !$0.isThrowing }
         guard nonThrowingMethods.isEmpty else {
-            fatalError("All Protocol methods exported through FishyJoes must be throwing, it's the law 👮!")
+            fatalError("Error on \(nonThrowingMethods.first!.name): All Protocol methods exported through FishyJoes must be throwing, it's the law 👮!")
         }
 
         let nonThrowingGetters = computedVariables.filter { !$0.`throws` && $0.writeAccess == AccessLevel.none.rawValue }
         guard nonThrowingGetters.isEmpty else {
-            fatalError("All Protocol get only property getters exported through FishyJoes must be throwing, it's the law 👮!")
+            fatalError("Error on \(nonThrowingGetters.first!.name): All Protocol get only property getters exported through FishyJoes must be throwing, it's the law 👮!")
         }
     }
 
