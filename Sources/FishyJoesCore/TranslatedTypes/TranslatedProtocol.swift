@@ -143,7 +143,10 @@ struct TranslatedProtocol: TranslatedType {
             for method in methods {
                 fragment.output()
                 let resolvedReturn = context.resolve(type: method.returnType)
-                let returnSignature = "\(method.isThrowing ? " throws" : "") -> \(method.returnType.name)"
+                var returnSignature = "\(method.isThrowing ? " throws" : "")"
+                if method.returnType.name != "Void" {
+                    returnSignature.append(" -> \(method.returnType.name)")
+                }
                 fragment.output("static var _\(method.callName)MethodID: jmethodID?")
                 if method.implemented {
                     fragment.output("\(method.isStatic ? "static " : "")public var \(method.callName)Impl: (\(method.swiftClosureSignature()))?")

@@ -11,7 +11,7 @@ struct _JavaTestMethodsProtocol: TestMethodsProtocol {
     let _javaWitness: JavaReference
 
     static var _fooMethodID: jmethodID?
-    public func foo() -> Void {
+    public func foo() {
         let env = try! _javaWitness.currentThreadEnv()
         return try! FishyJoesCommonRuntime.VoidConverter.fromJava(
             env.CallVoidMethod(
@@ -35,7 +35,7 @@ struct _JavaTestMethodsProtocol: TestMethodsProtocol {
     }
 
     static var _bazMethodID: jmethodID?
-    public func baz(qux: Bool) -> Void {
+    public func baz(qux: Bool) {
         let env = try! _javaWitness.currentThreadEnv()
         return try! FishyJoesCommonRuntime.VoidConverter.fromJava(
             env.CallVoidMethod(
