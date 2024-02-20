@@ -41,7 +41,7 @@ public struct CodeGen: ParsableCommand {
 
     @Option(name: .long, help: "Update version number of generated package.")
     var version: String?
-    
+
     @Flag(name: .long, help: #"Disable parallelism for swift build. (If you get a "FishyJoesCommonRuntime-Swift.h" or "TestAPI-Swift.h" file not found error, try this option)"#)
     var disableParallelism = false
 
