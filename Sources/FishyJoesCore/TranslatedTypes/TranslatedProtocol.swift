@@ -87,6 +87,8 @@ struct TranslatedProtocol: TranslatedType {
             "NodeInterface/\(sourceType.name)+node.swift",
             additionalImports: ["Foundation", "FishyJoesNodeRuntime"]
         )
+        fragment.output("// Placeholder comment until Protocols for Node is implemented in order to work around Swiftlint violation.")
+        fragment.blankLine()
         return fragment
     }
 
