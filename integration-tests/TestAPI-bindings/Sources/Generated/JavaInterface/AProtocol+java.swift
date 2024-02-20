@@ -59,7 +59,7 @@ struct _JavaAProtocol: AProtocol {
     }
 
     static var _hasADefaultImplementationMethodID: jmethodID?
-    public var hasADefaultImplementationImpl: ((Int, Double) -> String)? = nil
+    public var hasADefaultImplementationImpl: ((Int, Double) -> String)?
     public func hasADefaultImplementation(x: Int, y: Double) -> String {
         guard let hasADefaultImplementationImpl = hasADefaultImplementationImpl else {
             return _JavaAProtocol_sans_hasADefaultImplementation(wrapped: self).hasADefaultImplementation(x: x, y: y)
@@ -68,7 +68,7 @@ struct _JavaAProtocol: AProtocol {
     }
 
     static var _hasADefaultImplementation2MethodID: jmethodID?
-    public var hasADefaultImplementation2Impl: ((String, Bool, Double) -> Double)? = nil
+    public var hasADefaultImplementation2Impl: ((String, Bool, Double) -> Double)?
     public func hasADefaultImplementation2(a: String, b: Bool, c: Double) -> Double {
         guard let hasADefaultImplementation2Impl = hasADefaultImplementation2Impl else {
             return _JavaAProtocol_sans_hasADefaultImplementation2(wrapped: self).hasADefaultImplementation2(a: a, b: b, c: c)

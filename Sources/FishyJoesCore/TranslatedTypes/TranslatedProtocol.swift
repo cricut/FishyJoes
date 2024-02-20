@@ -146,7 +146,7 @@ struct TranslatedProtocol: TranslatedType {
                 let returnSignature = "\(method.isThrowing ? " throws" : "") -> \(method.returnType.name)"
                 fragment.output("static var _\(method.callName)MethodID: jmethodID?")
                 if method.implemented {
-                    fragment.output("\(method.isStatic ? "static " : "")public var \(method.callName)Impl: (\(method.swiftClosureSignature()))? = nil")
+                    fragment.output("\(method.isStatic ? "static " : "")public var \(method.callName)Impl: (\(method.swiftClosureSignature()))?")
                 }
                 var paramSigs = [String]()
                 do {
