@@ -214,7 +214,7 @@ extension Type {
     }
 }
 
-extension Type {
+extension SourceryProtocol {
     // Default implementation methods replace unimplemented methods for Protocols
     func methodsPreferringDefaultImpl() -> [SourceryMethod] {
         var methodsPreferringImplemented = [SourceryMethod]()

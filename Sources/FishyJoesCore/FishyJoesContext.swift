@@ -167,8 +167,8 @@ public class FishyJoesContext {
         // Translate
         var methodsToTranslateForTypeDict = [Type: [SourceryMethod]]()
         for type in templateContext.types.types {
-            if type is SourceryProtocol {
-                methodsToTranslateForTypeDict[type] = type.methodsPreferringDefaultImpl()
+            if let protocolType = type as? SourceryProtocol {
+                methodsToTranslateForTypeDict[type] = protocolType.methodsPreferringDefaultImpl()
             } else {
                 methodsToTranslateForTypeDict[type] = type.rawMethods
             }
