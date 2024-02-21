@@ -29,8 +29,8 @@ struct _JavaTestOptionalsProtocol: TestOptionalsProtocol {
 
     static var _wombatMethodID: jmethodID?
     public func wombat(zxc: Optional<Int>) throws -> Optional<Double> {
-        let env = try! _javaWitness.currentThreadEnv()
-        return try! OptionalConverter<Swift.Double>.fromJava(
+        let env = try _javaWitness.currentThreadEnv()
+        return try OptionalConverter<Swift.Double>.fromJava(
             env.CallObjectMethod(
                 _javaWitness.object,
                 Self._wombatMethodID,
@@ -42,8 +42,8 @@ struct _JavaTestOptionalsProtocol: TestOptionalsProtocol {
 
     static var _spqrMethodID: jmethodID?
     public func spqr(_ _1: AssociatedDataEnum) throws -> Int {
-        let env = try! _javaWitness.currentThreadEnv()
-        return try! Swift.Int.fromJava(
+        let env = try _javaWitness.currentThreadEnv()
+        return try Swift.Int.fromJava(
             env.CallLongMethod(
                 _javaWitness.object,
                 Self._spqrMethodID,

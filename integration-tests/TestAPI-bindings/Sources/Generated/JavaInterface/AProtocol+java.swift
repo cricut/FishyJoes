@@ -46,8 +46,8 @@ struct _JavaAProtocol: AProtocol {
 
     static var _barMethodID: jmethodID?
     public func bar(x: Int, y: Int) throws -> AProtocol {
-        let env = try! _javaWitness.currentThreadEnv()
-        return try! _AProtocolConverter.fromJava(
+        let env = try _javaWitness.currentThreadEnv()
+        return try _AProtocolConverter.fromJava(
             env.CallObjectMethod(
                 _javaWitness.object,
                 Self._barMethodID,

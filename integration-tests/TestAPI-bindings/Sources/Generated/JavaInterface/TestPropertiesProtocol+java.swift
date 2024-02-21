@@ -29,11 +29,13 @@ struct _JavaTestPropertiesProtocol: TestPropertiesProtocol {
 
     static var _frobGetMethodID: jmethodID?
     public var frob: Array<Double> {
-        let env = try! _javaWitness.currentThreadEnv()
-        return try! ArrayConverter<Swift.Double>.fromJava(
-            env.CallObjectMethod(_javaWitness.object, Self._frobGetMethodID),
-            env: env
-        )
+        get throws {
+            let env = try _javaWitness.currentThreadEnv()
+            return try ArrayConverter<Swift.Double>.fromJava(
+                env.CallObjectMethod(_javaWitness.object, Self._frobGetMethodID),
+                env: env
+            )
+        }
     }
 }
 

@@ -148,19 +148,13 @@ struct TranslatedProtocol: TranslatedType {
                     fragment.output("static var \(setID): jmethodID?")
                 }
                 fragment.outputBlock("\(variable.isStatic ? "static " : "")public var \(name): \(type) {") {
-                    func gnr8GetterCode(fragment: SourceFragment) {
-                        fragment.output("let env = try! _javaWitness.currentThreadEnv()")
-                        fragment.outputBlock("return try! \(resolved.converterType.name).fromJava(") {
+                    fragment.outputBlock("get\(!variable.isMutable ? " throws" : "") {") {
+                        let perhapsExclaim = variable.isMutable ? "!" : ""
+                        fragment.output("let env = try\(perhapsExclaim) _javaWitness.currentThreadEnv()")
+                        fragment.outputBlock("return try\(perhapsExclaim) \(resolved.converterType.name).fromJava(") {
                             fragment.output("env.Call\(resolved.jniType.valueType)Method(_javaWitness.object, Self.\(getID)),")
                             fragment.output("env: env")
                         }
-                    }
-                    if variable.isMutable {
-                        fragment.outputBlock("get {") {
-                            gnr8GetterCode(fragment: fragment)
-                        }
-                    } else {
-                        gnr8GetterCode(fragment: fragment)
                     }
                     if variable.isMutable {
                         fragment.outputBlock("set {") {
@@ -203,8 +197,8 @@ struct TranslatedProtocol: TranslatedType {
                         }
                         fragment.output("return \(method.callName)Impl(\(method.parameters.map { $0.name }.joined(separator: ", ")))")
                     } else {
-                        fragment.output("let env = try! _javaWitness.currentThreadEnv()")
-                        fragment.outputBlock("return try! \(resolvedReturn.converterType.name).fromJava(") {
+                        fragment.output("let env = try _javaWitness.currentThreadEnv()")
+                        fragment.outputBlock("return try \(resolvedReturn.converterType.name).fromJava(") {
                             fragment.outputBlock("env.Call\(resolvedReturn.jniType.valueType)Method(", closeWith: "),") {
                                 fragment.output("_javaWitness.object,")
                                 fragment.output("Self._\(method.callName)MethodID", newLineTerminated: false)

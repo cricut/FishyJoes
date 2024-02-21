@@ -12,8 +12,8 @@ struct _JavaTestMethodsProtocol: TestMethodsProtocol {
 
     static var _fooMethodID: jmethodID?
     public func foo() throws {
-        let env = try! _javaWitness.currentThreadEnv()
-        return try! FishyJoesCommonRuntime.VoidConverter.fromJava(
+        let env = try _javaWitness.currentThreadEnv()
+        return try FishyJoesCommonRuntime.VoidConverter.fromJava(
             env.CallVoidMethod(
                 _javaWitness.object,
                 Self._fooMethodID
@@ -24,8 +24,8 @@ struct _JavaTestMethodsProtocol: TestMethodsProtocol {
 
     static var _barMethodID: jmethodID?
     public func bar() throws -> Bool {
-        let env = try! _javaWitness.currentThreadEnv()
-        return try! Swift.Bool.fromJava(
+        let env = try _javaWitness.currentThreadEnv()
+        return try Swift.Bool.fromJava(
             env.CallBooleanMethod(
                 _javaWitness.object,
                 Self._barMethodID
@@ -36,8 +36,8 @@ struct _JavaTestMethodsProtocol: TestMethodsProtocol {
 
     static var _bazMethodID: jmethodID?
     public func baz(qux: Bool) throws {
-        let env = try! _javaWitness.currentThreadEnv()
-        return try! FishyJoesCommonRuntime.VoidConverter.fromJava(
+        let env = try _javaWitness.currentThreadEnv()
+        return try FishyJoesCommonRuntime.VoidConverter.fromJava(
             env.CallVoidMethod(
                 _javaWitness.object,
                 Self._bazMethodID,
@@ -49,8 +49,8 @@ struct _JavaTestMethodsProtocol: TestMethodsProtocol {
 
     static var _garplyMethodID: jmethodID?
     public func garply(_ _1: String) throws -> String {
-        let env = try! _javaWitness.currentThreadEnv()
-        return try! Swift.String.fromJava(
+        let env = try _javaWitness.currentThreadEnv()
+        return try Swift.String.fromJava(
             env.CallObjectMethod(
                 _javaWitness.object,
                 Self._garplyMethodID,
@@ -62,8 +62,8 @@ struct _JavaTestMethodsProtocol: TestMethodsProtocol {
 
     static var _xyzzyMethodID: jmethodID?
     public func xyzzy(thud: Int, grault: Array<Double>) throws -> String {
-        let env = try! _javaWitness.currentThreadEnv()
-        return try! Swift.String.fromJava(
+        let env = try _javaWitness.currentThreadEnv()
+        return try Swift.String.fromJava(
             env.CallObjectMethod(
                 _javaWitness.object,
                 Self._xyzzyMethodID,
@@ -76,8 +76,8 @@ struct _JavaTestMethodsProtocol: TestMethodsProtocol {
 
     static var _plughMethodID: jmethodID?
     public func plugh(fred: (Bool, Double, Array<String>)) throws -> (Bool, Int, String) {
-        let env = try! _javaWitness.currentThreadEnv()
-        return try! Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.fromJava(
+        let env = try _javaWitness.currentThreadEnv()
+        return try Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.fromJava(
             env.CallObjectMethod(
                 _javaWitness.object,
                 Self._plughMethodID,
