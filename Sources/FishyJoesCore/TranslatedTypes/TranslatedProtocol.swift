@@ -123,8 +123,8 @@ struct TranslatedProtocol: TranslatedType {
         let foreignProtocolType = "_Java\(sourceType.nonNamespacedName)"
 
         var methodIDs: [(idHandle: String, name: String, signature: String)] = []
-        let defaultMethods = methods.filter { $0.implemented }
-        let normalMethods = methods.filter { !$0.implemented }
+        let defaultMethods = methods.filter { $0.isInExtension }
+        let normalMethods = methods.filter { !$0.isInExtension }
 
         fragment.outputBlock("struct \(foreignProtocolType): \(sourceType.nonNamespacedName) {") {
             fragment.output("let _javaWitness: JavaReference")
@@ -173,7 +173,7 @@ struct TranslatedProtocol: TranslatedType {
                     returnSignature.append(" -> \(method.returnType.name)")
                 }
                 fragment.output("static var _\(method.callName)MethodID: jmethodID?")
-                if method.implemented {
+                if method.isInExtension {
                     fragment.output("\(method.isStatic ? "static " : "")public var \(method.callName)Impl: (\(method.swiftClosureSignature()))?")
                 }
                 var paramSigs = [String]()
@@ -189,7 +189,7 @@ struct TranslatedProtocol: TranslatedType {
                     }
                 }
                 fragment.outputBlock("\(method.isStatic ? "static " : "")public func \(method.callName)(\(paramSigs.joined(separator: ", ")))\(returnSignature) {") {
-                    if method.implemented {
+                    if method.isInExtension {
                         fragment.output("guard let \(method.callName)Impl = \(method.callName)Impl else", newLineTerminated: false)
                         fragment.outputBlock(" {", closeWith: "}") {
                             let methodCallStr = "\(method.callName)(\(method.parameters.map { "\($0.name): \($0.name)" }.joined(separator: ", ")))"
@@ -326,7 +326,7 @@ struct TranslatedProtocol: TranslatedType {
                     methods.flatMap { method -> [KotlinClass.MethodOrVariable] in
                         guard let kotlinMethodOrVariable = context.kotlin(method: method) else { return [] }
 
-                        guard !method.isStatic, method.implemented, case .method(var kotlinMethod) = kotlinMethodOrVariable else {
+                        guard !method.isStatic, method.isInExtension, case .method(var kotlinMethod) = kotlinMethodOrVariable else {
                             return [kotlinMethodOrVariable]
                         }
 
@@ -352,7 +352,7 @@ struct TranslatedProtocol: TranslatedType {
                 name: "_ExternalWitness_\(kotlinName)",
                 constructor: .reference,
                 fieldsAndMethods: {
-                    let nonDefaultMethods = methods.filter { !$0.implemented }
+                    let nonDefaultMethods = methods.filter { !$0.isInExtension }
                     var fAndM = computedVariables.compactMap { context.kotlin(field: $0, useNativeName: false)}
                     fAndM.append(contentsOf: nonDefaultMethods.compactMap { context.kotlin(method: $0) })
                     return fAndM
