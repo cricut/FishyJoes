@@ -7,7 +7,7 @@ import FishyJoesJavaRuntime
 import Foundation
 import TestAPI
 
-struct _JavaTestPropertiesProtocol: TestPropertiesProtocol {
+struct _JavaTestPropertiesProtocol: TestAPI.TestPropertiesProtocol {
     let _javaWitness: JavaReference
 
     static var _corgeGetMethodID: jmethodID?

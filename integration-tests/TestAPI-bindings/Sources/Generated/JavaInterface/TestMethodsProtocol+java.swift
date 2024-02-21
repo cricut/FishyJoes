@@ -7,7 +7,7 @@ import FishyJoesJavaRuntime
 import Foundation
 import TestAPI
 
-struct _JavaTestMethodsProtocol: TestMethodsProtocol {
+struct _JavaTestMethodsProtocol: TestAPI.TestMethodsProtocol {
     let _javaWitness: JavaReference
 
     static var _fooMethodID: jmethodID?

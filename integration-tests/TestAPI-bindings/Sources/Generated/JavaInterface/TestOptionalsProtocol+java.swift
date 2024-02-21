@@ -7,7 +7,7 @@ import FishyJoesJavaRuntime
 import Foundation
 import TestAPI
 
-struct _JavaTestOptionalsProtocol: TestOptionalsProtocol {
+struct _JavaTestOptionalsProtocol: TestAPI.TestOptionalsProtocol {
     let _javaWitness: JavaReference
 
     static var _flarpGetMethodID: jmethodID?

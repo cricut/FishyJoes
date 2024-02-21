@@ -126,7 +126,7 @@ struct TranslatedProtocol: TranslatedType {
         let defaultMethods = methods.filter { $0.isInExtension }
         let normalMethods = methods.filter { !$0.isInExtension }
 
-        fragment.outputBlock("struct \(foreignProtocolType): \(sourceType.nonNamespacedName) {") {
+        fragment.outputBlock("struct \(foreignProtocolType): \(sourceType.name) {") {
             fragment.output("let _javaWitness: JavaReference")
             let hasStaticMethods = methods.contains(where: { $0.isStatic })
             let hasStaticVariables = computedVariables.contains(where: { $0.isStatic })
