@@ -358,7 +358,7 @@ struct TranslatedProtocol: TranslatedType {
                     return fAndM
                 }(),
                 conformances: ["com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference)"]
-            ).conforming(to: [sourceType.nonNamespacedName], context: context)
+            ).conforming(to: [sourceType.name], context: context)
         )
 
         return [fragment]
