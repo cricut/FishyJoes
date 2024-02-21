@@ -77,8 +77,8 @@ struct _JavaAProtocol: TestAPI.AProtocol {
     }
 }
 
-struct _JavaAProtocol_sans_hasADefaultImplementation: AProtocol {
-    var wrapped: AProtocol
+struct _JavaAProtocol_sans_hasADefaultImplementation: TestAPI.AProtocol {
+    var wrapped: TestAPI.AProtocol
 
     public var foo: String {
         get {
@@ -107,8 +107,8 @@ struct _JavaAProtocol_sans_hasADefaultImplementation: AProtocol {
     }
 }
 
-struct _JavaAProtocol_sans_hasADefaultImplementation2: AProtocol {
-    var wrapped: AProtocol
+struct _JavaAProtocol_sans_hasADefaultImplementation2: TestAPI.AProtocol {
+    var wrapped: TestAPI.AProtocol
 
     public var foo: String {
         get {

@@ -225,8 +225,8 @@ struct TranslatedProtocol: TranslatedType {
         fragment.output()
 
         for defaultMethod in defaultMethods {
-            fragment.outputBlock("struct \(foreignProtocolType)_sans_\(defaultMethod.callName): \(sourceType.nonNamespacedName) {", closeWith: "}") {
-                fragment.output("var wrapped: \(sourceType.nonNamespacedName)")
+            fragment.outputBlock("struct \(foreignProtocolType)_sans_\(defaultMethod.callName): \(sourceType.name) {", closeWith: "}") {
+                fragment.output("var wrapped: \(sourceType.name)")
 
                 for variable in computedVariables {
                     fragment.output()
