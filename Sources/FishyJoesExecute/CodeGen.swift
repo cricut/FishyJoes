@@ -174,13 +174,11 @@ extension CodeGen {
             ]
             try cmd("rm", arguments: ["-rf"] + sourceLocations).run()
             try cmd("mkdir", arguments: ["-p"] + sourceLocations).run()
-            try cmd(
-                "touch",
-                "Sources/Generated/CommonInterface/EmptyPlaceholder.swift",
-                "Sources/Generated/IotaInterface/EmptyPlaceholder.swift",
-                "Sources/Generated/NodeInterface/EmptyPlaceholder.swift",
-                "Sources/Generated/JavaInterface/EmptyPlaceholder.swift"
-            ).run()
+            let tmpUrl = try cmd("echo", "").runFile()
+            try cmd("cp", "-f", "\(tmpUrl.path)", "Sources/Generated/CommonInterface/EmptyPlaceholder.swift").run()
+            try cmd("cp", "-f", "\(tmpUrl.path)", "Sources/Generated/IotaInterface/EmptyPlaceholder.swift").run()
+            try cmd("cp", "-f", "\(tmpUrl.path)", "Sources/Generated/NodeInterface/EmptyPlaceholder.swift").run()
+            try cmd("cp", "-f", "\(tmpUrl.path)", "Sources/Generated/JavaInterface/EmptyPlaceholder.swift").run()            
 
             // Build the Sourcery tool itself
             try cmd("swift", "build", "--product", "sourcery").run()
