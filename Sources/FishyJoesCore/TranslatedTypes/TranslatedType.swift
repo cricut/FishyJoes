@@ -216,7 +216,7 @@ extension Type {
 
 extension Type {
     // Default implementation methods replace unimplemented methods for Protocols
-    func methodsPreferringImplemented() -> [SourceryMethod] {
+    func methodsPreferringDefaultImpl() -> [SourceryMethod] {
         var methodsPreferringImplemented = [SourceryMethod]()
         for method in rawMethods {
             let equalExcludingImplementedMethods = methodsPreferringImplemented.filter {
