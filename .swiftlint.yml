@@ -6,7 +6,6 @@ included:
 
 excluded:
     - ./Sources/FishyJoesExecute/Resources
-    - ./integration-tests/TestAPI-bindings/Sources/Generated/FishyJoes.generated.swift
 
 opt_in_rules:
     - array_init
