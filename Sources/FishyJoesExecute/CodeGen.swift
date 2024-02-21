@@ -178,7 +178,7 @@ extension CodeGen {
             try cmd("cp", "-f", "\(tmpUrl.path)", "Sources/Generated/CommonInterface/EmptyPlaceholder.swift").run()
             try cmd("cp", "-f", "\(tmpUrl.path)", "Sources/Generated/IotaInterface/EmptyPlaceholder.swift").run()
             try cmd("cp", "-f", "\(tmpUrl.path)", "Sources/Generated/NodeInterface/EmptyPlaceholder.swift").run()
-            try cmd("cp", "-f", "\(tmpUrl.path)", "Sources/Generated/JavaInterface/EmptyPlaceholder.swift").run()            
+            try cmd("cp", "-f", "\(tmpUrl.path)", "Sources/Generated/JavaInterface/EmptyPlaceholder.swift").run()
 
             // Build the Sourcery tool itself
             try cmd("swift", "build", "--product", "sourcery").run()
