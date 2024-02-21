@@ -224,14 +224,14 @@ extension Type {
             }
             if !equalExcludingImplementedMethods.isEmpty {
                 for equalExcludingImplementedMethod in equalExcludingImplementedMethods {
-                    if equalExcludingImplementedMethod.isDefaultImplementationMethod {
+                    if equalExcludingImplementedMethod.isInExtension {
                         guard let index = methodsPreferringImplemented.firstIndex(of: method) else {
                             assertionFailure("method should exist in methodsPreferringImplemented")
                             continue
                         }
                         methodsPreferringImplemented.remove(at: index)
                         methodsPreferringImplemented.insert(equalExcludingImplementedMethod, at: index)
-                    } else if method.isDefaultImplementationMethod {
+                    } else if method.isInExtension {
                         guard let index = methodsPreferringImplemented.firstIndex(of: equalExcludingImplementedMethod) else {
                             assertionFailure("equalExcludingImplementedMethod should exist in methodsPreferringImplemented")
                             continue
@@ -269,7 +269,7 @@ extension SourceryMethod {
         attributes == other.attributes
     }
 
-    var isDefaultImplementationMethod: Bool {
+    var isInExtension: Bool {
         definedInType?.isExtension ?? false
     }
 }
