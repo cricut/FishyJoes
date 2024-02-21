@@ -195,7 +195,7 @@ struct TranslatedProtocol: TranslatedType {
                             let methodCallStr = "\(method.callName)(\(method.parameters.map { "\($0.name): \($0.name)" }.joined(separator: ", ")))"
                             fragment.output("return \(method.isThrowing ? "try " : "")\(foreignProtocolType)_sans_\(method.callName)(wrapped: self).\(methodCallStr)")
                         }
-                        fragment.output("return \(method.callName)Impl(\(method.parameters.map { $0.name }.joined(separator: ", ")))")
+                        fragment.output("return \(method.isThrowing ? "try ": "")\(method.isAsync ? "await ": "")\(method.callName)Impl(\(method.parameters.map { $0.name }.joined(separator: ", ")))")
                     } else {
                         fragment.output("let env = try _javaWitness.currentThreadEnv()")
                         fragment.outputBlock("return try \(resolvedReturn.converterType.name).fromJava(") {

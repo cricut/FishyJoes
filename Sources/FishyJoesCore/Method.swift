@@ -133,7 +133,7 @@ extension Method {
 
 extension Method {
     func swiftClosureSignature() -> String {
-        "(\(parameters.map { $0.type.name}.joined(separator: ", "))) -> \(returnType.name)"
+        "(\(parameters.map { $0.type.name}.joined(separator: ", ")))\(isAsync ? " async" : "")\(isThrowing ? " throws" : "") -> \(returnType.name)"
     }
 }
 
