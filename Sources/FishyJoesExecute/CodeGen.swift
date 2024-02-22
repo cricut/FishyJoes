@@ -171,7 +171,7 @@ extension CodeGen {
                 "kotlin/src/generated/kotlin/com/cricut/\(config.module.lowercased())",
                 "c-sharp/Cricut.\(config.module.lowercased())/generated",
                 "dart/lib/src/generated",
-                "integration-tests/TestAPI-bindings/Sources/Generated/FishyJoes.generated.swift"
+                "Sources/Generated/FishyJoes.generated.swift",
             ]
             try cmd("rm", arguments: ["-rf"] + sourceLocations).run()
             try cmd("mkdir", arguments: ["-p"] + sourceLocations).run()
