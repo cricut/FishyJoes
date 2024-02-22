@@ -40,7 +40,7 @@ let package = Package(
         .target(
             name: "TestAPI_NodeInterface",
             dependencies: [
-                "CommonInterface",
+                "TestAPI_CommonInterface",
                 .product(name: "TestAPI", package: "TestAPI"),
                 .product(name: "FishyJoesNodeRuntime", package: "FishyJoes"),
             ],
@@ -53,7 +53,7 @@ let package = Package(
             ]
         ),
         .target(
-            name: "CommonInterface",
+            name: "TestAPI_CommonInterface",
             path: "Sources/Generated/CommonInterface"
         ),
     ] + (
@@ -68,7 +68,7 @@ let package = Package(
             .target(
                 name: "TestAPI_JavaInterface",
                 dependencies: [
-                    "CommonInterface",
+                    "TestAPI_CommonInterface",
                     .product(name: "TestAPI", package: "TestAPI"),
                     .product(name: "FishyJoesJavaRuntime", package: "FishyJoes"),
                 ],
@@ -77,7 +77,7 @@ let package = Package(
             .target(
                 name: "TestAPI_IotaInterface",
                 dependencies: [
-                    "CommonInterface",
+                    "TestAPI_CommonInterface",
                     .product(name: "TestAPI", package: "TestAPI"),
                     .product(name: "FishyJoesIotaRuntime", package: "FishyJoes"),
                 ],

@@ -2,10 +2,10 @@
 // DO NOT EDIT
 // swiftlint:disable:next blanket_disable_command superfluous_disable_command
 // swiftlint:disable unused_closure_parameter syntactic_sugar attributes
-import CommonInterface
 import FishyJoesJavaRuntime
 import Foundation
 import TestAPI
+import TestAPI_CommonInterface
 
 struct _JavaTestOptionalsProtocol: TestAPI.TestOptionalsProtocol {
     let _javaWitness: JavaReference
