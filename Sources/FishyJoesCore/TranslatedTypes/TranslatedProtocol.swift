@@ -62,6 +62,7 @@ struct TranslatedProtocol: TranslatedType {
         self.externalWitnessClassName = context.kotlinTranslator.javaClassName("_ExternalWitness_\(kotlinName)", in: context)
 
         enforceProtocolThrows()
+        enforceNoProtocolSetters()
     }
 
     func enforceProtocolThrows() {
@@ -81,6 +82,17 @@ struct TranslatedProtocol: TranslatedType {
                 nameSpace = "\(ns)."
             }
             fatalError("Error on \(nameSpace)\(nonThrowingGetters.first!.name): All Protocol get only property getters exported through FishyJoes must be throwing, it's the law 👮!")
+        }
+    }
+
+    func enforceNoProtocolSetters() {
+        let setters = computedVariables.filter { $0.isMutable }
+        guard setters.isEmpty else {
+            var nameSpace = ""
+            if let ns = setters.first!.definedInTypeName?.name {
+                nameSpace = "\(ns)."
+            }
+            fatalError("Error on \(nameSpace)\(setters.first!.name) No setters allowed in protocols because the Swift language does not allow them to throw, it's the law 👮! Use a function instead.")
         }
     }
 
