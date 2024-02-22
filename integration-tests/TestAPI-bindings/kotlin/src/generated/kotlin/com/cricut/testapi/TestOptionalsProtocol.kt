@@ -10,7 +10,7 @@ interface TestOptionalsProtocol {
     /**
      * <!-- FishyJoes.export(flarp) -->
      */
-    var flarp: kotlin.String?
+    val flarp: kotlin.String?
     /**
      * <!-- FishyJoes.export(wombat) -->
      */

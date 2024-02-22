@@ -7,13 +7,10 @@ private class _ExternalWitness_TestPropertiesProtocol private constructor(_swift
     /**
      * <!-- FishyJoes.export(corge) -->
      */
-    override var corge: kotlin.String
+    override val corge: kotlin.String
       get() = __jni_get_corge()
-      set(value) { __jni_set_corge(value) } 
     @JvmName("__jni_get_corge")
     private external fun __jni_get_corge(): kotlin.String
-    @JvmName("__jni_set_corge")
-    private external fun __jni_set_corge(newValue: kotlin.String)
 
     /**
      * <!-- FishyJoes.export(frob) -->

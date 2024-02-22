@@ -11,19 +11,13 @@ struct _JavaTestPropertiesProtocol: TestAPI.TestPropertiesProtocol {
     let _javaWitness: JavaReference
 
     static var _corgeGetMethodID: jmethodID?
-    static var _corgeSetMethodID: jmethodID?
     public var corge: String {
-        get {
-            let env = try! _javaWitness.currentThreadEnv()
-            return try! Swift.String.fromJava(
+        get throws {
+            let env = try _javaWitness.currentThreadEnv()
+            return try Swift.String.fromJava(
                 env.CallObjectMethod(_javaWitness.object, Self._corgeGetMethodID),
                 env: env
             )
-        }
-        set {
-            let env = try! _javaWitness.currentThreadEnv()
-            let javaNewValue = try! Swift.String.toJava(newValue, env: env)
-            try! env.CallVoidMethod(_javaWitness.object, Self._corgeSetMethodID, jvalue(javaNewValue))
         }
     }
 
@@ -68,7 +62,6 @@ extension _TestPropertiesProtocolConverter: JavaMutator {
         externalWitnessClass = try env.globalRef(env.FindClass("com/cricut/testapi/_ExternalWitness_TestPropertiesProtocol"))
         externalWitnessConstructor = try env.GetMethodID(externalWitnessClass, "<init>", "(J)V")
         _JavaTestPropertiesProtocol._corgeGetMethodID = try env.GetMethodID(javaClass, "getCorge", "()Ljava/lang/String;")
-        _JavaTestPropertiesProtocol._corgeSetMethodID = try env.GetMethodID(javaClass, "setCorge", "(Ljava/lang/String;)V")
         _JavaTestPropertiesProtocol._frobGetMethodID = try env.GetMethodID(javaClass, "getFrob", "()Ljava/util/List;")
     }
 }

@@ -10,11 +10,11 @@ interface AProtocol {
     /**
      * <!-- FishyJoes.export(foo) -->
      */
-    var foo: kotlin.String
+    val foo: kotlin.String
     /**
      * <!-- FishyJoes.export(baz) -->
      */
-    var baz: Boolean
+    val baz: Boolean
     /**
      * <!-- FishyJoes.export(bar) -->
      */

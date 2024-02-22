@@ -3,13 +3,13 @@ import Foundation
 /// <!-- FishyJoes.export(AProtocol) -->
 public protocol AProtocol {
     /// <!-- FishyJoes.export(foo) -->
-    var foo: String { get set }
+    var foo: String { get throws }
 
     /// <!-- FishyJoes.export(bar) -->
     func bar(x: Int, y: Int) throws -> AProtocol
 
     /// <!-- FishyJoes.export(baz) -->
-    var baz: Bool { get set }
+    var baz: Bool { get throws }
 
     /// <!-- FishyJoes.export(hasADefaultImplementation) -->
     func hasADefaultImplementation(x: Int, y: Double) throws -> String
@@ -22,7 +22,7 @@ extension AProtocol {
     /// <!-- FishyJoes.export(hasADefaultImplementation) -->
     public func hasADefaultImplementation(x: Int, y: Double) throws -> String {
         let b = try bar(x: x, y: Int(round(y * 3.14159265359)))
-        return b.baz ? "bazzy \(b.foo)" : "\(b.foo) notBazzed"
+        return try b.baz ? "bazzy \(b.foo)" : "\(b.foo) notBazzed"
     }
 
     /// <!-- FishyJoes.export(hasADefaultImplementation2) -->
@@ -70,7 +70,7 @@ public protocol TestMethodsProtocol {
 /// <!-- FishyJoes.export(TestPropertiesProtocol) -->
 public protocol TestPropertiesProtocol {
     /// <!-- FishyJoes.export(corge) -->
-    var corge: String { get set }
+    var corge: String { get throws }
     /// <!-- FishyJoes.export(frob) -->
     var frob: [Double] { get throws }
 }
@@ -78,7 +78,7 @@ public protocol TestPropertiesProtocol {
 /// <!-- FishyJoes.export(TestOptionalsProtocol) -->
 public protocol TestOptionalsProtocol {
     /// <!-- FishyJoes.export(flarp) -->
-    var flarp: String? { get set }
+    var flarp: String? { get throws }
     /// <!-- FishyJoes.export(wombat) -->
     func wombat(zxc: Int?) throws -> Double?
     /// <!-- FishyJoes.export(spqr) -->

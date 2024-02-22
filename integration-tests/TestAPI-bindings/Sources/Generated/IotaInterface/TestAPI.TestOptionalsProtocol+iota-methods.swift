@@ -56,17 +56,3 @@ public func __iota_get_TestAPI_TestOptionalsProtocol_flarp(
         try OptionalConverter<Swift.String>.toIota(TestAPI.TestOptionalsProtocol.peekIota(_iotaThis, env: env).flarp, env: env)
     }
 }
-@_cdecl("__iota_set_TestAPI_TestOptionalsProtocol_flarp")
-public func __iota_set_TestAPI_TestOptionalsProtocol_flarp(
-    envRef: EnvRef,
-    _iotaThis: foreignObject,
-    newValue: OptionalConverter<Swift.String>.CType,
-    _exn: foreignOutExn
-) {
-    let env = Env(envRef)
-    env.catching(to: _exn) {
-        try TestAPI.TestOptionalsProtocol.withMutatingIota(_iotaThis, env: env) { value in
-            value.flarp = try OptionalConverter<Swift.String>.peekIota(newValue, env: env)
-        }
-    }
-}

@@ -48,14 +48,3 @@ let java_get__TestOptionalsProtocolConverter_flarp: @convention(c) (
         try OptionalConverter<Swift.String>.toJava(_TestOptionalsProtocolConverter.fromJava(_javaThis, env: _javaEnv).flarp, env: _javaEnv)
     }
 }
-let java_set__TestOptionalsProtocolConverter_flarp: @convention(c) (
-    UnsafeMutablePointer<JNIEnv?>,
-    jobject,
-    OptionalConverter<Swift.String>.CType
-) -> Void = { _javaEnv, _javaThis, newValue in
-    FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-        try _TestOptionalsProtocolConverter.mutateJava(_javaThis, env: _javaEnv) { value in
-            value.flarp = try OptionalConverter<Swift.String>.fromJava(newValue, env: _javaEnv)
-        }
-    }
-}

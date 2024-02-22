@@ -7,13 +7,10 @@ private class _ExternalWitness_TestOptionalsProtocol private constructor(_swiftR
     /**
      * <!-- FishyJoes.export(flarp) -->
      */
-    override var flarp: kotlin.String?
+    override val flarp: kotlin.String?
       get() = __jni_get_flarp()
-      set(value) { __jni_set_flarp(value) } 
     @JvmName("__jni_get_flarp")
     private external fun __jni_get_flarp(): kotlin.String?
-    @JvmName("__jni_set_flarp")
-    private external fun __jni_set_flarp(newValue: kotlin.String?)
 
     /**
      * <!-- FishyJoes.export(wombat) -->

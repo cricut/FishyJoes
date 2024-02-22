@@ -233,11 +233,8 @@ struct TranslatedProtocol: TranslatedType {
                     let name = variable.name
                     let type = variable.typeName.better.name
                     fragment.outputBlock("public var \(name): \(type) {") {
-                        fragment.outputBlock("get {") {
-                            fragment.output("wrapped.\(name)")
-                        }
-                        fragment.outputBlock("set {") {
-                            fragment.output("wrapped.\(name) = newValue")
+                        fragment.outputBlock("get throws {") {
+                            fragment.output("try wrapped.\(name)")
                         }
                     }
                 }

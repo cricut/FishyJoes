@@ -470,19 +470,9 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_get__AProtocolConverter_foo, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_set_foo"),
-                signature: bag.add("(Ljava/lang/String;)V"),
-                fnPtr: unsafeBitCast(java_set__AProtocolConverter_foo, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
                 name: bag.add("__jni_get_baz"),
                 signature: bag.add("()Z"),
                 fnPtr: unsafeBitCast(java_get__AProtocolConverter_baz, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_set_baz"),
-                signature: bag.add("(Z)V"),
-                fnPtr: unsafeBitCast(java_set__AProtocolConverter_baz, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.AProtocolImplementation...")
@@ -1930,11 +1920,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_get_flarp"),
                 signature: bag.add("()Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(java_get__TestOptionalsProtocolConverter_flarp, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_set_flarp"),
-                signature: bag.add("(Ljava/lang/String;)V"),
-                fnPtr: unsafeBitCast(java_set__TestOptionalsProtocolConverter_flarp, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up _TestPropertiesProtocolConverter...")
@@ -1945,11 +1930,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_get_corge"),
                 signature: bag.add("()Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(java_get__TestPropertiesProtocolConverter_corge, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_set_corge"),
-                signature: bag.add("(Ljava/lang/String;)V"),
-                fnPtr: unsafeBitCast(java_set__TestPropertiesProtocolConverter_corge, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_frob"),

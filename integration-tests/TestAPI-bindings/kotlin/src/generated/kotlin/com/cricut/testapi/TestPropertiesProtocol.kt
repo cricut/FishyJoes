@@ -10,7 +10,7 @@ interface TestPropertiesProtocol {
     /**
      * <!-- FishyJoes.export(corge) -->
      */
-    var corge: kotlin.String
+    val corge: kotlin.String
     /**
      * <!-- FishyJoes.export(frob) -->
      */

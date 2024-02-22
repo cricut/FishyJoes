@@ -11,19 +11,13 @@ struct _JavaTestOptionalsProtocol: TestAPI.TestOptionalsProtocol {
     let _javaWitness: JavaReference
 
     static var _flarpGetMethodID: jmethodID?
-    static var _flarpSetMethodID: jmethodID?
     public var flarp: Optional<String> {
-        get {
-            let env = try! _javaWitness.currentThreadEnv()
-            return try! OptionalConverter<Swift.String>.fromJava(
+        get throws {
+            let env = try _javaWitness.currentThreadEnv()
+            return try OptionalConverter<Swift.String>.fromJava(
                 env.CallObjectMethod(_javaWitness.object, Self._flarpGetMethodID),
                 env: env
             )
-        }
-        set {
-            let env = try! _javaWitness.currentThreadEnv()
-            let javaNewValue = try! OptionalConverter<Swift.String>.toJava(newValue, env: env)
-            try! env.CallVoidMethod(_javaWitness.object, Self._flarpSetMethodID, jvalue(javaNewValue))
         }
     }
 
@@ -83,7 +77,6 @@ extension _TestOptionalsProtocolConverter: JavaMutator {
         externalWitnessClass = try env.globalRef(env.FindClass("com/cricut/testapi/_ExternalWitness_TestOptionalsProtocol"))
         externalWitnessConstructor = try env.GetMethodID(externalWitnessClass, "<init>", "(J)V")
         _JavaTestOptionalsProtocol._flarpGetMethodID = try env.GetMethodID(javaClass, "getFlarp", "()Ljava/lang/String;")
-        _JavaTestOptionalsProtocol._flarpSetMethodID = try env.GetMethodID(javaClass, "setFlarp", "(Ljava/lang/String;)V")
         _JavaTestOptionalsProtocol._wombatMethodID = try env.GetMethodID(javaClass, "wombat", "(Ljava/lang/Long;)Ljava/lang/Double;")
         _JavaTestOptionalsProtocol._spqrMethodID = try env.GetMethodID(javaClass, "spqr", "(Lcom/cricut/testapi/AssociatedDataEnum;)J")
     }

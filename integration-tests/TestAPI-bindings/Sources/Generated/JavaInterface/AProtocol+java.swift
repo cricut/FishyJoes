@@ -11,36 +11,24 @@ struct _JavaAProtocol: TestAPI.AProtocol {
     let _javaWitness: JavaReference
 
     static var _fooGetMethodID: jmethodID?
-    static var _fooSetMethodID: jmethodID?
     public var foo: String {
-        get {
-            let env = try! _javaWitness.currentThreadEnv()
-            return try! Swift.String.fromJava(
+        get throws {
+            let env = try _javaWitness.currentThreadEnv()
+            return try Swift.String.fromJava(
                 env.CallObjectMethod(_javaWitness.object, Self._fooGetMethodID),
                 env: env
             )
         }
-        set {
-            let env = try! _javaWitness.currentThreadEnv()
-            let javaNewValue = try! Swift.String.toJava(newValue, env: env)
-            try! env.CallVoidMethod(_javaWitness.object, Self._fooSetMethodID, jvalue(javaNewValue))
-        }
     }
 
     static var _bazGetMethodID: jmethodID?
-    static var _bazSetMethodID: jmethodID?
     public var baz: Bool {
-        get {
-            let env = try! _javaWitness.currentThreadEnv()
-            return try! Swift.Bool.fromJava(
+        get throws {
+            let env = try _javaWitness.currentThreadEnv()
+            return try Swift.Bool.fromJava(
                 env.CallBooleanMethod(_javaWitness.object, Self._bazGetMethodID),
                 env: env
             )
-        }
-        set {
-            let env = try! _javaWitness.currentThreadEnv()
-            let javaNewValue = try! Swift.Bool.toJava(newValue, env: env)
-            try! env.CallVoidMethod(_javaWitness.object, Self._bazSetMethodID, jvalue(javaNewValue))
         }
     }
 
@@ -92,20 +80,14 @@ struct _JavaAProtocol_sans_hasADefaultImplementation: TestAPI.AProtocol {
     var wrapped: TestAPI.AProtocol
 
     public var foo: String {
-        get {
-            wrapped.foo
-        }
-        set {
-            wrapped.foo = newValue
+        get throws {
+            try wrapped.foo
         }
     }
 
     public var baz: Bool {
-        get {
-            wrapped.baz
-        }
-        set {
-            wrapped.baz = newValue
+        get throws {
+            try wrapped.baz
         }
     }
 
@@ -122,20 +104,14 @@ struct _JavaAProtocol_sans_hasADefaultImplementation2: TestAPI.AProtocol {
     var wrapped: TestAPI.AProtocol
 
     public var foo: String {
-        get {
-            wrapped.foo
-        }
-        set {
-            wrapped.foo = newValue
+        get throws {
+            try wrapped.foo
         }
     }
 
     public var baz: Bool {
-        get {
-            wrapped.baz
-        }
-        set {
-            wrapped.baz = newValue
+        get throws {
+            try wrapped.baz
         }
     }
 
@@ -178,9 +154,7 @@ extension _AProtocolConverter: JavaMutator {
         externalWitnessClass = try env.globalRef(env.FindClass("com/cricut/testapi/_ExternalWitness_AProtocol"))
         externalWitnessConstructor = try env.GetMethodID(externalWitnessClass, "<init>", "(J)V")
         _JavaAProtocol._fooGetMethodID = try env.GetMethodID(javaClass, "getFoo", "()Ljava/lang/String;")
-        _JavaAProtocol._fooSetMethodID = try env.GetMethodID(javaClass, "setFoo", "(Ljava/lang/String;)V")
         _JavaAProtocol._bazGetMethodID = try env.GetMethodID(javaClass, "getBaz", "()Z")
-        _JavaAProtocol._bazSetMethodID = try env.GetMethodID(javaClass, "setBaz", "(Z)V")
         _JavaAProtocol._barMethodID = try env.GetMethodID(javaClass, "bar", "(JJ)Lcom/cricut/testapi/AProtocol;")
         externalCompanionClass = try env.globalRef(env.FindClass("com/cricut/testapi/AProtocol$Companion"))
         _JavaAProtocol._hasADefaultImplementationMethodID = try env.GetMethodID(javaClass, "hasADefaultImplementation", "(JD)Ljava/lang/String;")
