@@ -317,6 +317,10 @@ public class FishyJoesContext {
             return TranslatedStruct(context: self, type: type)
         } else if let type = type as? Enum {
             return TranslatedEnum(context: self, type: type)
+        } else if let type = type as? Actor {
+            return TranslatedReference(context: self, type: type)
+        } else if let type = type as? Class {
+            return TranslatedReference(context: self, type: type)
         } else {
             fatalErr("TODO: annotation on unknown kind \"\(type.kind)\" on type `\(type.globalName)`")
         }

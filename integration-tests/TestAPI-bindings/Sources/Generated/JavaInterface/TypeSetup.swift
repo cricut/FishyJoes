@@ -309,6 +309,35 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_testCall, to: UnsafeMutableRawPointer.self)
             )
         )
+        // print("setting up TestAPI.Actors.TemperatureLogger...")
+        try TestAPI.Actors.TemperatureLogger.javaSetup(env: env)
+        try env.RegisterNatives(TestAPI.Actors.TemperatureLogger.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_create"),
+                signature: bag.add("(Ljava/lang/String;J)Lcom/cricut/testapi/Actors$TemperatureLogger;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Actors_TemperatureLogger_create, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_update"),
+                signature: bag.add("(J)Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Actors_TemperatureLogger_update, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_min"),
+                signature: bag.add("()Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Actors_TemperatureLogger_min, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_label"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Actors_TemperatureLogger_label, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_backwardsLabel"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Actors_TemperatureLogger_backwardsLabel, to: UnsafeMutableRawPointer.self)
+            )
+        )
         // print("setting up TestAPI.Collections.CollectionHolder...")
         try TestAPI.Collections.CollectionHolder.javaSetup(env: env)
         try env.RegisterNatives(TestAPI.Collections.CollectionHolder.javaClass,
@@ -438,6 +467,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(TestAPI.Structs.ReferenceStruct._javaHash, to: UnsafeMutableRawPointer.self)
             )
         )
+        // print("setting up TestAPI.Actors...")
+        try TestAPI.Actors.javaSetup(env: env)
         // print("setting up TestAPI.AssociatedDataEnum...")
         try TestAPI.AssociatedDataEnum.javaSetup(env: env)
         try env.RegisterNatives(TestAPI.AssociatedDataEnum.javaClass,
