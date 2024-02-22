@@ -19,7 +19,7 @@ struct TranslatedProtocol: TranslatedType {
     let computedVariables: [Variable]
     let documentation: [String]
     let className: String
-    let externalWitnessClassName: String
+    let javaExternalWitnessClassName: String
 
     init(context: FishyJoesContext, type: SourceryProtocol) {
         guard let exportAnnotation = type.exportAnnotation else {
@@ -50,7 +50,7 @@ struct TranslatedProtocol: TranslatedType {
         self.computedVariables = type.variables.filter { $0.exportAnnotation != nil }
         self.documentation = type.documentation
         self.className = context.kotlinTranslator.javaClassName(kotlinName, in: context)
-        self.externalWitnessClassName = context.kotlinTranslator.javaClassName("_ExternalWitness_\(kotlinName)", in: context)
+        self.javaExternalWitnessClassName = context.kotlinTranslator.javaClassName("_ExternalWitness_\(kotlinName)", in: context)
 
         enforceProtocolThrows()
         enforceNoProtocolSetters()
@@ -300,7 +300,7 @@ struct TranslatedProtocol: TranslatedType {
 
             fragment.outputBlock("public static func javaSetup(env: Env) throws {") {
                 fragment.output("javaClass = try env.globalRef(env.FindClass(\"\(className)\"))")
-                fragment.output("externalWitnessClass = try env.globalRef(env.FindClass(\"\(externalWitnessClassName)\"))")
+                fragment.output("externalWitnessClass = try env.globalRef(env.FindClass(\"\(javaExternalWitnessClassName)\"))")
                 fragment.output("externalWitnessConstructor = try env.GetMethodID(externalWitnessClass, \"<init>\", \"(J)V\")")
                 for computedVar in computedVariables {
                     let resolved = context.resolve(type: computedVar.typeName.better)
