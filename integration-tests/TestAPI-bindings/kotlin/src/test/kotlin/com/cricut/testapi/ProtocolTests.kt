@@ -131,6 +131,6 @@ internal class ProtocolTests {
         )
 
         val b = TestProtocolClass.init(corge = "Step inside it's a wilder ride!", flarp = "Excellent observation Kiki!")
-        assertEquals("Excellent observation Kiki!", a.flarp)
+        assertEquals("Excellent observation Kiki!", b.flarp)
     }
 }
