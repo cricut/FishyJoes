@@ -101,11 +101,6 @@ tasks {
         sourceCompatibility = JavaVersion.VERSION_11.toString()
         targetCompatibility = JavaVersion.VERSION_11.toString()
     }
-    tasks {
-        test {
-            useJUnitPlatform()
-        }
-    }
 }
 
 dependencies {
