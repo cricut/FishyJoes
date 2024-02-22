@@ -40,7 +40,7 @@ struct Method: Hashable {
         isThrowing: Bool = false,
         isAsync: Bool = false,
         deprecation: Deprecation? = nil,
-        implemented: Bool = false
+        isInExtension: Bool = false
     ) {
         self.name = name
         self.callName = callName ?? name
@@ -55,7 +55,7 @@ struct Method: Hashable {
         self.isThrowing = isThrowing
         self.isAsync = isAsync
         self.deprecation = deprecation
-        self.isInExtension = implemented
+        self.isInExtension = isInExtension
     }
 
     init?(_ method: SourceryMethod, isProtocolDef: Bool) {
