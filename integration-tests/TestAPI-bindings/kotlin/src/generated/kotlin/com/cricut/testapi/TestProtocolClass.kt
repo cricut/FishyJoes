@@ -128,12 +128,14 @@ class TestProtocolClass private constructor(_swiftReference: Long): TestMethodsP
          * <!-- FishyJoes.export(init) -->
          */
         fun init(
-            corge: kotlin.String
-        ): com.cricut.testapi.TestProtocolClass = __jni_init(corge)
+            corge: kotlin.String,
+            flarp: kotlin.String? = null
+        ): com.cricut.testapi.TestProtocolClass = __jni_init(corge, flarp)
         @JvmStatic
         @JvmName("__jni_init")
         private external fun __jni_init(
-            corge: kotlin.String
+            corge: kotlin.String,
+            flarp: kotlin.String?
         ): com.cricut.testapi.TestProtocolClass
 
         init { loadNativeLibs() }

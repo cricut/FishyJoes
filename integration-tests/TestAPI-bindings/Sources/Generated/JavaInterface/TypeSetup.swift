@@ -1973,7 +1973,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
             ),
             JNINativeMethod(
                 name: bag.add("__jni_init"),
-                signature: bag.add("(Ljava/lang/String;)Lcom/cricut/testapi/TestProtocolClass;"),
+                signature: bag.add("(Ljava/lang/String;Ljava/lang/String;)Lcom/cricut/testapi/TestProtocolClass;"),
                 fnPtr: unsafeBitCast(java_TestAPI_TestProtocolClass_init, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(

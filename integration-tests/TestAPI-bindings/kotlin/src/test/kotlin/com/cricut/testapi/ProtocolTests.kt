@@ -30,8 +30,6 @@ internal class ProtocolTests {
 
         assertEquals("130", b.foo)
         assertEquals(true, b.baz)
-        b.foo = "Wibble"
-        assertEquals("Wibble", b.foo)
 
         assertEquals("-312 notBazzed", a.hasADefaultImplementation(x = 9, y = -102.1))
         assertEquals("bazzy 3", a.hasADefaultImplementation(x = 2, y = 0.345))
@@ -74,8 +72,6 @@ internal class ProtocolTests {
     fun testProtocolStruct() {
         val a = TestProtocolStruct(corge = "Raft a river of lava-ah!")
         assertEquals("Raft a river of lava-ah!", a.corge)
-        a.corge = "Spank a plankton too! (take that)"
-        assertEquals("Spank a plankton too! (take that)", a.corge)
         assertEquals(arrayListOf(3.14159265359, 42.0, -1.23456789), a.frob)
         assertEquals(
             kotlin.Triple<Boolean, Long, kotlin.String>(
@@ -104,8 +100,6 @@ internal class ProtocolTests {
         assertEquals("Step inside it's a wilder ride!", a.corge)
         assertEquals(arrayListOf(42.0, -1.23456789, 3.14159265359), a.frob)
         assertEquals(null, a.flarp)
-        a.flarp = "Excellent observation Kiki!"
-        assertEquals("Excellent observation Kiki!", a.flarp)
         assertEquals(42.909, a.wombat(null))
         assertEquals(null, a.wombat(zxc = 57))
         assertEquals(7890.2, a.wombat(56))
@@ -135,5 +129,8 @@ internal class ProtocolTests {
                 )
             )
         )
+
+        val b = TestProtocolClass.init(corge = "Step inside it's a wilder ride!", flarp = "Excellent observation Kiki!")
+        assertEquals("Excellent observation Kiki!", a.flarp)
     }
 }

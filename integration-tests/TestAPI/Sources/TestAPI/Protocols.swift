@@ -192,8 +192,9 @@ public class TestProtocolClass: TestMethodsProtocol, TestPropertiesProtocol, Tes
     }
 
     /// <!-- FishyJoes.export(init) -->
-    public init(corge: String) {
+    public init(corge: String, flarp: String? = nil) {
         self.corge = corge
+        self.flarp = flarp
     }
 
     /// <!-- FishyJoes.export(flarp) -->

@@ -2840,6 +2840,19 @@
                         "_0" : "string"
                       }
                     }
+                  },
+                  {
+                    "defaultValue" : "nil",
+                    "name" : "flarp",
+                    "type" : {
+                      "optional" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "string"
+                          }
+                        }
+                      }
+                    }
                   }
                 ],
                 "returnType" : {

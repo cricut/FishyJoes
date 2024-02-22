@@ -118,10 +118,11 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "init": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "init", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "init", expectedArgumentCount: 1, hasNamedOptions: true) { env in
                             let result = try TestAPI.TestProtocolClass.toNode(
                                 TestAPI.TestProtocolClass(
-                                    corge: try env.argument(at: 0, converter: Swift.String.self)
+                                    corge: try env.argument(at: 0, converter: Swift.String.self),
+                                    flarp: try env.argument(named: "flarp", default: nil, converter: OptionalConverter<Swift.String>.self)
                                 ),
                                 env: env.env
                             )

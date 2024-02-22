@@ -1909,7 +1909,10 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(init) -->
          */
         static init(
-            corge: string
+            corge: string,
+            options?: {
+                "flarp"?: Optional<string> /* defaults to `nil` */,
+            }
         ): TestAPI.TestProtocolClass;
 
         /**

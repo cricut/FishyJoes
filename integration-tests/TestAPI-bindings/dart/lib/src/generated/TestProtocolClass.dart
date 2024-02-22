@@ -151,9 +151,14 @@ class TestProtocolClass extends SwiftReference {
     /// <!-- FishyJoes.export(init) -->
     static TestAPI.TestProtocolClass init(
         String corge,
+        {
+            String? flarp = null,
+        }
     ) =>
         GCRef.using(corge, (_corgeHandle) =>
-            consumeCreatedRef<TestAPI.TestProtocolClass>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolClass_init(Loader.shared.env, _corgeHandle.ptr, _exn)))
+            GCRef.using(flarp, (_flarpHandle) =>
+                consumeCreatedRef<TestAPI.TestProtocolClass>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolClass_init(Loader.shared.env, _corgeHandle.ptr, _flarpHandle.ptr, _exn)))
+            )
         )
     ;
 
@@ -204,6 +209,7 @@ class TestProtocolClass extends SwiftReference {
     static late CreatedRef Function(
         Env env,
         UnownedRef corge,
+        UnownedRef flarp,
         OutCreatedRef _exn
     ) f__iota_TestAPI_TestProtocolClass_init;
     static late CreatedRef Function(

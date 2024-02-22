@@ -2394,11 +2394,13 @@ final ensureLoaded = (() {
         CreatedRef Function(
             Env env,
             UnownedRef corge,
+            UnownedRef flarp,
             OutCreatedRef _exn
         ),
         CreatedRef Function(
             Env env,
             UnownedRef corge,
+            UnownedRef flarp,
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_TestProtocolClass_init");

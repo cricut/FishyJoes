@@ -187,16 +187,19 @@ namespace Cricut.TestAPI {
         /// <!-- FishyJoes.export(init) -->
         /// </summary>
         public static Cricut.TestAPI.TestProtocolClass Init(
-            string corge
+            string corge,
+            string? flarp = null
         ) {
             using var _corgeHandle = new GCRef(corge);
-            return Check((out CreatedRef _exn) => __iota_TestAPI_TestProtocolClass_init(Loader.env, _corgeHandle.ptr, out _exn)).Consume<Cricut.TestAPI.TestProtocolClass>();
+            using var _flarpHandle = new GCRef(flarp);
+            return Check((out CreatedRef _exn) => __iota_TestAPI_TestProtocolClass_init(Loader.env, _corgeHandle.ptr, _flarpHandle.ptr, out _exn)).Consume<Cricut.TestAPI.TestProtocolClass>();
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_TestAPI_TestProtocolClass_init(
             IntPtr envRef,
             UnownedRef corge,
+            UnownedRef flarp,
             out CreatedRef exn
         );
 
