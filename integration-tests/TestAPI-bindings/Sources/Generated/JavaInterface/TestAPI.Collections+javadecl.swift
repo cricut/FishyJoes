@@ -112,7 +112,7 @@ let java_TestAPI_Collections_collectionMapper: @convention(c) (
 ) -> OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>.CType = { _javaEnv, _javaThis, collection, mapper in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         return try OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>.toJava(
-            TestAPI.Collections.collectionMapper(
+            try TestAPI.Collections.collectionMapper(
                 collection: try OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>.fromJava(collection, env: _javaEnv),
                 try Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>.fromJava(mapper, env: _javaEnv)
             ),

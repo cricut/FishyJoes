@@ -14,7 +14,7 @@ let java_TestAPI_TestProtocolEnum_foo: @convention(c) (
 ) -> FishyJoesCommonRuntime.VoidConverter.CType = { _javaEnv, _javaThis in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         return try FishyJoesCommonRuntime.VoidConverter.toJava(
-            TestAPI.TestProtocolEnum.fromJava(_javaThis, env: _javaEnv).foo(
+            try TestAPI.TestProtocolEnum.fromJava(_javaThis, env: _javaEnv).foo(
             ),
             env: _javaEnv
         )
@@ -28,7 +28,7 @@ let java_TestAPI_TestProtocolEnum_bar: @convention(c) (
 ) -> Swift.Bool.CType = { _javaEnv, _javaThis in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         return try Swift.Bool.toJava(
-            TestAPI.TestProtocolEnum.fromJava(_javaThis, env: _javaEnv).bar(
+            try TestAPI.TestProtocolEnum.fromJava(_javaThis, env: _javaEnv).bar(
             ),
             env: _javaEnv
         )
@@ -43,7 +43,7 @@ let java_TestAPI_TestProtocolEnum_baz: @convention(c) (
 ) -> FishyJoesCommonRuntime.VoidConverter.CType = { _javaEnv, _javaThis, qux in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         return try FishyJoesCommonRuntime.VoidConverter.toJava(
-            TestAPI.TestProtocolEnum.fromJava(_javaThis, env: _javaEnv).baz(
+            try TestAPI.TestProtocolEnum.fromJava(_javaThis, env: _javaEnv).baz(
                 qux: try Swift.Bool.fromJava(qux, env: _javaEnv)
             ),
             env: _javaEnv
@@ -59,7 +59,7 @@ let java_TestAPI_TestProtocolEnum_garply: @convention(c) (
 ) -> Swift.String.CType = { _javaEnv, _javaThis, str in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         return try Swift.String.toJava(
-            TestAPI.TestProtocolEnum.fromJava(_javaThis, env: _javaEnv).garply(
+            try TestAPI.TestProtocolEnum.fromJava(_javaThis, env: _javaEnv).garply(
                 try Swift.String.fromJava(str, env: _javaEnv)
             ),
             env: _javaEnv
@@ -76,7 +76,7 @@ let java_TestAPI_TestProtocolEnum_xyzzy: @convention(c) (
 ) -> Swift.String.CType = { _javaEnv, _javaThis, thud, grault in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         return try Swift.String.toJava(
-            TestAPI.TestProtocolEnum.fromJava(_javaThis, env: _javaEnv).xyzzy(
+            try TestAPI.TestProtocolEnum.fromJava(_javaThis, env: _javaEnv).xyzzy(
                 thud: try Swift.Int.fromJava(thud, env: _javaEnv),
                 grault: try ArrayConverter<Swift.Double>.fromJava(grault, env: _javaEnv)
             ),
@@ -93,7 +93,7 @@ let java_TestAPI_TestProtocolEnum_plugh: @convention(c) (
 ) -> Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.CType = { _javaEnv, _javaThis, fred in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         return try Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.toJava(
-            TestAPI.TestProtocolEnum.fromJava(_javaThis, env: _javaEnv).plugh(
+            try TestAPI.TestProtocolEnum.fromJava(_javaThis, env: _javaEnv).plugh(
                 fred: try Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>.fromJava(fred, env: _javaEnv)
             ),
             env: _javaEnv

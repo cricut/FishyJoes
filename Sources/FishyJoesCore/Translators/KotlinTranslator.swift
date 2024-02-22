@@ -10,7 +10,7 @@ final class KotlinTranslator: Translator {
 
     var allMethods: [String: [(javaName: String, signature: String, cName: String, isProtocolDefault: Bool)]] = [:]
 
-    func translate(method: Method, context: FishyJoesContext, isProtocol: Bool) -> [SourceFragment] {
+    func translate(method: Method, context: FishyJoesContext, isProtocol: Bool, typeName: String) -> [SourceFragment] {
         let exportAnnotation = method.exportAnnotation
 
         var selfExpression: String
@@ -162,22 +162,48 @@ final class KotlinTranslator: Translator {
                         selfExpression = "mutatingSelf"
                     }
 
+                    if isProtocol,
+                       method.isInExtension {
+                        let a = 1
+                    }
                     mutateBlock {
                         fragment.outputBlock("return try \(returnType.converterType.name).toJava(") {
-                            fragment.outputBlock("\(selfExpression)\(callName)(", closeWith: "),") {
-                                fragment.outputMap(method.parameters, separator: ",") { formal in
-                                    var unnamedParamCnt = 1
-                                    var name = formal.name
-                                    if name.isEmpty {
-                                        name = "_\(unnamedParamCnt)"
-                                        unnamedParamCnt += 1
-                                    }
-                                    let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
-                                    return (formal.label.map { "\($0): " } ?? "") +
-                                    "try \(resolved.converterType.name).fromJava(\(name), env: _javaEnv)"
+                            if isProtocol,
+                               method.isInExtension {
+                                let foreignProtocolType = "_Java\(typeName)"
+                                fragment.outputBlock("\(method.isThrowing ? "try " : "")\(foreignProtocolType)_sans_\(method.callName)(wrapped: ", closeWith: ")", newLineTerminated: false) {
+                                    fragment.output("\(method.isThrowing ? "try " : "")\(selfExpression)")
                                 }
+                                fragment.outputBlock("\(callName)(", closeWith: "),") {
+                                    fragment.outputMap(method.parameters, separator: ",") { formal in
+                                        var unnamedParamCnt = 1
+                                        var name = formal.name
+                                        if name.isEmpty {
+                                            name = "_\(unnamedParamCnt)"
+                                            unnamedParamCnt += 1
+                                        }
+                                        let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
+                                        return (formal.label.map { "\($0): " } ?? "") +
+                                        "try \(resolved.converterType.name).fromJava(\(name), env: _javaEnv)"
+                                    }
+                                }
+                                fragment.output("env: _javaEnv")
+                            } else {
+                                fragment.outputBlock("\(method.isThrowing ? "try " : "")\(selfExpression)\(callName)(", closeWith: "),") {
+                                    fragment.outputMap(method.parameters, separator: ",") { formal in
+                                        var unnamedParamCnt = 1
+                                        var name = formal.name
+                                        if name.isEmpty {
+                                            name = "_\(unnamedParamCnt)"
+                                            unnamedParamCnt += 1
+                                        }
+                                        let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
+                                        return (formal.label.map { "\($0): " } ?? "") +
+                                        "try \(resolved.converterType.name).fromJava(\(name), env: _javaEnv)"
+                                    }
+                                }
+                                fragment.output("env: _javaEnv")
                             }
-                            fragment.output("env: _javaEnv")
                         }
                     }
                 }

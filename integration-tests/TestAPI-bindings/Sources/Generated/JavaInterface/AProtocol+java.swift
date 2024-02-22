@@ -59,21 +59,32 @@ struct _JavaAProtocol: TestAPI.AProtocol {
     }
 
     static var _hasADefaultImplementationMethodID: jmethodID?
-    public var hasADefaultImplementationImpl: ((Int, Double) throws -> String)?
     public func hasADefaultImplementation(x: Int, y: Double) throws -> String {
-        guard let hasADefaultImplementationImpl = hasADefaultImplementationImpl else {
-            return try _JavaAProtocol_sans_hasADefaultImplementation(wrapped: self).hasADefaultImplementation(x: x, y: y)
-        }
-        return try hasADefaultImplementationImpl(x, y)
+        let env = try _javaWitness.currentThreadEnv()
+        return try Swift.String.fromJava(
+            env.CallObjectMethod(
+                _javaWitness.object,
+                Self._hasADefaultImplementationMethodID,
+                jvalue(try Swift.Int.toJava(x, env: env)),
+                jvalue(try Swift.Double.toJava(y, env: env))
+            ),
+            env: env
+        )
     }
 
     static var _hasADefaultImplementation2MethodID: jmethodID?
-    public var hasADefaultImplementation2Impl: ((String, Bool, Double) throws -> Double)?
     public func hasADefaultImplementation2(a: String, b: Bool, c: Double) throws -> Double {
-        guard let hasADefaultImplementation2Impl = hasADefaultImplementation2Impl else {
-            return try _JavaAProtocol_sans_hasADefaultImplementation2(wrapped: self).hasADefaultImplementation2(a: a, b: b, c: c)
-        }
-        return try hasADefaultImplementation2Impl(a, b, c)
+        let env = try _javaWitness.currentThreadEnv()
+        return try Swift.Double.fromJava(
+            env.CallDoubleMethod(
+                _javaWitness.object,
+                Self._hasADefaultImplementation2MethodID,
+                jvalue(try Swift.String.toJava(a, env: env)),
+                jvalue(try Swift.Bool.toJava(b, env: env)),
+                jvalue(try Swift.Double.toJava(c, env: env))
+            ),
+            env: env
+        )
     }
 }
 

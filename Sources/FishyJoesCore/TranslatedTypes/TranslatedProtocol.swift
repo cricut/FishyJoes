@@ -173,9 +173,6 @@ struct TranslatedProtocol: TranslatedType {
                     returnSignature.append(" -> \(method.returnType.name)")
                 }
                 fragment.output("static var _\(method.callName)MethodID: jmethodID?")
-                if method.isInExtension {
-                    fragment.output("\(method.isStatic ? "static " : "")public var \(method.callName)Impl: (\(method.swiftClosureSignature()))?")
-                }
                 var paramSigs = [String]()
                 do {
                     var unnamedParamCnt = 1
@@ -189,34 +186,25 @@ struct TranslatedProtocol: TranslatedType {
                     }
                 }
                 fragment.outputBlock("\(method.isStatic ? "static " : "")public func \(method.callName)(\(paramSigs.joined(separator: ", ")))\(returnSignature) {") {
-                    if method.isInExtension {
-                        fragment.output("guard let \(method.callName)Impl = \(method.callName)Impl else", newLineTerminated: false)
-                        fragment.outputBlock(" {", closeWith: "}") {
-                            let methodCallStr = "\(method.callName)(\(method.parameters.map { "\($0.name): \($0.name)" }.joined(separator: ", ")))"
-                            fragment.output("return \(method.isThrowing ? "try " : "")\(foreignProtocolType)_sans_\(method.callName)(wrapped: self).\(methodCallStr)")
-                        }
-                        fragment.output("return \(method.isThrowing ? "try ": "")\(method.isAsync ? "await ": "")\(method.callName)Impl(\(method.parameters.map { $0.name }.joined(separator: ", ")))")
-                    } else {
-                        fragment.output("let env = try _javaWitness.currentThreadEnv()")
-                        fragment.outputBlock("return try \(resolvedReturn.converterType.name).fromJava(") {
-                            fragment.outputBlock("env.Call\(resolvedReturn.jniType.valueType)Method(", closeWith: "),") {
-                                fragment.output("_javaWitness.object,")
-                                fragment.output("Self._\(method.callName)MethodID", newLineTerminated: false)
-                                var unnamedParamCnt = 1
-                                for param in method.parameters {
-                                    var name = param.name
-                                    if name.isEmpty {
-                                        name = "_\(unnamedParamCnt)"
-                                        unnamedParamCnt += 1
-                                    }
-                                    fragment.output(",")
-                                    let resolved = context.resolve(type: param.type)
-                                    fragment.output("jvalue(try \(resolved.converterType.name).toJava(\(name), env: env))", newLineTerminated: false)
+                    fragment.output("let env = try _javaWitness.currentThreadEnv()")
+                    fragment.outputBlock("return try \(resolvedReturn.converterType.name).fromJava(") {
+                        fragment.outputBlock("env.Call\(resolvedReturn.jniType.valueType)Method(", closeWith: "),") {
+                            fragment.output("_javaWitness.object,")
+                            fragment.output("Self._\(method.callName)MethodID", newLineTerminated: false)
+                            var unnamedParamCnt = 1
+                            for param in method.parameters {
+                                var name = param.name
+                                if name.isEmpty {
+                                    name = "_\(unnamedParamCnt)"
+                                    unnamedParamCnt += 1
                                 }
-                                fragment.output()
+                                fragment.output(",")
+                                let resolved = context.resolve(type: param.type)
+                                fragment.output("jvalue(try \(resolved.converterType.name).toJava(\(name), env: env))", newLineTerminated: false)
                             }
-                            fragment.output("env: env")
+                            fragment.output()
                         }
+                        fragment.output("env: env")
                     }
                 }
             }

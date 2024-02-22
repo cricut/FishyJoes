@@ -15,7 +15,7 @@ let java_TestAPI_Functions_exercise0: @convention(c) (
 ) -> Swift.String.CType = { _javaEnv, _javaThis, fn in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         return try Swift.String.toJava(
-            TestAPI.Functions.exercise0(
+            try TestAPI.Functions.exercise0(
                 try Function0Converter<Swift.Int>.fromJava(fn, env: _javaEnv)
             ),
             env: _javaEnv
@@ -31,7 +31,7 @@ let java_TestAPI_Functions_exercise1: @convention(c) (
 ) -> Swift.String.CType = { _javaEnv, _javaThis, fn in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         return try Swift.String.toJava(
-            TestAPI.Functions.exercise1(
+            try TestAPI.Functions.exercise1(
                 try Function1Converter<Swift.Int, Swift.Int>.fromJava(fn, env: _javaEnv)
             ),
             env: _javaEnv
@@ -47,7 +47,7 @@ let java_TestAPI_Functions_exercise2: @convention(c) (
 ) -> Swift.String.CType = { _javaEnv, _javaThis, fn in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         return try Swift.String.toJava(
-            TestAPI.Functions.exercise2(
+            try TestAPI.Functions.exercise2(
                 try Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>.fromJava(fn, env: _javaEnv)
             ),
             env: _javaEnv
@@ -63,7 +63,7 @@ let java_TestAPI_Functions_exercise3: @convention(c) (
 ) -> Swift.String.CType = { _javaEnv, _javaThis, fn in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         return try Swift.String.toJava(
-            TestAPI.Functions.exercise3(
+            try TestAPI.Functions.exercise3(
                 try Function3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.fromJava(fn, env: _javaEnv)
             ),
             env: _javaEnv
@@ -79,7 +79,7 @@ let java_TestAPI_Functions_exercise4: @convention(c) (
 ) -> Swift.String.CType = { _javaEnv, _javaThis, fn in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         return try Swift.String.toJava(
-            TestAPI.Functions.exercise4(
+            try TestAPI.Functions.exercise4(
                 try Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.fromJava(fn, env: _javaEnv)
             ),
             env: _javaEnv
@@ -95,7 +95,7 @@ let java_TestAPI_Functions_exercise5: @convention(c) (
 ) -> Swift.String.CType = { _javaEnv, _javaThis, fn in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         return try Swift.String.toJava(
-            TestAPI.Functions.exercise5(
+            try TestAPI.Functions.exercise5(
                 try Function5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Function0Converter<Swift.Int>>.fromJava(fn, env: _javaEnv)
             ),
             env: _javaEnv
@@ -111,7 +111,7 @@ let java_TestAPI_Functions_exercise6: @convention(c) (
 ) -> Swift.String.CType = { _javaEnv, _javaThis, fn in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         return try Swift.String.toJava(
-            TestAPI.Functions.exercise6(
+            try TestAPI.Functions.exercise6(
                 try Function6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Swift.Int, Swift.Int>.fromJava(fn, env: _javaEnv)
             ),
             env: _javaEnv
@@ -126,7 +126,7 @@ let java_TestAPI_Functions_willThrow: @convention(c) (
 ) -> Swift.String.CType = { _javaEnv, _javaThis in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         return try Swift.String.toJava(
-            TestAPI.Functions.willThrow(
+            try TestAPI.Functions.willThrow(
             ),
             env: _javaEnv
         )

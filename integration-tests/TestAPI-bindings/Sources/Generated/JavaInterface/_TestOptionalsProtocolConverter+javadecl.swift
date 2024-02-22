@@ -15,7 +15,7 @@ let java__TestOptionalsProtocolConverter_wombat: @convention(c) (
 ) -> OptionalConverter<Swift.Double>.CType = { _javaEnv, _javaThis, zxc in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         return try OptionalConverter<Swift.Double>.toJava(
-            _TestOptionalsProtocolConverter.fromJava(_javaThis, env: _javaEnv).wombat(
+            try _TestOptionalsProtocolConverter.fromJava(_javaThis, env: _javaEnv).wombat(
                 zxc: try OptionalConverter<Swift.Int>.fromJava(zxc, env: _javaEnv)
             ),
             env: _javaEnv
@@ -31,7 +31,7 @@ let java__TestOptionalsProtocolConverter_spqr: @convention(c) (
 ) -> Swift.Int.CType = { _javaEnv, _javaThis, pippo in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         return try Swift.Int.toJava(
-            _TestOptionalsProtocolConverter.fromJava(_javaThis, env: _javaEnv).spqr(
+            try _TestOptionalsProtocolConverter.fromJava(_javaThis, env: _javaEnv).spqr(
                 try TestAPI.AssociatedDataEnum.fromJava(pippo, env: _javaEnv)
             ),
             env: _javaEnv

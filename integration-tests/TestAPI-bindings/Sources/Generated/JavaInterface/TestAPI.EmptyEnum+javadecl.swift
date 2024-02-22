@@ -14,7 +14,7 @@ let java_TestAPI_EmptyEnum_notGoingToHappen: @convention(c) (
 ) -> TestAPI.EmptyEnum.CType = { _javaEnv, _javaThis in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         return try TestAPI.EmptyEnum.toJava(
-            TestAPI.EmptyEnum.notGoingToHappen(
+            try TestAPI.EmptyEnum.notGoingToHappen(
             ),
             env: _javaEnv
         )

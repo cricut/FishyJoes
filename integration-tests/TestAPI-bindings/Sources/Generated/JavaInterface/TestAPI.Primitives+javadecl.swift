@@ -432,7 +432,7 @@ let java_TestAPI_Primitives_valueMapper: @convention(c) (
 ) -> OptionalConverter<Swift.UInt8>.CType = { _javaEnv, _javaThis, value, mapper in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         return try OptionalConverter<Swift.UInt8>.toJava(
-            TestAPI.Primitives.valueMapper(
+            try TestAPI.Primitives.valueMapper(
                 value: try OptionalConverter<Swift.UInt8>.fromJava(value, env: _javaEnv),
                 try Function1Converter<OptionalConverter<Swift.UInt8>, OptionalConverter<Swift.UInt8>>.fromJava(mapper, env: _javaEnv)
             ),

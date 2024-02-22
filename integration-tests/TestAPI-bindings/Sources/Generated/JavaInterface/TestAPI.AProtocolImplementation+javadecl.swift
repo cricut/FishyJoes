@@ -16,7 +16,7 @@ let java_TestAPI_AProtocolImplementation_bar: @convention(c) (
 ) -> _AProtocolConverter.CType = { _javaEnv, _javaThis, x, y in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         return try _AProtocolConverter.toJava(
-            TestAPI.AProtocolImplementation.fromJava(_javaThis, env: _javaEnv).bar(
+            try TestAPI.AProtocolImplementation.fromJava(_javaThis, env: _javaEnv).bar(
                 x: try Swift.Int.fromJava(x, env: _javaEnv),
                 y: try Swift.Int.fromJava(y, env: _javaEnv)
             ),
