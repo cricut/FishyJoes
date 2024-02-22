@@ -28,7 +28,6 @@ struct TranslatedProtocol: TranslatedType {
         let typeName = exportAnnotation.name
 
         self.sourceType = BetterType(named: type, context: context)
-//        self.converterType = .named(.init(name: "\(sourceType.namespace.joined())._\(sourceType.nonNamespacedName)Converter", module: nil))
         self.converterType = .named(.init(name: "_\(sourceType.nonNamespacedName)Converter", module: nil))
         self.neutralName = "Struct<Named=\(exportAnnotation.name)>"
         self.nodeName = typeName
@@ -44,15 +43,7 @@ struct TranslatedProtocol: TranslatedType {
         self.isInhabited = type.isInhabited
 
         self.conformances = exportAnnotation.conformances
-//        var methods = type.methods.compactMap { Method($0) }
-//        for method in type.rawMethods {
-//            guard let ext = method.definedInType, ext.isExtension else { continue }
-//            // TODO: check that ext doesn't have too many "where" requirements. Is this possible with Sourcery?
-//            if let index = methods.firstIndex(where: { $0.name == method.name }) {
-//                methods[index].implemented = true
-//            }
-//        }
-//        self.methods = methods
+
         let methodsToConvert = type.methodsPreferringDefaultImpl()
         self.methods = methodsToConvert.compactMap { Method($0, isProtocolDef: true) }
 
