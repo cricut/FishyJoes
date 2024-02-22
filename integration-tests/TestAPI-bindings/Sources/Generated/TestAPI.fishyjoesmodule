@@ -2705,6 +2705,29 @@
                     }
                   }
                 }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(thunkTwiceMaker) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "thunkTwiceMaker",
+                "parameters" : [
+                  {
+                    "name" : "thunk",
+                    "type" : {
+                      "named" : {
+                        "_0" : "() => Promise<void>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "() => Promise<void>"
+                  }
+                }
               }
             ],
             "name" : "AsyncFunctions",
@@ -4632,6 +4655,29 @@
                 "returnType" : {
                   "named" : {
                     "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(thunkTwiceMaker) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "thunkTwiceMaker",
+                "parameters" : [
+                  {
+                    "name" : "thunk",
+                    "type" : {
+                      "named" : {
+                        "_0" : "() => void"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "() => void"
                   }
                 }
               }

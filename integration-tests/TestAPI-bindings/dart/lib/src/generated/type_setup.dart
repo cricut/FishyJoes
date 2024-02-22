@@ -876,6 +876,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_AsyncFunctions_exercise6");
+    TestAPI.AsyncFunctions.f__iota_TestAPI_AsyncFunctions_thunkTwiceMaker = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef thunk,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef thunk,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_AsyncFunctions_thunkTwiceMaker");
     TestAPI.AttributedStrings.f__iota_TestAPI_AttributedStrings_attributedCharacters = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -1346,6 +1358,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Functions_exercise6");
+    TestAPI.Functions.f__iota_TestAPI_Functions_thunkTwiceMaker = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef thunk,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef thunk,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_Functions_thunkTwiceMaker");
     TestAPI.Functions.f__iota_TestAPI_Functions_willThrow = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -4273,6 +4297,17 @@ final ensureLoaded = (() {
         });
     });
 
+    Loader.shared.once("setup_Function0Converter<FutureConverter<FishyJoesCommonRuntime.VoidConverter>>", () {
+        // print("setting up () -> Future<Void> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_Function0Converter_setup<Future<void>>(
+                Loader.shared.env,
+                "Function0Converter<FutureConverter<FishyJoesCommonRuntime.VoidConverter>>",
+                exn
+            );
+        });
+    });
+
     Loader.shared.once("setup_Function0Converter<Swift.Int>", () {
         // print("setting up () -> Swift.Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
@@ -4297,6 +4332,27 @@ final ensureLoaded = (() {
 
     Loader.shared.once("setup_AsyncFunction0Converter<Swift.Int>", () {
         // print("setting up () async -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_AsyncFunction0Converter_setup(
+                Loader.shared.env,
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_Function0Converter<FishyJoesCommonRuntime.VoidConverter>", () {
+        // print("setting up () -> Void (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_Function0Converter_setup<void>(
+                Loader.shared.env,
+                "Function0Converter<FishyJoesCommonRuntime.VoidConverter>",
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>", () {
+        // print("setting up () async -> Void (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_AsyncFunction0Converter_setup(
                 Loader.shared.env,
@@ -4388,6 +4444,17 @@ final ensureLoaded = (() {
             Loader.shared.FishyJoesCommonRuntime_FutureConverter_setup<Future<int>>(
                 Loader.shared.env,
                 "FutureConverter<FutureConverter<Swift.Int>>",
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_FutureConverter<FutureConverter<FishyJoesCommonRuntime.VoidConverter>>", () {
+        // print("setting up Future<Future<Void>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_FutureConverter_setup<Future<void>>(
+                Loader.shared.env,
+                "FutureConverter<FutureConverter<FishyJoesCommonRuntime.VoidConverter>>",
                 exn
             );
         });

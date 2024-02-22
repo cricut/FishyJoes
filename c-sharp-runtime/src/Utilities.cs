@@ -127,12 +127,13 @@ namespace Cricut.FishyJoesRuntime {
                 __ptr = ptr;
             }
             public R Consume<R>() => ConsumeHandle<R>(__ptr);
+            public static ConsumedRef Create(object? obj) => new(PassOwnership(obj));
         }
 
         private static IntPtr PassOwnership(object? obj) {
             if (obj == null) {
                 return IntPtr.Zero;
-             } else {
+            } else {
                 var ptr = (IntPtr)Alloc(obj);
                 return ptr;
             }
@@ -144,8 +145,7 @@ namespace Cricut.FishyJoesRuntime {
         /// <summary> Passes an exception out-parameter for body to report any errors, If set to non-null, it will then throw the exception.
         /// `body` passes ownership of `exn` to `Check` </summary>
         public static R Check<R>(CheckBody<R> body) {
-            var exn = CreatedRef.Null;
-            var result = body(out exn);
+            var result = body(out var exn);
             if (exn.ptr != IntPtr.Zero) {
                 throw exn.Consume<Exception>();
             }
@@ -155,8 +155,7 @@ namespace Cricut.FishyJoesRuntime {
         /// Passes an exception out-parameter for body to report any errors, If set to non-null, it will then throw the exception.
         /// `body` passes ownership of `exn` to `Check`
         public static void Check(CheckVoidBody body) {
-            var exn = CreatedRef.Null;
-            body(out exn);
+            body(out var exn);
             if (exn.ptr != IntPtr.Zero) {
                 throw exn.Consume<Exception>();
             }
