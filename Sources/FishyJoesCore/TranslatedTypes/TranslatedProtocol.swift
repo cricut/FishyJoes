@@ -75,7 +75,7 @@ struct TranslatedProtocol: TranslatedType {
             fatalError("Error on \(nameSpace)\(nonThrowingMethods.first!.name): All Protocol methods exported through FishyJoes must be throwing, it's the law 👮!")
         }
 
-        let nonThrowingGetters = computedVariables.filter { !$0.`throws` && $0.writeAccess == AccessLevel.none.rawValue }
+        let nonThrowingGetters = computedVariables.filter { !$0.`throws` && !$0.isMutable }
         guard nonThrowingGetters.isEmpty else {
             var nameSpace = ""
             if let ns = nonThrowingGetters.first!.definedInTypeName?.name {
