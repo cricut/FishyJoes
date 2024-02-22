@@ -36,17 +36,11 @@ internal class MethodTests {
     fun testInstanceMethods() {
         val instance = Methods.create()
 
-//        val garply = instance.garply
-//        println("garply: $garply")
-
-//        val wibble = instance.wibble
-//        println("wibble: $wibble")
-
         val doublePlusGood = instance.doublePlusGood(34, 4.5)
-        println("doublePlusGood: $doublePlusGood")
+        assertEquals(78, doublePlusGood)
 
         val a = instance.instanceGet
-        print("a: $a")
+        assertEquals(1234, a)
         assertEquals(1234, instance.instanceGet)
         assertEquals(2345, instance.instanceGetMethod())
 
