@@ -162,16 +162,12 @@ final class KotlinTranslator: Translator {
                         selfExpression = "mutatingSelf"
                     }
 
-                    if isProtocol,
-                       method.isInExtension {
-                        let a = 1
-                    }
                     mutateBlock {
                         fragment.outputBlock("return try \(returnType.converterType.name).toJava(") {
                             if isProtocol,
                                method.isInExtension {
                                 let foreignProtocolType = "_Java\(typeName)"
-                                fragment.outputBlock("\(method.isThrowing ? "try " : "")\(foreignProtocolType)_sans_\(method.callName)(wrapped: ", closeWith: ")", newLineTerminated: false) {
+                                fragment.outputBlock("\(method.isThrowing ? "try " : "")\(foreignProtocolType)_sans_\(method.callName)(wrapped:", closeWith: ")", newLineTerminated: false) {
                                     fragment.output("\(method.isThrowing ? "try " : "")\(selfExpression)")
                                 }
                                 fragment.outputBlock("\(callName)(", closeWith: "),") {

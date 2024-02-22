@@ -35,7 +35,7 @@ let java__AProtocolConverter__default_hasADefaultImplementation: @convention(c) 
 ) -> Swift.String.CType = { _javaEnv, _javaCompanionThis, _javaThis, x, y in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         return try Swift.String.toJava(
-            try _JavaAProtocol_sans_hasADefaultImplementation(wrapped: 
+            try _JavaAProtocol_sans_hasADefaultImplementation(wrapped:
                 try _AProtocolConverter.fromJava(_javaThis, env: _javaEnv)
             ).hasADefaultImplementation(
                 x: try Swift.Int.fromJava(x, env: _javaEnv),
@@ -57,7 +57,7 @@ let java__AProtocolConverter__default_hasADefaultImplementation2: @convention(c)
 ) -> Swift.Double.CType = { _javaEnv, _javaCompanionThis, _javaThis, a, b, c in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         return try Swift.Double.toJava(
-            try _JavaAProtocol_sans_hasADefaultImplementation2(wrapped: 
+            try _JavaAProtocol_sans_hasADefaultImplementation2(wrapped:
                 try _AProtocolConverter.fromJava(_javaThis, env: _javaEnv)
             ).hasADefaultImplementation2(
                 a: try Swift.String.fromJava(a, env: _javaEnv),
