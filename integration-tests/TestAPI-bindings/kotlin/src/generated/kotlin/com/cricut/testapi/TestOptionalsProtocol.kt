@@ -26,5 +26,8 @@ interface TestOptionalsProtocol {
     ): Long
 
     companion object {
+        init {
+            loadNativeLibs()
+        }
     }
 }

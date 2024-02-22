@@ -484,6 +484,9 @@ class KotlinInterface: KotlinClass {
                     unstaticked.isStatic = false
                     output(method: unstaticked, to: fragment)
                 }
+                fragment.outputBlock("init {", closeWith: "}") {
+                    fragment.output("loadNativeLibs()")
+                }
             }
             outputInner(to: fragment)
         }

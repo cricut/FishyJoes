@@ -49,5 +49,8 @@ interface TestMethodsProtocol {
     ): kotlin.Triple<Boolean, Long, kotlin.String>
 
     companion object {
+        init {
+            loadNativeLibs()
+        }
     }
 }

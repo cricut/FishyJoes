@@ -17,5 +17,8 @@ interface TestPropertiesProtocol {
     val frob: kotlin.collections.List<Double>
 
     companion object {
+        init {
+            loadNativeLibs()
+        }
     }
 }

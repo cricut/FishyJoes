@@ -61,5 +61,9 @@ interface AProtocol {
             b: Boolean,
             c: Double
         ): Double
+
+        init {
+            loadNativeLibs()
+        }
     }
 }

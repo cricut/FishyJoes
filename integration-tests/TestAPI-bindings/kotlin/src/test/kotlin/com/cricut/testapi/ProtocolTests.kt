@@ -132,4 +132,31 @@ internal class ProtocolTests {
         val b = TestProtocolClass.init(corge = "Step inside it's a wilder ride!", flarp = "Excellent observation Kiki!")
         assertEquals("Excellent observation Kiki!", b.flarp)
     }
+
+    @Test
+    fun testProtocolKotlinImpl() {
+        val a = ProtocolKotlinImpl(foo = "oof!", baz = false)
+        println("a: $a")
+        val b = a.hasADefaultImplementation(x = 2389, y = 17.23)
+        println("b: $b")
+    }
+
+    data class ProtocolKotlinImpl(
+        override val foo: kotlin.String,
+        override var baz: Boolean
+    ): AProtocol {
+        override fun bar(x: Long, y: Long): AProtocol {
+            val div = x / y
+            val a = ProtocolKotlinImpl(foo = "$x / $y = $div", baz = x != y)
+            return a
+        }
+
+        override fun hasADefaultImplementation(x: Long, y: Double): String {
+            return super.hasADefaultImplementation(x, y)
+        }
+
+        override fun hasADefaultImplementation2(a: String, b: Boolean, c: Double): Double {
+            return super.hasADefaultImplementation2(a, b, c)
+        }
+    }
 }
