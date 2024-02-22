@@ -1,0 +1,74 @@
+package com.cricut.testapi
+
+import kotlinx.coroutines.*
+import java.lang.Exception
+
+/**
+ * <!-- FishyJoes.export(Actors) -->
+ */
+@OptIn(ExperimentalCoroutinesApi::class)
+sealed class Actors {
+
+    companion object {
+        init { loadNativeLibs() }
+    }
+
+    /**
+     * <!-- FishyJoes.export(Actors.TemperatureLogger) -->
+     */
+    class TemperatureLogger private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference) {
+        /**
+         * <!-- FishyJoes.export(label) -->
+         */
+        val label: kotlin.String
+          get() = __jni_get_label()
+        @JvmName("__jni_get_label")
+        private external fun __jni_get_label(): kotlin.String
+
+        /**
+         * <!-- FishyJoes.export(backwardsLabel) -->
+         */
+        val backwardsLabel: kotlin.String
+          get() = __jni_get_backwardsLabel()
+        @JvmName("__jni_get_backwardsLabel")
+        private external fun __jni_get_backwardsLabel(): kotlin.String
+
+        /**
+         * <!-- FishyJoes.export(update) -->
+         */
+        suspend fun update(
+            /* with */ measurement: Long
+        ): kotlin.Unit = __jni_update(measurement).await()
+        @JvmName("__jni_update")
+        private external fun __jni_update(
+            measurement: Long
+        ): kotlinx.coroutines.Deferred<kotlin.Unit>
+
+        /**
+         * <!-- FishyJoes.export(min) -->
+         */
+        suspend fun min(
+        ): Long = __jni_min().await()
+        @JvmName("__jni_min")
+        private external fun __jni_min(
+        ): kotlinx.coroutines.Deferred<Long>
+
+        companion object {
+            /**
+             * <!-- FishyJoes.export(create) -->
+             */
+            fun create(
+                label: kotlin.String,
+                measurement: Long
+            ): com.cricut.testapi.Actors.TemperatureLogger = __jni_create(label, measurement)
+            @JvmStatic
+            @JvmName("__jni_create")
+            private external fun __jni_create(
+                label: kotlin.String,
+                measurement: Long
+            ): com.cricut.testapi.Actors.TemperatureLogger
+
+            init { loadNativeLibs() }
+        }
+    }
+}

@@ -1,3 +1,5 @@
+import './Actors.dart' as TestAPI;
+import './Actors_TemperatureLogger.dart' as TestAPI;
 import './AssociatedDataEnum.dart' as TestAPI;
 import './AsyncFunctions.dart' as TestAPI;
 import './AttributedString_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
@@ -300,6 +302,18 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_setup');
+    final TestAPI_Actors_TemperatureLogger_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
+            OutCreatedRef exn
+        )
+    >('TestAPI_Actors_TemperatureLogger_setup');
     final TestAPI_Collections_CollectionHolder_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -524,6 +538,16 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_Structs_ReferenceStruct_setup');
+    final TestAPI_Actors_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            OutCreatedRef exn
+        )
+    >('TestAPI_Actors_setup');
     final TestAPI_AssociatedDataEnum_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -778,6 +802,46 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_testCall");
+    TestAPI.Actors_TemperatureLogger.f__iota_TestAPI_Actors_TemperatureLogger_create = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef label,
+            ffi.Int measurement,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef label,
+            int measurement,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_Actors_TemperatureLogger_create");
+    TestAPI.Actors_TemperatureLogger.f__iota_TestAPI_Actors_TemperatureLogger_min = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_Actors_TemperatureLogger_min");
+    TestAPI.Actors_TemperatureLogger.f__iota_TestAPI_Actors_TemperatureLogger_update = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            ffi.Int measurement,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            int measurement,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_Actors_TemperatureLogger_update");
     TestAPI.AssociatedDataEnum.f__iota_TestAPI_AssociatedDataEnum_plus = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -2232,6 +2296,30 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_URLs_echo");
+    TestAPI.Actors_TemperatureLogger.f__iota_get_TestAPI_Actors_TemperatureLogger_backwardsLabel = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_Actors_TemperatureLogger_backwardsLabel");
+    TestAPI.Actors_TemperatureLogger.f__iota_get_TestAPI_Actors_TemperatureLogger_label = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_Actors_TemperatureLogger_label");
     TestAPI.AssociatedDataEnum.f__iota_get_TestAPI_AssociatedDataEnum_intValue = dylib.lookupFunction<
         ffi.Int Function(
             Env env,
@@ -5456,6 +5544,17 @@ final ensureLoaded = (() {
         });
     });
 
+    Loader.shared.once("setup_TestAPI.Actors.TemperatureLogger", () {
+        // print("setting up TestAPI.Actors.TemperatureLogger (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_Actors_TemperatureLogger_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.Actors_TemperatureLogger.ffi_new),
+                exn
+            );
+        });
+    });
+
     Loader.shared.once("setup_TestAPI.Collections.CollectionHolder", () {
         // print("setting up TestAPI.Collections.CollectionHolder (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
@@ -5593,6 +5692,16 @@ final ensureLoaded = (() {
             TestAPI_Structs_ReferenceStruct_setup(
                 Loader.shared.env,
                 ffi.Pointer.fromFunction(TestAPI.Structs_ReferenceStruct.ffi_new),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.Actors", () {
+        // print("setting up TestAPI.Actors (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_Actors_setup(
+                Loader.shared.env,
                 exn
             );
         });

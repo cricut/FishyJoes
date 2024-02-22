@@ -176,6 +176,13 @@ final class KotlinTranslator: Translator {
         )
 
         let resolved = context.resolve(type: variable.typeName.better)
+
+        // TODO: support async variables
+        // if variable.isAsyncOrIsolated {
+        //     resolved = TranslatedFuture(output: resolved)
+        //     context.addToTypeCache(resolved)
+        // }
+
         let jniSignature = resolved.jniType.asSignature
         let converterName = resolved.converterType.name
         let cType = "\(converterName).CType"
@@ -196,7 +203,12 @@ final class KotlinTranslator: Translator {
         }
         fragment.outputBlock(" -> \(cType) = { \(formals.map(\.name).joined(separator: ", ")) in", closeWith: "}") {
             fragment.outputBlock("FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in", closeWith: "}") {
-                fragment.output("try \(converterName).toJava(\(selfExpression).\(variable.name), env: _javaEnv)")
+                let value = "\(selfExpression).\(variable.name)"
+                // TODO: support async variables
+                // if variable.isAsyncOrIsolated {
+                //     value = "Future { try await \(value) }"
+                // }
+                fragment.output("try \(converterName).toJava(\(value), env: _javaEnv)")
             }
         }
 
@@ -381,12 +393,12 @@ final class KotlinTranslator: Translator {
         let resolved = context.resolve(type: field.typeName.better)
         let deprecation = Deprecation(from: field.attributes)
         if asMethod {
-            precondition(!field.isMutable, "\(context.debugContext): Can't export mutable fields as methods: \(field.name)")
+            precondition(!field.isPubliclyWritable, "\(context.debugContext): Can't export mutable fields as methods: \(field.name)")
             return .method(
                 KotlinClass.Method(
                     documentation: field.documentation,
                     isStatic: field.isStatic,
-                    isSuspend: field.isAsync,
+                    isSuspend: field.isAsyncOrIsolated,
                     isOverride: field.exportAnnotation?.isOverride ?? false,
                     name: ktName,
                     parameters: [],
