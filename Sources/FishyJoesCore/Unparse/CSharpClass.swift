@@ -241,6 +241,13 @@ extension CSharpClass.CSType: CustomStringConvertible {
         return .named(package: nil, name: "object")
     }
 
+    static func task(_ output: CSharpClass.CSType) -> CSharpClass.CSType {
+        .named(
+            package: "System.Threading.Tasks",
+            name: "Task\(output == .void ? "" : "<\(output.name)>")"
+        )
+    }
+
     var description: String {
         "FIXME: You should not use this, you should use one of the representations below. \(name)"
     }

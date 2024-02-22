@@ -18,10 +18,7 @@ struct TranslatedFuture: TranslatedType {
         self.kotlinName = "Deferred<\(output.kotlinName)"
         self.neutralName = "Future<\(output.neutralName)>"
         self.containedNamedTypes = [output]
-        self.cSharpType = .named(
-            package: "System.Threading.Tasks",
-            name: "Task\(output.sourceType == .void ? "" : "<\(output.cSharpType.name)>")"
-        )
+        self.cSharpType = .task(output.cSharpType)
         self.dartType = .future(output.dartType)
     }
 

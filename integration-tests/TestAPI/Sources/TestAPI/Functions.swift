@@ -74,5 +74,14 @@ public enum Functions {
         throw TheFunctionError()
     }
 
+    // void -> void functions are an edge case in C#
+    /// <!-- FishyJoes.export(thunkTwiceMaker) -->
+    public static func thunkTwiceMaker(thunk: @escaping () throws -> Void) -> () throws -> Void {
+        {
+            try thunk()
+            try thunk()
+        }
+    }
+
     public struct TheFunctionError: Error {}
 }

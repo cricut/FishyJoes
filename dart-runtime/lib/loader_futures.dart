@@ -13,8 +13,8 @@ typedef _FutureSinkMethod = ffi.Void Function(
 );
 typedef _FutureResolveRejectMethod = ffi.Void Function(
   UnownedRef context,
-  UnownedRef promise,
-  UnownedRef result,
+  ConsumedRef promise,
+  ConsumedRef result,
   OutCreatedRef exn
 );
 
@@ -40,8 +40,8 @@ typedef _FutureConverter_sinkHandler<Void, Uint32> = Void Function(
 class _FutureConversions {
   final CreatedRef Function(OutCreatedRef outPromise) create;
   final void Function(UnownedRef future, ConsumedRef handlerContext) sink;
-  final void Function(UnownedRef promise, UnownedRef result) resolve;
-  final void Function(UnownedRef promise, UnownedRef result) reject;
+  final void Function(ConsumedRef promise, ConsumedRef result) resolve;
+  final void Function(ConsumedRef promise, ConsumedRef result) reject;
 
   const _FutureConversions(
       this.create,
@@ -58,11 +58,11 @@ class _FutureConversions {
     peekRef<_FutureConversions>(context).sink(future, handlerContext)
   );
 
-  static void _resolve(UnownedRef context, UnownedRef promise, UnownedRef result, OutCreatedRef exn) => catching(exn, () =>
+  static void _resolve(UnownedRef context, ConsumedRef promise, ConsumedRef result, OutCreatedRef exn) => catching(exn, () =>
     peekRef<_FutureConversions>(context).resolve(promise, result)
   );
 
-  static void _reject(UnownedRef context, UnownedRef promise, UnownedRef result, OutCreatedRef exn) => catching(exn, () =>
+  static void _reject(UnownedRef context, ConsumedRef promise, ConsumedRef result, OutCreatedRef exn) => catching(exn, () =>
     peekRef<_FutureConversions>(context).reject(promise, result)
   );
 
@@ -126,13 +126,13 @@ extension LoaderFutures on Loader {
             );
           },
           (promiseRef, resultRef) {
-            final promise = peekRef<async.Completer<R>>(promiseRef);
-            final result = peekRef<R>(resultRef);
+            final promise = consumeRef<async.Completer<R>>(promiseRef);
+            final result = consumeRef<R>(resultRef);
             promise.complete(result);
           },
           (promiseRef, errorRef) {
-            final promise = peekRef<async.Completer<R>>(promiseRef);
-            final error = peekRef<Object>(errorRef);
+            final promise = consumeRef<async.Completer<R>>(promiseRef);
+            final error = consumeRef<Object>(errorRef);
             promise.completeError(error);
           },
         )

@@ -157,6 +157,15 @@ class AsyncFunctions {
         )
     ;
 
+    /// <!-- FishyJoes.export(thunkTwiceMaker) -->
+    static Future<void> Function() thunkTwiceMaker(
+        Future<void> Function() thunk,
+    ) =>
+        GCRef.using(thunk, (_thunkHandle) =>
+            consumeCreatedRef<Future<void> Function()>(check((OutCreatedRef _exn) => f__iota_TestAPI_AsyncFunctions_thunkTwiceMaker(Loader.shared.env, _thunkHandle.ptr, _exn)))
+        )
+    ;
+
     static late CreatedRef Function(
         Env env,
         UnownedRef fn,
@@ -192,6 +201,11 @@ class AsyncFunctions {
         UnownedRef fn,
         OutCreatedRef _exn
     ) f__iota_TestAPI_AsyncFunctions_exercise6;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef thunk,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_AsyncFunctions_thunkTwiceMaker;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn

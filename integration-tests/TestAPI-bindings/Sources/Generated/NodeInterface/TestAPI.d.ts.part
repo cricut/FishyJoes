@@ -164,6 +164,13 @@ export declare namespace TestAPI {
         const sixthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>;
 
         /**
+         * <!-- FishyJoes.export(thunkTwiceMaker) -->
+         */
+        function thunkTwiceMaker(
+            thunk: () => Promise<void>
+        ): () => Promise<void>;
+
+        /**
          * <!-- FishyJoes.export(willThrow) -->
          */
         const willThrow: () => Promise<number>;
@@ -734,6 +741,13 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(sixthThing) -->
          */
         const sixthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => number, _5: number) => number;
+
+        /**
+         * <!-- FishyJoes.export(thunkTwiceMaker) -->
+         */
+        function thunkTwiceMaker(
+            thunk: () => void
+        ): () => void;
 
         /**
          * <!-- FishyJoes.export(willThrow) -->

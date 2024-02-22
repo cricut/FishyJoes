@@ -167,6 +167,18 @@ sealed class Functions {
         private external fun __jni_willThrow(
         ): kotlin.String
 
+        /**
+         * <!-- FishyJoes.export(thunkTwiceMaker) -->
+         */
+        fun thunkTwiceMaker(
+            thunk: (() -> kotlin.Unit)
+        ): (() -> kotlin.Unit) = __jni_thunkTwiceMaker(thunk)
+        @JvmStatic
+        @JvmName("__jni_thunkTwiceMaker")
+        private external fun __jni_thunkTwiceMaker(
+            thunk: (() -> kotlin.Unit)
+        ): (() -> kotlin.Unit)
+
         init { loadNativeLibs() }
     }
 }

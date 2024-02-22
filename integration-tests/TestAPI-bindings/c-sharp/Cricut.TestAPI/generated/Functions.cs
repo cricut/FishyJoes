@@ -242,6 +242,23 @@ namespace Cricut.TestAPI {
             out CreatedRef exn
         );
 
+        /// <summary>
+        /// <!-- FishyJoes.export(thunkTwiceMaker) -->
+        /// </summary>
+        public static System.Action ThunkTwiceMaker(
+            System.Action thunk
+        ) {
+            using var _thunkHandle = new GCRef(thunk);
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Functions_thunkTwiceMaker(Loader.env, _thunkHandle.ptr, out _exn)).Consume<System.Action>();
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_TestAPI_Functions_thunkTwiceMaker(
+            IntPtr envRef,
+            UnownedRef thunk,
+            out CreatedRef exn
+        );
+
         static Functions() { _TypeSetup._ensureLoaded(); }
     }
 }

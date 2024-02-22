@@ -24,6 +24,22 @@ namespace Cricut.TestAPI {
             }
 
             /// <summary>
+            /// <!-- FishyJoes.export(asyncGetI) -->
+            /// </summary>
+            public System.Threading.Tasks.Task<nint> AsyncGetI(
+            ) {
+                using var _thisHandle = new GCRef(this);
+                return Check((out CreatedRef _exn) => __iota_TestAPI_Structs_MutableStruct_asyncGetI(Loader.env, _thisHandle.ptr, out _exn)).Consume<System.Threading.Tasks.Task<nint>>();
+            }
+
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern CreatedRef __iota_TestAPI_Structs_MutableStruct_asyncGetI(
+                IntPtr envRef,
+                UnownedRef self,
+                out CreatedRef exn
+            );
+
+            /// <summary>
             /// <!-- FishyJoes.export(increment) -->
             /// </summary>
             public void Increment(
@@ -34,6 +50,22 @@ namespace Cricut.TestAPI {
 
             [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern void __iota_TestAPI_Structs_MutableStruct_increment(
+                IntPtr envRef,
+                UnownedRef self,
+                out CreatedRef exn
+            );
+
+            /// <summary>
+            /// <!-- FishyJoes.export(incrementAsync) -->
+            /// </summary>
+            public System.Threading.Tasks.Task IncrementAsync(
+            ) {
+                using var _thisHandle = new GCRef(this);
+                return Check((out CreatedRef _exn) => __iota_TestAPI_Structs_MutableStruct_incrementAsync(Loader.env, _thisHandle.ptr, out _exn)).Consume<System.Threading.Tasks.Task>();
+            }
+
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern CreatedRef __iota_TestAPI_Structs_MutableStruct_incrementAsync(
                 IntPtr envRef,
                 UnownedRef self,
                 out CreatedRef exn
@@ -116,6 +148,22 @@ namespace Cricut.TestAPI {
                 out CreatedRef exn
             );
 
+            /// <summary>
+            /// <!-- FishyJoes.export(asyncGetMutable) -->
+            /// </summary>
+            public System.Threading.Tasks.Task<string> AsyncGetMutable(
+            ) {
+                using var _thisHandle = new GCRef(this);
+                return Check((out CreatedRef _exn) => __iota_TestAPI_Structs_ReferenceStruct_asyncGetMutable(Loader.env, _thisHandle.ptr, out _exn)).Consume<System.Threading.Tasks.Task<string>>();
+            }
+
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern CreatedRef __iota_TestAPI_Structs_ReferenceStruct_asyncGetMutable(
+                IntPtr envRef,
+                UnownedRef self,
+                out CreatedRef exn
+            );
+
             public override bool Equals(
                 object? other
             ) {
@@ -162,6 +210,22 @@ namespace Cricut.TestAPI {
                 this.Immutable = Immutable;
                 this.Mutable = Mutable;
             }
+
+            /// <summary>
+            /// <!-- FishyJoes.export(asyncGetMutable) -->
+            /// </summary>
+            public System.Threading.Tasks.Task<string> AsyncGetMutable(
+            ) {
+                using var _thisHandle = new GCRef(this);
+                return Check((out CreatedRef _exn) => __iota_TestAPI_Structs_MemberwiseStruct_asyncGetMutable(Loader.env, _thisHandle.ptr, out _exn)).Consume<System.Threading.Tasks.Task<string>>();
+            }
+
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern CreatedRef __iota_TestAPI_Structs_MemberwiseStruct_asyncGetMutable(
+                IntPtr envRef,
+                UnownedRef self,
+                out CreatedRef exn
+            );
 
             /// <summary>
             /// <!-- FishyJoes.export(create) -->
