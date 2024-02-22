@@ -63,6 +63,7 @@ struct TranslatedProtocol: TranslatedType {
 
         enforceProtocolThrows()
         enforceNoProtocolSetters()
+        enforceNoProtocolStatics()
     }
 
     func enforceProtocolThrows() {
@@ -72,7 +73,7 @@ struct TranslatedProtocol: TranslatedType {
             if let ns = nonThrowingMethods.first!.definedIn?.name {
                 nameSpace = "\(ns)."
             }
-            fatalError("Error on \(nameSpace)\(nonThrowingMethods.first!.name): All Protocol methods exported through FishyJoes must be throwing, it's the law 👮!")
+            fatalError("☠️ Error on \(nameSpace)\(nonThrowingMethods.first!.name): All Protocol methods exported through FishyJoes must be throwing, it's the law 👮!")
         }
 
         let nonThrowingGetters = computedVariables.filter { !$0.`throws` && !$0.isMutable }
@@ -81,7 +82,7 @@ struct TranslatedProtocol: TranslatedType {
             if let ns = nonThrowingGetters.first!.definedInTypeName?.name {
                 nameSpace = "\(ns)."
             }
-            fatalError("Error on \(nameSpace)\(nonThrowingGetters.first!.name): All Protocol get only property getters exported through FishyJoes must be throwing, it's the law 👮!")
+            fatalError("☠️ Error on \(nameSpace)\(nonThrowingGetters.first!.name): All Protocol get only property getters exported through FishyJoes must be throwing, it's the law 👮!")
         }
     }
 
@@ -92,7 +93,26 @@ struct TranslatedProtocol: TranslatedType {
             if let ns = setters.first!.definedInTypeName?.name {
                 nameSpace = "\(ns)."
             }
-            fatalError("Error on \(nameSpace)\(setters.first!.name) No setters allowed in protocols because the Swift language does not allow them to throw, it's the law 👮! Use a function instead.")
+            fatalError("☠️ Error on \(nameSpace)\(setters.first!.name): No setters allowed in protocols because the Swift language does not allow them to throw, it's the law 👮! Use a function instead.")
+        }
+    }
+
+    func enforceNoProtocolStatics() {
+        let staticVars = computedVariables.filter { $0.isStatic }
+        let staticFuncs = methods.filter { $0.isStatic }
+        guard staticVars.isEmpty else {
+            var nameSpace = ""
+            if let ns = staticVars.first!.definedInTypeName?.name {
+                nameSpace = "\(ns)."
+            }
+            fatalError("☠️ Error on \(nameSpace)\(staticVars.first!.name): No static properties allowed in protocols because other languages do not generally support them, it's the law 👮!")
+        }
+        guard staticFuncs.isEmpty else {
+            var nameSpace = ""
+            if let ns = staticFuncs.first!.definedIn?.name {
+                nameSpace = "\(ns)"
+            }
+            fatalError("☠️ Error on \(nameSpace)\(staticFuncs.first!.name): No static functions allowed in protocols because other languages do not generally support them, it's the law 👮!")
         }
     }
 
