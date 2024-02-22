@@ -63,7 +63,7 @@ extension _TestOptionalsProtocolConverter: JavaMutator {
         try env.NewObject(
             externalWitnessClass,
             externalWitnessConstructor,
-            jvalue(j: jlong(UInt(bitPattern: Box(value).retainedOpaque())))
+            jvalue(pointer: Box(value).retainedOpaque())
         )
     }
     public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout SwiftType) throws -> R) throws -> R {

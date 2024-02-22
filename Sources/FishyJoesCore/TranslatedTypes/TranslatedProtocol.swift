@@ -275,7 +275,7 @@ struct TranslatedProtocol: TranslatedType {
                 fragment.outputBlock("try env.NewObject(") {
                     fragment.output("externalWitnessClass,")
                     fragment.output("externalWitnessConstructor,")
-                    fragment.output("jvalue(j: jlong(UInt(bitPattern: Box(value).retainedOpaque())))")
+                    fragment.output("jvalue(pointer: Box(value).retainedOpaque())")
                 }
             }
 
