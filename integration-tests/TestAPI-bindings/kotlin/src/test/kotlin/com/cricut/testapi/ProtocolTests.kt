@@ -136,14 +136,19 @@ internal class ProtocolTests {
     @Test
     fun testProtocolKotlinImpl() {
         val a = ProtocolKotlinImpl(foo = "oof!", baz = false)
-        println("a: $a")
+        assertEquals("oof!", a.foo)
+        a.foo = "ofo!"
+        assertEquals("ofo!", a.foo)
+        assertEquals(false, a.baz)
         val b = a.hasADefaultImplementation(x = 2389, y = 17.23)
-        println("b: $b")
+        assertEquals("bazzy 52558 / 27 = 1946", b)
+        val c = a.hasADefaultImplementation2(a = "With the Frizz? No way!", b = false, c = 8923.8293)
+        assertEquals(-3.14159265359, c)
     }
 
     data class ProtocolKotlinImpl(
-        override val foo: kotlin.String,
-        override var baz: Boolean
+        override var foo: kotlin.String,
+        override val baz: Boolean
     ): AProtocol {
         override fun bar(x: Long, y: Long): AProtocol {
             val div = x / y
@@ -152,11 +157,16 @@ internal class ProtocolTests {
         }
 
         override fun hasADefaultImplementation(x: Long, y: Double): String {
-            return super.hasADefaultImplementation(x, y)
+            val x_prime = x * 22
+            val y_prime = y / 2.0382
+            return super.hasADefaultImplementation(x_prime, y_prime)
         }
 
         override fun hasADefaultImplementation2(a: String, b: Boolean, c: Double): Double {
-            return super.hasADefaultImplementation2(a, b, c)
+            val a_prime = "wibbledy wobbledy $a woo"
+            val b_prime = !b
+            val c_prime = c * 7.23890
+            return super.hasADefaultImplementation2(a_prime, b_prime, c_prime)
         }
     }
 }
