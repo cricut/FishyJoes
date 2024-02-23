@@ -68,22 +68,6 @@ public struct Env {
         private var fns: JavaVM.Pointee {
             javaVM.pointee!.pointee
         }
-
-        /// Gets or creates the JNI environment associated with the current thread
-        public func currentThreadEnv() throws -> Env {
-            var envRaw: UnsafeMutableRawPointer?
-            switch fns.GetEnv(javaVM, &envRaw, JNI_VERSION_1_4) {
-            case JNI_EDETACHED:
-                print("attaching thread \(Thread.current) to JVM")
-                let opaquePtr = OpaquePointer(envRaw)
-                var envUnraw = UnsafeMutablePointer<JNIEnv?>(opaquePtr)
-                try javaOk(fns.AttachCurrentThread(javaVM, &envUnraw, nil))
-            case let retCode:
-                try javaOk(retCode)
-            }
-            let env = UnsafeMutablePointer<JNIEnv?>(OpaquePointer(envRaw))
-            return Env(env: try javaNonNull(env))
-        }
     }
 }
 
