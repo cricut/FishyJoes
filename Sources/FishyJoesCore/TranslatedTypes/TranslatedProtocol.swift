@@ -132,7 +132,7 @@ struct TranslatedProtocol: TranslatedType {
             "NodeInterface/\(sourceType.name)+node.swift",
             additionalImports: ["Foundation", "FishyJoesNodeRuntime"]
         )
-        
+
         fragment.outputBlock("extension \(sourceType.name): NodeMutator {") {
             fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {") {
                 // TODO: type check
