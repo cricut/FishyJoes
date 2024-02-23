@@ -470,13 +470,13 @@ extension CodeGen {
                         try installLibrary(nodeModule.name)
 
                         // Create the required Javascript files for loading the module's native library from node
-                        var moduleDotJS = [
-                            "import { createRequire } from 'module';",
-                            "const require = createRequire(import.meta.url);",
-                        ]
-                        for module in nodeModules {
-                            moduleDotJS.append("export const { \(module.name) } = require('./\(module.name).cjs');")
+                        var moduleDotJS: [String] = []
+                        for dependency in nodeDependencies {
+                            moduleDotJS.append("export { \(dependency.exports.joined(separator: ", ")) } from '@cricut/\(dependency.npmPackageName)';")
                         }
+                        moduleDotJS.append("import { createRequire } from 'module';")
+                        moduleDotJS.append("const require = createRequire(import.meta.url);")
+                        moduleDotJS.append("export const { \(nodeModule.name) } = require('./\(nodeModule.name).cjs');")
                         moduleDotJS.append("export default \(nodeModule.name);")
                         try cmd("echo", moduleDotJS.joined(separator: "\n")).output(overwritingFile: "\(outputDir)\(ps)\(config.module).js").run()
 
@@ -590,7 +590,6 @@ extension CodeGen {
                         for dependency in nodeDependencies {
                             let nativeLibFilename = platform.dylibName(for: dependency.nativeLibName)
                             postinstall += """
-                                cp "$(realpath \"$package_directory/\(dependency.npmPackageName)/\(dependency.nodeShimCJSName)\")" "\"\(dependency.nodeShimCJSName)\""
                                 ln -sf "$(realpath \"$package_directory/\(dependency.npmPackageName)/\(nativeLibFilename)\")" "\"\(nativeLibFilename)\""
 
                             """
@@ -604,7 +603,7 @@ extension CodeGen {
                         package.scripts[default: [:]]["postinstall"] = "./postinstall.sh"
                     }
                     if platform.platform == "node-native-windows" {
-                        // When on Windows, LoadLibrary needs file-relative native libraries, so add a post-install script to the package to copy dependency DLLs
+                        // When on Windows, LoadLibrary() needs file-relative native libraries, so add a post-install script to the package to copy dependency DLLs
                         var postinstall = """
                         @ECHO ON
                         IF %npm_package_version%==0.0.1 (SET package_directory=node_modules\\@cricut) ELSE (SET package_directory=..)
@@ -614,7 +613,6 @@ extension CodeGen {
                         for dependency in nodeDependencies {
                             let nativeLibFilename = platform.dylibName(for: dependency.nativeLibName)
                             // TODO: Should copy?!? How to establish this link with only one file?
-                            postinstall += "COPY \"%package_directory%\\\(dependency.npmPackageName)\\\(dependency.nodeShimCJSName)\" \"\(dependency.nodeShimCJSName)\""
                             postinstall += "COPY \"%package_directory%\\\(dependency.npmPackageName)\\\(nativeLibFilename)\" \"\(nativeLibFilename)\""
                             //postinstall += "mklink \"\(nativeLibFilename)\" \"%package_directory%\\\(dependency.npmPackageName)\\\(dependency.nodeShimCJSName)\""
                         }

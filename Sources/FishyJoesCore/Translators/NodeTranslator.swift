@@ -325,6 +325,47 @@ struct NodeTranslator: Translator {
             }
         }
         
+        let nodeNativeShimPackageFragment = SourceFragment(sourceryDestination: "file:NodeNativeShim/Package.swift")
+        nodeNativeShimPackageFragment.output(
+            """
+            // swift-tools-version:5.5
+
+            import Foundation
+            import PackageDescription
+
+            let package = Package(
+                name: "\(context.module.name)-node-shim",
+                platforms: [.macOS(.v12), .iOS(.v15)],
+                products: [
+                        .library(
+                            name: "\(context.module.name)-node-shim",
+                            type: .dynamic,
+                            targets: ["\(context.module.name)_NodeNativeShim"]
+                        ),
+                    ],
+                dependencies: [
+                    .package(
+                        name: "\(context.module.name)-bindings",
+                        path: "../../.."
+                    ),
+                ],
+                targets: [
+                    .target(
+                        name: "\(context.module.name)_NodeNativeShim",
+                        dependencies: [
+                            .product(name: "\(context.module.name)-node", package: "\(context.module.name)-bindings"),
+                        ],
+                        path: ".",
+                        linkerSettings: [
+                            .linkedLibrary("FishyJoesNodeRuntime")
+                        ]
+                    ),
+                ]
+            )
+            
+            """
+        )
+        
         let wasmShimFragment = SourceFragment(sourceryDestination: "file:WasmMainShim/NAPIRegisterModule.swift")
         wasmShimFragment.output("import NodeAPI")
         wasmShimFragment.output("import FishyJoesNodeRuntime")
@@ -350,7 +391,7 @@ struct NodeTranslator: Translator {
         let wasmMainShimFragment = SourceFragment(sourceryDestination: "file:WasmMainShim/main.swift")
         wasmMainShimFragment.output("// Executable main requires no statements, as loading is done by napi.init() calling napi_register_module_v1()")
 
-        return [nodeTypeListFragment, exportFragment, nodeNativeShimFragment, wasmShimFragment, wasmMainShimFragment]
+        return [nodeTypeListFragment, exportFragment, nodeNativeShimFragment, nodeNativeShimPackageFragment, wasmShimFragment, wasmMainShimFragment]
     }
 
     func ts(method: Method, explicitThis: Bool, context: FishyJoesContext) -> TypeScriptAnnotations.Method? {

@@ -16,11 +16,6 @@ let package = Package(
             ),
         ] : [
             .library(
-                name: "TestAPI-node-native",
-                type: .dynamic,
-                targets: ["TestAPI_NodeNativeShim"]
-            ),
-            .library(
                 name: "TestAPI-node",
                 type: .dynamic,
                 targets: ["TestAPI_NodeInterface"]
@@ -68,13 +63,6 @@ let package = Package(
                 ]
             ),
         ] : [
-            .target(
-                name: "TestAPI_NodeNativeShim",
-                dependencies: [
-                    .target(name: "TestAPI_NodeInterface"),
-                ],
-                path: "Sources/Generated/NodeNativeShim"
-            ),
             .target(
                 name: "TestAPI_JavaInterface",
                 dependencies: [
