@@ -338,7 +338,7 @@ class KotlinProductClass: KotlinClass {
             }
         }
         if !conformances.isEmpty {
-            fragment.output(": \(Array(conformances).sorted(by: { $0 < $1 }).joined(separator: ", "))", newLineTerminated: false)
+            fragment.output(": \(Array(conformances).sorted(by: < ).joined(separator: ", "))", newLineTerminated: false)
         }
         fragment.outputBlock(" {") {
             fields.filter { !$0.isStatic }.forEach { output(field: $0, to: fragment) }
@@ -398,7 +398,11 @@ class KotlinEnumClass: KotlinClass {
     override func output(to fragment: SourceFragment) {
         document(documentation, fragment: fragment)
         fragment.output("@OptIn(ExperimentalCoroutinesApi::class)")
-        fragment.outputBlock("sealed class \(unqualifiedName) {") {
+        fragment.output("sealed class \(unqualifiedName)", newLineTerminated: false)
+        if !conformances.isEmpty {
+            fragment.output(": \(Array(conformances).sorted(by: < ).joined(separator: ", "))", newLineTerminated: false)
+        }
+        fragment.outputBlock(" {") {
             for enumCase in cases {
                 switch enumCase {
                 case let .object(name):
@@ -414,16 +418,10 @@ class KotlinEnumClass: KotlinClass {
                 }
             }
             fields.filter { !$0.isStatic }.forEach {
-                // For enums, we are doing a sealed class in Kotlin, not an interface, therefore there is no override on the fields.
-                var unOverride = $0
-                unOverride.isOverride = false
                 output(field: $0, to: fragment)
             }
             methods.filter { !$0.isStatic }.forEach {
-                // For enums, we are doing a sealed class in Kotlin, not an interface, therefore there is no override on the methods.
-                var unOverride = $0
-                unOverride.isOverride = false
-                output(method: unOverride, to: fragment)
+                output(method: $0, to: fragment)
             }
 
             fragment.blankLine()

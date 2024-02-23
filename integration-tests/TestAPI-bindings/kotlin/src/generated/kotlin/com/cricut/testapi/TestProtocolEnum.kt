@@ -7,12 +7,12 @@ import java.lang.Exception
  * <!-- FishyJoes.export(TestProtocolEnum, conformances: [TestMethodsProtocol]) -->
  */
 @OptIn(ExperimentalCoroutinesApi::class)
-sealed class TestProtocolEnum {
+sealed class TestProtocolEnum: TestMethodsProtocol {
     object Qux : TestProtocolEnum()
     /**
      * <!-- FishyJoes.export(foo) -->
      */
-    fun foo(
+    override fun foo(
     ): kotlin.Unit = __jni_foo()
     @JvmName("__jni_foo")
     private external fun __jni_foo(
@@ -21,7 +21,7 @@ sealed class TestProtocolEnum {
     /**
      * <!-- FishyJoes.export(bar) -->
      */
-    fun bar(
+    override fun bar(
     ): Boolean = __jni_bar()
     @JvmName("__jni_bar")
     private external fun __jni_bar(
@@ -30,7 +30,7 @@ sealed class TestProtocolEnum {
     /**
      * <!-- FishyJoes.export(baz) -->
      */
-    fun baz(
+    override fun baz(
         qux: Boolean
     ): kotlin.Unit = __jni_baz(qux)
     @JvmName("__jni_baz")
@@ -41,7 +41,7 @@ sealed class TestProtocolEnum {
     /**
      * <!-- FishyJoes.export(garply) -->
      */
-    fun garply(
+    override fun garply(
         str: kotlin.String
     ): kotlin.String = __jni_garply(str)
     @JvmName("__jni_garply")
@@ -52,7 +52,7 @@ sealed class TestProtocolEnum {
     /**
      * <!-- FishyJoes.export(xyzzy) -->
      */
-    fun xyzzy(
+    override fun xyzzy(
         thud: Long,
         grault: kotlin.collections.List<Double>
     ): kotlin.String = __jni_xyzzy(thud, grault)
@@ -65,7 +65,7 @@ sealed class TestProtocolEnum {
     /**
      * <!-- FishyJoes.export(plugh) -->
      */
-    fun plugh(
+    override fun plugh(
         fred: kotlin.Triple<Boolean, Double, kotlin.collections.List<kotlin.String>>
     ): kotlin.Triple<Boolean, Long, kotlin.String> = __jni_plugh(fred)
     @JvmName("__jni_plugh")
