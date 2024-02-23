@@ -5,6 +5,7 @@
 import FishyJoesNodeRuntime
 import Foundation
 import TestAPI
+import TestAPI_CommonInterface
 
 extension TestAPI.AProtocol: NodeMutator {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
@@ -103,8 +104,6 @@ extension TestAPI.AProtocol: NodeMutator {
                     ),
                     isStatic: false
                 ),
-                "foo": (.stored(mutable: true), isStatic: false),
-                "baz": (.stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "AProtocol_constructor", expectedArgumentCount: 2) { env in

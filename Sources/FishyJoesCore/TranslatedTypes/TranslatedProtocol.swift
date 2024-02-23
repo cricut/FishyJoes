@@ -130,7 +130,7 @@ struct TranslatedProtocol: TranslatedType {
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
             "NodeInterface/\(sourceType.name)+node.swift",
-            additionalImports: ["Foundation", "FishyJoesNodeRuntime"]
+            additionalImports: ["Foundation", "FishyJoesNodeRuntime", "\(context.module.name)_CommonInterface"]
         )
 
         fragment.outputBlock("extension \(sourceType.name): NodeMutator {") {
@@ -178,13 +178,13 @@ struct TranslatedProtocol: TranslatedType {
                         var hasProperties = false
                         hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment)
                         hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment)
-                        for computedVar in computedVariables {
-                            // Limitation in wasm implementation of napi_create_class doesn't allow constructors to assign to non-mutable property.
-                            // let mutable = storedVar.isPubliclyWritable
-                            let mutable = true
-                            fragment.output("\"\(computedVar.name)\": (.stored(mutable: \(mutable)), isStatic: \(computedVar.isStatic)),")
-                            hasProperties = true
-                        }
+//                        for computedVar in computedVariables {
+//                            // Limitation in wasm implementation of napi_create_class doesn't allow constructors to assign to non-mutable property.
+//                            // let mutable = storedVar.isPubliclyWritable
+//                            let mutable = true
+//                            fragment.output("\"\(computedVar.name)\": (.stored(mutable: \(mutable)), isStatic: \(computedVar.isStatic)),")
+//                            hasProperties = true
+//                        }
                         if !hasProperties {
                             fragment.output(":")
                         }

@@ -5,6 +5,7 @@
 import FishyJoesNodeRuntime
 import Foundation
 import TestAPI
+import TestAPI_CommonInterface
 
 extension TestAPI.TestPropertiesProtocol: NodeMutator {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
@@ -57,8 +58,6 @@ extension TestAPI.TestPropertiesProtocol: NodeMutator {
                     ),
                     isStatic: false
                 ),
-                "corge": (.stored(mutable: true), isStatic: false),
-                "frob": (.stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "TestPropertiesProtocol_constructor", expectedArgumentCount: 2) { env in
