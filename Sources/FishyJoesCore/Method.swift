@@ -58,7 +58,7 @@ struct Method: Hashable {
         self.isInExtension = isInExtension
     }
 
-    init?(_ method: SourceryMethod, isProtocolDef: Bool) {
+    init?(_ method: SourceryMethod) {
         guard let exportAnnotation = method.exportAnnotation else { return nil }
         self.name = method.name
         self.callName = method.callName
@@ -98,13 +98,6 @@ struct Method: Hashable {
         precondition(omitParameters.isEmpty, "Can't find parameters \(omitParameters) to omit")
         self.parameters = parameters
         self.isInExtension = method.definedInType?.isExtension ?? false
-    }
-
-    init?(_ method: SourceryMethod) {
-        guard let inst = Method(method, isProtocolDef: false) else {
-            return nil
-        }
-        self = inst
     }
 }
 
