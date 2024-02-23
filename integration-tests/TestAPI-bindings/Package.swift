@@ -54,6 +54,9 @@ let package = Package(
         ),
         .target(
             name: "TestAPI_CommonInterface",
+            dependencies: [
+                "TestAPI"
+            ],
             path: "Sources/Generated/CommonInterface"
         ),
     ] + (
