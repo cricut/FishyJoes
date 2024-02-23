@@ -5,6 +5,6 @@
 import Foundation
 import TestAPI
 
-public enum _AProtocolConverter{
+public enum _AProtocolConverter {
     public typealias SwiftType = TestAPI.AProtocol
 }

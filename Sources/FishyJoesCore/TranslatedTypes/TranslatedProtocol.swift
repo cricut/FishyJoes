@@ -120,7 +120,7 @@ struct TranslatedProtocol: TranslatedType {
             additionalImports: ["Foundation"]
         )
 
-        fragment.outputBlock("public enum \(converterType.name){") {
+        fragment.outputBlock("public enum \(converterType.name) {") {
             fragment.output("public typealias SwiftType = \(sourceType.name)")
         }
 
