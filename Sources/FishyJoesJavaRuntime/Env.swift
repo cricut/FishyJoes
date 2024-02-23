@@ -41,10 +41,6 @@ public struct Env {
         return result
     }
 
-    public func jvm() throws -> JVM {
-        return JVM(javaVM: try javaNonNull(GetJavaVM()))
-    }
-
     public func RegisterNatives(_ clazz: jclass?, _ methods: JNINativeMethod ...) throws {
         // change to true to debug UnsatisfiedLinkErrors
         #if false
@@ -55,19 +51,6 @@ public struct Env {
         #else
         try javaOk(RegisterNatives(clazz, methods: methods))
         #endif
-    }
-
-    public struct JVM {
-        let javaVM: UnsafeMutablePointer<JavaVM?>
-
-        public init(javaVM: UnsafeMutablePointer<JavaVM?>) {
-            self.javaVM = javaVM
-        }
-
-        @inline(__always)
-        private var fns: JavaVM.Pointee {
-            javaVM.pointee!.pointee
-        }
     }
 }
 
