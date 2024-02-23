@@ -1,6 +1,7 @@
 export './AttributedString_PuttingTypesIntoQuestionablePlaces.dart';
 export './String_PuttingTypesIntoQuestionablePlaces.dart';
 export './UnicodeScalar_PuttingTypesIntoQuestionablePlaces.dart';
+export './Actors_TemperatureLogger.dart';
 export './Collections_CollectionHolder.dart';
 export './Primitives_PrimitiveHolder.dart';
 export './Structs_MemberwiseStruct.dart';
@@ -8,6 +9,7 @@ export './Structs_MutableStruct.dart';
 export './Structs_PuttingTypesIntoQuestionablePlaces.dart';
 export './Structs_ReferenceStruct.dart';
 export './AProtocolImplementation.dart';
+export './Actors.dart';
 export './AssociatedDataEnum.dart';
 export './AsyncFunctions.dart';
 export './AttributedStrings.dart';

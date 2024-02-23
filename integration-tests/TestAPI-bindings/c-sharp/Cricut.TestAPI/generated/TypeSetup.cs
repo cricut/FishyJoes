@@ -53,6 +53,13 @@ namespace Cricut.TestAPI {
             out CreatedRef _exn
         );
 
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_Actors_TemperatureLogger_setup(
+            IntPtr envRef,
+            SwiftReference.ConstructorDelegate constructorMethod,
+            out CreatedRef _exn
+        );
+
         delegate CreatedRef _TestAPI_Collections_CollectionHolderConstructor(
             ConsumedRef boolArray,
             ConsumedRef boolSet,
@@ -320,6 +327,12 @@ namespace Cricut.TestAPI {
             _TestAPI_AProtocolImplementation_fooSetter set_foo,
             _TestAPI_AProtocolImplementation_bazGetter get_baz,
             _TestAPI_AProtocolImplementation_bazSetter set_baz,
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_Actors_setup(
+            IntPtr envRef,
             out CreatedRef _exn
         );
 
@@ -1688,6 +1701,16 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_TestAPI.Actors.TemperatureLogger", () => {
+                Console.WriteLine("setting up TestAPI.Actors.TemperatureLogger...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_Actors_TemperatureLogger_setup(
+                    Loader.env,
+                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.Actors.TemperatureLogger(ptr));
+                    })),
+                    out exn
+                ));
+            });
             Once("setup_TestAPI.Collections.CollectionHolder", () => {
                 Console.WriteLine("setting up TestAPI.Collections.CollectionHolder...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Collections_CollectionHolder_setup(
@@ -2047,6 +2070,13 @@ namespace Cricut.TestAPI {
                     bag<_TestAPI_AProtocolImplementation_bazSetter>((UnownedRef obj, bool newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.AProtocolImplementation>().Baz = newValue;
                     })),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.Actors", () => {
+                Console.WriteLine("setting up TestAPI.Actors...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_Actors_setup(
+                    Loader.env,
                     out exn
                 ));
             });

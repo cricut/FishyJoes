@@ -40,102 +40,81 @@ import 'package:fishyjoes_dart/runtime.dart';
 import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:tuple/tuple.dart' as tuple;
 
-/// <!-- FishyJoes.exportReference(Structs.ReferenceStruct) -->
-class Structs_ReferenceStruct extends SwiftReference {
-    Structs_ReferenceStruct(ffi.Pointer reference): super(reference) {}
+/// <!-- FishyJoes.export(Actors.TemperatureLogger) -->
+class Actors_TemperatureLogger extends SwiftReference {
+    Actors_TemperatureLogger(ffi.Pointer reference): super(reference) {}
     static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
-        createRef(Structs_ReferenceStruct(ref))
+        createRef(Actors_TemperatureLogger(ref))
     );
 
-    /// <!-- FishyJoes.export(immutable) -->
-    String get immutable =>
+    /// <!-- FishyJoes.export(label) -->
+    String get label =>
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
-                consumeCreatedRef<String>(f__iota_get_TestAPI_Structs_ReferenceStruct_immutable(Loader.shared.env, _thisHandle.ptr, exn))
+                consumeCreatedRef<String>(f__iota_get_TestAPI_Actors_TemperatureLogger_label(Loader.shared.env, _thisHandle.ptr, exn))
             )
         )
     ;
-    /// <!-- FishyJoes.export(mutable) -->
-    String get mutable =>
+    /// <!-- FishyJoes.export(backwardsLabel) -->
+    String get backwardsLabel =>
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
-                consumeCreatedRef<String>(f__iota_get_TestAPI_Structs_ReferenceStruct_mutable(Loader.shared.env, _thisHandle.ptr, exn))
-            )
-        )
-    ;
-    void set mutable(String value) {
-        GCRef.using(this, (_thisHandle) =>
-            GCRef.using(value, (_valueHandle) =>
-                check((exn) =>
-                    f__iota_set_TestAPI_Structs_ReferenceStruct_mutable(Loader.shared.env, _thisHandle.ptr, _valueHandle.ptr, exn)
-                )
-            )
-        )
-        ;
-    }
-    int get hashCode =>
-        GCRef.using(this, (_thisHandle) =>
-            check((exn) =>
-                f__iota_get_TestAPI_Structs_ReferenceStruct_hash(Loader.shared.env, _thisHandle.ptr, exn)
+                consumeCreatedRef<String>(f__iota_get_TestAPI_Actors_TemperatureLogger_backwardsLabel(Loader.shared.env, _thisHandle.ptr, exn))
             )
         )
     ;
     /// <!-- FishyJoes.export(create) -->
-    static TestAPI.Structs_ReferenceStruct create(
+    static TestAPI.Actors_TemperatureLogger create(
+        String label,
+        int measurement,
     ) =>
-        consumeCreatedRef<TestAPI.Structs_ReferenceStruct>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_ReferenceStruct_create(Loader.shared.env, _exn)))
-    ;
-
-    /// <!-- FishyJoes.export(asyncGetMutable) -->
-    Future<String> asyncGetMutable(
-    ) =>
-        GCRef.using(this, (_thisHandle) =>
-            consumeCreatedRef<Future<String>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_ReferenceStruct_asyncGetMutable(Loader.shared.env, _thisHandle.ptr, _exn)))
+        GCRef.using(label, (_labelHandle) =>
+            consumeCreatedRef<TestAPI.Actors_TemperatureLogger>(check((OutCreatedRef _exn) => f__iota_TestAPI_Actors_TemperatureLogger_create(Loader.shared.env, _labelHandle.ptr, measurement, _exn)))
         )
     ;
 
-    bool operator ==(
-        Object? other,
+    /// <!-- FishyJoes.export(update) -->
+    Future<void> update(
+        int /* with */ measurement,
     ) =>
-        GCRef.using(this, (thisHandle) =>
-            GCRef.using(other as TestAPI.Structs_ReferenceStruct, (otherHandle) =>
-                check((exn) => f__iota_TestAPI_Structs_ReferenceStruct_equals(Loader.shared.env, thisHandle.ptr, otherHandle.ptr, exn))))
+        GCRef.using(this, (_thisHandle) =>
+            consumeCreatedRef<Future<void>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Actors_TemperatureLogger_update(Loader.shared.env, _thisHandle.ptr, measurement, _exn)))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(min) -->
+    Future<int> min(
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            consumeCreatedRef<Future<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Actors_TemperatureLogger_min(Loader.shared.env, _thisHandle.ptr, _exn)))
+        )
     ;
 
     static late CreatedRef Function(
         Env env,
-        UnownedRef _this,
+        UnownedRef label,
+        int measurement,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_Structs_ReferenceStruct_asyncGetMutable;
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__iota_TestAPI_Structs_ReferenceStruct_create;
-    static late bool Function(
-        Env env,
-        UnownedRef lhs,
-        UnownedRef rhs,
-        OutCreatedRef _exn
-    ) f__iota_TestAPI_Structs_ReferenceStruct_equals;
-    static late int Function(
-        Env env,
-        UnownedRef _this,
-        OutCreatedRef _exn
-    ) f__iota_get_TestAPI_Structs_ReferenceStruct_hash;
+    ) f__iota_TestAPI_Actors_TemperatureLogger_create;
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_get_TestAPI_Structs_ReferenceStruct_immutable;
+    ) f__iota_TestAPI_Actors_TemperatureLogger_min;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        int measurement,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_Actors_TemperatureLogger_update;
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_get_TestAPI_Structs_ReferenceStruct_mutable;
-    static late void Function(
+    ) f__iota_get_TestAPI_Actors_TemperatureLogger_backwardsLabel;
+    static late CreatedRef Function(
         Env env,
         UnownedRef _this,
-        UnownedRef mutable,
         OutCreatedRef _exn
-    ) f__iota_set_TestAPI_Structs_ReferenceStruct_mutable;
+    ) f__iota_get_TestAPI_Actors_TemperatureLogger_label;
 }

@@ -108,6 +108,110 @@
         "named" : {
           "_0" : {
             "module" : "TestAPI",
+            "name" : "Actors",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "Actors",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Actors",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Actors"
+        }
+      },
+      "kotlinName" : "Actors",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Actors>>",
+      "nodeName" : "TestAPI.Actors",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Actors",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TemperatureLogger",
+            "namespace" : [
+              "Actors"
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "Actors.TemperatureLogger",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Actors_TemperatureLogger",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Actors$TemperatureLogger"
+        }
+      },
+      "kotlinName" : "Actors.TemperatureLogger",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=Actors.TemperatureLogger>>",
+      "nodeName" : "TestAPI.Actors.TemperatureLogger",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TemperatureLogger",
+            "namespace" : [
+              "Actors"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
             "name" : "AssociatedDataEnum",
             "namespace" : [
 
@@ -3158,6 +3262,149 @@
         ],
         "name" : "TestAPI",
         "namespaces" : {
+          "Actors" : {
+            "classes" : [
+              {
+                "constructor" : {
+                  "hidden" : {
+
+                  }
+                },
+                "documentation" : [
+                  "<!-- FishyJoes.export(Actors.TemperatureLogger) -->"
+                ],
+                "extends" : [
+
+                ],
+                "fields" : [
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(label) -->"
+                    ],
+                    "isStatic" : false,
+                    "name" : "label",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(backwardsLabel) -->"
+                    ],
+                    "isStatic" : false,
+                    "name" : "backwardsLabel",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                ],
+                "methods" : [
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(create) -->"
+                    ],
+                    "isAsync" : false,
+                    "isStatic" : true,
+                    "name" : "create",
+                    "parameters" : [
+                      {
+                        "name" : "label",
+                        "type" : {
+                          "named" : {
+                            "_0" : "string"
+                          }
+                        }
+                      },
+                      {
+                        "name" : "measurement",
+                        "type" : {
+                          "named" : {
+                            "_0" : "number"
+                          }
+                        }
+                      }
+                    ],
+                    "returnType" : {
+                      "named" : {
+                        "_0" : "TestAPI.Actors.TemperatureLogger"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(update) -->"
+                    ],
+                    "isAsync" : true,
+                    "isStatic" : false,
+                    "name" : "update",
+                    "parameters" : [
+                      {
+                        "label" : "with",
+                        "name" : "measurement",
+                        "type" : {
+                          "named" : {
+                            "_0" : "number"
+                          }
+                        }
+                      }
+                    ],
+                    "returnType" : {
+                      "promise" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "void"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(min) -->"
+                    ],
+                    "isAsync" : true,
+                    "isStatic" : false,
+                    "name" : "min",
+                    "parameters" : [
+
+                    ],
+                    "returnType" : {
+                      "promise" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "name" : "TemperatureLogger"
+              }
+            ],
+            "fields" : [
+
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+
+            ],
+            "name" : "Actors",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
+          },
           "AssociatedDataEnum" : {
             "classes" : [
               {
@@ -9409,6 +9656,19 @@
                       "_0" : "thing"
                     }
                   }
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(Actors) -->"
+            ],
+            "name" : "Actors",
+            "value" : {
+              "union" : {
+                "_0" : [
+
                 ]
               }
             }

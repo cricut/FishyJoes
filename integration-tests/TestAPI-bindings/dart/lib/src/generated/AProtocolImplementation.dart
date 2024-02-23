@@ -1,4 +1,6 @@
 import './AProtocolImplementation.dart' as TestAPI;
+import './Actors.dart' as TestAPI;
+import './Actors_TemperatureLogger.dart' as TestAPI;
 import './AssociatedDataEnum.dart' as TestAPI;
 import './AsyncFunctions.dart' as TestAPI;
 import './AttributedString_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;

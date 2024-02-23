@@ -18,6 +18,48 @@ export declare namespace TestAPI {
         ): TestAPI.AProtocol;
     }
 
+    export type Actors = never;
+    export namespace Actors {
+        /**
+         * <!-- FishyJoes.export(Actors.TemperatureLogger) -->
+         */
+        export class TemperatureLogger {
+            private constructor()
+            private _inhibitStructuralTyping: any
+
+            /**
+             * <!-- FishyJoes.export(label) -->
+             */
+            readonly label: string;
+
+            /**
+             * <!-- FishyJoes.export(backwardsLabel) -->
+             */
+            readonly backwardsLabel: string;
+
+            /**
+             * <!-- FishyJoes.export(create) -->
+             */
+            static create(
+                label: string,
+                measurement: number
+            ): TestAPI.Actors.TemperatureLogger;
+
+            /**
+             * <!-- FishyJoes.export(update) -->
+             */
+            update(
+                /* with */ measurement: number
+            ): Promise<void>;
+
+            /**
+             * <!-- FishyJoes.export(min) -->
+             */
+            min(
+            ): Promise<number>;
+        }
+    }
+
     export type AssociatedDataEnum = AssociatedDataEnum.Thing | AssociatedDataEnum.Other | AssociatedDataEnum.Bar | AssociatedDataEnum.NoValue | AssociatedDataEnum.SimpleEnum;
     export namespace AssociatedDataEnum {
         interface Bar extends AssociatedDataEnum_Common {}

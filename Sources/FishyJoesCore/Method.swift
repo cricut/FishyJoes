@@ -71,8 +71,10 @@ struct Method: Hashable {
         // SourceryMethod.isMutating seems to be a bit buggy...
         self.isMutating = method.isMutating || method.modifiers.contains { $0.name == "mutating" }
         self.isThrowing = method.throws || method.rethrows
-        self.isAsync = method.isAsync
         self.deprecation = method.deprecation
+
+        let isIsolated = method.definedInType is Actor && !method.isNonisolated && !method.isInitializer
+        self.isAsync = isIsolated || method.isAsync
 
         var parameters: [SwiftFormal] = []
         var omitParameters = Set(exportAnnotation.omitParameters)
