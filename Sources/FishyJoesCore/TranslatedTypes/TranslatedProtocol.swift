@@ -117,10 +117,10 @@ struct TranslatedProtocol: TranslatedType {
     func commonDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
             "CommonInterface/\(converterType.name).swift",
-            additionalImports: ["Foundation", "FishyJoesCommonRuntime"]
+            additionalImports: ["Foundation"]
         )
 
-        fragment.outputBlock("public enum \(converterType.name): Converter {") {
+        fragment.outputBlock("public enum \(converterType.name){") {
             fragment.output("public typealias SwiftType = \(sourceType.name)")
         }
 

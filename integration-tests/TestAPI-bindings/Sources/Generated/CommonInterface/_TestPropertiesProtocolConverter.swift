@@ -2,10 +2,9 @@
 // DO NOT EDIT
 // swiftlint:disable:next blanket_disable_command superfluous_disable_command
 // swiftlint:disable unused_closure_parameter syntactic_sugar attributes
-import FishyJoesCommonRuntime
 import Foundation
 import TestAPI
 
-public enum _TestPropertiesProtocolConverter: Converter {
+public enum _TestPropertiesProtocolConverter{
     public typealias SwiftType = TestAPI.TestPropertiesProtocol
 }
