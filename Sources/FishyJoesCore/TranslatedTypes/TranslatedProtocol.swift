@@ -252,7 +252,22 @@ struct TranslatedProtocol: TranslatedType {
                     fragment.output()
                     let returnSignature = "\(method.isThrowing ? " throws" : "") -> \(method.returnType.name)"
                     fragment.outputBlock("public func \(method.name)\(returnSignature) {", closeWith: "}") {
-                        fragment.output("\(method.isThrowing ? "try " : "")wrapped.\(method.callName)(\(method.parameters.map { "\($0.name): \($0.name)" }.joined(separator: ", ")))")
+                        
+                        var methodParamsStr = [String]()
+                        var unnamedParamCnt = 1
+                        for param in method.parameters {
+                            var paramName = param.name
+                            if paramName.isEmpty {
+                                paramName = "_\(unnamedParamCnt)"
+                                unnamedParamCnt += 1
+                            }
+                            if let paramLabel = param.label {
+                                methodParamsStr.append("\(paramLabel): \(param.name)")
+                            } else {
+                                methodParamsStr.append("\(param.name)")
+                            }
+                        }
+                        fragment.output("\(method.isThrowing ? "try " : "")wrapped.\(method.callName)(\(methodParamsStr.joined(separator: ", ")))")
                     }
                 }
             }

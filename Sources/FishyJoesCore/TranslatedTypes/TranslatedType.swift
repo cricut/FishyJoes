@@ -219,11 +219,11 @@ extension SourceryProtocol {
     func methodsPreferringDefaultImpl() -> [SourceryMethod] {
         var methodsPreferringImplemented = [SourceryMethod]()
         for method in rawMethods {
-            let equalExcludingImplementedMethods = methodsPreferringImplemented.filter {
-                $0.isEqualExcludingDefinedIn(other: method)
+            let mostlyEqualMethods = methodsPreferringImplemented.filter {
+                return $0.isMostlyEqual(other: method)
             }
-            if !equalExcludingImplementedMethods.isEmpty {
-                for equalExcludingImplementedMethod in equalExcludingImplementedMethods {
+            if !mostlyEqualMethods.isEmpty {
+                for equalExcludingImplementedMethod in mostlyEqualMethods {
                     if equalExcludingImplementedMethod.isInExtension {
                         guard let index = methodsPreferringImplemented.firstIndex(of: method) else {
                             assertionFailure("method should exist in methodsPreferringImplemented")
@@ -249,27 +249,63 @@ extension SourceryProtocol {
 }
 
 extension SourceryMethod {
-    func isEqualExcludingDefinedIn(other: SourceryMethod) -> Bool {
-        name == other.name &&
-        selectorName == other.selectorName &&
-        callName == other.callName &&
-        parameters == other.parameters &&
-        returnTypeName == returnTypeName &&
-        returnType == other.returnType &&
-        isAsync == other.isAsync &&
-        `throws` == other.`throws` &&
-        `rethrows` == other.`rethrows` &&
-        accessLevel == other.accessLevel &&
-        isStatic == other.isStatic &&
-        isClass == other.isClass &&
-        isFailableInitializer == other.isFailableInitializer &&
-        documentation == other.documentation &&
-        annotations == other.annotations &&
-        documentation == other.documentation &&
-        attributes == other.attributes
+    func isMostlyEqual(other: SourceryMethod) -> Bool {
+        let paramsMostlyEqual = zip(parameters, other.parameters).filter {
+            $0.isMostlyEqual(other: $1)
+        }.count == parameters.count
+        let selectorNameMatches = selectorName == other.selectorName
+        let parametersCountMatches = parameters.count == other.parameters.count
+        let returnTypeNameMatches = returnTypeName == other.returnTypeName
+        let returnTypeMatches = returnType == other.returnType
+        let isAsyncMatches = isAsync == other.isAsync
+        let throwsMatches = `throws` == other.`throws`
+        let rethrowsMatches = `rethrows` == other.`rethrows`
+        let accessLevelMatches = accessLevel == other.accessLevel
+        let isStaticMatches = isStatic == other.isStatic
+        let isClassMatches = isClass == other.isClass
+        let isFailableInitializerMatches = isFailableInitializer == other.isFailableInitializer
+        let documentationMatches = documentation == other.documentation
+        let annotationsMatches = annotations == other.annotations
+        let attributesMatches = attributes == other.attributes
+
+        return selectorNameMatches &&
+        paramsMostlyEqual &&
+        parametersCountMatches &&
+        returnTypeNameMatches &&
+        returnTypeMatches &&
+        isAsyncMatches &&
+        throwsMatches &&
+        rethrowsMatches &&
+        accessLevelMatches &&
+        isStaticMatches &&
+        isClassMatches &&
+        isFailableInitializerMatches &&
+        documentationMatches &&
+        annotationsMatches &&
+        attributesMatches
     }
 
     var isInExtension: Bool {
         definedInType?.isExtension ?? false
+    }
+}
+
+extension MethodParameter {
+    func isMostlyEqual(other: MethodParameter) -> Bool {
+        let argumentLabelMatches = argumentLabel == other.argumentLabel
+        let typeNameMatches = typeName == other.typeName
+        let inoutMatches = `inout` == other.`inout`
+        let isVariadicMatches = isVariadic == other.isVariadic
+        let typeAttributesMatches = typeAttributes == other.typeAttributes
+        let defaultValueMatches = defaultValue == other.defaultValue
+        let annotationsMatches = annotations == other.annotations
+
+        return argumentLabelMatches &&
+        typeNameMatches &&
+        inoutMatches &&
+        isVariadicMatches &&
+        typeAttributesMatches &&
+        defaultValueMatches &&
+        annotationsMatches
     }
 }

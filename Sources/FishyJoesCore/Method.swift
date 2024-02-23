@@ -134,7 +134,7 @@ extension Method {
 }
 
 extension Method {
-    func isEqualExcludingImplemented(other: Method) -> Bool {
+    func isMostlyEqual(other: Method) -> Bool {
         name == other.name &&
         callName == other.callName &&
         exportAnnotation == other.exportAnnotation &&

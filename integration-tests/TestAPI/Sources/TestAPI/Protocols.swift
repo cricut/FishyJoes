@@ -15,7 +15,7 @@ public protocol AProtocol {
     func hasADefaultImplementation(x: Int, y: Double) throws -> String
 
     /// <!-- FishyJoes.export(hasADefaultImplementation2) -->
-    func hasADefaultImplementation2(a: String, b: Bool, c: Double) throws -> Double
+    func hasADefaultImplementation2(_ a: String, b: Bool, _: Double) throws -> Double
 }
 
 extension AProtocol {
@@ -26,7 +26,7 @@ extension AProtocol {
     }
 
     /// <!-- FishyJoes.export(hasADefaultImplementation2) -->
-    public func hasADefaultImplementation2(a: String, b: Bool, c: Double) throws -> Double {
+    public func hasADefaultImplementation2(_ a: String, b: Bool, _ c: Double) throws -> Double {
         guard let d = Double(a) else {
             return -3.14159265359
         }

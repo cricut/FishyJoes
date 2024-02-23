@@ -61,15 +61,15 @@ struct _JavaAProtocol: TestAPI.AProtocol {
     }
 
     static var _hasADefaultImplementation2MethodID: jmethodID?
-    public func hasADefaultImplementation2(a: String, b: Bool, c: Double) throws -> Double {
+    public func hasADefaultImplementation2(_ _1: String, b: Bool, _ _2: Double) throws -> Double {
         let env = try _javaWitness.currentThreadEnv()
         return try Swift.Double.fromJava(
             env.CallDoubleMethod(
                 _javaWitness.object,
                 Self._hasADefaultImplementation2MethodID,
-                jvalue(try Swift.String.toJava(a, env: env)),
+                jvalue(try Swift.String.toJava(_1, env: env)),
                 jvalue(try Swift.Bool.toJava(b, env: env)),
-                jvalue(try Swift.Double.toJava(c, env: env))
+                jvalue(try Swift.Double.toJava(_2, env: env))
             ),
             env: env
         )
@@ -95,8 +95,8 @@ struct _JavaAProtocol_sans_hasADefaultImplementation: TestAPI.AProtocol {
         try wrapped.bar(x: x, y: y)
     }
 
-    public func hasADefaultImplementation2(a: String, b: Bool, c: Double) throws -> Double {
-        try wrapped.hasADefaultImplementation2(a: a, b: b, c: c)
+    public func hasADefaultImplementation2(_ a: String, b: Bool, _ c: Double) throws -> Double {
+        try wrapped.hasADefaultImplementation2(a, b: b, c)
     }
 }
 
