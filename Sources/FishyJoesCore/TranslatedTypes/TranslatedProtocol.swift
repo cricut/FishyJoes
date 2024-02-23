@@ -132,7 +132,100 @@ struct TranslatedProtocol: TranslatedType {
             "NodeInterface/\(sourceType.name)+node.swift",
             additionalImports: ["Foundation", "FishyJoesNodeRuntime"]
         )
-        fragment.output("// Placeholder comment until Protocols for Node is implemented in order to work around Swiftlint violation.")
+        
+        fragment.outputBlock("extension \(sourceType.name): NodeMutator {") {
+            fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {") {
+                // TODO: type check
+                fragment.outputBlock("Self(") {
+                    for (index, computedVar) in computedVariables.enumerated() {
+                        let resolved = context.resolve(type: computedVar.typeName.better)
+                        let last = index == computedVariables.count - 1
+                        fragment.outputBlock("\(computedVar.name): try { () -> \(resolved.sourceType.name) in", closeWith: last ? "}()" : "}(),") {
+                            fragment.output("let fieldValue = try env.getNamedProperty(value, \"\(computedVar.name)\")")
+                            fragment.output("return try \(resolved.converterType.name).fromNode(fieldValue, env: env)")
+                        }
+                    }
+                }
+            }
+
+            fragment.outputBlock("public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {") {
+                fragment.output("let constructor = try NodeClass.constructor(for: \"\(nodeName)\", env: env)")
+                fragment.outputBlock("let args: [NAPI.Value] = [") {
+                    for computedVar in computedVariables {
+                        let resolved = context.resolve(type: computedVar.typeName.better)
+                        fragment.output("try \(resolved.converterType.name).toNode(value.\(computedVar.name), env: env),")
+                    }
+                }
+                fragment.output("return try env.newInstance(constructor, args)")
+            }
+
+            fragment.outputBlock("public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {") {
+                for computedVar in computedVariables {
+                    guard computedVar.isMutable else { continue }
+                    let resolved = context.resolve(type: computedVar.typeName.better)
+                    fragment.output("try env.setNamedProperty(this, \"\(computedVar.name)\", \(resolved.converterType.name).toNode(value.\(computedVar.name), env: env))")
+                }
+            }
+
+            fragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
+            fragment.outputBlock("public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {") {
+                // fragment.output("print(\"setting up \(sourceType.name)\")")
+
+                fragment.outputBlock("let nodeClass = try NodeClass(") {
+                    fragment.output("env: env,")
+                    fragment.output("name: \"\(nodeName)\",")
+                    fragment.outputBlock("properties: [", closeWith: "],") {
+                        var hasProperties = false
+                        hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment)
+                        hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment)
+                        for computedVar in computedVariables {
+                            // Limitation in wasm implementation of napi_create_class doesn't allow constructors to assign to non-mutable property.
+                            // let mutable = storedVar.isPubliclyWritable
+                            let mutable = true
+                            fragment.output("\"\(computedVar.name)\": (.stored(mutable: \(mutable)), isStatic: \(computedVar.isStatic)),")
+                            hasProperties = true
+                        }
+                        if !hasProperties {
+                            fragment.output(":")
+                        }
+                    }
+                    fragment.outputBlock("constructor: { env, info in", closeWith: "}") {
+                        fragment.outputBlock("callbackBody(env, info, name: \"\(nodeName)_constructor\", expectedArgumentCount: \(computedVariables.count)) { env in", closeWith: "}") {
+                            fragment.output("// TODO: typecheck?")
+                            fragment.output("let this = try env.this()")
+                            for (index, computedVar) in computedVariables.enumerated() {
+                                fragment.output("try env.env.setNamedProperty(this, \"\(computedVar.name)\", env.argument(at: \(index)))")
+                            }
+                            fragment.output("return this")
+                        }
+                    }
+                }
+                fragment.outputBlock("try mergeDefinitionInto(") {
+                    fragment.output("env: env,")
+                    fragment.output("module: module,")
+                    fragment.output("path: \"\(nodeName)\",")
+                    fragment.output("nodeClass: nodeClass.constructor.value(env: env)")
+                }
+            }
+        }
+
+        context.tsAnnotations.add(class:
+            .init(
+                documentation: documentation,
+                name: nodeName,
+                constructor: .visible(
+                    computedVariables.map {
+                        (
+                            name: $0.name,
+                            type: context.resolve(type: $0.typeName.better).nodeType
+                        )
+                    }
+                ),
+                fields:
+                    computedVariables.compactMap {context.ts(field: $0, useNativeName: false) },
+                methods: methods.compactMap { context.ts(method: $0) }
+            )
+        )
         fragment.blankLine()
         return fragment
     }
