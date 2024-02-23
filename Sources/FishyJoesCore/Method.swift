@@ -86,7 +86,7 @@ struct Method: Hashable {
             parameters.append(
                 SwiftFormal(
                     label: parameter.argumentLabel,
-                    name: isProtocolDef ? (parameter.asSource.starts(with: "_ ") ? "" : parameter.name) : parameter.name,
+                    name: parameter.name,
                     type: parameter.typeName.better,
                     defaultValue: parameter.defaultValue
                 )

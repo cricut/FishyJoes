@@ -27,11 +27,11 @@ private class _ExternalWitness_TestOptionalsProtocol private constructor(_swiftR
      * <!-- FishyJoes.export(spqr) -->
      */
     override fun spqr(
-        _1: com.cricut.testapi.AssociatedDataEnum
-    ): Long = __jni_spqr(_1)
+        pippo: com.cricut.testapi.AssociatedDataEnum
+    ): Long = __jni_spqr(pippo)
     @JvmName("__jni_spqr")
     private external fun __jni_spqr(
-        _1: com.cricut.testapi.AssociatedDataEnum
+        pippo: com.cricut.testapi.AssociatedDataEnum
     ): Long
 
     companion object {

@@ -200,7 +200,8 @@ struct TranslatedProtocol: TranslatedType {
                 do {
                     var unnamedParamCnt = 1
                     for param in method.parameters {
-                        var paramName = param.name
+                        // for protocols, only look at the label (external parameter name), don't use the internal parameter name i.e. name)
+                        var paramName = param.label ?? ""
                         if paramName.isEmpty {
                             paramName = "_ _\(unnamedParamCnt)"
                             unnamedParamCnt += 1
@@ -216,14 +217,14 @@ struct TranslatedProtocol: TranslatedType {
                             fragment.output("Self._\(method.callName)MethodID", newLineTerminated: false)
                             var unnamedParamCnt = 1
                             for param in method.parameters {
-                                var name = param.name
-                                if name.isEmpty {
-                                    name = "_\(unnamedParamCnt)"
+                                var paramName = param.label ?? ""
+                                if paramName.isEmpty {
+                                    paramName = "_\(unnamedParamCnt)"
                                     unnamedParamCnt += 1
                                 }
                                 fragment.output(",")
                                 let resolved = context.resolve(type: param.type)
-                                fragment.output("jvalue(try \(resolved.converterType.name).toJava(\(name), env: env))", newLineTerminated: false)
+                                fragment.output("jvalue(try \(resolved.converterType.name).toJava(\(paramName), env: env))", newLineTerminated: false)
                             }
                             fragment.output()
                         }

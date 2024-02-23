@@ -47,12 +47,12 @@ final class KotlinTranslator: Translator {
                 contentsOf:
                     method.parameters.map { parameter in
                         let resolved = context.resolve(type: parameter.type, generics: exportAnnotation.genericOverrides)
-                        var name = parameter.name
-                        if name.isEmpty {
-                            name = "_\(unnamedParamCnt)"
+                        var paramName = parameter.name
+                        if paramName.isEmpty {
+                            paramName = "_\(unnamedParamCnt)"
                             unnamedParamCnt += 1
                         }
-                        return (name: name, type: resolved.converterType.name + ".CType")
+                        return (name: paramName, type: resolved.converterType.name + ".CType")
                     }
             )
         }
@@ -105,13 +105,13 @@ final class KotlinTranslator: Translator {
                 if method.isAsync {
                     var unnamedParamCnt = 1
                     for parameter in method.parameters {
-                        var name = parameter.name
-                        if name.isEmpty {
-                            name = "_\(unnamedParamCnt)"
+                        var paramName = parameter.name
+                        if paramName.isEmpty {
+                            paramName = "_\(unnamedParamCnt)"
                             unnamedParamCnt += 1
                         }
                         let resolved = context.resolve(type: parameter.type, generics: exportAnnotation.genericOverrides)
-                        fragment.output("let \(name) = try \(resolved.converterType.name).fromJava(\(name), env: _javaEnv)")
+                        fragment.output("let \(paramName) = try \(resolved.converterType.name).fromJava(\(paramName), env: _javaEnv)")
                     }
                     if !method.isStatic {
                         fragment.output("let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)")
@@ -171,31 +171,31 @@ final class KotlinTranslator: Translator {
                                     fragment.output("\(method.isThrowing ? "try " : "")\(selfExpression)")
                                 }
                                 fragment.outputBlock("\(callName)(", closeWith: "),") {
+                                    var unnamedParamCnt = 1
                                     fragment.outputMap(method.parameters, separator: ",") { formal in
-                                        var unnamedParamCnt = 1
-                                        var name = formal.name
-                                        if name.isEmpty {
-                                            name = "_\(unnamedParamCnt)"
+                                        var paramName = formal.name
+                                        if paramName.isEmpty {
+                                            paramName += "_\(unnamedParamCnt)"
                                             unnamedParamCnt += 1
                                         }
                                         let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
                                         return (formal.label.map { "\($0): " } ?? "") +
-                                        "try \(resolved.converterType.name).fromJava(\(name), env: _javaEnv)"
+                                        "try \(resolved.converterType.name).fromJava(\(paramName), env: _javaEnv)"
                                     }
                                 }
                                 fragment.output("env: _javaEnv")
                             } else {
                                 fragment.outputBlock("\(method.isThrowing ? "try " : "")\(selfExpression)\(callName)(", closeWith: "),") {
+                                    var unnamedParamCnt = 1
                                     fragment.outputMap(method.parameters, separator: ",") { formal in
-                                        var unnamedParamCnt = 1
-                                        var name = formal.name
-                                        if name.isEmpty {
-                                            name = "_\(unnamedParamCnt)"
+                                        var paramName = formal.name
+                                        if paramName.isEmpty {
+                                            paramName += "_\(unnamedParamCnt)"
                                             unnamedParamCnt += 1
                                         }
                                         let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
                                         return (formal.label.map { "\($0): " } ?? "") +
-                                        "try \(resolved.converterType.name).fromJava(\(name), env: _javaEnv)"
+                                        "try \(resolved.converterType.name).fromJava(\(paramName), env: _javaEnv)"
                                     }
                                 }
                                 fragment.output("env: _javaEnv")

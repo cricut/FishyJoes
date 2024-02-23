@@ -22,7 +22,7 @@ interface TestOptionalsProtocol {
      * <!-- FishyJoes.export(spqr) -->
      */
     fun spqr(
-        _1: com.cricut.testapi.AssociatedDataEnum
+        pippo: com.cricut.testapi.AssociatedDataEnum
     ): Long
 
     companion object {
