@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -euxo pipefail
+set -euo pipefail
 
 if [[ ! -d node-runtime ]]; then
     echo "Not in root of FishyJoes"
@@ -13,16 +13,23 @@ SKIP_LIPO="${SKIP_LIPO:-0}"
 if [[ "$(uname -s)" == "Darwin" && $SKIP_LIPO == "0" ]]; then
     swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime --arch arm64
     swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime --arch x86_64
+    swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime_NodeNativeShim --arch arm64
+    swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime_NodeNativeShim --arch x86_64
     BIN_DIR=".build/apple/$CONFIGURATION"
     mkdir -p "$BIN_DIR"
     lipo -create \
          -output "$BIN_DIR/libFishyJoesNodeRuntime.dylib" \
          .build/{arm64,x86_64}-apple-macosx/"$CONFIGURATION"/libFishyJoesNodeRuntime.dylib
+    lipo -create \
+         -output "$BIN_DIR/libFishyJoesNodeRuntime_NodeNativeShim.dylib" \
+         .build/{arm64,x86_64}-apple-macosx/"$CONFIGURATION"/libFishyJoesNodeRuntime_NodeNativeShim.dylib
 elif [[ "$(uname -s)" == *_NT* ]]; then
     ./scripts/swift-shim.ps1 build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime
+    ./scripts/swift-shim.ps1 build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime_NodeNativeShim
     BIN_DIR="$(./scripts/swift-shim.ps1 build --configuration "$CONFIGURATION" --show-bin-path)"
 else
     swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime
+    swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime_NodeNativeShim
     BIN_DIR="$(swift build --configuration "$CONFIGURATION" --show-bin-path)"
 fi
 
@@ -45,6 +52,23 @@ install-runtime-common "node-runtime/fishyjoes-runtime-native-macos"
 install-runtime-common "node-runtime/fishyjoes-runtime-native-ubuntu"
 install-runtime-common "node-runtime/fishyjoes-runtime-wasm"
 
+function install-node-lib {
+    LIB_NAME="$1"
+    LIB_DIR="$2"
+    if [ -e "$BIN_DIR/$LIB_NAME" ]; then
+        mkdir -p "$LIB_DIR"
+        cp "$BIN_DIR/$LIB_NAME" "$LIB_DIR"
+        echo "Copied $LIB_NAME to $LIB_DIR"
+        return 0
+    else
+        return 1
+    fi
+}
+
+install-node-lib "FishyJoesNodeRuntime.dll" "node-runtime/fishyjoes-runtime-native-windows" ||
+    install-node-lib "libFishyJoesNodeRuntime.dylib" "node-runtime/fishyjoes-runtime-native-macos" ||
+    install-node-lib "libFishyJoesNodeRuntime.so" "node-runtime/fishyjoes-runtime-native-ubuntu"
+
 function install-lib {
     LIB_NAME="$1"
     LIB_DIR="$2"
@@ -66,6 +90,6 @@ function install-lib {
     fi
 }
 
-install-lib "FishyJoesNodeRuntime.dll" "node-runtime/fishyjoes-runtime-native-windows" ||
-    install-lib "libFishyJoesNodeRuntime.dylib" "node-runtime/fishyjoes-runtime-native-macos" ||
-    install-lib "libFishyJoesNodeRuntime.so" "node-runtime/fishyjoes-runtime-native-ubuntu"
+install-lib "FishyJoesNodeRuntime_NodeNativeShim.dll" "node-runtime/fishyjoes-runtime-native-windows" ||
+    install-lib "libFishyJoesNodeRuntime_NodeNativeShim.dylib" "node-runtime/fishyjoes-runtime-native-macos" ||
+    install-lib "libFishyJoesNodeRuntime_NodeNativeShim.so" "node-runtime/fishyjoes-runtime-native-ubuntu"

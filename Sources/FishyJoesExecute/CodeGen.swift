@@ -276,8 +276,8 @@ extension CodeGen {
                     try platform.build(configuration: configuration)
                 case .node:
                     try platform.build(
-                        product: "\(config.module)-node",
-                        libs: libs.flatMap { [$0, "\($0)-node"] },
+                        product: "\(config.module)-node-native",
+                        libs: libs.flatMap { [$0, "\($0)-node-native"] },
                         configuration: configuration
                     )
                 case .kotlinSystem, .kotlinAndroid:
@@ -461,28 +461,23 @@ extension CodeGen {
                         }
                     }
                     if platform == .node {
-                        // Install the module library, its dependencies, and loader shims for them
-                        for module in nodeDependencies + [nodeModule] {
-                            try installLibrary(module.name)
-
-                            // For node to load a library correctly, the file must be ".cjs.node" and not a symlink
-                            // But for the linker to find required libraries, they need their original names.
-                            // So we place the node interface in `libModule-node.dylib` and 
-                            // rename the native shim `libModule-node-native.dylib` -> `module.cjs.node`
-                            try installLibrary(module.nodeShimLibName, installName: module.nodeShimCJSName)
-                            try installLibrary(module.nativeLibName)
-                        }
+                        // For node to load a library correctly, the file must be ".cjs.node" and not a symlink
+                        // But for the linker to find required libraries, they need their original names.
+                        // So we place the node interface in `libModule-node.dylib` and
+                        // rename the native shim `libModule-node-native.dylib` -> `module.cjs.node`
+                        try installLibrary(nodeModule.nodeShimLibName, installName: nodeModule.nodeShimCJSName)
+                        try installLibrary(nodeModule.nativeLibName)
+                        try installLibrary(nodeModule.name)
 
                         // Create the required Javascript files for loading the module's native library from node
                         var moduleDotJS = [
-                            "export { Runtime } from '@cricut/fishyjoes-runtime-\(platform.nodeExecutionEnvironment)'",
                             "import { createRequire } from 'module';",
                             "const require = createRequire(import.meta.url);",
                         ]
-                        for module in config.requiredModules + [config.module] {
-                            moduleDotJS.append("export const { \(module) } = require('./\(module).cjs');")
+                        for module in nodeModules {
+                            moduleDotJS.append("export const { \(module.name) } = require('./\(module.name).cjs');")
                         }
-                        moduleDotJS.append("export default \(config.module);")
+                        moduleDotJS.append("export default \(nodeModule.name);")
                         try cmd("echo", moduleDotJS.joined(separator: "\n")).output(overwritingFile: "\(outputDir)\(ps)\(config.module).js").run()
 
                         // Configure loading of Javascript extensions when the module is loaded by node, if provided
@@ -574,8 +569,8 @@ extension CodeGen {
                         version: packageVersion,
                         dependencies: npmDependencies
                     )
-                    if platform.platform == "node-native-ubuntu" {
-                        // When on Ubuntu, dlopen() needs file-relative native libraries, so add a post-install script to the package to setup symlinks to dependency SOs
+                    if platform.platform == "node-native-macos" || platform.platform == "node-native-ubuntu" {
+                        // When on macOS & Ubuntu, dlopen() needs file-relative native libraries, so add a post-install script to the package to setup symlinks to dependency DYLIBs / SOs
                         var postinstall = """
                         #!/bin/bash
                         #
@@ -593,9 +588,10 @@ extension CodeGen {
                         """
 
                         for dependency in nodeDependencies {
-                            let nativeLibFilename = platform.dylibName(for: dependency.nodeShimLibName)
+                            let nativeLibFilename = platform.dylibName(for: dependency.nativeLibName)
                             postinstall += """
-                                ln -sf "$(realpath \"$package_directory/\(dependency.npmPackageName)/\(dependency.nodeShimCJSName)\")" "\"\(nativeLibFilename)\""
+                                cp "$(realpath \"$package_directory/\(dependency.npmPackageName)/\(dependency.nodeShimCJSName)\")" "\"\(dependency.nodeShimCJSName)\""
+                                ln -sf "$(realpath \"$package_directory/\(dependency.npmPackageName)/\(nativeLibFilename)\")" "\"\(nativeLibFilename)\""
 
                             """
                         }
@@ -616,9 +612,10 @@ extension CodeGen {
                         """
 
                         for dependency in nodeDependencies {
-                            let nativeLibFilename = platform.dylibName(for: dependency.nodeShimCJSName)
+                            let nativeLibFilename = platform.dylibName(for: dependency.nativeLibName)
                             // TODO: Should copy?!? How to establish this link with only one file?
-                            postinstall += "COPY \"%package_directory%\\\(dependency.npmPackageName)\\\(dependency.nodeShimCJSName)\" \"\(nativeLibFilename)\""
+                            postinstall += "COPY \"%package_directory%\\\(dependency.npmPackageName)\\\(dependency.nodeShimCJSName)\" \"\(dependency.nodeShimCJSName)\""
+                            postinstall += "COPY \"%package_directory%\\\(dependency.npmPackageName)\\\(nativeLibFilename)\" \"\(nativeLibFilename)\""
                             //postinstall += "mklink \"\(nativeLibFilename)\" \"%package_directory%\\\(dependency.npmPackageName)\\\(dependency.nodeShimCJSName)\""
                         }
 

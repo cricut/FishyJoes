@@ -43,6 +43,7 @@ let package = Package(
         ),
     ] + wasmIncompatible(
         [
+            P.library(name: "FishyJoesNodeRuntime_NodeNativeShim", type: .dynamic, targets: ["FishyJoesNodeRuntime_NodeNativeShim"]),
             P.library(name: "FishyJoesJavaRuntime", type: .dynamic, targets: ["FishyJoesJavaRuntime"]),
             P.library(name: "FishyJoesIotaRuntime", type: .dynamic, targets: ["FishyJoesIotaRuntime"]),
             P.library(name: "JavaRuntimeTestHarness", type: .dynamic, targets: ["JavaRuntimeTestHarness"]),
@@ -269,7 +270,16 @@ let package = Package(
                 ),
             ]
         ),
-    ] + linkNodeExecutable(
+    ] + wasmIncompatible(
+        [
+            T.target(
+                name: "FishyJoesNodeRuntime_NodeNativeShim",
+                dependencies: [
+                    .target(name: "FishyJoesNodeRuntime"),
+                ]
+            ),
+        ]
+    ) + linkNodeExecutable(
         [
             T.target(
                 name: "NodeAPIResolve",
