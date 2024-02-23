@@ -134,16 +134,6 @@ extension Method {
 }
 
 extension Method {
-    func swiftClosureSignature() -> String {
-        var sig = "(\(parameters.map { $0.type.name}.joined(separator: ", ")))\(isAsync ? " async" : "")\(isThrowing ? " throws" : "")"
-        if returnType.name != "Void" {
-            sig.append("-> \(returnType.name)")
-        }
-        return sig
-    }
-}
-
-extension Method {
     func isEqualExcludingImplemented(other: Method) -> Bool {
         name == other.name &&
         callName == other.callName &&
