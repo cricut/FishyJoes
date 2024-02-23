@@ -151,11 +151,6 @@ struct TranslatedProtocol: TranslatedType {
 
         fragment.outputBlock("struct \(foreignProtocolType): \(sourceType.name) {") {
             fragment.output("let _javaWitness: JavaReference")
-            let hasStaticMethods = methods.contains(where: { $0.isStatic })
-            let hasStaticVariables = computedVariables.contains(where: { $0.isStatic })
-            if hasStaticMethods || hasStaticVariables {
-                fragment.output("static let _javaWitness: JavaReference = { _javaWitness }()")
-            }
 
             for variable in computedVariables {
                 fragment.output()
