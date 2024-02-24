@@ -3,26 +3,26 @@
 import PackageDescription
 
 let package = Package(
-    name: "TestAPI-node-shim",
+    name: "__MODULE_NAME__-node-shim",
     platforms: [.macOS(.v12), .iOS(.v15)],
     products: [
         .library(
-            name: "TestAPI-node-shim",
+            name: "__MODULE_NAME__-node-shim",
             type: .dynamic,
-            targets: ["TestAPI_NodeNativeShim"]
+            targets: ["__MODULE_NAME___NodeNativeShim"]
         ),
     ],
     dependencies: [
         .package(
-            name: "TestAPI-bindings",
+            name: "__MODULE_NAME__-bindings",
             path: "../../.."
         ),
     ],
     targets: [
         .target(
-            name: "TestAPI_NodeNativeShim",
+            name: "__MODULE_NAME___NodeNativeShim",
             dependencies: [
-                .product(name: "TestAPI-node", package: "TestAPI-bindings"),
+                .product(name: "__MODULE_NAME__-node", package: "__MODULE_NAME__-bindings"),
             ],
             path: ".",
             linkerSettings: [

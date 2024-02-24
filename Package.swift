@@ -43,7 +43,6 @@ let package = Package(
         ),
     ] + wasmIncompatible(
         [
-            P.library(name: "FishyJoesNodeRuntime_NodeNativeShim", type: .dynamic, targets: ["FishyJoesNodeRuntime_NodeNativeShim"]),
             P.library(name: "FishyJoesJavaRuntime", type: .dynamic, targets: ["FishyJoesJavaRuntime"]),
             P.library(name: "FishyJoesIotaRuntime", type: .dynamic, targets: ["FishyJoesIotaRuntime"]),
             P.library(name: "JavaRuntimeTestHarness", type: .dynamic, targets: ["JavaRuntimeTestHarness"]),

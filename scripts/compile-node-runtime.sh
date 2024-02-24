@@ -10,27 +10,42 @@ fi
 CONFIGURATION="${CONFIGURATION:-release}"
 SKIP_LIPO="${SKIP_LIPO:-0}"
 
+SHIM_DIR="Sources/FishyJoesNodeRuntime_NodeNativeShim"
 if [[ "$(uname -s)" == "Darwin" && $SKIP_LIPO == "0" ]]; then
     swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime --arch arm64
     swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime --arch x86_64
-    swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime_NodeNativeShim --arch arm64
-    swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime_NodeNativeShim --arch x86_64
     BIN_DIR=".build/apple/$CONFIGURATION"
     mkdir -p "$BIN_DIR"
     lipo -create \
          -output "$BIN_DIR/libFishyJoesNodeRuntime.dylib" \
          .build/{arm64,x86_64}-apple-macosx/"$CONFIGURATION"/libFishyJoesNodeRuntime.dylib
+    
+    (
+        cd "$SHIM_DIR"
+        swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime_NodeNativeShim --arch arm64
+        swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime_NodeNativeShim --arch x86_64
+    )
     lipo -create \
          -output "$BIN_DIR/libFishyJoesNodeRuntime_NodeNativeShim.dylib" \
-         .build/{arm64,x86_64}-apple-macosx/"$CONFIGURATION"/libFishyJoesNodeRuntime_NodeNativeShim.dylib
+         "$SHIM_DIR"/.build/{arm64,x86_64}-apple-macosx/"$CONFIGURATION"/libFishyJoesNodeRuntime_NodeNativeShim.dylib
 elif [[ "$(uname -s)" == *_NT* ]]; then
     ./scripts/swift-shim.ps1 build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime
-    ./scripts/swift-shim.ps1 build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime_NodeNativeShim
     BIN_DIR="$(./scripts/swift-shim.ps1 build --configuration "$CONFIGURATION" --show-bin-path)"
+    (
+        cd "$SHIM_DIR"
+        ./scripts/swift-shim.ps1 build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime_NodeNativeShim
+        SHIM_BIN_DIR="$(./scripts/swift-shim.ps1 build --configuration "$CONFIGURATION" --show-bin-path)"
+        cp "$SHIM_BIN_DIR"/FishyJoesNodeRuntime_NodeNativeShim.dll "$BIN_DIR"
+    )
 else
     swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime
-    swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime_NodeNativeShim
     BIN_DIR="$(swift build --configuration "$CONFIGURATION" --show-bin-path)"
+    (
+        cd "$SHIM_DIR"
+        swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime_NodeNativeShim
+        SHIM_BIN_DIR="$(swift build --configuration "$CONFIGURATION" --show-bin-path)"
+        cp "$SHIM_BIN_DIR"/libFishyJoesNodeRuntime_NodeNativeShim.so "$BIN_DIR"
+    )
 fi
 
 function install-runtime-common {
@@ -69,27 +84,20 @@ install-node-lib "FishyJoesNodeRuntime.dll" "node-runtime/fishyjoes-runtime-nati
     install-node-lib "libFishyJoesNodeRuntime.dylib" "node-runtime/fishyjoes-runtime-native-macos" ||
     install-node-lib "libFishyJoesNodeRuntime.so" "node-runtime/fishyjoes-runtime-native-ubuntu"
 
-function install-lib {
+function install-shim-lib {
     LIB_NAME="$1"
     LIB_DIR="$2"
     NODE_LIB_NAME="Runtime.cjs.node"
     if [ -e "$BIN_DIR/$LIB_NAME" ]; then
         mkdir -p "$LIB_DIR"
         cp "$BIN_DIR/$LIB_NAME" "$LIB_DIR/$NODE_LIB_NAME"
-        if [ ! -e "$LIB_DIR/$LIB_NAME" ]; then
-            if [[ "$(uname -s)" == *_NT* ]]; then
-                (cd $LIB_DIR; cmd.exe "/c mklink $LIB_NAME $NODE_LIB_NAME")
-            else
-                (cd $LIB_DIR; ln -s "$NODE_LIB_NAME" "$LIB_NAME")
-            fi
-        fi
-        echo "Copied and symlinked $LIB_NAME to $LIB_DIR/$NODE_LIB_NAME"
+        echo "Copied $LIB_NAME to $LIB_DIR/$NODE_LIB_NAME"
         return 0
     else
         return 1
     fi
 }
 
-install-lib "FishyJoesNodeRuntime_NodeNativeShim.dll" "node-runtime/fishyjoes-runtime-native-windows" ||
-    install-lib "libFishyJoesNodeRuntime_NodeNativeShim.dylib" "node-runtime/fishyjoes-runtime-native-macos" ||
-    install-lib "libFishyJoesNodeRuntime_NodeNativeShim.so" "node-runtime/fishyjoes-runtime-native-ubuntu"
+install-shim-lib "FishyJoesNodeRuntime_NodeNativeShim.dll" "node-runtime/fishyjoes-runtime-native-windows" ||
+    install-shim-lib "libFishyJoesNodeRuntime_NodeNativeShim.dylib" "node-runtime/fishyjoes-runtime-native-macos" ||
+    install-shim-lib "libFishyJoesNodeRuntime_NodeNativeShim.so" "node-runtime/fishyjoes-runtime-native-ubuntu"

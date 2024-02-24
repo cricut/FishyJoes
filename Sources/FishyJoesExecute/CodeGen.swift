@@ -276,8 +276,8 @@ extension CodeGen {
                     try platform.build(configuration: configuration)
                 case .node:
                     try platform.build(
-                        product: "\(config.module)-node-native",
-                        libs: libs.flatMap { [$0, "\($0)-node-native"] },
+                        product: "\(config.module)-node",
+                        libs: libs.flatMap { [$0, "\($0)-node"] } + ["FishyJoesNodeRuntime"],
                         configuration: configuration
                     )
                 case .kotlinSystem, .kotlinAndroid:
@@ -350,7 +350,7 @@ extension CodeGen {
                         exports: ["Optional", "Runtime"],
                         nativeLibName: "FishyJoesNodeRuntime",
                         wasmMainShimName: "Runtime_WasmMainShim.wasm",
-                        nodeShimLibName: "Runtime-node-native",
+                        nodeShimLibName: "Runtime-node-shim",
                         nodeShimCJSName: "Runtime.cjs.node",
                         npmPackageName: "fishyjoes-runtime-\(platform.nodeExecutionEnvironment)",
                         npmModuleVersion: fishyJoesDependency.version ??
@@ -370,7 +370,7 @@ extension CodeGen {
                             exports: [moduleName],
                             nativeLibName: "\(moduleName)-node",
                             wasmMainShimName: "\(moduleName)_WasmMainShim.wasm",
-                            nodeShimLibName: "\(moduleName)-node-native",
+                            nodeShimLibName: "\(moduleName)-node-shim",
                             nodeShimCJSName: "\(moduleName).cjs.node",
                             npmPackageName: "\(moduleName.lowercased())-\(platform.nodeExecutionEnvironment)",
                             npmModuleVersion: dependency.version ??
@@ -386,7 +386,7 @@ extension CodeGen {
                         exports: [config.module],
                         nativeLibName: "\(config.module)-node",
                         wasmMainShimName: "\(config.module)_WasmMainShim.wasm",
-                        nodeShimLibName: "\(config.module)-node-native",
+                        nodeShimLibName: "\(config.module)-node-shim",
                         nodeShimCJSName: "\(config.module).cjs.node",
                         npmPackageName: "\(config.module)-\(platform.nodeExecutionEnvironment)",
                         npmModuleVersion: "file:output\(ps)\(platform.platform)"
@@ -464,7 +464,7 @@ extension CodeGen {
                         // For node to load a library correctly, the file must be ".cjs.node" and not a symlink
                         // But for the linker to find required libraries, they need their original names.
                         // So we place the node interface in `libModule-node.dylib` and
-                        // rename the native shim `libModule-node-native.dylib` -> `module.cjs.node`
+                        // rename the native shim `libModule-node-shim.dylib` -> `module.cjs.node`
                         try installLibrary(nodeModule.nodeShimLibName, installName: nodeModule.nodeShimCJSName)
                         try installLibrary(nodeModule.nativeLibName)
                         try installLibrary(nodeModule.name)
