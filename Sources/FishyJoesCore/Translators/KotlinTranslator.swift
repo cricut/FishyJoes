@@ -18,7 +18,7 @@ final class KotlinTranslator: Translator {
 
         if let selfType = method.definedIn {
             let resolved = context.resolve(type: selfType)
-            containingNamespace = resolved.converterType.name
+            containingNamespace = resolved.sourceType.name
 
             if method.isStatic {
                 selfExpression = containingNamespace
@@ -332,7 +332,41 @@ final class KotlinTranslator: Translator {
                     typeSetupFragment.output("// print(\"setting up \(resolved.converterType.name)...\")")
                     typeSetupFragment.output("try \(resolved.converterType.name).javaSetup(env: env)")
                     if case .named = type {
-                        if let nativeMethods = allMethods[resolved.converterType.name] {
+                        if let nativeMethods = allMethods[resolved.sourceType.name] {
+                            let protocolDefaultMethods = nativeMethods.filter { $0.isProtocolDefault }
+                            let normalMethods = nativeMethods.filter { !$0.isProtocolDefault }
+
+                            if !protocolDefaultMethods.isEmpty {
+                                typeSetupFragment.outputBlock("try env.RegisterNatives(", closeWith: ")") {
+                                    typeSetupFragment.output("\(resolved.converterType.name).externalCompanionClass", newLineTerminated: false)
+                                    for (method, signature, cName, _) in protocolDefaultMethods {
+                                            typeSetupFragment.output(",")
+                                            typeSetupFragment.outputBlock("JNINativeMethod(", newLineTerminated: false) {
+                                                typeSetupFragment.output("name: bag.add(\"\(method)\"),")
+                                                typeSetupFragment.output("signature: bag.add(\"\(signature)\"),")
+                                                typeSetupFragment.output("fnPtr: unsafeBitCast(\(cName), to: UnsafeMutableRawPointer.self)")
+                                            }
+                                    }
+                                    typeSetupFragment.output()
+                                }
+                            }
+                            typeSetupFragment.outputBlock("try env.RegisterNatives(", closeWith: ")") {
+                                typeSetupFragment.output("\(resolved.converterType.name).externalWitnessClass ?? \(resolved.converterType.name).javaClass", newLineTerminated: false)
+                                for (method, signature, cName, _) in normalMethods {
+                                    typeSetupFragment.output(",")
+                                    typeSetupFragment.outputBlock("JNINativeMethod(", newLineTerminated: false) {
+                                        typeSetupFragment.output("name: bag.add(\"\(method)\"),")
+                                        typeSetupFragment.output("signature: bag.add(\"\(signature)\"),")
+                                        typeSetupFragment.output("fnPtr: unsafeBitCast(\(cName), to: UnsafeMutableRawPointer.self)")
+                                    }
+                                }
+                                typeSetupFragment.output()
+                            }
+
+                            usedMethods.insert(resolved.sourceType.name)
+                        }
+                        if resolved.converterType.name != resolved.sourceType.name,
+                           let nativeMethods = allMethods[resolved.converterType.name] {
                             let protocolDefaultMethods = nativeMethods.filter { $0.isProtocolDefault }
                             let normalMethods = nativeMethods.filter { !$0.isProtocolDefault }
 
