@@ -477,6 +477,8 @@ extension CodeGen {
                         
                         // For node to load a library correctly, the file must be ".cjs.node", so compile a shim to load the actual Node interfacing library
                         // and copy it into the build directory so it can be installed like any other library
+                        // TODO: When SwiftPM supports product dependencies on targets within the same package, use them instead
+                        // See: https://forums.swift.org/t/pitch-swiftpm-allow-targets-to-depend-on-products-in-the-same-package/57717/37
                         let shimDir = "Sources\(ps)Generated\(ps)NodeNativeShim"
                         try template(
                             inPath: "\(fishyJoesDependency.localPath)\(ps)Sources\(ps)FishyJoesNodeRuntime\(ps)Templates\(ps)Package.swift.NodeNativeShim",
