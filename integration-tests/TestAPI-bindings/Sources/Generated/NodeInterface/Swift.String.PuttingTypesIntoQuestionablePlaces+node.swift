@@ -5,6 +5,7 @@
 import FishyJoesNodeRuntime
 import Foundation
 import TestAPI
+import TestAPI_CommonInterface
 
 extension Swift.String.PuttingTypesIntoQuestionablePlaces: NodeMutator {
     public typealias SwiftType = Self
