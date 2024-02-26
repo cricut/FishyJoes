@@ -165,7 +165,7 @@ struct TranslatedReference: TranslatedType {
 
     func jniDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "JavaInterface/\(converterType.name)+java-type.swift",
+            "JavaInterface/\(sourceType.name)+java-type.swift",
             additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
         )
         fragment.outputBlock("extension \(sourceType.name): JavaMutator {") {
