@@ -1,3 +1,5 @@
+import './Actors.dart' as TestAPI;
+import './Actors_TemperatureLogger.dart' as TestAPI;
 import './AssociatedDataEnum.dart' as TestAPI;
 import './AsyncFunctions.dart' as TestAPI;
 import './AttributedString_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
@@ -47,16 +49,25 @@ class Collections_CollectionHolder {
     Map<String, String> stringDictionary;
 
     Collections_CollectionHolder({
-        required this.boolArray,
-        required this.boolSet,
-        required this.boolDictionary,
-        required this.integerArray,
-        required this.integerSet,
-        required this.integerDictionary,
-        required this.stringArray,
-        required this.stringSet,
-        required this.stringDictionary
-    });
+        required List<bool> boolArray,
+        required Set<bool> boolSet,
+        required Map<bool, bool> boolDictionary,
+        required List<int> integerArray,
+        required Set<int> integerSet,
+        required Map<int, int> integerDictionary,
+        required List<String> stringArray,
+        required Set<String> stringSet,
+        required Map<String, String> stringDictionary
+    }):
+        this.boolArray = boolArray,
+        this.boolSet = boolSet,
+        this.boolDictionary = boolDictionary,
+        this.integerArray = integerArray,
+        this.integerSet = integerSet,
+        this.integerDictionary = integerDictionary,
+        this.stringArray = stringArray,
+        this.stringSet = stringSet,
+        this.stringDictionary = stringDictionary;
 
     static CreatedRef ffi_constructor(
         ConsumedRef boolArray,

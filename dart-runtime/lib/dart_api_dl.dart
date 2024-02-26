@@ -1,3 +1,5 @@
+// ignore_for_file: unused_element
+
 import 'dart:ffi' as ffi;
 import 'package:ffi/ffi.dart' as ffi;
 
@@ -32,6 +34,8 @@ final class _DartApi extends ffi.Struct {
 // SOURCE: dart_api_dl.c
 
 final class DartApiDL {
+  static final shared = DartApiDL(ffi.NativeApi.initializeApiDLData);
+
   DartApiDL(ffi.Pointer<ffi.Void> data) {
     ffi.Pointer<_DartApi> dartApi = data.cast();
     final major = dartApi.ref.major;
@@ -53,10 +57,12 @@ final class DartApiDL {
     handleFromPersistentPtr = findFunctionPointer('Dart_HandleFromPersistent');
     newPersistentHandlePtr = findFunctionPointer('Dart_NewPersistentHandle');
     deletePersistentHandlePtr = findFunctionPointer('Dart_DeletePersistentHandle');
+    postIntegerPtr = findFunctionPointer('Dart_PostInteger');
   }
 
   late ffi.Pointer handleFromPersistentPtr;
   late ffi.Pointer newPersistentHandlePtr;
   late ffi.Pointer deletePersistentHandlePtr;
-  // Many methods omitted, only these 3 needed here.
+  late ffi.Pointer postIntegerPtr;
+  // Many methods omitted, only these 4 needed here.
 }

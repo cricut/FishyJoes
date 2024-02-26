@@ -269,16 +269,7 @@ let package = Package(
                 ),
             ]
         ),
-    ] + wasmIncompatible(
-        [
-            T.target(
-                name: "FishyJoesNodeRuntime_NodeNativeShim",
-                dependencies: [
-                    .target(name: "FishyJoesNodeRuntime"),
-                ]
-            ),
-        ]
-    ) + linkNodeExecutable(
+    ] + linkNodeExecutable(
         [
             T.target(
                 name: "NodeAPIResolve",

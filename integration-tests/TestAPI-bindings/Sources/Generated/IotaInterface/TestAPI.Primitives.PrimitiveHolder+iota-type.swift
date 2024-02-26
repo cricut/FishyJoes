@@ -348,139 +348,136 @@ extension TestAPI.Primitives.PrimitiveHolder: IotaMutator {
         }
     }
 
-    public static func mutateIota<R>(_ this: foreignObject, env: Env, body: (inout Self) throws -> R) throws -> R {
-        var mutatingSelf = try peekIota(this, env: env)
-        let result = try body(&mutatingSelf)
+    public static func mutateIota(_ this: foreignObject, to value: Self, env: Env) throws {
         try env.check { exn in _bSetter[env](
             this,
-            try Swift.Bool.toIota(mutatingSelf.b, env: env),
+            try Swift.Bool.toIota(value.b, env: env),
             exn
         )}
         try env.check { exn in _bqSetter[env](
             this,
-            try OptionalConverter<Swift.Bool>.toIota(mutatingSelf.bq, env: env),
+            try OptionalConverter<Swift.Bool>.toIota(value.bq, env: env),
             exn
         )}
         try env.check { exn in _ui8Setter[env](
             this,
-            try Swift.UInt8.toIota(mutatingSelf.ui8, env: env),
+            try Swift.UInt8.toIota(value.ui8, env: env),
             exn
         )}
         try env.check { exn in _ui8qSetter[env](
             this,
-            try OptionalConverter<Swift.UInt8>.toIota(mutatingSelf.ui8q, env: env),
+            try OptionalConverter<Swift.UInt8>.toIota(value.ui8q, env: env),
             exn
         )}
         try env.check { exn in _ui16Setter[env](
             this,
-            try Swift.UInt16.toIota(mutatingSelf.ui16, env: env),
+            try Swift.UInt16.toIota(value.ui16, env: env),
             exn
         )}
         try env.check { exn in _ui16qSetter[env](
             this,
-            try OptionalConverter<Swift.UInt16>.toIota(mutatingSelf.ui16q, env: env),
+            try OptionalConverter<Swift.UInt16>.toIota(value.ui16q, env: env),
             exn
         )}
         try env.check { exn in _ui32Setter[env](
             this,
-            try Swift.UInt32.toIota(mutatingSelf.ui32, env: env),
+            try Swift.UInt32.toIota(value.ui32, env: env),
             exn
         )}
         try env.check { exn in _ui32qSetter[env](
             this,
-            try OptionalConverter<Swift.UInt32>.toIota(mutatingSelf.ui32q, env: env),
+            try OptionalConverter<Swift.UInt32>.toIota(value.ui32q, env: env),
             exn
         )}
         try env.check { exn in _ui64Setter[env](
             this,
-            try Swift.UInt64.toIota(mutatingSelf.ui64, env: env),
+            try Swift.UInt64.toIota(value.ui64, env: env),
             exn
         )}
         try env.check { exn in _ui64qSetter[env](
             this,
-            try OptionalConverter<Swift.UInt64>.toIota(mutatingSelf.ui64q, env: env),
+            try OptionalConverter<Swift.UInt64>.toIota(value.ui64q, env: env),
             exn
         )}
         try env.check { exn in _uiSetter[env](
             this,
-            try Swift.UInt.toIota(mutatingSelf.ui, env: env),
+            try Swift.UInt.toIota(value.ui, env: env),
             exn
         )}
         try env.check { exn in _uiqSetter[env](
             this,
-            try OptionalConverter<Swift.UInt>.toIota(mutatingSelf.uiq, env: env),
+            try OptionalConverter<Swift.UInt>.toIota(value.uiq, env: env),
             exn
         )}
         try env.check { exn in _i8Setter[env](
             this,
-            try Swift.Int8.toIota(mutatingSelf.i8, env: env),
+            try Swift.Int8.toIota(value.i8, env: env),
             exn
         )}
         try env.check { exn in _i8qSetter[env](
             this,
-            try OptionalConverter<Swift.Int8>.toIota(mutatingSelf.i8q, env: env),
+            try OptionalConverter<Swift.Int8>.toIota(value.i8q, env: env),
             exn
         )}
         try env.check { exn in _i16Setter[env](
             this,
-            try Swift.Int16.toIota(mutatingSelf.i16, env: env),
+            try Swift.Int16.toIota(value.i16, env: env),
             exn
         )}
         try env.check { exn in _i16qSetter[env](
             this,
-            try OptionalConverter<Swift.Int16>.toIota(mutatingSelf.i16q, env: env),
+            try OptionalConverter<Swift.Int16>.toIota(value.i16q, env: env),
             exn
         )}
         try env.check { exn in _i32Setter[env](
             this,
-            try Swift.Int32.toIota(mutatingSelf.i32, env: env),
+            try Swift.Int32.toIota(value.i32, env: env),
             exn
         )}
         try env.check { exn in _i32qSetter[env](
             this,
-            try OptionalConverter<Swift.Int32>.toIota(mutatingSelf.i32q, env: env),
+            try OptionalConverter<Swift.Int32>.toIota(value.i32q, env: env),
             exn
         )}
         try env.check { exn in _i64Setter[env](
             this,
-            try Swift.Int64.toIota(mutatingSelf.i64, env: env),
+            try Swift.Int64.toIota(value.i64, env: env),
             exn
         )}
         try env.check { exn in _i64qSetter[env](
             this,
-            try OptionalConverter<Swift.Int64>.toIota(mutatingSelf.i64q, env: env),
+            try OptionalConverter<Swift.Int64>.toIota(value.i64q, env: env),
             exn
         )}
         try env.check { exn in _iSetter[env](
             this,
-            try Swift.Int.toIota(mutatingSelf.i, env: env),
+            try Swift.Int.toIota(value.i, env: env),
             exn
         )}
         try env.check { exn in _iqSetter[env](
             this,
-            try OptionalConverter<Swift.Int>.toIota(mutatingSelf.iq, env: env),
+            try OptionalConverter<Swift.Int>.toIota(value.iq, env: env),
             exn
         )}
         try env.check { exn in _fSetter[env](
             this,
-            try Swift.Float.toIota(mutatingSelf.f, env: env),
+            try Swift.Float.toIota(value.f, env: env),
             exn
         )}
         try env.check { exn in _fqSetter[env](
             this,
-            try OptionalConverter<Swift.Float>.toIota(mutatingSelf.fq, env: env),
+            try OptionalConverter<Swift.Float>.toIota(value.fq, env: env),
             exn
         )}
         try env.check { exn in _dSetter[env](
             this,
-            try Swift.Double.toIota(mutatingSelf.d, env: env),
+            try Swift.Double.toIota(value.d, env: env),
             exn
         )}
         try env.check { exn in _dqSetter[env](
             this,
-            try OptionalConverter<Swift.Double>.toIota(mutatingSelf.dq, env: env),
+            try OptionalConverter<Swift.Double>.toIota(value.dq, env: env),
             exn
         )}
-        return result
     }
 }

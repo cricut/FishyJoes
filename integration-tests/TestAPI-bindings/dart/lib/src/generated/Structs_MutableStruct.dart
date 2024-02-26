@@ -1,3 +1,5 @@
+import './Actors.dart' as TestAPI;
+import './Actors_TemperatureLogger.dart' as TestAPI;
 import './AssociatedDataEnum.dart' as TestAPI;
 import './AsyncFunctions.dart' as TestAPI;
 import './AttributedString_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
@@ -39,8 +41,9 @@ class Structs_MutableStruct {
     int i;
 
     Structs_MutableStruct({
-        required this.i
-    });
+        required int i
+    }):
+        this.i = i;
 
     static CreatedRef ffi_constructor(
         int i,
@@ -106,6 +109,27 @@ class Structs_MutableStruct {
         )
     ;
 
+    /// <!-- FishyJoes.export(incrementAsync) -->
+    Future<void> incrementAsync(
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            consumeCreatedRef<Future<void>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_MutableStruct_incrementAsync(Loader.shared.env, _thisHandle.ptr, _exn)))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(asyncGetI) -->
+    Future<int> asyncGetI(
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            consumeCreatedRef<Future<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_MutableStruct_asyncGetI(Loader.shared.env, _thisHandle.ptr, _exn)))
+        )
+    ;
+
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_Structs_MutableStruct_asyncGetI;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
@@ -115,4 +139,9 @@ class Structs_MutableStruct {
         UnownedRef _this,
         OutCreatedRef _exn
     ) f__iota_TestAPI_Structs_MutableStruct_increment;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_Structs_MutableStruct_incrementAsync;
 }

@@ -317,6 +317,10 @@ public class FishyJoesContext {
             return TranslatedStruct(context: self, type: type)
         } else if let type = type as? Enum {
             return TranslatedEnum(context: self, type: type)
+        } else if let type = type as? Actor {
+            return TranslatedReference(context: self, type: type)
+        } else if let type = type as? Class {
+            return TranslatedReference(context: self, type: type)
         } else {
             fatalErr("TODO: annotation on unknown kind \"\(type.kind)\" on type `\(type.globalName)`")
         }
@@ -480,6 +484,14 @@ public class FishyJoesContext {
             typeCache[type] = .type(resolved)
         }
         return resolved
+    }
+
+    // Used to add types to the cache that don't show up in user code.
+    // Currently only used by `Future`
+    func addToTypeCache(_ translatedType: TranslatedType) {
+        let type = translatedType.sourceType
+        if typeCache.keys.contains(type) { return }
+        typeCache[type] = .type(translatedType)
     }
 
     func ts(method: Method, explicitThis: Bool = false) -> TypeScriptAnnotations.Method? {

@@ -17,7 +17,7 @@ public func TestAPI_Methods_setup(
     TestAPI.Methods._constructorMethod[env] = constructorMethod
 }
 
-extension TestAPI.Methods: IotaMutator {
+extension TestAPI.Methods: IotaReferenceMutator {
     fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject>()
 
     public static func peekIota(_ value: foreignObject, env: Env) throws -> TestAPI.Methods {
@@ -27,9 +27,5 @@ extension TestAPI.Methods: IotaMutator {
     public static func toIota(_ value: TestAPI.Methods, env: Env) throws -> foreignObject {
         let ptr = Box(value).retainedOpaque()
         return try env.check { exn in _constructorMethod[env](ptr, exn) }
-    }
-
-    public static func mutateIota<R>(_ this: foreignObject, env: Env, body: (inout TestAPI.Methods) throws -> R) throws -> R {
-        try body(&Box<TestAPI.Methods>.peekIota(this, env: env).value)
     }
 }

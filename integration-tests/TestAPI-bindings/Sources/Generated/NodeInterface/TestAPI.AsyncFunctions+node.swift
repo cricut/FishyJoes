@@ -238,6 +238,20 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
+                "thunkTwiceMaker": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "thunkTwiceMaker", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.toNode(
+                                TestAPI.AsyncFunctions.thunkTwiceMaker(
+                                    thunk: try env.argument(at: 0, converter: AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
                 "const42": (
                     .accessor(
                         getter: { env, info in

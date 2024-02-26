@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_import
+
 import 'AttributeContainer.dart';
 import 'AttributedString_Index.dart';
 import 'AttributedString_Runs.dart';
@@ -100,6 +102,7 @@ class AttributedString extends SwiftReference {
             )
         )
     ;
+    @override
     int get hashCode =>
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
@@ -406,8 +409,9 @@ class AttributedString extends SwiftReference {
         )
     ;
 
-    AttributedString clone() => AttributedString.createFromSubstring(this.substring);
+    AttributedString clone() => AttributedString.createFromSubstring(substring);
 
+    @override
     bool operator ==(
         Object? other,
     ) =>
@@ -416,10 +420,10 @@ class AttributedString extends SwiftReference {
                 check((exn) => f__iota_Foundation_AttributedString_equals(Loader.shared.env, thisHandle.ptr, otherHandle.ptr, exn))))
     ;
 
-    AttributedSubstring operator [](SwiftRange<AttributedString_Index> range) => this.substringForRange(range);
+    AttributedSubstring operator [](SwiftRange<AttributedString_Index> range) => substringForRange(range);
 
     AttributedString operator +(Object? other) {
-        var attributedString = AttributedString.createFromSubstring(this.substring);
+        var attributedString = AttributedString.createFromSubstring(substring);
         if (other is AttributedString) {
             attributedString.append(other);
         } else if (other is AttributedSubstring) {

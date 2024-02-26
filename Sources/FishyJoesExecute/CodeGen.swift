@@ -42,6 +42,9 @@ public struct CodeGen: ParsableCommand {
     @Option(name: .long, help: "Update version number of generated package.")
     var version: String?
 
+    @Flag(name: .long, help: #"Disable parallelism for swift build. (If you get a "FishyJoesCommonRuntime-Swift.h" or "TestAPI-Swift.h" file not found error, try this option)"#)
+    var disableParallelism = false
+
     enum BuildStep: String, CaseIterable, ExpressibleByArgument {
         case generate, build, test, pack
     }
@@ -75,6 +78,7 @@ public struct CodeGen: ParsableCommand {
         case buildStep
         case debug
         case fat
+        case disableParallelism
     }
 
     var config: FishyJoesConfig!
@@ -256,7 +260,8 @@ extension CodeGen {
                 debug: debug,
                 fat: fat,
                 codeCoveragePath: codeCoveragePath,
-                baseDockerContext: Lazy(makeDockerContext())
+                baseDockerContext: Lazy(makeDockerContext()),
+                disableParallelism: disableParallelism
             )
 
             // Pre-fetch dependencies for docker... TODO: can this be improved?

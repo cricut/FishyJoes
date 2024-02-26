@@ -20,6 +20,9 @@ class SwiftReference {
     }
   }
 
+  static CreatedRef constructor(ffi.Pointer ptr, OutCreatedRef exn) =>
+    catchingRef(exn, () => createRef(SwiftReference(ptr)));
+
   static ffi.Pointer anyBoxRefGetter(UnownedRef obj, OutCreatedRef exn) =>
     catchingRef(exn, () => peekRef<SwiftReference>(obj).unsafeReference);
 }

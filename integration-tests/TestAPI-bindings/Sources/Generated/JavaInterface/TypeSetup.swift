@@ -20,10 +20,38 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>.javaSetup(env: env)
         // print("setting up Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>...")
         try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.javaSetup(env: env)
+        // print("setting up Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>...")
+        try Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>.javaSetup(env: env)
+        // print("setting up Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>...")
+        try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.javaSetup(env: env)
+        // print("setting up Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>...")
+        try Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>.javaSetup(env: env)
         // print("setting up Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>...")
         try Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>.javaSetup(env: env)
         // print("setting up Function1Converter<OptionalConverter<Swift.UInt8>, OptionalConverter<Swift.UInt8>>...")
         try Function1Converter<OptionalConverter<Swift.UInt8>, OptionalConverter<Swift.UInt8>>.javaSetup(env: env)
+        // print("setting up Function1Converter<OptionalConverter<Swift.UInt8>, OptionalConverter<Swift.UInt8>>...")
+        try Function1Converter<OptionalConverter<Swift.UInt8>, OptionalConverter<Swift.UInt8>>.javaSetup(env: env)
+        // print("setting up Function3Converter<Swift.Float, Swift.Double, Swift.Int, FutureConverter<Swift.Double>>...")
+        try Function3Converter<Swift.Float, Swift.Double, Swift.Int, FutureConverter<Swift.Double>>.javaSetup(env: env)
+        // print("setting up Function3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>...")
+        try Function3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.javaSetup(env: env)
+        // print("setting up Function1Converter<Swift.Int, FutureConverter<Swift.Int>>...")
+        try Function1Converter<Swift.Int, FutureConverter<Swift.Int>>.javaSetup(env: env)
+        // print("setting up Function1Converter<Swift.Int, Swift.Int>...")
+        try Function1Converter<Swift.Int, Swift.Int>.javaSetup(env: env)
+        // print("setting up Function6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Swift.Int, Swift.Int>...")
+        try Function6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Swift.Int, Swift.Int>.javaSetup(env: env)
+        // print("setting up Function5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Function0Converter<Swift.Int>>...")
+        try Function5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Function0Converter<Swift.Int>>.javaSetup(env: env)
+        // print("setting up Function6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, FutureConverter<Swift.Int>>...")
+        try Function6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, FutureConverter<Swift.Int>>.javaSetup(env: env)
+        // print("setting up Function5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, FutureConverter<AsyncFunction0Converter<Swift.Int>>>...")
+        try Function5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, FutureConverter<AsyncFunction0Converter<Swift.Int>>>.javaSetup(env: env)
+        // print("setting up Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, FutureConverter<ArrayConverter<Swift.String>>>...")
+        try Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, FutureConverter<ArrayConverter<Swift.String>>>.javaSetup(env: env)
+        // print("setting up Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>...")
+        try Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.javaSetup(env: env)
         // print("setting up Function3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>...")
         try Function3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.javaSetup(env: env)
         // print("setting up AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>...")
@@ -44,10 +72,52 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.javaSetup(env: env)
         // print("setting up AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>...")
         try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.javaSetup(env: env)
+        // print("setting up Function0Converter<FutureConverter<Swift.Int>>...")
+        try Function0Converter<FutureConverter<Swift.Int>>.javaSetup(env: env)
+        // print("setting up Function0Converter<FutureConverter<FishyJoesCommonRuntime.VoidConverter>>...")
+        try Function0Converter<FutureConverter<FishyJoesCommonRuntime.VoidConverter>>.javaSetup(env: env)
+        // print("setting up Function0Converter<Swift.Int>...")
+        try Function0Converter<Swift.Int>.javaSetup(env: env)
         // print("setting up Function0Converter<Swift.Int>...")
         try Function0Converter<Swift.Int>.javaSetup(env: env)
         // print("setting up AsyncFunction0Converter<Swift.Int>...")
         try AsyncFunction0Converter<Swift.Int>.javaSetup(env: env)
+        // print("setting up Function0Converter<FishyJoesCommonRuntime.VoidConverter>...")
+        try Function0Converter<FishyJoesCommonRuntime.VoidConverter>.javaSetup(env: env)
+        // print("setting up AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>...")
+        try AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.javaSetup(env: env)
+        // print("setting up FutureConverter<Function1Converter<Swift.Int, Swift.Int>>...")
+        try FutureConverter<Function1Converter<Swift.Int, Swift.Int>>.javaSetup(env: env)
+        // print("setting up FutureConverter<AsyncFunction1Converter<Swift.Int, Swift.Int>>...")
+        try FutureConverter<AsyncFunction1Converter<Swift.Int, Swift.Int>>.javaSetup(env: env)
+        // print("setting up FutureConverter<Function0Converter<Swift.Int>>...")
+        try FutureConverter<Function0Converter<Swift.Int>>.javaSetup(env: env)
+        // print("setting up FutureConverter<AsyncFunction0Converter<Swift.Int>>...")
+        try FutureConverter<AsyncFunction0Converter<Swift.Int>>.javaSetup(env: env)
+        // print("setting up FutureConverter<FutureConverter<AsyncFunction0Converter<Swift.Int>>>...")
+        try FutureConverter<FutureConverter<AsyncFunction0Converter<Swift.Int>>>.javaSetup(env: env)
+        // print("setting up FutureConverter<FutureConverter<ArrayConverter<Swift.String>>>...")
+        try FutureConverter<FutureConverter<ArrayConverter<Swift.String>>>.javaSetup(env: env)
+        // print("setting up FutureConverter<FutureConverter<Swift.Double>>...")
+        try FutureConverter<FutureConverter<Swift.Double>>.javaSetup(env: env)
+        // print("setting up FutureConverter<FutureConverter<Swift.Int>>...")
+        try FutureConverter<FutureConverter<Swift.Int>>.javaSetup(env: env)
+        // print("setting up FutureConverter<FutureConverter<FishyJoesCommonRuntime.VoidConverter>>...")
+        try FutureConverter<FutureConverter<FishyJoesCommonRuntime.VoidConverter>>.javaSetup(env: env)
+        // print("setting up FutureConverter<ArrayConverter<Swift.String>>...")
+        try FutureConverter<ArrayConverter<Swift.String>>.javaSetup(env: env)
+        // print("setting up FutureConverter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>...")
+        try FutureConverter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>.javaSetup(env: env)
+        // print("setting up FutureConverter<OptionalConverter<Swift.UInt8>>...")
+        try FutureConverter<OptionalConverter<Swift.UInt8>>.javaSetup(env: env)
+        // print("setting up FutureConverter<Swift.Double>...")
+        try FutureConverter<Swift.Double>.javaSetup(env: env)
+        // print("setting up FutureConverter<Swift.Int>...")
+        try FutureConverter<Swift.Int>.javaSetup(env: env)
+        // print("setting up FutureConverter<Swift.String>...")
+        try FutureConverter<Swift.String>.javaSetup(env: env)
+        // print("setting up FutureConverter<FishyJoesCommonRuntime.VoidConverter>...")
+        try FutureConverter<FishyJoesCommonRuntime.VoidConverter>.javaSetup(env: env)
         // print("setting up ArrayConverter<OptionalConverter<Swift.Bool>>...")
         try ArrayConverter<OptionalConverter<Swift.Bool>>.javaSetup(env: env)
         // print("setting up ArrayConverter<OptionalConverter<Swift.Double>>...")
@@ -239,6 +309,35 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_testCall, to: UnsafeMutableRawPointer.self)
             )
         )
+        // print("setting up TestAPI.Actors.TemperatureLogger...")
+        try TestAPI.Actors.TemperatureLogger.javaSetup(env: env)
+        try env.RegisterNatives(TestAPI.Actors.TemperatureLogger.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_create"),
+                signature: bag.add("(Ljava/lang/String;J)Lcom/cricut/testapi/Actors$TemperatureLogger;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Actors_TemperatureLogger_create, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_update"),
+                signature: bag.add("(J)Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Actors_TemperatureLogger_update, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_min"),
+                signature: bag.add("()Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Actors_TemperatureLogger_min, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_label"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Actors_TemperatureLogger_label, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_backwardsLabel"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Actors_TemperatureLogger_backwardsLabel, to: UnsafeMutableRawPointer.self)
+            )
+        )
         // print("setting up TestAPI.Collections.CollectionHolder...")
         try TestAPI.Collections.CollectionHolder.javaSetup(env: env)
         try env.RegisterNatives(TestAPI.Collections.CollectionHolder.javaClass,
@@ -368,6 +467,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(TestAPI.Structs.ReferenceStruct._javaHash, to: UnsafeMutableRawPointer.self)
             )
         )
+        // print("setting up TestAPI.Actors...")
+        try TestAPI.Actors.javaSetup(env: env)
         // print("setting up TestAPI.AssociatedDataEnum...")
         try TestAPI.AssociatedDataEnum.javaSetup(env: env)
         try env.RegisterNatives(TestAPI.AssociatedDataEnum.javaClass,
@@ -424,6 +525,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_exercise6"),
                 signature: bag.add("(Lkotlin/jvm/functions/Function7;)Lkotlinx/coroutines/Deferred;"),
                 fnPtr: unsafeBitCast(java_TestAPI_AsyncFunctions_exercise6, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_thunkTwiceMaker"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function1;)Lkotlin/jvm/functions/Function1;"),
+                fnPtr: unsafeBitCast(java_TestAPI_AsyncFunctions_thunkTwiceMaker, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_const42"),
@@ -876,6 +982,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_willThrow"),
                 signature: bag.add("()Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(java_TestAPI_Functions_willThrow, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_thunkTwiceMaker"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function0;)Lkotlin/jvm/functions/Function0;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Functions_thunkTwiceMaker, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_const42"),

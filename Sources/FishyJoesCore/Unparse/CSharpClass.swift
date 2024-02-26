@@ -241,6 +241,13 @@ extension CSharpClass.CSType: CustomStringConvertible {
         return .named(package: nil, name: "object")
     }
 
+    static func task(_ output: CSharpClass.CSType) -> CSharpClass.CSType {
+        .named(
+            package: "System.Threading.Tasks",
+            name: "Task\(output == .void ? "" : "<\(output.name)>")"
+        )
+    }
+
     var description: String {
         "FIXME: You should not use this, you should use one of the representations below. \(name)"
     }
@@ -337,7 +344,7 @@ class CSharpProductClass: CSharpClass {
                 fragment.output("internal \(unqualifiedName)(ConsumedRef reference): base(reference) {}")
             case .public(let fields):
                 for field in fields {
-                    fragment.output("public \(field.type.name) \(CSharpClass.deforbidify(field.name)) { get; \(field.isPubliclyWritable ? "set;" : "private set;") }")
+                    fragment.output("public \(field.type.name) \(CSharpClass.deforbidify(field.name)) { get; \(field.isPubliclyWritable ? "set;" : "internal set;") }")
                 }
                 fragment.blankLine()
 

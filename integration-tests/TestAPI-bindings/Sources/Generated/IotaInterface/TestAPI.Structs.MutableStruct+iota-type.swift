@@ -48,14 +48,11 @@ extension TestAPI.Structs.MutableStruct: IotaMutator {
         }
     }
 
-    public static func mutateIota<R>(_ this: foreignObject, env: Env, body: (inout Self) throws -> R) throws -> R {
-        var mutatingSelf = try peekIota(this, env: env)
-        let result = try body(&mutatingSelf)
+    public static func mutateIota(_ this: foreignObject, to value: Self, env: Env) throws {
         try env.check { exn in _iSetter[env](
             this,
-            try Swift.Int.toIota(mutatingSelf.i, env: env),
+            try Swift.Int.toIota(value.i, env: env),
             exn
         )}
-        return result
     }
 }

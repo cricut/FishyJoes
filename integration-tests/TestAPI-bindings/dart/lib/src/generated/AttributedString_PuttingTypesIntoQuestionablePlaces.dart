@@ -1,3 +1,5 @@
+import './Actors.dart' as TestAPI;
+import './Actors_TemperatureLogger.dart' as TestAPI;
 import './AssociatedDataEnum.dart' as TestAPI;
 import './AsyncFunctions.dart' as TestAPI;
 import './AttributedString_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
@@ -39,8 +41,9 @@ class AttributedString_PuttingTypesIntoQuestionablePlaces {
     final String x;
 
     AttributedString_PuttingTypesIntoQuestionablePlaces({
-        required this.x
-    });
+        required String x
+    }):
+        this.x = x;
 
     static CreatedRef ffi_constructor(
         ConsumedRef x,

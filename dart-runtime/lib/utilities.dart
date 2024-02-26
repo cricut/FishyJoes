@@ -27,19 +27,16 @@ final class _Env extends ffi.Opaque {}
 typedef Env = ffi.Pointer<_Env>;
 
 class _GCWhisperer {
-  /// Holds the symbol lookup function.
-  static final _dartApi = DartApiDL(ffi.NativeApi.initializeApiDLData);
-
   static final _handleFromPersistent =
-    _dartApi.handleFromPersistentPtr
+    DartApiDL.shared.handleFromPersistentPtr
     .cast<ffi.NativeFunction<ffi.Handle Function(GCHandle)>>()
     .asFunction<Object Function(GCHandle)>();
   static final _newPersistentHandle =
-    _dartApi.newPersistentHandlePtr
+    DartApiDL.shared.newPersistentHandlePtr
     .cast<ffi.NativeFunction<GCHandle Function(ffi.Handle)>>()
     .asFunction<GCHandle Function(Object)>();
   static final _deletePersistentHandle =
-    _dartApi.deletePersistentHandlePtr
+    DartApiDL.shared.deletePersistentHandlePtr
     .cast<ffi.NativeFunction<ffi.Void Function(GCHandle)>>()
     .asFunction<void Function(GCHandle)>();
 
@@ -62,13 +59,8 @@ GCHandle _alloc(Object? obj) {
   if (obj == null) {
     return GCHandle.fromAddress(0);
   } else {
-    final handle = _GCWhisperer.newPersistentHandle(obj);
-    return handle;
+    return _GCWhisperer.newPersistentHandle(obj);
   }
-}
-
-void _free(GCHandle handle) {
-  _GCWhisperer.deletePersistentHandle(handle);
 }
 
 R _peekHandle<R>(GCHandle ptr) {
@@ -76,7 +68,7 @@ R _peekHandle<R>(GCHandle ptr) {
 }
 
 Object? _consumeHandle(GCHandle ptr) {
-  final ret = _GCWhisperer.handleFromPersistent(ptr);
+  final ret = _peekHandle<Object?>(ptr);
   _GCWhisperer.deletePersistentHandle(ptr);
   return ret;
 }
@@ -124,7 +116,7 @@ R check<R>(R Function(OutCreatedRef) body) {
 /// Holds onto a GC Handle for the lifetime of the object
 class GCRef implements ffi.Finalizable {
   static final _finalizer =
-      ffi.NativeFinalizer(_GCWhisperer._dartApi.deletePersistentHandlePtr.cast());
+      ffi.NativeFinalizer(DartApiDL.shared.deletePersistentHandlePtr.cast());
 
   GCHandle _handle;
 

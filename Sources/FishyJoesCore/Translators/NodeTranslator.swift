@@ -142,6 +142,12 @@ struct NodeTranslator: Translator {
                         selfExpression = "swiftSelf.value"
                     }
 
+                    func writeMutation() {
+                        if method.isMutating {
+                            fragment.output("try Self.mutateNode(mutatingSelf.value, this: jsThis.value(env: env), env: env)")
+                        }
+                    }
+
                     fragment.outputBlock("Task {") {
                         fragment.outputBlock("do {", newLineTerminated: false) {
                             fragment.outputBlock("let taskResult: \(method.returnType.name) = \(method.isThrowing ? "try " : "")await \(selfExpression)\(callName)(") {
@@ -162,23 +168,17 @@ struct NodeTranslator: Translator {
                                     fragment.output("convertedTaskResult = try \(returnType.converterType.name).toNode(taskResult, env: env)")
                                 }
                                 fragment.outputBlock(" catch {") {
-                                    if method.isMutating {
-                                        fragment.output("try Self.mutateNode(mutatingSelf.value, this: jsThis.value(env: env), env: env)")
-                                    }
+                                    writeMutation()
                                     fragment.output("try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))")
                                     fragment.output("return")
                                 }
-                                if method.isMutating {
-                                    fragment.output("try Self.mutateNode(mutatingSelf.value, this: jsThis.value(env: env), env: env)")
-                                }
+                                writeMutation()
                                 fragment.output("try env.resolveDeferred(deferred, convertedTaskResult)")
                             }
                         }
                         fragment.outputBlock(" catch {") {
                             fragment.outputBlock("try onMainThread { env in", closeWith: "}") {
-                                if method.isMutating {
-                                    fragment.output("try Self.mutateNode(mutatingSelf.value, this: jsThis.value(env: env), env: env)")
-                                }
+                                writeMutation()
                                 fragment.output("try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))")
                             }
                         }

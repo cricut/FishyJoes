@@ -18,3 +18,4 @@ local.properties
 Package.resolved
 package-lock.json
 DebugGenerated
+.idea

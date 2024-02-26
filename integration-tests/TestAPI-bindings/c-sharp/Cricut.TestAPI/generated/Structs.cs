@@ -53,6 +53,38 @@ namespace Cricut.TestAPI {
                 out CreatedRef exn
             );
 
+            /// <summary>
+            /// <!-- FishyJoes.export(incrementAsync) -->
+            /// </summary>
+            public System.Threading.Tasks.Task IncrementAsync(
+            ) {
+                using var _thisHandle = new GCRef(this);
+                return Check((out CreatedRef _exn) => __iota_TestAPI_Structs_MutableStruct_incrementAsync(Loader.env, _thisHandle.ptr, out _exn)).Consume<System.Threading.Tasks.Task>();
+            }
+
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern CreatedRef __iota_TestAPI_Structs_MutableStruct_incrementAsync(
+                IntPtr envRef,
+                UnownedRef self,
+                out CreatedRef exn
+            );
+
+            /// <summary>
+            /// <!-- FishyJoes.export(asyncGetI) -->
+            /// </summary>
+            public System.Threading.Tasks.Task<nint> AsyncGetI(
+            ) {
+                using var _thisHandle = new GCRef(this);
+                return Check((out CreatedRef _exn) => __iota_TestAPI_Structs_MutableStruct_asyncGetI(Loader.env, _thisHandle.ptr, out _exn)).Consume<System.Threading.Tasks.Task<nint>>();
+            }
+
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern CreatedRef __iota_TestAPI_Structs_MutableStruct_asyncGetI(
+                IntPtr envRef,
+                UnownedRef self,
+                out CreatedRef exn
+            );
+
             static MutableStruct() { _TypeSetup._ensureLoaded(); }
         }
 
@@ -116,6 +148,22 @@ namespace Cricut.TestAPI {
                 out CreatedRef exn
             );
 
+            /// <summary>
+            /// <!-- FishyJoes.export(asyncGetMutable) -->
+            /// </summary>
+            public System.Threading.Tasks.Task<string> AsyncGetMutable(
+            ) {
+                using var _thisHandle = new GCRef(this);
+                return Check((out CreatedRef _exn) => __iota_TestAPI_Structs_ReferenceStruct_asyncGetMutable(Loader.env, _thisHandle.ptr, out _exn)).Consume<System.Threading.Tasks.Task<string>>();
+            }
+
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern CreatedRef __iota_TestAPI_Structs_ReferenceStruct_asyncGetMutable(
+                IntPtr envRef,
+                UnownedRef self,
+                out CreatedRef exn
+            );
+
             public override bool Equals(
                 object? other
             ) {
@@ -152,7 +200,7 @@ namespace Cricut.TestAPI {
         /// <!-- FishyJoes.export(Structs.MemberwiseStruct) -->
         /// </summary>
         public record MemberwiseStruct {
-            public string Immutable { get; private set; }
+            public string Immutable { get; internal set; }
             public string Mutable { get; set; }
 
             public MemberwiseStruct(
@@ -174,6 +222,22 @@ namespace Cricut.TestAPI {
             [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __iota_TestAPI_Structs_MemberwiseStruct_create(
                 IntPtr envRef,
+                out CreatedRef exn
+            );
+
+            /// <summary>
+            /// <!-- FishyJoes.export(asyncGetMutable) -->
+            /// </summary>
+            public System.Threading.Tasks.Task<string> AsyncGetMutable(
+            ) {
+                using var _thisHandle = new GCRef(this);
+                return Check((out CreatedRef _exn) => __iota_TestAPI_Structs_MemberwiseStruct_asyncGetMutable(Loader.env, _thisHandle.ptr, out _exn)).Consume<System.Threading.Tasks.Task<string>>();
+            }
+
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern CreatedRef __iota_TestAPI_Structs_MemberwiseStruct_asyncGetMutable(
+                IntPtr envRef,
+                UnownedRef self,
                 out CreatedRef exn
             );
 

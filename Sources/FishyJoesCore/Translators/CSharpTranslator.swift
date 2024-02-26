@@ -20,10 +20,6 @@ final class CSharpTranslator: Translator {
                 var initializerWriters: [() -> Void] = []
                 for type in generatedTypes {
                     let resolved = context.resolve(type: type)
-                    // TODO: Remove this guard when adding support for Async
-                    guard !resolved.converterType.name.contains("Async") else {
-                        continue
-                    }
 
                     let setupParams = resolved.cSharpSetupParameters(in: context)
                     let setupDelegates = resolved.cSharpSetupDelegates(in: context)
@@ -88,10 +84,6 @@ final class CSharpTranslator: Translator {
     }
 
     func cSharp(method: Method, of type: TranslatedType, context: FishyJoesContext) -> CSharpClass.MethodOrVariable? {
-        // TODO: Remove this guard when adding support for Async
-        guard !method.isAsync else {
-            return nil
-        }
         let exportAnnotation = method.exportAnnotation
         var omitParameters = Set(exportAnnotation.omitParameters)
         var parameters: [(labelComment: String?, name: String, type: CSharpClass.CSType, defaultValue: String?)] = []
@@ -117,6 +109,8 @@ final class CSharpTranslator: Translator {
             parameters.append((label, parameter.name, resolved.cSharpType, defaultValue))
         }
 
+        let returnType = context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides).cSharpType
+
         return .method(
             CSharpClass.Method(
                 documentation: method.documentation,
@@ -125,7 +119,7 @@ final class CSharpTranslator: Translator {
                 name: upperCaseFirst(exportAnnotation.name),
                 mangledName: "\(type.mangledName)_\(exportAnnotation.name.mangled)",
                 parameters: parameters,
-                returnType: context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides).cSharpType,
+                returnType: method.isAsync ? .task(returnType) : returnType,
                 deprecation: method.deprecation,
                 body: nil
             )
