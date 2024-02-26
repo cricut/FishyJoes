@@ -20,7 +20,10 @@ final class CSharpTranslator: Translator {
                 var initializerWriters: [() -> Void] = []
                 for type in generatedTypes {
                     let resolved = context.resolve(type: type)
-
+                    // TODO: Handle Protocols
+                    guard resolved.conformances.isEmpty else {
+                        continue
+                    }
                     let setupParams = resolved.cSharpSetupParameters(in: context)
                     let setupDelegates = resolved.cSharpSetupDelegates(in: context)
 
