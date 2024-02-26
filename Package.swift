@@ -105,8 +105,8 @@ let package = Package(
             linkNodeExecutable([
                 .target(name: "NodeAPIResolve"),
             ]),
-            resources: [
-                .copy("js"),
+            exclude: [
+                "Templates",
             ],
             linkerSettings: [
                 .unsafeFlags(

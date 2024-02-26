@@ -321,6 +321,28 @@ extension CodeGen {
                         try cmd("codesign", "-s", "-", dest).run()
                     }
                 }
+                
+                // Define functions to operate on files & lines to replace each instance of __MODULE_NAME__ with the name of a module
+                // and replace each line containing __MODULE_DEPENDENCY__ with one line for each dependency module
+                func template(line: String, moduleName: String, dependencies: [String]) -> [String] {
+                    let line = line.replacingOccurrences(of: "__MODULE_NAME__", with: moduleName)
+                    if line.contains("__MODULE_DEPENDENCY__") {
+                        return dependencies.map {
+                            line.replacingOccurrences(of: "__MODULE_DEPENDENCY__", with: $0)
+                        }
+                    } else {
+                        return [line]
+                    }
+                }
+                func template(inPath: String, outPath: String, moduleName: String, dependencies: [String]) throws {
+                    var lines = try cmd("cat", inPath).runLines()
+                    lines = lines.flatMap { template(line: $0, moduleName: moduleName, dependencies: dependencies) }
+                    lines.append("") // newline terminate
+                    try cmd("cat", "-")
+                        .input(lines.joined(separator: "\n"))
+                        .output(overwritingFile: outPath)
+                        .run()
+                }
 
                 // Perform library installation and platform-specific customization
                 switch platform {
@@ -412,37 +434,20 @@ extension CodeGen {
                             }
                             try cmd("cp", "\(platform.buildDir(configuration))\(ps)\(nodeModule.wasmMainShimName)", "\(outputDir)\(ps)\(nodeModule.name).wasm").run()
                         }
-                        try cmd("cp", "\(platform.buildDir(configuration))\(ps)FishyJoes_FishyJoesNodeRuntime.resources\(ps)js\(ps)wasm-napi.js", outputDir).run()
+                        try cmd("cp", "\(fishyJoesDependency.localPath)\(ps)Sources\(ps)FishyJoesNodeRuntime\(ps)Templates\(ps)wasm-napi.js", outputDir).run()
 
                         // Create the required Javascript files for loading the module's Wasm bundle
-                        // Replace each instance of __MODULE_NAME__ with the name of the module
-                        // Replace each line containing __MODULE_DEPENDENCY__ with one line for each dependency module
-                        func template(line: String) -> [String] {
-                            let line = line.replacingOccurrences(of: "__MODULE_NAME__", with: nodeModule.name)
-                            if line.contains("__MODULE_DEPENDENCY__") {
-                                return nodeDependencies.map {
-                                    line.replacingOccurrences(of: "__MODULE_DEPENDENCY__", with: $0.name)
-                                }
-                            } else {
-                                return [line]
-                            }
-                        }
-                        func template(inPath: String, outPath: String) throws {
-                            var lines = try cmd("cat", inPath).runLines()
-                            lines = lines.flatMap(template(line:))
-                            lines.append("") // newline terminate
-                            try cmd("cat", "-")
-                                .input(lines.joined(separator: "\n"))
-                                .output(overwritingFile: outPath)
-                                .run()
-                        }
                         try template(
-                            inPath: "\(platform.buildDir(configuration))\(ps)FishyJoes_FishyJoesNodeRuntime.resources\(ps)js\(ps)__MODULE_NAME__.js",
-                            outPath: "\(outputDir)\(ps)\(nodeModule.name).js"
+                            inPath: "\(fishyJoesDependency.localPath)\(ps)Sources\(ps)FishyJoesNodeRuntime\(ps)Templates\(ps)__MODULE_NAME__.js",
+                            outPath: "\(outputDir)\(ps)\(nodeModule.name).js",
+                            moduleName: nodeModule.name,
+                            dependencies: nodeDependencies.map(\.name)
                         )
                         try template(
-                            inPath: "\(platform.buildDir(configuration))\(ps)FishyJoes_FishyJoesNodeRuntime.resources\(ps)js\(ps)__MODULE_NAME__.browser.js",
-                            outPath: "\(outputDir)\(ps)\(nodeModule.name).browser.js"
+                            inPath: "\(fishyJoesDependency.localPath)\(ps)Sources\(ps)FishyJoesNodeRuntime\(ps)Templates\(ps)__MODULE_NAME__.browser.js",
+                            outPath: "\(outputDir)\(ps)\(nodeModule.name).browser.js",
+                            moduleName: nodeModule.name,
+                            dependencies: nodeDependencies.map(\.name)
                         )
 
                         // Install Javascript extensions for dependencies so they are loaded when the Wasm bundle is loaded, if provided
@@ -466,14 +471,27 @@ extension CodeGen {
                         }
                     }
                     if platform == .node {
-                        // For node to load a library correctly, the file must be ".cjs.node" and not a symlink
-                        // But for the linker to find required libraries, they need their original names.
-                        // So we place the node interface in `libModule-node.dylib` and
-                        // rename the native shim `libModule-node-shim.dylib` -> `module.cjs.node`
-                        try installLibrary(nodeModule.nodeShimLibName, installName: nodeModule.nodeShimCJSName)
-                        try installLibrary(nodeModule.nativeLibName)
+                        // Install the module library and Node interfacing library
                         try installLibrary(nodeModule.name)
-
+                        try installLibrary(nodeModule.nativeLibName)
+                        
+                        // For node to load a library correctly, the file must be ".cjs.node", so compile a shim to load the actual Node interfacing library
+                        // and copy it into the build directory so it can be installed like any other library
+                        let shimDir = "Sources\(ps)Generated\(ps)NodeNativeShim"
+                        try template(
+                            inPath: "\(fishyJoesDependency.localPath)\(ps)Sources\(ps)FishyJoesNodeRuntime\(ps)Templates\(ps)Package.swift.NodeNativeShim",
+                            outPath: "\(shimDir)\(ps)Package.swift",
+                            moduleName: nodeModule.name,
+                            dependencies: nodeDependencies.map(\.name)
+                        )
+                        try withDirectory(shimDir) {
+                            try platform.swiftBuild(configuration: configuration).run()
+                        }
+                        let shimDylibPath = try withDirectory(shimDir) { try "\(platform.buildDir(configuration))\(ps)\(platform.dylibName(for: nodeModule.nodeShimLibName))" }
+                        let nodeNativeLibPath = try "\(platform.buildDir(configuration))\(ps)\(platform.dylibName(for: nodeModule.nodeShimLibName))"
+                        try cmd("cp", shimDylibPath, nodeNativeLibPath).run()
+                        try installLibrary(nodeModule.nodeShimLibName, installName: nodeModule.nodeShimCJSName)
+                        
                         // Create the required Javascript files for loading the module's native library from node
                         var moduleDotJS: [String] = []
                         for dependency in nodeDependencies {

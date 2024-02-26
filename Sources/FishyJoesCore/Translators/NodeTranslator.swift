@@ -347,7 +347,10 @@ struct NodeTranslator: Translator {
             }
         }
 
-        return [nodeTypeListFragment, exportFragment, nodeNativeShimFragment, wasmShimFragment]
+        let wasmShimMainFragment = SourceFragment(sourceryDestination: "file:WasmMainShim/main.swift")
+        wasmShimMainFragment.output("// Executable main requires no statements, as loading done by napi.init() calling napi_register_module_v1()")
+
+        return [nodeTypeListFragment, exportFragment, nodeNativeShimFragment, wasmShimFragment, wasmShimMainFragment]
     }
 
     func ts(method: Method, explicitThis: Bool, context: FishyJoesContext) -> TypeScriptAnnotations.Method? {

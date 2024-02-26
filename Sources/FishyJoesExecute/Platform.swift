@@ -466,11 +466,7 @@ enum Platform: CustomStringConvertible, Hashable {
         }
     }
 
-    private static var buildDirCache: [BuildConfiguration: [Platform: String]] = [:]
     func buildDir(_ configuration: BuildConfiguration) throws -> String {
-        if let cached = Platform.buildDirCache[configuration]?[self] {
-            return cached
-        }
         let directory: String
         if isNative, configuration.fat {
             directory = ".build\(ps)apple\(ps)\(configuration.debug ? "debug" : "release")"
@@ -479,7 +475,6 @@ enum Platform: CustomStringConvertible, Hashable {
         } else {
             directory = try swiftBuild("--show-bin-path", configuration: configuration).runString().trimmingCharacters(in: .whitespacesAndNewlines)
         }
-        Platform.buildDirCache[configuration, default: [:]][self] = directory
         return directory
     }
 }
