@@ -133,7 +133,7 @@ struct TranslatedProtocol: TranslatedType {
             additionalImports: ["Foundation", "FishyJoesNodeRuntime", "\(context.module.name)_CommonInterface"]
         )
 
-        fragment.outputBlock("extension \(sourceType.name): NodeMutator {") {
+        fragment.outputBlock("extension \(converterType.name): NodeMutator {") {
             fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {") {
                 // TODO: type check
                 fragment.outputBlock("Self(") {

@@ -7,7 +7,7 @@ import Foundation
 import TestAPI
 import TestAPI_CommonInterface
 
-extension TestAPI.TestOptionalsProtocol: NodeMutator {
+extension _TestOptionalsProtocolConverter: NodeMutator {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(
             flarp: try { () -> Optional<Swift.String> in

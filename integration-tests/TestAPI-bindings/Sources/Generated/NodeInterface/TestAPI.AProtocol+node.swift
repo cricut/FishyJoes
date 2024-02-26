@@ -7,7 +7,7 @@ import Foundation
 import TestAPI
 import TestAPI_CommonInterface
 
-extension TestAPI.AProtocol: NodeMutator {
+extension _AProtocolConverter: NodeMutator {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(
             foo: try { () -> Swift.String in

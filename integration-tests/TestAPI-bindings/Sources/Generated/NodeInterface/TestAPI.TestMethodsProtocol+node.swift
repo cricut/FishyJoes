@@ -7,7 +7,7 @@ import Foundation
 import TestAPI
 import TestAPI_CommonInterface
 
-extension TestAPI.TestMethodsProtocol: NodeMutator {
+extension _TestMethodsProtocolConverter: NodeMutator {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(
         )
