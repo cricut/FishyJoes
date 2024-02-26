@@ -14,9 +14,6 @@ final class CSharpTranslator: Translator {
         fragment.outputBlock("namespace Cricut.\(context.module.name) {") {
             fragment.outputBlock("public class _TypeSetup {") {
                 fragment.output(context.module.dllImportMark)
-                if moduleRegisterTypesFn.contains("AProtocolConverter") {
-                    let a = 1
-                }
                 fragment.output("static extern void \(moduleRegisterTypesFn)();")
                 fragment.blankLine()
 
@@ -36,9 +33,6 @@ final class CSharpTranslator: Translator {
                     if resolved.definingModule == context.module {
                         precondition(!setupParams.contains(where: \.isTypeParameter), "unexpected type parameter in \(type.name)")
                         fragment.output(resolved.definingModule.dllImportMark)
-                        if resolved.iotaSetupName.contains("AProtocolConverter") {
-                            let a = 1
-                        }
                         fragment.outputBlock("static extern void \(resolved.iotaSetupName)(", closeWith: ");") {
                             fragment.output("IntPtr envRef,")
                             for param in setupParams {
