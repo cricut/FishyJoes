@@ -141,7 +141,6 @@ struct TranslatedProtocol: TranslatedType {
                 fragment.output("var \(computedVar.name): \(computedVar.typeName.better.name)")
             }
             for method in methods {
-                let resolvedReturn = context.resolve(type: method.returnType)
                 var returnSignature = "\(method.isThrowing ? " throws" : "")"
                 if method.returnType.name != "Void" {
                     returnSignature.append(" -> \(method.returnType.name)")
@@ -175,7 +174,7 @@ struct TranslatedProtocol: TranslatedType {
                         fragment.output("")
                     }
                     fragment.outputMap(computedVariables, separator: ",") {
-                        "\($0.name): \($0.typeName)()"
+                        "\($0.name): \($0.typeName.name.replacingOccurrences(of: "?", with: ""))()"
                     }
                 }
             }
