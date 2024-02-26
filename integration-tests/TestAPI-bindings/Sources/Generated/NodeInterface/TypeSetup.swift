@@ -6,6 +6,7 @@ import FishyJoesNodeRuntime
 import Foundation
 import NodeAPI
 import TestAPI
+import TestAPI_CommonInterface
 
 #if !os(WASI)
 @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
