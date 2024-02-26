@@ -4,7 +4,7 @@ const AttributedString = Runtime.AttributedString
 const AttributedSubstring = Runtime.AttributedSubstring
 const AttributedStrings = TestAPI.AttributedStrings
 
-test.only('Crashy', () => {
+test('Crashy', () => {
     const attributedString = AttributedStrings.polyglot
     // const attributedString = AttributedString.createJoining([
     //     AttributedStrings.polyglot,
