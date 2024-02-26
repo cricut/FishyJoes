@@ -133,22 +133,54 @@ struct TranslatedProtocol: TranslatedType {
             additionalImports: ["Foundation", "FishyJoesNodeRuntime", "\(context.module.name)_CommonInterface"]
         )
 
-        fragment.outputBlock("extension \(converterType.name): NodeMutator {") {
-            fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {") {
-                // TODO: type check
-                fragment.outputBlock("Self(") {
-                    for (index, computedVar) in computedVariables.enumerated() {
-                        let resolved = context.resolve(type: computedVar.typeName.better)
-                        let last = index == computedVariables.count - 1
-                        fragment.outputBlock("\(computedVar.name): try { () -> \(resolved.sourceType.name) in", closeWith: last ? "}()" : "}(),") {
-                            fragment.output("let fieldValue = try env.getNamedProperty(value, \"\(computedVar.name)\")")
-                            fragment.output("return try \(resolved.converterType.name).fromNode(fieldValue, env: env)")
+        fragment.outputBlock("struct _Node\(sourceType.nonNamespacedName): \(sourceType.name) {") {
+            fragment.output("let _nodeWitness: NodeReference")
+            fragment.blankLine()
+            // TODO: Implement this stubby code
+            for computedVar in computedVariables {
+                fragment.output("var \(computedVar.name): \(computedVar.typeName.better.name)")
+            }
+            for method in methods {
+                let resolvedReturn = context.resolve(type: method.returnType)
+                var returnSignature = "\(method.isThrowing ? " throws" : "")"
+                if method.returnType.name != "Void" {
+                    returnSignature.append(" -> \(method.returnType.name)")
+                }
+                var paramSigs = [String]()
+                do {
+                    var unnamedParamCnt = 1
+                    for param in method.parameters {
+                        // for protocols, only look at the label (external parameter name), don't use the internal parameter name i.e. name)
+                        var paramName = param.label ?? ""
+                        if paramName.isEmpty {
+                            paramName = "_ _\(unnamedParamCnt)"
+                            unnamedParamCnt += 1
                         }
+                        paramSigs.append("\(paramName): \(param.type.name)")
+                    }
+                }
+                fragment.output("var \(method.callName)Impl: (() -> \(method.returnType.name))?")
+                fragment.outputBlock("\(method.isStatic ? "static " : "")public func \(method.callName)(\(paramSigs.joined(separator: ", ")))\(returnSignature) {") {
+                    fragment.output("\(method.callName)Impl!()")
+                }
+            }
+        }
+        fragment.outputBlock("extension \(converterType.name): NodeMutator {") {
+            fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {") {
+                fragment.outputBlock("return _Node\(sourceType.nonNamespacedName)(") {
+                    fragment.output("_nodeWitness: try NodeReference(env: env, value: value)", newLineTerminated: false)
+                    if !computedVariables.isEmpty {
+                        fragment.output(",")
+                    } else {
+                        fragment.output("")
+                    }
+                    fragment.outputMap(computedVariables, separator: ",") {
+                        "\($0.name): \($0.typeName)()"
                     }
                 }
             }
 
-            fragment.outputBlock("public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {") {
+            fragment.outputBlock("public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {") {
                 fragment.output("let constructor = try NodeClass.constructor(for: \"\(nodeName)\", env: env)")
                 fragment.outputBlock("let args: [NAPI.Value] = [") {
                     for computedVar in computedVariables {
@@ -159,7 +191,7 @@ struct TranslatedProtocol: TranslatedType {
                 fragment.output("return try env.newInstance(constructor, args)")
             }
 
-            fragment.outputBlock("public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {") {
+            fragment.outputBlock("public static func mutateNode(_ value: SwiftType, this: NAPI.Value, env: NAPI.Env) throws {") {
                 for computedVar in computedVariables {
                     guard computedVar.isMutable else { continue }
                     let resolved = context.resolve(type: computedVar.typeName.better)
@@ -167,6 +199,7 @@ struct TranslatedProtocol: TranslatedType {
                 }
             }
 
+            fragment.blankLine()
             fragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
             fragment.outputBlock("public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {") {
                 // fragment.output("print(\"setting up \(sourceType.name)\")")

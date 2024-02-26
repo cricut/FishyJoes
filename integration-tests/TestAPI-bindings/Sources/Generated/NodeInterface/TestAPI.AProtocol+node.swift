@@ -7,20 +7,33 @@ import Foundation
 import TestAPI
 import TestAPI_CommonInterface
 
+struct _NodeAProtocol: TestAPI.AProtocol {
+    let _nodeWitness: NodeReference
+
+    var foo: String
+    var baz: Bool
+    var barImpl: (() -> AProtocol)?
+    public func bar(x: Int, y: Int) throws -> AProtocol {
+        barImpl!()
+    }
+    var hasADefaultImplementationImpl: (() -> String)?
+    public func hasADefaultImplementation(x: Int, y: Double) throws -> String {
+        hasADefaultImplementationImpl!()
+    }
+    var hasADefaultImplementation2Impl: (() -> Double)?
+    public func hasADefaultImplementation2(_ _1: String, b: Bool, _ _2: Double) throws -> Double {
+        hasADefaultImplementation2Impl!()
+    }
+}
 extension _AProtocolConverter: NodeMutator {
-    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        Self(
-            foo: try { () -> Swift.String in
-                let fieldValue = try env.getNamedProperty(value, "foo")
-                return try Swift.String.fromNode(fieldValue, env: env)
-            }(),
-            baz: try { () -> Swift.Bool in
-                let fieldValue = try env.getNamedProperty(value, "baz")
-                return try Swift.Bool.fromNode(fieldValue, env: env)
-            }()
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
+        return _NodeAProtocol(
+            _nodeWitness: try NodeReference(env: env, value: value),
+            foo: String(),
+            baz: Bool()
         )
     }
-    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
+    public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
         let constructor = try NodeClass.constructor(for: "AProtocol", env: env)
         let args: [NAPI.Value] = [
             try Swift.String.toNode(value.foo, env: env),
@@ -28,8 +41,9 @@ extension _AProtocolConverter: NodeMutator {
         ]
         return try env.newInstance(constructor, args)
     }
-    public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {
+    public static func mutateNode(_ value: SwiftType, this: NAPI.Value, env: NAPI.Env) throws {
     }
+
     @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
@@ -40,7 +54,7 @@ extension _AProtocolConverter: NodeMutator {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "bar", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try _AProtocolConverter.toNode(
-                                env.this(converter: TestAPI.AProtocol.self).bar(
+                                env.this(converter: _AProtocolConverter.self).bar(
                                     x: try env.argument(at: 0, converter: Swift.Int.self),
                                     y: try env.argument(at: 1, converter: Swift.Int.self)
                                 ),
@@ -55,7 +69,7 @@ extension _AProtocolConverter: NodeMutator {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
-                                env.this(converter: TestAPI.AProtocol.self).hasADefaultImplementation(
+                                env.this(converter: _AProtocolConverter.self).hasADefaultImplementation(
                                     x: try env.argument(at: 0, converter: Swift.Int.self),
                                     y: try env.argument(at: 1, converter: Swift.Double.self)
                                 ),
@@ -70,7 +84,7 @@ extension _AProtocolConverter: NodeMutator {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation2", expectedArgumentCount: 3, hasNamedOptions: false) { env in
                             let result = try Swift.Double.toNode(
-                                env.this(converter: TestAPI.AProtocol.self).hasADefaultImplementation2(
+                                env.this(converter: _AProtocolConverter.self).hasADefaultImplementation2(
                                     try env.argument(at: 0, converter: Swift.String.self),
                                     b: try env.argument(at: 1, converter: Swift.Bool.self),
                                     try env.argument(at: 2, converter: Swift.Double.self)
@@ -86,7 +100,7 @@ extension _AProtocolConverter: NodeMutator {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "foo", expectedArgumentCount: 0) { env in
-                                try Swift.String.toNode(env.this(converter: TestAPI.AProtocol.self).foo, env: env.env)
+                                try Swift.String.toNode(env.this(converter: _AProtocolConverter.self).foo, env: env.env)
                             }
                         },
                         setter: nil
@@ -97,7 +111,7 @@ extension _AProtocolConverter: NodeMutator {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "baz", expectedArgumentCount: 0) { env in
-                                try Swift.Bool.toNode(env.this(converter: TestAPI.AProtocol.self).baz, env: env.env)
+                                try Swift.Bool.toNode(env.this(converter: _AProtocolConverter.self).baz, env: env.env)
                             }
                         },
                         setter: nil

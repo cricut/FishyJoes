@@ -15,7 +15,7 @@ struct NodeTranslator: Translator {
         var argIndex = 0
 
         if let selfType = variable.definedInTypeName?.better {
-            containingNamespace = context.resolve(type: selfType).sourceType.name
+            containingNamespace = context.resolve(type: selfType).converterType.name
 
             if variable.isStatic {
                 selfExpression = containingNamespace
@@ -89,7 +89,7 @@ struct NodeTranslator: Translator {
         var argIndex = 0
 
         if let selfType = method.definedIn {
-            containingNamespace = context.resolve(type: selfType).sourceType.name
+            containingNamespace = context.resolve(type: selfType).converterType.name
 
             if method.isStatic {
                 selfExpression = containingNamespace

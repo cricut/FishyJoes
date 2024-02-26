@@ -7,20 +7,21 @@ import Foundation
 import TestAPI
 import TestAPI_CommonInterface
 
+struct _NodeTestPropertiesProtocol: TestAPI.TestPropertiesProtocol {
+    let _nodeWitness: NodeReference
+
+    var corge: String
+    var frob: Array<Double>
+}
 extension _TestPropertiesProtocolConverter: NodeMutator {
-    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        Self(
-            corge: try { () -> Swift.String in
-                let fieldValue = try env.getNamedProperty(value, "corge")
-                return try Swift.String.fromNode(fieldValue, env: env)
-            }(),
-            frob: try { () -> Array<Swift.Double> in
-                let fieldValue = try env.getNamedProperty(value, "frob")
-                return try ArrayConverter<Swift.Double>.fromNode(fieldValue, env: env)
-            }()
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
+        return _NodeTestPropertiesProtocol(
+            _nodeWitness: try NodeReference(env: env, value: value),
+            corge: String(),
+            frob: [Double]()
         )
     }
-    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
+    public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
         let constructor = try NodeClass.constructor(for: "TestPropertiesProtocol", env: env)
         let args: [NAPI.Value] = [
             try Swift.String.toNode(value.corge, env: env),
@@ -28,8 +29,9 @@ extension _TestPropertiesProtocolConverter: NodeMutator {
         ]
         return try env.newInstance(constructor, args)
     }
-    public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {
+    public static func mutateNode(_ value: SwiftType, this: NAPI.Value, env: NAPI.Env) throws {
     }
+
     @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
@@ -40,7 +42,7 @@ extension _TestPropertiesProtocolConverter: NodeMutator {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "corge", expectedArgumentCount: 0) { env in
-                                try Swift.String.toNode(env.this(converter: TestAPI.TestPropertiesProtocol.self).corge, env: env.env)
+                                try Swift.String.toNode(env.this(converter: _TestPropertiesProtocolConverter.self).corge, env: env.env)
                             }
                         },
                         setter: nil
@@ -51,7 +53,7 @@ extension _TestPropertiesProtocolConverter: NodeMutator {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "frob", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<Swift.Double>.toNode(env.this(converter: TestAPI.TestPropertiesProtocol.self).frob, env: env.env)
+                                try ArrayConverter<Swift.Double>.toNode(env.this(converter: _TestPropertiesProtocolConverter.self).frob, env: env.env)
                             }
                         },
                         setter: nil
