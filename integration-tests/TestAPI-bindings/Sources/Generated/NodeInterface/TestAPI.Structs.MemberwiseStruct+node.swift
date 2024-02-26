@@ -7,6 +7,7 @@ import Foundation
 import TestAPI
 
 extension TestAPI.Structs.MemberwiseStruct: NodeMutator {
+    public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(
             immutable: try { () -> Swift.String in

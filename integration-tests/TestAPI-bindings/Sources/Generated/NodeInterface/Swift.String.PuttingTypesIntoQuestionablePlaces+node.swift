@@ -7,6 +7,7 @@ import Foundation
 import TestAPI
 
 extension Swift.String.PuttingTypesIntoQuestionablePlaces: NodeMutator {
+    public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(
             x: try { () -> Swift.String in

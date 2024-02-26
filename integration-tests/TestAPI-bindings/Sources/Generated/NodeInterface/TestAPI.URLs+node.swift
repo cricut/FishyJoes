@@ -7,6 +7,7 @@ import Foundation
 import TestAPI
 
 extension TestAPI.URLs: FishyJoesNodeRuntime.NodeConverter {
+    public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         fatalError("invalid enum for TestAPI.URLs")
     }

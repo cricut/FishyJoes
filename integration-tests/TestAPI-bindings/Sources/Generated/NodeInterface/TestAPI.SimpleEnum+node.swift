@@ -7,6 +7,7 @@ import Foundation
 import TestAPI
 
 extension TestAPI.SimpleEnum: FishyJoesNodeRuntime.NodeConverter {
+    public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         switch try String.fromNode(value, env: env) {
         case "red": return Self.red

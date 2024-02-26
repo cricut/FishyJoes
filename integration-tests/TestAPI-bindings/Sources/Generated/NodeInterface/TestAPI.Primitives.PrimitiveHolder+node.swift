@@ -7,6 +7,7 @@ import Foundation
 import TestAPI
 
 extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
+    public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(
             b: try { () -> Swift.Bool in

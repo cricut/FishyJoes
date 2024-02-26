@@ -153,6 +153,7 @@ struct TranslatedEnum: TranslatedType {
         if cases.allSatisfy({ $0.associatedValues.isEmpty }), !cases.isEmpty {
             // Simple enum, export as strings
             fragment.outputBlock("extension \(sourceType.name): FishyJoesNodeRuntime.NodeConverter {") {
+                fragment.output("public typealias SwiftType = Self")
                 fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {") {
                     fragment.output("switch try String.fromNode(value, env: env) {")
                     for enumCase in cases {
@@ -223,6 +224,7 @@ struct TranslatedEnum: TranslatedType {
             )
         } else {
             fragment.outputBlock("extension \(sourceType.name): FishyJoesNodeRuntime.NodeConverter {") {
+                fragment.output("public typealias SwiftType = Self")
                 fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {") {
                     for enumCase in cases {
                         let className = "\(nodeName).\(upperCaseFirst(enumCase.name))"
