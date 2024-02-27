@@ -95,7 +95,7 @@ final class KotlinTranslator: Translator {
             javaName += "__default"
         }
         javaName += "_\(exportAnnotation.name)"
-        allMethods[converterNamespace, default: []].append((javaName, jniSignature, cMethod, isProtocol && method.isInExtension))
+        allMethods[containingNamespace, default: []].append((javaName, jniSignature, cMethod, isProtocol && method.isInExtension))
         if let deprecation = method.deprecation {
             fragment.output(deprecation.swiftDeprecation)
         }
@@ -225,7 +225,7 @@ final class KotlinTranslator: Translator {
 
         if let selfType = variable.definedInTypeName?.better {
             let resolved = context.resolve(type: selfType)
-            destinationRootFilename = resolved.converterType.name
+            destinationRootFilename = resolved.sourceType.name
 
             if variable.isStatic {
                 selfExpression = destinationRootFilename
@@ -335,7 +335,7 @@ final class KotlinTranslator: Translator {
                     typeSetupFragment.output("// print(\"setting up \(resolved.converterType.name)...\")")
                     typeSetupFragment.output("try \(resolved.converterType.name).javaSetup(env: env)")
                     if case .named = type {
-                        if let nativeMethods = allMethods[resolved.converterType.name] {
+                        if let nativeMethods = allMethods[resolved.sourceType.name] {
                             let protocolDefaultMethods = nativeMethods.filter { $0.isProtocolDefault }
                             let normalMethods = nativeMethods.filter { !$0.isProtocolDefault }
 
@@ -366,7 +366,7 @@ final class KotlinTranslator: Translator {
                                 typeSetupFragment.output()
                             }
 
-                            usedMethods.insert(resolved.converterType.name)
+                            usedMethods.insert(resolved.sourceType.name)
                         }
                     }
                 }

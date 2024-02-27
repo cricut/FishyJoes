@@ -237,7 +237,7 @@ struct TranslatedReference: TranslatedType {
         }
 
         if equatable {
-            context.kotlinTranslator.allMethods[converterType.name, default: []].append(
+            context.kotlinTranslator.allMethods[sourceType.name, default: []].append(
                 (
                     javaName: "__jni_swiftEquals",
                     signature: "(\(jniType.asSignature)\(jniType.asSignature))Z",
@@ -247,7 +247,7 @@ struct TranslatedReference: TranslatedType {
             )
         }
         if hashable {
-            context.kotlinTranslator.allMethods[converterType.name, default: []].append(
+            context.kotlinTranslator.allMethods[sourceType.name, default: []].append(
                 (
                     javaName: "__jni_hashCode",
                     signature: "()I",
