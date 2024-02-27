@@ -170,9 +170,9 @@ extension CodeGen {
                 "Sources/Generated/JavaInterface",
                 "kotlin/src/generated/kotlin/com/cricut/\(config.module.lowercased())",
                 "c-sharp/Cricut.\(config.module.lowercased())/generated",
-                "dart/lib/src/generated",
-                "Sources/Generated/FishyJoes.generated.swift",
+                "dart/lib/src/generated"
             ]
+            try cmd("rm", arguments: ["-rf", "Sources/Generated/FishyJoes.generated.swift"]).run()
             try cmd("rm", arguments: ["-rf"] + sourceLocations).run()
             try cmd("mkdir", arguments: ["-p"] + sourceLocations).run()
             let tmpUrl = try cmd("echo", "").runFile()
