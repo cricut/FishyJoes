@@ -64,7 +64,7 @@ extension TranslatedEnum {
             },
             fieldsAndMethods:
                 fields.compactMap { context.dart(field: $0, of: self, useNativeName: false) } +
-            methods.compactMap { context.dart(method: $0, of: self) }, 
+            methods.compactMap { context.dart(method: $0, of: self) },
             conformances: conformances
         )
     }
