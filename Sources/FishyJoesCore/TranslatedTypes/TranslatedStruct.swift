@@ -522,7 +522,7 @@ struct TranslatedStruct: TranslatedType {
                 }
             }
         }
-        
+
         // TODO: Handle Protocols
         if conformances.isEmpty {
             registerCSharpClass(context: context)
