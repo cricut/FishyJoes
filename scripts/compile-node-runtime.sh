@@ -45,7 +45,11 @@ else
         cd "$SHIM_DIR"
         swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime_NodeNativeShim
         SHIM_BIN_DIR="$(swift build --configuration "$CONFIGURATION" --show-bin-path)"
-        cp "$SHIM_BIN_DIR"/libFishyJoesNodeRuntime_NodeNativeShim.so "$BIN_DIR"
+        if [[ "$(uname -s)" == "Darwin" ]]; then
+            cp "$SHIM_BIN_DIR"/libFishyJoesNodeRuntime_NodeNativeShim.dylib "$BIN_DIR"
+        else
+            cp "$SHIM_BIN_DIR"/libFishyJoesNodeRuntime_NodeNativeShim.so "$BIN_DIR"
+        fi
     )
 fi
 
