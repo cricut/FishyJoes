@@ -45,17 +45,12 @@ final class KotlinTranslator: Translator {
         }
         formals.append((name: "_javaThis", type: "jobject"))
         do {
-            var unnamedParamCnt = 1
             formals.append(
                 contentsOf:
                     method.parameters.map { parameter in
                         let resolved = context.resolve(type: parameter.type, generics: exportAnnotation.genericOverrides)
                         var paramName = parameter.name
-                        if paramName.isEmpty {
-                            paramName = "_\(unnamedParamCnt)"
-                            unnamedParamCnt += 1
-                        }
-                        return (name: paramName, type: resolved.converterType.name + ".CType")
+                        return (name: parameter.name, type: resolved.converterType.name + ".CType")
                     }
             )
         }
@@ -106,15 +101,9 @@ final class KotlinTranslator: Translator {
             fragment.outputBlock("FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in", closeWith: "}") {
                 let callName = method.sourceKind == .initializer ? "" : ".\(method.callName)"
                 if method.isAsync {
-                    var unnamedParamCnt = 1
                     for parameter in method.parameters {
-                        var paramName = parameter.name
-                        if paramName.isEmpty {
-                            paramName = "_\(unnamedParamCnt)"
-                            unnamedParamCnt += 1
-                        }
                         let resolved = context.resolve(type: parameter.type, generics: exportAnnotation.genericOverrides)
-                        fragment.output("let \(paramName) = try \(resolved.converterType.name).fromJava(\(paramName), env: _javaEnv)")
+                        fragment.output("let \(parameter.name) = try \(resolved.converterType.name).fromJava(\(parameter.name), env: _javaEnv)")
                     }
                     if !method.isStatic {
                         fragment.output("let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)")
@@ -174,31 +163,19 @@ final class KotlinTranslator: Translator {
                                     fragment.output("\(method.isThrowing ? "try " : "")\(selfExpression)")
                                 }
                                 fragment.outputBlock("\(callName)(", closeWith: "),") {
-                                    var unnamedParamCnt = 1
                                     fragment.outputMap(method.parameters, separator: ",") { formal in
-                                        var paramName = formal.name
-                                        if paramName.isEmpty {
-                                            paramName += "_\(unnamedParamCnt)"
-                                            unnamedParamCnt += 1
-                                        }
                                         let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
                                         return (formal.label.map { "\($0): " } ?? "") +
-                                        "try \(resolved.converterType.name).fromJava(\(paramName), env: _javaEnv)"
+                                        "try \(resolved.converterType.name).fromJava(\(formal.name), env: _javaEnv)"
                                     }
                                 }
                                 fragment.output("env: _javaEnv")
                             } else {
                                 fragment.outputBlock("\(method.isThrowing ? "try " : "")\(selfExpression)\(callName)(", closeWith: "),") {
-                                    var unnamedParamCnt = 1
                                     fragment.outputMap(method.parameters, separator: ",") { formal in
-                                        var paramName = formal.name
-                                        if paramName.isEmpty {
-                                            paramName += "_\(unnamedParamCnt)"
-                                            unnamedParamCnt += 1
-                                        }
                                         let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
                                         return (formal.label.map { "\($0): " } ?? "") +
-                                        "try \(resolved.converterType.name).fromJava(\(paramName), env: _javaEnv)"
+                                        "try \(resolved.converterType.name).fromJava(\(formal.name), env: _javaEnv)"
                                     }
                                 }
                                 fragment.output("env: _javaEnv")

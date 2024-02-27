@@ -30,7 +30,7 @@ interface TestMethodsProtocol {
      * <!-- FishyJoes.export(garply) -->
      */
     fun garply(
-        _1: kotlin.String
+        _0: kotlin.String
     ): kotlin.String
 
     /**

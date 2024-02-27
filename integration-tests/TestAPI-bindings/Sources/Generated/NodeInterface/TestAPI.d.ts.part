@@ -1969,7 +1969,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(garply) -->
          */
         garply(
-            : string
+            _0: string
         ): string;
 
         /**

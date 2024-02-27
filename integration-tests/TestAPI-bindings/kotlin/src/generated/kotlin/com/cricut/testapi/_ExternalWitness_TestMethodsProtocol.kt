@@ -37,11 +37,11 @@ private class _ExternalWitness_TestMethodsProtocol private constructor(_swiftRef
      * <!-- FishyJoes.export(garply) -->
      */
     override fun garply(
-        _1: kotlin.String
-    ): kotlin.String = __jni_garply(_1)
+        _0: kotlin.String
+    ): kotlin.String = __jni_garply(_0)
     @JvmName("__jni_garply")
     private external fun __jni_garply(
-        _1: kotlin.String
+        _0: kotlin.String
     ): kotlin.String
 
     /**

@@ -147,17 +147,11 @@ class KotlinClass: NestedClass {
                     fragment.output("override ", newLineTerminated: false)
                 }
                 fragment.outputBlock("\(method.isSuspend ? "suspend " : "")fun \(method.name)(", newLineTerminated: false) {
-                    var unnamedParamCnt = 1
                     let filteredParameters = method.parameters.filter { !excludedCompatibilityParameters.contains($0.name) }
                     fragment.outputMap(filteredParameters, separator: ",") { parameter in
                         let labelComment = parameter.labelComment.map { "/* \($0) */ " } ?? ""
                         let defaultValue = parameter.defaultValue.map { " = \($0)" } ?? ""
-                        var paramName = parameter.name
-                        if paramName.isEmpty {
-                            paramName = "_\(unnamedParamCnt)"
-                            unnamedParamCnt += 1
-                        }
-                        return "\(labelComment)\(paramName): \(parameter.type.kotlinType)\(defaultValue)"
+                        return "\(labelComment)\(parameter.name): \(parameter.type.kotlinType)\(defaultValue)"
                     }
                 }
                 if method.returnType != KType.void {
@@ -168,17 +162,11 @@ class KotlinClass: NestedClass {
                     fragment.output(" = \(body)\(method.returnType.toKotlinType)")
                 } else if external {
                     var arguments: [String] = []
-                    var unnamedParamCnt = 1
                     for parameter in method.parameters {
-                        var paramName = parameter.name
-                        if paramName.isEmpty {
-                            paramName = "_\(unnamedParamCnt)"
-                            unnamedParamCnt += 1
-                        }
                         if excludedCompatibilityParameters.contains(parameter.name) {
                             arguments.append("(\(parameter.defaultValue!))\(parameter.type.toJVMType)")
                         } else {
-                            arguments.append("\(paramName)\(parameter.type.toJVMType)")
+                            arguments.append("\(parameter.name)\(parameter.type.toJVMType)")
                         }
                     }
                     fragment.output(" = __jni_\(method.name)(\(arguments.joined(separator: ", ")))", newLineTerminated: false)

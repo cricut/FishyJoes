@@ -56,11 +56,11 @@ let java__TestMethodsProtocolConverter_garply: @convention(c) (
     UnsafeMutablePointer<JNIEnv?>,
     jobject,
     Swift.String.CType
-) -> Swift.String.CType = { _javaEnv, _javaThis, _1 in
+) -> Swift.String.CType = { _javaEnv, _javaThis, _0 in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         return try Swift.String.toJava(
             try _TestMethodsProtocolConverter.fromJava(_javaThis, env: _javaEnv).garply(
-                try Swift.String.fromJava(_1, env: _javaEnv)
+                try Swift.String.fromJava(_0, env: _javaEnv)
             ),
             env: _javaEnv
         )

@@ -79,16 +79,23 @@ struct Method: Hashable {
         var parameters: [SwiftFormal] = []
         var omitParameters = Set(exportAnnotation.omitParameters)
 
+        var unnamedParamCnt = 0
         for parameter in method.parameters {
             if omitParameters.contains(parameter.name) {
                 precondition(parameter.defaultValue != nil, "Can't omit non-default parameter")
                 omitParameters.remove(parameter.name)
                 continue
             }
+            var paramName = parameter.name
+            if paramName.isEmpty {
+                paramName = "_\(unnamedParamCnt)"
+                unnamedParamCnt += 1
+            }
+            
             parameters.append(
                 SwiftFormal(
                     label: parameter.argumentLabel,
-                    name: parameter.name,
+                    name: paramName,
                     type: parameter.typeName.better,
                     defaultValue: parameter.defaultValue
                 )
