@@ -2,12 +2,12 @@ import Foundation
 import swsh
 
 #if os(macOS)
-let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2023-08-06-a.xctoolchain"
+let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.9.1-RELEASE.xctoolchain"
 #elseif os(Linux)
-let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2023-08-06-a.xctoolchain"
+let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.9.1-RELEASE.xctoolchain"
 #elseif os(Windows)
 // TODO: There does not appear to be a Windows-native version of this. WSL could maybe use this, but would it still identify the platform as Windows?
-let wasmToolchain = "C:\\Library\\Developer\\Toolchains\\swift-wasm-5.9-SNAPSHOT-2023-08-06-a-ubuntu22.04_x86_64"
+let wasmToolchain = "C:\\Library\\Developer\\Toolchains\\swift-wasm-5.9.1-RELEASE-ubuntu22.04_x86_64"
 #endif
 
 #if os(macOS)
@@ -469,9 +469,9 @@ enum Platform: CustomStringConvertible, Hashable {
     func buildDir(_ configuration: BuildConfiguration) throws -> String {
         let directory: String
         if isNative, configuration.fat {
-            directory = ".build\(ps)apple\(ps)\(configuration.debug ? "debug" : "release")"
+            directory = "\(FileManager.default.currentDirectoryPath)\(ps).build\(ps)apple\(ps)\(configuration.debug ? "debug" : "release")"
         } else if case .kotlinAndroid(let arch) = self {
-            directory = ".build\(ps)android-build\(ps)\(arch.triple)\(ps)\(configuration.debug ? "debug" : "release")"
+            directory = "\(FileManager.default.currentDirectoryPath)\(ps).build\(ps)android-build\(ps)\(arch.triple)\(ps)\(configuration.debug ? "debug" : "release")"
         } else {
             directory = try swiftBuild("--show-bin-path", configuration: configuration).runString().trimmingCharacters(in: .whitespacesAndNewlines)
         }

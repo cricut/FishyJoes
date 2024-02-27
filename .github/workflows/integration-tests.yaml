@@ -127,7 +127,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
       SWIFT_WASM_URL: |-
-        https://github.com/swiftwasm/swift/releases/download/swift-wasm-5.9-SNAPSHOT-2023-08-06-a/swift-wasm-5.9-SNAPSHOT-2023-08-06-a-ubuntu20.04_x86_64.tar.gz
+        https://github.com/swiftwasm/swift/releases/download/swift-wasm-5.9.1-RELEASE/swift-wasm-5.9.1-RELEASE-ubuntu20.04_x86_64.tar.gz
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

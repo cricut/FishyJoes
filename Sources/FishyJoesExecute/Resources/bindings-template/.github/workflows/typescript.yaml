@@ -18,7 +18,7 @@ concurrency:
 env:
   NODE_AUTH_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
   NODE_VERSION: "16.x"
-  SWIFT_WASM_VERSION: "5.9-SNAPSHOT-2023-08-06-a"
+  SWIFT_WASM_VERSION: "5.9.1-RELEASE"
 
 jobs:
   build-test-pack-ts-mac:

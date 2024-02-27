@@ -22,11 +22,6 @@ let package = Package(
             ),
         ] : [
             .library(
-                name: "__MODULE_NAME__-node-native",
-                type: .dynamic,
-                targets: ["__MODULE_NAME___NodeNativeShim"]
-            ),
-            .library(
                 name: "__MODULE_NAME__-node",
                 type: .dynamic,
                 targets: ["__MODULE_NAME___NodeInterface"]
@@ -41,8 +36,7 @@ let package = Package(
                 type: .dynamic,
                 targets: ["__MODULE_NAME___IotaInterface"]
             ),
-        ]
-    ),
+        ],
     dependencies: [
         .package(
             // url: "https://github.com/cricut/__MODULE_NAME__", .exact("__MODULE_VERSION__")
