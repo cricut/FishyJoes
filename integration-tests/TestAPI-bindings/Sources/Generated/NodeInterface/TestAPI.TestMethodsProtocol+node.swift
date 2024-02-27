@@ -23,7 +23,7 @@ struct _NodeTestMethodsProtocol: TestAPI.TestMethodsProtocol {
         bazImpl!()
     }
     var garplyImpl: (() -> String)?
-    public func garply(_ _1: String) throws -> String {
+    public func garply(_ _0: String) throws -> String {
         garplyImpl!()
     }
     var xyzzyImpl: (() -> String)?

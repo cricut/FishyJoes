@@ -49,7 +49,6 @@ final class KotlinTranslator: Translator {
                 contentsOf:
                     method.parameters.map { parameter in
                         let resolved = context.resolve(type: parameter.type, generics: exportAnnotation.genericOverrides)
-                        var paramName = parameter.name
                         return (name: parameter.name, type: resolved.converterType.name + ".CType")
                     }
             )

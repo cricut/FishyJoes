@@ -35,13 +35,13 @@ struct _JavaTestOptionalsProtocol: TestAPI.TestOptionalsProtocol {
     }
 
     static var _spqrMethodID: jmethodID?
-    public func spqr(_ _1: AssociatedDataEnum) throws -> Int {
+    public func spqr(_ pippo: AssociatedDataEnum) throws -> Int {
         let env = try _javaWitness.currentThreadEnv()
         return try Swift.Int.fromJava(
             env.CallLongMethod(
                 _javaWitness.object,
                 Self._spqrMethodID,
-                jvalue(try TestAPI.AssociatedDataEnum.toJava(_1, env: env))
+                jvalue(try TestAPI.AssociatedDataEnum.toJava(pippo, env: env))
             ),
             env: env
         )

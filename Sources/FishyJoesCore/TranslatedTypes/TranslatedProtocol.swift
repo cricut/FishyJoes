@@ -147,15 +147,8 @@ struct TranslatedProtocol: TranslatedType {
                 }
                 var paramSigs = [String]()
                 do {
-                    var unnamedParamCnt = 1
                     for param in method.parameters {
-                        // for protocols, only look at the label (external parameter name), don't use the internal parameter name i.e. name)
-                        var paramName = param.label ?? ""
-                        if paramName.isEmpty {
-                            paramName = "_ _\(unnamedParamCnt)"
-                            unnamedParamCnt += 1
-                        }
-                        paramSigs.append("\(paramName): \(param.type.name)")
+                        paramSigs.append("\(param.labelAndName): \(param.type.name)")
                     }
                 }
                 fragment.output("var \(method.callName)Impl: (() -> \(method.returnType.name))?")
@@ -318,15 +311,8 @@ struct TranslatedProtocol: TranslatedType {
                 fragment.output("static var _\(method.callName)MethodID: jmethodID?")
                 var paramSigs = [String]()
                 do {
-                    var unnamedParamCnt = 1
                     for param in method.parameters {
-                        // for protocols, only look at the label (external parameter name), don't use the internal parameter name i.e. name)
-                        var paramName = param.label ?? ""
-                        if paramName.isEmpty {
-                            paramName = "_ _\(unnamedParamCnt)"
-                            unnamedParamCnt += 1
-                        }
-                        paramSigs.append("\(paramName): \(param.type.name)")
+                        paramSigs.append("\(param.labelAndName): \(param.type.name)")
                     }
                 }
                 fragment.outputBlock("\(method.isStatic ? "static " : "")public func \(method.callName)(\(paramSigs.joined(separator: ", ")))\(returnSignature) {") {
@@ -335,16 +321,10 @@ struct TranslatedProtocol: TranslatedType {
                         fragment.outputBlock("env.Call\(resolvedReturn.jniType.valueType)Method(", closeWith: "),") {
                             fragment.output("_javaWitness.object,")
                             fragment.output("Self._\(method.callName)MethodID", newLineTerminated: false)
-                            var unnamedParamCnt = 1
                             for param in method.parameters {
-                                var paramName = param.label ?? ""
-                                if paramName.isEmpty {
-                                    paramName = "_\(unnamedParamCnt)"
-                                    unnamedParamCnt += 1
-                                }
                                 fragment.output(",")
                                 let resolved = context.resolve(type: param.type)
-                                fragment.output("jvalue(try \(resolved.converterType.name).toJava(\(paramName), env: env))", newLineTerminated: false)
+                                fragment.output("jvalue(try \(resolved.converterType.name).toJava(\(param.name), env: env))", newLineTerminated: false)
                             }
                             fragment.output()
                         }
@@ -378,13 +358,7 @@ struct TranslatedProtocol: TranslatedType {
                     let returnSignature = "\(method.isThrowing ? " throws" : "") -> \(method.returnType.name)"
                     fragment.outputBlock("public func \(method.name)\(returnSignature) {", closeWith: "}") {
                         var methodParamsStr = [String]()
-                        var unnamedParamCnt = 1
                         for param in method.parameters {
-                            var paramName = param.name
-                            if paramName.isEmpty {
-                                paramName = "_\(unnamedParamCnt)"
-                                unnamedParamCnt += 1
-                            }
                             if let paramLabel = param.label {
                                 methodParamsStr.append("\(paramLabel): \(param.name)")
                             } else {

@@ -48,13 +48,13 @@ struct _JavaTestMethodsProtocol: TestAPI.TestMethodsProtocol {
     }
 
     static var _garplyMethodID: jmethodID?
-    public func garply(_ _1: String) throws -> String {
+    public func garply(_ _0: String) throws -> String {
         let env = try _javaWitness.currentThreadEnv()
         return try Swift.String.fromJava(
             env.CallObjectMethod(
                 _javaWitness.object,
                 Self._garplyMethodID,
-                jvalue(try Swift.String.toJava(_1, env: env))
+                jvalue(try Swift.String.toJava(_0, env: env))
             ),
             env: env
         )

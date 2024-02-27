@@ -16,7 +16,7 @@ struct _NodeTestOptionalsProtocol: TestAPI.TestOptionalsProtocol {
         wombatImpl!()
     }
     var spqrImpl: (() -> Int)?
-    public func spqr(_ _1: AssociatedDataEnum) throws -> Int {
+    public func spqr(_ pippo: AssociatedDataEnum) throws -> Int {
         spqrImpl!()
     }
 }

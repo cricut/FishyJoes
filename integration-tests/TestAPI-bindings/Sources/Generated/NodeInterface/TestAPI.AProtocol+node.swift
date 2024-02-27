@@ -21,7 +21,7 @@ struct _NodeAProtocol: TestAPI.AProtocol {
         hasADefaultImplementationImpl!()
     }
     var hasADefaultImplementation2Impl: (() -> Double)?
-    public func hasADefaultImplementation2(_ _1: String, b: Bool, _ _2: Double) throws -> Double {
+    public func hasADefaultImplementation2(_ a: String, b: Bool, _ c: Double) throws -> Double {
         hasADefaultImplementation2Impl!()
     }
 }
