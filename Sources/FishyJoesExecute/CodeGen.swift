@@ -321,7 +321,7 @@ extension CodeGen {
                         try cmd("codesign", "-s", "-", dest).run()
                     }
                 }
-                
+
                 // Define functions to operate on files & lines to replace each instance of __MODULE_NAME__ with the name of a module
                 // and replace each line containing __MODULE_DEPENDENCY__ with one line for each dependency module
                 func template(line: String, moduleName: String, dependencies: [String]) -> [String] {
@@ -462,7 +462,6 @@ extension CodeGen {
                                         function applyExtensions() {}
                                         const imports = {};
                                         export { applyExtensions, imports };
-                                        
                                         """
                                     )
                                     .output(overwritingFile: outPath)
@@ -474,7 +473,7 @@ extension CodeGen {
                         // Install the module library and Node interfacing library
                         try installLibrary(nodeModule.name)
                         try installLibrary(nodeModule.nativeLibName)
-                        
+
                         // For node to load a library correctly, the file must be ".cjs.node", so compile a shim to load the actual Node interfacing library
                         // and copy it into the build directory so it can be installed like any other library
                         // TODO: When SwiftPM supports product dependencies on targets within the same package, use them instead
@@ -493,7 +492,7 @@ extension CodeGen {
                         let nodeNativeLibPath = try "\(platform.buildDir(configuration))\(ps)\(platform.dylibName(for: nodeModule.nodeShimLibName))"
                         try cmd("cp", shimDylibPath, nodeNativeLibPath).run()
                         try installLibrary(nodeModule.nodeShimLibName, installName: nodeModule.nodeShimCJSName)
-                        
+
                         // Create the required Javascript files for loading the module's native library from node
                         var moduleDotJS: [String] = []
                         for dependency in nodeDependencies {
@@ -515,7 +514,6 @@ extension CodeGen {
                                         function applyExtensions() {}
                                         const imports = {};
                                         export { applyExtensions, imports };
-                                        
                                         """
                                 )
                                 .output(overwritingFile: outPath)
@@ -639,7 +637,6 @@ extension CodeGen {
                             let nativeLibFilename = platform.dylibName(for: dependency.nativeLibName)
                             // TODO: Should copy?!? How to establish this link with only one file?
                             postinstall += "COPY \"%package_directory%\\\(dependency.npmPackageName)\\\(nativeLibFilename)\" \"\(nativeLibFilename)\""
-                            //postinstall += "mklink \"\(nativeLibFilename)\" \"%package_directory%\\\(dependency.npmPackageName)\\\(dependency.nodeShimCJSName)\""
                         }
 
                         try cmd("cat")

@@ -287,7 +287,6 @@ struct NodeTranslator: Translator {
             "NodeInterface/TypeSetup.swift",
             additionalImports: ["Foundation", "FishyJoesNodeRuntime", "NodeAPI"]
         )
-
         nodeTypeListFragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
         nodeTypeListFragment.outputBlock("public func registerModule\(context.module.name)(env: NAPI.Env, exports: NAPI.Value) throws -> NAPI.Value {") {
             nodeTypeListFragment.output("#if os(WASI)")
@@ -311,10 +310,10 @@ struct NodeTranslator: Translator {
             exportFragment.output("@_exported import \(dependency)_NodeInterface")
         }
 
-        let nodeNativeShimFragment = SourceFragment(sourceryDestination: "file:NodeNativeShim/NAPIRegisterModule.swift")
-        nodeNativeShimFragment.output("import NodeAPI")
-        nodeNativeShimFragment.output("import FishyJoesNodeRuntime")
-        nodeNativeShimFragment.output("import \(context.module.name)_NodeInterface")
+        let nodeNativeShimFragment = context.swiftFragment(
+            "NodeNativeShim/NAPIRegisterModule.swift",
+            additionalImports: ["FishyJoesNodeRuntime", "NodeAPI", "\(context.module.name)_NodeInterface"]
+        )
         nodeNativeShimFragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
         nodeNativeShimFragment.output("@_cdecl(\"napi_register_module_v1\")")
         nodeNativeShimFragment.outputBlock("public func napi_register_module_v1(env: napi_env, exports: napi_value) -> napi_value? {") {
@@ -324,14 +323,11 @@ struct NodeTranslator: Translator {
                 nodeNativeShimFragment.output("try registerModule\(context.module.name)(env: env, exports: exports)")
             }
         }
-        
-        let wasmShimFragment = SourceFragment(sourceryDestination: "file:WasmMainShim/NAPIRegisterModule.swift")
-        wasmShimFragment.output("import NodeAPI")
-        wasmShimFragment.output("import FishyJoesNodeRuntime")
-        wasmShimFragment.output("import \(context.module.name)_NodeInterface")
-        for dependency in context.module.dependencies {
-            wasmShimFragment.output("import \(dependency)_NodeInterface")
-        }
+
+        let wasmShimFragment = context.swiftFragment(
+            "WasmMainShim/NAPIRegisterModule.swift",
+            additionalImports: ["FishyJoesNodeRuntime", "NodeAPI", "\(context.module.name)_NodeInterface"] + context.module.dependencies.map { "\($0)_NodeInterface" }
+        )
         wasmShimFragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
         wasmShimFragment.output("@_cdecl(\"napi_register_module_v1\")")
         wasmShimFragment.outputBlock("public func napi_register_module_v1(env: napi_env, exports: napi_value) -> napi_value? {") {
