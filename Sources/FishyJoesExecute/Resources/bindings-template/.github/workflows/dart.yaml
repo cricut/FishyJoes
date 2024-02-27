@@ -134,8 +134,8 @@ jobs:
 
       - uses: compnerd/gha-setup-swift@main
         with:
-          branch: swift-5.6.2-release
-          tag: 5.6.2-RELEASE
+          branch: swift-5.9.1-release
+          tag: 5.9.1-RELEASE
 
       - name: Compile library
         run: |
