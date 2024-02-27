@@ -171,6 +171,7 @@ extension CodeGen {
 
             // Create / clean directories used by Sourcery to generate Swift and foreign language code files for the translated foreign languages
             let sourceLocations = [
+                "Sources\(ps)Generated\(ps)CommonInterface",
                 "Sources\(ps)Generated\(ps)WasmMainShim",
                 "Sources\(ps)Generated\(ps)NodeNativeShim",
                 "Sources\(ps)Generated\(ps)NodeInterface",
@@ -180,16 +181,17 @@ extension CodeGen {
                 "c-sharp\(ps)Cricut.\(config.module.lowercased())\(ps)generated",
                 "dart\(ps)lib\(ps)src\(ps)generated",
             ]
+            try cmd("rm", arguments: ["-rf", "Sources/Generated/FishyJoes.generated.swift"]).run()
             try cmd("rm", arguments: ["-rf"] + sourceLocations).run()
             try cmd("mkdir", arguments: ["-p"] + sourceLocations).run()
-            try cmd(
-                "touch",
-                "Sources\(ps)Generated\(ps)WasmMainShim\(ps)EmptyPlaceholder.swift",
-                "Sources\(ps)Generated\(ps)NodeNativeShim\(ps)EmptyPlaceholder.swift",
-                "Sources\(ps)Generated\(ps)NodeInterface\(ps)EmptyPlaceholder.swift",
-                "Sources\(ps)Generated\(ps)JavaInterface\(ps)EmptyPlaceholder.swift",
-                "Sources\(ps)Generated\(ps)IotaInterface\(ps)EmptyPlaceholder.swift"
-            ).run()
+
+            // Populate directories that are empty with a placeholder
+            try cmd("echo").output(overwritingFile: "Sources\(ps)Generated\(ps)CommonInterface\(ps)EmptyPlaceholder.swift").run()
+            try cmd("echo").output(overwritingFile: "Sources\(ps)Generated\(ps)WasmMainShim\(ps)EmptyPlaceholder.swift").run()
+            try cmd("echo").output(overwritingFile: "Sources\(ps)Generated\(ps)NodeNativeShim\(ps)EmptyPlaceholder.swift").run()
+            try cmd("echo").output(overwritingFile: "Sources\(ps)Generated\(ps)NodeInterface\(ps)EmptyPlaceholder.swift").run()
+            try cmd("echo").output(overwritingFile: "Sources\(ps)Generated\(ps)JavaInterface\(ps)EmptyPlaceholder.swift").run()
+            try cmd("echo").output(overwritingFile: "Sources\(ps)Generated\(ps)IotaInterface\(ps)EmptyPlaceholder.swift").run()
 
             // Build the Sourcery tool itself
             try cmd("swift", "build", "--product", "sourcery").run()

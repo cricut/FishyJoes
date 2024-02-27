@@ -2,12 +2,22 @@ package com.cricut.testapi
 
 import kotlinx.coroutines.*
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import java.lang.Exception
 
 @kotlinx.coroutines.ExperimentalCoroutinesApi
 internal class MethodTests {
+    companion object {
+        @BeforeAll
+        @JvmStatic
+        fun beforeAll() {
+            val procId = ProcessHandle.current().pid()
+            println("procId: $procId")
+            println()
+        }
+    }
     @Test
     fun testStaticMethods() {
         assertEquals(123, Methods.staticGet)
@@ -26,6 +36,11 @@ internal class MethodTests {
     fun testInstanceMethods() {
         val instance = Methods.create()
 
+        val doublePlusGood = instance.doublePlusGood(34, 4.5)
+        assertEquals(78, doublePlusGood)
+
+        val a = instance.instanceGet
+        assertEquals(1234, a)
         assertEquals(1234, instance.instanceGet)
         assertEquals(2345, instance.instanceGetMethod())
 

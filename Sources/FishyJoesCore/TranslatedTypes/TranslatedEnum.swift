@@ -17,6 +17,7 @@ struct TranslatedEnum: TranslatedType {
     let fields: [Variable]
     let isInhabited: Bool
     let definingModule: Module
+    let conformances: Set<String>
 
     struct Case {
         let documentation: [String]
@@ -87,6 +88,7 @@ struct TranslatedEnum: TranslatedType {
         self.fields = type.variables.filter { $0.exportAnnotation != nil }
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
+        self.conformances = exportAnnotation.conformances
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
@@ -151,6 +153,7 @@ struct TranslatedEnum: TranslatedType {
         if cases.allSatisfy({ $0.associatedValues.isEmpty }), !cases.isEmpty {
             // Simple enum, export as strings
             fragment.outputBlock("extension \(sourceType.name): FishyJoesNodeRuntime.NodeConverter {") {
+                fragment.output("public typealias SwiftType = Self")
                 fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {") {
                     fragment.output("switch try String.fromNode(value, env: env) {")
                     for enumCase in cases {
@@ -221,6 +224,7 @@ struct TranslatedEnum: TranslatedType {
             )
         } else {
             fragment.outputBlock("extension \(sourceType.name): FishyJoesNodeRuntime.NodeConverter {") {
+                fragment.output("public typealias SwiftType = Self")
                 fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {") {
                     for enumCase in cases {
                         let className = "\(nodeName).\(upperCaseFirst(enumCase.name))"
@@ -419,7 +423,7 @@ struct TranslatedEnum: TranslatedType {
 
     func jniDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "JavaInterface/\(sourceType.name)+java.swift",
+            "JavaInterface/\(sourceType.name)+java-type.swift",
             additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
         )
         let className = context.kotlinTranslator.javaClassName(nodeName, in: context)
@@ -543,7 +547,7 @@ struct TranslatedEnum: TranslatedType {
                 fieldsAndMethods:
                     fields.compactMap { context.kotlin(field: $0, useNativeName: false) } +
                     methods.compactMap { context.kotlin(method: $0) }
-            )
+            ).conforming(to: conformances, context: context)
         )
 
         return fragment

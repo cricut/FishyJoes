@@ -13,7 +13,7 @@ extension Box {
 }
 
 extension AnyBox {
-    static var javaClass: jclass?
+    public static var javaClass: jclass?
     static var initMethodID: jmethodID?
     static var refFieldID: jfieldID?
 

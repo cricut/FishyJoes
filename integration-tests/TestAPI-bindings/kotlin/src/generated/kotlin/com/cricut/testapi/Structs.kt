@@ -18,8 +18,16 @@ sealed class Structs {
      */
     data class MutableStruct(
         var i: Long
-    )
-     {
+    ) {
+        /**
+         * <!-- FishyJoes.export(asyncGetI) -->
+         */
+        suspend fun asyncGetI(
+        ): Long = __jni_asyncGetI().await()
+        @JvmName("__jni_asyncGetI")
+        private external fun __jni_asyncGetI(
+        ): kotlinx.coroutines.Deferred<Long>
+
         /**
          * <!-- FishyJoes.export(increment) -->
          */
@@ -37,15 +45,6 @@ sealed class Structs {
         @JvmName("__jni_incrementAsync")
         private external fun __jni_incrementAsync(
         ): kotlinx.coroutines.Deferred<kotlin.Unit>
-
-        /**
-         * <!-- FishyJoes.export(asyncGetI) -->
-         */
-        suspend fun asyncGetI(
-        ): Long = __jni_asyncGetI().await()
-        @JvmName("__jni_asyncGetI")
-        private external fun __jni_asyncGetI(
-        ): kotlinx.coroutines.Deferred<Long>
 
         companion object {
             /**
@@ -65,7 +64,7 @@ sealed class Structs {
     /**
      * <!-- FishyJoes.exportReference(Structs.ReferenceStruct) -->
      */
-    class ReferenceStruct private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference) {
+    class ReferenceStruct private constructor(_swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference) {
         /**
          * <!-- FishyJoes.export(immutable) -->
          */
@@ -138,8 +137,7 @@ sealed class Structs {
     data class MemberwiseStruct(
         val immutable: kotlin.String,
         var mutable: kotlin.String
-    )
-     {
+    ) {
         /**
          * <!-- FishyJoes.export(asyncGetMutable) -->
          */

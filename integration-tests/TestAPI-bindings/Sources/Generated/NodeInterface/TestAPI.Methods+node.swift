@@ -46,6 +46,21 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
+                "doublePlusGood": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "doublePlusGood", expectedArgumentCount: 2, hasNamedOptions: false) { env in
+                            let result = try Swift.Int.toNode(
+                                env.this(converter: TestAPI.Methods.self).doublePlusGood(
+                                    a: try env.argument(at: 0, converter: Swift.Int.self),
+                                    b: try env.argument(at: 1, converter: Swift.Double.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                ),
                 "async42": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "async42", expectedArgumentCount: 0, hasNamedOptions: false) { env in
@@ -591,6 +606,17 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "instanceGet", expectedArgumentCount: 0) { env in
                                 try Swift.Int.toNode(env.this(converter: TestAPI.Methods.self).instanceGet, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: false
+                ),
+                "garply": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "garply", expectedArgumentCount: 0) { env in
+                                try Swift.Int.toNode(env.this(converter: TestAPI.Methods.self).garply, env: env.env)
                             }
                         },
                         setter: nil

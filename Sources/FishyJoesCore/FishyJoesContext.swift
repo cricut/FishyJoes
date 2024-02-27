@@ -152,7 +152,7 @@ public class FishyJoesContext {
 
         // Collect type information before starting translation
         // This collects the named types possible for use later in resolve().
-        let translatedTypes = templateContext.types.all.compactMap { type -> TranslatedType? in
+        let translatedTypes = templateContext.types.types.compactMap { type -> TranslatedType? in
             debugContext = "Translating type \(type.name)"
             return translate(typeDefinition: type)
         }
@@ -165,26 +165,50 @@ public class FishyJoesContext {
         }
 
         // Translate
-        var seenMethods: Set<Method> = []
-        for type in templateContext.types.all + templateContext.types.extensions {
-            for method in type.rawMethods.compactMap(Method.init) {
-                if seenMethods.contains(method) {
+        var methodsToTranslateForTypeDict = [Type: [SourceryMethod]]()
+        for type in templateContext.types.types {
+            if let protocolType = type as? SourceryProtocol {
+                methodsToTranslateForTypeDict[type] = protocolType.methodsPreferringDefaultImpl()
+            } else {
+                methodsToTranslateForTypeDict[type] = type.rawMethods
+            }
+        }
+
+        for (type, methods) in methodsToTranslateForTypeDict {
+            for method in methods.compactMap(Method.init) {
+                debugContext = "Translating method \(type.name).\(method.name)"
+                collectedFragments.append(contentsOf: kotlinTranslator.translate(method: method, context: self, isProtocol: type is SourceryProtocol, typeName: type.localName))
+                // TODO: implement Protocol handling
+                if type is SourceryProtocol {
                     continue
                 }
-                debugContext = "Translating method \(type.name).\(method.name)"
-                seenMethods.insert(method)
-                collectedFragments.append(contentsOf: kotlinTranslator.translate(method: method, context: self))
+                if let conformances = type.exportAnnotation?.conformances,
+                   !conformances.isEmpty {
+                    continue
+                }
                 collectedFragments.append(contentsOf: iotaTranslator.translate(method: method, context: self))
             }
+        }
+
+        for type in templateContext.types.types {
             for variable in type.rawVariables {
                 debugContext = "Translating variable \(type.name).\(variable.name)"
                 guard variable.exportAnnotation != nil else { continue }
                 collectedFragments.append(contentsOf: kotlinTranslator.translate(variable: variable, context: self))
+                // TODO: implement Protocol handling
+                if type is SourceryProtocol {
+                    continue
+                }
+                if let conformances = type.exportAnnotation?.conformances,
+                   !conformances.isEmpty {
+                    continue
+                }
                 collectedFragments.append(contentsOf: iotaTranslator.translate(variable: variable, context: self))
             }
         }
         // Translate any top level functions
-        for _ in templateContext.functions.compactMap(Method.init) {
+        let topLevelFunctions = templateContext.functions.compactMap(Method.init)
+        guard topLevelFunctions.isEmpty else {
             fatalErr("Support for exporting top level functions has been removed for now")
         }
 
@@ -219,7 +243,14 @@ public class FishyJoesContext {
         // process all the fragments so that inner classes are inside outer classes
         collectedFragments.append(
             contentsOf: processInnerClasses(
-                rootClass: KotlinClass(module: module, documentation: [], name: "__root__"),
+                rootClass: KotlinClass(
+                    module: module,
+                    documentation: [],
+                    name: "__root__",
+                    methods: [],
+                    fields: [],
+                    conformances: []
+                ),
                 in: &kotlinClasses
             )
         )
@@ -263,7 +294,7 @@ public class FishyJoesContext {
         return (headerFragments + collectedFragments + footerFragments).map(\.contents).joined()
     }
 
-    /// Process a set of classes to nest their innner classes properly for generation.
+    /// Process a set of classes to nest their inner classes properly for generation.
     ///
     /// - Important: The provided `rootClass` is assumed to transfer all ownership to this function.
     ///     It should genrally not be used elsewhere as it will be heavily mutated.
@@ -272,7 +303,7 @@ public class FishyJoesContext {
     /// - Parameters:
     ///   - rootClass: The root to put all nested classes inside.
     ///   - classes: The classes to process.
-    ///   - seperator: The separator in the name to split on for namespaces.
+    ///   - separator: The separator in the name to split on for namespaces.
     /// - Returns: The resulting fragments with their inner classes properly processed.
     func processInnerClasses<C: NestedClass>(
         rootClass: @autoclosure () -> C,
@@ -317,6 +348,8 @@ public class FishyJoesContext {
             return TranslatedStruct(context: self, type: type)
         } else if let type = type as? Enum {
             return TranslatedEnum(context: self, type: type)
+        } else if let type = type as? SourceryProtocol {
+            return TranslatedProtocol(context: self, type: type)
         } else if let type = type as? Actor {
             return TranslatedReference(context: self, type: type)
         } else if let type = type as? Class {
@@ -554,6 +587,10 @@ public class FishyJoesContext {
 
     func add(dartClass: DartClass) {
         dartClasses.append(dartClass)
+        // TODO: Do Protocols
+        guard dartClass.conformances.isEmpty else {
+            return
+        }
         for (name, (args, returnType)) in dartClass.nativeMethods {
             dartTranslator.nativeMethods.append(
                 .init(

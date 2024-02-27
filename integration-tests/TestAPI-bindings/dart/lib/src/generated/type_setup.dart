@@ -24,6 +24,7 @@ import './Structs_MemberwiseStruct.dart' as TestAPI;
 import './Structs_MutableStruct.dart' as TestAPI;
 import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Structs_ReferenceStruct.dart' as TestAPI;
+import './TestProtocolEnum.dart' as TestAPI;
 import './Tuples.dart' as TestAPI;
 import './URLs.dart' as TestAPI;
 import './UnicodeScalar_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
@@ -1558,6 +1559,22 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Methods_create");
+    TestAPI.Methods.f__iota_TestAPI_Methods_doublePlusGood = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            UnownedRef _this,
+            ffi.Int a,
+            ffi.Double b,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            int a,
+            double b,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_Methods_doublePlusGood");
     TestAPI.Methods.f__iota_TestAPI_Methods_staticAsync42 = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -2872,6 +2889,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_Functions_sixthThing");
+    TestAPI.Methods.f__iota_get_TestAPI_Methods_garply = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_Methods_garply");
     TestAPI.Methods.f__iota_get_TestAPI_Methods_instanceGet = dylib.lookupFunction<
         ffi.Int Function(
             Env env,
@@ -5149,6 +5178,16 @@ final ensureLoaded = (() {
         });
     });
 
+    Loader.shared.once("setup_OptionalConverter<Swift.String>", () {
+        // print("setting up Optional<String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_OptionalConverter_setup(
+                Loader.shared.env,
+                exn
+            );
+        });
+    });
+
     Loader.shared.once("setup_OptionalConverter<Swift.UInt>", () {
         // print("setting up Optional<UInt> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
@@ -5901,6 +5940,28 @@ final ensureLoaded = (() {
         utils.check<void>((exn) {
             TestAPI_URLs_setup(
                 Loader.shared.env,
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>", () {
+        // print("setting up (Bool, Double, Array<String>) (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_Tuple3Converter_setup<bool, double, List<String>>(
+                Loader.shared.env,
+                "Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>",
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>", () {
+        // print("setting up (Bool, Int, String) (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_Tuple3Converter_setup<bool, int, String>(
+                Loader.shared.env,
+                "Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>",
                 exn
             );
         });

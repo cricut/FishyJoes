@@ -24,6 +24,7 @@ import './Structs_MemberwiseStruct.dart' as TestAPI;
 import './Structs_MutableStruct.dart' as TestAPI;
 import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Structs_ReferenceStruct.dart' as TestAPI;
+import './TestProtocolEnum.dart' as TestAPI;
 import './Tuples.dart' as TestAPI;
 import './URLs.dart' as TestAPI;
 import './UnicodeScalar_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
@@ -95,10 +96,12 @@ class Structs_MutableStruct {
         i: i ?? this.i
     );
 
-    /// <!-- FishyJoes.export(create) -->
-    static TestAPI.Structs_MutableStruct create(
+    /// <!-- FishyJoes.export(asyncGetI) -->
+    Future<int> asyncGetI(
     ) =>
-        consumeCreatedRef<TestAPI.Structs_MutableStruct>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_MutableStruct_create(Loader.shared.env, _exn)))
+        GCRef.using(this, (_thisHandle) =>
+            consumeCreatedRef<Future<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_MutableStruct_asyncGetI(Loader.shared.env, _thisHandle.ptr, _exn)))
+        )
     ;
 
     /// <!-- FishyJoes.export(increment) -->
@@ -117,12 +120,10 @@ class Structs_MutableStruct {
         )
     ;
 
-    /// <!-- FishyJoes.export(asyncGetI) -->
-    Future<int> asyncGetI(
+    /// <!-- FishyJoes.export(create) -->
+    static TestAPI.Structs_MutableStruct create(
     ) =>
-        GCRef.using(this, (_thisHandle) =>
-            consumeCreatedRef<Future<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_MutableStruct_asyncGetI(Loader.shared.env, _thisHandle.ptr, _exn)))
-        )
+        consumeCreatedRef<TestAPI.Structs_MutableStruct>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_MutableStruct_create(Loader.shared.env, _exn)))
     ;
 
     static late CreatedRef Function(

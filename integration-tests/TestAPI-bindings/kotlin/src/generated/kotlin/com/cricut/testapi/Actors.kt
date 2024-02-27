@@ -16,7 +16,7 @@ sealed class Actors {
     /**
      * <!-- FishyJoes.export(Actors.TemperatureLogger) -->
      */
-    class TemperatureLogger private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference) {
+    class TemperatureLogger private constructor(_swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference) {
         /**
          * <!-- FishyJoes.export(label) -->
          */

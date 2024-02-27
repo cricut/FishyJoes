@@ -7,6 +7,7 @@ import Foundation
 import TestAPI
 
 extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
+    public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         if try env.instanceof(value, NodeClass.constructor(for: "AssociatedDataEnum.Thing", env: env)) {
             let _value = try env.getNamedProperty(value, "value")
