@@ -14,6 +14,7 @@ protocol TranslatedType {
     var definingTSNamespace: String? { get }
     var isInhabited: Bool { get }
     var containedNamedTypes: [TranslatedType] { get }
+    var conformances: Set<String> { get }
     func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>]
     func cSharpSetupDelegates(in context: FishyJoesContext) -> [String]
     func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>]
@@ -86,9 +87,11 @@ extension TranslatedType {
     }
 
     var isInhabited: Bool { true }
+
+    var conformances: Set<String> { [] }
 }
 
-indirect enum JNIType: Codable, Equatable {
+indirect enum JNIType: Codable, Hashable {
     case object(String)
     case array(JNIType)
     case boolean
@@ -208,5 +211,101 @@ extension Type {
 
         Type.inhabitedCache[self] = result
         return result
+    }
+}
+
+extension SourceryProtocol {
+    // Default implementation methods replace unimplemented methods for Protocols
+    func methodsPreferringDefaultImpl() -> [SourceryMethod] {
+        var methodsPreferringImplemented = [SourceryMethod]()
+        for method in rawMethods {
+            let mostlyEqualMethods = methodsPreferringImplemented.filter {
+                return $0.isMostlyEqual(other: method)
+            }
+            if !mostlyEqualMethods.isEmpty {
+                for equalExcludingImplementedMethod in mostlyEqualMethods {
+                    if equalExcludingImplementedMethod.isInExtension {
+                        guard let index = methodsPreferringImplemented.firstIndex(of: method) else {
+                            assertionFailure("method should exist in methodsPreferringImplemented")
+                            continue
+                        }
+                        methodsPreferringImplemented.remove(at: index)
+                        methodsPreferringImplemented.insert(equalExcludingImplementedMethod, at: index)
+                    } else if method.isInExtension {
+                        guard let index = methodsPreferringImplemented.firstIndex(of: equalExcludingImplementedMethod) else {
+                            assertionFailure("equalExcludingImplementedMethod should exist in methodsPreferringImplemented")
+                            continue
+                        }
+                        methodsPreferringImplemented.remove(at: index)
+                        methodsPreferringImplemented.insert(method, at: index)
+                    }
+                }
+            } else {
+                methodsPreferringImplemented.append(method)
+            }
+        }
+        return methodsPreferringImplemented
+    }
+}
+
+extension SourceryMethod {
+    func isMostlyEqual(other: SourceryMethod) -> Bool {
+        let paramsMostlyEqual = zip(parameters, other.parameters).filter {
+            $0.isMostlyEqual(other: $1)
+        }.count == parameters.count
+        let selectorNameMatches = selectorName == other.selectorName
+        let parametersCountMatches = parameters.count == other.parameters.count
+        let returnTypeNameMatches = returnTypeName == other.returnTypeName
+        let returnTypeMatches = returnType == other.returnType
+        let isAsyncMatches = isAsync == other.isAsync
+        let throwsMatches = `throws` == other.`throws`
+        let rethrowsMatches = `rethrows` == other.`rethrows`
+        let accessLevelMatches = accessLevel == other.accessLevel
+        let isStaticMatches = isStatic == other.isStatic
+        let isClassMatches = isClass == other.isClass
+        let isFailableInitializerMatches = isFailableInitializer == other.isFailableInitializer
+        let documentationMatches = documentation == other.documentation
+        let annotationsMatches = annotations == other.annotations
+        let attributesMatches = attributes == other.attributes
+
+        return selectorNameMatches &&
+        paramsMostlyEqual &&
+        parametersCountMatches &&
+        returnTypeNameMatches &&
+        returnTypeMatches &&
+        isAsyncMatches &&
+        throwsMatches &&
+        rethrowsMatches &&
+        accessLevelMatches &&
+        isStaticMatches &&
+        isClassMatches &&
+        isFailableInitializerMatches &&
+        documentationMatches &&
+        annotationsMatches &&
+        attributesMatches
+    }
+
+    var isInExtension: Bool {
+        definedInType?.isExtension ?? false
+    }
+}
+
+extension MethodParameter {
+    func isMostlyEqual(other: MethodParameter) -> Bool {
+        let argumentLabelMatches = argumentLabel == other.argumentLabel
+        let typeNameMatches = typeName == other.typeName
+        let inoutMatches = `inout` == other.`inout`
+        let isVariadicMatches = isVariadic == other.isVariadic
+        let typeAttributesMatches = typeAttributes == other.typeAttributes
+        let defaultValueMatches = defaultValue == other.defaultValue
+        let annotationsMatches = annotations == other.annotations
+
+        return argumentLabelMatches &&
+        typeNameMatches &&
+        inoutMatches &&
+        isVariadicMatches &&
+        typeAttributesMatches &&
+        defaultValueMatches &&
+        annotationsMatches
     }
 }

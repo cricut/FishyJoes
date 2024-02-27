@@ -6,7 +6,7 @@ import java.lang.Exception
 /**
  * <!-- FishyJoes.exportReference(Methods) -->
  */
-class Methods private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference) {
+class Methods private constructor(_swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference) {
     /**
      * <!-- FishyJoes.export(instanceGet) -->
      */
@@ -14,6 +14,14 @@ class Methods private constructor(swiftReference: Long): com.cricut.fishyjoes.ru
       get() = __jni_get_instanceGet()
     @JvmName("__jni_get_instanceGet")
     private external fun __jni_get_instanceGet(): Long
+
+    /**
+     * <!-- FishyJoes.export(garply) -->
+     */
+    val garply: Long
+      get() = __jni_get_garply()
+    @JvmName("__jni_get_garply")
+    private external fun __jni_get_garply(): Long
 
     /**
      * <!-- FishyJoes.export(instanceModifiable) -->
@@ -44,6 +52,19 @@ class Methods private constructor(swiftReference: Long): com.cricut.fishyjoes.ru
     ): Long = __jni_instanceGetMethod()
     @JvmName("__jni_instanceGetMethod")
     private external fun __jni_instanceGetMethod(
+    ): Long
+
+    /**
+     * <!-- FishyJoes.export(doublePlusGood) -->
+     */
+    fun doublePlusGood(
+        a: Long,
+        b: Double
+    ): Long = __jni_doublePlusGood(a, b)
+    @JvmName("__jni_doublePlusGood")
+    private external fun __jni_doublePlusGood(
+        a: Long,
+        b: Double
     ): Long
 
     /**

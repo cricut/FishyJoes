@@ -26,3 +26,4 @@ package-lock.json
 *.so
 *.dylib
 *.cjs.node
+*.swift.orig

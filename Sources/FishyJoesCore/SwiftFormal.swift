@@ -11,3 +11,18 @@ struct SwiftFormal: Hashable {
         self.defaultValue = defaultValue
     }
 }
+
+extension SwiftFormal {
+    var labelAndName: String {
+        var paramStr = ""
+        if let label = label {
+            if label != name {
+                paramStr += label + " "
+            }
+        } else {
+            paramStr += "_ "
+        }
+        paramStr += name
+        return paramStr
+    }
+}

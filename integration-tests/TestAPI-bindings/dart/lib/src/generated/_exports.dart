@@ -25,5 +25,6 @@ export './Ranges.dart';
 export './SimpleEnum.dart';
 export './Strings.dart';
 export './Structs.dart';
+export './TestProtocolEnum.dart';
 export './Tuples.dart';
 export './URLs.dart';

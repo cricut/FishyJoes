@@ -972,8 +972,7 @@ sealed class Primitives {
         var fq: Float?,
         var d: Double,
         var dq: Double?
-    )
-     {
+    ) {
 
         companion object {
             /**

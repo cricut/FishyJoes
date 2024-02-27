@@ -19,6 +19,7 @@ struct TranslatedReference: TranslatedType {
     let hashable: Bool
     let isInhabited: Bool
     let definingModule: Module
+    let conformances: Set<String>
 
     init(context: FishyJoesContext, type: Type) {
         guard let exportAnnotation = type.exportAnnotation else {
@@ -43,6 +44,7 @@ struct TranslatedReference: TranslatedType {
         self.hashable = type.hashable
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
+        self.conformances = exportAnnotation.conformances
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
@@ -163,7 +165,7 @@ struct TranslatedReference: TranslatedType {
 
     func jniDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "JavaInterface/\(sourceType.name)+java.swift",
+            "JavaInterface/\(sourceType.name)+java-type.swift",
             additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
         )
         fragment.outputBlock("extension \(sourceType.name): JavaMutator {") {
@@ -183,6 +185,10 @@ struct TranslatedReference: TranslatedType {
                 }
             }
 
+            fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout \(sourceType.name), inout Env) async throws -> R) async throws -> R {") {
+                fragment.output("try await body(&Box<\(sourceType.name)>.fromJava(this, env: env).value, &env)")
+            }
+
             fragment.outputBlock("public static func javaSetup(env: Env) throws {") {
                 fragment.output("guard javaClass == nil else { return }")
                 fragment.output("try AnyBox.javaSetup(env: env)")
@@ -192,10 +198,6 @@ struct TranslatedReference: TranslatedType {
 
             fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout \(sourceType.name)) throws -> R) throws -> R {") {
                 fragment.output("try body(&Box<\(sourceType.name)>.fromJava(this, env: env).value)")
-            }
-
-            fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout \(sourceType.name), inout Env) async throws -> R) async throws -> R {") {
-                fragment.output("try await body(&Box<\(sourceType.name)>.fromJava(this, env: env).value, &env)")
             }
 
             if equatable != hashable {
@@ -239,7 +241,8 @@ struct TranslatedReference: TranslatedType {
                 (
                     javaName: "__jni_swiftEquals",
                     signature: "(\(jniType.asSignature)\(jniType.asSignature))Z",
-                    cName: "\(sourceType.name)._javaEquals"
+                    cName: "\(sourceType.name)._javaEquals",
+                    isProtocolDefault: false
                 )
             )
         }
@@ -248,7 +251,8 @@ struct TranslatedReference: TranslatedType {
                 (
                     javaName: "__jni_hashCode",
                     signature: "()I",
-                    cName: "\(sourceType.name)._javaHash"
+                    cName: "\(sourceType.name)._javaHash",
+                    isProtocolDefault: false
                 )
             )
         }
@@ -320,8 +324,9 @@ struct TranslatedReference: TranslatedType {
             documentation: documentation,
             name: kotlinName,
             constructor: .reference,
-            fieldsAndMethods: fieldsAndMethods
-        )
+            fieldsAndMethods: fieldsAndMethods,
+            conformances: ["com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference)"]
+        ).conforming(to: conformances, context: context)
         context.add(kotlinClass: product)
 
         return fragment
@@ -408,8 +413,11 @@ struct TranslatedReference: TranslatedType {
             }
         }
 
-        registerCSharpClass(in: context)
-        registerDartClass(in: context)
+        // TODO: Handle Protocols
+        if conformances.isEmpty {
+            registerCSharpClass(in: context)
+            registerDartClass(in: context)
+        }
 
         return fragment
     }
@@ -555,7 +563,8 @@ struct TranslatedReference: TranslatedType {
             documentation: documentation,
             name: dartType.name(),
             constructor: .reference,
-            fieldsAndMethods: fieldsAndMethods
+            fieldsAndMethods: fieldsAndMethods,
+            conformances: conformances
         )
         context.add(dartClass: dartProduct)
     }

@@ -8,8 +8,7 @@ import java.lang.Exception
  */
 data class String_PuttingTypesIntoQuestionablePlaces(
     val x: kotlin.String
-)
- {
+) {
     /**
      * <!-- FishyJoes.export(testCall) -->
      */

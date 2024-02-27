@@ -6,6 +6,7 @@ import FishyJoesNodeRuntime
 import Foundation
 import NodeAPI
 import TestAPI
+import TestAPI_CommonInterface
 
 #if !os(WASI)
 @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
@@ -129,6 +130,7 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try OptionalConverter<Swift.Int64>.nodeSetup(env: env, module: module)
     try OptionalConverter<Swift.Int8>.nodeSetup(env: env, module: module)
     try OptionalConverter<TestAPI.SimpleEnum>.nodeSetup(env: env, module: module)
+    try OptionalConverter<Swift.String>.nodeSetup(env: env, module: module)
     try OptionalConverter<Swift.UInt>.nodeSetup(env: env, module: module)
     try OptionalConverter<Swift.UInt16>.nodeSetup(env: env, module: module)
     try OptionalConverter<Swift.UInt32>.nodeSetup(env: env, module: module)
@@ -172,6 +174,8 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try TestAPI.Structs.MutableStruct.nodeSetup(env: env, module: module)
     try TestAPI.Structs.PuttingTypesIntoQuestionablePlaces.nodeSetup(env: env, module: module)
     try TestAPI.Structs.ReferenceStruct.nodeSetup(env: env, module: module)
+    try _AProtocolConverter.nodeSetup(env: env, module: module)
+    try TestAPI.AProtocolImplementation.nodeSetup(env: env, module: module)
     try TestAPI.Actors.nodeSetup(env: env, module: module)
     try TestAPI.AssociatedDataEnum.nodeSetup(env: env, module: module)
     try TestAPI.AsyncFunctions.nodeSetup(env: env, module: module)
@@ -189,6 +193,12 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try TestAPI.SimpleEnum.nodeSetup(env: env, module: module)
     try TestAPI.Strings.nodeSetup(env: env, module: module)
     try TestAPI.Structs.nodeSetup(env: env, module: module)
+    try _TestMethodsProtocolConverter.nodeSetup(env: env, module: module)
+    try _TestOptionalsProtocolConverter.nodeSetup(env: env, module: module)
+    try _TestPropertiesProtocolConverter.nodeSetup(env: env, module: module)
+    try TestAPI.TestProtocolClass.nodeSetup(env: env, module: module)
+    try TestAPI.TestProtocolEnum.nodeSetup(env: env, module: module)
+    try TestAPI.TestProtocolStruct.nodeSetup(env: env, module: module)
     try TestAPI.Tuples.nodeSetup(env: env, module: module)
     try TestAPI.URLs.nodeSetup(env: env, module: module)
     try Foundation.AttributedString.Runs.Run.nodeSetup(env: env, module: module)
@@ -212,6 +222,8 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try Swift.UInt64.nodeSetup(env: env, module: module)
     try Swift.UInt8.nodeSetup(env: env, module: module)
     try Foundation.URL.nodeSetup(env: env, module: module)
+    try Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>.nodeSetup(env: env, module: module)
+    try Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.nodeSetup(env: env, module: module)
     try Tuple2Converter<Swift.Int, Swift.String>.nodeSetup(env: env, module: module)
     try Tuple4Converter<Swift.Int8, Swift.Int16, Swift.Int32, Swift.Int64>.nodeSetup(env: env, module: module)
     try Tuple3Converter<Swift.String, Swift.Double, Swift.String>.nodeSetup(env: env, module: module)

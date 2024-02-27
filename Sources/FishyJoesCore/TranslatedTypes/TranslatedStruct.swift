@@ -16,6 +16,7 @@ struct TranslatedStruct: TranslatedType {
     let jniType: JNIType
     let isInhabited: Bool
     let definingModule: Module
+    let conformances: Set<String>
 
     init(context: FishyJoesContext, type: Type) {
         guard let exportAnnotation = type.exportAnnotation else {
@@ -36,10 +37,11 @@ struct TranslatedStruct: TranslatedType {
         self.computedVariables =
             (type.computedVariables + type.staticVariables).filter { $0.exportAnnotation != nil }
 
-        self.methods = type.methods.compactMap { Method($0) }
+        self.methods = type.methods.compactMap { Method($0) }.sorted(by: { $0.name < $1.name })
         self.documentation = type.documentation
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
+        self.conformances = exportAnnotation.conformances
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
@@ -84,10 +86,11 @@ struct TranslatedStruct: TranslatedType {
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
             "NodeInterface/\(sourceType.name)+node.swift",
-            additionalImports: ["Foundation", "FishyJoesNodeRuntime"]
+            additionalImports: ["Foundation", "FishyJoesNodeRuntime", "\(context.module.name)_CommonInterface"]
         )
 
         fragment.outputBlock("extension \(sourceType.name): NodeMutator {") {
+            fragment.output("public typealias SwiftType = Self")
             fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {") {
                 // TODO: type check
                 fragment.outputBlock("Self(") {
@@ -187,7 +190,7 @@ struct TranslatedStruct: TranslatedType {
 
     func jniDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "JavaInterface/\(sourceType.name)+java.swift",
+            "JavaInterface/\(sourceType.name)+java-type.swift",
             additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
         )
         let className = context.kotlinTranslator.javaClassName(kotlinName, in: context)
@@ -282,12 +285,13 @@ struct TranslatedStruct: TranslatedType {
                         case .variable(let field): return field
                         case nil: return nil
                         }
-                    }
+                    },
+                    arguments: []
                 ),
                 fieldsAndMethods:
                     computedVariables.compactMap { context.kotlin(field: $0, useNativeName: false) } +
                     methods.compactMap { context.kotlin(method: $0) }
-            )
+            ).conforming(to: conformances, context: context)
         )
 
         return fragment
@@ -519,8 +523,11 @@ struct TranslatedStruct: TranslatedType {
             }
         }
 
-        registerCSharpClass(context: context)
-        registerDartClass(context: context)
+        // TODO: Handle Protocols
+        if conformances.isEmpty {
+            registerCSharpClass(context: context)
+            registerDartClass(context: context)
+        }
 
         return fragment
     }
@@ -568,7 +575,8 @@ struct TranslatedStruct: TranslatedType {
                         }
                     }
                 ),
-                fieldsAndMethods: fieldsAndMethods
+                fieldsAndMethods: fieldsAndMethods,
+                conformances: conformances
             )
         )
     }

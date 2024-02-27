@@ -4,7 +4,6 @@ import JNI
 
 public struct Env {
     public var env: UnsafeMutablePointer<JNIEnv?>
-    // public var vm: UnsafeMutablePointer<JavaVM?>
 
     @inline(__always)
     private var fns: JNIEnv.Pointee {

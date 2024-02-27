@@ -91,6 +91,19 @@ namespace Cricut.TestAPI {
         private static extern nint __iota_get_TestAPI_Methods_instanceGet(IntPtr envRef, UnownedRef self, out CreatedRef exn);
 
         /// <summary>
+        /// <!-- FishyJoes.export(garply) -->
+        /// </summary>
+        public nint GetGarply() {
+            using var thisHandle = new GCRef(this);
+            return Check((out CreatedRef exn) =>
+                __iota_get_TestAPI_Methods_garply(Loader.env, thisHandle.ptr, out exn)
+            );
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __iota_get_TestAPI_Methods_garply(IntPtr envRef, UnownedRef self, out CreatedRef exn);
+
+        /// <summary>
         /// <!-- FishyJoes.exportAsMethod(instanceGetMethod) -->
         /// </summary>
         public nint GetInstanceGetMethod() {
@@ -160,6 +173,26 @@ namespace Cricut.TestAPI {
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_TestAPI_Methods_create(
             IntPtr envRef,
+            out CreatedRef exn
+        );
+
+        /// <summary>
+        /// <!-- FishyJoes.export(doublePlusGood) -->
+        /// </summary>
+        public nint DoublePlusGood(
+            nint a,
+            double b
+        ) {
+            using var _thisHandle = new GCRef(this);
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Methods_doublePlusGood(Loader.env, _thisHandle.ptr, a, b, out _exn));
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __iota_TestAPI_Methods_doublePlusGood(
+            IntPtr envRef,
+            UnownedRef self,
+            nint a,
+            double b,
             out CreatedRef exn
         );
 

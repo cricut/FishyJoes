@@ -15,7 +15,7 @@ struct NodeTranslator: Translator {
         var argIndex = 0
 
         if let selfType = variable.definedInTypeName?.better {
-            containingNamespace = context.resolve(type: selfType).sourceType.name
+            containingNamespace = context.resolve(type: selfType).converterType.name
 
             if variable.isStatic {
                 selfExpression = containingNamespace
@@ -89,7 +89,7 @@ struct NodeTranslator: Translator {
         var argIndex = 0
 
         if let selfType = method.definedIn {
-            containingNamespace = context.resolve(type: selfType).sourceType.name
+            containingNamespace = context.resolve(type: selfType).converterType.name
 
             if method.isStatic {
                 selfExpression = containingNamespace
@@ -285,7 +285,7 @@ struct NodeTranslator: Translator {
     func setupFragments(context: FishyJoesContext, generatedTypes: [BetterType]) -> [SourceFragment] {
         let nodeTypeListFragment = context.swiftFragment(
             "NodeInterface/TypeSetup.swift",
-            additionalImports: ["Foundation", "FishyJoesNodeRuntime", "NodeAPI"]
+            additionalImports: ["Foundation", "FishyJoesNodeRuntime", "NodeAPI", "\(context.module.name)_CommonInterface"]
         )
 
         // This function is defined under 2 names: the standard "napi_register_module_v1", and a unique, module-qualified name.

@@ -31,6 +31,16 @@ public struct Methods {
     /// <!-- FishyJoes.export(instanceGet) -->
     public var instanceGet: Int { 1234 }
 
+    /// <!-- FishyJoes.export(garply) -->
+    public var garply: Int { 42901 }
+
+    public var wibble: Int { 10924 }
+
+    /// <!-- FishyJoes.export(doublePlusGood) -->
+    public func doublePlusGood(a: Int, b: Double) -> Int {
+        2 * (a + Int(round(b)))
+    }
+
     /// <!-- FishyJoes.exportAsMethod(instanceGetMethod) -->
     public let instanceGetMethod: Int = 2345
 

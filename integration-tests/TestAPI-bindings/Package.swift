@@ -40,6 +40,7 @@ let package = Package(
         .target(
             name: "TestAPI_NodeInterface",
             dependencies: [
+                "TestAPI_CommonInterface",
                 .product(name: "TestAPI", package: "TestAPI"),
                 .product(name: "FishyJoesNodeRuntime", package: "FishyJoes"),
             ],
@@ -50,6 +51,13 @@ let package = Package(
             swiftSettings: [
                 .unsafeFlags(["-warn-concurrency"])
             ]
+        ),
+        .target(
+            name: "TestAPI_CommonInterface",
+            dependencies: [
+                "TestAPI"
+            ],
+            path: "Sources/Generated/CommonInterface"
         ),
     ] + (
         wasmCompatibleOnly ? [
@@ -63,6 +71,7 @@ let package = Package(
             .target(
                 name: "TestAPI_JavaInterface",
                 dependencies: [
+                    "TestAPI_CommonInterface",
                     .product(name: "TestAPI", package: "TestAPI"),
                     .product(name: "FishyJoesJavaRuntime", package: "FishyJoes"),
                 ],
@@ -71,6 +80,7 @@ let package = Package(
             .target(
                 name: "TestAPI_IotaInterface",
                 dependencies: [
+                    "TestAPI_CommonInterface",
                     .product(name: "TestAPI", package: "TestAPI"),
                     .product(name: "FishyJoesIotaRuntime", package: "FishyJoes"),
                 ],

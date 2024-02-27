@@ -5,7 +5,7 @@ set -euo pipefail
 # format documented at http://ltp.sourceforge.net/coverage/lcov/geninfo.1.php
 # e.g.
 
-# SF:/Users/acobb/src/FishyJoes/Sources/FishyJoesJavaRuntime/Box+Java.swift
+# SF:/Users/acobb/src/FishyJoes/Sources/FishyJoesJavaRuntime/Box+java-type.swift
 # FN:6,$s22FishyJoesCommonRuntime3BoxV0ab4JavaD0E04fromF0_3envACyxGs13OpaquePointerVSg_AD3EnvVtKFZ
 # <snip>
 # DA:6,3040
