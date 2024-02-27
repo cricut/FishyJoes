@@ -575,7 +575,8 @@ struct TranslatedStruct: TranslatedType {
                         }
                     }
                 ),
-                fieldsAndMethods: fieldsAndMethods
+                fieldsAndMethods: fieldsAndMethods,
+                conformances: conformances
             )
         )
     }

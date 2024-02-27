@@ -587,6 +587,10 @@ public class FishyJoesContext {
 
     func add(dartClass: DartClass) {
         dartClasses.append(dartClass)
+        // TODO: Do Protocols
+        guard dartClass.conformances.isEmpty else {
+            return
+        }
         for (name, (args, returnType)) in dartClass.nativeMethods {
             dartTranslator.nativeMethods.append(
                 .init(

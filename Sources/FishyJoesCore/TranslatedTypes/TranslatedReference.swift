@@ -563,7 +563,8 @@ struct TranslatedReference: TranslatedType {
             documentation: documentation,
             name: dartType.name(),
             constructor: .reference,
-            fieldsAndMethods: fieldsAndMethods
+            fieldsAndMethods: fieldsAndMethods,
+            conformances: conformances
         )
         context.add(dartClass: dartProduct)
     }

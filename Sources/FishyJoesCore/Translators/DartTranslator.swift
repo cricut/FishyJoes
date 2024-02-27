@@ -113,6 +113,9 @@ final class DartTranslator: Translator {
 
         for nativeMethod in nativeMethods.sorted(by: { $0.name < $1.name }) {
             externDeclarations.append { fragment in
+                if nativeMethod.name.contains("TestProtocolEnum") {
+                    let a = 1
+                }
                 fragment.outputBlock("\(nativeMethod.definingDartClass).f\(nativeMethod.name) = dylib.lookupFunction<", closeWith: ">", newLineTerminated: false) {
                     fragment.outputBlock("\(nativeMethod.returnType.ffiCreatedTag) Function(", closeWith: "),") {
                         fragment.output("Env env,")

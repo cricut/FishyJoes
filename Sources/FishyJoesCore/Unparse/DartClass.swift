@@ -57,13 +57,15 @@ class DartClass {
     let setupTypes: SetupTypes?
     let fields: [Variable]
     let methods: [Method]
+    var conformances: Set<String> = []
 
     init(
         module: Module,
         documentation: [String],
         name: String,
         setupTypes: SetupTypes? = nil,
-        fieldsAndMethods: [MethodOrVariable]
+        fieldsAndMethods: [MethodOrVariable],
+        conformances: Set<String>
     ) {
         self.name = name
         self.documentation = documentation
@@ -81,6 +83,7 @@ class DartClass {
             }
             return method
         }
+        self.conformances = conformances
     }
 
     func output(to fragment: SourceFragment) {
@@ -403,14 +406,16 @@ class DartProductClass: DartClass {
         documentation: [String],
         name: String,
         constructor: Constructor,
-        fieldsAndMethods: [MethodOrVariable]
+        fieldsAndMethods: [MethodOrVariable],
+        conformances: Set<String>
     ) {
         self.constructor = constructor
         super.init(
             module: module,
             documentation: documentation,
             name: name,
-            fieldsAndMethods: fieldsAndMethods
+            fieldsAndMethods: fieldsAndMethods,
+            conformances: conformances
         )
     }
 
@@ -644,14 +649,16 @@ class DartEnumClass: DartClass {
         documentation: [String],
         name: String,
         cases: [Case],
-        fieldsAndMethods: [MethodOrVariable]
+        fieldsAndMethods: [MethodOrVariable],
+        conformances: Set<String>
     ) {
         self.cases = cases
         super.init(
             module: module,
             documentation: documentation,
             name: name,
-            fieldsAndMethods: fieldsAndMethods
+            fieldsAndMethods: fieldsAndMethods,
+            conformances: conformances
         )
     }
 
