@@ -13,7 +13,10 @@ struct _JavaAProtocol: TestAPI.AProtocol {
     static var _fooGetMethodID: jmethodID?
     public var foo: String {
         get throws {
-            let env = try _javaWitness.currentThreadEnv()
+            let env = try Env.acquireJVMThread(on: _javaWitness.vm)
+            defer {
+                try? Env.relinquishJVMThread(on: _javaWitness.vm)
+            }
             return try Swift.String.fromJava(
                 env.CallObjectMethod(_javaWitness.object, Self._fooGetMethodID),
                 env: env
@@ -24,7 +27,10 @@ struct _JavaAProtocol: TestAPI.AProtocol {
     static var _bazGetMethodID: jmethodID?
     public var baz: Bool {
         get throws {
-            let env = try _javaWitness.currentThreadEnv()
+            let env = try Env.acquireJVMThread(on: _javaWitness.vm)
+            defer {
+                try? Env.relinquishJVMThread(on: _javaWitness.vm)
+            }
             return try Swift.Bool.fromJava(
                 env.CallBooleanMethod(_javaWitness.object, Self._bazGetMethodID),
                 env: env
@@ -34,7 +40,10 @@ struct _JavaAProtocol: TestAPI.AProtocol {
 
     static var _barMethodID: jmethodID?
     public func bar(x: Int, y: Int) throws -> AProtocol {
-        let env = try _javaWitness.currentThreadEnv()
+        let env = try Env.acquireJVMThread(on: _javaWitness.vm)
+        defer {
+            try? Env.relinquishJVMThread(on: _javaWitness.vm)
+        }
         return try _AProtocolConverter.fromJava(
             env.CallObjectMethod(
                 _javaWitness.object,
@@ -48,7 +57,10 @@ struct _JavaAProtocol: TestAPI.AProtocol {
 
     static var _hasADefaultImplementationMethodID: jmethodID?
     public func hasADefaultImplementation(x: Int, y: Double) throws -> String {
-        let env = try _javaWitness.currentThreadEnv()
+        let env = try Env.acquireJVMThread(on: _javaWitness.vm)
+        defer {
+            try? Env.relinquishJVMThread(on: _javaWitness.vm)
+        }
         return try Swift.String.fromJava(
             env.CallObjectMethod(
                 _javaWitness.object,
@@ -62,7 +74,10 @@ struct _JavaAProtocol: TestAPI.AProtocol {
 
     static var _hasADefaultImplementation2MethodID: jmethodID?
     public func hasADefaultImplementation2(_ a: String, b: Bool, _ c: Double) throws -> Double {
-        let env = try _javaWitness.currentThreadEnv()
+        let env = try Env.acquireJVMThread(on: _javaWitness.vm)
+        defer {
+            try? Env.relinquishJVMThread(on: _javaWitness.vm)
+        }
         return try Swift.Double.fromJava(
             env.CallDoubleMethod(
                 _javaWitness.object,

@@ -13,7 +13,10 @@ struct _JavaTestPropertiesProtocol: TestAPI.TestPropertiesProtocol {
     static var _corgeGetMethodID: jmethodID?
     public var corge: String {
         get throws {
-            let env = try _javaWitness.currentThreadEnv()
+            let env = try Env.acquireJVMThread(on: _javaWitness.vm)
+            defer {
+                try? Env.relinquishJVMThread(on: _javaWitness.vm)
+            }
             return try Swift.String.fromJava(
                 env.CallObjectMethod(_javaWitness.object, Self._corgeGetMethodID),
                 env: env
@@ -24,7 +27,10 @@ struct _JavaTestPropertiesProtocol: TestAPI.TestPropertiesProtocol {
     static var _frobGetMethodID: jmethodID?
     public var frob: Array<Double> {
         get throws {
-            let env = try _javaWitness.currentThreadEnv()
+            let env = try Env.acquireJVMThread(on: _javaWitness.vm)
+            defer {
+                try? Env.relinquishJVMThread(on: _javaWitness.vm)
+            }
             return try ArrayConverter<Swift.Double>.fromJava(
                 env.CallObjectMethod(_javaWitness.object, Self._frobGetMethodID),
                 env: env

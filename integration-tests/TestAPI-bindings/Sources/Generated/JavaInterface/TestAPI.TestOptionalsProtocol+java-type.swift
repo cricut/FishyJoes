@@ -13,7 +13,10 @@ struct _JavaTestOptionalsProtocol: TestAPI.TestOptionalsProtocol {
     static var _flarpGetMethodID: jmethodID?
     public var flarp: Optional<String> {
         get throws {
-            let env = try _javaWitness.currentThreadEnv()
+            let env = try Env.acquireJVMThread(on: _javaWitness.vm)
+            defer {
+                try? Env.relinquishJVMThread(on: _javaWitness.vm)
+            }
             return try OptionalConverter<Swift.String>.fromJava(
                 env.CallObjectMethod(_javaWitness.object, Self._flarpGetMethodID),
                 env: env
@@ -23,7 +26,10 @@ struct _JavaTestOptionalsProtocol: TestAPI.TestOptionalsProtocol {
 
     static var _wombatMethodID: jmethodID?
     public func wombat(zxc: Optional<Int>) throws -> Optional<Double> {
-        let env = try _javaWitness.currentThreadEnv()
+        let env = try Env.acquireJVMThread(on: _javaWitness.vm)
+        defer {
+            try? Env.relinquishJVMThread(on: _javaWitness.vm)
+        }
         return try OptionalConverter<Swift.Double>.fromJava(
             env.CallObjectMethod(
                 _javaWitness.object,
@@ -36,7 +42,10 @@ struct _JavaTestOptionalsProtocol: TestAPI.TestOptionalsProtocol {
 
     static var _spqrMethodID: jmethodID?
     public func spqr(_ pippo: AssociatedDataEnum) throws -> Int {
-        let env = try _javaWitness.currentThreadEnv()
+        let env = try Env.acquireJVMThread(on: _javaWitness.vm)
+        defer {
+            try? Env.relinquishJVMThread(on: _javaWitness.vm)
+        }
         return try Swift.Int.fromJava(
             env.CallLongMethod(
                 _javaWitness.object,

@@ -286,7 +286,10 @@ struct TranslatedProtocol: TranslatedType {
                 fragment.outputBlock("\(variable.isStatic ? "static " : "")public var \(name): \(type) {") {
                     fragment.outputBlock("get\(!variable.isMutable ? " throws" : "") {") {
                         let perhapsExclaim = variable.isMutable ? "!" : ""
-                        fragment.output("let env = try\(perhapsExclaim) _javaWitness.currentThreadEnv()")
+                        fragment.output("let env = try\(perhapsExclaim) Env.acquireJVMThread(on: _javaWitness.vm)")
+                        fragment.outputBlock("defer {") {
+                            fragment.output("try? Env.relinquishJVMThread(on: _javaWitness.vm)")
+                        }
                         fragment.outputBlock("return try\(perhapsExclaim) \(resolved.converterType.name).fromJava(") {
                             fragment.output("env.Call\(resolved.jniType.valueType)Method(_javaWitness.object, Self.\(getID)),")
                             fragment.output("env: env")
@@ -294,7 +297,10 @@ struct TranslatedProtocol: TranslatedType {
                     }
                     if variable.isMutable {
                         fragment.outputBlock("set {") {
-                            fragment.output("let env = try! _javaWitness.currentThreadEnv()")
+                            fragment.output("let env = try! Env.acquireJVMThread(on: _javaWitness.vm)")
+                            fragment.outputBlock("defer {") {
+                                fragment.output("try? Env.relinquishJVMThread(on: _javaWitness.vm)")
+                            }
                             fragment.output("let javaNewValue = try! \(resolved.converterType.name).toJava(newValue, env: env)")
                             fragment.output("try! env.CallVoidMethod(_javaWitness.object, Self._\(name)SetMethodID, jvalue(javaNewValue))")
                         }
@@ -316,7 +322,10 @@ struct TranslatedProtocol: TranslatedType {
                     }
                 }
                 fragment.outputBlock("\(method.isStatic ? "static " : "")public func \(method.callName)(\(paramSigs.joined(separator: ", ")))\(returnSignature) {") {
-                    fragment.output("let env = try _javaWitness.currentThreadEnv()")
+                    fragment.output("let env = try Env.acquireJVMThread(on: _javaWitness.vm)")
+                    fragment.outputBlock("defer {") {
+                        fragment.output("try? Env.relinquishJVMThread(on: _javaWitness.vm)")
+                    }
                     fragment.outputBlock("return try \(resolvedReturn.converterType.name).fromJava(") {
                         fragment.outputBlock("env.Call\(resolvedReturn.jniType.valueType)Method(", closeWith: "),") {
                             fragment.output("_javaWitness.object,")
