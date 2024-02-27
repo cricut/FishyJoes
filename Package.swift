@@ -280,6 +280,8 @@ let package = Package(
                     .unsafeFlags(["-Xlinker", "/LIBPATH:.\\Sources\\NodeAPIResolve\\lib\\windows.x86_64"], .when(platforms: [.windows])),
                     // Relative reference when building from FishyJoes/integration-tests/TestAPI-bindings directory
                     .unsafeFlags(["-Xlinker", "/LIBPATH:..\\..\\Sources\\NodeAPIResolve\\lib\\windows.x86_64"], .when(platforms: [.windows])),
+                    // Relative reference when building from FishyJoes/integration-tests/TestAPI-bindings/Sources/Generated/NodeNativeShim directory
+                    .unsafeFlags(["-Xlinker", "/LIBPATH:..\\..\\..\\..\\..\\Sources\\NodeAPIResolve\\lib\\windows.x86_64"], .when(platforms: [.windows])),
                     // Relative reference when building from a bindings repo directory
                     .unsafeFlags(["-Xlinker", "/LIBPATH:.\\.build\\checkouts\\FishyJoes\\Sources\\NodeAPIResolve\\lib\\windows.x86_64"], .when(platforms: [.windows])),
                 ])

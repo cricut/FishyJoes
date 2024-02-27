@@ -29,12 +29,13 @@ if [[ "$(uname -s)" == "Darwin" && $SKIP_LIPO == "0" ]]; then
          -output "$BIN_DIR/libFishyJoesNodeRuntime_NodeNativeShim.dylib" \
          "$SHIM_DIR"/.build/{arm64,x86_64}-apple-macosx/"$CONFIGURATION"/libFishyJoesNodeRuntime_NodeNativeShim.dylib
 elif [[ "$(uname -s)" == *_NT* ]]; then
-    ./scripts/swift-shim.ps1 build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime
-    BIN_DIR="$(./scripts/swift-shim.ps1 build --configuration "$CONFIGURATION" --show-bin-path)"
+    SWIFT="$(realpath ./scripts/swift-shim.ps1)"
+    "$SWIFT" build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime
+    BIN_DIR="$("$SWIFT" build --configuration "$CONFIGURATION" --show-bin-path)"
     (
         cd "$SHIM_DIR"
-        ./scripts/swift-shim.ps1 build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime_NodeNativeShim
-        SHIM_BIN_DIR="$(./scripts/swift-shim.ps1 build --configuration "$CONFIGURATION" --show-bin-path)"
+        "$SWIFT" build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime_NodeNativeShim
+        SHIM_BIN_DIR="$("$SWIFT" build --configuration "$CONFIGURATION" --show-bin-path)"
         cp "$SHIM_BIN_DIR"/FishyJoesNodeRuntime_NodeNativeShim.dll "$BIN_DIR"
     )
 else
