@@ -91,7 +91,7 @@ struct Method: Hashable {
                 paramName = "_\(unnamedParamCnt)"
                 unnamedParamCnt += 1
             }
-            
+
             parameters.append(
                 SwiftFormal(
                     label: parameter.argumentLabel,
