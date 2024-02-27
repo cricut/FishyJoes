@@ -38,6 +38,7 @@ enum Log {
             items.map(String.init(describing:)).joined(separator: separator),
             terminator: terminator
         )
+        fflush(stdout)
     }
 
     static func warn(_ items: Any..., separator: String = " ", terminator: String = "\n") {
@@ -46,6 +47,7 @@ enum Log {
             items.map(String.init(describing:)).joined(separator: separator),
             terminator: terminator
         )
+        fflush(stdout)
     }
 
     static func error(_ items: Any..., separator: String = " ", terminator: String = "\n") {
@@ -54,6 +56,7 @@ enum Log {
             items.map(String.init(describing:)).joined(separator: separator),
             terminator: terminator
         )
+        fflush(stdout)
     }
 
     static func success(_ items: Any..., separator: String = " ", terminator: String = "\n") {
@@ -62,6 +65,7 @@ enum Log {
             items.map(String.init(describing:)).joined(separator: separator),
             terminator: terminator
         )
+        fflush(stdout)
     }
 }
 

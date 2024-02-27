@@ -100,16 +100,23 @@ enum Platform: CustomStringConvertible, Hashable {
         }
     }
 
-    func build(product: String? = nil, libs: [String] = [], configuration: BuildConfiguration) throws {
+    func build(packagePath: String?, product: String? = nil, libs: [String] = [], configuration: BuildConfiguration) throws {
+        var buildArguments: [String] = []
+        if let packagePath = packagePath {
+            buildArguments.append(contentsOf: ["--package-path", packagePath])
+        }
+        if let product = product {
+            buildArguments.append(contentsOf: ["--product", product])
+        }
         if isNative, configuration.fat {
-            guard let product = product else {
+            guard product != nil else {
                 fatalError("Can't infer products in fat builds")
             }
             try cmd("mkdir", "-p", buildDir(configuration)).run()
             let confName = configuration.debug ? "debug" : "release"
 
-            try swiftBuild("--product", product, "--triple", "arm64-apple-macosx", configuration: configuration).run()
-            try swiftBuild("--product", product, "--triple", "x86_64-apple-macosx", configuration: configuration).run()
+            try swiftBuild(arguments: buildArguments + ["--triple", "arm64-apple-macosx"], configuration: configuration).run()
+            try swiftBuild(arguments: buildArguments + ["--triple", "x86_64-apple-macosx"], configuration: configuration).run()
 
             for lib in libs {
                 let libName = "lib\(lib).dylib"
@@ -121,7 +128,7 @@ enum Platform: CustomStringConvertible, Hashable {
                 ).run()
             }
         } else {
-            try swiftBuild(arguments: product.map { ["--product", $0] } ?? [], configuration: configuration).run()
+            try swiftBuild(arguments: buildArguments, configuration: configuration).run()
         }
     }
 
@@ -168,7 +175,7 @@ enum Platform: CustomStringConvertible, Hashable {
             env["ANDROID_COMPATIBLE_ONLY"] = "1"
 
             guard var dockerContext = configuration.baseDockerContext.get() else {
-                print("WARNING: building for android without using a docker context (expecting to already be inside container)")
+                Log.warn("WARNING: building for android without using a docker context (expecting to already be inside container)")
                 break
             }
             dockerContext.env.merge(env) { $1 }
@@ -258,35 +265,35 @@ enum Platform: CustomStringConvertible, Hashable {
 
     func outputDir(_ config: FishyJoesConfig) -> String {
         switch self {
-        case .wasm, .node: return "output/\(platform)"
+        case .wasm, .node: return "bindings/generated/node/packages/\(platform)"
         case .kotlinSystem:
             #if os(macOS)
-            return "kotlin/src/generated/resources/mac"
+            return "bindings/generated/kotlin/src/generated/resources/mac"
             #elseif os(Linux)
-            return "kotlin/src/generated/resources/linux"
+            return "bindings/generated/kotlin/src/generated/resources/linux"
             #elseif os(Windows)
-            return "kotlin/src/generated/resources/windows"
+            return "bindings/generated/kotlin/src/generated/resources/windows"
             #else
             fatalError("unknown host OS")
             #endif
         case .kotlinAndroid(let arch): return "kotlin/src/generated/resources/lib/\(arch.ndkName)"
         case .cSharp:
             #if os(macOS)
-            return "c-sharp/Cricut.\(config.module)/runtimes/osx/native"
+            return "bindings/generated/c-sharp/Cricut.\(config.module)/runtimes/osx/native"
             #elseif os(Linux)
-            return "c-sharp/Cricut.\(config.module)/runtimes/linux/native"
+            return "bindings/generated/c-sharp/Cricut.\(config.module)/runtimes/linux/native"
             #elseif os(Windows)
-            return "c-sharp/Cricut.\(config.module)/runtimes/win/native"
+            return "bindings/generated/c-sharp/Cricut.\(config.module)/runtimes/win/native"
             #else
             fatalError("unknown host OS")
             #endif
         case .dart:
             #if os(macOS)
-            return "dart/macos/native"
+            return "bindings/generated/dart/macos/native"
             #elseif os(Linux)
-            return "dart/linux/native"
+            return "bindings/generated/dart/linux/native"
             #elseif os(Windows)
-            return "dart/windows/native"
+            return "bindings/generated/dart/windows/native"
             #else
             fatalError("unknown host OS")
             #endif
@@ -296,10 +303,10 @@ enum Platform: CustomStringConvertible, Hashable {
     func packageDescription(config: FishyJoesConfig) -> String {
         switch self {
         case .wasm: return "\(config.module) packaged as a typescript library using WebAssembly"
-        case .node: return "\(platform) <-> node/ts bindings for \(config.module)"
-        case .kotlinSystem, .kotlinAndroid: return "A JNI wrapper for \(config.module)"
-        case .cSharp: return "A C# wrapper for \(config.module)"
-        case .dart: return "A Dart wrapper for \(config.module)"
+        case .node: return "TypeScript bindings for \(config.module) on \(platform)"
+        case .kotlinSystem, .kotlinAndroid: return "Kotlin JNI bindings for \(config.module)"
+        case .cSharp: return "C# bindings for \(config.module)"
+        case .dart: return "Dart bindings for \(config.module)"
         }
     }
 

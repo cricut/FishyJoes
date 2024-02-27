@@ -89,7 +89,7 @@ public class FishyJoesContext {
     }
 
     func cSharpFragment(_ name: String) -> SourceFragment {
-        let fileName = "../../c-sharp/Cricut.\(module.name)/generated/\(name)"
+        let fileName = "c-sharp/Cricut.\(module.name)/generated/\(name)"
         fileHeaders[fileName, default: []].formUnion(
             [
                 "using System;",
@@ -105,7 +105,7 @@ public class FishyJoesContext {
     }
 
     func dartFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
-        let fileName = "../../dart/lib/src/generated/\(name)"
+        let fileName = "dart/lib/src/generated/\(name)"
         fileHeaders[fileName, default: []].formUnion(
             [
                 "import 'dart:ffi' as ffi;",

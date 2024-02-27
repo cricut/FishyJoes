@@ -59,7 +59,7 @@ class KotlinClass: NestedClass {
     }
 
     func fragment(context: FishyJoesContext) -> SourceFragment {
-        let fragment = SourceFragment(sourceryDestination: "file:../../kotlin/src/generated/kotlin/com/cricut/\(module.name.lowercased())/\(name).kt")
+        let fragment = SourceFragment(sourceryDestination: "file:kotlin/src/generated/kotlin/com/cricut/\(module.name.lowercased())/\(name).kt")
 
         fragment.output("package \(module.kotlinPackage)")
         fragment.blankLine()
