@@ -248,11 +248,7 @@ final class IotaTranslator: Translator {
         swiftSetupFragment.output("@_cdecl(\"\(moduleRegisterTypesFn(context: context))\")")
         swiftSetupFragment.outputBlock("public func \(moduleRegisterTypesFn(context: context))() {") {
             for type in generatedTypes {
-                let resolved = context.resolve(type: type)
-                // TODO: Handle Protocols
-                if resolved is TranslatedProtocol || !resolved.conformances.isEmpty {
-                    continue
-                }
+                let resolved = context.resolve(type: type)                
                 swiftSetupFragment.output("Env.registerType(\(resolved.converterType.name).self, as: \"\(resolved.converterType.name)\")")
             }
         }

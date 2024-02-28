@@ -178,14 +178,6 @@ public class FishyJoesContext {
             for method in methods.compactMap(Method.init) {
                 debugContext = "Translating method \(type.name).\(method.name)"
                 collectedFragments.append(contentsOf: kotlinTranslator.translate(method: method, context: self, isProtocol: type is SourceryProtocol, typeName: type.localName))
-                // TODO: implement Protocol handling
-                if type is SourceryProtocol {
-                    continue
-                }
-                if let conformances = type.exportAnnotation?.conformances,
-                   !conformances.isEmpty {
-                    continue
-                }
                 collectedFragments.append(contentsOf: iotaTranslator.translate(method: method, context: self))
             }
         }
@@ -195,14 +187,6 @@ public class FishyJoesContext {
                 debugContext = "Translating variable \(type.name).\(variable.name)"
                 guard variable.exportAnnotation != nil else { continue }
                 collectedFragments.append(contentsOf: kotlinTranslator.translate(variable: variable, context: self))
-                // TODO: implement Protocol handling
-                if type is SourceryProtocol {
-                    continue
-                }
-                if let conformances = type.exportAnnotation?.conformances,
-                   !conformances.isEmpty {
-                    continue
-                }
                 collectedFragments.append(contentsOf: iotaTranslator.translate(variable: variable, context: self))
             }
         }
@@ -587,10 +571,7 @@ public class FishyJoesContext {
 
     func add(dartClass: DartClass) {
         dartClasses.append(dartClass)
-        // TODO: Do Protocols
-        guard dartClass.conformances.isEmpty else {
-            return
-        }
+
         for (name, (args, returnType)) in dartClass.nativeMethods {
             dartTranslator.nativeMethods.append(
                 .init(

@@ -58,12 +58,6 @@ final class DartTranslator: Translator {
         for type in generatedTypes {
             let resolved = context.resolve(type: type)
 
-            // TODO: Implement Protocols
-            guard resolved.conformances.isEmpty,
-                  !(resolved is TranslatedProtocol) else {
-                continue
-            }
-
             let setupParams = resolved.dartSetupParameters(in: context)
             let setupDelegates = resolved.dartSetupDelegates(in: context)
 
