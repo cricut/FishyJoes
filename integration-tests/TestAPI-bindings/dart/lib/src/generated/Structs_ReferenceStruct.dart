@@ -40,6 +40,13 @@ import 'package:fishyjoes_dart/runtime.dart';
 import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:tuple/tuple.dart' as tuple;
 
+// ignore_for_file: unused_import
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: no_leading_underscores_for_local_identifiers
+// ignore_for_file: library_prefixes
+// ignore_for_file: file_names
+// ignore_for_file: annotate_overrides
+
 /// <!-- FishyJoes.exportReference(Structs.ReferenceStruct) -->
 class Structs_ReferenceStruct extends SwiftReference {
     Structs_ReferenceStruct(ffi.Pointer reference): super(reference) {}

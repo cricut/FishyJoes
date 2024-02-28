@@ -86,6 +86,16 @@ class DartClass {
         self.conformances = conformances
     }
 
+    func commonIgnoreSpecificWarnings(fragment: SourceFragment) {
+        fragment.output("// ignore_for_file: unused_import")
+        fragment.output("// ignore_for_file: non_constant_identifier_names")
+        fragment.output("// ignore_for_file: no_leading_underscores_for_local_identifiers")
+        fragment.output("// ignore_for_file: library_prefixes")
+        fragment.output("// ignore_for_file: file_names")
+        fragment.output("// ignore_for_file: annotate_overrides")
+        fragment.blankLine()
+    }
+
     func output(to fragment: SourceFragment) {
         fatalErr("This method must be overridden and call `outputInner`")
     }
@@ -420,13 +430,20 @@ class DartProductClass: DartClass {
     }
 
     override func output(to fragment: SourceFragment) {
+        var conformancesPart = ""
+        if !conformances.isEmpty {
+            conformancesPart.append(" implements ")
+            conformancesPart.append(conformances.map { "\(module).\($0)" }.joined(separator: ", "))
+        }
+        commonIgnoreSpecificWarnings(fragment: fragment)
+
         document(documentation, fragment: fragment)
 
         switch constructor {
         case .reference:
-            fragment.output("class \(unqualifiedName) extends SwiftReference", newLineTerminated: false)
+            fragment.output("class \(unqualifiedName) extends SwiftReference\(conformancesPart)", newLineTerminated: false)
         case .public:
-            fragment.output("class \(unqualifiedName)", newLineTerminated: false)
+            fragment.output("class \(unqualifiedName)\(conformancesPart)", newLineTerminated: false)
         }
         fragment.outputBlock(" {") {
             switch constructor {
@@ -663,12 +680,19 @@ class DartEnumClass: DartClass {
     }
 
     override func output(to fragment: SourceFragment) {
+        var conformancesPart = ""
+        if !conformances.isEmpty {
+            conformancesPart.append(" implements ")
+            conformancesPart.append(conformances.map { "\(module).\($0)" }.joined(separator: ", "))
+        }
+        commonIgnoreSpecificWarnings(fragment: fragment)
+
         document(documentation, fragment: fragment)
         let doSealedClass = !cases.isEmpty
         if doSealedClass {
             fragment.output("sealed ", newLineTerminated: false)
         }
-        fragment.output("class \(unqualifiedName)", newLineTerminated: false)
+        fragment.output("class \(unqualifiedName)\(conformancesPart)", newLineTerminated: false)
 
         fragment.outputBlock(" {") {
             for enumCase in cases {
