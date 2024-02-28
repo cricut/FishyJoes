@@ -205,7 +205,7 @@ struct TranslatedProtocol: TranslatedType {
                         hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment)
 //                        for computedVar in computedVariables {
 //                            // Limitation in wasm implementation of napi_create_class doesn't allow constructors to assign to non-mutable property.
-//                            // let mutable = storedVar.isPubliclyWritable
+//                            // let mutable = computedVar.isPubliclyWritable
 //                            let mutable = true
 //                            fragment.output("\"\(computedVar.name)\": (.stored(mutable: \(mutable)), isStatic: \(computedVar.isStatic)),")
 //                            hasProperties = true
@@ -252,6 +252,111 @@ struct TranslatedProtocol: TranslatedType {
             )
         )
         fragment.blankLine()
+        return fragment
+    }
+    
+    func iotaDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
+        let fragment = context.swiftFragment(
+            "IotaInterface/\(sourceType.name)+iota-type.swift",
+            additionalImports: ["Foundation", "FishyJoesJavaRuntime", "\(context.module.name)_CommonInterface"]
+        )
+
+        let foreignProtocolType = "_Iota\(sourceType.nonNamespacedName)"
+        let defaultMethods = methods.filter { $0.isInExtension }
+        let normalMethods = methods.filter { !$0.isInExtension }
+
+        fragment.output("@_cdecl(\"\(iotaSetupName)\")")
+        fragment.outputBlock("public func \(iotaSetupName)(", newLineTerminated: false) {
+            fragment.output("envRef: EnvRef,")
+            fragment.output("constructorMethod: @escaping \(converterType.name)._ConstructorMethod,")
+            for computedVar in computedVariables {
+                let resolved = context.resolve(type: computedVar.typeName.better)
+                fragment.output("_ \(computedVar.name)Getter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolved.converterType.name).CType,")
+                if computedVar.isMutable {
+                    fragment.output("_ \(computedVar.name)Setter: @escaping @convention(c) (foreignObject, \(resolved.converterType.name).CType, _ exn: foreignOutExn) -> Void,")
+                }
+            }
+            fragment.output("_ exn: foreignOutExn")
+        }
+        fragment.outputBlock(" {") {
+            fragment.output("let env = Env(envRef)")
+            fragment.output("if \(converterType.name)._constructorMethod.isInitialized(env) { return }")
+            fragment.output("\(converterType.name)._constructorMethod[env] = constructorMethod")
+            for computedVar in computedVariables {
+                fragment.output("\(converterType.name)._\(computedVar.name)Getter[env] = \(computedVar.name)Getter")
+                if computedVar.isMutable {
+                    fragment.output("\(converterType.name)._\(computedVar.name)Setter[env] = \(computedVar.name)Setter")
+                }
+            }
+        }
+        fragment.blankLine()
+
+        fragment.outputBlock("extension \(converterType.name): IotaMutator {") {
+            for computedVar in computedVariables {
+                let resolved = context.resolve(type: computedVar.typeName.better)
+                fragment.output("fileprivate static let _\(computedVar.name)Getter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolved.converterType.name).CType>()")
+                if computedVar.isMutable {
+                    fragment.output("fileprivate static let _\(computedVar.name)Setter = Env.CallbackMap<@convention(c) (foreignObject, \(resolved.converterType.name).CType, _ exn: foreignOutExn) -> Void>()")
+                }
+            }
+            fragment.outputBlock("public typealias _ConstructorMethod = @convention(c) (", closeWith: ") -> foreignObject") {
+                for computedVar in computedVariables {
+                    let resolved = context.resolve(type: computedVar.typeName.better)
+                    fragment.output("\(resolved.converterType.name).CType,")
+                }
+                fragment.output("_ exn: foreignOutExn")
+            }
+            fragment.output("fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()")
+            fragment.blankLine()
+
+            fragment.outputBlock("public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {") {
+                fragment.outputBlock("Self(") {
+                    for (index, computedVar) in computedVariables.enumerated() {
+                        let resolved = context.resolve(type: computedVar.typeName.better)
+                        let last = index == computedVariables.count - 1
+                        fragment.outputBlock("\(computedVar.name): try \(resolved.converterType.name).consumeIota(", closeWith: last ? ")" : "),") {
+                            fragment.output("try env.check { exn in _\(computedVar.name)Getter[env](value, exn) },")
+                            fragment.output("env: env")
+                        }
+                    }
+                }
+            }
+            fragment.blankLine()
+
+            fragment.outputBlock("public static func toIota(_ value: Self, env: Env) throws -> foreignObject {") {
+                fragment.outputBlock("try env.check { exn in", closeWith: "}") {
+                    fragment.outputBlock("_constructorMethod[env](") {
+                        for computedVar in computedVariables {
+                            let resolved = context.resolve(type: computedVar.typeName.better)
+                            fragment.output("try \(resolved.converterType.name).toIota(value.\(computedVar.name), env: env),")
+                        }
+                        fragment.output("exn")
+                    }
+                }
+            }
+            fragment.blankLine()
+
+            fragment.outputBlock("public static func mutateIota(_ this: foreignObject, to value: Self, env: Env) throws {") {
+                for computedVar in computedVariables {
+                    let resolved = context.resolve(type: computedVar.typeName.better)
+                    if computedVar.isMutable {
+                        fragment.outputBlock("try env.check { exn in _\(computedVar.name)Setter[env](", closeWith: ")}") {
+                            fragment.output("this,")
+                            fragment.output("try \(resolved.converterType.name).toIota(value.\(computedVar.name), env: env),")
+                            fragment.output("exn")
+                        }
+                    }
+                }
+            }
+        }
+
+        registerDartClass(context: context)
+
+        // TODO: Handle Protocols
+        if conformances.isEmpty {
+            registerCSharpClass(context: context)
+        }
+
         return fragment
     }
 
@@ -488,5 +593,26 @@ struct TranslatedProtocol: TranslatedType {
         )
 
         return [fragment]
+    }
+
+    func registerCSharpClass(context: FishyJoesContext) {
+        // TODO: Implement me!
+    }
+
+    func registerDartClass(context: FishyJoesContext) {
+        context.add(
+            dartClass: DartProtocolClass(
+                module: context.module,
+                documentation: documentation,
+                name: "_ExternalWitness_\(dartType.name())",
+                fieldsAndMethods: {
+                    let nonDefaultMethods = methods.filter { !$0.isInExtension }
+                    var fAndM = computedVariables.compactMap { context.dart(field: $0, of: self, useNativeName: false) }
+                    fAndM.append(contentsOf: nonDefaultMethods.compactMap { context.dart(method: $0, of: self) })
+                    return fAndM
+                }(),
+                conformances: conformances
+            )
+        )
     }
 }
