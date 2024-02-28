@@ -5,6 +5,7 @@
 import FishyJoesIotaRuntime
 import Foundation
 import TestAPI
+import TestAPI_CommonInterface
 
 @_cdecl("FishyJoes_TestAPI_registerTypes")
 public func FishyJoes_TestAPI_registerTypes() {
@@ -152,6 +153,8 @@ public func FishyJoes_TestAPI_registerTypes() {
     Env.registerType(TestAPI.Structs.MutableStruct.self, as: "TestAPI.Structs.MutableStruct")
     Env.registerType(TestAPI.Structs.PuttingTypesIntoQuestionablePlaces.self, as: "TestAPI.Structs.PuttingTypesIntoQuestionablePlaces")
     Env.registerType(TestAPI.Structs.ReferenceStruct.self, as: "TestAPI.Structs.ReferenceStruct")
+    Env.registerType(_AProtocolConverter.self, as: "_AProtocolConverter")
+    Env.registerType(TestAPI.AProtocolImplementation.self, as: "TestAPI.AProtocolImplementation")
     Env.registerType(TestAPI.Actors.self, as: "TestAPI.Actors")
     Env.registerType(TestAPI.AssociatedDataEnum.self, as: "TestAPI.AssociatedDataEnum")
     Env.registerType(TestAPI.AsyncFunctions.self, as: "TestAPI.AsyncFunctions")
@@ -169,6 +172,12 @@ public func FishyJoes_TestAPI_registerTypes() {
     Env.registerType(TestAPI.SimpleEnum.self, as: "TestAPI.SimpleEnum")
     Env.registerType(TestAPI.Strings.self, as: "TestAPI.Strings")
     Env.registerType(TestAPI.Structs.self, as: "TestAPI.Structs")
+    Env.registerType(_TestMethodsProtocolConverter.self, as: "_TestMethodsProtocolConverter")
+    Env.registerType(_TestOptionalsProtocolConverter.self, as: "_TestOptionalsProtocolConverter")
+    Env.registerType(_TestPropertiesProtocolConverter.self, as: "_TestPropertiesProtocolConverter")
+    Env.registerType(TestAPI.TestProtocolClass.self, as: "TestAPI.TestProtocolClass")
+    Env.registerType(TestAPI.TestProtocolEnum.self, as: "TestAPI.TestProtocolEnum")
+    Env.registerType(TestAPI.TestProtocolStruct.self, as: "TestAPI.TestProtocolStruct")
     Env.registerType(TestAPI.Tuples.self, as: "TestAPI.Tuples")
     Env.registerType(TestAPI.URLs.self, as: "TestAPI.URLs")
     Env.registerType(Foundation.AttributedString.Runs.Run.self, as: "Foundation.AttributedString.Runs.Run")

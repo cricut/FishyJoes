@@ -40,44 +40,71 @@ import 'package:fishyjoes_dart/runtime.dart';
 import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:tuple/tuple.dart' as tuple;
 
-/// <!-- FishyJoes.export(String_PuttingTypesIntoQuestionablePlaces) -->
-class String_PuttingTypesIntoQuestionablePlaces {
-    final String x;
+/// <!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->
+class AProtocolImplementation {
+    String foo;
+    bool baz;
 
-    String_PuttingTypesIntoQuestionablePlaces({
-        required String x
+    AProtocolImplementation({
+        required String foo,
+        required bool baz
     }):
-        this.x = x;
+        this.foo = foo,
+        this.baz = baz;
 
     static CreatedRef ffi_constructor(
-        ConsumedRef x,
+        ConsumedRef foo,
+        bool baz,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
-        createRef(String_PuttingTypesIntoQuestionablePlaces(
-            x: consumeRef(x),
+        createRef(AProtocolImplementation(
+            foo: consumeRef(foo),
+            baz: baz,
         ))
     );
 
-    static CreatedRef ffi_get_x(
+    static CreatedRef ffi_get_foo(
         UnownedRef obj,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
-            peekRef<String_PuttingTypesIntoQuestionablePlaces>(obj).x
+            peekRef<AProtocolImplementation>(obj).foo
         )
     );
+    static void ffi_set_foo(
+        UnownedRef obj,
+        ConsumedRef newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        peekRef<AProtocolImplementation>(obj).foo = consumeRef<String>(newValue);
+    });
+
+    static bool ffi_get_baz(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<AProtocolImplementation>(obj).baz
+    ) ?? false;
+    static void ffi_set_baz(
+        UnownedRef obj,
+        bool newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        peekRef<AProtocolImplementation>(obj).baz = newValue;
+    });
 
     @override
-    String toString() => 'String_PuttingTypesIntoQuestionablePlaces(x: $x)';
+    String toString() => 'AProtocolImplementation(foo: $foo, baz: $baz)';
 
     @override
     bool operator ==(Object other) {
         return identical(other, this) ||
         (
             other.runtimeType == runtimeType &&
-            other is String_PuttingTypesIntoQuestionablePlaces &&
+            other is AProtocolImplementation &&
             (
-                const DeepCollectionEquality().equals(other.x, x)
+                const DeepCollectionEquality().equals(other.foo, foo) &&
+                const DeepCollectionEquality().equals(other.baz, baz)
             )
         );
     }
@@ -85,26 +112,33 @@ class String_PuttingTypesIntoQuestionablePlaces {
     @override
     int get hashCode => Object.hash(
         runtimeType,
-        const DeepCollectionEquality().hash(x)
+        const DeepCollectionEquality().hash(foo), 
+        const DeepCollectionEquality().hash(baz)
     );
 
-    String_PuttingTypesIntoQuestionablePlaces copyWith({
-        String? x
-    }) => String_PuttingTypesIntoQuestionablePlaces(
-        x: x ?? this.x
+    AProtocolImplementation copyWith({
+        String? foo,
+        bool? baz
+    }) => AProtocolImplementation(
+        foo: foo ?? this.foo,
+        baz: baz ?? this.baz
     );
 
-    /// <!-- FishyJoes.export(testCall) -->
-    int testCall(
+    /// <!-- FishyJoes.export(bar) -->
+    TestAPI.AProtocol bar(
+        int x,
+        int y,
     ) =>
         GCRef.using(this, (_thisHandle) =>
-            check((OutCreatedRef _exn) => f__iota_Swift_String_PuttingTypesIntoQuestionablePlaces_testCall(Loader.shared.env, _thisHandle.ptr, _exn))
+            consumeCreatedRef<TestAPI.AProtocol>(check((OutCreatedRef _exn) => f__iota_TestAPI_AProtocolImplementation_bar(Loader.shared.env, _thisHandle.ptr, x, y, _exn)))
         )
     ;
 
-    static late int Function(
+    static late CreatedRef Function(
         Env env,
         UnownedRef _this,
+        int x,
+        int y,
         OutCreatedRef _exn
-    ) f__iota_Swift_String_PuttingTypesIntoQuestionablePlaces_testCall;
+    ) f__iota_TestAPI_AProtocolImplementation_bar;
 }
