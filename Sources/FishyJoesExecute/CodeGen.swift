@@ -181,7 +181,7 @@ extension CodeGen {
                 "c-sharp\(ps)Cricut.\(config.module.lowercased())\(ps)generated",
                 "dart\(ps)lib\(ps)src\(ps)generated",
             ]
-            try cmd("rm", arguments: ["-rf", "Sources/Generated/FishyJoes.generated.swift"]).run()
+            try cmd("rm", arguments: ["-rf", "Sources\(ps)Generated\(ps)FishyJoes.generated.swift"]).run()
             try cmd("rm", arguments: ["-rf"] + sourceLocations).run()
             try cmd("mkdir", arguments: ["-p"] + sourceLocations).run()
 
