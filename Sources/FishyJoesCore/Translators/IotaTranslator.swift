@@ -242,7 +242,7 @@ final class IotaTranslator: Translator {
     func setupFragments(context: FishyJoesContext, generatedTypes: [BetterType]) -> [SourceFragment] {
         let swiftSetupFragment = context.swiftFragment(
             "IotaInterface/TypeSetup.swift",
-            additionalImports: ["Foundation", "FishyJoesIotaRuntime"]
+            additionalImports: ["Foundation", "FishyJoesIotaRuntime", "\(context.module.name)_CommonInterface"]
         )
 
         swiftSetupFragment.output("@_cdecl(\"\(moduleRegisterTypesFn(context: context))\")")
