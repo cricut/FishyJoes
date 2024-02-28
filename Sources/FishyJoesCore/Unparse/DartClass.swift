@@ -871,6 +871,93 @@ class DartEnumClass: DartClass {
     }
 }
 
+class DartProtocolClass: DartClass {
+    init(
+        module: Module,
+        documentation: [String],
+        name: String,
+        fieldsAndMethods: [MethodOrVariable],
+        conformances: Set<String>
+    ) {
+        super.init(
+            module: module,
+            documentation: documentation,
+            name: name,
+            fieldsAndMethods: fieldsAndMethods,
+            conformances: conformances
+        )
+    }
+
+    override func output(to fragment: SourceFragment) {
+        document(documentation, fragment: fragment)
+
+        fragment.output("abstract class \(unqualifiedName)", newLineTerminated: false)
+        fragment.outputBlock(" {", closeWith: "}") {
+            for method in methods {
+                // Dart does not support static method inheritance like Swift does.
+                guard !method.isStatic else {
+                    fragment.output("// \(method.name) static methods on protocols not supported in Dart.")
+                    continue
+                }
+
+                fragment.output("\(method.isStatic ? "static " : "")", newLineTerminated: false)
+                fragment.outputBlock("\(method.returnType.name(in: self)) \(method.name)(", closeWith: ");") {
+                    func argumentString(parameter: Method.Parameter) -> String {
+                        let labelComment = parameter.labelComment.map { "/* \($0) */ " } ?? ""
+                        return "\(parameter.type.name(in: self)) \(labelComment)\(DartClass.deforbidify(parameter.name))"
+                    }
+
+                    // put all optional parameters at the end, or dart gets unhappy
+                    let requiredParams = method.parameters.filter { $0.defaultValue == nil }
+                    let optionalParams = method.parameters.filter { $0.defaultValue != nil }
+
+                    fragment.outputMap(requiredParams, separator: ",") {
+                        argumentString(parameter: $0)
+                    }
+                    if !optionalParams.isEmpty {
+                        fragment.outputBlock("[") {
+                            fragment.outputMap(optionalParams, separator: ",") {
+                                argumentString(parameter: $0)
+                            }
+                        }
+                    }
+                }
+            }
+
+            for field in fields {
+                // Dart does not support static property inheritance like Swift does.
+                guard !field.isStatic else {
+                    fragment.output("// \(field.name) static fields on protocols not supported in Dart.")
+                    continue
+                }
+
+                fragment.blankLine()
+                document(field.documentation, fragment: fragment)
+
+                let staticMark = field.isStatic ? "static " : ""
+
+                func outputAttributes() {
+                    if let deprecation = field.deprecation {
+                        fragment.output("@Deprecated(\"\(deprecation.quotedMessage)\")")
+                    }
+                }
+
+                outputAttributes()
+                fragment.output("\(staticMark)\(field.type.name(in: self)) get \(Self.deforbidify(field.name));")
+
+                fragment.blankLine()
+
+                if field.isPubliclyWritable {
+                    outputAttributes()
+                    fragment.output("\(staticMark)set \(Self.deforbidify(field.name))(\(field.type.name(in: self)) value);")
+                }
+            }
+        }
+
+        fragment.blankLine()
+    }
+}
+
 extension DartClass {
     private static var forbiddenVarNames: Set<String> = [
         "else",
