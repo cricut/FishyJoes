@@ -116,6 +116,7 @@ struct TranslatedProtocol: TranslatedType {
         return [
             commonDefinitionFragment(in: context),
             nodeDefinitionFragment(in: context),
+            iotaDefinitionFragment(in: context),
         ] + jniDefinitionFragments(in: context)
     }
 
@@ -263,7 +264,7 @@ struct TranslatedProtocol: TranslatedType {
     func iotaDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
             "IotaInterface/\(sourceType.name)+iota-type.swift",
-            additionalImports: ["Foundation", "FishyJoesJavaRuntime", "\(context.module.name)_CommonInterface"]
+            additionalImports: ["Foundation", "FishyJoesIotaRuntime", "\(context.module.name)_CommonInterface"]
         )
 
         let foreignProtocolType = "_Iota\(sourceType.nonNamespacedName)"
@@ -297,6 +298,8 @@ struct TranslatedProtocol: TranslatedType {
         fragment.blankLine()
 
         fragment.outputBlock("extension \(converterType.name): IotaMutator {") {
+            fragment.output("public typealias CType = foreignObject")
+
             for computedVar in computedVariables {
                 let resolved = context.resolve(type: computedVar.typeName.better)
                 fragment.output("fileprivate static let _\(computedVar.name)Getter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolved.converterType.name).CType>()")

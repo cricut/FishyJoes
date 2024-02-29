@@ -1290,13 +1290,6 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
-            Once("setup_OptionalConverter<Swift.String>", () => {
-                Console.WriteLine("setting up Optional<String>...");
-                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_OptionalConverter_setup(
-                    Loader.env,
-                    out exn
-                ));
-            });
             Once("setup_OptionalConverter<Swift.UInt>", () => {
                 Console.WriteLine("setting up Optional<UInt>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_OptionalConverter_setup(
@@ -2300,22 +2293,6 @@ namespace Cricut.TestAPI {
                 Console.WriteLine("setting up TestAPI.URLs...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_URLs_setup(
                     Loader.env,
-                    out exn
-                ));
-            });
-            Once("setup_Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>", () => {
-                Console.WriteLine("setting up (Bool, Double, Array<String>)...");
-                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Tuple3Converter_setup<bool, double, System.Collections.Generic.IList<string>>(
-                    Loader.env,
-                    "Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>",
-                    out exn
-                ));
-            });
-            Once("setup_Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>", () => {
-                Console.WriteLine("setting up (Bool, Int, String)...");
-                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Tuple3Converter_setup<bool, nint, string>(
-                    Loader.env,
-                    "Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>",
                     out exn
                 ));
             });

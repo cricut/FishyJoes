@@ -11,33 +11,22 @@ struct _NodeAProtocol: TestAPI.AProtocol {
     let _nodeWitness: NodeReference
 
     var foo: String
-    var baz: Bool
     var barImpl: (() -> AProtocol)?
     public func bar(x: Int, y: Int) throws -> AProtocol {
         barImpl!()
-    }
-    var hasADefaultImplementationImpl: (() -> String)?
-    public func hasADefaultImplementation(x: Int, y: Double) throws -> String {
-        hasADefaultImplementationImpl!()
-    }
-    var hasADefaultImplementation2Impl: (() -> Double)?
-    public func hasADefaultImplementation2(_ a: String, b: Bool, _ c: Double) throws -> Double {
-        hasADefaultImplementation2Impl!()
     }
 }
 extension TestAPI_CommonInterface._AProtocolConverter: NodeMutator {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         return _NodeAProtocol(
             _nodeWitness: try NodeReference(env: env, value: value),
-            foo: String(),
-            baz: Bool()
+            foo: String()
         )
     }
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
         let constructor = try NodeClass.constructor(for: "AProtocol", env: env)
         let args: [NAPI.Value] = [
             try Swift.String.toNode(value.foo, env: env),
-            try Swift.Bool.toNode(value.baz, env: env),
         ]
         return try env.newInstance(constructor, args)
     }
@@ -65,37 +54,6 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeMutator {
                     },
                     isStatic: false
                 ),
-                "hasADefaultImplementation": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation", expectedArgumentCount: 2, hasNamedOptions: false) { env in
-                            let result = try Swift.String.toNode(
-                                env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self).hasADefaultImplementation(
-                                    x: try env.argument(at: 0, converter: Swift.Int.self),
-                                    y: try env.argument(at: 1, converter: Swift.Double.self)
-                                ),
-                                env: env.env
-                            )
-                            return result
-                        }
-                    },
-                    isStatic: false
-                ),
-                "hasADefaultImplementation2": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation2", expectedArgumentCount: 3, hasNamedOptions: false) { env in
-                            let result = try Swift.Double.toNode(
-                                env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self).hasADefaultImplementation2(
-                                    try env.argument(at: 0, converter: Swift.String.self),
-                                    b: try env.argument(at: 1, converter: Swift.Bool.self),
-                                    try env.argument(at: 2, converter: Swift.Double.self)
-                                ),
-                                env: env.env
-                            )
-                            return result
-                        }
-                    },
-                    isStatic: false
-                ),
                 "foo": (
                     .accessor(
                         getter: { env, info in
@@ -107,24 +65,12 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeMutator {
                     ),
                     isStatic: false
                 ),
-                "baz": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "baz", expectedArgumentCount: 0) { env in
-                                try Swift.Bool.toNode(env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self).baz, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: false
-                ),
             ],
             constructor: { env, info in
-                callbackBody(env, info, name: "AProtocol_constructor", expectedArgumentCount: 2) { env in
+                callbackBody(env, info, name: "AProtocol_constructor", expectedArgumentCount: 1) { env in
                     // TODO: typecheck?
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "foo", env.argument(at: 0))
-                    try env.env.setNamedProperty(this, "baz", env.argument(at: 1))
                     return this
                 }
             }

@@ -24,20 +24,6 @@ struct _JavaAProtocol: TestAPI.AProtocol {
         }
     }
 
-    static var _bazGetMethodID: jmethodID?
-    public var baz: Bool {
-        get throws {
-            let env = try Env.acquireJVMThread(on: _javaWitness.vm)
-            defer {
-                try? Env.relinquishJVMThread(on: _javaWitness.vm)
-            }
-            return try Swift.Bool.fromJava(
-                env.CallBooleanMethod(_javaWitness.object, Self._bazGetMethodID),
-                env: env
-            )
-        }
-    }
-
     static var _barMethodID: jmethodID?
     public func bar(x: Int, y: Int) throws -> AProtocol {
         let env = try Env.acquireJVMThread(on: _javaWitness.vm)
@@ -54,89 +40,6 @@ struct _JavaAProtocol: TestAPI.AProtocol {
             env: env
         )
     }
-
-    static var _hasADefaultImplementationMethodID: jmethodID?
-    public func hasADefaultImplementation(x: Int, y: Double) throws -> String {
-        let env = try Env.acquireJVMThread(on: _javaWitness.vm)
-        defer {
-            try? Env.relinquishJVMThread(on: _javaWitness.vm)
-        }
-        return try Swift.String.fromJava(
-            env.CallObjectMethod(
-                _javaWitness.object,
-                Self._hasADefaultImplementationMethodID,
-                jvalue(try Swift.Int.toJava(x, env: env)),
-                jvalue(try Swift.Double.toJava(y, env: env))
-            ),
-            env: env
-        )
-    }
-
-    static var _hasADefaultImplementation2MethodID: jmethodID?
-    public func hasADefaultImplementation2(_ a: String, b: Bool, _ c: Double) throws -> Double {
-        let env = try Env.acquireJVMThread(on: _javaWitness.vm)
-        defer {
-            try? Env.relinquishJVMThread(on: _javaWitness.vm)
-        }
-        return try Swift.Double.fromJava(
-            env.CallDoubleMethod(
-                _javaWitness.object,
-                Self._hasADefaultImplementation2MethodID,
-                jvalue(try Swift.String.toJava(a, env: env)),
-                jvalue(try Swift.Bool.toJava(b, env: env)),
-                jvalue(try Swift.Double.toJava(c, env: env))
-            ),
-            env: env
-        )
-    }
-}
-
-struct _JavaAProtocol_sans_hasADefaultImplementation: TestAPI.AProtocol {
-    var wrapped: TestAPI.AProtocol
-
-    public var foo: String {
-        get throws {
-            try wrapped.foo
-        }
-    }
-
-    public var baz: Bool {
-        get throws {
-            try wrapped.baz
-        }
-    }
-
-    public func bar(x: Int, y: Int) throws -> AProtocol {
-        try wrapped.bar(x: x, y: y)
-    }
-
-    public func hasADefaultImplementation2(_ a: String, b: Bool, _ c: Double) throws -> Double {
-        try wrapped.hasADefaultImplementation2(a, b: b, c)
-    }
-}
-
-struct _JavaAProtocol_sans_hasADefaultImplementation2: TestAPI.AProtocol {
-    var wrapped: TestAPI.AProtocol
-
-    public var foo: String {
-        get throws {
-            try wrapped.foo
-        }
-    }
-
-    public var baz: Bool {
-        get throws {
-            try wrapped.baz
-        }
-    }
-
-    public func bar(x: Int, y: Int) throws -> AProtocol {
-        try wrapped.bar(x: x, y: y)
-    }
-
-    public func hasADefaultImplementation(x: Int, y: Double) throws -> String {
-        try wrapped.hasADefaultImplementation(x: x, y: y)
-    }
 }
 
 extension TestAPI_CommonInterface._AProtocolConverter: JavaMutator {
@@ -144,7 +47,6 @@ extension TestAPI_CommonInterface._AProtocolConverter: JavaMutator {
     public static var javaClass: jclass?
     public static var externalWitnessClass: jclass?
     public static var externalWitnessConstructor: jmethodID?
-    public static var externalCompanionClass: jclass?
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
         if env.IsInstanceOf(value, AnyBox.javaClass) {
             return try Box<SwiftType>.fromJava(value, env: env).value
@@ -169,10 +71,6 @@ extension TestAPI_CommonInterface._AProtocolConverter: JavaMutator {
         externalWitnessClass = try env.globalRef(env.FindClass("com/cricut/testapi/_ExternalWitness_AProtocol"))
         externalWitnessConstructor = try env.GetMethodID(externalWitnessClass, "<init>", "(J)V")
         _JavaAProtocol._fooGetMethodID = try env.GetMethodID(javaClass, "getFoo", "()Ljava/lang/String;")
-        _JavaAProtocol._bazGetMethodID = try env.GetMethodID(javaClass, "getBaz", "()Z")
         _JavaAProtocol._barMethodID = try env.GetMethodID(javaClass, "bar", "(JJ)Lcom/cricut/testapi/AProtocol;")
-        externalCompanionClass = try env.globalRef(env.FindClass("com/cricut/testapi/AProtocol$Companion"))
-        _JavaAProtocol._hasADefaultImplementationMethodID = try env.GetMethodID(javaClass, "hasADefaultImplementation", "(JD)Ljava/lang/String;")
-        _JavaAProtocol._hasADefaultImplementation2MethodID = try env.GetMethodID(javaClass, "hasADefaultImplementation2", "(Ljava/lang/String;ZD)D")
     }
 }

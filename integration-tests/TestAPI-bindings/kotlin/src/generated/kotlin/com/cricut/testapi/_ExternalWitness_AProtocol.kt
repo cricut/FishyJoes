@@ -13,14 +13,6 @@ private class _ExternalWitness_AProtocol private constructor(_swiftReference: Lo
     private external fun __jni_get_foo(): kotlin.String
 
     /**
-     * <!-- FishyJoes.export(baz) -->
-     */
-    override val baz: Boolean
-      get() = __jni_get_baz()
-    @JvmName("__jni_get_baz")
-    private external fun __jni_get_baz(): Boolean
-
-    /**
      * <!-- FishyJoes.export(bar) -->
      */
     override fun bar(
