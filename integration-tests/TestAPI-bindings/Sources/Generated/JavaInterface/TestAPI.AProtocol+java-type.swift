@@ -44,7 +44,7 @@ struct _JavaAProtocol: TestAPI.AProtocol {
         defer {
             try? Env.relinquishJVMThread(on: _javaWitness.vm)
         }
-        return try _AProtocolConverter.fromJava(
+        return try TestAPI_CommonInterface._AProtocolConverter.fromJava(
             env.CallObjectMethod(
                 _javaWitness.object,
                 Self._barMethodID,
@@ -139,7 +139,7 @@ struct _JavaAProtocol_sans_hasADefaultImplementation2: TestAPI.AProtocol {
     }
 }
 
-extension _AProtocolConverter: JavaMutator {
+extension TestAPI_CommonInterface._AProtocolConverter: JavaMutator {
     public typealias CType = jobject?
     public static var javaClass: jclass?
     public static var externalWitnessClass: jclass?

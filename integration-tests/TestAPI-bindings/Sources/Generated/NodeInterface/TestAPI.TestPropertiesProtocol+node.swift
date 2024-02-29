@@ -13,7 +13,7 @@ struct _NodeTestPropertiesProtocol: TestAPI.TestPropertiesProtocol {
     var corge: String
     var frob: Array<Double>
 }
-extension _TestPropertiesProtocolConverter: NodeMutator {
+extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: NodeMutator {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         return _NodeTestPropertiesProtocol(
             _nodeWitness: try NodeReference(env: env, value: value),
@@ -42,7 +42,7 @@ extension _TestPropertiesProtocolConverter: NodeMutator {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "corge", expectedArgumentCount: 0) { env in
-                                try Swift.String.toNode(env.this(converter: _TestPropertiesProtocolConverter.self).corge, env: env.env)
+                                try Swift.String.toNode(env.this(converter: TestAPI_CommonInterface._TestPropertiesProtocolConverter.self).corge, env: env.env)
                             }
                         },
                         setter: nil
@@ -53,7 +53,7 @@ extension _TestPropertiesProtocolConverter: NodeMutator {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "frob", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<Swift.Double>.toNode(env.this(converter: _TestPropertiesProtocolConverter.self).frob, env: env.env)
+                                try ArrayConverter<Swift.Double>.toNode(env.this(converter: TestAPI_CommonInterface._TestPropertiesProtocolConverter.self).frob, env: env.env)
                             }
                         },
                         setter: nil

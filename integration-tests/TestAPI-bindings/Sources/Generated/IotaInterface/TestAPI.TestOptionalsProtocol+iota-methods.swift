@@ -18,7 +18,7 @@ public func __iota_TestAPI_TestOptionalsProtocol_wombat(
     let env = Env(envRef)
     return env.catching(to: _exn) {
         return try OptionalConverter<Swift.Double>.toIota(
-            _TestOptionalsProtocolConverter.peekIota(_iotaThis, env: env).wombat(
+            TestAPI_CommonInterface._TestOptionalsProtocolConverter.peekIota(_iotaThis, env: env).wombat(
                 zxc: try OptionalConverter<Swift.Int>.peekIota(zxc, env: env)
             ),
             env: env
@@ -37,7 +37,7 @@ public func __iota_TestAPI_TestOptionalsProtocol_spqr(
     let env = Env(envRef)
     return env.catching(to: _exn) {
         return try Swift.Int.toIota(
-            _TestOptionalsProtocolConverter.peekIota(_iotaThis, env: env).spqr(
+            TestAPI_CommonInterface._TestOptionalsProtocolConverter.peekIota(_iotaThis, env: env).spqr(
                 try TestAPI.AssociatedDataEnum.peekIota(pippo, env: env)
             ),
             env: env

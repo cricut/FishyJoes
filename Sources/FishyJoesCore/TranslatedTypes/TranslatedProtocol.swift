@@ -28,7 +28,12 @@ struct TranslatedProtocol: TranslatedType {
         let typeName = exportAnnotation.name
 
         self.sourceType = BetterType(named: type, context: context)
-        self.converterType = .named(.init(name: "_\(sourceType.nonNamespacedName)Converter", module: nil))
+        var module = sourceType.module
+        if module != nil,
+           !module!.isEmpty {
+            module! += "_CommonInterface"
+        }
+        self.converterType = .named(.init(name: "_\(sourceType.nonNamespacedName)Converter", module: module))
         self.neutralName = "Struct<Named=\(exportAnnotation.name)>"
         self.nodeName = typeName
         self.kotlinPackage = context.module.kotlinPackage
@@ -120,7 +125,7 @@ struct TranslatedProtocol: TranslatedType {
             additionalImports: ["Foundation"]
         )
 
-        fragment.outputBlock("public enum \(converterType.name) {") {
+        fragment.outputBlock("public enum \(converterType.nonNamespacedName) {") {
             fragment.output("public typealias SwiftType = \(sourceType.name)")
         }
 

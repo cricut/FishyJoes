@@ -13,7 +13,7 @@ let java_get_TestAPI_TestPropertiesProtocol_corge: @convention(c) (
     jobject
 ) -> Swift.String.CType = { _javaEnv, _javaThis in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-        try Swift.String.toJava(_TestPropertiesProtocolConverter.fromJava(_javaThis, env: _javaEnv).corge, env: _javaEnv)
+        try Swift.String.toJava(TestAPI_CommonInterface._TestPropertiesProtocolConverter.fromJava(_javaThis, env: _javaEnv).corge, env: _javaEnv)
     }
 }
 
@@ -23,6 +23,6 @@ let java_get_TestAPI_TestPropertiesProtocol_frob: @convention(c) (
     jobject
 ) -> ArrayConverter<Swift.Double>.CType = { _javaEnv, _javaThis in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-        try ArrayConverter<Swift.Double>.toJava(_TestPropertiesProtocolConverter.fromJava(_javaThis, env: _javaEnv).frob, env: _javaEnv)
+        try ArrayConverter<Swift.Double>.toJava(TestAPI_CommonInterface._TestPropertiesProtocolConverter.fromJava(_javaThis, env: _javaEnv).frob, env: _javaEnv)
     }
 }

@@ -15,11 +15,11 @@ public func __iota_TestAPI_AProtocol_bar(
     x: Swift.Int.CType,
     y: Swift.Int.CType,
     _exn: foreignOutExn
-) -> _AProtocolConverter.CType {
+) -> TestAPI_CommonInterface._AProtocolConverter.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
-        return try _AProtocolConverter.toIota(
-            _AProtocolConverter.peekIota(_iotaThis, env: env).bar(
+        return try TestAPI_CommonInterface._AProtocolConverter.toIota(
+            TestAPI_CommonInterface._AProtocolConverter.peekIota(_iotaThis, env: env).bar(
                 x: try Swift.Int.peekIota(x, env: env),
                 y: try Swift.Int.peekIota(y, env: env)
             ),
@@ -40,7 +40,7 @@ public func __iota_TestAPI_AProtocol_hasADefaultImplementation(
     let env = Env(envRef)
     return env.catching(to: _exn) {
         return try Swift.String.toIota(
-            _AProtocolConverter.peekIota(_iotaThis, env: env).hasADefaultImplementation(
+            TestAPI_CommonInterface._AProtocolConverter.peekIota(_iotaThis, env: env).hasADefaultImplementation(
                 x: try Swift.Int.peekIota(x, env: env),
                 y: try Swift.Double.peekIota(y, env: env)
             ),
@@ -62,7 +62,7 @@ public func __iota_TestAPI_AProtocol_hasADefaultImplementation2(
     let env = Env(envRef)
     return env.catching(to: _exn) {
         return try Swift.Double.toIota(
-            _AProtocolConverter.peekIota(_iotaThis, env: env).hasADefaultImplementation2(
+            TestAPI_CommonInterface._AProtocolConverter.peekIota(_iotaThis, env: env).hasADefaultImplementation2(
                 try Swift.String.peekIota(a, env: env),
                 b: try Swift.Bool.peekIota(b, env: env),
                 try Swift.Double.peekIota(c, env: env)

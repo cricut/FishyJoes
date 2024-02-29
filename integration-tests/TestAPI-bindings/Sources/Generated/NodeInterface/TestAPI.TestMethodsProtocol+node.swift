@@ -35,7 +35,7 @@ struct _NodeTestMethodsProtocol: TestAPI.TestMethodsProtocol {
         plughImpl!()
     }
 }
-extension _TestMethodsProtocolConverter: NodeMutator {
+extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeMutator {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         return _NodeTestMethodsProtocol(
             _nodeWitness: try NodeReference(env: env, value: value)
@@ -60,7 +60,7 @@ extension _TestMethodsProtocolConverter: NodeMutator {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "foo", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
-                                env.this(converter: _TestMethodsProtocolConverter.self).foo(
+                                env.this(converter: TestAPI_CommonInterface._TestMethodsProtocolConverter.self).foo(
                                 ),
                                 env: env.env
                             )
@@ -73,7 +73,7 @@ extension _TestMethodsProtocolConverter: NodeMutator {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "bar", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.Bool.toNode(
-                                env.this(converter: _TestMethodsProtocolConverter.self).bar(
+                                env.this(converter: TestAPI_CommonInterface._TestMethodsProtocolConverter.self).bar(
                                 ),
                                 env: env.env
                             )
@@ -86,7 +86,7 @@ extension _TestMethodsProtocolConverter: NodeMutator {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "baz", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
-                                env.this(converter: _TestMethodsProtocolConverter.self).baz(
+                                env.this(converter: TestAPI_CommonInterface._TestMethodsProtocolConverter.self).baz(
                                     qux: try env.argument(at: 0, converter: Swift.Bool.self)
                                 ),
                                 env: env.env
@@ -100,7 +100,7 @@ extension _TestMethodsProtocolConverter: NodeMutator {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "garply", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
-                                env.this(converter: _TestMethodsProtocolConverter.self).garply(
+                                env.this(converter: TestAPI_CommonInterface._TestMethodsProtocolConverter.self).garply(
                                     try env.argument(at: 0, converter: Swift.String.self)
                                 ),
                                 env: env.env
@@ -114,7 +114,7 @@ extension _TestMethodsProtocolConverter: NodeMutator {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "xyzzy", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
-                                env.this(converter: _TestMethodsProtocolConverter.self).xyzzy(
+                                env.this(converter: TestAPI_CommonInterface._TestMethodsProtocolConverter.self).xyzzy(
                                     thud: try env.argument(at: 0, converter: Swift.Int.self),
                                     grault: try env.argument(at: 1, converter: ArrayConverter<Swift.Double>.self)
                                 ),
@@ -129,7 +129,7 @@ extension _TestMethodsProtocolConverter: NodeMutator {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "plugh", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.toNode(
-                                env.this(converter: _TestMethodsProtocolConverter.self).plugh(
+                                env.this(converter: TestAPI_CommonInterface._TestMethodsProtocolConverter.self).plugh(
                                     fred: try env.argument(at: 0, converter: Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>.self)
                                 ),
                                 env: env.env

@@ -480,27 +480,27 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(TestAPI.Structs.ReferenceStruct._javaHash, to: UnsafeMutableRawPointer.self)
             )
         )
-        // print("setting up _AProtocolConverter...")
-        try _AProtocolConverter.javaSetup(env: env)
+        // print("setting up TestAPI_CommonInterface._AProtocolConverter...")
+        try TestAPI_CommonInterface._AProtocolConverter.javaSetup(env: env)
         try env.RegisterNatives(
-            _AProtocolConverter.externalCompanionClass,
+            TestAPI_CommonInterface._AProtocolConverter.externalCompanionClass,
             JNINativeMethod(
                 name: bag.add("__jni__default_hasADefaultImplementation"),
                 signature: bag.add("(Lcom/cricut/testapi/AProtocol;JD)Ljava/lang/String;"),
-                fnPtr: unsafeBitCast(java__AProtocolConverter__default_hasADefaultImplementation, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__AProtocolConverter__default_hasADefaultImplementation, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni__default_hasADefaultImplementation2"),
                 signature: bag.add("(Lcom/cricut/testapi/AProtocol;Ljava/lang/String;ZD)D"),
-                fnPtr: unsafeBitCast(java__AProtocolConverter__default_hasADefaultImplementation2, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__AProtocolConverter__default_hasADefaultImplementation2, to: UnsafeMutableRawPointer.self)
             )
         )
         try env.RegisterNatives(
-            _AProtocolConverter.externalWitnessClass ?? _AProtocolConverter.javaClass,
+            TestAPI_CommonInterface._AProtocolConverter.externalWitnessClass ?? TestAPI_CommonInterface._AProtocolConverter.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_bar"),
                 signature: bag.add("(JJ)Lcom/cricut/testapi/AProtocol;"),
-                fnPtr: unsafeBitCast(java__AProtocolConverter_bar, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__AProtocolConverter_bar, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_foo"),
@@ -1917,54 +1917,54 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         )
         // print("setting up TestAPI.Structs...")
         try TestAPI.Structs.javaSetup(env: env)
-        // print("setting up _TestMethodsProtocolConverter...")
-        try _TestMethodsProtocolConverter.javaSetup(env: env)
+        // print("setting up TestAPI_CommonInterface._TestMethodsProtocolConverter...")
+        try TestAPI_CommonInterface._TestMethodsProtocolConverter.javaSetup(env: env)
         try env.RegisterNatives(
-            _TestMethodsProtocolConverter.externalWitnessClass ?? _TestMethodsProtocolConverter.javaClass,
+            TestAPI_CommonInterface._TestMethodsProtocolConverter.externalWitnessClass ?? TestAPI_CommonInterface._TestMethodsProtocolConverter.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_foo"),
                 signature: bag.add("()V"),
-                fnPtr: unsafeBitCast(java__TestMethodsProtocolConverter_foo, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestMethodsProtocolConverter_foo, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_bar"),
                 signature: bag.add("()Z"),
-                fnPtr: unsafeBitCast(java__TestMethodsProtocolConverter_bar, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestMethodsProtocolConverter_bar, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_baz"),
                 signature: bag.add("(Z)V"),
-                fnPtr: unsafeBitCast(java__TestMethodsProtocolConverter_baz, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestMethodsProtocolConverter_baz, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_garply"),
                 signature: bag.add("(Ljava/lang/String;)Ljava/lang/String;"),
-                fnPtr: unsafeBitCast(java__TestMethodsProtocolConverter_garply, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestMethodsProtocolConverter_garply, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_xyzzy"),
                 signature: bag.add("(JLjava/util/List;)Ljava/lang/String;"),
-                fnPtr: unsafeBitCast(java__TestMethodsProtocolConverter_xyzzy, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestMethodsProtocolConverter_xyzzy, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_plugh"),
                 signature: bag.add("(Lkotlin/Triple;)Lkotlin/Triple;"),
-                fnPtr: unsafeBitCast(java__TestMethodsProtocolConverter_plugh, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestMethodsProtocolConverter_plugh, to: UnsafeMutableRawPointer.self)
             )
         )
-        // print("setting up _TestOptionalsProtocolConverter...")
-        try _TestOptionalsProtocolConverter.javaSetup(env: env)
+        // print("setting up TestAPI_CommonInterface._TestOptionalsProtocolConverter...")
+        try TestAPI_CommonInterface._TestOptionalsProtocolConverter.javaSetup(env: env)
         try env.RegisterNatives(
-            _TestOptionalsProtocolConverter.externalWitnessClass ?? _TestOptionalsProtocolConverter.javaClass,
+            TestAPI_CommonInterface._TestOptionalsProtocolConverter.externalWitnessClass ?? TestAPI_CommonInterface._TestOptionalsProtocolConverter.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_wombat"),
                 signature: bag.add("(Ljava/lang/Long;)Ljava/lang/Double;"),
-                fnPtr: unsafeBitCast(java__TestOptionalsProtocolConverter_wombat, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestOptionalsProtocolConverter_wombat, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_spqr"),
                 signature: bag.add("(Lcom/cricut/testapi/AssociatedDataEnum;)J"),
-                fnPtr: unsafeBitCast(java__TestOptionalsProtocolConverter_spqr, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestOptionalsProtocolConverter_spqr, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_flarp"),
@@ -1972,10 +1972,10 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_get_TestAPI_TestOptionalsProtocol_flarp, to: UnsafeMutableRawPointer.self)
             )
         )
-        // print("setting up _TestPropertiesProtocolConverter...")
-        try _TestPropertiesProtocolConverter.javaSetup(env: env)
+        // print("setting up TestAPI_CommonInterface._TestPropertiesProtocolConverter...")
+        try TestAPI_CommonInterface._TestPropertiesProtocolConverter.javaSetup(env: env)
         try env.RegisterNatives(
-            _TestPropertiesProtocolConverter.externalWitnessClass ?? _TestPropertiesProtocolConverter.javaClass,
+            TestAPI_CommonInterface._TestPropertiesProtocolConverter.externalWitnessClass ?? TestAPI_CommonInterface._TestPropertiesProtocolConverter.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_get_corge"),
                 signature: bag.add("()Ljava/lang/String;"),

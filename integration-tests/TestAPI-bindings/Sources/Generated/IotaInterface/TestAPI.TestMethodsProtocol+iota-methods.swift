@@ -17,7 +17,7 @@ public func __iota_TestAPI_TestMethodsProtocol_foo(
     let env = Env(envRef)
     return env.catching(to: _exn) {
         return try FishyJoesCommonRuntime.VoidConverter.toIota(
-            _TestMethodsProtocolConverter.peekIota(_iotaThis, env: env).foo(
+            TestAPI_CommonInterface._TestMethodsProtocolConverter.peekIota(_iotaThis, env: env).foo(
             ),
             env: env
         )
@@ -34,7 +34,7 @@ public func __iota_TestAPI_TestMethodsProtocol_bar(
     let env = Env(envRef)
     return env.catching(to: _exn) {
         return try Swift.Bool.toIota(
-            _TestMethodsProtocolConverter.peekIota(_iotaThis, env: env).bar(
+            TestAPI_CommonInterface._TestMethodsProtocolConverter.peekIota(_iotaThis, env: env).bar(
             ),
             env: env
         )
@@ -52,7 +52,7 @@ public func __iota_TestAPI_TestMethodsProtocol_baz(
     let env = Env(envRef)
     return env.catching(to: _exn) {
         return try FishyJoesCommonRuntime.VoidConverter.toIota(
-            _TestMethodsProtocolConverter.peekIota(_iotaThis, env: env).baz(
+            TestAPI_CommonInterface._TestMethodsProtocolConverter.peekIota(_iotaThis, env: env).baz(
                 qux: try Swift.Bool.peekIota(qux, env: env)
             ),
             env: env
@@ -71,7 +71,7 @@ public func __iota_TestAPI_TestMethodsProtocol_garply(
     let env = Env(envRef)
     return env.catching(to: _exn) {
         return try Swift.String.toIota(
-            _TestMethodsProtocolConverter.peekIota(_iotaThis, env: env).garply(
+            TestAPI_CommonInterface._TestMethodsProtocolConverter.peekIota(_iotaThis, env: env).garply(
                 try Swift.String.peekIota(_0, env: env)
             ),
             env: env
@@ -91,7 +91,7 @@ public func __iota_TestAPI_TestMethodsProtocol_xyzzy(
     let env = Env(envRef)
     return env.catching(to: _exn) {
         return try Swift.String.toIota(
-            _TestMethodsProtocolConverter.peekIota(_iotaThis, env: env).xyzzy(
+            TestAPI_CommonInterface._TestMethodsProtocolConverter.peekIota(_iotaThis, env: env).xyzzy(
                 thud: try Swift.Int.peekIota(thud, env: env),
                 grault: try ArrayConverter<Swift.Double>.peekIota(grault, env: env)
             ),
@@ -111,7 +111,7 @@ public func __iota_TestAPI_TestMethodsProtocol_plugh(
     let env = Env(envRef)
     return env.catching(to: _exn) {
         return try Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.toIota(
-            _TestMethodsProtocolConverter.peekIota(_iotaThis, env: env).plugh(
+            TestAPI_CommonInterface._TestMethodsProtocolConverter.peekIota(_iotaThis, env: env).plugh(
                 fred: try Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>.peekIota(fred, env: env)
             ),
             env: env

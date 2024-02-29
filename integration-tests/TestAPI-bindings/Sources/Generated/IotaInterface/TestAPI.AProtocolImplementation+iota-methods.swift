@@ -15,10 +15,10 @@ public func __iota_TestAPI_AProtocolImplementation_bar(
     x: Swift.Int.CType,
     y: Swift.Int.CType,
     _exn: foreignOutExn
-) -> _AProtocolConverter.CType {
+) -> TestAPI_CommonInterface._AProtocolConverter.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
-        return try _AProtocolConverter.toIota(
+        return try TestAPI_CommonInterface._AProtocolConverter.toIota(
             TestAPI.AProtocolImplementation.peekIota(_iotaThis, env: env).bar(
                 x: try Swift.Int.peekIota(x, env: env),
                 y: try Swift.Int.peekIota(y, env: env)

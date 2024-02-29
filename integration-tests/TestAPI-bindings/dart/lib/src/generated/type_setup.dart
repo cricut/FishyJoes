@@ -564,7 +564,7 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_Structs_ReferenceStruct_setup');
-    final _AProtocolConverter_setup = dylib.lookupFunction<
+    final TestAPI_CommonInterface__AProtocolConverter_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
             OutCreatedRef exn
@@ -573,7 +573,7 @@ final ensureLoaded = (() {
             Env env,
             OutCreatedRef exn
         )
-    >('_AProtocolConverter_setup');
+    >('TestAPI_CommonInterface__AProtocolConverter_setup');
     final TestAPI_AProtocolImplementation_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -802,7 +802,7 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_Structs_setup');
-    final _TestMethodsProtocolConverter_setup = dylib.lookupFunction<
+    final TestAPI_CommonInterface__TestMethodsProtocolConverter_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
             OutCreatedRef exn
@@ -811,8 +811,8 @@ final ensureLoaded = (() {
             Env env,
             OutCreatedRef exn
         )
-    >('_TestMethodsProtocolConverter_setup');
-    final _TestOptionalsProtocolConverter_setup = dylib.lookupFunction<
+    >('TestAPI_CommonInterface__TestMethodsProtocolConverter_setup');
+    final TestAPI_CommonInterface__TestOptionalsProtocolConverter_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
             OutCreatedRef exn
@@ -821,8 +821,8 @@ final ensureLoaded = (() {
             Env env,
             OutCreatedRef exn
         )
-    >('_TestOptionalsProtocolConverter_setup');
-    final _TestPropertiesProtocolConverter_setup = dylib.lookupFunction<
+    >('TestAPI_CommonInterface__TestOptionalsProtocolConverter_setup');
+    final TestAPI_CommonInterface__TestPropertiesProtocolConverter_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
             OutCreatedRef exn
@@ -831,7 +831,7 @@ final ensureLoaded = (() {
             Env env,
             OutCreatedRef exn
         )
-    >('_TestPropertiesProtocolConverter_setup');
+    >('TestAPI_CommonInterface__TestPropertiesProtocolConverter_setup');
     final TestAPI_TestProtocolClass_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -6245,10 +6245,10 @@ final ensureLoaded = (() {
         });
     });
 
-    Loader.shared.once("setup__AProtocolConverter", () {
+    Loader.shared.once("setup_TestAPI_CommonInterface._AProtocolConverter", () {
         // print("setting up TestAPI.AProtocol (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            _AProtocolConverter_setup(
+            TestAPI_CommonInterface__AProtocolConverter_setup(
                 Loader.shared.env,
                 exn
             );
@@ -6459,30 +6459,30 @@ final ensureLoaded = (() {
         });
     });
 
-    Loader.shared.once("setup__TestMethodsProtocolConverter", () {
+    Loader.shared.once("setup_TestAPI_CommonInterface._TestMethodsProtocolConverter", () {
         // print("setting up TestAPI.TestMethodsProtocol (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            _TestMethodsProtocolConverter_setup(
+            TestAPI_CommonInterface__TestMethodsProtocolConverter_setup(
                 Loader.shared.env,
                 exn
             );
         });
     });
 
-    Loader.shared.once("setup__TestOptionalsProtocolConverter", () {
+    Loader.shared.once("setup_TestAPI_CommonInterface._TestOptionalsProtocolConverter", () {
         // print("setting up TestAPI.TestOptionalsProtocol (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            _TestOptionalsProtocolConverter_setup(
+            TestAPI_CommonInterface__TestOptionalsProtocolConverter_setup(
                 Loader.shared.env,
                 exn
             );
         });
     });
 
-    Loader.shared.once("setup__TestPropertiesProtocolConverter", () {
+    Loader.shared.once("setup_TestAPI_CommonInterface._TestPropertiesProtocolConverter", () {
         // print("setting up TestAPI.TestPropertiesProtocol (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            _TestPropertiesProtocolConverter_setup(
+            TestAPI_CommonInterface__TestPropertiesProtocolConverter_setup(
                 Loader.shared.env,
                 exn
             );
