@@ -153,17 +153,21 @@ final class IotaTranslator: Translator {
         }
         let selfExpression: String
         let containingNamespace: String
-
+        let converterNamespace: String
+        
         if let selfType = variable.definedInTypeName?.better {
-            containingNamespace = context.resolve(type: selfType).sourceType.name
+            let resolved = context.resolve(type: selfType)
+            containingNamespace = resolved.sourceType.name
+            converterNamespace = resolved.converterType.name
 
             if variable.isStatic {
                 selfExpression = containingNamespace
             } else {
-                selfExpression = "\(containingNamespace).peekIota(_iotaThis, env: env)"
+                selfExpression = "\(converterNamespace).peekIota(_iotaThis, env: env)"
             }
         } else {
             containingNamespace = context.module.name
+            converterNamespace = context.module.name
             selfExpression = context.module.name
         }
 

@@ -37,6 +37,6 @@ public func __iota_get_TestAPI_AProtocol_foo(
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
-        try Swift.String.toIota(TestAPI.AProtocol.peekIota(_iotaThis, env: env).foo, env: env)
+        try Swift.String.toIota(TestAPI_CommonInterface._AProtocolConverter.peekIota(_iotaThis, env: env).foo, env: env)
     }
 }
