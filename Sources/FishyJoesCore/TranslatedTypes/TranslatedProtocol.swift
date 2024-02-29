@@ -317,7 +317,7 @@ struct TranslatedProtocol: TranslatedType {
             fragment.output("fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()")
             fragment.blankLine()
 
-            fragment.outputBlock("public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {") {
+            fragment.outputBlock("public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {") {
                 fragment.outputBlock("Self(") {
                     for (index, computedVar) in computedVariables.enumerated() {
                         let resolved = context.resolve(type: computedVar.typeName.better)
@@ -331,7 +331,7 @@ struct TranslatedProtocol: TranslatedType {
             }
             fragment.blankLine()
 
-            fragment.outputBlock("public static func toIota(_ value: Self, env: Env) throws -> foreignObject {") {
+            fragment.outputBlock("public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {") {
                 fragment.outputBlock("try env.check { exn in", closeWith: "}") {
                     fragment.outputBlock("_constructorMethod[env](") {
                         for computedVar in computedVariables {
@@ -344,7 +344,7 @@ struct TranslatedProtocol: TranslatedType {
             }
             fragment.blankLine()
 
-            fragment.outputBlock("public static func mutateIota(_ this: foreignObject, to value: Self, env: Env) throws {") {
+            fragment.outputBlock("public static func mutateIota(_ this: foreignObject, to value: SwiftType, env: Env) throws {") {
                 for computedVar in computedVariables {
                     let resolved = context.resolve(type: computedVar.typeName.better)
                     if computedVar.isMutable {

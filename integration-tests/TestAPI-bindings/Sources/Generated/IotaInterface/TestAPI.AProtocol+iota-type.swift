@@ -29,7 +29,7 @@ extension TestAPI_CommonInterface._AProtocolConverter: IotaMutator {
     ) -> foreignObject
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
         Self(
             foo: try Swift.String.consumeIota(
                 try env.check { exn in _fooGetter[env](value, exn) },
@@ -38,7 +38,7 @@ extension TestAPI_CommonInterface._AProtocolConverter: IotaMutator {
         )
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {
         try env.check { exn in
             _constructorMethod[env](
                 try Swift.String.toIota(value.foo, env: env),
@@ -47,6 +47,6 @@ extension TestAPI_CommonInterface._AProtocolConverter: IotaMutator {
         }
     }
 
-    public static func mutateIota(_ this: foreignObject, to value: Self, env: Env) throws {
+    public static func mutateIota(_ this: foreignObject, to value: SwiftType, env: Env) throws {
     }
 }
