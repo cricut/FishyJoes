@@ -368,7 +368,7 @@ struct TranslatedProtocol: TranslatedType {
                     }
                     fragment.output("// The only error that peekIota can throw is a BoxTypeError, which happens when the box.value type is not our expected type of Box<SwiftType>, in which case we should use the IotaWitness")
                     fragment.output("let iotaWitness = try IotaReference(value, env: env)")
-                    fragment.output("return _IotaAProtocol(_iotaWitness: iotaWitness, foo: foo)")
+                    fragment.output("return _IotaAProtocol(_iotaWitness: iotaWitness)")
                 }
             }
             fragment.blankLine()
