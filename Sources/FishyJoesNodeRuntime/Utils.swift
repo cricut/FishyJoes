@@ -176,6 +176,17 @@ public func nodeIsUndefiend(_ value: NAPI.Value, env: NAPI.Env) throws -> Bool {
     return try env.typeof(value) == napi_undefined
 }
 
+public func nodeIterate(_ iterator: NAPI.Value, env: NAPI.Env, _ body: (NAPI.Value) throws -> Void) throws {
+    let nextMethod = try env.getNamedProperty(iterator, "next")
+    while true {
+        let result = try env.callFunction(iterator, nextMethod, [])
+        guard try !env.getValueBool(env.getNamedProperty(result, "done")) else {
+            return
+        }
+        try body(env.getNamedProperty(result, "value"))
+    }
+}
+
 private enum JSMainThread {
     #if !os(WASI)
     static var thread: Thread?

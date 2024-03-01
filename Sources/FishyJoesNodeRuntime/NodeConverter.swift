@@ -282,17 +282,9 @@ extension ArrayConverter: NodeConverter where ElementConverter: NodeConverter {
 extension DictionaryConverter: NodeConverter where KeyConverter: NodeConverter, ValueConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         let iterator = try env.callFunction(value, env.getNamedProperty(value, "entries"), [])
-        let nextFun = try env.getNamedProperty(iterator, "next")
-        func next() throws -> NAPI.Value? {
-            let result = try env.callFunction(iterator, nextFun, [])
-            guard try !env.getValueBool(env.getNamedProperty(result, "done")) else {
-                return nil
-            }
-            return try env.getNamedProperty(result, "value")
-        }
 
         var result: SwiftType = [:]
-        while let entry = try next() {
+        try nodeIterate(iterator, env: env) { entry in
             let key = try KeyConverter.fromNode(env.getElement(entry, 0), env: env)
             let value = try ValueConverter.fromNode(env.getElement(entry, 1), env: env)
             result[key] = value
@@ -321,7 +313,13 @@ extension DictionaryConverter: NodeConverter where KeyConverter: NodeConverter, 
 
 extension SetConverter: NodeConverter where ElementConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
-        throw JSException(message: "TODO: implement Swift.Set.static func fromNode(_:env:)")
+        let iterator = try env.callFunction(value, env.getNamedProperty(value, "values"), [])
+
+        var result = SwiftType()
+        try nodeIterate(iterator, env: env) { entry in
+            result.insert(try ElementConverter.fromNode(entry, env: env))
+        }
+        return result
     }
 
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {

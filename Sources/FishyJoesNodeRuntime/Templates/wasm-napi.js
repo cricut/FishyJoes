@@ -1377,7 +1377,6 @@ export class NAPI {
         return NAPI_OK;
       },
       napi_create_threadsafe_function: this.wrap((envPtr, funcIdx, asyncResourceIdx, asyncResourceNameIdx, maxQueueSize, initialThreadCount, finalizeData, finalizeCallback, callJavascriptCallbackContext, callJavascriptCallback, resultPtr) => {
-          debugger;
        if (funcIdx === null && callJavascriptCallback === null) {
          return NAPI_INVALID_ARG;
        }
