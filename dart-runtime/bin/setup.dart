@@ -40,7 +40,7 @@ void main() async {
   for (final dep in deps) {
     String name = dep['name'];
     // String version = dep['version'];
-    // String source = dep['source'];
+    String source = dep['source'];
     List<String> directDeps = [...dep['dependencies']];
 
     // Download binaries for any remote package that is fishyjoes_dart or depends directly on it
