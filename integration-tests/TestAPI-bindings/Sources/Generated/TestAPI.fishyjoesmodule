@@ -57,6 +57,58 @@
         "named" : {
           "_0" : {
             "module" : "TestAPI",
+            "name" : "AProtocolImplementation",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "AProtocolImplementation",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "AProtocolImplementation",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/AProtocolImplementation"
+        }
+      },
+      "kotlinName" : "AProtocolImplementation",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=AProtocolImplementation>>",
+      "nodeName" : "TestAPI.AProtocolImplementation",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "AProtocolImplementation",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
             "name" : "Actors",
             "namespace" : [
 
@@ -1799,6 +1851,96 @@
               }
             ],
             "name" : "AProtocol"
+          },
+          {
+            "constructor" : {
+              "visible" : {
+                "names" : [
+                  "foo",
+                  "baz"
+                ],
+                "types" : [
+                  {
+                    "named" : {
+                      "_0" : "string"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "boolean"
+                    }
+                  }
+                ]
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "foo",
+                "readOnly" : false,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "baz",
+                "readOnly" : false,
+                "type" : {
+                  "named" : {
+                    "_0" : "boolean"
+                  }
+                }
+              }
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(bar) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "bar",
+                "parameters" : [
+                  {
+                    "name" : "x",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "y",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.AProtocol"
+                  }
+                }
+              }
+            ],
+            "name" : "AProtocolImplementation"
           },
           {
             "constructor" : {

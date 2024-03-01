@@ -19,6 +19,25 @@ export declare namespace TestAPI {
         ): TestAPI.AProtocol;
     }
 
+    /**
+     * <!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->
+     */
+    export class AProtocolImplementation {
+        constructor(foo: string, baz: boolean)
+
+        foo: string;
+
+        baz: boolean;
+
+        /**
+         * <!-- FishyJoes.export(bar) -->
+         */
+        bar(
+            x: number,
+            y: number
+        ): TestAPI.AProtocol;
+    }
+
     export type Actors = never;
     export namespace Actors {
         /**

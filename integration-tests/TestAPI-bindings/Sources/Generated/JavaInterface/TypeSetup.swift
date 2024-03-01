@@ -493,6 +493,16 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_get_TestAPI_AProtocol_foo, to: UnsafeMutableRawPointer.self)
             )
         )
+        // print("setting up TestAPI.AProtocolImplementation...")
+        try TestAPI.AProtocolImplementation.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI.AProtocolImplementation.externalWitnessClass ?? TestAPI.AProtocolImplementation.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_bar"),
+                signature: bag.add("(JJ)Lcom/cricut/testapi/AProtocol;"),
+                fnPtr: unsafeBitCast(java_TestAPI_AProtocolImplementation_bar, to: UnsafeMutableRawPointer.self)
+            )
+        )
         // print("setting up TestAPI.Actors...")
         try TestAPI.Actors.javaSetup(env: env)
         // print("setting up TestAPI.AssociatedDataEnum...")

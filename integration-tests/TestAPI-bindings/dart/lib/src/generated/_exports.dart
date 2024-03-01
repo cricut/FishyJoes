@@ -9,6 +9,7 @@ export './Structs_MutableStruct.dart';
 export './Structs_PuttingTypesIntoQuestionablePlaces.dart';
 export './Structs_ReferenceStruct.dart';
 export './AProtocol.dart';
+export './AProtocolImplementation.dart';
 export './Actors.dart';
 export './AssociatedDataEnum.dart';
 export './AsyncFunctions.dart';

@@ -7,6 +7,15 @@ import Foundation
 import TestAPI
 import TestAPI_CommonInterface
 
+struct _IotaAProtocol: TestAPI.AProtocol {
+    let _iotaWitness: IotaReference
+
+    public var foo: String
+}
+
+public func bar(x: Int, y: Int) throws -> AProtocol {
+    // call dart function here somehow. It's got to be assigned somehow in the setup
+}
 @_cdecl("TestAPI_CommonInterface__AProtocolConverter_setup")
 public func TestAPI_CommonInterface__AProtocolConverter_setup(
     envRef: EnvRef,
@@ -30,16 +39,22 @@ extension TestAPI_CommonInterface._AProtocolConverter: IotaMutator {
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
 
     public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
-        Self(
-            foo: try Swift.String.consumeIota(
-                try env.check { exn in _fooGetter[env](value, exn) },
-                env: env
-            )
-        )
+        do {
+            let box = try Box<SwiftType>.peekIota(value, env: env
+            return box.value
+        } catch {
+            guard error is BoxTypeError else {
+                fatalError("Unexepcted error: \(error))
+            }
+            // The only error that peekIota can throw is a BoxTypeError, which happens when the box.value type is not our expected type of Box<SwiftType>, in which case we should use the IotaWitness
+            let iotaWitness = try IotaReference(value, env: env)
+            return _IotaAProtocol(_iotaWitness: iotaWitness, foo: foo)
+        }
     }
 
     public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {
         try env.check { exn in
+            //here's where we should make a new witness with witness constructor
             _constructorMethod[env](
                 try Swift.String.toIota(value.foo, env: env),
                 exn

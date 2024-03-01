@@ -1,4 +1,5 @@
 import './AProtocol.dart' as TestAPI;
+import './AProtocolImplementation.dart' as TestAPI;
 import './Actors.dart' as TestAPI;
 import './Actors_TemperatureLogger.dart' as TestAPI;
 import './AssociatedDataEnum.dart' as TestAPI;

@@ -1,4 +1,5 @@
 import './AProtocol.dart' as TestAPI;
+import './AProtocolImplementation.dart' as TestAPI;
 import './Actors.dart' as TestAPI;
 import './Actors_TemperatureLogger.dart' as TestAPI;
 import './AssociatedDataEnum.dart' as TestAPI;
@@ -182,6 +183,15 @@ typedef _TestAPI_Structs_MutableStructConstructor = CreatedRef Function(
 );
 typedef _TestAPI_Structs_MutableStruct_iGetter = ffi.Int Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_Structs_MutableStruct_iSetter = ffi.Void Function(UnownedRef obj, ffi.Int newValue, OutCreatedRef exn);
+typedef _TestAPI_AProtocolImplementationConstructor = CreatedRef Function(
+    ConsumedRef foo,
+    ffi.Bool baz,
+    OutCreatedRef exn
+);
+typedef _TestAPI_AProtocolImplementation_fooGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_AProtocolImplementation_fooSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _TestAPI_AProtocolImplementation_bazGetter = ffi.Bool Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_AProtocolImplementation_bazSetter = ffi.Void Function(UnownedRef obj, ffi.Bool newValue, OutCreatedRef exn);
 typedef TestAPI_AssociatedDataEnum_new_thing = CreatedRef Function(
     ffi.Int value,
     OutCreatedRef _exn
@@ -549,6 +559,26 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_CommonInterface__AProtocolConverter_setup');
+    final TestAPI_AProtocolImplementation_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementationConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementation_fooGetter>> get_foo,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementation_fooSetter>> set_foo,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementation_bazGetter>> get_baz,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementation_bazSetter>> set_baz,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementationConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementation_fooGetter>> get_foo,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementation_fooSetter>> set_foo,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementation_bazGetter>> get_baz,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementation_bazSetter>> set_baz,
+            OutCreatedRef exn
+        )
+    >('TestAPI_AProtocolImplementation_setup');
     final TestAPI_Actors_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -813,6 +843,22 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_testCall");
+    TestAPI.AProtocolImplementation.f__iota_TestAPI_AProtocolImplementation_bar = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            ffi.Int x,
+            ffi.Int y,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            int x,
+            int y,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_AProtocolImplementation_bar");
     TestAPI.Actors_TemperatureLogger.f__iota_TestAPI_Actors_TemperatureLogger_create = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -5769,6 +5815,21 @@ final ensureLoaded = (() {
         utils.check<void>((exn) {
             TestAPI_CommonInterface__AProtocolConverter_setup(
                 Loader.shared.env,
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.AProtocolImplementation", () {
+        // print("setting up TestAPI.AProtocolImplementation (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_AProtocolImplementation_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.AProtocolImplementation.ffi_constructor),
+                ffi.Pointer.fromFunction(TestAPI.AProtocolImplementation.ffi_get_foo),
+                ffi.Pointer.fromFunction(TestAPI.AProtocolImplementation.ffi_set_foo),
+                ffi.Pointer.fromFunction(TestAPI.AProtocolImplementation.ffi_get_baz, false),
+                ffi.Pointer.fromFunction(TestAPI.AProtocolImplementation.ffi_set_baz),
                 exn
             );
         });

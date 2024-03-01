@@ -34,22 +34,22 @@ public protocol AProtocol {
 //    }
 //}
 //
-///// <!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->
-//public struct AProtocolImplementation: AProtocol {
-//    public var foo: String
-//    public var baz: Bool
-//
-//    public init(foo: String, baz: Bool) {
-//        self.foo = foo
-//        self.baz = baz
-//    }
-//
-//    // TODO: should we infer the export from protocol requirements?
-//    /// <!-- FishyJoes.export(bar) -->
-//    public func bar(x: Int, y: Int) throws -> AProtocol {
-//        AProtocolImplementation(foo: "\(x + y)", baz: x == 2)
-//    }
-//}
+/// <!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->
+public struct AProtocolImplementation: AProtocol {
+    public var foo: String
+    public var baz: Bool
+
+    public init(foo: String, baz: Bool) {
+        self.foo = foo
+        self.baz = baz
+    }
+
+    // TODO: should we infer the export from protocol requirements?
+    /// <!-- FishyJoes.export(bar) -->
+    public func bar(x: Int, y: Int) throws -> AProtocol {
+        AProtocolImplementation(foo: "\(x + y)", baz: x == 2)
+    }
+}
 //
 ///// <!-- FishyJoes.export(TestMethodsProtocol) -->
 //public protocol TestMethodsProtocol {

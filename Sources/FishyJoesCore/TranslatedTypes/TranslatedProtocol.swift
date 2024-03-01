@@ -271,6 +271,39 @@ struct TranslatedProtocol: TranslatedType {
         let defaultMethods = methods.filter { $0.isInExtension }
         let normalMethods = methods.filter { !$0.isInExtension }
 
+        fragment.outputBlock("struct \(foreignProtocolType): \(sourceType.name) {") {
+            fragment.output("let _iotaWitness: IotaReference")
+            for variable in computedVariables {
+                fragment.output()
+                let name = variable.name
+                let type = variable.typeName.better.name
+                let resolved = context.resolve(type: variable.typeName.better)
+                
+                fragment.output("\(variable.isStatic ? "static " : "")public var \(name): \(type)")
+            }
+        }
+        
+        for method in methods {
+            fragment.output()
+            let resolvedReturn = context.resolve(type: method.returnType)
+            var returnSignature = "\(method.isThrowing ? " throws" : "")"
+            if method.returnType.name != "Void" {
+                returnSignature.append(" -> \(method.returnType.name)")
+            }
+            
+            var paramSigs = [String]()
+            do {
+                for param in method.parameters {
+                    paramSigs.append("\(param.labelAndName): \(param.type.name)")
+                }
+            }
+            fragment.outputBlock("\(method.isStatic ? "static " : "")public func \(method.callName)(\(paramSigs.joined(separator: ", ")))\(returnSignature) {") {
+                fragment.output("// call dart function here somehow. It's got to be assigned somehow in the setup")
+                // maybe construct a new dart instance that's a copy then somehow call the function on that instance?
+                // it's got to be like _fooGetter[env] or constructorMethods[env] that's how the toIota works?
+            }
+        }
+
         fragment.output("@_cdecl(\"\(iotaSetupName)\")")
         fragment.outputBlock("public func \(iotaSetupName)(", newLineTerminated: false) {
             fragment.output("envRef: EnvRef,")
@@ -281,6 +314,7 @@ struct TranslatedProtocol: TranslatedType {
                 if computedVar.isMutable {
                     fragment.output("_ \(computedVar.name)Setter: @escaping @convention(c) (foreignObject, \(resolved.converterType.name).CType, _ exn: foreignOutExn) -> Void,")
                 }
+                // TODO: put methods assignment here?
             }
             fragment.output("_ exn: foreignOutExn")
         }
@@ -318,21 +352,24 @@ struct TranslatedProtocol: TranslatedType {
             fragment.blankLine()
 
             fragment.outputBlock("public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {") {
-                fragment.outputBlock("Self(") {
-                    for (index, computedVar) in computedVariables.enumerated() {
-                        let resolved = context.resolve(type: computedVar.typeName.better)
-                        let last = index == computedVariables.count - 1
-                        fragment.outputBlock("\(computedVar.name): try \(resolved.converterType.name).consumeIota(", closeWith: last ? ")" : "),") {
-                            fragment.output("try env.check { exn in _\(computedVar.name)Getter[env](value, exn) },")
-                            fragment.output("env: env")
-                        }
+                fragment.outputBlock("do {", newLineTerminated: false) {
+                    fragment.output("let box = try Box<SwiftType>.peekIota(value, env: env")
+                    fragment.output("return box.value")
+                }
+                fragment.outputBlock(" catch {") {
+                    fragment.outputBlock("guard error is BoxTypeError else {") {
+                        fragment.output("fatalError(\"Unexepcted error: \\(error))")
                     }
+                    fragment.output("// The only error that peekIota can throw is a BoxTypeError, which happens when the box.value type is not our expected type of Box<SwiftType>, in which case we should use the IotaWitness")
+                    fragment.output("let iotaWitness = try IotaReference(value, env: env)")
+                    fragment.output("return _IotaAProtocol(_iotaWitness: iotaWitness, foo: foo)")
                 }
             }
             fragment.blankLine()
 
             fragment.outputBlock("public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {") {
                 fragment.outputBlock("try env.check { exn in", closeWith: "}") {
+                    fragment.output("//here's where we should make a new witness with witness constructor")
                     fragment.outputBlock("_constructorMethod[env](") {
                         for computedVar in computedVariables {
                             let resolved = context.resolve(type: computedVar.typeName.better)
