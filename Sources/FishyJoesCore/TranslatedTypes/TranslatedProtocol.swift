@@ -353,12 +353,12 @@ struct TranslatedProtocol: TranslatedType {
 
             fragment.outputBlock("public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {") {
                 fragment.outputBlock("do {", newLineTerminated: false) {
-                    fragment.output("let box = try Box<SwiftType>.peekIota(value, env: env")
+                    fragment.output("let box = try Box<SwiftType>.peekIota(value, env: env)")
                     fragment.output("return box.value")
                 }
                 fragment.outputBlock(" catch {") {
                     fragment.outputBlock("guard error is BoxTypeError else {") {
-                        fragment.output("fatalError(\"Unexepcted error: \\(error))")
+                        fragment.output("fatalError(\"Unexepcted error: \\(error))\"")
                     }
                     fragment.output("// The only error that peekIota can throw is a BoxTypeError, which happens when the box.value type is not our expected type of Box<SwiftType>, in which case we should use the IotaWitness")
                     fragment.output("let iotaWitness = try IotaReference(value, env: env)")
