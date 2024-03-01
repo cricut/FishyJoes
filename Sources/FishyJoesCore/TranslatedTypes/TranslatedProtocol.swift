@@ -308,6 +308,8 @@ struct TranslatedProtocol: TranslatedType {
             }
         }
 
+        fragment.blankLine()
+
         fragment.output("@_cdecl(\"\(iotaSetupName)\")")
         fragment.outputBlock("public func \(iotaSetupName)(", newLineTerminated: false) {
             fragment.output("envRef: EnvRef,")
