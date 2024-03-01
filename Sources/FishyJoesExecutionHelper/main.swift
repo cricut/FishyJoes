@@ -25,4 +25,10 @@ guard let context = (DeprecatedNSKeyedUnarchiver.self as UndeprecatedNSKeyedUnar
     fatalError("Something went wrong with executing fishyjoes from sourcery")
 }
 
-print(FishyJoesContext(context: context).translateAll())
+var noStdErrFifo = false
+if CommandLine.argc >= 4,
+      CommandLine.arguments[3] == "--xcode-debug" {
+    noStdErrFifo = true
+}
+
+print(FishyJoesContext(context: context, noStdErrFifo: noStdErrFifo).translateAll())

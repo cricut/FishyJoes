@@ -45,7 +45,7 @@ public class FishyJoesContext {
         let message: String
     }
 
-    public init(context: TemplateContext) {
+    public init(context: TemplateContext, noStdErrFifo: Bool) {
         let argument = context.argument
         guard let module = argument["module"] as? String else {
             fatalErr("must provide module name as `module` argument to sourcery")
@@ -67,11 +67,13 @@ public class FishyJoesContext {
             defaultNamespace: module
         )
         self.dumpDebugRepresentation = argument["debugRepresentation"] as? String == "true"
-        if let stderrFifo = argument["stderrFifo"] as? String {
-            // Re-open the real stderr, and bypass sourcery
-            let errDescriptor = try! FileDescriptor.open(stderrFifo, .writeOnly)
-            precondition(dup2(errDescriptor.rawValue, 2) >= 0)
-            try! errDescriptor.close()
+        if !noStdErrFifo {
+            if let stderrFifo = argument["stderrFifo"] as? String {
+                // Re-open the real stderr, and bypass sourcery
+                let errDescriptor = try! FileDescriptor.open(stderrFifo, .writeOnly)
+                precondition(dup2(errDescriptor.rawValue, 2) >= 0)
+                try! errDescriptor.close()
+            }
         }
     }
 
