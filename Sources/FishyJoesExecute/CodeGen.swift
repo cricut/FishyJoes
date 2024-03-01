@@ -759,7 +759,7 @@ extension CodeGen {
                     try withDirectory("dart") {
                         // Fetch binary artifacts
                         try cmd("dart", "run", "fishyjoes_dart:setup").run()
-                        
+
                         // Use dart to execute the test suite
                         try platform.dartTest(codeCoveragePath: codeCoveragePath).run()
                     }
