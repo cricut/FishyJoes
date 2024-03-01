@@ -488,7 +488,7 @@ extension CodeGen {
                             dependencies: nodeDependencies.map(\.name)
                         )
                         try withDirectory(shimDir) {
-                            try platform.swiftBuild(configuration: configuration).run()
+                            try platform.build(product: "\(nodeModule.name)-node-shim", libs: ["\(nodeModule.name)-node-shim"], configuration: configuration)
                         }
                         let shimDylibPath = try withDirectory(shimDir) { try "\(platform.buildDir(configuration))\(ps)\(platform.dylibName(for: nodeModule.nodeShimLibName))" }
                         let nodeNativeLibPath = try "\(platform.buildDir(configuration))\(ps)\(platform.dylibName(for: nodeModule.nodeShimLibName))"
@@ -757,6 +757,10 @@ extension CodeGen {
                     }
                 case .dart:
                     try withDirectory("dart") {
+                        // Fetch binary artifacts
+                        try cmd("dart", "run", "fishyjoes_dart:setup").run()
+                        
+                        // Use dart to execute the test suite
                         try platform.dartTest(codeCoveragePath: codeCoveragePath).run()
                     }
                 }
