@@ -8,5 +8,7 @@ $CurrentPath = if ($env:Path -ne $null) { $env:Path } else { $env:PATH }
 $DeduplicatedPath = ($CurrentPath -split ';' | Select-Object -Unique) -join ';'
 $env:PATH = ''
 $env:Path = $DeduplicatedPath
+
+# Perform execution and report errors encountered
 swift.exe @args
-if (-not $?) {throw "swift exited with code $?"}
+if (-not $?) { throw "swift exited with code $LastExitCode" }
