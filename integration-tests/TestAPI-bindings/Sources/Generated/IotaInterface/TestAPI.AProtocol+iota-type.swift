@@ -11,10 +11,10 @@ struct _IotaAProtocol: TestAPI.AProtocol {
     let _iotaWitness: IotaReference
 
     public var foo: String
-}
 
-public func bar(x: Int, y: Int) throws -> AProtocol {
-    // call dart function here somehow. It's got to be assigned somehow in the setup
+    public func bar(x: Int, y: Int) throws -> AProtocol {
+        // call dart function here somehow. It's got to be assigned somehow in the setup
+    }
 }
 @_cdecl("TestAPI_CommonInterface__AProtocolConverter_setup")
 public func TestAPI_CommonInterface__AProtocolConverter_setup(

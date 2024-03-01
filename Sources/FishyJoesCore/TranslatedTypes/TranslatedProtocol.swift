@@ -271,6 +271,10 @@ struct TranslatedProtocol: TranslatedType {
         let defaultMethods = methods.filter { $0.isInExtension }
         let normalMethods = methods.filter { !$0.isInExtension }
 
+        if converterType.name.contains("AProtocol") {
+            let a = 1
+        }
+        
         fragment.outputBlock("struct \(foreignProtocolType): \(sourceType.name) {") {
             fragment.output("let _iotaWitness: IotaReference")
             for variable in computedVariables {
@@ -281,26 +285,26 @@ struct TranslatedProtocol: TranslatedType {
                 
                 fragment.output("\(variable.isStatic ? "static " : "")public var \(name): \(type)")
             }
-        }
-        
-        for method in methods {
-            fragment.output()
-            let resolvedReturn = context.resolve(type: method.returnType)
-            var returnSignature = "\(method.isThrowing ? " throws" : "")"
-            if method.returnType.name != "Void" {
-                returnSignature.append(" -> \(method.returnType.name)")
-            }
             
-            var paramSigs = [String]()
-            do {
-                for param in method.parameters {
-                    paramSigs.append("\(param.labelAndName): \(param.type.name)")
+            for method in methods {
+                fragment.output()
+                let resolvedReturn = context.resolve(type: method.returnType)
+                var returnSignature = "\(method.isThrowing ? " throws" : "")"
+                if method.returnType.name != "Void" {
+                    returnSignature.append(" -> \(method.returnType.name)")
                 }
-            }
-            fragment.outputBlock("\(method.isStatic ? "static " : "")public func \(method.callName)(\(paramSigs.joined(separator: ", ")))\(returnSignature) {") {
-                fragment.output("// call dart function here somehow. It's got to be assigned somehow in the setup")
-                // maybe construct a new dart instance that's a copy then somehow call the function on that instance?
-                // it's got to be like _fooGetter[env] or constructorMethods[env] that's how the toIota works?
+                
+                var paramSigs = [String]()
+                do {
+                    for param in method.parameters {
+                        paramSigs.append("\(param.labelAndName): \(param.type.name)")
+                    }
+                }
+                fragment.outputBlock("\(method.isStatic ? "static " : "")public func \(method.callName)(\(paramSigs.joined(separator: ", ")))\(returnSignature) {") {
+                    fragment.output("// call dart function here somehow. It's got to be assigned somehow in the setup")
+                    // maybe construct a new dart instance that's a copy then somehow call the function on that instance?
+                    // it's got to be like _fooGetter[env] or constructorMethods[env] that's how the toIota works?
+                }
             }
         }
 
