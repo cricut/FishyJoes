@@ -10,23 +10,23 @@ import TestAPI_CommonInterface
 struct _NodeAProtocol: TestAPI.AProtocol {
     let _nodeWitness: NodeReference
 
-    var foo: String
-    var barImpl: (() -> AProtocol)?
-    public func bar(x: Int, y: Int) throws -> AProtocol {
-        barImpl!()
+    var foo: Int
+    var incrementImpl: (() -> Void)?
+    public func increment() throws {
+        incrementImpl!()
     }
 }
 extension TestAPI_CommonInterface._AProtocolConverter: NodeMutator {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         return _NodeAProtocol(
             _nodeWitness: try NodeReference(env: env, value: value),
-            foo: String()
+            foo: Int()
         )
     }
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
         let constructor = try NodeClass.constructor(for: "AProtocol", env: env)
         let args: [NAPI.Value] = [
-            try Swift.String.toNode(value.foo, env: env),
+            try Swift.Int.toNode(value.foo, env: env),
         ]
         return try env.newInstance(constructor, args)
     }
@@ -39,16 +39,16 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeMutator {
             env: env,
             name: "AProtocol",
             properties: [
-                "bar": (
+                "increment": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "bar", expectedArgumentCount: 2, hasNamedOptions: false) { env in
-                            let result = try TestAPI_CommonInterface._AProtocolConverter.toNode(
-                                env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self).bar(
-                                    x: try env.argument(at: 0, converter: Swift.Int.self),
-                                    y: try env.argument(at: 1, converter: Swift.Int.self)
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "increment", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            var mutatingSelf = try env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self)
+                            let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
+                                mutatingSelf.increment(
                                 ),
                                 env: env.env
                             )
+                            try Self.mutateNode(mutatingSelf, this: env.this(), env: env.env)
                             return result
                         }
                     },
@@ -58,7 +58,7 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeMutator {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "foo", expectedArgumentCount: 0) { env in
-                                try Swift.String.toNode(env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self).foo, env: env.env)
+                                try Swift.Int.toNode(env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self).foo, env: env.env)
                             }
                         },
                         setter: nil

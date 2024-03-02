@@ -47,59 +47,38 @@ import 'package:tuple/tuple.dart' as tuple;
 
 /// <!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->
 class AProtocolImplementation implements TestAPI.AProtocol {
-    String foo;
-    bool baz;
+    int foo;
 
     AProtocolImplementation({
-        required String foo,
-        required bool baz
+        required int foo
     }):
-        this.foo = foo,
-        this.baz = baz;
+        this.foo = foo;
 
     static CreatedRef ffi_constructor(
-        ConsumedRef foo,
-        bool baz,
+        int foo,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(AProtocolImplementation(
-            foo: consumeRef(foo),
-            baz: baz,
+            foo: foo,
         ))
     );
 
-    static CreatedRef ffi_get_foo(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<AProtocolImplementation>(obj).foo
-        )
-    );
-    static void ffi_set_foo(
-        UnownedRef obj,
-        ConsumedRef newValue,
-        OutCreatedRef exn
-    ) => catching(exn, () {
-        peekRef<AProtocolImplementation>(obj).foo = consumeRef<String>(newValue);
-    });
-
-    static bool ffi_get_baz(
+    static int ffi_get_foo(
         UnownedRef obj,
         OutCreatedRef exn
     ) => catching(exn, () =>
-        peekRef<AProtocolImplementation>(obj).baz
-    ) ?? false;
-    static void ffi_set_baz(
+        peekRef<AProtocolImplementation>(obj).foo
+    ) ?? 0;
+    static void ffi_set_foo(
         UnownedRef obj,
-        bool newValue,
+        int newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<AProtocolImplementation>(obj).baz = newValue;
+        peekRef<AProtocolImplementation>(obj).foo = newValue;
     });
 
     @override
-    String toString() => 'AProtocolImplementation(foo: $foo, baz: $baz)';
+    String toString() => 'AProtocolImplementation(foo: $foo)';
 
     @override
     bool operator ==(Object other) {
@@ -108,8 +87,7 @@ class AProtocolImplementation implements TestAPI.AProtocol {
             other.runtimeType == runtimeType &&
             other is AProtocolImplementation &&
             (
-                const DeepCollectionEquality().equals(other.foo, foo) &&
-                const DeepCollectionEquality().equals(other.baz, baz)
+                const DeepCollectionEquality().equals(other.foo, foo)
             )
         );
     }
@@ -117,33 +95,26 @@ class AProtocolImplementation implements TestAPI.AProtocol {
     @override
     int get hashCode => Object.hash(
         runtimeType,
-        const DeepCollectionEquality().hash(foo), 
-        const DeepCollectionEquality().hash(baz)
+        const DeepCollectionEquality().hash(foo)
     );
 
     AProtocolImplementation copyWith({
-        String? foo,
-        bool? baz
+        int? foo
     }) => AProtocolImplementation(
-        foo: foo ?? this.foo,
-        baz: baz ?? this.baz
+        foo: foo ?? this.foo
     );
 
-    /// <!-- FishyJoes.export(bar) -->
-    TestAPI.AProtocol bar(
-        int x,
-        int y,
+    /// <!-- FishyJoes.export(increment) -->
+    void increment(
     ) =>
         GCRef.using(this, (_thisHandle) =>
-            consumeCreatedRef<TestAPI.AProtocol>(check((OutCreatedRef _exn) => f__iota_TestAPI_AProtocolImplementation_bar(Loader.shared.env, _thisHandle.ptr, x, y, _exn)))
+            check((OutCreatedRef _exn) => f__iota_TestAPI_AProtocolImplementation_increment(Loader.shared.env, _thisHandle.ptr, _exn))
         )
     ;
 
-    static late CreatedRef Function(
+    static late void Function(
         Env env,
         UnownedRef _this,
-        int x,
-        int y,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_AProtocolImplementation_bar;
+    ) f__iota_TestAPI_AProtocolImplementation_increment;
 }

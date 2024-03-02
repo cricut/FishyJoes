@@ -11,31 +11,29 @@ struct _JavaAProtocol: TestAPI.AProtocol {
     let _javaWitness: JavaReference
 
     static var _fooGetMethodID: jmethodID?
-    public var foo: String {
+    public var foo: Int {
         get throws {
             let env = try Env.acquireJVMThread(on: _javaWitness.vm)
             defer {
                 try? Env.relinquishJVMThread(on: _javaWitness.vm)
             }
-            return try Swift.String.fromJava(
-                env.CallObjectMethod(_javaWitness.object, Self._fooGetMethodID),
+            return try Swift.Int.fromJava(
+                env.CallLongMethod(_javaWitness.object, Self._fooGetMethodID),
                 env: env
             )
         }
     }
 
-    static var _barMethodID: jmethodID?
-    public func bar(x: Int, y: Int) throws -> AProtocol {
+    static var _incrementMethodID: jmethodID?
+    public func increment() throws {
         let env = try Env.acquireJVMThread(on: _javaWitness.vm)
         defer {
             try? Env.relinquishJVMThread(on: _javaWitness.vm)
         }
-        return try TestAPI_CommonInterface._AProtocolConverter.fromJava(
-            env.CallObjectMethod(
+        return try FishyJoesCommonRuntime.VoidConverter.fromJava(
+            env.CallVoidMethod(
                 _javaWitness.object,
-                Self._barMethodID,
-                jvalue(try Swift.Int.toJava(x, env: env)),
-                jvalue(try Swift.Int.toJava(y, env: env))
+                Self._incrementMethodID
             ),
             env: env
         )
@@ -70,7 +68,7 @@ extension TestAPI_CommonInterface._AProtocolConverter: JavaMutator {
         javaClass = try env.globalRef(env.FindClass("com/cricut/testapi/AProtocol"))
         externalWitnessClass = try env.globalRef(env.FindClass("com/cricut/testapi/_ExternalWitness_AProtocol"))
         externalWitnessConstructor = try env.GetMethodID(externalWitnessClass, "<init>", "(J)V")
-        _JavaAProtocol._fooGetMethodID = try env.GetMethodID(javaClass, "getFoo", "()Ljava/lang/String;")
-        _JavaAProtocol._barMethodID = try env.GetMethodID(javaClass, "bar", "(JJ)Lcom/cricut/testapi/AProtocol;")
+        _JavaAProtocol._fooGetMethodID = try env.GetMethodID(javaClass, "getFoo", "()J")
+        _JavaAProtocol._incrementMethodID = try env.GetMethodID(javaClass, "increment", "()V")
     }
 }

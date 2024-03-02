@@ -3,39 +3,33 @@ export declare namespace TestAPI {
      * <!-- FishyJoes.export(AProtocol) -->
      */
     export class AProtocol {
-        constructor(foo: string)
+        constructor(foo: number)
 
         /**
          * <!-- FishyJoes.export(foo) -->
          */
-        readonly foo: string;
+        readonly foo: number;
 
         /**
-         * <!-- FishyJoes.export(bar) -->
+         * <!-- FishyJoes.export(increment) -->
          */
-        bar(
-            x: number,
-            y: number
-        ): TestAPI.AProtocol;
+        increment(
+        ): void;
     }
 
     /**
      * <!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->
      */
     export class AProtocolImplementation {
-        constructor(foo: string, baz: boolean)
+        constructor(foo: number)
 
-        foo: string;
-
-        baz: boolean;
+        foo: number;
 
         /**
-         * <!-- FishyJoes.export(bar) -->
+         * <!-- FishyJoes.export(increment) -->
          */
-        bar(
-            x: number,
-            y: number
-        ): TestAPI.AProtocol;
+        increment(
+        ): void;
     }
 
     export type Actors = never;

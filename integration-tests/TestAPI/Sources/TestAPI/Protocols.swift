@@ -3,10 +3,13 @@ import Foundation
 /// <!-- FishyJoes.export(AProtocol) -->
 public protocol AProtocol {
     /// <!-- FishyJoes.export(foo) -->
-    var foo: String { get throws }
+    var foo: Int { get throws }
+    
+    /// <!-- FishyJoes.export(increment) -->
+    mutating func increment() throws
 
-    /// <!-- FishyJoes.export(bar) -->
-    func bar(x: Int, y: Int) throws -> AProtocol
+//    /// <!-- FishyJoes.export(bar) -->
+//    func bar(x: Int, y: Int) throws -> AProtocol
 
 //    /// <!-- FishyJoes.export(baz) -->
 //    var baz: Bool { get throws }
@@ -36,18 +39,22 @@ public protocol AProtocol {
 //
 /// <!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->
 public struct AProtocolImplementation: AProtocol {
-    public var foo: String
-    public var baz: Bool
+    public var foo: Int
+//    public var baz: Bool
 
-    public init(foo: String, baz: Bool) {
+    public init(foo: Int) {//}, baz: Bool) {
         self.foo = foo
-        self.baz = baz
+//        self.baz = baz
     }
 
-    // TODO: should we infer the export from protocol requirements?
-    /// <!-- FishyJoes.export(bar) -->
-    public func bar(x: Int, y: Int) throws -> AProtocol {
-        AProtocolImplementation(foo: "\(x + y)", baz: x == 2)
+//    // TODO: should we infer the export from protocol requirements?
+//    /// <!-- FishyJoes.export(bar) -->
+//    public func bar(x: Int, y: Int) throws -> AProtocol {
+//        AProtocolImplementation(foo: "\(x + y)", baz: x == 2)
+//    }
+    /// <!-- FishyJoes.export(increment) -->
+    mutating public func increment() throws {
+        foo += 1
     }
 }
 //

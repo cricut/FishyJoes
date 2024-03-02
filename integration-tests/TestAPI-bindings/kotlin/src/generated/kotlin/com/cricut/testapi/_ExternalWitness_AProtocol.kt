@@ -7,23 +7,19 @@ private class _ExternalWitness_AProtocol private constructor(_swiftReference: Lo
     /**
      * <!-- FishyJoes.export(foo) -->
      */
-    override val foo: kotlin.String
+    override val foo: Long
       get() = __jni_get_foo()
     @JvmName("__jni_get_foo")
-    private external fun __jni_get_foo(): kotlin.String
+    private external fun __jni_get_foo(): Long
 
     /**
-     * <!-- FishyJoes.export(bar) -->
+     * <!-- FishyJoes.export(increment) -->
      */
-    override fun bar(
-        x: Long,
-        y: Long
-    ): com.cricut.testapi.AProtocol = __jni_bar(x, y)
-    @JvmName("__jni_bar")
-    private external fun __jni_bar(
-        x: Long,
-        y: Long
-    ): com.cricut.testapi.AProtocol
+    override fun increment(
+    ): kotlin.Unit = __jni_increment()
+    @JvmName("__jni_increment")
+    private external fun __jni_increment(
+    ): kotlin.Unit
 
     companion object {
         init { loadNativeLibs() }
