@@ -270,10 +270,6 @@ struct TranslatedProtocol: TranslatedType {
         let foreignProtocolType = "_Iota\(sourceType.nonNamespacedName)"
         let defaultMethods = methods.filter { $0.isInExtension }
         let normalMethods = methods.filter { !$0.isInExtension }
-
-        if converterType.name.contains("AProtocol") {
-            let a = 1
-        }
         
         fragment.outputBlock("struct \(foreignProtocolType): \(sourceType.name) {") {
             fragment.output("let _iotaWitness: IotaReference")
