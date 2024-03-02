@@ -571,7 +571,7 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementationConstructor>> constructor,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementation_fooGetter>> get_foo,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementation_fooSetter>> set_foo,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementation_increment>> ffi_increment,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementation_increment>> increment,
             OutCreatedRef exn
         ),
         void Function(
@@ -579,7 +579,7 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementationConstructor>> constructor,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementation_fooGetter>> get_foo,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementation_fooSetter>> set_foo,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementation_increment>> ffi_increment,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementation_increment>> increment,
             OutCreatedRef exn
         )
     >('TestAPI_AProtocolImplementation_setup');
