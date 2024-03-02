@@ -271,14 +271,14 @@ final ensureLoaded = (() {
             Env env,
             ffi.Pointer<ffi.NativeFunction<_Foundation_AttributedString_PuttingTypesIntoQuestionablePlacesConstructor>> constructor,
             ffi.Pointer<ffi.NativeFunction<_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_xGetter>> get_x,
-            ffi.Pointer<ffi.NativeFunction<_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall>> testCall,
+            ffi.Pointer<ffi.NativeFunction<_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall>> ffi_testCall,
             OutCreatedRef exn
         ),
         void Function(
             Env env,
             ffi.Pointer<ffi.NativeFunction<_Foundation_AttributedString_PuttingTypesIntoQuestionablePlacesConstructor>> constructor,
             ffi.Pointer<ffi.NativeFunction<_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_xGetter>> get_x,
-            ffi.Pointer<ffi.NativeFunction<_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall>> testCall,
+            ffi.Pointer<ffi.NativeFunction<_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall>> ffi_testCall,
             OutCreatedRef exn
         )
     >('Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_setup');
@@ -287,14 +287,14 @@ final ensureLoaded = (() {
             Env env,
             ffi.Pointer<ffi.NativeFunction<_Swift_String_PuttingTypesIntoQuestionablePlacesConstructor>> constructor,
             ffi.Pointer<ffi.NativeFunction<_Swift_String_PuttingTypesIntoQuestionablePlaces_xGetter>> get_x,
-            ffi.Pointer<ffi.NativeFunction<_Swift_String_PuttingTypesIntoQuestionablePlaces_testCall>> testCall,
+            ffi.Pointer<ffi.NativeFunction<_Swift_String_PuttingTypesIntoQuestionablePlaces_testCall>> ffi_testCall,
             OutCreatedRef exn
         ),
         void Function(
             Env env,
             ffi.Pointer<ffi.NativeFunction<_Swift_String_PuttingTypesIntoQuestionablePlacesConstructor>> constructor,
             ffi.Pointer<ffi.NativeFunction<_Swift_String_PuttingTypesIntoQuestionablePlaces_xGetter>> get_x,
-            ffi.Pointer<ffi.NativeFunction<_Swift_String_PuttingTypesIntoQuestionablePlaces_testCall>> testCall,
+            ffi.Pointer<ffi.NativeFunction<_Swift_String_PuttingTypesIntoQuestionablePlaces_testCall>> ffi_testCall,
             OutCreatedRef exn
         )
     >('Swift_String_PuttingTypesIntoQuestionablePlaces_setup');
@@ -498,8 +498,8 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MemberwiseStruct_immutableSetter>> set_immutable,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MemberwiseStruct_mutableGetter>> get_mutable,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MemberwiseStruct_mutableSetter>> set_mutable,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MemberwiseStruct_asyncGetMutable>> asyncGetMutable,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MemberwiseStruct_init>> init,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MemberwiseStruct_asyncGetMutable>> ffi_asyncGetMutable,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MemberwiseStruct_init>> ffi_init,
             OutCreatedRef exn
         ),
         void Function(
@@ -509,8 +509,8 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MemberwiseStruct_immutableSetter>> set_immutable,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MemberwiseStruct_mutableGetter>> get_mutable,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MemberwiseStruct_mutableSetter>> set_mutable,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MemberwiseStruct_asyncGetMutable>> asyncGetMutable,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MemberwiseStruct_init>> init,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MemberwiseStruct_asyncGetMutable>> ffi_asyncGetMutable,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MemberwiseStruct_init>> ffi_init,
             OutCreatedRef exn
         )
     >('TestAPI_Structs_MemberwiseStruct_setup');
@@ -520,10 +520,10 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MutableStructConstructor>> constructor,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MutableStruct_iGetter>> get_i,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MutableStruct_iSetter>> set_i,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MutableStruct_asyncGetI>> asyncGetI,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MutableStruct_increment>> increment,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MutableStruct_incrementAsync>> incrementAsync,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MutableStruct_init>> init,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MutableStruct_asyncGetI>> ffi_asyncGetI,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MutableStruct_increment>> ffi_increment,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MutableStruct_incrementAsync>> ffi_incrementAsync,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MutableStruct_init>> ffi_init,
             OutCreatedRef exn
         ),
         void Function(
@@ -531,10 +531,10 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MutableStructConstructor>> constructor,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MutableStruct_iGetter>> get_i,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MutableStruct_iSetter>> set_i,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MutableStruct_asyncGetI>> asyncGetI,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MutableStruct_increment>> increment,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MutableStruct_incrementAsync>> incrementAsync,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MutableStruct_init>> init,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MutableStruct_asyncGetI>> ffi_asyncGetI,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MutableStruct_increment>> ffi_increment,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MutableStruct_incrementAsync>> ffi_incrementAsync,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MutableStruct_init>> ffi_init,
             OutCreatedRef exn
         )
     >('TestAPI_Structs_MutableStruct_setup');
@@ -578,7 +578,7 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementationConstructor>> constructor,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementation_fooGetter>> get_foo,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementation_fooSetter>> set_foo,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementation_increment>> increment,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementation_increment>> ffi_increment,
             OutCreatedRef exn
         ),
         void Function(
@@ -586,7 +586,7 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementationConstructor>> constructor,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementation_fooGetter>> get_foo,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementation_fooSetter>> set_foo,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementation_increment>> increment,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementation_increment>> ffi_increment,
             OutCreatedRef exn
         )
     >('TestAPI_AProtocolImplementation_setup');
