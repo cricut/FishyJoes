@@ -556,19 +556,21 @@ class DartProductClass: DartClass {
 
                 fragment.blankLine()
 
-                for method in methods {
-                    fragment.outputBlock("static \(method.returnType.ffiCreatedName) ffi_\(method.name)(", newLineTerminated: false) {
-                        fragment.output("UnownedRef obj,")
-                        // TODO: put params here
-//                        for param in method.parameters {
-//                            fragment.output("\(param.name)")
-//                        }
-                        fragment.output("OutCreatedRef exn")
+                if unqualifiedName.contains("AProtocol") {
+                    for method in methods {
+                        fragment.outputBlock("static \(method.returnType.ffiCreatedName) ffi_\(method.name)(", newLineTerminated: false) {
+                            fragment.output("UnownedRef obj,")
+                            // TODO: put params here
+                            //                        for param in method.parameters {
+                            //                            fragment.output("\(param.name)")
+                            //                        }
+                            fragment.output("OutCreatedRef exn")
+                        }
+                        fragment.outputBlock(" => catching(exn, () {", closeWith: "});") {
+                            fragment.output("peekRef<\(unqualifiedName)>(obj).\(method.name)();")
+                        }
+                        fragment.blankLine()
                     }
-                    fragment.outputBlock(" => catching(exn, () {", closeWith: "});") {
-                        fragment.output("peekRef<\(unqualifiedName)>(obj).\(method.name)();")
-                    }
-                    fragment.blankLine()
                 }
                 
                 fragment.output("@override")

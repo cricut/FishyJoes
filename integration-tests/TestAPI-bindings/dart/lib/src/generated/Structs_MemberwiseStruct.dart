@@ -101,20 +101,6 @@ class Structs_MemberwiseStruct {
         peekRef<Structs_MemberwiseStruct>(obj).mutable = consumeRef<String>(newValue);
     });
 
-    static CreatedRef ffi_asyncGetMutable(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catching(exn, () {
-        peekRef<Structs_MemberwiseStruct>(obj).asyncGetMutable();
-    });
-
-    static CreatedRef ffi_create(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catching(exn, () {
-        peekRef<Structs_MemberwiseStruct>(obj).create();
-    });
-
     @override
     String toString() => 'Structs_MemberwiseStruct(immutable: $immutable, mutable: $mutable)';
 

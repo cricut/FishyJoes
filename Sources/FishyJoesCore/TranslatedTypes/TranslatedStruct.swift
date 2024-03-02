@@ -429,7 +429,7 @@ struct TranslatedStruct: TranslatedType {
                     },
                 ] : []
             )
-        } + methods.flatMap { method -> [ForeignSetupParameter<DartClass.DartType>] in
+        } + (converterType.genericBaseName.mangledName.contains("AProtocol") ? methods.flatMap { method -> [ForeignSetupParameter<DartClass.DartType>] in
             return [
                 .value(
                     name: "ffi_\(method.callName)",
@@ -441,7 +441,7 @@ struct TranslatedStruct: TranslatedType {
                     fragment.output("ffi.Pointer.fromFunction(\(dartType.name()).ffi_\(method.callName)),")
                 }
             ]
-        }
+        } : [])
     }
 
     func iotaDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
