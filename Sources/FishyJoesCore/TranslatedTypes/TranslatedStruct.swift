@@ -438,7 +438,7 @@ struct TranslatedStruct: TranslatedType {
         } + (converterType.genericBaseName.mangledName.contains("AProtocol") ? methods.flatMap { method -> [ForeignSetupParameter<DartClass.DartType>] in
             return [
                 .value(
-                    name: "ffi_\(method.callName)",
+                    name: "\(method.callName)",
                     type: .named(
                         package: nil,
                         name: "ffi.Pointer<ffi.NativeFunction<_\(converterType.genericBaseName.mangledName)_\(method.callName)>>"
