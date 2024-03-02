@@ -45,11 +45,13 @@ typedef _Foundation_AttributedString_PuttingTypesIntoQuestionablePlacesConstruct
     OutCreatedRef exn
 );
 typedef _Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_xGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall = ffi.Int Function(UnownedRef obj, OutCreatedRef exn);
 typedef _Swift_String_PuttingTypesIntoQuestionablePlacesConstructor = CreatedRef Function(
     ConsumedRef x,
     OutCreatedRef exn
 );
 typedef _Swift_String_PuttingTypesIntoQuestionablePlaces_xGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _Swift_String_PuttingTypesIntoQuestionablePlaces_testCall = ffi.Int Function(UnownedRef obj, OutCreatedRef exn);
 typedef TestAPI_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_new_thing = CreatedRef Function(
     OutCreatedRef _exn
 );
@@ -177,18 +179,25 @@ typedef _TestAPI_Structs_MemberwiseStruct_immutableGetter = CreatedRef Function(
 typedef _TestAPI_Structs_MemberwiseStruct_immutableSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
 typedef _TestAPI_Structs_MemberwiseStruct_mutableGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_Structs_MemberwiseStruct_mutableSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _TestAPI_Structs_MemberwiseStruct_asyncGetMutable = ffi.Pointer Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_Structs_MemberwiseStruct_init = ffi.Pointer Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_Structs_MutableStructConstructor = CreatedRef Function(
     ffi.Int i,
     OutCreatedRef exn
 );
 typedef _TestAPI_Structs_MutableStruct_iGetter = ffi.Int Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_Structs_MutableStruct_iSetter = ffi.Void Function(UnownedRef obj, ffi.Int newValue, OutCreatedRef exn);
+typedef _TestAPI_Structs_MutableStruct_asyncGetI = ffi.Int Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_Structs_MutableStruct_increment = ffi.Void Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_Structs_MutableStruct_incrementAsync = ffi.Void Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_Structs_MutableStruct_init = ffi.Pointer Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_AProtocolImplementationConstructor = CreatedRef Function(
     ffi.Int foo,
     OutCreatedRef exn
 );
 typedef _TestAPI_AProtocolImplementation_fooGetter = ffi.Int Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_AProtocolImplementation_fooSetter = ffi.Void Function(UnownedRef obj, ffi.Int newValue, OutCreatedRef exn);
+typedef _TestAPI_AProtocolImplementation_increment = ffi.Void Function(UnownedRef obj, OutCreatedRef exn);
 typedef TestAPI_AssociatedDataEnum_new_thing = CreatedRef Function(
     ffi.Int value,
     OutCreatedRef _exn
