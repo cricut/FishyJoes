@@ -429,6 +429,18 @@ struct TranslatedStruct: TranslatedType {
                     },
                 ] : []
             )
+        } + methods.flatMap { method -> [ForeignSetupParameter<DartClass.DartType>] in
+            return [
+                .value(
+                    name: method.callName,
+                    type: .named(
+                        package: nil,
+                        name: "ffi.Pointer<ffi.NativeFunction<_\(converterType.genericBaseName.mangledName)_\(method.callName)>>"
+                    )
+                ) { fragment in
+                    fragment.output("ffi.Pointer.fromFunction(\(dartType.name()).ffi_\(method.callName)),")
+                }
+            ]
         }
     }
 
