@@ -740,15 +740,7 @@ struct TranslatedProtocol: TranslatedType {
                 module: context.module,
                 documentation: documentation,
                 name: "_ExternalWitness_\(dartType.name())",
-                constructor: .`public`(
-                    fields: computedVariables.compactMap {
-                        switch context.dart(field: $0, of: self, useNativeName: true) {
-                        case .method: fatalErr("Can't export a computed variable `\(self.sourceType.name).\($0.name)` as a method")
-                        case .variable(let field): return field
-                        case nil: return nil
-                        }
-                    }
-                ),
+                constructor: .reference,
                 fieldsAndMethods: {
                     let nonDefaultMethods = methods.filter { !$0.isInExtension }
                     var fAndM = computedVariables.compactMap { context.dart(field: $0, of: self, useNativeName: false) }
