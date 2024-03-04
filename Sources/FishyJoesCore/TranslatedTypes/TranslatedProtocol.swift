@@ -403,7 +403,15 @@ struct TranslatedProtocol: TranslatedType {
 
         fragment.outputBlock("extension \(converterType.name): IotaMutator {") {
             fragment.output("public typealias CType = foreignObject")
-
+            
+            fragment.outputBlock("public typealias _ConstructorMethod = @convention(c) (", closeWith: ") -> foreignObject") {
+                for computedVar in computedVariables {
+                    let resolved = context.resolve(type: computedVar.typeName.better)
+                    fragment.output("\(resolved.converterType.name).CType,")
+                }
+                fragment.output("_ exn: foreignOutExn")
+            }
+            fragment.output("fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()")
             for computedVar in computedVariables {
                 let resolved = context.resolve(type: computedVar.typeName.better)
                 fragment.output("fileprivate static let _\(computedVar.name)Getter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolved.converterType.name).CType>()")
@@ -416,14 +424,6 @@ struct TranslatedProtocol: TranslatedType {
                 // TODO: Put in Method parameters
                 fragment.output("fileprivate static let _\(method.callName) = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolvedReturnType.converterType.name).CType>()")
             }
-            fragment.outputBlock("public typealias _ConstructorMethod = @convention(c) (", closeWith: ") -> foreignObject") {
-                for computedVar in computedVariables {
-                    let resolved = context.resolve(type: computedVar.typeName.better)
-                    fragment.output("\(resolved.converterType.name).CType,")
-                }
-                fragment.output("_ exn: foreignOutExn")
-            }
-            fragment.output("fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()")
             fragment.blankLine()
 
             fragment.outputBlock("public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {") {
