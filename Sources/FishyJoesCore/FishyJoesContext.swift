@@ -574,6 +574,11 @@ public class FishyJoesContext {
     func add(dartClass: DartClass) {
         dartClasses.append(dartClass)
 
+        // Don't add nativeMethods for DartProtocolClass to dartTranslator
+        // They will be handled by the ExternalWitness for that Protocol
+        guard !(dartClass is DartProtocolClass) else {
+            return
+        }
         for (name, (args, returnType)) in dartClass.nativeMethods {
             dartTranslator.nativeMethods.append(
                 .init(

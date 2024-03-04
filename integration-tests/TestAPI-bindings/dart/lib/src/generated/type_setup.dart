@@ -1366,18 +1366,6 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Collections_echoSetOfInt");
-    TestAPI.AProtocol.f__iota_TestAPI_CommonInterface__AProtocolConverter_increment = dylib.lookupFunction<
-        ffi.Void Function(
-            Env env,
-            UnownedRef _this,
-            OutCreatedRef _exn
-        ),
-        void Function(
-            Env env,
-            UnownedRef _this,
-            OutCreatedRef _exn
-        )
-    >("__iota_TestAPI_CommonInterface__AProtocolConverter_increment");
     _ExternalWitness_AProtocol.f__iota_TestAPI_CommonInterface__AProtocolConverter_increment = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -2896,18 +2884,6 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_Collections_setOfInt");
-    TestAPI.AProtocol.f__iota_get_TestAPI_CommonInterface__AProtocolConverter_foo = dylib.lookupFunction<
-        ffi.Int Function(
-            Env env,
-            UnownedRef _this,
-            OutCreatedRef _exn
-        ),
-        int Function(
-            Env env,
-            UnownedRef _this,
-            OutCreatedRef _exn
-        )
-    >("__iota_get_TestAPI_CommonInterface__AProtocolConverter_foo");
     _ExternalWitness_AProtocol.f__iota_get_TestAPI_CommonInterface__AProtocolConverter_foo = dylib.lookupFunction<
         ffi.Int Function(
             Env env,
