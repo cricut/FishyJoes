@@ -377,7 +377,11 @@ struct TranslatedProtocol: TranslatedType {
                 if computedVar.isMutable {
                     fragment.output("_ \(computedVar.name)Setter: @escaping @convention(c) (foreignObject, \(resolved.converterType.name).CType, _ exn: foreignOutExn) -> Void,")
                 }
-                // TODO: put methods assignment here?
+            }
+            for method in methods {
+                let resolvedReturnType = context.resolve(type: method.returnType)
+                // todo put in method params here
+                fragment.output("_ \(method.callName): @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolvedReturnType.converterType.name).CType,")
             }
             fragment.output("_ exn: foreignOutExn")
         }

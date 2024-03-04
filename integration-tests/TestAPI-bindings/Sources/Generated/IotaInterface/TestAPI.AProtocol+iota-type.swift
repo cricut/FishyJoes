@@ -31,6 +31,7 @@ public func TestAPI_CommonInterface__AProtocolConverter_setup(
     envRef: EnvRef,
     constructorMethod: @escaping TestAPI_CommonInterface._AProtocolConverter._ConstructorMethod,
     _ fooGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Int.CType,
+    _ increment: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> FishyJoesCommonRuntime.VoidConverter.CType,
     _ exn: foreignOutExn
 ) {
     let env = Env(envRef)
