@@ -126,7 +126,7 @@ struct TranslatedProtocol: TranslatedType {
                 name: "constructor",
                 type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(constructorType)>>")
             ) { fragment in
-                fragment.output("ffi.Pointer.fromFunction(\(dartType.name()).ffi_constructor),")
+                fragment.output("ffi.Pointer.fromFunction(\(converterType.name).ffi_constructor),")
             }
         )
 
@@ -141,7 +141,7 @@ struct TranslatedProtocol: TranslatedType {
                     type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(getType)>>")
                 ) { fragment in
                     let defaultValue = resolved.dartType.defaultReturnValue.map { ", \($0)" } ?? ""
-                    fragment.output("ffi.Pointer.fromFunction(\(dartType.name()).ffi_get_\(computedVar.name)\(defaultValue)),")
+                    fragment.output("ffi.Pointer.fromFunction(\(converterType.name).ffi_get_\(computedVar.name)\(defaultValue)),")
                 }
             )
         }
@@ -156,7 +156,7 @@ struct TranslatedProtocol: TranslatedType {
                     type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(commonName)>>")
                 ) { fragment in
                     let defaultValue = resolvedReturn.dartType.defaultReturnValue.map { ", \($0)" } ?? ""
-                    fragment.output("ffi.Pointer.fromFunction(\(dartType.name()).ffi_\(method.callName)\(defaultValue)),")
+                    fragment.output("ffi.Pointer.fromFunction(\(converterType.name).ffi_\(method.callName)\(defaultValue)),")
                 }
             )
         }
@@ -724,7 +724,31 @@ struct TranslatedProtocol: TranslatedType {
             dartClass: DartProtocolClass(
                 module: context.module,
                 documentation: documentation,
+                name: dartType.name(),
+                fieldsAndMethods: {
+                    let nonDefaultMethods = methods.filter { !$0.isInExtension }
+                    var fAndM = computedVariables.compactMap { context.dart(field: $0, of: self, useNativeName: false) }
+                    fAndM.append(contentsOf: nonDefaultMethods.compactMap { context.dart(method: $0, of: self) })
+                    return fAndM
+                }(),
+                conformances: conformances
+            )
+        )
+
+        context.add(
+            dartClass: DartProductClass(
+                module: context.module,
+                documentation: documentation,
                 name: "_ExternalWitness_\(dartType.name())",
+                constructor: .`public`(
+                    fields: computedVariables.compactMap {
+                        switch context.dart(field: $0, of: self, useNativeName: true) {
+                        case .method: fatalErr("Can't export a computed variable `\(self.sourceType.name).\($0.name)` as a method")
+                        case .variable(let field): return field
+                        case nil: return nil
+                        }
+                    }
+                ),
                 fieldsAndMethods: {
                     let nonDefaultMethods = methods.filter { !$0.isInExtension }
                     var fAndM = computedVariables.compactMap { context.dart(field: $0, of: self, useNativeName: false) }
