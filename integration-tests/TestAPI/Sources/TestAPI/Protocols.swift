@@ -2,7 +2,6 @@ import Foundation
 
 /// <!-- FishyJoes.export(AProtocol) -->
 public protocol AProtocol {
-    /// <!-- FishyJoes.export(foo) -->
     var foo: Int { get throws }
     
     /// <!-- FishyJoes.export(increment) -->
