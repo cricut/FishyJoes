@@ -16,7 +16,7 @@ public func __iota_TestAPI_AProtocol_increment(
 ) -> FishyJoesCommonRuntime.VoidConverter.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
-        return try TestAPI.AProtocol.withMutatingIota(_iotaThis, env: env) { mutatingSelf in
+        return try TestAPI_CommonInterface._AProtocolConverter.withMutatingIota(_iotaThis, env: env) { mutatingSelf in
             return try FishyJoesCommonRuntime.VoidConverter.toIota(
                 mutatingSelf.increment(
                 ),

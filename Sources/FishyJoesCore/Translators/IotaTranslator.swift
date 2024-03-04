@@ -14,18 +14,21 @@ final class IotaTranslator: Translator {
 
         var selfExpression: String
         let containingNamespace: String
+        let converterNamespace: String
 
         if let selfType = method.definedIn {
             let resolved = context.resolve(type: selfType)
             containingNamespace = resolved.sourceType.name
+            converterNamespace = resolved.converterType.name
 
             if method.isStatic {
                 selfExpression = containingNamespace
             } else {
-                selfExpression = "\(resolved.converterType.name).peekIota(_iotaThis, env: env)"
+                selfExpression = "\(converterNamespace).peekIota(_iotaThis, env: env)"
             }
         } else {
             containingNamespace = context.module.name
+            converterNamespace = context.module.name
             selfExpression = context.module.name
         }
 
@@ -110,7 +113,7 @@ final class IotaTranslator: Translator {
                     var mutateBlock: (() -> Void) -> Void = { $0() }
                     if method.isMutating {
                         mutateBlock = { body in
-                            fragment.outputBlock("return try \(containingNamespace).withMutatingIota(_iotaThis, env: env) { mutatingSelf in", closeWith: "}") {
+                            fragment.outputBlock("return try \(converterNamespace).withMutatingIota(_iotaThis, env: env) { mutatingSelf in", closeWith: "}") {
                                 body()
                             }
                         }
@@ -232,7 +235,7 @@ final class IotaTranslator: Translator {
                     if variable.isStatic {
                         fragment.output("\(selfExpression).\(variable.name) = try \(converterName).peekIota(newValue, env: env)")
                     } else {
-                        fragment.outputBlock("try \(containingNamespace).withMutatingIota(_iotaThis, env: env) { value in", closeWith: "}") {
+                        fragment.outputBlock("try \(converterNamespace).withMutatingIota(_iotaThis, env: env) { value in", closeWith: "}") {
                             fragment.output("value.\(variable.name) = try \(converterName).peekIota(newValue, env: env)")
                         }
                     }
@@ -252,7 +255,7 @@ final class IotaTranslator: Translator {
         swiftSetupFragment.output("@_cdecl(\"\(moduleRegisterTypesFn(context: context))\")")
         swiftSetupFragment.outputBlock("public func \(moduleRegisterTypesFn(context: context))() {") {
             for type in generatedTypes {
-                let resolved = context.resolve(type: type)       
+                let resolved = context.resolve(type: type)
                 swiftSetupFragment.output("Env.registerType(\(resolved.converterType.name).self, as: \"\(resolved.converterType.name)\")")
             }
         }
