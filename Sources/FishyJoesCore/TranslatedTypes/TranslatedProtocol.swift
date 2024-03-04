@@ -145,7 +145,7 @@ struct TranslatedProtocol: TranslatedType {
                 }
             )
         }
-        
+
         for method in methods {
             let resolvedReturn = context.resolve(type: method.returnType)
             let commonName = "_\(converterType.genericBaseName.mangledName)_\(method.callName)"
@@ -394,6 +394,9 @@ struct TranslatedProtocol: TranslatedType {
                 if computedVar.isMutable {
                     fragment.output("\(converterType.name)._\(computedVar.name)Setter[env] = \(computedVar.name)Setter")
                 }
+            }
+            for method in methods {
+                fragment.output("\(converterType.name)._\(method.callName)[env] = \(method.callName)")
             }
         }
         fragment.blankLine()

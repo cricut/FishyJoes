@@ -38,6 +38,7 @@ public func TestAPI_CommonInterface__AProtocolConverter_setup(
     if TestAPI_CommonInterface._AProtocolConverter._constructorMethod.isInitialized(env) { return }
     TestAPI_CommonInterface._AProtocolConverter._constructorMethod[env] = constructorMethod
     TestAPI_CommonInterface._AProtocolConverter._fooGetter[env] = fooGetter
+    TestAPI_CommonInterface._AProtocolConverter._increment[env] = increment
 }
 
 extension TestAPI_CommonInterface._AProtocolConverter: IotaMutator {
