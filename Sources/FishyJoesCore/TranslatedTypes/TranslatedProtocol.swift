@@ -281,10 +281,11 @@ struct TranslatedProtocol: TranslatedType {
                 
                 fragment.outputBlock("\(variable.isStatic ? "static " : "")public var \(name): \(type) {") {
                     fragment.outputBlock("get throws {") {
-                        fragment.outputBlock("try \(type).consumeIota {") {
-                            fragment.outputBlock("try _iotaWiness.env.check { exn in", closeWith: "}") {
-                                fragment.output("try \(converterType.name)._\(name)Getter[_iotaWitness.env](_iotaWitness.object, exn)")
+                        fragment.outputBlock("try \(type).consumeIota(") {
+                            fragment.outputBlock("try _iotaWitness.env.check { exn in", closeWith: "},") {
+                                fragment.output("\(converterType.name)._\(name)Getter[_iotaWitness.env](_iotaWitness.object, exn)")
                             }
+                            fragment.output("env: _iotaWitness.env")
                         }
                     }
                 }

@@ -10,7 +10,16 @@ import TestAPI_CommonInterface
 struct _IotaAProtocol: TestAPI.AProtocol {
     let _iotaWitness: IotaReference
 
-    public var foo: Int
+    public var foo: Int {
+        get throws {
+            try Int.consumeIota(
+                try _iotaWitness.env.check { exn in
+                    TestAPI_CommonInterface._AProtocolConverter._fooGetter[_iotaWitness.env](_iotaWitness.object, exn)
+                },
+                env: _iotaWitness.env
+            )
+        }
+    }
 
     public func increment() throws {
         // call dart function here somehow. It's got to be assigned somehow in the setup
