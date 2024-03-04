@@ -560,14 +560,14 @@ final ensureLoaded = (() {
             Env env,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_CommonInterface__AProtocolConverterConstructor>> constructor,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_CommonInterface__AProtocolConverter_fooGetter>> get_foo,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_CommonInterface__AProtocolConverter_increment()>> increment,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_CommonInterface__AProtocolConverter_increment>> increment,
             OutCreatedRef exn
         ),
         void Function(
             Env env,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_CommonInterface__AProtocolConverterConstructor>> constructor,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_CommonInterface__AProtocolConverter_fooGetter>> get_foo,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_CommonInterface__AProtocolConverter_increment()>> increment,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_CommonInterface__AProtocolConverter_increment>> increment,
             OutCreatedRef exn
         )
     >('TestAPI_CommonInterface__AProtocolConverter_setup');

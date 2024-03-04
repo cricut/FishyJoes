@@ -148,7 +148,7 @@ struct TranslatedProtocol: TranslatedType {
         
         for method in methods {
             let resolvedReturn = context.resolve(type: method.returnType)
-            let commonName = "_\(converterType.genericBaseName.mangledName)_\(method.name)"
+            let commonName = "_\(converterType.genericBaseName.mangledName)_\(method.callName)"
 
             setupParams.append(
                 .value(
