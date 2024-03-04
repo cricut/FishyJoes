@@ -113,12 +113,34 @@ struct TranslatedProtocol: TranslatedType {
     }
 
     func dartSetupDelegates(in context: FishyJoesContext) -> [String] {
-        return []
+        var lines: [String] = []
+        lines.append("typedef _\(converterType.genericBaseName.mangledName)Constructor = \(dartType.ffiCreatedName) Function(")
+        for computedVar in computedVariables {
+            let resolved = context.resolve(type: computedVar.typeName.better)
+            lines.append("    \(resolved.dartType.ffiConsumedTag) \(computedVar.name),")
+        }
+        lines.append("    OutCreatedRef exn")
+        lines.append(");")
+        for computedVar in computedVariables {
+            let resolved = context.resolve(type: computedVar.typeName.better)
+            let commonName = "_\(converterType.genericBaseName.mangledName)_\(computedVar.name)"
+            lines.append("typedef \(commonName)Getter = \(resolved.dartType.ffiCreatedTag) Function(\(dartType.ffiUnownedTag) obj, OutCreatedRef exn);")
+            if computedVar.isMutable {
+                lines.append("typedef \(commonName)Setter = ffi.Void Function(\(dartType.ffiUnownedTag) obj, \(resolved.dartType.ffiConsumedTag) newValue, OutCreatedRef exn);")
+            }
+        }
+        for method in methods {
+            let returnType = context.resolve(type: method.returnType)
+            // TODO: put in Params here
+            let commonName = "_\(converterType.genericBaseName.mangledName)_\(method.callName)"
+            lines.append("typedef \(commonName) = \(returnType.dartType.ffiTag) Function(\(dartType.ffiUnownedTag) obj, OutCreatedRef exn);")
+        }
+        return lines
     }
 
     func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>] {
         var setupParams = [ForeignSetupParameter<DartClass.DartType>]()
-        
+
         let constructorType = "_\(converterType.genericBaseName.mangledName)Constructor"
 
         setupParams.append(
