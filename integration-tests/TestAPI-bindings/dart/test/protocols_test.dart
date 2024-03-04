@@ -12,8 +12,8 @@ void main() {
       test('testProtocolImplementation', () {
         var a = AProtocolImplementation(foo: 34);
         print("a: ${a}");
-        var b = a.increment();
-        print("b: ${b}");
+        a.increment();
+        print("a incremented: ${a}");
       });
   });
 }
