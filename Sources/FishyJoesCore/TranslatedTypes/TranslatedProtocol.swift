@@ -747,7 +747,7 @@ struct TranslatedProtocol: TranslatedType {
                     fAndM.append(contentsOf: nonDefaultMethods.compactMap { context.dart(method: $0, of: self) })
                     return fAndM
                 }(),
-                conformances: [sourceType.name]
+                conformances: [sourceType.nonNamespacedName]
             )
         )
     }

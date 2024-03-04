@@ -47,7 +47,7 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: annotate_overrides
 
 /// <!-- FishyJoes.export(AProtocol) -->
-class _ExternalWitness_AProtocol extends SwiftReference implements TestAPI.TestAPI.AProtocol {
+class _ExternalWitness_AProtocol extends SwiftReference implements TestAPI.AProtocol {
     _ExternalWitness_AProtocol(ffi.Pointer reference): super(reference) {}
     static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
         createRef(_ExternalWitness_AProtocol(ref))
