@@ -739,7 +739,7 @@ struct TranslatedProtocol: TranslatedType {
             dartClass: DartProductClass(
                 module: context.module,
                 documentation: documentation,
-                name: "_ExternalWitness_\(dartType.name())",
+                name: "_ExternalWitness_\(sourceType.nonNamespacedName)",
                 constructor: .reference,
                 fieldsAndMethods: {
                     let nonDefaultMethods = methods.filter { !$0.isInExtension }
@@ -747,7 +747,7 @@ struct TranslatedProtocol: TranslatedType {
                     fAndM.append(contentsOf: nonDefaultMethods.compactMap { context.dart(method: $0, of: self) })
                     return fAndM
                 }(),
-                conformances: conformances
+                conformances: [sourceType.name]
             )
         )
     }

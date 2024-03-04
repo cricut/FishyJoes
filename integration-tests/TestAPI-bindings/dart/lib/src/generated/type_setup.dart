@@ -29,6 +29,7 @@ import './Structs_ReferenceStruct.dart' as TestAPI;
 import './Tuples.dart' as TestAPI;
 import './URLs.dart' as TestAPI;
 import './UnicodeScalar_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
+import './_ExternalWitness_AProtocol.dart' as TestAPI;
 import 'dart:ffi' as ffi;
 import 'dart:io' show Platform, Directory;
 import 'dart:typed_data' as typed_data;
@@ -1365,7 +1366,19 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Collections_echoSetOfInt");
-    _ExternalWitness_TestAPI.AProtocol.f__iota_TestAPI_CommonInterface__AProtocolConverter_increment = dylib.lookupFunction<
+    TestAPI.AProtocol.f__iota_TestAPI_CommonInterface__AProtocolConverter_increment = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_CommonInterface__AProtocolConverter_increment");
+    _ExternalWitness_AProtocol.f__iota_TestAPI_CommonInterface__AProtocolConverter_increment = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
             UnownedRef _this,
@@ -2883,7 +2896,19 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_Collections_setOfInt");
-    _ExternalWitness_TestAPI.AProtocol.f__iota_get_TestAPI_CommonInterface__AProtocolConverter_foo = dylib.lookupFunction<
+    TestAPI.AProtocol.f__iota_get_TestAPI_CommonInterface__AProtocolConverter_foo = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_CommonInterface__AProtocolConverter_foo");
+    _ExternalWitness_AProtocol.f__iota_get_TestAPI_CommonInterface__AProtocolConverter_foo = dylib.lookupFunction<
         ffi.Int Function(
             Env env,
             UnownedRef _this,
@@ -5817,9 +5842,9 @@ final ensureLoaded = (() {
         utils.check<void>((exn) {
             TestAPI_CommonInterface__AProtocolConverter_setup(
                 Loader.shared.env,
-                ffi.Pointer.fromFunction(TestAPI.AProtocol.ffi_constructor),
-                ffi.Pointer.fromFunction(TestAPI.AProtocol.ffi_get_foo, 0),
-                ffi.Pointer.fromFunction(TestAPI.AProtocol.ffi_increment),
+                ffi.Pointer.fromFunction(TestAPI_CommonInterface._AProtocolConverter.ffi_constructor),
+                ffi.Pointer.fromFunction(TestAPI_CommonInterface._AProtocolConverter.ffi_get_foo, 0),
+                ffi.Pointer.fromFunction(TestAPI_CommonInterface._AProtocolConverter.ffi_increment),
                 exn
             );
         });

@@ -556,6 +556,7 @@ class DartProductClass: DartClass {
 
                 fragment.blankLine()
 
+                // TODO: Once get protocol working, do for rest i.e. delete the if statement
                 if unqualifiedName.contains("AProtocol") {
                     for method in methods {
                         fragment.outputBlock("static \(method.returnType.ffiCreatedName) ffi_\(method.name)(", newLineTerminated: false) {

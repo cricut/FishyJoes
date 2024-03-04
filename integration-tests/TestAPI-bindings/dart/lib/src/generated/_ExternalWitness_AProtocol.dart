@@ -46,22 +46,37 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
-/// <!-- FishyJoes.export(EmptyEnum) -->
-class EmptyEnum {
-    EmptyEnum._();
+/// <!-- FishyJoes.export(AProtocol) -->
+class _ExternalWitness_AProtocol extends SwiftReference implements TestAPI.TestAPI.AProtocol {
+    _ExternalWitness_AProtocol(ffi.Pointer reference): super(reference) {}
+    static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
+        createRef(_ExternalWitness_AProtocol(ref))
+    );
 
-    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
-        throw UnsupportedError('This class is supposed to be uninhabited');
-    });
-
-    /// <!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->
-    static TestAPI.EmptyEnum notGoingToHappen(
+    /// <!-- FishyJoes.export(foo) -->
+    int get foo =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                f__iota_get_TestAPI_CommonInterface__AProtocolConverter_foo(Loader.shared.env, _thisHandle.ptr, exn)
+            )
+        )
+    ;
+    /// <!-- FishyJoes.export(increment) -->
+    void increment(
     ) =>
-        consumeCreatedRef<TestAPI.EmptyEnum>(check((OutCreatedRef _exn) => f__iota_TestAPI_EmptyEnum_notGoingToHappen(Loader.shared.env, _exn)))
+        GCRef.using(this, (_thisHandle) =>
+            check((OutCreatedRef _exn) => f__iota_TestAPI_CommonInterface__AProtocolConverter_increment(Loader.shared.env, _thisHandle.ptr, _exn))
+        )
     ;
 
-    static late CreatedRef Function(
+    static late void Function(
         Env env,
+        UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_EmptyEnum_notGoingToHappen;
+    ) f__iota_TestAPI_CommonInterface__AProtocolConverter_increment;
+    static late int Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_get_TestAPI_CommonInterface__AProtocolConverter_foo;
 }
