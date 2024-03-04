@@ -44,6 +44,7 @@ public func TestAPI_CommonInterface__AProtocolConverter_setup(
 extension TestAPI_CommonInterface._AProtocolConverter: IotaMutator {
     public typealias CType = foreignObject
     fileprivate static let _fooGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Int.CType>()
+    fileprivate static let _increment = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> FishyJoesCommonRuntime.VoidConverter.CType>()
     public typealias _ConstructorMethod = @convention(c) (
         Swift.Int.CType,
         _ exn: foreignOutExn

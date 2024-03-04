@@ -411,6 +411,11 @@ struct TranslatedProtocol: TranslatedType {
                     fragment.output("fileprivate static let _\(computedVar.name)Setter = Env.CallbackMap<@convention(c) (foreignObject, \(resolved.converterType.name).CType, _ exn: foreignOutExn) -> Void>()")
                 }
             }
+            for method in methods {
+                let resolvedReturnType = context.resolve(type: method.returnType)
+                // TODO: Put in Method parameters
+                fragment.output("fileprivate static let _\(method.callName) = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolvedReturnType.converterType.name).CType>()")
+            }
             fragment.outputBlock("public typealias _ConstructorMethod = @convention(c) (", closeWith: ") -> foreignObject") {
                 for computedVar in computedVariables {
                     let resolved = context.resolve(type: computedVar.typeName.better)
