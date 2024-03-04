@@ -112,6 +112,58 @@ struct TranslatedProtocol: TranslatedType {
         }
     }
 
+    func dartSetupDelegates(in context: FishyJoesContext) -> [String] {
+        return []
+    }
+
+    func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>] {
+        var setupParams = [ForeignSetupParameter<DartClass.DartType>]()
+        
+        let constructorType = "_\(converterType.genericBaseName.mangledName)Constructor"
+
+        setupParams.append(
+            .value(
+                name: "constructor",
+                type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(constructorType)>>")
+            ) { fragment in
+                fragment.output("ffi.Pointer.fromFunction(\(dartType.name()).ffi_constructor),")
+            }
+        )
+
+        for computedVar in computedVariables {
+            let resolved = context.resolve(type: computedVar.typeName.better)
+            let commonName = "_\(converterType.genericBaseName.mangledName)_\(computedVar.name)"
+            let getType = "\(commonName)Getter"
+
+            setupParams.append(
+                .value(
+                    name: "get_\(computedVar.name)",
+                    type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(getType)>>")
+                ) { fragment in
+                    let defaultValue = resolved.dartType.defaultReturnValue.map { ", \($0)" } ?? ""
+                    fragment.output("ffi.Pointer.fromFunction(\(dartType.name()).ffi_get_\(computedVar.name)\(defaultValue)),")
+                }
+            )
+        }
+        
+        for method in methods {
+            let resolvedReturn = context.resolve(type: method.returnType)
+            let commonName = "_\(converterType.genericBaseName.mangledName)_\(method.name)"
+
+            setupParams.append(
+                .value(
+                    name: method.callName,
+                    type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(commonName)>>")
+                ) { fragment in
+                    let defaultValue = resolvedReturn.dartType.defaultReturnValue.map { ", \($0)" } ?? ""
+                    fragment.output("ffi.Pointer.fromFunction(\(dartType.name()).ffi_\(method.callName)\(defaultValue)),")
+                }
+            )
+        }
+
+        return setupParams
+    }
+
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
         return [
             commonDefinitionFragment(in: context),

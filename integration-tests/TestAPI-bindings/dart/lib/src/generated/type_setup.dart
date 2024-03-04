@@ -558,10 +558,16 @@ final ensureLoaded = (() {
     final TestAPI_CommonInterface__AProtocolConverter_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_CommonInterface__AProtocolConverterConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_CommonInterface__AProtocolConverter_fooGetter>> get_foo,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_CommonInterface__AProtocolConverter_increment()>> increment,
             OutCreatedRef exn
         ),
         void Function(
             Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_CommonInterface__AProtocolConverterConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_CommonInterface__AProtocolConverter_fooGetter>> get_foo,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_CommonInterface__AProtocolConverter_increment()>> increment,
             OutCreatedRef exn
         )
     >('TestAPI_CommonInterface__AProtocolConverter_setup');
@@ -5811,6 +5817,9 @@ final ensureLoaded = (() {
         utils.check<void>((exn) {
             TestAPI_CommonInterface__AProtocolConverter_setup(
                 Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.AProtocol.ffi_constructor),
+                ffi.Pointer.fromFunction(TestAPI.AProtocol.ffi_get_foo, 0),
+                ffi.Pointer.fromFunction(TestAPI.AProtocol.ffi_increment),
                 exn
             );
         });
