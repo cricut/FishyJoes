@@ -215,12 +215,12 @@ class DartClass {
 
         outputAttributes()
         let staticMark = field.isStatic ? "static " : ""
-        fragment.outputBlock("\(staticMark)\(field.type.name(in: self)) get get_\(Self.deforbidify(field.name)) =>", closeWith: ";") {
+        fragment.outputBlock("\(staticMark)\(field.type.name(in: self)) get \(Self.deforbidify(field.name)) =>", closeWith: ";") {
             outputGetterBody()
         }
         if field.isPubliclyWritable {
             outputAttributes()
-            fragment.outputBlock("\(staticMark)void set set_\(Self.deforbidify(field.name))(\(field.type.name(in: self)) value) {") {
+            fragment.outputBlock("\(staticMark)void set \(Self.deforbidify(field.name))(\(field.type.name(in: self)) value) {") {
                 outputSetterBody()
                 fragment.output(";")
             }
