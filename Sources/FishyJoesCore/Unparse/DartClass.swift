@@ -574,11 +574,15 @@ class DartProductClass: DartClass {
                         fragment.output("OutCreatedRef exn")
                     }
                     fragment.outputBlock(" => catching(exn, () {", closeWith: "});") {
-                        fragment.output("peekRef<\(unqualifiedName)>(obj).\(method.name)();")
+                        fragment.outputBlock("peekRef<\(unqualifiedName)>(obj).\(method.name)(", closeWith: ");") {
+                            fragment.outputMap(method.parameters, separator: ",") {
+                                $0.name
+                            }
+                        }
                     }
                     fragment.blankLine()
                 }
-                
+
                 fragment.blankLine()
                 
                 fragment.output("@override")
