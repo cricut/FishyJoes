@@ -117,10 +117,7 @@ struct TranslatedProtocol: TranslatedType {
     func dartSetupDelegates(in context: FishyJoesContext) -> [String] {
         var lines: [String] = []
         lines.append("typedef _\(sourceType.genericBaseName.mangledName)Constructor = \(dartType.ffiCreatedName) Function(")
-        for computedVar in computedVariables {
-            let resolved = context.resolve(type: computedVar.typeName.better)
-            lines.append("    \(resolved.dartType.ffiConsumedTag) \(computedVar.name),")
-        }
+        lines.append("    ffi.Pointer ref,")
         lines.append("    OutCreatedRef exn")
         lines.append(");")
         for computedVar in computedVariables {
