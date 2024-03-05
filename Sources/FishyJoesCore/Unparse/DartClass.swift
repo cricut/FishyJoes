@@ -564,14 +564,13 @@ class DartProductClass: DartClass {
                         }
                     }
                 }
-
+                
                 for method in methods {
                     fragment.outputBlock("static \(method.returnType.ffiCreatedName) ffi_\(method.name)(", newLineTerminated: false) {
                         fragment.output("UnownedRef obj,")
-                        // TODO: put params here
-                        //                        for param in method.parameters {
-                        //                            fragment.output("\(param.name)")
-                        //                        }
+                        for param in method.parameters {
+                            fragment.output("\(param.type.name()) \(param.name),")
+                        }
                         fragment.output("OutCreatedRef exn")
                     }
                     fragment.outputBlock(" => catching(exn, () {", closeWith: "});") {
