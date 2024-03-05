@@ -20,6 +20,7 @@ struct TranslatedProtocol: TranslatedType {
     let documentation: [String]
     let className: String
     let javaExternalWitnessClassName: String
+    let iotaExternalWitnessClassName: String
 
     init(context: FishyJoesContext, type: SourceryProtocol) {
         guard let exportAnnotation = type.exportAnnotation else {
@@ -56,6 +57,7 @@ struct TranslatedProtocol: TranslatedType {
         self.documentation = type.documentation
         self.className = context.kotlinTranslator.javaClassName(kotlinName, in: context)
         self.javaExternalWitnessClassName = context.kotlinTranslator.javaClassName("_ExternalWitness_\(kotlinName)", in: context)
+        self.iotaExternalWitnessClassName = "_ExternalWitness_\(sourceType.nonNamespacedName)"
 
         enforceProtocolThrows()
         enforceNoProtocolSetters()
@@ -141,20 +143,20 @@ struct TranslatedProtocol: TranslatedType {
     func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>] {
         var setupParams = [ForeignSetupParameter<DartClass.DartType>]()
 
-        let constructorType = "_\(converterType.genericBaseName.mangledName)Constructor"
+        let constructorType = "_\(sourceType.genericBaseName.mangledName)Constructor"
 
         setupParams.append(
             .value(
                 name: "constructor",
                 type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(constructorType)>>")
             ) { fragment in
-                fragment.output("ffi.Pointer.fromFunction(\(converterType.name).ffi_constructor),")
+                fragment.output("ffi.Pointer.fromFunction(\(context.module.name).\(iotaExternalWitnessClassName).ffi_new),")
             }
         )
 
         for computedVar in computedVariables {
             let resolved = context.resolve(type: computedVar.typeName.better)
-            let commonName = "_\(converterType.genericBaseName.mangledName)_\(computedVar.name)"
+            let commonName = "_\(sourceType.genericBaseName.mangledName)_\(computedVar.name)"
             let getType = "\(commonName)Getter"
 
             setupParams.append(
@@ -163,14 +165,14 @@ struct TranslatedProtocol: TranslatedType {
                     type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(getType)>>")
                 ) { fragment in
                     let defaultValue = resolved.dartType.defaultReturnValue.map { ", \($0)" } ?? ""
-                    fragment.output("ffi.Pointer.fromFunction(\(converterType.name).ffi_get_\(computedVar.name)\(defaultValue)),")
+                    fragment.output("ffi.Pointer.fromFunction(\(context.module.name).\(iotaExternalWitnessClassName).ffi_get_\(computedVar.name)\(defaultValue)),")
                 }
             )
         }
 
         for method in methods {
             let resolvedReturn = context.resolve(type: method.returnType)
-            let commonName = "_\(converterType.genericBaseName.mangledName)_\(method.callName)"
+            let commonName = "_\(sourceType.genericBaseName.mangledName)_\(method.callName)"
 
             setupParams.append(
                 .value(
@@ -178,7 +180,7 @@ struct TranslatedProtocol: TranslatedType {
                     type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(commonName)>>")
                 ) { fragment in
                     let defaultValue = resolvedReturn.dartType.defaultReturnValue.map { ", \($0)" } ?? ""
-                    fragment.output("ffi.Pointer.fromFunction(\(converterType.name).ffi_\(method.callName)\(defaultValue)),")
+                    fragment.output("ffi.Pointer.fromFunction(\(context.module.name).\(iotaExternalWitnessClassName).ffi_\(method.callName)\(defaultValue)),")
                 }
             )
         }
