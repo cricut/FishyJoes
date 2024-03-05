@@ -653,20 +653,22 @@ class DartProductClass: DartClass {
 
             fragment.blankLine()
 
-            fragment.output("\(unqualifiedName) copyWith", newLineTerminated: false)
-            fragment.outputBlock("({", closeWith: "})", newLineTerminated: false) {
-                fragment.outputMap(fields, separator: ",") {
-                    "\($0.type.name(in: self).replacingOccurrences(of: "?", with: ""))? \(DartClass.deforbidify($0.name))"
-                }
-            }
-            fragment.output(" => \(unqualifiedName)", newLineTerminated: false)
-            if fields.isEmpty {
-                fragment.output("();")
-            } else {
-                fragment.outputBlock("(", closeWith: ");") {
+            if constructor != .reference {
+                fragment.output("\(unqualifiedName) copyWith", newLineTerminated: false)
+                fragment.outputBlock("({", closeWith: "})", newLineTerminated: false) {
                     fragment.outputMap(fields, separator: ",") {
-                        let name = "\(DartClass.deforbidify($0.name))"
-                        return "\(name): \(name) ?? this.\(name)"
+                        "\($0.type.name(in: self).replacingOccurrences(of: "?", with: ""))? \(DartClass.deforbidify($0.name))"
+                    }
+                }
+                fragment.output(" => \(unqualifiedName)", newLineTerminated: false)
+                if fields.isEmpty {
+                    fragment.output("();")
+                } else {
+                    fragment.outputBlock("(", closeWith: ");") {
+                        fragment.outputMap(fields, separator: ",") {
+                            let name = "\(DartClass.deforbidify($0.name))"
+                            return "\(name): \(name) ?? this.\(name)"
+                        }
                     }
                 }
             }
