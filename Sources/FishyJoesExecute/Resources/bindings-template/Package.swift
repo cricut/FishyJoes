@@ -5,12 +5,12 @@ import PackageDescription
 
 let wasmCompatibleOnly = ProcessInfo.processInfo.environment["WASM_ONLY"] == "1"
 
-// Don't change the format of this line. It's read by gradle in `kotlin/build.gradle.kts`
+// Don't change the format of these lines. They're read by gradle in `kotlin/build.gradle.kts`
 // when updating, also update:
 //   ./c-sharp/Cricut.__MODULE_NAME__/Cricut.__MODULE_NAME__.csproj
 //   ./dart/pubspec.yaml
 let fishyJoesVersion = "(replace this string with latest fishyjoes version)"
-let __PASCALCASE_MODULE_NAME__Version = "(replace this string with the latest version of __MODULE_NAME__)"
+let __LOWERCASE_FIRST_MODULE_NAME__Version = "(replace this string with the latest version of __MODULE_NAME__)"
 
 let package = Package(
     name: "__MODULE_NAME__-bindings",
@@ -40,7 +40,7 @@ let package = Package(
         ],
     dependencies: [
         .package(
-            url: "https://github.com/cricut/__MODULE_NAME__", .branch(__PASCALCASE_MODULE_NAME__Version)
+            url: "https://github.com/cricut/__MODULE_NAME__", .branch(__LOWERCASE_FIRST_MODULE_NAME__Version)
             // path: "../__MODULE_NAME__"
         ),
         .package(

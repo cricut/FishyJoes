@@ -23,7 +23,6 @@ jobs:
   build-test-c-sharp-mac:
     name: "macOS: Build and test C# bindings"
     runs-on: macOS-12
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
