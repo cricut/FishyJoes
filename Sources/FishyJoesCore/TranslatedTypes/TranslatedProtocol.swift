@@ -763,7 +763,7 @@ struct TranslatedProtocol: TranslatedType {
             dartClass: DartProductClass(
                 module: context.module,
                 documentation: documentation,
-                name: "ExternalWitness_\(sourceType.nonNamespacedName)",
+                name: "\(context.module.name).ExternalWitness_\(sourceType.nonNamespacedName)",
                 constructor: .reference,
                 fieldsAndMethods: {
                     let nonDefaultMethods = methods.filter { !$0.isInExtension }
