@@ -352,10 +352,6 @@ class Methods extends SwiftReference {
             other.runtimeType == runtimeType &&
             other is Methods &&
             (
-                const DeepCollectionEquality().equals(other.staticGet, staticGet) &&
-                const DeepCollectionEquality().equals(other.staticGetMethod, staticGetMethod) &&
-                const DeepCollectionEquality().equals(other.staticModifiable, staticModifiable) &&
-                const DeepCollectionEquality().equals(other.staticStored, staticStored) &&
                 const DeepCollectionEquality().equals(other.instanceGet, instanceGet) &&
                 const DeepCollectionEquality().equals(other.garply, garply) &&
                 const DeepCollectionEquality().equals(other.instanceGetMethod, instanceGetMethod) &&

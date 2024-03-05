@@ -137,11 +137,7 @@ class Collections_CollectionHolder {
         return identical(other, this) ||
         (
             other.runtimeType == runtimeType &&
-            other is Collections_CollectionHolder &&
-            (
-                const DeepCollectionEquality().equals(other.staticProperty, staticProperty) &&
-                const DeepCollectionEquality().equals(other.staticMutableProperty, staticMutableProperty)
-            )
+            other is Collections_CollectionHolder
         );
     }
 

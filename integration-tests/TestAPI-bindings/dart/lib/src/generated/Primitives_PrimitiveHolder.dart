@@ -222,11 +222,7 @@ class Primitives_PrimitiveHolder {
         return identical(other, this) ||
         (
             other.runtimeType == runtimeType &&
-            other is Primitives_PrimitiveHolder &&
-            (
-                const DeepCollectionEquality().equals(other.staticProperty, staticProperty) &&
-                const DeepCollectionEquality().equals(other.staticMutableProperty, staticMutableProperty)
-            )
+            other is Primitives_PrimitiveHolder
         );
     }
 
