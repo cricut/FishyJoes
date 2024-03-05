@@ -499,8 +499,12 @@ struct TranslatedReference: TranslatedType {
 
     func registerDartClass(in context: FishyJoesContext) {
         var fieldsAndMethods =
-            computedVariables.compactMap { context.dart(field: $0, of: self, useNativeName: false) } +
-            methods.compactMap { context.dart(method: $0, of: self) }
+        computedVariables.compactMap {
+            context.dart(field: $0, of: self, useNativeName: false)
+        } +
+        methods.compactMap {
+            context.dart(method: $0, of: self)
+        }
 
         if equatable {
             fieldsAndMethods.append(
