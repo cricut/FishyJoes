@@ -544,7 +544,8 @@ class DartProductClass: DartClass {
                         fragment.output("peekRef<\(unqualifiedName)>(obj).\(field.name)")
                     }
                 }
-                if field.isMutable {
+                if field.isMutable,
+                    field.isPubliclyWritable {
                     fragment.outputBlock("static void ffi_set_\(field.name)(", newLineTerminated: false) {
                         fragment.output("UnownedRef obj,")
                         fragment.output("\(field.type.ffiConsumedName) newValue,")
