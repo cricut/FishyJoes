@@ -64,41 +64,28 @@ class AttributedString_PuttingTypesIntoQuestionablePlaces {
         ))
     );
 
-    static CreatedRef ffi_get_x(
+    static int ffi_testCall(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<AttributedString_PuttingTypesIntoQuestionablePlaces>(obj).x
+    ) => catching(exn, () =>
+        peekRef<AttributedString_PuttingTypesIntoQuestionablePlaces>(obj).testCall(
         )
-    );
+    ) ?? 0;
 
     @override
-    String toString() => 'AttributedString_PuttingTypesIntoQuestionablePlaces(x: $x)';
+    String toString() => 'AttributedString_PuttingTypesIntoQuestionablePlaces()';
 
     @override
     bool operator ==(Object other) {
         return identical(other, this) ||
         (
             other.runtimeType == runtimeType &&
-            other is AttributedString_PuttingTypesIntoQuestionablePlaces &&
-            (
-                const DeepCollectionEquality().equals(other.x, x)
-            )
+            other is AttributedString_PuttingTypesIntoQuestionablePlaces
         );
     }
 
     @override
-    int get hashCode => Object.hash(
-        runtimeType,
-        const DeepCollectionEquality().hash(x)
-    );
-
-    AttributedString_PuttingTypesIntoQuestionablePlaces copyWith({
-        String? x
-    }) => AttributedString_PuttingTypesIntoQuestionablePlaces(
-        x: x ?? this.x
-    );
+    int get hashCode => runtimeType.hashCode;
 
     /// <!-- FishyJoes.export(testCall) -->
     int testCall(

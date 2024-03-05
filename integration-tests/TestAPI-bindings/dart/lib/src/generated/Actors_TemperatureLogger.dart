@@ -53,6 +53,83 @@ class Actors_TemperatureLogger extends SwiftReference {
         createRef(Actors_TemperatureLogger(ref))
     );
 
+    static CreatedRef ffi_get_label(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Actors_TemperatureLogger>(obj).label
+        )
+    );
+
+    static CreatedRef ffi_get_backwardsLabel(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Actors_TemperatureLogger>(obj).backwardsLabel
+        )
+    );
+
+    static CreatedRef ffi_create(
+        UnownedRef obj,
+        String label,
+        int measurement,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            Actors_TemperatureLogger.create(
+                label,
+                measurement
+            )
+        )
+    );
+
+    static CreatedRef ffi_update(
+        UnownedRef obj,
+        int measurement,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Actors_TemperatureLogger>(obj).update(
+                measurement
+            )
+        )
+    );
+
+    static CreatedRef ffi_min(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Actors_TemperatureLogger>(obj).min(
+            )
+        )
+    );
+
+    @override
+    String toString() => 'Actors_TemperatureLogger(label: $label, backwardsLabel: $backwardsLabel)';
+
+    @override
+    bool operator ==(Object other) {
+        return identical(other, this) ||
+        (
+            other.runtimeType == runtimeType &&
+            other is Actors_TemperatureLogger &&
+            (
+                const DeepCollectionEquality().equals(other.label, label) &&
+                const DeepCollectionEquality().equals(other.backwardsLabel, backwardsLabel)
+            )
+        );
+    }
+
+    @override
+    int get hashCode => Object.hash(
+        runtimeType,
+        const DeepCollectionEquality().hash(label), 
+        const DeepCollectionEquality().hash(backwardsLabel)
+    );
+
     /// <!-- FishyJoes.export(label) -->
     String get label =>
         GCRef.using(this, (_thisHandle) =>

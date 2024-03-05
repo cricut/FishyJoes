@@ -53,6 +53,332 @@ class Methods extends SwiftReference {
         createRef(Methods(ref))
     );
 
+    static int ffi_get_staticGet(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        Methods.staticGet
+    ) ?? 0;
+
+    static int ffi_get_staticGetMethod(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        Methods.staticGetMethod
+    ) ?? 0;
+
+    static int ffi_get_staticModifiable(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        Methods.staticModifiable
+    ) ?? 0;
+    static void ffi_set_staticModifiable(
+        UnownedRef obj,
+        int newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        Methods.staticModifiable = newValue;
+    });
+
+    static int ffi_get_staticStored(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        Methods.staticStored
+    ) ?? 0;
+    static void ffi_set_staticStored(
+        UnownedRef obj,
+        int newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        Methods.staticStored = newValue;
+    });
+
+    static int ffi_get_instanceGet(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<Methods>(obj).instanceGet
+    ) ?? 0;
+
+    static int ffi_get_garply(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<Methods>(obj).garply
+    ) ?? 0;
+
+    static int ffi_get_instanceGetMethod(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<Methods>(obj).instanceGetMethod
+    ) ?? 0;
+
+    static int ffi_get_instanceModifiable(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<Methods>(obj).instanceModifiable
+    ) ?? 0;
+    static void ffi_set_instanceModifiable(
+        UnownedRef obj,
+        int newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        peekRef<Methods>(obj).instanceModifiable = newValue;
+    });
+
+    static int ffi_get_instanceStored(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<Methods>(obj).instanceStored
+    ) ?? 0;
+    static void ffi_set_instanceStored(
+        UnownedRef obj,
+        int newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        peekRef<Methods>(obj).instanceStored = newValue;
+    });
+
+    static CreatedRef ffi_create(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            Methods.create(
+            )
+        )
+    );
+
+    static int ffi_doublePlusGood(
+        UnownedRef obj,
+        int a,
+        double b,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<Methods>(obj).doublePlusGood(
+            a,
+            b
+        )
+    ) ?? 0;
+
+    static CreatedRef ffi_async42(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Methods>(obj).async42(
+            )
+        )
+    );
+
+    static CreatedRef ffi_asyncYield(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Methods>(obj).asyncYield(
+            )
+        )
+    );
+
+    static CreatedRef ffi_asyncSleep(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Methods>(obj).asyncSleep(
+            )
+        )
+    );
+
+    static CreatedRef ffi_asyncVoid(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Methods>(obj).asyncVoid(
+            )
+        )
+    );
+
+    static CreatedRef ffi_asyncDouble(
+        UnownedRef obj,
+        double d,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Methods>(obj).asyncDouble(
+                d
+            )
+        )
+    );
+
+    static CreatedRef ffi_asyncMultipleArgs(
+        UnownedRef obj,
+        int i,
+        Future<int> Function() j,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Methods>(obj).asyncMultipleArgs(
+                i,
+                j
+            )
+        )
+    );
+
+    static CreatedRef ffi_asyncThrowing(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Methods>(obj).asyncThrowing(
+            )
+        )
+    );
+
+    static CreatedRef ffi_asyncCallbackFunc0(
+        UnownedRef obj,
+        Future<int> Function() callback,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Methods>(obj).asyncCallbackFunc0(
+                callback
+            )
+        )
+    );
+
+    static CreatedRef ffi_staticAsync42(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            Methods.staticAsync42(
+            )
+        )
+    );
+
+    static CreatedRef ffi_staticAsyncYield(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            Methods.staticAsyncYield(
+            )
+        )
+    );
+
+    static CreatedRef ffi_staticAsyncSleep(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            Methods.staticAsyncSleep(
+            )
+        )
+    );
+
+    static CreatedRef ffi_staticAsyncVoid(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            Methods.staticAsyncVoid(
+            )
+        )
+    );
+
+    static CreatedRef ffi_staticAsyncDouble(
+        UnownedRef obj,
+        double d,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            Methods.staticAsyncDouble(
+                d
+            )
+        )
+    );
+
+    static CreatedRef ffi_staticAsyncMultipleArgs(
+        UnownedRef obj,
+        int i,
+        Future<int> Function() j,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            Methods.staticAsyncMultipleArgs(
+                i,
+                j
+            )
+        )
+    );
+
+    static CreatedRef ffi_staticAsyncThrowing(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            Methods.staticAsyncThrowing(
+            )
+        )
+    );
+
+    static CreatedRef ffi_staticAsyncCallbackFunc0(
+        UnownedRef obj,
+        Future<int> Function() callback,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            Methods.staticAsyncCallbackFunc0(
+                callback
+            )
+        )
+    );
+
+    @override
+    String toString() => 'Methods(staticGet: $staticGet, staticGetMethod: $staticGetMethod, staticModifiable: $staticModifiable, staticStored: $staticStored, instanceGet: $instanceGet, garply: $garply, instanceGetMethod: $instanceGetMethod, instanceModifiable: $instanceModifiable, instanceStored: $instanceStored)';
+
+    @override
+    bool operator ==(Object other) {
+        return identical(other, this) ||
+        (
+            other.runtimeType == runtimeType &&
+            other is Methods &&
+            (
+                const DeepCollectionEquality().equals(other.staticGet, staticGet) &&
+                const DeepCollectionEquality().equals(other.staticGetMethod, staticGetMethod) &&
+                const DeepCollectionEquality().equals(other.staticModifiable, staticModifiable) &&
+                const DeepCollectionEquality().equals(other.staticStored, staticStored) &&
+                const DeepCollectionEquality().equals(other.instanceGet, instanceGet) &&
+                const DeepCollectionEquality().equals(other.garply, garply) &&
+                const DeepCollectionEquality().equals(other.instanceGetMethod, instanceGetMethod) &&
+                const DeepCollectionEquality().equals(other.instanceModifiable, instanceModifiable) &&
+                const DeepCollectionEquality().equals(other.instanceStored, instanceStored)
+            )
+        );
+    }
+
+    @override
+    int get hashCode => Object.hash(
+        runtimeType,
+        const DeepCollectionEquality().hash(staticGet), 
+        const DeepCollectionEquality().hash(staticGetMethod), 
+        const DeepCollectionEquality().hash(staticModifiable), 
+        const DeepCollectionEquality().hash(staticStored), 
+        const DeepCollectionEquality().hash(instanceGet), 
+        const DeepCollectionEquality().hash(garply), 
+        const DeepCollectionEquality().hash(instanceGetMethod), 
+        const DeepCollectionEquality().hash(instanceModifiable), 
+        const DeepCollectionEquality().hash(instanceStored)
+    );
+
     /// <!-- FishyJoes.export(staticGet) -->
     static int get staticGet =>
         check((exn) =>

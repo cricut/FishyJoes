@@ -70,68 +70,40 @@ class Structs_MemberwiseStruct {
         ))
     );
 
-    static CreatedRef ffi_get_immutable(
+    static CreatedRef ffi_asyncGetMutable(
         UnownedRef obj,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
-            peekRef<Structs_MemberwiseStruct>(obj).immutable
+            peekRef<Structs_MemberwiseStruct>(obj).asyncGetMutable(
+            )
         )
     );
-    static void ffi_set_immutable(
-        UnownedRef obj,
-        ConsumedRef newValue,
-        OutCreatedRef exn
-    ) => catching(exn, () {
-        peekRef<Structs_MemberwiseStruct>(obj)._immutable = consumeRef<String>(newValue);
-    });
 
-    static CreatedRef ffi_get_mutable(
+    static CreatedRef ffi_create(
         UnownedRef obj,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
-            peekRef<Structs_MemberwiseStruct>(obj).mutable
+            Structs_MemberwiseStruct.create(
+            )
         )
     );
-    static void ffi_set_mutable(
-        UnownedRef obj,
-        ConsumedRef newValue,
-        OutCreatedRef exn
-    ) => catching(exn, () {
-        peekRef<Structs_MemberwiseStruct>(obj).mutable = consumeRef<String>(newValue);
-    });
 
     @override
-    String toString() => 'Structs_MemberwiseStruct(immutable: $immutable, mutable: $mutable)';
+    String toString() => 'Structs_MemberwiseStruct()';
 
     @override
     bool operator ==(Object other) {
         return identical(other, this) ||
         (
             other.runtimeType == runtimeType &&
-            other is Structs_MemberwiseStruct &&
-            (
-                const DeepCollectionEquality().equals(other.immutable, immutable) &&
-                const DeepCollectionEquality().equals(other.mutable, mutable)
-            )
+            other is Structs_MemberwiseStruct
         );
     }
 
     @override
-    int get hashCode => Object.hash(
-        runtimeType,
-        const DeepCollectionEquality().hash(immutable), 
-        const DeepCollectionEquality().hash(mutable)
-    );
-
-    Structs_MemberwiseStruct copyWith({
-        String? immutable,
-        String? mutable
-    }) => Structs_MemberwiseStruct(
-        immutable: immutable ?? this.immutable,
-        mutable: mutable ?? this.mutable
-    );
+    int get hashCode => runtimeType.hashCode;
 
     /// <!-- FishyJoes.export(asyncGetMutable) -->
     Future<String> asyncGetMutable(

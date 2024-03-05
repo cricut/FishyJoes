@@ -104,152 +104,33 @@ class Collections_CollectionHolder {
         ))
     );
 
-    static CreatedRef ffi_get_boolArray(
+    static CreatedRef ffi_get_staticProperty(
         UnownedRef obj,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
-            peekRef<Collections_CollectionHolder>(obj).boolArray
+            Collections_CollectionHolder.staticProperty
         )
     );
-    static void ffi_set_boolArray(
-        UnownedRef obj,
-        ConsumedRef newValue,
-        OutCreatedRef exn
-    ) => catching(exn, () {
-        peekRef<Collections_CollectionHolder>(obj).boolArray = consumeRef<List<bool>>(newValue);
-    });
 
-    static CreatedRef ffi_get_boolSet(
+    static CreatedRef ffi_get_staticMutableProperty(
         UnownedRef obj,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
-            peekRef<Collections_CollectionHolder>(obj).boolSet
+            Collections_CollectionHolder.staticMutableProperty
         )
     );
-    static void ffi_set_boolSet(
+    static void ffi_set_staticMutableProperty(
         UnownedRef obj,
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Collections_CollectionHolder>(obj).boolSet = consumeRef<Set<bool>>(newValue);
-    });
-
-    static CreatedRef ffi_get_boolDictionary(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<Collections_CollectionHolder>(obj).boolDictionary
-        )
-    );
-    static void ffi_set_boolDictionary(
-        UnownedRef obj,
-        ConsumedRef newValue,
-        OutCreatedRef exn
-    ) => catching(exn, () {
-        peekRef<Collections_CollectionHolder>(obj).boolDictionary = consumeRef<Map<bool, bool>>(newValue);
-    });
-
-    static CreatedRef ffi_get_integerArray(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<Collections_CollectionHolder>(obj).integerArray
-        )
-    );
-    static void ffi_set_integerArray(
-        UnownedRef obj,
-        ConsumedRef newValue,
-        OutCreatedRef exn
-    ) => catching(exn, () {
-        peekRef<Collections_CollectionHolder>(obj).integerArray = consumeRef<List<int>>(newValue);
-    });
-
-    static CreatedRef ffi_get_integerSet(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<Collections_CollectionHolder>(obj).integerSet
-        )
-    );
-    static void ffi_set_integerSet(
-        UnownedRef obj,
-        ConsumedRef newValue,
-        OutCreatedRef exn
-    ) => catching(exn, () {
-        peekRef<Collections_CollectionHolder>(obj).integerSet = consumeRef<Set<int>>(newValue);
-    });
-
-    static CreatedRef ffi_get_integerDictionary(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<Collections_CollectionHolder>(obj).integerDictionary
-        )
-    );
-    static void ffi_set_integerDictionary(
-        UnownedRef obj,
-        ConsumedRef newValue,
-        OutCreatedRef exn
-    ) => catching(exn, () {
-        peekRef<Collections_CollectionHolder>(obj).integerDictionary = consumeRef<Map<int, int>>(newValue);
-    });
-
-    static CreatedRef ffi_get_stringArray(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<Collections_CollectionHolder>(obj).stringArray
-        )
-    );
-    static void ffi_set_stringArray(
-        UnownedRef obj,
-        ConsumedRef newValue,
-        OutCreatedRef exn
-    ) => catching(exn, () {
-        peekRef<Collections_CollectionHolder>(obj).stringArray = consumeRef<List<String>>(newValue);
-    });
-
-    static CreatedRef ffi_get_stringSet(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<Collections_CollectionHolder>(obj).stringSet
-        )
-    );
-    static void ffi_set_stringSet(
-        UnownedRef obj,
-        ConsumedRef newValue,
-        OutCreatedRef exn
-    ) => catching(exn, () {
-        peekRef<Collections_CollectionHolder>(obj).stringSet = consumeRef<Set<String>>(newValue);
-    });
-
-    static CreatedRef ffi_get_stringDictionary(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<Collections_CollectionHolder>(obj).stringDictionary
-        )
-    );
-    static void ffi_set_stringDictionary(
-        UnownedRef obj,
-        ConsumedRef newValue,
-        OutCreatedRef exn
-    ) => catching(exn, () {
-        peekRef<Collections_CollectionHolder>(obj).stringDictionary = consumeRef<Map<String, String>>(newValue);
+        Collections_CollectionHolder.staticMutableProperty = consumeRef<List<int?>>(newValue);
     });
 
     @override
-    String toString() => 'Collections_CollectionHolder(boolArray: $boolArray, boolSet: $boolSet, boolDictionary: $boolDictionary, integerArray: $integerArray, integerSet: $integerSet, integerDictionary: $integerDictionary, stringArray: $stringArray, stringSet: $stringSet, stringDictionary: $stringDictionary)';
+    String toString() => 'Collections_CollectionHolder(staticProperty: $staticProperty, staticMutableProperty: $staticMutableProperty)';
 
     @override
     bool operator ==(Object other) {
@@ -258,15 +139,8 @@ class Collections_CollectionHolder {
             other.runtimeType == runtimeType &&
             other is Collections_CollectionHolder &&
             (
-                const DeepCollectionEquality().equals(other.boolArray, boolArray) &&
-                const DeepCollectionEquality().equals(other.boolSet, boolSet) &&
-                const DeepCollectionEquality().equals(other.boolDictionary, boolDictionary) &&
-                const DeepCollectionEquality().equals(other.integerArray, integerArray) &&
-                const DeepCollectionEquality().equals(other.integerSet, integerSet) &&
-                const DeepCollectionEquality().equals(other.integerDictionary, integerDictionary) &&
-                const DeepCollectionEquality().equals(other.stringArray, stringArray) &&
-                const DeepCollectionEquality().equals(other.stringSet, stringSet) &&
-                const DeepCollectionEquality().equals(other.stringDictionary, stringDictionary)
+                const DeepCollectionEquality().equals(other.staticProperty, staticProperty) &&
+                const DeepCollectionEquality().equals(other.staticMutableProperty, staticMutableProperty)
             )
         );
     }
@@ -274,37 +148,8 @@ class Collections_CollectionHolder {
     @override
     int get hashCode => Object.hash(
         runtimeType,
-        const DeepCollectionEquality().hash(boolArray), 
-        const DeepCollectionEquality().hash(boolSet), 
-        const DeepCollectionEquality().hash(boolDictionary), 
-        const DeepCollectionEquality().hash(integerArray), 
-        const DeepCollectionEquality().hash(integerSet), 
-        const DeepCollectionEquality().hash(integerDictionary), 
-        const DeepCollectionEquality().hash(stringArray), 
-        const DeepCollectionEquality().hash(stringSet), 
-        const DeepCollectionEquality().hash(stringDictionary)
-    );
-
-    Collections_CollectionHolder copyWith({
-        List<bool>? boolArray,
-        Set<bool>? boolSet,
-        Map<bool, bool>? boolDictionary,
-        List<int>? integerArray,
-        Set<int>? integerSet,
-        Map<int, int>? integerDictionary,
-        List<String>? stringArray,
-        Set<String>? stringSet,
-        Map<String, String>? stringDictionary
-    }) => Collections_CollectionHolder(
-        boolArray: boolArray ?? this.boolArray,
-        boolSet: boolSet ?? this.boolSet,
-        boolDictionary: boolDictionary ?? this.boolDictionary,
-        integerArray: integerArray ?? this.integerArray,
-        integerSet: integerSet ?? this.integerSet,
-        integerDictionary: integerDictionary ?? this.integerDictionary,
-        stringArray: stringArray ?? this.stringArray,
-        stringSet: stringSet ?? this.stringSet,
-        stringDictionary: stringDictionary ?? this.stringDictionary
+        const DeepCollectionEquality().hash(staticProperty), 
+        const DeepCollectionEquality().hash(staticMutableProperty)
     );
 
     /// <!-- FishyJoes.export(staticProperty) -->

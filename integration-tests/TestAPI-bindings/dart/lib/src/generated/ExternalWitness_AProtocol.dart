@@ -62,6 +62,7 @@ class ExternalWitness_AProtocol extends SwiftReference implements TestAPI.AProto
 
     @override
     String toString() => 'ExternalWitness_AProtocol(foo: $foo)';
+
     @override
     bool operator ==(Object other) {
         return identical(other, this) ||

@@ -64,46 +64,58 @@ class Structs_MutableStruct {
         ))
     );
 
-    static int ffi_get_i(
+    static CreatedRef ffi_asyncGetI(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Structs_MutableStruct>(obj).asyncGetI(
+            )
+        )
+    );
+
+    static void ffi_increment(
         UnownedRef obj,
         OutCreatedRef exn
     ) => catching(exn, () =>
-        peekRef<Structs_MutableStruct>(obj).i
-    ) ?? 0;
-    static void ffi_set_i(
+        peekRef<Structs_MutableStruct>(obj).increment(
+        )
+    );
+
+    static CreatedRef ffi_incrementAsync(
         UnownedRef obj,
-        int newValue,
         OutCreatedRef exn
-    ) => catching(exn, () {
-        peekRef<Structs_MutableStruct>(obj).i = newValue;
-    });
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Structs_MutableStruct>(obj).incrementAsync(
+            )
+        )
+    );
+
+    static CreatedRef ffi_create(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            Structs_MutableStruct.create(
+            )
+        )
+    );
 
     @override
-    String toString() => 'Structs_MutableStruct(i: $i)';
+    String toString() => 'Structs_MutableStruct()';
 
     @override
     bool operator ==(Object other) {
         return identical(other, this) ||
         (
             other.runtimeType == runtimeType &&
-            other is Structs_MutableStruct &&
-            (
-                const DeepCollectionEquality().equals(other.i, i)
-            )
+            other is Structs_MutableStruct
         );
     }
 
     @override
-    int get hashCode => Object.hash(
-        runtimeType,
-        const DeepCollectionEquality().hash(i)
-    );
-
-    Structs_MutableStruct copyWith({
-        int? i
-    }) => Structs_MutableStruct(
-        i: i ?? this.i
-    );
+    int get hashCode => runtimeType.hashCode;
 
     /// <!-- FishyJoes.export(asyncGetI) -->
     Future<int> asyncGetI(

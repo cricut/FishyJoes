@@ -85,6 +85,73 @@ class Structs_ReferenceStruct extends SwiftReference {
         peekRef<Structs_ReferenceStruct>(obj).hashCode
     ) ?? 0;
 
+    static CreatedRef ffi_create(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            Structs_ReferenceStruct.create(
+            )
+        )
+    );
+
+    static CreatedRef ffi_asyncGetMutable(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Structs_ReferenceStruct>(obj).asyncGetMutable(
+            )
+        )
+    );
+
+    static bool ffi_operator ==(
+        UnownedRef obj,
+        Object? other,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<Structs_ReferenceStruct>(obj).operator ==(
+            other
+        )
+    ) ?? false;
+
+    static bool ffi__equals(
+        UnownedRef obj,
+        TestAPI.Structs_ReferenceStruct lhs,
+        TestAPI.Structs_ReferenceStruct? rhs,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        Structs_ReferenceStruct._equals(
+            lhs,
+            rhs
+        )
+    ) ?? false;
+
+    @override
+    String toString() => 'Structs_ReferenceStruct(immutable: $immutable, mutable: $mutable, hashCode: $hashCode)';
+
+    @override
+    bool operator ==(Object other) {
+        return identical(other, this) ||
+        (
+            other.runtimeType == runtimeType &&
+            other is Structs_ReferenceStruct &&
+            (
+                const DeepCollectionEquality().equals(other.immutable, immutable) &&
+                const DeepCollectionEquality().equals(other.mutable, mutable) &&
+                const DeepCollectionEquality().equals(other.hashCode, hashCode)
+            )
+        );
+    }
+
+    @override
+    int get hashCode => Object.hash(
+        runtimeType,
+        const DeepCollectionEquality().hash(immutable), 
+        const DeepCollectionEquality().hash(mutable), 
+        const DeepCollectionEquality().hash(hashCode)
+    );
+
     /// <!-- FishyJoes.export(immutable) -->
     String get immutable =>
         GCRef.using(this, (_thisHandle) =>

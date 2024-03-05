@@ -64,65 +64,18 @@ class AProtocolImplementation implements TestAPI.AProtocol {
         ))
     );
 
-    static int ffi_get_foo(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catching(exn, () =>
-        peekRef<AProtocolImplementation>(obj).foo
-    ) ?? 0;
-    static void ffi_set_foo(
-        UnownedRef obj,
-        int newValue,
-        OutCreatedRef exn
-    ) => catching(exn, () {
-        peekRef<AProtocolImplementation>(obj).foo = newValue;
-    });
-
-    static void ffi_increment(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catching(exn, () {
-        peekRef<AProtocolImplementation>(obj).increment();
-    });
-
     @override
-    String toString() => 'AProtocolImplementation(foo: $foo)';
+    String toString() => 'AProtocolImplementation()';
 
     @override
     bool operator ==(Object other) {
         return identical(other, this) ||
         (
             other.runtimeType == runtimeType &&
-            other is AProtocolImplementation &&
-            (
-                const DeepCollectionEquality().equals(other.foo, foo)
-            )
+            other is AProtocolImplementation
         );
     }
 
     @override
-    int get hashCode => Object.hash(
-        runtimeType,
-        const DeepCollectionEquality().hash(foo)
-    );
-
-    AProtocolImplementation copyWith({
-        int? foo
-    }) => AProtocolImplementation(
-        foo: foo ?? this.foo
-    );
-
-    /// <!-- FishyJoes.export(increment) -->
-    void increment(
-    ) =>
-        GCRef.using(this, (_thisHandle) =>
-            check((OutCreatedRef _exn) => f__iota_TestAPI_AProtocolImplementation_increment(Loader.shared.env, _thisHandle.ptr, _exn))
-        )
-    ;
-
-    static late void Function(
-        Env env,
-        UnownedRef _this,
-        OutCreatedRef _exn
-    ) f__iota_TestAPI_AProtocolImplementation_increment;
+    int get hashCode => runtimeType.hashCode;
 }
