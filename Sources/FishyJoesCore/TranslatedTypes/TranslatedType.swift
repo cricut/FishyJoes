@@ -74,7 +74,7 @@ extension TranslatedType {
     }
 
     var mangledName: String {
-        converterType.name.mangled
+        sourceType.name.mangled
     }
 
     func cSharpSetupDelegates(in context: FishyJoesContext) -> [String] { [] }

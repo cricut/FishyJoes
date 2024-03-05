@@ -765,7 +765,9 @@ struct TranslatedProtocol: TranslatedType {
                 constructor: .reference,
                 fieldsAndMethods: {
                     let nonDefaultMethods = methods.filter { !$0.isInExtension }
-                    var fAndM = computedVariables.compactMap { context.dart(field: $0, of: self, useNativeName: false) }
+                    var fAndM = computedVariables.compactMap {
+                        context.dart(field: $0, of: self, useNativeName: false)
+                    }
                     fAndM.append(contentsOf: nonDefaultMethods.compactMap { context.dart(method: $0, of: self) })
                     return fAndM
                 }(),
