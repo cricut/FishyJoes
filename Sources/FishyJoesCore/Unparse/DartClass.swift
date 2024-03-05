@@ -507,153 +507,51 @@ class DartProductClass: DartClass {
                         }
                     }
                 }
+            }
 
-                for field in fields {
-                    let isObject = field.type.isObject
-                    fragment.blankLine()
-                    fragment.outputBlock("static \(field.type.ffiCreatedName) ffi_get_\(field.name)(", newLineTerminated: false) {
-                        fragment.output("UnownedRef obj,")
-                        fragment.output("OutCreatedRef exn")
-                    }
-                    var wrapper: (() -> Void) -> Void
-                    if isObject {
-                        wrapper = { body in
-                            fragment.outputBlock("catchingRef(exn, () =>", closeWith: ");") {
-                                fragment.outputBlock("createRef(") {
-                                    body()
-                                }
-                            }
-                        }
-                    } else {
-                        wrapper = { body in
-                            let defaultValue = field.type.defaultReturnValue.map { " ?? \($0)" } ?? ""
-                            fragment.outputBlock("catching(exn, () =>", closeWith: ")\(defaultValue);") {
+            fragment.blankLine()
+            
+            for field in fields {
+                let isObject = field.type.isObject
+                fragment.blankLine()
+                fragment.outputBlock("static \(field.type.ffiCreatedName) ffi_get_\(field.name)(", newLineTerminated: false) {
+                    fragment.output("UnownedRef obj,")
+                    fragment.output("OutCreatedRef exn")
+                }
+                var wrapper: (() -> Void) -> Void
+                if isObject {
+                    wrapper = { body in
+                        fragment.outputBlock("catchingRef(exn, () =>", closeWith: ");") {
+                            fragment.outputBlock("createRef(") {
                                 body()
                             }
                         }
                     }
-
-                    fragment.output(" => ", newLineTerminated: false)
-                    wrapper {
-                        fragment.output("peekRef<\(unqualifiedName)>(obj).\(field.name)")
-                    }
-                    if field.isMutable {
-                        fragment.outputBlock("static void ffi_set_\(field.name)(", newLineTerminated: false) {
-                            fragment.output("UnownedRef obj,")
-                            fragment.output("\(field.type.ffiConsumedName) newValue,")
-                            fragment.output("OutCreatedRef exn")
-                        }
-                        fragment.outputBlock(" => catching(exn, () {", closeWith: "});") {
-                            fragment.output("peekRef<\(unqualifiedName)>(obj).\(field.hiddenStorage ? "_" : "")\(field.name) = ", newLineTerminated: false)
-                            if isObject {
-                                fragment.output("consumeRef<\(field.type.name(in: self))>(newValue);")
-                            } else {
-                                fragment.output("newValue;")
-                            }
-                        }
-                    }
-                }
-
-                fragment.blankLine()
-
-                // TODO: Once get protocol working, do for rest i.e. delete the if statement
-                if unqualifiedName.contains("AProtocol") {
-                    for method in methods {
-                        fragment.outputBlock("static \(method.returnType.ffiCreatedName) ffi_\(method.name)(", newLineTerminated: false) {
-                            fragment.output("UnownedRef obj,")
-                            // TODO: put params here
-                            //                        for param in method.parameters {
-                            //                            fragment.output("\(param.name)")
-                            //                        }
-                            fragment.output("OutCreatedRef exn")
-                        }
-                        fragment.outputBlock(" => catching(exn, () {", closeWith: "});") {
-                            fragment.output("peekRef<\(unqualifiedName)>(obj).\(method.name)();")
-                        }
-                        fragment.blankLine()
-                    }
-                }
-                
-                fragment.output("@override")
-                fragment.output("String toString() => '\(unqualifiedName)(", newLineTerminated: false)
-                let toStringParamsString = fields.map { "\(DartClass.deforbidify($0.name)): $\(DartClass.deforbidify($0.name))" }.joined(separator: ", ")
-                fragment.output("\(toStringParamsString))';")
-
-                fragment.blankLine()
-
-                fragment.output("@override")
-                fragment.output("bool operator ==(Object other)", newLineTerminated: false)
-                fragment.outputBlock(" {") {
-                    fragment.output("return identical(other, this) ||")
-                    fragment.outputBlock("(", closeWith: ");") {
-                        fragment.output("other.runtimeType == runtimeType &&")
-                        fragment.output("other is \(unqualifiedName)", newLineTerminated: false)
-
-                        if fields.isEmpty {
-                            fragment.blankLine()
-                        } else {
-                            fragment.output(" &&")
-                            fragment.outputBlock("(") {
-                                fragment.outputMap(fields, separator: " &&") { field in
-                                    let valueName = "\(DartClass.deforbidify(field.name))"
-                                    return "const DeepCollectionEquality().equals(other.\(valueName), \(valueName))"
-                                }
-                            }
-                        }
-                    }
-                }
-
-                fragment.blankLine()
-                fragment.blankLine()
-
-                fragment.output("@override")
-                fragment.output("int get hashCode => ", newLineTerminated: false)
-                if fields.isEmpty {
-                    fragment.output("runtimeType.hashCode;")
                 } else {
-                    fragment.output("Object.hash", newLineTerminated: false)
-                    fragment.outputBlock("(", closeWith: ");") {
-                        fragment.output("runtimeType,")
-                        let maxPositionalParamsPerObjectHashCall = 20
-                        if fields.count < maxPositionalParamsPerObjectHashCall - 1 {
-                            fragment.outputMap(fields, separator: ", ") { field in
-                                "const DeepCollectionEquality().hash(\(DartClass.deforbidify(field.name)))"
-                            }
-                        } else {
-                            // split up fields into groups of 20
-                            for fieldGroupStartIndex in stride(from: fields.indices.lowerBound, to: fields.indices.upperBound, by: maxPositionalParamsPerObjectHashCall) {
-                                if fieldGroupStartIndex != fields.indices.lowerBound {
-                                    fragment.output(",")
-                                }
-                                fragment.output("Object.hash", newLineTerminated: false)
-                                fragment.outputBlock("(", closeWith: ")", newLineTerminated: false) {
-                                    let fieldGroup = Array(fields[fieldGroupStartIndex..<min(fields.indices.upperBound, fieldGroupStartIndex + maxPositionalParamsPerObjectHashCall)])
-                                    fragment.outputMap(fieldGroup, separator: ", ") { field in
-                                        "const DeepCollectionEquality().hash(\(DartClass.deforbidify(field.name)))"
-                                    }
-                                }
-                            }
-                            fragment.blankLine()
+                    wrapper = { body in
+                        let defaultValue = field.type.defaultReturnValue.map { " ?? \($0)" } ?? ""
+                        fragment.outputBlock("catching(exn, () =>", closeWith: ")\(defaultValue);") {
+                            body()
                         }
                     }
                 }
 
-                fragment.blankLine()
-
-                fragment.output("\(unqualifiedName) copyWith", newLineTerminated: false)
-                fragment.outputBlock("({", closeWith: "})", newLineTerminated: false) {
-                    fragment.outputMap(fields, separator: ",") {
-                        "\($0.type.name(in: self).replacingOccurrences(of: "?", with: ""))? \(DartClass.deforbidify($0.name))"
-                    }
+                fragment.output(" => ", newLineTerminated: false)
+                wrapper {
+                    fragment.output("peekRef<\(unqualifiedName)>(obj).\(field.name)")
                 }
-                fragment.output(" => \(unqualifiedName)", newLineTerminated: false)
-                if fields.isEmpty {
-                    fragment.output("();")
-                } else {
-                    fragment.outputBlock("(", closeWith: ");") {
-                        fragment.outputMap(fields, separator: ",") {
-                            let name = "\(DartClass.deforbidify($0.name))"
-                            return "\(name): \(name) ?? this.\(name)"
+                if field.isMutable {
+                    fragment.outputBlock("static void ffi_set_\(field.name)(", newLineTerminated: false) {
+                        fragment.output("UnownedRef obj,")
+                        fragment.output("\(field.type.ffiConsumedName) newValue,")
+                        fragment.output("OutCreatedRef exn")
+                    }
+                    fragment.outputBlock(" => catching(exn, () {", closeWith: "});") {
+                        fragment.output("peekRef<\(unqualifiedName)>(obj).\(field.hiddenStorage ? "_" : "")\(field.name) = ", newLineTerminated: false)
+                        if isObject {
+                            fragment.output("consumeRef<\(field.type.name(in: self))>(newValue);")
+                        } else {
+                            fragment.output("newValue;")
                         }
                     }
                 }
@@ -661,6 +559,120 @@ class DartProductClass: DartClass {
 
             fragment.blankLine()
 
+            // TODO: Once get protocol working, do for rest i.e. delete the if statement
+            if unqualifiedName.contains("AProtocol") {
+                for method in methods {
+                    fragment.outputBlock("static \(method.returnType.ffiCreatedName) ffi_\(method.name)(", newLineTerminated: false) {
+                        fragment.output("UnownedRef obj,")
+                        // TODO: put params here
+                        //                        for param in method.parameters {
+                        //                            fragment.output("\(param.name)")
+                        //                        }
+                        fragment.output("OutCreatedRef exn")
+                    }
+                    fragment.outputBlock(" => catching(exn, () {", closeWith: "});") {
+                        fragment.output("peekRef<\(unqualifiedName)>(obj).\(method.name)();")
+                    }
+                    fragment.blankLine()
+                }
+                
+                // need some FFIs here
+                for field in fields {
+                    fragment.output("static \(String(describing: field.type.name)) ffi_get_\(field.name)(")
+                    fragment.output("    UnownedRef obj,")
+                    fragment.output("    OutCreatedRef exn")
+                    fragment.output(") => catching(exn, () => ")
+                    fragment.output("    peekRef<\(unqualifiedName)>(obj).\(field.name)")
+                    fragment.output("} ?? 0")
+                }
+            }
+            
+            fragment.output("@override")
+            fragment.output("String toString() => '\(unqualifiedName)(", newLineTerminated: false)
+            let toStringParamsString = fields.map { "\(DartClass.deforbidify($0.name)): $\(DartClass.deforbidify($0.name))" }.joined(separator: ", ")
+            fragment.output("\(toStringParamsString))';")
+
+            fragment.blankLine()
+
+            fragment.output("@override")
+            fragment.output("bool operator ==(Object other)", newLineTerminated: false)
+            fragment.outputBlock(" {") {
+                fragment.output("return identical(other, this) ||")
+                fragment.outputBlock("(", closeWith: ");") {
+                    fragment.output("other.runtimeType == runtimeType &&")
+                    fragment.output("other is \(unqualifiedName)", newLineTerminated: false)
+
+                    if fields.isEmpty {
+                        fragment.blankLine()
+                    } else {
+                        fragment.output(" &&")
+                        fragment.outputBlock("(") {
+                            fragment.outputMap(fields, separator: " &&") { field in
+                                let valueName = "\(DartClass.deforbidify(field.name))"
+                                return "const DeepCollectionEquality().equals(other.\(valueName), \(valueName))"
+                            }
+                        }
+                    }
+                }
+            }
+
+            fragment.blankLine()
+            fragment.blankLine()
+
+            fragment.output("@override")
+            fragment.output("int get hashCode => ", newLineTerminated: false)
+            if fields.isEmpty {
+                fragment.output("runtimeType.hashCode;")
+            } else {
+                fragment.output("Object.hash", newLineTerminated: false)
+                fragment.outputBlock("(", closeWith: ");") {
+                    fragment.output("runtimeType,")
+                    let maxPositionalParamsPerObjectHashCall = 20
+                    if fields.count < maxPositionalParamsPerObjectHashCall - 1 {
+                        fragment.outputMap(fields, separator: ", ") { field in
+                            "const DeepCollectionEquality().hash(\(DartClass.deforbidify(field.name)))"
+                        }
+                    } else {
+                        // split up fields into groups of 20
+                        for fieldGroupStartIndex in stride(from: fields.indices.lowerBound, to: fields.indices.upperBound, by: maxPositionalParamsPerObjectHashCall) {
+                            if fieldGroupStartIndex != fields.indices.lowerBound {
+                                fragment.output(",")
+                            }
+                            fragment.output("Object.hash", newLineTerminated: false)
+                            fragment.outputBlock("(", closeWith: ")", newLineTerminated: false) {
+                                let fieldGroup = Array(fields[fieldGroupStartIndex..<min(fields.indices.upperBound, fieldGroupStartIndex + maxPositionalParamsPerObjectHashCall)])
+                                fragment.outputMap(fieldGroup, separator: ", ") { field in
+                                    "const DeepCollectionEquality().hash(\(DartClass.deforbidify(field.name)))"
+                                }
+                            }
+                        }
+                        fragment.blankLine()
+                    }
+                }
+            }
+
+            fragment.blankLine()
+
+            fragment.output("\(unqualifiedName) copyWith", newLineTerminated: false)
+            fragment.outputBlock("({", closeWith: "})", newLineTerminated: false) {
+                fragment.outputMap(fields, separator: ",") {
+                    "\($0.type.name(in: self).replacingOccurrences(of: "?", with: ""))? \(DartClass.deforbidify($0.name))"
+                }
+            }
+            fragment.output(" => \(unqualifiedName)", newLineTerminated: false)
+            if fields.isEmpty {
+                fragment.output("();")
+            } else {
+                fragment.outputBlock("(", closeWith: ");") {
+                    fragment.outputMap(fields, separator: ",") {
+                        let name = "\(DartClass.deforbidify($0.name))"
+                        return "\(name): \(name) ?? this.\(name)"
+                    }
+                }
+            }
+            
+            fragment.blankLine()
+            
             fields.forEach { output(field: $0, to: fragment) }
             methods.forEach { output(method: $0, to: fragment) }
 
