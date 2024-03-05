@@ -47,7 +47,6 @@ jobs:
         run: |
           set -euxo pipefail
 
-          (cd dart; dart run fishyjoes_dart:setup)
           swift run -- fishy-joes --dart --fat test
 
       - name: Upload artifacts
@@ -78,6 +77,7 @@ jobs:
       - name: Configure build environment
         run: |
           set -eux
+
           apt-get -y update
           apt-get -y install patchelf curl
           git config --global --add safe.directory '*'
@@ -86,6 +86,7 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
+
           swift run -- fishy-joes --dart build
 
       - name: Patch libs to use relative paths to swift stdlib
@@ -104,7 +105,7 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
-          (cd dart; dart run fishyjoes_dart:setup)
+
           swift run -- fishy-joes --dart test
 
       - name: Upload library
@@ -137,30 +138,29 @@ jobs:
           branch: swift-5.9.1-release
           tag: 5.9.1-RELEASE
 
-      - name: Compile library
+      - name: Fetch FishyJoes Scripts
+        shell: pwsh
         run: |
-          $env:SWIFT_PACKAGE_FORCE_DYNAMIC = '1'
-          swift build --product __MODULE_NAME__-iota --configuration release --build-path ./.build/windows-build
+          swift package resolve
+          echo SWIFT_WINDOWS_BASH=".build/checkouts/FishyJoes/scripts/swift-shim.ps1" >> $env:GITHUB_ENV
 
-      - name: Copy resource
+      - name: Build library
         shell: bash
         run: |
           set -euxo pipefail
 
-          mkdir -p dart/windows/native
-          cp .build/windows-build/x86_64-unknown-windows-msvc/release/__MODULE_NAME__.dll dart/windows/native
-          cp .build/windows-build/x86_64-unknown-windows-msvc/release/__MODULE_NAME__-iota.dll dart/windows/native
+          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --dart build
 
       - name: Test library from dart
+        shell: bash
         run: |
-          cd dart
+          set -euxo pipefail
 
-          dart run fishyjoes_dart:setup
-          dart run build_runner build
-
+          # Add dart DLLs to path
           # Someone who understands windows better than I do is welcome to fix this in a better way
-          $env:PATH = "$pwd\windows\native;$env:PATH"
-          dart test
+          PATH="$(pwd)/dart/windows/native:$PATH"
+
+          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --dart test
 
       - name: Upload library
         uses: actions/upload-artifact@v3
@@ -194,6 +194,7 @@ jobs:
       - name: Configure build environment
         run: |
           set -euxo pipefail
+
           sudo apt-get install zsh
 
       - name: Retrieve Artifacts

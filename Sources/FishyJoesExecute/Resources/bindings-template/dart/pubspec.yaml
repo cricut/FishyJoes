@@ -13,8 +13,6 @@ dependencies:
       ref: "(replace this string with latest fishyjoes version)"
       path: dart-runtime
 
-  # TODO: other dependencies here
-
   path: ^1.8.0
 
 dev_dependencies:
