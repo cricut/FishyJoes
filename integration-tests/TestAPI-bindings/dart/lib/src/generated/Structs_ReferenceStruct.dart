@@ -53,6 +53,38 @@ class Structs_ReferenceStruct extends SwiftReference {
         createRef(Structs_ReferenceStruct(ref))
     );
 
+    static CreatedRef ffi_get_immutable(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Structs_ReferenceStruct>(obj).immutable
+        )
+    );
+
+    static CreatedRef ffi_get_mutable(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Structs_ReferenceStruct>(obj).mutable
+        )
+    );
+    static void ffi_set_mutable(
+        UnownedRef obj,
+        ConsumedRef newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        peekRef<Structs_ReferenceStruct>(obj).mutable = consumeRef<String>(newValue);
+    });
+
+    static int ffi_get_hashCode(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<Structs_ReferenceStruct>(obj).hashCode
+    ) ?? 0;
+
     /// <!-- FishyJoes.export(immutable) -->
     String get immutable =>
         GCRef.using(this, (_thisHandle) =>
