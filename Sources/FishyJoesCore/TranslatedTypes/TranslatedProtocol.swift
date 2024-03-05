@@ -57,7 +57,7 @@ struct TranslatedProtocol: TranslatedType {
         self.documentation = type.documentation
         self.className = context.kotlinTranslator.javaClassName(kotlinName, in: context)
         self.javaExternalWitnessClassName = context.kotlinTranslator.javaClassName("_ExternalWitness_\(kotlinName)", in: context)
-        self.iotaExternalWitnessClassName = "_ExternalWitness_\(sourceType.nonNamespacedName)"
+        self.iotaExternalWitnessClassName = "ExternalWitness_\(sourceType.nonNamespacedName)"
 
         enforceProtocolThrows()
         enforceNoProtocolSetters()
@@ -116,7 +116,7 @@ struct TranslatedProtocol: TranslatedType {
 
     func dartSetupDelegates(in context: FishyJoesContext) -> [String] {
         var lines: [String] = []
-        lines.append("typedef _\(converterType.genericBaseName.mangledName)Constructor = \(dartType.ffiCreatedName) Function(")
+        lines.append("typedef _\(sourceType.genericBaseName.mangledName)Constructor = \(dartType.ffiCreatedName) Function(")
         for computedVar in computedVariables {
             let resolved = context.resolve(type: computedVar.typeName.better)
             lines.append("    \(resolved.dartType.ffiConsumedTag) \(computedVar.name),")
@@ -125,7 +125,7 @@ struct TranslatedProtocol: TranslatedType {
         lines.append(");")
         for computedVar in computedVariables {
             let resolved = context.resolve(type: computedVar.typeName.better)
-            let commonName = "_\(converterType.genericBaseName.mangledName)_\(computedVar.name)"
+            let commonName = "_\(sourceType.genericBaseName.mangledName)_\(computedVar.name)"
             lines.append("typedef \(commonName)Getter = \(resolved.dartType.ffiCreatedTag) Function(\(dartType.ffiUnownedTag) obj, OutCreatedRef exn);")
             if computedVar.isMutable {
                 lines.append("typedef \(commonName)Setter = ffi.Void Function(\(dartType.ffiUnownedTag) obj, \(resolved.dartType.ffiConsumedTag) newValue, OutCreatedRef exn);")
@@ -134,7 +134,7 @@ struct TranslatedProtocol: TranslatedType {
         for method in methods {
             let returnType = context.resolve(type: method.returnType)
             // TODO: put in Params here
-            let commonName = "_\(converterType.genericBaseName.mangledName)_\(method.callName)"
+            let commonName = "_\(sourceType.genericBaseName.mangledName)_\(method.callName)"
             lines.append("typedef \(commonName) = \(returnType.dartType.ffiTag) Function(\(dartType.ffiUnownedTag) obj, OutCreatedRef exn);")
         }
         return lines
@@ -763,7 +763,7 @@ struct TranslatedProtocol: TranslatedType {
             dartClass: DartProductClass(
                 module: context.module,
                 documentation: documentation,
-                name: "_ExternalWitness_\(sourceType.nonNamespacedName)",
+                name: "ExternalWitness_\(sourceType.nonNamespacedName)",
                 constructor: .reference,
                 fieldsAndMethods: {
                     let nonDefaultMethods = methods.filter { !$0.isInExtension }
