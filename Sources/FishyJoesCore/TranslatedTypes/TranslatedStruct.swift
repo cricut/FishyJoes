@@ -405,49 +405,51 @@ struct TranslatedStruct: TranslatedType {
 
     func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>] {
         let constructorType = "_\(converterType.genericBaseName.mangledName)Constructor"
-        return [
+        var setupParams = [ForeignSetupParameter<DartClass.DartType>]()
+
+        setupParams.append(
             .value(
                 name: "constructor",
                 type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(constructorType)>>")
             ) { fragment in
                 fragment.output("ffi.Pointer.fromFunction(\(dartType.name()).ffi_constructor),")
-            },
-        ] + storedVariables.flatMap { storedVar -> [ForeignSetupParameter<DartClass.DartType>] in
-            let resolved = context.resolve(type: storedVar.typeName.better)
-            let commonName = "_\(converterType.genericBaseName.mangledName)_\(storedVar.name)"
-            let getType = "\(commonName)Getter"
-            let setType = "\(commonName)Setter"
-            return [
-                .value(
-                    name: "get_\(storedVar.name)",
-                    type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(getType)>>")
-                ) { fragment in
-                    let defaultValue = resolved.dartType.defaultReturnValue.map { ", \($0)" } ?? ""
-                    fragment.output("ffi.Pointer.fromFunction(\(dartType.name()).ffi_get_\(storedVar.name)\(defaultValue)),")
-                }
-            ] + (
-                storedVar.isMutable ? [
-                    .value(
-                        name: "set_\(storedVar.name)",
-                        type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(setType)>>")
-                    ) { fragment in
-                        fragment.output("ffi.Pointer.fromFunction(\(dartType.name()).ffi_set_\(storedVar.name)),")
-                    },
-                ] : []
+            }
+        )
+
+        if !conformances.isEmpty {
+            setupParams.append(
+                contentsOf:
+                    storedVariables.flatMap { storedVar -> [ForeignSetupParameter<DartClass.DartType>] in
+                        let resolved = context.resolve(type: storedVar.typeName.better)
+                        let commonName = "_\(converterType.genericBaseName.mangledName)_\(storedVar.name)"
+                        let getType = "\(commonName)Getter"
+                        let setType = "\(commonName)Setter"
+                        var returnVals = [ForeignSetupParameter<DartClass.DartType>]()
+                        returnVals.append(
+                            .value(
+                                name: "get_\(storedVar.name)",
+                                type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(getType)>>")
+                            ) { fragment in
+                                let defaultValue = resolved.dartType.defaultReturnValue.map { ", \($0)" } ?? ""
+                                fragment.output("ffi.Pointer.fromFunction(\(dartType.name()).ffi_get_\(storedVar.name)\(defaultValue)),")
+                            }
+                        )
+                        if storedVar.isMutable {
+                            returnVals.append(
+                                .value(
+                                    name: "set_\(storedVar.name)",
+                                    type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(setType)>>")
+                                ) { fragment in
+                                    fragment.output("ffi.Pointer.fromFunction(\(dartType.name()).ffi_set_\(storedVar.name)),")
+                                }
+                            )
+                        }
+                        return returnVals
+                    }
             )
-        } + (converterType.genericBaseName.mangledName.contains("AProtocol") ? methods.flatMap { method -> [ForeignSetupParameter<DartClass.DartType>] in
-            return [
-                .value(
-                    name: "\(method.callName)",
-                    type: .named(
-                        package: nil,
-                        name: "ffi.Pointer<ffi.NativeFunction<_\(converterType.genericBaseName.mangledName)_\(method.callName)>>"
-                    )
-                ) { fragment in
-                    fragment.output("ffi.Pointer.fromFunction(\(dartType.name()).ffi_\(method.callName)),")
-                }
-            ]
-        } : [])
+        }
+
+        return setupParams
     }
 
     func iotaDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {

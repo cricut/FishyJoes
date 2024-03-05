@@ -568,6 +568,7 @@ class DartProductClass: DartClass {
             }
 
             fragment.blankLine()
+
             for method in methods {
                 guard !method.documentation.isEmpty else {
                     continue
