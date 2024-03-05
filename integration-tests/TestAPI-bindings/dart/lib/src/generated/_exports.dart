@@ -9,7 +9,7 @@ export './Structs_MutableStruct.dart';
 export './Structs_PuttingTypesIntoQuestionablePlaces.dart';
 export './Structs_ReferenceStruct.dart';
 export './AProtocol.dart';
-export './_ExternalWitness_AProtocol.dart';
+export './ExternalWitness_AProtocol.dart';
 export './AProtocolImplementation.dart';
 export './Actors.dart';
 export './AssociatedDataEnum.dart';

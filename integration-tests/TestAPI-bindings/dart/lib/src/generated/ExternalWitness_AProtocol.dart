@@ -13,6 +13,7 @@ import './Collections_CollectionHolder.dart' as TestAPI;
 import './DefaultArguments.dart' as TestAPI;
 import './Deprecations.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
+import './ExternalWitness_AProtocol.dart' as TestAPI;
 import './Functions.dart' as TestAPI;
 import './Methods.dart' as TestAPI;
 import './Primitives.dart' as TestAPI;
@@ -29,7 +30,6 @@ import './Structs_ReferenceStruct.dart' as TestAPI;
 import './Tuples.dart' as TestAPI;
 import './URLs.dart' as TestAPI;
 import './UnicodeScalar_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
-import './_ExternalWitness_AProtocol.dart' as TestAPI;
 import 'dart:ffi' as ffi;
 import 'dart:typed_data' as typed_data;
 import 'package:collection/collection.dart';
@@ -47,36 +47,51 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: annotate_overrides
 
 /// <!-- FishyJoes.export(AProtocol) -->
-class _ExternalWitness_AProtocol extends SwiftReference implements TestAPI.AProtocol {
-    _ExternalWitness_AProtocol(ffi.Pointer reference): super(reference) {}
+class ExternalWitness_AProtocol extends SwiftReference implements TestAPI.AProtocol {
+    ExternalWitness_AProtocol(ffi.Pointer reference): super(reference) {}
     static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
-        createRef(_ExternalWitness_AProtocol(ref))
+        createRef(ExternalWitness_AProtocol(ref))
+    );
+
+    static int ffi_get_foo(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<ExternalWitness_AProtocol>(obj).foo
+    ) ?? 0;
+
+    @override
+    String toString() => 'ExternalWitness_AProtocol(foo: $foo)';
+    @override
+    bool operator ==(Object other) {
+        return identical(other, this) ||
+        (
+            other.runtimeType == runtimeType &&
+            other is ExternalWitness_AProtocol &&
+            (
+                const DeepCollectionEquality().equals(other.foo, foo)
+            )
+        );
+    }
+
+    @override
+    int get hashCode => Object.hash(
+        runtimeType,
+        const DeepCollectionEquality().hash(foo)
     );
 
     /// <!-- FishyJoes.export(foo) -->
     int get foo =>
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
-                f__iota_get_TestAPI_CommonInterface__AProtocolConverter_foo(Loader.shared.env, _thisHandle.ptr, exn)
+                f__iota_get_TestAPI_AProtocol_foo(Loader.shared.env, _thisHandle.ptr, exn)
             )
         )
     ;
-    /// <!-- FishyJoes.export(increment) -->
-    void increment(
-    ) =>
-        GCRef.using(this, (_thisHandle) =>
-            check((OutCreatedRef _exn) => f__iota_TestAPI_CommonInterface__AProtocolConverter_increment(Loader.shared.env, _thisHandle.ptr, _exn))
-        )
-    ;
 
-    static late void Function(
-        Env env,
-        UnownedRef _this,
-        OutCreatedRef _exn
-    ) f__iota_TestAPI_CommonInterface__AProtocolConverter_increment;
     static late int Function(
         Env env,
         UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_get_TestAPI_CommonInterface__AProtocolConverter_foo;
+    ) f__iota_get_TestAPI_AProtocol_foo;
 }
