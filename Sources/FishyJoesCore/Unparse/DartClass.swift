@@ -514,6 +514,7 @@ class DartProductClass: DartClass {
             for field in fields {
                 let isObject = field.type.isObject
                 fragment.blankLine()
+
                 fragment.outputBlock("static \(field.type.ffiCreatedName) ffi_get_\(field.name)(", newLineTerminated: false) {
                     fragment.output("UnownedRef obj,")
                     fragment.output("OutCreatedRef exn")
@@ -565,10 +566,12 @@ class DartProductClass: DartClass {
                     }
                 }
             }
-                
+
             fragment.blankLine()
-            
             for method in methods {
+                guard !method.documentation.isEmpty else {
+                    continue
+                }
                 fragment.outputBlock("static \(method.returnType.ffiCreatedName) ffi_\(method.name)(", newLineTerminated: false) {
                     fragment.output("UnownedRef obj,")
                     for param in method.parameters {
@@ -620,65 +623,66 @@ class DartProductClass: DartClass {
             fragment.output("\(toStringParamsString))';")
             
             fragment.blankLine()
-            
-            fragment.output("@override")
-            fragment.outputBlock("bool operator ==(Object other) {", newLineTerminated: false) {
-                fragment.output("return identical(other, this) ||")
-                fragment.outputBlock("(", closeWith: ");") {
-                    fragment.output("other.runtimeType == runtimeType &&")
-                    fragment.output("other is \(unqualifiedName)", newLineTerminated: false)
-                    
-                    let nonStaticFields = fields.filter { !$0.isStatic }
-                    if nonStaticFields.isEmpty {
-                        fragment.blankLine()
-                    } else {
-                        fragment.output(" &&")
-                        fragment.outputBlock("(") {
-                            fragment.outputMap(nonStaticFields, separator: " &&") { field in
-                                let valueName = "\(DartClass.deforbidify(field.name))"
-                                return "const DeepCollectionEquality().equals(other.\(valueName), \(valueName))"
-                            }
-                        }
-                    }
-                }
-            }
-            
-            fragment.blankLine()
-            fragment.blankLine()
-            
-            fragment.output("@override")
-            fragment.output("int get hashCode => ", newLineTerminated: false)
-            if fields.isEmpty {
-                fragment.output("runtimeType.hashCode;")
-            } else {
-                fragment.output("Object.hash", newLineTerminated: false)
-                fragment.outputBlock("(", closeWith: ");") {
-                    fragment.output("runtimeType,")
-                    let maxPositionalParamsPerObjectHashCall = 20
-                    if fields.count < maxPositionalParamsPerObjectHashCall - 1 {
-                        fragment.outputMap(fields, separator: ", ") { field in
-                            "const DeepCollectionEquality().hash(\(DartClass.deforbidify(field.name)))"
-                        }
-                    } else {
-                        // split up fields into groups of 20
-                        for fieldGroupStartIndex in stride(from: fields.indices.lowerBound, to: fields.indices.upperBound, by: maxPositionalParamsPerObjectHashCall) {
-                            if fieldGroupStartIndex != fields.indices.lowerBound {
-                                fragment.output(",")
-                            }
-                            fragment.output("Object.hash", newLineTerminated: false)
-                            fragment.outputBlock("(", closeWith: ")", newLineTerminated: false) {
-                                let fieldGroup = Array(fields[fieldGroupStartIndex..<min(fields.indices.upperBound, fieldGroupStartIndex + maxPositionalParamsPerObjectHashCall)])
-                                fragment.outputMap(fieldGroup, separator: ", ") { field in
-                                    "const DeepCollectionEquality().hash(\(DartClass.deforbidify(field.name)))"
+
+            if constructor != .reference {
+                fragment.output("@override")
+                fragment.outputBlock("bool operator ==(Object other) {", newLineTerminated: false) {
+                    fragment.output("return identical(other, this) ||")
+                    fragment.outputBlock("(", closeWith: ");") {
+                        fragment.output("other.runtimeType == runtimeType &&")
+                        fragment.output("other is \(unqualifiedName)", newLineTerminated: false)
+                        
+                        let nonStaticFields = fields.filter { !$0.isStatic }
+                        if nonStaticFields.isEmpty {
+                            fragment.blankLine()
+                        } else {
+                            fragment.output(" &&")
+                            fragment.outputBlock("(") {
+                                fragment.outputMap(nonStaticFields, separator: " &&") { field in
+                                    let valueName = "\(DartClass.deforbidify(field.name))"
+                                    return "const DeepCollectionEquality().equals(other.\(valueName), \(valueName))"
                                 }
                             }
                         }
-                        fragment.blankLine()
                     }
                 }
+                
+                fragment.blankLine()
+                fragment.blankLine()
+                
+                fragment.output("@override")
+                fragment.output("int get hashCode => ", newLineTerminated: false)
+                if fields.isEmpty {
+                    fragment.output("runtimeType.hashCode;")
+                } else {
+                    fragment.output("Object.hash", newLineTerminated: false)
+                    fragment.outputBlock("(", closeWith: ");") {
+                        fragment.output("runtimeType,")
+                        let maxPositionalParamsPerObjectHashCall = 20
+                        if fields.count < maxPositionalParamsPerObjectHashCall - 1 {
+                            fragment.outputMap(fields, separator: ", ") { field in
+                                "const DeepCollectionEquality().hash(\(DartClass.deforbidify(field.name)))"
+                            }
+                        } else {
+                            // split up fields into groups of 20
+                            for fieldGroupStartIndex in stride(from: fields.indices.lowerBound, to: fields.indices.upperBound, by: maxPositionalParamsPerObjectHashCall) {
+                                if fieldGroupStartIndex != fields.indices.lowerBound {
+                                    fragment.output(",")
+                                }
+                                fragment.output("Object.hash", newLineTerminated: false)
+                                fragment.outputBlock("(", closeWith: ")", newLineTerminated: false) {
+                                    let fieldGroup = Array(fields[fieldGroupStartIndex..<min(fields.indices.upperBound, fieldGroupStartIndex + maxPositionalParamsPerObjectHashCall)])
+                                    fragment.outputMap(fieldGroup, separator: ", ") { field in
+                                        "const DeepCollectionEquality().hash(\(DartClass.deforbidify(field.name)))"
+                                    }
+                                }
+                            }
+                            fragment.blankLine()
+                        }
+                    }
+                }
+                fragment.blankLine()
             }
-
-            fragment.blankLine()
 
             fields.forEach { output(field: $0, to: fragment) }
             methods.forEach { output(method: $0, to: fragment) }
@@ -853,6 +857,10 @@ class DartEnumClass: DartClass {
                 }
 
                 fragment.blankLine()
+                
+                if unqualifiedName.contains("ReferenceStruct") {
+                    let r = 3
+                }
 
                 fragment.output("@override")
                 fragment.output("bool operator ==(Object other)", newLineTerminated: false)

@@ -63,24 +63,6 @@ class ExternalWitness_AProtocol extends SwiftReference implements TestAPI.AProto
     @override
     String toString() => 'ExternalWitness_AProtocol(foo: $foo)';
 
-    @override
-    bool operator ==(Object other) {
-        return identical(other, this) ||
-        (
-            other.runtimeType == runtimeType &&
-            other is ExternalWitness_AProtocol &&
-            (
-                const DeepCollectionEquality().equals(other.foo, foo)
-            )
-        );
-    }
-
-    @override
-    int get hashCode => Object.hash(
-        runtimeType,
-        const DeepCollectionEquality().hash(foo)
-    );
-
     /// <!-- FishyJoes.export(foo) -->
     int get foo =>
         GCRef.using(this, (_thisHandle) =>

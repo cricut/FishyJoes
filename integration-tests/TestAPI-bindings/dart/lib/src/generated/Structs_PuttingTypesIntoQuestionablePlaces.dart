@@ -74,18 +74,6 @@ class Structs_PuttingTypesIntoQuestionablePlaces extends SwiftReference {
     @override
     String toString() => 'Structs_PuttingTypesIntoQuestionablePlaces()';
 
-    @override
-    bool operator ==(Object other) {
-        return identical(other, this) ||
-        (
-            other.runtimeType == runtimeType &&
-            other is Structs_PuttingTypesIntoQuestionablePlaces
-        );
-    }
-
-    @override
-    int get hashCode => runtimeType.hashCode;
-
     /// <!-- FishyJoes.export(create) -->
     static TestAPI.Structs_PuttingTypesIntoQuestionablePlaces create(
     ) =>

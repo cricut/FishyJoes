@@ -110,26 +110,6 @@ class Actors_TemperatureLogger extends SwiftReference {
     @override
     String toString() => 'Actors_TemperatureLogger(label: $label, backwardsLabel: $backwardsLabel)';
 
-    @override
-    bool operator ==(Object other) {
-        return identical(other, this) ||
-        (
-            other.runtimeType == runtimeType &&
-            other is Actors_TemperatureLogger &&
-            (
-                const DeepCollectionEquality().equals(other.label, label) &&
-                const DeepCollectionEquality().equals(other.backwardsLabel, backwardsLabel)
-            )
-        );
-    }
-
-    @override
-    int get hashCode => Object.hash(
-        runtimeType,
-        const DeepCollectionEquality().hash(label), 
-        const DeepCollectionEquality().hash(backwardsLabel)
-    );
-
     /// <!-- FishyJoes.export(label) -->
     String get label =>
         GCRef.using(this, (_thisHandle) =>

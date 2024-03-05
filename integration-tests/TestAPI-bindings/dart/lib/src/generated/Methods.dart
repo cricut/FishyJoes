@@ -345,36 +345,6 @@ class Methods extends SwiftReference {
     @override
     String toString() => 'Methods(staticGet: $staticGet, staticGetMethod: $staticGetMethod, staticModifiable: $staticModifiable, staticStored: $staticStored, instanceGet: $instanceGet, garply: $garply, instanceGetMethod: $instanceGetMethod, instanceModifiable: $instanceModifiable, instanceStored: $instanceStored)';
 
-    @override
-    bool operator ==(Object other) {
-        return identical(other, this) ||
-        (
-            other.runtimeType == runtimeType &&
-            other is Methods &&
-            (
-                const DeepCollectionEquality().equals(other.instanceGet, instanceGet) &&
-                const DeepCollectionEquality().equals(other.garply, garply) &&
-                const DeepCollectionEquality().equals(other.instanceGetMethod, instanceGetMethod) &&
-                const DeepCollectionEquality().equals(other.instanceModifiable, instanceModifiable) &&
-                const DeepCollectionEquality().equals(other.instanceStored, instanceStored)
-            )
-        );
-    }
-
-    @override
-    int get hashCode => Object.hash(
-        runtimeType,
-        const DeepCollectionEquality().hash(staticGet), 
-        const DeepCollectionEquality().hash(staticGetMethod), 
-        const DeepCollectionEquality().hash(staticModifiable), 
-        const DeepCollectionEquality().hash(staticStored), 
-        const DeepCollectionEquality().hash(instanceGet), 
-        const DeepCollectionEquality().hash(garply), 
-        const DeepCollectionEquality().hash(instanceGetMethod), 
-        const DeepCollectionEquality().hash(instanceModifiable), 
-        const DeepCollectionEquality().hash(instanceStored)
-    );
-
     /// <!-- FishyJoes.export(staticGet) -->
     static int get staticGet =>
         check((exn) =>
