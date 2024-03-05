@@ -20,10 +20,6 @@ struct _IotaAProtocol: TestAPI.AProtocol {
             )
         }
     }
-
-    public func increment() throws {
-        // call dart function here somehow. It's got to be assigned somehow in the setup
-    }
 }
 
 @_cdecl("TestAPI_CommonInterface__AProtocolConverter_setup")
@@ -31,14 +27,12 @@ public func TestAPI_CommonInterface__AProtocolConverter_setup(
     envRef: EnvRef,
     constructorMethod: @escaping TestAPI_CommonInterface._AProtocolConverter._ConstructorMethod,
     _ fooGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Int.CType,
-    _ increment: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> FishyJoesCommonRuntime.VoidConverter.CType,
     _ exn: foreignOutExn
 ) {
     let env = Env(envRef)
     if TestAPI_CommonInterface._AProtocolConverter._constructorMethod.isInitialized(env) { return }
     TestAPI_CommonInterface._AProtocolConverter._constructorMethod[env] = constructorMethod
     TestAPI_CommonInterface._AProtocolConverter._fooGetter[env] = fooGetter
-    TestAPI_CommonInterface._AProtocolConverter._increment[env] = increment
 }
 
 extension TestAPI_CommonInterface._AProtocolConverter: IotaMutator {
@@ -49,7 +43,6 @@ extension TestAPI_CommonInterface._AProtocolConverter: IotaMutator {
     ) -> foreignObject
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
     fileprivate static let _fooGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Int.CType>()
-    fileprivate static let _increment = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> FishyJoesCommonRuntime.VoidConverter.CType>()
 
     public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
         do {

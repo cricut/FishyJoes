@@ -470,13 +470,23 @@ class DartProductClass: DartClass {
 
                 fragment.blankLine()
 
-                fragment.outputBlock("\(unqualifiedName)({", closeWith: "});") {
+                fragment.outputBlock("\(unqualifiedName)({", closeWith: "})", newLineTerminated: false) {
                     fragment.outputMap(fields, separator: ",") { field in
                         let type = field.type.name(in: self)
                         let name = DartClass.deforbidify(field.name)
-                        return "required this.\(name)"
+                        return "required \(type) \(name)"
                     }
                 }
+                if !fields.isEmpty {
+                    fragment.output(":")
+                    fragment.indent {
+                        fragment.outputMap(fields, separator: ",", newLineTerminated: false) { field in
+                            let name = DartClass.deforbidify(field.name)
+                            return "this.\(field.hiddenStorage ? "_" : "")\(name) = \(name)"
+                        }
+                    }
+                }
+                fragment.output(";")
 
                 fragment.blankLine()
 

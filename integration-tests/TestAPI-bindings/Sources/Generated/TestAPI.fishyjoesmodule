@@ -1818,22 +1818,7 @@
               }
             ],
             "methods" : [
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(increment) -->"
-                ],
-                "isAsync" : false,
-                "isStatic" : false,
-                "name" : "increment",
-                "parameters" : [
 
-                ],
-                "returnType" : {
-                  "named" : {
-                    "_0" : "void"
-                  }
-                }
-              }
             ],
             "name" : "AProtocol"
           },
@@ -1874,22 +1859,7 @@
               }
             ],
             "methods" : [
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(increment) -->"
-                ],
-                "isAsync" : false,
-                "isStatic" : false,
-                "name" : "increment",
-                "parameters" : [
 
-                ],
-                "returnType" : {
-                  "named" : {
-                    "_0" : "void"
-                  }
-                }
-              }
             ],
             "name" : "AProtocolImplementation"
           },

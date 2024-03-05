@@ -23,21 +23,6 @@ struct _JavaAProtocol: TestAPI.AProtocol {
             )
         }
     }
-
-    static var _incrementMethodID: jmethodID?
-    public func increment() throws {
-        let env = try Env.acquireJVMThread(on: _javaWitness.vm)
-        defer {
-            try? Env.relinquishJVMThread(on: _javaWitness.vm)
-        }
-        return try FishyJoesCommonRuntime.VoidConverter.fromJava(
-            env.CallVoidMethod(
-                _javaWitness.object,
-                Self._incrementMethodID
-            ),
-            env: env
-        )
-    }
 }
 
 extension TestAPI_CommonInterface._AProtocolConverter: JavaMutator {
@@ -69,6 +54,5 @@ extension TestAPI_CommonInterface._AProtocolConverter: JavaMutator {
         externalWitnessClass = try env.globalRef(env.FindClass("com/cricut/testapi/_ExternalWitness_AProtocol"))
         externalWitnessConstructor = try env.GetMethodID(externalWitnessClass, "<init>", "(J)V")
         _JavaAProtocol._fooGetMethodID = try env.GetMethodID(javaClass, "getFoo", "()J")
-        _JavaAProtocol._incrementMethodID = try env.GetMethodID(javaClass, "increment", "()V")
     }
 }

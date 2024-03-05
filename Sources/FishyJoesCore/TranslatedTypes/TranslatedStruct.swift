@@ -577,8 +577,15 @@ struct TranslatedStruct: TranslatedType {
 
     func registerDartClass(context: FishyJoesContext) {
         let fieldsAndMethods =
-            computedVariables.compactMap { context.dart(field: $0, of: self, useNativeName: false) } +
-            methods.compactMap { context.dart(method: $0, of: self) }
+        computedVariables.compactMap {
+            context.dart(field: $0, of: self, useNativeName: false)
+        } +
+//        storedVariables.compactMap {
+//            context.dart(field: $0, of: self, useNativeName: true)
+//        } +
+        methods.compactMap {
+            context.dart(method: $0, of: self)
+        }
 
         context.add(
             dartClass: DartProductClass(

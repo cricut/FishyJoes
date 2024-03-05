@@ -193,7 +193,7 @@ typedef _TestAPI_Structs_MutableStruct_increment = ffi.Void Function(UnownedRef 
 typedef _TestAPI_Structs_MutableStruct_incrementAsync = ffi.Void Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_Structs_MutableStruct_init = ffi.Pointer Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_AProtocolConstructor = CreatedRef Function(
-    ffi.Int foo,
+    ffi.Pointer ref,
     OutCreatedRef exn
 );
 typedef _TestAPI_AProtocol_fooGetter = ffi.Int Function(UnownedRef obj, OutCreatedRef exn);
