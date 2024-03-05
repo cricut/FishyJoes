@@ -40,7 +40,7 @@ let package = Package(
         ],
     dependencies: [
         .package(
-            url: "https://github.com/cricut/__MODULE_NAME__", .exact(__PASCALCASE_MODULE_NAME__Version)
+            url: "https://github.com/cricut/__MODULE_NAME__", .branch(__PASCALCASE_MODULE_NAME__Version)
             // path: "../__MODULE_NAME__"
         ),
         .package(
