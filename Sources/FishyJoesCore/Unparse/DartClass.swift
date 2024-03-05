@@ -609,9 +609,6 @@ class DartProductClass: DartClass {
                         }
                     }
                 }
-                if unqualifiedName.contains("TemperatureLogger") {
-                    let r = 3
-                }
                 fragment.blankLine()
             }
             
@@ -631,12 +628,13 @@ class DartProductClass: DartClass {
                     fragment.output("other.runtimeType == runtimeType &&")
                     fragment.output("other is \(unqualifiedName)", newLineTerminated: false)
                     
-                    if fields.isEmpty {
+                    let nonStaticFields = fields.filter { !$0.isStatic }
+                    if nonStaticFields.isEmpty {
                         fragment.blankLine()
                     } else {
                         fragment.output(" &&")
                         fragment.outputBlock("(") {
-                            fragment.outputMap(fields, separator: " &&") { field in
+                            fragment.outputMap(nonStaticFields, separator: " &&") { field in
                                 let valueName = "\(DartClass.deforbidify(field.name))"
                                 return "const DeepCollectionEquality().equals(other.\(valueName), \(valueName))"
                             }
