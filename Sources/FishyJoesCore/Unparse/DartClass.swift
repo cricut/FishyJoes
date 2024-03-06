@@ -428,6 +428,64 @@ class DartProductClass: DartClass {
             conformances: conformances
         )
     }
+    
+    private func ffiFor(fields: [Variable], fragment: SourceFragment) {
+        for field in fields {
+            let isObject = field.type.isObject
+            fragment.blankLine()
+
+            fragment.outputBlock("static \(field.type.ffiCreatedName) ffi_get_\(field.name)(", newLineTerminated: false) {
+                fragment.output("UnownedRef obj,")
+                fragment.output("OutCreatedRef exn")
+            }
+            var wrapper: (() -> Void) -> Void
+            if isObject {
+                wrapper = { body in
+                    fragment.outputBlock("catchingRef(exn, () =>", closeWith: ");") {
+                        fragment.outputBlock("createRef(") {
+                            body()
+                        }
+                    }
+                }
+            } else {
+                wrapper = { body in
+                    let defaultValue = field.type.defaultReturnValue.map { " ?? \($0)" } ?? ""
+                    fragment.outputBlock("catching(exn, () =>", closeWith: ")\(defaultValue);") {
+                        body()
+                    }
+                }
+            }
+            
+            fragment.output(" => ", newLineTerminated: false)
+            wrapper {
+                if field.isStatic {
+                    fragment.output("\(unqualifiedName).\(field.name)")
+                } else {
+                    fragment.output("peekRef<\(unqualifiedName)>(obj).\(field.name)")
+                }
+            }
+            if field.isMutable,
+               field.isPubliclyWritable {
+                fragment.outputBlock("static void ffi_set_\(field.name)(", newLineTerminated: false) {
+                    fragment.output("UnownedRef obj,")
+                    fragment.output("\(field.type.ffiConsumedName) newValue,")
+                    fragment.output("OutCreatedRef exn")
+                }
+                fragment.outputBlock(" => catching(exn, () {", closeWith: "});") {
+                    if field.isStatic {
+                        fragment.output("\(unqualifiedName).\(field.name) = ", newLineTerminated: false)
+                    } else {
+                        fragment.output("peekRef<\(unqualifiedName)>(obj).\(field.hiddenStorage ? "_" : "")\(field.name) = ", newLineTerminated: false)
+                    }
+                    if isObject {
+                        fragment.output("consumeRef<\(field.type.name(in: self))>(newValue);")
+                    } else {
+                        fragment.output("newValue;")
+                    }
+                }
+            }
+        }
+    }
 
     override func output(to fragment: SourceFragment) {
         var conformancesPart = ""
@@ -507,65 +565,15 @@ class DartProductClass: DartClass {
                         }
                     }
                 }
+                
+                if !conformances.isEmpty {
+                    ffiFor(fields: fields, fragment: fragment)
+                }
             }
 
             fragment.blankLine()
             
-            for field in fields {
-                let isObject = field.type.isObject
-                fragment.blankLine()
-
-                fragment.outputBlock("static \(field.type.ffiCreatedName) ffi_get_\(field.name)(", newLineTerminated: false) {
-                    fragment.output("UnownedRef obj,")
-                    fragment.output("OutCreatedRef exn")
-                }
-                var wrapper: (() -> Void) -> Void
-                if isObject {
-                    wrapper = { body in
-                        fragment.outputBlock("catchingRef(exn, () =>", closeWith: ");") {
-                            fragment.outputBlock("createRef(") {
-                                body()
-                            }
-                        }
-                    }
-                } else {
-                    wrapper = { body in
-                        let defaultValue = field.type.defaultReturnValue.map { " ?? \($0)" } ?? ""
-                        fragment.outputBlock("catching(exn, () =>", closeWith: ")\(defaultValue);") {
-                            body()
-                        }
-                    }
-                }
-                
-                fragment.output(" => ", newLineTerminated: false)
-                wrapper {
-                    if field.isStatic {
-                        fragment.output("\(unqualifiedName).\(field.name)")
-                    } else {
-                        fragment.output("peekRef<\(unqualifiedName)>(obj).\(field.name)")
-                    }
-                }
-                if field.isMutable,
-                   field.isPubliclyWritable {
-                    fragment.outputBlock("static void ffi_set_\(field.name)(", newLineTerminated: false) {
-                        fragment.output("UnownedRef obj,")
-                        fragment.output("\(field.type.ffiConsumedName) newValue,")
-                        fragment.output("OutCreatedRef exn")
-                    }
-                    fragment.outputBlock(" => catching(exn, () {", closeWith: "});") {
-                        if field.isStatic {
-                            fragment.output("\(unqualifiedName).\(field.name) = ", newLineTerminated: false)
-                        } else {
-                            fragment.output("peekRef<\(unqualifiedName)>(obj).\(field.hiddenStorage ? "_" : "")\(field.name) = ", newLineTerminated: false)
-                        }
-                        if isObject {
-                            fragment.output("consumeRef<\(field.type.name(in: self))>(newValue);")
-                        } else {
-                            fragment.output("newValue;")
-                        }
-                    }
-                }
-            }
+            ffiFor(fields: fields, fragment: fragment)
 
             fragment.blankLine()
 

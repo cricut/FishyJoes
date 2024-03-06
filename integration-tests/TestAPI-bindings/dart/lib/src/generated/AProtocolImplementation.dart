@@ -64,6 +64,20 @@ class AProtocolImplementation implements TestAPI.AProtocol {
         ))
     );
 
+    static int ffi_get_foo(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<AProtocolImplementation>(obj).foo
+    ) ?? 0;
+    static void ffi_set_foo(
+        UnownedRef obj,
+        int newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        peekRef<AProtocolImplementation>(obj).foo = newValue;
+    });
+
     @override
     String toString() => 'AProtocolImplementation()';
 
