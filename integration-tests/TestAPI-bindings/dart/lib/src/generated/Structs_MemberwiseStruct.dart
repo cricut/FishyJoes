@@ -98,12 +98,20 @@ class Structs_MemberwiseStruct {
         return identical(other, this) ||
         (
             other.runtimeType == runtimeType &&
-            other is Structs_MemberwiseStruct
+            other is Structs_MemberwiseStruct &&
+            (
+                const DeepCollectionEquality().equals(other.immutable, immutable) &&
+                const DeepCollectionEquality().equals(other.mutable, mutable)
+            )
         );
     }
 
     @override
-    int get hashCode => runtimeType.hashCode;
+    int get hashCode => Object.hash(
+        runtimeType,
+        const DeepCollectionEquality().hash(immutable), 
+        const DeepCollectionEquality().hash(mutable)
+    );
 
     /// <!-- FishyJoes.export(asyncGetMutable) -->
     Future<String> asyncGetMutable(

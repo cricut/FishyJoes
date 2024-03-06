@@ -137,15 +137,33 @@ class Collections_CollectionHolder {
         return identical(other, this) ||
         (
             other.runtimeType == runtimeType &&
-            other is Collections_CollectionHolder
+            other is Collections_CollectionHolder &&
+            (
+                const DeepCollectionEquality().equals(other.boolArray, boolArray) &&
+                const DeepCollectionEquality().equals(other.boolSet, boolSet) &&
+                const DeepCollectionEquality().equals(other.boolDictionary, boolDictionary) &&
+                const DeepCollectionEquality().equals(other.integerArray, integerArray) &&
+                const DeepCollectionEquality().equals(other.integerSet, integerSet) &&
+                const DeepCollectionEquality().equals(other.integerDictionary, integerDictionary) &&
+                const DeepCollectionEquality().equals(other.stringArray, stringArray) &&
+                const DeepCollectionEquality().equals(other.stringSet, stringSet) &&
+                const DeepCollectionEquality().equals(other.stringDictionary, stringDictionary)
+            )
         );
     }
 
     @override
     int get hashCode => Object.hash(
         runtimeType,
-        const DeepCollectionEquality().hash(staticProperty), 
-        const DeepCollectionEquality().hash(staticMutableProperty)
+        const DeepCollectionEquality().hash(boolArray), 
+        const DeepCollectionEquality().hash(boolSet), 
+        const DeepCollectionEquality().hash(boolDictionary), 
+        const DeepCollectionEquality().hash(integerArray), 
+        const DeepCollectionEquality().hash(integerSet), 
+        const DeepCollectionEquality().hash(integerDictionary), 
+        const DeepCollectionEquality().hash(stringArray), 
+        const DeepCollectionEquality().hash(stringSet), 
+        const DeepCollectionEquality().hash(stringDictionary)
     );
 
     /// <!-- FishyJoes.export(staticProperty) -->

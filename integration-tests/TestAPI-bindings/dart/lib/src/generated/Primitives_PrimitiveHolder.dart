@@ -222,15 +222,71 @@ class Primitives_PrimitiveHolder {
         return identical(other, this) ||
         (
             other.runtimeType == runtimeType &&
-            other is Primitives_PrimitiveHolder
+            other is Primitives_PrimitiveHolder &&
+            (
+                const DeepCollectionEquality().equals(other.b, b) &&
+                const DeepCollectionEquality().equals(other.bq, bq) &&
+                const DeepCollectionEquality().equals(other.ui8, ui8) &&
+                const DeepCollectionEquality().equals(other.ui8q, ui8q) &&
+                const DeepCollectionEquality().equals(other.ui16, ui16) &&
+                const DeepCollectionEquality().equals(other.ui16q, ui16q) &&
+                const DeepCollectionEquality().equals(other.ui32, ui32) &&
+                const DeepCollectionEquality().equals(other.ui32q, ui32q) &&
+                const DeepCollectionEquality().equals(other.ui64, ui64) &&
+                const DeepCollectionEquality().equals(other.ui64q, ui64q) &&
+                const DeepCollectionEquality().equals(other.ui, ui) &&
+                const DeepCollectionEquality().equals(other.uiq, uiq) &&
+                const DeepCollectionEquality().equals(other.i8, i8) &&
+                const DeepCollectionEquality().equals(other.i8q, i8q) &&
+                const DeepCollectionEquality().equals(other.i16, i16) &&
+                const DeepCollectionEquality().equals(other.i16q, i16q) &&
+                const DeepCollectionEquality().equals(other.i32, i32) &&
+                const DeepCollectionEquality().equals(other.i32q, i32q) &&
+                const DeepCollectionEquality().equals(other.i64, i64) &&
+                const DeepCollectionEquality().equals(other.i64q, i64q) &&
+                const DeepCollectionEquality().equals(other.i, i) &&
+                const DeepCollectionEquality().equals(other.iq, iq) &&
+                const DeepCollectionEquality().equals(other.f, f) &&
+                const DeepCollectionEquality().equals(other.fq, fq) &&
+                const DeepCollectionEquality().equals(other.d, d) &&
+                const DeepCollectionEquality().equals(other.dq, dq)
+            )
         );
     }
 
     @override
     int get hashCode => Object.hash(
         runtimeType,
-        const DeepCollectionEquality().hash(staticProperty), 
-        const DeepCollectionEquality().hash(staticMutableProperty)
+        Object.hash(
+            const DeepCollectionEquality().hash(b), 
+            const DeepCollectionEquality().hash(bq), 
+            const DeepCollectionEquality().hash(ui8), 
+            const DeepCollectionEquality().hash(ui8q), 
+            const DeepCollectionEquality().hash(ui16), 
+            const DeepCollectionEquality().hash(ui16q), 
+            const DeepCollectionEquality().hash(ui32), 
+            const DeepCollectionEquality().hash(ui32q), 
+            const DeepCollectionEquality().hash(ui64), 
+            const DeepCollectionEquality().hash(ui64q), 
+            const DeepCollectionEquality().hash(ui), 
+            const DeepCollectionEquality().hash(uiq), 
+            const DeepCollectionEquality().hash(i8), 
+            const DeepCollectionEquality().hash(i8q), 
+            const DeepCollectionEquality().hash(i16), 
+            const DeepCollectionEquality().hash(i16q), 
+            const DeepCollectionEquality().hash(i32), 
+            const DeepCollectionEquality().hash(i32q), 
+            const DeepCollectionEquality().hash(i64), 
+            const DeepCollectionEquality().hash(i64q)
+        ),
+        Object.hash(
+            const DeepCollectionEquality().hash(i), 
+            const DeepCollectionEquality().hash(iq), 
+            const DeepCollectionEquality().hash(f), 
+            const DeepCollectionEquality().hash(fq), 
+            const DeepCollectionEquality().hash(d), 
+            const DeepCollectionEquality().hash(dq)
+        )
     );
 
     /// <!-- FishyJoes.export(staticProperty) -->

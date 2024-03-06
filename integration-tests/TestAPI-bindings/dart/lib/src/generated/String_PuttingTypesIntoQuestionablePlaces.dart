@@ -80,12 +80,18 @@ class String_PuttingTypesIntoQuestionablePlaces {
         return identical(other, this) ||
         (
             other.runtimeType == runtimeType &&
-            other is String_PuttingTypesIntoQuestionablePlaces
+            other is String_PuttingTypesIntoQuestionablePlaces &&
+            (
+                const DeepCollectionEquality().equals(other.x, x)
+            )
         );
     }
 
     @override
-    int get hashCode => runtimeType.hashCode;
+    int get hashCode => Object.hash(
+        runtimeType,
+        const DeepCollectionEquality().hash(x)
+    );
 
     /// <!-- FishyJoes.export(testCall) -->
     int testCall(

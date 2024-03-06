@@ -506,6 +506,8 @@ class DartProductClass: DartClass {
 
         document(documentation, fragment: fragment)
 
+        var storedFields = [Variable]()
+
         switch constructor {
         case .reference:
             fragment.output("class \(unqualifiedName) extends SwiftReference\(conformancesPart)", newLineTerminated: false)
@@ -525,6 +527,7 @@ class DartProductClass: DartClass {
                 }
                 fragment.blankLine()
             case .public(let fields):
+                storedFields = fields
                 for field in fields {
                     let type = field.type.name(in: self)
                     let name = DartClass.deforbidify(field.name)
@@ -652,7 +655,7 @@ class DartProductClass: DartClass {
                         fragment.output("other.runtimeType == runtimeType &&")
                         fragment.output("other is \(unqualifiedName)", newLineTerminated: false)
                         
-                        let nonStaticFields = fields.filter { !$0.isStatic }
+                        let nonStaticFields = storedFields.filter { !$0.isStatic }
                         if nonStaticFields.isEmpty {
                             fragment.blankLine()
                         } else {
@@ -672,26 +675,26 @@ class DartProductClass: DartClass {
                 
                 fragment.output("@override")
                 fragment.output("int get hashCode => ", newLineTerminated: false)
-                if fields.isEmpty {
+                if storedFields.isEmpty {
                     fragment.output("runtimeType.hashCode;")
                 } else {
                     fragment.output("Object.hash", newLineTerminated: false)
                     fragment.outputBlock("(", closeWith: ");") {
                         fragment.output("runtimeType,")
                         let maxPositionalParamsPerObjectHashCall = 20
-                        if fields.count < maxPositionalParamsPerObjectHashCall - 1 {
-                            fragment.outputMap(fields, separator: ", ") { field in
+                        if storedFields.count < maxPositionalParamsPerObjectHashCall - 1 {
+                            fragment.outputMap(storedFields, separator: ", ") { field in
                                 "const DeepCollectionEquality().hash(\(DartClass.deforbidify(field.name)))"
                             }
                         } else {
                             // split up fields into groups of 20
-                            for fieldGroupStartIndex in stride(from: fields.indices.lowerBound, to: fields.indices.upperBound, by: maxPositionalParamsPerObjectHashCall) {
-                                if fieldGroupStartIndex != fields.indices.lowerBound {
+                            for fieldGroupStartIndex in stride(from: storedFields.indices.lowerBound, to: storedFields.indices.upperBound, by: maxPositionalParamsPerObjectHashCall) {
+                                if fieldGroupStartIndex != storedFields.indices.lowerBound {
                                     fragment.output(",")
                                 }
                                 fragment.output("Object.hash", newLineTerminated: false)
                                 fragment.outputBlock("(", closeWith: ")", newLineTerminated: false) {
-                                    let fieldGroup = Array(fields[fieldGroupStartIndex..<min(fields.indices.upperBound, fieldGroupStartIndex + maxPositionalParamsPerObjectHashCall)])
+                                    let fieldGroup = Array(storedFields[fieldGroupStartIndex..<min(storedFields.indices.upperBound, fieldGroupStartIndex + maxPositionalParamsPerObjectHashCall)])
                                     fragment.outputMap(fieldGroup, separator: ", ") { field in
                                         "const DeepCollectionEquality().hash(\(DartClass.deforbidify(field.name)))"
                                     }

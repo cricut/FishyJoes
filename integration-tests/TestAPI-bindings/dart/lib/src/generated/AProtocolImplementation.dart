@@ -86,10 +86,16 @@ class AProtocolImplementation implements TestAPI.AProtocol {
         return identical(other, this) ||
         (
             other.runtimeType == runtimeType &&
-            other is AProtocolImplementation
+            other is AProtocolImplementation &&
+            (
+                const DeepCollectionEquality().equals(other.foo, foo)
+            )
         );
     }
 
     @override
-    int get hashCode => runtimeType.hashCode;
+    int get hashCode => Object.hash(
+        runtimeType,
+        const DeepCollectionEquality().hash(foo)
+    );
 }

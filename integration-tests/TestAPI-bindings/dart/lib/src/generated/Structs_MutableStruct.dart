@@ -110,12 +110,18 @@ class Structs_MutableStruct {
         return identical(other, this) ||
         (
             other.runtimeType == runtimeType &&
-            other is Structs_MutableStruct
+            other is Structs_MutableStruct &&
+            (
+                const DeepCollectionEquality().equals(other.i, i)
+            )
         );
     }
 
     @override
-    int get hashCode => runtimeType.hashCode;
+    int get hashCode => Object.hash(
+        runtimeType,
+        const DeepCollectionEquality().hash(i)
+    );
 
     /// <!-- FishyJoes.export(asyncGetI) -->
     Future<int> asyncGetI(
