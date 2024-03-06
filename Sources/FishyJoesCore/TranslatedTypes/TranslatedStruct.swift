@@ -463,7 +463,7 @@ struct TranslatedStruct: TranslatedType {
             for storedVar in storedVariables {
                 let resolved = context.resolve(type: storedVar.typeName.better)
                 fragment.output("_ \(storedVar.name)Getter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolved.converterType.name).CType,")
-                if storedVar.isMutable {
+                if storedVar.isPubliclyWritable {
                     fragment.output("_ \(storedVar.name)Setter: @escaping @convention(c) (foreignObject, \(resolved.converterType.name).CType, _ exn: foreignOutExn) -> Void,")
                 }
             }
@@ -475,7 +475,7 @@ struct TranslatedStruct: TranslatedType {
             fragment.output("\(converterType.name)._constructorMethod[env] = constructorMethod")
             for storedVar in storedVariables {
                 fragment.output("\(converterType.name)._\(storedVar.name)Getter[env] = \(storedVar.name)Getter")
-                if storedVar.isMutable {
+                if storedVar.isPubliclyWritable {
                     fragment.output("\(converterType.name)._\(storedVar.name)Setter[env] = \(storedVar.name)Setter")
                 }
             }
@@ -486,7 +486,7 @@ struct TranslatedStruct: TranslatedType {
             for storedVar in storedVariables {
                 let resolved = context.resolve(type: storedVar.typeName.better)
                 fragment.output("fileprivate static let _\(storedVar.name)Getter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolved.converterType.name).CType>()")
-                if storedVar.isMutable {
+                if storedVar.isPubliclyWritable {
                     fragment.output("fileprivate static let _\(storedVar.name)Setter = Env.CallbackMap<@convention(c) (foreignObject, \(resolved.converterType.name).CType, _ exn: foreignOutExn) -> Void>()")
                 }
             }
@@ -530,7 +530,7 @@ struct TranslatedStruct: TranslatedType {
             fragment.outputBlock("public static func mutateIota(_ this: foreignObject, to value: Self, env: Env) throws {") {
                 for storedVar in storedVariables {
                     let resolved = context.resolve(type: storedVar.typeName.better)
-                    if storedVar.isMutable {
+                    if storedVar.isPubliclyWritable {
                         fragment.outputBlock("try env.check { exn in _\(storedVar.name)Setter[env](", closeWith: ")}") {
                             fragment.output("this,")
                             fragment.output("try \(resolved.converterType.name).toIota(value.\(storedVar.name), env: env),")

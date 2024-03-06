@@ -1,8 +1,10 @@
 import 'package:cricut_test_api/cricut_test_api.dart';
 import 'package:test/test.dart';
+import 'dart:io';
 
 void main() {
   setUp(() {
+      print('pid: $pid');
       final _ = ensureLoaded;
   });
 
