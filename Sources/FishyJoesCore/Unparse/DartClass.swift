@@ -648,6 +648,7 @@ class DartProductClass: DartClass {
             if storedFields.isEmpty,
                constructor != .reference {
                 toStringImpl(fields: fields, fragment: fragment)
+                fragment.blankLine()
             }
 
             if constructor != .reference {
