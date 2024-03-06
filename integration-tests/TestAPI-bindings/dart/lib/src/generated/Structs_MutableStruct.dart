@@ -63,6 +63,21 @@ class Structs_MutableStruct {
             i: i,
         ))
     );
+
+    static int ffi_get_i(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<Structs_MutableStruct>(obj).i
+    ) ?? 0;
+    static void ffi_set_i(
+        UnownedRef obj,
+        int newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        peekRef<Structs_MutableStruct>(obj).i = newValue;
+    });
+
     @override
     String toString() => 'Structs_MutableStruct(i: $i)';
 

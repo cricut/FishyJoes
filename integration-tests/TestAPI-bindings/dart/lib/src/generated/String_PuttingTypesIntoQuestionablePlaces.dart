@@ -63,6 +63,16 @@ class String_PuttingTypesIntoQuestionablePlaces {
             x: consumeRef(x),
         ))
     );
+
+    static CreatedRef ffi_get_x(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<String_PuttingTypesIntoQuestionablePlaces>(obj).x
+        )
+    );
+
     @override
     String toString() => 'String_PuttingTypesIntoQuestionablePlaces(x: $x)';
 

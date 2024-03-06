@@ -416,38 +416,36 @@ struct TranslatedStruct: TranslatedType {
             }
         )
 
-        if !conformances.isEmpty {
-            setupParams.append(
-                contentsOf:
-                    storedVariables.flatMap { storedVar -> [ForeignSetupParameter<DartClass.DartType>] in
-                        let resolved = context.resolve(type: storedVar.typeName.better)
-                        let commonName = "_\(converterType.genericBaseName.mangledName)_\(storedVar.name)"
-                        let getType = "\(commonName)Getter"
-                        let setType = "\(commonName)Setter"
-                        var returnVals = [ForeignSetupParameter<DartClass.DartType>]()
+        setupParams.append(
+            contentsOf:
+                storedVariables.flatMap { storedVar -> [ForeignSetupParameter<DartClass.DartType>] in
+                    let resolved = context.resolve(type: storedVar.typeName.better)
+                    let commonName = "_\(converterType.genericBaseName.mangledName)_\(storedVar.name)"
+                    let getType = "\(commonName)Getter"
+                    let setType = "\(commonName)Setter"
+                    var returnVals = [ForeignSetupParameter<DartClass.DartType>]()
+                    returnVals.append(
+                        .value(
+                            name: "get_\(storedVar.name)",
+                            type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(getType)>>")
+                        ) { fragment in
+                            let defaultValue = resolved.dartType.defaultReturnValue.map { ", \($0)" } ?? ""
+                            fragment.output("ffi.Pointer.fromFunction(\(dartType.name()).ffi_get_\(storedVar.name)\(defaultValue)),")
+                        }
+                    )
+                    if storedVar.isPubliclyWritable {
                         returnVals.append(
                             .value(
-                                name: "get_\(storedVar.name)",
-                                type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(getType)>>")
+                                name: "set_\(storedVar.name)",
+                                type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(setType)>>")
                             ) { fragment in
-                                let defaultValue = resolved.dartType.defaultReturnValue.map { ", \($0)" } ?? ""
-                                fragment.output("ffi.Pointer.fromFunction(\(dartType.name()).ffi_get_\(storedVar.name)\(defaultValue)),")
+                                fragment.output("ffi.Pointer.fromFunction(\(dartType.name()).ffi_set_\(storedVar.name)),")
                             }
                         )
-                        if storedVar.isMutable {
-                            returnVals.append(
-                                .value(
-                                    name: "set_\(storedVar.name)",
-                                    type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(setType)>>")
-                                ) { fragment in
-                                    fragment.output("ffi.Pointer.fromFunction(\(dartType.name()).ffi_set_\(storedVar.name)),")
-                                }
-                            )
-                        }
-                        return returnVals
                     }
-            )
-        }
+                    return returnVals
+                }
+        )
 
         return setupParams
     }

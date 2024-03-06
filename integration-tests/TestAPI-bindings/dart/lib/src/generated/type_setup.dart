@@ -284,11 +284,13 @@ final ensureLoaded = (() {
         ffi.Void Function(
             Env env,
             ffi.Pointer<ffi.NativeFunction<_Foundation_AttributedString_PuttingTypesIntoQuestionablePlacesConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_xGetter>> get_x,
             OutCreatedRef exn
         ),
         void Function(
             Env env,
             ffi.Pointer<ffi.NativeFunction<_Foundation_AttributedString_PuttingTypesIntoQuestionablePlacesConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_xGetter>> get_x,
             OutCreatedRef exn
         )
     >('Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_setup');
@@ -296,11 +298,13 @@ final ensureLoaded = (() {
         ffi.Void Function(
             Env env,
             ffi.Pointer<ffi.NativeFunction<_Swift_String_PuttingTypesIntoQuestionablePlacesConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_Swift_String_PuttingTypesIntoQuestionablePlaces_xGetter>> get_x,
             OutCreatedRef exn
         ),
         void Function(
             Env env,
             ffi.Pointer<ffi.NativeFunction<_Swift_String_PuttingTypesIntoQuestionablePlacesConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_Swift_String_PuttingTypesIntoQuestionablePlaces_xGetter>> get_x,
             OutCreatedRef exn
         )
     >('Swift_String_PuttingTypesIntoQuestionablePlaces_setup');
@@ -336,11 +340,47 @@ final ensureLoaded = (() {
         ffi.Void Function(
             Env env,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolderConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolder_boolArrayGetter>> get_boolArray,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolder_boolArraySetter>> set_boolArray,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolder_boolSetGetter>> get_boolSet,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolder_boolSetSetter>> set_boolSet,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolder_boolDictionaryGetter>> get_boolDictionary,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolder_boolDictionarySetter>> set_boolDictionary,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolder_integerArrayGetter>> get_integerArray,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolder_integerArraySetter>> set_integerArray,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolder_integerSetGetter>> get_integerSet,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolder_integerSetSetter>> set_integerSet,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolder_integerDictionaryGetter>> get_integerDictionary,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolder_integerDictionarySetter>> set_integerDictionary,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolder_stringArrayGetter>> get_stringArray,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolder_stringArraySetter>> set_stringArray,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolder_stringSetGetter>> get_stringSet,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolder_stringSetSetter>> set_stringSet,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolder_stringDictionaryGetter>> get_stringDictionary,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolder_stringDictionarySetter>> set_stringDictionary,
             OutCreatedRef exn
         ),
         void Function(
             Env env,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolderConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolder_boolArrayGetter>> get_boolArray,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolder_boolArraySetter>> set_boolArray,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolder_boolSetGetter>> get_boolSet,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolder_boolSetSetter>> set_boolSet,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolder_boolDictionaryGetter>> get_boolDictionary,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolder_boolDictionarySetter>> set_boolDictionary,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolder_integerArrayGetter>> get_integerArray,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolder_integerArraySetter>> set_integerArray,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolder_integerSetGetter>> get_integerSet,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolder_integerSetSetter>> set_integerSet,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolder_integerDictionaryGetter>> get_integerDictionary,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolder_integerDictionarySetter>> set_integerDictionary,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolder_stringArrayGetter>> get_stringArray,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolder_stringArraySetter>> set_stringArray,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolder_stringSetGetter>> get_stringSet,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolder_stringSetSetter>> set_stringSet,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolder_stringDictionaryGetter>> get_stringDictionary,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Collections_CollectionHolder_stringDictionarySetter>> set_stringDictionary,
             OutCreatedRef exn
         )
     >('TestAPI_Collections_CollectionHolder_setup');
@@ -348,11 +388,115 @@ final ensureLoaded = (() {
         ffi.Void Function(
             Env env,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolderConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_bGetter>> get_b,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_bSetter>> set_b,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_bqGetter>> get_bq,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_bqSetter>> set_bq,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_ui8Getter>> get_ui8,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_ui8Setter>> set_ui8,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_ui8qGetter>> get_ui8q,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_ui8qSetter>> set_ui8q,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_ui16Getter>> get_ui16,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_ui16Setter>> set_ui16,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_ui16qGetter>> get_ui16q,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_ui16qSetter>> set_ui16q,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_ui32Getter>> get_ui32,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_ui32Setter>> set_ui32,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_ui32qGetter>> get_ui32q,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_ui32qSetter>> set_ui32q,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_ui64Getter>> get_ui64,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_ui64Setter>> set_ui64,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_ui64qGetter>> get_ui64q,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_ui64qSetter>> set_ui64q,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_uiGetter>> get_ui,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_uiSetter>> set_ui,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_uiqGetter>> get_uiq,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_uiqSetter>> set_uiq,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_i8Getter>> get_i8,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_i8Setter>> set_i8,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_i8qGetter>> get_i8q,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_i8qSetter>> set_i8q,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_i16Getter>> get_i16,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_i16Setter>> set_i16,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_i16qGetter>> get_i16q,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_i16qSetter>> set_i16q,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_i32Getter>> get_i32,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_i32Setter>> set_i32,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_i32qGetter>> get_i32q,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_i32qSetter>> set_i32q,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_i64Getter>> get_i64,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_i64Setter>> set_i64,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_i64qGetter>> get_i64q,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_i64qSetter>> set_i64q,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_iGetter>> get_i,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_iSetter>> set_i,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_iqGetter>> get_iq,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_iqSetter>> set_iq,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_fGetter>> get_f,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_fSetter>> set_f,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_fqGetter>> get_fq,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_fqSetter>> set_fq,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_dGetter>> get_d,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_dSetter>> set_d,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_dqGetter>> get_dq,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_dqSetter>> set_dq,
             OutCreatedRef exn
         ),
         void Function(
             Env env,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolderConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_bGetter>> get_b,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_bSetter>> set_b,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_bqGetter>> get_bq,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_bqSetter>> set_bq,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_ui8Getter>> get_ui8,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_ui8Setter>> set_ui8,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_ui8qGetter>> get_ui8q,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_ui8qSetter>> set_ui8q,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_ui16Getter>> get_ui16,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_ui16Setter>> set_ui16,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_ui16qGetter>> get_ui16q,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_ui16qSetter>> set_ui16q,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_ui32Getter>> get_ui32,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_ui32Setter>> set_ui32,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_ui32qGetter>> get_ui32q,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_ui32qSetter>> set_ui32q,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_ui64Getter>> get_ui64,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_ui64Setter>> set_ui64,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_ui64qGetter>> get_ui64q,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_ui64qSetter>> set_ui64q,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_uiGetter>> get_ui,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_uiSetter>> set_ui,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_uiqGetter>> get_uiq,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_uiqSetter>> set_uiq,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_i8Getter>> get_i8,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_i8Setter>> set_i8,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_i8qGetter>> get_i8q,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_i8qSetter>> set_i8q,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_i16Getter>> get_i16,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_i16Setter>> set_i16,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_i16qGetter>> get_i16q,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_i16qSetter>> set_i16q,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_i32Getter>> get_i32,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_i32Setter>> set_i32,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_i32qGetter>> get_i32q,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_i32qSetter>> set_i32q,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_i64Getter>> get_i64,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_i64Setter>> set_i64,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_i64qGetter>> get_i64q,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_i64qSetter>> set_i64q,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_iGetter>> get_i,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_iSetter>> set_i,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_iqGetter>> get_iq,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_iqSetter>> set_iq,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_fGetter>> get_f,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_fSetter>> set_f,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_fqGetter>> get_fq,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_fqSetter>> set_fq,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_dGetter>> get_d,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_dSetter>> set_d,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_dqGetter>> get_dq,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Primitives_PrimitiveHolder_dqSetter>> set_dq,
             OutCreatedRef exn
         )
     >('TestAPI_Primitives_PrimitiveHolder_setup');
@@ -360,11 +504,17 @@ final ensureLoaded = (() {
         ffi.Void Function(
             Env env,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MemberwiseStructConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MemberwiseStruct_immutableGetter>> get_immutable,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MemberwiseStruct_mutableGetter>> get_mutable,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MemberwiseStruct_mutableSetter>> set_mutable,
             OutCreatedRef exn
         ),
         void Function(
             Env env,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MemberwiseStructConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MemberwiseStruct_immutableGetter>> get_immutable,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MemberwiseStruct_mutableGetter>> get_mutable,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MemberwiseStruct_mutableSetter>> set_mutable,
             OutCreatedRef exn
         )
     >('TestAPI_Structs_MemberwiseStruct_setup');
@@ -372,11 +522,15 @@ final ensureLoaded = (() {
         ffi.Void Function(
             Env env,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MutableStructConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MutableStruct_iGetter>> get_i,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MutableStruct_iSetter>> set_i,
             OutCreatedRef exn
         ),
         void Function(
             Env env,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MutableStructConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MutableStruct_iGetter>> get_i,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MutableStruct_iSetter>> set_i,
             OutCreatedRef exn
         )
     >('TestAPI_Structs_MutableStruct_setup');
@@ -5449,6 +5603,7 @@ final ensureLoaded = (() {
             Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_setup(
                 Loader.shared.env,
                 ffi.Pointer.fromFunction(TestAPI.AttributedString_PuttingTypesIntoQuestionablePlaces.ffi_constructor),
+                ffi.Pointer.fromFunction(TestAPI.AttributedString_PuttingTypesIntoQuestionablePlaces.ffi_get_x),
                 exn
             );
         });
@@ -5460,6 +5615,7 @@ final ensureLoaded = (() {
             Swift_String_PuttingTypesIntoQuestionablePlaces_setup(
                 Loader.shared.env,
                 ffi.Pointer.fromFunction(TestAPI.String_PuttingTypesIntoQuestionablePlaces.ffi_constructor),
+                ffi.Pointer.fromFunction(TestAPI.String_PuttingTypesIntoQuestionablePlaces.ffi_get_x),
                 exn
             );
         });
@@ -5495,6 +5651,24 @@ final ensureLoaded = (() {
             TestAPI_Collections_CollectionHolder_setup(
                 Loader.shared.env,
                 ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_constructor),
+                ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_get_boolArray),
+                ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_set_boolArray),
+                ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_get_boolSet),
+                ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_set_boolSet),
+                ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_get_boolDictionary),
+                ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_set_boolDictionary),
+                ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_get_integerArray),
+                ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_set_integerArray),
+                ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_get_integerSet),
+                ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_set_integerSet),
+                ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_get_integerDictionary),
+                ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_set_integerDictionary),
+                ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_get_stringArray),
+                ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_set_stringArray),
+                ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_get_stringSet),
+                ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_set_stringSet),
+                ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_get_stringDictionary),
+                ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_set_stringDictionary),
                 exn
             );
         });
@@ -5506,6 +5680,58 @@ final ensureLoaded = (() {
             TestAPI_Primitives_PrimitiveHolder_setup(
                 Loader.shared.env,
                 ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_constructor),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_b, false),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_b),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_bq),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_bq),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_ui8, 0),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_ui8),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_ui8q),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_ui8q),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_ui16, 0),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_ui16),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_ui16q),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_ui16q),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_ui32, 0),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_ui32),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_ui32q),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_ui32q),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_ui64, 0),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_ui64),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_ui64q),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_ui64q),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_ui, 0),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_ui),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_uiq),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_uiq),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_i8, 0),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_i8),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_i8q),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_i8q),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_i16, 0),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_i16),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_i16q),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_i16q),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_i32, 0),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_i32),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_i32q),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_i32q),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_i64, 0),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_i64),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_i64q),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_i64q),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_i, 0),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_i),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_iq),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_iq),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_f, 0.0),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_f),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_fq),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_fq),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_d, 0.0),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_d),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_dq),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_dq),
                 exn
             );
         });
@@ -5517,6 +5743,9 @@ final ensureLoaded = (() {
             TestAPI_Structs_MemberwiseStruct_setup(
                 Loader.shared.env,
                 ffi.Pointer.fromFunction(TestAPI.Structs_MemberwiseStruct.ffi_constructor),
+                ffi.Pointer.fromFunction(TestAPI.Structs_MemberwiseStruct.ffi_get_immutable),
+                ffi.Pointer.fromFunction(TestAPI.Structs_MemberwiseStruct.ffi_get_mutable),
+                ffi.Pointer.fromFunction(TestAPI.Structs_MemberwiseStruct.ffi_set_mutable),
                 exn
             );
         });
@@ -5528,6 +5757,8 @@ final ensureLoaded = (() {
             TestAPI_Structs_MutableStruct_setup(
                 Loader.shared.env,
                 ffi.Pointer.fromFunction(TestAPI.Structs_MutableStruct.ffi_constructor),
+                ffi.Pointer.fromFunction(TestAPI.Structs_MutableStruct.ffi_get_i, 0),
+                ffi.Pointer.fromFunction(TestAPI.Structs_MutableStruct.ffi_set_i),
                 exn
             );
         });

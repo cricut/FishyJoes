@@ -484,6 +484,7 @@ class DartProductClass: DartClass {
                     }
                 }
             }
+            fragment.blankLine()
         }
     }
     
@@ -581,10 +582,8 @@ class DartProductClass: DartClass {
                     }
                 }
 
-                if !conformances.isEmpty {
-                    ffiFor(fields: fields, fragment: fragment)
-                    fragment.blankLine()
-                }
+                ffiFor(fields: fields, fragment: fragment)
+                fragment.blankLine()
 
                 toStringImpl(fields: fields, fragment: fragment)
                 fragment.blankLine()

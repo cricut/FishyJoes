@@ -103,6 +103,151 @@ class Collections_CollectionHolder {
             stringDictionary: consumeRef(stringDictionary),
         ))
     );
+
+    static CreatedRef ffi_get_boolArray(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Collections_CollectionHolder>(obj).boolArray
+        )
+    );
+    static void ffi_set_boolArray(
+        UnownedRef obj,
+        ConsumedRef newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        peekRef<Collections_CollectionHolder>(obj).boolArray = consumeRef<List<bool>>(newValue);
+    });
+
+    static CreatedRef ffi_get_boolSet(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Collections_CollectionHolder>(obj).boolSet
+        )
+    );
+    static void ffi_set_boolSet(
+        UnownedRef obj,
+        ConsumedRef newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        peekRef<Collections_CollectionHolder>(obj).boolSet = consumeRef<Set<bool>>(newValue);
+    });
+
+    static CreatedRef ffi_get_boolDictionary(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Collections_CollectionHolder>(obj).boolDictionary
+        )
+    );
+    static void ffi_set_boolDictionary(
+        UnownedRef obj,
+        ConsumedRef newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        peekRef<Collections_CollectionHolder>(obj).boolDictionary = consumeRef<Map<bool, bool>>(newValue);
+    });
+
+    static CreatedRef ffi_get_integerArray(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Collections_CollectionHolder>(obj).integerArray
+        )
+    );
+    static void ffi_set_integerArray(
+        UnownedRef obj,
+        ConsumedRef newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        peekRef<Collections_CollectionHolder>(obj).integerArray = consumeRef<List<int>>(newValue);
+    });
+
+    static CreatedRef ffi_get_integerSet(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Collections_CollectionHolder>(obj).integerSet
+        )
+    );
+    static void ffi_set_integerSet(
+        UnownedRef obj,
+        ConsumedRef newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        peekRef<Collections_CollectionHolder>(obj).integerSet = consumeRef<Set<int>>(newValue);
+    });
+
+    static CreatedRef ffi_get_integerDictionary(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Collections_CollectionHolder>(obj).integerDictionary
+        )
+    );
+    static void ffi_set_integerDictionary(
+        UnownedRef obj,
+        ConsumedRef newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        peekRef<Collections_CollectionHolder>(obj).integerDictionary = consumeRef<Map<int, int>>(newValue);
+    });
+
+    static CreatedRef ffi_get_stringArray(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Collections_CollectionHolder>(obj).stringArray
+        )
+    );
+    static void ffi_set_stringArray(
+        UnownedRef obj,
+        ConsumedRef newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        peekRef<Collections_CollectionHolder>(obj).stringArray = consumeRef<List<String>>(newValue);
+    });
+
+    static CreatedRef ffi_get_stringSet(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Collections_CollectionHolder>(obj).stringSet
+        )
+    );
+    static void ffi_set_stringSet(
+        UnownedRef obj,
+        ConsumedRef newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        peekRef<Collections_CollectionHolder>(obj).stringSet = consumeRef<Set<String>>(newValue);
+    });
+
+    static CreatedRef ffi_get_stringDictionary(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Collections_CollectionHolder>(obj).stringDictionary
+        )
+    );
+    static void ffi_set_stringDictionary(
+        UnownedRef obj,
+        ConsumedRef newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        peekRef<Collections_CollectionHolder>(obj).stringDictionary = consumeRef<Map<String, String>>(newValue);
+    });
+
     @override
     String toString() => 'Collections_CollectionHolder(boolArray: $boolArray, boolSet: $boolSet, boolDictionary: $boolDictionary, integerArray: $integerArray, integerSet: $integerSet, integerDictionary: $integerDictionary, stringArray: $stringArray, stringSet: $stringSet, stringDictionary: $stringDictionary)';
 
