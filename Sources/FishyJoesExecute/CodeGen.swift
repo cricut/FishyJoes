@@ -481,18 +481,17 @@ extension CodeGen {
                         // TODO: When SwiftPM supports product dependencies on targets within the same package, use them instead
                         // See: https://forums.swift.org/t/pitch-swiftpm-allow-targets-to-depend-on-products-in-the-same-package/57717/37
                         let shimDir = "Sources\(ps)Generated\(ps)NodeNativeShim"
-                        try template(
-                            inPath: "\(fishyJoesDependency.localPath)\(ps)Sources\(ps)FishyJoesNodeRuntime\(ps)Templates\(ps)Package.swift.NodeNativeShim",
-                            outPath: "\(shimDir)\(ps)Package.swift",
-                            moduleName: nodeModule.name,
-                            dependencies: nodeDependencies.map(\.name)
-                        )
-                        try withDirectory(shimDir) {
-                            try platform.build(product: "\(nodeModule.name)-node-shim", libs: ["\(nodeModule.name)-node-shim"], configuration: configuration)
-                        }
-                        let shimDylibPath = try withDirectory(shimDir) { try "\(platform.buildDir(configuration))\(ps)\(platform.dylibName(for: nodeModule.nodeShimLibName))" }
-                        let nodeNativeLibPath = try "\(platform.buildDir(configuration))\(ps)\(platform.dylibName(for: nodeModule.nodeShimLibName))"
-                        try cmd("cp", shimDylibPath, nodeNativeLibPath).run()
+                        try cmd(
+                            "clang",
+                            "-shared",
+                            "-undefined", "dynamic_lookup",
+                            "-rpath", "@loader_path",
+                            "-L\(platform.buildDir(configuration))",
+                            "-l\(nodeModule.nativeLibName)",
+                            "-I\(fishyJoesDependency.localPath)\(ps)Sources\(ps)NodeAPI",
+                            "\(shimDir)\(ps)NAPIRegisterModule.c",
+                            "-o", "\(platform.buildDir(configuration))\(ps)\(platform.dylibName(for: nodeModule.nodeShimLibName))"
+                        ).run()
                         try installLibrary(nodeModule.nodeShimLibName, installName: nodeModule.nodeShimCJSName)
 
                         // Create the required Javascript files for loading the module's native library from node

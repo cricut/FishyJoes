@@ -19,3 +19,12 @@ public func registerModuleRuntime(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try AttributedString.UnicodeScalarView.nodeSetup(env: env, module: module)
     return exports
 }
+
+@available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
+@_cdecl("registerModuleRuntime")
+public func registerModuleRuntimeC(env: napi_env, exports: napi_value) -> napi_value? {
+    let swiftNapiEnv = NAPI.Env(ptr: env)
+    return rethrowToNode(env: swiftNapiEnv) {
+        try registerModuleRuntime(env: swiftNapiEnv, exports: .init(ptr: exports))
+    }
+}

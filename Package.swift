@@ -16,9 +16,6 @@ func generationEnabled<T>(_ things: @autoclosure () -> [T]) -> [T] {
     return []
     #endif
 }
-typealias P = Product
-typealias D = Package.Dependency
-typealias T = Target
 
 func wasmIncompatible<T>(_ things: @autoclosure () -> [T]) -> [T] {
     wasmCompatibleOnly ? [] : things()
@@ -31,6 +28,10 @@ func linkNodeExecutable<T>(_ things: @autoclosure () -> [T]) -> [T] {
     return []
     #endif
 }
+
+typealias P = Product
+typealias D = Package.Dependency
+typealias T = Target
 
 let package = Package(
     name: "FishyJoes",

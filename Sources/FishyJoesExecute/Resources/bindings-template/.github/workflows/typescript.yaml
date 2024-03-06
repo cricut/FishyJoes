@@ -75,6 +75,8 @@ jobs:
       - name: Publish NPM Package
         if: success() && github.event_name == 'release'
         shell: zsh {0}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euxo pipefail
 
@@ -151,6 +153,8 @@ jobs:
       - name: Publish NPM Package
         if: success() && github.event_name == 'release'
         shell: zsh {0}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euxo pipefail
 
@@ -221,10 +225,12 @@ jobs:
 
       - name: Publish NPM Package
         if: success() && github.event_name == 'release'
-        shell: zsh {0}
+        shell: bash
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euxo pipefail
 
           for package in cricut-*.tgz; do
-            npm publish $package
+            npm publish "$package"
           done
