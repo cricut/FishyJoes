@@ -733,6 +733,7 @@ class DartProductClass: DartClass {
                         }
                     }
                 }
+                fragment.blankLine()
             }
 
             fields.forEach { output(field: $0, to: fragment) }
