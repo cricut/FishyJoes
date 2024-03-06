@@ -127,6 +127,7 @@ class Structs_MutableStruct {
     }) => Structs_MutableStruct(
         i: i ?? this.i
     );
+
     /// <!-- FishyJoes.export(asyncGetI) -->
     Future<int> asyncGetI(
     ) =>

@@ -97,6 +97,7 @@ class AttributedString_PuttingTypesIntoQuestionablePlaces {
     }) => AttributedString_PuttingTypesIntoQuestionablePlaces(
         x: x ?? this.x
     );
+
     /// <!-- FishyJoes.export(testCall) -->
     int testCall(
     ) =>

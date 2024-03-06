@@ -119,6 +119,7 @@ class Structs_MemberwiseStruct {
         immutable: immutable ?? this.immutable,
         mutable: mutable ?? this.mutable
     );
+
     /// <!-- FishyJoes.export(asyncGetMutable) -->
     Future<String> asyncGetMutable(
     ) =>

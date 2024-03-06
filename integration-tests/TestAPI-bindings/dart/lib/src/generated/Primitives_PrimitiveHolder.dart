@@ -343,6 +343,7 @@ class Primitives_PrimitiveHolder {
         d: d ?? this.d,
         dq: dq ?? this.dq
     );
+
     /// <!-- FishyJoes.export(staticProperty) -->
     static List<int?> get staticProperty =>
         check((exn) =>

@@ -186,6 +186,7 @@ class Collections_CollectionHolder {
         stringSet: stringSet ?? this.stringSet,
         stringDictionary: stringDictionary ?? this.stringDictionary
     );
+
     /// <!-- FishyJoes.export(staticProperty) -->
     static List<int?> get staticProperty =>
         check((exn) =>
