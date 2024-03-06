@@ -485,7 +485,7 @@ extension CodeGen {
                             "clang",
                             "-shared",
                             "-undefined", "dynamic_lookup",
-                            "-rpath", "@loader_path",
+                            "-rpath", platform.platform == "node-native-ubuntu" ? "$ORIGIN" : "@loader_path",
                             "-L\(platform.buildDir(configuration))",
                             "-l\(nodeModule.nativeLibName)",
                             "-I\(fishyJoesDependency.localPath)\(ps)Sources\(ps)NodeAPI",
