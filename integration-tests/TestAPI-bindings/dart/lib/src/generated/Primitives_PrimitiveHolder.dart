@@ -289,7 +289,7 @@ class Primitives_PrimitiveHolder {
         )
     );
 
-    Primitives_PrimitiveHolder copyWith([
+    Primitives_PrimitiveHolder copyWith({
         bool? b,
         bool? bq,
         int? ui8,
@@ -316,7 +316,7 @@ class Primitives_PrimitiveHolder {
         double? fq,
         double? d,
         double? dq
-    ]) => Primitives_PrimitiveHolder(
+    }) => Primitives_PrimitiveHolder(
         b: b ?? this.b,
         bq: bq ?? this.bq,
         ui8: ui8 ?? this.ui8,

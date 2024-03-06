@@ -113,10 +113,10 @@ class Structs_MemberwiseStruct {
         const DeepCollectionEquality().hash(mutable)
     );
 
-    Structs_MemberwiseStruct copyWith([
+    Structs_MemberwiseStruct copyWith({
         String? immutable,
         String? mutable
-    ]) => Structs_MemberwiseStruct(
+    }) => Structs_MemberwiseStruct(
         immutable: immutable ?? this.immutable,
         mutable: mutable ?? this.mutable
     );

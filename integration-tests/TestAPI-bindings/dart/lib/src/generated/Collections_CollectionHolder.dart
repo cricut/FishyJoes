@@ -166,7 +166,7 @@ class Collections_CollectionHolder {
         const DeepCollectionEquality().hash(stringDictionary)
     );
 
-    Collections_CollectionHolder copyWith([
+    Collections_CollectionHolder copyWith({
         List<bool>? boolArray,
         Set<bool>? boolSet,
         Map<bool, bool>? boolDictionary,
@@ -176,7 +176,7 @@ class Collections_CollectionHolder {
         List<String>? stringArray,
         Set<String>? stringSet,
         Map<String, String>? stringDictionary
-    ]) => Collections_CollectionHolder(
+    }) => Collections_CollectionHolder(
         boolArray: boolArray ?? this.boolArray,
         boolSet: boolSet ?? this.boolSet,
         boolDictionary: boolDictionary ?? this.boolDictionary,

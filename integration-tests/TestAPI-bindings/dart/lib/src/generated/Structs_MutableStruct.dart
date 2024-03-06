@@ -123,9 +123,9 @@ class Structs_MutableStruct {
         const DeepCollectionEquality().hash(i)
     );
 
-    Structs_MutableStruct copyWith([
+    Structs_MutableStruct copyWith({
         int? i
-    ]) => Structs_MutableStruct(
+    }) => Structs_MutableStruct(
         i: i ?? this.i
     );
     /// <!-- FishyJoes.export(asyncGetI) -->

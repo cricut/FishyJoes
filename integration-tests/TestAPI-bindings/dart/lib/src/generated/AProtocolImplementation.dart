@@ -99,9 +99,9 @@ class AProtocolImplementation implements TestAPI.AProtocol {
         const DeepCollectionEquality().hash(foo)
     );
 
-    AProtocolImplementation copyWith([
+    AProtocolImplementation copyWith({
         int? foo
-    ]) => AProtocolImplementation(
+    }) => AProtocolImplementation(
         foo: foo ?? this.foo
     );
 }
