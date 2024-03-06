@@ -342,9 +342,6 @@ class Methods extends SwiftReference {
         )
     );
 
-    @override
-    String toString() => 'Methods(staticGet: $staticGet, staticGetMethod: $staticGetMethod, staticModifiable: $staticModifiable, staticStored: $staticStored, instanceGet: $instanceGet, garply: $garply, instanceGetMethod: $instanceGetMethod, instanceModifiable: $instanceModifiable, instanceStored: $instanceStored)';
-
     /// <!-- FishyJoes.export(staticGet) -->
     static int get staticGet =>
         check((exn) =>

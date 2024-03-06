@@ -69,6 +69,8 @@ class Structs_MemberwiseStruct {
             mutable: consumeRef(mutable),
         ))
     );
+    @override
+    String toString() => 'Structs_MemberwiseStruct(immutable: $immutable, mutable: $mutable)';
 
     static CreatedRef ffi_asyncGetMutable(
         UnownedRef obj,
@@ -89,9 +91,6 @@ class Structs_MemberwiseStruct {
             )
         )
     );
-
-    @override
-    String toString() => 'Structs_MemberwiseStruct()';
 
     @override
     bool operator ==(Object other) {

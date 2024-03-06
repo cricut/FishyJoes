@@ -63,6 +63,8 @@ class Structs_MutableStruct {
             i: i,
         ))
     );
+    @override
+    String toString() => 'Structs_MutableStruct(i: $i)';
 
     static CreatedRef ffi_asyncGetI(
         UnownedRef obj,
@@ -101,9 +103,6 @@ class Structs_MutableStruct {
             )
         )
     );
-
-    @override
-    String toString() => 'Structs_MutableStruct()';
 
     @override
     bool operator ==(Object other) {

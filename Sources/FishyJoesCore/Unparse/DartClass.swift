@@ -580,12 +580,14 @@ class DartProductClass: DartClass {
                         }
                     }
                 }
-                
+
                 if !conformances.isEmpty {
                     ffiFor(fields: fields, fragment: fragment)
                     fragment.blankLine()
-                    toStringImpl(fields: fields, fragment: fragment)
                 }
+
+                toStringImpl(fields: fields, fragment: fragment)
+                fragment.blankLine()
             }
 
             fragment.blankLine()
@@ -643,7 +645,8 @@ class DartProductClass: DartClass {
             
             fragment.blankLine()
 
-            if conformances.isEmpty {
+            if storedFields.isEmpty,
+               constructor != .reference {
                 toStringImpl(fields: fields, fragment: fragment)
             }
 

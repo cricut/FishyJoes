@@ -103,6 +103,8 @@ class Collections_CollectionHolder {
             stringDictionary: consumeRef(stringDictionary),
         ))
     );
+    @override
+    String toString() => 'Collections_CollectionHolder(boolArray: $boolArray, boolSet: $boolSet, boolDictionary: $boolDictionary, integerArray: $integerArray, integerSet: $integerSet, integerDictionary: $integerDictionary, stringArray: $stringArray, stringSet: $stringSet, stringDictionary: $stringDictionary)';
 
     static CreatedRef ffi_get_staticProperty(
         UnownedRef obj,
@@ -128,9 +130,6 @@ class Collections_CollectionHolder {
     ) => catching(exn, () {
         Collections_CollectionHolder.staticMutableProperty = consumeRef<List<int?>>(newValue);
     });
-
-    @override
-    String toString() => 'Collections_CollectionHolder(staticProperty: $staticProperty, staticMutableProperty: $staticMutableProperty)';
 
     @override
     bool operator ==(Object other) {
