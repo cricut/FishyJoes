@@ -289,6 +289,61 @@ class Primitives_PrimitiveHolder {
         )
     );
 
+    Primitives_PrimitiveHolder copyWith([
+        bool? b,
+        bool? bq,
+        int? ui8,
+        int? ui8q,
+        int? ui16,
+        int? ui16q,
+        int? ui32,
+        int? ui32q,
+        int? ui64,
+        int? ui64q,
+        int? ui,
+        int? uiq,
+        int? i8,
+        int? i8q,
+        int? i16,
+        int? i16q,
+        int? i32,
+        int? i32q,
+        int? i64,
+        int? i64q,
+        int? i,
+        int? iq,
+        double? f,
+        double? fq,
+        double? d,
+        double? dq
+    ]) => Primitives_PrimitiveHolder(
+        b: b ?? this.b,
+        bq: bq ?? this.bq,
+        ui8: ui8 ?? this.ui8,
+        ui8q: ui8q ?? this.ui8q,
+        ui16: ui16 ?? this.ui16,
+        ui16q: ui16q ?? this.ui16q,
+        ui32: ui32 ?? this.ui32,
+        ui32q: ui32q ?? this.ui32q,
+        ui64: ui64 ?? this.ui64,
+        ui64q: ui64q ?? this.ui64q,
+        ui: ui ?? this.ui,
+        uiq: uiq ?? this.uiq,
+        i8: i8 ?? this.i8,
+        i8q: i8q ?? this.i8q,
+        i16: i16 ?? this.i16,
+        i16q: i16q ?? this.i16q,
+        i32: i32 ?? this.i32,
+        i32q: i32q ?? this.i32q,
+        i64: i64 ?? this.i64,
+        i64q: i64q ?? this.i64q,
+        i: i ?? this.i,
+        iq: iq ?? this.iq,
+        f: f ?? this.f,
+        fq: fq ?? this.fq,
+        d: d ?? this.d,
+        dq: dq ?? this.dq
+    );
     /// <!-- FishyJoes.export(staticProperty) -->
     static List<int?> get staticProperty =>
         check((exn) =>

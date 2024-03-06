@@ -93,6 +93,11 @@ class AttributedString_PuttingTypesIntoQuestionablePlaces {
         const DeepCollectionEquality().hash(x)
     );
 
+    AttributedString_PuttingTypesIntoQuestionablePlaces copyWith([
+        String? x
+    ]) => AttributedString_PuttingTypesIntoQuestionablePlaces(
+        x: x ?? this.x
+    );
     /// <!-- FishyJoes.export(testCall) -->
     int testCall(
     ) =>

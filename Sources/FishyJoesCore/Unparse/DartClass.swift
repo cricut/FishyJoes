@@ -706,6 +706,30 @@ class DartProductClass: DartClass {
                 }
                 fragment.blankLine()
             }
+            
+            if constructor != .reference {
+                fragment.output("\(unqualifiedName) copyWith", newLineTerminated: false)
+                if storedFields.isEmpty {
+                    fragment.output("()", newLineTerminated: false)
+                } else {
+                    fragment.outputBlock("([", closeWith: "])", newLineTerminated: false) {
+                        fragment.outputMap(storedFields, separator: ",") {
+                            "\($0.type.name(in: self).replacingOccurrences(of: "?", with: ""))? \(DartClass.deforbidify($0.name))"
+                        }
+                    }
+                }
+                fragment.output(" => \(unqualifiedName)", newLineTerminated: false)
+                if storedFields.isEmpty {
+                    fragment.output("();")
+                } else {
+                    fragment.outputBlock("(", closeWith: ");") {
+                        fragment.outputMap(storedFields, separator: ",") {
+                            let name = "\(DartClass.deforbidify($0.name))"
+                            return "\(name): \(name) ?? this.\(name)"
+                        }
+                    }
+                }
+            }
 
             fields.forEach { output(field: $0, to: fragment) }
             methods.forEach { output(method: $0, to: fragment) }
