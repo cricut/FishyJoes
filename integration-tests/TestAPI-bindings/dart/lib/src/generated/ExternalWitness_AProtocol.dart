@@ -52,6 +52,8 @@ class ExternalWitness_AProtocol extends SwiftReference implements TestAPI.AProto
     static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
         createRef(ExternalWitness_AProtocol(ref))
     );
+    @override
+    String toString() => 'ExternalWitness_AProtocol(foo: $foo)';
 
     static int ffi_get_foo(
         UnownedRef obj,
@@ -59,9 +61,6 @@ class ExternalWitness_AProtocol extends SwiftReference implements TestAPI.AProto
     ) => catching(exn, () =>
         peekRef<ExternalWitness_AProtocol>(obj).foo
     ) ?? 0;
-
-    @override
-    String toString() => 'ExternalWitness_AProtocol(foo: $foo)';
 
     /// <!-- FishyJoes.export(foo) -->
     int get foo =>

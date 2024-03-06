@@ -486,6 +486,15 @@ class DartProductClass: DartClass {
             }
         }
     }
+    
+    private func toStringImpl(fields: [Variable], fragment: SourceFragment) {
+        fragment.output("@override")
+        fragment.output("String toString() => '\(unqualifiedName)(", newLineTerminated: false)
+        let toStringParamsString = fields.map { "\(DartClass.deforbidify($0.name)): $\(DartClass.deforbidify($0.name))" }.joined(separator: ", ")
+        fragment.output("\(toStringParamsString))';")
+        
+        fragment.blankLine()
+    }
 
     override func output(to fragment: SourceFragment) {
         var conformancesPart = ""
@@ -507,11 +516,14 @@ class DartProductClass: DartClass {
             switch constructor {
             case .reference:
                 fragment.output("\(unqualifiedName)(ffi.Pointer reference): super(reference) {}")
-
+                
                 fragment.outputBlock("static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>", closeWith: ");") {
                     fragment.output("createRef(\(unqualifiedName)(ref))")
                 }
-            fragment.blankLine()
+                if !conformances.isEmpty {
+                    toStringImpl(fields: fields, fragment: fragment)
+                }
+                fragment.blankLine()
             case .public(let fields):
                 for field in fields {
                     let type = field.type.name(in: self)
@@ -568,6 +580,8 @@ class DartProductClass: DartClass {
                 
                 if !conformances.isEmpty {
                     ffiFor(fields: fields, fragment: fragment)
+                    fragment.blankLine()
+                    toStringImpl(fields: fields, fragment: fragment)
                 }
             }
 
@@ -625,13 +639,10 @@ class DartProductClass: DartClass {
             }
             
             fragment.blankLine()
-            
-            fragment.output("@override")
-            fragment.output("String toString() => '\(unqualifiedName)(", newLineTerminated: false)
-            let toStringParamsString = fields.map { "\(DartClass.deforbidify($0.name)): $\(DartClass.deforbidify($0.name))" }.joined(separator: ", ")
-            fragment.output("\(toStringParamsString))';")
-            
-            fragment.blankLine()
+
+            if conformances.isEmpty {
+                toStringImpl(fields: fields, fragment: fragment)
+            }
 
             if constructor != .reference {
                 fragment.output("@override")

@@ -79,7 +79,7 @@ class AProtocolImplementation implements TestAPI.AProtocol {
     });
 
     @override
-    String toString() => 'AProtocolImplementation()';
+    String toString() => 'AProtocolImplementation(foo: $foo)';
 
     @override
     bool operator ==(Object other) {
