@@ -908,10 +908,6 @@ class DartEnumClass: DartClass {
                 }
 
                 fragment.blankLine()
-                
-                if unqualifiedName.contains("ReferenceStruct") {
-                    let r = 3
-                }
 
                 fragment.output("@override")
                 fragment.output("bool operator ==(Object other)", newLineTerminated: false)
