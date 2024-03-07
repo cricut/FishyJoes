@@ -52,3 +52,36 @@ abstract class AProtocol {
     /// <!-- FishyJoes.export(baz) -->
     bool get baz;
 }
+
+extension AProtocol_DefaultImplementations on AProtocol {
+    String hasADefaultImplementation(
+        int x,
+        double y
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_AProtocol_hasADefaultImplementation(Loader.shared.env, _thisHandle.ptr, x, y, _exn)))
+        )
+    ;
+
+    static CreatedRef ffi_hasADefaultImplementation(
+        UnownedRef obj,
+        int x,
+        double y,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<AProtocol>(obj).hasADefaultImplementation(
+                x,
+                y
+            )
+        )
+    );
+
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        int x,
+        double y,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_AProtocol_hasADefaultImplementation;
+}

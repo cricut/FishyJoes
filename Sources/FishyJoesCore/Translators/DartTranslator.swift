@@ -17,6 +17,7 @@ final class DartTranslator: Translator {
         var definingDartClass: String
         var args: [(name: String, type: DartClass.DartType)]
         var returnType: DartClass.DartType
+        var isInExtension: Bool
     }
 
     public var nativeMethods: [NativeMethod] = []
@@ -106,8 +107,12 @@ final class DartTranslator: Translator {
         }
 
         for nativeMethod in nativeMethods.sorted(by: { $0.name < $1.name }) {
+            if nativeMethod.name.contains("hasADefault") {
+                let a = 1
+            }
+            let definingDartClass = nativeMethod.definingDartClass + (nativeMethod.isInExtension ? "_DefaultImplementations" : "")
             externDeclarations.append { fragment in
-                fragment.outputBlock("\(nativeMethod.definingDartClass).f\(nativeMethod.name) = dylib.lookupFunction<", closeWith: ">", newLineTerminated: false) {
+                fragment.outputBlock("\(definingDartClass).f\(nativeMethod.name) = dylib.lookupFunction<", closeWith: ">", newLineTerminated: false) {
                     fragment.outputBlock("\(nativeMethod.returnType.ffiCreatedTag) Function(", closeWith: "),") {
                         fragment.output("Env env,")
                         for (argName, argType) in nativeMethod.args {

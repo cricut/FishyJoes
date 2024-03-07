@@ -23,7 +23,25 @@ interface AProtocol {
         y: Long
     ): com.cricut.testapi.AProtocol
 
+    /**
+     * <!-- FishyJoes.export(hasADefaultImplementation) -->
+     */
+    fun hasADefaultImplementation(
+        x: Long,
+        y: Double
+    ): kotlin.String = __jni__default_hasADefaultImplementation(this, x, y)
+
     companion object {
+        /**
+         * <!-- FishyJoes.export(hasADefaultImplementation) -->
+         */
+        @JvmName("__jni__default_hasADefaultImplementation")
+        private external fun __jni__default_hasADefaultImplementation(
+            self: AProtocol,
+            x: Long,
+            y: Double
+        ): kotlin.String
+
         init {
             loadNativeLibs()
         }

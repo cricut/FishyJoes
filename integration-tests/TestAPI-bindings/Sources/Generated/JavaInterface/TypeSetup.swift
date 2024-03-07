@@ -481,6 +481,14 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up TestAPI_CommonInterface._AProtocolConverter...")
         try TestAPI_CommonInterface._AProtocolConverter.javaSetup(env: env)
         try env.RegisterNatives(
+            TestAPI_CommonInterface._AProtocolConverter.externalCompanionClass,
+            JNINativeMethod(
+                name: bag.add("__jni__default_hasADefaultImplementation"),
+                signature: bag.add("(Lcom/cricut/testapi/AProtocol;JD)Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__AProtocolConverter__default_hasADefaultImplementation, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        try env.RegisterNatives(
             TestAPI_CommonInterface._AProtocolConverter.externalWitnessClass ?? TestAPI_CommonInterface._AProtocolConverter.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_bar"),

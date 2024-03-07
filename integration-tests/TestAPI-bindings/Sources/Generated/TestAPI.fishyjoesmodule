@@ -1867,6 +1867,37 @@
                     "_0" : "TestAPI.AProtocol"
                   }
                 }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(hasADefaultImplementation) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "hasADefaultImplementation",
+                "parameters" : [
+                  {
+                    "name" : "x",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "y",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
               }
             ],
             "name" : "AProtocol"

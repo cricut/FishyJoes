@@ -199,6 +199,7 @@ typedef _TestAPI_AProtocolConstructor = CreatedRef Function(
 typedef _TestAPI_AProtocol_fooGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_AProtocol_bazGetter = ffi.Bool Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_AProtocol_bar = CreatedRef Function(UnownedRef obj, ffi.Int x, ffi.Int y, OutCreatedRef exn);
+typedef _TestAPI_AProtocol_hasADefaultImplementation = CreatedRef Function(UnownedRef obj, ffi.Int x, ffi.Double y, OutCreatedRef exn);
 typedef _TestAPI_AProtocolImplementationConstructor = CreatedRef Function(
     ConsumedRef foo,
     ffi.Bool baz,
@@ -571,6 +572,7 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocol_fooGetter>> get_foo,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocol_bazGetter>> get_baz,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocol_bar>> bar,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocol_hasADefaultImplementation>> hasADefaultImplementation,
             OutCreatedRef exn
         ),
         void Function(
@@ -579,6 +581,7 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocol_fooGetter>> get_foo,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocol_bazGetter>> get_baz,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocol_bar>> bar,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocol_hasADefaultImplementation>> hasADefaultImplementation,
             OutCreatedRef exn
         )
     >('TestAPI_CommonInterface__AProtocolConverter_setup');
@@ -898,6 +901,22 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_AProtocol_bar");
+    TestAPI.AProtocol_DefaultImplementations.f__iota_TestAPI_AProtocol_hasADefaultImplementation = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            ffi.Int x,
+            ffi.Double y,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            int x,
+            double y,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_AProtocol_hasADefaultImplementation");
     TestAPI.Actors_TemperatureLogger.f__iota_TestAPI_Actors_TemperatureLogger_create = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -5853,6 +5872,7 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.ExternalWitness_AProtocol.ffi_get_foo),
                 ffi.Pointer.fromFunction(TestAPI.ExternalWitness_AProtocol.ffi_get_baz, false),
                 ffi.Pointer.fromFunction(TestAPI.ExternalWitness_AProtocol.ffi_bar),
+                ffi.Pointer.fromFunction(TestAPI.AProtocol_DefaultImplementations.ffi_hasADefaultImplementation),
                 exn
             );
         });

@@ -45,6 +45,40 @@ struct _IotaAProtocol: TestAPI.AProtocol {
             env: _iotaWitness.env
         )
     }
+
+    public func hasADefaultImplementation(x: Int, y: Double) throws -> String {
+        try Swift.String.peekIota(
+            try _iotaWitness.env.check { exn in
+                TestAPI_CommonInterface._AProtocolConverter._hasADefaultImplementation[_iotaWitness.env](
+                    _iotaWitness.object,
+                    try Swift.Int.toIota(x, env: _iotaWitness.env),
+                    try Swift.Double.toIota(y, env: _iotaWitness.env),
+                    exn
+                )
+            },
+            env: _iotaWitness.env
+        )
+    }
+}
+
+struct _IotaAProtocol_sans_hasADefaultImplementation: TestAPI.AProtocol {
+    var wrapped: TestAPI.AProtocol
+
+    public var foo: String {
+        get throws {
+            try wrapped.foo
+        }
+    }
+
+    public var baz: Bool {
+        get throws {
+            try wrapped.baz
+        }
+    }
+
+    public func bar(x: Int, y: Int) throws -> AProtocol {
+        try wrapped.bar(x: x, y: y)
+    }
 }
 
 @_cdecl("TestAPI_CommonInterface__AProtocolConverter_setup")
@@ -59,6 +93,12 @@ public func TestAPI_CommonInterface__AProtocolConverter_setup(
         Swift.Int,
         _ exn: foreignOutExn
     ) -> TestAPI_CommonInterface._AProtocolConverter.CType,
+    _ hasADefaultImplementation: @escaping @convention(c) (
+        foreignObject,
+        Swift.Int,
+        Swift.Double,
+        _ exn: foreignOutExn
+    ) -> Swift.String.CType,
     _ exn: foreignOutExn
 ) {
     let env = Env(envRef)
@@ -67,6 +107,7 @@ public func TestAPI_CommonInterface__AProtocolConverter_setup(
     TestAPI_CommonInterface._AProtocolConverter._fooGetter[env] = fooGetter
     TestAPI_CommonInterface._AProtocolConverter._bazGetter[env] = bazGetter
     TestAPI_CommonInterface._AProtocolConverter._bar[env] = bar
+    TestAPI_CommonInterface._AProtocolConverter._hasADefaultImplementation[env] = hasADefaultImplementation
 }
 
 extension TestAPI_CommonInterface._AProtocolConverter: IotaMutator {
@@ -84,6 +125,12 @@ extension TestAPI_CommonInterface._AProtocolConverter: IotaMutator {
         Swift.Int,
         _ exn: foreignOutExn
     ) -> TestAPI_CommonInterface._AProtocolConverter.CType>()
+    fileprivate static let _hasADefaultImplementation = Env.CallbackMap<@convention(c) (
+        foreignObject,
+        Swift.Int,
+        Swift.Double,
+        _ exn: foreignOutExn
+    ) -> Swift.String.CType>()
 
     public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
         do {

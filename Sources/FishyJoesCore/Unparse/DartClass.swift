@@ -123,16 +123,23 @@ class DartClass {
         String(name.split(separator: ".").last!)
     }
 
-    var nativeMethods: [String: (args: [(String, DartType)], return: DartType)] {
-        var result: [String: (args: [(String, DartType)], return: DartType)] = [:]
+    var nativeMethods: [String: (args: [(String, DartType)], return: DartType, isInExtension: Bool)] {
+        // Don't add nativeMethods for DartProtocolClass to dartTranslator
+        // They will be handled by the ExternalWitness for that Protocol
+        // except for default Implementations!
+        var result: [String: (args: [(String, DartType)], return: DartType, isInExtension: Bool)] = [:]
 
         let thisArg = ("_this", DartType.named(package: module.dartNamespace, name: name))
 
-        for field in fields {
-            let baseArgs = field.isStatic ? [] : [thisArg]
-            result["__iota_get_\(field.mangledName)"] = (args: baseArgs, return: field.type)
-            if field.isPubliclyWritable {
-                result["__iota_set_\(field.mangledName)"] = (args: baseArgs + [(field.name, field.type)], return: .void)
+        // TODO: handle default implementation of properties/fields in protocols here
+        if !(self is DartProtocolClass) {
+            for field in fields {
+                let baseArgs = field.isStatic ? [] : [thisArg]
+                
+                result["__iota_get_\(field.mangledName)"] = (args: baseArgs, return: field.type, isInExtension: false)
+                if field.isPubliclyWritable {
+                    result["__iota_set_\(field.mangledName)"] = (args: baseArgs + [(field.name, field.type)], return: .void, isInExtension: false)
+                }
             }
         }
 
@@ -146,14 +153,18 @@ class DartClass {
             for param in method.parameters {
                 params.append((param.name, param.type))
             }
-            result["__iota_\(method.mangledName)"] = (args: params, return: method.returnType)
+            
+            if !(self is DartProtocolClass) ||
+                ((self is DartProtocolClass) && method.isInExtension) {
+                result["__iota_\(method.mangledName)"] = (args: params, return: method.returnType, isInExtension: (self is DartProtocolClass))
+            }
         }
 
         return result
     }
 
     func outputNativeMethodDeclarations(to fragment: SourceFragment) {
-        for (name, (args, returnType)) in nativeMethods.sorted(by: { $0.key < $1.key}) {
+        for (name, (args, returnType, _)) in nativeMethods.sorted(by: { $0.key < $1.key}) {
             fragment.outputBlock("static late \(returnType.ffiCreatedName) Function(", closeWith: ") f\(name);") {
                 fragment.output("Env env,")
                 for (argName, argType) in args {
@@ -1076,7 +1087,8 @@ class DartProtocolClass: DartClass {
 
         fragment.blankLine()
         
-        fragment.outputBlock("extension \(unqualifiedName)_DefaultImplementations on \(unqualifiedName) {") {
+        let defaultImplsName = "\(unqualifiedName)_DefaultImplementations"
+        fragment.outputBlock("extension \(defaultImplsName) on \(unqualifiedName) {") {
             for method in defaultMethods {
                 // Dart does not support static method inheritance like Swift does.
                 guard !method.isStatic else {
@@ -1106,11 +1118,88 @@ class DartProtocolClass: DartClass {
                         }
                     }
                 }
-                fragment.outputBlock(" {") {
-                    fragment.output("return \"$y ----> $x\";")
+                
+                fragment.outputBlock(" =>", closeWith: ";") {
+                    var wrap: (() -> Void) -> Void = { body in
+                        if !method.isStatic {
+                            fragment.outputBlock("GCRef.using(this, (_thisHandle) =>", closeWith: ")", body)
+                        } else {
+                            body()
+                        }
+                    }
+
+                    var paramStrings: [String] = method.isStatic ? [] : ["_thisHandle.ptr"]
+                    // Keep the parameters in original order here, because the swift-side expects them in that order
+                    for param in method.parameters {
+                        if param.type.isObject {
+                            let oldWrap = wrap
+                            wrap = { body in
+                                oldWrap {
+                                    fragment.outputBlock("GCRef.using(\(DartClass.deforbidify(param.name)), (_\(param.name)Handle) =>", closeWith: ")", body)
+                                }
+                            }
+                            paramStrings.append("_\(param.name)Handle.ptr")
+                        } else {
+                            paramStrings.append("\(DartClass.deforbidify(param.name))")
+                        }
+                    }
+                    paramStrings.append("_exn")
+
+                    let body = "check((OutCreatedRef _exn) => f__iota_\(method.mangledName)(Loader.shared.env, \(paramStrings.joined(separator: ", "))))"
+                    wrap {
+                        if method.returnType.isObject {
+                            fragment.output("consumeCreatedRef<\(method.returnType.name(in: self))>(\(body))")
+                        } else {
+                            fragment.output(body)
+                        }
+                    }
+                }
+                fragment.blankLine()
+                
+                fragment.outputBlock("static \(method.returnType.ffiCreatedName) ffi_\(method.name)(", newLineTerminated: false) {
+                    fragment.output("UnownedRef obj,")
+                    for param in method.parameters {
+                        fragment.output("\(param.type.name()) \(param.name),")
+                    }
+                    fragment.output("OutCreatedRef exn")
+                }
+                var wrapper: (() -> Void) -> Void
+                if method.returnType.isObject {
+                    wrapper = { body in
+                        fragment.outputBlock("catchingRef(exn, () =>", closeWith: ");") {
+                            fragment.outputBlock("createRef(") {
+                                body()
+                            }
+                        }
+                    }
+                } else {
+                    wrapper = { body in
+                        let defaultValue = method.returnType.defaultReturnValue.map { " ?? \($0)" } ?? ""
+                        fragment.outputBlock("catching(exn, () =>", closeWith: ")\(defaultValue);") {
+                            body()
+                        }
+                    }
+                }
+                
+                fragment.output(" => ", newLineTerminated: false)
+                wrapper {
+                    let methodCall: String
+                    if method.isStatic {
+                        methodCall = "\(defaultImplsName).\(method.name)"
+                    } else {
+                        methodCall = "peekRef<\(unqualifiedName)>(obj).\(method.name)"
+                    }
+                    let prefix = method.isStatic ? defaultImplsName : "peekRef<\(unqualifiedName)>(obj)"
+                    fragment.outputBlock("\(methodCall)(", closeWith: ")") {
+                        fragment.outputMap(method.parameters, separator: ",") {
+                            $0.name
+                        }
+                    }
                 }
                 fragment.blankLine()
             }
+            fragment.blankLine()
+            outputNativeMethodDeclarations(to: fragment)
         }
     }
 }

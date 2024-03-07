@@ -11,20 +11,20 @@ public protocol AProtocol {
     /// <!-- FishyJoes.export(baz) -->
     var baz: Bool { get throws }
 
-//    /// <!-- FishyJoes.export(hasADefaultImplementation) -->
-//    func hasADefaultImplementation(x: Int, y: Double) throws -> String
+    /// <!-- FishyJoes.export(hasADefaultImplementation) -->
+    func hasADefaultImplementation(x: Int, y: Double) throws -> String
 //
 //    /// <!-- FishyJoes.export(hasADefaultImplementation2) -->
 //    func hasADefaultImplementation2(_ a: String, b: Bool, _: Double) throws -> Double
 }
 
-//extension AProtocol {
-//    /// <!-- FishyJoes.export(hasADefaultImplementation) -->
-//    public func hasADefaultImplementation(x: Int, y: Double) throws -> String {
-//        let b = try bar(x: x, y: Int(round(y * 3.14159265359)))
-//        return try b.baz ? "bazzy \(b.foo)" : "\(b.foo) notBazzed"
-//    }
-//
+extension AProtocol {
+    /// <!-- FishyJoes.export(hasADefaultImplementation) -->
+    public func hasADefaultImplementation(x: Int, y: Double) throws -> String {
+        let b = try bar(x: x, y: Int(round(y * 3.14159265359)))
+        return try b.baz ? "bazzy \(b.foo)" : "\(b.foo) notBazzed"
+    }
+
 //    /// <!-- FishyJoes.export(hasADefaultImplementation2) -->
 //    public func hasADefaultImplementation2(_ a: String, b: Bool, _ c: Double) throws -> Double {
 //        guard let d = Double(a) else {
@@ -32,8 +32,8 @@ public protocol AProtocol {
 //        }
 //        return b ? pow(d, 3.23) : pow(c, 4.5)
 //    }
-//}
-//
+}
+
 /// <!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->
 public struct AProtocolImplementation: AProtocol {
     public var foo: String

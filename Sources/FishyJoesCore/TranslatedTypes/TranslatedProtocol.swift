@@ -171,7 +171,10 @@ struct TranslatedProtocol: TranslatedType {
             )
         }
 
-        for method in methods {
+        let normalMethods = methods.filter { !$0.isInExtension }
+        let defaultMethods = methods.filter { $0.isInExtension }
+
+        for method in normalMethods {
             let resolvedReturn = context.resolve(type: method.returnType)
             let commonName = "_\(sourceType.genericBaseName.mangledName)_\(method.callName)"
 
@@ -182,6 +185,21 @@ struct TranslatedProtocol: TranslatedType {
                 ) { fragment in
                     let defaultValue = resolvedReturn.dartType.defaultReturnValue.map { ", \($0)" } ?? ""
                     fragment.output("ffi.Pointer.fromFunction(\(context.module.name).\(iotaExternalWitnessClassName).ffi_\(method.callName)\(defaultValue)),")
+                }
+            )
+        }
+
+        for method in defaultMethods {
+            let resolvedReturn = context.resolve(type: method.returnType)
+            let commonName = "_\(sourceType.genericBaseName.mangledName)_\(method.callName)"
+
+            setupParams.append(
+                .value(
+                    name: method.callName,
+                    type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(commonName)>>")
+                ) { fragment in
+                    let defaultValue = resolvedReturn.dartType.defaultReturnValue.map { ", \($0)" } ?? ""
+                    fragment.output("ffi.Pointer.fromFunction(\(sourceType.name)_DefaultImplementations.ffi_\(method.callName)\(defaultValue)),")
                 }
             )
         }

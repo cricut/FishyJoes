@@ -22,6 +22,14 @@ export declare namespace TestAPI {
             x: number,
             y: number
         ): TestAPI.AProtocol;
+
+        /**
+         * <!-- FishyJoes.export(hasADefaultImplementation) -->
+         */
+        hasADefaultImplementation(
+            x: number,
+            y: number
+        ): string;
     }
 
     /**

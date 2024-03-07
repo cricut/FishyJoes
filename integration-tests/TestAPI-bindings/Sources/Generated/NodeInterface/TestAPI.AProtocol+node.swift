@@ -16,6 +16,10 @@ struct _NodeAProtocol: TestAPI.AProtocol {
     public func bar(x: Int, y: Int) throws -> AProtocol {
         barImpl!()
     }
+    var hasADefaultImplementationImpl: (() -> String)?
+    public func hasADefaultImplementation(x: Int, y: Double) throws -> String {
+        hasADefaultImplementationImpl!()
+    }
 }
 extension TestAPI_CommonInterface._AProtocolConverter: NodeMutator {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
@@ -49,6 +53,21 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeMutator {
                                 env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self).bar(
                                     x: try env.argument(at: 0, converter: Swift.Int.self),
                                     y: try env.argument(at: 1, converter: Swift.Int.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                ),
+                "hasADefaultImplementation": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation", expectedArgumentCount: 2, hasNamedOptions: false) { env in
+                            let result = try Swift.String.toNode(
+                                env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self).hasADefaultImplementation(
+                                    x: try env.argument(at: 0, converter: Swift.Int.self),
+                                    y: try env.argument(at: 1, converter: Swift.Double.self)
                                 ),
                                 env: env.env
                             )
