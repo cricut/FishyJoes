@@ -200,7 +200,8 @@ final class DartTranslator: Translator {
                 parameters: parameters,
                 returnType: method.isAsync ? .future(returnType) : returnType,
                 deprecation: method.deprecation,
-                body: nil
+                body: nil,
+                isInExtension: method.isInExtension
             )
         )
     }

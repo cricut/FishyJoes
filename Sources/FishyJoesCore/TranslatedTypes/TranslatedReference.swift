@@ -523,7 +523,8 @@ struct TranslatedReference: TranslatedType {
                             "GCRef.using(this, (thisHandle) =>",
                             "    GCRef.using(other as \(dartType.name()), (otherHandle) =>",
                             "        check((exn) => f__iota_\(sourceType.name.mangled)_equals(Loader.shared.env, thisHandle.ptr, otherHandle.ptr, exn))))",
-                        ]
+                        ],
+                        isInExtension: false
                     )
                 )
             )
@@ -540,7 +541,8 @@ struct TranslatedReference: TranslatedType {
                         ],
                         returnType: .primitive("bool", ffiName: "Bool"),
                         deprecation: nil,
-                        body: nil
+                        body: nil, 
+                        isInExtension: false
                     )
                 )
             )

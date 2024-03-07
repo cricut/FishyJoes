@@ -28,6 +28,7 @@ class DartClass {
         let returnType: DartType
         let deprecation: Deprecation?
         let body: [String]?
+        let isInExtension: Bool
     }
 
     struct Variable: Equatable {
@@ -1007,12 +1008,14 @@ class DartProtocolClass: DartClass {
     override func output(to fragment: SourceFragment) {
         document(documentation, fragment: fragment)
 
-        fragment.output("abstract class \(unqualifiedName)", newLineTerminated: false)
-        fragment.outputBlock(" {", closeWith: "}") {
-            for method in methods {
+        let normalMethods = methods.filter { !$0.isInExtension }
+        let defaultMethods = methods.filter { $0.isInExtension }
+
+        fragment.outputBlock("abstract class \(unqualifiedName) {") {
+            for method in normalMethods {
                 // Dart does not support static method inheritance like Swift does.
                 guard !method.isStatic else {
-                    fragment.output("// \(method.name) static methods on protocols not supported in Dart.")
+                    fragment.output("// \(method.name) omitted: static methods on protocols not supported in Dart.")
                     continue
                 }
 
@@ -1038,6 +1041,7 @@ class DartProtocolClass: DartClass {
                         }
                     }
                 }
+                fragment.blankLine()
             }
 
             for field in fields {
@@ -1071,6 +1075,43 @@ class DartProtocolClass: DartClass {
         }
 
         fragment.blankLine()
+        
+        fragment.outputBlock("extension \(unqualifiedName)_DefaultImplementations on \(unqualifiedName) {") {
+            for method in defaultMethods {
+                // Dart does not support static method inheritance like Swift does.
+                guard !method.isStatic else {
+                    fragment.output("// \(method.name) omitted: static methods on protocols not supported in Dart.")
+                    continue
+                }
+
+                fragment.output("\(method.isStatic ? "static " : "")", newLineTerminated: false)
+                fragment.outputBlock("\(method.returnType.name(in: self)) \(method.name)(", closeWith: ")", newLineTerminated: false) {
+                    func argumentString(parameter: Method.Parameter) -> String {
+                        let labelComment = parameter.labelComment.map { "/* \($0) */ " } ?? ""
+                        return "\(parameter.type.name(in: self)) \(labelComment)\(DartClass.deforbidify(parameter.name))"
+                    }
+
+                    // put all optional parameters at the end, or dart gets unhappy
+                    let requiredParams = method.parameters.filter { $0.defaultValue == nil }
+                    let optionalParams = method.parameters.filter { $0.defaultValue != nil }
+
+                    fragment.outputMap(requiredParams, separator: ",") {
+                        argumentString(parameter: $0)
+                    }
+                    if !optionalParams.isEmpty {
+                        fragment.outputBlock("[") {
+                            fragment.outputMap(optionalParams, separator: ",") {
+                                argumentString(parameter: $0)
+                            }
+                        }
+                    }
+                }
+                fragment.outputBlock(" {") {
+                    fragment.output("return \"$y ----> $x\";")
+                }
+                fragment.blankLine()
+            }
+        }
     }
 }
 
