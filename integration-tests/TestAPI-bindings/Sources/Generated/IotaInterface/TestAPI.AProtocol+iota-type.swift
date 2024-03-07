@@ -62,8 +62,7 @@ public func TestAPI_CommonInterface__AProtocolConverter_setup(
 extension TestAPI_CommonInterface._AProtocolConverter: IotaMutator {
     public typealias CType = foreignObject
     public typealias _ConstructorMethod = @convention(c) (
-        Swift.String.CType,
-        Swift.Bool.CType,
+        _ ref: UnsafeMutableRawPointer,
         _ exn: foreignOutExn
     ) -> foreignObject
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
@@ -87,10 +86,9 @@ extension TestAPI_CommonInterface._AProtocolConverter: IotaMutator {
 
     public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {
         try env.check { exn in
-            //here's where we should make a new witness with witness constructor
+            // here's where we should make a new witness with witness constructor
             _constructorMethod[env](
-                try Swift.String.toIota(value.foo, env: env),
-                try Swift.Bool.toIota(value.baz, env: env),
+                Box(value).retainedOpaque(),
                 exn
             )
         }

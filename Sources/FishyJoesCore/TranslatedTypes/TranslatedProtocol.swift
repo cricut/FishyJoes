@@ -435,10 +435,7 @@ struct TranslatedProtocol: TranslatedType {
             fragment.output("public typealias CType = foreignObject")
             
             fragment.outputBlock("public typealias _ConstructorMethod = @convention(c) (", closeWith: ") -> foreignObject") {
-                for computedVar in computedVariables {
-                    let resolved = context.resolve(type: computedVar.typeName.better)
-                    fragment.output("\(resolved.converterType.name).CType,")
-                }
+                fragment.output("_ ref: UnsafeMutableRawPointer,")
                 fragment.output("_ exn: foreignOutExn")
             }
             fragment.output("fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()")
@@ -474,12 +471,9 @@ struct TranslatedProtocol: TranslatedType {
 
             fragment.outputBlock("public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {") {
                 fragment.outputBlock("try env.check { exn in", closeWith: "}") {
-                    fragment.output("//here's where we should make a new witness with witness constructor")
+                    fragment.output("// here's where we should make a new witness with witness constructor")
                     fragment.outputBlock("_constructorMethod[env](") {
-                        for computedVar in computedVariables {
-                            let resolved = context.resolve(type: computedVar.typeName.better)
-                            fragment.output("try \(resolved.converterType.name).toIota(value.\(computedVar.name), env: env),")
-                        }
+                        fragment.output("Box(value).retainedOpaque(),")
                         fragment.output("exn")
                     }
                 }
