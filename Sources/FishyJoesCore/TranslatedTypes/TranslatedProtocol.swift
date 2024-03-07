@@ -396,6 +396,44 @@ struct TranslatedProtocol: TranslatedType {
         }
 
         fragment.blankLine()
+        
+        for defaultMethod in defaultMethods {
+            fragment.outputBlock("struct \(foreignProtocolType)_sans_\(defaultMethod.callName): \(sourceType.name) {", closeWith: "}") {
+                fragment.output("var wrapped: \(sourceType.name)")
+
+                for variable in computedVariables {
+                    fragment.output()
+                    let name = variable.name
+                    let type = variable.typeName.better.name
+                    fragment.outputBlock("public var \(name): \(type) {") {
+                        fragment.outputBlock("get throws {") {
+                            fragment.output("try wrapped.\(name)")
+                        }
+                    }
+                }
+                for method in methods {
+                    guard method.name != defaultMethod.name else {
+                        continue
+                    }
+                    fragment.output()
+                    let returnSignature = "\(method.isThrowing ? " throws" : "") -> \(method.returnType.name)"
+                    fragment.outputBlock("public func \(method.name)\(returnSignature) {", closeWith: "}") {
+                        var methodParamsStr = [String]()
+                        for param in method.parameters {
+                            if let paramLabel = param.label {
+                                methodParamsStr.append("\(paramLabel): \(param.name)")
+                            } else {
+                                methodParamsStr.append("\(param.name)")
+                            }
+                        }
+                        fragment.output("\(method.isThrowing ? "try " : "")wrapped.\(method.callName)(\(methodParamsStr.joined(separator: ", ")))")
+                    }
+                }
+            }
+            fragment.output()
+        }
+        
+        fragment.blankLine()
 
         fragment.output("@_cdecl(\"\(iotaSetupName)\")")
         fragment.outputBlock("public func \(iotaSetupName)(", newLineTerminated: false) {
