@@ -9,6 +9,12 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(foo) -->
          */
         readonly foo: number;
+
+        /**
+         * <!-- FishyJoes.export(increment) -->
+         */
+        increment(
+        ): void;
     }
 
     /**
@@ -18,6 +24,12 @@ export declare namespace TestAPI {
         constructor(foo: number)
 
         foo: number;
+
+        /**
+         * <!-- FishyJoes.export(increment) -->
+         */
+        increment(
+        ): void;
     }
 
     export type Actors = never;

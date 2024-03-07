@@ -197,12 +197,14 @@ typedef _TestAPI_AProtocolConstructor = CreatedRef Function(
     OutCreatedRef exn
 );
 typedef _TestAPI_AProtocol_fooGetter = ffi.Int Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_AProtocol_increment = ffi.Void Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_AProtocolImplementationConstructor = CreatedRef Function(
     ffi.Int foo,
     OutCreatedRef exn
 );
 typedef _TestAPI_AProtocolImplementation_fooGetter = ffi.Int Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_AProtocolImplementation_fooSetter = ffi.Void Function(UnownedRef obj, ffi.Int newValue, OutCreatedRef exn);
+typedef _TestAPI_AProtocolImplementation_increment = ffi.Void Function(UnownedRef obj, OutCreatedRef exn);
 typedef TestAPI_AssociatedDataEnum_new_thing = CreatedRef Function(
     ffi.Int value,
     OutCreatedRef _exn
@@ -563,12 +565,14 @@ final ensureLoaded = (() {
             Env env,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolConstructor>> constructor,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocol_fooGetter>> get_foo,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocol_increment>> increment,
             OutCreatedRef exn
         ),
         void Function(
             Env env,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolConstructor>> constructor,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocol_fooGetter>> get_foo,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocol_increment>> increment,
             OutCreatedRef exn
         )
     >('TestAPI_CommonInterface__AProtocolConverter_setup');
@@ -852,6 +856,30 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_testCall");
+    TestAPI.AProtocolImplementation.f__iota_TestAPI_AProtocolImplementation_increment = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_AProtocolImplementation_increment");
+    TestAPI.ExternalWitness_AProtocol.f__iota_TestAPI_AProtocol_increment = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_AProtocol_increment");
     TestAPI.Actors_TemperatureLogger.f__iota_TestAPI_Actors_TemperatureLogger_create = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -5793,6 +5821,7 @@ final ensureLoaded = (() {
                 Loader.shared.env,
                 ffi.Pointer.fromFunction(TestAPI.ExternalWitness_AProtocol.ffi_new),
                 ffi.Pointer.fromFunction(TestAPI.ExternalWitness_AProtocol.ffi_get_foo, 0),
+                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_AProtocol.ffi_increment),
                 exn
             );
         });

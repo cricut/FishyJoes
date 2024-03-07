@@ -483,6 +483,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try env.RegisterNatives(
             TestAPI_CommonInterface._AProtocolConverter.externalWitnessClass ?? TestAPI_CommonInterface._AProtocolConverter.javaClass,
             JNINativeMethod(
+                name: bag.add("__jni_increment"),
+                signature: bag.add("()V"),
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__AProtocolConverter_increment, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_get_foo"),
                 signature: bag.add("()J"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_AProtocol_foo, to: UnsafeMutableRawPointer.self)
@@ -490,6 +495,14 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         )
         // print("setting up TestAPI.AProtocolImplementation...")
         try TestAPI.AProtocolImplementation.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI.AProtocolImplementation.externalWitnessClass ?? TestAPI.AProtocolImplementation.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_increment"),
+                signature: bag.add("()V"),
+                fnPtr: unsafeBitCast(java_TestAPI_AProtocolImplementation_increment, to: UnsafeMutableRawPointer.self)
+            )
+        )
         // print("setting up TestAPI.Actors...")
         try TestAPI.Actors.javaSetup(env: env)
         // print("setting up TestAPI.AssociatedDataEnum...")

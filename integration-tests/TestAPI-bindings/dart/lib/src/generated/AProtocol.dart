@@ -41,6 +41,8 @@ import 'package:tuple/tuple.dart' as tuple;
 
 /// <!-- FishyJoes.export(AProtocol) -->
 abstract class AProtocol {
+    void increment(
+    );
 
     /// <!-- FishyJoes.export(foo) -->
     int get foo;

@@ -81,6 +81,14 @@ class AProtocolImplementation implements TestAPI.AProtocol {
     @override
     String toString() => 'AProtocolImplementation(foo: $foo)';
 
+    static void ffi_increment(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<AProtocolImplementation>(obj).increment(
+        )
+    );
+
     @override
     bool operator ==(Object other) {
         return identical(other, this) ||
@@ -104,4 +112,18 @@ class AProtocolImplementation implements TestAPI.AProtocol {
     }) => AProtocolImplementation(
         foo: foo ?? this.foo
     );
+
+    /// <!-- FishyJoes.export(increment) -->
+    void increment(
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            check((OutCreatedRef _exn) => f__iota_TestAPI_AProtocolImplementation_increment(Loader.shared.env, _thisHandle.ptr, _exn))
+        )
+    ;
+
+    static late void Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_AProtocolImplementation_increment;
 }

@@ -11,6 +11,10 @@ struct _NodeAProtocol: TestAPI.AProtocol {
     let _nodeWitness: NodeReference
 
     var foo: Int
+    var incrementImpl: (() -> Void)?
+    public func increment() throws {
+        incrementImpl!()
+    }
 }
 extension TestAPI_CommonInterface._AProtocolConverter: NodeMutator {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
@@ -35,6 +39,21 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeMutator {
             env: env,
             name: "AProtocol",
             properties: [
+                "increment": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "increment", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            var mutatingSelf = try env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self)
+                            let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
+                                mutatingSelf.increment(
+                                ),
+                                env: env.env
+                            )
+                            try Self.mutateNode(mutatingSelf, this: env.this(), env: env.env)
+                            return result
+                        }
+                    },
+                    isStatic: false
+                ),
                 "foo": (
                     .accessor(
                         getter: { env, info in

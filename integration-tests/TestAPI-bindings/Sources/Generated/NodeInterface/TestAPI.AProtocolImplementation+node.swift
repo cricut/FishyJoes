@@ -33,6 +33,21 @@ extension TestAPI.AProtocolImplementation: NodeMutator {
             env: env,
             name: "AProtocolImplementation",
             properties: [
+                "increment": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "increment", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            var mutatingSelf = try env.this(converter: TestAPI.AProtocolImplementation.self)
+                            let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
+                                mutatingSelf.increment(
+                                ),
+                                env: env.env
+                            )
+                            try Self.mutateNode(mutatingSelf, this: env.this(), env: env.env)
+                            return result
+                        }
+                    },
+                    isStatic: false
+                ),
                 "foo": (.stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in

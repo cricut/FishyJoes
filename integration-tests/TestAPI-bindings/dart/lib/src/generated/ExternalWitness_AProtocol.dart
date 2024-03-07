@@ -62,6 +62,14 @@ class ExternalWitness_AProtocol extends SwiftReference implements TestAPI.AProto
         peekRef<ExternalWitness_AProtocol>(obj).foo
     ) ?? 0;
 
+    static void ffi_increment(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<ExternalWitness_AProtocol>(obj).increment(
+        )
+    );
+
     /// <!-- FishyJoes.export(foo) -->
     int get foo =>
         GCRef.using(this, (_thisHandle) =>
@@ -70,7 +78,19 @@ class ExternalWitness_AProtocol extends SwiftReference implements TestAPI.AProto
             )
         )
     ;
+    /// <!-- FishyJoes.export(increment) -->
+    void increment(
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            check((OutCreatedRef _exn) => f__iota_TestAPI_AProtocol_increment(Loader.shared.env, _thisHandle.ptr, _exn))
+        )
+    ;
 
+    static late void Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_AProtocol_increment;
     static late int Function(
         Env env,
         UnownedRef _this,

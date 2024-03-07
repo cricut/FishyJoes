@@ -5,8 +5,8 @@ public protocol AProtocol {
     /// <!-- FishyJoes.export(foo) -->
     var foo: Int { get throws }
     
-//    /// <!-- FishyJoes.export(increment) -->
-//    mutating func increment() throws
+   /// <!-- FishyJoes.export(increment) -->
+   mutating func increment() throws
 
 //    /// <!-- FishyJoes.export(bar) -->
 //    func bar(x: Int, y: Int) throws -> AProtocol
@@ -52,10 +52,10 @@ public struct AProtocolImplementation: AProtocol {
 //    public func bar(x: Int, y: Int) throws -> AProtocol {
 //        AProtocolImplementation(foo: "\(x + y)", baz: x == 2)
 //    }
-//    /// <!-- FishyJoes.export(increment) -->
-//    mutating public func increment() throws {
-//        foo += 1
-//    }
+   /// <!-- FishyJoes.export(increment) -->
+   mutating public func increment() throws {
+       foo += 1
+   }
 }
 //
 ///// <!-- FishyJoes.export(TestMethodsProtocol) -->

@@ -12,6 +12,15 @@ private class _ExternalWitness_AProtocol private constructor(_swiftReference: Lo
     @JvmName("__jni_get_foo")
     private external fun __jni_get_foo(): Long
 
+    /**
+     * <!-- FishyJoes.export(increment) -->
+     */
+    override fun increment(
+    ): kotlin.Unit = __jni_increment()
+    @JvmName("__jni_increment")
+    private external fun __jni_increment(
+    ): kotlin.Unit
+
     companion object {
         init { loadNativeLibs() }
     }
