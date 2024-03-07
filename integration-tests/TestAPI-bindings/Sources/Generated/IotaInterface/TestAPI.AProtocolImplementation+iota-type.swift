@@ -12,6 +12,8 @@ public func TestAPI_AProtocolImplementation_setup(
     constructorMethod: @escaping TestAPI.AProtocolImplementation._ConstructorMethod,
     _ fooGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Int.CType,
     _ fooSetter: @escaping @convention(c) (foreignObject, Swift.Int.CType, _ exn: foreignOutExn) -> Void,
+    _ bazGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Bool.CType,
+    _ bazSetter: @escaping @convention(c) (foreignObject, Swift.Bool.CType, _ exn: foreignOutExn) -> Void,
     _ exn: foreignOutExn
 ) {
     let env = Env(envRef)
@@ -19,13 +21,18 @@ public func TestAPI_AProtocolImplementation_setup(
     TestAPI.AProtocolImplementation._constructorMethod[env] = constructorMethod
     TestAPI.AProtocolImplementation._fooGetter[env] = fooGetter
     TestAPI.AProtocolImplementation._fooSetter[env] = fooSetter
+    TestAPI.AProtocolImplementation._bazGetter[env] = bazGetter
+    TestAPI.AProtocolImplementation._bazSetter[env] = bazSetter
 }
 
 extension TestAPI.AProtocolImplementation: IotaMutator {
     fileprivate static let _fooGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Int.CType>()
     fileprivate static let _fooSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.Int.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _bazGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Bool.CType>()
+    fileprivate static let _bazSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.Bool.CType, _ exn: foreignOutExn) -> Void>()
     public typealias _ConstructorMethod = @convention(c) (
         Swift.Int.CType,
+        Swift.Bool.CType,
         _ exn: foreignOutExn
     ) -> foreignObject
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
@@ -35,6 +42,10 @@ extension TestAPI.AProtocolImplementation: IotaMutator {
             foo: try Swift.Int.consumeIota(
                 try env.check { exn in _fooGetter[env](value, exn) },
                 env: env
+            ),
+            baz: try Swift.Bool.consumeIota(
+                try env.check { exn in _bazGetter[env](value, exn) },
+                env: env
             )
         )
     }
@@ -43,6 +54,7 @@ extension TestAPI.AProtocolImplementation: IotaMutator {
         try env.check { exn in
             _constructorMethod[env](
                 try Swift.Int.toIota(value.foo, env: env),
+                try Swift.Bool.toIota(value.baz, env: env),
                 exn
             )
         }
@@ -52,6 +64,11 @@ extension TestAPI.AProtocolImplementation: IotaMutator {
         try env.check { exn in _fooSetter[env](
             this,
             try Swift.Int.toIota(value.foo, env: env),
+            exn
+        )}
+        try env.check { exn in _bazSetter[env](
+            this,
+            try Swift.Bool.toIota(value.baz, env: env),
             exn
         )}
     }

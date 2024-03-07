@@ -12,11 +12,16 @@ extension TestAPI.AProtocolImplementation: JavaMutator {
 
     public static var javaClass: jclass?
     private static var _java_foo_id: jfieldID!
+    private static var _java_baz_id: jfieldID!
     private static var _constructorMethodID: jmethodID!
     public static func fromJava(_ value: jobject?, env: Env) throws -> Self {
         Self(
             foo: try Swift.Int.fromJava(
                 env.GetLongField(value, Self._java_foo_id),
+                env: env
+            ),
+            baz: try Swift.Bool.fromJava(
+                env.GetBooleanField(value, Self._java_baz_id),
                 env: env
             )
         )
@@ -25,14 +30,16 @@ extension TestAPI.AProtocolImplementation: JavaMutator {
         try env.NewObject(
             Self.javaClass,
             Self._constructorMethodID,
-            jvalue(Swift.Int.toJava(value.foo, env: env))
+            jvalue(Swift.Int.toJava(value.foo, env: env)),
+            jvalue(Swift.Bool.toJava(value.baz, env: env))
         )
     }
     public static func javaSetup(env: Env) throws {
         guard javaClass == nil else { return }
         javaClass = try env.globalRef(env.FindClass("com/cricut/testapi/AProtocolImplementation"))
         _java_foo_id = try env.GetFieldID(javaClass, "foo", "J")
-        _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(J)V")
+        _java_baz_id = try env.GetFieldID(javaClass, "baz", "Z")
+        _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(JZ)V")
     }
     public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout Self) throws -> R) throws -> R {
         var mutatingSelf = try fromJava(this, env: env)
@@ -40,6 +47,10 @@ extension TestAPI.AProtocolImplementation: JavaMutator {
         try env.SetLongField(
             this, Self._java_foo_id,
             Swift.Int.toJava(mutatingSelf.foo, env: env)
+        )
+        try env.SetBooleanField(
+            this, Self._java_baz_id,
+            Swift.Bool.toJava(mutatingSelf.baz, env: env)
         )
         return result
     }
@@ -49,6 +60,10 @@ extension TestAPI.AProtocolImplementation: JavaMutator {
         try env.SetLongField(
             this, Self._java_foo_id,
             Swift.Int.toJava(mutatingSelf.foo, env: env)
+        )
+        try env.SetBooleanField(
+            this, Self._java_baz_id,
+            Swift.Bool.toJava(mutatingSelf.baz, env: env)
         )
         return result
     }

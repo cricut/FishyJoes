@@ -200,10 +200,13 @@ typedef _TestAPI_AProtocol_fooGetter = ffi.Int Function(UnownedRef obj, OutCreat
 typedef _TestAPI_AProtocol_increment = ffi.Void Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_AProtocolImplementationConstructor = CreatedRef Function(
     ffi.Int foo,
+    ffi.Bool baz,
     OutCreatedRef exn
 );
 typedef _TestAPI_AProtocolImplementation_fooGetter = ffi.Int Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_AProtocolImplementation_fooSetter = ffi.Void Function(UnownedRef obj, ffi.Int newValue, OutCreatedRef exn);
+typedef _TestAPI_AProtocolImplementation_bazGetter = ffi.Bool Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_AProtocolImplementation_bazSetter = ffi.Void Function(UnownedRef obj, ffi.Bool newValue, OutCreatedRef exn);
 typedef _TestAPI_AProtocolImplementation_increment = ffi.Void Function(UnownedRef obj, OutCreatedRef exn);
 typedef TestAPI_AssociatedDataEnum_new_thing = CreatedRef Function(
     ffi.Int value,
@@ -582,6 +585,8 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementationConstructor>> constructor,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementation_fooGetter>> get_foo,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementation_fooSetter>> set_foo,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementation_bazGetter>> get_baz,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementation_bazSetter>> set_baz,
             OutCreatedRef exn
         ),
         void Function(
@@ -589,6 +594,8 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementationConstructor>> constructor,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementation_fooGetter>> get_foo,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementation_fooSetter>> set_foo,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementation_bazGetter>> get_baz,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolImplementation_bazSetter>> set_baz,
             OutCreatedRef exn
         )
     >('TestAPI_AProtocolImplementation_setup');
@@ -5835,6 +5842,8 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.AProtocolImplementation.ffi_constructor),
                 ffi.Pointer.fromFunction(TestAPI.AProtocolImplementation.ffi_get_foo, 0),
                 ffi.Pointer.fromFunction(TestAPI.AProtocolImplementation.ffi_set_foo),
+                ffi.Pointer.fromFunction(TestAPI.AProtocolImplementation.ffi_get_baz, false),
+                ffi.Pointer.fromFunction(TestAPI.AProtocolImplementation.ffi_set_baz),
                 exn
             );
         });

@@ -1841,12 +1841,18 @@
             "constructor" : {
               "visible" : {
                 "names" : [
-                  "foo"
+                  "foo",
+                  "baz"
                 ],
                 "types" : [
                   {
                     "named" : {
                       "_0" : "number"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "boolean"
                     }
                   }
                 ]
@@ -1869,6 +1875,19 @@
                 "type" : {
                   "named" : {
                     "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "baz",
+                "readOnly" : false,
+                "type" : {
+                  "named" : {
+                    "_0" : "boolean"
                   }
                 }
               }

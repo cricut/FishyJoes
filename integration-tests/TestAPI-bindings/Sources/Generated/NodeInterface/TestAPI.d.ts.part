@@ -21,9 +21,11 @@ export declare namespace TestAPI {
      * <!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->
      */
     export class AProtocolImplementation {
-        constructor(foo: number)
+        constructor(foo: number, baz: boolean)
 
         foo: number;
+
+        baz: boolean;
 
         /**
          * <!-- FishyJoes.export(increment) -->

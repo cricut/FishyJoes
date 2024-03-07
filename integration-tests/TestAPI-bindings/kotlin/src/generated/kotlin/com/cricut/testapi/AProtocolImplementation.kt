@@ -7,7 +7,8 @@ import java.lang.Exception
  * <!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->
  */
 data class AProtocolImplementation(
-    override var foo: Long
+    override var foo: Long,
+    var baz: Boolean
 ): AProtocol {
     /**
      * <!-- FishyJoes.export(increment) -->

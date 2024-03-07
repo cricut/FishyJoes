@@ -10,7 +10,7 @@ void main() {
 
   group('ProtocolTests', () {
       test('testProtocolImplementation', () {
-        var a = AProtocolImplementation(foo: 34);
+        var a = AProtocolImplementation(foo: 34, baz: false);
         print("a: ${a}");
         a.increment();
         print("a incremented: ${a}");

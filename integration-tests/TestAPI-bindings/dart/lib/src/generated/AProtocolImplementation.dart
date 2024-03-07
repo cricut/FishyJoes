@@ -49,18 +49,23 @@ import 'package:tuple/tuple.dart' as tuple;
 /// <!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->
 class AProtocolImplementation implements TestAPI.AProtocol {
     int foo;
+    bool baz;
 
     AProtocolImplementation({
-        required int foo
+        required int foo,
+        required bool baz
     }):
-        this.foo = foo;
+        this.foo = foo,
+        this.baz = baz;
 
     static CreatedRef ffi_constructor(
         int foo,
+        bool baz,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(AProtocolImplementation(
             foo: foo,
+            baz: baz,
         ))
     );
 
@@ -78,8 +83,22 @@ class AProtocolImplementation implements TestAPI.AProtocol {
         peekRef<AProtocolImplementation>(obj).foo = newValue;
     });
 
+    static bool ffi_get_baz(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<AProtocolImplementation>(obj).baz
+    ) ?? false;
+    static void ffi_set_baz(
+        UnownedRef obj,
+        bool newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        peekRef<AProtocolImplementation>(obj).baz = newValue;
+    });
+
     @override
-    String toString() => 'AProtocolImplementation(foo: $foo)';
+    String toString() => 'AProtocolImplementation(foo: $foo, baz: $baz)';
 
     static void ffi_increment(
         UnownedRef obj,
@@ -96,7 +115,8 @@ class AProtocolImplementation implements TestAPI.AProtocol {
             other.runtimeType == runtimeType &&
             other is AProtocolImplementation &&
             (
-                const DeepCollectionEquality().equals(other.foo, foo)
+                const DeepCollectionEquality().equals(other.foo, foo) &&
+                const DeepCollectionEquality().equals(other.baz, baz)
             )
         );
     }
@@ -104,13 +124,16 @@ class AProtocolImplementation implements TestAPI.AProtocol {
     @override
     int get hashCode => Object.hash(
         runtimeType,
-        const DeepCollectionEquality().hash(foo)
+        const DeepCollectionEquality().hash(foo), 
+        const DeepCollectionEquality().hash(baz)
     );
 
     AProtocolImplementation copyWith({
-        int? foo
+        int? foo,
+        bool? baz
     }) => AProtocolImplementation(
-        foo: foo ?? this.foo
+        foo: foo ?? this.foo,
+        baz: baz ?? this.baz
     );
 
     /// <!-- FishyJoes.export(increment) -->
