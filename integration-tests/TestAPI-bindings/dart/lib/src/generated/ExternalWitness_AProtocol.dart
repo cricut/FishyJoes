@@ -53,45 +53,77 @@ class ExternalWitness_AProtocol extends SwiftReference implements TestAPI.AProto
         createRef(ExternalWitness_AProtocol(ref))
     );
     @override
-    String toString() => 'ExternalWitness_AProtocol(foo: $foo)';
+    String toString() => 'ExternalWitness_AProtocol(foo: $foo, baz: $baz)';
 
-    static int ffi_get_foo(
+    static CreatedRef ffi_get_foo(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<ExternalWitness_AProtocol>(obj).foo
+        )
+    );
+
+    static bool ffi_get_baz(
         UnownedRef obj,
         OutCreatedRef exn
     ) => catching(exn, () =>
-        peekRef<ExternalWitness_AProtocol>(obj).foo
-    ) ?? 0;
+        peekRef<ExternalWitness_AProtocol>(obj).baz
+    ) ?? false;
 
-    static void ffi_increment(
+    static CreatedRef ffi_bar(
         UnownedRef obj,
+        int x,
+        int y,
         OutCreatedRef exn
-    ) => catching(exn, () =>
-        peekRef<ExternalWitness_AProtocol>(obj).increment(
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<ExternalWitness_AProtocol>(obj).bar(
+                x,
+                y
+            )
         )
     );
 
     /// <!-- FishyJoes.export(foo) -->
-    int get foo =>
+    String get foo =>
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
-                f__iota_get_TestAPI_AProtocol_foo(Loader.shared.env, _thisHandle.ptr, exn)
+                consumeCreatedRef<String>(f__iota_get_TestAPI_AProtocol_foo(Loader.shared.env, _thisHandle.ptr, exn))
             )
         )
     ;
-    /// <!-- FishyJoes.export(increment) -->
-    void increment(
+    /// <!-- FishyJoes.export(baz) -->
+    bool get baz =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                f__iota_get_TestAPI_AProtocol_baz(Loader.shared.env, _thisHandle.ptr, exn)
+            )
+        )
+    ;
+    /// <!-- FishyJoes.export(bar) -->
+    TestAPI.AProtocol bar(
+        int x,
+        int y,
     ) =>
         GCRef.using(this, (_thisHandle) =>
-            check((OutCreatedRef _exn) => f__iota_TestAPI_AProtocol_increment(Loader.shared.env, _thisHandle.ptr, _exn))
+            consumeCreatedRef<TestAPI.AProtocol>(check((OutCreatedRef _exn) => f__iota_TestAPI_AProtocol_bar(Loader.shared.env, _thisHandle.ptr, x, y, _exn)))
         )
     ;
 
-    static late void Function(
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        int x,
+        int y,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_AProtocol_bar;
+    static late bool Function(
         Env env,
         UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_AProtocol_increment;
-    static late int Function(
+    ) f__iota_get_TestAPI_AProtocol_baz;
+    static late CreatedRef Function(
         Env env,
         UnownedRef _this,
         OutCreatedRef _exn

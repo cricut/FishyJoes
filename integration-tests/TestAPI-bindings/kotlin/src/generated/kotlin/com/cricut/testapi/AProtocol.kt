@@ -10,12 +10,18 @@ interface AProtocol {
     /**
      * <!-- FishyJoes.export(foo) -->
      */
-    val foo: Long
+    val foo: kotlin.String
     /**
-     * <!-- FishyJoes.export(increment) -->
+     * <!-- FishyJoes.export(baz) -->
      */
-    fun increment(
-    ): kotlin.Unit
+    val baz: Boolean
+    /**
+     * <!-- FishyJoes.export(bar) -->
+     */
+    fun bar(
+        x: Long,
+        y: Long
+    ): com.cricut.testapi.AProtocol
 
     companion object {
         init {

@@ -130,9 +130,13 @@ struct TranslatedProtocol: TranslatedType {
         }
         for method in methods {
             let returnType = context.resolve(type: method.returnType)
-            // TODO: put in Params here
             let commonName = "_\(sourceType.genericBaseName.mangledName)_\(method.callName)"
-            lines.append("typedef \(commonName) = \(returnType.dartType.ffiTag) Function(\(dartType.ffiUnownedTag) obj, OutCreatedRef exn);")
+            let params = method.parameters.map {
+                let resolved = context.resolve(type: $0.type)
+                return "\(resolved.dartType.ffiTag) \($0.name)"
+            }
+            let paramsStr = params.isEmpty ? "" : "\(params.joined(separator: ", ")),"
+            lines.append("typedef \(commonName) = \(returnType.dartType.ffiCreatedTag) Function(\(dartType.ffiUnownedTag) obj, \(paramsStr) OutCreatedRef exn);")
         }
         return lines
     }
@@ -379,9 +383,14 @@ struct TranslatedProtocol: TranslatedType {
                     }
                 }
                 fragment.outputBlock("\(method.isStatic ? "static " : "")public func \(method.callName)(\(paramSigs.joined(separator: ", ")))\(returnSignature) {") {
-                    fragment.output("// call dart function here somehow. It's got to be assigned somehow in the setup")
-                    // maybe construct a new dart instance that's a copy then somehow call the function on that instance?
-                    // it's got to be like _fooGetter[env] or constructorMethods[env] that's how the toIota works?
+                    // this might should be based on return type
+                    // consumeIota versus peekIota
+                    fragment.outputBlock("try \(converterType.name).peekIota(") {
+                        fragment.outputBlock("try _iotaWitness.env.check { exn in", closeWith: "},") {
+                            fragment.output("\(converterType.name)._\(method.callName)[_iotaWitness.env](_iotaWitness.object, exn)")
+                        }
+                        fragment.output("env: _iotaWitness.env")
+                    }
                 }
             }
         }

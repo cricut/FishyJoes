@@ -1785,12 +1785,18 @@
             "constructor" : {
               "visible" : {
                 "names" : [
-                  "foo"
+                  "foo",
+                  "baz"
                 ],
                 "types" : [
                   {
                     "named" : {
-                      "_0" : "number"
+                      "_0" : "string"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "boolean"
                     }
                   }
                 ]
@@ -1812,7 +1818,20 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "number"
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(baz) -->"
+                ],
+                "isStatic" : false,
+                "name" : "baz",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "boolean"
                   }
                 }
               }
@@ -1820,17 +1839,32 @@
             "methods" : [
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(increment) -->"
+                  "<!-- FishyJoes.export(bar) -->"
                 ],
                 "isAsync" : false,
                 "isStatic" : false,
-                "name" : "increment",
+                "name" : "bar",
                 "parameters" : [
-
+                  {
+                    "name" : "x",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "y",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "void"
+                    "_0" : "TestAPI.AProtocol"
                   }
                 }
               }
@@ -1847,7 +1881,7 @@
                 "types" : [
                   {
                     "named" : {
-                      "_0" : "number"
+                      "_0" : "string"
                     }
                   },
                   {
@@ -1874,7 +1908,7 @@
                 "readOnly" : false,
                 "type" : {
                   "named" : {
-                    "_0" : "number"
+                    "_0" : "string"
                   }
                 }
               },
@@ -1895,17 +1929,32 @@
             "methods" : [
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(increment) -->"
+                  "<!-- FishyJoes.export(bar) -->"
                 ],
                 "isAsync" : false,
                 "isStatic" : false,
-                "name" : "increment",
+                "name" : "bar",
                 "parameters" : [
-
+                  {
+                    "name" : "x",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "y",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "void"
+                    "_0" : "TestAPI.AProtocol"
                   }
                 }
               }

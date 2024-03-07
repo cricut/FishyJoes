@@ -7,17 +7,21 @@ import java.lang.Exception
  * <!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->
  */
 data class AProtocolImplementation(
-    override var foo: Long,
-    var baz: Boolean
+    override var foo: kotlin.String,
+    override var baz: Boolean
 ): AProtocol {
     /**
-     * <!-- FishyJoes.export(increment) -->
+     * <!-- FishyJoes.export(bar) -->
      */
-    override fun increment(
-    ): kotlin.Unit = __jni_increment()
-    @JvmName("__jni_increment")
-    private external fun __jni_increment(
-    ): kotlin.Unit
+    override fun bar(
+        x: Long,
+        y: Long
+    ): com.cricut.testapi.AProtocol = __jni_bar(x, y)
+    @JvmName("__jni_bar")
+    private external fun __jni_bar(
+        x: Long,
+        y: Long
+    ): com.cricut.testapi.AProtocol
 
     companion object {
         init { loadNativeLibs() }

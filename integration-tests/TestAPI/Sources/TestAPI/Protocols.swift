@@ -3,17 +3,14 @@ import Foundation
 /// <!-- FishyJoes.export(AProtocol) -->
 public protocol AProtocol {
     /// <!-- FishyJoes.export(foo) -->
-    var foo: Int { get throws }
-    
-   /// <!-- FishyJoes.export(increment) -->
-   mutating func increment() throws
+    var foo: String { get throws }
 
-//    /// <!-- FishyJoes.export(bar) -->
-//    func bar(x: Int, y: Int) throws -> AProtocol
+    /// <!-- FishyJoes.export(bar) -->
+    func bar(x: Int, y: Int) throws -> AProtocol
 
-//    /// <!-- FishyJoes.export(baz) -->
-//    var baz: Bool { get throws }
-//
+    /// <!-- FishyJoes.export(baz) -->
+    var baz: Bool { get throws }
+
 //    /// <!-- FishyJoes.export(hasADefaultImplementation) -->
 //    func hasADefaultImplementation(x: Int, y: Double) throws -> String
 //
@@ -39,22 +36,18 @@ public protocol AProtocol {
 //
 /// <!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->
 public struct AProtocolImplementation: AProtocol {
-    public var foo: Int
+    public var foo: String
     public var baz: Bool
-
-    public init(foo: Int, baz: Bool) {
+    
+    public init(foo: String, baz: Bool) {
         self.foo = foo
         self.baz = baz
     }
-
-//    /// <!-- FishyJoes.export(bar) -->
-//    public func bar(x: Int, y: Int) throws -> AProtocol {
-//        AProtocolImplementation(foo: "\(x + y)", baz: x == 2)
-//    }
-   /// <!-- FishyJoes.export(increment) -->
-   mutating public func increment() throws {
-       foo += 1
-   }
+    
+    /// <!-- FishyJoes.export(bar) -->
+    public func bar(x: Int, y: Int) throws -> AProtocol {
+        AProtocolImplementation(foo: "\(x + y)", baz: x == 2)
+    }
 }
 //
 ///// <!-- FishyJoes.export(TestMethodsProtocol) -->

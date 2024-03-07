@@ -48,39 +48,41 @@ import 'package:tuple/tuple.dart' as tuple;
 
 /// <!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->
 class AProtocolImplementation implements TestAPI.AProtocol {
-    int foo;
+    String foo;
     bool baz;
 
     AProtocolImplementation({
-        required int foo,
+        required String foo,
         required bool baz
     }):
         this.foo = foo,
         this.baz = baz;
 
     static CreatedRef ffi_constructor(
-        int foo,
+        ConsumedRef foo,
         bool baz,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(AProtocolImplementation(
-            foo: foo,
+            foo: consumeRef(foo),
             baz: baz,
         ))
     );
 
-    static int ffi_get_foo(
+    static CreatedRef ffi_get_foo(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catching(exn, () =>
-        peekRef<AProtocolImplementation>(obj).foo
-    ) ?? 0;
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<AProtocolImplementation>(obj).foo
+        )
+    );
     static void ffi_set_foo(
         UnownedRef obj,
-        int newValue,
+        ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<AProtocolImplementation>(obj).foo = newValue;
+        peekRef<AProtocolImplementation>(obj).foo = consumeRef<String>(newValue);
     });
 
     static bool ffi_get_baz(
@@ -100,11 +102,17 @@ class AProtocolImplementation implements TestAPI.AProtocol {
     @override
     String toString() => 'AProtocolImplementation(foo: $foo, baz: $baz)';
 
-    static void ffi_increment(
+    static CreatedRef ffi_bar(
         UnownedRef obj,
+        int x,
+        int y,
         OutCreatedRef exn
-    ) => catching(exn, () =>
-        peekRef<AProtocolImplementation>(obj).increment(
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<AProtocolImplementation>(obj).bar(
+                x,
+                y
+            )
         )
     );
 
@@ -129,24 +137,28 @@ class AProtocolImplementation implements TestAPI.AProtocol {
     );
 
     AProtocolImplementation copyWith({
-        int? foo,
+        String? foo,
         bool? baz
     }) => AProtocolImplementation(
         foo: foo ?? this.foo,
         baz: baz ?? this.baz
     );
 
-    /// <!-- FishyJoes.export(increment) -->
-    void increment(
+    /// <!-- FishyJoes.export(bar) -->
+    TestAPI.AProtocol bar(
+        int x,
+        int y,
     ) =>
         GCRef.using(this, (_thisHandle) =>
-            check((OutCreatedRef _exn) => f__iota_TestAPI_AProtocolImplementation_increment(Loader.shared.env, _thisHandle.ptr, _exn))
+            consumeCreatedRef<TestAPI.AProtocol>(check((OutCreatedRef _exn) => f__iota_TestAPI_AProtocolImplementation_bar(Loader.shared.env, _thisHandle.ptr, x, y, _exn)))
         )
     ;
 
-    static late void Function(
+    static late CreatedRef Function(
         Env env,
         UnownedRef _this,
+        int x,
+        int y,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_AProtocolImplementation_increment;
+    ) f__iota_TestAPI_AProtocolImplementation_bar;
 }

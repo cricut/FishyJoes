@@ -10,8 +10,8 @@ import TestAPI
 public func TestAPI_AProtocolImplementation_setup(
     envRef: EnvRef,
     constructorMethod: @escaping TestAPI.AProtocolImplementation._ConstructorMethod,
-    _ fooGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Int.CType,
-    _ fooSetter: @escaping @convention(c) (foreignObject, Swift.Int.CType, _ exn: foreignOutExn) -> Void,
+    _ fooGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
+    _ fooSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
     _ bazGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Bool.CType,
     _ bazSetter: @escaping @convention(c) (foreignObject, Swift.Bool.CType, _ exn: foreignOutExn) -> Void,
     _ exn: foreignOutExn
@@ -26,12 +26,12 @@ public func TestAPI_AProtocolImplementation_setup(
 }
 
 extension TestAPI.AProtocolImplementation: IotaMutator {
-    fileprivate static let _fooGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Int.CType>()
-    fileprivate static let _fooSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.Int.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _fooGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
+    fileprivate static let _fooSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
     fileprivate static let _bazGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Bool.CType>()
     fileprivate static let _bazSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.Bool.CType, _ exn: foreignOutExn) -> Void>()
     public typealias _ConstructorMethod = @convention(c) (
-        Swift.Int.CType,
+        Swift.String.CType,
         Swift.Bool.CType,
         _ exn: foreignOutExn
     ) -> foreignObject
@@ -39,7 +39,7 @@ extension TestAPI.AProtocolImplementation: IotaMutator {
 
     public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
         Self(
-            foo: try Swift.Int.consumeIota(
+            foo: try Swift.String.consumeIota(
                 try env.check { exn in _fooGetter[env](value, exn) },
                 env: env
             ),
@@ -53,7 +53,7 @@ extension TestAPI.AProtocolImplementation: IotaMutator {
     public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
         try env.check { exn in
             _constructorMethod[env](
-                try Swift.Int.toIota(value.foo, env: env),
+                try Swift.String.toIota(value.foo, env: env),
                 try Swift.Bool.toIota(value.baz, env: env),
                 exn
             )
@@ -63,7 +63,7 @@ extension TestAPI.AProtocolImplementation: IotaMutator {
     public static func mutateIota(_ this: foreignObject, to value: Self, env: Env) throws {
         try env.check { exn in _fooSetter[env](
             this,
-            try Swift.Int.toIota(value.foo, env: env),
+            try Swift.String.toIota(value.foo, env: env),
             exn
         )}
         try env.check { exn in _bazSetter[env](

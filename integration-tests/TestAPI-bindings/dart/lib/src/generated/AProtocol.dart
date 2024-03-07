@@ -41,9 +41,14 @@ import 'package:tuple/tuple.dart' as tuple;
 
 /// <!-- FishyJoes.export(AProtocol) -->
 abstract class AProtocol {
-    void increment(
+    TestAPI.AProtocol bar(
+        int x,
+        int y
     );
 
     /// <!-- FishyJoes.export(foo) -->
-    int get foo;
+    String get foo;
+
+    /// <!-- FishyJoes.export(baz) -->
+    bool get baz;
 }

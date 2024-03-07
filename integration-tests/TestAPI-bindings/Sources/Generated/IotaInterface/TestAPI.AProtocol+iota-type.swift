@@ -10,9 +10,9 @@ import TestAPI_CommonInterface
 struct _IotaAProtocol: TestAPI.AProtocol {
     let _iotaWitness: IotaReference
 
-    public var foo: Int {
+    public var foo: String {
         get throws {
-            try Int.consumeIota(
+            try String.consumeIota(
                 try _iotaWitness.env.check { exn in
                     TestAPI_CommonInterface._AProtocolConverter._fooGetter[_iotaWitness.env](_iotaWitness.object, exn)
                 },
@@ -21,8 +21,24 @@ struct _IotaAProtocol: TestAPI.AProtocol {
         }
     }
 
-    public func increment() throws {
-        // call dart function here somehow. It's got to be assigned somehow in the setup
+    public var baz: Bool {
+        get throws {
+            try Bool.consumeIota(
+                try _iotaWitness.env.check { exn in
+                    TestAPI_CommonInterface._AProtocolConverter._bazGetter[_iotaWitness.env](_iotaWitness.object, exn)
+                },
+                env: _iotaWitness.env
+            )
+        }
+    }
+
+    public func bar(x: Int, y: Int) throws -> AProtocol {
+        try TestAPI_CommonInterface._AProtocolConverter.peekIota(
+            try _iotaWitness.env.check { exn in
+                TestAPI_CommonInterface._AProtocolConverter._bar[_iotaWitness.env](_iotaWitness.object, exn)
+            },
+            env: _iotaWitness.env
+        )
     }
 }
 
@@ -30,26 +46,30 @@ struct _IotaAProtocol: TestAPI.AProtocol {
 public func TestAPI_CommonInterface__AProtocolConverter_setup(
     envRef: EnvRef,
     constructorMethod: @escaping TestAPI_CommonInterface._AProtocolConverter._ConstructorMethod,
-    _ fooGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Int.CType,
-    _ increment: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> FishyJoesCommonRuntime.VoidConverter.CType,
+    _ fooGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
+    _ bazGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Bool.CType,
+    _ bar: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> TestAPI_CommonInterface._AProtocolConverter.CType,
     _ exn: foreignOutExn
 ) {
     let env = Env(envRef)
     if TestAPI_CommonInterface._AProtocolConverter._constructorMethod.isInitialized(env) { return }
     TestAPI_CommonInterface._AProtocolConverter._constructorMethod[env] = constructorMethod
     TestAPI_CommonInterface._AProtocolConverter._fooGetter[env] = fooGetter
-    TestAPI_CommonInterface._AProtocolConverter._increment[env] = increment
+    TestAPI_CommonInterface._AProtocolConverter._bazGetter[env] = bazGetter
+    TestAPI_CommonInterface._AProtocolConverter._bar[env] = bar
 }
 
 extension TestAPI_CommonInterface._AProtocolConverter: IotaMutator {
     public typealias CType = foreignObject
     public typealias _ConstructorMethod = @convention(c) (
-        Swift.Int.CType,
+        Swift.String.CType,
+        Swift.Bool.CType,
         _ exn: foreignOutExn
     ) -> foreignObject
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
-    fileprivate static let _fooGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Int.CType>()
-    fileprivate static let _increment = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> FishyJoesCommonRuntime.VoidConverter.CType>()
+    fileprivate static let _fooGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
+    fileprivate static let _bazGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Bool.CType>()
+    fileprivate static let _bar = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> TestAPI_CommonInterface._AProtocolConverter.CType>()
 
     public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
         do {
@@ -69,7 +89,8 @@ extension TestAPI_CommonInterface._AProtocolConverter: IotaMutator {
         try env.check { exn in
             //here's where we should make a new witness with witness constructor
             _constructorMethod[env](
-                try Swift.Int.toIota(value.foo, env: env),
+                try Swift.String.toIota(value.foo, env: env),
+                try Swift.Bool.toIota(value.baz, env: env),
                 exn
             )
         }

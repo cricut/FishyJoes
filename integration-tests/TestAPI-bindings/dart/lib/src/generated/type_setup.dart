@@ -46,13 +46,13 @@ typedef _Foundation_AttributedString_PuttingTypesIntoQuestionablePlacesConstruct
     OutCreatedRef exn
 );
 typedef _Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_xGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall = ffi.Int Function(UnownedRef obj, OutCreatedRef exn);
+typedef _Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall = ffi.Int Function(UnownedRef obj,  OutCreatedRef exn);
 typedef _Swift_String_PuttingTypesIntoQuestionablePlacesConstructor = CreatedRef Function(
     ConsumedRef x,
     OutCreatedRef exn
 );
 typedef _Swift_String_PuttingTypesIntoQuestionablePlaces_xGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Swift_String_PuttingTypesIntoQuestionablePlaces_testCall = ffi.Int Function(UnownedRef obj, OutCreatedRef exn);
+typedef _Swift_String_PuttingTypesIntoQuestionablePlaces_testCall = ffi.Int Function(UnownedRef obj,  OutCreatedRef exn);
 typedef TestAPI_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_new_thing = CreatedRef Function(
     OutCreatedRef _exn
 );
@@ -180,34 +180,35 @@ typedef _TestAPI_Structs_MemberwiseStruct_immutableGetter = CreatedRef Function(
 typedef _TestAPI_Structs_MemberwiseStruct_immutableSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
 typedef _TestAPI_Structs_MemberwiseStruct_mutableGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_Structs_MemberwiseStruct_mutableSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
-typedef _TestAPI_Structs_MemberwiseStruct_asyncGetMutable = ffi.Pointer Function(UnownedRef obj, OutCreatedRef exn);
-typedef _TestAPI_Structs_MemberwiseStruct_init = ffi.Pointer Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_Structs_MemberwiseStruct_asyncGetMutable = CreatedRef Function(UnownedRef obj,  OutCreatedRef exn);
+typedef _TestAPI_Structs_MemberwiseStruct_init = CreatedRef Function(UnownedRef obj,  OutCreatedRef exn);
 typedef _TestAPI_Structs_MutableStructConstructor = CreatedRef Function(
     ffi.Int i,
     OutCreatedRef exn
 );
 typedef _TestAPI_Structs_MutableStruct_iGetter = ffi.Int Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_Structs_MutableStruct_iSetter = ffi.Void Function(UnownedRef obj, ffi.Int newValue, OutCreatedRef exn);
-typedef _TestAPI_Structs_MutableStruct_asyncGetI = ffi.Int Function(UnownedRef obj, OutCreatedRef exn);
-typedef _TestAPI_Structs_MutableStruct_increment = ffi.Void Function(UnownedRef obj, OutCreatedRef exn);
-typedef _TestAPI_Structs_MutableStruct_incrementAsync = ffi.Void Function(UnownedRef obj, OutCreatedRef exn);
-typedef _TestAPI_Structs_MutableStruct_init = ffi.Pointer Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_Structs_MutableStruct_asyncGetI = ffi.Int Function(UnownedRef obj,  OutCreatedRef exn);
+typedef _TestAPI_Structs_MutableStruct_increment = ffi.Void Function(UnownedRef obj,  OutCreatedRef exn);
+typedef _TestAPI_Structs_MutableStruct_incrementAsync = ffi.Void Function(UnownedRef obj,  OutCreatedRef exn);
+typedef _TestAPI_Structs_MutableStruct_init = CreatedRef Function(UnownedRef obj,  OutCreatedRef exn);
 typedef _TestAPI_AProtocolConstructor = CreatedRef Function(
     ffi.Pointer ref,
     OutCreatedRef exn
 );
-typedef _TestAPI_AProtocol_fooGetter = ffi.Int Function(UnownedRef obj, OutCreatedRef exn);
-typedef _TestAPI_AProtocol_increment = ffi.Void Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_AProtocol_fooGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_AProtocol_bazGetter = ffi.Bool Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_AProtocol_bar = CreatedRef Function(UnownedRef obj, ffi.Int x, ffi.Int y, OutCreatedRef exn);
 typedef _TestAPI_AProtocolImplementationConstructor = CreatedRef Function(
-    ffi.Int foo,
+    ConsumedRef foo,
     ffi.Bool baz,
     OutCreatedRef exn
 );
-typedef _TestAPI_AProtocolImplementation_fooGetter = ffi.Int Function(UnownedRef obj, OutCreatedRef exn);
-typedef _TestAPI_AProtocolImplementation_fooSetter = ffi.Void Function(UnownedRef obj, ffi.Int newValue, OutCreatedRef exn);
+typedef _TestAPI_AProtocolImplementation_fooGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_AProtocolImplementation_fooSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
 typedef _TestAPI_AProtocolImplementation_bazGetter = ffi.Bool Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_AProtocolImplementation_bazSetter = ffi.Void Function(UnownedRef obj, ffi.Bool newValue, OutCreatedRef exn);
-typedef _TestAPI_AProtocolImplementation_increment = ffi.Void Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_AProtocolImplementation_bar = CreatedRef Function(UnownedRef obj, ffi.Int x, ffi.Int y, OutCreatedRef exn);
 typedef TestAPI_AssociatedDataEnum_new_thing = CreatedRef Function(
     ffi.Int value,
     OutCreatedRef _exn
@@ -568,14 +569,16 @@ final ensureLoaded = (() {
             Env env,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolConstructor>> constructor,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocol_fooGetter>> get_foo,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocol_increment>> increment,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocol_bazGetter>> get_baz,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocol_bar>> bar,
             OutCreatedRef exn
         ),
         void Function(
             Env env,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolConstructor>> constructor,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocol_fooGetter>> get_foo,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocol_increment>> increment,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocol_bazGetter>> get_baz,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocol_bar>> bar,
             OutCreatedRef exn
         )
     >('TestAPI_CommonInterface__AProtocolConverter_setup');
@@ -863,30 +866,38 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_testCall");
-    TestAPI.AProtocolImplementation.f__iota_TestAPI_AProtocolImplementation_increment = dylib.lookupFunction<
-        ffi.Void Function(
+    TestAPI.AProtocolImplementation.f__iota_TestAPI_AProtocolImplementation_bar = dylib.lookupFunction<
+        CreatedRef Function(
             Env env,
             UnownedRef _this,
+            ffi.Int x,
+            ffi.Int y,
             OutCreatedRef _exn
         ),
-        void Function(
+        CreatedRef Function(
             Env env,
             UnownedRef _this,
+            int x,
+            int y,
             OutCreatedRef _exn
         )
-    >("__iota_TestAPI_AProtocolImplementation_increment");
-    TestAPI.ExternalWitness_AProtocol.f__iota_TestAPI_AProtocol_increment = dylib.lookupFunction<
-        ffi.Void Function(
+    >("__iota_TestAPI_AProtocolImplementation_bar");
+    TestAPI.ExternalWitness_AProtocol.f__iota_TestAPI_AProtocol_bar = dylib.lookupFunction<
+        CreatedRef Function(
             Env env,
             UnownedRef _this,
+            ffi.Int x,
+            ffi.Int y,
             OutCreatedRef _exn
         ),
-        void Function(
+        CreatedRef Function(
             Env env,
             UnownedRef _this,
+            int x,
+            int y,
             OutCreatedRef _exn
         )
-    >("__iota_TestAPI_AProtocol_increment");
+    >("__iota_TestAPI_AProtocol_bar");
     TestAPI.Actors_TemperatureLogger.f__iota_TestAPI_Actors_TemperatureLogger_create = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -2397,13 +2408,25 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_URLs_echo");
-    TestAPI.ExternalWitness_AProtocol.f__iota_get_TestAPI_AProtocol_foo = dylib.lookupFunction<
-        ffi.Int Function(
+    TestAPI.ExternalWitness_AProtocol.f__iota_get_TestAPI_AProtocol_baz = dylib.lookupFunction<
+        ffi.Bool Function(
             Env env,
             UnownedRef _this,
             OutCreatedRef _exn
         ),
-        int Function(
+        bool Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_AProtocol_baz");
+    TestAPI.ExternalWitness_AProtocol.f__iota_get_TestAPI_AProtocol_foo = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
             Env env,
             UnownedRef _this,
             OutCreatedRef _exn
@@ -5827,8 +5850,9 @@ final ensureLoaded = (() {
             TestAPI_CommonInterface__AProtocolConverter_setup(
                 Loader.shared.env,
                 ffi.Pointer.fromFunction(TestAPI.ExternalWitness_AProtocol.ffi_new),
-                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_AProtocol.ffi_get_foo, 0),
-                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_AProtocol.ffi_increment),
+                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_AProtocol.ffi_get_foo),
+                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_AProtocol.ffi_get_baz, false),
+                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_AProtocol.ffi_bar),
                 exn
             );
         });
@@ -5840,7 +5864,7 @@ final ensureLoaded = (() {
             TestAPI_AProtocolImplementation_setup(
                 Loader.shared.env,
                 ffi.Pointer.fromFunction(TestAPI.AProtocolImplementation.ffi_constructor),
-                ffi.Pointer.fromFunction(TestAPI.AProtocolImplementation.ffi_get_foo, 0),
+                ffi.Pointer.fromFunction(TestAPI.AProtocolImplementation.ffi_get_foo),
                 ffi.Pointer.fromFunction(TestAPI.AProtocolImplementation.ffi_set_foo),
                 ffi.Pointer.fromFunction(TestAPI.AProtocolImplementation.ffi_get_baz, false),
                 ffi.Pointer.fromFunction(TestAPI.AProtocolImplementation.ffi_set_baz),
