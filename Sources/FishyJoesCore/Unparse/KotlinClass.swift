@@ -59,17 +59,7 @@ class KotlinClass: NestedClass {
     }
 
     func fragment(context: FishyJoesContext) -> SourceFragment {
-        let fragment = SourceFragment(sourceryDestination: "file:kotlin/src/generated/kotlin/com/cricut/\(module.name.lowercased())/\(name).kt")
-
-        fragment.output("package \(module.kotlinPackage)")
-        fragment.blankLine()
-        fragment.output("import kotlinx.coroutines.*")
-        fragment.output("import java.lang.Exception")
-        for dependency in module.dependencies {
-            fragment.output("import com.cricut.\(dependency.lowercased()).*")
-        }
-
-        fragment.blankLine()
+        let fragment = context.kotlinFragment("\(name).kt")
         output(to: fragment)
         return fragment
     }
@@ -329,7 +319,6 @@ class KotlinEnumClass: KotlinClass {
 
     override func output(to fragment: SourceFragment) {
         document(documentation, fragment: fragment)
-        fragment.output("@OptIn(ExperimentalCoroutinesApi::class)")
         fragment.outputBlock("sealed class \(unqualifiedName) {") {
             for enumCase in cases {
                 switch enumCase {

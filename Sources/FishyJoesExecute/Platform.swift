@@ -4,6 +4,8 @@ import swsh
 let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2023-08-06-a.xctoolchain"
 
 struct BuildConfiguration: Hashable {
+    let packagePath: String?
+    let scratchPath: String?
     let debug: Bool
     let fat: Bool
     let codeCoverage: Bool
@@ -100,11 +102,8 @@ enum Platform: CustomStringConvertible, Hashable {
         }
     }
 
-    func build(packagePath: String?, product: String? = nil, libs: [String] = [], configuration: BuildConfiguration) throws {
+    func build(product: String? = nil, libs: [String] = [], configuration: BuildConfiguration) throws {
         var buildArguments: [String] = []
-        if let packagePath = packagePath {
-            buildArguments.append(contentsOf: ["--package-path", packagePath])
-        }
         if let product = product {
             buildArguments.append(contentsOf: ["--product", product])
         }
@@ -135,6 +134,9 @@ enum Platform: CustomStringConvertible, Hashable {
     func swiftBuild(arguments: [String], configuration: BuildConfiguration) -> Command {
         var args = arguments
         args.append(contentsOf: ["--configuration", configuration.debug ? "debug" : "release"])
+        if let packagePath = configuration.packagePath {
+            args.append(contentsOf: ["--package-path", packagePath])
+        }
         if configuration.codeCoverage {
             args.append(contentsOf: Platform.coverageFlags)
         }
@@ -143,6 +145,7 @@ enum Platform: CustomStringConvertible, Hashable {
             "SWIFT_PACKAGE_FORCE_DYNAMIC": "1",
             "FISHYJOES_TARGET_PLATFORM": "\(self)",
         ]
+        var scratchPath = configuration.scratchPath
         switch self {
         case .wasm:
             path = "\(wasmToolchain)/usr/bin/swift-build"
@@ -166,9 +169,9 @@ enum Platform: CustomStringConvertible, Hashable {
             #endif
         case let .kotlinAndroid(arch):
             path = "swift-build"
+            scratchPath = (scratchPath ?? ".build") + "/android-build"
             args.append(
                 contentsOf: [
-                    "--scratch-path", "./.build/android-build",
                     "--destination", "\(arch.toolchainPath)/usr/swiftpm-android-\(arch).json",
                 ]
             )
@@ -190,6 +193,9 @@ enum Platform: CustomStringConvertible, Hashable {
             path = "swift"
             args = ["build"] + args
             #endif
+        }
+        if let scratchPath = scratchPath {
+            args = ["--scratch-path", scratchPath] + args
         }
         return cmd(path, arguments: args, addEnv: env)
     }
@@ -268,32 +274,32 @@ enum Platform: CustomStringConvertible, Hashable {
         case .wasm, .node: return "bindings/generated/node/packages/\(platform)"
         case .kotlinSystem:
             #if os(macOS)
-            return "bindings/generated/kotlin/src/generated/resources/mac"
+            return "bindings/kotlin/generated/src/main/resources/mac"
             #elseif os(Linux)
-            return "bindings/generated/kotlin/src/generated/resources/linux"
+            return "bindings/kotlin/generated/src/main/resources/linux"
             #elseif os(Windows)
-            return "bindings/generated/kotlin/src/generated/resources/windows"
+            return "bindings/kotlin/generated/src/main/resources/windows"
             #else
             fatalError("unknown host OS")
             #endif
-        case .kotlinAndroid(let arch): return "kotlin/src/generated/resources/lib/\(arch.ndkName)"
+        case .kotlinAndroid(let arch): return "kotlin/src/main/resources/lib/\(arch.ndkName)"
         case .cSharp:
             #if os(macOS)
-            return "bindings/generated/c-sharp/Cricut.\(config.module)/runtimes/osx/native"
+            return "bindings/c-sharp/generated/Cricut.\(config.module)/runtimes/osx/native"
             #elseif os(Linux)
-            return "bindings/generated/c-sharp/Cricut.\(config.module)/runtimes/linux/native"
+            return "bindings/c-sharp/generated/Cricut.\(config.module)/runtimes/linux/native"
             #elseif os(Windows)
-            return "bindings/generated/c-sharp/Cricut.\(config.module)/runtimes/win/native"
+            return "bindings/c-sharp/generated/Cricut.\(config.module)/runtimes/win/native"
             #else
             fatalError("unknown host OS")
             #endif
         case .dart:
             #if os(macOS)
-            return "bindings/generated/dart/macos/native"
+            return "bindings/dart/generated/macos/native"
             #elseif os(Linux)
-            return "bindings/generated/dart/linux/native"
+            return "bindings/dart/generated/linux/native"
             #elseif os(Windows)
-            return "bindings/generated/dart/windows/native"
+            return "bindings/dart/generated/windows/native"
             #else
             fatalError("unknown host OS")
             #endif
@@ -316,10 +322,11 @@ enum Platform: CustomStringConvertible, Hashable {
             return cached
         }
         let directory: String
+        let packagePrefix = configuration.packagePath.map { $0 + "/" } ?? ""
         if isNative, configuration.fat {
-            directory = ".build/apple/\(configuration.debug ? "debug" : "release")"
+            directory = "\(packagePrefix).build/apple/\(configuration.debug ? "debug" : "release")"
         } else if case .kotlinAndroid(let arch) = self {
-            directory = ".build/android-build/\(arch.triple)/\(configuration.debug ? "debug" : "release")"
+            directory = "\(packagePrefix).build/android-build/\(arch.triple)/\(configuration.debug ? "debug" : "release")"
         } else {
             directory = try swiftBuild("--show-bin-path", configuration: configuration).runString()
         }

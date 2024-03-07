@@ -105,7 +105,11 @@ enum Interactive {
     static func confirmCommand(description: String, _ command: Command) throws {
         Log.info()
         Log.info("\(description)? Will run:")
-        Log.info("    \(command)")
+        if let describableCommand = command as? CustomStringConvertible {
+            Log.info("    \(describableCommand.description)")
+        } else {
+            Log.info("    \(command)")
+        }
         if try promptYesNo() {
             try command.run()
             Log.success("SUCCESS: \(description)")

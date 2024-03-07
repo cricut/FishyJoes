@@ -284,7 +284,7 @@ struct NodeTranslator: Translator {
 
     func setupFragments(context: FishyJoesContext, generatedTypes: [BetterType]) -> [SourceFragment] {
         let nodeTypeListFragment = context.swiftFragment(
-            "Sources/NodeInterface/TypeSetup.swift",
+            "NodeInterface/TypeSetup.swift",
             additionalImports: ["Foundation", "FishyJoesNodeRuntime", "NodeAPI"]
         )
 
@@ -322,7 +322,7 @@ struct NodeTranslator: Translator {
             nodeTypeListFragment.output("return exports")
         }
 
-        let exportFragment = SourceFragment(sourceryDestination: "file:Sources/NodeInterface/@_exported.swift")
+        let exportFragment = context.swiftFragment("NodeInterface/@_exported.swift")
         exportFragment.output("@_exported import \(context.module.name)")
         for dependency in context.module.dependencies {
             exportFragment.output("@_exported import \(dependency)_NodeInterface")

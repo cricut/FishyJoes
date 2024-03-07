@@ -83,7 +83,7 @@ struct TranslatedStruct: TranslatedType {
 
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "Sources/NodeInterface/\(sourceType.name)+node.swift",
+            "NodeInterface/\(sourceType.name)+node.swift",
             additionalImports: ["Foundation", "FishyJoesNodeRuntime"]
         )
 
@@ -187,7 +187,7 @@ struct TranslatedStruct: TranslatedType {
 
     func jniDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "Sources/JavaInterface/\(sourceType.name)+java.swift",
+            "JavaInterface/\(sourceType.name)+java.swift",
             additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
         )
         let className = context.kotlinTranslator.javaClassName(kotlinName, in: context)
@@ -430,7 +430,7 @@ struct TranslatedStruct: TranslatedType {
 
     func iotaDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "Sources/IotaInterface/\(sourceType.name)+iota-type.swift",
+            "IotaInterface/\(sourceType.name)+iota-type.swift",
             additionalImports: ["Foundation", "FishyJoesIotaRuntime"]
         )
 

@@ -10,7 +10,7 @@ node_modules
 .swift-version
 *.tgz
 *.log
-/kotlin/src/generated/resources/
+/kotlin/src/main/resources/
 /c-sharp/generated/lib/
 /dart/flutter-package
 .gradle

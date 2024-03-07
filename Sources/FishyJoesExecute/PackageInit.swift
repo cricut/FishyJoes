@@ -10,10 +10,18 @@ public struct PackageInit: ParsableCommand {
     var force = false
 
     var config: FishyJoesConfig!
+    var swiftPackage: SwiftPackage?
 
     struct Error: Swift.Error {}
 
     public init() {}
+    init(
+        config: FishyJoesConfig,
+        swiftPackage: SwiftPackage
+    ) {
+        self.config = config
+        self.swiftPackage = swiftPackage
+    }
 
     public mutating func run() throws {
         ExternalCommand.verbose = true
@@ -25,13 +33,18 @@ public struct PackageInit: ParsableCommand {
             }
             Log.warn("Uncommitted changes present. Continuing anyway.")
         }
-        config = try (try? FishyJoesConfig.readFromFile()) ?? promptForConfig()
+        if config == nil {
+            config = try (try? FishyJoesConfig.readFromFile()) ?? promptForConfig()
+        }
 
-        let sourcePath = Bundle.module.resourceURL!.appendingPathComponent("bindings-template", isDirectory: true).path
-        let destPath = FileManager.default.currentDirectoryPath
-        try install(sourcePath, to: destPath)
+        try installTemplate()
         try setupKotlin(config: config)
         try setupCSharp(config: config)
+    }
+
+    func installTemplate(to destPath: String? = nil) throws {
+        let sourcePath = Bundle.module.resourceURL!.appendingPathComponent("bindings-template", isDirectory: true).path
+        try install(sourcePath, to: destPath ?? FileManager.default.currentDirectoryPath)
     }
 
     func setupKotlin(config: FishyJoesConfig) throws {
@@ -62,17 +75,28 @@ public struct PackageInit: ParsableCommand {
         }
     }
 
-    func shouldIgnore(_ fileName: String) -> Bool {
+    enum InstallBehavior {
+        case skip, copy, template
+    }
+
+    func installBehavior(for fileName: String) -> InstallBehavior {
+        func oneOfSuffix(_ suffixes: String...) -> Bool {
+            suffixes.contains(where: fileName.hasSuffix)
+        }
+
         switch fileName {
-        case ".DS_Store":
-            return true
+        case ".DS_Store", ".gradle":
+            return .skip
+        case "gradlew",
+             _ where oneOfSuffix(".jar"):
+            return .copy
         default:
-            return false
+            return .template
         }
     }
 
     func install(_ sourcePath: String, to destPath: String) throws {
-        Log.info("installing \(sourcePath) -> \(destPath)")
+        // Log.info("installing \(sourcePath) -> \(destPath)")
         let manager = FileManager.default
         var isDirectory: ObjCBool = false
         guard manager.fileExists(atPath: sourcePath, isDirectory: &isDirectory) else {
@@ -81,13 +105,21 @@ public struct PackageInit: ParsableCommand {
         if isDirectory.boolValue {
             try manager.createDirectory(atPath: destPath, withIntermediateDirectories: true)
             for sourceName in try manager.contentsOfDirectory(atPath: sourcePath) {
-                if shouldIgnore(sourceName) { continue }
-
                 let destName = processString(sourceName)
-                try install(
-                    "\(sourcePath)/\(sourceName)",
-                    to: "\(destPath)/\(destName)"
-                )
+                switch installBehavior(for: sourceName) {
+                case .skip: continue
+                case .copy:
+                    try cmd(
+                        "cp", "-rfp",
+                        "\(sourcePath)/\(sourceName)",
+                        "\(destPath)/\(destName)"
+                    ).run()
+                case .template:
+                    try install(
+                        "\(sourcePath)/\(sourceName)",
+                        to: "\(destPath)/\(destName)"
+                    )
+                }
             }
         } else {
             let contents = processString(try String(contentsOfFile: sourcePath))
@@ -151,6 +183,19 @@ public struct PackageInit: ParsableCommand {
         string = string.replacingOccurrences(
             of: "__REGISTER_DEPENDENCIES__",
             with: join(lines: registerDependencyLines, indent: 8)
+        )
+
+        let gradleDependencies = [
+            (swift: "FishyJoes", kotlinPackage: "runtime")
+        ] + config.requiredModules.map {
+            (swift: $0, kotlinPackage: $0.lowercased())
+        }
+        let gradleDependencyLines = gradleDependencies.map {
+            "api(\"com.cricut.\($0.swift.lowercased()):\($0.kotlinPackage):\(swiftPackage?.dependencyMap[$0.swift]?.version ?? "local")\")"
+        }
+        string = string.replacingOccurrences(
+            of: "__GRADLE_DEPENDENCIES__",
+            with: join(lines: gradleDependencyLines, indent: 4)
         )
 
         return string

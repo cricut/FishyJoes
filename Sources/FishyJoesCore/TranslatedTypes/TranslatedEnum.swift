@@ -145,7 +145,7 @@ struct TranslatedEnum: TranslatedType {
 
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "Sources/NodeInterface/\(sourceType.name)+node.swift",
+            "NodeInterface/\(sourceType.name)+node.swift",
             additionalImports: ["Foundation", "FishyJoesNodeRuntime"]
         )
         if cases.allSatisfy({ $0.associatedValues.isEmpty }), !cases.isEmpty {
@@ -419,7 +419,7 @@ struct TranslatedEnum: TranslatedType {
 
     func jniDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "Sources/JavaInterface/\(sourceType.name)+java.swift",
+            "JavaInterface/\(sourceType.name)+java.swift",
             additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
         )
         let className = context.kotlinTranslator.javaClassName(nodeName, in: context)

@@ -162,29 +162,29 @@ extension CodeGen {
             }
 
             // Create / clean directories used by Sourcery to generate Swift and foreign language code files for the translated foreign languages
-            let sourceLocations = [
-                "bindings/generated/Sources/DummyMain",
-                "bindings/generated/Sources/IotaInterface",
-                "bindings/generated/Sources/NodeInterface",
-                "bindings/generated/Sources/JavaInterface",
-                "bindings/generated/kotlin/src/generated/kotlin/com/cricut/\(config.module.lowercased())",
-                "bindings/generated/c-sharp/Cricut.\(config.module.lowercased())/generated",
-                "bindings/generated/dart/lib/src/generated",
+            let generatedSwiftTargets = ["DummyMain", "IotaInterface", "NodeInterface", "JavaInterface"]
+            let sourceLocations = generatedSwiftTargets.map {
+                "bindings/swift-interfaces/generated/Sources/\($0)"
+            } + [
+                "bindings/kotlin/generated/src/main/kotlin/com/cricut/\(config.module.lowercased())",
+                "bindings/c-sharp/generated/Cricut.\(config.module.lowercased())",
+                "bindings/dart/generated/lib/src",
             ]
-            try cmd("rm", "-rf", "bindings/generated").run()
+            try cmd("rm", "-rf", "bindings/swift-interface/generated").run()
+            try cmd("rm", "-rf", "bindings/kotlin/generated").run()
+            try cmd("rm", "-rf", "bindings/c-sharp/generated").run()
+            try cmd("rm", "-rf", "bindings/dart/generated").run()
             try cmd("mkdir", arguments: ["-p"] + sourceLocations).run()
-            try cmd(
-                "touch",
-                "bindings/generated/Sources/DummyMain/EmptyPlaceholder.swift",
-                "bindings/generated/Sources/IotaInterface/EmptyPlaceholder.swift",
-                "bindings/generated/Sources/NodeInterface/EmptyPlaceholder.swift",
-                "bindings/generated/Sources/JavaInterface/EmptyPlaceholder.swift"
-            ).run()
+            for target in generatedSwiftTargets {
+                try cmd("echo")
+                    .output(overwritingFile: "bindings/swift-interfaces/generated/Sources/\(target)/EmptyPlaceholder.swift")
+                    .run()
+            }
 
-            let packageCustomization = try cmd("cat", "bindings/Package.part.swift").runString()
+            let packageCustomization = try cmd("cat", "bindings/swift-interfaces/Package.part.swift").runString()
             // Create Package.swift for the bindings package
             try cmd("cat")
-                .output(overwritingFile: "bindings/generated/Package.swift")
+                .output(overwritingFile: "bindings/swift-interfaces/generated/Package.swift")
                 .input(
                     """
                         // swift-tools-version:5.6
@@ -204,7 +204,7 @@ extension CodeGen {
                         func packageDep(_ name: String) -> Package.Dependency {
                             switch env["FISHYJOES_DEPENDENCY_\\(name)"] {
                             case .none:
-                                return .package(name: name, path: "../../../\\(name)")
+                                return .package(name: name, path: "../../../../\\(name)")
                             case .some(let versionSpec):
                                 switch try! JSONDecoder().decode(Dependency.self, from: versionSpec.data(using: .utf8)!) {
                                 case .local(let path):
@@ -274,7 +274,7 @@ extension CodeGen {
                             )
                         )
                         // END GENERATED CODE
-                        // Below is copied from bindings/Package.part.swift
+                        // Below is copied from bindings/swift-interfaces/Package.part.swift
 
                         \(packageCustomization)
                         """
@@ -317,7 +317,7 @@ extension CodeGen {
                     "--args", "requiredModules=\"\(try! JSONEncoder().encode(fishyJoesModuleFiles).base64EncodedString())\"",
                     "--args", "fishyJoesExecutable=.build/debug/🐟☕️",
                     "--args", "stderrFifo=\(errorFifoPath)",
-                    "--output", "bindings/generated"
+                    "--output", "bindings/swift-interfaces/generated/Sources/"
                 ].compactMap { $0 } + config.excludeSources.flatMap { exclude in
                     var basePath = translateeSources
                     if basePath.last != "/" {
@@ -330,6 +330,12 @@ extension CodeGen {
             ).run()
 
             try errorReporter.succeed()
+
+            let packageInit = PackageInit(
+                config: config,
+                swiftPackage: packageInfo
+            )
+            try packageInit.installTemplate(to: "bindings")
         }
 
         // MARK: - Build Step
@@ -346,6 +352,8 @@ extension CodeGen {
                 return context
             } : { nil }
             let configuration = BuildConfiguration(
+                packagePath: "bindings/swift-interfaces/generated",
+                scratchPath: "bindings/swift-interfaces/.build",
                 debug: debug,
                 fat: fat,
                 codeCoverage: codeCoveragePath != nil,
@@ -356,7 +364,7 @@ extension CodeGen {
             if platforms.contains(where: { $0.needsDocker(configuration: configuration) }) {
                 try cmd(
                     "swift", "build",
-                    "--scratch-path", "./.build/android-build",
+                    "--scratch-path", "bindings/.build/android-build",
                     "--product", "FishyJoesJavaRuntime"
                 ).run()
             }
@@ -367,26 +375,22 @@ extension CodeGen {
                 switch platform {
                 case .wasm:
                     try platform.build(
-                        packagePath: "bindings/generated",
                         configuration: configuration
                     )
                 case .node:
                     try platform.build(
-                        packagePath: "bindings/generated",
                         product: "\(config.module)-node",
                         libs: libs.flatMap { [$0, "\($0)-node"] },
                         configuration: configuration
                     )
                 case .kotlinSystem, .kotlinAndroid:
                     try platform.build(
-                        packagePath: "bindings/generated",
                         product: "\(config.module)-java",
                         libs: libs.flatMap { [$0, "\($0)-java"] } + ["FishyJoesJavaRuntime"],
                         configuration: configuration
                     )
                 case .cSharp, .dart:
                     try platform.build(
-                        packagePath: "bindings/generated",
                         product: "\(config.module)-iota",
                         libs: libs.flatMap { [$0, "\($0)-iota"] } + ["FishyJoesIotaRuntime"],
                         configuration: configuration
@@ -721,18 +725,18 @@ extension CodeGen {
                 case .wasm, .node:
                     break
                 case .kotlinSystem:
-                    try withDirectory("kotlin") {
+                    try withDirectory("bindings/kotlin/generated") {
                         try cmd("./gradlew", "assemble").run()
                     }
                 case .kotlinAndroid:
                     // Compiled along with .kotlinSystem
                     break
                 case .cSharp:
-                    try withDirectory("c-sharp") {
+                    try withDirectory("bindings/c-sharp/generated") {
                         try cmd("dotnet", "build", "Cricut.\(config.module).sln").run()
                     }
                 case .dart:
-                    try withDirectory("dart") {
+                    try withDirectory("bindings/dart/generated") {
                         try cmd("dart", "run", "build_runner", "build", "--delete-conflicting-outputs").run()
                     }
                 }
@@ -769,7 +773,7 @@ extension CodeGen {
                     }
                 case .kotlinSystem:
                     // Use gradle to execute the test suite
-                    try withDirectory("kotlin") {
+                    try withDirectory("bindings/kotlin/generated") {
                         let tasks = ["cleanTest", "test"] + (codeCoveragePath == nil ? [] : ["jacocoTestReport"])
                         try cmd("./gradlew", arguments: tasks, addEnv: env).run()
                     }
@@ -905,6 +909,8 @@ extension CodeGen {
         defer {
             if changedDirectory {
                 printDir()
+            } else {
+                Log.error("Failed to enter directory `\(dirName)' (from `\(FileManager.default.currentDirectoryPath)')")
             }
         }
         return try FileManager.default.withCurrentDirectoryPath(dirName) {

@@ -7,8 +7,7 @@ public class FishyJoesContext {
     let requiredModulePaths: [String]
     let templateContext: TemplateContext
     var typeCache: [BetterType: TranslatedTypeOrAlias] = [:]
-    var fileHeaders: [String: Set<String>] = [:]
-    var fileFooters: [String: Set<String>] = [:]
+    var fileHeaders: [String: SortedSet<String>] = [:]
     var debugContext = ""
 
     let dumpDebugRepresentation: Bool
@@ -76,6 +75,7 @@ public class FishyJoesContext {
     }
 
     func swiftFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
+        let fileName = "\(name)"
         var headerLines = (module.dependencies + [module.name] + additionalImports).map { "import \($0)" }
         headerLines.append(
             // These need to be in order, so add them as 1 "line"
@@ -84,12 +84,26 @@ public class FishyJoesContext {
             // swiftlint:disable unused_closure_parameter syntactic_sugar attributes
             """
         )
-        fileHeaders[name, default: []].formUnion(headerLines)
-        return SourceFragment(sourceryDestination: "file:\(name)")
+        fileHeaders[fileName, default: []].formUnion(headerLines)
+        return SourceFragment(sourceryDestination: "file:\(fileName)")
+    }
+
+    func kotlinFragment(_ name: String) -> SourceFragment {
+        let fileName = "../../../kotlin/generated/src/main/kotlin/com/cricut/\(module.name.lowercased())/\(name)"
+        fileHeaders[fileName, default: []].formUnion(
+            [
+                "package \(module.kotlinPackage)",
+                "import com.cricut.fishyjoes.runtime.LibraryLoader",
+                "import com.cricut.fishyjoes.runtime.FishyJoesRuntimeRepresentative",
+            ] + module.dependencies.map { dependency in
+                "import com.cricut.\(dependency.lowercased()).\(dependency)LoaderRepresentative"
+            }
+        )
+        return SourceFragment(sourceryDestination: "file:\(fileName)")
     }
 
     func cSharpFragment(_ name: String) -> SourceFragment {
-        let fileName = "c-sharp/Cricut.\(module.name)/generated/\(name)"
+        let fileName = "../../../c-sharp/generated/Cricut.\(module.name)/\(name)"
         fileHeaders[fileName, default: []].formUnion(
             [
                 "using System;",
@@ -105,7 +119,7 @@ public class FishyJoesContext {
     }
 
     func dartFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
-        let fileName = "dart/lib/src/generated/\(name)"
+        let fileName = "../../../dart/generated/lib/src/\(name)"
         fileHeaders[fileName, default: []].formUnion(
             [
                 "import 'dart:ffi' as ffi;",
@@ -235,7 +249,7 @@ public class FishyJoesContext {
         )
 
         // Output moduleInfo for FishyJoes packages that depend on this one
-        let moduleInfoFragment = SourceFragment(sourceryDestination: "file:\(module).fishyjoesmodule")
+        let moduleInfoFragment = SourceFragment(sourceryDestination: "file:../\(module).fishyjoesmodule")
         let moduleInfo = ModuleInfo(
             types: moduleDefinedTypes,
             typeScriptAnnotations: tsAnnotations
@@ -247,20 +261,13 @@ public class FishyJoesContext {
 
         let headerFragments = fileHeaders.keys.map { fileName -> SourceFragment in
             let fragment = SourceFragment(sourceryDestination: "file:\(fileName)")
-            for headerLine in fileHeaders[fileName, default: []].sorted() {
+            for headerLine in fileHeaders[fileName, default: []] {
                 fragment.output(headerLine)
             }
             return fragment
         }
-        let footerFragments = fileFooters.keys.map { fileName -> SourceFragment in
-            let fragment = SourceFragment(sourceryDestination: "file:\(fileName)")
-            for footerLine in fileFooters[fileName, default: []].sorted() {
-                fragment.output(footerLine)
-            }
-            return fragment
-        }
 
-        return (headerFragments + collectedFragments + footerFragments).map(\.contents).joined()
+        return (headerFragments + collectedFragments).map(\.contents).joined()
     }
 
     /// Process a set of classes to nest their innner classes properly for generation.

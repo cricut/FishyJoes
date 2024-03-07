@@ -57,7 +57,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: mac_lib
-          path: kotlin/src/generated/resources/mac/
+          path: kotlin/src/main/resources/mac/
 
   build-test-kotlin-linux:
     name: "Ubuntu: Build and test kotlin bindings"
@@ -127,9 +127,9 @@ jobs:
         run: |
           set -euxo pipefail
 
-          mkdir -p kotlin/src/generated/resources/windows
-          cp .build/windows-build/x86_64-unknown-windows-msvc/release/__MODULE_NAME__.dll kotlin/src/generated/resources/windows
-          cp .build/windows-build/x86_64-unknown-windows-msvc/release/__MODULE_NAME__-java.dll kotlin/src/generated/resources/windows
+          mkdir -p kotlin/src/main/resources/windows
+          cp .build/windows-build/x86_64-unknown-windows-msvc/release/__MODULE_NAME__.dll kotlin/src/main/resources/windows
+          cp .build/windows-build/x86_64-unknown-windows-msvc/release/__MODULE_NAME__-java.dll kotlin/src/main/resources/windows
 
       - name: Setup JDK
         uses: actions/setup-java@v3
@@ -147,7 +147,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: windows_lib
-          path: kotlin/src/generated/resources/windows/
+          path: kotlin/src/main/resources/windows/
 
   kotlin-publish:
     name: Publish kotlin package
@@ -191,9 +191,9 @@ jobs:
 
           rm -rf kotlin/src/generated
           mv ubuntu_generated kotlin/src/generated
-          mkdir -p kotlin/src/generated/resources/{mac,windows}
-          mv mac_lib/lib*.dylib kotlin/src/generated/resources/mac/
-          mv windows_lib/*.dll kotlin/src/generated/resources/windows/
+          mkdir -p kotlin/src/main/resources/{mac,windows}
+          mv mac_lib/lib*.dylib kotlin/src/main/resources/mac/
+          mv windows_lib/*.dll kotlin/src/main/resources/windows/
 
       - name: Test publish
         shell: zsh {0}
