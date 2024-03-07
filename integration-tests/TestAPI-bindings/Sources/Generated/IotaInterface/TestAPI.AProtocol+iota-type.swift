@@ -35,7 +35,12 @@ struct _IotaAProtocol: TestAPI.AProtocol {
     public func bar(x: Int, y: Int) throws -> AProtocol {
         try TestAPI_CommonInterface._AProtocolConverter.peekIota(
             try _iotaWitness.env.check { exn in
-                TestAPI_CommonInterface._AProtocolConverter._bar[_iotaWitness.env](_iotaWitness.object, exn)
+                TestAPI_CommonInterface._AProtocolConverter._bar[_iotaWitness.env](
+                    _iotaWitness.object,
+                    try Swift.Int.toIota(x, env: _iotaWitness.env),
+                    try Swift.Int.toIota(y, env: _iotaWitness.env),
+                    exn
+                )
             },
             env: _iotaWitness.env
         )
@@ -48,7 +53,12 @@ public func TestAPI_CommonInterface__AProtocolConverter_setup(
     constructorMethod: @escaping TestAPI_CommonInterface._AProtocolConverter._ConstructorMethod,
     _ fooGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
     _ bazGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Bool.CType,
-    _ bar: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> TestAPI_CommonInterface._AProtocolConverter.CType,
+    _ bar: @escaping @convention(c) (
+        foreignObject,
+        Swift.Int,
+        Swift.Int,
+        _ exn: foreignOutExn
+    ) -> TestAPI_CommonInterface._AProtocolConverter.CType,
     _ exn: foreignOutExn
 ) {
     let env = Env(envRef)
@@ -68,7 +78,12 @@ extension TestAPI_CommonInterface._AProtocolConverter: IotaMutator {
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
     fileprivate static let _fooGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
     fileprivate static let _bazGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Bool.CType>()
-    fileprivate static let _bar = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> TestAPI_CommonInterface._AProtocolConverter.CType>()
+    fileprivate static let _bar = Env.CallbackMap<@convention(c) (
+        foreignObject,
+        Swift.Int,
+        Swift.Int,
+        _ exn: foreignOutExn
+    ) -> TestAPI_CommonInterface._AProtocolConverter.CType>()
 
     public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
         do {

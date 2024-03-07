@@ -383,11 +383,16 @@ struct TranslatedProtocol: TranslatedType {
                     }
                 }
                 fragment.outputBlock("\(method.isStatic ? "static " : "")public func \(method.callName)(\(paramSigs.joined(separator: ", ")))\(returnSignature) {") {
-                    // this might should be based on return type
-                    // consumeIota versus peekIota
-                    fragment.outputBlock("try \(converterType.name).peekIota(") {
+                    fragment.outputBlock("try \(resolvedReturn.converterType.name).peekIota(") {
                         fragment.outputBlock("try _iotaWitness.env.check { exn in", closeWith: "},") {
-                            fragment.output("\(converterType.name)._\(method.callName)[_iotaWitness.env](_iotaWitness.object, exn)")
+                            fragment.outputBlock("\(converterType.name)._\(method.callName)[_iotaWitness.env](") {
+                                fragment.output("_iotaWitness.object,")
+                                for param in method.parameters {
+                                    let resolvedParam = context.resolve(type: param.type)
+                                    fragment.output("try \(resolvedParam.converterType.name).toIota(\(param.name), env: _iotaWitness.env),")
+                                }
+                                fragment.output("exn")
+                            }
                         }
                         fragment.output("env: _iotaWitness.env")
                     }
@@ -448,8 +453,14 @@ struct TranslatedProtocol: TranslatedType {
             }
             for method in methods {
                 let resolvedReturnType = context.resolve(type: method.returnType)
-                // todo put in method params here
-                fragment.output("_ \(method.callName): @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolvedReturnType.converterType.name).CType,")
+                fragment.outputBlock("_ \(method.callName): @escaping @convention(c) (", closeWith: ") -> \(resolvedReturnType.converterType.name).CType,") {
+                    fragment.output("foreignObject,")
+                    for param in method.parameters {
+                        let resolvedParam = context.resolve(type: param.type)
+                        fragment.output("\(resolvedParam.converterType.name),")
+                    }
+                    fragment.output("_ exn: foreignOutExn")
+                }
             }
             fragment.output("_ exn: foreignOutExn")
         }
@@ -486,8 +497,14 @@ struct TranslatedProtocol: TranslatedType {
             }
             for method in methods {
                 let resolvedReturnType = context.resolve(type: method.returnType)
-                // TODO: Put in Method parameters
-                fragment.output("fileprivate static let _\(method.callName) = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolvedReturnType.converterType.name).CType>()")
+                fragment.outputBlock("fileprivate static let _\(method.callName) = Env.CallbackMap<@convention(c) (", closeWith: ") -> \(resolvedReturnType.converterType.name).CType>()") {
+                    fragment.output("foreignObject,")
+                    for param in method.parameters {
+                        let resolvedParam = context.resolve(type: param.type)
+                        fragment.output("\(resolvedParam.converterType.name),")
+                    }
+                    fragment.output("_ exn: foreignOutExn")
+                }
             }
             fragment.blankLine()
 
