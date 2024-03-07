@@ -257,13 +257,13 @@ enum Platform: CustomStringConvertible, Hashable {
             args.append("-l\(dependency)")
         }
         if let outputPath = outputPath {
-            args.append("-o", outputPath)
+            args.append(contentsOf: ["-o", outputPath])
         }
         if !omitLocalRPath {
             #if os(macOS)
-            args.append("-rpath", "@loader_path")
+            args.append(contentsOf: ["-rpath", "@loader_path"])
             #elseif os(Linux)
-            args.append("-rpath", "$ORIGIN")
+            args.append(contentsOf: ["-rpath", "$ORIGIN"])
             #endif
         }
         args.append(contentsOf: sources)
