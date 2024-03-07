@@ -241,6 +241,60 @@ enum Platform: CustomStringConvertible, Hashable {
         swiftBuild(arguments: arguments, configuration: configuration)
     }
 
+    func clangBuild(sources: [String], dependencies: [String] = [], headerSearchPaths: [String] = [], librarySearchPaths: [String] = [], omitLocalRPath: Bool = false, dynamic: Bool = true, outputPath: String? = nil) -> Command {
+        #if os(macOS) || os(Linux)
+        var args: [String] = []
+        if dynamic {
+            args.append(contentsOf: ["-shared", "-undefined", "dynamic_lookup"])
+        }
+        for headerSearchPath in headerSearchPaths {
+            args.append("-I\(headerSearchPath)")
+        }
+        for librarySearchPath in librarySearchPaths {
+            args.append("-L\(librarySearchPath)")
+        }
+        for dependency in dependencies {
+            args.append("-l\(dependency)")
+        }
+        if let outputPath = outputPath {
+            args.append("-o", outputPath)
+        }
+        if !omitLocalRPath {
+            #if os(macOS)
+            args.append("-rpath", "@loader_path")
+            #elseif os(Linux)
+            args.append("-rpath", "$ORIGIN")
+            #endif
+        }
+        args.append(contentsOf: sources)
+        return cmd("clang", arguments: args)
+        #elseif os(Windows)
+        var args: [String] = []
+        if dynamic {
+            args.append("/LD")
+        }
+        for headerSearchPath in headerSearchPaths {
+            args.append("/I\(headerSearchPath)")
+        }
+        args.append(contentsOf: sources)
+        if !dependencies.isEmpty || !librarySearchPaths.isEmpty || outputPath != nil {
+            args.append("/link")
+        }
+        for librarySearchPath in librarySearchPaths {
+            args.append("/LIBPATH:\(librarySearchPath)")
+        }
+        for dependency in dependencies {
+            args.append("\(dependency).lib")
+        }
+        if let outputPath = outputPath {
+            args.append("/OUT:\(outputPath)")
+        }
+        return cmd("clang-cl", arguments: args)
+        #else
+        fatalError("unknown host OS")
+        #endif
+    }
+
     func gradleBuild(arguments: [String], configuration: BuildConfiguration) -> Command {
         #if os(macOS)
         return cmd("./gradlew", arguments: arguments)

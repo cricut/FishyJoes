@@ -481,16 +481,12 @@ extension CodeGen {
                         // TODO: When SwiftPM supports product dependencies on targets within the same package, use them instead
                         // See: https://forums.swift.org/t/pitch-swiftpm-allow-targets-to-depend-on-products-in-the-same-package/57717/37
                         let shimDir = "Sources\(ps)Generated\(ps)NodeNativeShim"
-                        try cmd(
-                            "clang",
-                            "-shared",
-                            "-undefined", "dynamic_lookup",
-                            "-rpath", platform.platform == "node-native-ubuntu" ? "$ORIGIN" : "@loader_path",
-                            "-L\(platform.buildDir(configuration))",
-                            "-l\(nodeModule.nativeLibName)",
-                            "-I\(fishyJoesDependency.localPath)\(ps)Sources\(ps)NodeAPI",
-                            "\(shimDir)\(ps)NAPIRegisterModule.c",
-                            "-o", "\(platform.buildDir(configuration))\(ps)\(platform.dylibName(for: nodeModule.nodeShimLibName))"
+                        try platform.clangBuild(
+                            sources: ["\(shimDir)\(ps)NAPIRegisterModule.c"],
+                            dependencies: [nodeModule.nativeLibName],
+                            headerSearchPaths: ["\(fishyJoesDependency.localPath)\(ps)Sources\(ps)NodeAPI"],
+                            librarySearchPaths: [platform.buildDir(configuration)],
+                            outputPath: "\(platform.buildDir(configuration))\(ps)\(platform.dylibName(for: nodeModule.nodeShimLibName))"
                         ).run()
                         try installLibrary(nodeModule.nodeShimLibName, installName: nodeModule.nodeShimCJSName)
 

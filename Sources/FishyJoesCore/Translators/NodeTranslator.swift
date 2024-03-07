@@ -323,6 +323,7 @@ struct NodeTranslator: Translator {
         let nodeNativeShimFragment = SourceFragment(sourceryDestination: "file:NodeNativeShim/NAPIRegisterModule.c")
         nodeNativeShimFragment.output("#include <node_api.h>")
         nodeNativeShimFragment.output("extern napi_value registerModule\(context.module.name)(napi_env env, napi_value exports);")
+        nodeNativeShimFragment.output("#pragma comment(linker, \"/export: napi_register_module_v1 \")")
         nodeNativeShimFragment.outputBlock("napi_value napi_register_module_v1(napi_env env, napi_value exports) {") {
             nodeNativeShimFragment.output("return registerModule\(context.module.name)(env, exports);")
         }
