@@ -136,7 +136,8 @@ extension TestAPI_CommonInterface._AProtocolConverter: IotaMutator {
         do {
             let box = try Box<SwiftType>.peekIota(value, env: env)
             return box.value
-        } catch {            
+        }
+        catch {
             let iotaWitness = try IotaReference(value, env: env)
             return _IotaAProtocol(_iotaWitness: iotaWitness)
         }
