@@ -122,11 +122,25 @@ final class IotaTranslator: Translator {
 
                     mutateBlock {
                         let body = {
-                            fragment.outputBlock("\(selfExpression)\(callName)(", newLineTerminated: false) {
-                                fragment.outputMap(method.parameters, separator: ",") { formal in
-                                    let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
-                                    return (formal.label.map { "\($0): " } ?? "") +
+                            if method.isInExtension,
+                               let definedInName = method.definedIn?.name {
+                                fragment.outputBlock("try _Iota\(definedInName)_sans_\(method.callName)(wrapped: ", closeWith: ")", newLineTerminated: false) {
+                                    fragment.output("try \(converterNamespace).peekIota(_iotaThis, env: env)")
+                                }
+                                fragment.outputBlock("\(callName)(", newLineTerminated: false) {
+                                    fragment.outputMap(method.parameters, separator: ",") { formal in
+                                        let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
+                                        return (formal.label.map { "\($0): " } ?? "") +
                                         "try \(resolved.converterType.name).peekIota(\(formal.name), env: env)"
+                                    }
+                                }
+                            } else {
+                                fragment.outputBlock("\(selfExpression)\(callName)(", newLineTerminated: false) {
+                                    fragment.outputMap(method.parameters, separator: ",") { formal in
+                                        let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
+                                        return (formal.label.map { "\($0): " } ?? "") +
+                                        "try \(resolved.converterType.name).peekIota(\(formal.name), env: env)"
+                                    }
                                 }
                             }
                         }
