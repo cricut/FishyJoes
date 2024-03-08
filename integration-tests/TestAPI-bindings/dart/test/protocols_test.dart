@@ -14,6 +14,8 @@ void main() {
         print("a: ${a}");
         var b = a.bar(2, 13);
         print("a barred: ${b}");
+        var c = a.hasADefaultImplementation(3, 4);
+        print("a.hasADefaultImplementation: $c");
       });
   });
 
