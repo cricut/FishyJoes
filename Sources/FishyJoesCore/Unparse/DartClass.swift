@@ -422,6 +422,7 @@ class DartProductClass: DartClass {
     }
 
     let constructor: Constructor
+    let isExternalWitness: Bool
 
     init(
         module: Module,
@@ -429,9 +430,11 @@ class DartProductClass: DartClass {
         name: String,
         constructor: Constructor,
         fieldsAndMethods: [MethodOrVariable],
-        conformances: Set<String>
+        conformances: Set<String>,
+        isExternalWitness: Bool = false
     ) {
         self.constructor = constructor
+        self.isExternalWitness = isExternalWitness
         super.init(
             module: module,
             documentation: documentation,
@@ -442,6 +445,11 @@ class DartProductClass: DartClass {
     }
     
     private func ffiFor(fields: [Variable], fragment: SourceFragment) {
+        var peekTypeName = unqualifiedName
+        if isExternalWitness,
+           let conformance = conformances.first {
+            peekTypeName = "\(module.name).\(conformance)"
+        }
         for field in fields {
             let isObject = field.type.isObject
             fragment.blankLine()
@@ -473,7 +481,7 @@ class DartProductClass: DartClass {
                 if field.isStatic {
                     fragment.output("\(unqualifiedName).\(field.name)")
                 } else {
-                    fragment.output("peekRef<\(unqualifiedName)>(obj).\(field.name)")
+                    fragment.output("peekRef<\(peekTypeName)>(obj).\(field.name)")
                 }
             }
             if field.isMutable,
@@ -487,7 +495,7 @@ class DartProductClass: DartClass {
                     if field.isStatic {
                         fragment.output("\(unqualifiedName).\(field.name) = ", newLineTerminated: false)
                     } else {
-                        fragment.output("peekRef<\(unqualifiedName)>(obj).\(field.hiddenStorage ? "_" : "")\(field.name) = ", newLineTerminated: false)
+                        fragment.output("peekRef<\(peekTypeName)>(obj).\(field.hiddenStorage ? "_" : "")\(field.name) = ", newLineTerminated: false)
                     }
                     if isObject {
                         fragment.output("consumeRef<\(field.type.name(in: self))>(newValue);")
@@ -515,6 +523,12 @@ class DartProductClass: DartClass {
             conformancesPart.append(" implements ")
             conformancesPart.append(conformances.map { "\(module).\($0)" }.joined(separator: ", "))
         }
+        var peekTypeName = unqualifiedName
+        if isExternalWitness,
+           let conformance = conformances.first {
+            peekTypeName = "\(module.name).\(conformance)"
+        }
+
         commonIgnoreSpecificWarnings(fragment: fragment)
 
         document(documentation, fragment: fragment)
@@ -642,9 +656,9 @@ class DartProductClass: DartClass {
                     if method.isStatic {
                         methodCall = "\(unqualifiedName).\(method.name)"
                     } else {
-                        methodCall = "peekRef<\(unqualifiedName)>(obj).\(method.name)"
+                        methodCall = "peekRef<\(peekTypeName)>(obj).\(method.name)"
                     }
-                    let prefix = method.isStatic ? unqualifiedName : "peekRef<\(unqualifiedName)>(obj)"
+                    let prefix = method.isStatic ? unqualifiedName : "peekRef<\(peekTypeName)>(obj)"
                     fragment.outputBlock("\(methodCall)(", closeWith: ")") {
                         fragment.outputMap(method.parameters, separator: ",") {
                             $0.name

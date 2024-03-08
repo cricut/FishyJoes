@@ -60,7 +60,7 @@ class ExternalWitness_AProtocol extends SwiftReference implements TestAPI.AProto
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
-            peekRef<ExternalWitness_AProtocol>(obj).foo
+            peekRef<TestAPI.AProtocol>(obj).foo
         )
     );
 
@@ -68,7 +68,7 @@ class ExternalWitness_AProtocol extends SwiftReference implements TestAPI.AProto
         UnownedRef obj,
         OutCreatedRef exn
     ) => catching(exn, () =>
-        peekRef<ExternalWitness_AProtocol>(obj).baz
+        peekRef<TestAPI.AProtocol>(obj).baz
     ) ?? false;
 
     static CreatedRef ffi_bar(
@@ -78,7 +78,7 @@ class ExternalWitness_AProtocol extends SwiftReference implements TestAPI.AProto
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
-            peekRef<ExternalWitness_AProtocol>(obj).bar(
+            peekRef<TestAPI.AProtocol>(obj).bar(
                 x,
                 y
             )
