@@ -475,7 +475,7 @@ struct TranslatedProtocol: TranslatedType {
                     fragment.output("foreignObject,")
                     for param in method.parameters {
                         let resolvedParam = context.resolve(type: param.type)
-                        fragment.output("\(resolvedParam.converterType.name),")
+                        fragment.output("\(resolvedParam.converterType.name).CType,")
                     }
                     fragment.output("_ exn: foreignOutExn")
                 }
@@ -519,7 +519,7 @@ struct TranslatedProtocol: TranslatedType {
                     fragment.output("foreignObject,")
                     for param in method.parameters {
                         let resolvedParam = context.resolve(type: param.type)
-                        fragment.output("\(resolvedParam.converterType.name),")
+                        fragment.output("\(resolvedParam.converterType.name).CType,")
                     }
                     fragment.output("_ exn: foreignOutExn")
                 }
