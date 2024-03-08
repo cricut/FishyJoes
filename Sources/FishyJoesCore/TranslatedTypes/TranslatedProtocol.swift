@@ -532,9 +532,6 @@ struct TranslatedProtocol: TranslatedType {
                     fragment.output("return box.value")
                 }
                 fragment.outputBlock(" catch {") {
-                    fragment.outputBlock("guard error is BoxTypeError else {") {
-                        fragment.output("fatalError(\"Unexpected error: \\(error)\")")
-                    }                    
                     fragment.output("let iotaWitness = try IotaReference(value, env: env)")
                     fragment.output("return _IotaAProtocol(_iotaWitness: iotaWitness)")
                 }
