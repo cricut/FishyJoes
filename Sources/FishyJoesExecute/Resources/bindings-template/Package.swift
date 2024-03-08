@@ -83,13 +83,6 @@ let package = Package(
             ),
         ] : [
             .target(
-                name: "__MODULE_NAME___NodeNativeShim",
-                dependencies: [
-                    .target(name: "__MODULE_NAME___NodeInterface"),
-                ],
-                path: "Sources/Generated/NodeNativeShim"
-            ),
-            .target(
                 name: "__MODULE_NAME___JavaInterface",
                 dependencies: [
                     .target(name: "__MODULE_NAME___CommonInterface"),

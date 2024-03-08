@@ -490,8 +490,8 @@ extension CodeGen {
                             outputPath: "\(platform.buildDir(configuration))\(ps)\(platform.dylibName(for: nodeModule.nodeShimLibName))"
                         ).run()
                         try installLibrary(nodeModule.nodeShimLibName, installName: nodeModule.nodeShimCJSName)
-                        try cmd("rm", "NAPIRegisterModule.exp").runBool()
-                        try cmd("rm", "NAPIRegisterModule.lib").runBool()
+                        try? cmd("rm", "NAPIRegisterModule.exp").run()
+                        try? cmd("rm", "NAPIRegisterModule.lib").run()
 
                         // Create the required Javascript files for loading the module's native library from node
                         var moduleDotJS: [String] = []
