@@ -171,7 +171,7 @@ final class IotaTranslator: Translator {
         let selfExpression: String
         let containingNamespace: String
         let converterNamespace: String
-        
+
         if let selfType = variable.definedInTypeName?.better {
             let resolved = context.resolve(type: selfType)
             containingNamespace = resolved.sourceType.name

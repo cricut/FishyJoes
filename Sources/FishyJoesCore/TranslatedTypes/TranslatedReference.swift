@@ -414,7 +414,7 @@ struct TranslatedReference: TranslatedType {
         }
 
         registerDartClass(in: context)
-        
+
         // TODO: Handle Protocols
         if conformances.isEmpty {
             registerCSharpClass(in: context)
@@ -541,7 +541,7 @@ struct TranslatedReference: TranslatedType {
                         ],
                         returnType: .primitive("bool", ffiName: "Bool"),
                         deprecation: nil,
-                        body: nil, 
+                        body: nil,
                         isInExtension: false
                     )
                 )

@@ -135,7 +135,7 @@ class DartClass {
         if !(self is DartProtocolClass) {
             for field in fields {
                 let baseArgs = field.isStatic ? [] : [thisArg]
-                
+
                 result["__iota_get_\(field.mangledName)"] = (args: baseArgs, return: field.type, isInExtension: false)
                 if field.isPubliclyWritable {
                     result["__iota_set_\(field.mangledName)"] = (args: baseArgs + [(field.name, field.type)], return: .void, isInExtension: false)
@@ -153,7 +153,7 @@ class DartClass {
             for param in method.parameters {
                 params.append((param.name, param.type))
             }
-            
+
             if !(self is DartProtocolClass) ||
                 ((self is DartProtocolClass) && method.isInExtension) {
                 result["__iota_\(method.mangledName)"] = (args: params, return: method.returnType, isInExtension: (self is DartProtocolClass))
@@ -443,7 +443,7 @@ class DartProductClass: DartClass {
             conformances: conformances
         )
     }
-    
+
     private func ffiFor(fields: [Variable], fragment: SourceFragment) {
         var peekTypeName = unqualifiedName
         if isExternalWitness,
@@ -475,7 +475,7 @@ class DartProductClass: DartClass {
                     }
                 }
             }
-            
+
             fragment.output(" => ", newLineTerminated: false)
             wrapper {
                 if field.isStatic {
@@ -507,13 +507,13 @@ class DartProductClass: DartClass {
             fragment.blankLine()
         }
     }
-    
+
     private func toStringImpl(fields: [Variable], fragment: SourceFragment) {
         fragment.output("@override")
         fragment.output("String toString() => '\(unqualifiedName)(", newLineTerminated: false)
         let toStringParamsString = fields.map { "\(DartClass.deforbidify($0.name)): $\(DartClass.deforbidify($0.name))" }.joined(separator: ", ")
         fragment.output("\(toStringParamsString))';")
-        
+
         fragment.blankLine()
     }
 
@@ -545,7 +545,7 @@ class DartProductClass: DartClass {
             switch constructor {
             case .reference:
                 fragment.output("\(unqualifiedName)(ffi.Pointer reference): super(reference) {}")
-                
+
                 fragment.outputBlock("static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>", closeWith: ");") {
                     fragment.output("createRef(\(unqualifiedName)(ref))")
                 }
@@ -616,7 +616,7 @@ class DartProductClass: DartClass {
             }
 
             fragment.blankLine()
-            
+
             ffiFor(fields: fields, fragment: fragment)
 
             fragment.blankLine()
@@ -649,7 +649,7 @@ class DartProductClass: DartClass {
                         }
                     }
                 }
-                
+
                 fragment.output(" => ", newLineTerminated: false)
                 wrapper {
                     let methodCall: String
@@ -667,7 +667,7 @@ class DartProductClass: DartClass {
                 }
                 fragment.blankLine()
             }
-            
+
             fragment.blankLine()
 
             if storedFields.isEmpty,
@@ -683,7 +683,7 @@ class DartProductClass: DartClass {
                     fragment.outputBlock("(", closeWith: ");") {
                         fragment.output("other.runtimeType == runtimeType &&")
                         fragment.output("other is \(unqualifiedName)", newLineTerminated: false)
-                        
+
                         let nonStaticFields = storedFields.filter { !$0.isStatic }
                         if nonStaticFields.isEmpty {
                             fragment.blankLine()
@@ -698,10 +698,10 @@ class DartProductClass: DartClass {
                         }
                     }
                 }
-                
+
                 fragment.blankLine()
                 fragment.blankLine()
-                
+
                 fragment.output("@override")
                 fragment.output("int get hashCode => ", newLineTerminated: false)
                 if storedFields.isEmpty {
@@ -735,7 +735,7 @@ class DartProductClass: DartClass {
                 }
                 fragment.blankLine()
             }
-            
+
             if constructor != .reference {
                 fragment.output("\(unqualifiedName) copyWith", newLineTerminated: false)
                 if storedFields.isEmpty {
@@ -1100,7 +1100,7 @@ class DartProtocolClass: DartClass {
         }
 
         fragment.blankLine()
-        
+
         let defaultImplsName = "\(unqualifiedName)_DefaultImplementations"
         fragment.outputBlock("extension \(defaultImplsName) on \(unqualifiedName) {") {
             for method in defaultMethods {
@@ -1132,7 +1132,7 @@ class DartProtocolClass: DartClass {
                         }
                     }
                 }
-                
+
                 fragment.outputBlock(" =>", closeWith: ";") {
                     var wrap: (() -> Void) -> Void = { body in
                         if !method.isStatic {
@@ -1169,7 +1169,7 @@ class DartProtocolClass: DartClass {
                     }
                 }
                 fragment.blankLine()
-                
+
                 fragment.outputBlock("static \(method.returnType.ffiCreatedName) ffi_\(method.name)(", newLineTerminated: false) {
                     fragment.output("UnownedRef obj,")
                     for param in method.parameters {
@@ -1194,7 +1194,7 @@ class DartProtocolClass: DartClass {
                         }
                     }
                 }
-                
+
                 fragment.output(" => ", newLineTerminated: false)
                 wrapper {
                     let methodCall: String

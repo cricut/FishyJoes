@@ -355,7 +355,7 @@ struct TranslatedProtocol: TranslatedType {
         fragment.blankLine()
         return fragment
     }
-    
+
     func iotaDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
             "IotaInterface/\(sourceType.name)+iota-type.swift",
@@ -365,7 +365,7 @@ struct TranslatedProtocol: TranslatedType {
         let foreignProtocolType = "_Iota\(sourceType.nonNamespacedName)"
         let defaultMethods = methods.filter { $0.isInExtension }
         let normalMethods = methods.filter { !$0.isInExtension }
-        
+
         fragment.outputBlock("struct \(foreignProtocolType): \(sourceType.name) {") {
             fragment.output("let _iotaWitness: IotaReference")
             for variable in computedVariables {
@@ -373,7 +373,7 @@ struct TranslatedProtocol: TranslatedType {
                 let name = variable.name
                 let type = variable.typeName.better.name
                 let resolved = context.resolve(type: variable.typeName.better)
-                
+
                 fragment.outputBlock("\(variable.isStatic ? "static " : "")public var \(name): \(type) {") {
                     fragment.outputBlock("get throws {") {
                         fragment.outputBlock("try \(type).consumeIota(") {
@@ -385,7 +385,7 @@ struct TranslatedProtocol: TranslatedType {
                     }
                 }
             }
-            
+
             for method in methods {
                 fragment.output()
                 let resolvedReturn = context.resolve(type: method.returnType)
@@ -393,7 +393,7 @@ struct TranslatedProtocol: TranslatedType {
                 if method.returnType.name != "Void" {
                     returnSignature.append(" -> \(method.returnType.name)")
                 }
-                
+
                 var paramSigs = [String]()
                 do {
                     for param in method.parameters {
@@ -419,7 +419,7 @@ struct TranslatedProtocol: TranslatedType {
         }
 
         fragment.blankLine()
-        
+
         for defaultMethod in defaultMethods {
             fragment.outputBlock("struct \(foreignProtocolType)_sans_\(defaultMethod.callName): \(sourceType.name) {", closeWith: "}") {
                 fragment.output("var wrapped: \(sourceType.name)")
@@ -455,7 +455,7 @@ struct TranslatedProtocol: TranslatedType {
             }
             fragment.output()
         }
-        
+
         fragment.blankLine()
 
         fragment.output("@_cdecl(\"\(iotaSetupName)\")")
@@ -500,7 +500,7 @@ struct TranslatedProtocol: TranslatedType {
 
         fragment.outputBlock("extension \(converterType.name): IotaMutator {") {
             fragment.output("public typealias CType = foreignObject")
-            
+
             fragment.outputBlock("public typealias _ConstructorMethod = @convention(c) (", closeWith: ") -> foreignObject") {
                 fragment.output("_ ref: UnsafeMutableRawPointer,")
                 fragment.output("_ exn: foreignOutExn")

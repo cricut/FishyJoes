@@ -38,12 +38,12 @@ extension AProtocol {
 public struct AProtocolImplementation: AProtocol {
     public var foo: String
     public var baz: Bool
-    
+
     public init(foo: String, baz: Bool) {
         self.foo = foo
         self.baz = baz
     }
-    
+
     /// <!-- FishyJoes.export(bar) -->
     public func bar(x: Int, y: Int) throws -> AProtocol {
         AProtocolImplementation(foo: "\(x + y)", baz: x == 2)
@@ -51,7 +51,7 @@ public struct AProtocolImplementation: AProtocol {
 }
 //
 ///// <!-- FishyJoes.export(TestMethodsProtocol) -->
-//public protocol TestMethodsProtocol {
+// public protocol TestMethodsProtocol {
 //    /// <!-- FishyJoes.export(foo) -->
 //    func foo() throws
 //    /// <!-- FishyJoes.export(bar) -->
@@ -64,28 +64,28 @@ public struct AProtocolImplementation: AProtocol {
 //    func xyzzy(thud: Int, grault: [Double]) throws -> String
 //    /// <!-- FishyJoes.export(plugh) -->
 //    func plugh(fred: (Bool, Double, [String])) throws -> (Bool, Int, String)
-//}
+// }
 //
 ///// <!-- FishyJoes.export(TestPropertiesProtocol) -->
-//public protocol TestPropertiesProtocol {
+// public protocol TestPropertiesProtocol {
 //    /// <!-- FishyJoes.export(corge) -->
 //    var corge: String { get throws }
 //    /// <!-- FishyJoes.export(frob) -->
 //    var frob: [Double] { get throws }
-//}
+// }
 //
 ///// <!-- FishyJoes.export(TestOptionalsProtocol) -->
-//public protocol TestOptionalsProtocol {
+// public protocol TestOptionalsProtocol {
 //    /// <!-- FishyJoes.export(flarp) -->
 //    var flarp: String? { get throws }
 //    /// <!-- FishyJoes.export(wombat) -->
 //    func wombat(zxc: Int?) throws -> Double?
 //    /// <!-- FishyJoes.export(spqr) -->
 //    func spqr(_ pippo: AssociatedDataEnum) throws -> Int
-//}
+// }
 //
 ///// <!-- FishyJoes.export(TestProtocolEnum, conformances: [TestMethodsProtocol]) -->
-//public enum TestProtocolEnum: TestMethodsProtocol {
+// public enum TestProtocolEnum: TestMethodsProtocol {
 //    case qux
 //
 //    /// <!-- FishyJoes.export(foo) -->
@@ -112,10 +112,10 @@ public struct AProtocolImplementation: AProtocol {
 //    public func plugh(fred: (Bool, Double, [String])) throws -> (Bool, Int, String) {
 //        (!fred.0, Int(fred.1), fred.2.joined(separator: " -<*>- "))
 //    }
-//}
+// }
 //
 ///// <!-- FishyJoes.export(TestProtocolStruct, conformances: [TestMethodsProtocol, TestPropertiesProtocol]) -->
-//public struct TestProtocolStruct: TestMethodsProtocol, TestPropertiesProtocol {
+// public struct TestProtocolStruct: TestMethodsProtocol, TestPropertiesProtocol {
 //    /// <!-- FishyJoes.export(foo) -->
 //    public func foo() throws {
 //        print("!oof")
@@ -152,10 +152,10 @@ public struct AProtocolImplementation: AProtocol {
 //            [3.14159265359, 42.0, -1.23456789]
 //        }
 //    }
-//}
+// }
 //
 ///// <!-- FishyJoes.exportReference(TestProtocolClass, conformances: [TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol]) -->
-//public class TestProtocolClass: TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol {
+// public class TestProtocolClass: TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol {
 //    /// <!-- FishyJoes.export(foo) -->
 //    public func foo() throws {
 //        print("!foo-oof!")
@@ -216,4 +216,4 @@ public struct AProtocolImplementation: AProtocol {
 //    public func spqr(_ pippo: AssociatedDataEnum) throws -> Int {
 //        pippo.intValue
 //    }
-//}
+// }
