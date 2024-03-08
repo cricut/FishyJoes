@@ -478,6 +478,7 @@ extension CodeGen {
 
                         // For node to load a library correctly, the file must be ".cjs.node", so compile a shim to load the actual Node interfacing library
                         // and copy it into the build directory so it can be installed like any other library
+                        // and also remove intermediate files that MSVC makes but we don't need
                         // TODO: When SwiftPM supports product dependencies on targets within the same package, use them instead
                         // See: https://forums.swift.org/t/pitch-swiftpm-allow-targets-to-depend-on-products-in-the-same-package/57717/37
                         let shimDir = "Sources\(ps)Generated\(ps)NodeNativeShim"
@@ -489,6 +490,8 @@ extension CodeGen {
                             outputPath: "\(platform.buildDir(configuration))\(ps)\(platform.dylibName(for: nodeModule.nodeShimLibName))"
                         ).run()
                         try installLibrary(nodeModule.nodeShimLibName, installName: nodeModule.nodeShimCJSName)
+                        try cmd("rm", "NAPIRegisterModule.exp").runBool()
+                        try cmd("rm", "NAPIRegisterModule.lib").runBool()
 
                         // Create the required Javascript files for loading the module's native library from node
                         var moduleDotJS: [String] = []
