@@ -636,7 +636,10 @@ extension CodeGen {
                         for dependency in nodeDependencies {
                             let nativeLibFilename = platform.dylibName(for: dependency.nativeLibName)
                             // TODO: Should copy?!? How to establish this link with only one file?
-                            postinstall += "COPY \"%package_directory%\\\(dependency.npmPackageName)\\\(nativeLibFilename)\" \"\(nativeLibFilename)\""
+                            postinstall += """
+                            COPY "%package_directory%\\\(dependency.npmPackageName)\\\(nativeLibFilename)" "\(nativeLibFilename)"
+
+                            """
                         }
 
                         try cmd("cat")
