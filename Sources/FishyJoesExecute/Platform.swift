@@ -241,11 +241,65 @@ enum Platform: CustomStringConvertible, Hashable {
         swiftBuild(arguments: arguments, configuration: configuration)
     }
 
-    func clangBuild(sources: [String], dependencies: [String] = [], headerSearchPaths: [String] = [], librarySearchPaths: [String] = [], omitLocalRPath: Bool = false, dynamic: Bool = true, outputPath: String? = nil) -> Command {
+    func clangBuild(
+        sources: [String],
+        dependencies: [String] = [],
+        headerSearchPaths: [String] = [],
+        librarySearchPaths: [String] = [],
+        omitLocalRPath: Bool = false,
+        dynamic: Bool = true,
+        outputPath: String? = nil,
+        configuration: BuildConfiguration
+    ) throws {
+        if isNative, configuration.fat {
+            let triples = ["arm64-apple-macosx", "x86_64-apple-macosx"]
+            let libs = triples.map { dylibName(for: "\((outputPath as? NSString)?.lastPathComponent ?? "out")_\($0)") }
+            for (triple, lib) in zip(triples, libs) {
+                try clangBuild(
+                    sources: sources,
+                    dependencies: dependencies,
+                    headerSearchPaths: headerSearchPaths,
+                    librarySearchPaths: librarySearchPaths,
+                    omitLocalRPath: omitLocalRPath,
+                    dynamic: dynamic,
+                    optimize: !configuration.debug,
+                    targetTriple: triple,
+                    outputPath: lib
+                ).run()
+            }
+            try cmd("lipo", arguments: ["-create"] + (outputPath != nil ? ["-output", outputPath!] : []) + libs).run()
+        } else {
+            try clangBuild(
+                sources: sources,
+                dependencies: dependencies,
+                headerSearchPaths: headerSearchPaths,
+                librarySearchPaths: librarySearchPaths,
+                omitLocalRPath: omitLocalRPath,
+                dynamic: dynamic,
+                optimize: !configuration.debug,
+                outputPath: outputPath
+            ).run()
+        }
+    }
+
+    func clangBuild(
+        sources: [String],
+        dependencies: [String] = [],
+        headerSearchPaths: [String] = [],
+        librarySearchPaths: [String] = [],
+        omitLocalRPath: Bool = false,
+        dynamic: Bool = true,
+        optimize: Bool = true,
+        targetTriple: String? = nil,
+        outputPath: String? = nil
+    ) -> Command {
         #if os(macOS) || os(Linux)
         var args: [String] = []
         if dynamic {
             args.append(contentsOf: ["-shared", "-undefined", "dynamic_lookup"])
+        }
+        if optimize {
+            args.append("-Ofast")
         }
         for headerSearchPath in headerSearchPaths {
             args.append("-I\(headerSearchPath)")
@@ -255,6 +309,9 @@ enum Platform: CustomStringConvertible, Hashable {
         }
         for dependency in dependencies {
             args.append("-l\(dependency)")
+        }
+        if let targetTriple = targetTriple {
+            args.append("--target=\(targetTriple)")
         }
         if let outputPath = outputPath {
             args.append(contentsOf: ["-o", outputPath])
@@ -273,6 +330,11 @@ enum Platform: CustomStringConvertible, Hashable {
         if dynamic {
             args.append("/LD")
         }
+        if optimize {
+            args.append("/O2")
+        } else {
+            args.append("/Od")
+        }
         for headerSearchPath in headerSearchPaths {
             args.append("/I\(headerSearchPath)")
         }
@@ -285,6 +347,9 @@ enum Platform: CustomStringConvertible, Hashable {
         }
         for dependency in dependencies {
             args.append("\(dependency).lib")
+        }
+        if let targetTriple = targetTriple {
+            fatalError("Windows clang cross-compile builds not supported: \(targetTriple)")
         }
         if let outputPath = outputPath {
             args.append("/OUT:\(outputPath)")

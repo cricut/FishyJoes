@@ -487,8 +487,9 @@ extension CodeGen {
                             dependencies: [nodeModule.nativeLibName],
                             headerSearchPaths: ["\(fishyJoesDependency.localPath)\(ps)Sources\(ps)NodeAPI"],
                             librarySearchPaths: [platform.buildDir(configuration)],
-                            outputPath: "\(platform.buildDir(configuration))\(ps)\(platform.dylibName(for: nodeModule.nodeShimLibName))"
-                        ).run()
+                            outputPath: "\(platform.buildDir(configuration))\(ps)\(platform.dylibName(for: nodeModule.nodeShimLibName))",
+                            configuration: configuration
+                        )
                         try installLibrary(nodeModule.nodeShimLibName, installName: nodeModule.nodeShimCJSName)
                         try? cmd("rm", "NAPIRegisterModule.exp").run()
                         try? cmd("rm", "NAPIRegisterModule.lib").run()
