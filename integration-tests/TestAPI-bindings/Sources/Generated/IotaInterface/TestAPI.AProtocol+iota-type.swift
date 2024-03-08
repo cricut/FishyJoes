@@ -140,7 +140,6 @@ extension TestAPI_CommonInterface._AProtocolConverter: IotaMutator {
             guard error is BoxTypeError else {
                 fatalError("Unexpected error: \(error)")
             }
-            // The only error that peekIota can throw is a BoxTypeError, which happens when the box.value type is not our expected type of Box<SwiftType>, in which case we should use the IotaWitness
             let iotaWitness = try IotaReference(value, env: env)
             return _IotaAProtocol(_iotaWitness: iotaWitness)
         }
