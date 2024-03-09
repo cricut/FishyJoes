@@ -253,7 +253,7 @@ enum Platform: CustomStringConvertible, Hashable {
     ) throws {
         if isNative, configuration.fat {
             let triples = ["arm64-apple-macosx", "x86_64-apple-macosx"]
-            let libs = triples.map { dylibName(for: "\((outputPath as? NSString)?.lastPathComponent ?? "out")_\($0)") }
+            let libs = triples.map { "\((outputPath as? NSString)?.lastPathComponent ?? dylibName(for: "out"))_\($0)" }
             for (triple, lib) in zip(triples, libs) {
                 try clangBuild(
                     sources: sources,
@@ -268,6 +268,11 @@ enum Platform: CustomStringConvertible, Hashable {
                 ).run()
             }
             try cmd("lipo", arguments: ["-create"] + (outputPath != nil ? ["-output", outputPath!] : []) + libs).run()
+            for lib in libs {
+                if cmd("test", "-f", lib).runBool() {
+                    try? cmd("rm", lib).run()
+                }
+            }
         } else {
             try clangBuild(
                 sources: sources,

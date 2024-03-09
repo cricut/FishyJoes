@@ -491,9 +491,12 @@ extension CodeGen {
                             configuration: configuration
                         )
                         try installLibrary(nodeModule.nodeShimLibName, installName: nodeModule.nodeShimCJSName)
-                        try? cmd("rm", "NAPIRegisterModule.exp").run()
-                        try? cmd("rm", "NAPIRegisterModule.lib").run()
-
+                        for intermediateBuildResult in ["NAPIRegisterModule.exp", "NAPIRegisterModule.lib"] {
+                            if cmd("test", "-f", intermediateBuildResult).runBool() {
+                                try? cmd("rm", intermediateBuildResult).run()
+                            }
+                        }
+                        
                         // Create the required Javascript files for loading the module's native library from node
                         var moduleDotJS: [String] = []
                         for dependency in nodeDependencies {
