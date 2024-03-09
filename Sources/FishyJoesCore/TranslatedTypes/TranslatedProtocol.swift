@@ -533,7 +533,7 @@ struct TranslatedProtocol: TranslatedType {
                 }
                 fragment.outputBlock(" catch {") {
                     fragment.output("let iotaWitness = try IotaReference(value, env: env)")
-                    fragment.output("return _IotaAProtocol(_iotaWitness: iotaWitness)")
+                    fragment.output("return _Iota\(sourceType.nonNamespacedName)(_iotaWitness: iotaWitness)")
                 }
             }
             fragment.blankLine()
