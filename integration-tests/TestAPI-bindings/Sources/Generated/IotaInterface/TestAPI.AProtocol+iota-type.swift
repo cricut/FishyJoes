@@ -89,14 +89,14 @@ public func TestAPI_CommonInterface__AProtocolConverter_setup(
     _ bazGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Bool.CType,
     _ bar: @escaping @convention(c) (
         foreignObject,
-        Swift.Int,
-        Swift.Int,
+        Swift.Int.CType,
+        Swift.Int.CType,
         _ exn: foreignOutExn
     ) -> TestAPI_CommonInterface._AProtocolConverter.CType,
     _ hasADefaultImplementation: @escaping @convention(c) (
         foreignObject,
-        Swift.Int,
-        Swift.Double,
+        Swift.Int.CType,
+        Swift.Double.CType,
         _ exn: foreignOutExn
     ) -> Swift.String.CType,
     _ exn: foreignOutExn
@@ -121,14 +121,14 @@ extension TestAPI_CommonInterface._AProtocolConverter: IotaMutator {
     fileprivate static let _bazGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Bool.CType>()
     fileprivate static let _bar = Env.CallbackMap<@convention(c) (
         foreignObject,
-        Swift.Int,
-        Swift.Int,
+        Swift.Int.CType,
+        Swift.Int.CType,
         _ exn: foreignOutExn
     ) -> TestAPI_CommonInterface._AProtocolConverter.CType>()
     fileprivate static let _hasADefaultImplementation = Env.CallbackMap<@convention(c) (
         foreignObject,
-        Swift.Int,
-        Swift.Double,
+        Swift.Int.CType,
+        Swift.Double.CType,
         _ exn: foreignOutExn
     ) -> Swift.String.CType>()
 
