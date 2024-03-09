@@ -1173,7 +1173,7 @@ class DartProtocolClass: DartClass {
                 fragment.outputBlock("static \(method.returnType.ffiCreatedName) ffi_\(method.name)(", newLineTerminated: false) {
                     fragment.output("UnownedRef obj,")
                     for param in method.parameters {
-                        fragment.output("\(param.type.name()) \(param.name),")
+                        fragment.output("\(param.type.ffiUnownedName) \(param.name),")
                     }
                     fragment.output("OutCreatedRef exn")
                 }
@@ -1195,6 +1195,7 @@ class DartProtocolClass: DartClass {
                     }
                 }
 
+                
                 fragment.output(" => ", newLineTerminated: false)
                 wrapper {
                     let methodCall: String
@@ -1203,10 +1204,11 @@ class DartProtocolClass: DartClass {
                     } else {
                         methodCall = "peekRef<\(unqualifiedName)>(obj).\(method.name)"
                     }
+                    
                     let prefix = method.isStatic ? defaultImplsName : "peekRef<\(unqualifiedName)>(obj)"
                     fragment.outputBlock("\(methodCall)(", closeWith: ")") {
                         fragment.outputMap(method.parameters, separator: ",") {
-                            $0.name
+                            $0.type.isObject ? "peekRef<\($0.type.name())>(\($0.name))" : $0.name
                         }
                     }
                 }

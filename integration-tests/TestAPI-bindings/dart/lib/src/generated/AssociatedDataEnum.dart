@@ -23,6 +23,7 @@ import './SimpleEnum.dart' as TestAPI;
 import './String_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Strings.dart' as TestAPI;
 import './Structs.dart' as TestAPI;
+import './Structs_DougStruct.dart' as TestAPI;
 import './Structs_MemberwiseStruct.dart' as TestAPI;
 import './Structs_MutableStruct.dart' as TestAPI;
 import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;

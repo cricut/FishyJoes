@@ -23,6 +23,7 @@ import './SimpleEnum.dart' as TestAPI;
 import './String_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Strings.dart' as TestAPI;
 import './Structs.dart' as TestAPI;
+import './Structs_DougStruct.dart' as TestAPI;
 import './Structs_MemberwiseStruct.dart' as TestAPI;
 import './Structs_MutableStruct.dart' as TestAPI;
 import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
@@ -77,6 +78,32 @@ extension AProtocol_DefaultImplementations on AProtocol {
         )
     );
 
+    double hasADefaultImplementation2(
+        String a,
+        bool b,
+        double c
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            GCRef.using(a, (_aHandle) =>
+                check((OutCreatedRef _exn) => f__iota_TestAPI_AProtocol_hasADefaultImplementation2(Loader.shared.env, _thisHandle.ptr, _aHandle.ptr, b, c, _exn))
+            )
+        )
+    ;
+
+    static double ffi_hasADefaultImplementation2(
+        UnownedRef obj,
+        UnownedRef a,
+        bool b,
+        double c,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<AProtocol>(obj).hasADefaultImplementation2(
+            peekRef<String>(a),
+            b,
+            c
+        )
+    ) ?? 0.0;
+
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,
@@ -84,4 +111,12 @@ extension AProtocol_DefaultImplementations on AProtocol {
         double y,
         OutCreatedRef _exn
     ) f__iota_TestAPI_AProtocol_hasADefaultImplementation;
+    static late double Function(
+        Env env,
+        UnownedRef _this,
+        UnownedRef a,
+        bool b,
+        double c,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_AProtocol_hasADefaultImplementation2;
 }

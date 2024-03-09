@@ -12,6 +12,57 @@ namespace Cricut.TestAPI {
         private Structs() {}
 
         /// <summary>
+        /// <!-- FishyJoes.export(Structs.DougStruct) -->
+        /// </summary>
+        public record DougStruct {
+            public string Str { get; set; }
+
+            public DougStruct(
+                string Str
+            ) {
+                this.Str = Str;
+            }
+
+            /// <summary>
+            /// <!-- FishyJoes.export(cat) -->
+            /// </summary>
+            public string Cat(
+                string str
+            ) {
+                using var _thisHandle = new GCRef(this);
+                using var _strHandle = new GCRef(str);
+                return Check((out CreatedRef _exn) => __iota_TestAPI_Structs_DougStruct_cat(Loader.env, _thisHandle.ptr, _strHandle.ptr, out _exn)).Consume<string>();
+            }
+
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern CreatedRef __iota_TestAPI_Structs_DougStruct_cat(
+                IntPtr envRef,
+                UnownedRef self,
+                UnownedRef str,
+                out CreatedRef exn
+            );
+
+            /// <summary>
+            /// <!-- FishyJoes.export(create) -->
+            /// </summary>
+            public static Cricut.TestAPI.Structs.DougStruct Create(
+                string str
+            ) {
+                using var _strHandle = new GCRef(str);
+                return Check((out CreatedRef _exn) => __iota_TestAPI_Structs_DougStruct_create(Loader.env, _strHandle.ptr, out _exn)).Consume<Cricut.TestAPI.Structs.DougStruct>();
+            }
+
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern CreatedRef __iota_TestAPI_Structs_DougStruct_create(
+                IntPtr envRef,
+                UnownedRef str,
+                out CreatedRef exn
+            );
+
+            static DougStruct() { _TypeSetup._ensureLoaded(); }
+        }
+
+        /// <summary>
         /// <!-- FishyJoes.export(Structs.MutableStruct) -->
         /// </summary>
         public record MutableStruct {

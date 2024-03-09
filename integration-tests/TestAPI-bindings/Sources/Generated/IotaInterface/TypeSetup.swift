@@ -148,6 +148,7 @@ public func FishyJoes_TestAPI_registerTypes() {
     Env.registerType(TestAPI.Actors.TemperatureLogger.self, as: "TestAPI.Actors.TemperatureLogger")
     Env.registerType(TestAPI.Collections.CollectionHolder.self, as: "TestAPI.Collections.CollectionHolder")
     Env.registerType(TestAPI.Primitives.PrimitiveHolder.self, as: "TestAPI.Primitives.PrimitiveHolder")
+    Env.registerType(TestAPI.Structs.DougStruct.self, as: "TestAPI.Structs.DougStruct")
     Env.registerType(TestAPI.Structs.MemberwiseStruct.self, as: "TestAPI.Structs.MemberwiseStruct")
     Env.registerType(TestAPI.Structs.MutableStruct.self, as: "TestAPI.Structs.MutableStruct")
     Env.registerType(TestAPI.Structs.PuttingTypesIntoQuestionablePlaces.self, as: "TestAPI.Structs.PuttingTypesIntoQuestionablePlaces")

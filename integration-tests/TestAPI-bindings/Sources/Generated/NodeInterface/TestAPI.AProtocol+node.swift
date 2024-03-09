@@ -20,6 +20,10 @@ struct _NodeAProtocol: TestAPI.AProtocol {
     public func hasADefaultImplementation(x: Int, y: Double) throws -> String {
         hasADefaultImplementationImpl!()
     }
+    var hasADefaultImplementation2Impl: (() -> Double)?
+    public func hasADefaultImplementation2(_ a: String, b: Bool, _ c: Double) throws -> Double {
+        hasADefaultImplementation2Impl!()
+    }
 }
 extension TestAPI_CommonInterface._AProtocolConverter: NodeMutator {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
@@ -68,6 +72,22 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeMutator {
                                 env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self).hasADefaultImplementation(
                                     x: try env.argument(at: 0, converter: Swift.Int.self),
                                     y: try env.argument(at: 1, converter: Swift.Double.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                ),
+                "hasADefaultImplementation2": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation2", expectedArgumentCount: 3, hasNamedOptions: false) { env in
+                            let result = try Swift.Double.toNode(
+                                env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self).hasADefaultImplementation2(
+                                    try env.argument(at: 0, converter: Swift.String.self),
+                                    b: try env.argument(at: 1, converter: Swift.Bool.self),
+                                    try env.argument(at: 2, converter: Swift.Double.self)
                                 ),
                                 env: env.env
                             )

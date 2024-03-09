@@ -47,74 +47,63 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
-/// <!-- FishyJoes.export(Structs.MemberwiseStruct) -->
-class Structs_MemberwiseStruct {
-    String _immutable;
-    String get immutable => _immutable;
-    String mutable;
+/// <!-- FishyJoes.export(Structs.DougStruct) -->
+class Structs_DougStruct {
+    String str;
 
-    Structs_MemberwiseStruct({
-        required String immutable,
-        required String mutable
+    Structs_DougStruct({
+        required String str
     }):
-        this._immutable = immutable,
-        this.mutable = mutable;
+        this.str = str;
 
     static CreatedRef ffi_constructor(
-        ConsumedRef immutable,
-        ConsumedRef mutable,
+        ConsumedRef str,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
-        createRef(Structs_MemberwiseStruct(
-            immutable: consumeRef(immutable),
-            mutable: consumeRef(mutable),
+        createRef(Structs_DougStruct(
+            str: consumeRef(str),
         ))
     );
 
-    static CreatedRef ffi_get_immutable(
+    static CreatedRef ffi_get_str(
         UnownedRef obj,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
-            peekRef<Structs_MemberwiseStruct>(obj).immutable
+            peekRef<Structs_DougStruct>(obj).str
         )
     );
-
-    static CreatedRef ffi_get_mutable(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<Structs_MemberwiseStruct>(obj).mutable
-        )
-    );
-    static void ffi_set_mutable(
+    static void ffi_set_str(
         UnownedRef obj,
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Structs_MemberwiseStruct>(obj).mutable = consumeRef<String>(newValue);
+        peekRef<Structs_DougStruct>(obj).str = consumeRef<String>(newValue);
     });
 
     @override
-    String toString() => 'Structs_MemberwiseStruct(immutable: $immutable, mutable: $mutable)';
+    String toString() => 'Structs_DougStruct(str: $str)';
 
-    static CreatedRef ffi_asyncGetMutable(
+    static CreatedRef ffi_cat(
         UnownedRef obj,
+        String str,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
-            peekRef<Structs_MemberwiseStruct>(obj).asyncGetMutable(
+            peekRef<Structs_DougStruct>(obj).cat(
+                str
             )
         )
     );
 
     static CreatedRef ffi_create(
         UnownedRef obj,
+        String str,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
-            Structs_MemberwiseStruct.create(
+            Structs_DougStruct.create(
+                str
             )
         )
     );
@@ -124,10 +113,9 @@ class Structs_MemberwiseStruct {
         return identical(other, this) ||
         (
             other.runtimeType == runtimeType &&
-            other is Structs_MemberwiseStruct &&
+            other is Structs_DougStruct &&
             (
-                const DeepCollectionEquality().equals(other.immutable, immutable) &&
-                const DeepCollectionEquality().equals(other.mutable, mutable)
+                const DeepCollectionEquality().equals(other.str, str)
             )
         );
     }
@@ -135,39 +123,44 @@ class Structs_MemberwiseStruct {
     @override
     int get hashCode => Object.hash(
         runtimeType,
-        const DeepCollectionEquality().hash(immutable), 
-        const DeepCollectionEquality().hash(mutable)
+        const DeepCollectionEquality().hash(str)
     );
 
-    Structs_MemberwiseStruct copyWith({
-        String? immutable,
-        String? mutable
-    }) => Structs_MemberwiseStruct(
-        immutable: immutable ?? this.immutable,
-        mutable: mutable ?? this.mutable
+    Structs_DougStruct copyWith({
+        String? str
+    }) => Structs_DougStruct(
+        str: str ?? this.str
     );
 
-    /// <!-- FishyJoes.export(asyncGetMutable) -->
-    Future<String> asyncGetMutable(
+    /// <!-- FishyJoes.export(cat) -->
+    String cat(
+        String str,
     ) =>
         GCRef.using(this, (_thisHandle) =>
-            consumeCreatedRef<Future<String>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_MemberwiseStruct_asyncGetMutable(Loader.shared.env, _thisHandle.ptr, _exn)))
+            GCRef.using(str, (_strHandle) =>
+                consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_DougStruct_cat(Loader.shared.env, _thisHandle.ptr, _strHandle.ptr, _exn)))
+            )
         )
     ;
 
     /// <!-- FishyJoes.export(create) -->
-    static TestAPI.Structs_MemberwiseStruct create(
+    static TestAPI.Structs_DougStruct create(
+        String str,
     ) =>
-        consumeCreatedRef<TestAPI.Structs_MemberwiseStruct>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_MemberwiseStruct_create(Loader.shared.env, _exn)))
+        GCRef.using(str, (_strHandle) =>
+            consumeCreatedRef<TestAPI.Structs_DougStruct>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_DougStruct_create(Loader.shared.env, _strHandle.ptr, _exn)))
+        )
     ;
 
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,
+        UnownedRef str,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_Structs_MemberwiseStruct_asyncGetMutable;
+    ) f__iota_TestAPI_Structs_DougStruct_cat;
     static late CreatedRef Function(
         Env env,
+        UnownedRef str,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_Structs_MemberwiseStruct_create;
+    ) f__iota_TestAPI_Structs_DougStruct_create;
 }
