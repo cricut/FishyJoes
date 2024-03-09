@@ -107,9 +107,6 @@ final class DartTranslator: Translator {
         }
 
         for nativeMethod in nativeMethods.sorted(by: { $0.name < $1.name }) {
-            if nativeMethod.name.contains("hasADefault") {
-                let a = 1
-            }
             let definingDartClass = nativeMethod.definingDartClass + (nativeMethod.isInExtension ? "_DefaultImplementations" : "")
             externDeclarations.append { fragment in
                 fragment.outputBlock("\(definingDartClass).f\(nativeMethod.name) = dylib.lookupFunction<", closeWith: ">", newLineTerminated: false) {
