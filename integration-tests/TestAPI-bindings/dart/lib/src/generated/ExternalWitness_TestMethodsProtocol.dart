@@ -86,12 +86,12 @@ class ExternalWitness_TestMethodsProtocol extends SwiftReference implements Test
 
     static CreatedRef ffi_garply(
         UnownedRef obj,
-        String _0,
+        ffi.Pointer _0,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestAPI.TestMethodsProtocol>(obj).garply(
-                _0
+                consumeRef<String>(_0 as ConsumedRef)
             )
         )
     );
@@ -99,25 +99,25 @@ class ExternalWitness_TestMethodsProtocol extends SwiftReference implements Test
     static CreatedRef ffi_xyzzy(
         UnownedRef obj,
         int thud,
-        List<double> grault,
+        ffi.Pointer grault,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestAPI.TestMethodsProtocol>(obj).xyzzy(
                 thud,
-                grault
+                consumeRef<List<double>>(grault as ConsumedRef)
             )
         )
     );
 
     static CreatedRef ffi_plugh(
         UnownedRef obj,
-        tuple.Tuple3<bool, double, List<String>> fred,
+        ffi.Pointer fred,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestAPI.TestMethodsProtocol>(obj).plugh(
-                fred
+                consumeRef<tuple.Tuple3<bool, double, List<String>>>(fred as ConsumedRef)
             )
         )
     );
