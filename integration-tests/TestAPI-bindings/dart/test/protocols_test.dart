@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 import 'package:cricut_test_api/cricut_test_api.dart';
 import 'package:test/test.dart';
+import 'package:tuple/tuple.dart' as tuple;
 
 void main() {
   setUp(() {
@@ -30,12 +31,13 @@ void main() {
       });
 
       test('testProtocolEnum', () {
-        final a = TestProtocolEnum.qux();
-        a.foo();
-        expect(a.bar(), equals(true));
-        a.baz(true);
-        expect(a.garply("Navigate a nostril!"), equals("garply Navigate a nostril! garpity garp"));
-        expect(a.xyzzy(42, [1.234, 45.235890198, 892.80]), equals("thud: 42; grault: [1.234, 45.235890198, 892.8]"));
+        final testProtocolEnum = TestProtocolEnum.qux();
+        testProtocolEnum.foo();
+        expect(testProtocolEnum.bar(), equals(true));
+        testProtocolEnum.baz(true);
+        expect(testProtocolEnum.garply("Navigate a nostril!"), equals("garply Navigate a nostril! garpity garp"));
+        expect(testProtocolEnum.xyzzy(42, [1.234, 45.235890198, 892.80]), equals("thud: 42; grault: [1.234, 45.235890198, 892.8]"));
+        expect(testProtocolEnum.plugh(tuple.Tuple3<bool, double, List<String>>(true, 3.14159265359, ["Take a left at your intestines", "Take the second right past Mars"])), equals(tuple.Tuple3<bool, int, String>(false, 3, "Take a left at your intestines -<*>- Take the second right past Mars")));
       });
   });
 
