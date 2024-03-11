@@ -307,8 +307,6 @@ jobs:
           set -euxo pipefail
 
           cd integration-tests/TestAPI-bindings
-          # TODO: Wasm build support on Windows (needs SwiftWasm compiler)
-          #$SWIFT run -- fishy-joes --nodejs --wasm build test
           $SWIFT run -- fishy-joes --nodejs build test
 
       - name: Build FishyJoesIotaRuntime
