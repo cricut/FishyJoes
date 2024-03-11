@@ -307,7 +307,7 @@ jobs:
           set -euxo pipefail
 
           cd integration-tests/TestAPI-bindings
-          $SWIFT run -- fishy-joes --nodejs build test
+          "$SWIFT" run -- fishy-joes --nodejs build test
 
       - name: Build FishyJoesIotaRuntime
         shell: bash
@@ -322,20 +322,19 @@ jobs:
           set -euxo pipefail
 
           cd integration-tests/TestAPI-bindings
-          $SWIFT run -- fishy-joes --c-sharp build test
+          "$SWIFT" run -- fishy-joes --c-sharp build test
 
       - name: Test Dart from dart via fishy-joes
         shell: bash
         run: |
           set -euxo pipefail
 
+          # Add dart DLLs to path
+          # Someone who understands windows better than I do is welcome to fix this in a better way
+          PATH="$(pwd)/dart/windows/native:$PATH"
+
           cd integration-tests/TestAPI-bindings
-          # TODO: TestAPI.dll is referenced from TestAPI-iota.dll, but for some reason
-          #       it cannot be found in windows/native and must be in the working directory
-          #$SWIFT run -- fishy-joes --dart build test
-          $SWIFT run -- fishy-joes --dart build
-          cp dart/windows/native/TestAPI.dll dart
-          $SWIFT run -- fishy-joes --dart test
+          "$SWIFT" run -- fishy-joes --dart build test
 
       - name: Build FishyJoesJavaRuntime
         shell: bash
