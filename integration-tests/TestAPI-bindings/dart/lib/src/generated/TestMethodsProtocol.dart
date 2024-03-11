@@ -42,83 +42,31 @@ import 'package:fishyjoes_dart/runtime.dart';
 import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:tuple/tuple.dart' as tuple;
 
-/// <!-- FishyJoes.export(AProtocol) -->
-abstract class AProtocol {
-    TestAPI.AProtocol bar(
-        int x,
-        int y
+/// <!-- FishyJoes.export(TestMethodsProtocol) -->
+abstract class TestMethodsProtocol {
+    void foo(
     );
 
-    /// <!-- FishyJoes.export(foo) -->
-    String get foo;
+    bool bar(
+    );
 
-    /// <!-- FishyJoes.export(baz) -->
-    bool get baz;
+    void baz(
+        bool qux
+    );
+
+    String garply(
+        String m_0
+    );
+
+    String xyzzy(
+        int thud,
+        List<double> grault
+    );
+
+    tuple.Tuple3<bool, int, String> plugh(
+        tuple.Tuple3<bool, double, List<String>> fred
+    );
 }
 
-extension AProtocol_DefaultImplementations on AProtocol {
-    String hasADefaultImplementation(
-        int x,
-        double y
-    ) =>
-        GCRef.using(this, (_thisHandle) =>
-            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_AProtocol_hasADefaultImplementation(Loader.shared.env, _thisHandle.ptr, x, y, _exn)))
-        )
-    ;
-
-    static CreatedRef ffi_hasADefaultImplementation(
-        UnownedRef obj,
-        int x,
-        double y,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<AProtocol>(obj).hasADefaultImplementation(
-                x,
-                y
-            )
-        )
-    );
-
-    double hasADefaultImplementation2(
-        String a,
-        bool b,
-        double c
-    ) =>
-        GCRef.using(this, (_thisHandle) =>
-            GCRef.using(a, (_aHandle) =>
-                check((OutCreatedRef _exn) => f__iota_TestAPI_AProtocol_hasADefaultImplementation2(Loader.shared.env, _thisHandle.ptr, _aHandle.ptr, b, c, _exn))
-            )
-        )
-    ;
-
-    static double ffi_hasADefaultImplementation2(
-        UnownedRef obj,
-        UnownedRef a,
-        bool b,
-        double c,
-        OutCreatedRef exn
-    ) => catching(exn, () =>
-        peekRef<AProtocol>(obj).hasADefaultImplementation2(
-            peekRef<String>(a),
-            b,
-            c
-        )
-    ) ?? 0.0;
-
-    static late CreatedRef Function(
-        Env env,
-        UnownedRef _this,
-        int x,
-        double y,
-        OutCreatedRef _exn
-    ) f__iota_TestAPI_AProtocol_hasADefaultImplementation;
-    static late double Function(
-        Env env,
-        UnownedRef _this,
-        UnownedRef a,
-        bool b,
-        double c,
-        OutCreatedRef _exn
-    ) f__iota_TestAPI_AProtocol_hasADefaultImplementation2;
+extension TestMethodsProtocol_DefaultImplementations on TestMethodsProtocol {
 }

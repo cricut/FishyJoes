@@ -1512,6 +1512,58 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI_CommonInterface",
+            "name" : "_TestMethodsProtocolConverter",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestMethodsProtocol",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestMethodsProtocol",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestMethodsProtocol"
+        }
+      },
+      "kotlinName" : "TestMethodsProtocol",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestMethodsProtocol>>",
+      "nodeName" : "TestAPI.TestMethodsProtocol",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestMethodsProtocol",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
             "module" : "TestAPI",
             "name" : "Tuples",
             "namespace" : [
@@ -2642,6 +2694,162 @@
               }
             ],
             "name" : "Methods"
+          },
+          {
+            "constructor" : {
+              "visible" : {
+                "names" : [
+
+                ],
+                "types" : [
+
+                ]
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.export(TestMethodsProtocol) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(foo) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "foo",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(bar) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "bar",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "boolean"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(baz) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "baz",
+                "parameters" : [
+                  {
+                    "name" : "qux",
+                    "type" : {
+                      "named" : {
+                        "_0" : "boolean"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(garply) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "garply",
+                "parameters" : [
+                  {
+                    "name" : "_0",
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(xyzzy) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "xyzzy",
+                "parameters" : [
+                  {
+                    "name" : "thud",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "grault",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number[]"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(plugh) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "plugh",
+                "parameters" : [
+                  {
+                    "name" : "fred",
+                    "type" : {
+                      "named" : {
+                        "_0" : "[boolean, number, string[]]"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "[boolean, number, string]"
+                  }
+                }
+              }
+            ],
+            "name" : "TestMethodsProtocol"
           }
         ],
         "fields" : [

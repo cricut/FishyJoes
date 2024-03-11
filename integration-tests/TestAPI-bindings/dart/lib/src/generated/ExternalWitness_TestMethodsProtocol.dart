@@ -49,154 +49,171 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
-/// <!-- FishyJoes.exportReference(Structs.ReferenceStruct) -->
-class Structs_ReferenceStruct extends SwiftReference {
-    Structs_ReferenceStruct(ffi.Pointer reference): super(reference) {}
+/// <!-- FishyJoes.export(TestMethodsProtocol) -->
+class ExternalWitness_TestMethodsProtocol extends SwiftReference implements TestAPI.TestMethodsProtocol {
+    ExternalWitness_TestMethodsProtocol(ffi.Pointer reference): super(reference) {}
     static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
-        createRef(Structs_ReferenceStruct(ref))
+        createRef(ExternalWitness_TestMethodsProtocol(ref))
     );
+    @override
+    String toString() => 'ExternalWitness_TestMethodsProtocol()';
 
-    static CreatedRef ffi_get_immutable(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<Structs_ReferenceStruct>(obj).immutable
-        )
-    );
-
-    static CreatedRef ffi_get_mutable(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<Structs_ReferenceStruct>(obj).mutable
-        )
-    );
-    static void ffi_set_mutable(
-        UnownedRef obj,
-        ConsumedRef newValue,
-        OutCreatedRef exn
-    ) => catching(exn, () {
-        peekRef<Structs_ReferenceStruct>(obj).mutable = consumeRef<String>(newValue);
-    });
-
-    static int ffi_get_hashCode(
+    static void ffi_foo(
         UnownedRef obj,
         OutCreatedRef exn
     ) => catching(exn, () =>
-        peekRef<Structs_ReferenceStruct>(obj).hashCode
-    ) ?? 0;
+        peekRef<TestAPI.TestMethodsProtocol>(obj).foo(
+        )
+    );
 
-    static CreatedRef ffi_create(
+    static bool ffi_bar(
         UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<TestAPI.TestMethodsProtocol>(obj).bar(
+        )
+    ) ?? false;
+
+    static void ffi_baz(
+        UnownedRef obj,
+        bool qux,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<TestAPI.TestMethodsProtocol>(obj).baz(
+            qux
+        )
+    );
+
+    static CreatedRef ffi_garply(
+        UnownedRef obj,
+        String _0,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
-            Structs_ReferenceStruct.create(
+            peekRef<TestAPI.TestMethodsProtocol>(obj).garply(
+                _0
             )
         )
     );
 
-    static CreatedRef ffi_asyncGetMutable(
+    static CreatedRef ffi_xyzzy(
         UnownedRef obj,
+        int thud,
+        List<double> grault,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
-            peekRef<Structs_ReferenceStruct>(obj).asyncGetMutable(
+            peekRef<TestAPI.TestMethodsProtocol>(obj).xyzzy(
+                thud,
+                grault
             )
         )
     );
 
-    /// <!-- FishyJoes.export(immutable) -->
-    String get immutable =>
-        GCRef.using(this, (_thisHandle) =>
-            check((exn) =>
-                consumeCreatedRef<String>(f__iota_get_TestAPI_Structs_ReferenceStruct_immutable(Loader.shared.env, _thisHandle.ptr, exn))
+    static CreatedRef ffi_plugh(
+        UnownedRef obj,
+        tuple.Tuple3<bool, double, List<String>> fred,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestAPI.TestMethodsProtocol>(obj).plugh(
+                fred
             )
         )
-    ;
-    /// <!-- FishyJoes.export(mutable) -->
-    String get mutable =>
-        GCRef.using(this, (_thisHandle) =>
-            check((exn) =>
-                consumeCreatedRef<String>(f__iota_get_TestAPI_Structs_ReferenceStruct_mutable(Loader.shared.env, _thisHandle.ptr, exn))
-            )
-        )
-    ;
-    void set mutable(String value) {
-        GCRef.using(this, (_thisHandle) =>
-            GCRef.using(value, (_valueHandle) =>
-                check((exn) =>
-                    f__iota_set_TestAPI_Structs_ReferenceStruct_mutable(Loader.shared.env, _thisHandle.ptr, _valueHandle.ptr, exn)
-                )
-            )
-        )
-        ;
-    }
-    int get hashCode =>
-        GCRef.using(this, (_thisHandle) =>
-            check((exn) =>
-                f__iota_get_TestAPI_Structs_ReferenceStruct_hash(Loader.shared.env, _thisHandle.ptr, exn)
-            )
-        )
-    ;
-    /// <!-- FishyJoes.export(create) -->
-    static TestAPI.Structs_ReferenceStruct create(
-    ) =>
-        consumeCreatedRef<TestAPI.Structs_ReferenceStruct>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_ReferenceStruct_create(Loader.shared.env, _exn)))
-    ;
+    );
 
-    /// <!-- FishyJoes.export(asyncGetMutable) -->
-    Future<String> asyncGetMutable(
+    /// <!-- FishyJoes.export(foo) -->
+    void foo(
     ) =>
         GCRef.using(this, (_thisHandle) =>
-            consumeCreatedRef<Future<String>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_ReferenceStruct_asyncGetMutable(Loader.shared.env, _thisHandle.ptr, _exn)))
+            check((OutCreatedRef _exn) => f__iota_TestAPI_TestMethodsProtocol_foo(Loader.shared.env, _thisHandle.ptr, _exn))
         )
     ;
 
-    bool operator ==(
-        Object? other,
+    /// <!-- FishyJoes.export(bar) -->
+    bool bar(
     ) =>
-        GCRef.using(this, (thisHandle) =>
-            GCRef.using(other as TestAPI.Structs_ReferenceStruct, (otherHandle) =>
-                check((exn) => f__iota_TestAPI_Structs_ReferenceStruct_equals(Loader.shared.env, thisHandle.ptr, otherHandle.ptr, exn))))
+        GCRef.using(this, (_thisHandle) =>
+            check((OutCreatedRef _exn) => f__iota_TestAPI_TestMethodsProtocol_bar(Loader.shared.env, _thisHandle.ptr, _exn))
+        )
     ;
 
-    static late CreatedRef Function(
-        Env env,
-        UnownedRef _this,
-        OutCreatedRef _exn
-    ) f__iota_TestAPI_Structs_ReferenceStruct_asyncGetMutable;
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__iota_TestAPI_Structs_ReferenceStruct_create;
+    /// <!-- FishyJoes.export(baz) -->
+    void baz(
+        bool qux,
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            check((OutCreatedRef _exn) => f__iota_TestAPI_TestMethodsProtocol_baz(Loader.shared.env, _thisHandle.ptr, qux, _exn))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(garply) -->
+    String garply(
+        String m_0,
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            GCRef.using(m_0, (__0Handle) =>
+                consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestMethodsProtocol_garply(Loader.shared.env, _thisHandle.ptr, __0Handle.ptr, _exn)))
+            )
+        )
+    ;
+
+    /// <!-- FishyJoes.export(xyzzy) -->
+    String xyzzy(
+        int thud,
+        List<double> grault,
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            GCRef.using(grault, (_graultHandle) =>
+                consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestMethodsProtocol_xyzzy(Loader.shared.env, _thisHandle.ptr, thud, _graultHandle.ptr, _exn)))
+            )
+        )
+    ;
+
+    /// <!-- FishyJoes.export(plugh) -->
+    tuple.Tuple3<bool, int, String> plugh(
+        tuple.Tuple3<bool, double, List<String>> fred,
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            GCRef.using(fred, (_fredHandle) =>
+                consumeCreatedRef<tuple.Tuple3<bool, int, String>>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestMethodsProtocol_plugh(Loader.shared.env, _thisHandle.ptr, _fredHandle.ptr, _exn)))
+            )
+        )
+    ;
+
     static late bool Function(
         Env env,
-        UnownedRef lhs,
-        UnownedRef rhs,
-        OutCreatedRef _exn
-    ) f__iota_TestAPI_Structs_ReferenceStruct_equals;
-    static late int Function(
-        Env env,
         UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_get_TestAPI_Structs_ReferenceStruct_hash;
-    static late CreatedRef Function(
-        Env env,
-        UnownedRef _this,
-        OutCreatedRef _exn
-    ) f__iota_get_TestAPI_Structs_ReferenceStruct_immutable;
-    static late CreatedRef Function(
-        Env env,
-        UnownedRef _this,
-        OutCreatedRef _exn
-    ) f__iota_get_TestAPI_Structs_ReferenceStruct_mutable;
+    ) f__iota_TestAPI_TestMethodsProtocol_bar;
     static late void Function(
         Env env,
         UnownedRef _this,
-        UnownedRef mutable,
+        bool qux,
         OutCreatedRef _exn
-    ) f__iota_set_TestAPI_Structs_ReferenceStruct_mutable;
+    ) f__iota_TestAPI_TestMethodsProtocol_baz;
+    static late void Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_TestMethodsProtocol_foo;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        UnownedRef _0,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_TestMethodsProtocol_garply;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        UnownedRef fred,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_TestMethodsProtocol_plugh;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        int thud,
+        UnownedRef grault,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_TestMethodsProtocol_xyzzy;
 }

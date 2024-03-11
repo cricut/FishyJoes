@@ -1930,6 +1930,41 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         )
         // print("setting up TestAPI.Structs...")
         try TestAPI.Structs.javaSetup(env: env)
+        // print("setting up TestAPI_CommonInterface._TestMethodsProtocolConverter...")
+        try TestAPI_CommonInterface._TestMethodsProtocolConverter.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI_CommonInterface._TestMethodsProtocolConverter.externalWitnessClass ?? TestAPI_CommonInterface._TestMethodsProtocolConverter.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_foo"),
+                signature: bag.add("()V"),
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestMethodsProtocolConverter_foo, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_bar"),
+                signature: bag.add("()Z"),
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestMethodsProtocolConverter_bar, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_baz"),
+                signature: bag.add("(Z)V"),
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestMethodsProtocolConverter_baz, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_garply"),
+                signature: bag.add("(Ljava/lang/String;)Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestMethodsProtocolConverter_garply, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_xyzzy"),
+                signature: bag.add("(JLjava/util/List;)Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestMethodsProtocolConverter_xyzzy, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_plugh"),
+                signature: bag.add("(Lkotlin/Triple;)Lkotlin/Triple;"),
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestMethodsProtocolConverter_plugh, to: UnsafeMutableRawPointer.self)
+            )
+        )
         // print("setting up TestAPI.Tuples...")
         try TestAPI.Tuples.javaSetup(env: env)
         try env.RegisterNatives(
@@ -2032,6 +2067,10 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try Swift.UInt8.javaSetup(env: env)
         // print("setting up Foundation.URL...")
         try Foundation.URL.javaSetup(env: env)
+        // print("setting up Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>...")
+        try Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>.javaSetup(env: env)
+        // print("setting up Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>...")
+        try Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.javaSetup(env: env)
         // print("setting up Tuple2Converter<Swift.Int, Swift.String>...")
         try Tuple2Converter<Swift.Int, Swift.String>.javaSetup(env: env)
         // print("setting up Tuple4Converter<Swift.Int8, Swift.Int16, Swift.Int32, Swift.Int64>...")

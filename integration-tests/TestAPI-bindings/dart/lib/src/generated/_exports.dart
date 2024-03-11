@@ -29,5 +29,7 @@ export './Ranges.dart';
 export './SimpleEnum.dart';
 export './Strings.dart';
 export './Structs.dart';
+export './TestMethodsProtocol.dart';
+export './ExternalWitness_TestMethodsProtocol.dart';
 export './Tuples.dart';
 export './URLs.dart';

@@ -14,6 +14,7 @@ import './DefaultArguments.dart' as TestAPI;
 import './Deprecations.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
 import './ExternalWitness_AProtocol.dart' as TestAPI;
+import './ExternalWitness_TestMethodsProtocol.dart' as TestAPI;
 import './Functions.dart' as TestAPI;
 import './Methods.dart' as TestAPI;
 import './Primitives.dart' as TestAPI;
@@ -28,6 +29,7 @@ import './Structs_MemberwiseStruct.dart' as TestAPI;
 import './Structs_MutableStruct.dart' as TestAPI;
 import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Structs_ReferenceStruct.dart' as TestAPI;
+import './TestMethodsProtocol.dart' as TestAPI;
 import './Tuples.dart' as TestAPI;
 import './URLs.dart' as TestAPI;
 import './UnicodeScalar_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
@@ -288,6 +290,16 @@ typedef TestAPI_SimpleEnum_extract_blue = ffi.Void Function(
     UnownedRef obj,
     OutCreatedRef _exn
 );
+typedef _TestAPI_TestMethodsProtocolConstructor = CreatedRef Function(
+    ffi.Pointer ref,
+    OutCreatedRef exn
+);
+typedef _TestAPI_TestMethodsProtocol_foo = ffi.Void Function(UnownedRef obj,  OutCreatedRef exn);
+typedef _TestAPI_TestMethodsProtocol_bar = ffi.Bool Function(UnownedRef obj,  OutCreatedRef exn);
+typedef _TestAPI_TestMethodsProtocol_baz = ffi.Void Function(UnownedRef obj, ffi.Bool qux, OutCreatedRef exn);
+typedef _TestAPI_TestMethodsProtocol_garply = CreatedRef Function(UnownedRef obj, ffi.Pointer _0, OutCreatedRef exn);
+typedef _TestAPI_TestMethodsProtocol_xyzzy = CreatedRef Function(UnownedRef obj, ffi.Int thud, ffi.Pointer grault, OutCreatedRef exn);
+typedef _TestAPI_TestMethodsProtocol_plugh = CreatedRef Function(UnownedRef obj, ffi.Pointer fred, OutCreatedRef exn);
 
 final ensureLoaded = (() {
     FishyJoesRuntime.Loader.shared.ensureLoaded;
@@ -841,6 +853,30 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_Structs_setup');
+    final TestAPI_CommonInterface__TestMethodsProtocolConverter_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestMethodsProtocolConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestMethodsProtocol_foo>> foo,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestMethodsProtocol_bar>> bar,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestMethodsProtocol_baz>> baz,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestMethodsProtocol_garply>> garply,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestMethodsProtocol_xyzzy>> xyzzy,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestMethodsProtocol_plugh>> plugh,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestMethodsProtocolConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestMethodsProtocol_foo>> foo,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestMethodsProtocol_bar>> bar,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestMethodsProtocol_baz>> baz,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestMethodsProtocol_garply>> garply,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestMethodsProtocol_xyzzy>> xyzzy,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestMethodsProtocol_plugh>> plugh,
+            OutCreatedRef exn
+        )
+    >('TestAPI_CommonInterface__TestMethodsProtocolConverter_setup');
     final TestAPI_Tuples_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -2467,6 +2503,88 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Structs_ReferenceStruct_equals");
+    TestAPI.ExternalWitness_TestMethodsProtocol.f__iota_TestAPI_TestMethodsProtocol_bar = dylib.lookupFunction<
+        ffi.Bool Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        bool Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestMethodsProtocol_bar");
+    TestAPI.ExternalWitness_TestMethodsProtocol.f__iota_TestAPI_TestMethodsProtocol_baz = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            UnownedRef _this,
+            ffi.Bool qux,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            UnownedRef _this,
+            bool qux,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestMethodsProtocol_baz");
+    TestAPI.ExternalWitness_TestMethodsProtocol.f__iota_TestAPI_TestMethodsProtocol_foo = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestMethodsProtocol_foo");
+    TestAPI.ExternalWitness_TestMethodsProtocol.f__iota_TestAPI_TestMethodsProtocol_garply = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef _0,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef _0,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestMethodsProtocol_garply");
+    TestAPI.ExternalWitness_TestMethodsProtocol.f__iota_TestAPI_TestMethodsProtocol_plugh = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fred,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fred,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestMethodsProtocol_plugh");
+    TestAPI.ExternalWitness_TestMethodsProtocol.f__iota_TestAPI_TestMethodsProtocol_xyzzy = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            ffi.Int thud,
+            UnownedRef grault,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            int thud,
+            UnownedRef grault,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestMethodsProtocol_xyzzy");
     TestAPI.Tuples.f__iota_TestAPI_Tuples_checkTuples = dylib.lookupFunction<
         ffi.Bool Function(
             Env env,
@@ -6168,6 +6286,23 @@ final ensureLoaded = (() {
         });
     });
 
+    Loader.shared.once("setup_TestAPI_CommonInterface._TestMethodsProtocolConverter", () {
+        // print("setting up TestAPI.TestMethodsProtocol (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_CommonInterface__TestMethodsProtocolConverter_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestMethodsProtocol.ffi_new),
+                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestMethodsProtocol.ffi_foo),
+                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestMethodsProtocol.ffi_bar, false),
+                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestMethodsProtocol.ffi_baz),
+                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestMethodsProtocol.ffi_garply),
+                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestMethodsProtocol.ffi_xyzzy),
+                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestMethodsProtocol.ffi_plugh),
+                exn
+            );
+        });
+    });
+
     Loader.shared.once("setup_TestAPI.Tuples", () {
         // print("setting up TestAPI.Tuples (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
@@ -6183,6 +6318,28 @@ final ensureLoaded = (() {
         utils.check<void>((exn) {
             TestAPI_URLs_setup(
                 Loader.shared.env,
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>", () {
+        // print("setting up (Bool, Double, Array<String>) (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_Tuple3Converter_setup<bool, double, List<String>>(
+                Loader.shared.env,
+                "Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>",
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>", () {
+        // print("setting up (Bool, Int, String) (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_Tuple3Converter_setup<bool, int, String>(
+                Loader.shared.env,
+                "Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>",
                 exn
             );
         });

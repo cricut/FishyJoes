@@ -1963,6 +1963,54 @@ export declare namespace TestAPI {
         ): number;
     }
 
+    /**
+     * <!-- FishyJoes.export(TestMethodsProtocol) -->
+     */
+    export class TestMethodsProtocol {
+        constructor()
+
+        /**
+         * <!-- FishyJoes.export(foo) -->
+         */
+        foo(
+        ): void;
+
+        /**
+         * <!-- FishyJoes.export(bar) -->
+         */
+        bar(
+        ): boolean;
+
+        /**
+         * <!-- FishyJoes.export(baz) -->
+         */
+        baz(
+            qux: boolean
+        ): void;
+
+        /**
+         * <!-- FishyJoes.export(garply) -->
+         */
+        garply(
+            _0: string
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(xyzzy) -->
+         */
+        xyzzy(
+            thud: number,
+            grault: number[]
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(plugh) -->
+         */
+        plugh(
+            fred: [boolean, number, string[]]
+        ): [boolean, number, string];
+    }
+
     export type Tuples = never;
     export namespace Tuples {
         /**

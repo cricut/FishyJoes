@@ -49,23 +49,23 @@ public struct AProtocolImplementation: AProtocol {
         AProtocolImplementation(foo: "\(x + y)", baz: x == 2)
     }
 }
-//
-///// <!-- FishyJoes.export(TestMethodsProtocol) -->
-// public protocol TestMethodsProtocol {
-//    /// <!-- FishyJoes.export(foo) -->
-//    func foo() throws
-//    /// <!-- FishyJoes.export(bar) -->
-//    func bar() throws -> Bool
-//    /// <!-- FishyJoes.export(baz) -->
-//    func baz(qux: Bool) throws
-//    /// <!-- FishyJoes.export(garply) -->
-//    func garply(_: String) throws -> String
-//    /// <!-- FishyJoes.export(xyzzy) -->
-//    func xyzzy(thud: Int, grault: [Double]) throws -> String
-//    /// <!-- FishyJoes.export(plugh) -->
-//    func plugh(fred: (Bool, Double, [String])) throws -> (Bool, Int, String)
-// }
-//
+
+/// <!-- FishyJoes.export(TestMethodsProtocol) -->
+public protocol TestMethodsProtocol {
+    /// <!-- FishyJoes.export(foo) -->
+    func foo() throws
+    /// <!-- FishyJoes.export(bar) -->
+    func bar() throws -> Bool
+    /// <!-- FishyJoes.export(baz) -->
+    func baz(qux: Bool) throws
+    /// <!-- FishyJoes.export(garply) -->
+    func garply(_: String) throws -> String
+    /// <!-- FishyJoes.export(xyzzy) -->
+    func xyzzy(thud: Int, grault: [Double]) throws -> String
+    /// <!-- FishyJoes.export(plugh) -->
+    func plugh(fred: (Bool, Double, [String])) throws -> (Bool, Int, String)
+}
+
 ///// <!-- FishyJoes.export(TestPropertiesProtocol) -->
 // public protocol TestPropertiesProtocol {
 //    /// <!-- FishyJoes.export(corge) -->
