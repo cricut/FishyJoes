@@ -496,7 +496,7 @@ extension CodeGen {
                                 try? cmd("rm", intermediateBuildResult).run()
                             }
                         }
-                        
+
                         // Create the required Javascript files for loading the module's native library from node
                         var moduleDotJS: [String] = []
                         for dependency in nodeDependencies {
