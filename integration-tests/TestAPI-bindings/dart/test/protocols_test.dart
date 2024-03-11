@@ -28,6 +28,10 @@ void main() {
         expect(a.hasADefaultImplementation2("0.9870923", true, 1.123123), equals(0.9589049888649063));
         expect(a.hasADefaultImplementation2("0.9870923", false, 1.123123), equals(1.686253813623996));
       });
+
+      test('testProtocolStruct', () {
+        
+      });
   });
 
 }

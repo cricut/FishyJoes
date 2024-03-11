@@ -31,5 +31,6 @@ export './Strings.dart';
 export './Structs.dart';
 export './TestMethodsProtocol.dart';
 export './ExternalWitness_TestMethodsProtocol.dart';
+export './TestProtocolStruct.dart';
 export './Tuples.dart';
 export './URLs.dart';

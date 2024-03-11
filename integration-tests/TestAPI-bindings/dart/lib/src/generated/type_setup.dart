@@ -30,6 +30,7 @@ import './Structs_MutableStruct.dart' as TestAPI;
 import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Structs_ReferenceStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
+import './TestProtocolStruct.dart' as TestAPI;
 import './Tuples.dart' as TestAPI;
 import './URLs.dart' as TestAPI;
 import './UnicodeScalar_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
@@ -877,6 +878,16 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_CommonInterface__TestMethodsProtocolConverter_setup');
+    final TestAPI_TestProtocolStruct_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            OutCreatedRef exn
+        )
+    >('TestAPI_TestProtocolStruct_setup');
     final TestAPI_Tuples_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -2585,6 +2596,88 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_TestMethodsProtocol_xyzzy");
+    TestAPI.TestProtocolStruct.f__iota_TestAPI_TestProtocolStruct_bar = dylib.lookupFunction<
+        ffi.Bool Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        bool Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestProtocolStruct_bar");
+    TestAPI.TestProtocolStruct.f__iota_TestAPI_TestProtocolStruct_baz = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            UnownedRef _this,
+            ffi.Bool qux,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            UnownedRef _this,
+            bool qux,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestProtocolStruct_baz");
+    TestAPI.TestProtocolStruct.f__iota_TestAPI_TestProtocolStruct_foo = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestProtocolStruct_foo");
+    TestAPI.TestProtocolStruct.f__iota_TestAPI_TestProtocolStruct_garply = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef str,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef str,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestProtocolStruct_garply");
+    TestAPI.TestProtocolStruct.f__iota_TestAPI_TestProtocolStruct_plugh = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fred,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fred,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestProtocolStruct_plugh");
+    TestAPI.TestProtocolStruct.f__iota_TestAPI_TestProtocolStruct_xyzzy = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            ffi.Int thud,
+            UnownedRef grault,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            int thud,
+            UnownedRef grault,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestProtocolStruct_xyzzy");
     TestAPI.Tuples.f__iota_TestAPI_Tuples_checkTuples = dylib.lookupFunction<
         ffi.Bool Function(
             Env env,
@@ -6298,6 +6391,16 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestMethodsProtocol.ffi_garply),
                 ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestMethodsProtocol.ffi_xyzzy),
                 ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestMethodsProtocol.ffi_plugh),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.TestProtocolStruct", () {
+        // print("setting up TestAPI.TestProtocolStruct (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_TestProtocolStruct_setup(
+                Loader.shared.env,
                 exn
             );
         });

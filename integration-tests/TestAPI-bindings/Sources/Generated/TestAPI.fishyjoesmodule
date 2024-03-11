@@ -1565,6 +1565,58 @@
         "named" : {
           "_0" : {
             "module" : "TestAPI",
+            "name" : "TestProtocolStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestProtocolStruct",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestProtocolStruct",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestProtocolStruct"
+        }
+      },
+      "kotlinName" : "TestProtocolStruct",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=TestProtocolStruct>>",
+      "nodeName" : "TestAPI.TestProtocolStruct",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestProtocolStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
             "name" : "Tuples",
             "namespace" : [
 
@@ -8910,6 +8962,27 @@
 
             ]
           },
+          "TestProtocolStruct" : {
+            "classes" : [
+
+            ],
+            "fields" : [
+
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+
+            ],
+            "name" : "TestProtocolStruct",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
+          },
           "Tuples" : {
             "classes" : [
 
@@ -9430,6 +9503,21 @@
               "<!-- FishyJoes.export(Structs) -->"
             ],
             "name" : "Structs",
+            "value" : {
+              "union" : {
+                "_0" : [
+
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
+              "// <!-- FishyJoes.export(TestPropertiesProtocol) -->",
+              "// <!-- FishyJoes.export(TestOptionalsProtocol) -->",
+              "<!-- FishyJoes.export(TestProtocolStruct, conformances: [TestMethodsProtocol]) -->"
+            ],
+            "name" : "TestProtocolStruct",
             "value" : {
               "union" : {
                 "_0" : [

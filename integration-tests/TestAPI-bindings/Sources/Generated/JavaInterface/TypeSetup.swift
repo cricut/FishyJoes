@@ -1965,6 +1965,41 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestMethodsProtocolConverter_plugh, to: UnsafeMutableRawPointer.self)
             )
         )
+        // print("setting up TestAPI.TestProtocolStruct...")
+        try TestAPI.TestProtocolStruct.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI.TestProtocolStruct.externalWitnessClass ?? TestAPI.TestProtocolStruct.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_foo"),
+                signature: bag.add("()V"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestProtocolStruct_foo, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_bar"),
+                signature: bag.add("()Z"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestProtocolStruct_bar, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_baz"),
+                signature: bag.add("(Z)V"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestProtocolStruct_baz, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_garply"),
+                signature: bag.add("(Ljava/lang/String;)Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestProtocolStruct_garply, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_xyzzy"),
+                signature: bag.add("(JLjava/util/List;)Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestProtocolStruct_xyzzy, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_plugh"),
+                signature: bag.add("(Lkotlin/Triple;)Lkotlin/Triple;"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestProtocolStruct_plugh, to: UnsafeMutableRawPointer.self)
+            )
+        )
         // print("setting up TestAPI.Tuples...")
         try TestAPI.Tuples.javaSetup(env: env)
         try env.RegisterNatives(

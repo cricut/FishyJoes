@@ -84,36 +84,34 @@ public protocol TestMethodsProtocol {
 //    func spqr(_ pippo: AssociatedDataEnum) throws -> Int
 // }
 //
-///// <!-- FishyJoes.export(TestProtocolEnum, conformances: [TestMethodsProtocol]) -->
-// public enum TestProtocolEnum: TestMethodsProtocol {
-//    case qux
-//
-//    /// <!-- FishyJoes.export(foo) -->
-//    public func foo() throws {
-//        print("foo!")
-//    }
-//    /// <!-- FishyJoes.export(bar) -->
-//    public func bar() throws -> Bool {
-//        return true
-//    }
-//    /// <!-- FishyJoes.export(baz) -->
-//    public func baz(qux: Bool) throws {
-//        print("baz(qux: \(qux))")
-//    }
-//    /// <!-- FishyJoes.export(garply) -->
-//    public func garply(_ str: String) throws -> String {
-//        return "garply \(str) garpity garp"
-//    }
-//    /// <!-- FishyJoes.export(xyzzy) -->
-//    public func xyzzy(thud: Int, grault: [Double]) throws -> String {
-//        "thud: \(thud); grault: [\(grault.map { "\($0)" }.joined(separator: ", "))]"
-//    }
-//    /// <!-- FishyJoes.export(plugh) -->
-//    public func plugh(fred: (Bool, Double, [String])) throws -> (Bool, Int, String) {
-//        (!fred.0, Int(fred.1), fred.2.joined(separator: " -<*>- "))
-//    }
-// }
-//
+/// <!-- FishyJoes.export(TestProtocolStruct, conformances: [TestMethodsProtocol]) -->
+ public enum TestProtocolStruct: TestMethodsProtocol {
+    /// <!-- FishyJoes.export(foo) -->
+    public func foo() throws {
+        print("foo!")
+    }
+    /// <!-- FishyJoes.export(bar) -->
+    public func bar() throws -> Bool {
+        return true
+    }
+    /// <!-- FishyJoes.export(baz) -->
+    public func baz(qux: Bool) throws {
+        print("baz(qux: \(qux))")
+    }
+    /// <!-- FishyJoes.export(garply) -->
+    public func garply(_ str: String) throws -> String {
+        return "garply \(str) garpity garp"
+    }
+    /// <!-- FishyJoes.export(xyzzy) -->
+    public func xyzzy(thud: Int, grault: [Double]) throws -> String {
+        "thud: \(thud); grault: [\(grault.map { "\($0)" }.joined(separator: ", "))]"
+    }
+    /// <!-- FishyJoes.export(plugh) -->
+    public func plugh(fred: (Bool, Double, [String])) throws -> (Bool, Int, String) {
+        (!fred.0, Int(fred.1), fred.2.joined(separator: " -<*>- "))
+    }
+ }
+
 ///// <!-- FishyJoes.export(TestProtocolStruct, conformances: [TestMethodsProtocol, TestPropertiesProtocol]) -->
 // public struct TestProtocolStruct: TestMethodsProtocol, TestPropertiesProtocol {
 //    /// <!-- FishyJoes.export(foo) -->

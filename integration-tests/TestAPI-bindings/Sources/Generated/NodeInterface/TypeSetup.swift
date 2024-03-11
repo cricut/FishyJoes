@@ -194,6 +194,7 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try TestAPI.Strings.nodeSetup(env: env, module: module)
     try TestAPI.Structs.nodeSetup(env: env, module: module)
     try TestAPI_CommonInterface._TestMethodsProtocolConverter.nodeSetup(env: env, module: module)
+    try TestAPI.TestProtocolStruct.nodeSetup(env: env, module: module)
     try TestAPI.Tuples.nodeSetup(env: env, module: module)
     try TestAPI.URLs.nodeSetup(env: env, module: module)
     try Foundation.AttributedString.Runs.Run.nodeSetup(env: env, module: module)

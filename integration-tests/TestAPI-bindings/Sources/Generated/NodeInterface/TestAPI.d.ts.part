@@ -2011,6 +2011,10 @@ export declare namespace TestAPI {
         ): [boolean, number, string];
     }
 
+    export type TestProtocolStruct = never;
+    export namespace TestProtocolStruct {
+    }
+
     export type Tuples = never;
     export namespace Tuples {
         /**
