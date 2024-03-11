@@ -570,7 +570,8 @@ class DartProductClass: DartClass {
 
                 fragment.blankLine()
 
-                fragment.outputBlock("\(unqualifiedName)({", closeWith: "})", newLineTerminated: false) {
+                var blockOpenClose = fields.isEmpty ? ["(", ")"] : ["({", "})"]
+                fragment.outputBlock("\(unqualifiedName)\(blockOpenClose[0])", closeWith: blockOpenClose[1], newLineTerminated: false) {
                     fragment.outputMap(fields, separator: ",") { field in
                         let type = field.type.name(in: self)
                         let name = DartClass.deforbidify(field.name)
