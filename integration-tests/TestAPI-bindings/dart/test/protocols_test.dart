@@ -11,11 +11,11 @@ void main() {
 
   group('ProtocolTests', () {
       test('testProtocolImplementation', () {
-        var a = AProtocolImplementation(foo: "Garply", baz: false);
+        final a = AProtocolImplementation(foo: "Garply", baz: false);
         expect(a.foo, equals("Garply"));
         expect(a.baz, equals(false));
 
-        var b = a.bar(2, 128);
+        final b = a.bar(2, 128);
         expect(b.foo, equals("130"));
         expect(b.baz, equals(true));
 
@@ -29,8 +29,13 @@ void main() {
         expect(a.hasADefaultImplementation2("0.9870923", false, 1.123123), equals(1.686253813623996));
       });
 
-      test('testProtocolStruct', () {
-        
+      test('testProtocolEnum', () {
+        final a = TestProtocolEnum.qux();
+        a.foo();
+        expect(a.bar(), equals(true));
+        a.baz(true);
+        expect(a.garply("Navigate a nostril!"), equals("garply Navigate a nostril! garpity garp"));
+        expect(a.xyzzy(42, [1.234, 45.235890198, 892.80]), equals("thud: 42; grault: [1.234, 45.235890198, 892.8]"));
       });
   });
 
