@@ -41,13 +41,18 @@ void main() {
       });
 
       test('testProtocolStruct', () {
-        final testProtocolEnum = TestProtocolEnum.qux();
-        testProtocolEnum.foo();
-        expect(testProtocolEnum.bar(), equals(true));
-        testProtocolEnum.baz(true);
-        expect(testProtocolEnum.garply("Navigate a nostril!"), equals("garply Navigate a nostril! garpity garp"));
-        expect(testProtocolEnum.xyzzy(42, [1.234, 45.235890198, 892.80]), equals("thud: 42; grault: [1.234, 45.235890198, 892.8]"));
-        expect(testProtocolEnum.plugh(tuple.Tuple3<bool, double, List<String>>(true, 3.14159265359, ["Take a left at your intestines", "Take the second right past Mars"])), equals(tuple.Tuple3<bool, int, String>(false, 3, "Take a left at your intestines -<*>- Take the second right past Mars")));
+        final testProtocolStruct = TestProtocolStruct(corge: "Raft a river of lava-ah!");
+        expect(testProtocolStruct.corge, equals("Raft a river of lava-ah!"));
+        testProtocolStruct.corge = "Spank a plankton too! (take that)";
+        expect(testProtocolStruct.corge, equals("Spank a plankton too! (take that)"));
+        expect(testProtocolStruct.frob, equals([3.14159265359, 42.0, -1.23456789]));
+        expect(testProtocolStruct.plugh(tuple.Tuple3<bool, double, List<String>>(true, 42.9, ["Ride on the magic school bus", "You might get baked into a pie"])), equals(tuple.Tuple3<bool, int, String>(true, 51, "Ride on the magic school bus *>-<* You might get baked into a pie")));
+
+        testProtocolStruct.foo();
+        expect(testProtocolStruct.bar(), equals(false));
+        testProtocolStruct.baz(true);
+        expect(testProtocolStruct.garply("An octopus in your neighborhood?"), equals("garp garpity An octopus in your neighborhood? garpee"));
+        expect(testProtocolStruct.xyzzy(42, [1.234, 45.235890198, 892.80]), equals("thud: 42 | grault: [1.234, 45.235890198, 892.8]"));
       });
   });
 
