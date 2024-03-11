@@ -6,10 +6,11 @@ import java.lang.Exception
 /**
  * // <!-- FishyJoes.export(TestPropertiesProtocol) -->
  * // <!-- FishyJoes.export(TestOptionalsProtocol) -->
- * <!-- FishyJoes.export(TestProtocolStruct, conformances: [TestMethodsProtocol]) -->
+ * <!-- FishyJoes.export(TestProtocolEnum, conformances: [TestMethodsProtocol]) -->
  */
 @OptIn(ExperimentalCoroutinesApi::class)
-sealed class TestProtocolStruct: TestMethodsProtocol {
+sealed class TestProtocolEnum: TestMethodsProtocol {
+    object Qux : TestProtocolEnum()
     /**
      * <!-- FishyJoes.export(foo) -->
      */

@@ -84,8 +84,10 @@ public protocol TestMethodsProtocol {
 //    func spqr(_ pippo: AssociatedDataEnum) throws -> Int
 // }
 //
-/// <!-- FishyJoes.export(TestProtocolStruct, conformances: [TestMethodsProtocol]) -->
- public enum TestProtocolStruct: TestMethodsProtocol {
+/// <!-- FishyJoes.export(TestProtocolEnum, conformances: [TestMethodsProtocol]) -->
+public enum TestProtocolEnum: TestMethodsProtocol {
+    case qux
+
     /// <!-- FishyJoes.export(foo) -->
     public func foo() throws {
         print("foo!")

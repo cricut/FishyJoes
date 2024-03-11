@@ -2011,8 +2011,54 @@ export declare namespace TestAPI {
         ): [boolean, number, string];
     }
 
-    export type TestProtocolStruct = never;
-    export namespace TestProtocolStruct {
+    export type TestProtocolEnum = "qux";
+    export namespace TestProtocolEnum {
+        /**
+         * <!-- FishyJoes.export(bar) -->
+         */
+        function bar(
+            self: TestAPI.TestProtocolEnum
+        ): boolean;
+
+        /**
+         * <!-- FishyJoes.export(baz) -->
+         */
+        function baz(
+            self: TestAPI.TestProtocolEnum,
+            qux: boolean
+        ): void;
+
+        /**
+         * <!-- FishyJoes.export(foo) -->
+         */
+        function foo(
+            self: TestAPI.TestProtocolEnum
+        ): void;
+
+        /**
+         * <!-- FishyJoes.export(garply) -->
+         */
+        function garply(
+            self: TestAPI.TestProtocolEnum,
+            str: string
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(plugh) -->
+         */
+        function plugh(
+            self: TestAPI.TestProtocolEnum,
+            fred: [boolean, number, string[]]
+        ): [boolean, number, string];
+
+        /**
+         * <!-- FishyJoes.export(xyzzy) -->
+         */
+        function xyzzy(
+            self: TestAPI.TestProtocolEnum,
+            thud: number,
+            grault: number[]
+        ): string;
     }
 
     export type Tuples = never;
