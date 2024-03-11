@@ -1564,6 +1564,58 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI_CommonInterface",
+            "name" : "_TestPropertiesProtocolConverter",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestPropertiesProtocol",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestPropertiesProtocol",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestPropertiesProtocol"
+        }
+      },
+      "kotlinName" : "TestPropertiesProtocol",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestPropertiesProtocol>>",
+      "nodeName" : "TestAPI.TestPropertiesProtocol",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestPropertiesProtocol",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
             "module" : "TestAPI",
             "name" : "TestProtocolEnum",
             "namespace" : [
@@ -1605,6 +1657,58 @@
           "_0" : {
             "module" : "TestAPI",
             "name" : "TestProtocolEnum",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestProtocolStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestProtocolStruct",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestProtocolStruct",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestProtocolStruct"
+        }
+      },
+      "kotlinName" : "TestProtocolStruct",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestProtocolStruct>>",
+      "nodeName" : "TestAPI.TestProtocolStruct",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestProtocolStruct",
             "namespace" : [
 
             ]
@@ -2902,6 +3006,251 @@
               }
             ],
             "name" : "TestMethodsProtocol"
+          },
+          {
+            "constructor" : {
+              "visible" : {
+                "names" : [
+                  "corge",
+                  "frob"
+                ],
+                "types" : [
+                  {
+                    "named" : {
+                      "_0" : "string"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "number[]"
+                    }
+                  }
+                ]
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.export(TestPropertiesProtocol) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(corge) -->"
+                ],
+                "isStatic" : false,
+                "name" : "corge",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(frob) -->"
+                ],
+                "isStatic" : false,
+                "name" : "frob",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number[]"
+                  }
+                }
+              }
+            ],
+            "methods" : [
+
+            ],
+            "name" : "TestPropertiesProtocol"
+          },
+          {
+            "constructor" : {
+              "visible" : {
+                "names" : [
+                  "corge"
+                ],
+                "types" : [
+                  {
+                    "named" : {
+                      "_0" : "string"
+                    }
+                  }
+                ]
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.export(TestProtocolStruct, conformances: [TestMethodsProtocol, TestPropertiesProtocol]) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "corge",
+                "readOnly" : false,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(frob) -->"
+                ],
+                "isStatic" : false,
+                "name" : "frob",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number[]"
+                  }
+                }
+              }
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(bar) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "bar",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "boolean"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(baz) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "baz",
+                "parameters" : [
+                  {
+                    "name" : "qux",
+                    "type" : {
+                      "named" : {
+                        "_0" : "boolean"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(foo) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "foo",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(garply) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "garply",
+                "parameters" : [
+                  {
+                    "name" : "str",
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(plugh) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "plugh",
+                "parameters" : [
+                  {
+                    "name" : "fred",
+                    "type" : {
+                      "named" : {
+                        "_0" : "[boolean, number, string[]]"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "[boolean, number, string]"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(xyzzy) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "xyzzy",
+                "parameters" : [
+                  {
+                    "name" : "thud",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "grault",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number[]"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              }
+            ],
+            "name" : "TestProtocolStruct"
           }
         ],
         "fields" : [
@@ -9690,7 +10039,6 @@
           },
           {
             "documentation" : [
-              "// <!-- FishyJoes.export(TestPropertiesProtocol) -->",
               "// <!-- FishyJoes.export(TestOptionalsProtocol) -->",
               "<!-- FishyJoes.export(TestProtocolEnum, conformances: [TestMethodsProtocol]) -->"
             ],

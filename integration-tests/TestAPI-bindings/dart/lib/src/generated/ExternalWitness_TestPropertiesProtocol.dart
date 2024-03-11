@@ -53,79 +53,58 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
-/// <!-- FishyJoes.export(AttributedString_PuttingTypesIntoQuestionablePlaces) -->
-class AttributedString_PuttingTypesIntoQuestionablePlaces {
-    final String x;
-
-    AttributedString_PuttingTypesIntoQuestionablePlaces({
-        required String x
-    }):
-        this.x = x;
-
-    static CreatedRef ffi_constructor(
-        ConsumedRef x,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(AttributedString_PuttingTypesIntoQuestionablePlaces(
-            x: consumeRef(x),
-        ))
+/// <!-- FishyJoes.export(TestPropertiesProtocol) -->
+class ExternalWitness_TestPropertiesProtocol extends SwiftReference implements TestAPI.TestPropertiesProtocol {
+    ExternalWitness_TestPropertiesProtocol(ffi.Pointer reference): super(reference) {}
+    static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
+        createRef(ExternalWitness_TestPropertiesProtocol(ref))
     );
+    @override
+    String toString() => 'ExternalWitness_TestPropertiesProtocol(corge: $corge, frob: $frob)';
 
-    static CreatedRef ffi_get_x(
+    static CreatedRef ffi_get_corge(
         UnownedRef obj,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
-            peekRef<AttributedString_PuttingTypesIntoQuestionablePlaces>(obj).x
+            peekRef<TestAPI.TestPropertiesProtocol>(obj).corge
         )
     );
 
-    @override
-    String toString() => 'AttributedString_PuttingTypesIntoQuestionablePlaces(x: $x)';
-
-    static int ffi_testCall(
+    static CreatedRef ffi_get_frob(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catching(exn, () =>
-        peekRef<AttributedString_PuttingTypesIntoQuestionablePlaces>(obj).testCall(
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestAPI.TestPropertiesProtocol>(obj).frob
         )
-    ) ?? 0;
-
-    @override
-    bool operator ==(Object other) {
-        return identical(other, this) ||
-        (
-            other.runtimeType == runtimeType &&
-            other is AttributedString_PuttingTypesIntoQuestionablePlaces &&
-            (
-                const DeepCollectionEquality().equals(other.x, x)
-            )
-        );
-    }
-
-    @override
-    int get hashCode => Object.hash(
-        runtimeType,
-        const DeepCollectionEquality().hash(x)
     );
 
-    AttributedString_PuttingTypesIntoQuestionablePlaces copyWith({
-        String? x
-    }) => AttributedString_PuttingTypesIntoQuestionablePlaces(
-        x: x ?? this.x
-    );
-
-    /// <!-- FishyJoes.export(testCall) -->
-    int testCall(
-    ) =>
+    /// <!-- FishyJoes.export(corge) -->
+    String get corge =>
         GCRef.using(this, (_thisHandle) =>
-            check((OutCreatedRef _exn) => f__iota_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall(Loader.shared.env, _thisHandle.ptr, _exn))
+            check((exn) =>
+                consumeCreatedRef<String>(f__iota_get_TestAPI_TestPropertiesProtocol_corge(Loader.shared.env, _thisHandle.ptr, exn))
+            )
+        )
+    ;
+    /// <!-- FishyJoes.export(frob) -->
+    List<double> get frob =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                consumeCreatedRef<List<double>>(f__iota_get_TestAPI_TestPropertiesProtocol_frob(Loader.shared.env, _thisHandle.ptr, exn))
+            )
         )
     ;
 
-    static late int Function(
+    static late CreatedRef Function(
         Env env,
         UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall;
+    ) f__iota_get_TestAPI_TestPropertiesProtocol_corge;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_get_TestAPI_TestPropertiesProtocol_frob;
 }

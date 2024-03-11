@@ -66,14 +66,14 @@ public protocol TestMethodsProtocol {
     func plugh(fred: (Bool, Double, [String])) throws -> (Bool, Int, String)
 }
 
-///// <!-- FishyJoes.export(TestPropertiesProtocol) -->
-// public protocol TestPropertiesProtocol {
-//    /// <!-- FishyJoes.export(corge) -->
-//    var corge: String { get throws }
-//    /// <!-- FishyJoes.export(frob) -->
-//    var frob: [Double] { get throws }
-// }
-//
+/// <!-- FishyJoes.export(TestPropertiesProtocol) -->
+public protocol TestPropertiesProtocol {
+    /// <!-- FishyJoes.export(corge) -->
+    var corge: String { get throws }
+    /// <!-- FishyJoes.export(frob) -->
+    var frob: [Double] { get throws }
+}
+
 ///// <!-- FishyJoes.export(TestOptionalsProtocol) -->
 // public protocol TestOptionalsProtocol {
 //    /// <!-- FishyJoes.export(flarp) -->
@@ -114,46 +114,46 @@ public enum TestProtocolEnum: TestMethodsProtocol {
     }
  }
 
-///// <!-- FishyJoes.export(TestProtocolStruct, conformances: [TestMethodsProtocol, TestPropertiesProtocol]) -->
-// public struct TestProtocolStruct: TestMethodsProtocol, TestPropertiesProtocol {
-//    /// <!-- FishyJoes.export(foo) -->
-//    public func foo() throws {
-//        print("!oof")
-//    }
-//    /// <!-- FishyJoes.export(bar) -->
-//    public func bar() throws -> Bool {
-//        return false
-//    }
-//    /// <!-- FishyJoes.export(baz) -->
-//    public func baz(qux: Bool) throws {
-//        print("baz(qux: !\(!qux))")
-//    }
-//    /// <!-- FishyJoes.export(garply) -->
-//    public func garply(_ str: String) throws -> String {
-//        return "garp garpity \(str) garpee"
-//    }
-//    /// <!-- FishyJoes.export(xyzzy) -->
-//    public func xyzzy(thud: Int, grault: [Double]) throws -> String {
-//        "thud: \(thud) | grault: [\(grault.map { "\($0)" }.joined(separator: ", "))]"
-//    }
-//    /// <!-- FishyJoes.export(plugh) -->
-//    public func plugh(fred: (Bool, Double, [String])) throws -> (Bool, Int, String) {
-//        (!fred.0 || fred.1 == 42.9, Int(fred.1 + 9), fred.2.joined(separator: " *>-<* "))
-//    }
-//
-//    public var corge: String
-//
-//    public init(corge: String) {
-//        self.corge = corge
-//    }
-//    /// <!-- FishyJoes.export(frob) -->
-//    public var frob: [Double] {
-//        get throws {
-//            [3.14159265359, 42.0, -1.23456789]
-//        }
-//    }
-// }
-//
+/// <!-- FishyJoes.export(TestProtocolStruct, conformances: [TestMethodsProtocol, TestPropertiesProtocol]) -->
+public struct TestProtocolStruct: TestMethodsProtocol, TestPropertiesProtocol {
+    /// <!-- FishyJoes.export(foo) -->
+    public func foo() throws {
+        print("!oof")
+    }
+    /// <!-- FishyJoes.export(bar) -->
+    public func bar() throws -> Bool {
+        return false
+    }
+    /// <!-- FishyJoes.export(baz) -->
+    public func baz(qux: Bool) throws {
+        print("baz(qux: !\(!qux))")
+    }
+    /// <!-- FishyJoes.export(garply) -->
+    public func garply(_ str: String) throws -> String {
+        return "garp garpity \(str) garpee"
+    }
+    /// <!-- FishyJoes.export(xyzzy) -->
+    public func xyzzy(thud: Int, grault: [Double]) throws -> String {
+        "thud: \(thud) | grault: [\(grault.map { "\($0)" }.joined(separator: ", "))]"
+    }
+    /// <!-- FishyJoes.export(plugh) -->
+    public func plugh(fred: (Bool, Double, [String])) throws -> (Bool, Int, String) {
+        (!fred.0 || fred.1 == 42.9, Int(fred.1 + 9), fred.2.joined(separator: " *>-<* "))
+    }
+    
+    public var corge: String
+    
+    public init(corge: String) {
+        self.corge = corge
+    }
+    /// <!-- FishyJoes.export(frob) -->
+    public var frob: [Double] {
+        get throws {
+            [3.14159265359, 42.0, -1.23456789]
+        }
+    }
+}
+
 ///// <!-- FishyJoes.exportReference(TestProtocolClass, conformances: [TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol]) -->
 // public class TestProtocolClass: TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol {
 //    /// <!-- FishyJoes.export(foo) -->

@@ -2011,6 +2011,23 @@ export declare namespace TestAPI {
         ): [boolean, number, string];
     }
 
+    /**
+     * <!-- FishyJoes.export(TestPropertiesProtocol) -->
+     */
+    export class TestPropertiesProtocol {
+        constructor(corge: string, frob: number[])
+
+        /**
+         * <!-- FishyJoes.export(corge) -->
+         */
+        readonly corge: string;
+
+        /**
+         * <!-- FishyJoes.export(frob) -->
+         */
+        readonly frob: number[];
+    }
+
     export type TestProtocolEnum = "qux";
     export namespace TestProtocolEnum {
         /**
@@ -2056,6 +2073,61 @@ export declare namespace TestAPI {
          */
         function xyzzy(
             self: TestAPI.TestProtocolEnum,
+            thud: number,
+            grault: number[]
+        ): string;
+    }
+
+    /**
+     * <!-- FishyJoes.export(TestProtocolStruct, conformances: [TestMethodsProtocol, TestPropertiesProtocol]) -->
+     */
+    export class TestProtocolStruct {
+        constructor(corge: string)
+
+        corge: string;
+
+        /**
+         * <!-- FishyJoes.export(frob) -->
+         */
+        readonly frob: number[];
+
+        /**
+         * <!-- FishyJoes.export(bar) -->
+         */
+        bar(
+        ): boolean;
+
+        /**
+         * <!-- FishyJoes.export(baz) -->
+         */
+        baz(
+            qux: boolean
+        ): void;
+
+        /**
+         * <!-- FishyJoes.export(foo) -->
+         */
+        foo(
+        ): void;
+
+        /**
+         * <!-- FishyJoes.export(garply) -->
+         */
+        garply(
+            str: string
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(plugh) -->
+         */
+        plugh(
+            fred: [boolean, number, string[]]
+        ): [boolean, number, string];
+
+        /**
+         * <!-- FishyJoes.export(xyzzy) -->
+         */
+        xyzzy(
             thud: number,
             grault: number[]
         ): string;

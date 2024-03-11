@@ -53,20 +53,49 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
-/// <!-- FishyJoes.export(TestMethodsProtocol) -->
-class ExternalWitness_TestMethodsProtocol extends SwiftReference implements TestAPI.TestMethodsProtocol {
-    ExternalWitness_TestMethodsProtocol(ffi.Pointer reference): super(reference) {}
-    static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
-        createRef(ExternalWitness_TestMethodsProtocol(ref))
-    );
-    @override
-    String toString() => 'ExternalWitness_TestMethodsProtocol()';
+/// <!-- FishyJoes.export(TestProtocolStruct, conformances: [TestMethodsProtocol, TestPropertiesProtocol]) -->
+class TestProtocolStruct implements TestAPI.TestMethodsProtocol, TestAPI.TestPropertiesProtocol {
+    String corge;
 
-    static void ffi_foo(
+    TestProtocolStruct({
+        required String corge
+    }):
+        this.corge = corge;
+
+    static CreatedRef ffi_constructor(
+        ConsumedRef corge,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(TestProtocolStruct(
+            corge: consumeRef(corge),
+        ))
+    );
+
+    static CreatedRef ffi_get_corge(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catching(exn, () =>
-        peekRef<TestAPI.TestMethodsProtocol>(obj).foo(
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestProtocolStruct>(obj).corge
+        )
+    );
+    static void ffi_set_corge(
+        UnownedRef obj,
+        ConsumedRef newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        peekRef<TestProtocolStruct>(obj).corge = consumeRef<String>(newValue);
+    });
+
+    @override
+    String toString() => 'TestProtocolStruct(corge: $corge)';
+
+    static CreatedRef ffi_get_frob(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestProtocolStruct>(obj).frob
         )
     );
 
@@ -74,7 +103,7 @@ class ExternalWitness_TestMethodsProtocol extends SwiftReference implements Test
         UnownedRef obj,
         OutCreatedRef exn
     ) => catching(exn, () =>
-        peekRef<TestAPI.TestMethodsProtocol>(obj).bar(
+        peekRef<TestProtocolStruct>(obj).bar(
         )
     ) ?? false;
 
@@ -83,19 +112,39 @@ class ExternalWitness_TestMethodsProtocol extends SwiftReference implements Test
         bool qux,
         OutCreatedRef exn
     ) => catching(exn, () =>
-        peekRef<TestAPI.TestMethodsProtocol>(obj).baz(
+        peekRef<TestProtocolStruct>(obj).baz(
             qux
+        )
+    );
+
+    static void ffi_foo(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<TestProtocolStruct>(obj).foo(
         )
     );
 
     static CreatedRef ffi_garply(
         UnownedRef obj,
-        ConsumedRef _0,
+        ConsumedRef str,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
-            peekRef<TestAPI.TestMethodsProtocol>(obj).garply(
-                consumeRef(_0)
+            peekRef<TestProtocolStruct>(obj).garply(
+                consumeRef(str)
+            )
+        )
+    );
+
+    static CreatedRef ffi_plugh(
+        UnownedRef obj,
+        ConsumedRef fred,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestProtocolStruct>(obj).plugh(
+                consumeRef(fred)
             )
         )
     );
@@ -107,38 +156,50 @@ class ExternalWitness_TestMethodsProtocol extends SwiftReference implements Test
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
-            peekRef<TestAPI.TestMethodsProtocol>(obj).xyzzy(
+            peekRef<TestProtocolStruct>(obj).xyzzy(
                 thud,
                 consumeRef(grault)
             )
         )
     );
 
-    static CreatedRef ffi_plugh(
-        UnownedRef obj,
-        ConsumedRef fred,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<TestAPI.TestMethodsProtocol>(obj).plugh(
-                consumeRef(fred)
+    @override
+    bool operator ==(Object other) {
+        return identical(other, this) ||
+        (
+            other.runtimeType == runtimeType &&
+            other is TestProtocolStruct &&
+            (
+                const DeepCollectionEquality().equals(other.corge, corge)
             )
-        )
+        );
+    }
+
+    @override
+    int get hashCode => Object.hash(
+        runtimeType,
+        const DeepCollectionEquality().hash(corge)
     );
 
-    /// <!-- FishyJoes.export(foo) -->
-    void foo(
-    ) =>
+    TestProtocolStruct copyWith({
+        String? corge
+    }) => TestProtocolStruct(
+        corge: corge ?? this.corge
+    );
+
+    /// <!-- FishyJoes.export(frob) -->
+    List<double> get frob =>
         GCRef.using(this, (_thisHandle) =>
-            check((OutCreatedRef _exn) => f__iota_TestAPI_TestMethodsProtocol_foo(Loader.shared.env, _thisHandle.ptr, _exn))
+            check((exn) =>
+                consumeCreatedRef<List<double>>(f__iota_get_TestAPI_TestProtocolStruct_frob(Loader.shared.env, _thisHandle.ptr, exn))
+            )
         )
     ;
-
     /// <!-- FishyJoes.export(bar) -->
     bool bar(
     ) =>
         GCRef.using(this, (_thisHandle) =>
-            check((OutCreatedRef _exn) => f__iota_TestAPI_TestMethodsProtocol_bar(Loader.shared.env, _thisHandle.ptr, _exn))
+            check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolStruct_bar(Loader.shared.env, _thisHandle.ptr, _exn))
         )
     ;
 
@@ -147,17 +208,36 @@ class ExternalWitness_TestMethodsProtocol extends SwiftReference implements Test
         bool qux,
     ) =>
         GCRef.using(this, (_thisHandle) =>
-            check((OutCreatedRef _exn) => f__iota_TestAPI_TestMethodsProtocol_baz(Loader.shared.env, _thisHandle.ptr, qux, _exn))
+            check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolStruct_baz(Loader.shared.env, _thisHandle.ptr, qux, _exn))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(foo) -->
+    void foo(
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolStruct_foo(Loader.shared.env, _thisHandle.ptr, _exn))
         )
     ;
 
     /// <!-- FishyJoes.export(garply) -->
     String garply(
-        String m_0,
+        String str,
     ) =>
         GCRef.using(this, (_thisHandle) =>
-            GCRef.using(m_0, (__0Handle) =>
-                consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestMethodsProtocol_garply(Loader.shared.env, _thisHandle.ptr, __0Handle.ptr, _exn)))
+            GCRef.using(str, (_strHandle) =>
+                consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolStruct_garply(Loader.shared.env, _thisHandle.ptr, _strHandle.ptr, _exn)))
+            )
+        )
+    ;
+
+    /// <!-- FishyJoes.export(plugh) -->
+    tuple.Tuple3<bool, int, String> plugh(
+        tuple.Tuple3<bool, double, List<String>> fred,
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            GCRef.using(fred, (_fredHandle) =>
+                consumeCreatedRef<tuple.Tuple3<bool, int, String>>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolStruct_plugh(Loader.shared.env, _thisHandle.ptr, _fredHandle.ptr, _exn)))
             )
         )
     ;
@@ -169,18 +249,7 @@ class ExternalWitness_TestMethodsProtocol extends SwiftReference implements Test
     ) =>
         GCRef.using(this, (_thisHandle) =>
             GCRef.using(grault, (_graultHandle) =>
-                consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestMethodsProtocol_xyzzy(Loader.shared.env, _thisHandle.ptr, thud, _graultHandle.ptr, _exn)))
-            )
-        )
-    ;
-
-    /// <!-- FishyJoes.export(plugh) -->
-    tuple.Tuple3<bool, int, String> plugh(
-        tuple.Tuple3<bool, double, List<String>> fred,
-    ) =>
-        GCRef.using(this, (_thisHandle) =>
-            GCRef.using(fred, (_fredHandle) =>
-                consumeCreatedRef<tuple.Tuple3<bool, int, String>>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestMethodsProtocol_plugh(Loader.shared.env, _thisHandle.ptr, _fredHandle.ptr, _exn)))
+                consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolStruct_xyzzy(Loader.shared.env, _thisHandle.ptr, thud, _graultHandle.ptr, _exn)))
             )
         )
     ;
@@ -189,35 +258,40 @@ class ExternalWitness_TestMethodsProtocol extends SwiftReference implements Test
         Env env,
         UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_TestMethodsProtocol_bar;
+    ) f__iota_TestAPI_TestProtocolStruct_bar;
     static late void Function(
         Env env,
         UnownedRef _this,
         bool qux,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_TestMethodsProtocol_baz;
+    ) f__iota_TestAPI_TestProtocolStruct_baz;
     static late void Function(
         Env env,
         UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_TestMethodsProtocol_foo;
+    ) f__iota_TestAPI_TestProtocolStruct_foo;
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,
-        UnownedRef _0,
+        UnownedRef str,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_TestMethodsProtocol_garply;
+    ) f__iota_TestAPI_TestProtocolStruct_garply;
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,
         UnownedRef fred,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_TestMethodsProtocol_plugh;
+    ) f__iota_TestAPI_TestProtocolStruct_plugh;
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,
         int thud,
         UnownedRef grault,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_TestMethodsProtocol_xyzzy;
+    ) f__iota_TestAPI_TestProtocolStruct_xyzzy;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_get_TestAPI_TestProtocolStruct_frob;
 }
