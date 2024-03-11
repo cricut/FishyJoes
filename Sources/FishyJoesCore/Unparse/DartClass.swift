@@ -570,7 +570,7 @@ class DartProductClass: DartClass {
 
                 fragment.blankLine()
 
-                var blockOpenClose = fields.isEmpty ? ["(", ")"] : ["({", "})"]
+                let blockOpenClose = fields.isEmpty ? ["(", ")"] : ["({", "})"]
                 fragment.outputBlock("\(unqualifiedName)\(blockOpenClose[0])", closeWith: blockOpenClose[1], newLineTerminated: false) {
                     fragment.outputMap(fields, separator: ",") { field in
                         let type = field.type.name(in: self)
@@ -612,8 +612,10 @@ class DartProductClass: DartClass {
                 ffiFor(fields: fields, fragment: fragment)
                 fragment.blankLine()
 
-                toStringImpl(fields: fields, fragment: fragment)
-                fragment.blankLine()
+                if !fields.isEmpty {
+                    toStringImpl(fields: fields, fragment: fragment)
+                    fragment.blankLine()
+                }
             }
 
             fragment.blankLine()
