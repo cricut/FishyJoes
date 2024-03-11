@@ -370,9 +370,10 @@ struct TranslatedProtocol: TranslatedType {
             fragment.output("let _iotaWitness: IotaReference")
             for variable in computedVariables {
                 fragment.output()
-                let name = variable.name
-                let type = variable.typeName.better.name
                 let resolved = context.resolve(type: variable.typeName.better)
+
+                let name = variable.name
+                let type = resolved.converterType.name
 
                 fragment.outputBlock("\(variable.isStatic ? "static " : "")public var \(name): \(type) {") {
                     fragment.outputBlock("get throws {") {
