@@ -106,7 +106,7 @@ class Structs_DougStruct {
     ) => catchingRef(exn, () =>
         createRef(
             Structs_DougStruct.create(
-                str
+                consumeRef(str)
             )
         )
     );
