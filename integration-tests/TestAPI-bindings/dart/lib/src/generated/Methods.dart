@@ -225,13 +225,13 @@ class Methods extends SwiftReference {
     static CreatedRef ffi_asyncMultipleArgs(
         UnownedRef obj,
         int i,
-        Future<int> Function() j,
+        ConsumedRef j,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
             peekRef<Methods>(obj).asyncMultipleArgs(
                 i,
-                j
+                consumeRef<Future<int> Function()>(j)
             )
         )
     );
@@ -248,12 +248,12 @@ class Methods extends SwiftReference {
 
     static CreatedRef ffi_asyncCallbackFunc0(
         UnownedRef obj,
-        Future<int> Function() callback,
+        ConsumedRef callback,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
             peekRef<Methods>(obj).asyncCallbackFunc0(
-                callback
+                consumeRef<Future<int> Function()>(callback)
             )
         )
     );
@@ -313,13 +313,13 @@ class Methods extends SwiftReference {
     static CreatedRef ffi_staticAsyncMultipleArgs(
         UnownedRef obj,
         int i,
-        Future<int> Function() j,
+        ConsumedRef j,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
             Methods.staticAsyncMultipleArgs(
                 i,
-                j
+                consumeRef<Future<int> Function()>(j)
             )
         )
     );
@@ -336,12 +336,12 @@ class Methods extends SwiftReference {
 
     static CreatedRef ffi_staticAsyncCallbackFunc0(
         UnownedRef obj,
-        Future<int> Function() callback,
+        ConsumedRef callback,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
             Methods.staticAsyncCallbackFunc0(
-                callback
+                consumeRef<Future<int> Function()>(callback)
             )
         )
     );

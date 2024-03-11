@@ -77,13 +77,13 @@ class Actors_TemperatureLogger extends SwiftReference {
 
     static CreatedRef ffi_create(
         UnownedRef obj,
-        String label,
+        ConsumedRef label,
         int measurement,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
             Actors_TemperatureLogger.create(
-                label,
+                consumeRef<String>(label),
                 measurement
             )
         )

@@ -628,7 +628,7 @@ class DartProductClass: DartClass {
                 fragment.outputBlock("static \(method.returnType.ffiCreatedName) ffi_\(method.name)(", newLineTerminated: false) {
                     fragment.output("UnownedRef obj,")
                     for param in method.parameters {
-                        fragment.output("\(param.type.name()) \(param.name),")
+                        fragment.output("\(param.type.ffiConsumedName) \(param.name),")
                     }
                     fragment.output("OutCreatedRef exn")
                 }

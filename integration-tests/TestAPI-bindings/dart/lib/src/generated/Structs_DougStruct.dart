@@ -89,19 +89,19 @@ class Structs_DougStruct {
 
     static CreatedRef ffi_cat(
         UnownedRef obj,
-        String str,
+        ConsumedRef str,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
             peekRef<Structs_DougStruct>(obj).cat(
-                str
+                consumeRef<String>(str)
             )
         )
     );
 
     static CreatedRef ffi_create(
         UnownedRef obj,
-        String str,
+        ConsumedRef str,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
