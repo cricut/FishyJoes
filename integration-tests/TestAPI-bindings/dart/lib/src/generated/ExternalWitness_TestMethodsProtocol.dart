@@ -92,7 +92,7 @@ class ExternalWitness_TestMethodsProtocol extends SwiftReference implements Test
     ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestAPI.TestMethodsProtocol>(obj).garply(
-                consumeRef<String>(_0)
+                consumeRef(_0)
             )
         )
     );
@@ -106,7 +106,7 @@ class ExternalWitness_TestMethodsProtocol extends SwiftReference implements Test
         createRef(
             peekRef<TestAPI.TestMethodsProtocol>(obj).xyzzy(
                 thud,
-                consumeRef<List<double>>(grault)
+                consumeRef(grault)
             )
         )
     );
@@ -118,7 +118,7 @@ class ExternalWitness_TestMethodsProtocol extends SwiftReference implements Test
     ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestAPI.TestMethodsProtocol>(obj).plugh(
-                consumeRef<tuple.Tuple3<bool, double, List<String>>>(fred)
+                consumeRef(fred)
             )
         )
     );

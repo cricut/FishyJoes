@@ -661,7 +661,11 @@ class DartProductClass: DartClass {
                     let prefix = method.isStatic ? unqualifiedName : "peekRef<\(peekTypeName)>(obj)"
                     fragment.outputBlock("\(methodCall)(", closeWith: ")") {
                         fragment.outputMap(method.parameters, separator: ",") {
-                            $0.name
+                            if $0.type.isObject {
+                                "consumeRef(\($0.name))"
+                            } else {
+                                $0.name
+                            }
                         }
                     }
                 }

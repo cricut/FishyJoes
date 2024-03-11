@@ -83,7 +83,7 @@ class Actors_TemperatureLogger extends SwiftReference {
     ) => catchingRef(exn, () =>
         createRef(
             Actors_TemperatureLogger.create(
-                consumeRef<String>(label),
+                consumeRef(label),
                 measurement
             )
         )

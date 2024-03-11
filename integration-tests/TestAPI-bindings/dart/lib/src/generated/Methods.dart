@@ -231,7 +231,7 @@ class Methods extends SwiftReference {
         createRef(
             peekRef<Methods>(obj).asyncMultipleArgs(
                 i,
-                consumeRef<Future<int> Function()>(j)
+                consumeRef(j)
             )
         )
     );
@@ -253,7 +253,7 @@ class Methods extends SwiftReference {
     ) => catchingRef(exn, () =>
         createRef(
             peekRef<Methods>(obj).asyncCallbackFunc0(
-                consumeRef<Future<int> Function()>(callback)
+                consumeRef(callback)
             )
         )
     );
@@ -319,7 +319,7 @@ class Methods extends SwiftReference {
         createRef(
             Methods.staticAsyncMultipleArgs(
                 i,
-                consumeRef<Future<int> Function()>(j)
+                consumeRef(j)
             )
         )
     );
@@ -341,7 +341,7 @@ class Methods extends SwiftReference {
     ) => catchingRef(exn, () =>
         createRef(
             Methods.staticAsyncCallbackFunc0(
-                consumeRef<Future<int> Function()>(callback)
+                consumeRef(callback)
             )
         )
     );

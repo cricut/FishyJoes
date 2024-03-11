@@ -94,7 +94,7 @@ class Structs_DougStruct {
     ) => catchingRef(exn, () =>
         createRef(
             peekRef<Structs_DougStruct>(obj).cat(
-                consumeRef<String>(str)
+                consumeRef(str)
             )
         )
     );
