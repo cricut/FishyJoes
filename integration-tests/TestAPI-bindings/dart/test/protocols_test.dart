@@ -54,6 +54,32 @@ void main() {
         expect(testProtocolStruct.garply("An octopus in your neighborhood?"), equals("garp garpity An octopus in your neighborhood? garpee"));
         expect(testProtocolStruct.xyzzy(42, [1.234, 45.235890198, 892.80]), equals("thud: 42 | grault: [1.234, 45.235890198, 892.8]"));
       });
+
+      test('testProtocolClass', () {
+        final testProtocolClass = TestProtocolClass.init("Step inside it's a wilder ride!");
+        expect(testProtocolClass.corge, equals("Step inside it's a wilder ride!"));
+        expect(testProtocolClass.frob, equals([42.0, -1.23456789, 3.14159265359]));
+
+        expect(testProtocolClass.flarp, equals(null));
+        testProtocolClass.flarp = "Excellent observation Kiki!";
+        expect(testProtocolClass.flarp, equals("Excellent observation Kiki!"));
+        expect(testProtocolClass.wombat(null), equals(42.909));
+        expect(testProtocolClass.wombat(57), equals(null));
+        expect(testProtocolClass.wombat(56), equals(7890.2));
+
+        expect(testProtocolClass.spqr(AssociatedDataEnum.thing(23947889)), equals(23947889));
+        expect(testProtocolClass.spqr(AssociatedDataEnum.other("zxc", 89708973)), equals(89708973));
+        expect(testProtocolClass.spqr(AssociatedDataEnum.bar("shme", AssociatedDataEnum.noValue())), equals(45));
+        expect(testProtocolClass.spqr(AssociatedDataEnum.noValue()), equals(42));
+        expect(testProtocolClass.spqr(AssociatedDataEnum.simpleEnum(SimpleEnum.blue())), equals(1));        
+
+        testProtocolClass.foo();
+        expect(testProtocolClass.bar(), equals(true));
+        testProtocolClass.baz(false);
+        expect(testProtocolClass.garply("Surfin' on a sine wave"), "garplify Surfin' on a sine wave parguino");
+        expect(testProtocolClass.xyzzy(42, [1.234, 45.235890198, 892.80]), equals("thud: 42 \\|/ grault: [1.234, 45.235890198, 892.8]"));
+        expect(testProtocolClass.plugh(tuple.Tuple3<bool, double, List<String>>(true, 92.47, ["Please let this be a normal field trip", "I knew I should've stayed home today"])), equals(tuple.Tuple3<bool, int, String>(true, 83, "Please let this be a normal field trip _-^= I knew I should've stayed home today")));
+      });
   });
 
 }

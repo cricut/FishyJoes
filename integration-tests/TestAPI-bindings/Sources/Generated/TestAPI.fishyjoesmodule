@@ -1565,6 +1565,58 @@
         "named" : {
           "_0" : {
             "module" : "TestAPI_CommonInterface",
+            "name" : "_TestOptionalsProtocolConverter",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestOptionalsProtocol",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestOptionalsProtocol",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestOptionalsProtocol"
+        }
+      },
+      "kotlinName" : "TestOptionalsProtocol",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestOptionalsProtocol>>",
+      "nodeName" : "TestAPI.TestOptionalsProtocol",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestOptionalsProtocol",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI_CommonInterface",
             "name" : "_TestPropertiesProtocolConverter",
             "namespace" : [
 
@@ -1605,6 +1657,58 @@
           "_0" : {
             "module" : "TestAPI",
             "name" : "TestPropertiesProtocol",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestProtocolClass",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestProtocolClass",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestProtocolClass",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestProtocolClass"
+        }
+      },
+      "kotlinName" : "TestProtocolClass",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=TestProtocolClass>>",
+      "nodeName" : "TestAPI.TestProtocolClass",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestProtocolClass",
             "namespace" : [
 
             ]
@@ -3011,6 +3115,108 @@
             "constructor" : {
               "visible" : {
                 "names" : [
+                  "flarp"
+                ],
+                "types" : [
+                  {
+                    "optional" : {
+                      "_0" : {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.export(TestOptionalsProtocol) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(flarp) -->"
+                ],
+                "isStatic" : false,
+                "name" : "flarp",
+                "readOnly" : true,
+                "type" : {
+                  "optional" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(wombat) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "wombat",
+                "parameters" : [
+                  {
+                    "name" : "zxc",
+                    "type" : {
+                      "optional" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "optional" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(spqr) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "spqr",
+                "parameters" : [
+                  {
+                    "name" : "pippo",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.AssociatedDataEnum"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
+            ],
+            "name" : "TestOptionalsProtocol"
+          },
+          {
+            "constructor" : {
+              "visible" : {
+                "names" : [
                   "corge",
                   "frob"
                 ],
@@ -3066,6 +3272,289 @@
 
             ],
             "name" : "TestPropertiesProtocol"
+          },
+          {
+            "constructor" : {
+              "hidden" : {
+
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.exportReference(TestProtocolClass, conformances: [TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol]) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(corge) -->"
+                ],
+                "isStatic" : false,
+                "name" : "corge",
+                "readOnly" : false,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(frob) -->"
+                ],
+                "isStatic" : false,
+                "name" : "frob",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number[]"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(flarp) -->"
+                ],
+                "isStatic" : false,
+                "name" : "flarp",
+                "readOnly" : false,
+                "type" : {
+                  "optional" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(foo) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "foo",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(bar) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "bar",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "boolean"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(baz) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "baz",
+                "parameters" : [
+                  {
+                    "name" : "qux",
+                    "type" : {
+                      "named" : {
+                        "_0" : "boolean"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(garply) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "garply",
+                "parameters" : [
+                  {
+                    "name" : "str",
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(xyzzy) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "xyzzy",
+                "parameters" : [
+                  {
+                    "name" : "thud",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "grault",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number[]"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(plugh) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "plugh",
+                "parameters" : [
+                  {
+                    "name" : "fred",
+                    "type" : {
+                      "named" : {
+                        "_0" : "[boolean, number, string[]]"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "[boolean, number, string]"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(init) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "init",
+                "parameters" : [
+                  {
+                    "name" : "corge",
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "defaultValue" : "nil",
+                    "name" : "flarp",
+                    "type" : {
+                      "optional" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.TestProtocolClass"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(wombat) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "wombat",
+                "parameters" : [
+                  {
+                    "name" : "zxc",
+                    "type" : {
+                      "optional" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "optional" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(spqr) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "spqr",
+                "parameters" : [
+                  {
+                    "name" : "pippo",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.AssociatedDataEnum"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
+            ],
+            "name" : "TestProtocolClass"
           },
           {
             "constructor" : {
@@ -10039,7 +10528,6 @@
           },
           {
             "documentation" : [
-              "// <!-- FishyJoes.export(TestOptionalsProtocol) -->",
               "<!-- FishyJoes.export(TestProtocolEnum, conformances: [TestMethodsProtocol]) -->"
             ],
             "name" : "TestProtocolEnum",

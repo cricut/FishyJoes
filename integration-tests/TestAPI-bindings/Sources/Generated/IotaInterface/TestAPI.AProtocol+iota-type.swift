@@ -12,7 +12,7 @@ struct _IotaAProtocol: TestAPI.AProtocol {
 
     public var foo: String {
         get throws {
-            try String.consumeIota(
+            try Swift.String.consumeIota(
                 try _iotaWitness.env.check { exn in
                     TestAPI_CommonInterface._AProtocolConverter._fooGetter[_iotaWitness.env](_iotaWitness.object, exn)
                 },
@@ -23,7 +23,7 @@ struct _IotaAProtocol: TestAPI.AProtocol {
 
     public var baz: Bool {
         get throws {
-            try Bool.consumeIota(
+            try Swift.Bool.consumeIota(
                 try _iotaWitness.env.check { exn in
                     TestAPI_CommonInterface._AProtocolConverter._bazGetter[_iotaWitness.env](_iotaWitness.object, exn)
                 },

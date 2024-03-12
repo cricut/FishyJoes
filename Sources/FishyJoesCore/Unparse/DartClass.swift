@@ -1205,7 +1205,6 @@ class DartProtocolClass: DartClass {
                     }
                 }
 
-                
                 fragment.output(" => ", newLineTerminated: false)
                 wrapper {
                     let methodCall: String
@@ -1214,7 +1213,7 @@ class DartProtocolClass: DartClass {
                     } else {
                         methodCall = "peekRef<\(unqualifiedName)>(obj).\(method.name)"
                     }
-                    
+
                     let prefix = method.isStatic ? defaultImplsName : "peekRef<\(unqualifiedName)>(obj)"
                     fragment.outputBlock("\(methodCall)(", closeWith: ")") {
                         fragment.outputMap(method.parameters, separator: ",") {

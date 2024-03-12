@@ -73,16 +73,16 @@ public enum Structs {
             return i
         }
     }
-    
+
     /// <!-- FishyJoes.export(Structs.DougStruct) -->
     public struct DougStruct {
         public var str: String
-        
+
         /// <!-- FishyJoes.export(create) -->
         public init(str: String) {
             self.str = str
         }
-        
+
         /// <!-- FishyJoes.export(cat) -->
         public func cat(str: String) -> String {
             self.str + str

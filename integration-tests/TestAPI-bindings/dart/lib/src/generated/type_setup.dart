@@ -15,6 +15,7 @@ import './Deprecations.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
 import './ExternalWitness_AProtocol.dart' as TestAPI;
 import './ExternalWitness_TestMethodsProtocol.dart' as TestAPI;
+import './ExternalWitness_TestOptionalsProtocol.dart' as TestAPI;
 import './ExternalWitness_TestPropertiesProtocol.dart' as TestAPI;
 import './Functions.dart' as TestAPI;
 import './Methods.dart' as TestAPI;
@@ -31,7 +32,9 @@ import './Structs_MutableStruct.dart' as TestAPI;
 import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Structs_ReferenceStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
+import './TestOptionalsProtocol.dart' as TestAPI;
 import './TestPropertiesProtocol.dart' as TestAPI;
+import './TestProtocolClass.dart' as TestAPI;
 import './TestProtocolEnum.dart' as TestAPI;
 import './TestProtocolStruct.dart' as TestAPI;
 import './Tuples.dart' as TestAPI;
@@ -304,6 +307,13 @@ typedef _TestAPI_TestMethodsProtocol_baz = ffi.Void Function(UnownedRef obj, ffi
 typedef _TestAPI_TestMethodsProtocol_garply = CreatedRef Function(UnownedRef obj, ffi.Pointer _0, OutCreatedRef exn);
 typedef _TestAPI_TestMethodsProtocol_xyzzy = CreatedRef Function(UnownedRef obj, ffi.Int thud, ffi.Pointer grault, OutCreatedRef exn);
 typedef _TestAPI_TestMethodsProtocol_plugh = CreatedRef Function(UnownedRef obj, ffi.Pointer fred, OutCreatedRef exn);
+typedef _TestAPI_TestOptionalsProtocolConstructor = CreatedRef Function(
+    ffi.Pointer ref,
+    OutCreatedRef exn
+);
+typedef _TestAPI_TestOptionalsProtocol_flarpGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestOptionalsProtocol_wombat = CreatedRef Function(UnownedRef obj, ffi.Pointer zxc, OutCreatedRef exn);
+typedef _TestAPI_TestOptionalsProtocol_spqr = ffi.Int Function(UnownedRef obj, ffi.Pointer pippo, OutCreatedRef exn);
 typedef _TestAPI_TestPropertiesProtocolConstructor = CreatedRef Function(
     ffi.Pointer ref,
     OutCreatedRef exn
@@ -906,6 +916,24 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_CommonInterface__TestMethodsProtocolConverter_setup');
+    final TestAPI_CommonInterface__TestOptionalsProtocolConverter_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestOptionalsProtocolConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestOptionalsProtocol_flarpGetter>> get_flarp,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestOptionalsProtocol_wombat>> wombat,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestOptionalsProtocol_spqr>> spqr,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestOptionalsProtocolConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestOptionalsProtocol_flarpGetter>> get_flarp,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestOptionalsProtocol_wombat>> wombat,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestOptionalsProtocol_spqr>> spqr,
+            OutCreatedRef exn
+        )
+    >('TestAPI_CommonInterface__TestOptionalsProtocolConverter_setup');
     final TestAPI_CommonInterface__TestPropertiesProtocolConverter_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -922,6 +950,18 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_CommonInterface__TestPropertiesProtocolConverter_setup');
+    final TestAPI_TestProtocolClass_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
+            OutCreatedRef exn
+        )
+    >('TestAPI_TestProtocolClass_setup');
     final TestAPI_TestProtocolEnum_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -2662,6 +2702,158 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_TestMethodsProtocol_xyzzy");
+    TestAPI.ExternalWitness_TestOptionalsProtocol.f__iota_TestAPI_TestOptionalsProtocol_spqr = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef pippo,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef pippo,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestOptionalsProtocol_spqr");
+    TestAPI.ExternalWitness_TestOptionalsProtocol.f__iota_TestAPI_TestOptionalsProtocol_wombat = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef zxc,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef zxc,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestOptionalsProtocol_wombat");
+    TestAPI.TestProtocolClass.f__iota_TestAPI_TestProtocolClass_bar = dylib.lookupFunction<
+        ffi.Bool Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        bool Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestProtocolClass_bar");
+    TestAPI.TestProtocolClass.f__iota_TestAPI_TestProtocolClass_baz = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            UnownedRef _this,
+            ffi.Bool qux,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            UnownedRef _this,
+            bool qux,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestProtocolClass_baz");
+    TestAPI.TestProtocolClass.f__iota_TestAPI_TestProtocolClass_foo = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestProtocolClass_foo");
+    TestAPI.TestProtocolClass.f__iota_TestAPI_TestProtocolClass_garply = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef str,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef str,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestProtocolClass_garply");
+    TestAPI.TestProtocolClass.f__iota_TestAPI_TestProtocolClass_init = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef corge,
+            UnownedRef flarp,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef corge,
+            UnownedRef flarp,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestProtocolClass_init");
+    TestAPI.TestProtocolClass.f__iota_TestAPI_TestProtocolClass_plugh = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fred,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fred,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestProtocolClass_plugh");
+    TestAPI.TestProtocolClass.f__iota_TestAPI_TestProtocolClass_spqr = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef pippo,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef pippo,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestProtocolClass_spqr");
+    TestAPI.TestProtocolClass.f__iota_TestAPI_TestProtocolClass_wombat = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef zxc,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef zxc,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestProtocolClass_wombat");
+    TestAPI.TestProtocolClass.f__iota_TestAPI_TestProtocolClass_xyzzy = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            ffi.Int thud,
+            UnownedRef grault,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            int thud,
+            UnownedRef grault,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestProtocolClass_xyzzy");
     TestAPI.TestProtocolEnum.f__iota_TestAPI_TestProtocolEnum_bar = dylib.lookupFunction<
         ffi.Bool Function(
             Env env,
@@ -4486,6 +4678,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_Structs_ReferenceStruct_mutable");
+    TestAPI.ExternalWitness_TestOptionalsProtocol.f__iota_get_TestAPI_TestOptionalsProtocol_flarp = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestOptionalsProtocol_flarp");
     TestAPI.ExternalWitness_TestPropertiesProtocol.f__iota_get_TestAPI_TestPropertiesProtocol_corge = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -4510,6 +4714,42 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_TestPropertiesProtocol_frob");
+    TestAPI.TestProtocolClass.f__iota_get_TestAPI_TestProtocolClass_corge = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestProtocolClass_corge");
+    TestAPI.TestProtocolClass.f__iota_get_TestAPI_TestProtocolClass_flarp = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestProtocolClass_flarp");
+    TestAPI.TestProtocolClass.f__iota_get_TestAPI_TestProtocolClass_frob = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestProtocolClass_frob");
     TestAPI.TestProtocolStruct.f__iota_get_TestAPI_TestProtocolStruct_frob = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -4704,6 +4944,34 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_set_TestAPI_Structs_ReferenceStruct_mutable");
+    TestAPI.TestProtocolClass.f__iota_set_TestAPI_TestProtocolClass_corge = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef corge,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef corge,
+            OutCreatedRef _exn
+        )
+    >("__iota_set_TestAPI_TestProtocolClass_corge");
+    TestAPI.TestProtocolClass.f__iota_set_TestAPI_TestProtocolClass_flarp = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef flarp,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef flarp,
+            OutCreatedRef _exn
+        )
+    >("__iota_set_TestAPI_TestProtocolClass_flarp");
 
     Loader.shared.once("setup_Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>", () {
         // print("setting up ((Swift.Int) -> Swift.Int, (Swift.Int) -> Swift.Int) -> (Swift.Int) -> Swift.Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
@@ -5783,6 +6051,16 @@ final ensureLoaded = (() {
         });
     });
 
+    Loader.shared.once("setup_OptionalConverter<Swift.String>", () {
+        // print("setting up Optional<String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_OptionalConverter_setup(
+                Loader.shared.env,
+                exn
+            );
+        });
+    });
+
     Loader.shared.once("setup_OptionalConverter<Swift.UInt>", () {
         // print("setting up Optional<UInt> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
@@ -6580,6 +6858,20 @@ final ensureLoaded = (() {
         });
     });
 
+    Loader.shared.once("setup_TestAPI_CommonInterface._TestOptionalsProtocolConverter", () {
+        // print("setting up TestAPI.TestOptionalsProtocol (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_CommonInterface__TestOptionalsProtocolConverter_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestOptionalsProtocol.ffi_new),
+                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestOptionalsProtocol.ffi_get_flarp),
+                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestOptionalsProtocol.ffi_wombat),
+                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestOptionalsProtocol.ffi_spqr, 0),
+                exn
+            );
+        });
+    });
+
     Loader.shared.once("setup_TestAPI_CommonInterface._TestPropertiesProtocolConverter", () {
         // print("setting up TestAPI.TestPropertiesProtocol (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
@@ -6588,6 +6880,17 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestPropertiesProtocol.ffi_new),
                 ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestPropertiesProtocol.ffi_get_corge),
                 ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestPropertiesProtocol.ffi_get_frob),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.TestProtocolClass", () {
+        // print("setting up TestAPI.TestProtocolClass (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_TestProtocolClass_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.TestProtocolClass.ffi_new),
                 exn
             );
         });

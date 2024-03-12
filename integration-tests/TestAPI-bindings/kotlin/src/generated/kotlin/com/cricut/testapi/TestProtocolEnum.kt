@@ -4,7 +4,6 @@ import kotlinx.coroutines.*
 import java.lang.Exception
 
 /**
- * // <!-- FishyJoes.export(TestOptionalsProtocol) -->
  * <!-- FishyJoes.export(TestProtocolEnum, conformances: [TestMethodsProtocol]) -->
  */
 @OptIn(ExperimentalCoroutinesApi::class)

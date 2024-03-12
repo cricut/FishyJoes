@@ -56,67 +56,91 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
-/// <!-- FishyJoes.export(UnicodeScalar_PuttingTypesIntoQuestionablePlaces) -->
-sealed class UnicodeScalar_PuttingTypesIntoQuestionablePlaces {
-    const factory UnicodeScalar_PuttingTypesIntoQuestionablePlaces.thing(
-    ) = UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing;
-
-    const UnicodeScalar_PuttingTypesIntoQuestionablePlaces();
-
-    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
-        final peekedObj = peekRef<UnicodeScalar_PuttingTypesIntoQuestionablePlaces>(obj);
-        if (peekedObj is UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing) { return 0; }
-        else { throw UnsupportedError('Unknown UnicodeScalar_PuttingTypesIntoQuestionablePlaces subclass'); }
-    });
-
-    static CreatedRef newThing(
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing(
-        ))
+/// <!-- FishyJoes.export(TestOptionalsProtocol) -->
+class ExternalWitness_TestOptionalsProtocol extends SwiftReference implements TestAPI.TestOptionalsProtocol {
+    ExternalWitness_TestOptionalsProtocol(ffi.Pointer reference): super(reference) {}
+    static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
+        createRef(ExternalWitness_TestOptionalsProtocol(ref))
     );
+    @override
+    String toString() => 'ExternalWitness_TestOptionalsProtocol(flarp: $flarp)';
 
-    static void extractThing(
+    static CreatedRef ffi_get_flarp(
         UnownedRef obj,
         OutCreatedRef exn
-    ) {
-        catching(exn, () {
-            final _self = peekRef<UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing>(obj);
-        });
-    }
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestAPI.TestOptionalsProtocol>(obj).flarp
+        )
+    );
 
-    /// <!-- FishyJoes.export(testCall) -->
-    int testCall(
+    static CreatedRef ffi_wombat(
+        UnownedRef obj,
+        ConsumedRef zxc,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestAPI.TestOptionalsProtocol>(obj).wombat(
+                consumeRef(zxc)
+            )
+        )
+    );
+
+    static int ffi_spqr(
+        UnownedRef obj,
+        ConsumedRef pippo,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<TestAPI.TestOptionalsProtocol>(obj).spqr(
+            consumeRef(pippo)
+        )
+    ) ?? 0;
+
+    /// <!-- FishyJoes.export(flarp) -->
+    String? get flarp =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                consumeCreatedRef<String?>(f__iota_get_TestAPI_TestOptionalsProtocol_flarp(Loader.shared.env, _thisHandle.ptr, exn))
+            )
+        )
+    ;
+    /// <!-- FishyJoes.export(wombat) -->
+    double? wombat(
+        int? zxc,
     ) =>
         GCRef.using(this, (_thisHandle) =>
-            check((OutCreatedRef _exn) => f__iota_Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_testCall(Loader.shared.env, _thisHandle.ptr, _exn))
+            GCRef.using(zxc, (_zxcHandle) =>
+                consumeCreatedRef<double?>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestOptionalsProtocol_wombat(Loader.shared.env, _thisHandle.ptr, _zxcHandle.ptr, _exn)))
+            )
+        )
+    ;
+
+    /// <!-- FishyJoes.export(spqr) -->
+    int spqr(
+        TestAPI.AssociatedDataEnum pippo,
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            GCRef.using(pippo, (_pippoHandle) =>
+                check((OutCreatedRef _exn) => f__iota_TestAPI_TestOptionalsProtocol_spqr(Loader.shared.env, _thisHandle.ptr, _pippoHandle.ptr, _exn))
+            )
         )
     ;
 
     static late int Function(
         Env env,
         UnownedRef _this,
+        UnownedRef pippo,
         OutCreatedRef _exn
-    ) f__iota_Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_testCall;
-}
-
-class UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing extends UnicodeScalar_PuttingTypesIntoQuestionablePlaces {
-    const UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing();
-
-    @override
-    bool operator ==(Object other) {
-        return identical(other, this) ||
-        (
-            other.runtimeType == runtimeType &&
-            other is UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing
-        );
-    }
-
-    @override
-    int get hashCode => runtimeType.hashCode;
-
-    @override
-    String toString() => 'UnicodeScalar_PuttingTypesIntoQuestionablePlaces.thing()';
-
-    UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing copyWith() => UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing();
+    ) f__iota_TestAPI_TestOptionalsProtocol_spqr;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        UnownedRef zxc,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_TestOptionalsProtocol_wombat;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_get_TestAPI_TestOptionalsProtocol_flarp;
 }

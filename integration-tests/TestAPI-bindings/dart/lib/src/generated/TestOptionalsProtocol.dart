@@ -49,31 +49,19 @@ import 'package:fishyjoes_dart/runtime.dart';
 import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:tuple/tuple.dart' as tuple;
 
-/// <!-- FishyJoes.export(TestMethodsProtocol) -->
-abstract class TestMethodsProtocol {
-    void foo(
+/// <!-- FishyJoes.export(TestOptionalsProtocol) -->
+abstract class TestOptionalsProtocol {
+    double? wombat(
+        int? zxc
     );
 
-    bool bar(
+    int spqr(
+        TestAPI.AssociatedDataEnum pippo
     );
 
-    void baz(
-        bool qux
-    );
-
-    String garply(
-        String m_0
-    );
-
-    String xyzzy(
-        int thud,
-        List<double> grault
-    );
-
-    tuple.Tuple3<bool, int, String> plugh(
-        tuple.Tuple3<bool, double, List<String>> fred
-    );
+    /// <!-- FishyJoes.export(flarp) -->
+    String? get flarp;
 }
 
-extension TestMethodsProtocol_DefaultImplementations on TestMethodsProtocol {
+extension TestOptionalsProtocol_DefaultImplementations on TestOptionalsProtocol {
 }

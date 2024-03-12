@@ -1305,6 +1305,13 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_OptionalConverter<Swift.String>", () => {
+                Console.WriteLine("setting up Optional<String>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_OptionalConverter_setup(
+                    Loader.env,
+                    out exn
+                ));
+            });
             Once("setup_OptionalConverter<Swift.UInt>", () => {
                 Console.WriteLine("setting up Optional<UInt>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_OptionalConverter_setup(

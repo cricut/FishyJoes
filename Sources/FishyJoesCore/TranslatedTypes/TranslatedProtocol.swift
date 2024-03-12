@@ -370,16 +370,13 @@ struct TranslatedProtocol: TranslatedType {
             fragment.output("let _iotaWitness: IotaReference")
             for variable in computedVariables {
                 fragment.output()
-                let resolved = context.resolve(type: variable.typeName.better)
+                let resolvedVar = context.resolve(type: variable.typeName.better)
 
-                let name = variable.name
-                let type = resolved.converterType.name
-
-                fragment.outputBlock("\(variable.isStatic ? "static " : "")public var \(name): \(type) {") {
+                fragment.outputBlock("\(variable.isStatic ? "static " : "")public var \(variable.name): \(variable.typeName.better.name) {") {
                     fragment.outputBlock("get throws {") {
-                        fragment.outputBlock("try \(type).consumeIota(") {
+                        fragment.outputBlock("try \(resolvedVar.converterType.name).consumeIota(") {
                             fragment.outputBlock("try _iotaWitness.env.check { exn in", closeWith: "},") {
-                                fragment.output("\(converterType.name)._\(name)Getter[_iotaWitness.env](_iotaWitness.object, exn)")
+                                fragment.output("\(converterType.name)._\(variable.name)Getter[_iotaWitness.env](_iotaWitness.object, exn)")
                             }
                             fragment.output("env: _iotaWitness.env")
                         }

@@ -12,7 +12,7 @@ struct _IotaTestPropertiesProtocol: TestAPI.TestPropertiesProtocol {
 
     public var corge: String {
         get throws {
-            try String.consumeIota(
+            try Swift.String.consumeIota(
                 try _iotaWitness.env.check { exn in
                     TestAPI_CommonInterface._TestPropertiesProtocolConverter._corgeGetter[_iotaWitness.env](_iotaWitness.object, exn)
                 },
@@ -23,7 +23,7 @@ struct _IotaTestPropertiesProtocol: TestAPI.TestPropertiesProtocol {
 
     public var frob: Array<Double> {
         get throws {
-            try ArrayConverter<Double>.consumeIota(
+            try ArrayConverter<Swift.Double>.consumeIota(
                 try _iotaWitness.env.check { exn in
                     TestAPI_CommonInterface._TestPropertiesProtocolConverter._frobGetter[_iotaWitness.env](_iotaWitness.object, exn)
                 },
