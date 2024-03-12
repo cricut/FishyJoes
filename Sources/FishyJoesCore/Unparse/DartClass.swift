@@ -541,9 +541,6 @@ class DartProductClass: DartClass {
         case .public:
             fragment.output("class \(unqualifiedName)\(conformancesPart)", newLineTerminated: false)
         }
-        if unqualifiedName.contains("TestProtocolStruct") {
-            let a = 2
-        }
         fragment.outputBlock(" {") {
             switch constructor {
             case .reference:
@@ -628,6 +625,9 @@ class DartProductClass: DartClass {
             fragment.blankLine()
 
             for method in methods {
+                if unqualifiedName.contains("TestProtocolClass"), method.name.contains("init") {
+                    let a = 2
+                }
                 guard !method.documentation.isEmpty else {
                     continue
                 }

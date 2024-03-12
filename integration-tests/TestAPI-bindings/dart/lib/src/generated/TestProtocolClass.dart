@@ -178,7 +178,8 @@ class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsPro
     ) => catchingRef(exn, () =>
         createRef(
             TestProtocolClass.init(
-                consumeRef(corge)
+                consumeRef(corge),
+                flarp: consumeRef(flarp)
             )
         )
     );
