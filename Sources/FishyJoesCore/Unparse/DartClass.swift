@@ -625,9 +625,6 @@ class DartProductClass: DartClass {
             fragment.blankLine()
 
             for method in methods {
-                if unqualifiedName.contains("TestProtocolClass"), method.name.contains("init") {
-                    let a = 2
-                }
                 guard !method.documentation.isEmpty else {
                     continue
                 }
@@ -666,12 +663,27 @@ class DartProductClass: DartClass {
                     }
                     let prefix = method.isStatic ? unqualifiedName : "peekRef<\(peekTypeName)>(obj)"
                     fragment.outputBlock("\(methodCall)(", closeWith: ")") {
-                        fragment.outputMap(method.parameters, separator: ",") {
+                        // put all optional parameters at the end, or dart gets unhappy
+                        let requiredParams = method.parameters.filter { $0.defaultValue == nil }
+                        let optionalParams = method.parameters.filter { $0.defaultValue != nil }
+                        fragment.outputMap(requiredParams, separator: ",", newLineTerminated: false) {
                             if $0.type.isObject {
                                 "consumeRef(\($0.name))"
                             } else {
                                 $0.name
                             }
+                        }
+                        if !optionalParams.isEmpty {
+                            fragment.output(",")
+                            fragment.outputMap(optionalParams, separator: ",") {
+                                if $0.type.isObject {
+                                    "\($0.name): consumeRef(\($0.name))"
+                                } else {
+                                    $0.name
+                                }
+                            }
+                        } else {
+                            fragment.blankLine()
                         }
                     }
                 }

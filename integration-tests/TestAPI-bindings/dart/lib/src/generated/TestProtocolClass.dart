@@ -57,7 +57,7 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: annotate_overrides
 
 /// <!-- FishyJoes.exportReference(TestProtocolClass, conformances: [TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol]) -->
-class TestProtocolClass extends SwiftReference implements TestAPI.TestPropertiesProtocol, TestAPI.TestOptionalsProtocol, TestAPI.TestMethodsProtocol {
+class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsProtocol, TestAPI.TestPropertiesProtocol, TestAPI.TestOptionalsProtocol {
     TestProtocolClass(ffi.Pointer reference): super(reference) {}
     static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
         createRef(TestProtocolClass(ref))

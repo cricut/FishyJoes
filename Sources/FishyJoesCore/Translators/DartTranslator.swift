@@ -166,10 +166,6 @@ final class DartTranslator: Translator {
     }
 
     func dart(method: Method, of type: TranslatedType, context: FishyJoesContext) -> DartClass.MethodOrVariable? {
-        if type.sourceType.name.contains("TestProtocolClass"), method.name.contains("init") {
-            let a = 1
-        }
-
         let exportAnnotation = method.exportAnnotation
         var omitParameters = Set(exportAnnotation.omitParameters)
         var parameters: [(labelComment: String?, name: String, type: DartClass.DartType, defaultValue: String?)] = []
