@@ -306,7 +306,7 @@ struct NodeTranslator: Translator {
         nodeTypeListFragment.blankLine()
         nodeTypeListFragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
         nodeTypeListFragment.output("@_cdecl(\"registerModule\(context.module.name)\")")
-        nodeTypeListFragment.outputBlock("public func registerModule\(context.module.name)C(env: napi_env, exports: napi_value) -> napi_value? {") {
+        nodeTypeListFragment.outputBlock("public func cRegisterModule\(context.module.name)(env: napi_env, exports: napi_value) -> napi_value? {") {
             nodeTypeListFragment.output("let env = NAPI.Env(ptr: env)")
             nodeTypeListFragment.output("let exports = NAPI.Value(ptr: exports)")
             nodeTypeListFragment.outputBlock("return FishyJoesNodeRuntime.rethrowToNode(env: env) {") {
@@ -322,7 +322,9 @@ struct NodeTranslator: Translator {
 
         let nodeNativeShimFragment = SourceFragment(sourceryDestination: "file:NodeNativeShim/NAPIRegisterModule.c")
         nodeNativeShimFragment.output("#include <node_api.h>")
+        nodeNativeShimFragment.blankLine()
         nodeNativeShimFragment.output("extern napi_value registerModule\(context.module.name)(napi_env env, napi_value exports);")
+        nodeNativeShimFragment.blankLine()
         nodeNativeShimFragment.output("#pragma comment(linker, \"/export:napi_register_module_v1\")")
         nodeNativeShimFragment.outputBlock("napi_value napi_register_module_v1(napi_env env, napi_value exports) {") {
             nodeNativeShimFragment.output("return registerModule\(context.module.name)(env, exports);")

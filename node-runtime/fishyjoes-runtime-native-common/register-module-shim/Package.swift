@@ -16,7 +16,7 @@ let package = Package(
     dependencies: [
         .package(
             name: "FishyJoesNodeRuntime",
-            path: "../.."
+            path: "../../.."
         ),
     ],
     targets: [

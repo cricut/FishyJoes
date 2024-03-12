@@ -10,7 +10,7 @@ fi
 CONFIGURATION="${CONFIGURATION:-release}"
 SKIP_LIPO="${SKIP_LIPO:-0}"
 
-SHIM_DIR="Sources/FishyJoesNodeRuntime_NodeNativeShim"
+SHIM_DIR="node-runtime/fishyjoes-runtime-native-common/register-module-shim"
 if [[ "$(uname -s)" == "Darwin" && $SKIP_LIPO == "0" ]]; then
     swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime --arch arm64
     swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime --arch x86_64

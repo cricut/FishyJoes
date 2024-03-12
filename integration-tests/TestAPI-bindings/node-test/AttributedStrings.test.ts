@@ -4,17 +4,6 @@ const AttributedString = Runtime.AttributedString
 const AttributedSubstring = Runtime.AttributedSubstring
 const AttributedStrings = TestAPI.AttributedStrings
 
-test('Crashy', () => {
-    const attributedString = AttributedStrings.polyglot
-    // const attributedString = AttributedString.createJoining([
-    //     AttributedStrings.polyglot,
-    //     AttributedString.create("")
-    // ])
-    // expect(attributedString.string).toEqual("Hello Olá こんにちは")
-
-    const index =  attributedString.characters.indexAfter(attributedString.startIndex)
-})
-
 test('StringValues', () => {
     const en = AttributeContainer.FoundationAttributes.create({ languageIdentifier: "en"}).asContainer()
     const pt = AttributeContainer.FoundationAttributes.create({ languageIdentifier: "pt"}).asContainer()

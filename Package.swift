@@ -72,9 +72,9 @@ let package = Package(
         D.package(url: "https://github.com/jpsim/Yams", .upToNextMinor(from: "5.0.3")),
     ]),
     targets: [
+        T.target(name: "FishyJoesCommonRuntime"),
         // Kotlin / Java
         T.systemLibrary(name: "JNI"),
-        T.target(name: "FishyJoesCommonRuntime"),
         T.target(
             name: "FishyJoesJavaRuntime",
             dependencies: [

@@ -152,7 +152,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          mkdir -p $LIB_DIR
+          mkdir -p "$LIB_DIR"
           cp -R "/c/Program Files/Swift/runtime-development/usr/bin/"*.dll "$LIB_DIR"
 
       - name: Upload library
