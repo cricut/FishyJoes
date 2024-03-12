@@ -661,25 +661,24 @@ class DartProductClass: DartClass {
                     } else {
                         methodCall = "peekRef<\(peekTypeName)>(obj).\(method.name)"
                     }
-                    let prefix = method.isStatic ? unqualifiedName : "peekRef<\(peekTypeName)>(obj)"
                     fragment.outputBlock("\(methodCall)(", closeWith: ")") {
                         // put all optional parameters at the end, or dart gets unhappy
                         let requiredParams = method.parameters.filter { $0.defaultValue == nil }
                         let optionalParams = method.parameters.filter { $0.defaultValue != nil }
                         fragment.outputMap(requiredParams, separator: ",", newLineTerminated: false) {
                             if $0.type.isObject {
-                                "consumeRef(\($0.name))"
+                                return "consumeRef(\($0.name))"
                             } else {
-                                $0.name
+                                return $0.name
                             }
                         }
                         if !optionalParams.isEmpty {
                             fragment.output(",")
                             fragment.outputMap(optionalParams, separator: ",") {
                                 if $0.type.isObject {
-                                    "\($0.name): consumeRef(\($0.name))"
+                                    return "\($0.name): consumeRef(\($0.name))"
                                 } else {
-                                    $0.name
+                                    return $0.name
                                 }
                             }
                         } else {
@@ -1226,7 +1225,6 @@ class DartProtocolClass: DartClass {
                         methodCall = "peekRef<\(unqualifiedName)>(obj).\(method.name)"
                     }
 
-                    let prefix = method.isStatic ? defaultImplsName : "peekRef<\(unqualifiedName)>(obj)"
                     fragment.outputBlock("\(methodCall)(", closeWith: ")") {
                         fragment.outputMap(method.parameters, separator: ",") {
                             $0.type.isObject ? "peekRef<\($0.type.name())>(\($0.name))" : $0.name
