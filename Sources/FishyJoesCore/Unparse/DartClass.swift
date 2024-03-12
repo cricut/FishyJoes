@@ -58,7 +58,7 @@ class DartClass {
     let setupTypes: SetupTypes?
     let fields: [Variable]
     let methods: [Method]
-    var conformances: Set<String> = []
+    let conformances: [String]
 
     init(
         module: Module,
@@ -84,7 +84,7 @@ class DartClass {
             }
             return method
         }
-        self.conformances = conformances
+        self.conformances = Array(conformances).sorted(by: <)
     }
 
     func commonIgnoreSpecificWarnings(fragment: SourceFragment) {
