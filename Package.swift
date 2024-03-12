@@ -21,14 +21,6 @@ func wasmIncompatible<T>(_ things: @autoclosure () -> [T]) -> [T] {
     wasmCompatibleOnly ? [] : things()
 }
 
-func linkNodeExecutable<T>(_ things: @autoclosure () -> [T]) -> [T] {
-    #if os(Windows)
-    return things()
-    #else
-    return []
-    #endif
-}
-
 typealias P = Product
 typealias D = Package.Dependency
 typealias T = Target
@@ -96,16 +88,21 @@ let package = Package(
             ]
         ),
         // TypeScript Node.js / Wasm
-        T.systemLibrary(name: "NodeAPI"),
+        T.target(
+            name: "NodeAPI",
+            linkerSetting: [
+                // node.lib must be in the LIBPATH when building FishyJoes, the runtime, or bindings libraries, via "swift build"
+                // When invoked via "fishy-joes build", it will be downloaded and put in the LIBPATH as part of the build process
+                .linkedLibrary("node.lib", .when(platforms: [.windows])),
+                .linkedLibrary("delayimp.lib", .when(platforms: [.windows])),
+            ]
+        ),
         T.target(
             name: "FishyJoesNodeRuntime",
             dependencies: [
                 .target(name: "NodeAPI"),
                 .target(name: "FishyJoesCommonRuntime"),
-            ] +
-            linkNodeExecutable([
-                .target(name: "NodeAPIResolve"),
-            ]),
+            ],
             exclude: [
                 "Templates",
             ],
@@ -270,25 +267,7 @@ let package = Package(
                 ),
             ]
         ),
-    ] + linkNodeExecutable(
-        [
-            T.target(
-                name: "NodeAPIResolve",
-                linkerSettings: linkNodeExecutable([
-                    .linkedLibrary("node.lib"),
-                    .linkedLibrary("delayimp.lib", .when(platforms: [.windows])),
-                    // Relative reference when building from FishyJoes directory
-                    .unsafeFlags(["-Xlinker", "/LIBPATH:.\\Sources\\NodeAPIResolve\\lib\\windows.x86_64"], .when(platforms: [.windows])),
-                    // Relative reference when building from FishyJoes/integration-tests/TestAPI-bindings directory
-                    .unsafeFlags(["-Xlinker", "/LIBPATH:..\\..\\Sources\\NodeAPIResolve\\lib\\windows.x86_64"], .when(platforms: [.windows])),
-                    // Relative reference when building from FishyJoes/node-runtime/fishyjoes-runtime-native-common/register-module-shim directory
-                    .unsafeFlags(["-Xlinker", "/LIBPATH:..\\..\\..\\Sources\\NodeAPIResolve\\lib\\windows.x86_64"], .when(platforms: [.windows])),
-                    // Relative reference when building from a bindings repo directory
-                    .unsafeFlags(["-Xlinker", "/LIBPATH:.\\.build\\checkouts\\FishyJoes\\Sources\\NodeAPIResolve\\lib\\windows.x86_64"], .when(platforms: [.windows])),
-                ])
-            ),
-        ]
-    ) + generationEnabled(
+    ] + generationEnabled(
         [
             T.target(
                 name: "FishyJoesCore",

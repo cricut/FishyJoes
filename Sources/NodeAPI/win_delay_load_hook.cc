@@ -20,6 +20,7 @@
 #include <delayimp.h>
 #include <string.h>
 
+// The string of interest is baked into the DLL dependency, not the actual name of the executable being loaded
 #define HOST_BINARY "node.exe"
 
 static FARPROC WINAPI load_exe_hook(unsigned int event, DelayLoadInfo* info) {

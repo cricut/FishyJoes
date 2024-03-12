@@ -355,6 +355,13 @@ extension CodeGen {
                         fatalError("Could not find node runtime at: \(runtimePath)")
                     }
 
+                    // When building for node on Windows, node.lib must be downloaded and put in the LIBPATH in order to build the NodeAPI dependency
+                    #if os(Windows)
+                    if platform == .node {
+                        try cmd("curl", "https://nodejs.org/dist/latest-v16.x/win-x64/node.lib", "--output", "node.lib").run()
+                    }
+                    #endif
+
                     // Collect the information about the module and its dependencies that will be needed to build node modules
                     var nodeModules: [
                         (
