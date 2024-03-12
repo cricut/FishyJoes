@@ -1,3 +1,6 @@
+/// Print out DartClasses given inputs from Swift
+///
+/// The purpose of DartClass is to be a pretty printer. Logic that could be extracted elsewhere perhaps should be
 class DartClass {
     enum DartType: Equatable, Codable {
         case void
