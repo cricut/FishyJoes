@@ -176,17 +176,6 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                         }),
                     isStatic: false
                 ),
-                "frob": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "frob", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<Swift.Double>.toNode(env.this(converter: TestAPI.TestProtocolClass.self).frob, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: false
-                ),
                 "flarp": (
                     .accessor(
                         getter: { env, info in
@@ -202,6 +191,17 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                                 return nil
                             }
                         }),
+                    isStatic: false
+                ),
+                "frob": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "frob", expectedArgumentCount: 0) { env in
+                                try ArrayConverter<Swift.Double>.toNode(env.this(converter: TestAPI.TestProtocolClass.self).frob, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
                     isStatic: false
                 ),
             ],

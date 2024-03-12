@@ -57,13 +57,13 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: annotate_overrides
 
 /// <!-- FishyJoes.exportReference(TestProtocolClass, conformances: [TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol]) -->
-class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsProtocol, TestAPI.TestPropertiesProtocol, TestAPI.TestOptionalsProtocol {
+class TestProtocolClass extends SwiftReference implements TestAPI.TestPropertiesProtocol, TestAPI.TestOptionalsProtocol, TestAPI.TestMethodsProtocol {
     TestProtocolClass(ffi.Pointer reference): super(reference) {}
     static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
         createRef(TestProtocolClass(ref))
     );
     @override
-    String toString() => 'TestProtocolClass(corge: $corge, frob: $frob, flarp: $flarp)';
+    String toString() => 'TestProtocolClass(corge: $corge, flarp: $flarp, frob: $frob)';
 
     static CreatedRef ffi_get_corge(
         UnownedRef obj,
@@ -81,15 +81,6 @@ class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsPro
         peekRef<TestProtocolClass>(obj).corge = consumeRef<String>(newValue);
     });
 
-    static CreatedRef ffi_get_frob(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<TestProtocolClass>(obj).frob
-        )
-    );
-
     static CreatedRef ffi_get_flarp(
         UnownedRef obj,
         OutCreatedRef exn
@@ -105,6 +96,15 @@ class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsPro
     ) => catching(exn, () {
         peekRef<TestProtocolClass>(obj).flarp = consumeRef<String?>(newValue);
     });
+
+    static CreatedRef ffi_get_frob(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestProtocolClass>(obj).frob
+        )
+    );
 
     static void ffi_foo(
         UnownedRef obj,
@@ -224,14 +224,6 @@ class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsPro
         )
         ;
     }
-    /// <!-- FishyJoes.export(frob) -->
-    List<double> get frob =>
-        GCRef.using(this, (_thisHandle) =>
-            check((exn) =>
-                consumeCreatedRef<List<double>>(f__iota_get_TestAPI_TestProtocolClass_frob(Loader.shared.env, _thisHandle.ptr, exn))
-            )
-        )
-    ;
     /// <!-- FishyJoes.export(flarp) -->
     String? get flarp =>
         GCRef.using(this, (_thisHandle) =>
@@ -250,6 +242,14 @@ class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsPro
         )
         ;
     }
+    /// <!-- FishyJoes.export(frob) -->
+    List<double> get frob =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                consumeCreatedRef<List<double>>(f__iota_get_TestAPI_TestProtocolClass_frob(Loader.shared.env, _thisHandle.ptr, exn))
+            )
+        )
+    ;
     /// <!-- FishyJoes.export(foo) -->
     void foo(
     ) =>

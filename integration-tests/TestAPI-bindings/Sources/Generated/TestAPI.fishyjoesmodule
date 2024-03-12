@@ -3301,19 +3301,6 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(frob) -->"
-                ],
-                "isStatic" : false,
-                "name" : "frob",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number[]"
-                  }
-                }
-              },
-              {
-                "documentation" : [
                   "<!-- FishyJoes.export(flarp) -->"
                 ],
                 "isStatic" : false,
@@ -3326,6 +3313,19 @@
                         "_0" : "string"
                       }
                     }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(frob) -->"
+                ],
+                "isStatic" : false,
+                "name" : "frob",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number[]"
                   }
                 }
               }
