@@ -44,21 +44,37 @@ struct DockerContext {
     }
 
     func cmd(_ executable: String, arguments: [String]) -> Command {
-        swsh.cmd(
-            hostDockerBinary,
-            arguments: [
+        var args = [String]()
+        args.append(
+            contentsOf: [
                 "run", "--rm",
                 "--platform", platform,
                 "--ulimit", "core=0",
-            ] + env.flatMap {
+            ]
+        )
+        args.append(
+            contentsOf: env.flatMap {
                 ["-e", "\($0.key)=\($0.value)"]
-            } + mountMappings.flatMap {
-                ["-v", "\($0.key):\($0.value)"]
-            } + [
-                "-w", startDirectory,
-                image,
-                executable
-            ] + arguments
+            }
+        )
+        args.append(
+            contentsOf:
+                mountMappings.flatMap {
+                    ["-v", "\($0.key):\($0.value)"]
+                }
+        )
+        args.append(
+            contentsOf:
+                [
+                    "-w", startDirectory,
+                    image,
+                    executable
+                ]
+        )
+        args.append(contentsOf: arguments)
+        return swsh.cmd(
+            hostDockerBinary,
+            arguments: args
         )
     }
 }
