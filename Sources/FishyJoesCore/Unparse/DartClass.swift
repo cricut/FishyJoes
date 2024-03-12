@@ -611,11 +611,6 @@ class DartProductClass: DartClass {
 
                 ffiFor(fields: fields, fragment: fragment)
                 fragment.blankLine()
-
-                if !fields.isEmpty {
-                    toStringImpl(fields: fields, fragment: fragment)
-                    fragment.blankLine()
-                }
             }
 
             fragment.blankLine()
@@ -691,9 +686,8 @@ class DartProductClass: DartClass {
 
             fragment.blankLine()
 
-            if storedFields.isEmpty,
-               constructor != .reference {
-                toStringImpl(fields: fields, fragment: fragment)
+            if constructor != .reference {
+                toStringImpl(fields: storedFields, fragment: fragment)
                 fragment.blankLine()
             }
 

@@ -105,9 +105,6 @@ class Structs_MemberwiseStruct {
         peekRef<Structs_MemberwiseStruct>(obj).mutable = consumeRef<String>(newValue);
     });
 
-    @override
-    String toString() => 'Structs_MemberwiseStruct(immutable: $immutable, mutable: $mutable)';
-
     static CreatedRef ffi_asyncGetMutable(
         UnownedRef obj,
         OutCreatedRef exn
@@ -127,6 +124,9 @@ class Structs_MemberwiseStruct {
             )
         )
     );
+
+    @override
+    String toString() => 'Structs_MemberwiseStruct(immutable: $immutable, mutable: $mutable)';
 
     @override
     bool operator ==(Object other) {

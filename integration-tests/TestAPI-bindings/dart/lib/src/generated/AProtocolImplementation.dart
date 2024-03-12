@@ -109,9 +109,6 @@ class AProtocolImplementation implements TestAPI.AProtocol {
         peekRef<AProtocolImplementation>(obj).baz = newValue;
     });
 
-    @override
-    String toString() => 'AProtocolImplementation(foo: $foo, baz: $baz)';
-
     static CreatedRef ffi_bar(
         UnownedRef obj,
         int x,
@@ -125,6 +122,9 @@ class AProtocolImplementation implements TestAPI.AProtocol {
             )
         )
     );
+
+    @override
+    String toString() => 'AProtocolImplementation(foo: $foo, baz: $baz)';
 
     @override
     bool operator ==(Object other) {

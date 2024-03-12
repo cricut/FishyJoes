@@ -88,9 +88,6 @@ class Structs_MutableStruct {
         peekRef<Structs_MutableStruct>(obj).i = newValue;
     });
 
-    @override
-    String toString() => 'Structs_MutableStruct(i: $i)';
-
     static CreatedRef ffi_asyncGetI(
         UnownedRef obj,
         OutCreatedRef exn
@@ -128,6 +125,9 @@ class Structs_MutableStruct {
             )
         )
     );
+
+    @override
+    String toString() => 'Structs_MutableStruct(i: $i)';
 
     @override
     bool operator ==(Object other) {

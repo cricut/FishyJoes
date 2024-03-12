@@ -90,9 +90,6 @@ class Structs_DougStruct {
         peekRef<Structs_DougStruct>(obj).str = consumeRef<String>(newValue);
     });
 
-    @override
-    String toString() => 'Structs_DougStruct(str: $str)';
-
     static CreatedRef ffi_cat(
         UnownedRef obj,
         ConsumedRef str,
@@ -116,6 +113,9 @@ class Structs_DougStruct {
             )
         )
     );
+
+    @override
+    String toString() => 'Structs_DougStruct(str: $str)';
 
     @override
     bool operator ==(Object other) {
