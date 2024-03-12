@@ -235,9 +235,9 @@ extension NAPI.Env {
         try check(napi_create_symbol(ptr, description.ptr, &result.ptr))
         return result
     }
-    // public func nodeApiSymbolFor(_ utf8description: String?, length: Int) throws -> NAPI.Value {
+    // public func symbolFor(_ description: String) throws -> NAPI.Value {
     //     var result = NAPI.Value()
-    //     try check(node_api_symbol_for(ptr, utf8description, length, &result.ptr))
+    //     try check(node_api_symbol_for(ptr, description, description.utf8.count, &result.ptr))
     //     return result
     // }
     public func createTypedarray(_ type: napi_typedarray_type, length: Int, _ arraybuffer: NAPI.Value, byteOffset: Int) throws -> NAPI.Value {

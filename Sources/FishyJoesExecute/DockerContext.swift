@@ -62,9 +62,6 @@ struct DockerContext {
                 executable
             ]
         )
-        return swsh.cmd(
-            hostDockerBinary,
-            arguments: dockerArguments + arguments
-        )
+        return swsh.cmd(hostDockerBinary, arguments: dockerArguments + arguments)
     }
 }
