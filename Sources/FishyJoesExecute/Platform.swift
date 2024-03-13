@@ -236,7 +236,7 @@ enum Platform: CustomStringConvertible, Hashable {
         return cmd(path, arguments: args, addEnv: env)
     }
 
-    func swiftBuild(_ arguments: String..., configuration: BuildConfiguration, addEnv: [String:String] = [:]) -> Command {
+    func swiftBuild(_ arguments: String..., configuration: BuildConfiguration, addEnv: [String: String] = [:]) -> Command {
         swiftBuild(arguments: arguments, configuration: configuration, addEnv: addEnv)
     }
 
