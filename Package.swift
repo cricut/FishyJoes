@@ -8,6 +8,7 @@ let disableGeneration = env["DISABLE_GENERATION"] == "1"
 let wasmCompatibleOnly = env["WASM_ONLY"] == "1"
 let androidCompatibleOnly = env["ANDROID_COMPATIBLE_ONLY"] == "1"
 let javaHome = env["JAVA_HOME_11_X64"] ?? env["JAVA_HOME"]
+let extraLibPath = env["EXTRA_LIBPATH"]?.split(separator:";") ?? []
 
 func generationEnabled<T>(_ things: @autoclosure () -> [T]) -> [T] {
     #if os(macOS)
@@ -90,11 +91,16 @@ let package = Package(
         // TypeScript Node.js / Wasm
         T.target(
             name: "NodeAPI",
-            linkerSetting: [
-                // node.lib must be in the LIBPATH when building FishyJoes, the runtime, or bindings libraries, via "swift build"
-                // When invoked via "fishy-joes build", it will be downloaded and put in the LIBPATH as part of the build process
+            linkerSettings: [
+                // On Windows, node.lib must be in the LIB environment variable when building FishyJoes, the runtime, or bindings libraries, via "swift build"
+                // Use the EXTRA_LIBPATH environment variable to cause "swift build" to add paths to LIB when envoked
+                // When invoked via "fishy-joes build", node.lib will be downloaded and put in a directory accessible by the LIB environment variable as part of the build process
                 .linkedLibrary("node.lib", .when(platforms: [.windows])),
                 .linkedLibrary("delayimp.lib", .when(platforms: [.windows])),
+                .unsafeFlags(
+                    Array(extraLibPath.map { ["-Xlinker", "/LIBPATH:\($0)"] }.joined()),
+                    .when(platforms: [.windows])
+                )
             ]
         ),
         T.target(

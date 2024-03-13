@@ -30,10 +30,17 @@ if [[ "$(uname -s)" == "Darwin" && $SKIP_LIPO == "0" ]]; then
          "$SHIM_DIR"/.build/{arm64,x86_64}-apple-macosx/"$CONFIGURATION"/libFishyJoesNodeRuntime_NodeNativeShim.dylib
 elif [[ "$(uname -s)" == *_NT* ]]; then
     SWIFT="$(realpath ./scripts/swift-shim.ps1)"
+    
+    WIN_LIBS=".build/lib"
+    WIN_LIBS_ENV=$(echo "$WIN_LIBS" | tr '/' '\\')
+    export EXTRA_LIBPATH="$WIN_LIBS_ENV"
+
+    "$SWIFT" run fishy-joes -- download-node-lib --destination "$WIN_LIBS/node.lib"
     "$SWIFT" build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime
     BIN_DIR="$("$SWIFT" build --configuration "$CONFIGURATION" --show-bin-path)"
     (
         cd "$SHIM_DIR"
+        "$SWIFT" run fishy-joes -- download-node-lib --destination "$WIN_LIBS/node.lib"
         "$SWIFT" build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime_NodeNativeShim
         SHIM_BIN_DIR="$("$SWIFT" build --configuration "$CONFIGURATION" --show-bin-path)"
         cp "$SHIM_BIN_DIR"/FishyJoesNodeRuntime_NodeNativeShim.dll "$BIN_DIR"

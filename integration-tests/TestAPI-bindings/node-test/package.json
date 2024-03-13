@@ -30,6 +30,7 @@
     "@cricut/testapi-wasm": "file:../output/wasm"
   },
   "dependencies": {
+    "@cricut/testapi-native-windows": "file:../output/node-native-windows",
     "@wasmer/wasi": "^0.12.0",
     "@wasmer/wasmfs": "^0.12.0",
     "buffer": "^5.7.1",

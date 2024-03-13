@@ -139,7 +139,7 @@ enum Platform: CustomStringConvertible, Hashable {
         }
     }
 
-    func build(product: String? = nil, libs: [String] = [], configuration: BuildConfiguration) throws {
+    func build(product: String? = nil, libs: [String] = [], configuration: BuildConfiguration, addEnv: [String: String] = [:]) throws {
         if isNative, configuration.fat {
             guard let product = product else {
                 fatalError("Can't infer products in fat builds")
@@ -147,8 +147,8 @@ enum Platform: CustomStringConvertible, Hashable {
             try cmd("mkdir", "-p", buildDir(configuration)).run()
             let confName = configuration.debug ? "debug" : "release"
 
-            try swiftBuild("--product", product, "--triple", "arm64-apple-macosx", configuration: configuration).run()
-            try swiftBuild("--product", product, "--triple", "x86_64-apple-macosx", configuration: configuration).run()
+            try swiftBuild("--product", product, "--triple", "arm64-apple-macosx", configuration: configuration, addEnv: addEnv).run()
+            try swiftBuild("--product", product, "--triple", "x86_64-apple-macosx", configuration: configuration, addEnv: addEnv).run()
 
             for lib in libs {
                 let libName = "lib\(lib).dylib"
@@ -160,11 +160,11 @@ enum Platform: CustomStringConvertible, Hashable {
                 ).run()
             }
         } else {
-            try swiftBuild(arguments: product.map { ["--product", $0] } ?? [], configuration: configuration).run()
+            try swiftBuild(arguments: product.map { ["--product", $0] } ?? [], configuration: configuration, addEnv: addEnv).run()
         }
     }
 
-    func swiftBuild(arguments: [String], configuration: BuildConfiguration) -> Command {
+    func swiftBuild(arguments: [String], configuration: BuildConfiguration, addEnv: [String: String] = [:]) -> Command {
         var args = arguments
         args.append(contentsOf: ["--configuration", configuration.debug ? "debug" : "release"])
         if configuration.codeCoverage {
@@ -174,10 +174,9 @@ enum Platform: CustomStringConvertible, Hashable {
             args.append(contentsOf: ["-j", "1"])
         }
         let path: String
-        var env: [String: String] = [
-            "SWIFT_PACKAGE_FORCE_DYNAMIC": "1",
-            "FISHYJOES_TARGET_PLATFORM": "\(self)",
-        ]
+        var env: [String: String] = addEnv
+        env["SWIFT_PACKAGE_FORCE_DYNAMIC"] = "1"
+        env["FISHYJOES_TARGET_PLATFORM"] = "\(self)"
         switch self {
         case .wasm:
             path = "\(wasmToolchain)\(ps)usr\(ps)bin\(ps)swift-build"
@@ -237,8 +236,8 @@ enum Platform: CustomStringConvertible, Hashable {
         return cmd(path, arguments: args, addEnv: env)
     }
 
-    func swiftBuild(_ arguments: String..., configuration: BuildConfiguration) -> Command {
-        swiftBuild(arguments: arguments, configuration: configuration)
+    func swiftBuild(_ arguments: String..., configuration: BuildConfiguration, addEnv: [String:String] = [:]) -> Command {
+        swiftBuild(arguments: arguments, configuration: configuration, addEnv: addEnv)
     }
 
     func clangBuild(
@@ -600,5 +599,9 @@ enum Platform: CustomStringConvertible, Hashable {
             directory = try swiftBuild("--show-bin-path", configuration: configuration).runString().trimmingCharacters(in: .whitespacesAndNewlines)
         }
         return directory
+    }
+
+    func extraLibPathDir(_ configuration: BuildConfiguration) throws -> String {
+        return "\(try buildDir(configuration))\(ps)lib"
     }
 }

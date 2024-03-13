@@ -275,6 +275,17 @@ extension CodeGen {
                 ).run()
             }
 
+            // When building a node native target on Windows, node.lib must be downloaded and put in the LIBPATH in order to build the NodeAPI dependency
+            #if os(Windows)
+            if platforms.contains(.node) {
+                print("Downloading because \(Platform.node)")
+                print("Downloading to build at \(try Platform.node.buildDir(configuration))")
+                print("Downloading to \(try Platform.node.extraLibPathDir(configuration))")
+                try DownloadNodeLib.download(destination: "\(try Platform.node.extraLibPathDir(configuration))\(ps)node.lib")
+                print("Downloading done")
+            }
+            #endif
+
             // Build libraries for the requested platforms
             for platform in platforms {
                 let libs = [config.module] + config.requiredModules
@@ -285,19 +296,22 @@ extension CodeGen {
                     try platform.build(
                         product: "\(config.module)-node",
                         libs: libs.flatMap { [$0, "\($0)-node"] } + ["FishyJoesNodeRuntime"],
-                        configuration: configuration
+                        configuration: configuration,
+                        addEnv: ["EXTRA_LIBPATH": try platform.extraLibPathDir(configuration)]
                     )
                 case .kotlinSystem, .kotlinAndroid:
                     try platform.build(
                         product: "\(config.module)-java",
                         libs: libs.flatMap { [$0, "\($0)-java"] } + ["FishyJoesJavaRuntime"],
-                        configuration: configuration
+                        configuration: configuration,
+                        addEnv: ["EXTRA_LIBPATH": try platform.extraLibPathDir(configuration)]
                     )
                 case .cSharp, .dart:
                     try platform.build(
                         product: "\(config.module)-iota",
                         libs: libs.flatMap { [$0, "\($0)-iota"] } + ["FishyJoesIotaRuntime"],
-                        configuration: configuration
+                        configuration: configuration,
+                        addEnv: ["EXTRA_LIBPATH": try platform.extraLibPathDir(configuration)]
                     )
                 }
             }
@@ -354,13 +368,6 @@ extension CodeGen {
                     guard cmd("test", "-d", runtimePath).runBool() else {
                         fatalError("Could not find node runtime at: \(runtimePath)")
                     }
-
-                    // When building for node on Windows, node.lib must be downloaded and put in the LIBPATH in order to build the NodeAPI dependency
-                    #if os(Windows)
-                    if platform == .node {
-                        try cmd("curl", "https://nodejs.org/dist/latest-v16.x/win-x64/node.lib", "--output", "node.lib").run()
-                    }
-                    #endif
 
                     // Collect the information about the module and its dependencies that will be needed to build node modules
                     var nodeModules: [
@@ -492,8 +499,8 @@ extension CodeGen {
                         try platform.clangBuild(
                             sources: ["\(shimDir)\(ps)NAPIRegisterModule.c"],
                             dependencies: [nodeModule.nativeLibName],
-                            headerSearchPaths: ["\(fishyJoesDependency.localPath)\(ps)Sources\(ps)NodeAPI"],
-                            librarySearchPaths: [platform.buildDir(configuration)],
+                            headerSearchPaths: ["\(fishyJoesDependency.localPath)\(ps)Sources\(ps)NodeAPI\(ps)include"],
+                            librarySearchPaths: [platform.buildDir(configuration), platform.extraLibPathDir(configuration)],
                             outputPath: "\(platform.buildDir(configuration))\(ps)\(platform.dylibName(for: nodeModule.nodeShimLibName))",
                             configuration: configuration
                         )
