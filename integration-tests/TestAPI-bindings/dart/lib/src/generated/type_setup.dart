@@ -6627,9 +6627,9 @@ final ensureLoaded = (() {
             TestAPI_CommonInterface__AProtocolConverter_setup(
                 Loader.shared.env,
                 ffi.Pointer.fromFunction(TestAPI.ExternalWitness_AProtocol.ffi_new),
-                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_AProtocol.ffi_get_foo),
-                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_AProtocol.ffi_get_baz, false),
-                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_AProtocol.ffi_bar),
+                ffi.Pointer.fromFunction(TestAPI.AProtocol_FfiHooks.ffi_get_foo),
+                ffi.Pointer.fromFunction(TestAPI.AProtocol_FfiHooks.ffi_get_baz, false),
+                ffi.Pointer.fromFunction(TestAPI.AProtocol_FfiHooks.ffi_bar),
                 ffi.Pointer.fromFunction(TestAPI.AProtocol_DefaultImplementations.ffi_hasADefaultImplementation),
                 ffi.Pointer.fromFunction(TestAPI.AProtocol_DefaultImplementations.ffi_hasADefaultImplementation2, 0.0),
                 exn
@@ -6847,12 +6847,12 @@ final ensureLoaded = (() {
             TestAPI_CommonInterface__TestMethodsProtocolConverter_setup(
                 Loader.shared.env,
                 ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestMethodsProtocol.ffi_new),
-                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestMethodsProtocol.ffi_foo),
-                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestMethodsProtocol.ffi_bar, false),
-                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestMethodsProtocol.ffi_baz),
-                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestMethodsProtocol.ffi_garply),
-                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestMethodsProtocol.ffi_xyzzy),
-                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestMethodsProtocol.ffi_plugh),
+                ffi.Pointer.fromFunction(TestAPI.TestMethodsProtocol_FfiHooks.ffi_foo),
+                ffi.Pointer.fromFunction(TestAPI.TestMethodsProtocol_FfiHooks.ffi_bar, false),
+                ffi.Pointer.fromFunction(TestAPI.TestMethodsProtocol_FfiHooks.ffi_baz),
+                ffi.Pointer.fromFunction(TestAPI.TestMethodsProtocol_FfiHooks.ffi_garply),
+                ffi.Pointer.fromFunction(TestAPI.TestMethodsProtocol_FfiHooks.ffi_xyzzy),
+                ffi.Pointer.fromFunction(TestAPI.TestMethodsProtocol_FfiHooks.ffi_plugh),
                 exn
             );
         });
@@ -6864,9 +6864,9 @@ final ensureLoaded = (() {
             TestAPI_CommonInterface__TestOptionalsProtocolConverter_setup(
                 Loader.shared.env,
                 ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestOptionalsProtocol.ffi_new),
-                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestOptionalsProtocol.ffi_get_flarp),
-                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestOptionalsProtocol.ffi_wombat),
-                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestOptionalsProtocol.ffi_spqr, 0),
+                ffi.Pointer.fromFunction(TestAPI.TestOptionalsProtocol_FfiHooks.ffi_get_flarp),
+                ffi.Pointer.fromFunction(TestAPI.TestOptionalsProtocol_FfiHooks.ffi_wombat),
+                ffi.Pointer.fromFunction(TestAPI.TestOptionalsProtocol_FfiHooks.ffi_spqr, 0),
                 exn
             );
         });
@@ -6878,8 +6878,8 @@ final ensureLoaded = (() {
             TestAPI_CommonInterface__TestPropertiesProtocolConverter_setup(
                 Loader.shared.env,
                 ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestPropertiesProtocol.ffi_new),
-                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestPropertiesProtocol.ffi_get_corge),
-                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestPropertiesProtocol.ffi_get_frob),
+                ffi.Pointer.fromFunction(TestAPI.TestPropertiesProtocol_FfiHooks.ffi_get_corge),
+                ffi.Pointer.fromFunction(TestAPI.TestPropertiesProtocol_FfiHooks.ffi_get_frob),
                 exn
             );
         });

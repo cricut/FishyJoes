@@ -77,3 +77,69 @@ abstract class TestMethodsProtocol {
 
 extension TestMethodsProtocol_DefaultImplementations on TestMethodsProtocol {
 }
+
+extension TestMethodsProtocol_FfiHooks on TestMethodsProtocol {
+    static void ffi_foo(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<TestMethodsProtocol>(obj).foo(
+        )
+    );
+
+    static bool ffi_bar(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<TestMethodsProtocol>(obj).bar(
+        )
+    ) ?? false;
+
+    static void ffi_baz(
+        UnownedRef obj,
+        bool qux,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<TestMethodsProtocol>(obj).baz(
+            qux
+        )
+    );
+
+    static CreatedRef ffi_garply(
+        UnownedRef obj,
+        ConsumedRef _0,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestMethodsProtocol>(obj).garply(
+                consumeRef(_0)
+            )
+        )
+    );
+
+    static CreatedRef ffi_xyzzy(
+        UnownedRef obj,
+        int thud,
+        ConsumedRef grault,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestMethodsProtocol>(obj).xyzzy(
+                thud,
+                consumeRef(grault)
+            )
+        )
+    );
+
+    static CreatedRef ffi_plugh(
+        UnownedRef obj,
+        ConsumedRef fred,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestMethodsProtocol>(obj).plugh(
+                consumeRef(fred)
+            )
+        )
+    );
+}

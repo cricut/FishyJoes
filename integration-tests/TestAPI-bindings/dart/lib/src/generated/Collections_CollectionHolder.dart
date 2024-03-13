@@ -114,6 +114,31 @@ class Collections_CollectionHolder {
         ))
     );
 
+    static CreatedRef ffi_get_staticProperty(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            Collections_CollectionHolder.staticProperty
+        )
+    );
+
+    static CreatedRef ffi_get_staticMutableProperty(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            Collections_CollectionHolder.staticMutableProperty
+        )
+    );
+    static void ffi_set_staticMutableProperty(
+        UnownedRef obj,
+        ConsumedRef newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        Collections_CollectionHolder.staticMutableProperty = consumeRef<List<int?>>(newValue);
+    });
+
     static CreatedRef ffi_get_boolArray(
         UnownedRef obj,
         OutCreatedRef exn
@@ -256,31 +281,6 @@ class Collections_CollectionHolder {
         OutCreatedRef exn
     ) => catching(exn, () {
         peekRef<Collections_CollectionHolder>(obj).stringDictionary = consumeRef<Map<String, String>>(newValue);
-    });
-
-    static CreatedRef ffi_get_staticProperty(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            Collections_CollectionHolder.staticProperty
-        )
-    );
-
-    static CreatedRef ffi_get_staticMutableProperty(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            Collections_CollectionHolder.staticMutableProperty
-        )
-    );
-    static void ffi_set_staticMutableProperty(
-        UnownedRef obj,
-        ConsumedRef newValue,
-        OutCreatedRef exn
-    ) => catching(exn, () {
-        Collections_CollectionHolder.staticMutableProperty = consumeRef<List<int?>>(newValue);
     });
 
     @override

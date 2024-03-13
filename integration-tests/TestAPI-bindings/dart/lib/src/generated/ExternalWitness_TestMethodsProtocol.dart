@@ -62,72 +62,9 @@ class ExternalWitness_TestMethodsProtocol extends SwiftReference implements Test
     static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
         createRef(ExternalWitness_TestMethodsProtocol(ref))
     );
+
     @override
     String toString() => 'ExternalWitness_TestMethodsProtocol()';
-
-    static void ffi_foo(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catching(exn, () =>
-        peekRef<TestAPI.TestMethodsProtocol>(obj).foo(
-        )
-    );
-
-    static bool ffi_bar(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catching(exn, () =>
-        peekRef<TestAPI.TestMethodsProtocol>(obj).bar(
-        )
-    ) ?? false;
-
-    static void ffi_baz(
-        UnownedRef obj,
-        bool qux,
-        OutCreatedRef exn
-    ) => catching(exn, () =>
-        peekRef<TestAPI.TestMethodsProtocol>(obj).baz(
-            qux
-        )
-    );
-
-    static CreatedRef ffi_garply(
-        UnownedRef obj,
-        ConsumedRef _0,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<TestAPI.TestMethodsProtocol>(obj).garply(
-                consumeRef(_0)
-            )
-        )
-    );
-
-    static CreatedRef ffi_xyzzy(
-        UnownedRef obj,
-        int thud,
-        ConsumedRef grault,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<TestAPI.TestMethodsProtocol>(obj).xyzzy(
-                thud,
-                consumeRef(grault)
-            )
-        )
-    );
-
-    static CreatedRef ffi_plugh(
-        UnownedRef obj,
-        ConsumedRef fred,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<TestAPI.TestMethodsProtocol>(obj).plugh(
-                consumeRef(fred)
-            )
-        )
-    );
 
     /// <!-- FishyJoes.export(foo) -->
     void foo(

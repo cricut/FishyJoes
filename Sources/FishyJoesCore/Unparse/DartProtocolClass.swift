@@ -200,5 +200,13 @@ class DartProtocolClass: DartClass {
             fragment.blankLine()
             outputNativeMethodDeclarations(to: fragment)
         }
+        
+        fragment.blankLine()
+        
+        let ffiHooksName = "\(unqualifiedName)_FfiHooks"
+        fragment.outputBlock("extension \(ffiHooksName) on \(unqualifiedName) {") {
+            ffiFor(fields: fields, fragment: fragment)
+            ffiFor(methods: normalMethods, fragment: fragment)
+        }
     }
 }

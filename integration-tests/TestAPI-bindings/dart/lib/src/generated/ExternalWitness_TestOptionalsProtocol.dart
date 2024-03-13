@@ -62,39 +62,9 @@ class ExternalWitness_TestOptionalsProtocol extends SwiftReference implements Te
     static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
         createRef(ExternalWitness_TestOptionalsProtocol(ref))
     );
+
     @override
     String toString() => 'ExternalWitness_TestOptionalsProtocol(flarp: $flarp)';
-
-    static CreatedRef ffi_get_flarp(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<TestAPI.TestOptionalsProtocol>(obj).flarp
-        )
-    );
-
-    static CreatedRef ffi_wombat(
-        UnownedRef obj,
-        ConsumedRef zxc,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<TestAPI.TestOptionalsProtocol>(obj).wombat(
-                consumeRef(zxc)
-            )
-        )
-    );
-
-    static int ffi_spqr(
-        UnownedRef obj,
-        ConsumedRef pippo,
-        OutCreatedRef exn
-    ) => catching(exn, () =>
-        peekRef<TestAPI.TestOptionalsProtocol>(obj).spqr(
-            consumeRef(pippo)
-        )
-    ) ?? 0;
 
     /// <!-- FishyJoes.export(flarp) -->
     String? get flarp =>

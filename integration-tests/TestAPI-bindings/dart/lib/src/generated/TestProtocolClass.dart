@@ -62,6 +62,7 @@ class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsPro
     static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
         createRef(TestProtocolClass(ref))
     );
+
     @override
     String toString() => 'TestProtocolClass(corge: $corge, flarp: $flarp, frob: $frob)';
 
@@ -105,106 +106,6 @@ class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsPro
             peekRef<TestProtocolClass>(obj).frob
         )
     );
-
-    static void ffi_foo(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catching(exn, () =>
-        peekRef<TestProtocolClass>(obj).foo(
-        )
-    );
-
-    static bool ffi_bar(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catching(exn, () =>
-        peekRef<TestProtocolClass>(obj).bar(
-        )
-    ) ?? false;
-
-    static void ffi_baz(
-        UnownedRef obj,
-        bool qux,
-        OutCreatedRef exn
-    ) => catching(exn, () =>
-        peekRef<TestProtocolClass>(obj).baz(
-            qux
-        )
-    );
-
-    static CreatedRef ffi_garply(
-        UnownedRef obj,
-        ConsumedRef str,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<TestProtocolClass>(obj).garply(
-                consumeRef(str)
-            )
-        )
-    );
-
-    static CreatedRef ffi_xyzzy(
-        UnownedRef obj,
-        int thud,
-        ConsumedRef grault,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<TestProtocolClass>(obj).xyzzy(
-                thud,
-                consumeRef(grault)
-            )
-        )
-    );
-
-    static CreatedRef ffi_plugh(
-        UnownedRef obj,
-        ConsumedRef fred,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<TestProtocolClass>(obj).plugh(
-                consumeRef(fred)
-            )
-        )
-    );
-
-    static CreatedRef ffi_init(
-        UnownedRef obj,
-        ConsumedRef corge,
-        ConsumedRef flarp,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            TestProtocolClass.init(
-                consumeRef(corge),
-                flarp: consumeRef(flarp)
-            )
-        )
-    );
-
-    static CreatedRef ffi_wombat(
-        UnownedRef obj,
-        ConsumedRef zxc,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<TestProtocolClass>(obj).wombat(
-                consumeRef(zxc)
-            )
-        )
-    );
-
-    static int ffi_spqr(
-        UnownedRef obj,
-        ConsumedRef pippo,
-        OutCreatedRef exn
-    ) => catching(exn, () =>
-        peekRef<TestProtocolClass>(obj).spqr(
-            consumeRef(pippo)
-        )
-    ) ?? 0;
 
     /// <!-- FishyJoes.export(corge) -->
     String get corge =>

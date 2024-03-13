@@ -151,6 +151,7 @@ struct TranslatedProtocol: TranslatedType {
                 name: "constructor",
                 type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(constructorType)>>")
             ) { fragment in
+                // only the ffi_new is in the ExternalWitness. The rest of the ffis are in the AProtocol_FfiHooks extension to AProtocol
                 fragment.output("ffi.Pointer.fromFunction(\(context.module.name).\(iotaExternalWitnessClassName).ffi_new),")
             }
         )
@@ -166,7 +167,7 @@ struct TranslatedProtocol: TranslatedType {
                     type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(getType)>>")
                 ) { fragment in
                     let defaultValue = resolved.dartType.defaultReturnValue.map { ", \($0)" } ?? ""
-                    fragment.output("ffi.Pointer.fromFunction(\(context.module.name).\(iotaExternalWitnessClassName).ffi_get_\(computedVar.name)\(defaultValue)),")
+                    fragment.output("ffi.Pointer.fromFunction(\(sourceType.name)_FfiHooks.ffi_get_\(computedVar.name)\(defaultValue)),")
                 }
             )
         }
@@ -184,7 +185,7 @@ struct TranslatedProtocol: TranslatedType {
                     type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(commonName)>>")
                 ) { fragment in
                     let defaultValue = resolvedReturn.dartType.defaultReturnValue.map { ", \($0)" } ?? ""
-                    fragment.output("ffi.Pointer.fromFunction(\(context.module.name).\(iotaExternalWitnessClassName).ffi_\(method.callName)\(defaultValue)),")
+                    fragment.output("ffi.Pointer.fromFunction(\(sourceType.name)_FfiHooks.ffi_\(method.callName)\(defaultValue)),")
                 }
             )
         }
@@ -824,18 +825,24 @@ struct TranslatedProtocol: TranslatedType {
             )
         )
 
+        let externalWitnessName = "ExternalWitness_\(sourceType.nonNamespacedName)"
+//        let externalWitnessType = TranslatedReference(context: context, type: self)
         context.add(
             dartClass: DartProductClass(
                 module: context.module,
                 documentation: documentation,
-                name: "\(context.module.name).ExternalWitness_\(sourceType.nonNamespacedName)",
+                name: "\(context.module.name).\(externalWitnessName)",
                 constructor: .reference,
                 fieldsAndMethods: {
                     let nonDefaultMethods = methods.filter { !$0.isInExtension }
                     var fAndM = computedVariables.compactMap {
                         context.dart(field: $0, of: self, useNativeName: false)
                     }
-                    fAndM.append(contentsOf: nonDefaultMethods.compactMap { context.dart(method: $0, of: self) })
+                    fAndM.append(
+                        contentsOf: nonDefaultMethods.compactMap {
+                            return context.dart(method: $0, of: self)
+                        }
+                    )
                     return fAndM
                 }(),
                 conformances: [sourceType.nonNamespacedName],

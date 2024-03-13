@@ -199,6 +199,31 @@ class Primitives_PrimitiveHolder {
         ))
     );
 
+    static CreatedRef ffi_get_staticProperty(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            Primitives_PrimitiveHolder.staticProperty
+        )
+    );
+
+    static CreatedRef ffi_get_staticMutableProperty(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            Primitives_PrimitiveHolder.staticMutableProperty
+        )
+    );
+    static void ffi_set_staticMutableProperty(
+        UnownedRef obj,
+        ConsumedRef newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        Primitives_PrimitiveHolder.staticMutableProperty = consumeRef<List<int?>>(newValue);
+    });
+
     static bool ffi_get_b(
         UnownedRef obj,
         OutCreatedRef exn
@@ -587,31 +612,6 @@ class Primitives_PrimitiveHolder {
         OutCreatedRef exn
     ) => catching(exn, () {
         peekRef<Primitives_PrimitiveHolder>(obj).dq = consumeRef<double?>(newValue);
-    });
-
-    static CreatedRef ffi_get_staticProperty(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            Primitives_PrimitiveHolder.staticProperty
-        )
-    );
-
-    static CreatedRef ffi_get_staticMutableProperty(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            Primitives_PrimitiveHolder.staticMutableProperty
-        )
-    );
-    static void ffi_set_staticMutableProperty(
-        UnownedRef obj,
-        ConsumedRef newValue,
-        OutCreatedRef exn
-    ) => catching(exn, () {
-        Primitives_PrimitiveHolder.staticMutableProperty = consumeRef<List<int?>>(newValue);
     });
 
     @override

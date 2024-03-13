@@ -62,26 +62,9 @@ class ExternalWitness_TestPropertiesProtocol extends SwiftReference implements T
     static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
         createRef(ExternalWitness_TestPropertiesProtocol(ref))
     );
+
     @override
     String toString() => 'ExternalWitness_TestPropertiesProtocol(corge: $corge, frob: $frob)';
-
-    static CreatedRef ffi_get_corge(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<TestAPI.TestPropertiesProtocol>(obj).corge
-        )
-    );
-
-    static CreatedRef ffi_get_frob(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<TestAPI.TestPropertiesProtocol>(obj).frob
-        )
-    );
 
     /// <!-- FishyJoes.export(corge) -->
     String get corge =>

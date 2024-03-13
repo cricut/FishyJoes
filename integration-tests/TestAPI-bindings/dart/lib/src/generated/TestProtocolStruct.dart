@@ -74,6 +74,15 @@ class TestProtocolStruct implements TestAPI.TestMethodsProtocol, TestAPI.TestPro
         ))
     );
 
+    static CreatedRef ffi_get_frob(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestProtocolStruct>(obj).frob
+        )
+    );
+
     static CreatedRef ffi_get_corge(
         UnownedRef obj,
         OutCreatedRef exn
@@ -89,79 +98,6 @@ class TestProtocolStruct implements TestAPI.TestMethodsProtocol, TestAPI.TestPro
     ) => catching(exn, () {
         peekRef<TestProtocolStruct>(obj).corge = consumeRef<String>(newValue);
     });
-
-    static CreatedRef ffi_get_frob(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<TestProtocolStruct>(obj).frob
-        )
-    );
-
-    static bool ffi_bar(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catching(exn, () =>
-        peekRef<TestProtocolStruct>(obj).bar(
-        )
-    ) ?? false;
-
-    static void ffi_baz(
-        UnownedRef obj,
-        bool qux,
-        OutCreatedRef exn
-    ) => catching(exn, () =>
-        peekRef<TestProtocolStruct>(obj).baz(
-            qux
-        )
-    );
-
-    static void ffi_foo(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catching(exn, () =>
-        peekRef<TestProtocolStruct>(obj).foo(
-        )
-    );
-
-    static CreatedRef ffi_garply(
-        UnownedRef obj,
-        ConsumedRef str,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<TestProtocolStruct>(obj).garply(
-                consumeRef(str)
-            )
-        )
-    );
-
-    static CreatedRef ffi_plugh(
-        UnownedRef obj,
-        ConsumedRef fred,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<TestProtocolStruct>(obj).plugh(
-                consumeRef(fred)
-            )
-        )
-    );
-
-    static CreatedRef ffi_xyzzy(
-        UnownedRef obj,
-        int thud,
-        ConsumedRef grault,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<TestProtocolStruct>(obj).xyzzy(
-                thud,
-                consumeRef(grault)
-            )
-        )
-    );
 
     @override
     String toString() => 'TestProtocolStruct(corge: $corge)';

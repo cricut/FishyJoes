@@ -129,3 +129,35 @@ extension AProtocol_DefaultImplementations on AProtocol {
         OutCreatedRef _exn
     ) f__iota_TestAPI_AProtocol_hasADefaultImplementation2;
 }
+
+extension AProtocol_FfiHooks on AProtocol {
+    static CreatedRef ffi_get_foo(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<AProtocol>(obj).foo
+        )
+    );
+
+    static bool ffi_get_baz(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<AProtocol>(obj).baz
+    ) ?? false;
+
+    static CreatedRef ffi_bar(
+        UnownedRef obj,
+        int x,
+        int y,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<AProtocol>(obj).bar(
+                x,
+                y
+            )
+        )
+    );
+}

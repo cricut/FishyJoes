@@ -65,3 +65,36 @@ abstract class TestOptionalsProtocol {
 
 extension TestOptionalsProtocol_DefaultImplementations on TestOptionalsProtocol {
 }
+
+extension TestOptionalsProtocol_FfiHooks on TestOptionalsProtocol {
+    static CreatedRef ffi_get_flarp(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestOptionalsProtocol>(obj).flarp
+        )
+    );
+
+    static CreatedRef ffi_wombat(
+        UnownedRef obj,
+        ConsumedRef zxc,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestOptionalsProtocol>(obj).wombat(
+                consumeRef(zxc)
+            )
+        )
+    );
+
+    static int ffi_spqr(
+        UnownedRef obj,
+        ConsumedRef pippo,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<TestOptionalsProtocol>(obj).spqr(
+            consumeRef(pippo)
+        )
+    ) ?? 0;
+}

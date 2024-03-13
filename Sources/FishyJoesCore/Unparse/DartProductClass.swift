@@ -32,70 +32,6 @@ class DartProductClass: DartClass {
         )
     }
 
-    private func ffiFor(fields: [Variable], fragment: SourceFragment) {
-        var peekTypeName = unqualifiedName
-        if isExternalWitness,
-           let conformance = conformances.first {
-            peekTypeName = "\(module.name).\(conformance)"
-        }
-        for field in fields {
-            let isObject = field.type.isObject
-            fragment.blankLine()
-
-            fragment.outputBlock("static \(field.type.ffiCreatedName) ffi_get_\(field.name)(", newLineTerminated: false) {
-                fragment.output("UnownedRef obj,")
-                fragment.output("OutCreatedRef exn")
-            }
-            var wrapper: (() -> Void) -> Void
-            if isObject {
-                wrapper = { body in
-                    fragment.outputBlock("catchingRef(exn, () =>", closeWith: ");") {
-                        fragment.outputBlock("createRef(") {
-                            body()
-                        }
-                    }
-                }
-            } else {
-                wrapper = { body in
-                    let defaultValue = field.type.defaultReturnValue.map { " ?? \($0)" } ?? ""
-                    fragment.outputBlock("catching(exn, () =>", closeWith: ")\(defaultValue);") {
-                        body()
-                    }
-                }
-            }
-
-            fragment.output(" => ", newLineTerminated: false)
-            wrapper {
-                if field.isStatic {
-                    fragment.output("\(unqualifiedName).\(field.name)")
-                } else {
-                    fragment.output("peekRef<\(peekTypeName)>(obj).\(field.name)")
-                }
-            }
-            if field.isMutable,
-               field.isPubliclyWritable {
-                fragment.outputBlock("static void ffi_set_\(field.name)(", newLineTerminated: false) {
-                    fragment.output("UnownedRef obj,")
-                    fragment.output("\(field.type.ffiConsumedName) newValue,")
-                    fragment.output("OutCreatedRef exn")
-                }
-                fragment.outputBlock(" => catching(exn, () {", closeWith: "});") {
-                    if field.isStatic {
-                        fragment.output("\(unqualifiedName).\(field.name) = ", newLineTerminated: false)
-                    } else {
-                        fragment.output("peekRef<\(peekTypeName)>(obj).\(field.hiddenStorage ? "_" : "")\(field.name) = ", newLineTerminated: false)
-                    }
-                    if isObject {
-                        fragment.output("consumeRef<\(field.type.name(in: self))>(newValue);")
-                    } else {
-                        fragment.output("newValue;")
-                    }
-                }
-            }
-            fragment.blankLine()
-        }
-    }
-
     private func toStringImpl(fields: [Variable], fragment: SourceFragment) {
         fragment.output("@override")
         fragment.output("String toString() => '\(unqualifiedName)(", newLineTerminated: false)
@@ -110,11 +46,6 @@ class DartProductClass: DartClass {
         if !conformances.isEmpty {
             conformancesPart.append(" implements ")
             conformancesPart.append(conformances.map { "\(module).\($0)" }.joined(separator: ", "))
-        }
-        var peekTypeName = unqualifiedName
-        if isExternalWitness,
-           let conformance = conformances.first {
-            peekTypeName = "\(module.name).\(conformance)"
         }
 
         commonIgnoreSpecificWarnings(fragment: fragment)
@@ -137,6 +68,7 @@ class DartProductClass: DartClass {
                 fragment.outputBlock("static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>", closeWith: ");") {
                     fragment.output("createRef(\(unqualifiedName)(ref))")
                 }
+                fragment.blankLine()
                 if !conformances.isEmpty {
                     toStringImpl(fields: fields, fragment: fragment)
                 }
@@ -196,83 +128,13 @@ class DartProductClass: DartClass {
                         }
                     }
                 }
-
-                ffiFor(fields: fields, fragment: fragment)
-                fragment.blankLine()
             }
 
             fragment.blankLine()
-
-            ffiFor(fields: fields, fragment: fragment)
-
-            fragment.blankLine()
-
-            for method in methods {
-                guard !method.documentation.isEmpty else {
-                    continue
-                }
-                fragment.outputBlock("static \(method.returnType.ffiCreatedName) ffi_\(method.name)(", newLineTerminated: false) {
-                    fragment.output("UnownedRef obj,")
-                    for param in method.parameters {
-                        fragment.output("\(param.type.ffiConsumedName) \(param.name),")
-                    }
-                    fragment.output("OutCreatedRef exn")
-                }
-                var wrapper: (() -> Void) -> Void
-                if method.returnType.isObject {
-                    wrapper = { body in
-                        fragment.outputBlock("catchingRef(exn, () =>", closeWith: ");") {
-                            fragment.outputBlock("createRef(") {
-                                body()
-                            }
-                        }
-                    }
-                } else {
-                    wrapper = { body in
-                        let defaultValue = method.returnType.defaultReturnValue.map { " ?? \($0)" } ?? ""
-                        fragment.outputBlock("catching(exn, () =>", closeWith: ")\(defaultValue);") {
-                            body()
-                        }
-                    }
-                }
-
-                fragment.output(" => ", newLineTerminated: false)
-                wrapper {
-                    let methodCall: String
-                    if method.isStatic {
-                        methodCall = "\(unqualifiedName).\(method.name)"
-                    } else {
-                        methodCall = "peekRef<\(peekTypeName)>(obj).\(method.name)"
-                    }
-                    fragment.outputBlock("\(methodCall)(", closeWith: ")") {
-                        // put all optional parameters at the end, or dart gets unhappy
-                        let requiredParams = method.parameters.filter { $0.defaultValue == nil }
-                        let optionalParams = method.parameters.filter { $0.defaultValue != nil }
-                        fragment.outputMap(requiredParams, separator: ",", newLineTerminated: false) {
-                            if $0.type.isObject {
-                                return "consumeRef(\($0.name))"
-                            } else {
-                                return $0.name
-                            }
-                        }
-                        if !optionalParams.isEmpty {
-                            fragment.output(",")
-                            fragment.outputMap(optionalParams, separator: ",") {
-                                if $0.type.isObject {
-                                    return "\($0.name): consumeRef(\($0.name))"
-                                } else {
-                                    return $0.name
-                                }
-                            }
-                        } else {
-                            fragment.blankLine()
-                        }
-                    }
-                }
-                fragment.blankLine()
+            
+            if !isExternalWitness {
+                ffiFor(fields: fields + storedFields, fragment: fragment)
             }
-
-            fragment.blankLine()
 
             if constructor != .reference {
                 toStringImpl(fields: storedFields, fragment: fragment)

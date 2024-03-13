@@ -81,42 +81,6 @@ class Actors_TemperatureLogger extends SwiftReference {
         )
     );
 
-    static CreatedRef ffi_create(
-        UnownedRef obj,
-        ConsumedRef label,
-        int measurement,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            Actors_TemperatureLogger.create(
-                consumeRef(label),
-                measurement
-            )
-        )
-    );
-
-    static CreatedRef ffi_update(
-        UnownedRef obj,
-        int measurement,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<Actors_TemperatureLogger>(obj).update(
-                measurement
-            )
-        )
-    );
-
-    static CreatedRef ffi_min(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<Actors_TemperatureLogger>(obj).min(
-            )
-        )
-    );
-
     /// <!-- FishyJoes.export(label) -->
     String get label =>
         GCRef.using(this, (_thisHandle) =>

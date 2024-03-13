@@ -62,38 +62,9 @@ class ExternalWitness_AProtocol extends SwiftReference implements TestAPI.AProto
     static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
         createRef(ExternalWitness_AProtocol(ref))
     );
+
     @override
     String toString() => 'ExternalWitness_AProtocol(foo: $foo, baz: $baz)';
-
-    static CreatedRef ffi_get_foo(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<TestAPI.AProtocol>(obj).foo
-        )
-    );
-
-    static bool ffi_get_baz(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catching(exn, () =>
-        peekRef<TestAPI.AProtocol>(obj).baz
-    ) ?? false;
-
-    static CreatedRef ffi_bar(
-        UnownedRef obj,
-        int x,
-        int y,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<TestAPI.AProtocol>(obj).bar(
-                x,
-                y
-            )
-        )
-    );
 
     /// <!-- FishyJoes.export(foo) -->
     String get foo =>
