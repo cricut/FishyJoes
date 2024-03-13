@@ -278,6 +278,7 @@ struct TranslatedStruct: TranslatedType {
                 module: context.module,
                 documentation: documentation,
                 name: kotlinName,
+                // storedVariables go into constructor. Export annotation can specify .exportMethod instead of .export, but this is only valid for computed properties, so throw an error if a storedVariable has an .exportMethod annotation (handled in the context.kotlin(field:useNativeName) method).
                 constructor: .`public`(
                     fields: storedVariables.compactMap {
                         switch context.kotlin(field: $0, useNativeName: true) {
@@ -288,6 +289,7 @@ struct TranslatedStruct: TranslatedType {
                     },
                     arguments: []
                 ),
+                // This is fieldsAndMethods because computedVariables can be either Variable or Method type, depending on if they were exported with .export or .exportMethod, respectively. Within the initializer the fieldsAndMethods are separated out into Variables and Methods.
                 fieldsAndMethods:
                     computedVariables.compactMap { context.kotlin(field: $0, useNativeName: false) } +
                     methods.compactMap { context.kotlin(method: $0) }
