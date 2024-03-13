@@ -40,23 +40,23 @@ class KotlinClass: NestedClass {
     let documentation: [String]
     let name: String
     var innerClasses: [KotlinClass] = []
-    var methods: [Method]
     var fields: [Variable]
+    var methods: [Method]
     var conformances: Set<String> = []
 
     init(
         module: Module,
         documentation: [String],
         name: String,
-        methods: [Method],
         fields: [Variable],
+        methods: [Method],
         conformances: Set<String>
     ) {
         self.name = name
         self.documentation = documentation
         self.module = module
-        self.methods = methods
         self.fields = fields
+        self.methods = methods
         self.conformances = conformances
     }
 
@@ -271,31 +271,19 @@ class KotlinProductClass: KotlinClass {
         documentation: [String],
         name: String,
         constructor: Constructor,
-        fieldsAndMethods: [MethodOrVariable],
+        fields: [Variable],
+        methods: [Method],
         conformances: Set<String> = []
     ) {
         self.isPrivate = isPrivate
         self.constructor = constructor
 
-        let fields: [Variable] = fieldsAndMethods.compactMap {
-            guard case let .variable(field) = $0 else {
-                return nil
-            }
-            return field
-        }
-        let methods: [Method] = fieldsAndMethods.compactMap {
-            guard case let .method(method) = $0 else {
-                return nil
-            }
-            return method
-        }
-
         super.init(
             module: module,
             documentation: documentation,
             name: name,
-            methods: methods,
             fields: fields,
+            methods: methods,
             conformances: conformances
         )
     }
@@ -357,28 +345,17 @@ class KotlinEnumClass: KotlinClass {
         documentation: [String],
         name: String,
         cases: [Case],
-        fieldsAndMethods: [MethodOrVariable],
+        fields: [Variable],
+        methods: [Method],
         conformances: Set<String> = []
     ) {
         self.cases = cases
-        let fields: [Variable] = fieldsAndMethods.compactMap {
-            guard case let .variable(field) = $0 else {
-                return nil
-            }
-            return field
-        }
-        let methods: [Method] = fieldsAndMethods.compactMap {
-            guard case let .method(method) = $0 else {
-                return nil
-            }
-            return method
-        }
         super.init(
             module: module,
             documentation: documentation,
             name: name,
-            methods: methods,
             fields: fields,
+            methods: methods,
             conformances: conformances
         )
     }
@@ -425,35 +402,6 @@ class KotlinEnumClass: KotlinClass {
 }
 
 class KotlinInterface: KotlinClass {
-    init(
-        module: Module,
-        documentation: [String],
-        name: String,
-        fieldsAndMethods: [MethodOrVariable],
-        conformances: Set<String> = []
-    ) {
-        let fields: [Variable] = fieldsAndMethods.compactMap {
-            guard case let .variable(field) = $0 else {
-                return nil
-            }
-            return field
-        }
-        let methods: [Method] = fieldsAndMethods.compactMap {
-            guard case let .method(method) = $0 else {
-                return nil
-            }
-            return method
-        }
-        super.init(
-            module: module,
-            documentation: documentation,
-            name: name,
-            methods: methods,
-            fields: fields,
-            conformances: conformances
-        )
-    }
-
     override func output(to fragment: SourceFragment) {
         document(documentation, fragment: fragment)
         fragment.outputBlock("interface \(unqualifiedName) {") {
@@ -499,5 +447,23 @@ extension KotlinClass.MethodOrVariable {
                 self = .variable(variable)
             }
         }
+    }
+}
+
+extension KotlinClass {
+    static func separate(fieldsAndMethods: [KotlinClass.MethodOrVariable]) -> ([KotlinClass.Variable], [KotlinClass.Method]) {
+        let fields: [Variable] = fieldsAndMethods.compactMap {
+            guard case let .variable(field) = $0 else {
+                return nil
+            }
+            return field
+        }
+        let methods: [Method] = fieldsAndMethods.compactMap {
+            guard case let .method(method) = $0 else {
+                return nil
+            }
+            return method
+        }
+        return (fields, methods)
     }
 }

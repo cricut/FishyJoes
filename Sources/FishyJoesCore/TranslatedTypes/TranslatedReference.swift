@@ -319,12 +319,14 @@ struct TranslatedReference: TranslatedType {
             )
         }
 
+        let (fields, methods) = KotlinClass.separate(fieldsAndMethods: fieldsAndMethods)
         let product = KotlinProductClass(
             module: context.module,
             documentation: documentation,
             name: kotlinName,
             constructor: .reference,
-            fieldsAndMethods: fieldsAndMethods,
+            fields: fields,
+            methods: methods,
             conformances: ["com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference)"]
         ).conforming(to: conformances, context: context)
         context.add(kotlinClass: product)

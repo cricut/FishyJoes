@@ -233,8 +233,8 @@ public class FishyJoesContext {
                     module: module,
                     documentation: [],
                     name: "__root__",
-                    methods: [],
                     fields: [],
+                    methods: [],
                     conformances: []
                 ),
                 in: &kotlinClasses

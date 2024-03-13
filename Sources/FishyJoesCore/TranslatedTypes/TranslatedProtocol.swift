@@ -758,34 +758,48 @@ struct TranslatedProtocol: TranslatedType {
             }
         }
 
+        let (kFields, kMethods) = KotlinClass.separate(
+            fieldsAndMethods:
+                computedVariables.compactMap {
+                    context.kotlin(field: $0, useNativeName: false)
+                } + methods.flatMap { method -> [KotlinClass.MethodOrVariable] in
+                    guard let kotlinMethodOrVariable = context.kotlin(method: method) else { return [] }
+
+                    guard !method.isStatic, method.isInExtension, case .method(var kotlinMethod) = kotlinMethodOrVariable else {
+                        return [kotlinMethodOrVariable]
+                    }
+
+                    var defaultMethod = kotlinMethod
+                    defaultMethod.name = "_default_\(defaultMethod.name)"
+                    defaultMethod.parameters.insert((nil, "self", .named(package: nil, name: kotlinName), nil), at: 0)
+                    defaultMethod.isStatic = true
+
+                    var parameters = ["this"]
+                    parameters.append(contentsOf: kotlinMethod.parameters.map(\.name))
+                    kotlinMethod.body = "__jni_\(defaultMethod.name)(\(parameters.joined(separator: ", ")))"
+
+                    return [.method(kotlinMethod), .method(defaultMethod)]
+                }
+        )
+
         context.add(
             kotlinClass: KotlinInterface(
                 module: context.module,
                 documentation: documentation,
                 name: kotlinName,
-                fieldsAndMethods:
-                    computedVariables.compactMap { context.kotlin(field: $0, useNativeName: false) } +
-                    methods.flatMap { method -> [KotlinClass.MethodOrVariable] in
-                        guard let kotlinMethodOrVariable = context.kotlin(method: method) else { return [] }
-
-                        guard !method.isStatic, method.isInExtension, case .method(var kotlinMethod) = kotlinMethodOrVariable else {
-                            return [kotlinMethodOrVariable]
-                        }
-
-                        var defaultMethod = kotlinMethod
-                        defaultMethod.name = "_default_\(defaultMethod.name)"
-                        defaultMethod.parameters.insert((nil, "self", .named(package: nil, name: kotlinName), nil), at: 0)
-                        defaultMethod.isStatic = true
-
-                        var parameters = ["this"]
-                        parameters.append(contentsOf: kotlinMethod.parameters.map(\.name))
-                        kotlinMethod.body = "__jni_\(defaultMethod.name)(\(parameters.joined(separator: ", ")))"
-
-                        return [.method(kotlinMethod), .method(defaultMethod)]
-                    }
+                fields: kFields,
+                methods: kMethods,
+                conformances: conformances
             ).conforming(to: conformances, context: context)
         )
 
+        let externalWitnessFieldsAndMethods = {
+            let nonDefaultMethods = methods.filter { !$0.isInExtension }
+            var fAndM = computedVariables.compactMap { context.kotlin(field: $0, useNativeName: false)}
+            fAndM.append(contentsOf: nonDefaultMethods.compactMap { context.kotlin(method: $0) })
+            return fAndM
+        }()
+        let (ewFields, ewMethods) = KotlinClass.separate(fieldsAndMethods: externalWitnessFieldsAndMethods)
         context.add(
             kotlinClass: KotlinProductClass(
                 module: context.module,
@@ -793,12 +807,8 @@ struct TranslatedProtocol: TranslatedType {
                 documentation: [],
                 name: "_ExternalWitness_\(kotlinName)",
                 constructor: .reference,
-                fieldsAndMethods: {
-                    let nonDefaultMethods = methods.filter { !$0.isInExtension }
-                    var fAndM = computedVariables.compactMap { context.kotlin(field: $0, useNativeName: false)}
-                    fAndM.append(contentsOf: nonDefaultMethods.compactMap { context.kotlin(method: $0) })
-                    return fAndM
-                }(),
+                fields: ewFields,
+                methods: ewMethods,
                 conformances: ["com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference)"]
             ).conforming(to: [sourceType.name], context: context)
         )

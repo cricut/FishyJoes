@@ -273,6 +273,15 @@ struct TranslatedStruct: TranslatedType {
             }
         }
 
+        let (fields, methods) = KotlinClass.separate(
+            fieldsAndMethods:
+                computedVariables.compactMap {
+                    context.kotlin(field: $0, useNativeName: false)
+                } + methods.compactMap {
+                    context.kotlin(method: $0)
+                }
+        )
+
         context.add(
             kotlinClass: KotlinProductClass(
                 module: context.module,
@@ -289,10 +298,8 @@ struct TranslatedStruct: TranslatedType {
                     },
                     arguments: []
                 ),
-                // This is fieldsAndMethods because computedVariables can be either Variable or Method type, depending on if they were exported with .export or .exportMethod, respectively. Within the initializer the fieldsAndMethods are separated out into Variables and Methods.
-                fieldsAndMethods:
-                    computedVariables.compactMap { context.kotlin(field: $0, useNativeName: false) } +
-                    methods.compactMap { context.kotlin(method: $0) }
+                fields: fields,
+                methods: methods
             ).conforming(to: conformances, context: context)
         )
 
