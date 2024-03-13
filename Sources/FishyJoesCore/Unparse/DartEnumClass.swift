@@ -1,12 +1,12 @@
 class DartEnumClass: DartClass {
     let cases: [Case]
-    
+
     struct Case {
         let documentation: [String]
         let name: String
         let values: [(name: String, type: DartType)]
     }
-    
+
     init(
         module: Module,
         documentation: [String],
@@ -24,7 +24,7 @@ class DartEnumClass: DartClass {
             conformances: conformances
         )
     }
-    
+
     override func output(to fragment: SourceFragment) {
         var conformancesPart = ""
         if !conformances.isEmpty {
@@ -32,19 +32,19 @@ class DartEnumClass: DartClass {
             conformancesPart.append(conformances.map { "\(module).\($0)" }.joined(separator: ", "))
         }
         commonIgnoreSpecificWarnings(fragment: fragment)
-        
+
         document(documentation, fragment: fragment)
         let doSealedClass = !cases.isEmpty
         if doSealedClass {
             fragment.output("sealed ", newLineTerminated: false)
         }
         fragment.output("class \(unqualifiedName)\(conformancesPart)", newLineTerminated: false)
-        
+
         fragment.outputBlock(" {") {
             for enumCase in cases {
                 document(enumCase.documentation, fragment: fragment)
                 fragment.output("const factory \(unqualifiedName).\(enumCase.name)", newLineTerminated: false)
-                
+
                 fragment.outputBlock("(", newLineTerminated: false) {
                     fragment.outputMap(enumCase.values, separator: ",") { value in
                         return "\(value.type.name(in: self)) \(DartClass.deforbidify(value.name))"
@@ -53,14 +53,14 @@ class DartEnumClass: DartClass {
                 fragment.output(" = \(unqualifiedName)_\(upperCaseFirst(enumCase.name));")
                 fragment.blankLine()
             }
-            
+
             if doSealedClass {
                 fragment.output("const \(unqualifiedName)();")
             } else {
                 fragment.output("\(unqualifiedName)._();")
             }
             fragment.blankLine()
-            
+
             fragment.outputBlock("static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {", closeWith: "});") {
                 if cases.isEmpty {
                     fragment.output("throw UnsupportedError('This class is supposed to be uninhabited');")
@@ -77,10 +77,10 @@ class DartEnumClass: DartClass {
                 }
             }
             fragment.blankLine()
-            
+
             for enumCase in cases {
                 let caseName = upperCaseFirst(enumCase.name.mangled)
-                
+
                 // case constructor
                 fragment.outputBlock("static CreatedRef new\(caseName)(", newLineTerminated: false) {
                     for value in enumCase.values {
@@ -100,7 +100,7 @@ class DartEnumClass: DartClass {
                     }
                 }
                 fragment.blankLine()
-                
+
                 // case unpacker
                 fragment.outputBlock("static void extract\(caseName)(", newLineTerminated: false) {
                     fragment.output("UnownedRef obj,")
@@ -124,24 +124,24 @@ class DartEnumClass: DartClass {
                 }
                 fragment.blankLine()
             }
-            
+
             fields.forEach { output(field: $0, to: fragment) }
             methods.forEach { output(method: $0, to: fragment) }
-            
+
             fragment.blankLine()
-            
+
             outputNativeMethodDeclarations(to: fragment)
-            
+
             fragment.blankLine()
         }
-        
+
         fragment.blankLine()
-        
+
         for enumCase in cases {
             // output subclasses here that extend the sealed class
             let className = "\(unqualifiedName)_\(upperCaseFirst(enumCase.name))"
             fragment.output("class \(className) extends \(unqualifiedName)", newLineTerminated: false)
-            
+
             fragment.outputBlock(" {") {
                 fragment.output("const \(className)", newLineTerminated: false)
                 if enumCase.values.isEmpty {
@@ -154,15 +154,15 @@ class DartEnumClass: DartClass {
                     }
                 }
                 fragment.output(";")
-                
+
                 fragment.blankLine()
-                
+
                 for value in enumCase.values {
                     fragment.output("final \(value.type.name(in: self)) \(DartClass.deforbidify(value.name));")
                 }
-                
+
                 fragment.blankLine()
-                
+
                 fragment.output("@override")
                 fragment.output("bool operator ==(Object other)", newLineTerminated: false)
                 fragment.outputBlock(" {") {
@@ -171,7 +171,7 @@ class DartEnumClass: DartClass {
                     fragment.currentIndent += 1
                     fragment.output("other.runtimeType == runtimeType &&")
                     fragment.output("other is \(className)", newLineTerminated: false)
-                    
+
                     if enumCase.values.isEmpty {
                         fragment.blankLine()
                     } else {
@@ -186,10 +186,10 @@ class DartEnumClass: DartClass {
                     fragment.currentIndent -= 1
                     fragment.output(");")
                 }
-                
+
                 fragment.blankLine()
                 fragment.blankLine()
-                
+
                 fragment.output("@override")
                 fragment.output("int get hashCode => ", newLineTerminated: false)
                 if enumCase.values.isEmpty {
@@ -203,16 +203,16 @@ class DartEnumClass: DartClass {
                         }
                     }
                 }
-                
+
                 fragment.blankLine()
-                
+
                 fragment.output("@override")
                 fragment.output("String toString() => '\(unqualifiedName).\(enumCase.name)(", newLineTerminated: false)
                 let toStringParamsString = enumCase.values.map { "\(DartClass.deforbidify($0.name)): $\(DartClass.deforbidify($0.name))" }.joined(separator: ", ")
                 fragment.output("\(toStringParamsString))';")
-                
+
                 fragment.blankLine()
-                
+
                 fragment.output("\(className) copyWith", newLineTerminated: false)
                 if enumCase.values.isEmpty {
                     fragment.output("()", newLineTerminated: false)
@@ -235,7 +235,7 @@ class DartEnumClass: DartClass {
                     }
                 }
             }
-            
+
             fragment.blankLine()
         }
     }

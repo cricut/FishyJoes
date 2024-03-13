@@ -131,7 +131,7 @@ class DartProductClass: DartClass {
             }
 
             fragment.blankLine()
-            
+
             if !isExternalWitness {
                 ffiFor(fields: fields + storedFields, fragment: fragment)
                 ffiFor(methods: methods, fragment: fragment)

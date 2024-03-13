@@ -523,7 +523,7 @@ extension DartClass {
             fragment.blankLine()
         }
     }
-    
+
     func ffiFor(methods: [Method], fragment: SourceFragment) {
         for method in methods {
             guard !method.documentation.isEmpty else {
