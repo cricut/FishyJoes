@@ -758,7 +758,7 @@ struct TranslatedProtocol: TranslatedType {
             }
         }
 
-        let (kFields, kMethods) = KotlinClass.separate(
+        let (interfaceFields, interfaceMethods) = KotlinClass.separate(
             fieldsAndMethods:
                 computedVariables.compactMap {
                     context.kotlin(field: $0, useNativeName: false)
@@ -787,8 +787,8 @@ struct TranslatedProtocol: TranslatedType {
                 module: context.module,
                 documentation: documentation,
                 name: kotlinName,
-                fields: kFields,
-                methods: kMethods,
+                fields: interfaceFields,
+                methods: interfaceMethods,
                 conformances: conformances
             ).conforming(to: conformances, context: context)
         )
@@ -799,7 +799,7 @@ struct TranslatedProtocol: TranslatedType {
             fAndM.append(contentsOf: nonDefaultMethods.compactMap { context.kotlin(method: $0) })
             return fAndM
         }()
-        let (ewFields, ewMethods) = KotlinClass.separate(fieldsAndMethods: externalWitnessFieldsAndMethods)
+        let (externalWitnessFields, externalWitnessMethods) = KotlinClass.separate(fieldsAndMethods: externalWitnessFieldsAndMethods)
         context.add(
             kotlinClass: KotlinProductClass(
                 module: context.module,
@@ -807,8 +807,8 @@ struct TranslatedProtocol: TranslatedType {
                 documentation: [],
                 name: "_ExternalWitness_\(kotlinName)",
                 constructor: .reference,
-                fields: ewFields,
-                methods: ewMethods,
+                fields: externalWitnessFields,
+                methods: externalWitnessMethods,
                 conformances: ["com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference)"]
             ).conforming(to: [sourceType.name], context: context)
         )
