@@ -172,8 +172,8 @@ struct TranslatedProtocol: TranslatedType {
             )
         }
 
-        let normalMethods = methods.filter { !$0.isInExtension }
-        let defaultMethods = methods.filter { $0.isInExtension }
+        let normalMethods = methods.filter { !$0.isExtension }
+        let defaultMethods = methods.filter { $0.isExtension }
 
         for method in normalMethods {
             let resolvedReturn = context.resolve(type: method.returnType)
@@ -361,7 +361,7 @@ struct TranslatedProtocol: TranslatedType {
         )
 
         let foreignProtocolType = "_Iota\(sourceType.nonNamespacedName)"
-        let defaultMethods = methods.filter { $0.isInExtension }
+        let defaultMethods = methods.filter { $0.isExtension }
 
         fragment.outputBlock("struct \(foreignProtocolType): \(sourceType.name) {") {
             fragment.output("let _iotaWitness: IotaReference")
@@ -577,8 +577,8 @@ struct TranslatedProtocol: TranslatedType {
         let foreignProtocolType = "_Java\(sourceType.nonNamespacedName)"
 
         var methodIDs: [(idHandle: String, name: String, signature: String)] = []
-        let defaultMethods = methods.filter { $0.isInExtension }
-        let normalMethods = methods.filter { !$0.isInExtension }
+        let defaultMethods = methods.filter { $0.isExtension }
+        let normalMethods = methods.filter { !$0.isExtension }
 
         fragment.outputBlock("struct \(foreignProtocolType): \(sourceType.name) {") {
             fragment.output("let _javaWitness: JavaReference")
@@ -762,7 +762,7 @@ struct TranslatedProtocol: TranslatedType {
                 } + methods.flatMap { method -> [KotlinClass.MethodOrVariable] in
                     guard let kotlinMethodOrVariable = context.kotlin(method: method) else { return [] }
 
-                    guard !method.isStatic, method.isInExtension, case .method(var kotlinMethod) = kotlinMethodOrVariable else {
+                    guard !method.isStatic, method.isExtension, case .method(var kotlinMethod) = kotlinMethodOrVariable else {
                         return [kotlinMethodOrVariable]
                     }
 
@@ -791,7 +791,7 @@ struct TranslatedProtocol: TranslatedType {
         )
 
         let externalWitnessFieldsAndMethods = {
-            let nonDefaultMethods = methods.filter { !$0.isInExtension }
+            let nonDefaultMethods = methods.filter { !$0.isExtension }
             var fAndM = fields.compactMap { context.kotlin(field: $0, useNativeName: false)}
             fAndM.append(contentsOf: nonDefaultMethods.compactMap { context.kotlin(method: $0) })
             return fAndM
@@ -841,7 +841,7 @@ struct TranslatedProtocol: TranslatedType {
             fieldsAndMethods:
                 fields.compactMap {
                     context.dart(field: $0, of: self, useNativeName: false)
-                } + methods.filter { !$0.isInExtension }.compactMap {
+                } + methods.filter { !$0.isExtension }.compactMap {
                     context.dart(method: $0, of: self)
                 }
         )

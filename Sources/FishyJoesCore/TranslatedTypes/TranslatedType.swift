@@ -224,14 +224,14 @@ extension SourceryProtocol {
             }
             if !mostlyEqualMethods.isEmpty {
                 for equalExcludingImplementedMethod in mostlyEqualMethods {
-                    if equalExcludingImplementedMethod.isInExtension {
+                    if equalExcludingImplementedMethod.isExtension {
                         guard let index = methodsPreferringImplemented.firstIndex(of: method) else {
                             assertionFailure("method should exist in methodsPreferringImplemented")
                             continue
                         }
                         methodsPreferringImplemented.remove(at: index)
                         methodsPreferringImplemented.insert(equalExcludingImplementedMethod, at: index)
-                    } else if method.isInExtension {
+                    } else if method.isExtension {
                         guard let index = methodsPreferringImplemented.firstIndex(of: equalExcludingImplementedMethod) else {
                             assertionFailure("equalExcludingImplementedMethod should exist in methodsPreferringImplemented")
                             continue
@@ -285,7 +285,7 @@ extension SourceryMethod {
         attributesMatches
     }
 
-    var isInExtension: Bool {
+    var isExtension: Bool {
         definedInType?.isExtension ?? false
     }
 }

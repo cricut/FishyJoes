@@ -31,7 +31,7 @@ class DartClass {
         let returnType: DartType
         let deprecation: Deprecation?
         let body: [String]?
-        let isInExtension: Bool
+        let isExtension: Bool
     }
 
     struct Variable: Equatable {
@@ -117,8 +117,8 @@ class DartClass {
         String(name.split(separator: ".").last!)
     }
 
-    var nativeMethods: [String: (args: [(String, DartType)], return: DartType, isInExtension: Bool)] {
-        var result: [String: (args: [(String, DartType)], return: DartType, isInExtension: Bool)] = [:]
+    var nativeMethods: [String: (args: [(String, DartType)], return: DartType, isExtension: Bool)] {
+        var result: [String: (args: [(String, DartType)], return: DartType, isExtension: Bool)] = [:]
 
         let thisArg = ("_this", DartType.named(package: module.dartNamespace, name: name))
 
@@ -129,9 +129,9 @@ class DartClass {
             for field in fields {
                 let baseArgs = field.isStatic ? [] : [thisArg]
 
-                result["__iota_get_\(field.mangledName)"] = (args: baseArgs, return: field.type, isInExtension: false)
+                result["__iota_get_\(field.mangledName)"] = (args: baseArgs, return: field.type, isExtension: false)
                 if field.isPubliclyWritable {
-                    result["__iota_set_\(field.mangledName)"] = (args: baseArgs + [(field.name, field.type)], return: .void, isInExtension: false)
+                    result["__iota_set_\(field.mangledName)"] = (args: baseArgs + [(field.name, field.type)], return: .void, isExtension: false)
                 }
             }
         }
@@ -151,8 +151,8 @@ class DartClass {
             // They will be handled by the ExternalWitness for that Protocol
             // except for default Implementations!
             if !(self is DartProtocolClass) ||
-                ((self is DartProtocolClass) && method.isInExtension) {
-                result["__iota_\(method.mangledName)"] = (args: params, return: method.returnType, isInExtension: (self is DartProtocolClass))
+                ((self is DartProtocolClass) && method.isExtension) {
+                result["__iota_\(method.mangledName)"] = (args: params, return: method.returnType, isExtension: (self is DartProtocolClass))
             }
         }
 
@@ -1061,8 +1061,8 @@ class DartProtocolClass: DartClass {
     override func output(to fragment: SourceFragment) {
         document(documentation, fragment: fragment)
 
-        let normalMethods = methods.filter { !$0.isInExtension }
-        let defaultMethods = methods.filter { $0.isInExtension }
+        let normalMethods = methods.filter { !$0.isExtension }
+        let defaultMethods = methods.filter { $0.isExtension }
 
         fragment.outputBlock("abstract class \(unqualifiedName) {") {
             for method in normalMethods {
