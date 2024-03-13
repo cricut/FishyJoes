@@ -90,6 +90,30 @@ class Structs_DougStruct {
         peekRef<Structs_DougStruct>(obj).str = consumeRef<String>(newValue);
     });
 
+    static CreatedRef ffi_cat(
+        UnownedRef obj,
+        ConsumedRef str,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Structs_DougStruct>(obj).cat(
+                consumeRef(str)
+            )
+        )
+    );
+
+    static CreatedRef ffi_create(
+        UnownedRef obj,
+        ConsumedRef str,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            Structs_DougStruct.create(
+                consumeRef(str)
+            )
+        )
+    );
+
     @override
     String toString() => 'Structs_DougStruct(str: $str)';
 

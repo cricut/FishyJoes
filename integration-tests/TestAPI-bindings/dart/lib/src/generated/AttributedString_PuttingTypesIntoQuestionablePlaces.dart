@@ -83,6 +83,14 @@ class AttributedString_PuttingTypesIntoQuestionablePlaces {
         )
     );
 
+    static int ffi_testCall(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<AttributedString_PuttingTypesIntoQuestionablePlaces>(obj).testCall(
+        )
+    ) ?? 0;
+
     @override
     String toString() => 'AttributedString_PuttingTypesIntoQuestionablePlaces(x: $x)';
 

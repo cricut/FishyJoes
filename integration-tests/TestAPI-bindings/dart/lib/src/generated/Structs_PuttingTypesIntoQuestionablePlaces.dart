@@ -63,6 +63,24 @@ class Structs_PuttingTypesIntoQuestionablePlaces extends SwiftReference {
         createRef(Structs_PuttingTypesIntoQuestionablePlaces(ref))
     );
 
+    static CreatedRef ffi_create(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            Structs_PuttingTypesIntoQuestionablePlaces.create(
+            )
+        )
+    );
+
+    static int ffi_testCall(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<Structs_PuttingTypesIntoQuestionablePlaces>(obj).testCall(
+        )
+    ) ?? 0;
+
     /// <!-- FishyJoes.export(create) -->
     static TestAPI.Structs_PuttingTypesIntoQuestionablePlaces create(
     ) =>

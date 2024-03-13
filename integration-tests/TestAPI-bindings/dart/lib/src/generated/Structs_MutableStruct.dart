@@ -88,6 +88,44 @@ class Structs_MutableStruct {
         peekRef<Structs_MutableStruct>(obj).i = newValue;
     });
 
+    static CreatedRef ffi_asyncGetI(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Structs_MutableStruct>(obj).asyncGetI(
+            )
+        )
+    );
+
+    static void ffi_increment(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<Structs_MutableStruct>(obj).increment(
+        )
+    );
+
+    static CreatedRef ffi_incrementAsync(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Structs_MutableStruct>(obj).incrementAsync(
+            )
+        )
+    );
+
+    static CreatedRef ffi_create(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            Structs_MutableStruct.create(
+            )
+        )
+    );
+
     @override
     String toString() => 'Structs_MutableStruct(i: $i)';
 

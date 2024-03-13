@@ -109,6 +109,20 @@ class AProtocolImplementation implements TestAPI.AProtocol {
         peekRef<AProtocolImplementation>(obj).baz = newValue;
     });
 
+    static CreatedRef ffi_bar(
+        UnownedRef obj,
+        int x,
+        int y,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<AProtocolImplementation>(obj).bar(
+                x,
+                y
+            )
+        )
+    );
+
     @override
     String toString() => 'AProtocolImplementation(foo: $foo, baz: $baz)';
 
