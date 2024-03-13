@@ -525,7 +525,7 @@ final class KotlinTranslator: Translator {
         if let proto = resolved as? TranslatedProtocol {
             let protoDefs = Set(
                 proto.methods.compactMap { context.kotlin(method: $0).map(OverrideSignature.init) } +
-                proto.computedVariables.compactMap { context.kotlin(field: $0).map(OverrideSignature.init) }
+                proto.fields.compactMap { context.kotlin(field: $0).map(OverrideSignature.init) }
             )
 
             kotlinClass.methods = kotlinClass.methods.map { method in

@@ -16,7 +16,7 @@ struct TranslatedProtocol: TranslatedType {
     var containedNamedTypes: [TranslatedType] { [self] }
     let conformances: Set<String>
     let methods: [Method]
-    let computedVariables: [Variable]
+    let fields: [Variable]
     let documentation: [String]
     let className: String
     let javaExternalWitnessClassName: String
@@ -53,7 +53,7 @@ struct TranslatedProtocol: TranslatedType {
         let methodsToConvert = type.methodsPreferringDefaultImpl()
         self.methods = methodsToConvert.compactMap(Method.init)
 
-        self.computedVariables = type.variables.filter { $0.exportAnnotation != nil }
+        self.fields = type.variables.filter { $0.exportAnnotation != nil }
         self.documentation = type.documentation
         self.className = context.kotlinTranslator.javaClassName(kotlinName, in: context)
         self.javaExternalWitnessClassName = context.kotlinTranslator.javaClassName("_ExternalWitness_\(kotlinName)", in: context)
@@ -74,7 +74,7 @@ struct TranslatedProtocol: TranslatedType {
             fatalError("☠️ Error on \(nameSpace)\(nonThrowingMethods.first!.name): All Protocol methods exported through FishyJoes must be throwing, it's the law 👮!")
         }
 
-        let nonThrowingGetters = computedVariables.filter { !$0.`throws` && !$0.isMutable }
+        let nonThrowingGetters = fields.filter { !$0.`throws` && !$0.isMutable }
         guard nonThrowingGetters.isEmpty else {
             var nameSpace = ""
             if let ns = nonThrowingGetters.first!.definedInTypeName?.name {
@@ -85,7 +85,7 @@ struct TranslatedProtocol: TranslatedType {
     }
 
     func enforceNoProtocolSetters() {
-        let setters = computedVariables.filter { $0.isMutable }
+        let setters = fields.filter { $0.isMutable }
         guard setters.isEmpty else {
             var nameSpace = ""
             if let ns = setters.first!.definedInTypeName?.name {
@@ -96,7 +96,7 @@ struct TranslatedProtocol: TranslatedType {
     }
 
     func enforceNoProtocolStatics() {
-        let staticVars = computedVariables.filter { $0.isStatic }
+        let staticVars = fields.filter { $0.isStatic }
         let staticFuncs = methods.filter { $0.isStatic }
         guard staticVars.isEmpty else {
             var nameSpace = ""
@@ -120,11 +120,11 @@ struct TranslatedProtocol: TranslatedType {
         lines.append("    ffi.Pointer ref,")
         lines.append("    OutCreatedRef exn")
         lines.append(");")
-        for computedVar in computedVariables {
-            let resolved = context.resolve(type: computedVar.typeName.better)
-            let commonName = "_\(sourceType.genericBaseName.mangledName)_\(computedVar.name)"
+        for field in fields {
+            let resolved = context.resolve(type: field.typeName.better)
+            let commonName = "_\(sourceType.genericBaseName.mangledName)_\(field.name)"
             lines.append("typedef \(commonName)Getter = \(resolved.dartType.ffiCreatedTag) Function(\(dartType.ffiUnownedTag) obj, OutCreatedRef exn);")
-            if computedVar.isMutable {
+            if field.isMutable {
                 lines.append("typedef \(commonName)Setter = ffi.Void Function(\(dartType.ffiUnownedTag) obj, \(resolved.dartType.ffiConsumedTag) newValue, OutCreatedRef exn);")
             }
         }
@@ -156,18 +156,18 @@ struct TranslatedProtocol: TranslatedType {
             }
         )
 
-        for computedVar in computedVariables {
-            let resolved = context.resolve(type: computedVar.typeName.better)
-            let commonName = "_\(sourceType.genericBaseName.mangledName)_\(computedVar.name)"
+        for field in fields {
+            let resolved = context.resolve(type: field.typeName.better)
+            let commonName = "_\(sourceType.genericBaseName.mangledName)_\(field.name)"
             let getType = "\(commonName)Getter"
 
             setupParams.append(
                 .value(
-                    name: "get_\(computedVar.name)",
+                    name: "get_\(field.name)",
                     type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(getType)>>")
                 ) { fragment in
                     let defaultValue = resolved.dartType.defaultReturnValue.map { ", \($0)" } ?? ""
-                    fragment.output("ffi.Pointer.fromFunction(\(sourceType.name)_FfiHooks.ffi_get_\(computedVar.name)\(defaultValue)),")
+                    fragment.output("ffi.Pointer.fromFunction(\(sourceType.name)_FfiHooks.ffi_get_\(field.name)\(defaultValue)),")
                 }
             )
         }
@@ -235,9 +235,9 @@ struct TranslatedProtocol: TranslatedType {
         fragment.outputBlock("struct _Node\(sourceType.nonNamespacedName): \(sourceType.name) {") {
             fragment.output("let _nodeWitness: NodeReference")
             fragment.blankLine()
-            // TODO: Implement this stubby code
-            for computedVar in computedVariables {
-                fragment.output("var \(computedVar.name): \(computedVar.typeName.better.name)")
+
+            for field in fields {
+                fragment.output("var \(field.name): \(field.typeName.better.name)")
             }
             for method in methods {
                 var returnSignature = "\(method.isThrowing ? " throws" : "")"
@@ -260,12 +260,12 @@ struct TranslatedProtocol: TranslatedType {
             fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {") {
                 fragment.outputBlock("return _Node\(sourceType.nonNamespacedName)(") {
                     fragment.output("_nodeWitness: try NodeReference(env: env, value: value)", newLineTerminated: false)
-                    if !computedVariables.isEmpty {
+                    if !fields.isEmpty {
                         fragment.output(",")
                     } else {
                         fragment.output("")
                     }
-                    fragment.outputMap(computedVariables, separator: ",") {
+                    fragment.outputMap(fields, separator: ",") {
                         "\($0.name): \($0.typeName.name.replacingOccurrences(of: "?", with: ""))()"
                     }
                 }
@@ -274,19 +274,19 @@ struct TranslatedProtocol: TranslatedType {
             fragment.outputBlock("public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {") {
                 fragment.output("let constructor = try NodeClass.constructor(for: \"\(nodeName)\", env: env)")
                 fragment.outputBlock("let args: [NAPI.Value] = [") {
-                    for computedVar in computedVariables {
-                        let resolved = context.resolve(type: computedVar.typeName.better)
-                        fragment.output("try \(resolved.converterType.name).toNode(value.\(computedVar.name), env: env),")
+                    for field in fields {
+                        let resolved = context.resolve(type: field.typeName.better)
+                        fragment.output("try \(resolved.converterType.name).toNode(value.\(field.name), env: env),")
                     }
                 }
                 fragment.output("return try env.newInstance(constructor, args)")
             }
 
             fragment.outputBlock("public static func mutateNode(_ value: SwiftType, this: NAPI.Value, env: NAPI.Env) throws {") {
-                for computedVar in computedVariables {
-                    guard computedVar.isMutable else { continue }
-                    let resolved = context.resolve(type: computedVar.typeName.better)
-                    fragment.output("try env.setNamedProperty(this, \"\(computedVar.name)\", \(resolved.converterType.name).toNode(value.\(computedVar.name), env: env))")
+                for field in fields {
+                    guard field.isMutable else { continue }
+                    let resolved = context.resolve(type: field.typeName.better)
+                    fragment.output("try env.setNamedProperty(this, \"\(field.name)\", \(resolved.converterType.name).toNode(value.\(field.name), env: env))")
                 }
             }
 
@@ -301,12 +301,12 @@ struct TranslatedProtocol: TranslatedType {
                     fragment.outputBlock("properties: [", closeWith: "],") {
                         var hasProperties = false
                         hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment)
-                        hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment)
-//                        for computedVar in computedVariables {
+                        hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: fields, context: context, fragment: fragment)
+//                        for field in fields {
 //                            // Limitation in wasm implementation of napi_create_class doesn't allow constructors to assign to non-mutable property.
-//                            // let mutable = computedVar.isPubliclyWritable
+//                            // let mutable = field.isPubliclyWritable
 //                            let mutable = true
-//                            fragment.output("\"\(computedVar.name)\": (.stored(mutable: \(mutable)), isStatic: \(computedVar.isStatic)),")
+//                            fragment.output("\"\(field.name)\": (.stored(mutable: \(mutable)), isStatic: \(field.isStatic)),")
 //                            hasProperties = true
 //                        }
                         if !hasProperties {
@@ -314,11 +314,11 @@ struct TranslatedProtocol: TranslatedType {
                         }
                     }
                     fragment.outputBlock("constructor: { env, info in", closeWith: "}") {
-                        fragment.outputBlock("callbackBody(env, info, name: \"\(nodeName)_constructor\", expectedArgumentCount: \(computedVariables.count)) { env in", closeWith: "}") {
+                        fragment.outputBlock("callbackBody(env, info, name: \"\(nodeName)_constructor\", expectedArgumentCount: \(fields.count)) { env in", closeWith: "}") {
                             fragment.output("// TODO: typecheck?")
                             fragment.output("let this = try env.this()")
-                            for (index, computedVar) in computedVariables.enumerated() {
-                                fragment.output("try env.env.setNamedProperty(this, \"\(computedVar.name)\", env.argument(at: \(index)))")
+                            for (index, field) in fields.enumerated() {
+                                fragment.output("try env.env.setNamedProperty(this, \"\(field.name)\", env.argument(at: \(index)))")
                             }
                             fragment.output("return this")
                         }
@@ -338,7 +338,7 @@ struct TranslatedProtocol: TranslatedType {
                 documentation: documentation,
                 name: nodeName,
                 constructor: .visible(
-                    computedVariables.map {
+                    fields.map {
                         (
                             name: $0.name,
                             type: context.resolve(type: $0.typeName.better).nodeType
@@ -346,7 +346,7 @@ struct TranslatedProtocol: TranslatedType {
                     }
                 ),
                 fields:
-                    computedVariables.compactMap {context.ts(field: $0, useNativeName: false) },
+                    fields.compactMap {context.ts(field: $0, useNativeName: false) },
                 methods: methods.compactMap { context.ts(method: $0) }
             )
         )
@@ -365,7 +365,7 @@ struct TranslatedProtocol: TranslatedType {
 
         fragment.outputBlock("struct \(foreignProtocolType): \(sourceType.name) {") {
             fragment.output("let _iotaWitness: IotaReference")
-            for variable in computedVariables {
+            for variable in fields {
                 fragment.output()
                 let resolvedVar = context.resolve(type: variable.typeName.better)
 
@@ -419,7 +419,7 @@ struct TranslatedProtocol: TranslatedType {
             fragment.outputBlock("struct \(foreignProtocolType)_sans_\(defaultMethod.callName): \(sourceType.name) {", closeWith: "}") {
                 fragment.output("var wrapped: \(sourceType.name)")
 
-                for variable in computedVariables {
+                for variable in fields {
                     fragment.output()
                     let name = variable.name
                     let type = variable.typeName.better.name
@@ -457,11 +457,11 @@ struct TranslatedProtocol: TranslatedType {
         fragment.outputBlock("public func \(iotaSetupName)(", newLineTerminated: false) {
             fragment.output("envRef: EnvRef,")
             fragment.output("constructorMethod: @escaping \(converterType.name)._ConstructorMethod,")
-            for computedVar in computedVariables {
-                let resolved = context.resolve(type: computedVar.typeName.better)
-                fragment.output("_ \(computedVar.name)Getter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolved.converterType.name).CType,")
-                if computedVar.isMutable {
-                    fragment.output("_ \(computedVar.name)Setter: @escaping @convention(c) (foreignObject, \(resolved.converterType.name).CType, _ exn: foreignOutExn) -> Void,")
+            for field in fields {
+                let resolved = context.resolve(type: field.typeName.better)
+                fragment.output("_ \(field.name)Getter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolved.converterType.name).CType,")
+                if field.isMutable {
+                    fragment.output("_ \(field.name)Setter: @escaping @convention(c) (foreignObject, \(resolved.converterType.name).CType, _ exn: foreignOutExn) -> Void,")
                 }
             }
             for method in methods {
@@ -481,10 +481,10 @@ struct TranslatedProtocol: TranslatedType {
             fragment.output("let env = Env(envRef)")
             fragment.output("if \(converterType.name)._constructorMethod.isInitialized(env) { return }")
             fragment.output("\(converterType.name)._constructorMethod[env] = constructorMethod")
-            for computedVar in computedVariables {
-                fragment.output("\(converterType.name)._\(computedVar.name)Getter[env] = \(computedVar.name)Getter")
-                if computedVar.isMutable {
-                    fragment.output("\(converterType.name)._\(computedVar.name)Setter[env] = \(computedVar.name)Setter")
+            for field in fields {
+                fragment.output("\(converterType.name)._\(field.name)Getter[env] = \(field.name)Getter")
+                if field.isMutable {
+                    fragment.output("\(converterType.name)._\(field.name)Setter[env] = \(field.name)Setter")
                 }
             }
             for method in methods {
@@ -501,11 +501,11 @@ struct TranslatedProtocol: TranslatedType {
                 fragment.output("_ exn: foreignOutExn")
             }
             fragment.output("fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()")
-            for computedVar in computedVariables {
-                let resolved = context.resolve(type: computedVar.typeName.better)
-                fragment.output("fileprivate static let _\(computedVar.name)Getter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolved.converterType.name).CType>()")
-                if computedVar.isMutable {
-                    fragment.output("fileprivate static let _\(computedVar.name)Setter = Env.CallbackMap<@convention(c) (foreignObject, \(resolved.converterType.name).CType, _ exn: foreignOutExn) -> Void>()")
+            for field in fields {
+                let resolved = context.resolve(type: field.typeName.better)
+                fragment.output("fileprivate static let _\(field.name)Getter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolved.converterType.name).CType>()")
+                if field.isMutable {
+                    fragment.output("fileprivate static let _\(field.name)Setter = Env.CallbackMap<@convention(c) (foreignObject, \(resolved.converterType.name).CType, _ exn: foreignOutExn) -> Void>()")
                 }
             }
             for method in methods {
@@ -545,12 +545,12 @@ struct TranslatedProtocol: TranslatedType {
             fragment.blankLine()
 
             fragment.outputBlock("public static func mutateIota(_ this: foreignObject, to value: SwiftType, env: Env) throws {") {
-                for computedVar in computedVariables {
-                    let resolved = context.resolve(type: computedVar.typeName.better)
-                    if computedVar.isMutable {
-                        fragment.outputBlock("try env.check { exn in _\(computedVar.name)Setter[env](", closeWith: ")}") {
+                for field in fields {
+                    let resolved = context.resolve(type: field.typeName.better)
+                    if field.isMutable {
+                        fragment.outputBlock("try env.check { exn in _\(field.name)Setter[env](", closeWith: ")}") {
                             fragment.output("this,")
-                            fragment.output("try \(resolved.converterType.name).toIota(value.\(computedVar.name), env: env),")
+                            fragment.output("try \(resolved.converterType.name).toIota(value.\(field.name), env: env),")
                             fragment.output("exn")
                         }
                     }
@@ -583,7 +583,7 @@ struct TranslatedProtocol: TranslatedType {
         fragment.outputBlock("struct \(foreignProtocolType): \(sourceType.name) {") {
             fragment.output("let _javaWitness: JavaReference")
 
-            for variable in computedVariables {
+            for variable in fields {
                 fragment.output()
                 let name = variable.name
                 let type = variable.typeName.better.name
@@ -662,7 +662,7 @@ struct TranslatedProtocol: TranslatedType {
             fragment.outputBlock("struct \(foreignProtocolType)_sans_\(defaultMethod.callName): \(sourceType.name) {", closeWith: "}") {
                 fragment.output("var wrapped: \(sourceType.name)")
 
-                for variable in computedVariables {
+                for variable in fields {
                     fragment.output()
                     let name = variable.name
                     let type = variable.typeName.better.name
@@ -733,12 +733,12 @@ struct TranslatedProtocol: TranslatedType {
                 fragment.output("javaClass = try env.globalRef(env.FindClass(\"\(className)\"))")
                 fragment.output("externalWitnessClass = try env.globalRef(env.FindClass(\"\(javaExternalWitnessClassName)\"))")
                 fragment.output("externalWitnessConstructor = try env.GetMethodID(externalWitnessClass, \"<init>\", \"(J)V\")")
-                for computedVar in computedVariables {
-                    let resolved = context.resolve(type: computedVar.typeName.better)
+                for field in fields {
+                    let resolved = context.resolve(type: field.typeName.better)
                     let jniSignature = resolved.jniType.asSignature
-                    fragment.output("\(foreignProtocolType)._\(computedVar.name)GetMethodID = try env.GetMethodID(javaClass, \"get\(computedVar.name.capitalized)\", \"()\(jniSignature)\")")
-                    if computedVar.isMutable {
-                        fragment.output("\(foreignProtocolType)._\(computedVar.name)SetMethodID = try env.GetMethodID(javaClass, \"set\(computedVar.name.capitalized)\", \"(\(jniSignature))V\")")
+                    fragment.output("\(foreignProtocolType)._\(field.name)GetMethodID = try env.GetMethodID(javaClass, \"get\(field.name.capitalized)\", \"()\(jniSignature)\")")
+                    if field.isMutable {
+                        fragment.output("\(foreignProtocolType)._\(field.name)SetMethodID = try env.GetMethodID(javaClass, \"set\(field.name.capitalized)\", \"(\(jniSignature))V\")")
                     }
                 }
                 for normalMethod in normalMethods {
@@ -757,7 +757,7 @@ struct TranslatedProtocol: TranslatedType {
 
         let (interfaceFields, interfaceMethods) = KotlinClass.separate(
             fieldsAndMethods:
-                computedVariables.compactMap {
+                fields.compactMap {
                     context.kotlin(field: $0, useNativeName: false)
                 } + methods.flatMap { method -> [KotlinClass.MethodOrVariable] in
                     guard let kotlinMethodOrVariable = context.kotlin(method: method) else { return [] }
@@ -792,7 +792,7 @@ struct TranslatedProtocol: TranslatedType {
 
         let externalWitnessFieldsAndMethods = {
             let nonDefaultMethods = methods.filter { !$0.isInExtension }
-            var fAndM = computedVariables.compactMap { context.kotlin(field: $0, useNativeName: false)}
+            var fAndM = fields.compactMap { context.kotlin(field: $0, useNativeName: false)}
             fAndM.append(contentsOf: nonDefaultMethods.compactMap { context.kotlin(method: $0) })
             return fAndM
         }()
@@ -820,7 +820,7 @@ struct TranslatedProtocol: TranslatedType {
     func registerDartClass(context: FishyJoesContext) {
         let (protocolFields, protocolMethods) = DartClass.separate(
             fieldsAndMethods:
-                computedVariables.compactMap {
+                fields.compactMap {
                     context.dart(field: $0, of: self, useNativeName: false)
                 } + methods.compactMap {
                     context.dart(method: $0, of: self)
@@ -839,7 +839,7 @@ struct TranslatedProtocol: TranslatedType {
 
         let (externalWitnessFields, externalWitnessMethods) = DartClass.separate(
             fieldsAndMethods:
-                computedVariables.compactMap {
+                fields.compactMap {
                     context.dart(field: $0, of: self, useNativeName: false)
                 } + methods.filter { !$0.isInExtension }.compactMap {
                     context.dart(method: $0, of: self)
