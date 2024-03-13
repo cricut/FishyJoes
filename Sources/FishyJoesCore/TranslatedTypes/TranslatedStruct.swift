@@ -590,13 +590,14 @@ struct TranslatedStruct: TranslatedType {
     }
 
     func registerDartClass(context: FishyJoesContext) {
-        let fieldsAndMethods =
-        computedVariables.compactMap {
-            context.dart(field: $0, of: self, useNativeName: false)
-        } +
-        methods.compactMap {
-            context.dart(method: $0, of: self)
-        }
+        let (fields, methods) = DartClass.separate(
+            fieldsAndMethods:
+                computedVariables.compactMap {
+                    context.dart(field: $0, of: self, useNativeName: false)
+                } + methods.compactMap {
+                    context.dart(method: $0, of: self)
+                }
+        )
 
         context.add(
             dartClass: DartProductClass(
@@ -612,7 +613,8 @@ struct TranslatedStruct: TranslatedType {
                         }
                     }
                 ),
-                fieldsAndMethods: fieldsAndMethods,
+                fields: fields,
+                methods: methods,
                 conformances: conformances
             )
         )

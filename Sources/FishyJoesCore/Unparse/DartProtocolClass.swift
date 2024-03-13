@@ -3,14 +3,16 @@ class DartProtocolClass: DartClass {
         module: Module,
         documentation: [String],
         name: String,
-        fieldsAndMethods: [MethodOrVariable],
+        fields: [Variable],
+        methods: [Method],
         conformances: Set<String>
     ) {
         super.init(
             module: module,
             documentation: documentation,
             name: name,
-            fieldsAndMethods: fieldsAndMethods,
+            fields: fields,
+            methods: methods,
             conformances: conformances
         )
     }

@@ -17,7 +17,8 @@ class DartProductClass: DartClass {
         documentation: [String],
         name: String,
         constructor: Constructor,
-        fieldsAndMethods: [MethodOrVariable],
+        fields: [Variable],
+        methods: [Method],
         conformances: Set<String>,
         isExternalWitness: Bool = false
     ) {
@@ -27,7 +28,8 @@ class DartProductClass: DartClass {
             module: module,
             documentation: documentation,
             name: name,
-            fieldsAndMethods: fieldsAndMethods,
+            fields: fields,
+            methods: methods,
             conformances: conformances
         )
     }

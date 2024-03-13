@@ -821,40 +821,42 @@ struct TranslatedProtocol: TranslatedType {
     }
 
     func registerDartClass(context: FishyJoesContext) {
+        let (protocolFields, protocolMethods) = DartClass.separate(
+            fieldsAndMethods:
+                computedVariables.compactMap {
+                    context.dart(field: $0, of: self, useNativeName: false)
+                } + methods.compactMap {
+                    context.dart(method: $0, of: self)
+                }
+        )
         context.add(
             dartClass: DartProtocolClass(
                 module: context.module,
                 documentation: documentation,
                 name: dartType.name(),
-                fieldsAndMethods: {
-                    var fAndM = computedVariables.compactMap { context.dart(field: $0, of: self, useNativeName: false) }
-                    fAndM.append(contentsOf: methods.compactMap { context.dart(method: $0, of: self) })
-                    return fAndM
-                }(),
+                fields: protocolFields,
+                methods: protocolMethods,
                 conformances: conformances
             )
         )
 
+        let (externalWitnessFields, externalWitnessMethods) = DartClass.separate(
+            fieldsAndMethods:
+                computedVariables.compactMap {
+                    context.dart(field: $0, of: self, useNativeName: false)
+                } + methods.filter { !$0.isInExtension }.compactMap {
+                    context.dart(method: $0, of: self)
+                }
+        )
         let externalWitnessName = "ExternalWitness_\(sourceType.nonNamespacedName)"
-//        let externalWitnessType = TranslatedReference(context: context, type: self)
         context.add(
             dartClass: DartProductClass(
                 module: context.module,
                 documentation: documentation,
                 name: "\(context.module.name).\(externalWitnessName)",
                 constructor: .reference,
-                fieldsAndMethods: {
-                    let nonDefaultMethods = methods.filter { !$0.isInExtension }
-                    var fAndM = computedVariables.compactMap {
-                        context.dart(field: $0, of: self, useNativeName: false)
-                    }
-                    fAndM.append(
-                        contentsOf: nonDefaultMethods.compactMap {
-                            return context.dart(method: $0, of: self)
-                        }
-                    )
-                    return fAndM
-                }(),
+                fields: externalWitnessFields,
+                methods: externalWitnessMethods,
                 conformances: [sourceType.nonNamespacedName],
                 isExternalWitness: true
             )

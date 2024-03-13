@@ -567,12 +567,14 @@ struct TranslatedReference: TranslatedType {
             )
         }
 
+        let (fields, methods) = DartClass.separate(fieldsAndMethods: fieldsAndMethods)
         let dartProduct = DartProductClass(
             module: context.module,
             documentation: documentation,
             name: dartType.name(),
             constructor: .reference,
-            fieldsAndMethods: fieldsAndMethods,
+            fields: fields,
+            methods: methods,
             conformances: conformances
         )
         context.add(dartClass: dartProduct)

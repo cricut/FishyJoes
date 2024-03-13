@@ -12,7 +12,8 @@ class DartEnumClass: DartClass {
         documentation: [String],
         name: String,
         cases: [Case],
-        fieldsAndMethods: [MethodOrVariable],
+        fields: [Variable],
+        methods: [Method],
         conformances: Set<String>
     ) {
         self.cases = cases
@@ -20,7 +21,8 @@ class DartEnumClass: DartClass {
             module: module,
             documentation: documentation,
             name: name,
-            fieldsAndMethods: fieldsAndMethods,
+            fields: fields,
+            methods: methods,
             conformances: conformances
         )
     }

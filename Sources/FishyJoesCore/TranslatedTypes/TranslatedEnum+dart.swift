@@ -48,7 +48,15 @@ extension TranslatedEnum {
     }
 
     func dartClass(context: FishyJoesContext) -> DartEnumClass {
-        DartEnumClass(
+        let (fields, methods) = DartClass.separate(
+            fieldsAndMethods:
+                fields.compactMap {
+                    context.dart(field: $0, of: self, useNativeName: false)
+                } + methods.compactMap {
+                    context.dart(method: $0, of: self)
+                }
+        )
+        return DartEnumClass(
             module: context.module,
             documentation: documentation,
             name: dartType.name(),
@@ -62,9 +70,8 @@ extension TranslatedEnum {
                     }
                 )
             },
-            fieldsAndMethods:
-                fields.compactMap { context.dart(field: $0, of: self, useNativeName: false) } +
-            methods.compactMap { context.dart(method: $0, of: self) },
+            fields: fields,
+            methods: methods,
             conformances: conformances
         )
     }

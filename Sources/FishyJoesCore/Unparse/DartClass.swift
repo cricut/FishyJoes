@@ -68,25 +68,16 @@ class DartClass {
         documentation: [String],
         name: String,
         setupTypes: SetupTypes? = nil,
-        fieldsAndMethods: [MethodOrVariable],
+        fields: [Variable],
+        methods: [Method],
         conformances: Set<String>
     ) {
         self.name = name
         self.documentation = documentation
         self.module = module
         self.setupTypes = setupTypes
-        self.fields = fieldsAndMethods.compactMap {
-            guard case let .variable(field) = $0 else {
-                return nil
-            }
-            return field
-        }
-        self.methods = fieldsAndMethods.compactMap {
-            guard case let .method(method) = $0 else {
-                return nil
-            }
-            return method
-        }
+        self.fields = fields
+        self.methods = methods
         self.conformances = Array(conformances).sorted(by: <)
     }
 
@@ -589,5 +580,23 @@ extension DartClass {
             }
             fragment.blankLine()
         }
+    }
+}
+
+extension DartClass {
+    static func separate(fieldsAndMethods: [DartClass.MethodOrVariable]) -> ([DartClass.Variable], [DartClass.Method]) {
+        let fields: [Variable] = fieldsAndMethods.compactMap {
+            guard case let .variable(field) = $0 else {
+                return nil
+            }
+            return field
+        }
+        let methods: [Method] = fieldsAndMethods.compactMap {
+            guard case let .method(method) = $0 else {
+                return nil
+            }
+            return method
+        }
+        return (fields, methods)
     }
 }
