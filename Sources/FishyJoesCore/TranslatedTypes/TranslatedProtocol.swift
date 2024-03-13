@@ -198,10 +198,7 @@ struct TranslatedProtocol: TranslatedType {
                 .value(
                     name: method.callName,
                     type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(commonName)>>")
-                ) { fragment in
-                    let defaultValue = resolvedReturn.dartType.defaultReturnValue.map { ", \($0)" } ?? ""
-                    fragment.output("ffi.Pointer.fromFunction(\(sourceType.name)_DefaultImplementations.ffi_\(method.callName)\(defaultValue)),")
-                }
+                ) { $0.output("ffi.Pointer.fromFunction(\(sourceType.name)_DefaultImplementations.ffi_\(method.callName)\(resolvedReturn.dartType.defaultReturnValue.map { ", \($0)" } ?? "")),") }
             )
         }
 
