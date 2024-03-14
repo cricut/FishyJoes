@@ -224,7 +224,7 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
 
 @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
 @_cdecl("registerModuleTestAPI")
-public func registerModuleTestAPIC(env: napi_env, exports: napi_value) -> napi_value? {
+public func cRegisterModuleTestAPI(env: napi_env, exports: napi_value) -> napi_value? {
     let env = NAPI.Env(ptr: env)
     let exports = NAPI.Value(ptr: exports)
     return FishyJoesNodeRuntime.rethrowToNode(env: env) {
