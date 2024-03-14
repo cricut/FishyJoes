@@ -1834,29 +1834,6 @@ export declare namespace TestAPI {
     export type Structs = never;
     export namespace Structs {
         /**
-         * <!-- FishyJoes.export(Structs.DougStruct) -->
-         */
-        export class DougStruct {
-            constructor(str: string)
-
-            str: string;
-
-            /**
-             * <!-- FishyJoes.export(cat) -->
-             */
-            cat(
-                str: string
-            ): string;
-
-            /**
-             * <!-- FishyJoes.export(create) -->
-             */
-            static create(
-                str: string
-            ): Structs.DougStruct;
-        }
-
-        /**
          * <!-- FishyJoes.export(Structs.MemberwiseStruct) -->
          */
         export class MemberwiseStruct {

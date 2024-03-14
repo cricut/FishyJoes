@@ -14,40 +14,6 @@ sealed class Structs {
     }
 
     /**
-     * <!-- FishyJoes.export(Structs.DougStruct) -->
-     */
-    data class DougStruct(
-        var str: kotlin.String
-    ) {
-        /**
-         * <!-- FishyJoes.export(cat) -->
-         */
-        fun cat(
-            str: kotlin.String
-        ): kotlin.String = __jni_cat(str)
-        @JvmName("__jni_cat")
-        private external fun __jni_cat(
-            str: kotlin.String
-        ): kotlin.String
-
-        companion object {
-            /**
-             * <!-- FishyJoes.export(create) -->
-             */
-            fun create(
-                str: kotlin.String
-            ): com.cricut.testapi.Structs.DougStruct = __jni_create(str)
-            @JvmStatic
-            @JvmName("__jni_create")
-            private external fun __jni_create(
-                str: kotlin.String
-            ): com.cricut.testapi.Structs.DougStruct
-
-            init { loadNativeLibs() }
-        }
-    }
-
-    /**
      * <!-- FishyJoes.export(Structs.MutableStruct) -->
      */
     data class MutableStruct(

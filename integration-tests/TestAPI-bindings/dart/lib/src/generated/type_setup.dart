@@ -26,7 +26,6 @@ import './SimpleEnum.dart' as TestAPI;
 import './String_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Strings.dart' as TestAPI;
 import './Structs.dart' as TestAPI;
-import './Structs_DougStruct.dart' as TestAPI;
 import './Structs_MemberwiseStruct.dart' as TestAPI;
 import './Structs_MutableStruct.dart' as TestAPI;
 import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
@@ -181,14 +180,6 @@ typedef _TestAPI_Primitives_PrimitiveHolder_dGetter = ffi.Double Function(Unowne
 typedef _TestAPI_Primitives_PrimitiveHolder_dSetter = ffi.Void Function(UnownedRef obj, ffi.Double newValue, OutCreatedRef exn);
 typedef _TestAPI_Primitives_PrimitiveHolder_dqGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_Primitives_PrimitiveHolder_dqSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
-typedef _TestAPI_Structs_DougStructConstructor = CreatedRef Function(
-    ConsumedRef str,
-    OutCreatedRef exn
-);
-typedef _TestAPI_Structs_DougStruct_strGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
-typedef _TestAPI_Structs_DougStruct_strSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
-typedef _TestAPI_Structs_DougStruct_cat = CreatedRef Function(UnownedRef obj, ffi.Pointer str, OutCreatedRef exn);
-typedef _TestAPI_Structs_DougStruct_init = CreatedRef Function(UnownedRef obj, ffi.Pointer str, OutCreatedRef exn);
 typedef _TestAPI_Structs_MemberwiseStructConstructor = CreatedRef Function(
     ConsumedRef immutable,
     ConsumedRef mutable,
@@ -568,22 +559,6 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_Primitives_PrimitiveHolder_setup');
-    final TestAPI_Structs_DougStruct_setup = dylib.lookupFunction<
-        ffi.Void Function(
-            Env env,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_DougStructConstructor>> constructor,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_DougStruct_strGetter>> get_str,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_DougStruct_strSetter>> set_str,
-            OutCreatedRef exn
-        ),
-        void Function(
-            Env env,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_DougStructConstructor>> constructor,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_DougStruct_strGetter>> get_str,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_DougStruct_strSetter>> set_str,
-            OutCreatedRef exn
-        )
-    >('TestAPI_Structs_DougStruct_setup');
     final TestAPI_Structs_MemberwiseStruct_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -2468,32 +2443,6 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Strings_echo");
-    TestAPI.Structs_DougStruct.f__iota_TestAPI_Structs_DougStruct_cat = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            UnownedRef _this,
-            UnownedRef str,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            UnownedRef _this,
-            UnownedRef str,
-            OutCreatedRef _exn
-        )
-    >("__iota_TestAPI_Structs_DougStruct_cat");
-    TestAPI.Structs_DougStruct.f__iota_TestAPI_Structs_DougStruct_create = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            UnownedRef str,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            UnownedRef str,
-            OutCreatedRef _exn
-        )
-    >("__iota_TestAPI_Structs_DougStruct_create");
     TestAPI.Structs_MemberwiseStruct.f__iota_TestAPI_Structs_MemberwiseStruct_asyncGetMutable = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -6554,19 +6503,6 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_d),
                 ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_dq),
                 ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_dq),
-                exn
-            );
-        });
-    });
-
-    Loader.shared.once("setup_TestAPI.Structs.DougStruct", () {
-        // print("setting up TestAPI.Structs.DougStruct (env=0x${Loader.shared.env.address.toRadixString(16)})...");
-        utils.check<void>((exn) {
-            TestAPI_Structs_DougStruct_setup(
-                Loader.shared.env,
-                ffi.Pointer.fromFunction(TestAPI.Structs_DougStruct.ffi_constructor),
-                ffi.Pointer.fromFunction(TestAPI.Structs_DougStruct.ffi_get_str),
-                ffi.Pointer.fromFunction(TestAPI.Structs_DougStruct.ffi_set_str),
                 exn
             );
         });

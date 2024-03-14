@@ -255,21 +255,6 @@ namespace Cricut.TestAPI {
             out CreatedRef _exn
         );
 
-        delegate CreatedRef _TestAPI_Structs_DougStructConstructor(
-            ConsumedRef str,
-            out CreatedRef exn
-        );
-        delegate CreatedRef _TestAPI_Structs_DougStruct_strGetter(UnownedRef obj, out CreatedRef exn);
-        delegate void _TestAPI_Structs_DougStruct_strSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void TestAPI_Structs_DougStruct_setup(
-            IntPtr envRef,
-            _TestAPI_Structs_DougStructConstructor constructor,
-            _TestAPI_Structs_DougStruct_strGetter get_str,
-            _TestAPI_Structs_DougStruct_strSetter set_str,
-            out CreatedRef _exn
-        );
-
         delegate CreatedRef _TestAPI_Structs_MemberwiseStructConstructor(
             ConsumedRef immutable,
             ConsumedRef mutable,
@@ -1907,24 +1892,6 @@ namespace Cricut.TestAPI {
                     )),
                     bag<_TestAPI_Primitives_PrimitiveHolder_dqSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Dq = newValue.Consume<double?>();
-                    })),
-                    out exn
-                ));
-            });
-            Once("setup_TestAPI.Structs.DougStruct", () => {
-                Console.WriteLine("setting up TestAPI.Structs.DougStruct...");
-                Utilities.Check((out CreatedRef exn) => TestAPI_Structs_DougStruct_setup(
-                    Loader.env,
-                    bag<_TestAPI_Structs_DougStructConstructor>((ConsumedRef str, out CreatedRef exn) => Catching(out exn, () => {
-                        return new CreatedRef(new Cricut.TestAPI.Structs.DougStruct(
-                            str.Consume<string>()
-                        ));
-                    })),
-                    bag<_TestAPI_Structs_DougStruct_strGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
-                        new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.DougStruct>().Str)
-                    )),
-                    bag<_TestAPI_Structs_DougStruct_strSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Structs.DougStruct>().Str = newValue.Consume<string>();
                     })),
                     out exn
                 ));

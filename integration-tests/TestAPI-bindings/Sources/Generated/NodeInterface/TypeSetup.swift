@@ -170,7 +170,6 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try TestAPI.Actors.TemperatureLogger.nodeSetup(env: env, module: module)
     try TestAPI.Collections.CollectionHolder.nodeSetup(env: env, module: module)
     try TestAPI.Primitives.PrimitiveHolder.nodeSetup(env: env, module: module)
-    try TestAPI.Structs.DougStruct.nodeSetup(env: env, module: module)
     try TestAPI.Structs.MemberwiseStruct.nodeSetup(env: env, module: module)
     try TestAPI.Structs.MutableStruct.nodeSetup(env: env, module: module)
     try TestAPI.Structs.PuttingTypesIntoQuestionablePlaces.nodeSetup(env: env, module: module)

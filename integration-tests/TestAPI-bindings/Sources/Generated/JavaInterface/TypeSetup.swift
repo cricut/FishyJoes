@@ -385,21 +385,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_set_TestAPI_Primitives_PrimitiveHolder_staticMutableProperty, to: UnsafeMutableRawPointer.self)
             )
         )
-        // print("setting up TestAPI.Structs.DougStruct...")
-        try TestAPI.Structs.DougStruct.javaSetup(env: env)
-        try env.RegisterNatives(
-            TestAPI.Structs.DougStruct.externalWitnessClass ?? TestAPI.Structs.DougStruct.javaClass,
-            JNINativeMethod(
-                name: bag.add("__jni_create"),
-                signature: bag.add("(Ljava/lang/String;)Lcom/cricut/testapi/Structs$DougStruct;"),
-                fnPtr: unsafeBitCast(java_TestAPI_Structs_DougStruct_create, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_cat"),
-                signature: bag.add("(Ljava/lang/String;)Ljava/lang/String;"),
-                fnPtr: unsafeBitCast(java_TestAPI_Structs_DougStruct_cat, to: UnsafeMutableRawPointer.self)
-            )
-        )
         // print("setting up TestAPI.Structs.MemberwiseStruct...")
         try TestAPI.Structs.MemberwiseStruct.javaSetup(env: env)
         try env.RegisterNatives(
