@@ -332,7 +332,6 @@ extension DartClass.DartType: CustomStringConvertible {
         case let .function(args, returnType):
             return "\(returnType.ffiTag) Function(\(args.map { $0.ffiTag }.joined(separator: ", ")))"
         default:
-            debug("what is ffiTag for `\(name())`?")
             return "ffi.Pointer"
         }
     }
