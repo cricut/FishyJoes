@@ -167,19 +167,19 @@ public class FishyJoesContext {
         }
 
         // Translate
-        var methodsToTranslateForTypeDict = [Type: [SourceryMethod]]()
+        var methodsToTranslateForTypeDict = [Type: (methods: [SourceryMethod], isProtocol: Bool)]()
         for type in templateContext.types.types {
             if let protocolType = type as? SourceryProtocol {
-                methodsToTranslateForTypeDict[type] = protocolType.methodsPreferringDefaultImpl()
+                methodsToTranslateForTypeDict[type] = (methods: protocolType.methodsPreferringDefaultImpl(), isProtocol: true)
             } else {
-                methodsToTranslateForTypeDict[type] = type.rawMethods
+                methodsToTranslateForTypeDict[type] = (methods: type.rawMethods, isProtocol: false)
             }
         }
 
-        for (type, methods) in methodsToTranslateForTypeDict {
-            for method in methods.compactMap(Method.init) {
+        for (type, (methods, isProtocol)) in methodsToTranslateForTypeDict {
+            for method in methods.compactMap { Method($0, isProtocol: isProtocol) } {
                 debugContext = "Translating method \(type.name).\(method.name)"
-                collectedFragments.append(contentsOf: kotlinTranslator.translate(method: method, context: self, isProtocol: type is SourceryProtocol, typeName: type.localName))
+                collectedFragments.append(contentsOf: kotlinTranslator.translate(method: method, context: self, typeName: type.localName))
                 collectedFragments.append(contentsOf: iotaTranslator.translate(method: method, context: self))
             }
         }
@@ -574,14 +574,14 @@ public class FishyJoesContext {
     func add(dartClass: DartClass) {
         dartClasses.append(dartClass)
 
-        for (name, (args, returnType, isExtension)) in dartClass.nativeMethods {
+        for (name, (args, returnType, isDefaultImplementation)) in dartClass.nativeMethods {
             dartTranslator.nativeMethods.append(
                 .init(
                     name: name,
                     definingDartClass: dartClass.name,
                     args: args,
                     returnType: returnType,
-                    isExtension: isExtension
+                    isDefaultImplementation: isDefaultImplementation
                 )
             )
         }

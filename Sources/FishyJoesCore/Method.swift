@@ -18,6 +18,15 @@ struct Method: Hashable {
     let isAsync: Bool
     let deprecation: Deprecation?
     var isExtension: Bool
+    let isProtocol: Bool
+    var isDefaultImplementation: Bool {
+        if isProtocol,
+           isExtension {
+            true
+        } else {
+            false
+        }
+    }
 
     enum SourceKind: Hashable {
         case method, initializer
@@ -26,39 +35,11 @@ struct Method: Hashable {
     }
     let sourceKind: SourceKind
 
-    init(
-        name: String,
-        callName: String? = nil,
-        exportAnnotation: ExportAnnotation,
-        parameters: [SwiftFormal],
-        returnType: BetterType,
-        documentation: [String] = [],
-        definedIn: BetterType?,
-        sourceKind: SourceKind = .method,
-        isStatic: Bool = false,
-        isMutating: Bool = false,
-        isThrowing: Bool = false,
-        isAsync: Bool = false,
-        deprecation: Deprecation? = nil,
-        isExtension: Bool = false
-    ) {
-        self.name = name
-        self.callName = callName ?? name
-        self.exportAnnotation = exportAnnotation
-        self.parameters = parameters
-        self.returnType = returnType
-        self.documentation = documentation
-        self.definedIn = definedIn
-        self.sourceKind = sourceKind
-        self.isStatic = isStatic
-        self.isMutating = isMutating
-        self.isThrowing = isThrowing
-        self.isAsync = isAsync
-        self.deprecation = deprecation
-        self.isExtension = isExtension
+    init?(_ method: SourceryMethod) {
+        self.init(method, isProtocol: false)
     }
 
-    init?(_ method: SourceryMethod) {
+    init?(_ method: SourceryMethod, isProtocol: Bool) {
         guard let exportAnnotation = method.exportAnnotation else { return nil }
         self.name = method.name
         self.callName = method.callName
@@ -105,6 +86,7 @@ struct Method: Hashable {
         precondition(omitParameters.isEmpty, "Can't find parameters \(omitParameters) to omit")
         self.parameters = parameters
         self.isExtension = method.definedInType?.isExtension ?? false
+        self.isProtocol = isProtocol
     }
 }
 

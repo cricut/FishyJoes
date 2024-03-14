@@ -224,7 +224,8 @@ extension SourceryProtocol {
             }
             if !mostlyEqualMethods.isEmpty {
                 for equalExcludingImplementedMethod in mostlyEqualMethods {
-                    if equalExcludingImplementedMethod.isExtension {
+                    let isDefaultImplementation = equalExcludingImplementedMethod.isExtension && (equalExcludingImplementedMethod.definedInType is SourceryProtocol)
+                    if isDefaultImplementation {
                         guard let index = methodsPreferringImplemented.firstIndex(of: method) else {
                             assertionFailure("method should exist in methodsPreferringImplemented")
                             continue

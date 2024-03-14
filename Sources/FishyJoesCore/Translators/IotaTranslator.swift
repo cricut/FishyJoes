@@ -122,7 +122,10 @@ final class IotaTranslator: Translator {
 
                     mutateBlock {
                         let body = {
-                            if method.isExtension,
+                            if method.name.contains("hasADefaultImpl") {
+                                let elegoo = 1
+                            }
+                            if method.isDefaultImplementation,
                                let definedInName = method.definedIn?.name {
                                 fragment.outputBlock("try _Iota\(definedInName)_sans_\(method.callName)(wrapped:", closeWith: ")") {
                                     fragment.output("try \(converterNamespace).peekIota(_iotaThis, env: env)")
