@@ -172,10 +172,7 @@ struct TranslatedProtocol: TranslatedType {
             )
         }
 
-        let normalMethods = methods.filter { !$0.isDefaultImplementation }
-        let defaultMethods = methods.filter { $0.isDefaultImplementation }
-
-        for method in normalMethods {
+        for method in methods {
             let resolvedReturn = context.resolve(type: method.returnType)
             let commonName = "_\(sourceType.genericBaseName.mangledName)_\(method.callName)"
 
@@ -185,20 +182,12 @@ struct TranslatedProtocol: TranslatedType {
                     type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(commonName)>>")
                 ) { fragment in
                     let defaultValue = resolvedReturn.dartType.defaultReturnValue.map { ", \($0)" } ?? ""
-                    fragment.output("ffi.Pointer.fromFunction(\(sourceType.name)_FfiHooks.ffi_\(method.callName)\(defaultValue)),")
+                    if method.isDefaultImplementation {
+                        fragment.output("ffi.Pointer.fromFunction(\(sourceType.name)_DefaultImplementations.ffi_\(method.callName)\(resolvedReturn.dartType.defaultReturnValue.map { ", \($0)" } ?? "")),")
+                    } else {
+                        fragment.output("ffi.Pointer.fromFunction(\(sourceType.name)_FfiHooks.ffi_\(method.callName)\(defaultValue)),")
+                    }
                 }
-            )
-        }
-
-        for method in defaultMethods {
-            let resolvedReturn = context.resolve(type: method.returnType)
-            let commonName = "_\(sourceType.genericBaseName.mangledName)_\(method.callName)"
-
-            setupParams.append(
-                .value(
-                    name: method.callName,
-                    type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(commonName)>>")
-                ) { $0.output("ffi.Pointer.fromFunction(\(sourceType.name)_DefaultImplementations.ffi_\(method.callName)\(resolvedReturn.dartType.defaultReturnValue.map { ", \($0)" } ?? "")),") }
             )
         }
 
