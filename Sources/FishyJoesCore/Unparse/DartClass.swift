@@ -122,17 +122,12 @@ class DartClass {
 
         let thisArg = ("_this", DartType.named(package: module.dartNamespace, name: name))
 
-        // Don't add nativeMethods for DartProtocolClass to dartTranslator
-        // They will be handled by the ExternalWitness for that Protocol
-        // except for default Implementations!
-        if !(self is DartProtocolClass) {
-            for field in fields {
-                let baseArgs = field.isStatic ? [] : [thisArg]
+        for field in fields {
+            let baseArgs = field.isStatic ? [] : [thisArg]
 
-                result["__iota_get_\(field.mangledName)"] = (args: baseArgs, return: field.type, isDefaultImplementation: false)
-                if field.isPubliclyWritable {
-                    result["__iota_set_\(field.mangledName)"] = (args: baseArgs + [(field.name, field.type)], return: .void, isDefaultImplementation: false)
-                }
+            result["__iota_get_\(field.mangledName)"] = (args: baseArgs, return: field.type, isDefaultImplementation: false)
+            if field.isPubliclyWritable {
+                result["__iota_set_\(field.mangledName)"] = (args: baseArgs + [(field.name, field.type)], return: .void, isDefaultImplementation: false)
             }
         }
 
@@ -147,13 +142,7 @@ class DartClass {
                 params.append((param.name, param.type))
             }
 
-            // Don't add nativeMethods for DartProtocolClass to dartTranslator
-            // They will be handled by the ExternalWitness for that Protocol
-            // except for default Implementations!
-            if !(self is DartProtocolClass) ||
-                method.isDefaultImplementation {
-                result["__iota_\(method.mangledName)"] = (args: params, return: method.returnType, isDefaultImplementation: (self is DartProtocolClass))
-            }
+            result["__iota_\(method.mangledName)"] = (args: params, return: method.returnType, isDefaultImplementation: (self is DartProtocolClass))
         }
 
         return result
@@ -1251,6 +1240,33 @@ class DartProtocolClass: DartClass {
             ffiFor(fields: fields, fragment: fragment)
             ffiFor(methods: normalMethods, fragment: fragment)
         }
+    }
+
+    override var nativeMethods: [String: (args: [(String, DartType)], return: DartType, isDefaultImplementation: Bool)] {
+        var result: [String: (args: [(String, DartType)], return: DartType, isDefaultImplementation: Bool)] = [:]
+
+        let thisArg = ("_this", DartType.named(package: module.dartNamespace, name: name))
+
+        for method in methods {
+            // if method.name.hasPrefix("_") { continue }
+            if method.body != nil { continue }
+
+            var params = method.isStatic ? [] : [thisArg]
+
+            // Keep the parameters in original order here, because the swift-side expects them in that order
+            for param in method.parameters {
+                params.append((param.name, param.type))
+            }
+
+            // Don't add nativeMethods for DartProtocolClass to dartTranslator
+            // They will be handled by the ExternalWitness for that Protocol
+            // except for default Implementations!
+            if method.isDefaultImplementation {
+                result["__iota_\(method.mangledName)"] = (args: params, return: method.returnType, isDefaultImplementation: (self is DartProtocolClass))
+            }
+        }
+
+        return result
     }
 }
 
