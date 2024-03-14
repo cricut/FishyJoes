@@ -177,7 +177,8 @@ public class FishyJoesContext {
         }
 
         for (type, (methods, isProtocol)) in methodsToTranslateForTypeDict {
-            for method in methods.compactMap { Method($0, isProtocol: isProtocol) } {
+            let methods = methods.compactMap { Method($0, isProtocol: isProtocol) }
+            for method in methods {
                 debugContext = "Translating method \(type.name).\(method.name)"
                 collectedFragments.append(contentsOf: kotlinTranslator.translate(method: method, context: self, typeName: type.localName))
                 collectedFragments.append(contentsOf: iotaTranslator.translate(method: method, context: self))
