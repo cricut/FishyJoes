@@ -8,20 +8,20 @@ let package = Package(
     platforms: [.macOS(.v12), .iOS(.v15)],
     products: [
         .library(
-            name: "FishyJoesNodeRuntime_NodeNativeShim",
+            name: "NodeNativeShim",
             type: .dynamic,
-            targets: ["FishyJoesNodeRuntime_NodeNativeShim"]
+            targets: ["NodeNativeShim"]
         ),
     ],
     dependencies: [
         .package(
             name: "FishyJoesNodeRuntime",
-            path: "../../.."
+            path: "../.."
         ),
     ],
     targets: [
         .target(
-            name: "FishyJoesNodeRuntime_NodeNativeShim",
+            name: "NodeNativeShim",
             dependencies: [
                 .product(name: "FishyJoesNodeRuntime", package: "FishyJoesNodeRuntime"),
             ],
