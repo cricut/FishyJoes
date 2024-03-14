@@ -22,9 +22,9 @@ struct Method: Hashable {
     var isDefaultImplementation: Bool {
         if isProtocol,
            isExtension {
-            true
+            return true
         } else {
-            false
+            return false
         }
     }
 
