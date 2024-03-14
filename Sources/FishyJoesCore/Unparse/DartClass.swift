@@ -1023,24 +1023,6 @@ class DartEnumClass: DartClass {
 
 // TODO (refactor): move into DartProtocolClass.swift
 class DartProtocolClass: DartClass {
-    init(
-        module: Module,
-        documentation: [String],
-        name: String,
-        fields: [Variable],
-        methods: [Method],
-        conformances: Set<String>
-    ) {
-        super.init(
-            module: module,
-            documentation: documentation,
-            name: name,
-            fields: fields,
-            methods: methods,
-            conformances: conformances
-        )
-    }
-
     override func output(to fragment: SourceFragment) {
         document(documentation, fragment: fragment)
 
