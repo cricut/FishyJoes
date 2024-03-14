@@ -22,13 +22,13 @@ enum DeprecatedNSKeyedUnarchiver: UndeprecatedNSKeyedUnarchiver {
     }
 }
 guard let context = (DeprecatedNSKeyedUnarchiver.self as UndeprecatedNSKeyedUnarchiver.Type).unarchiveObject(withFile: inputPath) as? TemplateContext else {
-    fatalError("Something went wrong with executing fishyjoes from sourcery")
+    fatalError("inputPath: \(inputPath) CommandLine.arguments: \(CommandLine.arguments) Something went wrong with executing fishyjoes from sourcery")
 }
 
-var noStdErrFifo = false
+var noStdErrFifo = true
 if CommandLine.argc >= 4,
-      CommandLine.arguments[3] == "--xcode-debug" {
-    noStdErrFifo = true
+      CommandLine.arguments[3] == "--stderrFifo" {
+    noStdErrFifo = false
 }
 
 print(FishyJoesContext(context: context, noStdErrFifo: noStdErrFifo).translateAll())
