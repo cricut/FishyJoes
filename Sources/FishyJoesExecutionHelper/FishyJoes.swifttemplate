@@ -28,6 +28,6 @@ try run(
     "\(fishyJoesPath)",
     "--executing-from-within-sourcery",
     ProcessInfo.processInfo.arguments[1],
-    "--stderrFifo"
+    argument["stderrFifo"] as! String
 )
 %>

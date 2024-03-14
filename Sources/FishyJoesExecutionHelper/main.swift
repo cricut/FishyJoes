@@ -25,10 +25,8 @@ guard let context = (DeprecatedNSKeyedUnarchiver.self as UndeprecatedNSKeyedUnar
     fatalError("inputPath: \(inputPath) CommandLine.arguments: \(CommandLine.arguments) Something went wrong with executing fishyjoes from sourcery")
 }
 
-var noStdErrFifo = true
-if CommandLine.argc >= 4,
-      CommandLine.arguments[3] == "--stderrFifo" {
-    noStdErrFifo = false
+var stderrFifoStr: String?
+if CommandLine.arguments.count >= 4 {
+    stderrFifoStr = CommandLine.arguments[3] as String
 }
-
-print(FishyJoesContext(context: context, noStdErrFifo: noStdErrFifo).translateAll())
+print(FishyJoesContext(context: context, stderrFifo: stderrFifoStr ).translateAll())
