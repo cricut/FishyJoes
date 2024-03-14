@@ -6,10 +6,10 @@ public struct DownloadNodeLib: ParsableCommand {
     public static var configuration = CommandConfiguration(abstract: "download node.lib for use in compiling the NodeAPI target on Windows")
 
     @Option(name: .long, help: "location of the node lib to download")
-    var url: String? = nil
-    
+    var url: String?
+
     @Option(name: .long, help: "directory to which the download should be placed")
-    var destination: String? = nil
+    var destination: String?
 
     @Flag(name: .long, help: "download even if already present")
     var force = false
