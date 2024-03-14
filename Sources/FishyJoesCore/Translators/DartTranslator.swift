@@ -107,7 +107,7 @@ final class DartTranslator: Translator {
         }
 
         for nativeMethod in nativeMethods.sorted(by: { $0.name < $1.name }) {
-            let definingDartClass = nativeMethod.definingDartClass + (nativeMethod.isDefaultImplementation ? "_DefaultImplementations" : "")            
+            let definingDartClass = nativeMethod.definingDartClass + (nativeMethod.isDefaultImplementation ? "_DefaultImplementations" : "")
             externDeclarations.append { fragment in
                 fragment.outputBlock("\(definingDartClass).f\(nativeMethod.name) = dylib.lookupFunction<", closeWith: ">", newLineTerminated: false) {
                     fragment.outputBlock("\(nativeMethod.returnType.ffiCreatedTag) Function(", closeWith: "),") {

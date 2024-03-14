@@ -40,7 +40,7 @@ public func __iota_TestAPI_AProtocol_hasADefaultImplementation(
     let env = Env(envRef)
     return env.catching(to: _exn) {
         return try Swift.String.toIota(
-            try _IotaAProtocol_sans_hasADefaultImplementation(wrapped:
+            try AProtocol_sans_hasADefaultImplementation(wrapped:
                 try TestAPI_CommonInterface._AProtocolConverter.peekIota(_iotaThis, env: env)
             )
             .hasADefaultImplementation(
@@ -65,7 +65,7 @@ public func __iota_TestAPI_AProtocol_hasADefaultImplementation2(
     let env = Env(envRef)
     return env.catching(to: _exn) {
         return try Swift.Double.toIota(
-            try _IotaAProtocol_sans_hasADefaultImplementation2(wrapped:
+            try AProtocol_sans_hasADefaultImplementation2(wrapped:
                 try TestAPI_CommonInterface._AProtocolConverter.peekIota(_iotaThis, env: env)
             )
             .hasADefaultImplementation2(

@@ -124,7 +124,7 @@ final class IotaTranslator: Translator {
                         let body = {
                             if method.isDefaultImplementation,
                                let definedInName = method.definedIn?.name {
-                                fragment.outputBlock("try _Iota\(definedInName)_sans_\(method.callName)(wrapped:", closeWith: ")") {
+                                fragment.outputBlock("try \(definedInName)_sans_\(method.callName)(wrapped:", closeWith: ")") {
                                     fragment.output("try \(converterNamespace).peekIota(_iotaThis, env: env)")
                                 }
                                 fragment.outputBlock("\(callName)(", newLineTerminated: false) {
