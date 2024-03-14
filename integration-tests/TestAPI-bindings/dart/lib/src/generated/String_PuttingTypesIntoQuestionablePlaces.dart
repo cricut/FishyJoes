@@ -73,6 +73,8 @@ class String_PuttingTypesIntoQuestionablePlaces {
             x: consumeRef(x),
         ))
     );
+    @override
+    String toString() => 'String_PuttingTypesIntoQuestionablePlaces(x: $x)';
 
     static CreatedRef ffi_get_x(
         UnownedRef obj,
@@ -90,9 +92,6 @@ class String_PuttingTypesIntoQuestionablePlaces {
         peekRef<String_PuttingTypesIntoQuestionablePlaces>(obj).testCall(
         )
     ) ?? 0;
-
-    @override
-    String toString() => 'String_PuttingTypesIntoQuestionablePlaces(x: $x)';
 
     @override
     bool operator ==(Object other) {

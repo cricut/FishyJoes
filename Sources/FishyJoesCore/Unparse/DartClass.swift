@@ -614,10 +614,8 @@ class DartProductClass: DartClass {
                     fragment.output("createRef(\(unqualifiedName)(ref))")
                 }
                 fragment.blankLine()
-                if !conformances.isEmpty {
-                    toStringImpl(fields: fields, fragment: fragment)
-                }
-                fragment.blankLine()
+
+                toStringImpl(fields: fields, fragment: fragment)
             case .public(let fields):
                 storedFields = fields
                 for field in fields {
@@ -673,6 +671,8 @@ class DartProductClass: DartClass {
                         }
                     }
                 }
+
+                toStringImpl(fields: storedFields, fragment: fragment)
             }
 
             fragment.blankLine()
@@ -680,11 +680,6 @@ class DartProductClass: DartClass {
             if !isExternalWitness {
                 ffiFor(fields: fields + storedFields, fragment: fragment)
                 ffiFor(methods: methods, fragment: fragment)
-            }
-
-            if constructor != .reference {
-                toStringImpl(fields: storedFields, fragment: fragment)
-                fragment.blankLine()
             }
 
             if constructor != .reference {

@@ -63,6 +63,9 @@ class Structs_ReferenceStruct extends SwiftReference {
         createRef(Structs_ReferenceStruct(ref))
     );
 
+    @override
+    String toString() => 'Structs_ReferenceStruct(immutable: $immutable, mutable: $mutable, hashCode: $hashCode)';
+
     static CreatedRef ffi_get_immutable(
         UnownedRef obj,
         OutCreatedRef exn

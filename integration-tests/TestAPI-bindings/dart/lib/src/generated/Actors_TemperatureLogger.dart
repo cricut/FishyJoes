@@ -63,6 +63,9 @@ class Actors_TemperatureLogger extends SwiftReference {
         createRef(Actors_TemperatureLogger(ref))
     );
 
+    @override
+    String toString() => 'Actors_TemperatureLogger(label: $label, backwardsLabel: $backwardsLabel)';
+
     static CreatedRef ffi_get_label(
         UnownedRef obj,
         OutCreatedRef exn

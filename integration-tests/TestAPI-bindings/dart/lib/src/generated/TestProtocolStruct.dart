@@ -73,6 +73,8 @@ class TestProtocolStruct implements TestAPI.TestMethodsProtocol, TestAPI.TestPro
             corge: consumeRef(corge),
         ))
     );
+    @override
+    String toString() => 'TestProtocolStruct(corge: $corge)';
 
     static CreatedRef ffi_get_frob(
         UnownedRef obj,
@@ -162,9 +164,6 @@ class TestProtocolStruct implements TestAPI.TestMethodsProtocol, TestAPI.TestPro
             )
         )
     );
-
-    @override
-    String toString() => 'TestProtocolStruct(corge: $corge)';
 
     @override
     bool operator ==(Object other) {

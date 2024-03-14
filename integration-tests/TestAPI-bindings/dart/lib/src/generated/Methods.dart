@@ -63,6 +63,9 @@ class Methods extends SwiftReference {
         createRef(Methods(ref))
     );
 
+    @override
+    String toString() => 'Methods(staticGet: $staticGet, staticGetMethod: $staticGetMethod, staticModifiable: $staticModifiable, staticStored: $staticStored, instanceGet: $instanceGet, garply: $garply, instanceGetMethod: $instanceGetMethod, instanceModifiable: $instanceModifiable, instanceStored: $instanceStored)';
+
     static int ffi_get_staticGet(
         UnownedRef obj,
         OutCreatedRef exn

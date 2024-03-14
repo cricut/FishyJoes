@@ -73,6 +73,8 @@ class Structs_DougStruct {
             str: consumeRef(str),
         ))
     );
+    @override
+    String toString() => 'Structs_DougStruct(str: $str)';
 
     static CreatedRef ffi_get_str(
         UnownedRef obj,
@@ -113,9 +115,6 @@ class Structs_DougStruct {
             )
         )
     );
-
-    @override
-    String toString() => 'Structs_DougStruct(str: $str)';
 
     @override
     bool operator ==(Object other) {

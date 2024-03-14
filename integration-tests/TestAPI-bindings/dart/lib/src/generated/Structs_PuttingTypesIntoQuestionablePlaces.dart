@@ -63,6 +63,9 @@ class Structs_PuttingTypesIntoQuestionablePlaces extends SwiftReference {
         createRef(Structs_PuttingTypesIntoQuestionablePlaces(ref))
     );
 
+    @override
+    String toString() => 'Structs_PuttingTypesIntoQuestionablePlaces()';
+
     static CreatedRef ffi_create(
         UnownedRef obj,
         OutCreatedRef exn

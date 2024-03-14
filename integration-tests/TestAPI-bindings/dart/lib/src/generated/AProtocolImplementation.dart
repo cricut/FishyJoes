@@ -78,6 +78,8 @@ class AProtocolImplementation implements TestAPI.AProtocol {
             baz: baz,
         ))
     );
+    @override
+    String toString() => 'AProtocolImplementation(foo: $foo, baz: $baz)';
 
     static CreatedRef ffi_get_foo(
         UnownedRef obj,
@@ -122,9 +124,6 @@ class AProtocolImplementation implements TestAPI.AProtocol {
             )
         )
     );
-
-    @override
-    String toString() => 'AProtocolImplementation(foo: $foo, baz: $baz)';
 
     @override
     bool operator ==(Object other) {
