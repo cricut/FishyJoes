@@ -241,10 +241,8 @@ struct TranslatedProtocol: TranslatedType {
                     fragment.output("self.wrapped = wrapped")
                 }
 
-                fragment.blankLine()
-
                 for variable in fields {
-                    fragment.output()
+                    fragment.blankLine()
                     let name = variable.name
                     let type = variable.typeName.better.name
                     fragment.outputBlock("public var \(name): \(type) {") {
