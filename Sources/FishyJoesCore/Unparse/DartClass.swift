@@ -1257,7 +1257,7 @@ class DartProtocolClass: DartClass {
             // They will be handled by the ExternalWitness for that Protocol
             // except for default Implementations!
             if method.isDefaultImplementation {
-                result["__iota_\(method.mangledName)"] = (args: params, return: method.returnType, isDefaultImplementation: (self is DartProtocolClass))
+                result["__iota_\(method.mangledName)"] = (args: params, return: method.returnType, isDefaultImplementation: true)
             }
         }
 
