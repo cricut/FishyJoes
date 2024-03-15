@@ -41,6 +41,7 @@ const init = async () => {
   __MODULE_DEPENDENCY__Extensions.applyExtensions(library);
   __MODULE_NAME__Extensions.applyExtensions(library);
   return library;
+  // return { library, instance };
 };
 
 export {
