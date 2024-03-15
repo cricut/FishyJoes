@@ -1,14 +1,14 @@
 // swift-tools-version:5.6
 
-import PackageDescription
 import Foundation
+import PackageDescription
 
 let env = ProcessInfo.processInfo.environment
 let disableGeneration = env["DISABLE_GENERATION"] == "1"
 let wasmCompatibleOnly = env["WASM_ONLY"] == "1"
 let androidCompatibleOnly = env["ANDROID_COMPATIBLE_ONLY"] == "1"
 let javaHome = env["JAVA_HOME_11_X64"] ?? env["JAVA_HOME"]
-let extraLibPath = env["EXTRA_LIBPATH"]?.split(separator:";") ?? []
+let extraLibPath = env["EXTRA_LIBPATH"]?.split(separator: ";") ?? []
 
 func generationEnabled<T>(_ things: @autoclosure () -> [T]) -> [T] {
     #if os(macOS)
@@ -41,7 +41,8 @@ let package = Package(
             P.library(name: "FishyJoesIotaRuntime", type: .dynamic, targets: ["FishyJoesIotaRuntime"]),
             P.library(name: "JavaRuntimeTestHarness", type: .dynamic, targets: ["JavaRuntimeTestHarness"]),
         ]
-    ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] : [
+    ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] :
+        [
             P.executable(name: "fishy-joes", targets: ["FishyJoesExecuteMain"]),
         ]
     ) + generationEnabled(
@@ -53,7 +54,6 @@ let package = Package(
         [
             D.package(
                 url: "https://github.com/krzysztofzablocki/Sourcery", branch: "2.0.2"
-//                 path: "../Sourcery"
             ),
         ]
     ) + wasmIncompatible(
@@ -92,13 +92,13 @@ let package = Package(
         T.target(
             name: "NodeAPI",
             linkerSettings: [
-                // On Windows, node.lib must be in the LIB environment variable when building FishyJoes, the runtime, or bindings libraries, via "swift build"
-                // Use the EXTRA_LIBPATH environment variable to cause "swift build" to add paths to LIB when envoked
-                // When invoked via "fishy-joes build", node.lib will be downloaded and put in a directory accessible by the LIB environment variable as part of the build process
+                // On Windows, node.lib must be in the library path list when building FishyJoes, the runtime, or bindings libraries
+                // Use the EXTRA_LIBPATH environment variable to cause "swift build" to add paths to the library path list when envoked
+                // When invoked via "fishy-joes build", node.lib will be downloaded and put in an accessible directory as part of the build process
                 .linkedLibrary("node.lib", .when(platforms: [.windows])),
                 .linkedLibrary("delayimp.lib", .when(platforms: [.windows])),
                 .unsafeFlags(
-                    Array(extraLibPath.map { ["-Xlinker", "/LIBPATH:\($0)"] }.joined()),
+                    extraLibPath.flatMap { ["-Xlinker", "/LIBPATH:\($0)"] },
                     .when(platforms: [.windows])
                 )
             ]

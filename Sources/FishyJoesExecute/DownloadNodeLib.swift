@@ -8,7 +8,7 @@ public struct DownloadNodeLib: ParsableCommand {
     @Option(name: .long, help: "location of the node lib to download")
     var url: String?
 
-    @Option(name: .long, help: "directory to which the download should be placed")
+    @Option(name: .long, help: "directory in which the downloaded file should be placed")
     var destination: String?
 
     @Flag(name: .long, help: "download even if already present")
@@ -24,11 +24,10 @@ public struct DownloadNodeLib: ParsableCommand {
     static public func download(
         url: String? = nil,
         destination: String? = nil,
-        force: Bool? = nil
+        force: Bool = false
     ) throws {
         let url = url ?? "https://nodejs.org/dist/latest-v16.x/win-x64/node.lib"
         let destination = destination ?? ".build/lib/node.lib"
-        let force = force ?? false
         if force || !cmd("test", "-f", destination).runBool() {
             try cmd("mkdir", "-p", (destination as NSString).deletingLastPathComponent).run()
             try cmd("curl", url, "--output", destination).run()
