@@ -372,7 +372,8 @@ extension CodeGen {
                             localPath: String,
                             definitionsPath: String,
                             extensionsPath: String,
-                            exports: [String],
+                            jsExports: [String],
+                            tsExports: [String],
                             nativeLibName: String,
                             wasmMainShimName: String,
                             nodeShimLibName: String,
@@ -386,7 +387,8 @@ extension CodeGen {
                         localPath: runtimePath,
                         definitionsPath: "\(runtimePath)\(ps)fishyjoes-runtime-common",
                         extensionsPath: "\(runtimePath)\(ps)fishyjoes-runtime-common",
-                        exports: ["Optional", "Runtime"],
+                        jsExports: ["Runtime"],
+                        tsExports: ["Optional", "Runtime"],
                         nativeLibName: "FishyJoesNodeRuntime",
                         wasmMainShimName: "Runtime_WasmMainShim.wasm",
                         nodeShimLibName: "Runtime-node-shim",
@@ -406,7 +408,8 @@ extension CodeGen {
                             localPath: dependency.localPath,
                             definitionsPath: "\(dependency.localPath)\(ps)Sources\(ps)Generated\(ps)NodeInterface",
                             extensionsPath: "ts",
-                            exports: [moduleName],
+                            jsExports: [moduleName],
+                            tsExports: [moduleName],
                             nativeLibName: "\(moduleName)-node",
                             wasmMainShimName: "\(moduleName)_WasmMainShim.wasm",
                             nodeShimLibName: "\(moduleName)-node-shim",
@@ -422,7 +425,8 @@ extension CodeGen {
                         localPath: "Sources\(ps)Generated\(ps)NodeInterface",
                         definitionsPath: "Sources\(ps)Generated\(ps)NodeInterface",
                         extensionsPath: "ts",
-                        exports: [config.module],
+                        jsExports: [config.module],
+                        tsExports: [config.module],
                         nativeLibName: "\(config.module)-node",
                         wasmMainShimName: "\(config.module)_WasmMainShim.wasm",
                         nodeShimLibName: "\(config.module)-node-shim",
@@ -510,7 +514,7 @@ extension CodeGen {
                         // Create the required Javascript files for loading the module's native library from node
                         var moduleDotJS: [String] = []
                         for dependency in nodeDependencies {
-                            moduleDotJS.append("export { \(dependency.exports.joined(separator: ", ")) } from '@cricut/\(dependency.npmPackageName)';")
+                            moduleDotJS.append("export { \(dependency.jsExports.joined(separator: ", ")) } from '@cricut/\(dependency.npmPackageName)';")
                         }
                         moduleDotJS.append("import { createRequire } from 'module';")
                         moduleDotJS.append("const require = createRequire(import.meta.url);")
@@ -555,8 +559,8 @@ extension CodeGen {
                         }
                         if platform == .node {
                             // Import and re-export the dependency exports
-                            definitions.append("import { \(dependency.exports.joined(separator: ", ")) } from '@cricut/\(dependency.npmPackageName)';")
-                            definitions.append("export { \(dependency.exports.joined(separator: ", ")) } from '@cricut/\(dependency.npmPackageName)';")
+                            definitions.append("import { \(dependency.tsExports.joined(separator: ", ")) } from '@cricut/\(dependency.npmPackageName)';")
+                            definitions.append("export { \(dependency.tsExports.joined(separator: ", ")) } from '@cricut/\(dependency.npmPackageName)';")
                         }
                     }
                     definitions.append("")
