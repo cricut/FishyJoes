@@ -73,13 +73,6 @@ class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsPro
             peekRef<TestProtocolClass>(obj).corge
         )
     );
-    static void ffi_set_corge(
-        UnownedRef obj,
-        ConsumedRef newValue,
-        OutCreatedRef exn
-    ) => catching(exn, () {
-        peekRef<TestProtocolClass>(obj).corge = consumeRef<String>(newValue);
-    });
 
     static CreatedRef ffi_get_flarp(
         UnownedRef obj,
@@ -89,13 +82,6 @@ class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsPro
             peekRef<TestProtocolClass>(obj).flarp
         )
     );
-    static void ffi_set_flarp(
-        UnownedRef obj,
-        ConsumedRef newValue,
-        OutCreatedRef exn
-    ) => catching(exn, () {
-        peekRef<TestProtocolClass>(obj).flarp = consumeRef<String?>(newValue);
-    });
 
     static CreatedRef ffi_get_frob(
         UnownedRef obj,

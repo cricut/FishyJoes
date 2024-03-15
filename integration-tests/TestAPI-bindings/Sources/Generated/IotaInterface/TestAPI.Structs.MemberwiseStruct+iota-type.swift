@@ -11,6 +11,7 @@ public func TestAPI_Structs_MemberwiseStruct_setup(
     envRef: EnvRef,
     constructorMethod: @escaping TestAPI.Structs.MemberwiseStruct._ConstructorMethod,
     _ immutableGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
+    _ immutableSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
     _ mutableGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
     _ mutableSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
     _ exn: foreignOutExn
@@ -19,12 +20,14 @@ public func TestAPI_Structs_MemberwiseStruct_setup(
     if TestAPI.Structs.MemberwiseStruct._constructorMethod.isInitialized(env) { return }
     TestAPI.Structs.MemberwiseStruct._constructorMethod[env] = constructorMethod
     TestAPI.Structs.MemberwiseStruct._immutableGetter[env] = immutableGetter
+    TestAPI.Structs.MemberwiseStruct._immutableSetter[env] = immutableSetter
     TestAPI.Structs.MemberwiseStruct._mutableGetter[env] = mutableGetter
     TestAPI.Structs.MemberwiseStruct._mutableSetter[env] = mutableSetter
 }
 
 extension TestAPI.Structs.MemberwiseStruct: IotaMutator {
     fileprivate static let _immutableGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
+    fileprivate static let _immutableSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
     fileprivate static let _mutableGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
     fileprivate static let _mutableSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
     public typealias _ConstructorMethod = @convention(c) (
@@ -58,6 +61,11 @@ extension TestAPI.Structs.MemberwiseStruct: IotaMutator {
     }
 
     public static func mutateIota(_ this: foreignObject, to value: Self, env: Env) throws {
+        try env.check { exn in _immutableSetter[env](
+            this,
+            try Swift.String.toIota(value.immutable, env: env),
+            exn
+        )}
         try env.check { exn in _mutableSetter[env](
             this,
             try Swift.String.toIota(value.mutable, env: env),

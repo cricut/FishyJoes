@@ -395,7 +395,7 @@ extension DartClass.DartType: CustomStringConvertible {
 }
 
 extension DartClass {
-    func ffiFor(fields: [Variable], fragment: SourceFragment) {
+    func ffiFor(fields: [Variable], fragment: SourceFragment, isReference: Bool) {
         for field in fields {
             let isObject = field.type.isObject
 
@@ -429,8 +429,8 @@ extension DartClass {
                     fragment.output("peekRef<\(unqualifiedName)>(obj).\(field.name)")
                 }
             }
-            if field.isMutable,
-               field.isPubliclyWritable {
+            if !isReference,
+                field.isMutable {
                 fragment.outputBlock("static void ffi_set_\(field.name)(", newLineTerminated: false) {
                     fragment.output("UnownedRef obj,")
                     fragment.output("\(field.type.ffiConsumedName) newValue,")
@@ -677,7 +677,7 @@ class DartProductClass: DartClass {
             fragment.blankLine()
 
             if !isExternalWitness {
-                ffiFor(fields: fields + storedFields, fragment: fragment)
+                ffiFor(fields: fields + storedFields, fragment: fragment, isReference: constructor == .reference)
                 ffiFor(methods: methods, fragment: fragment)
             }
 
@@ -1213,7 +1213,7 @@ class DartProtocolClass: DartClass {
 
         let ffiHooksName = "\(unqualifiedName)_FfiHooks"
         fragment.outputBlock("extension \(ffiHooksName) on \(unqualifiedName) {") {
-            ffiFor(fields: fields, fragment: fragment)
+            ffiFor(fields: fields, fragment: fragment, isReference: false)
             ffiFor(methods: normalMethods, fragment: fragment)
         }
     }

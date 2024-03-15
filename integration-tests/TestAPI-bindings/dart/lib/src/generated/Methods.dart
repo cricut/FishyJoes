@@ -85,13 +85,6 @@ class Methods extends SwiftReference {
     ) => catching(exn, () =>
         Methods.staticModifiable
     ) ?? 0;
-    static void ffi_set_staticModifiable(
-        UnownedRef obj,
-        int newValue,
-        OutCreatedRef exn
-    ) => catching(exn, () {
-        Methods.staticModifiable = newValue;
-    });
 
     static int ffi_get_staticStored(
         UnownedRef obj,
@@ -99,13 +92,6 @@ class Methods extends SwiftReference {
     ) => catching(exn, () =>
         Methods.staticStored
     ) ?? 0;
-    static void ffi_set_staticStored(
-        UnownedRef obj,
-        int newValue,
-        OutCreatedRef exn
-    ) => catching(exn, () {
-        Methods.staticStored = newValue;
-    });
 
     static int ffi_get_instanceGet(
         UnownedRef obj,
@@ -134,13 +120,6 @@ class Methods extends SwiftReference {
     ) => catching(exn, () =>
         peekRef<Methods>(obj).instanceModifiable
     ) ?? 0;
-    static void ffi_set_instanceModifiable(
-        UnownedRef obj,
-        int newValue,
-        OutCreatedRef exn
-    ) => catching(exn, () {
-        peekRef<Methods>(obj).instanceModifiable = newValue;
-    });
 
     static int ffi_get_instanceStored(
         UnownedRef obj,
@@ -148,13 +127,6 @@ class Methods extends SwiftReference {
     ) => catching(exn, () =>
         peekRef<Methods>(obj).instanceStored
     ) ?? 0;
-    static void ffi_set_instanceStored(
-        UnownedRef obj,
-        int newValue,
-        OutCreatedRef exn
-    ) => catching(exn, () {
-        peekRef<Methods>(obj).instanceStored = newValue;
-    });
 
     static CreatedRef ffi_create(
         UnownedRef obj,

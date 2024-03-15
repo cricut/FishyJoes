@@ -564,6 +564,7 @@ final ensureLoaded = (() {
             Env env,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MemberwiseStructConstructor>> constructor,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MemberwiseStruct_immutableGetter>> get_immutable,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MemberwiseStruct_immutableSetter>> set_immutable,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MemberwiseStruct_mutableGetter>> get_mutable,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MemberwiseStruct_mutableSetter>> set_mutable,
             OutCreatedRef exn
@@ -572,6 +573,7 @@ final ensureLoaded = (() {
             Env env,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MemberwiseStructConstructor>> constructor,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MemberwiseStruct_immutableGetter>> get_immutable,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MemberwiseStruct_immutableSetter>> set_immutable,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MemberwiseStruct_mutableGetter>> get_mutable,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_MemberwiseStruct_mutableSetter>> set_mutable,
             OutCreatedRef exn
@@ -6515,6 +6517,7 @@ final ensureLoaded = (() {
                 Loader.shared.env,
                 ffi.Pointer.fromFunction(TestAPI.Structs_MemberwiseStruct.ffi_constructor),
                 ffi.Pointer.fromFunction(TestAPI.Structs_MemberwiseStruct.ffi_get_immutable),
+                ffi.Pointer.fromFunction(TestAPI.Structs_MemberwiseStruct.ffi_set_immutable),
                 ffi.Pointer.fromFunction(TestAPI.Structs_MemberwiseStruct.ffi_get_mutable),
                 ffi.Pointer.fromFunction(TestAPI.Structs_MemberwiseStruct.ffi_set_mutable),
                 exn

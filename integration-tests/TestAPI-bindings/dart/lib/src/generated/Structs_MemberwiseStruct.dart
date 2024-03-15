@@ -89,6 +89,13 @@ class Structs_MemberwiseStruct {
             peekRef<Structs_MemberwiseStruct>(obj).immutable
         )
     );
+    static void ffi_set_immutable(
+        UnownedRef obj,
+        ConsumedRef newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        peekRef<Structs_MemberwiseStruct>(obj)._immutable = consumeRef<String>(newValue);
+    });
 
     static CreatedRef ffi_get_mutable(
         UnownedRef obj,

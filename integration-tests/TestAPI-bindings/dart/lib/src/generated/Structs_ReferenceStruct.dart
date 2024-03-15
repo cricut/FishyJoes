@@ -82,13 +82,6 @@ class Structs_ReferenceStruct extends SwiftReference {
             peekRef<Structs_ReferenceStruct>(obj).mutable
         )
     );
-    static void ffi_set_mutable(
-        UnownedRef obj,
-        ConsumedRef newValue,
-        OutCreatedRef exn
-    ) => catching(exn, () {
-        peekRef<Structs_ReferenceStruct>(obj).mutable = consumeRef<String>(newValue);
-    });
 
     static int ffi_get_hashCode(
         UnownedRef obj,
