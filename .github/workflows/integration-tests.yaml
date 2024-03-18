@@ -300,6 +300,8 @@ jobs:
         run: |
           $ErrorActionPreference = 'SilentlyContinue'
           swift package resolve
+          swift package resolve
+          swift package resolve
       
       - name: Build FishyJoesNodeRuntime
         shell: bash

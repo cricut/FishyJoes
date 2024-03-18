@@ -153,6 +153,8 @@ jobs:
         run: |
           $ErrorActionPreference = 'SilentlyContinue'
           swift package resolve
+          swift package resolve
+          swift package resolve
       
       - name: Build FishyJoesJavaRuntime
         shell: bash
