@@ -148,10 +148,11 @@ jobs:
           java-version: 11
 
       - name: Pre-resolve Required SwiftPM Packages
+        continue-on-error: true
         shell: pwsh
         run: |
-          # HACK: Uses --disable-dependency-cache because otherwise on Swift 5.9.1 resolution sometimes fails with "A file with the same name already exists."
-          swift package resolve --disable-dependency-cache
+          $ErrorActionPreference = 'SilentlyContinue'
+          swift package resolve
       
       - name: Build FishyJoesJavaRuntime
         shell: bash

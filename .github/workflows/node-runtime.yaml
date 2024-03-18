@@ -230,11 +230,13 @@ jobs:
           tag: 5.9.1-RELEASE
 
       - name: Pre-resolve Required SwiftPM Packages
+        continue-on-error: true
         shell: pwsh
         run: |
-          swift package resolve --disable-dependency-cache
+          $ErrorActionPreference = 'SilentlyContinue'
+          swift package resolve
           cd node-runtime/register-module-shim
-          swift package resolve --disable-dependency-cache
+          swift package resolve
 
       - name: Build FishyJoesNodeRuntime
         shell: bash
