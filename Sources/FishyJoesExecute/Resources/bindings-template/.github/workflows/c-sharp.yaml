@@ -146,7 +146,7 @@ jobs:
           branch: swift-5.9.1-release
           tag: 5.9.1-RELEASE
 
-      - name: Fetch FishyJoes Scripts
+      - name: Pre-resolve Required SwiftPM Packages & Fetch FishyJoes Scripts
         shell: pwsh
         run: |
           swift package resolve

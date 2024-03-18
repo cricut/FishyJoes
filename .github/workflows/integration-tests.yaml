@@ -294,6 +294,11 @@ jobs:
 
       - uses: dart-lang/setup-dart@v1
 
+      - name: Pre-resolve Required SwiftPM Packages
+        shell: pwsh
+        run: |
+          swift package resolve
+      
       - name: Build FishyJoesNodeRuntime
         shell: bash
         run: |
@@ -329,11 +334,12 @@ jobs:
         run: |
           set -euxo pipefail
 
+          cd integration-tests/TestAPI-bindings
+          
           # Add dart DLLs to path
           # Someone who understands windows better than I do is welcome to fix this in a better way
           PATH="$(pwd)/dart/windows/native:$PATH"
 
-          cd integration-tests/TestAPI-bindings
           "$SWIFT" run -- fishy-joes --dart build test
 
       - name: Build FishyJoesJavaRuntime

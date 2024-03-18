@@ -147,6 +147,11 @@ jobs:
           distribution: zulu
           java-version: 11
 
+      - name: Pre-resolve Required SwiftPM Packages
+        shell: pwsh
+        run: |
+          swift package resolve
+      
       - name: Build FishyJoesJavaRuntime
         shell: bash
         run: |
