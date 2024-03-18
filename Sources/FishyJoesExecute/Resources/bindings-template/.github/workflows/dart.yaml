@@ -141,7 +141,8 @@ jobs:
       - name: Pre-resolve Required SwiftPM Packages & Fetch FishyJoes Scripts
         shell: pwsh
         run: |
-          swift package resolve
+          # HACK: Uses --disable-dependency-cache because otherwise on Swift 5.9.1 resolution sometimes fails with "A file with the same name already exists."
+          swift package resolve --disable-dependency-cache
           echo SWIFT_WINDOWS_BASH=".build/checkouts/FishyJoes/scripts/swift-shim.ps1" >> $env:GITHUB_ENV
 
       - name: Build library

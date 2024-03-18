@@ -232,9 +232,9 @@ jobs:
       - name: Pre-resolve Required SwiftPM Packages
         shell: pwsh
         run: |
-          swift package resolve
+          swift package resolve --disable-dependency-cache
           cd node-runtime/register-module-shim
-          swift package resolve
+          swift package resolve --disable-dependency-cache
 
       - name: Build FishyJoesNodeRuntime
         shell: bash

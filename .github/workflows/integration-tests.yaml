@@ -297,7 +297,8 @@ jobs:
       - name: Pre-resolve Required SwiftPM Packages
         shell: pwsh
         run: |
-          swift package resolve
+          # HACK: Uses --disable-dependency-cache because otherwise on Swift 5.9.1 resolution sometimes fails with "A file with the same name already exists."
+          swift package resolve --disable-dependency-cache
       
       - name: Build FishyJoesNodeRuntime
         shell: bash
