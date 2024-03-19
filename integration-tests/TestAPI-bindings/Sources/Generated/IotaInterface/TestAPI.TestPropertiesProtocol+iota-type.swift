@@ -79,5 +79,7 @@ extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: IotaMutator 
     }
 
     public static func mutateIota(_ this: foreignObject, to value: SwiftType, env: Env) throws {
+        let box = try Box<SwiftType>.peekIota(this, env: env)
+        box.value = value
     }
 }

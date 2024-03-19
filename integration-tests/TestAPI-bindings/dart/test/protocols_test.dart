@@ -83,14 +83,14 @@ void main() {
 
     test('testMutatingCounterProtocol', () {
         final mc1 = MutatingCounter(count: 42);
-        // print("mc: ${mc}");
+        expect(mc1.count, equals(42));
+        mc1.tick();
+        expect(mc1.count, equals(43));
 
-        // mc.tick();
-        // print("mc: ${mc}");
         var mc2 = mc1.witness();
-        print("mc2: ${mc2}");
+        expect(mc2.count, equals(129));
         mc2.tick();
-        print("mc2: ${mc2}");
+        expect(mc2.count, equals(130));
       });
   });
 

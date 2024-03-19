@@ -267,8 +267,6 @@ typedef _TestAPI_MutatingCounterConstructor = CreatedRef Function(
 );
 typedef _TestAPI_MutatingCounter_countGetter = ffi.Int Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_MutatingCounter_countSetter = ffi.Void Function(UnownedRef obj, ffi.Int newValue, OutCreatedRef exn);
-typedef _TestAPI_MutatingCounter_tick = ffi.Void Function(UnownedRef obj,  OutCreatedRef exn);
-typedef _TestAPI_MutatingCounter_witness = CreatedRef Function(UnownedRef obj,  OutCreatedRef exn);
 typedef TestAPI_SimpleEnum_new_red = CreatedRef Function(
     OutCreatedRef _exn
 );

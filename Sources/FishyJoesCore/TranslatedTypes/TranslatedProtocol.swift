@@ -549,6 +549,11 @@ struct TranslatedProtocol: TranslatedType {
                         }
                     }
                 }
+                let mutableFields = fields.filter { $0.isMutable }
+                if mutableFields.isEmpty {
+                    fragment.output("let box = try Box<SwiftType>.peekIota(this, env: env)")
+                    fragment.output("box.value = value")
+                }
             }
         }
 
