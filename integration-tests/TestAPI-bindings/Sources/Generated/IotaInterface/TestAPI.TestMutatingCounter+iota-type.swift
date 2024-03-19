@@ -49,15 +49,10 @@ extension TestAPI.TestMutatingCounter: IotaMutator {
     }
 
     public static func mutateIota(_ this: foreignObject, to value: Self, env: Env) throws {
-        do {
-            let box = try Box<SwiftType>.peekIota(this, env: env)
-            box.value = value
-        } catch {
-            try env.check { exn in _countSetter[env](
-                this,
-                try Swift.Int.toIota(value.count, env: env),
-                exn
-            )}
-        }
+        try env.check { exn in _countSetter[env](
+            this,
+            try Swift.Int.toIota(value.count, env: env),
+            exn
+        )}
     }
 }
