@@ -61,15 +61,20 @@ extension TestAPI.AProtocolImplementation: IotaMutator {
     }
 
     public static func mutateIota(_ this: foreignObject, to value: Self, env: Env) throws {
-        try env.check { exn in _fooSetter[env](
-            this,
-            try Swift.String.toIota(value.foo, env: env),
-            exn
-        )}
-        try env.check { exn in _bazSetter[env](
-            this,
-            try Swift.Bool.toIota(value.baz, env: env),
-            exn
-        )}
+        do {
+            let box = try Box<SwiftType>.peekIota(this, env: env)
+            box.value = value
+        } catch {
+            try env.check { exn in _fooSetter[env](
+                this,
+                try Swift.String.toIota(value.foo, env: env),
+                exn
+            )}
+            try env.check { exn in _bazSetter[env](
+                this,
+                try Swift.Bool.toIota(value.baz, env: env),
+                exn
+            )}
+        }
     }
 }

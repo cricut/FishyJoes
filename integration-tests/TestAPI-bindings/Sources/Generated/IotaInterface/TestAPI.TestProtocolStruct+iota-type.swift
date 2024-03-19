@@ -49,10 +49,15 @@ extension TestAPI.TestProtocolStruct: IotaMutator {
     }
 
     public static func mutateIota(_ this: foreignObject, to value: Self, env: Env) throws {
-        try env.check { exn in _corgeSetter[env](
-            this,
-            try Swift.String.toIota(value.corge, env: env),
-            exn
-        )}
+        do {
+            let box = try Box<SwiftType>.peekIota(this, env: env)
+            box.value = value
+        } catch {
+            try env.check { exn in _corgeSetter[env](
+                this,
+                try Swift.String.toIota(value.corge, env: env),
+                exn
+            )}
+        }
     }
 }
