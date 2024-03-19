@@ -3059,6 +3059,22 @@
                     "_0" : "void"
                   }
                 }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(witness) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "witness",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.TestMutatingCounterProtocol"
+                  }
+                }
               }
             ],
             "name" : "MutatingCounter"
@@ -3269,6 +3285,22 @@
                 "returnType" : {
                   "named" : {
                     "_0" : "void"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(witness) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "witness",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.TestMutatingCounterProtocol"
                   }
                 }
               }

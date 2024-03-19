@@ -32,6 +32,18 @@ struct _IotaTestMutatingCounterProtocol: TestAPI.TestMutatingCounterProtocol {
             env: _iotaWitness.env
         )
     }
+
+    public func witness() throws -> TestMutatingCounterProtocol {
+        try TestAPI_CommonInterface._TestMutatingCounterProtocolConverter.peekIota(
+            try _iotaWitness.env.check { exn in
+                TestAPI_CommonInterface._TestMutatingCounterProtocolConverter._witness[_iotaWitness.env](
+                    _iotaWitness.object,
+                    exn
+                )
+            },
+            env: _iotaWitness.env
+        )
+    }
 }
 
 @_cdecl("TestAPI_CommonInterface__TestMutatingCounterProtocolConverter_setup")
@@ -43,6 +55,10 @@ public func TestAPI_CommonInterface__TestMutatingCounterProtocolConverter_setup(
         foreignObject,
         _ exn: foreignOutExn
     ) -> FishyJoesCommonRuntime.VoidConverter.CType,
+    _ witness: @escaping @convention(c) (
+        foreignObject,
+        _ exn: foreignOutExn
+    ) -> TestAPI_CommonInterface._TestMutatingCounterProtocolConverter.CType,
     _ exn: foreignOutExn
 ) {
     let env = Env(envRef)
@@ -50,6 +66,7 @@ public func TestAPI_CommonInterface__TestMutatingCounterProtocolConverter_setup(
     TestAPI_CommonInterface._TestMutatingCounterProtocolConverter._constructorMethod[env] = constructorMethod
     TestAPI_CommonInterface._TestMutatingCounterProtocolConverter._countGetter[env] = countGetter
     TestAPI_CommonInterface._TestMutatingCounterProtocolConverter._tick[env] = tick
+    TestAPI_CommonInterface._TestMutatingCounterProtocolConverter._witness[env] = witness
 }
 
 extension TestAPI_CommonInterface._TestMutatingCounterProtocolConverter: IotaMutator {
@@ -64,6 +81,10 @@ extension TestAPI_CommonInterface._TestMutatingCounterProtocolConverter: IotaMut
         foreignObject,
         _ exn: foreignOutExn
     ) -> FishyJoesCommonRuntime.VoidConverter.CType>()
+    fileprivate static let _witness = Env.CallbackMap<@convention(c) (
+        foreignObject,
+        _ exn: foreignOutExn
+    ) -> TestAPI_CommonInterface._TestMutatingCounterProtocolConverter.CType>()
 
     public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
         do {

@@ -48,6 +48,19 @@ extension TestAPI.MutatingCounter: NodeMutator {
                     },
                     isStatic: false
                 ),
+                "witness": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "witness", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try TestAPI_CommonInterface._TestMutatingCounterProtocolConverter.toNode(
+                                env.this(converter: TestAPI.MutatingCounter.self).witness(
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                ),
                 "count": (.stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in

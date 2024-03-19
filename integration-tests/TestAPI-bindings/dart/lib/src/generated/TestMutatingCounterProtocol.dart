@@ -56,6 +56,9 @@ abstract class TestMutatingCounterProtocol {
     void tick(
     );
 
+    TestAPI.TestMutatingCounterProtocol witness(
+    );
+
     /// <!-- FishyJoes.export(count) -->
     int get count;
 }
@@ -76,6 +79,16 @@ extension TestMutatingCounterProtocol_FfiHooks on TestMutatingCounterProtocol {
         OutCreatedRef exn
     ) => catching(exn, () =>
         peekRef<TestMutatingCounterProtocol>(obj).tick(
+        )
+    );
+
+    static CreatedRef ffi_witness(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestMutatingCounterProtocol>(obj).witness(
+            )
         )
     );
 }

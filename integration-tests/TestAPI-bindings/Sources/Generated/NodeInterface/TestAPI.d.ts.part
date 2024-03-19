@@ -1024,6 +1024,12 @@ export declare namespace TestAPI {
          */
         tick(
         ): void;
+
+        /**
+         * <!-- FishyJoes.export(witness) -->
+         */
+        witness(
+        ): TestAPI.TestMutatingCounterProtocol;
     }
 
     export type Primitives = never;
@@ -2019,6 +2025,12 @@ export declare namespace TestAPI {
          */
         tick(
         ): void;
+
+        /**
+         * <!-- FishyJoes.export(witness) -->
+         */
+        witness(
+        ): TestAPI.TestMutatingCounterProtocol;
     }
 
     /**

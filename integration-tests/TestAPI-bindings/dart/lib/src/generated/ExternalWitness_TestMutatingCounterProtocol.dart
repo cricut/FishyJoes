@@ -84,11 +84,24 @@ class ExternalWitness_TestMutatingCounterProtocol extends SwiftReference impleme
         )
     ;
 
+    /// <!-- FishyJoes.export(witness) -->
+    TestAPI.TestMutatingCounterProtocol witness(
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            consumeCreatedRef<TestAPI.TestMutatingCounterProtocol>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestMutatingCounterProtocol_witness(Loader.shared.env, _thisHandle.ptr, _exn)))
+        )
+    ;
+
     static late void Function(
         Env env,
         UnownedRef _this,
         OutCreatedRef _exn
     ) f__iota_TestAPI_TestMutatingCounterProtocol_tick;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_TestMutatingCounterProtocol_witness;
     static late int Function(
         Env env,
         UnownedRef _this,

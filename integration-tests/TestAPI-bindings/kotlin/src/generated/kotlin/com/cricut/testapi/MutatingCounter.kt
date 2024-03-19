@@ -18,6 +18,15 @@ data class MutatingCounter(
     private external fun __jni_tick(
     ): kotlin.Unit
 
+    /**
+     * <!-- FishyJoes.export(witness) -->
+     */
+    fun witness(
+    ): com.cricut.testapi.TestMutatingCounterProtocol = __jni_witness()
+    @JvmName("__jni_witness")
+    private external fun __jni_witness(
+    ): com.cricut.testapi.TestMutatingCounterProtocol
+
     companion object {
         init { loadNativeLibs() }
     }

@@ -17,6 +17,12 @@ interface TestMutatingCounterProtocol {
     fun tick(
     ): kotlin.Unit
 
+    /**
+     * <!-- FishyJoes.export(witness) -->
+     */
+    fun witness(
+    ): com.cricut.testapi.TestMutatingCounterProtocol
+
     companion object {
         init {
             loadNativeLibs()

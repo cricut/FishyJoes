@@ -82,11 +82,15 @@ void main() {
       });
 
     test('testMutatingCounterProtocol', () {
-        final mc = MutatingCounter(count: 42);
-        print("mc: ${mc}");
+        final mc1 = MutatingCounter(count: 42);
+        // print("mc: ${mc}");
 
-        mc.tick();
-        print("mc: ${mc}");
+        // mc.tick();
+        // print("mc: ${mc}");
+        var mc2 = mc1.witness();
+        print("mc2: ${mc2}");
+        mc2.tick();
+        print("mc2: ${mc2}");
       });
   });
 

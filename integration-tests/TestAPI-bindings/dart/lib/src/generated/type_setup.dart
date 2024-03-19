@@ -277,6 +277,7 @@ typedef _TestAPI_MutatingCounterConstructor = CreatedRef Function(
 typedef _TestAPI_MutatingCounter_countGetter = ffi.Int Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_MutatingCounter_countSetter = ffi.Void Function(UnownedRef obj, ffi.Int newValue, OutCreatedRef exn);
 typedef _TestAPI_MutatingCounter_tick = ffi.Void Function(UnownedRef obj,  OutCreatedRef exn);
+typedef _TestAPI_MutatingCounter_witness = CreatedRef Function(UnownedRef obj,  OutCreatedRef exn);
 typedef TestAPI_SimpleEnum_new_red = CreatedRef Function(
     OutCreatedRef _exn
 );
@@ -314,6 +315,7 @@ typedef _TestAPI_TestMutatingCounterProtocolConstructor = CreatedRef Function(
 );
 typedef _TestAPI_TestMutatingCounterProtocol_countGetter = ffi.Int Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestMutatingCounterProtocol_tick = ffi.Void Function(UnownedRef obj,  OutCreatedRef exn);
+typedef _TestAPI_TestMutatingCounterProtocol_witness = CreatedRef Function(UnownedRef obj,  OutCreatedRef exn);
 typedef _TestAPI_TestOptionalsProtocolConstructor = CreatedRef Function(
     ffi.Pointer ref,
     OutCreatedRef exn
@@ -931,6 +933,7 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestMutatingCounterProtocolConstructor>> constructor,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestMutatingCounterProtocol_countGetter>> get_count,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestMutatingCounterProtocol_tick>> tick,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestMutatingCounterProtocol_witness>> witness,
             OutCreatedRef exn
         ),
         void Function(
@@ -938,6 +941,7 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestMutatingCounterProtocolConstructor>> constructor,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestMutatingCounterProtocol_countGetter>> get_count,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestMutatingCounterProtocol_tick>> tick,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestMutatingCounterProtocol_witness>> witness,
             OutCreatedRef exn
         )
     >('TestAPI_CommonInterface__TestMutatingCounterProtocolConverter_setup');
@@ -2013,6 +2017,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_MutatingCounter_tick");
+    TestAPI.MutatingCounter.f__iota_TestAPI_MutatingCounter_witness = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_MutatingCounter_witness");
     TestAPI.Primitives.f__iota_TestAPI_Primitives_echoBool = dylib.lookupFunction<
         ffi.Bool Function(
             Env env,
@@ -2725,6 +2741,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_TestMutatingCounterProtocol_tick");
+    TestAPI.ExternalWitness_TestMutatingCounterProtocol.f__iota_TestAPI_TestMutatingCounterProtocol_witness = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestMutatingCounterProtocol_witness");
     TestAPI.ExternalWitness_TestOptionalsProtocol.f__iota_TestAPI_TestOptionalsProtocol_spqr = dylib.lookupFunction<
         ffi.Int Function(
             Env env,
@@ -6902,6 +6930,7 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestMutatingCounterProtocol.ffi_new),
                 ffi.Pointer.fromFunction(TestAPI.TestMutatingCounterProtocol_FfiHooks.ffi_get_count, 0),
                 ffi.Pointer.fromFunction(TestAPI.TestMutatingCounterProtocol_FfiHooks.ffi_tick),
+                ffi.Pointer.fromFunction(TestAPI.TestMutatingCounterProtocol_FfiHooks.ffi_witness),
                 exn
             );
         });

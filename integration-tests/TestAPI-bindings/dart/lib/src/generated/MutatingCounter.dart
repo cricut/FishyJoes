@@ -101,6 +101,16 @@ class MutatingCounter {
         )
     );
 
+    static CreatedRef ffi_witness(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<MutatingCounter>(obj).witness(
+            )
+        )
+    );
+
     @override
     bool operator ==(Object other) {
         return identical(other, this) ||
@@ -133,9 +143,22 @@ class MutatingCounter {
         )
     ;
 
+    /// <!-- FishyJoes.export(witness) -->
+    TestAPI.TestMutatingCounterProtocol witness(
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            consumeCreatedRef<TestAPI.TestMutatingCounterProtocol>(check((OutCreatedRef _exn) => f__iota_TestAPI_MutatingCounter_witness(Loader.shared.env, _thisHandle.ptr, _exn)))
+        )
+    ;
+
     static late void Function(
         Env env,
         UnownedRef _this,
         OutCreatedRef _exn
     ) f__iota_TestAPI_MutatingCounter_tick;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_MutatingCounter_witness;
 }

@@ -38,6 +38,21 @@ struct _JavaTestMutatingCounterProtocol: TestAPI.TestMutatingCounterProtocol {
             env: env
         )
     }
+
+    static var _witnessMethodID: jmethodID?
+    public func witness() throws -> TestMutatingCounterProtocol {
+        let env = try Env.acquireJVMThread(on: _javaWitness.vm)
+        defer {
+            try? Env.relinquishJVMThread(on: _javaWitness.vm)
+        }
+        return try TestAPI_CommonInterface._TestMutatingCounterProtocolConverter.fromJava(
+            env.CallObjectMethod(
+                _javaWitness.object,
+                Self._witnessMethodID
+            ),
+            env: env
+        )
+    }
 }
 
 extension TestAPI_CommonInterface._TestMutatingCounterProtocolConverter: JavaMutator {
@@ -70,5 +85,6 @@ extension TestAPI_CommonInterface._TestMutatingCounterProtocolConverter: JavaMut
         externalWitnessConstructor = try env.GetMethodID(externalWitnessClass, "<init>", "(J)V")
         _JavaTestMutatingCounterProtocol._countGetMethodID = try env.GetMethodID(javaClass, "getCount", "()J")
         _JavaTestMutatingCounterProtocol._tickMethodID = try env.GetMethodID(javaClass, "tick", "()V")
+        _JavaTestMutatingCounterProtocol._witnessMethodID = try env.GetMethodID(javaClass, "witness", "()Lcom/cricut/testapi/TestMutatingCounterProtocol;")
     }
 }
