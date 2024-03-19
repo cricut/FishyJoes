@@ -58,8 +58,8 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
-/// <!-- FishyJoes.export(TestMutatingCounter) -->
-class TestMutatingCounter {
+/// <!-- FishyJoes.export(TestMutatingCounter, conformances: [TestMutatingCounterProtocol]) -->
+class TestMutatingCounter implements TestAPI.TestMutatingCounterProtocol {
     int _count;
     int get count => _count;
 

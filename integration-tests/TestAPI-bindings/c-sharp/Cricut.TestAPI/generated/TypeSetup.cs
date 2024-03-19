@@ -493,21 +493,6 @@ namespace Cricut.TestAPI {
             out CreatedRef _exn
         );
 
-        delegate CreatedRef _TestAPI_TestMutatingCounterConstructor(
-            nint count,
-            out CreatedRef exn
-        );
-        delegate nint _TestAPI_TestMutatingCounter_countGetter(UnownedRef obj, out CreatedRef exn);
-        delegate void _TestAPI_TestMutatingCounter_countSetter(UnownedRef obj, nint newValue, out CreatedRef exn);
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void TestAPI_TestMutatingCounter_setup(
-            IntPtr envRef,
-            _TestAPI_TestMutatingCounterConstructor constructor,
-            _TestAPI_TestMutatingCounter_countGetter get_count,
-            _TestAPI_TestMutatingCounter_countSetter set_count,
-            out CreatedRef _exn
-        );
-
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Tuples_setup(
             IntPtr envRef,
@@ -2301,24 +2286,6 @@ namespace Cricut.TestAPI {
                 Console.WriteLine("setting up TestAPI.Structs...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Structs_setup(
                     Loader.env,
-                    out exn
-                ));
-            });
-            Once("setup_TestAPI.TestMutatingCounter", () => {
-                Console.WriteLine("setting up TestAPI.TestMutatingCounter...");
-                Utilities.Check((out CreatedRef exn) => TestAPI_TestMutatingCounter_setup(
-                    Loader.env,
-                    bag<_TestAPI_TestMutatingCounterConstructor>((nint count, out CreatedRef exn) => Catching(out exn, () => {
-                        return new CreatedRef(new Cricut.TestAPI.TestMutatingCounter(
-                            count
-                        ));
-                    })),
-                    bag<_TestAPI_TestMutatingCounter_countGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
-                        obj.Peek<Cricut.TestAPI.TestMutatingCounter>().Count
-                    )),
-                    bag<_TestAPI_TestMutatingCounter_countSetter>((UnownedRef obj, nint newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.TestMutatingCounter>().Count = newValue;
-                    })),
                     out exn
                 ));
             });

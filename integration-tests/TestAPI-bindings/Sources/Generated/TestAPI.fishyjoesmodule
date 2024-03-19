@@ -3179,7 +3179,7 @@
               }
             },
             "documentation" : [
-              "<!-- FishyJoes.export(TestMutatingCounter) -->"
+              "<!-- FishyJoes.export(TestMutatingCounter, conformances: [TestMutatingCounterProtocol]) -->"
             ],
             "extends" : [
 

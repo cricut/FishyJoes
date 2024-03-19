@@ -1989,7 +1989,7 @@ export declare namespace TestAPI {
     }
 
     /**
-     * <!-- FishyJoes.export(TestMutatingCounter) -->
+     * <!-- FishyJoes.export(TestMutatingCounter, conformances: [TestMutatingCounterProtocol]) -->
      */
     export class TestMutatingCounter {
         constructor(count: number)

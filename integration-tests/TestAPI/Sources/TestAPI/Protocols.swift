@@ -228,7 +228,7 @@ public protocol TestMutatingCounterProtocol {
     func witness() throws -> TestMutatingCounterProtocol
 }
 
-/// <!-- FishyJoes.export(TestMutatingCounter) -->
+/// <!-- FishyJoes.export(TestMutatingCounter, conformances: [TestMutatingCounterProtocol]) -->
 public struct TestMutatingCounter: TestMutatingCounterProtocol {
     public private(set) var count: Int
     
