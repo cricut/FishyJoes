@@ -92,6 +92,35 @@ void main() {
         mc2.tick();
         expect(mc2.count, equals(130));
       });
-  });
 
+    test('testProtocolDartImpl', () {
+      var a = ProtocolDartImpl(foo: 'oof!', baz: false);
+      expect(a.foo, equals("oof!"));
+      a.foo = "ofo!";
+      expect(a.foo, equals("ofo!"));
+      expect(a.baz, equals(false));
+    });
+  });
+}
+
+class ProtocolDartImpl implements AProtocol {
+  @override
+  bool baz;
+
+  @override
+  String foo;
+
+  ProtocolDartImpl({
+        required String foo,
+        required bool baz
+    }):
+        this.foo = foo,
+        this.baz = baz;
+
+  @override
+  AProtocol bar(int x, int y) {
+    final div = x / y;
+    final a = ProtocolDartImpl(foo: "$x / $y = $div", baz: x != y);
+    return a;
+  }
 }
