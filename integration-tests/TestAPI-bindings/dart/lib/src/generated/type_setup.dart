@@ -55,13 +55,11 @@ typedef _Foundation_AttributedString_PuttingTypesIntoQuestionablePlacesConstruct
     OutCreatedRef exn
 );
 typedef _Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_xGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall = ffi.Int Function(UnownedRef obj,  OutCreatedRef exn);
 typedef _Swift_String_PuttingTypesIntoQuestionablePlacesConstructor = CreatedRef Function(
     ConsumedRef x,
     OutCreatedRef exn
 );
 typedef _Swift_String_PuttingTypesIntoQuestionablePlaces_xGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Swift_String_PuttingTypesIntoQuestionablePlaces_testCall = ffi.Int Function(UnownedRef obj,  OutCreatedRef exn);
 typedef TestAPI_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_new_thing = CreatedRef Function(
     OutCreatedRef _exn
 );
@@ -189,18 +187,12 @@ typedef _TestAPI_Structs_MemberwiseStruct_immutableGetter = CreatedRef Function(
 typedef _TestAPI_Structs_MemberwiseStruct_immutableSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
 typedef _TestAPI_Structs_MemberwiseStruct_mutableGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_Structs_MemberwiseStruct_mutableSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
-typedef _TestAPI_Structs_MemberwiseStruct_asyncGetMutable = CreatedRef Function(UnownedRef obj,  OutCreatedRef exn);
-typedef _TestAPI_Structs_MemberwiseStruct_init = CreatedRef Function(UnownedRef obj,  OutCreatedRef exn);
 typedef _TestAPI_Structs_MutableStructConstructor = CreatedRef Function(
     ffi.Int i,
     OutCreatedRef exn
 );
 typedef _TestAPI_Structs_MutableStruct_iGetter = ffi.Int Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_Structs_MutableStruct_iSetter = ffi.Void Function(UnownedRef obj, ffi.Int newValue, OutCreatedRef exn);
-typedef _TestAPI_Structs_MutableStruct_asyncGetI = ffi.Int Function(UnownedRef obj,  OutCreatedRef exn);
-typedef _TestAPI_Structs_MutableStruct_increment = ffi.Void Function(UnownedRef obj,  OutCreatedRef exn);
-typedef _TestAPI_Structs_MutableStruct_incrementAsync = ffi.Void Function(UnownedRef obj,  OutCreatedRef exn);
-typedef _TestAPI_Structs_MutableStruct_init = CreatedRef Function(UnownedRef obj,  OutCreatedRef exn);
 typedef _TestAPI_AProtocolConstructor = CreatedRef Function(
     ffi.Pointer ref,
     OutCreatedRef exn
@@ -219,7 +211,6 @@ typedef _TestAPI_AProtocolImplementation_fooGetter = CreatedRef Function(Unowned
 typedef _TestAPI_AProtocolImplementation_fooSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
 typedef _TestAPI_AProtocolImplementation_bazGetter = ffi.Bool Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_AProtocolImplementation_bazSetter = ffi.Void Function(UnownedRef obj, ffi.Bool newValue, OutCreatedRef exn);
-typedef _TestAPI_AProtocolImplementation_bar = CreatedRef Function(UnownedRef obj, ffi.Int x, ffi.Int y, OutCreatedRef exn);
 typedef TestAPI_AssociatedDataEnum_new_thing = CreatedRef Function(
     ffi.Int value,
     OutCreatedRef _exn
@@ -324,12 +315,6 @@ typedef _TestAPI_TestProtocolStructConstructor = CreatedRef Function(
 );
 typedef _TestAPI_TestProtocolStruct_corgeGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestProtocolStruct_corgeSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
-typedef _TestAPI_TestProtocolStruct_bar = ffi.Bool Function(UnownedRef obj,  OutCreatedRef exn);
-typedef _TestAPI_TestProtocolStruct_baz = ffi.Void Function(UnownedRef obj, ffi.Bool qux, OutCreatedRef exn);
-typedef _TestAPI_TestProtocolStruct_foo = ffi.Void Function(UnownedRef obj,  OutCreatedRef exn);
-typedef _TestAPI_TestProtocolStruct_garply = CreatedRef Function(UnownedRef obj, ffi.Pointer str, OutCreatedRef exn);
-typedef _TestAPI_TestProtocolStruct_plugh = CreatedRef Function(UnownedRef obj, ffi.Pointer fred, OutCreatedRef exn);
-typedef _TestAPI_TestProtocolStruct_xyzzy = CreatedRef Function(UnownedRef obj, ffi.Int thud, ffi.Pointer grault, OutCreatedRef exn);
 
 final ensureLoaded = (() {
     FishyJoesRuntime.Loader.shared.ensureLoaded;
