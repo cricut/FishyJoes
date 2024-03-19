@@ -302,6 +302,10 @@ jobs:
           swift package resolve
           swift package resolve
           swift package resolve
+          cd integration-tests/TestAPI-bindings
+          swift package resolve
+          swift package resolve
+          swift package resolve
       
       - name: Build FishyJoesNodeRuntime
         shell: bash

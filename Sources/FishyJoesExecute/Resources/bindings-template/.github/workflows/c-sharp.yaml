@@ -45,12 +45,14 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
+
           swift run -- fishy-joes --c-sharp --fat generate build
 
       - name: Test library from dotnet
         shell: zsh {0}
         run: |
           set -euxo pipefail
+
           swift run -- fishy-joes --c-sharp --fat test
 
       - name: Upload artifacts
@@ -79,6 +81,7 @@ jobs:
       - name: Configure build environment
         run: |
           set -eux
+
           apt-get -y update
           apt-get -y install patchelf curl
           git config --global --add safe.directory '*'
@@ -96,6 +99,7 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
+
           swift run -- fishy-joes --c-sharp build
 
       - name: Patch libs to use relative paths to swift stdlib
@@ -112,6 +116,7 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
+
           swift run -- fishy-joes --c-sharp test
 
       - name: Upload library
@@ -206,6 +211,7 @@ jobs:
       - name: Configure build environment
         run: |
           set -euxo pipefail
+
           sudo apt-get install zsh
 
       - name: Retrieve Artifacts
