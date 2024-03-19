@@ -403,17 +403,6 @@ struct TranslatedStruct: TranslatedType {
                 lines.append("typedef \(commonName)Setter = ffi.Void Function(\(dartType.ffiUnownedTag) obj, \(resolved.dartType.ffiConsumedTag) newValue, OutCreatedRef exn);")
             }
         }
-
-        for method in methods {
-            let returnType = context.resolve(type: method.returnType)
-            let commonName = "_\(converterType.genericBaseName.mangledName)_\(method.callName)"
-            let params = method.parameters.map {
-                let resolved = context.resolve(type: $0.type)
-                return "\(resolved.dartType.ffiTag) \($0.name)"
-            }
-            let paramsStr = params.isEmpty ? "" : "\(params.joined(separator: ", ")),"
-            lines.append("typedef \(commonName) = \(returnType.dartType.ffiCreatedTag) Function(\(dartType.ffiUnownedTag) obj, \(paramsStr) OutCreatedRef exn);")
-        }
         return lines
     }
 

@@ -51,7 +51,7 @@ jobs:
     name: "Ubuntu: Build Iota Runtime"
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cricut/android-swift-runtime:1.0.0
+      image: ghcr.io/cricut/android-swift-runtime:1.1.0
       credentials:
         username: cricut-builduser
         password: ${{ secrets.CRICUT_GPR_TOKEN }}
@@ -137,26 +137,32 @@ jobs:
 
       - uses: compnerd/gha-setup-swift@main
         with:
-          branch: swift-5.6.2-release
-          tag: 5.6.2-RELEASE
+          branch: swift-5.9.1-release
+          tag: 5.9.1-RELEASE
 
-      - name: Build FishyJoesIotaRuntime
+      - name: Pre-resolve Required SwiftPM Packages
+        continue-on-error: true
         shell: pwsh
         run: |
-          $ErrorActionPreference = "Stop"
+          $ErrorActionPreference = 'SilentlyContinue'
+          swift package resolve
+          swift package resolve
+          swift package resolve
+      
+      - name: Build FishyJoesIotaRuntime
+        shell: bash
+        run: |
+          set -euxo pipefail
 
-          # Should perform the same actions as scripts/compile-iota-runtime.sh, but must be done in powershell for swift-build to work
-          swift build --product FishyJoesIotaRuntime --configuration release --build-path ./.build/windows-build
-          New-Item -ItemType Directory -Force -Path $env:LIB_DIR
-          Copy-Item .build\windows-build\x86_64-unknown-windows-msvc\release\FishyJoesIotaRuntime.dll -Destination $env:LIB_DIR
+          ./scripts/compile-iota-runtime.sh
 
       - name: Copy swift runtime DLLs
         shell: bash
         run: |
           set -euxo pipefail
 
-          cp -R /c/Library/icu-*/usr/bin/*.dll $LIB_DIR
-          cp -R /c/Library/Swift-development/bin/*.dll $LIB_DIR
+          mkdir -p "$LIB_DIR"
+          cp -R "/c/Program Files/Swift/runtime-development/usr/bin/"*.dll "$LIB_DIR"
 
       - name: Upload library
         uses: actions/upload-artifact@v3

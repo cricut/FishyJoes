@@ -76,7 +76,7 @@ public class FishyJoesContext {
     }
 
     func swiftFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
-        var headerLines = (module.dependencies + [module.name] + additionalImports).map { "import \($0)" }
+        var headerLines = (module.dependencies + [module.name] + additionalImports).sorted().map { "import \($0)" }
         headerLines.append(
             // These need to be in order, so add them as 1 "line"
             """

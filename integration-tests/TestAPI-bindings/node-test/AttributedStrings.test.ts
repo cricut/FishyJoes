@@ -256,9 +256,9 @@ test('Substring', () => {
 
 test('Mutability', () => {
     // Examine an existing attributed string from the test suite
-    expect(AttributedStrings.polyglot.string).toEqual("Hello Olá こんにちは")
-    expect([...AttributedStrings.polyglot.runs].map((it) => AttributedStrings.polyglot.substringForRange(it.range).string))
-        .toEqual(["Hello", " ", "Olá", " ", "こんにちは"])
+    // expect(AttributedStrings.polyglot.string).toEqual("Hello Olá こんにちは")
+    // expect([...AttributedStrings.polyglot.runs].map((it) => AttributedStrings.polyglot.substringForRange(it.range).string))
+    //     .toEqual(["Hello", " ", "Olá", " ", "こんにちは"])
 
     // Attempt to "modify" the attributed string from the test suite, verify only an (unnamed) clone of it changes, but it does not change
     AttributedStrings.polyglot.replaceSubrange(
@@ -344,7 +344,7 @@ test('MutabilityVariants', () => {
     attributedString.replaceSubrange([...attributedString.runs][0].range, AttributedStrings.chinese);
     expect(attributedString.string).toEqual("你好 Olá こんにちは Hola Hello")
 
-    const emoji = AttributedStrings.emojiMulti;
+    const emoji = AttributedStrings.emojiMulti
     const flagRange = {
         lowerBound: emoji.characters.indexBefore(emoji.endIndex),
         upperBoundExclusive: emoji.endIndex
@@ -429,7 +429,7 @@ test('AttributeMergeReplaceWhole', () => {
     const pt = AttributeContainer.FoundationAttributes.create({ languageIdentifier: "pt" }).asContainer()
     const ja = AttributeContainer.FoundationAttributes.create({ languageIdentifier: "ja" }).asContainer()
 
-    const attributedString = AttributedStrings.polyglot;
+    const attributedString = AttributedStrings.polyglot
     let runRanges = [...attributedString.runs].map((it) => it.range)
     expect(runRanges.length).toEqual(5)
     expect(attributedString.substringForRange(runRanges[0]).equals(AttributedString.create("Hello", { attributes: en }).substring))

@@ -8,13 +8,13 @@ let wasmCompatibleOnly = ProcessInfo.processInfo.environment["WASM_ONLY"] == "1"
 let package = Package(
     name: "TestAPI-bindings",
     platforms: [.macOS(.v12), .iOS(.v15)],
-    products: [
-        .library(
-            name: "TestAPI-wasm",
-            targets: ["TestAPI_NodeInterface"]
-        ),
-    ] + (
-        wasmCompatibleOnly ? [] : [
+    products:
+        wasmCompatibleOnly ? [
+            .library(
+                name: "TestAPI-wasm",
+                targets: ["TestAPI_WasmMainShim"]
+            ),
+        ] : [
             .library(
                 name: "TestAPI-node",
                 type: .dynamic,
@@ -30,10 +30,12 @@ let package = Package(
                 type: .dynamic,
                 targets: ["TestAPI_IotaInterface"]
             ),
-        ]
-    ),
+        ],
     dependencies: [
-        .package(path: "../TestAPI"),
+        .package(
+            name: "TestAPI", 
+            path: "../TestAPI"
+        ),
         .package(name: "FishyJoes", path: "../.."),
     ],
     targets: [
@@ -47,9 +49,6 @@ let package = Package(
             path: "Sources/Generated/NodeInterface",
             resources: [
                 .copy("TestAPI.d.ts.part"),
-            ],
-            swiftSettings: [
-                .unsafeFlags(["-warn-concurrency"])
             ]
         ),
         .target(
@@ -61,10 +60,14 @@ let package = Package(
         ),
     ] + (
         wasmCompatibleOnly ? [
-            .target(
-                name: "DummyMain",
+            .executableTarget(
+                name: "TestAPI_WasmMainShim",
                 dependencies: [
-                    "TestAPI_NodeInterface",
+                    .target(name: "TestAPI_NodeInterface"),
+                ],
+                path: "Sources/Generated/WasmMainShim",
+                swiftSettings: [
+                    .unsafeFlags(["-warn-concurrency"])
                 ]
             ),
         ] : [

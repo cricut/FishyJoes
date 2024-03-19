@@ -18,7 +18,7 @@ concurrency:
 env:
   NODE_AUTH_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
   NODE_VERSION: "16.x"
-  SWIFT_WASM_VERSION: "5.9-SNAPSHOT-2023-08-06-a"
+  SWIFT_WASM_VERSION: "5.9.1-RELEASE"
 
 jobs:
   build-test-pack-ts-mac:
@@ -45,12 +45,14 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
+
           swift run -- fishy-joes --nodejs --fat generate build
 
       - name: Test from node
         shell: zsh {0}
         run: |
           set -euxo pipefail
+
           swift run -- fishy-joes --nodejs --fat test
 
       - name: Pack
@@ -77,6 +79,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euxo pipefail
+
           for package in cricut-*.tgz; do
             npm publish $package
           done
@@ -85,7 +88,7 @@ jobs:
     name: "Ubuntu: Build and test typescript bindings"
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cricut/android-swift-runtime:1.0.0
+      image: ghcr.io/cricut/android-swift-runtime:1.1.0
       credentials:
         username: cricut-builduser
         password: ${{ secrets.CRICUT_GPR_TOKEN }}
@@ -120,14 +123,14 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
+
           swift run -- fishy-joes --nodejs --wasm build
 
-      - name: Test from node
+      - name: Test library from node
         shell: zsh {0}
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
         run: |
           set -euxo pipefail
+
           swift run -- fishy-joes --nodejs --wasm test
 
       - name: Pack
@@ -154,6 +157,84 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euxo pipefail
+
           for package in cricut-*.tgz; do
             npm publish $package
+          done
+
+  build-test-pack-ts-windows:
+    name: "Windows: Build and test typescript bindings"
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Git Credentials
+        uses: de-vri-es/setup-git-credentials@v2
+        with:
+          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: 'https://npm.pkg.github.com/'
+          scope: '@cricut'
+
+      - uses: compnerd/gha-setup-swift@main
+        with:
+          branch: swift-5.9.1-release
+          tag: 5.9.1-RELEASE
+
+      - name: Pre-resolve Required SwiftPM Packages & Fetch FishyJoes Scripts
+        continue-on-error: true
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'SilentlyContinue'
+          swift package resolve
+          swift package resolve
+          swift package resolve
+          echo SWIFT_WINDOWS_BASH=".build/checkouts/FishyJoes/scripts/swift-shim.ps1" >> $env:GITHUB_ENV
+
+      - name: Build library
+        shell: bash
+        run: |
+          set -euxo pipefail
+
+          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --nodejs build
+
+      - name: Test from node
+        shell: bash
+        run: |
+          set -euxo pipefail
+
+          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --nodejs test
+
+      - name: Pack
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          VERSION=${GITHUB_REF#refs/*/}
+          if [[ ! $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)*$ ]]; then
+              VERSION="0.0.1-$(git rev-parse --short HEAD)"
+          fi
+          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --nodejs --version $VERSION pack
+
+      - name: Upload NPM Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: npm_mac_packages
+          path: cricut-*.tgz
+
+      - name: Publish NPM Package
+        if: success() && github.event_name == 'release'
+        shell: bash
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euxo pipefail
+
+          for package in cricut-*.tgz; do
+            npm publish "$package"
           done

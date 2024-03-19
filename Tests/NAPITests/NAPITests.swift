@@ -4,17 +4,17 @@ import XCTest
 
 class NAPITests: XCTestCase {
     lazy var testDirectory = "Tests/NAPITests/node-tests/js-native-api"
-    let CC = "/Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2023-08-06-a.xctoolchain/usr/bin/clang"
-    let LD = "/Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2023-08-06-a.xctoolchain/usr/bin/swiftc"
+    let CC = "/Library/Developer/Toolchains/swift-wasm-5.9.1-RELEASE.xctoolchain/usr/bin/clang"
+    let LD = "/Library/Developer/Toolchains/swift-wasm-5.9.1-RELEASE.xctoolchain/usr/bin/swiftc"
     let CFLAGS = [
         "-target", "wasm32-unknown-wasi",
-        "--sysroot", "/Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2023-08-06-a.xctoolchain/usr/share/wasi-sysroot",
+        "--sysroot", "/Library/Developer/Toolchains/swift-wasm-5.9.1-RELEASE.xctoolchain/usr/share/wasi-sysroot",
         "-I/opt/homebrew/include/node",
         "-I/usr/local/include/node",
     ]
     let LDFLAGS = [
-        "-L/Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2023-08-06-a.xctoolchain/usr/lib",
-        "-sdk", "/Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2023-08-06-a.xctoolchain/usr/share/wasi-sysroot",
+        "-L/Library/Developer/Toolchains/swift-wasm-5.9.1-RELEASE.xctoolchain/usr/lib",
+        "-sdk", "/Library/Developer/Toolchains/swift-wasm-5.9.1-RELEASE.xctoolchain/usr/share/wasi-sysroot",
         "-lswiftCore",
         "-emit-executable",
         "-target", "wasm32-unknown-wasi",

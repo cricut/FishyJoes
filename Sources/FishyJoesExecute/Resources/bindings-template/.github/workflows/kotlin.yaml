@@ -25,7 +25,6 @@ jobs:
   build-test-kotlin-mac:
     name: "macOS: Build and test kotlin bindings"
     runs-on: macOS-12
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -45,15 +44,17 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
+
           swift run -- fishy-joes --kotlin-fast --fat generate build
 
       - name: Test from gradle
         shell: zsh {0}
         run: |
           set -euxo pipefail
+
           swift run -- fishy-joes --kotlin-fast --fat test
 
-      - name: Upload artifacts
+      - name: Upload library
         uses: actions/upload-artifact@v3
         with:
           name: mac_lib
@@ -63,7 +64,7 @@ jobs:
     name: "Ubuntu: Build and test kotlin bindings"
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cricut/android-swift-runtime:1.0.0
+      image: ghcr.io/cricut/android-swift-runtime:1.1.0
       credentials:
         username: cricut-builduser
         password: ${{ secrets.CRICUT_GPR_TOKEN }}
@@ -86,15 +87,17 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
+
           swift run -- fishy-joes --kotlin build --no-use-docker
 
       - name: Test from gradle
         shell: zsh {0}
         run: |
           set -euxo pipefail
+
           swift run -- fishy-joes --kotlin test --no-use-docker
 
-      - name: Upload library
+      - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
           name: ubuntu_generated
@@ -114,34 +117,39 @@ jobs:
 
       - uses: compnerd/gha-setup-swift@main
         with:
-          branch: swift-5.6.2-release
-          tag: 5.6.2-RELEASE
+          branch: swift-5.9.1-release
+          tag: 5.9.1-RELEASE
 
-      - name: Compile library
+      - name: Pre-resolve Required SwiftPM Packages & Fetch FishyJoes Scripts
+        continue-on-error: true
+        shell: pwsh
         run: |
-          $env:SWIFT_PACKAGE_FORCE_DYNAMIC = '1'
-          swift build --product __MODULE_NAME__-java --configuration release --build-path ./.build/windows-build
+          $ErrorActionPreference = 'SilentlyContinue'
+          swift package resolve
+          swift package resolve
+          swift package resolve
+          echo SWIFT_WINDOWS_BASH=".build/checkouts/FishyJoes/scripts/swift-shim.ps1" >> $env:GITHUB_ENV
 
-      - name: Copy resource
+      - name: Build library
         shell: bash
         run: |
           set -euxo pipefail
 
-          mkdir -p kotlin/src/generated/resources/windows
-          cp .build/windows-build/x86_64-unknown-windows-msvc/release/__MODULE_NAME__.dll kotlin/src/generated/resources/windows
-          cp .build/windows-build/x86_64-unknown-windows-msvc/release/__MODULE_NAME__-java.dll kotlin/src/generated/resources/windows
+          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --kotlin-fast build
 
+      # NOTE: Performing this step earlier seems to cause the build to fail, likely due to the Swift install step & path issues
       - name: Setup JDK
         uses: actions/setup-java@v3
         with:
           distribution: zulu
           java-version: ${{ env.JAVA_VERSION }}
 
-      - name: Test from gradle
-        shell: pwsh
+      - name: Test library from gradle
+        shell: bash
         run: |
-          cd kotlin
-          .\gradlew test
+          set -euxo pipefail
+
+          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --kotlin-fast test
 
       - name: Upload library
         uses: actions/upload-artifact@v3
@@ -177,6 +185,7 @@ jobs:
       - name: Configure build environment
         run: |
           set -euxo pipefail
+
           sudo apt-get install zsh
 
       - name: Retrieve Artifacts

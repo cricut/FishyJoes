@@ -7,7 +7,12 @@
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "paths": {
-      "__MODULE_NAME__": ["../Sources/Generated/NodeInterface/__MODULE_NAME__.d.ts"]
+      "__MODULE_NAME__": [
+        "../output/node-native-macos/__MODULE_NAME__.d.ts",
+        "../output/node-native-ubuntu/__MODULE_NAME__.d.ts",
+        "../output/node-native-windows/__MODULE_NAME__.d.ts",
+        "../output/wasm/__MODULE_NAME__.d.ts"
+      ]
     }
   }
 }
