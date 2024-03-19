@@ -3,7 +3,7 @@ import Foundation
 
 public class IotaReference {
     public let object: foreignObject
-    private let env: Env
+    public let env: Env
 
     public init(_ object: foreignObject, env: Env) throws {
         self.env = env

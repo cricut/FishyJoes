@@ -525,6 +525,15 @@ struct TranslatedEnum: TranslatedType {
             }
         }
 
+        let (fields, methods) = KotlinClass.separate(
+            fieldsAndMethods:
+                fields.compactMap {
+                    context.kotlin(field: $0, useNativeName: false)
+                } + methods.compactMap {
+                    context.kotlin(method: $0)
+                }
+        )
+
         context.add(
             kotlinClass: KotlinEnumClass(
                 module: context.module,
@@ -544,9 +553,8 @@ struct TranslatedEnum: TranslatedType {
                         )
                     }
                 },
-                fieldsAndMethods:
-                    fields.compactMap { context.kotlin(field: $0, useNativeName: false) } +
-                    methods.compactMap { context.kotlin(method: $0) }
+                fields: fields,
+                methods: methods
             ).conforming(to: conformances, context: context)
         )
 

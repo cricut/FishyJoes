@@ -45,7 +45,7 @@ public class FishyJoesContext {
         let message: String
     }
 
-    public init(context: TemplateContext) {
+    public init(context: TemplateContext, stderrFifo: String? = nil) {
         let argument = context.argument
         guard let module = argument["module"] as? String else {
             fatalErr("must provide module name as `module` argument to sourcery")
@@ -67,7 +67,7 @@ public class FishyJoesContext {
             defaultNamespace: module
         )
         self.dumpDebugRepresentation = argument["debugRepresentation"] as? String == "true"
-        if let stderrFifo = argument["stderrFifo"] as? String {
+        if let stderrFifo = stderrFifo {
             // Re-open the real stderr, and bypass sourcery
             let errDescriptor = try! FileDescriptor.open(stderrFifo, .writeOnly)
             precondition(dup2(errDescriptor.rawValue, 2) >= 0)
@@ -165,27 +165,20 @@ public class FishyJoesContext {
         }
 
         // Translate
-        var methodsToTranslateForTypeDict = [Type: [SourceryMethod]]()
+        var methodsToTranslateForTypeDict = [Type: (methods: [SourceryMethod], isProtocol: Bool)]()
         for type in templateContext.types.types {
             if let protocolType = type as? SourceryProtocol {
-                methodsToTranslateForTypeDict[type] = protocolType.methodsPreferringDefaultImpl()
+                methodsToTranslateForTypeDict[type] = (methods: protocolType.methodsPreferringDefaultImpl(), isProtocol: true)
             } else {
-                methodsToTranslateForTypeDict[type] = type.rawMethods
+                methodsToTranslateForTypeDict[type] = (methods: type.rawMethods, isProtocol: false)
             }
         }
 
-        for (type, methods) in methodsToTranslateForTypeDict {
-            for method in methods.compactMap(Method.init) {
+        for (type, (methods, isProtocol)) in methodsToTranslateForTypeDict {
+            let methods = methods.compactMap { Method($0, isProtocol: isProtocol) }
+            for method in methods {
                 debugContext = "Translating method \(type.name).\(method.name)"
-                collectedFragments.append(contentsOf: kotlinTranslator.translate(method: method, context: self, isProtocol: type is SourceryProtocol, typeName: type.localName))
-                // TODO: implement Protocol handling
-                if type is SourceryProtocol {
-                    continue
-                }
-                if let conformances = type.exportAnnotation?.conformances,
-                   !conformances.isEmpty {
-                    continue
-                }
+                collectedFragments.append(contentsOf: kotlinTranslator.translate(method: method, context: self, typeName: type.localName))
                 collectedFragments.append(contentsOf: iotaTranslator.translate(method: method, context: self))
             }
         }
@@ -195,14 +188,6 @@ public class FishyJoesContext {
                 debugContext = "Translating variable \(type.name).\(variable.name)"
                 guard variable.exportAnnotation != nil else { continue }
                 collectedFragments.append(contentsOf: kotlinTranslator.translate(variable: variable, context: self))
-                // TODO: implement Protocol handling
-                if type is SourceryProtocol {
-                    continue
-                }
-                if let conformances = type.exportAnnotation?.conformances,
-                   !conformances.isEmpty {
-                    continue
-                }
                 collectedFragments.append(contentsOf: iotaTranslator.translate(variable: variable, context: self))
             }
         }
@@ -247,8 +232,8 @@ public class FishyJoesContext {
                     module: module,
                     documentation: [],
                     name: "__root__",
-                    methods: [],
                     fields: [],
+                    methods: [],
                     conformances: []
                 ),
                 in: &kotlinClasses
@@ -587,17 +572,15 @@ public class FishyJoesContext {
 
     func add(dartClass: DartClass) {
         dartClasses.append(dartClass)
-        // TODO: Do Protocols
-        guard dartClass.conformances.isEmpty else {
-            return
-        }
-        for (name, (args, returnType)) in dartClass.nativeMethods {
+
+        for (name, (args, returnType, isDefaultImplementation)) in dartClass.nativeMethods {
             dartTranslator.nativeMethods.append(
                 .init(
                     name: name,
                     definingDartClass: dartClass.name,
                     args: args,
-                    returnType: returnType
+                    returnType: returnType,
+                    isDefaultImplementation: isDefaultImplementation
                 )
             )
         }

@@ -1,3 +1,6 @@
+/// Print out DartClasses given inputs from Swift
+///
+/// The purpose of DartClass is to be a pretty printer. Logic that could be extracted elsewhere perhaps should be
 class DartClass {
     enum DartType: Equatable, Codable {
         case void
@@ -28,6 +31,7 @@ class DartClass {
         let returnType: DartType
         let deprecation: Deprecation?
         let body: [String]?
+        let isDefaultImplementation: Bool
     }
 
     struct Variable: Equatable {
@@ -57,33 +61,34 @@ class DartClass {
     let setupTypes: SetupTypes?
     let fields: [Variable]
     let methods: [Method]
-    var conformances: Set<String> = []
+    let conformances: [String]
 
     init(
         module: Module,
         documentation: [String],
         name: String,
         setupTypes: SetupTypes? = nil,
-        fieldsAndMethods: [MethodOrVariable],
+        fields: [Variable],
+        methods: [Method],
         conformances: Set<String>
     ) {
         self.name = name
         self.documentation = documentation
         self.module = module
         self.setupTypes = setupTypes
-        self.fields = fieldsAndMethods.compactMap {
-            guard case let .variable(field) = $0 else {
-                return nil
-            }
-            return field
-        }
-        self.methods = fieldsAndMethods.compactMap {
-            guard case let .method(method) = $0 else {
-                return nil
-            }
-            return method
-        }
-        self.conformances = conformances
+        self.fields = fields
+        self.methods = methods
+        self.conformances = Array(conformances).sorted(by: <)
+    }
+
+    func commonIgnoreSpecificWarnings(fragment: SourceFragment) {
+        fragment.output("// ignore_for_file: unused_import")
+        fragment.output("// ignore_for_file: non_constant_identifier_names")
+        fragment.output("// ignore_for_file: no_leading_underscores_for_local_identifiers")
+        fragment.output("// ignore_for_file: library_prefixes")
+        fragment.output("// ignore_for_file: file_names")
+        fragment.output("// ignore_for_file: annotate_overrides")
+        fragment.blankLine()
     }
 
     func output(to fragment: SourceFragment) {
@@ -112,16 +117,17 @@ class DartClass {
         String(name.split(separator: ".").last!)
     }
 
-    var nativeMethods: [String: (args: [(String, DartType)], return: DartType)] {
-        var result: [String: (args: [(String, DartType)], return: DartType)] = [:]
+    var nativeMethods: [String: (args: [(String, DartType)], return: DartType, isDefaultImplementation: Bool)] {
+        var result: [String: (args: [(String, DartType)], return: DartType, isDefaultImplementation: Bool)] = [:]
 
         let thisArg = ("_this", DartType.named(package: module.dartNamespace, name: name))
 
         for field in fields {
             let baseArgs = field.isStatic ? [] : [thisArg]
-            result["__iota_get_\(field.mangledName)"] = (args: baseArgs, return: field.type)
+
+            result["__iota_get_\(field.mangledName)"] = (args: baseArgs, return: field.type, isDefaultImplementation: false)
             if field.isPubliclyWritable {
-                result["__iota_set_\(field.mangledName)"] = (args: baseArgs + [(field.name, field.type)], return: .void)
+                result["__iota_set_\(field.mangledName)"] = (args: baseArgs + [(field.name, field.type)], return: .void, isDefaultImplementation: false)
             }
         }
 
@@ -135,14 +141,15 @@ class DartClass {
             for param in method.parameters {
                 params.append((param.name, param.type))
             }
-            result["__iota_\(method.mangledName)"] = (args: params, return: method.returnType)
+
+            result["__iota_\(method.mangledName)"] = (args: params, return: method.returnType, isDefaultImplementation: (self is DartProtocolClass))
         }
 
         return result
     }
 
     func outputNativeMethodDeclarations(to fragment: SourceFragment) {
-        for (name, (args, returnType)) in nativeMethods.sorted(by: { $0.key < $1.key}) {
+        for (name, (args, returnType, _)) in nativeMethods.sorted(by: { $0.key < $1.key}) {
             fragment.outputBlock("static late \(returnType.ffiCreatedName) Function(", closeWith: ") f\(name);") {
                 fragment.output("Env env,")
                 for (argName, argType) in args {
@@ -325,7 +332,6 @@ extension DartClass.DartType: CustomStringConvertible {
         case let .function(args, returnType):
             return "\(returnType.ffiTag) Function(\(args.map { $0.ffiTag }.joined(separator: ", ")))"
         default:
-            debug("what is ffiTag for `\(name())`?")
             return "ffi.Pointer"
         }
     }
@@ -388,6 +394,152 @@ extension DartClass.DartType: CustomStringConvertible {
     }
 }
 
+extension DartClass {
+    func ffiFor(fields: [Variable], fragment: SourceFragment, isReference: Bool) {
+        for field in fields {
+            let isObject = field.type.isObject
+
+            fragment.outputBlock("static \(field.type.ffiCreatedName) ffi_get_\(field.name)(", newLineTerminated: false) {
+                fragment.output("UnownedRef obj,")
+                fragment.output("OutCreatedRef exn")
+            }
+            var wrapper: (() -> Void) -> Void
+            if isObject {
+                wrapper = { body in
+                    fragment.outputBlock("catchingRef(exn, () =>", closeWith: ");") {
+                        fragment.outputBlock("createRef(") {
+                            body()
+                        }
+                    }
+                }
+            } else {
+                wrapper = { body in
+                    let defaultValue = field.type.defaultReturnValue.map { " ?? \($0)" } ?? ""
+                    fragment.outputBlock("catching(exn, () =>", closeWith: ")\(defaultValue);") {
+                        body()
+                    }
+                }
+            }
+
+            fragment.output(" => ", newLineTerminated: false)
+            wrapper {
+                if field.isStatic {
+                    fragment.output("\(unqualifiedName).\(field.name)")
+                } else {
+                    fragment.output("peekRef<\(unqualifiedName)>(obj).\(field.name)")
+                }
+            }
+            if !isReference,
+                field.isMutable {
+                fragment.outputBlock("static void ffi_set_\(field.name)(", newLineTerminated: false) {
+                    fragment.output("UnownedRef obj,")
+                    fragment.output("\(field.type.ffiConsumedName) newValue,")
+                    fragment.output("OutCreatedRef exn")
+                }
+                fragment.outputBlock(" => catching(exn, () {", closeWith: "});") {
+                    if field.isStatic {
+                        fragment.output("\(unqualifiedName).\(field.name) = ", newLineTerminated: false)
+                    } else {
+                        fragment.output("peekRef<\(unqualifiedName)>(obj).\(field.hiddenStorage ? "_" : "")\(field.name) = ", newLineTerminated: false)
+                    }
+                    if isObject {
+                        fragment.output("consumeRef<\(field.type.name(in: self))>(newValue);")
+                    } else {
+                        fragment.output("newValue;")
+                    }
+                }
+            }
+            fragment.blankLine()
+        }
+    }
+
+    func ffiFor(methods: [Method], fragment: SourceFragment) {
+        for method in methods {
+            guard !method.documentation.isEmpty else {
+                continue
+            }
+            fragment.outputBlock("static \(method.returnType.ffiCreatedName) ffi_\(method.name)(", newLineTerminated: false) {
+                fragment.output("UnownedRef obj,")
+                for param in method.parameters {
+                    fragment.output("\(param.type.ffiConsumedName) \(param.name),")
+                }
+                fragment.output("OutCreatedRef exn")
+            }
+            var wrapper: (() -> Void) -> Void
+            if method.returnType.isObject {
+                wrapper = { body in
+                    fragment.outputBlock("catchingRef(exn, () =>", closeWith: ");") {
+                        fragment.outputBlock("createRef(") {
+                            body()
+                        }
+                    }
+                }
+            } else {
+                wrapper = { body in
+                    let defaultValue = method.returnType.defaultReturnValue.map { " ?? \($0)" } ?? ""
+                    fragment.outputBlock("catching(exn, () =>", closeWith: ")\(defaultValue);") {
+                        body()
+                    }
+                }
+            }
+
+            fragment.output(" => ", newLineTerminated: false)
+            wrapper {
+                let methodCall: String
+                if method.isStatic {
+                    methodCall = "\(unqualifiedName).\(method.name)"
+                } else {
+                    methodCall = "peekRef<\(unqualifiedName)>(obj).\(method.name)"
+                }
+                fragment.outputBlock("\(methodCall)(", closeWith: ")") {
+                    // put all optional parameters at the end, or dart gets unhappy
+                    let requiredParams = method.parameters.filter { $0.defaultValue == nil }
+                    let optionalParams = method.parameters.filter { $0.defaultValue != nil }
+                    fragment.outputMap(requiredParams, separator: ",", newLineTerminated: false) {
+                        if $0.type.isObject {
+                            return "consumeRef(\($0.name))"
+                        } else {
+                            return $0.name
+                        }
+                    }
+                    if !optionalParams.isEmpty {
+                        fragment.output(",")
+                        fragment.outputMap(optionalParams, separator: ",") {
+                            if $0.type.isObject {
+                                return "\($0.name): consumeRef(\($0.name))"
+                            } else {
+                                return $0.name
+                            }
+                        }
+                    } else {
+                        fragment.blankLine()
+                    }
+                }
+            }
+            fragment.blankLine()
+        }
+    }
+}
+
+extension DartClass {
+    static func separate(fieldsAndMethods: [DartClass.MethodOrVariable]) -> ([DartClass.Variable], [DartClass.Method]) {
+        let fields: [Variable] = fieldsAndMethods.compactMap {
+            guard case let .variable(field) = $0 else {
+                return nil
+            }
+            return field
+        }
+        let methods: [Method] = fieldsAndMethods.compactMap {
+            guard case let .method(method) = $0 else {
+                return nil
+            }
+            return method
+        }
+        return (fields, methods)
+    }
+}
+
+// TODO (refactor): move into DartProductClass.swift
 class DartProductClass: DartClass {
     struct Typealias {
         let name: String
@@ -400,33 +552,57 @@ class DartProductClass: DartClass {
     }
 
     let constructor: Constructor
+    let isExternalWitness: Bool
 
     init(
         module: Module,
         documentation: [String],
         name: String,
         constructor: Constructor,
-        fieldsAndMethods: [MethodOrVariable],
-        conformances: Set<String>
+        fields: [Variable],
+        methods: [Method],
+        conformances: Set<String>,
+        isExternalWitness: Bool = false
     ) {
         self.constructor = constructor
+        self.isExternalWitness = isExternalWitness
         super.init(
             module: module,
             documentation: documentation,
             name: name,
-            fieldsAndMethods: fieldsAndMethods,
+            fields: fields,
+            methods: methods,
             conformances: conformances
         )
     }
 
+    private func toStringImpl(fields: [Variable], fragment: SourceFragment) {
+        fragment.output("@override")
+        fragment.output("String toString() => '\(unqualifiedName)(", newLineTerminated: false)
+        let toStringParamsString = fields.map { "\(DartClass.deforbidify($0.name)): $\(DartClass.deforbidify($0.name))" }.joined(separator: ", ")
+        fragment.output("\(toStringParamsString))';")
+
+        fragment.blankLine()
+    }
+
     override func output(to fragment: SourceFragment) {
+        var conformancesPart = ""
+        if !conformances.isEmpty {
+            conformancesPart.append(" implements ")
+            conformancesPart.append(conformances.map { "\(module).\($0)" }.joined(separator: ", "))
+        }
+
+        commonIgnoreSpecificWarnings(fragment: fragment)
+
         document(documentation, fragment: fragment)
+
+        var storedFields = [Variable]()
 
         switch constructor {
         case .reference:
-            fragment.output("class \(unqualifiedName) extends SwiftReference", newLineTerminated: false)
+            fragment.output("class \(unqualifiedName) extends SwiftReference\(conformancesPart)", newLineTerminated: false)
         case .public:
-            fragment.output("class \(unqualifiedName)", newLineTerminated: false)
+            fragment.output("class \(unqualifiedName)\(conformancesPart)", newLineTerminated: false)
         }
         fragment.outputBlock(" {") {
             switch constructor {
@@ -436,8 +612,11 @@ class DartProductClass: DartClass {
                 fragment.outputBlock("static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>", closeWith: ");") {
                     fragment.output("createRef(\(unqualifiedName)(ref))")
                 }
-            fragment.blankLine()
+                fragment.blankLine()
+
+                toStringImpl(fields: fields, fragment: fragment)
             case .public(let fields):
+                storedFields = fields
                 for field in fields {
                     let type = field.type.name(in: self)
                     let name = DartClass.deforbidify(field.name)
@@ -453,7 +632,8 @@ class DartProductClass: DartClass {
 
                 fragment.blankLine()
 
-                fragment.outputBlock("\(unqualifiedName)({", closeWith: "})", newLineTerminated: false) {
+                let blockOpenClose = fields.isEmpty ? ["(", ")"] : ["({", "})"]
+                fragment.outputBlock("\(unqualifiedName)\(blockOpenClose[0])", closeWith: blockOpenClose[1], newLineTerminated: false) {
                     fragment.outputMap(fields, separator: ",") { field in
                         let type = field.type.name(in: self)
                         let name = DartClass.deforbidify(field.name)
@@ -491,75 +671,31 @@ class DartProductClass: DartClass {
                     }
                 }
 
-                for field in fields {
-                    let isObject = field.type.isObject
-                    fragment.blankLine()
-                    fragment.outputBlock("static \(field.type.ffiCreatedName) ffi_get_\(field.name)(", newLineTerminated: false) {
-                        fragment.output("UnownedRef obj,")
-                        fragment.output("OutCreatedRef exn")
-                    }
-                    var wrapper: (() -> Void) -> Void
-                    if isObject {
-                        wrapper = { body in
-                            fragment.outputBlock("catchingRef(exn, () =>", closeWith: ");") {
-                                fragment.outputBlock("createRef(") {
-                                    body()
-                                }
-                            }
-                        }
-                    } else {
-                        wrapper = { body in
-                            let defaultValue = field.type.defaultReturnValue.map { " ?? \($0)" } ?? ""
-                            fragment.outputBlock("catching(exn, () =>", closeWith: ")\(defaultValue);") {
-                                body()
-                            }
-                        }
-                    }
+                toStringImpl(fields: storedFields, fragment: fragment)
+            }
 
-                    fragment.output(" => ", newLineTerminated: false)
-                    wrapper {
-                        fragment.output("peekRef<\(unqualifiedName)>(obj).\(field.name)")
-                    }
-                    if field.isMutable {
-                        fragment.outputBlock("static void ffi_set_\(field.name)(", newLineTerminated: false) {
-                            fragment.output("UnownedRef obj,")
-                            fragment.output("\(field.type.ffiConsumedName) newValue,")
-                            fragment.output("OutCreatedRef exn")
-                        }
-                        fragment.outputBlock(" => catching(exn, () {", closeWith: "});") {
-                            fragment.output("peekRef<\(unqualifiedName)>(obj).\(field.hiddenStorage ? "_" : "")\(field.name) = ", newLineTerminated: false)
-                            if isObject {
-                                fragment.output("consumeRef<\(field.type.name(in: self))>(newValue);")
-                            } else {
-                                fragment.output("newValue;")
-                            }
-                        }
-                    }
-                }
+            fragment.blankLine()
 
-                fragment.blankLine()
+            if !isExternalWitness {
+                ffiFor(fields: fields + storedFields, fragment: fragment, isReference: constructor == .reference)
+                ffiFor(methods: methods, fragment: fragment)
+            }
 
+            if constructor != .reference {
                 fragment.output("@override")
-                fragment.output("String toString() => '\(unqualifiedName)(", newLineTerminated: false)
-                let toStringParamsString = fields.map { "\(DartClass.deforbidify($0.name)): $\(DartClass.deforbidify($0.name))" }.joined(separator: ", ")
-                fragment.output("\(toStringParamsString))';")
-
-                fragment.blankLine()
-
-                fragment.output("@override")
-                fragment.output("bool operator ==(Object other)", newLineTerminated: false)
-                fragment.outputBlock(" {") {
+                fragment.outputBlock("bool operator ==(Object other) {", newLineTerminated: false) {
                     fragment.output("return identical(other, this) ||")
                     fragment.outputBlock("(", closeWith: ");") {
                         fragment.output("other.runtimeType == runtimeType &&")
                         fragment.output("other is \(unqualifiedName)", newLineTerminated: false)
 
-                        if fields.isEmpty {
+                        let nonStaticFields = storedFields.filter { !$0.isStatic }
+                        if nonStaticFields.isEmpty {
                             fragment.blankLine()
                         } else {
                             fragment.output(" &&")
                             fragment.outputBlock("(") {
-                                fragment.outputMap(fields, separator: " &&") { field in
+                                fragment.outputMap(nonStaticFields, separator: " &&") { field in
                                     let valueName = "\(DartClass.deforbidify(field.name))"
                                     return "const DeepCollectionEquality().equals(other.\(valueName), \(valueName))"
                                 }
@@ -573,26 +709,26 @@ class DartProductClass: DartClass {
 
                 fragment.output("@override")
                 fragment.output("int get hashCode => ", newLineTerminated: false)
-                if fields.isEmpty {
+                if storedFields.isEmpty {
                     fragment.output("runtimeType.hashCode;")
                 } else {
                     fragment.output("Object.hash", newLineTerminated: false)
                     fragment.outputBlock("(", closeWith: ");") {
                         fragment.output("runtimeType,")
                         let maxPositionalParamsPerObjectHashCall = 20
-                        if fields.count < maxPositionalParamsPerObjectHashCall - 1 {
-                            fragment.outputMap(fields, separator: ", ") { field in
+                        if storedFields.count < maxPositionalParamsPerObjectHashCall - 1 {
+                            fragment.outputMap(storedFields, separator: ", ") { field in
                                 "const DeepCollectionEquality().hash(\(DartClass.deforbidify(field.name)))"
                             }
                         } else {
                             // split up fields into groups of 20
-                            for fieldGroupStartIndex in stride(from: fields.indices.lowerBound, to: fields.indices.upperBound, by: maxPositionalParamsPerObjectHashCall) {
-                                if fieldGroupStartIndex != fields.indices.lowerBound {
+                            for fieldGroupStartIndex in stride(from: storedFields.indices.lowerBound, to: storedFields.indices.upperBound, by: maxPositionalParamsPerObjectHashCall) {
+                                if fieldGroupStartIndex != storedFields.indices.lowerBound {
                                     fragment.output(",")
                                 }
                                 fragment.output("Object.hash", newLineTerminated: false)
                                 fragment.outputBlock("(", closeWith: ")", newLineTerminated: false) {
-                                    let fieldGroup = Array(fields[fieldGroupStartIndex..<min(fields.indices.upperBound, fieldGroupStartIndex + maxPositionalParamsPerObjectHashCall)])
+                                    let fieldGroup = Array(storedFields[fieldGroupStartIndex..<min(storedFields.indices.upperBound, fieldGroupStartIndex + maxPositionalParamsPerObjectHashCall)])
                                     fragment.outputMap(fieldGroup, separator: ", ") { field in
                                         "const DeepCollectionEquality().hash(\(DartClass.deforbidify(field.name)))"
                                     }
@@ -602,29 +738,33 @@ class DartProductClass: DartClass {
                         }
                     }
                 }
-
                 fragment.blankLine()
+            }
 
+            if constructor != .reference {
                 fragment.output("\(unqualifiedName) copyWith", newLineTerminated: false)
-                fragment.outputBlock("({", closeWith: "})", newLineTerminated: false) {
-                    fragment.outputMap(fields, separator: ",") {
-                        "\($0.type.name(in: self).replacingOccurrences(of: "?", with: ""))? \(DartClass.deforbidify($0.name))"
+                if storedFields.isEmpty {
+                    fragment.output("()", newLineTerminated: false)
+                } else {
+                    fragment.outputBlock("({", closeWith: "})", newLineTerminated: false) {
+                        fragment.outputMap(storedFields, separator: ",") {
+                            "\($0.type.name(in: self).replacingOccurrences(of: "?", with: ""))? \(DartClass.deforbidify($0.name))"
+                        }
                     }
                 }
                 fragment.output(" => \(unqualifiedName)", newLineTerminated: false)
-                if fields.isEmpty {
+                if storedFields.isEmpty {
                     fragment.output("();")
                 } else {
                     fragment.outputBlock("(", closeWith: ");") {
-                        fragment.outputMap(fields, separator: ",") {
+                        fragment.outputMap(storedFields, separator: ",") {
                             let name = "\(DartClass.deforbidify($0.name))"
                             return "\(name): \(name) ?? this.\(name)"
                         }
                     }
                 }
+                fragment.blankLine()
             }
-
-            fragment.blankLine()
 
             fields.forEach { output(field: $0, to: fragment) }
             methods.forEach { output(method: $0, to: fragment) }
@@ -635,6 +775,7 @@ class DartProductClass: DartClass {
     }
 }
 
+// TODO (refactor): move into DartEnumClass.swift
 class DartEnumClass: DartClass {
     let cases: [Case]
 
@@ -649,7 +790,8 @@ class DartEnumClass: DartClass {
         documentation: [String],
         name: String,
         cases: [Case],
-        fieldsAndMethods: [MethodOrVariable],
+        fields: [Variable],
+        methods: [Method],
         conformances: Set<String>
     ) {
         self.cases = cases
@@ -657,18 +799,26 @@ class DartEnumClass: DartClass {
             module: module,
             documentation: documentation,
             name: name,
-            fieldsAndMethods: fieldsAndMethods,
+            fields: fields,
+            methods: methods,
             conformances: conformances
         )
     }
 
     override func output(to fragment: SourceFragment) {
+        var conformancesPart = ""
+        if !conformances.isEmpty {
+            conformancesPart.append(" implements ")
+            conformancesPart.append(conformances.map { "\(module).\($0)" }.joined(separator: ", "))
+        }
+        commonIgnoreSpecificWarnings(fragment: fragment)
+
         document(documentation, fragment: fragment)
         let doSealedClass = !cases.isEmpty
         if doSealedClass {
             fragment.output("sealed ", newLineTerminated: false)
         }
-        fragment.output("class \(unqualifiedName)", newLineTerminated: false)
+        fragment.output("class \(unqualifiedName)\(conformancesPart)", newLineTerminated: false)
 
         fragment.outputBlock(" {") {
             for enumCase in cases {
@@ -868,6 +1018,231 @@ class DartEnumClass: DartClass {
 
             fragment.blankLine()
         }
+    }
+}
+
+// TODO (refactor): move into DartProtocolClass.swift
+class DartProtocolClass: DartClass {
+    override func output(to fragment: SourceFragment) {
+        document(documentation, fragment: fragment)
+
+        let normalMethods = methods.filter { !$0.isDefaultImplementation }
+        let defaultMethods = methods.filter { $0.isDefaultImplementation }
+
+        fragment.outputBlock("abstract class \(unqualifiedName) {") {
+            for method in normalMethods {
+                // Dart does not support static method inheritance like Swift does.
+                guard !method.isStatic else {
+                    fragment.output("// \(method.name) omitted: static methods on protocols not supported in Dart.")
+                    continue
+                }
+
+                fragment.output("\(method.isStatic ? "static " : "")", newLineTerminated: false)
+                fragment.outputBlock("\(method.returnType.name(in: self)) \(method.name)(", closeWith: ");") {
+                    func argumentString(parameter: Method.Parameter) -> String {
+                        let labelComment = parameter.labelComment.map { "/* \($0) */ " } ?? ""
+                        return "\(parameter.type.name(in: self)) \(labelComment)\(DartClass.deforbidify(parameter.name))"
+                    }
+
+                    // put all optional parameters at the end, or dart gets unhappy
+                    let requiredParams = method.parameters.filter { $0.defaultValue == nil }
+                    let optionalParams = method.parameters.filter { $0.defaultValue != nil }
+
+                    fragment.outputMap(requiredParams, separator: ",") {
+                        argumentString(parameter: $0)
+                    }
+                    if !optionalParams.isEmpty {
+                        fragment.outputBlock("[") {
+                            fragment.outputMap(optionalParams, separator: ",") {
+                                argumentString(parameter: $0)
+                            }
+                        }
+                    }
+                }
+                fragment.blankLine()
+            }
+
+            for field in fields {
+                // Dart does not support static property inheritance like Swift does.
+                guard !field.isStatic else {
+                    fragment.output("// \(field.name) static fields on protocols not supported in Dart.")
+                    continue
+                }
+
+                fragment.blankLine()
+                document(field.documentation, fragment: fragment)
+
+                let staticMark = field.isStatic ? "static " : ""
+
+                func outputAttributes() {
+                    if let deprecation = field.deprecation {
+                        fragment.output("@Deprecated(\"\(deprecation.quotedMessage)\")")
+                    }
+                }
+
+                outputAttributes()
+                fragment.output("\(staticMark)\(field.type.name(in: self)) get \(Self.deforbidify(field.name));")
+
+                fragment.blankLine()
+
+                if field.isPubliclyWritable {
+                    outputAttributes()
+                    fragment.output("\(staticMark)set \(Self.deforbidify(field.name))(\(field.type.name(in: self)) value);")
+                }
+            }
+        }
+
+        fragment.blankLine()
+
+        let defaultImplsName = "\(unqualifiedName)_DefaultImplementations"
+        fragment.outputBlock("extension \(defaultImplsName) on \(unqualifiedName) {") {
+            for method in defaultMethods {
+                // Dart does not support static method inheritance like Swift does.
+                guard !method.isStatic else {
+                    fragment.output("// \(method.name) omitted: static methods on protocols not supported in Dart.")
+                    continue
+                }
+
+                fragment.output("\(method.isStatic ? "static " : "")", newLineTerminated: false)
+                fragment.outputBlock("\(method.returnType.name(in: self)) \(method.name)(", closeWith: ")", newLineTerminated: false) {
+                    func argumentString(parameter: Method.Parameter) -> String {
+                        let labelComment = parameter.labelComment.map { "/* \($0) */ " } ?? ""
+                        return "\(parameter.type.name(in: self)) \(labelComment)\(DartClass.deforbidify(parameter.name))"
+                    }
+
+                    // put all optional parameters at the end, or dart gets unhappy
+                    let requiredParams = method.parameters.filter { $0.defaultValue == nil }
+                    let optionalParams = method.parameters.filter { $0.defaultValue != nil }
+
+                    fragment.outputMap(requiredParams, separator: ",") {
+                        argumentString(parameter: $0)
+                    }
+                    if !optionalParams.isEmpty {
+                        fragment.outputBlock("[") {
+                            fragment.outputMap(optionalParams, separator: ",") {
+                                argumentString(parameter: $0)
+                            }
+                        }
+                    }
+                }
+
+                fragment.outputBlock(" =>", closeWith: ";") {
+                    var wrap: (() -> Void) -> Void = { body in
+                        if !method.isStatic {
+                            fragment.outputBlock("GCRef.using(this, (_thisHandle) =>", closeWith: ")", body)
+                        } else {
+                            body()
+                        }
+                    }
+
+                    var paramStrings: [String] = method.isStatic ? [] : ["_thisHandle.ptr"]
+                    // Keep the parameters in original order here, because the swift-side expects them in that order
+                    for param in method.parameters {
+                        if param.type.isObject {
+                            let oldWrap = wrap
+                            wrap = { body in
+                                oldWrap {
+                                    fragment.outputBlock("GCRef.using(\(DartClass.deforbidify(param.name)), (_\(param.name)Handle) =>", closeWith: ")", body)
+                                }
+                            }
+                            paramStrings.append("_\(param.name)Handle.ptr")
+                        } else {
+                            paramStrings.append("\(DartClass.deforbidify(param.name))")
+                        }
+                    }
+                    paramStrings.append("_exn")
+
+                    let body = "check((OutCreatedRef _exn) => f__iota_\(method.mangledName)(Loader.shared.env, \(paramStrings.joined(separator: ", "))))"
+                    wrap {
+                        if method.returnType.isObject {
+                            fragment.output("consumeCreatedRef<\(method.returnType.name(in: self))>(\(body))")
+                        } else {
+                            fragment.output(body)
+                        }
+                    }
+                }
+                fragment.blankLine()
+
+                fragment.outputBlock("static \(method.returnType.ffiCreatedName) ffi_\(method.name)(", newLineTerminated: false) {
+                    fragment.output("UnownedRef obj,")
+                    for param in method.parameters {
+                        fragment.output("\(param.type.ffiUnownedName) \(param.name),")
+                    }
+                    fragment.output("OutCreatedRef exn")
+                }
+                var wrapper: (() -> Void) -> Void
+                if method.returnType.isObject {
+                    wrapper = { body in
+                        fragment.outputBlock("catchingRef(exn, () =>", closeWith: ");") {
+                            fragment.outputBlock("createRef(") {
+                                body()
+                            }
+                        }
+                    }
+                } else {
+                    wrapper = { body in
+                        let defaultValue = method.returnType.defaultReturnValue.map { " ?? \($0)" } ?? ""
+                        fragment.outputBlock("catching(exn, () =>", closeWith: ")\(defaultValue);") {
+                            body()
+                        }
+                    }
+                }
+
+                fragment.output(" => ", newLineTerminated: false)
+                wrapper {
+                    let methodCall: String
+                    if method.isStatic {
+                        methodCall = "\(defaultImplsName).\(method.name)"
+                    } else {
+                        methodCall = "peekRef<\(unqualifiedName)>(obj).\(method.name)"
+                    }
+
+                    fragment.outputBlock("\(methodCall)(", closeWith: ")") {
+                        fragment.outputMap(method.parameters, separator: ",") {
+                            $0.type.isObject ? "peekRef<\($0.type.name())>(\($0.name))" : $0.name
+                        }
+                    }
+                }
+                fragment.blankLine()
+            }
+            fragment.blankLine()
+            outputNativeMethodDeclarations(to: fragment)
+        }
+
+        fragment.blankLine()
+
+        let ffiHooksName = "\(unqualifiedName)_FfiHooks"
+        fragment.outputBlock("extension \(ffiHooksName) on \(unqualifiedName) {") {
+            ffiFor(fields: fields, fragment: fragment, isReference: false)
+            ffiFor(methods: normalMethods, fragment: fragment)
+        }
+    }
+
+    override var nativeMethods: [String: (args: [(String, DartType)], return: DartType, isDefaultImplementation: Bool)] {
+        var result: [String: (args: [(String, DartType)], return: DartType, isDefaultImplementation: Bool)] = [:]
+
+        let thisArg = ("_this", DartType.named(package: module.dartNamespace, name: name))
+
+        for method in methods {
+            // if method.name.hasPrefix("_") { continue }
+            if method.body != nil { continue }
+
+            var params = method.isStatic ? [] : [thisArg]
+
+            // Keep the parameters in original order here, because the swift-side expects them in that order
+            for param in method.parameters {
+                params.append((param.name, param.type))
+            }
+
+            // Don't add nativeMethods for DartProtocolClass to dartTranslator
+            // They will be handled by the ExternalWitness for that Protocol
+            // except for default Implementations!
+            if method.isDefaultImplementation {
+                result["__iota_\(method.mangledName)"] = (args: params, return: method.returnType, isDefaultImplementation: true)
+            }
+        }
+
+        return result
     }
 }
 

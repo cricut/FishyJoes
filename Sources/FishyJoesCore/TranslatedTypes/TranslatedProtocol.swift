@@ -16,10 +16,11 @@ struct TranslatedProtocol: TranslatedType {
     var containedNamedTypes: [TranslatedType] { [self] }
     let conformances: Set<String>
     let methods: [Method]
-    let computedVariables: [Variable]
+    let fields: [Variable]
     let documentation: [String]
     let className: String
     let javaExternalWitnessClassName: String
+    let iotaExternalWitnessClassName: String
 
     init(context: FishyJoesContext, type: SourceryProtocol) {
         guard let exportAnnotation = type.exportAnnotation else {
@@ -28,7 +29,8 @@ struct TranslatedProtocol: TranslatedType {
         let typeName = exportAnnotation.name
 
         self.sourceType = BetterType(named: type, context: context)
-        self.converterType = .named(.init(name: "_\(sourceType.nonNamespacedName)Converter", module: nil))
+        let module = "\(context.module)_CommonInterface"
+        self.converterType = .named(.init(name: "_\(sourceType.nonNamespacedName)Converter", module: module))
         self.neutralName = "Struct<Named=\(exportAnnotation.name)>"
         self.nodeName = typeName
         self.kotlinPackage = context.module.kotlinPackage
@@ -45,12 +47,13 @@ struct TranslatedProtocol: TranslatedType {
         self.conformances = exportAnnotation.conformances
 
         let methodsToConvert = type.methodsPreferringDefaultImpl()
-        self.methods = methodsToConvert.compactMap(Method.init)
+        self.methods = methodsToConvert.compactMap { Method($0, isProtocol: true) }
 
-        self.computedVariables = type.variables.filter { $0.exportAnnotation != nil }
+        self.fields = type.variables.filter { $0.exportAnnotation != nil }
         self.documentation = type.documentation
         self.className = context.kotlinTranslator.javaClassName(kotlinName, in: context)
         self.javaExternalWitnessClassName = context.kotlinTranslator.javaClassName("_ExternalWitness_\(kotlinName)", in: context)
+        self.iotaExternalWitnessClassName = "ExternalWitness_\(sourceType.nonNamespacedName)"
 
         enforceProtocolThrows()
         enforceNoProtocolSetters()
@@ -67,7 +70,7 @@ struct TranslatedProtocol: TranslatedType {
             fatalError("☠️ Error on \(nameSpace)\(nonThrowingMethods.first!.name): All Protocol methods exported through FishyJoes must be throwing, it's the law 👮!")
         }
 
-        let nonThrowingGetters = computedVariables.filter { !$0.`throws` && !$0.isMutable }
+        let nonThrowingGetters = fields.filter { !$0.`throws` && !$0.isMutable }
         guard nonThrowingGetters.isEmpty else {
             var nameSpace = ""
             if let ns = nonThrowingGetters.first!.definedInTypeName?.name {
@@ -78,7 +81,7 @@ struct TranslatedProtocol: TranslatedType {
     }
 
     func enforceNoProtocolSetters() {
-        let setters = computedVariables.filter { $0.isMutable }
+        let setters = fields.filter { $0.isMutable }
         guard setters.isEmpty else {
             var nameSpace = ""
             if let ns = setters.first!.definedInTypeName?.name {
@@ -89,7 +92,7 @@ struct TranslatedProtocol: TranslatedType {
     }
 
     func enforceNoProtocolStatics() {
-        let staticVars = computedVariables.filter { $0.isStatic }
+        let staticVars = fields.filter { $0.isStatic }
         let staticFuncs = methods.filter { $0.isStatic }
         guard staticVars.isEmpty else {
             var nameSpace = ""
@@ -107,10 +110,91 @@ struct TranslatedProtocol: TranslatedType {
         }
     }
 
+    func dartSetupDelegates(in context: FishyJoesContext) -> [String] {
+        var lines: [String] = []
+        lines.append("typedef _\(sourceType.genericBaseName.mangledName)Constructor = \(dartType.ffiCreatedName) Function(")
+        lines.append("    ffi.Pointer ref,")
+        lines.append("    OutCreatedRef exn")
+        lines.append(");")
+        for field in fields {
+            let resolved = context.resolve(type: field.typeName.better)
+            let commonName = "_\(sourceType.genericBaseName.mangledName)_\(field.name)"
+            lines.append("typedef \(commonName)Getter = \(resolved.dartType.ffiCreatedTag) Function(\(dartType.ffiUnownedTag) obj, OutCreatedRef exn);")
+            if field.isMutable {
+                lines.append("typedef \(commonName)Setter = ffi.Void Function(\(dartType.ffiUnownedTag) obj, \(resolved.dartType.ffiConsumedTag) newValue, OutCreatedRef exn);")
+            }
+        }
+        for method in methods {
+            let returnType = context.resolve(type: method.returnType)
+            let commonName = "_\(sourceType.genericBaseName.mangledName)_\(method.callName)"
+            let params = method.parameters.map {
+                let resolved = context.resolve(type: $0.type)
+                return "\(resolved.dartType.ffiTag) \($0.name)"
+            }
+            let paramsStr = params.isEmpty ? "" : "\(params.joined(separator: ", ")),"
+            lines.append("typedef \(commonName) = \(returnType.dartType.ffiCreatedTag) Function(\(dartType.ffiUnownedTag) obj, \(paramsStr) OutCreatedRef exn);")
+        }
+        return lines
+    }
+
+    func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>] {
+        var setupParams = [ForeignSetupParameter<DartClass.DartType>]()
+
+        let constructorType = "_\(sourceType.genericBaseName.mangledName)Constructor"
+
+        setupParams.append(
+            .value(
+                name: "constructor",
+                type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(constructorType)>>")
+            ) { fragment in
+                // only the ffi_new is in the ExternalWitness. The rest of the ffis are in the AProtocol_FfiHooks extension to AProtocol
+                fragment.output("ffi.Pointer.fromFunction(\(context.module.name).\(iotaExternalWitnessClassName).ffi_new),")
+            }
+        )
+
+        for field in fields {
+            let resolved = context.resolve(type: field.typeName.better)
+            let commonName = "_\(sourceType.genericBaseName.mangledName)_\(field.name)"
+            let getType = "\(commonName)Getter"
+
+            setupParams.append(
+                .value(
+                    name: "get_\(field.name)",
+                    type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(getType)>>")
+                ) { fragment in
+                    let defaultValue = resolved.dartType.defaultReturnValue.map { ", \($0)" } ?? ""
+                    fragment.output("ffi.Pointer.fromFunction(\(sourceType.name)_FfiHooks.ffi_get_\(field.name)\(defaultValue)),")
+                }
+            )
+        }
+
+        for method in methods {
+            let resolvedReturn = context.resolve(type: method.returnType)
+            let commonName = "_\(sourceType.genericBaseName.mangledName)_\(method.callName)"
+
+            setupParams.append(
+                .value(
+                    name: method.callName,
+                    type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(commonName)>>")
+                ) { fragment in
+                    let defaultValue = resolvedReturn.dartType.defaultReturnValue.map { ", \($0)" } ?? ""
+                    if method.isDefaultImplementation {
+                        fragment.output("ffi.Pointer.fromFunction(\(sourceType.name)_DefaultImplementations.ffi_\(method.callName)\(resolvedReturn.dartType.defaultReturnValue.map { ", \($0)" } ?? "")),")
+                    } else {
+                        fragment.output("ffi.Pointer.fromFunction(\(sourceType.name)_FfiHooks.ffi_\(method.callName)\(defaultValue)),")
+                    }
+                }
+            )
+        }
+
+        return setupParams
+    }
+
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
         return [
             commonDefinitionFragment(in: context),
             nodeDefinitionFragment(in: context),
+            iotaDefinitionFragment(in: context),
         ] + jniDefinitionFragments(in: context)
     }
 
@@ -120,11 +204,59 @@ struct TranslatedProtocol: TranslatedType {
             additionalImports: ["Foundation"]
         )
 
-        fragment.outputBlock("public enum \(converterType.name) {") {
+        fragment.outputBlock("public enum \(converterType.nonNamespacedName) {") {
             fragment.output("public typealias SwiftType = \(sourceType.name)")
         }
 
+        fragment.blankLine()
+
+        generateSansForDefaultMethods(fragment: fragment, defaultMethods: methods.filter { $0.isDefaultImplementation })
+
         return fragment
+    }
+
+    func generateSansForDefaultMethods(fragment: SourceFragment, defaultMethods: [Method]) {
+        for defaultMethod in defaultMethods {
+            fragment.outputBlock("public struct \(sourceType.nonNamespacedName)_sans_\(defaultMethod.callName): \(sourceType.name) {", closeWith: "}") {
+                fragment.output("public let wrapped: \(sourceType.name)")
+
+                fragment.blankLine()
+
+                fragment.outputBlock("public init(wrapped: \(sourceType.name)) {") {
+                    fragment.output("self.wrapped = wrapped")
+                }
+
+                for variable in fields {
+                    fragment.blankLine()
+                    let name = variable.name
+                    let type = variable.typeName.better.name
+                    fragment.outputBlock("public var \(name): \(type) {") {
+                        fragment.outputBlock("get throws {") {
+                            fragment.output("try wrapped.\(name)")
+                        }
+                    }
+                }
+                for method in methods {
+                    guard method.name != defaultMethod.name else {
+                        continue
+                    }
+                    fragment.output()
+                    let returnSignature = "\(method.isThrowing ? " throws" : "") -> \(method.returnType.name)"
+                    fragment.outputBlock("public func \(method.name)\(returnSignature) {", closeWith: "}") {
+                        var methodParamsStr = [String]()
+                        for param in method.parameters {
+                            if let paramLabel = param.label {
+                                methodParamsStr.append("\(paramLabel): \(param.name)")
+                            } else {
+                                methodParamsStr.append("\(param.name)")
+                            }
+                        }
+                        fragment.output("\(method.isThrowing ? "try " : "")wrapped.\(method.callName)(\(methodParamsStr.joined(separator: ", ")))")
+                    }
+                }
+            }
+            fragment.output()
+        }
     }
 
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
@@ -136,9 +268,9 @@ struct TranslatedProtocol: TranslatedType {
         fragment.outputBlock("struct _Node\(sourceType.nonNamespacedName): \(sourceType.name) {") {
             fragment.output("let _nodeWitness: NodeReference")
             fragment.blankLine()
-            // TODO: Implement this stubby code
-            for computedVar in computedVariables {
-                fragment.output("var \(computedVar.name): \(computedVar.typeName.better.name)")
+
+            for field in fields {
+                fragment.output("var \(field.name): \(field.typeName.better.name)")
             }
             for method in methods {
                 var returnSignature = "\(method.isThrowing ? " throws" : "")"
@@ -161,12 +293,12 @@ struct TranslatedProtocol: TranslatedType {
             fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {") {
                 fragment.outputBlock("return _Node\(sourceType.nonNamespacedName)(") {
                     fragment.output("_nodeWitness: try NodeReference(env: env, value: value)", newLineTerminated: false)
-                    if !computedVariables.isEmpty {
+                    if !fields.isEmpty {
                         fragment.output(",")
                     } else {
                         fragment.output("")
                     }
-                    fragment.outputMap(computedVariables, separator: ",") {
+                    fragment.outputMap(fields, separator: ",") {
                         "\($0.name): \($0.typeName.name.replacingOccurrences(of: "?", with: ""))()"
                     }
                 }
@@ -175,19 +307,19 @@ struct TranslatedProtocol: TranslatedType {
             fragment.outputBlock("public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {") {
                 fragment.output("let constructor = try NodeClass.constructor(for: \"\(nodeName)\", env: env)")
                 fragment.outputBlock("let args: [NAPI.Value] = [") {
-                    for computedVar in computedVariables {
-                        let resolved = context.resolve(type: computedVar.typeName.better)
-                        fragment.output("try \(resolved.converterType.name).toNode(value.\(computedVar.name), env: env),")
+                    for field in fields {
+                        let resolved = context.resolve(type: field.typeName.better)
+                        fragment.output("try \(resolved.converterType.name).toNode(value.\(field.name), env: env),")
                     }
                 }
                 fragment.output("return try env.newInstance(constructor, args)")
             }
 
             fragment.outputBlock("public static func mutateNode(_ value: SwiftType, this: NAPI.Value, env: NAPI.Env) throws {") {
-                for computedVar in computedVariables {
-                    guard computedVar.isMutable else { continue }
-                    let resolved = context.resolve(type: computedVar.typeName.better)
-                    fragment.output("try env.setNamedProperty(this, \"\(computedVar.name)\", \(resolved.converterType.name).toNode(value.\(computedVar.name), env: env))")
+                for field in fields {
+                    guard field.isMutable else { continue }
+                    let resolved = context.resolve(type: field.typeName.better)
+                    fragment.output("try env.setNamedProperty(this, \"\(field.name)\", \(resolved.converterType.name).toNode(value.\(field.name), env: env))")
                 }
             }
 
@@ -202,12 +334,12 @@ struct TranslatedProtocol: TranslatedType {
                     fragment.outputBlock("properties: [", closeWith: "],") {
                         var hasProperties = false
                         hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment)
-                        hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment)
-//                        for computedVar in computedVariables {
+                        hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: fields, context: context, fragment: fragment)
+//                        for field in fields {
 //                            // Limitation in wasm implementation of napi_create_class doesn't allow constructors to assign to non-mutable property.
-//                            // let mutable = storedVar.isPubliclyWritable
+//                            // let mutable = field.isPubliclyWritable
 //                            let mutable = true
-//                            fragment.output("\"\(computedVar.name)\": (.stored(mutable: \(mutable)), isStatic: \(computedVar.isStatic)),")
+//                            fragment.output("\"\(field.name)\": (.stored(mutable: \(mutable)), isStatic: \(field.isStatic)),")
 //                            hasProperties = true
 //                        }
                         if !hasProperties {
@@ -215,11 +347,11 @@ struct TranslatedProtocol: TranslatedType {
                         }
                     }
                     fragment.outputBlock("constructor: { env, info in", closeWith: "}") {
-                        fragment.outputBlock("callbackBody(env, info, name: \"\(nodeName)_constructor\", expectedArgumentCount: \(computedVariables.count)) { env in", closeWith: "}") {
+                        fragment.outputBlock("callbackBody(env, info, name: \"\(nodeName)_constructor\", expectedArgumentCount: \(fields.count)) { env in", closeWith: "}") {
                             fragment.output("// TODO: typecheck?")
                             fragment.output("let this = try env.this()")
-                            for (index, computedVar) in computedVariables.enumerated() {
-                                fragment.output("try env.env.setNamedProperty(this, \"\(computedVar.name)\", env.argument(at: \(index)))")
+                            for (index, field) in fields.enumerated() {
+                                fragment.output("try env.env.setNamedProperty(this, \"\(field.name)\", env.argument(at: \(index)))")
                             }
                             fragment.output("return this")
                         }
@@ -239,7 +371,7 @@ struct TranslatedProtocol: TranslatedType {
                 documentation: documentation,
                 name: nodeName,
                 constructor: .visible(
-                    computedVariables.map {
+                    fields.map {
                         (
                             name: $0.name,
                             type: context.resolve(type: $0.typeName.better).nodeType
@@ -247,11 +379,186 @@ struct TranslatedProtocol: TranslatedType {
                     }
                 ),
                 fields:
-                    computedVariables.compactMap {context.ts(field: $0, useNativeName: false) },
+                    fields.compactMap {context.ts(field: $0, useNativeName: false) },
                 methods: methods.compactMap { context.ts(method: $0) }
             )
         )
         fragment.blankLine()
+        return fragment
+    }
+
+    func iotaDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
+        let fragment = context.swiftFragment(
+            "IotaInterface/\(sourceType.name)+iota-type.swift",
+            additionalImports: ["Foundation", "FishyJoesIotaRuntime", "\(context.module.name)_CommonInterface"]
+        )
+
+        let foreignProtocolType = "_Iota\(sourceType.nonNamespacedName)"
+
+        fragment.outputBlock("struct \(foreignProtocolType): \(sourceType.name) {") {
+            fragment.output("let _iotaWitness: IotaReference")
+            for variable in fields {
+                fragment.output()
+                let resolvedVar = context.resolve(type: variable.typeName.better)
+
+                fragment.outputBlock("\(variable.isStatic ? "static " : "")public var \(variable.name): \(variable.typeName.better.name) {") {
+                    fragment.outputBlock("get throws {") {
+                        fragment.outputBlock("try \(resolvedVar.converterType.name).consumeIota(") {
+                            fragment.outputBlock("try _iotaWitness.env.check { exn in", closeWith: "},") {
+                                fragment.output("\(converterType.name)._\(variable.name)Getter[_iotaWitness.env](_iotaWitness.object, exn)")
+                            }
+                            fragment.output("env: _iotaWitness.env")
+                        }
+                    }
+                }
+            }
+
+            for method in methods {
+                fragment.output()
+                let resolvedReturn = context.resolve(type: method.returnType)
+                var returnSignature = "\(method.isThrowing ? " throws" : "")"
+                if method.returnType.name != "Void" {
+                    returnSignature.append(" -> \(method.returnType.name)")
+                }
+
+                var paramSigs = [String]()
+                do {
+                    for param in method.parameters {
+                        paramSigs.append("\(param.labelAndName): \(param.type.name)")
+                    }
+                }
+                fragment.outputBlock("\(method.isStatic ? "static " : "")public func \(method.callName)(\(paramSigs.joined(separator: ", ")))\(returnSignature) {") {
+                    fragment.outputBlock("try \(resolvedReturn.converterType.name).peekIota(") {
+                        fragment.outputBlock("try _iotaWitness.env.check { exn in", closeWith: "},") {
+                            fragment.outputBlock("\(converterType.name)._\(method.callName)[_iotaWitness.env](") {
+                                fragment.output("_iotaWitness.object,")
+                                for param in method.parameters {
+                                    let resolvedParam = context.resolve(type: param.type)
+                                    fragment.output("try \(resolvedParam.converterType.name).toIota(\(param.name), env: _iotaWitness.env),")
+                                }
+                                fragment.output("exn")
+                            }
+                        }
+                        fragment.output("env: _iotaWitness.env")
+                    }
+                }
+            }
+        }
+
+        fragment.blankLine()
+
+        fragment.output("@_cdecl(\"\(iotaSetupName)\")")
+        fragment.outputBlock("public func \(iotaSetupName)(", newLineTerminated: false) {
+            fragment.output("envRef: EnvRef,")
+            fragment.output("constructorMethod: @escaping \(converterType.name)._ConstructorMethod,")
+            for field in fields {
+                let resolved = context.resolve(type: field.typeName.better)
+                fragment.output("_ \(field.name)Getter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolved.converterType.name).CType,")
+                if field.isMutable {
+                    fragment.output("_ \(field.name)Setter: @escaping @convention(c) (foreignObject, \(resolved.converterType.name).CType, _ exn: foreignOutExn) -> Void,")
+                }
+            }
+            for method in methods {
+                let resolvedReturnType = context.resolve(type: method.returnType)
+                fragment.outputBlock("_ \(method.callName): @escaping @convention(c) (", closeWith: ") -> \(resolvedReturnType.converterType.name).CType,") {
+                    fragment.output("foreignObject,")
+                    for param in method.parameters {
+                        let resolvedParam = context.resolve(type: param.type)
+                        fragment.output("\(resolvedParam.converterType.name).CType,")
+                    }
+                    fragment.output("_ exn: foreignOutExn")
+                }
+            }
+            fragment.output("_ exn: foreignOutExn")
+        }
+        fragment.outputBlock(" {") {
+            fragment.output("let env = Env(envRef)")
+            fragment.output("if \(converterType.name)._constructorMethod.isInitialized(env) { return }")
+            fragment.output("\(converterType.name)._constructorMethod[env] = constructorMethod")
+            for field in fields {
+                fragment.output("\(converterType.name)._\(field.name)Getter[env] = \(field.name)Getter")
+                if field.isMutable {
+                    fragment.output("\(converterType.name)._\(field.name)Setter[env] = \(field.name)Setter")
+                }
+            }
+            for method in methods {
+                fragment.output("\(converterType.name)._\(method.callName)[env] = \(method.callName)")
+            }
+        }
+        fragment.blankLine()
+
+        fragment.outputBlock("extension \(converterType.name): IotaMutator {") {
+            fragment.output("public typealias CType = foreignObject")
+
+            fragment.outputBlock("public typealias _ConstructorMethod = @convention(c) (", closeWith: ") -> foreignObject") {
+                fragment.output("_ ref: UnsafeMutableRawPointer,")
+                fragment.output("_ exn: foreignOutExn")
+            }
+            fragment.output("fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()")
+            for field in fields {
+                let resolved = context.resolve(type: field.typeName.better)
+                fragment.output("fileprivate static let _\(field.name)Getter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolved.converterType.name).CType>()")
+                if field.isMutable {
+                    fragment.output("fileprivate static let _\(field.name)Setter = Env.CallbackMap<@convention(c) (foreignObject, \(resolved.converterType.name).CType, _ exn: foreignOutExn) -> Void>()")
+                }
+            }
+            for method in methods {
+                let resolvedReturnType = context.resolve(type: method.returnType)
+                fragment.outputBlock("fileprivate static let _\(method.callName) = Env.CallbackMap<@convention(c) (", closeWith: ") -> \(resolvedReturnType.converterType.name).CType>()") {
+                    fragment.output("foreignObject,")
+                    for param in method.parameters {
+                        let resolvedParam = context.resolve(type: param.type)
+                        fragment.output("\(resolvedParam.converterType.name).CType,")
+                    }
+                    fragment.output("_ exn: foreignOutExn")
+                }
+            }
+            fragment.blankLine()
+
+            fragment.outputBlock("public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {") {
+                fragment.outputBlock("do {", newLineTerminated: false) {
+                    fragment.output("let box = try Box<SwiftType>.peekIota(value, env: env)")
+                    fragment.output("return box.value")
+                }
+                fragment.outputBlock(" catch {") {
+                    fragment.output("let iotaWitness = try IotaReference(value, env: env)")
+                    fragment.output("return _Iota\(sourceType.nonNamespacedName)(_iotaWitness: iotaWitness)")
+                }
+            }
+            fragment.blankLine()
+
+            fragment.outputBlock("public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {") {
+                fragment.outputBlock("try env.check { exn in", closeWith: "}") {
+                    fragment.output("// here's where we should make a new witness with witness constructor")
+                    fragment.outputBlock("_constructorMethod[env](") {
+                        fragment.output("Box(value).retainedOpaque(),")
+                        fragment.output("exn")
+                    }
+                }
+            }
+            fragment.blankLine()
+
+            fragment.outputBlock("public static func mutateIota(_ this: foreignObject, to value: SwiftType, env: Env) throws {") {
+                for field in fields {
+                    let resolved = context.resolve(type: field.typeName.better)
+                    if field.isMutable {
+                        fragment.outputBlock("try env.check { exn in _\(field.name)Setter[env](", closeWith: ")}") {
+                            fragment.output("this,")
+                            fragment.output("try \(resolved.converterType.name).toIota(value.\(field.name), env: env),")
+                            fragment.output("exn")
+                        }
+                    }
+                }
+            }
+        }
+
+        registerDartClass(context: context)
+
+        // TODO: Handle Protocols
+        if conformances.isEmpty {
+            registerCSharpClass(context: context)
+        }
+
         return fragment
     }
 
@@ -264,13 +571,13 @@ struct TranslatedProtocol: TranslatedType {
         let foreignProtocolType = "_Java\(sourceType.nonNamespacedName)"
 
         var methodIDs: [(idHandle: String, name: String, signature: String)] = []
-        let defaultMethods = methods.filter { $0.isInExtension }
-        let normalMethods = methods.filter { !$0.isInExtension }
+        let defaultMethods = methods.filter { $0.isDefaultImplementation }
+        let normalMethods = methods.filter { !$0.isDefaultImplementation }
 
         fragment.outputBlock("struct \(foreignProtocolType): \(sourceType.name) {") {
             fragment.output("let _javaWitness: JavaReference")
 
-            for variable in computedVariables {
+            for variable in fields {
                 fragment.output()
                 let name = variable.name
                 let type = variable.typeName.better.name
@@ -343,43 +650,7 @@ struct TranslatedProtocol: TranslatedType {
             }
         }
 
-        fragment.output()
-
-        for defaultMethod in defaultMethods {
-            fragment.outputBlock("struct \(foreignProtocolType)_sans_\(defaultMethod.callName): \(sourceType.name) {", closeWith: "}") {
-                fragment.output("var wrapped: \(sourceType.name)")
-
-                for variable in computedVariables {
-                    fragment.output()
-                    let name = variable.name
-                    let type = variable.typeName.better.name
-                    fragment.outputBlock("public var \(name): \(type) {") {
-                        fragment.outputBlock("get throws {") {
-                            fragment.output("try wrapped.\(name)")
-                        }
-                    }
-                }
-                for method in methods {
-                    guard method.name != defaultMethod.name else {
-                        continue
-                    }
-                    fragment.output()
-                    let returnSignature = "\(method.isThrowing ? " throws" : "") -> \(method.returnType.name)"
-                    fragment.outputBlock("public func \(method.name)\(returnSignature) {", closeWith: "}") {
-                        var methodParamsStr = [String]()
-                        for param in method.parameters {
-                            if let paramLabel = param.label {
-                                methodParamsStr.append("\(paramLabel): \(param.name)")
-                            } else {
-                                methodParamsStr.append("\(param.name)")
-                            }
-                        }
-                        fragment.output("\(method.isThrowing ? "try " : "")wrapped.\(method.callName)(\(methodParamsStr.joined(separator: ", ")))")
-                    }
-                }
-            }
-            fragment.output()
-        }
+        fragment.blankLine()
 
         fragment.outputBlock("extension \(converterType.name): JavaMutator {") {
             fragment.output("public typealias CType = jobject?")
@@ -420,12 +691,12 @@ struct TranslatedProtocol: TranslatedType {
                 fragment.output("javaClass = try env.globalRef(env.FindClass(\"\(className)\"))")
                 fragment.output("externalWitnessClass = try env.globalRef(env.FindClass(\"\(javaExternalWitnessClassName)\"))")
                 fragment.output("externalWitnessConstructor = try env.GetMethodID(externalWitnessClass, \"<init>\", \"(J)V\")")
-                for computedVar in computedVariables {
-                    let resolved = context.resolve(type: computedVar.typeName.better)
+                for field in fields {
+                    let resolved = context.resolve(type: field.typeName.better)
                     let jniSignature = resolved.jniType.asSignature
-                    fragment.output("\(foreignProtocolType)._\(computedVar.name)GetMethodID = try env.GetMethodID(javaClass, \"get\(computedVar.name.capitalized)\", \"()\(jniSignature)\")")
-                    if computedVar.isMutable {
-                        fragment.output("\(foreignProtocolType)._\(computedVar.name)SetMethodID = try env.GetMethodID(javaClass, \"set\(computedVar.name.capitalized)\", \"(\(jniSignature))V\")")
+                    fragment.output("\(foreignProtocolType)._\(field.name)GetMethodID = try env.GetMethodID(javaClass, \"get\(field.name.capitalized)\", \"()\(jniSignature)\")")
+                    if field.isMutable {
+                        fragment.output("\(foreignProtocolType)._\(field.name)SetMethodID = try env.GetMethodID(javaClass, \"set\(field.name.capitalized)\", \"(\(jniSignature))V\")")
                     }
                 }
                 for normalMethod in normalMethods {
@@ -442,34 +713,48 @@ struct TranslatedProtocol: TranslatedType {
             }
         }
 
+        let (interfaceFields, interfaceMethods) = KotlinClass.separate(
+            fieldsAndMethods:
+                fields.compactMap {
+                    context.kotlin(field: $0, useNativeName: false)
+                } + methods.flatMap { method -> [KotlinClass.MethodOrVariable] in
+                    guard let kotlinMethodOrVariable = context.kotlin(method: method) else { return [] }
+
+                    guard !method.isStatic, method.isDefaultImplementation, case .method(var kotlinMethod) = kotlinMethodOrVariable else {
+                        return [kotlinMethodOrVariable]
+                    }
+
+                    var defaultMethod = kotlinMethod
+                    defaultMethod.name = "_default_\(defaultMethod.name)"
+                    defaultMethod.parameters.insert((nil, "self", .named(package: nil, name: kotlinName), nil), at: 0)
+                    defaultMethod.isStatic = true
+
+                    var parameters = ["this"]
+                    parameters.append(contentsOf: kotlinMethod.parameters.map(\.name))
+                    kotlinMethod.body = "__jni_\(defaultMethod.name)(\(parameters.joined(separator: ", ")))"
+
+                    return [.method(kotlinMethod), .method(defaultMethod)]
+                }
+        )
+
         context.add(
             kotlinClass: KotlinInterface(
                 module: context.module,
                 documentation: documentation,
                 name: kotlinName,
-                fieldsAndMethods:
-                    computedVariables.compactMap { context.kotlin(field: $0, useNativeName: false) } +
-                    methods.flatMap { method -> [KotlinClass.MethodOrVariable] in
-                        guard let kotlinMethodOrVariable = context.kotlin(method: method) else { return [] }
-
-                        guard !method.isStatic, method.isInExtension, case .method(var kotlinMethod) = kotlinMethodOrVariable else {
-                            return [kotlinMethodOrVariable]
-                        }
-
-                        var defaultMethod = kotlinMethod
-                        defaultMethod.name = "_default_\(defaultMethod.name)"
-                        defaultMethod.parameters.insert((nil, "self", .named(package: nil, name: kotlinName), nil), at: 0)
-                        defaultMethod.isStatic = true
-
-                        var parameters = ["this"]
-                        parameters.append(contentsOf: kotlinMethod.parameters.map(\.name))
-                        kotlinMethod.body = "__jni_\(defaultMethod.name)(\(parameters.joined(separator: ", ")))"
-
-                        return [.method(kotlinMethod), .method(defaultMethod)]
-                    }
+                fields: interfaceFields,
+                methods: interfaceMethods,
+                conformances: conformances
             ).conforming(to: conformances, context: context)
         )
 
+        let externalWitnessFieldsAndMethods = {
+            let nonDefaultMethods = methods.filter { !$0.isDefaultImplementation }
+            var fAndM = fields.compactMap { context.kotlin(field: $0, useNativeName: false)}
+            fAndM.append(contentsOf: nonDefaultMethods.compactMap { context.kotlin(method: $0) })
+            return fAndM
+        }()
+        let (externalWitnessFields, externalWitnessMethods) = KotlinClass.separate(fieldsAndMethods: externalWitnessFieldsAndMethods)
         context.add(
             kotlinClass: KotlinProductClass(
                 module: context.module,
@@ -477,16 +762,59 @@ struct TranslatedProtocol: TranslatedType {
                 documentation: [],
                 name: "_ExternalWitness_\(kotlinName)",
                 constructor: .reference,
-                fieldsAndMethods: {
-                    let nonDefaultMethods = methods.filter { !$0.isInExtension }
-                    var fAndM = computedVariables.compactMap { context.kotlin(field: $0, useNativeName: false)}
-                    fAndM.append(contentsOf: nonDefaultMethods.compactMap { context.kotlin(method: $0) })
-                    return fAndM
-                }(),
+                fields: externalWitnessFields,
+                methods: externalWitnessMethods,
                 conformances: ["com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference)"]
             ).conforming(to: [sourceType.name], context: context)
         )
 
         return [fragment]
+    }
+
+    func registerCSharpClass(context: FishyJoesContext) {
+        // TODO: Implement me!
+    }
+
+    func registerDartClass(context: FishyJoesContext) {
+        let (protocolFields, protocolMethods) = DartClass.separate(
+            fieldsAndMethods:
+                fields.compactMap {
+                    context.dart(field: $0, of: self, useNativeName: false)
+                } + methods.compactMap {
+                    context.dart(method: $0, of: self)
+                }
+        )
+        context.add(
+            dartClass: DartProtocolClass(
+                module: context.module,
+                documentation: documentation,
+                name: dartType.name(),
+                fields: protocolFields,
+                methods: protocolMethods,
+                conformances: conformances
+            )
+        )
+
+        let (externalWitnessFields, externalWitnessMethods) = DartClass.separate(
+            fieldsAndMethods:
+                fields.compactMap {
+                    context.dart(field: $0, of: self, useNativeName: false)
+                } + methods.filter { !$0.isDefaultImplementation }.compactMap {
+                    context.dart(method: $0, of: self)
+                }
+        )
+        let externalWitnessName = "ExternalWitness_\(sourceType.nonNamespacedName)"
+        context.add(
+            dartClass: DartProductClass(
+                module: context.module,
+                documentation: documentation,
+                name: "\(context.module.name).\(externalWitnessName)",
+                constructor: .reference,
+                fields: externalWitnessFields,
+                methods: externalWitnessMethods,
+                conformances: [sourceType.nonNamespacedName],
+                isExternalWitness: true
+            )
+        )
     }
 }

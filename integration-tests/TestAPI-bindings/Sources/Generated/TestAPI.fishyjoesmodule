@@ -4,6 +4,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI_CommonInterface",
             "name" : "_AProtocolConverter",
             "namespace" : [
 
@@ -1459,6 +1460,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI_CommonInterface",
             "name" : "_TestMethodsProtocolConverter",
             "namespace" : [
 
@@ -1510,6 +1512,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI_CommonInterface",
             "name" : "_TestOptionalsProtocolConverter",
             "namespace" : [
 
@@ -1561,6 +1564,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI_CommonInterface",
             "name" : "_TestPropertiesProtocolConverter",
             "namespace" : [
 
@@ -3245,19 +3249,6 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(frob) -->"
-                ],
-                "isStatic" : false,
-                "name" : "frob",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number[]"
-                  }
-                }
-              },
-              {
-                "documentation" : [
                   "<!-- FishyJoes.export(flarp) -->"
                 ],
                 "isStatic" : false,
@@ -3270,6 +3261,19 @@
                         "_0" : "string"
                       }
                     }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(frob) -->"
+                ],
+                "isStatic" : false,
+                "name" : "frob",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number[]"
                   }
                 }
               }

@@ -1,3 +1,5 @@
+import './AProtocol.dart' as TestAPI;
+import './AProtocolImplementation.dart' as TestAPI;
 import './Actors.dart' as TestAPI;
 import './Actors_TemperatureLogger.dart' as TestAPI;
 import './AssociatedDataEnum.dart' as TestAPI;
@@ -11,6 +13,10 @@ import './Collections_CollectionHolder.dart' as TestAPI;
 import './DefaultArguments.dart' as TestAPI;
 import './Deprecations.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
+import './ExternalWitness_AProtocol.dart' as TestAPI;
+import './ExternalWitness_TestMethodsProtocol.dart' as TestAPI;
+import './ExternalWitness_TestOptionalsProtocol.dart' as TestAPI;
+import './ExternalWitness_TestPropertiesProtocol.dart' as TestAPI;
 import './Functions.dart' as TestAPI;
 import './Methods.dart' as TestAPI;
 import './Primitives.dart' as TestAPI;
@@ -24,7 +30,12 @@ import './Structs_MemberwiseStruct.dart' as TestAPI;
 import './Structs_MutableStruct.dart' as TestAPI;
 import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Structs_ReferenceStruct.dart' as TestAPI;
+import './TestMethodsProtocol.dart' as TestAPI;
+import './TestOptionalsProtocol.dart' as TestAPI;
+import './TestPropertiesProtocol.dart' as TestAPI;
+import './TestProtocolClass.dart' as TestAPI;
 import './TestProtocolEnum.dart' as TestAPI;
+import './TestProtocolStruct.dart' as TestAPI;
 import './Tuples.dart' as TestAPI;
 import './URLs.dart' as TestAPI;
 import './UnicodeScalar_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
@@ -37,11 +48,282 @@ import 'package:fishyjoes_dart/runtime.dart';
 import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:tuple/tuple.dart' as tuple;
 
+// ignore_for_file: unused_import
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: no_leading_underscores_for_local_identifiers
+// ignore_for_file: library_prefixes
+// ignore_for_file: file_names
+// ignore_for_file: annotate_overrides
+
 /// <!-- FishyJoes.exportReference(Methods) -->
 class Methods extends SwiftReference {
     Methods(ffi.Pointer reference): super(reference) {}
     static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
         createRef(Methods(ref))
+    );
+
+    @override
+    String toString() => 'Methods(staticGet: $staticGet, staticGetMethod: $staticGetMethod, staticModifiable: $staticModifiable, staticStored: $staticStored, instanceGet: $instanceGet, garply: $garply, instanceGetMethod: $instanceGetMethod, instanceModifiable: $instanceModifiable, instanceStored: $instanceStored)';
+
+    static int ffi_get_staticGet(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        Methods.staticGet
+    ) ?? 0;
+
+    static int ffi_get_staticGetMethod(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        Methods.staticGetMethod
+    ) ?? 0;
+
+    static int ffi_get_staticModifiable(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        Methods.staticModifiable
+    ) ?? 0;
+
+    static int ffi_get_staticStored(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        Methods.staticStored
+    ) ?? 0;
+
+    static int ffi_get_instanceGet(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<Methods>(obj).instanceGet
+    ) ?? 0;
+
+    static int ffi_get_garply(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<Methods>(obj).garply
+    ) ?? 0;
+
+    static int ffi_get_instanceGetMethod(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<Methods>(obj).instanceGetMethod
+    ) ?? 0;
+
+    static int ffi_get_instanceModifiable(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<Methods>(obj).instanceModifiable
+    ) ?? 0;
+
+    static int ffi_get_instanceStored(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<Methods>(obj).instanceStored
+    ) ?? 0;
+
+    static CreatedRef ffi_create(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            Methods.create(
+            )
+        )
+    );
+
+    static int ffi_doublePlusGood(
+        UnownedRef obj,
+        int a,
+        double b,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<Methods>(obj).doublePlusGood(
+            a,
+            b
+        )
+    ) ?? 0;
+
+    static CreatedRef ffi_async42(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Methods>(obj).async42(
+            )
+        )
+    );
+
+    static CreatedRef ffi_asyncYield(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Methods>(obj).asyncYield(
+            )
+        )
+    );
+
+    static CreatedRef ffi_asyncSleep(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Methods>(obj).asyncSleep(
+            )
+        )
+    );
+
+    static CreatedRef ffi_asyncVoid(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Methods>(obj).asyncVoid(
+            )
+        )
+    );
+
+    static CreatedRef ffi_asyncDouble(
+        UnownedRef obj,
+        double d,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Methods>(obj).asyncDouble(
+                d
+            )
+        )
+    );
+
+    static CreatedRef ffi_asyncMultipleArgs(
+        UnownedRef obj,
+        int i,
+        ConsumedRef j,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Methods>(obj).asyncMultipleArgs(
+                i,
+                consumeRef(j)
+            )
+        )
+    );
+
+    static CreatedRef ffi_asyncThrowing(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Methods>(obj).asyncThrowing(
+            )
+        )
+    );
+
+    static CreatedRef ffi_asyncCallbackFunc0(
+        UnownedRef obj,
+        ConsumedRef callback,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Methods>(obj).asyncCallbackFunc0(
+                consumeRef(callback)
+            )
+        )
+    );
+
+    static CreatedRef ffi_staticAsync42(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            Methods.staticAsync42(
+            )
+        )
+    );
+
+    static CreatedRef ffi_staticAsyncYield(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            Methods.staticAsyncYield(
+            )
+        )
+    );
+
+    static CreatedRef ffi_staticAsyncSleep(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            Methods.staticAsyncSleep(
+            )
+        )
+    );
+
+    static CreatedRef ffi_staticAsyncVoid(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            Methods.staticAsyncVoid(
+            )
+        )
+    );
+
+    static CreatedRef ffi_staticAsyncDouble(
+        UnownedRef obj,
+        double d,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            Methods.staticAsyncDouble(
+                d
+            )
+        )
+    );
+
+    static CreatedRef ffi_staticAsyncMultipleArgs(
+        UnownedRef obj,
+        int i,
+        ConsumedRef j,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            Methods.staticAsyncMultipleArgs(
+                i,
+                consumeRef(j)
+            )
+        )
+    );
+
+    static CreatedRef ffi_staticAsyncThrowing(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            Methods.staticAsyncThrowing(
+            )
+        )
+    );
+
+    static CreatedRef ffi_staticAsyncCallbackFunc0(
+        UnownedRef obj,
+        ConsumedRef callback,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            Methods.staticAsyncCallbackFunc0(
+                consumeRef(callback)
+            )
+        )
     );
 
     /// <!-- FishyJoes.export(staticGet) -->

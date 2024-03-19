@@ -214,6 +214,19 @@ extension BetterType {
         }
     }
 
+    var module: String? {
+        switch self {
+        case let .named(name):
+            return name.module
+        case .void:
+            return "Swift"
+        case let .generic(base: base, args: _):
+            return base.module
+        default:
+            return nil
+        }
+    }
+
     var namespace: [String] {
         switch self {
         case let .named(name):

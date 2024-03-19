@@ -2044,14 +2044,14 @@ export declare namespace TestAPI {
         corge: string;
 
         /**
-         * <!-- FishyJoes.export(frob) -->
-         */
-        readonly frob: number[];
-
-        /**
          * <!-- FishyJoes.export(flarp) -->
          */
         flarp?: string;
+
+        /**
+         * <!-- FishyJoes.export(frob) -->
+         */
+        readonly frob: number[];
 
         /**
          * <!-- FishyJoes.export(foo) -->

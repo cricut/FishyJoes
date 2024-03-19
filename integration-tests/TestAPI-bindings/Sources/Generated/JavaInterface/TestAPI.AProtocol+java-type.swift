@@ -44,7 +44,7 @@ struct _JavaAProtocol: TestAPI.AProtocol {
         defer {
             try? Env.relinquishJVMThread(on: _javaWitness.vm)
         }
-        return try _AProtocolConverter.fromJava(
+        return try TestAPI_CommonInterface._AProtocolConverter.fromJava(
             env.CallObjectMethod(
                 _javaWitness.object,
                 Self._barMethodID,
@@ -91,55 +91,7 @@ struct _JavaAProtocol: TestAPI.AProtocol {
     }
 }
 
-struct _JavaAProtocol_sans_hasADefaultImplementation: TestAPI.AProtocol {
-    var wrapped: TestAPI.AProtocol
-
-    public var foo: String {
-        get throws {
-            try wrapped.foo
-        }
-    }
-
-    public var baz: Bool {
-        get throws {
-            try wrapped.baz
-        }
-    }
-
-    public func bar(x: Int, y: Int) throws -> AProtocol {
-        try wrapped.bar(x: x, y: y)
-    }
-
-    public func hasADefaultImplementation2(_ a: String, b: Bool, _ c: Double) throws -> Double {
-        try wrapped.hasADefaultImplementation2(a, b: b, c)
-    }
-}
-
-struct _JavaAProtocol_sans_hasADefaultImplementation2: TestAPI.AProtocol {
-    var wrapped: TestAPI.AProtocol
-
-    public var foo: String {
-        get throws {
-            try wrapped.foo
-        }
-    }
-
-    public var baz: Bool {
-        get throws {
-            try wrapped.baz
-        }
-    }
-
-    public func bar(x: Int, y: Int) throws -> AProtocol {
-        try wrapped.bar(x: x, y: y)
-    }
-
-    public func hasADefaultImplementation(x: Int, y: Double) throws -> String {
-        try wrapped.hasADefaultImplementation(x: x, y: y)
-    }
-}
-
-extension _AProtocolConverter: JavaMutator {
+extension TestAPI_CommonInterface._AProtocolConverter: JavaMutator {
     public typealias CType = jobject?
     public static var javaClass: jclass?
     public static var externalWitnessClass: jclass?

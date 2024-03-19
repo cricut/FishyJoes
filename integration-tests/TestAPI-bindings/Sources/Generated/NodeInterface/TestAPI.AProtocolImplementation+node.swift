@@ -42,7 +42,7 @@ extension TestAPI.AProtocolImplementation: NodeMutator {
                 "bar": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "bar", expectedArgumentCount: 2, hasNamedOptions: false) { env in
-                            let result = try _AProtocolConverter.toNode(
+                            let result = try TestAPI_CommonInterface._AProtocolConverter.toNode(
                                 env.this(converter: TestAPI.AProtocolImplementation.self).bar(
                                     x: try env.argument(at: 0, converter: Swift.Int.self),
                                     y: try env.argument(at: 1, converter: Swift.Int.self)

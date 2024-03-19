@@ -57,7 +57,7 @@ struct _JavaTestOptionalsProtocol: TestAPI.TestOptionalsProtocol {
     }
 }
 
-extension _TestOptionalsProtocolConverter: JavaMutator {
+extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: JavaMutator {
     public typealias CType = jobject?
     public static var javaClass: jclass?
     public static var externalWitnessClass: jclass?

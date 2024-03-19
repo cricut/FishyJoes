@@ -1,3 +1,5 @@
+import './AProtocol.dart' as TestAPI;
+import './AProtocolImplementation.dart' as TestAPI;
 import './Actors.dart' as TestAPI;
 import './Actors_TemperatureLogger.dart' as TestAPI;
 import './AssociatedDataEnum.dart' as TestAPI;
@@ -11,6 +13,10 @@ import './Collections_CollectionHolder.dart' as TestAPI;
 import './DefaultArguments.dart' as TestAPI;
 import './Deprecations.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
+import './ExternalWitness_AProtocol.dart' as TestAPI;
+import './ExternalWitness_TestMethodsProtocol.dart' as TestAPI;
+import './ExternalWitness_TestOptionalsProtocol.dart' as TestAPI;
+import './ExternalWitness_TestPropertiesProtocol.dart' as TestAPI;
 import './Functions.dart' as TestAPI;
 import './Methods.dart' as TestAPI;
 import './Primitives.dart' as TestAPI;
@@ -24,7 +30,12 @@ import './Structs_MemberwiseStruct.dart' as TestAPI;
 import './Structs_MutableStruct.dart' as TestAPI;
 import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Structs_ReferenceStruct.dart' as TestAPI;
+import './TestMethodsProtocol.dart' as TestAPI;
+import './TestOptionalsProtocol.dart' as TestAPI;
+import './TestPropertiesProtocol.dart' as TestAPI;
+import './TestProtocolClass.dart' as TestAPI;
 import './TestProtocolEnum.dart' as TestAPI;
+import './TestProtocolStruct.dart' as TestAPI;
 import './Tuples.dart' as TestAPI;
 import './URLs.dart' as TestAPI;
 import './UnicodeScalar_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
@@ -37,11 +48,66 @@ import 'package:fishyjoes_dart/runtime.dart';
 import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:tuple/tuple.dart' as tuple;
 
+// ignore_for_file: unused_import
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: no_leading_underscores_for_local_identifiers
+// ignore_for_file: library_prefixes
+// ignore_for_file: file_names
+// ignore_for_file: annotate_overrides
+
 /// <!-- FishyJoes.exportReference(Structs.ReferenceStruct) -->
 class Structs_ReferenceStruct extends SwiftReference {
     Structs_ReferenceStruct(ffi.Pointer reference): super(reference) {}
     static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
         createRef(Structs_ReferenceStruct(ref))
+    );
+
+    @override
+    String toString() => 'Structs_ReferenceStruct(immutable: $immutable, mutable: $mutable, hashCode: $hashCode)';
+
+    static CreatedRef ffi_get_immutable(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Structs_ReferenceStruct>(obj).immutable
+        )
+    );
+
+    static CreatedRef ffi_get_mutable(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Structs_ReferenceStruct>(obj).mutable
+        )
+    );
+
+    static int ffi_get_hashCode(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<Structs_ReferenceStruct>(obj).hashCode
+    ) ?? 0;
+
+    static CreatedRef ffi_create(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            Structs_ReferenceStruct.create(
+            )
+        )
+    );
+
+    static CreatedRef ffi_asyncGetMutable(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Structs_ReferenceStruct>(obj).asyncGetMutable(
+            )
+        )
     );
 
     /// <!-- FishyJoes.export(immutable) -->

@@ -1,3 +1,5 @@
+import './AProtocol.dart' as TestAPI;
+import './AProtocolImplementation.dart' as TestAPI;
 import './Actors.dart' as TestAPI;
 import './Actors_TemperatureLogger.dart' as TestAPI;
 import './AssociatedDataEnum.dart' as TestAPI;
@@ -11,6 +13,10 @@ import './Collections_CollectionHolder.dart' as TestAPI;
 import './DefaultArguments.dart' as TestAPI;
 import './Deprecations.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
+import './ExternalWitness_AProtocol.dart' as TestAPI;
+import './ExternalWitness_TestMethodsProtocol.dart' as TestAPI;
+import './ExternalWitness_TestOptionalsProtocol.dart' as TestAPI;
+import './ExternalWitness_TestPropertiesProtocol.dart' as TestAPI;
 import './Functions.dart' as TestAPI;
 import './Methods.dart' as TestAPI;
 import './Primitives.dart' as TestAPI;
@@ -24,7 +30,12 @@ import './Structs_MemberwiseStruct.dart' as TestAPI;
 import './Structs_MutableStruct.dart' as TestAPI;
 import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Structs_ReferenceStruct.dart' as TestAPI;
+import './TestMethodsProtocol.dart' as TestAPI;
+import './TestOptionalsProtocol.dart' as TestAPI;
+import './TestPropertiesProtocol.dart' as TestAPI;
+import './TestProtocolClass.dart' as TestAPI;
 import './TestProtocolEnum.dart' as TestAPI;
+import './TestProtocolStruct.dart' as TestAPI;
 import './Tuples.dart' as TestAPI;
 import './URLs.dart' as TestAPI;
 import './UnicodeScalar_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
@@ -36,6 +47,13 @@ import 'package:fishyjoes_dart/runtime.dart' as FishyJoesRuntime;
 import 'package:fishyjoes_dart/runtime.dart';
 import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:tuple/tuple.dart' as tuple;
+
+// ignore_for_file: unused_import
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: no_leading_underscores_for_local_identifiers
+// ignore_for_file: library_prefixes
+// ignore_for_file: file_names
+// ignore_for_file: annotate_overrides
 
 /// <!-- FishyJoes.export(Primitives.PrimitiveHolder) -->
 class Primitives_PrimitiveHolder {
@@ -179,6 +197,33 @@ class Primitives_PrimitiveHolder {
             dq: consumeRef(dq),
         ))
     );
+    @override
+    String toString() => 'Primitives_PrimitiveHolder(b: $b, bq: $bq, ui8: $ui8, ui8q: $ui8q, ui16: $ui16, ui16q: $ui16q, ui32: $ui32, ui32q: $ui32q, ui64: $ui64, ui64q: $ui64q, ui: $ui, uiq: $uiq, i8: $i8, i8q: $i8q, i16: $i16, i16q: $i16q, i32: $i32, i32q: $i32q, i64: $i64, i64q: $i64q, i: $i, iq: $iq, f: $f, fq: $fq, d: $d, dq: $dq)';
+
+    static CreatedRef ffi_get_staticProperty(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            Primitives_PrimitiveHolder.staticProperty
+        )
+    );
+
+    static CreatedRef ffi_get_staticMutableProperty(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            Primitives_PrimitiveHolder.staticMutableProperty
+        )
+    );
+    static void ffi_set_staticMutableProperty(
+        UnownedRef obj,
+        ConsumedRef newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        Primitives_PrimitiveHolder.staticMutableProperty = consumeRef<List<int?>>(newValue);
+    });
 
     static bool ffi_get_b(
         UnownedRef obj,
@@ -569,9 +614,6 @@ class Primitives_PrimitiveHolder {
     ) => catching(exn, () {
         peekRef<Primitives_PrimitiveHolder>(obj).dq = consumeRef<double?>(newValue);
     });
-
-    @override
-    String toString() => 'Primitives_PrimitiveHolder(b: $b, bq: $bq, ui8: $ui8, ui8q: $ui8q, ui16: $ui16, ui16q: $ui16q, ui32: $ui32, ui32q: $ui32q, ui64: $ui64, ui64q: $ui64q, ui: $ui, uiq: $uiq, i8: $i8, i8q: $i8q, i16: $i16, i16q: $i16q, i32: $i32, i32q: $i32q, i64: $i64, i64q: $i64q, i: $i, iq: $iq, f: $f, fq: $fq, d: $d, dq: $dq)';
 
     @override
     bool operator ==(Object other) {

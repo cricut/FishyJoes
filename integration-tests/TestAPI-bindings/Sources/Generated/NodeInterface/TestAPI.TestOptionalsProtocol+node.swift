@@ -20,7 +20,7 @@ struct _NodeTestOptionalsProtocol: TestAPI.TestOptionalsProtocol {
         spqrImpl!()
     }
 }
-extension _TestOptionalsProtocolConverter: NodeMutator {
+extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: NodeMutator {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         return _NodeTestOptionalsProtocol(
             _nodeWitness: try NodeReference(env: env, value: value),
@@ -47,7 +47,7 @@ extension _TestOptionalsProtocolConverter: NodeMutator {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "wombat", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Swift.Double>.toNode(
-                                env.this(converter: _TestOptionalsProtocolConverter.self).wombat(
+                                env.this(converter: TestAPI_CommonInterface._TestOptionalsProtocolConverter.self).wombat(
                                     zxc: try env.argument(at: 0, converter: OptionalConverter<Swift.Int>.self)
                                 ),
                                 env: env.env
@@ -61,7 +61,7 @@ extension _TestOptionalsProtocolConverter: NodeMutator {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "spqr", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.Int.toNode(
-                                env.this(converter: _TestOptionalsProtocolConverter.self).spqr(
+                                env.this(converter: TestAPI_CommonInterface._TestOptionalsProtocolConverter.self).spqr(
                                     try env.argument(at: 0, converter: TestAPI.AssociatedDataEnum.self)
                                 ),
                                 env: env.env
@@ -75,7 +75,7 @@ extension _TestOptionalsProtocolConverter: NodeMutator {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "flarp", expectedArgumentCount: 0) { env in
-                                try OptionalConverter<Swift.String>.toNode(env.this(converter: _TestOptionalsProtocolConverter.self).flarp, env: env.env)
+                                try OptionalConverter<Swift.String>.toNode(env.this(converter: TestAPI_CommonInterface._TestOptionalsProtocolConverter.self).flarp, env: env.env)
                             }
                         },
                         setter: nil

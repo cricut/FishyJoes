@@ -19,14 +19,6 @@ class TestProtocolClass private constructor(_swiftReference: Long): TestMethodsP
     private external fun __jni_set_corge(newValue: kotlin.String)
 
     /**
-     * <!-- FishyJoes.export(frob) -->
-     */
-    override val frob: kotlin.collections.List<Double>
-      get() = __jni_get_frob()
-    @JvmName("__jni_get_frob")
-    private external fun __jni_get_frob(): kotlin.collections.List<Double>
-
-    /**
      * <!-- FishyJoes.export(flarp) -->
      */
     override var flarp: kotlin.String?
@@ -36,6 +28,14 @@ class TestProtocolClass private constructor(_swiftReference: Long): TestMethodsP
     private external fun __jni_get_flarp(): kotlin.String?
     @JvmName("__jni_set_flarp")
     private external fun __jni_set_flarp(newValue: kotlin.String?)
+
+    /**
+     * <!-- FishyJoes.export(frob) -->
+     */
+    override val frob: kotlin.collections.List<Double>
+      get() = __jni_get_frob()
+    @JvmName("__jni_get_frob")
+    private external fun __jni_get_frob(): kotlin.collections.List<Double>
 
     /**
      * <!-- FishyJoes.export(foo) -->

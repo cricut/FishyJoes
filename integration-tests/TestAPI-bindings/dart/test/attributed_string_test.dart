@@ -1,9 +1,11 @@
 import 'package:cricut_test_api/cricut_test_api.dart';
 import 'package:test/test.dart';
 import 'package:fishyjoes_dart/runtime.dart';
+import 'dart:io';
 
 void main() {
   setUp(() {
+      print('pid: $pid');
       final _ = ensureLoaded;
   });
 

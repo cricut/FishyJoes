@@ -273,11 +273,21 @@ struct TranslatedStruct: TranslatedType {
             }
         }
 
+        let (fields, methods) = KotlinClass.separate(
+            fieldsAndMethods:
+                computedVariables.compactMap {
+                    context.kotlin(field: $0, useNativeName: false)
+                } + methods.compactMap {
+                    context.kotlin(method: $0)
+                }
+        )
+
         context.add(
             kotlinClass: KotlinProductClass(
                 module: context.module,
                 documentation: documentation,
                 name: kotlinName,
+                // storedVariables go into constructor. Export annotation can specify .exportMethod instead of .export, but this is only valid for computed properties, so throw an error if a storedVariable has an .exportMethod annotation (handled in the context.kotlin(field:useNativeName) method).
                 constructor: .`public`(
                     fields: storedVariables.compactMap {
                         switch context.kotlin(field: $0, useNativeName: true) {
@@ -288,9 +298,8 @@ struct TranslatedStruct: TranslatedType {
                     },
                     arguments: []
                 ),
-                fieldsAndMethods:
-                    computedVariables.compactMap { context.kotlin(field: $0, useNativeName: false) } +
-                    methods.compactMap { context.kotlin(method: $0) }
+                fields: fields,
+                methods: methods
             ).conforming(to: conformances, context: context)
         )
 
@@ -399,37 +408,49 @@ struct TranslatedStruct: TranslatedType {
 
     func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>] {
         let constructorType = "_\(converterType.genericBaseName.mangledName)Constructor"
-        return [
+        var setupParams = [ForeignSetupParameter<DartClass.DartType>]()
+
+        setupParams.append(
             .value(
                 name: "constructor",
                 type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(constructorType)>>")
             ) { fragment in
                 fragment.output("ffi.Pointer.fromFunction(\(dartType.name()).ffi_constructor),")
-            },
-        ] + storedVariables.flatMap { storedVar -> [ForeignSetupParameter<DartClass.DartType>] in
-            let resolved = context.resolve(type: storedVar.typeName.better)
-            let commonName = "_\(converterType.genericBaseName.mangledName)_\(storedVar.name)"
-            let getType = "\(commonName)Getter"
-            let setType = "\(commonName)Setter"
-            return [
-                .value(
-                    name: "get_\(storedVar.name)",
-                    type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(getType)>>")
-                ) { fragment in
-                    let defaultValue = resolved.dartType.defaultReturnValue.map { ", \($0)" } ?? ""
-                    fragment.output("ffi.Pointer.fromFunction(\(dartType.name()).ffi_get_\(storedVar.name)\(defaultValue)),")
+            }
+        )
+
+        setupParams.append(
+            contentsOf:
+                storedVariables.flatMap { storedVar -> [ForeignSetupParameter<DartClass.DartType>] in
+                    let resolved = context.resolve(type: storedVar.typeName.better)
+                    let commonName = "_\(converterType.genericBaseName.mangledName)_\(storedVar.name)"
+                    let getType = "\(commonName)Getter"
+                    let setType = "\(commonName)Setter"
+                    var returnVals = [ForeignSetupParameter<DartClass.DartType>]()
+                    returnVals.append(
+                        .value(
+                            name: "get_\(storedVar.name)",
+                            type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(getType)>>")
+                        ) { fragment in
+                            let defaultValue = resolved.dartType.defaultReturnValue.map { ", \($0)" } ?? ""
+                            fragment.output("ffi.Pointer.fromFunction(\(dartType.name()).ffi_get_\(storedVar.name)\(defaultValue)),")
+                        }
+                    )
+                    if storedVar.isMutable {
+                        returnVals.append(
+                            .value(
+                                name: "set_\(storedVar.name)",
+                                type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(setType)>>")
+                            ) { fragment in
+                                fragment.output("ffi.Pointer.fromFunction(\(dartType.name()).ffi_set_\(storedVar.name)),")
+                            }
+                        )
+                    }
+                    return returnVals
                 }
-            ] + (
-                storedVar.isMutable ? [
-                    .value(
-                        name: "set_\(storedVar.name)",
-                        type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(setType)>>")
-                    ) { fragment in
-                        fragment.output("ffi.Pointer.fromFunction(\(dartType.name()).ffi_set_\(storedVar.name)),")
-                    },
-                ] : []
-            )
-        }
+        )
+
+        return setupParams
     }
 
     func iotaDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
@@ -523,10 +544,11 @@ struct TranslatedStruct: TranslatedType {
             }
         }
 
+        registerDartClass(context: context)
+
         // TODO: Handle Protocols
         if conformances.isEmpty {
             registerCSharpClass(context: context)
-            registerDartClass(context: context)
         }
 
         return fragment
@@ -557,9 +579,14 @@ struct TranslatedStruct: TranslatedType {
     }
 
     func registerDartClass(context: FishyJoesContext) {
-        let fieldsAndMethods =
-            computedVariables.compactMap { context.dart(field: $0, of: self, useNativeName: false) } +
-            methods.compactMap { context.dart(method: $0, of: self) }
+        let (fields, methods) = DartClass.separate(
+            fieldsAndMethods:
+                computedVariables.compactMap {
+                    context.dart(field: $0, of: self, useNativeName: false)
+                } + methods.compactMap {
+                    context.dart(method: $0, of: self)
+                }
+        )
 
         context.add(
             dartClass: DartProductClass(
@@ -575,7 +602,8 @@ struct TranslatedStruct: TranslatedType {
                         }
                     }
                 ),
-                fieldsAndMethods: fieldsAndMethods,
+                fields: fields,
+                methods: methods,
                 conformances: conformances
             )
         )

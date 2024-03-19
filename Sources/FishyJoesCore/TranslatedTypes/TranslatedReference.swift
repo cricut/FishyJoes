@@ -319,12 +319,14 @@ struct TranslatedReference: TranslatedType {
             )
         }
 
+        let (fields, methods) = KotlinClass.separate(fieldsAndMethods: fieldsAndMethods)
         let product = KotlinProductClass(
             module: context.module,
             documentation: documentation,
             name: kotlinName,
             constructor: .reference,
-            fieldsAndMethods: fieldsAndMethods,
+            fields: fields,
+            methods: methods,
             conformances: ["com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference)"]
         ).conforming(to: conformances, context: context)
         context.add(kotlinClass: product)
@@ -413,10 +415,11 @@ struct TranslatedReference: TranslatedType {
             }
         }
 
+        registerDartClass(in: context)
+
         // TODO: Handle Protocols
         if conformances.isEmpty {
             registerCSharpClass(in: context)
-            registerDartClass(in: context)
         }
 
         return fragment
@@ -498,8 +501,12 @@ struct TranslatedReference: TranslatedType {
 
     func registerDartClass(in context: FishyJoesContext) {
         var fieldsAndMethods =
-            computedVariables.compactMap { context.dart(field: $0, of: self, useNativeName: false) } +
-            methods.compactMap { context.dart(method: $0, of: self) }
+        computedVariables.compactMap {
+            context.dart(field: $0, of: self, useNativeName: false)
+        } +
+        methods.compactMap {
+            context.dart(method: $0, of: self)
+        }
 
         if equatable {
             fieldsAndMethods.append(
@@ -518,7 +525,8 @@ struct TranslatedReference: TranslatedType {
                             "GCRef.using(this, (thisHandle) =>",
                             "    GCRef.using(other as \(dartType.name()), (otherHandle) =>",
                             "        check((exn) => f__iota_\(sourceType.name.mangled)_equals(Loader.shared.env, thisHandle.ptr, otherHandle.ptr, exn))))",
-                        ]
+                        ],
+                        isDefaultImplementation: false
                     )
                 )
             )
@@ -535,7 +543,8 @@ struct TranslatedReference: TranslatedType {
                         ],
                         returnType: .primitive("bool", ffiName: "Bool"),
                         deprecation: nil,
-                        body: nil
+                        body: nil,
+                        isDefaultImplementation: false
                     )
                 )
             )
@@ -558,12 +567,14 @@ struct TranslatedReference: TranslatedType {
             )
         }
 
+        let (fields, methods) = DartClass.separate(fieldsAndMethods: fieldsAndMethods)
         let dartProduct = DartProductClass(
             module: context.module,
             documentation: documentation,
             name: dartType.name(),
             constructor: .reference,
-            fieldsAndMethods: fieldsAndMethods,
+            fields: fields,
+            methods: methods,
             conformances: conformances
         )
         context.add(dartClass: dartProduct)

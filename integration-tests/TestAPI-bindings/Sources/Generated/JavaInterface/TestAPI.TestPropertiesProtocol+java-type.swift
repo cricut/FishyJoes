@@ -39,7 +39,7 @@ struct _JavaTestPropertiesProtocol: TestAPI.TestPropertiesProtocol {
     }
 }
 
-extension _TestPropertiesProtocolConverter: JavaMutator {
+extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: JavaMutator {
     public typealias CType = jobject?
     public static var javaClass: jclass?
     public static var externalWitnessClass: jclass?

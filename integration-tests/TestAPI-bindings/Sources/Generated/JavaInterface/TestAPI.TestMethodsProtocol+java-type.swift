@@ -106,7 +106,7 @@ struct _JavaTestMethodsProtocol: TestAPI.TestMethodsProtocol {
     }
 }
 
-extension _TestMethodsProtocolConverter: JavaMutator {
+extension TestAPI_CommonInterface._TestMethodsProtocolConverter: JavaMutator {
     public typealias CType = jobject?
     public static var javaClass: jclass?
     public static var externalWitnessClass: jclass?

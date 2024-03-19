@@ -25,7 +25,7 @@ struct _NodeAProtocol: TestAPI.AProtocol {
         hasADefaultImplementation2Impl!()
     }
 }
-extension _AProtocolConverter: NodeMutator {
+extension TestAPI_CommonInterface._AProtocolConverter: NodeMutator {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         return _NodeAProtocol(
             _nodeWitness: try NodeReference(env: env, value: value),
@@ -53,8 +53,8 @@ extension _AProtocolConverter: NodeMutator {
                 "bar": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "bar", expectedArgumentCount: 2, hasNamedOptions: false) { env in
-                            let result = try _AProtocolConverter.toNode(
-                                env.this(converter: _AProtocolConverter.self).bar(
+                            let result = try TestAPI_CommonInterface._AProtocolConverter.toNode(
+                                env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self).bar(
                                     x: try env.argument(at: 0, converter: Swift.Int.self),
                                     y: try env.argument(at: 1, converter: Swift.Int.self)
                                 ),
@@ -69,7 +69,7 @@ extension _AProtocolConverter: NodeMutator {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
-                                env.this(converter: _AProtocolConverter.self).hasADefaultImplementation(
+                                env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self).hasADefaultImplementation(
                                     x: try env.argument(at: 0, converter: Swift.Int.self),
                                     y: try env.argument(at: 1, converter: Swift.Double.self)
                                 ),
@@ -84,7 +84,7 @@ extension _AProtocolConverter: NodeMutator {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation2", expectedArgumentCount: 3, hasNamedOptions: false) { env in
                             let result = try Swift.Double.toNode(
-                                env.this(converter: _AProtocolConverter.self).hasADefaultImplementation2(
+                                env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self).hasADefaultImplementation2(
                                     try env.argument(at: 0, converter: Swift.String.self),
                                     b: try env.argument(at: 1, converter: Swift.Bool.self),
                                     try env.argument(at: 2, converter: Swift.Double.self)
@@ -100,7 +100,7 @@ extension _AProtocolConverter: NodeMutator {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "foo", expectedArgumentCount: 0) { env in
-                                try Swift.String.toNode(env.this(converter: _AProtocolConverter.self).foo, env: env.env)
+                                try Swift.String.toNode(env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self).foo, env: env.env)
                             }
                         },
                         setter: nil
@@ -111,7 +111,7 @@ extension _AProtocolConverter: NodeMutator {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "baz", expectedArgumentCount: 0) { env in
-                                try Swift.Bool.toNode(env.this(converter: _AProtocolConverter.self).baz, env: env.env)
+                                try Swift.Bool.toNode(env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self).baz, env: env.env)
                             }
                         },
                         setter: nil

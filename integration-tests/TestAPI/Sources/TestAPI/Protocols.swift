@@ -44,7 +44,6 @@ public struct AProtocolImplementation: AProtocol {
         self.baz = baz
     }
 
-    // TODO: should we infer the export from protocol requirements?
     /// <!-- FishyJoes.export(bar) -->
     public func bar(x: Int, y: Int) throws -> AProtocol {
         AProtocolImplementation(foo: "\(x + y)", baz: x == 2)
@@ -184,12 +183,8 @@ public class TestProtocolClass: TestMethodsProtocol, TestPropertiesProtocol, Tes
     /// <!-- FishyJoes.export(corge) -->
     public var corge: String
 
-    /// <!-- FishyJoes.export(frob) -->
-    public var frob: [Double] {
-        get throws {
-            [42.0, -1.23456789, 3.14159265359]
-        }
-    }
+    /// <!-- FishyJoes.export(flarp) -->
+    public var flarp: String?
 
     /// <!-- FishyJoes.export(init) -->
     public init(corge: String, flarp: String? = nil) {
@@ -197,8 +192,12 @@ public class TestProtocolClass: TestMethodsProtocol, TestPropertiesProtocol, Tes
         self.flarp = flarp
     }
 
-    /// <!-- FishyJoes.export(flarp) -->
-    public var flarp: String?
+    /// <!-- FishyJoes.export(frob) -->
+    public var frob: [Double] {
+        get throws {
+            [42.0, -1.23456789, 3.14159265359]
+        }
+    }
 
     /// <!-- FishyJoes.export(wombat) -->
     public func wombat(zxc: Int?) throws -> Double? {
