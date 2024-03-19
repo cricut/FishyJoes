@@ -4,9 +4,9 @@ import kotlinx.coroutines.*
 import java.lang.Exception
 
 /**
- * <!-- FishyJoes.export(MutatingCounter) -->
+ * <!-- FishyJoes.export(TestMutatingCounter) -->
  */
-data class MutatingCounter(
+data class TestMutatingCounter(
     val count: Long
 ) {
     /**

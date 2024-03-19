@@ -6,12 +6,12 @@ using static Cricut.FishyJoesRuntime.Utilities;
 
 namespace Cricut.TestAPI {
     /// <summary>
-    /// <!-- FishyJoes.export(MutatingCounter) -->
+    /// <!-- FishyJoes.export(TestMutatingCounter) -->
     /// </summary>
-    public record MutatingCounter {
+    public record TestMutatingCounter {
         public nint Count { get; internal set; }
 
-        public MutatingCounter(
+        public TestMutatingCounter(
             nint Count
         ) {
             this.Count = Count;
@@ -23,11 +23,11 @@ namespace Cricut.TestAPI {
         public void Tick(
         ) {
             using var _thisHandle = new GCRef(this);
-            Check((out CreatedRef _exn) => __iota_TestAPI_MutatingCounter_tick(Loader.env, _thisHandle.ptr, out _exn));
+            Check((out CreatedRef _exn) => __iota_TestAPI_TestMutatingCounter_tick(Loader.env, _thisHandle.ptr, out _exn));
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern void __iota_TestAPI_MutatingCounter_tick(
+        private static extern void __iota_TestAPI_TestMutatingCounter_tick(
             IntPtr envRef,
             UnownedRef self,
             out CreatedRef exn
@@ -39,16 +39,16 @@ namespace Cricut.TestAPI {
         public Cricut.TestAPI.TestMutatingCounterProtocol Witness(
         ) {
             using var _thisHandle = new GCRef(this);
-            return Check((out CreatedRef _exn) => __iota_TestAPI_MutatingCounter_witness(Loader.env, _thisHandle.ptr, out _exn)).Consume<Cricut.TestAPI.TestMutatingCounterProtocol>();
+            return Check((out CreatedRef _exn) => __iota_TestAPI_TestMutatingCounter_witness(Loader.env, _thisHandle.ptr, out _exn)).Consume<Cricut.TestAPI.TestMutatingCounterProtocol>();
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_TestAPI_MutatingCounter_witness(
+        private static extern CreatedRef __iota_TestAPI_TestMutatingCounter_witness(
             IntPtr envRef,
             UnownedRef self,
             out CreatedRef exn
         );
 
-        static MutatingCounter() { _TypeSetup._ensureLoaded(); }
+        static TestMutatingCounter() { _TypeSetup._ensureLoaded(); }
     }
 }

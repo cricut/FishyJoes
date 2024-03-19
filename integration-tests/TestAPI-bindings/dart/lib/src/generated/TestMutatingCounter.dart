@@ -20,7 +20,6 @@ import './ExternalWitness_TestOptionalsProtocol.dart' as TestAPI;
 import './ExternalWitness_TestPropertiesProtocol.dart' as TestAPI;
 import './Functions.dart' as TestAPI;
 import './Methods.dart' as TestAPI;
-import './MutatingCounter.dart' as TestAPI;
 import './Primitives.dart' as TestAPI;
 import './Primitives_PrimitiveHolder.dart' as TestAPI;
 import './Ranges.dart' as TestAPI;
@@ -33,6 +32,7 @@ import './Structs_MutableStruct.dart' as TestAPI;
 import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Structs_ReferenceStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
+import './TestMutatingCounter.dart' as TestAPI;
 import './TestMutatingCounterProtocol.dart' as TestAPI;
 import './TestOptionalsProtocol.dart' as TestAPI;
 import './TestPropertiesProtocol.dart' as TestAPI;
@@ -58,12 +58,12 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
-/// <!-- FishyJoes.export(MutatingCounter) -->
-class MutatingCounter {
+/// <!-- FishyJoes.export(TestMutatingCounter) -->
+class TestMutatingCounter {
     int _count;
     int get count => _count;
 
-    MutatingCounter({
+    TestMutatingCounter({
         required int count
     }):
         this._count = count;
@@ -72,32 +72,32 @@ class MutatingCounter {
         int count,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
-        createRef(MutatingCounter(
+        createRef(TestMutatingCounter(
             count: count,
         ))
     );
     @override
-    String toString() => 'MutatingCounter(count: $count)';
+    String toString() => 'TestMutatingCounter(count: $count)';
 
     static int ffi_get_count(
         UnownedRef obj,
         OutCreatedRef exn
     ) => catching(exn, () =>
-        peekRef<MutatingCounter>(obj).count
+        peekRef<TestMutatingCounter>(obj).count
     ) ?? 0;
     static void ffi_set_count(
         UnownedRef obj,
         int newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<MutatingCounter>(obj)._count = newValue;
+        peekRef<TestMutatingCounter>(obj)._count = newValue;
     });
 
     static void ffi_tick(
         UnownedRef obj,
         OutCreatedRef exn
     ) => catching(exn, () =>
-        peekRef<MutatingCounter>(obj).tick(
+        peekRef<TestMutatingCounter>(obj).tick(
         )
     );
 
@@ -106,7 +106,7 @@ class MutatingCounter {
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
-            peekRef<MutatingCounter>(obj).witness(
+            peekRef<TestMutatingCounter>(obj).witness(
             )
         )
     );
@@ -116,7 +116,7 @@ class MutatingCounter {
         return identical(other, this) ||
         (
             other.runtimeType == runtimeType &&
-            other is MutatingCounter &&
+            other is TestMutatingCounter &&
             (
                 const DeepCollectionEquality().equals(other.count, count)
             )
@@ -129,9 +129,9 @@ class MutatingCounter {
         const DeepCollectionEquality().hash(count)
     );
 
-    MutatingCounter copyWith({
+    TestMutatingCounter copyWith({
         int? count
-    }) => MutatingCounter(
+    }) => TestMutatingCounter(
         count: count ?? this.count
     );
 
@@ -139,7 +139,7 @@ class MutatingCounter {
     void tick(
     ) =>
         GCRef.using(this, (_thisHandle) =>
-            check((OutCreatedRef _exn) => f__iota_TestAPI_MutatingCounter_tick(Loader.shared.env, _thisHandle.ptr, _exn))
+            check((OutCreatedRef _exn) => f__iota_TestAPI_TestMutatingCounter_tick(Loader.shared.env, _thisHandle.ptr, _exn))
         )
     ;
 
@@ -147,7 +147,7 @@ class MutatingCounter {
     TestAPI.TestMutatingCounterProtocol witness(
     ) =>
         GCRef.using(this, (_thisHandle) =>
-            consumeCreatedRef<TestAPI.TestMutatingCounterProtocol>(check((OutCreatedRef _exn) => f__iota_TestAPI_MutatingCounter_witness(Loader.shared.env, _thisHandle.ptr, _exn)))
+            consumeCreatedRef<TestAPI.TestMutatingCounterProtocol>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestMutatingCounter_witness(Loader.shared.env, _thisHandle.ptr, _exn)))
         )
     ;
 
@@ -155,10 +155,10 @@ class MutatingCounter {
         Env env,
         UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_MutatingCounter_tick;
+    ) f__iota_TestAPI_TestMutatingCounter_tick;
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_MutatingCounter_witness;
+    ) f__iota_TestAPI_TestMutatingCounter_witness;
 }

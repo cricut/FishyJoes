@@ -1011,27 +1011,6 @@ export declare namespace TestAPI {
         ): Promise<number>;
     }
 
-    /**
-     * <!-- FishyJoes.export(MutatingCounter) -->
-     */
-    export class MutatingCounter {
-        constructor(count: number)
-
-        readonly count: number;
-
-        /**
-         * <!-- FishyJoes.export(tick) -->
-         */
-        tick(
-        ): void;
-
-        /**
-         * <!-- FishyJoes.export(witness) -->
-         */
-        witness(
-        ): TestAPI.TestMutatingCounterProtocol;
-    }
-
     export type Primitives = never;
     export namespace Primitives {
         /**
@@ -2007,6 +1986,27 @@ export declare namespace TestAPI {
         plugh(
             fred: [boolean, number, string[]]
         ): [boolean, number, string];
+    }
+
+    /**
+     * <!-- FishyJoes.export(TestMutatingCounter) -->
+     */
+    export class TestMutatingCounter {
+        constructor(count: number)
+
+        readonly count: number;
+
+        /**
+         * <!-- FishyJoes.export(tick) -->
+         */
+        tick(
+        ): void;
+
+        /**
+         * <!-- FishyJoes.export(witness) -->
+         */
+        witness(
+        ): TestAPI.TestMutatingCounterProtocol;
     }
 
     /**

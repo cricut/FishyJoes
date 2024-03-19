@@ -7,7 +7,7 @@ import Foundation
 import TestAPI
 import TestAPI_CommonInterface
 
-extension TestAPI.MutatingCounter: NodeMutator {
+extension TestAPI.TestMutatingCounter: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(
@@ -18,7 +18,7 @@ extension TestAPI.MutatingCounter: NodeMutator {
         )
     }
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try NodeClass.constructor(for: "MutatingCounter", env: env)
+        let constructor = try NodeClass.constructor(for: "TestMutatingCounter", env: env)
         let args: [NAPI.Value] = [
             try Swift.Int.toNode(value.count, env: env),
         ]
@@ -31,12 +31,12 @@ extension TestAPI.MutatingCounter: NodeMutator {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
-            name: "MutatingCounter",
+            name: "TestMutatingCounter",
             properties: [
                 "tick": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "tick", expectedArgumentCount: 0, hasNamedOptions: false) { env in
-                            var mutatingSelf = try env.this(converter: TestAPI.MutatingCounter.self)
+                            var mutatingSelf = try env.this(converter: TestAPI.TestMutatingCounter.self)
                             let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
                                 mutatingSelf.tick(
                                 ),
@@ -52,7 +52,7 @@ extension TestAPI.MutatingCounter: NodeMutator {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "witness", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try TestAPI_CommonInterface._TestMutatingCounterProtocolConverter.toNode(
-                                env.this(converter: TestAPI.MutatingCounter.self).witness(
+                                env.this(converter: TestAPI.TestMutatingCounter.self).witness(
                                 ),
                                 env: env.env
                             )
@@ -64,7 +64,7 @@ extension TestAPI.MutatingCounter: NodeMutator {
                 "count": (.stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in
-                callbackBody(env, info, name: "MutatingCounter_constructor", expectedArgumentCount: 1) { env in
+                callbackBody(env, info, name: "TestMutatingCounter_constructor", expectedArgumentCount: 1) { env in
                     // TODO: typecheck?
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "count", env.argument(at: 0))
@@ -75,7 +75,7 @@ extension TestAPI.MutatingCounter: NodeMutator {
         try mergeDefinitionInto(
             env: env,
             module: module,
-            path: "MutatingCounter",
+            path: "TestMutatingCounter",
             nodeClass: nodeClass.constructor.value(env: env)
         )
     }

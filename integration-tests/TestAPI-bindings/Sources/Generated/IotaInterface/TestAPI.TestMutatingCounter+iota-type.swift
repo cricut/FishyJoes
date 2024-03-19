@@ -6,22 +6,22 @@ import FishyJoesIotaRuntime
 import Foundation
 import TestAPI
 
-@_cdecl("TestAPI_MutatingCounter_setup")
-public func TestAPI_MutatingCounter_setup(
+@_cdecl("TestAPI_TestMutatingCounter_setup")
+public func TestAPI_TestMutatingCounter_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping TestAPI.MutatingCounter._ConstructorMethod,
+    constructorMethod: @escaping TestAPI.TestMutatingCounter._ConstructorMethod,
     _ countGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Int.CType,
     _ countSetter: @escaping @convention(c) (foreignObject, Swift.Int.CType, _ exn: foreignOutExn) -> Void,
     _ exn: foreignOutExn
 ) {
     let env = Env(envRef)
-    if TestAPI.MutatingCounter._constructorMethod.isInitialized(env) { return }
-    TestAPI.MutatingCounter._constructorMethod[env] = constructorMethod
-    TestAPI.MutatingCounter._countGetter[env] = countGetter
-    TestAPI.MutatingCounter._countSetter[env] = countSetter
+    if TestAPI.TestMutatingCounter._constructorMethod.isInitialized(env) { return }
+    TestAPI.TestMutatingCounter._constructorMethod[env] = constructorMethod
+    TestAPI.TestMutatingCounter._countGetter[env] = countGetter
+    TestAPI.TestMutatingCounter._countSetter[env] = countSetter
 }
 
-extension TestAPI.MutatingCounter: IotaMutator {
+extension TestAPI.TestMutatingCounter: IotaMutator {
     fileprivate static let _countGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Int.CType>()
     fileprivate static let _countSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.Int.CType, _ exn: foreignOutExn) -> Void>()
     public typealias _ConstructorMethod = @convention(c) (

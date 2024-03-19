@@ -1250,21 +1250,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_set_TestAPI_Methods_instanceStored, to: UnsafeMutableRawPointer.self)
             )
         )
-        // print("setting up TestAPI.MutatingCounter...")
-        try TestAPI.MutatingCounter.javaSetup(env: env)
-        try env.RegisterNatives(
-            TestAPI.MutatingCounter.externalWitnessClass ?? TestAPI.MutatingCounter.javaClass,
-            JNINativeMethod(
-                name: bag.add("__jni_tick"),
-                signature: bag.add("()V"),
-                fnPtr: unsafeBitCast(java_TestAPI_MutatingCounter_tick, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_witness"),
-                signature: bag.add("()Lcom/cricut/testapi/TestMutatingCounterProtocol;"),
-                fnPtr: unsafeBitCast(java_TestAPI_MutatingCounter_witness, to: UnsafeMutableRawPointer.self)
-            )
-        )
         // print("setting up TestAPI.Primitives...")
         try TestAPI.Primitives.javaSetup(env: env)
         try env.RegisterNatives(
@@ -1965,6 +1950,21 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_plugh"),
                 signature: bag.add("(Lkotlin/Triple;)Lkotlin/Triple;"),
                 fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestMethodsProtocolConverter_plugh, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        // print("setting up TestAPI.TestMutatingCounter...")
+        try TestAPI.TestMutatingCounter.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI.TestMutatingCounter.externalWitnessClass ?? TestAPI.TestMutatingCounter.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_tick"),
+                signature: bag.add("()V"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestMutatingCounter_tick, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_witness"),
+                signature: bag.add("()Lcom/cricut/testapi/TestMutatingCounterProtocol;"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestMutatingCounter_witness, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI_CommonInterface._TestMutatingCounterProtocolConverter...")

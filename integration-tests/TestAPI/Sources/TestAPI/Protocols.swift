@@ -228,8 +228,8 @@ public protocol TestMutatingCounterProtocol {
     func witness() throws -> TestMutatingCounterProtocol
 }
 
-/// <!-- FishyJoes.export(MutatingCounter) -->
-public struct MutatingCounter: TestMutatingCounterProtocol {
+/// <!-- FishyJoes.export(TestMutatingCounter) -->
+public struct TestMutatingCounter: TestMutatingCounterProtocol {
     public private(set) var count: Int
     
     /// <!-- FishyJoes.export(tick) -->
@@ -243,6 +243,6 @@ public struct MutatingCounter: TestMutatingCounterProtocol {
 
     /// <!-- FishyJoes.export(witness) -->
     public func witness() throws -> TestMutatingCounterProtocol {
-        MutatingCounter(count: count * 3)
+        TestMutatingCounter(count: count * 3)
     }
 }

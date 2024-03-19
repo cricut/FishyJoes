@@ -82,7 +82,7 @@ void main() {
       });
 
     test('testMutatingCounterProtocol', () {
-        final mc1 = MutatingCounter(count: 42);
+        final mc1 = TestMutatingCounter(count: 42);
         expect(mc1.count, equals(42));
         mc1.tick();
         expect(mc1.count, equals(43));

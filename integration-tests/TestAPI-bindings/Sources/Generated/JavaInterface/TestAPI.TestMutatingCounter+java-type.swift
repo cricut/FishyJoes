@@ -6,7 +6,7 @@ import FishyJoesJavaRuntime
 import Foundation
 import TestAPI
 
-extension TestAPI.MutatingCounter: JavaMutator {
+extension TestAPI.TestMutatingCounter: JavaMutator {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -30,7 +30,7 @@ extension TestAPI.MutatingCounter: JavaMutator {
     }
     public static func javaSetup(env: Env) throws {
         guard javaClass == nil else { return }
-        javaClass = try env.globalRef(env.FindClass("com/cricut/testapi/MutatingCounter"))
+        javaClass = try env.globalRef(env.FindClass("com/cricut/testapi/TestMutatingCounter"))
         _java_count_id = try env.GetFieldID(javaClass, "count", "J")
         _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(J)V")
     }
