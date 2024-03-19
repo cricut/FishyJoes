@@ -15,10 +15,12 @@ import './Deprecations.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
 import './ExternalWitness_AProtocol.dart' as TestAPI;
 import './ExternalWitness_TestMethodsProtocol.dart' as TestAPI;
+import './ExternalWitness_TestMutatingCounterProtocol.dart' as TestAPI;
 import './ExternalWitness_TestOptionalsProtocol.dart' as TestAPI;
 import './ExternalWitness_TestPropertiesProtocol.dart' as TestAPI;
 import './Functions.dart' as TestAPI;
 import './Methods.dart' as TestAPI;
+import './MutatingCounter.dart' as TestAPI;
 import './Primitives.dart' as TestAPI;
 import './Primitives_PrimitiveHolder.dart' as TestAPI;
 import './Ranges.dart' as TestAPI;
@@ -31,6 +33,7 @@ import './Structs_MutableStruct.dart' as TestAPI;
 import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Structs_ReferenceStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
+import './TestMutatingCounterProtocol.dart' as TestAPI;
 import './TestOptionalsProtocol.dart' as TestAPI;
 import './TestPropertiesProtocol.dart' as TestAPI;
 import './TestProtocolClass.dart' as TestAPI;
@@ -267,6 +270,13 @@ typedef TestAPI_AssociatedDataEnum_extract_simpleEnum = ffi.Void Function(
     OutCreatedRef value,
     OutCreatedRef _exn
 );
+typedef _TestAPI_MutatingCounterConstructor = CreatedRef Function(
+    ffi.Int count,
+    OutCreatedRef exn
+);
+typedef _TestAPI_MutatingCounter_countGetter = ffi.Int Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_MutatingCounter_countSetter = ffi.Void Function(UnownedRef obj, ffi.Int newValue, OutCreatedRef exn);
+typedef _TestAPI_MutatingCounter_tick = ffi.Void Function(UnownedRef obj,  OutCreatedRef exn);
 typedef TestAPI_SimpleEnum_new_red = CreatedRef Function(
     OutCreatedRef _exn
 );
@@ -298,6 +308,12 @@ typedef _TestAPI_TestMethodsProtocol_baz = ffi.Void Function(UnownedRef obj, ffi
 typedef _TestAPI_TestMethodsProtocol_garply = CreatedRef Function(UnownedRef obj, ffi.Pointer _0, OutCreatedRef exn);
 typedef _TestAPI_TestMethodsProtocol_xyzzy = CreatedRef Function(UnownedRef obj, ffi.Int thud, ffi.Pointer grault, OutCreatedRef exn);
 typedef _TestAPI_TestMethodsProtocol_plugh = CreatedRef Function(UnownedRef obj, ffi.Pointer fred, OutCreatedRef exn);
+typedef _TestAPI_TestMutatingCounterProtocolConstructor = CreatedRef Function(
+    ffi.Pointer ref,
+    OutCreatedRef exn
+);
+typedef _TestAPI_TestMutatingCounterProtocol_countGetter = ffi.Int Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestMutatingCounterProtocol_tick = ffi.Void Function(UnownedRef obj,  OutCreatedRef exn);
 typedef _TestAPI_TestOptionalsProtocolConstructor = CreatedRef Function(
     ffi.Pointer ref,
     OutCreatedRef exn
@@ -805,6 +821,22 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_Methods_setup');
+    final TestAPI_MutatingCounter_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_MutatingCounterConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_MutatingCounter_countGetter>> get_count,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_MutatingCounter_countSetter>> set_count,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_MutatingCounterConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_MutatingCounter_countGetter>> get_count,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_MutatingCounter_countSetter>> set_count,
+            OutCreatedRef exn
+        )
+    >('TestAPI_MutatingCounter_setup');
     final TestAPI_Primitives_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -893,6 +925,22 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_CommonInterface__TestMethodsProtocolConverter_setup');
+    final TestAPI_CommonInterface__TestMutatingCounterProtocolConverter_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestMutatingCounterProtocolConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestMutatingCounterProtocol_countGetter>> get_count,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestMutatingCounterProtocol_tick>> tick,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestMutatingCounterProtocolConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestMutatingCounterProtocol_countGetter>> get_count,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestMutatingCounterProtocol_tick>> tick,
+            OutCreatedRef exn
+        )
+    >('TestAPI_CommonInterface__TestMutatingCounterProtocolConverter_setup');
     final TestAPI_CommonInterface__TestOptionalsProtocolConverter_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -1953,6 +2001,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Methods_staticAsyncYield");
+    TestAPI.MutatingCounter.f__iota_TestAPI_MutatingCounter_tick = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_MutatingCounter_tick");
     TestAPI.Primitives.f__iota_TestAPI_Primitives_echoBool = dylib.lookupFunction<
         ffi.Bool Function(
             Env env,
@@ -2653,6 +2713,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_TestMethodsProtocol_xyzzy");
+    TestAPI.ExternalWitness_TestMutatingCounterProtocol.f__iota_TestAPI_TestMutatingCounterProtocol_tick = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestMutatingCounterProtocol_tick");
     TestAPI.ExternalWitness_TestOptionalsProtocol.f__iota_TestAPI_TestOptionalsProtocol_spqr = dylib.lookupFunction<
         ffi.Int Function(
             Env env,
@@ -4629,6 +4701,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_Structs_ReferenceStruct_mutable");
+    TestAPI.ExternalWitness_TestMutatingCounterProtocol.f__iota_get_TestAPI_TestMutatingCounterProtocol_count = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestMutatingCounterProtocol_count");
     TestAPI.ExternalWitness_TestOptionalsProtocol.f__iota_get_TestAPI_TestOptionalsProtocol_flarp = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -6723,6 +6807,19 @@ final ensureLoaded = (() {
         });
     });
 
+    Loader.shared.once("setup_TestAPI.MutatingCounter", () {
+        // print("setting up TestAPI.MutatingCounter (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_MutatingCounter_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.MutatingCounter.ffi_constructor),
+                ffi.Pointer.fromFunction(TestAPI.MutatingCounter.ffi_get_count, 0),
+                ffi.Pointer.fromFunction(TestAPI.MutatingCounter.ffi_set_count),
+                exn
+            );
+        });
+    });
+
     Loader.shared.once("setup_TestAPI.Primitives", () {
         // print("setting up TestAPI.Primitives (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
@@ -6792,6 +6889,19 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.TestMethodsProtocol_FfiHooks.ffi_garply),
                 ffi.Pointer.fromFunction(TestAPI.TestMethodsProtocol_FfiHooks.ffi_xyzzy),
                 ffi.Pointer.fromFunction(TestAPI.TestMethodsProtocol_FfiHooks.ffi_plugh),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI_CommonInterface._TestMutatingCounterProtocolConverter", () {
+        // print("setting up TestAPI.TestMutatingCounterProtocol (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_CommonInterface__TestMutatingCounterProtocolConverter_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestMutatingCounterProtocol.ffi_new),
+                ffi.Pointer.fromFunction(TestAPI.TestMutatingCounterProtocol_FfiHooks.ffi_get_count, 0),
+                ffi.Pointer.fromFunction(TestAPI.TestMutatingCounterProtocol_FfiHooks.ffi_tick),
                 exn
             );
         });

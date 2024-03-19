@@ -1250,6 +1250,16 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_set_TestAPI_Methods_instanceStored, to: UnsafeMutableRawPointer.self)
             )
         )
+        // print("setting up TestAPI.MutatingCounter...")
+        try TestAPI.MutatingCounter.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI.MutatingCounter.externalWitnessClass ?? TestAPI.MutatingCounter.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_tick"),
+                signature: bag.add("()V"),
+                fnPtr: unsafeBitCast(java_TestAPI_MutatingCounter_tick, to: UnsafeMutableRawPointer.self)
+            )
+        )
         // print("setting up TestAPI.Primitives...")
         try TestAPI.Primitives.javaSetup(env: env)
         try env.RegisterNatives(
@@ -1950,6 +1960,21 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_plugh"),
                 signature: bag.add("(Lkotlin/Triple;)Lkotlin/Triple;"),
                 fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestMethodsProtocolConverter_plugh, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        // print("setting up TestAPI_CommonInterface._TestMutatingCounterProtocolConverter...")
+        try TestAPI_CommonInterface._TestMutatingCounterProtocolConverter.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI_CommonInterface._TestMutatingCounterProtocolConverter.externalWitnessClass ?? TestAPI_CommonInterface._TestMutatingCounterProtocolConverter.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_tick"),
+                signature: bag.add("()V"),
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestMutatingCounterProtocolConverter_tick, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_count"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestMutatingCounterProtocol_count, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI_CommonInterface._TestOptionalsProtocolConverter...")

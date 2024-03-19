@@ -58,34 +58,84 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
-/// <!-- FishyJoes.export(Deprecations) -->
-class Deprecations {
-    Deprecations._();
+/// <!-- FishyJoes.export(MutatingCounter) -->
+class MutatingCounter {
+    int _count;
+    int get count => _count;
 
-    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
-        throw UnsupportedError('This class is supposed to be uninhabited');
+    MutatingCounter({
+        required int count
+    }):
+        this._count = count;
+
+    static CreatedRef ffi_constructor(
+        int count,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(MutatingCounter(
+            count: count,
+        ))
+    );
+    @override
+    String toString() => 'MutatingCounter(count: $count)';
+
+    static int ffi_get_count(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<MutatingCounter>(obj).count
+    ) ?? 0;
+    static void ffi_set_count(
+        UnownedRef obj,
+        int newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        peekRef<MutatingCounter>(obj)._count = newValue;
     });
 
-    /// <!-- FishyJoes.export(deprecatedVariable) -->
-    @Deprecated("replace with `deprecatedMethod` ( <-- swift name, sorry )")
-    static int get deprecatedVariable =>
-        check((exn) =>
-            f__iota_get_TestAPI_Deprecations_deprecatedVariable(Loader.shared.env, exn)
+    static void ffi_tick(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<MutatingCounter>(obj).tick(
+        )
+    );
+
+    @override
+    bool operator ==(Object other) {
+        return identical(other, this) ||
+        (
+            other.runtimeType == runtimeType &&
+            other is MutatingCounter &&
+            (
+                const DeepCollectionEquality().equals(other.count, count)
+            )
+        );
+    }
+
+    @override
+    int get hashCode => Object.hash(
+        runtimeType,
+        const DeepCollectionEquality().hash(count)
+    );
+
+    MutatingCounter copyWith({
+        int? count
+    }) => MutatingCounter(
+        count: count ?? this.count
+    );
+
+    /// <!-- FishyJoes.export(tick) -->
+    void tick(
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            check((OutCreatedRef _exn) => f__iota_TestAPI_MutatingCounter_tick(Loader.shared.env, _thisHandle.ptr, _exn))
         )
     ;
-    /// <!-- FishyJoes.export(deprecatedMethod) -->
-    @Deprecated("don't use this")
-    static String deprecatedMethod(
-    ) =>
-        consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_Deprecations_deprecatedMethod(Loader.shared.env, _exn)))
-    ;
 
-    static late CreatedRef Function(
+    static late void Function(
         Env env,
+        UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_Deprecations_deprecatedMethod;
-    static late int Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__iota_get_TestAPI_Deprecations_deprecatedVariable;
+    ) f__iota_TestAPI_MutatingCounter_tick;
 }

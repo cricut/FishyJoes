@@ -889,6 +889,58 @@
         "named" : {
           "_0" : {
             "module" : "TestAPI",
+            "name" : "MutatingCounter",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "MutatingCounter",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "MutatingCounter",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/MutatingCounter"
+        }
+      },
+      "kotlinName" : "MutatingCounter",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=MutatingCounter>>",
+      "nodeName" : "TestAPI.MutatingCounter",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "MutatingCounter",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
             "name" : "Primitives",
             "namespace" : [
 
@@ -1501,6 +1553,58 @@
           "_0" : {
             "module" : "TestAPI",
             "name" : "TestMethodsProtocol",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI_CommonInterface",
+            "name" : "_TestMutatingCounterProtocolConverter",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestMutatingCounterProtocol",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestMutatingCounterProtocol",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestMutatingCounterProtocol"
+        }
+      },
+      "kotlinName" : "TestMutatingCounterProtocol",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestMutatingCounterProtocol>>",
+      "nodeName" : "TestAPI.TestMutatingCounterProtocol",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestMutatingCounterProtocol",
             "namespace" : [
 
             ]
@@ -2907,6 +3011,62 @@
             "constructor" : {
               "visible" : {
                 "names" : [
+                  "count"
+                ],
+                "types" : [
+                  {
+                    "named" : {
+                      "_0" : "number"
+                    }
+                  }
+                ]
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.export(MutatingCounter) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "count",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(tick) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "tick",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
+                  }
+                }
+              }
+            ],
+            "name" : "MutatingCounter"
+          },
+          {
+            "constructor" : {
+              "visible" : {
+                "names" : [
 
                 ],
                 "types" : [
@@ -3058,6 +3218,62 @@
               }
             ],
             "name" : "TestMethodsProtocol"
+          },
+          {
+            "constructor" : {
+              "visible" : {
+                "names" : [
+                  "count"
+                ],
+                "types" : [
+                  {
+                    "named" : {
+                      "_0" : "number"
+                    }
+                  }
+                ]
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.export(TestMutatingCounterProtocol) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(count) -->"
+                ],
+                "isStatic" : false,
+                "name" : "count",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(tick) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "tick",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
+                  }
+                }
+              }
+            ],
+            "name" : "TestMutatingCounterProtocol"
           },
           {
             "constructor" : {

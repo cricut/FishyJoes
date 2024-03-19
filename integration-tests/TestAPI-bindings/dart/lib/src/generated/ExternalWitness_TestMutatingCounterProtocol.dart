@@ -58,34 +58,40 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
-/// <!-- FishyJoes.export(Deprecations) -->
-class Deprecations {
-    Deprecations._();
+/// <!-- FishyJoes.export(TestMutatingCounterProtocol) -->
+class ExternalWitness_TestMutatingCounterProtocol extends SwiftReference implements TestAPI.TestMutatingCounterProtocol {
+    ExternalWitness_TestMutatingCounterProtocol(ffi.Pointer reference): super(reference) {}
+    static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
+        createRef(ExternalWitness_TestMutatingCounterProtocol(ref))
+    );
 
-    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
-        throw UnsupportedError('This class is supposed to be uninhabited');
-    });
+    @override
+    String toString() => 'ExternalWitness_TestMutatingCounterProtocol(count: $count)';
 
-    /// <!-- FishyJoes.export(deprecatedVariable) -->
-    @Deprecated("replace with `deprecatedMethod` ( <-- swift name, sorry )")
-    static int get deprecatedVariable =>
-        check((exn) =>
-            f__iota_get_TestAPI_Deprecations_deprecatedVariable(Loader.shared.env, exn)
+    /// <!-- FishyJoes.export(count) -->
+    int get count =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                f__iota_get_TestAPI_TestMutatingCounterProtocol_count(Loader.shared.env, _thisHandle.ptr, exn)
+            )
         )
     ;
-    /// <!-- FishyJoes.export(deprecatedMethod) -->
-    @Deprecated("don't use this")
-    static String deprecatedMethod(
+    /// <!-- FishyJoes.export(tick) -->
+    void tick(
     ) =>
-        consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_Deprecations_deprecatedMethod(Loader.shared.env, _exn)))
+        GCRef.using(this, (_thisHandle) =>
+            check((OutCreatedRef _exn) => f__iota_TestAPI_TestMutatingCounterProtocol_tick(Loader.shared.env, _thisHandle.ptr, _exn))
+        )
     ;
 
-    static late CreatedRef Function(
+    static late void Function(
         Env env,
+        UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_Deprecations_deprecatedMethod;
+    ) f__iota_TestAPI_TestMutatingCounterProtocol_tick;
     static late int Function(
         Env env,
+        UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_get_TestAPI_Deprecations_deprecatedVariable;
+    ) f__iota_get_TestAPI_TestMutatingCounterProtocol_count;
 }

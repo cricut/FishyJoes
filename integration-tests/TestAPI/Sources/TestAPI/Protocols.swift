@@ -217,3 +217,25 @@ public class TestProtocolClass: TestMethodsProtocol, TestPropertiesProtocol, Tes
         pippo.intValue
     }
 }
+
+/// <!-- FishyJoes.export(TestMutatingCounterProtocol) -->
+public protocol TestMutatingCounterProtocol {
+    /// <!-- FishyJoes.export(count) -->
+    var count: Int { get throws }
+    /// <!-- FishyJoes.export(tick) -->
+    mutating func tick() throws
+}
+
+/// <!-- FishyJoes.export(MutatingCounter) -->
+public struct MutatingCounter: TestMutatingCounterProtocol {
+    public private(set) var count: Int
+    
+    /// <!-- FishyJoes.export(tick) -->
+    public mutating func tick() throws {
+        count += 1
+    }
+    
+    public init(count: Int) {
+        self.count = count
+    }
+}

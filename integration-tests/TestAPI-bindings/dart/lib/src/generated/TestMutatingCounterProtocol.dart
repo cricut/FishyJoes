@@ -51,41 +51,31 @@ import 'package:fishyjoes_dart/runtime.dart';
 import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:tuple/tuple.dart' as tuple;
 
-// ignore_for_file: unused_import
-// ignore_for_file: non_constant_identifier_names
-// ignore_for_file: no_leading_underscores_for_local_identifiers
-// ignore_for_file: library_prefixes
-// ignore_for_file: file_names
-// ignore_for_file: annotate_overrides
+/// <!-- FishyJoes.export(TestMutatingCounterProtocol) -->
+abstract class TestMutatingCounterProtocol {
+    void tick(
+    );
 
-/// <!-- FishyJoes.export(Deprecations) -->
-class Deprecations {
-    Deprecations._();
+    /// <!-- FishyJoes.export(count) -->
+    int get count;
+}
 
-    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
-        throw UnsupportedError('This class is supposed to be uninhabited');
-    });
+extension TestMutatingCounterProtocol_DefaultImplementations on TestMutatingCounterProtocol {
+}
 
-    /// <!-- FishyJoes.export(deprecatedVariable) -->
-    @Deprecated("replace with `deprecatedMethod` ( <-- swift name, sorry )")
-    static int get deprecatedVariable =>
-        check((exn) =>
-            f__iota_get_TestAPI_Deprecations_deprecatedVariable(Loader.shared.env, exn)
+extension TestMutatingCounterProtocol_FfiHooks on TestMutatingCounterProtocol {
+    static int ffi_get_count(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<TestMutatingCounterProtocol>(obj).count
+    ) ?? 0;
+
+    static void ffi_tick(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<TestMutatingCounterProtocol>(obj).tick(
         )
-    ;
-    /// <!-- FishyJoes.export(deprecatedMethod) -->
-    @Deprecated("don't use this")
-    static String deprecatedMethod(
-    ) =>
-        consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_Deprecations_deprecatedMethod(Loader.shared.env, _exn)))
-    ;
-
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__iota_TestAPI_Deprecations_deprecatedMethod;
-    static late int Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__iota_get_TestAPI_Deprecations_deprecatedVariable;
+    );
 }
