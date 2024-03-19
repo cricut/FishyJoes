@@ -134,6 +134,19 @@ internal class ProtocolTests {
     }
 
     @Test
+    fun testMutatingCounterProtocol() {
+        val mc1 = TestMutatingCounter(count = 42)
+        assertEquals(42, mc1.count)
+        mc1.tick()
+        assertEquals(43, mc1.count)
+
+        val mc2 = mc1.witness()
+        assertEquals(129, mc2.count)
+        mc2.tick()
+        assertEquals(130, mc2.count)
+    }
+
+    @Test
     fun testProtocolKotlinImpl() {
         val a = ProtocolKotlinImpl(foo = "oof!", baz = false)
         assertEquals("oof!", a.foo)
