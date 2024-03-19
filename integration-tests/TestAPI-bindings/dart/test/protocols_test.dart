@@ -100,7 +100,7 @@ void main() {
       expect(a.foo, equals("ofo!"));
       expect(a.baz, equals(false));
       final b = a.hasADefaultImplementation(2389, 17.23);
-      expect(b, equals("bazzy 52558 / 27 = 1946.5925925925926"));
+      expect(b, equals("bazzy 52558 / 27 = 1946"));
       final c = a.hasADefaultImplementation2("With the Frizz? No way!", false, 8923.8293);
       expect(c, equals(-3.14159265359));
     });
@@ -123,7 +123,7 @@ class ProtocolDartImpl implements AProtocol {
 
   @override
   AProtocol bar(int x, int y) {
-    final div = x / y;
+    final div = x ~/ y; // ~/ is dart integer division
     final a = ProtocolDartImpl(foo: "$x / $y = $div", baz: x != y);
     return a;
   }
