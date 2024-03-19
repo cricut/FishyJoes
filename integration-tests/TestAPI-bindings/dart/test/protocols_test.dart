@@ -99,6 +99,8 @@ void main() {
       a.foo = "ofo!";
       expect(a.foo, equals("ofo!"));
       expect(a.baz, equals(false));
+      var b = a.hasADefaultImplementation(2389, 17.23);
+      expect(b, equals("bazzy 52558 / 27 = 1946.5925925925926"));
     });
   });
 }
@@ -123,4 +125,13 @@ class ProtocolDartImpl implements AProtocol {
     final a = ProtocolDartImpl(foo: "$x / $y = $div", baz: x != y);
     return a;
   }
+
+  String hasADefaultImplementation(
+        int x,
+        double y
+    ) {
+      final x_prime = x * 22;
+      final y_prime = y / 2.0382;
+      return AProtocol_DefaultImplementations(this).hasADefaultImplementation(x_prime, y_prime);
+    }
 }
