@@ -99,8 +99,10 @@ void main() {
       a.foo = "ofo!";
       expect(a.foo, equals("ofo!"));
       expect(a.baz, equals(false));
-      var b = a.hasADefaultImplementation(2389, 17.23);
+      final b = a.hasADefaultImplementation(2389, 17.23);
       expect(b, equals("bazzy 52558 / 27 = 1946.5925925925926"));
+      final c = a.hasADefaultImplementation2("With the Frizz? No way!", false, 8923.8293);
+      expect(c, equals(-3.14159265359));
     });
   });
 }
@@ -127,11 +129,22 @@ class ProtocolDartImpl implements AProtocol {
   }
 
   String hasADefaultImplementation(
-        int x,
-        double y
-    ) {
-      final x_prime = x * 22;
-      final y_prime = y / 2.0382;
-      return AProtocol_DefaultImplementations(this).hasADefaultImplementation(x_prime, y_prime);
-    }
+      int x,
+      double y
+  ) {
+    final x_prime = x * 22;
+    final y_prime = y / 2.0382;
+    return AProtocol_DefaultImplementations(this).hasADefaultImplementation(x_prime, y_prime);
+  }
+  
+  double hasADefaultImplementation2(
+      String a,
+      bool b,
+      double c
+  ) {
+    final a_prime = "wibbledy wobbledy $a woo";
+    final b_prime = !b;
+    final c_prime = c * 7.23890;
+    return AProtocol_DefaultImplementations(this).hasADefaultImplementation2(a_prime, b_prime, c_prime);
+  }
 }
