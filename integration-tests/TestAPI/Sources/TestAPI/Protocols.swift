@@ -231,12 +231,12 @@ public protocol TestMutatingCounterProtocol {
 /// <!-- FishyJoes.export(TestMutatingCounter, conformances: [TestMutatingCounterProtocol]) -->
 public struct TestMutatingCounter: TestMutatingCounterProtocol {
     public private(set) var count: Int
-    
+
     /// <!-- FishyJoes.export(tick) -->
     public mutating func tick() throws {
         count += 1
     }
-    
+
     public init(count: Int) {
         self.count = count
     }

@@ -539,7 +539,7 @@ struct TranslatedProtocol: TranslatedType {
             fragment.blankLine()
 
             fragment.outputBlock("public static func mutateIota(_ this: foreignObject, to value: SwiftType, env: Env) throws {") {
-                fragment.outputBlock("do {",  newLineTerminated: false) {
+                fragment.outputBlock("do {", newLineTerminated: false) {
                     fragment.output("let box = try Box<SwiftType>.peekIota(this, env: env)")
                     fragment.output("box.value = value")
                 }
