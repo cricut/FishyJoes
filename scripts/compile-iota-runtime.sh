@@ -13,7 +13,7 @@ fi
 CONFIGURATION="${CONFIGURATION:-release}"
 SKIP_LIPO="${SKIP_LIPO:-0}"
 
-if [[ $(uname -s) == "Darwin" && $SKIP_LIPO == "0" ]]; then
+if [[ "$(uname -s)" == "Darwin" && $SKIP_LIPO == "0" ]]; then
     swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesIotaRuntime --arch arm64
     swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesIotaRuntime --arch x86_64
     BIN_DIR=".build/apple/$CONFIGURATION"
@@ -22,6 +22,9 @@ if [[ $(uname -s) == "Darwin" && $SKIP_LIPO == "0" ]]; then
          -output "$BIN_DIR/libFishyJoesIotaRuntime.dylib" \
          .build/{arm64,x86_64}-apple-macosx/"$CONFIGURATION"/libFishyJoesIotaRuntime.dylib
     codesign -s - "$BIN_DIR/libFishyJoesIotaRuntime.dylib"
+elif [[ "$(uname -s)" == *_NT* ]]; then
+    ./scripts/swift-shim.ps1 build "$@" --configuration "$CONFIGURATION" --product FishyJoesIotaRuntime
+    BIN_DIR="$(./scripts/swift-shim.ps1 build --configuration "$CONFIGURATION" --show-bin-path)"
 else
     swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesIotaRuntime
     BIN_DIR="$(swift build --configuration "$CONFIGURATION" --show-bin-path)"

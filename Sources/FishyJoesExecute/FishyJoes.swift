@@ -7,6 +7,7 @@ public struct FishyJoes: ParsableCommand {
         subcommands: [
             PackageInit.self,
             CodeGen.self,
+            DownloadNodeLib.self,
         ],
         defaultSubcommand: CodeGen.self
     )

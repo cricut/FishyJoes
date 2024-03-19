@@ -1,5 +1,5 @@
 .DS_Store
-/.build
+.build
 /Packages
 /*.xcodeproj
 xcuserdata/
@@ -18,3 +18,5 @@ local.properties
 Package.resolved
 package-lock.json
 DebugGenerated
+Sources/Generated/NodeNativeShim/Package.swift
+Sources/Generated/NodeNativeShim/Package.resolved

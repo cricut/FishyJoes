@@ -3,6 +3,7 @@ included:
     - ./Tests
     - ./integration-tests/TestAPI/Sources
     - ./integration-tests/TestAPI-bindings/Sources
+    - ./Package.swift
 
 excluded:
     - ./Sources/FishyJoesExecute/Resources

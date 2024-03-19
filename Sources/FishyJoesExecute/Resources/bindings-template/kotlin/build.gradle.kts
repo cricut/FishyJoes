@@ -87,6 +87,14 @@ tasks {
     compileTestKotlin {
         kotlinOptions.jvmTarget = "11"
     }
+    compileJava {
+        sourceCompatibility = JavaVersion.VERSION_11.toString()
+        targetCompatibility = JavaVersion.VERSION_11.toString()
+    }
+    compileTestJava {
+        sourceCompatibility = JavaVersion.VERSION_11.toString()
+        targetCompatibility = JavaVersion.VERSION_11.toString()
+    }
 }
 
 // Read what version of the fishy joes runtime to use directly out of the swift definition, so we don't get out of sync
@@ -107,4 +115,6 @@ dependencies {
     api("com.cricut.fishyjoes:runtime:${readSwiftPackageVersionConstant("fishyJoesVersion")}")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 }

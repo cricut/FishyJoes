@@ -67,7 +67,7 @@ jobs:
     name: "Ubuntu: Build and test kotlin runtime"
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cricut/android-swift-runtime:1.0.0
+      image: ghcr.io/cricut/android-swift-runtime:1.1.0
       credentials:
         username: cricut-builduser
         password: ${{ secrets.CRICUT_GPR_TOKEN }}
@@ -136,26 +136,33 @@ jobs:
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
+      - uses: compnerd/gha-setup-swift@main
+        with:
+          branch: swift-5.9.1-release
+          tag: 5.9.1-RELEASE
+
       - name: Setup JDK
         uses: actions/setup-java@v3
         with:
           distribution: zulu
           java-version: 11
 
-      - uses: compnerd/gha-setup-swift@main
-        with:
-          branch: swift-5.6.2-release
-          tag: 5.6.2-RELEASE
-
-      - name: Build FishyJoesJavaRuntime
+      - name: Pre-resolve Required SwiftPM Packages
+        continue-on-error: true
         shell: pwsh
         run: |
-          $ErrorActionPreference = "Stop"
+          $ErrorActionPreference = 'SilentlyContinue'
+          swift package resolve
+          swift package resolve
+          swift package resolve
+      
+      - name: Build FishyJoesJavaRuntime
+        shell: bash
+        run: |
+          set -euxo pipefail
           
-          # Should perform the same actions as scripts/compile-kotlin-native-runtime.sh, but must be done in powershell for swift-build to work
-          swift build --product FishyJoesJavaRuntime --configuration release --build-path ./.build/windows-build
-          New-Item -ItemType Directory -Force -Path $env:LIB_DIR
-          Copy-Item .build\windows-build\x86_64-unknown-windows-msvc\release\FishyJoesJavaRuntime.dll -Destination $env:LIB_DIR
+          ./scripts/compile-kotlin-native-runtime.sh
+          (cd kotlin-runtime && ./gradlew publishToMavenLocal)
 
       - name: Upload library
         uses: actions/upload-artifact@v3

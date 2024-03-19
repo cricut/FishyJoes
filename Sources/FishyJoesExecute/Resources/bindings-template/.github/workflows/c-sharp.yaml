@@ -23,7 +23,6 @@ jobs:
   build-test-c-sharp-mac:
     name: "macOS: Build and test C# bindings"
     runs-on: macOS-12
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -46,12 +45,14 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
+
           swift run -- fishy-joes --c-sharp --fat generate build
 
       - name: Test library from dotnet
         shell: zsh {0}
         run: |
           set -euxo pipefail
+
           swift run -- fishy-joes --c-sharp --fat test
 
       - name: Upload artifacts
@@ -64,7 +65,7 @@ jobs:
     name: "Ubuntu: Build and test C# bindings"
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cricut/android-swift-runtime:1.0.0
+      image: ghcr.io/cricut/android-swift-runtime:1.1.0
       credentials:
         username: cricut-builduser
         password: ${{ secrets.CRICUT_GPR_TOKEN }}
@@ -80,6 +81,7 @@ jobs:
       - name: Configure build environment
         run: |
           set -eux
+
           apt-get -y update
           apt-get -y install patchelf curl
           git config --global --add safe.directory '*'
@@ -97,6 +99,7 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
+
           swift run -- fishy-joes --c-sharp build
 
       - name: Patch libs to use relative paths to swift stdlib
@@ -113,6 +116,7 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
+
           swift run -- fishy-joes --c-sharp test
 
       - name: Upload library
@@ -133,25 +137,6 @@ jobs:
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
-      - uses: compnerd/gha-setup-swift@main
-        with:
-          branch: swift-5.6.2-release
-          tag: 5.6.2-RELEASE
-
-      - name: Compile library
-        run: |
-          $env:SWIFT_PACKAGE_FORCE_DYNAMIC = '1'
-          swift build --product __MODULE_NAME__-iota --configuration release --build-path ./.build/windows-build
-
-      - name: Copy resource
-        shell: bash
-        run: |
-          set -euxo pipefail
-
-          mkdir -p c-sharp/Cricut.__MODULE_NAME__/runtimes/win/native
-          cp .build/windows-build/x86_64-unknown-windows-msvc/release/__MODULE_NAME__.dll c-sharp/Cricut.__MODULE_NAME__/runtimes/win/native
-          cp .build/windows-build/x86_64-unknown-windows-msvc/release/__MODULE_NAME__-iota.dll c-sharp/Cricut.__MODULE_NAME__/runtimes/win/native
-
       - name: Setup dotnet
         uses: actions/setup-dotnet@v3
         with:
@@ -161,11 +146,34 @@ jobs:
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
 
-      - name: Test library from dotnet
+      - uses: compnerd/gha-setup-swift@main
+        with:
+          branch: swift-5.9.1-release
+          tag: 5.9.1-RELEASE
+
+      - name: Pre-resolve Required SwiftPM Packages & Fetch FishyJoes Scripts
+        continue-on-error: true
         shell: pwsh
         run: |
-          cd c-sharp
-          dotnet test Cricut.__MODULE_NAME__.sln
+          $ErrorActionPreference = 'SilentlyContinue'
+          swift package resolve
+          swift package resolve
+          swift package resolve
+          echo SWIFT_WINDOWS_BASH=".build/checkouts/FishyJoes/scripts/swift-shim.ps1" >> $env:GITHUB_ENV
+
+      - name: Build library
+        shell: bash
+        run: |
+          set -euxo pipefail
+
+          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --c-sharp build
+
+      - name: Test library from dotnet
+        shell: bash
+        run: |
+          set -euxo pipefail
+
+          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --c-sharp test
 
       - name: Upload library
         uses: actions/upload-artifact@v3
@@ -203,6 +211,7 @@ jobs:
       - name: Configure build environment
         run: |
           set -euxo pipefail
+
           sudo apt-get install zsh
 
       - name: Retrieve Artifacts
