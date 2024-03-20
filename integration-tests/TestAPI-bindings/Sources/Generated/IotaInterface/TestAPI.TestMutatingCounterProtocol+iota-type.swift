@@ -107,11 +107,7 @@ extension TestAPI_CommonInterface._TestMutatingCounterProtocolConverter: IotaMut
     }
 
     public static func mutateIota(_ this: foreignObject, to value: SwiftType, env: Env) throws {
-        do {
-            let box = try Box<SwiftType>.peekIota(this, env: env)
-            box.value = value
-        } catch {
-            // no mutable fields exist to mutate
-        }
+        let box = try Box<SwiftType>.peekIota(this, env: env)
+        box.value = value
     }
 }
