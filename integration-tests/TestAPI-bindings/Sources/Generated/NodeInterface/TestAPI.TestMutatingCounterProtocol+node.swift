@@ -19,6 +19,10 @@ struct _NodeTestMutatingCounterProtocol: TestAPI.TestMutatingCounterProtocol {
     public func witness() throws -> TestMutatingCounterProtocol {
         witnessImpl!()
     }
+    var tickTwiceImpl: (() -> Void)?
+    public func tickTwice() throws {
+        tickTwiceImpl!()
+    }
 }
 extension TestAPI_CommonInterface._TestMutatingCounterProtocolConverter: NodeMutator {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
@@ -66,6 +70,21 @@ extension TestAPI_CommonInterface._TestMutatingCounterProtocolConverter: NodeMut
                                 ),
                                 env: env.env
                             )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                ),
+                "tickTwice": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "tickTwice", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            var mutatingSelf = try env.this(converter: TestAPI_CommonInterface._TestMutatingCounterProtocolConverter.self)
+                            let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
+                                mutatingSelf.tickTwice(
+                                ),
+                                env: env.env
+                            )
+                            try Self.mutateNode(mutatingSelf, this: env.this(), env: env.env)
                             return result
                         }
                     },

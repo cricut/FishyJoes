@@ -64,6 +64,26 @@ abstract class TestMutatingCounterProtocol {
 }
 
 extension TestMutatingCounterProtocol_DefaultImplementations on TestMutatingCounterProtocol {
+    void tickTwice(
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            check((OutCreatedRef _exn) => f__iota_TestAPI_TestMutatingCounterProtocol_tickTwice(Loader.shared.env, _thisHandle.ptr, _exn))
+        )
+    ;
+
+    static void ffi_tickTwice(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<TestMutatingCounterProtocol>(obj).tickTwice(
+        )
+    );
+
+    static late void Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_TestMutatingCounterProtocol_tickTwice;
 }
 
 extension TestMutatingCounterProtocol_FfiHooks on TestMutatingCounterProtocol {

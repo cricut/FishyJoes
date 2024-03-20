@@ -3303,6 +3303,22 @@
                     "_0" : "TestAPI.TestMutatingCounterProtocol"
                   }
                 }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(tickTwice) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "tickTwice",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
+                  }
+                }
               }
             ],
             "name" : "TestMutatingCounterProtocol"

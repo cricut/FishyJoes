@@ -305,6 +305,7 @@ typedef _TestAPI_TestMutatingCounterProtocolConstructor = CreatedRef Function(
 typedef _TestAPI_TestMutatingCounterProtocol_countGetter = ffi.Int Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestMutatingCounterProtocol_tick = ffi.Void Function(UnownedRef obj,  OutCreatedRef exn);
 typedef _TestAPI_TestMutatingCounterProtocol_witness = CreatedRef Function(UnownedRef obj,  OutCreatedRef exn);
+typedef _TestAPI_TestMutatingCounterProtocol_tickTwice = ffi.Void Function(UnownedRef obj,  OutCreatedRef exn);
 typedef _TestAPI_TestOptionalsProtocolConstructor = CreatedRef Function(
     ffi.Pointer ref,
     OutCreatedRef exn
@@ -917,6 +918,7 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestMutatingCounterProtocol_countGetter>> get_count,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestMutatingCounterProtocol_tick>> tick,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestMutatingCounterProtocol_witness>> witness,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestMutatingCounterProtocol_tickTwice>> tickTwice,
             OutCreatedRef exn
         ),
         void Function(
@@ -925,6 +927,7 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestMutatingCounterProtocol_countGetter>> get_count,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestMutatingCounterProtocol_tick>> tick,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestMutatingCounterProtocol_witness>> witness,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestMutatingCounterProtocol_tickTwice>> tickTwice,
             OutCreatedRef exn
         )
     >('TestAPI_CommonInterface__TestMutatingCounterProtocolConverter_setup');
@@ -2700,6 +2703,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_TestMutatingCounterProtocol_tick");
+    TestAPI.TestMutatingCounterProtocol_DefaultImplementations.f__iota_TestAPI_TestMutatingCounterProtocol_tickTwice = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestMutatingCounterProtocol_tickTwice");
     TestAPI.ExternalWitness_TestMutatingCounterProtocol.f__iota_TestAPI_TestMutatingCounterProtocol_witness = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -6914,6 +6929,7 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.TestMutatingCounterProtocol_FfiHooks.ffi_get_count, 0),
                 ffi.Pointer.fromFunction(TestAPI.TestMutatingCounterProtocol_FfiHooks.ffi_tick),
                 ffi.Pointer.fromFunction(TestAPI.TestMutatingCounterProtocol_FfiHooks.ffi_witness),
+                ffi.Pointer.fromFunction(TestAPI.TestMutatingCounterProtocol_DefaultImplementations.ffi_tickTwice),
                 exn
             );
         });

@@ -2031,6 +2031,12 @@ export declare namespace TestAPI {
          */
         witness(
         ): TestAPI.TestMutatingCounterProtocol;
+
+        /**
+         * <!-- FishyJoes.export(tickTwice) -->
+         */
+        tickTwice(
+        ): void;
     }
 
     /**

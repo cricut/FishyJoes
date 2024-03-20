@@ -1970,6 +1970,14 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up TestAPI_CommonInterface._TestMutatingCounterProtocolConverter...")
         try TestAPI_CommonInterface._TestMutatingCounterProtocolConverter.javaSetup(env: env)
         try env.RegisterNatives(
+            TestAPI_CommonInterface._TestMutatingCounterProtocolConverter.externalCompanionClass,
+            JNINativeMethod(
+                name: bag.add("__jni__default_tickTwice"),
+                signature: bag.add("(Lcom/cricut/testapi/TestMutatingCounterProtocol;)V"),
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestMutatingCounterProtocolConverter__default_tickTwice, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        try env.RegisterNatives(
             TestAPI_CommonInterface._TestMutatingCounterProtocolConverter.externalWitnessClass ?? TestAPI_CommonInterface._TestMutatingCounterProtocolConverter.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_tick"),

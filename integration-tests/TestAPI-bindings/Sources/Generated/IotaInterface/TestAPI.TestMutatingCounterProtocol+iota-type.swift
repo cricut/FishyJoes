@@ -44,6 +44,18 @@ struct _IotaTestMutatingCounterProtocol: TestAPI.TestMutatingCounterProtocol {
             env: _iotaWitness.env
         )
     }
+
+    public func tickTwice() throws {
+        try FishyJoesCommonRuntime.VoidConverter.peekIota(
+            try _iotaWitness.env.check { exn in
+                TestAPI_CommonInterface._TestMutatingCounterProtocolConverter._tickTwice[_iotaWitness.env](
+                    _iotaWitness.object,
+                    exn
+                )
+            },
+            env: _iotaWitness.env
+        )
+    }
 }
 
 @_cdecl("TestAPI_CommonInterface__TestMutatingCounterProtocolConverter_setup")
@@ -59,6 +71,10 @@ public func TestAPI_CommonInterface__TestMutatingCounterProtocolConverter_setup(
         foreignObject,
         _ exn: foreignOutExn
     ) -> TestAPI_CommonInterface._TestMutatingCounterProtocolConverter.CType,
+    _ tickTwice: @escaping @convention(c) (
+        foreignObject,
+        _ exn: foreignOutExn
+    ) -> FishyJoesCommonRuntime.VoidConverter.CType,
     _ exn: foreignOutExn
 ) {
     let env = Env(envRef)
@@ -67,6 +83,7 @@ public func TestAPI_CommonInterface__TestMutatingCounterProtocolConverter_setup(
     TestAPI_CommonInterface._TestMutatingCounterProtocolConverter._countGetter[env] = countGetter
     TestAPI_CommonInterface._TestMutatingCounterProtocolConverter._tick[env] = tick
     TestAPI_CommonInterface._TestMutatingCounterProtocolConverter._witness[env] = witness
+    TestAPI_CommonInterface._TestMutatingCounterProtocolConverter._tickTwice[env] = tickTwice
 }
 
 extension TestAPI_CommonInterface._TestMutatingCounterProtocolConverter: IotaMutator {
@@ -85,6 +102,10 @@ extension TestAPI_CommonInterface._TestMutatingCounterProtocolConverter: IotaMut
         foreignObject,
         _ exn: foreignOutExn
     ) -> TestAPI_CommonInterface._TestMutatingCounterProtocolConverter.CType>()
+    fileprivate static let _tickTwice = Env.CallbackMap<@convention(c) (
+        foreignObject,
+        _ exn: foreignOutExn
+    ) -> FishyJoesCommonRuntime.VoidConverter.CType>()
 
     public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
         do {
@@ -107,11 +128,7 @@ extension TestAPI_CommonInterface._TestMutatingCounterProtocolConverter: IotaMut
     }
 
     public static func mutateIota(_ this: foreignObject, to value: SwiftType, env: Env) throws {
-        do {
-            let box = try Box<SwiftType>.peekIota(this, env: env)
-            box.value = value
-        } catch {
-            // no mutable fields exist to mutate
-        }
+        let box = try Box<SwiftType>.peekIota(this, env: env)
+        box.value = value
     }
 }

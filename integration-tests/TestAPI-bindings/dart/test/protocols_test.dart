@@ -91,6 +91,12 @@ void main() {
         expect(mc2.count, equals(129));
         mc2.tick();
         expect(mc2.count, equals(130));
+
+        var mc3 = ADartCounter();
+        expect(mc3.count, equals(0));
+        mc3.tick();
+        mc3.tickTwice();
+        expect(mc3.count, equals(1));
       });
 
     test('testProtocolDartImpl', () {
@@ -147,4 +153,17 @@ class ProtocolDartImpl implements AProtocol {
     final c_prime = c * 7.23890;
     return AProtocol_DefaultImplementations(this).hasADefaultImplementation2(a_prime, b_prime, c_prime);
   }
+}
+
+class ADartCounter implements TestMutatingCounterProtocol {
+  @override
+  int count = 0;
+
+  @override
+  void tick() {
+    count += 1;
+  }
+
+  @override
+  TestMutatingCounterProtocol witness() => this;
 }

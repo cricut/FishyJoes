@@ -23,7 +23,21 @@ interface TestMutatingCounterProtocol {
     fun witness(
     ): com.cricut.testapi.TestMutatingCounterProtocol
 
+    /**
+     * <!-- FishyJoes.export(tickTwice) -->
+     */
+    fun tickTwice(
+    ): kotlin.Unit = __jni__default_tickTwice(this)
+
     companion object {
+        /**
+         * <!-- FishyJoes.export(tickTwice) -->
+         */
+        @JvmName("__jni__default_tickTwice")
+        private external fun __jni__default_tickTwice(
+            self: TestMutatingCounterProtocol
+        ): kotlin.Unit
+
         init {
             loadNativeLibs()
         }

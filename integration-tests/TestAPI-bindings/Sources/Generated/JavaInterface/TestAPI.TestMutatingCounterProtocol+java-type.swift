@@ -53,6 +53,21 @@ struct _JavaTestMutatingCounterProtocol: TestAPI.TestMutatingCounterProtocol {
             env: env
         )
     }
+
+    static var _tickTwiceMethodID: jmethodID?
+    public func tickTwice() throws {
+        let env = try Env.acquireJVMThread(on: _javaWitness.vm)
+        defer {
+            try? Env.relinquishJVMThread(on: _javaWitness.vm)
+        }
+        return try FishyJoesCommonRuntime.VoidConverter.fromJava(
+            env.CallVoidMethod(
+                _javaWitness.object,
+                Self._tickTwiceMethodID
+            ),
+            env: env
+        )
+    }
 }
 
 extension TestAPI_CommonInterface._TestMutatingCounterProtocolConverter: JavaMutator {
@@ -60,6 +75,7 @@ extension TestAPI_CommonInterface._TestMutatingCounterProtocolConverter: JavaMut
     public static var javaClass: jclass?
     public static var externalWitnessClass: jclass?
     public static var externalWitnessConstructor: jmethodID?
+    public static var externalCompanionClass: jclass?
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
         if env.IsInstanceOf(value, AnyBox.javaClass) {
             return try Box<SwiftType>.fromJava(value, env: env).value
@@ -86,5 +102,7 @@ extension TestAPI_CommonInterface._TestMutatingCounterProtocolConverter: JavaMut
         _JavaTestMutatingCounterProtocol._countGetMethodID = try env.GetMethodID(javaClass, "getCount", "()J")
         _JavaTestMutatingCounterProtocol._tickMethodID = try env.GetMethodID(javaClass, "tick", "()V")
         _JavaTestMutatingCounterProtocol._witnessMethodID = try env.GetMethodID(javaClass, "witness", "()Lcom/cricut/testapi/TestMutatingCounterProtocol;")
+        externalCompanionClass = try env.globalRef(env.FindClass("com/cricut/testapi/TestMutatingCounterProtocol$Companion"))
+        _JavaTestMutatingCounterProtocol._tickTwiceMethodID = try env.GetMethodID(javaClass, "tickTwice", "()V")
     }
 }

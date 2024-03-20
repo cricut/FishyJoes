@@ -226,6 +226,17 @@ public protocol TestMutatingCounterProtocol {
     mutating func tick() throws
     /// <!-- FishyJoes.export(witness) -->
     func witness() throws -> TestMutatingCounterProtocol
+
+    /// <!-- FishyJoes.export(tickTwice) -->
+    mutating func tickTwice() throws
+}
+
+extension TestMutatingCounterProtocol {
+    /// <!-- FishyJoes.export(tickTwice) -->
+    public mutating func tickTwice() throws {
+        try tick()
+        try tick()
+    }
 }
 
 /// <!-- FishyJoes.export(TestMutatingCounter, conformances: [TestMutatingCounterProtocol]) -->
