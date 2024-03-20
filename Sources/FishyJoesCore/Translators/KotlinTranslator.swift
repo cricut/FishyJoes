@@ -324,7 +324,12 @@ final class KotlinTranslator: Translator {
                                 }
                             }
                             typeSetupFragment.outputBlock("try env.RegisterNatives(", closeWith: ")") {
-                                typeSetupFragment.output("\(resolved.converterType.name).externalWitnessClass ?? \(resolved.converterType.name).javaClass", newLineTerminated: false)
+                                if resolved is TranslatedProtocol {
+                                    typeSetupFragment.output("\(resolved.converterType.name).externalWitnessClass!", newLineTerminated: false)
+                                } else {
+                                    typeSetupFragment.output("\(resolved.converterType.name).javaClass", newLineTerminated: false)
+                                }
+
                                 for (method, signature, cName, _) in normalMethods {
                                     typeSetupFragment.output(",")
                                     typeSetupFragment.outputBlock("JNINativeMethod(", newLineTerminated: false) {
