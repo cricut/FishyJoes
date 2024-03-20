@@ -83,18 +83,18 @@ let java_TestAPI_Methods_asyncYield: @convention(c) (
 let java_TestAPI_Methods_asyncSleep: @convention(c) (
     UnsafeMutablePointer<JNIEnv?>,
     jobject
-) -> FutureConverter<Swift.Int>.CType = { _javaEnv, _javaThis in
+) -> FutureConverter<Swift.UInt>.CType = { _javaEnv, _javaThis in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)
         return try swiftTask(env: _javaEnv) { _javaEnv, _vm in
             let _swiftThis = try TestAPI.Methods.fromJava(_javaThisRef.object, env: _javaEnv)
-            let value: Swift.Int.SwiftType = try await {
+            let value: Swift.UInt.SwiftType = try await {
                 try Env.relinquishJVMThread(on: _vm)
                 defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }
                 return try await _swiftThis.asyncSleep(
                 )
             }()
-            return try Swift.Int.toJavaObject(value, env: _javaEnv)
+            return try Swift.UInt.toJavaObject(value, env: _javaEnv)
         }
     }
 }
@@ -251,16 +251,16 @@ let java_TestAPI_Methods_staticAsyncYield: @convention(c) (
 let java_TestAPI_Methods_staticAsyncSleep: @convention(c) (
     UnsafeMutablePointer<JNIEnv?>,
     jobject
-) -> FutureConverter<Swift.Int>.CType = { _javaEnv, _javaThis in
+) -> FutureConverter<Swift.UInt>.CType = { _javaEnv, _javaThis in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         return try swiftTask(env: _javaEnv) { _javaEnv, _vm in
-            let value: Swift.Int.SwiftType = try await {
+            let value: Swift.UInt.SwiftType = try await {
                 try Env.relinquishJVMThread(on: _vm)
                 defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }
                 return try await TestAPI.Methods.staticAsyncSleep(
                 )
             }()
-            return try Swift.Int.toJavaObject(value, env: _javaEnv)
+            return try Swift.UInt.toJavaObject(value, env: _javaEnv)
         }
     }
 }

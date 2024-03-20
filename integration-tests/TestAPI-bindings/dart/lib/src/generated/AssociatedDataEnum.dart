@@ -101,7 +101,7 @@ sealed class AssociatedDataEnum {
 
     static void extractThing(
         UnownedRef obj,
-        ffi.Pointer<ffi.Int> _value,
+        ffi.Pointer<ffi.IntPtr> _value,
         OutCreatedRef exn
     ) {
         catching(exn, () {
@@ -124,7 +124,7 @@ sealed class AssociatedDataEnum {
     static void extractOther(
         UnownedRef obj,
         OutCreatedRef _unnamed,
-        ffi.Pointer<ffi.Int> __1,
+        ffi.Pointer<ffi.IntPtr> __1,
         OutCreatedRef exn
     ) {
         catching(exn, () {

@@ -68,6 +68,7 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try FutureConverter<Swift.Double>.nodeSetup(env: env, module: module)
     try FutureConverter<Swift.Int>.nodeSetup(env: env, module: module)
     try FutureConverter<Swift.String>.nodeSetup(env: env, module: module)
+    try FutureConverter<Swift.UInt>.nodeSetup(env: env, module: module)
     try FutureConverter<FishyJoesCommonRuntime.VoidConverter>.nodeSetup(env: env, module: module)
     try ArrayConverter<OptionalConverter<Swift.Bool>>.nodeSetup(env: env, module: module)
     try ArrayConverter<OptionalConverter<Swift.Double>>.nodeSetup(env: env, module: module)

@@ -905,6 +905,14 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_FutureConverter<Swift.UInt>", () => {
+                Console.WriteLine("setting up Future<Swift.UInt>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<nuint>(
+                    Loader.env,
+                    "FutureConverter<Swift.UInt>",
+                    out exn
+                ));
+            });
             Once("setup_FutureConverter<FishyJoesCommonRuntime.VoidConverter>", () => {
                 Console.WriteLine("setting up Future<Void>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup(

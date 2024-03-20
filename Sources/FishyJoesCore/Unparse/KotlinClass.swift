@@ -170,15 +170,17 @@ class KotlinClass: NestedClass {
                         }
                     }
                     fragment.output(" = __jni_\(method.name)(\(arguments.joined(separator: ", ")))", newLineTerminated: false)
-                    fragment.output(method.returnType.toKotlinType, newLineTerminated: false)
-                    fragment.output(method.isSuspend ? ".await()" : "")
+                    if method.isSuspend {
+                        fragment.output(".await()")
+                    } else {
+                        fragment.output(method.returnType.toKotlinType)
+                    }
                 } else {
                     fragment.output()
                 }
             }
         }
-        if external,
-            method.body == nil {
+        if external, method.body == nil {
             if method.isStatic {
                 fragment.output("@JvmStatic")
             }
@@ -195,7 +197,7 @@ class KotlinClass: NestedClass {
                 }
             }
             if method.isSuspend {
-                fragment.output(": kotlinx.coroutines.Deferred<\(method.returnType.jvmType)>", newLineTerminated: false)
+                fragment.output(": kotlinx.coroutines.Deferred<\(method.returnType.kotlinType)>", newLineTerminated: false)
             } else if method.returnType != KType.void {
                 fragment.output(": \(method.returnType.jvmType)", newLineTerminated: false)
             }

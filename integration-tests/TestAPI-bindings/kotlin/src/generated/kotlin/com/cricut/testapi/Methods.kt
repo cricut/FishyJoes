@@ -89,10 +89,10 @@ class Methods private constructor(_swiftReference: Long): com.cricut.fishyjoes.r
      * <!-- FishyJoes.export(asyncSleep) -->
      */
     suspend fun asyncSleep(
-    ): Long = __jni_asyncSleep().await()
+    ): ULong = __jni_asyncSleep().await()
     @JvmName("__jni_asyncSleep")
     private external fun __jni_asyncSleep(
-    ): kotlinx.coroutines.Deferred<Long>
+    ): kotlinx.coroutines.Deferred<ULong>
 
     /**
      * <!-- FishyJoes.export(asyncVoid) -->
@@ -227,11 +227,11 @@ class Methods private constructor(_swiftReference: Long): com.cricut.fishyjoes.r
          * <!-- FishyJoes.export(staticAsyncSleep) -->
          */
         suspend fun staticAsyncSleep(
-        ): Long = __jni_staticAsyncSleep().await()
+        ): ULong = __jni_staticAsyncSleep().await()
         @JvmStatic
         @JvmName("__jni_staticAsyncSleep")
         private external fun __jni_staticAsyncSleep(
-        ): kotlinx.coroutines.Deferred<Long>
+        ): kotlinx.coroutines.Deferred<ULong>
 
         /**
          * <!-- FishyJoes.export(staticAsyncVoid) -->

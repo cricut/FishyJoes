@@ -5,11 +5,12 @@ typedef _Int8ValueMethod = ffi.Int8 Function(UnownedRef obj, OutCreatedRef);
 typedef _Int16ValueMethod = ffi.Int16 Function(UnownedRef obj, OutCreatedRef);
 typedef _Int32ValueMethod = ffi.Int32 Function(UnownedRef obj, OutCreatedRef);
 typedef _Int64ValueMethod = ffi.Int64 Function(UnownedRef obj, OutCreatedRef);
-typedef _IntValueMethod = ffi.Int Function(UnownedRef obj, OutCreatedRef);
+typedef _IntValueMethod = ffi.IntPtr Function(UnownedRef obj, OutCreatedRef);
 typedef _UInt8ValueMethod = ffi.Uint8 Function(UnownedRef obj, OutCreatedRef);
 typedef _UInt16ValueMethod = ffi.Uint16 Function(UnownedRef obj, OutCreatedRef);
 typedef _UInt32ValueMethod = ffi.Uint32 Function(UnownedRef obj, OutCreatedRef);
 typedef _UInt64ValueMethod = ffi.Uint64 Function(UnownedRef obj, OutCreatedRef);
+typedef _UIntValueMethod = ffi.UintPtr Function(UnownedRef obj, OutCreatedRef);
 typedef _FloatValueMethod = ffi.Float Function(UnownedRef obj, OutCreatedRef);
 typedef _DoubleValueMethod = ffi.Double Function(UnownedRef obj, OutCreatedRef);
 
@@ -17,11 +18,12 @@ typedef _Int8Constructor = CreatedRef Function(ffi.Int8 value);
 typedef _Int16Constructor = CreatedRef Function(ffi.Int16 value);
 typedef _Int32Constructor = CreatedRef Function(ffi.Int32 value);
 typedef _Int64Constructor = CreatedRef Function(ffi.Int64 value);
-typedef _IntConstructor = CreatedRef Function(ffi.Int value);
+typedef _IntConstructor = CreatedRef Function(ffi.IntPtr value);
 typedef _UInt8Constructor = CreatedRef Function(ffi.Uint8 value);
 typedef _UInt16Constructor = CreatedRef Function(ffi.Uint16 value);
 typedef _UInt32Constructor = CreatedRef Function(ffi.Uint32 value);
 typedef _UInt64Constructor = CreatedRef Function(ffi.Uint64 value);
+typedef _UIntConstructor = CreatedRef Function(ffi.UintPtr value);
 typedef _FloatConstructor = CreatedRef Function(ffi.Float value);
 typedef _DoubleConstructor = CreatedRef Function(ffi.Double value);
 
@@ -56,6 +58,12 @@ typedef _Swift_Int64_setup<R> = R Function(
   ffi.Pointer<ffi.NativeFunction<_Int64Constructor>> constructor
 );
 
+typedef _Swift_Int_setup<R> = R Function(
+  Env env,
+  ffi.Pointer<ffi.NativeFunction<_IntValueMethod>> valueMethod,
+  ffi.Pointer<ffi.NativeFunction<_IntConstructor>> constructor
+);
+
 typedef _Swift_UInt8_setup<R> = R Function(
   Env env,
   ffi.Pointer<ffi.NativeFunction<_UInt8ValueMethod>> valueMethod,
@@ -80,10 +88,10 @@ typedef _Swift_UInt64_setup<R> = R Function(
   ffi.Pointer<ffi.NativeFunction<_UInt64Constructor>> constructor
 );
 
-typedef _Swift_Int_setup<R> = R Function(
+typedef _Swift_UInt_setup<R> = R Function(
   Env env,
-  ffi.Pointer<ffi.NativeFunction<_IntValueMethod>> valueMethod,
-  ffi.Pointer<ffi.NativeFunction<_IntConstructor>> constructor
+  ffi.Pointer<ffi.NativeFunction<_UIntValueMethod>> valueMethod,
+  ffi.Pointer<ffi.NativeFunction<_UIntConstructor>> constructor
 );
 
 typedef _Swift_Float_setup<R> = R Function(
@@ -106,6 +114,7 @@ extension LoaderPrimitives on Loader {
   static CreatedRef _uint16Constructor(int value) => createRef(value.toUnsigned(16));
   static CreatedRef _uint32Constructor(int value) => createRef(value.toUnsigned(32));
   static CreatedRef _uint64Constructor(int value) => createRef(value.toUnsigned(64));
+  static CreatedRef _uintConstructor(int value) => createRef(value.toUnsigned(8 * ffi.sizeOf<ffi.UintPtr>()));
 
   static double _doubleValue(UnownedRef obj, OutCreatedRef exn) => catching(exn, () => peekRef<double>(obj)) ?? 0.0;
   static CreatedRef _doubleConstructor(double value) => createRef(value);
@@ -201,6 +210,13 @@ extension LoaderPrimitives on Loader {
       ffi.Pointer.fromFunction<_IntConstructor>(_intConstructor)
     );
 
+    Loader._dylib.lookupFunction<_Swift_UInt_setup<ffi.Void>, _Swift_UInt_setup<void>>(
+        'Swift_UInt_setup'
+    )(
+        env,
+        ffi.Pointer.fromFunction<_UIntValueMethod>(_intValue, 0),
+        ffi.Pointer.fromFunction<_UIntConstructor>(_uintConstructor)
+    );
     // Floating Point
     Loader._dylib.lookupFunction<_Swift_Float_setup<ffi.Void>, _Swift_Float_setup<void>>(
       'Swift_Float_setup'
