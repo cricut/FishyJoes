@@ -117,6 +117,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try FutureConverter<Swift.Int>.javaSetup(env: env)
         // print("setting up FutureConverter<Swift.String>...")
         try FutureConverter<Swift.String>.javaSetup(env: env)
+        // print("setting up FutureConverter<Swift.UInt>...")
+        try FutureConverter<Swift.UInt>.javaSetup(env: env)
         // print("setting up FutureConverter<FishyJoesCommonRuntime.VoidConverter>...")
         try FutureConverter<FishyJoesCommonRuntime.VoidConverter>.javaSetup(env: env)
         // print("setting up ArrayConverter<OptionalConverter<Swift.Bool>>...")

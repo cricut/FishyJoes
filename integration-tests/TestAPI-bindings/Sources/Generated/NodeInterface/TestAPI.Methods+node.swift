@@ -128,12 +128,12 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                             let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.Methods.self))
                             Task {
                                 do {
-                                    let taskResult: Int = try await swiftSelf.value.asyncSleep(
+                                    let taskResult: UInt = try await swiftSelf.value.asyncSleep(
                                     )
                                     try onMainThread { env in
                                         let convertedTaskResult: NAPI.Value
                                         do {
-                                            convertedTaskResult = try Swift.Int.toNode(taskResult, env: env)
+                                            convertedTaskResult = try Swift.UInt.toNode(taskResult, env: env)
                                         } catch {
                                             try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
                                             return
@@ -373,12 +373,12 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                             let (deferred, promise) = try env.env.createPromise()
                             Task {
                                 do {
-                                    let taskResult: Int = try await TestAPI.Methods.staticAsyncSleep(
+                                    let taskResult: UInt = try await TestAPI.Methods.staticAsyncSleep(
                                     )
                                     try onMainThread { env in
                                         let convertedTaskResult: NAPI.Value
                                         do {
-                                            convertedTaskResult = try Swift.Int.toNode(taskResult, env: env)
+                                            convertedTaskResult = try Swift.UInt.toNode(taskResult, env: env)
                                         } catch {
                                             try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
                                             return

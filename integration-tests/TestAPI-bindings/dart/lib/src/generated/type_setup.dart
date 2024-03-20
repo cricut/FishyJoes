@@ -5452,6 +5452,17 @@ final ensureLoaded = (() {
         });
     });
 
+    Loader.shared.once("setup_FutureConverter<Swift.UInt>", () {
+        // print("setting up Future<Swift.UInt> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_FutureConverter_setup<int>(
+                Loader.shared.env,
+                "FutureConverter<Swift.UInt>",
+                exn
+            );
+        });
+    });
+
     Loader.shared.once("setup_FutureConverter<FishyJoesCommonRuntime.VoidConverter>", () {
         // print("setting up Future<Void> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {

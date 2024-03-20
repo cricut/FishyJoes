@@ -385,7 +385,7 @@ public class FishyJoesContext {
             "Int16": (c: "int16_t", ts: "number", jni: JNIType.short, cSharp: "short", dart: "int", dartFFI: "Int16"),
             "Int32": (c: "int32_t", ts: "number", jni: JNIType.int, cSharp: "int", dart: "int", dartFFI: "Int32"),
             "Int64": (c: "int64_t", ts: "bigint", jni: JNIType.long, cSharp: "long", dart: "int", dartFFI: "Int64"),
-            "Int": (c: "int", ts: "number", jni: JNIType.long, cSharp: "nint", dart: "int", dartFFI: "Int"),
+            "Int": (c: "int", ts: "number", jni: JNIType.long, cSharp: "nint", dart: "int", dartFFI: "IntPtr"),
             "Float": (c: "float", ts: "number", jni: JNIType.float, cSharp: "float", dart: "double", dartFFI: "Float"),
             "Double": (c: "double", ts: "number", jni: JNIType.double, cSharp: "double", dart: "double", dartFFI: "Double"),
         ]
@@ -395,7 +395,7 @@ public class FishyJoesContext {
             "UInt16": (c: "uint16_t", ts: "number", jni: JNIType.short, cSharp: "ushort", dart: "int", dartFFI: "Uint16"),
             "UInt32": (c: "uint32_t", ts: "number", jni: JNIType.int, cSharp: "uint", dart: "int", dartFFI: "Uint32"),
             "UInt64": (c: "uint64_t", ts: "bigint", jni: JNIType.long, cSharp: "ulong", dart: "int", dartFFI: "Uint64"),
-            "UInt": (c: "uint64_t", ts: "number", jni: JNIType.long, cSharp: "nuint", dart: "int", dartFFI: "UnsignedInt" /* Seriously, dart? */),
+            "UInt": (c: "uint64_t", ts: "number", jni: JNIType.long, cSharp: "nuint", dart: "int", dartFFI: "UintPtr"),
         ]
 
         var dontCache = false
