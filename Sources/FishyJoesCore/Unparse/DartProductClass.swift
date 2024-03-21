@@ -136,7 +136,6 @@ class DartProductClass: DartClass {
 
             if !isExternalWitness {
                 ffiFor(fields: fields + storedFields, fragment: fragment, isReference: constructor == .reference)
-                ffiFor(methods: methods, fragment: fragment)
             }
 
             if constructor != .reference {
