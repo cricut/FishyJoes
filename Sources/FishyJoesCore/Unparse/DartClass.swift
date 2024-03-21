@@ -424,9 +424,9 @@ extension DartClass {
             fragment.output(" => ", newLineTerminated: false)
             wrapper {
                 if field.isStatic {
-                    fragment.output("\(unqualifiedName).\(field.name)")
+                    fragment.output("\(unqualifiedName).\(DartClass.deforbidify(field.name))")
                 } else {
-                    fragment.output("peekRef<\(unqualifiedName)>(obj).\(field.name)")
+                    fragment.output("peekRef<\(unqualifiedName)>(obj).\(DartClass.deforbidify(field.name))")
                 }
             }
             if !isReference,
