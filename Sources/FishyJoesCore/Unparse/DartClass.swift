@@ -423,14 +423,10 @@ extension DartClass {
 
             fragment.output(" => ", newLineTerminated: false)
             wrapper {
-                var fieldName = field.name
-                if fieldName.hasPrefix("_") {
-                    fieldName = "m\(fieldName)"
-                }
                 if field.isStatic {
-                    fragment.output("\(unqualifiedName).\(fieldName)")
+                    fragment.output("\(unqualifiedName).\(DartClass.deforbidify(field.name))")
                 } else {
-                    fragment.output("peekRef<\(unqualifiedName)>(obj).\(fieldName)")
+                    fragment.output("peekRef<\(unqualifiedName)>(obj).\(DartClass.deforbidify(field.name))")
                 }
             }
             if !isReference,
