@@ -156,20 +156,6 @@ class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsPro
         )
     );
 
-    static CreatedRef ffi_init(
-        UnownedRef obj,
-        ConsumedRef corge,
-        ConsumedRef flarp,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            TestProtocolClass.init(
-                consumeRef(corge),
-                flarp: consumeRef(flarp)
-            )
-        )
-    );
-
     static CreatedRef ffi_wombat(
         UnownedRef obj,
         ConsumedRef zxc,

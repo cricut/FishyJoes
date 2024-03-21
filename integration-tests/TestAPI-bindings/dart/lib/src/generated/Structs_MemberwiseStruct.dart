@@ -123,16 +123,6 @@ class Structs_MemberwiseStruct {
         )
     );
 
-    static CreatedRef ffi_create(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            Structs_MemberwiseStruct.create(
-            )
-        )
-    );
-
     @override
     bool operator ==(Object other) {
         return identical(other, this) ||

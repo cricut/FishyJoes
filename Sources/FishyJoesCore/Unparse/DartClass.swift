@@ -458,6 +458,9 @@ extension DartClass {
             guard !method.documentation.isEmpty else {
                 continue
             }
+            guard !method.isStatic else {
+                continue
+            }
             fragment.outputBlock("static \(method.returnType.ffiCreatedName) ffi_\(method.name)(", newLineTerminated: false) {
                 fragment.output("UnownedRef obj,")
                 for param in method.parameters {
@@ -503,12 +506,14 @@ extension DartClass {
                         }
                     }
                     if !optionalParams.isEmpty {
-                        fragment.output(",")
+                        if !requiredParams.isEmpty {
+                            fragment.output(",")
+                        }
                         fragment.outputMap(optionalParams, separator: ",") {
                             if $0.type.isObject {
                                 return "\($0.name): consumeRef(\($0.name))"
                             } else {
-                                return $0.name
+                                return "\($0.name): \($0.name)"
                             }
                         }
                     } else {
