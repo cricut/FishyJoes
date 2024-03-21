@@ -510,7 +510,7 @@ extension DartClass {
                             if $0.type.isObject {
                                 return "\($0.name): consumeRef(\($0.name))"
                             } else {
-                                return $0.name
+                                return "\($0.name): \($0.name)"
                             }
                         }
                     } else {
