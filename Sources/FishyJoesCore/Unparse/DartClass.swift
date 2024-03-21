@@ -503,7 +503,9 @@ extension DartClass {
                         }
                     }
                     if !optionalParams.isEmpty {
-                        fragment.output(",")
+                        if !requiredParams.isEmpty {
+                            fragment.output(",")
+                        }
                         fragment.outputMap(optionalParams, separator: ",") {
                             if $0.type.isObject {
                                 return "\($0.name): consumeRef(\($0.name))"
