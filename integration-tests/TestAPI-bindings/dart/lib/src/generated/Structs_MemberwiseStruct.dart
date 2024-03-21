@@ -113,16 +113,6 @@ class Structs_MemberwiseStruct {
         peekRef<Structs_MemberwiseStruct>(obj).mutable = consumeRef<String>(newValue);
     });
 
-    static CreatedRef ffi_asyncGetMutable(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<Structs_MemberwiseStruct>(obj).asyncGetMutable(
-            )
-        )
-    );
-
     @override
     bool operator ==(Object other) {
         return identical(other, this) ||

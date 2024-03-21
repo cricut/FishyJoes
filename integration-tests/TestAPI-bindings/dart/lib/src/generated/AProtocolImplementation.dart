@@ -110,20 +110,6 @@ class AProtocolImplementation implements TestAPI.AProtocol {
         peekRef<AProtocolImplementation>(obj).baz = newValue;
     });
 
-    static CreatedRef ffi_bar(
-        UnownedRef obj,
-        int x,
-        int y,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<AProtocolImplementation>(obj).bar(
-                x,
-                y
-            )
-        )
-    );
-
     @override
     bool operator ==(Object other) {
         return identical(other, this) ||

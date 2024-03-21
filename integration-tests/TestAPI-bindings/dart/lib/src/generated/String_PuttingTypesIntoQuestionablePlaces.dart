@@ -84,14 +84,6 @@ class String_PuttingTypesIntoQuestionablePlaces {
         )
     );
 
-    static int ffi_testCall(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catching(exn, () =>
-        peekRef<String_PuttingTypesIntoQuestionablePlaces>(obj).testCall(
-        )
-    ) ?? 0;
-
     @override
     bool operator ==(Object other) {
         return identical(other, this) ||
