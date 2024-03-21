@@ -117,16 +117,6 @@ class Structs_MutableStruct {
         )
     );
 
-    static CreatedRef ffi_create(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            Structs_MutableStruct.create(
-            )
-        )
-    );
-
     @override
     bool operator ==(Object other) {
         return identical(other, this) ||

@@ -128,16 +128,6 @@ class Methods extends SwiftReference {
         peekRef<Methods>(obj).instanceStored
     ) ?? 0;
 
-    static CreatedRef ffi_create(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            Methods.create(
-            )
-        )
-    );
-
     static int ffi_doublePlusGood(
         UnownedRef obj,
         int a,
@@ -233,94 +223,6 @@ class Methods extends SwiftReference {
     ) => catchingRef(exn, () =>
         createRef(
             peekRef<Methods>(obj).asyncCallbackFunc0(
-                consumeRef(callback)
-            )
-        )
-    );
-
-    static CreatedRef ffi_staticAsync42(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            Methods.staticAsync42(
-            )
-        )
-    );
-
-    static CreatedRef ffi_staticAsyncYield(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            Methods.staticAsyncYield(
-            )
-        )
-    );
-
-    static CreatedRef ffi_staticAsyncSleep(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            Methods.staticAsyncSleep(
-            )
-        )
-    );
-
-    static CreatedRef ffi_staticAsyncVoid(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            Methods.staticAsyncVoid(
-            )
-        )
-    );
-
-    static CreatedRef ffi_staticAsyncDouble(
-        UnownedRef obj,
-        double d,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            Methods.staticAsyncDouble(
-                d
-            )
-        )
-    );
-
-    static CreatedRef ffi_staticAsyncMultipleArgs(
-        UnownedRef obj,
-        int i,
-        ConsumedRef j,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            Methods.staticAsyncMultipleArgs(
-                i,
-                consumeRef(j)
-            )
-        )
-    );
-
-    static CreatedRef ffi_staticAsyncThrowing(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            Methods.staticAsyncThrowing(
-            )
-        )
-    );
-
-    static CreatedRef ffi_staticAsyncCallbackFunc0(
-        UnownedRef obj,
-        ConsumedRef callback,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            Methods.staticAsyncCallbackFunc0(
                 consumeRef(callback)
             )
         )
