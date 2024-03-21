@@ -96,7 +96,7 @@ void main() {
         expect(mc3.count, equals(0));
         mc3.tick();
         mc3.tickTwice();
-        expect(mc3.count, equals(1));
+        expect(mc3.count, equals(3));
       });
 
     test('testProtocolDartImpl', () {
