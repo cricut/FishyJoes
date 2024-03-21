@@ -458,6 +458,9 @@ extension DartClass {
             guard !method.documentation.isEmpty else {
                 continue
             }
+            guard !method.isStatic else {
+                continue
+            }
             fragment.outputBlock("static \(method.returnType.ffiCreatedName) ffi_\(method.name)(", newLineTerminated: false) {
                 fragment.output("UnownedRef obj,")
                 for param in method.parameters {
