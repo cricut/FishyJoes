@@ -113,7 +113,7 @@ class DartProductClass: DartClass {
 
                 fragment.outputBlock("static CreatedRef ffi_constructor(", newLineTerminated: false) {
                     for field in fields {
-                        fragment.output("\(field.type.ffiConsumedName) \(Self.deforbidify(field.name)),")
+                        fragment.output("\(field.type.ffiConsumedName) \(DartClass.deforbidify(field.name)),")
                     }
                     fragment.output("OutCreatedRef exn")
                 }
@@ -121,9 +121,9 @@ class DartProductClass: DartClass {
                     fragment.outputBlock("createRef(\(unqualifiedName)(", closeWith: "))") {
                         for field in fields {
                             if field.type.isObject {
-                                fragment.output("\(Self.deforbidify(field.name)): consumeRef(\(Self.deforbidify(field.name))),")
+                                fragment.output("\(DartClass.deforbidify(field.name)): consumeRef(\(DartClass.deforbidify(field.name))),")
                             } else {
-                                fragment.output("\(Self.deforbidify(field.name)): \(Self.deforbidify(field.name)),")
+                                fragment.output("\(DartClass.deforbidify(field.name)): \(DartClass.deforbidify(field.name)),")
                             }
                         }
                     }

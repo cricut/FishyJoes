@@ -138,7 +138,7 @@ class DartClass {
 
             // Keep the parameters in original order here, because the swift-side expects them in that order
             for param in method.parameters {
-                params.append((Self.deforbidify(param.name), param.type))
+                params.append((DartClass.deforbidify(param.name), param.type))
             }
 
             result["__iota_\(method.mangledName)"] = (args: params, return: method.returnType, isDefaultImplementation: (self is DartProtocolClass))
@@ -211,12 +211,12 @@ class DartClass {
 
         outputAttributes()
         let staticMark = field.isStatic ? "static " : ""
-        fragment.outputBlock("\(staticMark)\(field.type.name(in: self)) get \(Self.deforbidify(field.name)) =>", closeWith: ";") {
+        fragment.outputBlock("\(staticMark)\(field.type.name(in: self)) get \(DartClass.deforbidify(field.name)) =>", closeWith: ";") {
             outputGetterBody()
         }
         if field.isPubliclyWritable {
             outputAttributes()
-            fragment.outputBlock("\(staticMark)void set \(Self.deforbidify(field.name))(\(field.type.name(in: self)) value) {") {
+            fragment.outputBlock("\(staticMark)void set \(DartClass.deforbidify(field.name))(\(field.type.name(in: self)) value) {") {
                 outputSetterBody()
                 fragment.output(";")
             }
@@ -234,7 +234,7 @@ class DartClass {
                 func outputParameter(parameter: Method.Parameter) {
                     let labelComment = parameter.labelComment.map { "/* \($0) */ " } ?? ""
                     let defaultValue = parameter.defaultValue.map { " = \($0)" } ?? ""
-                    fragment.output("\(parameter.type.name(in: self)) \(labelComment)\(Self.deforbidify(parameter.name))\(defaultValue),")
+                    fragment.output("\(parameter.type.name(in: self)) \(labelComment)\(DartClass.deforbidify(parameter.name))\(defaultValue),")
                 }
 
                 // put all optional parameters at the end, or dart gets unhappy
@@ -267,12 +267,12 @@ class DartClass {
                             let oldWrap = wrap
                             wrap = { body in
                                 oldWrap {
-                                    fragment.outputBlock("GCRef.using(\(Self.deforbidify(param.name)), (_\(param.name)Handle) =>", closeWith: ")", body)
+                                    fragment.outputBlock("GCRef.using(\(DartClass.deforbidify(param.name)), (_\(param.name)Handle) =>", closeWith: ")", body)
                                 }
                             }
                             paramStrings.append("_\(param.name)Handle.ptr")
                         } else {
-                            paramStrings.append("\(Self.deforbidify(param.name))")
+                            paramStrings.append("\(DartClass.deforbidify(param.name))")
                         }
                     }
                     paramStrings.append("_exn")
@@ -423,9 +423,9 @@ extension DartClass {
             fragment.output(" => ", newLineTerminated: false)
             wrapper {
                 if field.isStatic {
-                    fragment.output("\(unqualifiedName).\(Self.deforbidify(field.name))")
+                    fragment.output("\(unqualifiedName).\(DartClass.deforbidify(field.name))")
                 } else {
-                    fragment.output("peekRef<\(unqualifiedName)>(obj).\(Self.deforbidify(field.name))")
+                    fragment.output("peekRef<\(unqualifiedName)>(obj).\(DartClass.deforbidify(field.name))")
                 }
             }
             if !isReference,
@@ -437,9 +437,9 @@ extension DartClass {
                 }
                 fragment.outputBlock(" => catching(exn, () {", closeWith: "});") {
                     if field.isStatic {
-                        fragment.output("\(unqualifiedName).\(Self.deforbidify(field.name)) = ", newLineTerminated: false)
+                        fragment.output("\(unqualifiedName).\(DartClass.deforbidify(field.name)) = ", newLineTerminated: false)
                     } else {
-                        fragment.output("peekRef<\(unqualifiedName)>(obj).\(field.hiddenStorage ? "_" : "")\(Self.deforbidify(field.name)) = ", newLineTerminated: false)
+                        fragment.output("peekRef<\(unqualifiedName)>(obj).\(field.hiddenStorage ? "_" : "")\(DartClass.deforbidify(field.name)) = ", newLineTerminated: false)
                     }
                     if isObject {
                         fragment.output("consumeRef<\(field.type.name(in: self))>(newValue);")
@@ -463,7 +463,7 @@ extension DartClass {
             fragment.outputBlock("static \(method.returnType.ffiCreatedName) ffi_\(method.name)(", newLineTerminated: false) {
                 fragment.output("UnownedRef obj,")
                 for param in method.parameters {
-                    fragment.output("\(param.type.ffiConsumedName) \(Self.deforbidify(param.name)),")
+                    fragment.output("\(param.type.ffiConsumedName) \(DartClass.deforbidify(param.name)),")
                 }
                 fragment.output("OutCreatedRef exn")
             }
@@ -499,9 +499,9 @@ extension DartClass {
                     let optionalParams = method.parameters.filter { $0.defaultValue != nil }
                     fragment.outputMap(requiredParams, separator: ",", newLineTerminated: false) {
                         if $0.type.isObject {
-                            return "consumeRef(\(Self.deforbidify($0.name)))"
+                            return "consumeRef(\(DartClass.deforbidify($0.name)))"
                         } else {
-                            return Self.deforbidify($0.name)
+                            return DartClass.deforbidify($0.name)
                         }
                     }
                     if !optionalParams.isEmpty {
@@ -510,9 +510,9 @@ extension DartClass {
                         }
                         fragment.outputMap(optionalParams, separator: ",") {
                             if $0.type.isObject {
-                                return "\(Self.deforbidify($0.name)): consumeRef(\(Self.deforbidify($0.name)))"
+                                return "\(DartClass.deforbidify($0.name)): consumeRef(\(DartClass.deforbidify($0.name)))"
                             } else {
-                                return "\(Self.deforbidify($0.name)): \(Self.deforbidify($0.name))"
+                                return "\(DartClass.deforbidify($0.name)): \(DartClass.deforbidify($0.name))"
                             }
                         }
                     } else {
