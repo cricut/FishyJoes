@@ -80,6 +80,11 @@ void main() {
         expect(testProtocolClass.xyzzy(42, [1.234, 45.235890198, 892.80]), equals("thud: 42 \\|/ grault: [1.234, 45.235890198, 892.8]"));
         expect(testProtocolClass.plugh(tuple.Tuple3<bool, double, List<String>>(true, 92.47, ["Please let this be a normal field trip", "I knew I should've stayed home today"])), equals(tuple.Tuple3<bool, int, String>(true, 83, "Please let this be a normal field trip _-^= I knew I should've stayed home today")));
       });
+
+      test('testLeadingUnderscoreProp', () {
+        final lups = TestLeadingUnderscoredPropStruct(m_leadingUnderscoreProp: "With great power comes great responsibility.");
+        expect(lups.m_leadingUnderscoreProp, equals("With great power comes great responsibility."));
+      });
   });
 
 }
