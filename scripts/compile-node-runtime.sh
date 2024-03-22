@@ -39,13 +39,13 @@ elif [[ "$(uname -s)" == *_NT* ]]; then
     WIN_LIBS_ENV=$(echo "$WIN_LIBS" | tr '/' '\\')
     export EXTRA_LIBPATH="$WIN_LIBS_ENV"
 
-    "$SWIFT" run "${commonOptions[@]}" fishy-joes -- download-node-lib --destination "$WIN_LIBS/node.lib"
+    "$SWIFT" run "${commonOptions[@]}" fishy-joes download-node-lib --destination "$WIN_LIBS/node.lib"
     "$SWIFT" build "${commonOptions[@]}" --product FishyJoesNodeRuntime
     BIN_DIR="$("$SWIFT" build "${commonOptions[@]}" --show-bin-path)"
 
     (
         cd "$SHIM_DIR"
-        "$SWIFT" run "${commonOptions[@]}" fishy-joes -- download-node-lib --destination "$WIN_LIBS/node.lib"
+        "$SWIFT" run "${commonOptions[@]}" fishy-joes download-node-lib --destination "$WIN_LIBS/node.lib"
         "$SWIFT" build "${commonOptions[@]}" --product NodeNativeShim
         SHIM_BIN_DIR="$("$SWIFT" build "${commonOptions[@]}" --show-bin-path)"
         cp "$SHIM_BIN_DIR"/NodeNativeShim.dll "$BIN_DIR"

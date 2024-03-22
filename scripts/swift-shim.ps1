@@ -1,10 +1,6 @@
 #!/usr/bin/env pwsh
 #requires -PSEdition Core
 
-$ErrorActionPreference = "Stop"
-$DebugPreference = "Continue"
-# Set-PSDebug -Trace 1
-
 # Swift does not properly read Windows "PATH" variable, instead trying to read "Path" only.
 # See: https://github.com/apple/swift-tools-support-core/issues/446
 # Also de-duplicate the path, as external tools seem to have a propensity to mangle the path
