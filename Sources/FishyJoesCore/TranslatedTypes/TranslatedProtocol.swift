@@ -58,7 +58,6 @@ struct TranslatedProtocol: TranslatedType {
         enforceProtocolThrows()
         enforceNoProtocolSetters()
         enforceNoProtocolStatics()
-        enforceNoProtocolMutatingFunctions()
     }
 
     func enforceProtocolThrows() {
@@ -108,17 +107,6 @@ struct TranslatedProtocol: TranslatedType {
                 nameSpace = "\(ns)"
             }
             fatalError("☠️ Error on \(nameSpace)\(staticFuncs.first?.name ?? "?"): No static functions allowed in protocols because other languages do not generally support them, it's the law 👮!")
-        }
-    }
-
-    func enforceNoProtocolMutatingFunctions() {
-        let mutatingFuncs = methods.filter { $0.isMutating }
-        guard mutatingFuncs.isEmpty else {
-            var nameSpace = ""
-            if let ns = mutatingFuncs.first?.definedIn?.name {
-                nameSpace = "\(ns)"
-            }
-            fatalError("☠️ Error on \(nameSpace)\(mutatingFuncs.first?.name ?? "?"): No mutating functions on protocols because there are some edge cases that we don't want to support, it's the law 👮!")
         }
     }
 
@@ -230,7 +218,9 @@ struct TranslatedProtocol: TranslatedType {
     func generateSansForDefaultMethods(fragment: SourceFragment, defaultMethods: [Method]) {
         for defaultMethod in defaultMethods {
             fragment.outputBlock("public struct \(sourceType.nonNamespacedName)_sans_\(defaultMethod.callName): \(sourceType.name) {", closeWith: "}") {
-                fragment.output("public let wrapped: \(sourceType.name)")
+                let hasMutations = defaultMethod.isMutating || !methods.filter { $0.isMutating }.isEmpty
+
+                fragment.output("public \(hasMutations ? "var" : "let") wrapped: \(sourceType.name)")
 
                 fragment.blankLine()
 
@@ -254,7 +244,7 @@ struct TranslatedProtocol: TranslatedType {
                     }
                     fragment.output()
                     let returnSignature = "\(method.isThrowing ? " throws" : "") -> \(method.returnType.name)"
-                    fragment.outputBlock("public func \(method.name)\(returnSignature) {", closeWith: "}") {
+                    fragment.outputBlock("public \(method.isMutating ? "mutating " : "")func \(method.name)\(returnSignature) {", closeWith: "}") {
                         var methodParamsStr = [String]()
                         for param in method.parameters {
                             if let paramLabel = param.label {
