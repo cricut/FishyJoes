@@ -1,4 +1,5 @@
 #!/usr/bin/env pwsh
+#requires -PSEdition Core
 
 $ErrorActionPreference = "Stop"
 $DebugPreference = "Continue"
@@ -13,18 +14,10 @@ $DeduplicatedPath = ($CurrentPath -split ';' | Select-Object -Unique) -join ';'
 $env:PATH = ''
 $env:Path = $DeduplicatedPath
 
-# Collect stderr to work around powershell weirdness
-$SwiftErrorLog = New-TemporaryFile
-
 # Perform execution and report errors encountered
-swift.exe @args 2> $SwiftErrorLog
+swift.exe @args
 $SwiftExit = $?
 $SwiftExitMessage = "swift exited with code $LastExitCode"
-
-echo "=== BEGIN SWIFT ERROR ==="
-cat $SwiftErrorlog
-echo "=== end SWIFT ERROR ==="
-rm $SwiftErrorlog
 
 if (-not $SwiftExit) {
     gci Env:PATH | Format-List | Out-String | Write-Debug
