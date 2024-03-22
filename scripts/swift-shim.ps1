@@ -2,6 +2,7 @@
 
 $ErrorActionPreference = "Stop"
 $DebugPreference = "Continue"
+PSDebug -Trace 2
 
 # Swift does not properly read Windows "PATH" variable, instead trying to read "Path" only.
 # See: https://github.com/apple/swift-tools-support-core/issues/446
@@ -12,7 +13,7 @@ $DeduplicatedPath = ($CurrentPath -split ';' | Select-Object -Unique) -join ';'
 $env:PATH = ''
 $env:Path = $DeduplicatedPath
 
-gci Env:PATH | Format-List
+gci Env:PATH | Write-Debug
 
 # Perform execution and report errors encountered
 swift.exe @args
