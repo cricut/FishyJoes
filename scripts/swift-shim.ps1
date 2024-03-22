@@ -2,7 +2,7 @@
 
 $ErrorActionPreference = "Stop"
 $DebugPreference = "Continue"
-PSDebug -Trace 2
+Set-PSDebug -Trace 1
 
 # Swift does not properly read Windows "PATH" variable, instead trying to read "Path" only.
 # See: https://github.com/apple/swift-tools-support-core/issues/446
