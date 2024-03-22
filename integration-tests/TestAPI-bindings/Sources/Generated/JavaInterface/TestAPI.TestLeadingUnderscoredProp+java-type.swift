@@ -53,6 +53,6 @@ extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: JavaMuta
         javaClass = try env.globalRef(env.FindClass("com/cricut/testapi/TestLeadingUnderscoredProp"))
         externalWitnessClass = try env.globalRef(env.FindClass("com/cricut/testapi/_ExternalWitness_TestLeadingUnderscoredProp"))
         externalWitnessConstructor = try env.GetMethodID(externalWitnessClass, "<init>", "(J)V")
-        _JavaTestLeadingUnderscoredProp.__leadingUnderscorePropGetMethodID = try env.GetMethodID(javaClass, "get_Leadingunderscoreprop", "()Ljava/lang/String;")
+        _JavaTestLeadingUnderscoredProp.__leadingUnderscorePropGetMethodID = try env.GetMethodID(javaClass, "get_leadingUnderscoreProp", "()Ljava/lang/String;")
     }
 }
