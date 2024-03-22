@@ -64,6 +64,22 @@ extension IotaReferenceMutator {
     }
 }
 
+public protocol IotaProtocolMutator: IotaConverter {}
+
+extension IotaProtocolMutator {
+    public static func withMutatingIota<R>(_ this: CType, env: Env, body: (inout SwiftType) throws -> R) throws -> R {
+        var swiftThis = try peekIota(this, env: env)
+        // If `this` is not an external witness reference i.e. it's a user implemented Dart object conforming to the protocol, then the methods called in body will call the ffi method and mutate the object on the dart side.
+        let result = try body(&swiftThis)
+        // If 'this' is an external witness reference then the following code will mutate it to whatever the swift side local object `swiftThis` got mutated to in the body.
+        if let foreignObject = this as? foreignObject,
+           let box = try? Box<SwiftType>.peekIota(foreignObject, env: env) {
+            box.value = swiftThis
+        }
+        return result
+    }
+}
+
 // MARK: - Primitive Type Conversions
 
 extension VoidConverter: IotaConverter {
