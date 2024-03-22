@@ -124,14 +124,24 @@ final class IotaTranslator: Translator {
                         let body = {
                             if method.isDefaultImplementation,
                                let definedInName = method.definedIn?.name {
-                                fragment.outputBlock("try \(definedInName)_sans_\(method.callName)(wrapped:", closeWith: ")") {
-                                    fragment.output("try \(converterNamespace).peekIota(_iotaThis, env: env)")
-                                }
-                                fragment.outputBlock("\(callName)(", newLineTerminated: false) {
-                                    fragment.outputMap(method.parameters, separator: ",") { formal in
-                                        let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
-                                        return (formal.label.map { "\($0): " } ?? "") +
-                                        "try \(resolved.converterType.name).peekIota(\(formal.name), env: env)"
+                                if method.isMutating {
+                                    fragment.outputBlock("wrapper.\(method.callName)(", newLineTerminated: false) {
+                                        fragment.outputMap(method.parameters, separator: ",") { formal in
+                                            let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
+                                            return (formal.label.map { "\($0): " } ?? "") +
+                                            "try \(resolved.converterType.name).peekIota(\(formal.name), env: env)"
+                                        }
+                                    }
+                                } else {
+                                    fragment.outputBlock("try \(definedInName)_sans_\(method.callName)(wrapped:", closeWith: ")") {
+                                        fragment.output("try \(converterNamespace).peekIota(_iotaThis, env: env)")
+                                    }
+                                    fragment.outputBlock(".\(method.callName)(", newLineTerminated: false) {
+                                        fragment.outputMap(method.parameters, separator: ",") { formal in
+                                            let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
+                                            return (formal.label.map { "\($0): " } ?? "") +
+                                            "try \(resolved.converterType.name).peekIota(\(formal.name), env: env)"
+                                        }
                                     }
                                 }
                             } else {
@@ -150,6 +160,14 @@ final class IotaTranslator: Translator {
                                 fragment.output()
                             }
                         } else {
+                            if method.isMutating,
+                               method.isDefaultImplementation,
+                               let definedInName = method.definedIn?.name {
+                                let sansMethodName = "\(definedInName)_sans_\(method.callName)"
+                                fragment.output("var wrapper = \(sansMethodName)(wrapped: mutatingSelf)")
+                                fragment.output("defer { mutatingSelf = wrapper.wrapped }")
+                            }
+
                             fragment.outputBlock("return try \(returnType.converterType.name).toIota(") {
                                 body()
                                 fragment.output(",")
