@@ -166,6 +166,12 @@ enum Platform: CustomStringConvertible, Hashable {
 
     func swiftBuild(arguments: [String], configuration: BuildConfiguration, addEnv: [String: String] = [:]) -> Command {
         var args = arguments
+
+        // Read "SWIFT_PACKAGE_RESOLVE" from our environment variables, and pass as flag to swift compiler
+        if ProcessInfo.processInfo.environmend["SWIFT_PACKAGE_RESOLVE"] == "0" {
+            args.append("--force-resolved-versions")
+        }
+
         args.append(contentsOf: ["--configuration", configuration.debug ? "debug" : "release"])
         if configuration.codeCoverage {
             args.append(contentsOf: Platform.coverageFlags)

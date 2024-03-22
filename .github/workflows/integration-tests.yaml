@@ -265,6 +265,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
       SWIFT: ${{ github.workspace }}\scripts\swift-shim.ps1
+      SWIFT_PACKAGE_RESOLVE: 0
       EXTRA_LIBPATH: '.build\lib'
     steps:
       - name: Checkout
