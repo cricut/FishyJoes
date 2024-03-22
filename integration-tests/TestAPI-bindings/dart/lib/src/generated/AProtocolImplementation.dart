@@ -14,6 +14,7 @@ import './DefaultArguments.dart' as TestAPI;
 import './Deprecations.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
 import './ExternalWitness_AProtocol.dart' as TestAPI;
+import './ExternalWitness_TestLeadingUnderscoredProp.dart' as TestAPI;
 import './ExternalWitness_TestMethodsProtocol.dart' as TestAPI;
 import './ExternalWitness_TestMutatingCounterProtocol.dart' as TestAPI;
 import './ExternalWitness_TestOptionalsProtocol.dart' as TestAPI;
@@ -31,6 +32,8 @@ import './Structs_MemberwiseStruct.dart' as TestAPI;
 import './Structs_MutableStruct.dart' as TestAPI;
 import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Structs_ReferenceStruct.dart' as TestAPI;
+import './TestLeadingUnderscoredProp.dart' as TestAPI;
+import './TestLeadingUnderscoredPropStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
 import './TestMutatingCounter.dart' as TestAPI;
 import './TestMutatingCounterProtocol.dart' as TestAPI;
@@ -112,20 +115,6 @@ class AProtocolImplementation implements TestAPI.AProtocol {
     ) => catching(exn, () {
         peekRef<AProtocolImplementation>(obj).baz = newValue;
     });
-
-    static CreatedRef ffi_bar(
-        UnownedRef obj,
-        int x,
-        int y,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<AProtocolImplementation>(obj).bar(
-                x,
-                y
-            )
-        )
-    );
 
     @override
     bool operator ==(Object other) {

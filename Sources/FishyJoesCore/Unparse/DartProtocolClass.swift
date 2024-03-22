@@ -57,13 +57,13 @@ class DartProtocolClass: DartClass {
                 }
 
                 outputAttributes()
-                fragment.output("\(staticMark)\(field.type.name(in: self)) get \(Self.deforbidify(field.name));")
+                fragment.output("\(staticMark)\(field.type.name(in: self)) get \(DartClass.deforbidify(field.name));")
 
                 fragment.blankLine()
 
                 if field.isPubliclyWritable {
                     outputAttributes()
-                    fragment.output("\(staticMark)set \(Self.deforbidify(field.name))(\(field.type.name(in: self)) value);")
+                    fragment.output("\(staticMark)set \(DartClass.deforbidify(field.name))(\(field.type.name(in: self)) value);")
                 }
             }
         }

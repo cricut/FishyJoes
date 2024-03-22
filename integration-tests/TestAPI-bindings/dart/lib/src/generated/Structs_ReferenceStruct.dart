@@ -14,6 +14,7 @@ import './DefaultArguments.dart' as TestAPI;
 import './Deprecations.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
 import './ExternalWitness_AProtocol.dart' as TestAPI;
+import './ExternalWitness_TestLeadingUnderscoredProp.dart' as TestAPI;
 import './ExternalWitness_TestMethodsProtocol.dart' as TestAPI;
 import './ExternalWitness_TestMutatingCounterProtocol.dart' as TestAPI;
 import './ExternalWitness_TestOptionalsProtocol.dart' as TestAPI;
@@ -31,6 +32,8 @@ import './Structs_MemberwiseStruct.dart' as TestAPI;
 import './Structs_MutableStruct.dart' as TestAPI;
 import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Structs_ReferenceStruct.dart' as TestAPI;
+import './TestLeadingUnderscoredProp.dart' as TestAPI;
+import './TestLeadingUnderscoredPropStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
 import './TestMutatingCounter.dart' as TestAPI;
 import './TestMutatingCounterProtocol.dart' as TestAPI;
@@ -67,51 +70,6 @@ class Structs_ReferenceStruct extends SwiftReference {
 
     @override
     String toString() => 'Structs_ReferenceStruct(immutable: $immutable, mutable: $mutable, hashCode: $hashCode)';
-
-    static CreatedRef ffi_get_immutable(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<Structs_ReferenceStruct>(obj).immutable
-        )
-    );
-
-    static CreatedRef ffi_get_mutable(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<Structs_ReferenceStruct>(obj).mutable
-        )
-    );
-
-    static int ffi_get_hashCode(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catching(exn, () =>
-        peekRef<Structs_ReferenceStruct>(obj).hashCode
-    ) ?? 0;
-
-    static CreatedRef ffi_create(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            Structs_ReferenceStruct.create(
-            )
-        )
-    );
-
-    static CreatedRef ffi_asyncGetMutable(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<Structs_ReferenceStruct>(obj).asyncGetMutable(
-            )
-        )
-    );
 
     /// <!-- FishyJoes.export(immutable) -->
     String get immutable =>

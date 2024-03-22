@@ -117,6 +117,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try FutureConverter<Swift.Int>.javaSetup(env: env)
         // print("setting up FutureConverter<Swift.String>...")
         try FutureConverter<Swift.String>.javaSetup(env: env)
+        // print("setting up FutureConverter<Swift.UInt>...")
+        try FutureConverter<Swift.UInt>.javaSetup(env: env)
         // print("setting up FutureConverter<FishyJoesCommonRuntime.VoidConverter>...")
         try FutureConverter<FishyJoesCommonRuntime.VoidConverter>.javaSetup(env: env)
         // print("setting up ArrayConverter<OptionalConverter<Swift.Bool>>...")
@@ -288,7 +290,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces...")
         try Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces.javaSetup(env: env)
         try env.RegisterNatives(
-            Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces.externalWitnessClass ?? Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces.javaClass,
+            Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_testCall"),
                 signature: bag.add("()J"),
@@ -298,7 +300,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up Swift.String.PuttingTypesIntoQuestionablePlaces...")
         try Swift.String.PuttingTypesIntoQuestionablePlaces.javaSetup(env: env)
         try env.RegisterNatives(
-            Swift.String.PuttingTypesIntoQuestionablePlaces.externalWitnessClass ?? Swift.String.PuttingTypesIntoQuestionablePlaces.javaClass,
+            Swift.String.PuttingTypesIntoQuestionablePlaces.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_testCall"),
                 signature: bag.add("()J"),
@@ -308,7 +310,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces...")
         try Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces.javaSetup(env: env)
         try env.RegisterNatives(
-            Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces.externalWitnessClass ?? Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces.javaClass,
+            Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_testCall"),
                 signature: bag.add("()J"),
@@ -318,7 +320,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up TestAPI.Actors.TemperatureLogger...")
         try TestAPI.Actors.TemperatureLogger.javaSetup(env: env)
         try env.RegisterNatives(
-            TestAPI.Actors.TemperatureLogger.externalWitnessClass ?? TestAPI.Actors.TemperatureLogger.javaClass,
+            TestAPI.Actors.TemperatureLogger.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_create"),
                 signature: bag.add("(Ljava/lang/String;J)Lcom/cricut/testapi/Actors$TemperatureLogger;"),
@@ -348,7 +350,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up TestAPI.Collections.CollectionHolder...")
         try TestAPI.Collections.CollectionHolder.javaSetup(env: env)
         try env.RegisterNatives(
-            TestAPI.Collections.CollectionHolder.externalWitnessClass ?? TestAPI.Collections.CollectionHolder.javaClass,
+            TestAPI.Collections.CollectionHolder.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_get_staticProperty"),
                 signature: bag.add("()Ljava/util/List;"),
@@ -368,7 +370,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up TestAPI.Primitives.PrimitiveHolder...")
         try TestAPI.Primitives.PrimitiveHolder.javaSetup(env: env)
         try env.RegisterNatives(
-            TestAPI.Primitives.PrimitiveHolder.externalWitnessClass ?? TestAPI.Primitives.PrimitiveHolder.javaClass,
+            TestAPI.Primitives.PrimitiveHolder.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_get_staticProperty"),
                 signature: bag.add("()Ljava/util/List;"),
@@ -388,7 +390,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up TestAPI.Structs.MemberwiseStruct...")
         try TestAPI.Structs.MemberwiseStruct.javaSetup(env: env)
         try env.RegisterNatives(
-            TestAPI.Structs.MemberwiseStruct.externalWitnessClass ?? TestAPI.Structs.MemberwiseStruct.javaClass,
+            TestAPI.Structs.MemberwiseStruct.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_create"),
                 signature: bag.add("()Lcom/cricut/testapi/Structs$MemberwiseStruct;"),
@@ -403,7 +405,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up TestAPI.Structs.MutableStruct...")
         try TestAPI.Structs.MutableStruct.javaSetup(env: env)
         try env.RegisterNatives(
-            TestAPI.Structs.MutableStruct.externalWitnessClass ?? TestAPI.Structs.MutableStruct.javaClass,
+            TestAPI.Structs.MutableStruct.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_create"),
                 signature: bag.add("()Lcom/cricut/testapi/Structs$MutableStruct;"),
@@ -428,7 +430,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up TestAPI.Structs.PuttingTypesIntoQuestionablePlaces...")
         try TestAPI.Structs.PuttingTypesIntoQuestionablePlaces.javaSetup(env: env)
         try env.RegisterNatives(
-            TestAPI.Structs.PuttingTypesIntoQuestionablePlaces.externalWitnessClass ?? TestAPI.Structs.PuttingTypesIntoQuestionablePlaces.javaClass,
+            TestAPI.Structs.PuttingTypesIntoQuestionablePlaces.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_create"),
                 signature: bag.add("()Lcom/cricut/testapi/Structs_PuttingTypesIntoQuestionablePlaces;"),
@@ -443,7 +445,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up TestAPI.Structs.ReferenceStruct...")
         try TestAPI.Structs.ReferenceStruct.javaSetup(env: env)
         try env.RegisterNatives(
-            TestAPI.Structs.ReferenceStruct.externalWitnessClass ?? TestAPI.Structs.ReferenceStruct.javaClass,
+            TestAPI.Structs.ReferenceStruct.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_create"),
                 signature: bag.add("()Lcom/cricut/testapi/Structs$ReferenceStruct;"),
@@ -496,7 +498,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
             )
         )
         try env.RegisterNatives(
-            TestAPI_CommonInterface._AProtocolConverter.externalWitnessClass ?? TestAPI_CommonInterface._AProtocolConverter.javaClass,
+            TestAPI_CommonInterface._AProtocolConverter.externalWitnessClass!,
             JNINativeMethod(
                 name: bag.add("__jni_bar"),
                 signature: bag.add("(JJ)Lcom/cricut/testapi/AProtocol;"),
@@ -516,7 +518,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up TestAPI.AProtocolImplementation...")
         try TestAPI.AProtocolImplementation.javaSetup(env: env)
         try env.RegisterNatives(
-            TestAPI.AProtocolImplementation.externalWitnessClass ?? TestAPI.AProtocolImplementation.javaClass,
+            TestAPI.AProtocolImplementation.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_bar"),
                 signature: bag.add("(JJ)Lcom/cricut/testapi/AProtocol;"),
@@ -528,7 +530,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up TestAPI.AssociatedDataEnum...")
         try TestAPI.AssociatedDataEnum.javaSetup(env: env)
         try env.RegisterNatives(
-            TestAPI.AssociatedDataEnum.externalWitnessClass ?? TestAPI.AssociatedDataEnum.javaClass,
+            TestAPI.AssociatedDataEnum.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_plus"),
                 signature: bag.add("(Lcom/cricut/testapi/AssociatedDataEnum;)Lcom/cricut/testapi/AssociatedDataEnum;"),
@@ -548,7 +550,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up TestAPI.AsyncFunctions...")
         try TestAPI.AsyncFunctions.javaSetup(env: env)
         try env.RegisterNatives(
-            TestAPI.AsyncFunctions.externalWitnessClass ?? TestAPI.AsyncFunctions.javaClass,
+            TestAPI.AsyncFunctions.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_exercise0"),
                 signature: bag.add("(Lkotlin/jvm/functions/Function1;)Lkotlinx/coroutines/Deferred;"),
@@ -633,7 +635,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up TestAPI.AttributedStrings...")
         try TestAPI.AttributedStrings.javaSetup(env: env)
         try env.RegisterNatives(
-            TestAPI.AttributedStrings.externalWitnessClass ?? TestAPI.AttributedStrings.javaClass,
+            TestAPI.AttributedStrings.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_echo"),
                 signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString;)Lcom/cricut/fishyjoes/runtime/AttributedString;"),
@@ -718,7 +720,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up TestAPI.Bytes...")
         try TestAPI.Bytes.javaSetup(env: env)
         try env.RegisterNatives(
-            TestAPI.Bytes.externalWitnessClass ?? TestAPI.Bytes.javaClass,
+            TestAPI.Bytes.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_echoBytes"),
                 signature: bag.add("(Ljava/util/List;)Ljava/util/List;"),
@@ -743,7 +745,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up TestAPI.ClosedRanges...")
         try TestAPI.ClosedRanges.javaSetup(env: env)
         try env.RegisterNatives(
-            TestAPI.ClosedRanges.externalWitnessClass ?? TestAPI.ClosedRanges.javaClass,
+            TestAPI.ClosedRanges.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_echoUInt8Range"),
                 signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;)Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
@@ -878,7 +880,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up TestAPI.Collections...")
         try TestAPI.Collections.javaSetup(env: env)
         try env.RegisterNatives(
-            TestAPI.Collections.externalWitnessClass ?? TestAPI.Collections.javaClass,
+            TestAPI.Collections.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_echoArrayOfInt"),
                 signature: bag.add("(Ljava/util/List;)Ljava/util/List;"),
@@ -973,7 +975,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up TestAPI.DefaultArguments...")
         try TestAPI.DefaultArguments.javaSetup(env: env)
         try env.RegisterNatives(
-            TestAPI.DefaultArguments.externalWitnessClass ?? TestAPI.DefaultArguments.javaClass,
+            TestAPI.DefaultArguments.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_echoDefaults"),
                 signature: bag.add("(Ljava/lang/Long;Ljava/lang/Long;D)Ljava/lang/String;"),
@@ -983,7 +985,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up TestAPI.Deprecations...")
         try TestAPI.Deprecations.javaSetup(env: env)
         try env.RegisterNatives(
-            TestAPI.Deprecations.externalWitnessClass ?? TestAPI.Deprecations.javaClass,
+            TestAPI.Deprecations.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_deprecatedMethod"),
                 signature: bag.add("()Ljava/lang/String;"),
@@ -998,7 +1000,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up TestAPI.EmptyEnum...")
         try TestAPI.EmptyEnum.javaSetup(env: env)
         try env.RegisterNatives(
-            TestAPI.EmptyEnum.externalWitnessClass ?? TestAPI.EmptyEnum.javaClass,
+            TestAPI.EmptyEnum.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_notGoingToHappen"),
                 signature: bag.add("()Lcom/cricut/testapi/EmptyEnum;"),
@@ -1008,7 +1010,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up TestAPI.Functions...")
         try TestAPI.Functions.javaSetup(env: env)
         try env.RegisterNatives(
-            TestAPI.Functions.externalWitnessClass ?? TestAPI.Functions.javaClass,
+            TestAPI.Functions.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_exercise0"),
                 signature: bag.add("(Lkotlin/jvm/functions/Function0;)Ljava/lang/String;"),
@@ -1093,7 +1095,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up TestAPI.Methods...")
         try TestAPI.Methods.javaSetup(env: env)
         try env.RegisterNatives(
-            TestAPI.Methods.externalWitnessClass ?? TestAPI.Methods.javaClass,
+            TestAPI.Methods.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_create"),
                 signature: bag.add("()Lcom/cricut/testapi/Methods;"),
@@ -1253,7 +1255,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up TestAPI.Primitives...")
         try TestAPI.Primitives.javaSetup(env: env)
         try env.RegisterNatives(
-            TestAPI.Primitives.externalWitnessClass ?? TestAPI.Primitives.javaClass,
+            TestAPI.Primitives.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_echoBool"),
                 signature: bag.add("(Z)Z"),
@@ -1728,7 +1730,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up TestAPI.Ranges...")
         try TestAPI.Ranges.javaSetup(env: env)
         try env.RegisterNatives(
-            TestAPI.Ranges.externalWitnessClass ?? TestAPI.Ranges.javaClass,
+            TestAPI.Ranges.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_echoUInt8Range"),
                 signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;)Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
@@ -1833,7 +1835,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up TestAPI.SimpleEnum...")
         try TestAPI.SimpleEnum.javaSetup(env: env)
         try env.RegisterNatives(
-            TestAPI.SimpleEnum.externalWitnessClass ?? TestAPI.SimpleEnum.javaClass,
+            TestAPI.SimpleEnum.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_pickAColor"),
                 signature: bag.add("(J)Lcom/cricut/testapi/SimpleEnum;"),
@@ -1868,7 +1870,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up TestAPI.Strings...")
         try TestAPI.Strings.javaSetup(env: env)
         try env.RegisterNatives(
-            TestAPI.Strings.externalWitnessClass ?? TestAPI.Strings.javaClass,
+            TestAPI.Strings.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_echo"),
                 signature: bag.add("(Ljava/lang/String;)Ljava/lang/String;"),
@@ -1917,10 +1919,22 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         )
         // print("setting up TestAPI.Structs...")
         try TestAPI.Structs.javaSetup(env: env)
+        // print("setting up TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter...")
+        try TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter.externalWitnessClass!,
+            JNINativeMethod(
+                name: bag.add("__jni_get__leadingUnderscoreProp"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestLeadingUnderscoredProp__leadingUnderscoreProp, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        // print("setting up TestAPI.TestLeadingUnderscoredPropStruct...")
+        try TestAPI.TestLeadingUnderscoredPropStruct.javaSetup(env: env)
         // print("setting up TestAPI_CommonInterface._TestMethodsProtocolConverter...")
         try TestAPI_CommonInterface._TestMethodsProtocolConverter.javaSetup(env: env)
         try env.RegisterNatives(
-            TestAPI_CommonInterface._TestMethodsProtocolConverter.externalWitnessClass ?? TestAPI_CommonInterface._TestMethodsProtocolConverter.javaClass,
+            TestAPI_CommonInterface._TestMethodsProtocolConverter.externalWitnessClass!,
             JNINativeMethod(
                 name: bag.add("__jni_foo"),
                 signature: bag.add("()V"),
@@ -1998,7 +2012,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up TestAPI_CommonInterface._TestOptionalsProtocolConverter...")
         try TestAPI_CommonInterface._TestOptionalsProtocolConverter.javaSetup(env: env)
         try env.RegisterNatives(
-            TestAPI_CommonInterface._TestOptionalsProtocolConverter.externalWitnessClass ?? TestAPI_CommonInterface._TestOptionalsProtocolConverter.javaClass,
+            TestAPI_CommonInterface._TestOptionalsProtocolConverter.externalWitnessClass!,
             JNINativeMethod(
                 name: bag.add("__jni_wombat"),
                 signature: bag.add("(Ljava/lang/Long;)Ljava/lang/Double;"),
@@ -2018,7 +2032,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up TestAPI_CommonInterface._TestPropertiesProtocolConverter...")
         try TestAPI_CommonInterface._TestPropertiesProtocolConverter.javaSetup(env: env)
         try env.RegisterNatives(
-            TestAPI_CommonInterface._TestPropertiesProtocolConverter.externalWitnessClass ?? TestAPI_CommonInterface._TestPropertiesProtocolConverter.javaClass,
+            TestAPI_CommonInterface._TestPropertiesProtocolConverter.externalWitnessClass!,
             JNINativeMethod(
                 name: bag.add("__jni_get_corge"),
                 signature: bag.add("()Ljava/lang/String;"),
@@ -2033,7 +2047,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up TestAPI.TestProtocolClass...")
         try TestAPI.TestProtocolClass.javaSetup(env: env)
         try env.RegisterNatives(
-            TestAPI.TestProtocolClass.externalWitnessClass ?? TestAPI.TestProtocolClass.javaClass,
+            TestAPI.TestProtocolClass.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_foo"),
                 signature: bag.add("()V"),
@@ -2108,7 +2122,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up TestAPI.TestProtocolEnum...")
         try TestAPI.TestProtocolEnum.javaSetup(env: env)
         try env.RegisterNatives(
-            TestAPI.TestProtocolEnum.externalWitnessClass ?? TestAPI.TestProtocolEnum.javaClass,
+            TestAPI.TestProtocolEnum.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_foo"),
                 signature: bag.add("()V"),
@@ -2143,7 +2157,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up TestAPI.TestProtocolStruct...")
         try TestAPI.TestProtocolStruct.javaSetup(env: env)
         try env.RegisterNatives(
-            TestAPI.TestProtocolStruct.externalWitnessClass ?? TestAPI.TestProtocolStruct.javaClass,
+            TestAPI.TestProtocolStruct.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_foo"),
                 signature: bag.add("()V"),
@@ -2183,7 +2197,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up TestAPI.Tuples...")
         try TestAPI.Tuples.javaSetup(env: env)
         try env.RegisterNatives(
-            TestAPI.Tuples.externalWitnessClass ?? TestAPI.Tuples.javaClass,
+            TestAPI.Tuples.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_checkTuples"),
                 signature: bag.add("(Lkotlin/Pair;Lkotlin/Triple;Lcom/cricut/fishyjoes/runtime/Tuple4;Lcom/cricut/fishyjoes/runtime/Tuple5;Lcom/cricut/fishyjoes/runtime/Tuple6;)Z"),
@@ -2218,7 +2232,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up TestAPI.URLs...")
         try TestAPI.URLs.javaSetup(env: env)
         try env.RegisterNatives(
-            TestAPI.URLs.externalWitnessClass ?? TestAPI.URLs.javaClass,
+            TestAPI.URLs.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_echo"),
                 signature: bag.add("(Ljava/net/URL;)Ljava/net/URL;"),

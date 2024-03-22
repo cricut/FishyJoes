@@ -14,6 +14,7 @@ import './DefaultArguments.dart' as TestAPI;
 import './Deprecations.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
 import './ExternalWitness_AProtocol.dart' as TestAPI;
+import './ExternalWitness_TestLeadingUnderscoredProp.dart' as TestAPI;
 import './ExternalWitness_TestMethodsProtocol.dart' as TestAPI;
 import './ExternalWitness_TestMutatingCounterProtocol.dart' as TestAPI;
 import './ExternalWitness_TestOptionalsProtocol.dart' as TestAPI;
@@ -31,6 +32,8 @@ import './Structs_MemberwiseStruct.dart' as TestAPI;
 import './Structs_MutableStruct.dart' as TestAPI;
 import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Structs_ReferenceStruct.dart' as TestAPI;
+import './TestLeadingUnderscoredProp.dart' as TestAPI;
+import './TestLeadingUnderscoredPropStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
 import './TestMutatingCounter.dart' as TestAPI;
 import './TestMutatingCounterProtocol.dart' as TestAPI;
@@ -86,14 +89,6 @@ class AttributedString_PuttingTypesIntoQuestionablePlaces {
             peekRef<AttributedString_PuttingTypesIntoQuestionablePlaces>(obj).x
         )
     );
-
-    static int ffi_testCall(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catching(exn, () =>
-        peekRef<AttributedString_PuttingTypesIntoQuestionablePlaces>(obj).testCall(
-        )
-    ) ?? 0;
 
     @override
     bool operator ==(Object other) {

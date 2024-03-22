@@ -94,7 +94,7 @@ public func __iota_TestAPI_Methods_asyncSleep(
             try await _swiftSelf.value.asyncSleep(
             )
         }
-        return try FutureConverter<Swift.Int>.toIota(_swiftFuture, env: env)
+        return try FutureConverter<Swift.UInt>.toIota(_swiftFuture, env: env)
     }
 }
 
@@ -244,7 +244,7 @@ public func __iota_TestAPI_Methods_staticAsyncSleep(
             try await TestAPI.Methods.staticAsyncSleep(
             )
         }
-        return try FutureConverter<Swift.Int>.toIota(_swiftFuture, env: env)
+        return try FutureConverter<Swift.UInt>.toIota(_swiftFuture, env: env)
     }
 }
 

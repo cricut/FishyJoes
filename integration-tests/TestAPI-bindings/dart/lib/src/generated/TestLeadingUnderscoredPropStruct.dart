@@ -16,7 +16,6 @@ import './EmptyEnum.dart' as TestAPI;
 import './ExternalWitness_AProtocol.dart' as TestAPI;
 import './ExternalWitness_TestLeadingUnderscoredProp.dart' as TestAPI;
 import './ExternalWitness_TestMethodsProtocol.dart' as TestAPI;
-import './ExternalWitness_TestMutatingCounterProtocol.dart' as TestAPI;
 import './ExternalWitness_TestOptionalsProtocol.dart' as TestAPI;
 import './ExternalWitness_TestPropertiesProtocol.dart' as TestAPI;
 import './Functions.dart' as TestAPI;
@@ -35,8 +34,6 @@ import './Structs_ReferenceStruct.dart' as TestAPI;
 import './TestLeadingUnderscoredProp.dart' as TestAPI;
 import './TestLeadingUnderscoredPropStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
-import './TestMutatingCounter.dart' as TestAPI;
-import './TestMutatingCounterProtocol.dart' as TestAPI;
 import './TestOptionalsProtocol.dart' as TestAPI;
 import './TestPropertiesProtocol.dart' as TestAPI;
 import './TestProtocolClass.dart' as TestAPI;
@@ -61,37 +58,64 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
-/// <!-- FishyJoes.exportReference(Structs_PuttingTypesIntoQuestionablePlaces) -->
-class Structs_PuttingTypesIntoQuestionablePlaces extends SwiftReference {
-    Structs_PuttingTypesIntoQuestionablePlaces(ffi.Pointer reference): super(reference) {}
-    static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
-        createRef(Structs_PuttingTypesIntoQuestionablePlaces(ref))
+/// // <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp, TestLeadingUnderscoredMethod]) -->
+/// <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp]) -->
+class TestLeadingUnderscoredPropStruct implements TestAPI.TestLeadingUnderscoredProp {
+    String m_leadingUnderscoreProp;
+
+    TestLeadingUnderscoredPropStruct({
+        required String m_leadingUnderscoreProp
+    }):
+        this.m_leadingUnderscoreProp = m_leadingUnderscoreProp;
+
+    static CreatedRef ffi_constructor(
+        ConsumedRef m_leadingUnderscoreProp,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(TestLeadingUnderscoredPropStruct(
+            m_leadingUnderscoreProp: consumeRef(m_leadingUnderscoreProp),
+        ))
     );
+    @override
+    String toString() => 'TestLeadingUnderscoredPropStruct(m_leadingUnderscoreProp: $m_leadingUnderscoreProp)';
+
+    static CreatedRef ffi_get__leadingUnderscoreProp(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestLeadingUnderscoredPropStruct>(obj).m_leadingUnderscoreProp
+        )
+    );
+    static void ffi_set__leadingUnderscoreProp(
+        UnownedRef obj,
+        ConsumedRef newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        peekRef<TestLeadingUnderscoredPropStruct>(obj).m_leadingUnderscoreProp = consumeRef<String>(newValue);
+    });
 
     @override
-    String toString() => 'Structs_PuttingTypesIntoQuestionablePlaces()';
+    bool operator ==(Object other) {
+        return identical(other, this) ||
+        (
+            other.runtimeType == runtimeType &&
+            other is TestLeadingUnderscoredPropStruct &&
+            (
+                const DeepCollectionEquality().equals(other.m_leadingUnderscoreProp, m_leadingUnderscoreProp)
+            )
+        );
+    }
 
-    /// <!-- FishyJoes.export(create) -->
-    static TestAPI.Structs_PuttingTypesIntoQuestionablePlaces create(
-    ) =>
-        consumeCreatedRef<TestAPI.Structs_PuttingTypesIntoQuestionablePlaces>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_create(Loader.shared.env, _exn)))
-    ;
+    @override
+    int get hashCode => Object.hash(
+        runtimeType,
+        const DeepCollectionEquality().hash(m_leadingUnderscoreProp)
+    );
 
-    /// <!-- FishyJoes.export(testCall) -->
-    int testCall(
-    ) =>
-        GCRef.using(this, (_thisHandle) =>
-            check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_testCall(Loader.shared.env, _thisHandle.ptr, _exn))
-        )
-    ;
-
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__iota_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_create;
-    static late int Function(
-        Env env,
-        UnownedRef _this,
-        OutCreatedRef _exn
-    ) f__iota_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_testCall;
+    TestLeadingUnderscoredPropStruct copyWith({
+        String? m_leadingUnderscoreProp
+    }) => TestLeadingUnderscoredPropStruct(
+        m_leadingUnderscoreProp: m_leadingUnderscoreProp ?? this.m_leadingUnderscoreProp
+    );
 }

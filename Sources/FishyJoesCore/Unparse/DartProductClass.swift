@@ -113,7 +113,7 @@ class DartProductClass: DartClass {
 
                 fragment.outputBlock("static CreatedRef ffi_constructor(", newLineTerminated: false) {
                     for field in fields {
-                        fragment.output("\(field.type.ffiConsumedName) \(field.name),")
+                        fragment.output("\(field.type.ffiConsumedName) \(DartClass.deforbidify(field.name)),")
                     }
                     fragment.output("OutCreatedRef exn")
                 }
@@ -121,9 +121,9 @@ class DartProductClass: DartClass {
                     fragment.outputBlock("createRef(\(unqualifiedName)(", closeWith: "))") {
                         for field in fields {
                             if field.type.isObject {
-                                fragment.output("\(field.name): consumeRef(\(field.name)),")
+                                fragment.output("\(DartClass.deforbidify(field.name)): consumeRef(\(DartClass.deforbidify(field.name))),")
                             } else {
-                                fragment.output("\(field.name): \(field.name),")
+                                fragment.output("\(DartClass.deforbidify(field.name)): \(DartClass.deforbidify(field.name)),")
                             }
                         }
                     }
@@ -135,8 +135,7 @@ class DartProductClass: DartClass {
             fragment.blankLine()
 
             if !isExternalWitness {
-                ffiFor(fields: fields + storedFields, fragment: fragment, isReference: constructor == .reference)
-                ffiFor(methods: methods, fragment: fragment)
+                ffiFor(fields: storedFields, fragment: fragment, isReference: constructor == .reference)
             }
 
             if constructor != .reference {

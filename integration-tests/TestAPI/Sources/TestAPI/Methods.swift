@@ -70,9 +70,9 @@ public struct Methods {
     }
 
     /// <!-- FishyJoes.export(asyncSleep) -->
-    public func asyncSleep() async throws -> Int {
+    public func asyncSleep() async throws -> UInt {
         try await Task.sleep(nanoseconds: 100)
-        return await async42()
+        return await UInt(async42())
     }
 
     /// <!-- FishyJoes.export(asyncVoid) -->
@@ -111,9 +111,9 @@ public struct Methods {
     }
 
     /// <!-- FishyJoes.export(staticAsyncSleep) -->
-    public static func staticAsyncSleep() async throws -> Int {
+    public static func staticAsyncSleep() async throws -> UInt {
         try await Task.sleep(nanoseconds: 100)
-        return await staticAsync42()
+        return await UInt(staticAsync42())
     }
 
     /// <!-- FishyJoes.export(staticAsyncVoid) -->

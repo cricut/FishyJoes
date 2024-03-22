@@ -58,25 +58,26 @@ struct TranslatedProtocol: TranslatedType {
         enforceProtocolThrows()
         enforceNoProtocolSetters()
         enforceNoProtocolStatics()
+        enforceNoProtocolMutatingFunctions()
     }
 
     func enforceProtocolThrows() {
         let nonThrowingMethods = methods.filter { !$0.isThrowing }
         guard nonThrowingMethods.isEmpty else {
             var nameSpace = ""
-            if let ns = nonThrowingMethods.first!.definedIn?.name {
+            if let ns = nonThrowingMethods.first?.definedIn?.name {
                 nameSpace = "\(ns)."
             }
-            fatalError("☠️ Error on \(nameSpace)\(nonThrowingMethods.first!.name): All Protocol methods exported through FishyJoes must be throwing, it's the law 👮!")
+            fatalError("☠️ Error on \(nameSpace)\(nonThrowingMethods.first?.name ?? "?"): All Protocol methods exported through FishyJoes must be throwing, it's the law 👮!")
         }
 
         let nonThrowingGetters = fields.filter { !$0.`throws` && !$0.isMutable }
         guard nonThrowingGetters.isEmpty else {
             var nameSpace = ""
-            if let ns = nonThrowingGetters.first!.definedInTypeName?.name {
+            if let ns = nonThrowingGetters.first?.definedInTypeName?.name {
                 nameSpace = "\(ns)."
             }
-            fatalError("☠️ Error on \(nameSpace)\(nonThrowingGetters.first!.name): All Protocol get only property getters exported through FishyJoes must be throwing, it's the law 👮!")
+            fatalError("☠️ Error on \(nameSpace)\(nonThrowingGetters.first?.name ?? "?"): All Protocol get only property getters exported through FishyJoes must be throwing, it's the law 👮!")
         }
     }
 
@@ -84,10 +85,10 @@ struct TranslatedProtocol: TranslatedType {
         let setters = fields.filter { $0.isMutable }
         guard setters.isEmpty else {
             var nameSpace = ""
-            if let ns = setters.first!.definedInTypeName?.name {
+            if let ns = setters.first?.definedInTypeName?.name {
                 nameSpace = "\(ns)."
             }
-            fatalError("☠️ Error on \(nameSpace)\(setters.first!.name): No setters allowed in protocols because the Swift language does not allow them to throw, it's the law 👮! Use a function instead.")
+            fatalError("☠️ Error on \(nameSpace)\(setters.first?.name ?? "?"): No setters allowed in protocols because the Swift language does not allow them to throw, it's the law 👮! Use a function instead.")
         }
     }
 
@@ -96,17 +97,28 @@ struct TranslatedProtocol: TranslatedType {
         let staticFuncs = methods.filter { $0.isStatic }
         guard staticVars.isEmpty else {
             var nameSpace = ""
-            if let ns = staticVars.first!.definedInTypeName?.name {
+            if let ns = staticVars.first?.definedInTypeName?.name {
                 nameSpace = "\(ns)."
             }
-            fatalError("☠️ Error on \(nameSpace)\(staticVars.first!.name): No static properties allowed in protocols because other languages do not generally support them, it's the law 👮!")
+            fatalError("☠️ Error on \(nameSpace)\(staticVars.first?.name ?? "?"): No static properties allowed in protocols because other languages do not generally support them, it's the law 👮!")
         }
         guard staticFuncs.isEmpty else {
             var nameSpace = ""
-            if let ns = staticFuncs.first!.definedIn?.name {
+            if let ns = staticFuncs.first?.definedIn?.name {
                 nameSpace = "\(ns)"
             }
-            fatalError("☠️ Error on \(nameSpace)\(staticFuncs.first!.name): No static functions allowed in protocols because other languages do not generally support them, it's the law 👮!")
+            fatalError("☠️ Error on \(nameSpace)\(staticFuncs.first?.name ?? "?"): No static functions allowed in protocols because other languages do not generally support them, it's the law 👮!")
+        }
+    }
+
+    func enforceNoProtocolMutatingFunctions() {
+        let mutatingFuncs = methods.filter { $0.isMutating }
+        guard mutatingFuncs.isEmpty else {
+            var nameSpace = ""
+            if let ns = mutatingFuncs.first?.definedIn?.name {
+                nameSpace = "\(ns)"
+            }
+            fatalError("☠️ Error on \(nameSpace)\(mutatingFuncs.first?.name ?? "?"): No mutating functions on protocols because there are some edge cases that we don't want to support, it's the law 👮!")
         }
     }
 
@@ -686,9 +698,9 @@ struct TranslatedProtocol: TranslatedType {
                 for field in fields {
                     let resolved = context.resolve(type: field.typeName.better)
                     let jniSignature = resolved.jniType.asSignature
-                    fragment.output("\(foreignProtocolType)._\(field.name)GetMethodID = try env.GetMethodID(javaClass, \"get\(field.name.capitalized)\", \"()\(jniSignature)\")")
+                    fragment.output("\(foreignProtocolType)._\(field.name)GetMethodID = try env.GetMethodID(javaClass, \"get\(upperCaseFirst(field.name))\", \"()\(jniSignature)\")")
                     if field.isMutable {
-                        fragment.output("\(foreignProtocolType)._\(field.name)SetMethodID = try env.GetMethodID(javaClass, \"set\(field.name.capitalized)\", \"(\(jniSignature))V\")")
+                        fragment.output("\(foreignProtocolType)._\(field.name)SetMethodID = try env.GetMethodID(javaClass, \"set\(upperCaseFirst(field.name))\", \"(\(jniSignature))V\")")
                     }
                 }
                 for normalMethod in normalMethods {

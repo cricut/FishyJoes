@@ -231,10 +231,10 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(asyncSleep) -->
         /// </summary>
-        public System.Threading.Tasks.Task<nint> AsyncSleep(
+        public System.Threading.Tasks.Task<nuint> AsyncSleep(
         ) {
             using var _thisHandle = new GCRef(this);
-            return Check((out CreatedRef _exn) => __iota_TestAPI_Methods_asyncSleep(Loader.env, _thisHandle.ptr, out _exn)).Consume<System.Threading.Tasks.Task<nint>>();
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Methods_asyncSleep(Loader.env, _thisHandle.ptr, out _exn)).Consume<System.Threading.Tasks.Task<nuint>>();
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -365,9 +365,9 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(staticAsyncSleep) -->
         /// </summary>
-        public static System.Threading.Tasks.Task<nint> StaticAsyncSleep(
+        public static System.Threading.Tasks.Task<nuint> StaticAsyncSleep(
         ) {
-            return Check((out CreatedRef _exn) => __iota_TestAPI_Methods_staticAsyncSleep(Loader.env, out _exn)).Consume<System.Threading.Tasks.Task<nint>>();
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Methods_staticAsyncSleep(Loader.env, out _exn)).Consume<System.Threading.Tasks.Task<nuint>>();
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]

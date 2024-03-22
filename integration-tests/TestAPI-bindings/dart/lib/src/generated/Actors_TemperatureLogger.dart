@@ -14,6 +14,7 @@ import './DefaultArguments.dart' as TestAPI;
 import './Deprecations.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
 import './ExternalWitness_AProtocol.dart' as TestAPI;
+import './ExternalWitness_TestLeadingUnderscoredProp.dart' as TestAPI;
 import './ExternalWitness_TestMethodsProtocol.dart' as TestAPI;
 import './ExternalWitness_TestMutatingCounterProtocol.dart' as TestAPI;
 import './ExternalWitness_TestOptionalsProtocol.dart' as TestAPI;
@@ -31,6 +32,8 @@ import './Structs_MemberwiseStruct.dart' as TestAPI;
 import './Structs_MutableStruct.dart' as TestAPI;
 import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Structs_ReferenceStruct.dart' as TestAPI;
+import './TestLeadingUnderscoredProp.dart' as TestAPI;
+import './TestLeadingUnderscoredPropStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
 import './TestMutatingCounter.dart' as TestAPI;
 import './TestMutatingCounterProtocol.dart' as TestAPI;
@@ -67,60 +70,6 @@ class Actors_TemperatureLogger extends SwiftReference {
 
     @override
     String toString() => 'Actors_TemperatureLogger(label: $label, backwardsLabel: $backwardsLabel)';
-
-    static CreatedRef ffi_get_label(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<Actors_TemperatureLogger>(obj).label
-        )
-    );
-
-    static CreatedRef ffi_get_backwardsLabel(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<Actors_TemperatureLogger>(obj).backwardsLabel
-        )
-    );
-
-    static CreatedRef ffi_create(
-        UnownedRef obj,
-        ConsumedRef label,
-        int measurement,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            Actors_TemperatureLogger.create(
-                consumeRef(label),
-                measurement
-            )
-        )
-    );
-
-    static CreatedRef ffi_update(
-        UnownedRef obj,
-        int measurement,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<Actors_TemperatureLogger>(obj).update(
-                measurement
-            )
-        )
-    );
-
-    static CreatedRef ffi_min(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<Actors_TemperatureLogger>(obj).min(
-            )
-        )
-    );
 
     /// <!-- FishyJoes.export(label) -->
     String get label =>

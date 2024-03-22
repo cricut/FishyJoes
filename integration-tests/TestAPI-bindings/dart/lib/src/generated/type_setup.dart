@@ -14,6 +14,7 @@ import './DefaultArguments.dart' as TestAPI;
 import './Deprecations.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
 import './ExternalWitness_AProtocol.dart' as TestAPI;
+import './ExternalWitness_TestLeadingUnderscoredProp.dart' as TestAPI;
 import './ExternalWitness_TestMethodsProtocol.dart' as TestAPI;
 import './ExternalWitness_TestMutatingCounterProtocol.dart' as TestAPI;
 import './ExternalWitness_TestOptionalsProtocol.dart' as TestAPI;
@@ -31,6 +32,8 @@ import './Structs_MemberwiseStruct.dart' as TestAPI;
 import './Structs_MutableStruct.dart' as TestAPI;
 import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Structs_ReferenceStruct.dart' as TestAPI;
+import './TestLeadingUnderscoredProp.dart' as TestAPI;
+import './TestLeadingUnderscoredPropStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
 import './TestMutatingCounter.dart' as TestAPI;
 import './TestMutatingCounterProtocol.dart' as TestAPI;
@@ -111,7 +114,7 @@ typedef _TestAPI_Primitives_PrimitiveHolderConstructor = CreatedRef Function(
     ConsumedRef ui32q,
     ffi.Uint64 ui64,
     ConsumedRef ui64q,
-    ffi.UnsignedInt ui,
+    ffi.UintPtr ui,
     ConsumedRef uiq,
     ffi.Int8 i8,
     ConsumedRef i8q,
@@ -121,7 +124,7 @@ typedef _TestAPI_Primitives_PrimitiveHolderConstructor = CreatedRef Function(
     ConsumedRef i32q,
     ffi.Int64 i64,
     ConsumedRef i64q,
-    ffi.Int i,
+    ffi.IntPtr i,
     ConsumedRef iq,
     ffi.Float f,
     ConsumedRef fq,
@@ -149,8 +152,8 @@ typedef _TestAPI_Primitives_PrimitiveHolder_ui64Getter = ffi.Uint64 Function(Uno
 typedef _TestAPI_Primitives_PrimitiveHolder_ui64Setter = ffi.Void Function(UnownedRef obj, ffi.Uint64 newValue, OutCreatedRef exn);
 typedef _TestAPI_Primitives_PrimitiveHolder_ui64qGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_Primitives_PrimitiveHolder_ui64qSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
-typedef _TestAPI_Primitives_PrimitiveHolder_uiGetter = ffi.UnsignedInt Function(UnownedRef obj, OutCreatedRef exn);
-typedef _TestAPI_Primitives_PrimitiveHolder_uiSetter = ffi.Void Function(UnownedRef obj, ffi.UnsignedInt newValue, OutCreatedRef exn);
+typedef _TestAPI_Primitives_PrimitiveHolder_uiGetter = ffi.UintPtr Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_Primitives_PrimitiveHolder_uiSetter = ffi.Void Function(UnownedRef obj, ffi.UintPtr newValue, OutCreatedRef exn);
 typedef _TestAPI_Primitives_PrimitiveHolder_uiqGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_Primitives_PrimitiveHolder_uiqSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
 typedef _TestAPI_Primitives_PrimitiveHolder_i8Getter = ffi.Int8 Function(UnownedRef obj, OutCreatedRef exn);
@@ -169,8 +172,8 @@ typedef _TestAPI_Primitives_PrimitiveHolder_i64Getter = ffi.Int64 Function(Unown
 typedef _TestAPI_Primitives_PrimitiveHolder_i64Setter = ffi.Void Function(UnownedRef obj, ffi.Int64 newValue, OutCreatedRef exn);
 typedef _TestAPI_Primitives_PrimitiveHolder_i64qGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_Primitives_PrimitiveHolder_i64qSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
-typedef _TestAPI_Primitives_PrimitiveHolder_iGetter = ffi.Int Function(UnownedRef obj, OutCreatedRef exn);
-typedef _TestAPI_Primitives_PrimitiveHolder_iSetter = ffi.Void Function(UnownedRef obj, ffi.Int newValue, OutCreatedRef exn);
+typedef _TestAPI_Primitives_PrimitiveHolder_iGetter = ffi.IntPtr Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_Primitives_PrimitiveHolder_iSetter = ffi.Void Function(UnownedRef obj, ffi.IntPtr newValue, OutCreatedRef exn);
 typedef _TestAPI_Primitives_PrimitiveHolder_iqGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_Primitives_PrimitiveHolder_iqSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
 typedef _TestAPI_Primitives_PrimitiveHolder_fGetter = ffi.Float Function(UnownedRef obj, OutCreatedRef exn);
@@ -191,19 +194,19 @@ typedef _TestAPI_Structs_MemberwiseStruct_immutableSetter = ffi.Void Function(Un
 typedef _TestAPI_Structs_MemberwiseStruct_mutableGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_Structs_MemberwiseStruct_mutableSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
 typedef _TestAPI_Structs_MutableStructConstructor = CreatedRef Function(
-    ffi.Int i,
+    ffi.IntPtr i,
     OutCreatedRef exn
 );
-typedef _TestAPI_Structs_MutableStruct_iGetter = ffi.Int Function(UnownedRef obj, OutCreatedRef exn);
-typedef _TestAPI_Structs_MutableStruct_iSetter = ffi.Void Function(UnownedRef obj, ffi.Int newValue, OutCreatedRef exn);
+typedef _TestAPI_Structs_MutableStruct_iGetter = ffi.IntPtr Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_Structs_MutableStruct_iSetter = ffi.Void Function(UnownedRef obj, ffi.IntPtr newValue, OutCreatedRef exn);
 typedef _TestAPI_AProtocolConstructor = CreatedRef Function(
     ffi.Pointer ref,
     OutCreatedRef exn
 );
 typedef _TestAPI_AProtocol_fooGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_AProtocol_bazGetter = ffi.Bool Function(UnownedRef obj, OutCreatedRef exn);
-typedef _TestAPI_AProtocol_bar = CreatedRef Function(UnownedRef obj, ffi.Int x, ffi.Int y, OutCreatedRef exn);
-typedef _TestAPI_AProtocol_hasADefaultImplementation = CreatedRef Function(UnownedRef obj, ffi.Int x, ffi.Double y, OutCreatedRef exn);
+typedef _TestAPI_AProtocol_bar = CreatedRef Function(UnownedRef obj, ffi.IntPtr x, ffi.IntPtr y, OutCreatedRef exn);
+typedef _TestAPI_AProtocol_hasADefaultImplementation = CreatedRef Function(UnownedRef obj, ffi.IntPtr x, ffi.Double y, OutCreatedRef exn);
 typedef _TestAPI_AProtocol_hasADefaultImplementation2 = ffi.Double Function(UnownedRef obj, ffi.Pointer a, ffi.Bool b, ffi.Double c, OutCreatedRef exn);
 typedef _TestAPI_AProtocolImplementationConstructor = CreatedRef Function(
     ConsumedRef foo,
@@ -215,28 +218,28 @@ typedef _TestAPI_AProtocolImplementation_fooSetter = ffi.Void Function(UnownedRe
 typedef _TestAPI_AProtocolImplementation_bazGetter = ffi.Bool Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_AProtocolImplementation_bazSetter = ffi.Void Function(UnownedRef obj, ffi.Bool newValue, OutCreatedRef exn);
 typedef TestAPI_AssociatedDataEnum_new_thing = CreatedRef Function(
-    ffi.Int value,
+    ffi.IntPtr value,
     OutCreatedRef _exn
 );
 typedef TestAPI_AssociatedDataEnum_extract_thing = ffi.Void Function(
     UnownedRef obj,
-    ffi.Pointer<ffi.Int> value,
+    ffi.Pointer<ffi.IntPtr> value,
     OutCreatedRef _exn
 );
 typedef TestAPI_AssociatedDataEnum_new_other = CreatedRef Function(
     ConsumedRef unnamed,
-    ffi.Int _1,
+    ffi.IntPtr m_1,
     OutCreatedRef _exn
 );
 typedef TestAPI_AssociatedDataEnum_extract_other = ffi.Void Function(
     UnownedRef obj,
     OutCreatedRef unnamed,
-    ffi.Pointer<ffi.Int> _1,
+    ffi.Pointer<ffi.IntPtr> _1,
     OutCreatedRef _exn
 );
 typedef TestAPI_AssociatedDataEnum_new_bar = CreatedRef Function(
     ConsumedRef named,
-    ConsumedRef _1,
+    ConsumedRef m_1,
     OutCreatedRef _exn
 );
 typedef TestAPI_AssociatedDataEnum_extract_bar = ffi.Void Function(
@@ -282,6 +285,17 @@ typedef TestAPI_SimpleEnum_extract_blue = ffi.Void Function(
     UnownedRef obj,
     OutCreatedRef _exn
 );
+typedef _TestAPI_TestLeadingUnderscoredPropConstructor = CreatedRef Function(
+    ffi.Pointer ref,
+    OutCreatedRef exn
+);
+typedef _TestAPI_TestLeadingUnderscoredProp__leadingUnderscorePropGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestLeadingUnderscoredPropStructConstructor = CreatedRef Function(
+    ConsumedRef _leadingUnderscoreProp,
+    OutCreatedRef exn
+);
+typedef _TestAPI_TestLeadingUnderscoredPropStruct__leadingUnderscorePropGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestLeadingUnderscoredPropStruct__leadingUnderscorePropSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
 typedef _TestAPI_TestMethodsProtocolConstructor = CreatedRef Function(
     ffi.Pointer ref,
     OutCreatedRef exn
@@ -290,7 +304,7 @@ typedef _TestAPI_TestMethodsProtocol_foo = ffi.Void Function(UnownedRef obj,  Ou
 typedef _TestAPI_TestMethodsProtocol_bar = ffi.Bool Function(UnownedRef obj,  OutCreatedRef exn);
 typedef _TestAPI_TestMethodsProtocol_baz = ffi.Void Function(UnownedRef obj, ffi.Bool qux, OutCreatedRef exn);
 typedef _TestAPI_TestMethodsProtocol_garply = CreatedRef Function(UnownedRef obj, ffi.Pointer _0, OutCreatedRef exn);
-typedef _TestAPI_TestMethodsProtocol_xyzzy = CreatedRef Function(UnownedRef obj, ffi.Int thud, ffi.Pointer grault, OutCreatedRef exn);
+typedef _TestAPI_TestMethodsProtocol_xyzzy = CreatedRef Function(UnownedRef obj, ffi.IntPtr thud, ffi.Pointer grault, OutCreatedRef exn);
 typedef _TestAPI_TestMethodsProtocol_plugh = CreatedRef Function(UnownedRef obj, ffi.Pointer fred, OutCreatedRef exn);
 typedef _TestAPI_TestMutatingCounterConstructor = CreatedRef Function(
     ffi.Int count,
@@ -312,7 +326,7 @@ typedef _TestAPI_TestOptionalsProtocolConstructor = CreatedRef Function(
 );
 typedef _TestAPI_TestOptionalsProtocol_flarpGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestOptionalsProtocol_wombat = CreatedRef Function(UnownedRef obj, ffi.Pointer zxc, OutCreatedRef exn);
-typedef _TestAPI_TestOptionalsProtocol_spqr = ffi.Int Function(UnownedRef obj, ffi.Pointer pippo, OutCreatedRef exn);
+typedef _TestAPI_TestOptionalsProtocol_spqr = ffi.IntPtr Function(UnownedRef obj, ffi.Pointer pippo, OutCreatedRef exn);
 typedef _TestAPI_TestPropertiesProtocolConstructor = CreatedRef Function(
     ffi.Pointer ref,
     OutCreatedRef exn
@@ -871,6 +885,36 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_Structs_setup');
+    final TestAPI_CommonInterface__TestLeadingUnderscoredPropConverter_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestLeadingUnderscoredPropConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestLeadingUnderscoredProp__leadingUnderscorePropGetter>> get__leadingUnderscoreProp,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestLeadingUnderscoredPropConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestLeadingUnderscoredProp__leadingUnderscorePropGetter>> get__leadingUnderscoreProp,
+            OutCreatedRef exn
+        )
+    >('TestAPI_CommonInterface__TestLeadingUnderscoredPropConverter_setup');
+    final TestAPI_TestLeadingUnderscoredPropStruct_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestLeadingUnderscoredPropStructConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestLeadingUnderscoredPropStruct__leadingUnderscorePropGetter>> get__leadingUnderscoreProp,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestLeadingUnderscoredPropStruct__leadingUnderscorePropSetter>> set__leadingUnderscoreProp,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestLeadingUnderscoredPropStructConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestLeadingUnderscoredPropStruct__leadingUnderscorePropGetter>> get__leadingUnderscoreProp,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestLeadingUnderscoredPropStruct__leadingUnderscorePropSetter>> set__leadingUnderscoreProp,
+            OutCreatedRef exn
+        )
+    >('TestAPI_TestLeadingUnderscoredPropStruct_setup');
     final TestAPI_CommonInterface__TestMethodsProtocolConverter_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -1030,7 +1074,7 @@ final ensureLoaded = (() {
         )
     >('TestAPI_URLs_setup');
     TestAPI.AttributedString_PuttingTypesIntoQuestionablePlaces.f__iota_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.IntPtr Function(
             Env env,
             UnownedRef _this,
             OutCreatedRef _exn
@@ -1042,7 +1086,7 @@ final ensureLoaded = (() {
         )
     >("__iota_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall");
     TestAPI.String_PuttingTypesIntoQuestionablePlaces.f__iota_Swift_String_PuttingTypesIntoQuestionablePlaces_testCall = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.IntPtr Function(
             Env env,
             UnownedRef _this,
             OutCreatedRef _exn
@@ -1054,7 +1098,7 @@ final ensureLoaded = (() {
         )
     >("__iota_Swift_String_PuttingTypesIntoQuestionablePlaces_testCall");
     TestAPI.UnicodeScalar_PuttingTypesIntoQuestionablePlaces.f__iota_Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_testCall = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.IntPtr Function(
             Env env,
             UnownedRef _this,
             OutCreatedRef _exn
@@ -1069,8 +1113,8 @@ final ensureLoaded = (() {
         CreatedRef Function(
             Env env,
             UnownedRef _this,
-            ffi.Int x,
-            ffi.Int y,
+            ffi.IntPtr x,
+            ffi.IntPtr y,
             OutCreatedRef _exn
         ),
         CreatedRef Function(
@@ -1085,8 +1129,8 @@ final ensureLoaded = (() {
         CreatedRef Function(
             Env env,
             UnownedRef _this,
-            ffi.Int x,
-            ffi.Int y,
+            ffi.IntPtr x,
+            ffi.IntPtr y,
             OutCreatedRef _exn
         ),
         CreatedRef Function(
@@ -1101,7 +1145,7 @@ final ensureLoaded = (() {
         CreatedRef Function(
             Env env,
             UnownedRef _this,
-            ffi.Int x,
+            ffi.IntPtr x,
             ffi.Double y,
             OutCreatedRef _exn
         ),
@@ -1135,7 +1179,7 @@ final ensureLoaded = (() {
         CreatedRef Function(
             Env env,
             UnownedRef label,
-            ffi.Int measurement,
+            ffi.IntPtr measurement,
             OutCreatedRef _exn
         ),
         CreatedRef Function(
@@ -1161,7 +1205,7 @@ final ensureLoaded = (() {
         CreatedRef Function(
             Env env,
             UnownedRef _this,
-            ffi.Int measurement,
+            ffi.IntPtr measurement,
             OutCreatedRef _exn
         ),
         CreatedRef Function(
@@ -1817,7 +1861,7 @@ final ensureLoaded = (() {
         CreatedRef Function(
             Env env,
             UnownedRef _this,
-            ffi.Int i,
+            ffi.IntPtr i,
             UnownedRef j,
             OutCreatedRef _exn
         ),
@@ -1888,10 +1932,10 @@ final ensureLoaded = (() {
         )
     >("__iota_TestAPI_Methods_create");
     TestAPI.Methods.f__iota_TestAPI_Methods_doublePlusGood = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.IntPtr Function(
             Env env,
             UnownedRef _this,
-            ffi.Int a,
+            ffi.IntPtr a,
             ffi.Double b,
             OutCreatedRef _exn
         ),
@@ -1940,7 +1984,7 @@ final ensureLoaded = (() {
     TestAPI.Methods.f__iota_TestAPI_Methods_staticAsyncMultipleArgs = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
-            ffi.Int i,
+            ffi.IntPtr i,
             UnownedRef j,
             OutCreatedRef _exn
         ),
@@ -2028,9 +2072,9 @@ final ensureLoaded = (() {
         )
     >("__iota_TestAPI_Primitives_echoFloat");
     TestAPI.Primitives.f__iota_TestAPI_Primitives_echoInt = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.IntPtr Function(
             Env env,
-            ffi.Int value,
+            ffi.IntPtr value,
             OutCreatedRef _exn
         ),
         int Function(
@@ -2088,9 +2132,9 @@ final ensureLoaded = (() {
         )
     >("__iota_TestAPI_Primitives_echoInt8");
     TestAPI.Primitives.f__iota_TestAPI_Primitives_echoUInt = dylib.lookupFunction<
-        ffi.UnsignedInt Function(
+        ffi.UintPtr Function(
             Env env,
-            ffi.UnsignedInt value,
+            ffi.UintPtr value,
             OutCreatedRef _exn
         ),
         int Function(
@@ -2452,7 +2496,7 @@ final ensureLoaded = (() {
     TestAPI.SimpleEnum.f__iota_TestAPI_SimpleEnum_pickAColor = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
-            ffi.Int rawValue,
+            ffi.IntPtr rawValue,
             OutCreatedRef _exn
         ),
         CreatedRef Function(
@@ -2562,7 +2606,7 @@ final ensureLoaded = (() {
         )
     >("__iota_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_create");
     TestAPI.Structs_PuttingTypesIntoQuestionablePlaces.f__iota_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_testCall = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.IntPtr Function(
             Env env,
             UnownedRef _this,
             OutCreatedRef _exn
@@ -2651,13 +2695,13 @@ final ensureLoaded = (() {
         CreatedRef Function(
             Env env,
             UnownedRef _this,
-            UnownedRef _0,
+            UnownedRef m_0,
             OutCreatedRef _exn
         ),
         CreatedRef Function(
             Env env,
             UnownedRef _this,
-            UnownedRef _0,
+            UnownedRef m_0,
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_TestMethodsProtocol_garply");
@@ -2679,7 +2723,7 @@ final ensureLoaded = (() {
         CreatedRef Function(
             Env env,
             UnownedRef _this,
-            ffi.Int thud,
+            ffi.IntPtr thud,
             UnownedRef grault,
             OutCreatedRef _exn
         ),
@@ -2752,7 +2796,7 @@ final ensureLoaded = (() {
         )
     >("__iota_TestAPI_TestMutatingCounter_witness");
     TestAPI.ExternalWitness_TestOptionalsProtocol.f__iota_TestAPI_TestOptionalsProtocol_spqr = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.IntPtr Function(
             Env env,
             UnownedRef _this,
             UnownedRef pippo,
@@ -2860,7 +2904,7 @@ final ensureLoaded = (() {
         )
     >("__iota_TestAPI_TestProtocolClass_plugh");
     TestAPI.TestProtocolClass.f__iota_TestAPI_TestProtocolClass_spqr = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.IntPtr Function(
             Env env,
             UnownedRef _this,
             UnownedRef pippo,
@@ -2891,7 +2935,7 @@ final ensureLoaded = (() {
         CreatedRef Function(
             Env env,
             UnownedRef _this,
-            ffi.Int thud,
+            ffi.IntPtr thud,
             UnownedRef grault,
             OutCreatedRef _exn
         ),
@@ -2973,7 +3017,7 @@ final ensureLoaded = (() {
         CreatedRef Function(
             Env env,
             UnownedRef _this,
-            ffi.Int thud,
+            ffi.IntPtr thud,
             UnownedRef grault,
             OutCreatedRef _exn
         ),
@@ -3055,7 +3099,7 @@ final ensureLoaded = (() {
         CreatedRef Function(
             Env env,
             UnownedRef _this,
-            ffi.Int thud,
+            ffi.IntPtr thud,
             UnownedRef grault,
             OutCreatedRef _exn
         ),
@@ -3148,7 +3192,7 @@ final ensureLoaded = (() {
         )
     >("__iota_get_TestAPI_Actors_TemperatureLogger_label");
     TestAPI.AssociatedDataEnum.f__iota_get_TestAPI_AssociatedDataEnum_intValue = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.IntPtr Function(
             Env env,
             UnownedRef _this,
             OutCreatedRef _exn
@@ -3620,7 +3664,7 @@ final ensureLoaded = (() {
         )
     >("__iota_get_TestAPI_Collections_setOfInt");
     TestAPI.Deprecations.f__iota_get_TestAPI_Deprecations_deprecatedVariable = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.IntPtr Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -3700,7 +3744,7 @@ final ensureLoaded = (() {
         )
     >("__iota_get_TestAPI_Functions_sixthThing");
     TestAPI.Methods.f__iota_get_TestAPI_Methods_garply = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.IntPtr Function(
             Env env,
             UnownedRef _this,
             OutCreatedRef _exn
@@ -3712,7 +3756,7 @@ final ensureLoaded = (() {
         )
     >("__iota_get_TestAPI_Methods_garply");
     TestAPI.Methods.f__iota_get_TestAPI_Methods_instanceGet = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.IntPtr Function(
             Env env,
             UnownedRef _this,
             OutCreatedRef _exn
@@ -3724,7 +3768,7 @@ final ensureLoaded = (() {
         )
     >("__iota_get_TestAPI_Methods_instanceGet");
     TestAPI.Methods.f__iota_get_TestAPI_Methods_instanceGetMethod = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.IntPtr Function(
             Env env,
             UnownedRef _this,
             OutCreatedRef _exn
@@ -3736,7 +3780,7 @@ final ensureLoaded = (() {
         )
     >("__iota_get_TestAPI_Methods_instanceGetMethod");
     TestAPI.Methods.f__iota_get_TestAPI_Methods_instanceModifiable = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.IntPtr Function(
             Env env,
             UnownedRef _this,
             OutCreatedRef _exn
@@ -3748,7 +3792,7 @@ final ensureLoaded = (() {
         )
     >("__iota_get_TestAPI_Methods_instanceModifiable");
     TestAPI.Methods.f__iota_get_TestAPI_Methods_instanceStored = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.IntPtr Function(
             Env env,
             UnownedRef _this,
             OutCreatedRef _exn
@@ -3760,7 +3804,7 @@ final ensureLoaded = (() {
         )
     >("__iota_get_TestAPI_Methods_instanceStored");
     TestAPI.Methods.f__iota_get_TestAPI_Methods_staticGet = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.IntPtr Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -3770,7 +3814,7 @@ final ensureLoaded = (() {
         )
     >("__iota_get_TestAPI_Methods_staticGet");
     TestAPI.Methods.f__iota_get_TestAPI_Methods_staticGetMethod = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.IntPtr Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -3780,7 +3824,7 @@ final ensureLoaded = (() {
         )
     >("__iota_get_TestAPI_Methods_staticGetMethod");
     TestAPI.Methods.f__iota_get_TestAPI_Methods_staticModifiable = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.IntPtr Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -3790,7 +3834,7 @@ final ensureLoaded = (() {
         )
     >("__iota_get_TestAPI_Methods_staticModifiable");
     TestAPI.Methods.f__iota_get_TestAPI_Methods_staticStored = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.IntPtr Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -3820,7 +3864,7 @@ final ensureLoaded = (() {
         )
     >("__iota_get_TestAPI_Primitives_PrimitiveHolder_staticProperty");
     TestAPI.Primitives.f__iota_get_TestAPI_Primitives_bitCountInt = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.IntPtr Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -3830,7 +3874,7 @@ final ensureLoaded = (() {
         )
     >("__iota_get_TestAPI_Primitives_bitCountInt");
     TestAPI.Primitives.f__iota_get_TestAPI_Primitives_bitCountUInt = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.IntPtr Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -4140,7 +4184,7 @@ final ensureLoaded = (() {
         )
     >("__iota_get_TestAPI_Primitives_maxFloat");
     TestAPI.Primitives.f__iota_get_TestAPI_Primitives_maxInt = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.IntPtr Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -4190,7 +4234,7 @@ final ensureLoaded = (() {
         )
     >("__iota_get_TestAPI_Primitives_maxInt8");
     TestAPI.Primitives.f__iota_get_TestAPI_Primitives_maxUInt = dylib.lookupFunction<
-        ffi.UnsignedInt Function(
+        ffi.UintPtr Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -4260,7 +4304,7 @@ final ensureLoaded = (() {
         )
     >("__iota_get_TestAPI_Primitives_minFloat");
     TestAPI.Primitives.f__iota_get_TestAPI_Primitives_minInt = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.IntPtr Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -4310,7 +4354,7 @@ final ensureLoaded = (() {
         )
     >("__iota_get_TestAPI_Primitives_minInt8");
     TestAPI.Primitives.f__iota_get_TestAPI_Primitives_minUInt = dylib.lookupFunction<
-        ffi.UnsignedInt Function(
+        ffi.UintPtr Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -4390,7 +4434,7 @@ final ensureLoaded = (() {
         )
     >("__iota_get_TestAPI_Primitives_zeroFloat");
     TestAPI.Primitives.f__iota_get_TestAPI_Primitives_zeroInt = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.IntPtr Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -4440,7 +4484,7 @@ final ensureLoaded = (() {
         )
     >("__iota_get_TestAPI_Primitives_zeroInt8");
     TestAPI.Primitives.f__iota_get_TestAPI_Primitives_zeroUInt = dylib.lookupFunction<
-        ffi.UnsignedInt Function(
+        ffi.UintPtr Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -4600,7 +4644,7 @@ final ensureLoaded = (() {
         )
     >("__iota_get_TestAPI_SimpleEnum_favoriteColor");
     TestAPI.SimpleEnum.f__iota_get_TestAPI_SimpleEnum_hex = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.IntPtr Function(
             Env env,
             UnownedRef _this,
             OutCreatedRef _exn
@@ -4739,6 +4783,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_TestMutatingCounterProtocol_count");
+    TestAPI.ExternalWitness_TestLeadingUnderscoredProp.f__iota_get_TestAPI_TestLeadingUnderscoredProp__leadingUnderscoreProp = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestLeadingUnderscoredProp__leadingUnderscoreProp");
     TestAPI.ExternalWitness_TestOptionalsProtocol.f__iota_get_TestAPI_TestOptionalsProtocol_flarp = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -4919,7 +4975,7 @@ final ensureLoaded = (() {
         ffi.Void Function(
             Env env,
             UnownedRef _this,
-            ffi.Int instanceModifiable,
+            ffi.IntPtr instanceModifiable,
             OutCreatedRef _exn
         ),
         void Function(
@@ -4933,7 +4989,7 @@ final ensureLoaded = (() {
         ffi.Void Function(
             Env env,
             UnownedRef _this,
-            ffi.Int instanceStored,
+            ffi.IntPtr instanceStored,
             OutCreatedRef _exn
         ),
         void Function(
@@ -4946,7 +5002,7 @@ final ensureLoaded = (() {
     TestAPI.Methods.f__iota_set_TestAPI_Methods_staticModifiable = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
-            ffi.Int staticModifiable,
+            ffi.IntPtr staticModifiable,
             OutCreatedRef _exn
         ),
         void Function(
@@ -4958,7 +5014,7 @@ final ensureLoaded = (() {
     TestAPI.Methods.f__iota_set_TestAPI_Methods_staticStored = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
-            ffi.Int staticStored,
+            ffi.IntPtr staticStored,
             OutCreatedRef _exn
         ),
         void Function(
@@ -5572,6 +5628,17 @@ final ensureLoaded = (() {
             Loader.shared.FishyJoesCommonRuntime_FutureConverter_setup<String>(
                 Loader.shared.env,
                 "FutureConverter<Swift.String>",
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_FutureConverter<Swift.UInt>", () {
+        // print("setting up Future<Swift.UInt> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_FutureConverter_setup<int>(
+                Loader.shared.env,
+                "FutureConverter<Swift.UInt>",
                 exn
             );
         });
@@ -6885,6 +6952,31 @@ final ensureLoaded = (() {
         utils.check<void>((exn) {
             TestAPI_Structs_setup(
                 Loader.shared.env,
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter", () {
+        // print("setting up TestAPI.TestLeadingUnderscoredProp (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_CommonInterface__TestLeadingUnderscoredPropConverter_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestLeadingUnderscoredProp.ffi_new),
+                ffi.Pointer.fromFunction(TestAPI.TestLeadingUnderscoredProp_FfiHooks.ffi_get__leadingUnderscoreProp),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.TestLeadingUnderscoredPropStruct", () {
+        // print("setting up TestAPI.TestLeadingUnderscoredPropStruct (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_TestLeadingUnderscoredPropStruct_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.TestLeadingUnderscoredPropStruct.ffi_constructor),
+                ffi.Pointer.fromFunction(TestAPI.TestLeadingUnderscoredPropStruct.ffi_get__leadingUnderscoreProp),
+                ffi.Pointer.fromFunction(TestAPI.TestLeadingUnderscoredPropStruct.ffi_set__leadingUnderscoreProp),
                 exn
             );
         });

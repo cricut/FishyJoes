@@ -110,6 +110,12 @@ void main() {
       final c = a.hasADefaultImplementation2("With the Frizz? No way!", false, 8923.8293);
       expect(c, equals(-3.14159265359));
     });
+
+      test('testLeadingUnderscoreInNames', () {
+        final lups = TestLeadingUnderscoredPropStruct(m_leadingUnderscoreProp: "With great power comes great responsibility.");
+        expect(lups.m_leadingUnderscoreProp, equals("With great power comes great responsibility."));
+        // test for _leadingUnderscoreMethod is just that tests build and run, since currently leading underscore on method name means it's only visible on the Swift side, not the Foreign/Dart side.
+      });
   });
 }
 
