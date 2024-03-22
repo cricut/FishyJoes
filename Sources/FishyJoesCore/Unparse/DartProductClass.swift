@@ -50,10 +50,6 @@ class DartProductClass: DartClass {
             conformancesPart.append(conformances.map { "\(module).\($0)" }.joined(separator: ", "))
         }
 
-        if conformancesPart.contains("Underscore") {
-            let elegoo = 1
-        }
-
         commonIgnoreSpecificWarnings(fragment: fragment)
 
         document(documentation, fragment: fragment)
