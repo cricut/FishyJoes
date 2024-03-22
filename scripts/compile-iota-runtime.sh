@@ -17,7 +17,7 @@ if [[ "$(uname -s)" == "Darwin" && $SKIP_LIPO == "0" ]]; then
     swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesIotaRuntime --arch arm64
     swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesIotaRuntime --arch x86_64
     BIN_DIR=".build/apple/$CONFIGURATION"
-    mkdir -p $BIN_DIR
+    mkdir -p "$BIN_DIR"
     lipo -create \
          -output "$BIN_DIR/libFishyJoesIotaRuntime.dylib" \
          .build/{arm64,x86_64}-apple-macosx/"$CONFIGURATION"/libFishyJoesIotaRuntime.dylib

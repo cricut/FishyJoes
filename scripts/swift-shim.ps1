@@ -13,8 +13,11 @@ $DeduplicatedPath = ($CurrentPath -split ';' | Select-Object -Unique) -join ';'
 $env:PATH = ''
 $env:Path = $DeduplicatedPath
 
-gci Env:PATH | Format-List | Out-String | Write-Error
 
 # Perform execution and report errors encountered
 swift.exe @args
-if (-not $?) { throw "swift exited with code $LastExitCode" }
+if (-not $?) {
+    $Message = "swift exited with code $LastExitCode"
+    gci Env:PATH | Format-List | Out-String | Write-Debug
+    throw $Message
+}

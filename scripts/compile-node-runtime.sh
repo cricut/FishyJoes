@@ -36,7 +36,7 @@ elif [[ "$(uname -s)" == *_NT* ]]; then
     SWIFT="$(realpath ./scripts/swift-shim.ps1)"
 
     WIN_LIBS=".build/lib"
-    WIN_LIBS_ENV=$(echo "$WIN_LIBS" | tr "/" "\\")
+    WIN_LIBS_ENV=$(echo "$WIN_LIBS" | tr '/' '\\')
     export EXTRA_LIBPATH="$WIN_LIBS_ENV"
 
     "$SWIFT" run "${commonOptions[@]}" fishy-joes -- download-node-lib --destination "$WIN_LIBS/node.lib"
