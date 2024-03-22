@@ -53,9 +53,7 @@ public func __iota_TestAPI_TestMutatingCounterProtocol_tickTwice(
     let env = Env(envRef)
     return env.catching(to: _exn) {
         return try TestAPI_CommonInterface._TestMutatingCounterProtocolConverter.withMutatingIota(_iotaThis, env: env) { mutatingSelf in
-            var wrapper = TestMutatingCounterProtocol_sans_tickTwice(
-                wrapped: mutatingSelf
-            )
+            var wrapper = TestMutatingCounterProtocol_sans_tickTwice(wrapped: mutatingSelf)
             defer { mutatingSelf = wrapper.wrapped }
             return try FishyJoesCommonRuntime.VoidConverter.toIota(
                 wrapper.tickTwice(
