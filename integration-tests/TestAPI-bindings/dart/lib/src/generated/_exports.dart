@@ -28,8 +28,6 @@ export './Ranges.dart';
 export './SimpleEnum.dart';
 export './Strings.dart';
 export './Structs.dart';
-export './TestLeadingUnderscoredMethod.dart';
-export './ExternalWitness_TestLeadingUnderscoredMethod.dart';
 export './TestLeadingUnderscoredProp.dart';
 export './ExternalWitness_TestLeadingUnderscoredProp.dart';
 export './TestLeadingUnderscoredPropStruct.dart';

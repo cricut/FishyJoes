@@ -33,19 +33,6 @@ extension TestAPI.TestLeadingUnderscoredPropStruct: NodeMutator {
             env: env,
             name: "TestLeadingUnderscoredPropStruct",
             properties: [
-                "_leadingUnderscoreMethod": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "_leadingUnderscoreMethod", expectedArgumentCount: 0, hasNamedOptions: false) { env in
-                            let result = try Swift.String.toNode(
-                                env.this(converter: TestAPI.TestLeadingUnderscoredPropStruct.self)._leadingUnderscoreMethod(
-                                ),
-                                env: env.env
-                            )
-                            return result
-                        }
-                    },
-                    isStatic: false
-                ),
                 "_leadingUnderscoreProp": (.stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in

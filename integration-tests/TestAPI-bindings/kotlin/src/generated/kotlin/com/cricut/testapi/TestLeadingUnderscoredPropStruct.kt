@@ -4,17 +4,12 @@ import kotlinx.coroutines.*
 import java.lang.Exception
 
 /**
- * <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp, TestLeadingUnderscoredMethod]) -->
+ * // <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp, TestLeadingUnderscoredMethod]) -->
+ * <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp]) -->
  */
 data class TestLeadingUnderscoredPropStruct(
     override var _leadingUnderscoreProp: kotlin.String
-): TestLeadingUnderscoredMethod, TestLeadingUnderscoredProp {
-    /**
-     * <!-- FishyJoes.export(_leadingUnderscoreMethod) -->
-     */
-    @JvmName("__jni__leadingUnderscoreMethod")
-    private external fun __jni__leadingUnderscoreMethod(
-    ): kotlin.String
+): TestLeadingUnderscoredProp {
 
     companion object {
         init { loadNativeLibs() }
