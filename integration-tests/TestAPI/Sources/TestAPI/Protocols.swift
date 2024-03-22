@@ -227,7 +227,7 @@ public protocol TestLeadingUnderscoredProp {
 /// <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp]) -->
 public struct TestLeadingUnderscoredPropStruct: TestLeadingUnderscoredProp {
     public var _leadingUnderscoreProp: String
-    
+
     public init(_leadingUnderscoreProp: String) {
         self._leadingUnderscoreProp = _leadingUnderscoreProp
     }

@@ -49,7 +49,7 @@ class DartProductClass: DartClass {
             conformancesPart.append(" implements ")
             conformancesPart.append(conformances.map { "\(module).\($0)" }.joined(separator: ", "))
         }
-        
+
         if conformancesPart.contains("Underscore") {
             let elegoo = 1
         }
