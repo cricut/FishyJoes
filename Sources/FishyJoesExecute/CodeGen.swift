@@ -292,22 +292,19 @@ extension CodeGen {
                     try platform.build(
                         product: "\(config.module)-node",
                         libs: libs.flatMap { [$0, "\($0)-node"] } + ["FishyJoesNodeRuntime"],
-                        configuration: configuration,
-                        addEnv: ["EXTRA_LIBPATH": try platform.extraLibPathDir(configuration)]
+                        configuration: configuration
                     )
                 case .kotlinSystem, .kotlinAndroid:
                     try platform.build(
                         product: "\(config.module)-java",
                         libs: libs.flatMap { [$0, "\($0)-java"] } + ["FishyJoesJavaRuntime"],
-                        configuration: configuration,
-                        addEnv: ["EXTRA_LIBPATH": try platform.extraLibPathDir(configuration)]
+                        configuration: configuration
                     )
                 case .cSharp, .dart:
                     try platform.build(
                         product: "\(config.module)-iota",
                         libs: libs.flatMap { [$0, "\($0)-iota"] } + ["FishyJoesIotaRuntime"],
-                        configuration: configuration,
-                        addEnv: ["EXTRA_LIBPATH": try platform.extraLibPathDir(configuration)]
+                        configuration: configuration
                     )
                 }
             }

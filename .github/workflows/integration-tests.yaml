@@ -126,7 +126,7 @@ jobs:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
-        
+
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -265,6 +265,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
       SWIFT: ${{ github.workspace }}\scripts\swift-shim.ps1
+      EXTRA_LIBPATH: '.build\lib'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -306,7 +307,7 @@ jobs:
           swift package resolve
           swift package resolve
           swift package resolve
-      
+
       - name: Build FishyJoesNodeRuntime
         shell: bash
         run: |
@@ -343,7 +344,7 @@ jobs:
           set -euxo pipefail
 
           cd integration-tests/TestAPI-bindings
-          
+
           # Add dart DLLs to path
           # Someone who understands windows better than I do is welcome to fix this in a better way
           PATH="$(pwd)/dart/windows/native:$PATH"
