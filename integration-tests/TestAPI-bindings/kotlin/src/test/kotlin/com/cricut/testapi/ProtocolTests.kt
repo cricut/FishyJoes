@@ -144,8 +144,36 @@ internal class ProtocolTests {
         assertEquals(129, mc2.count)
         mc2.tick()
         assertEquals(130, mc2.count)
+
+        var mc3 = AMutatingCounter(count = 289)
+        println("a mc3: ${mc3}")
+        mc3.tick()
+        println("b mc3: ${mc3}")
+        mc3.tickTwice()
+        println("c mc3: ${mc3}")
     }
 
+    data class AMutatingCounter(
+        override var count: Long
+    ): TestMutatingCounterProtocol {
+        /**
+         * <!-- FishyJoes.export(tick) -->
+         */
+        override fun tick(
+        ) {
+            count += count
+        }
+
+        override fun witness(
+        ): com.cricut.testapi.TestMutatingCounterProtocol = __jni_witness()
+        @JvmName("__jni_witness")
+        private external fun __jni_witness(
+        ): com.cricut.testapi.TestMutatingCounterProtocol
+
+        companion object {
+            init { loadNativeLibs() }
+        }
+    }
     @Test
     fun testProtocolKotlinImpl() {
         val a = ProtocolKotlinImpl(foo = "oof!", baz = false)

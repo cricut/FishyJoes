@@ -45,10 +45,11 @@ let java_TestAPI_CommonInterface__TestMutatingCounterProtocolConverter__default_
 ) -> FishyJoesCommonRuntime.VoidConverter.CType = { _javaEnv, _javaCompanionThis, _javaThis in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         return try TestAPI_CommonInterface._TestMutatingCounterProtocolConverter.mutateJava(_javaThis, env: _javaEnv) { mutatingSelf in
+            var wrapper = TestMutatingCounterProtocol_sans_tickTwice(wrapped: mutatingSelf)
+            defer { mutatingSelf = wrapper.wrapped }
+
             return try FishyJoesCommonRuntime.VoidConverter.toJava(
-                try TestMutatingCounterProtocol_sans_tickTwice(wrapped:
-                    try mutatingSelf
-                ).tickTwice(
+                wrapper.tickTwice(
                 ),
                 env: _javaEnv
             )
