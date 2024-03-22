@@ -44,6 +44,12 @@ extension IotaConverter where CType == foreignObject {
 }
 
 public protocol IotaMutator: IotaConverter {
+    /// Mutate an external witness's value
+    ///
+    /// - Parameters:
+    ///    - this: mutateIota can only accept external witnesses as the input foreign object to mutate.
+    ///    - value: a swift version of this to mutate to
+    ///    - env: Dart Environment
     static func mutateIota(_ this: CType, to value: SwiftType, env: Env) throws
 }
 
@@ -51,7 +57,11 @@ extension IotaMutator {
     public static func withMutatingIota<R>(_ this: CType, env: Env, body: (inout SwiftType) throws -> R) throws -> R {
         var swiftThis = try peekIota(this, env: env)
         let result = try body(&swiftThis)
-        try mutateIota(this, to: swiftThis, env: env)
+        // mutateIota can only accept external witnesses as the input foreign object to mutate. If the foreign object is not an external witness, the ffi setters in the body call above will already have mutated the foreign object.
+        if let foreignObject = this as? foreignObject,
+           (try? Box<SwiftType>.peekIota(foreignObject, env: env)) != nil {
+            try mutateIota(this, to: swiftThis, env: env)
+        }
         return result
     }
 }
