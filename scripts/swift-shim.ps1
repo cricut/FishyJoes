@@ -15,7 +15,8 @@ $env:Path = $DeduplicatedPath
 
 
 # Perform execution and report errors encountered
-swift.exe @args
+# Mix stderr and stdout to work around powershell weirdness
+swift.exe @args 2>&1 | %{"$_"}
 if (-not $?) {
     $Message = "swift exited with code $LastExitCode"
     gci Env:PATH | Format-List | Out-String | Write-Debug
