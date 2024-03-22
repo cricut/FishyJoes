@@ -301,10 +301,17 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = 'SilentlyContinue'
+
           swift package resolve
           swift package resolve
           swift package resolve
+
           cd integration-tests/TestAPI-bindings
+          swift package resolve
+          swift package resolve
+          swift package resolve
+
+          cd ../../node-runtime/register-module-shim
           swift package resolve
           swift package resolve
           swift package resolve
