@@ -13,7 +13,7 @@ $DeduplicatedPath = ($CurrentPath -split ';' | Select-Object -Unique) -join ';'
 $env:PATH = ''
 $env:Path = $DeduplicatedPath
 
-gci Env:PATH | Format-List | Out-String | Write-Host
+gci Env:PATH | Format-List | Out-String | Write-Error
 
 # Perform execution and report errors encountered
 swift.exe @args
