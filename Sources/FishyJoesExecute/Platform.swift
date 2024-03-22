@@ -609,6 +609,6 @@ enum Platform: CustomStringConvertible, Hashable {
     }
 
     func extraLibPathDir(_ configuration: BuildConfiguration) throws -> String {
-        return "\(try buildDir(configuration))\(ps)lib"
+        return ".build\(ps)lib"
     }
 }
