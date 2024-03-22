@@ -217,3 +217,18 @@ public class TestProtocolClass: TestMethodsProtocol, TestPropertiesProtocol, Tes
         pippo.intValue
     }
 }
+
+/// <!-- FishyJoes.export(TestLeadingUnderscoredProp) -->
+public protocol TestLeadingUnderscoredProp {
+    /// <!-- FishyJoes.export(_leadingUnderscoreProp) -->
+    var _leadingUnderscoreProp: String { get throws }
+}
+
+/// <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp]) -->
+public struct TestLeadingUnderscoredPropStruct: TestLeadingUnderscoredProp {
+    public var _leadingUnderscoreProp: String
+    
+    public init(_leadingUnderscoreProp: String) {
+        self._leadingUnderscoreProp = _leadingUnderscoreProp
+    }
+}

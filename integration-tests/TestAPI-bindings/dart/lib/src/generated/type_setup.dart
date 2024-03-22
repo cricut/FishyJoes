@@ -14,6 +14,7 @@ import './DefaultArguments.dart' as TestAPI;
 import './Deprecations.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
 import './ExternalWitness_AProtocol.dart' as TestAPI;
+import './ExternalWitness_TestLeadingUnderscoredProp.dart' as TestAPI;
 import './ExternalWitness_TestMethodsProtocol.dart' as TestAPI;
 import './ExternalWitness_TestOptionalsProtocol.dart' as TestAPI;
 import './ExternalWitness_TestPropertiesProtocol.dart' as TestAPI;
@@ -30,6 +31,8 @@ import './Structs_MemberwiseStruct.dart' as TestAPI;
 import './Structs_MutableStruct.dart' as TestAPI;
 import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Structs_ReferenceStruct.dart' as TestAPI;
+import './TestLeadingUnderscoredProp.dart' as TestAPI;
+import './TestLeadingUnderscoredPropStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
 import './TestOptionalsProtocol.dart' as TestAPI;
 import './TestPropertiesProtocol.dart' as TestAPI;
@@ -222,7 +225,7 @@ typedef TestAPI_AssociatedDataEnum_extract_thing = ffi.Void Function(
 );
 typedef TestAPI_AssociatedDataEnum_new_other = CreatedRef Function(
     ConsumedRef unnamed,
-    ffi.IntPtr _1,
+    ffi.IntPtr m_1,
     OutCreatedRef _exn
 );
 typedef TestAPI_AssociatedDataEnum_extract_other = ffi.Void Function(
@@ -233,7 +236,7 @@ typedef TestAPI_AssociatedDataEnum_extract_other = ffi.Void Function(
 );
 typedef TestAPI_AssociatedDataEnum_new_bar = CreatedRef Function(
     ConsumedRef named,
-    ConsumedRef _1,
+    ConsumedRef m_1,
     OutCreatedRef _exn
 );
 typedef TestAPI_AssociatedDataEnum_extract_bar = ffi.Void Function(
@@ -279,6 +282,17 @@ typedef TestAPI_SimpleEnum_extract_blue = ffi.Void Function(
     UnownedRef obj,
     OutCreatedRef _exn
 );
+typedef _TestAPI_TestLeadingUnderscoredPropConstructor = CreatedRef Function(
+    ffi.Pointer ref,
+    OutCreatedRef exn
+);
+typedef _TestAPI_TestLeadingUnderscoredProp__leadingUnderscorePropGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestLeadingUnderscoredPropStructConstructor = CreatedRef Function(
+    ConsumedRef _leadingUnderscoreProp,
+    OutCreatedRef exn
+);
+typedef _TestAPI_TestLeadingUnderscoredPropStruct__leadingUnderscorePropGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestLeadingUnderscoredPropStruct__leadingUnderscorePropSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
 typedef _TestAPI_TestMethodsProtocolConstructor = CreatedRef Function(
     ffi.Pointer ref,
     OutCreatedRef exn
@@ -854,6 +868,36 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_Structs_setup');
+    final TestAPI_CommonInterface__TestLeadingUnderscoredPropConverter_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestLeadingUnderscoredPropConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestLeadingUnderscoredProp__leadingUnderscorePropGetter>> get__leadingUnderscoreProp,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestLeadingUnderscoredPropConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestLeadingUnderscoredProp__leadingUnderscorePropGetter>> get__leadingUnderscoreProp,
+            OutCreatedRef exn
+        )
+    >('TestAPI_CommonInterface__TestLeadingUnderscoredPropConverter_setup');
+    final TestAPI_TestLeadingUnderscoredPropStruct_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestLeadingUnderscoredPropStructConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestLeadingUnderscoredPropStruct__leadingUnderscorePropGetter>> get__leadingUnderscoreProp,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestLeadingUnderscoredPropStruct__leadingUnderscorePropSetter>> set__leadingUnderscoreProp,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestLeadingUnderscoredPropStructConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestLeadingUnderscoredPropStruct__leadingUnderscorePropGetter>> get__leadingUnderscoreProp,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestLeadingUnderscoredPropStruct__leadingUnderscorePropSetter>> set__leadingUnderscoreProp,
+            OutCreatedRef exn
+        )
+    >('TestAPI_TestLeadingUnderscoredPropStruct_setup');
     final TestAPI_CommonInterface__TestMethodsProtocolConverter_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -2598,13 +2642,13 @@ final ensureLoaded = (() {
         CreatedRef Function(
             Env env,
             UnownedRef _this,
-            UnownedRef _0,
+            UnownedRef m_0,
             OutCreatedRef _exn
         ),
         CreatedRef Function(
             Env env,
             UnownedRef _this,
-            UnownedRef _0,
+            UnownedRef m_0,
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_TestMethodsProtocol_garply");
@@ -4614,6 +4658,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_Structs_ReferenceStruct_mutable");
+    TestAPI.ExternalWitness_TestLeadingUnderscoredProp.f__iota_get_TestAPI_TestLeadingUnderscoredProp__leadingUnderscoreProp = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestLeadingUnderscoredProp__leadingUnderscoreProp");
     TestAPI.ExternalWitness_TestOptionalsProtocol.f__iota_get_TestAPI_TestOptionalsProtocol_flarp = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -6771,6 +6827,31 @@ final ensureLoaded = (() {
         utils.check<void>((exn) {
             TestAPI_Structs_setup(
                 Loader.shared.env,
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter", () {
+        // print("setting up TestAPI.TestLeadingUnderscoredProp (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_CommonInterface__TestLeadingUnderscoredPropConverter_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestLeadingUnderscoredProp.ffi_new),
+                ffi.Pointer.fromFunction(TestAPI.TestLeadingUnderscoredProp_FfiHooks.ffi_get__leadingUnderscoreProp),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.TestLeadingUnderscoredPropStruct", () {
+        // print("setting up TestAPI.TestLeadingUnderscoredPropStruct (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_TestLeadingUnderscoredPropStruct_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.TestLeadingUnderscoredPropStruct.ffi_constructor),
+                ffi.Pointer.fromFunction(TestAPI.TestLeadingUnderscoredPropStruct.ffi_get__leadingUnderscoreProp),
+                ffi.Pointer.fromFunction(TestAPI.TestLeadingUnderscoredPropStruct.ffi_set__leadingUnderscoreProp),
                 exn
             );
         });

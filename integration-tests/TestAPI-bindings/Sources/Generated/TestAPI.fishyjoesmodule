@@ -1461,6 +1461,110 @@
         "named" : {
           "_0" : {
             "module" : "TestAPI_CommonInterface",
+            "name" : "_TestLeadingUnderscoredPropConverter",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestLeadingUnderscoredProp",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestLeadingUnderscoredProp",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestLeadingUnderscoredProp"
+        }
+      },
+      "kotlinName" : "TestLeadingUnderscoredProp",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestLeadingUnderscoredProp>>",
+      "nodeName" : "TestAPI.TestLeadingUnderscoredProp",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestLeadingUnderscoredProp",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestLeadingUnderscoredPropStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestLeadingUnderscoredPropStruct",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestLeadingUnderscoredPropStruct",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestLeadingUnderscoredPropStruct"
+        }
+      },
+      "kotlinName" : "TestLeadingUnderscoredPropStruct",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestLeadingUnderscoredPropStruct>>",
+      "nodeName" : "TestAPI.TestLeadingUnderscoredPropStruct",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestLeadingUnderscoredPropStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI_CommonInterface",
             "name" : "_TestMethodsProtocolConverter",
             "namespace" : [
 
@@ -2902,6 +3006,88 @@
               }
             ],
             "name" : "Methods"
+          },
+          {
+            "constructor" : {
+              "visible" : {
+                "names" : [
+                  "_leadingUnderscoreProp"
+                ],
+                "types" : [
+                  {
+                    "named" : {
+                      "_0" : "string"
+                    }
+                  }
+                ]
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.export(TestLeadingUnderscoredProp) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(_leadingUnderscoreProp) -->"
+                ],
+                "isStatic" : false,
+                "name" : "_leadingUnderscoreProp",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              }
+            ],
+            "methods" : [
+
+            ],
+            "name" : "TestLeadingUnderscoredProp"
+          },
+          {
+            "constructor" : {
+              "visible" : {
+                "names" : [
+                  "_leadingUnderscoreProp"
+                ],
+                "types" : [
+                  {
+                    "named" : {
+                      "_0" : "string"
+                    }
+                  }
+                ]
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp]) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "_leadingUnderscoreProp",
+                "readOnly" : false,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              }
+            ],
+            "methods" : [
+
+            ],
+            "name" : "TestLeadingUnderscoredPropStruct"
           },
           {
             "constructor" : {

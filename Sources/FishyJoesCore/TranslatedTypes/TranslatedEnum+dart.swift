@@ -5,7 +5,7 @@ extension TranslatedEnum {
             lines.append("typedef \(dartType.name().mangled)_new_\(enumCase.name.mangled) = \(dartType.ffiCreatedTag) Function(")
             for value in enumCase.associatedValues {
                 let resolved = context.resolve(type: value.type)
-                lines.append("    \(resolved.dartType.ffiConsumedTag) \(value.bindingName),")
+                lines.append("    \(resolved.dartType.ffiConsumedTag) \(DartClass.deforbidify(value.bindingName)),")
             }
             lines.append("    OutCreatedRef _exn")
             lines.append(");")

@@ -58,67 +58,63 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
-/// <!-- FishyJoes.export(UnicodeScalar_PuttingTypesIntoQuestionablePlaces) -->
-sealed class UnicodeScalar_PuttingTypesIntoQuestionablePlaces {
-    const factory UnicodeScalar_PuttingTypesIntoQuestionablePlaces.thing(
-    ) = UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing;
+/// <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp]) -->
+class TestLeadingUnderscoredPropStruct implements TestAPI.TestLeadingUnderscoredProp {
+    String m_leadingUnderscoreProp;
 
-    const UnicodeScalar_PuttingTypesIntoQuestionablePlaces();
+    TestLeadingUnderscoredPropStruct({
+        required String m_leadingUnderscoreProp
+    }):
+        this.m_leadingUnderscoreProp = m_leadingUnderscoreProp;
 
-    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
-        final peekedObj = peekRef<UnicodeScalar_PuttingTypesIntoQuestionablePlaces>(obj);
-        if (peekedObj is UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing) { return 0; }
-        else { throw UnsupportedError('Unknown UnicodeScalar_PuttingTypesIntoQuestionablePlaces subclass'); }
-    });
-
-    static CreatedRef newThing(
+    static CreatedRef ffi_constructor(
+        ConsumedRef m_leadingUnderscoreProp,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
-        createRef(UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing(
+        createRef(TestLeadingUnderscoredPropStruct(
+            m_leadingUnderscoreProp: consumeRef(m_leadingUnderscoreProp),
         ))
     );
+    @override
+    String toString() => 'TestLeadingUnderscoredPropStruct(m_leadingUnderscoreProp: $m_leadingUnderscoreProp)';
 
-    static void extractThing(
+    static CreatedRef ffi_get__leadingUnderscoreProp(
         UnownedRef obj,
         OutCreatedRef exn
-    ) {
-        catching(exn, () {
-            final _self = peekRef<UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing>(obj);
-        });
-    }
-
-    /// <!-- FishyJoes.export(testCall) -->
-    int testCall(
-    ) =>
-        GCRef.using(this, (_thisHandle) =>
-            check((OutCreatedRef _exn) => f__iota_Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_testCall(Loader.shared.env, _thisHandle.ptr, _exn))
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestLeadingUnderscoredPropStruct>(obj).m_leadingUnderscoreProp
         )
-    ;
-
-    static late int Function(
-        Env env,
-        UnownedRef _this,
-        OutCreatedRef _exn
-    ) f__iota_Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_testCall;
-}
-
-class UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing extends UnicodeScalar_PuttingTypesIntoQuestionablePlaces {
-    const UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing();
+    );
+    static void ffi_set__leadingUnderscoreProp(
+        UnownedRef obj,
+        ConsumedRef newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        peekRef<TestLeadingUnderscoredPropStruct>(obj).m_leadingUnderscoreProp = consumeRef<String>(newValue);
+    });
 
     @override
     bool operator ==(Object other) {
         return identical(other, this) ||
         (
             other.runtimeType == runtimeType &&
-            other is UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing
+            other is TestLeadingUnderscoredPropStruct &&
+            (
+                const DeepCollectionEquality().equals(other.m_leadingUnderscoreProp, m_leadingUnderscoreProp)
+            )
         );
     }
 
     @override
-    int get hashCode => runtimeType.hashCode;
+    int get hashCode => Object.hash(
+        runtimeType,
+        const DeepCollectionEquality().hash(m_leadingUnderscoreProp)
+    );
 
-    @override
-    String toString() => 'UnicodeScalar_PuttingTypesIntoQuestionablePlaces.thing()';
-
-    UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing copyWith() => UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing();
+    TestLeadingUnderscoredPropStruct copyWith({
+        String? m_leadingUnderscoreProp
+    }) => TestLeadingUnderscoredPropStruct(
+        m_leadingUnderscoreProp: m_leadingUnderscoreProp ?? this.m_leadingUnderscoreProp
+    );
 }

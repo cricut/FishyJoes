@@ -58,67 +58,28 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
-/// <!-- FishyJoes.export(UnicodeScalar_PuttingTypesIntoQuestionablePlaces) -->
-sealed class UnicodeScalar_PuttingTypesIntoQuestionablePlaces {
-    const factory UnicodeScalar_PuttingTypesIntoQuestionablePlaces.thing(
-    ) = UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing;
-
-    const UnicodeScalar_PuttingTypesIntoQuestionablePlaces();
-
-    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
-        final peekedObj = peekRef<UnicodeScalar_PuttingTypesIntoQuestionablePlaces>(obj);
-        if (peekedObj is UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing) { return 0; }
-        else { throw UnsupportedError('Unknown UnicodeScalar_PuttingTypesIntoQuestionablePlaces subclass'); }
-    });
-
-    static CreatedRef newThing(
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing(
-        ))
+/// <!-- FishyJoes.export(TestLeadingUnderscoredProp) -->
+class ExternalWitness_TestLeadingUnderscoredProp extends SwiftReference implements TestAPI.TestLeadingUnderscoredProp {
+    ExternalWitness_TestLeadingUnderscoredProp(ffi.Pointer reference): super(reference) {}
+    static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
+        createRef(ExternalWitness_TestLeadingUnderscoredProp(ref))
     );
 
-    static void extractThing(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) {
-        catching(exn, () {
-            final _self = peekRef<UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing>(obj);
-        });
-    }
+    @override
+    String toString() => 'ExternalWitness_TestLeadingUnderscoredProp(m_leadingUnderscoreProp: $m_leadingUnderscoreProp)';
 
-    /// <!-- FishyJoes.export(testCall) -->
-    int testCall(
-    ) =>
+    /// <!-- FishyJoes.export(_leadingUnderscoreProp) -->
+    String get m_leadingUnderscoreProp =>
         GCRef.using(this, (_thisHandle) =>
-            check((OutCreatedRef _exn) => f__iota_Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_testCall(Loader.shared.env, _thisHandle.ptr, _exn))
+            check((exn) =>
+                consumeCreatedRef<String>(f__iota_get_TestAPI_TestLeadingUnderscoredProp__leadingUnderscoreProp(Loader.shared.env, _thisHandle.ptr, exn))
+            )
         )
     ;
 
-    static late int Function(
+    static late CreatedRef Function(
         Env env,
         UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_testCall;
-}
-
-class UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing extends UnicodeScalar_PuttingTypesIntoQuestionablePlaces {
-    const UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing();
-
-    @override
-    bool operator ==(Object other) {
-        return identical(other, this) ||
-        (
-            other.runtimeType == runtimeType &&
-            other is UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing
-        );
-    }
-
-    @override
-    int get hashCode => runtimeType.hashCode;
-
-    @override
-    String toString() => 'UnicodeScalar_PuttingTypesIntoQuestionablePlaces.thing()';
-
-    UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing copyWith() => UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing();
+    ) f__iota_get_TestAPI_TestLeadingUnderscoredProp__leadingUnderscoreProp;
 }

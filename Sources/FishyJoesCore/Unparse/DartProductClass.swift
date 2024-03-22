@@ -49,6 +49,10 @@ class DartProductClass: DartClass {
             conformancesPart.append(" implements ")
             conformancesPart.append(conformances.map { "\(module).\($0)" }.joined(separator: ", "))
         }
+        
+        if conformancesPart.contains("Underscore") {
+            let elegoo = 1
+        }
 
         commonIgnoreSpecificWarnings(fragment: fragment)
 
@@ -113,17 +117,18 @@ class DartProductClass: DartClass {
 
                 fragment.outputBlock("static CreatedRef ffi_constructor(", newLineTerminated: false) {
                     for field in fields {
-                        fragment.output("\(field.type.ffiConsumedName) \(field.name),")
+                        fragment.output("\(field.type.ffiConsumedName) \(DartClass.deforbidify(field.name)),")
                     }
                     fragment.output("OutCreatedRef exn")
                 }
                 fragment.outputBlock(" => catchingRef(exn, () =>", closeWith: ");") {
                     fragment.outputBlock("createRef(\(unqualifiedName)(", closeWith: "))") {
                         for field in fields {
+                            let fieldName = DartClass.deforbidify(field.name)
                             if field.type.isObject {
-                                fragment.output("\(field.name): consumeRef(\(field.name)),")
+                                fragment.output("\(fieldName): consumeRef(\(fieldName)),")
                             } else {
-                                fragment.output("\(field.name): \(field.name),")
+                                fragment.output("\(fieldName): \(fieldName),")
                             }
                         }
                     }
