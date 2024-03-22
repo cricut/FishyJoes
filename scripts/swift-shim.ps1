@@ -1,5 +1,8 @@
 #!/usr/bin/env powershell
 
+# ??!?? https://github.com/PowerShell/PowerShell/issues/14100
+Import-Module Microsoft.PowerShell.Utility;
+
 $ErrorActionPreference = "Stop"
 $DebugPreference = "Continue"
 # Set-PSDebug -Trace 1
