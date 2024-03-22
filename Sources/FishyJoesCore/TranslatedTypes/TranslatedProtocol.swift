@@ -706,9 +706,9 @@ struct TranslatedProtocol: TranslatedType {
                 for field in fields {
                     let resolved = context.resolve(type: field.typeName.better)
                     let jniSignature = resolved.jniType.asSignature
-                    fragment.output("\(foreignProtocolType)._\(field.name)GetMethodID = try env.GetMethodID(javaClass, \"get\(field.name.capitalized)\", \"()\(jniSignature)\")")
+                    fragment.output("\(foreignProtocolType)._\(field.name)GetMethodID = try env.GetMethodID(javaClass, \"get\(upperCaseFirst(field.name))\", \"()\(jniSignature)\")")
                     if field.isMutable {
-                        fragment.output("\(foreignProtocolType)._\(field.name)SetMethodID = try env.GetMethodID(javaClass, \"set\(field.name.capitalized)\", \"(\(jniSignature))V\")")
+                        fragment.output("\(foreignProtocolType)._\(field.name)SetMethodID = try env.GetMethodID(javaClass, \"set\(upperCaseFirst(field.name))\", \"(\(jniSignature))V\")")
                     }
                 }
                 for normalMethod in normalMethods {

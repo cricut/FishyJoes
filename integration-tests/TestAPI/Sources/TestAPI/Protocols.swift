@@ -217,3 +217,33 @@ public class TestProtocolClass: TestMethodsProtocol, TestPropertiesProtocol, Tes
         pippo.intValue
     }
 }
+
+/// <!-- FishyJoes.export(TestLeadingUnderscoredProp) -->
+public protocol TestLeadingUnderscoredProp {
+    /// <!-- FishyJoes.export(_leadingUnderscoreProp) -->
+    var _leadingUnderscoreProp: String { get throws }
+}
+
+// TODO: make this work for Kotlin
+///// <!-- FishyJoes.export(TestLeadingUnderscoredMethod) -->
+// public protocol TestLeadingUnderscoredMethod {
+//    /// <!-- FishyJoes.export(_leadingUnderscoreMethod) -->
+//    func _leadingUnderscoreMethod() throws -> String
+// }
+
+///// <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp, TestLeadingUnderscoredMethod]) -->
+// public struct TestLeadingUnderscoredPropStruct: TestLeadingUnderscoredProp, TestLeadingUnderscoredMethod {
+/// <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp]) -->
+public struct TestLeadingUnderscoredPropStruct: TestLeadingUnderscoredProp {
+    public var _leadingUnderscoreProp: String
+
+    public init(_leadingUnderscoreProp: String) {
+        self._leadingUnderscoreProp = _leadingUnderscoreProp
+    }
+
+    // TODO: make this work for Kotlin
+//    /// <!-- FishyJoes.export(_leadingUnderscoreMethod) -->
+//    public func _leadingUnderscoreMethod() throws -> String {
+//        "Captain Planet, he's our hero; Gonna take pollution down to zero."
+//    }
+}

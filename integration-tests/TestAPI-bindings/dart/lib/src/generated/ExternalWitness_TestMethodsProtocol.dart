@@ -14,6 +14,7 @@ import './DefaultArguments.dart' as TestAPI;
 import './Deprecations.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
 import './ExternalWitness_AProtocol.dart' as TestAPI;
+import './ExternalWitness_TestLeadingUnderscoredProp.dart' as TestAPI;
 import './ExternalWitness_TestMethodsProtocol.dart' as TestAPI;
 import './ExternalWitness_TestOptionalsProtocol.dart' as TestAPI;
 import './ExternalWitness_TestPropertiesProtocol.dart' as TestAPI;
@@ -30,6 +31,8 @@ import './Structs_MemberwiseStruct.dart' as TestAPI;
 import './Structs_MutableStruct.dart' as TestAPI;
 import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Structs_ReferenceStruct.dart' as TestAPI;
+import './TestLeadingUnderscoredProp.dart' as TestAPI;
+import './TestLeadingUnderscoredPropStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
 import './TestOptionalsProtocol.dart' as TestAPI;
 import './TestPropertiesProtocol.dart' as TestAPI;
@@ -143,7 +146,7 @@ class ExternalWitness_TestMethodsProtocol extends SwiftReference implements Test
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,
-        UnownedRef _0,
+        UnownedRef m_0,
         OutCreatedRef _exn
     ) f__iota_TestAPI_TestMethodsProtocol_garply;
     static late CreatedRef Function(
