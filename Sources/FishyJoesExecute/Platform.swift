@@ -168,7 +168,7 @@ enum Platform: CustomStringConvertible, Hashable {
         var args = arguments
 
         // Read "SWIFT_PACKAGE_RESOLVE" from our environment variables, and pass as flag to swift compiler
-        if ProcessInfo.processInfo.environmend["SWIFT_PACKAGE_RESOLVE"] == "0" {
+        if ProcessInfo.processInfo.environment["SWIFT_PACKAGE_RESOLVE"] == "0" {
             args.append("--force-resolved-versions")
         }
 
