@@ -183,7 +183,7 @@ enum Platform: CustomStringConvertible, Hashable {
         var env: [String: String] = addEnv
         env["SWIFT_PACKAGE_FORCE_DYNAMIC"] = "1"
         env["FISHYJOES_TARGET_PLATFORM"] = "\(self)"
-        env["EXTRA_LIBPATH"] = try platform.extraLibPathDir(configuration)
+        env["EXTRA_LIBPATH"] = try? extraLibPathDir(configuration)
         switch self {
         case .wasm:
             path = "\(wasmToolchain)\(ps)usr\(ps)bin\(ps)swift-build"
