@@ -65,33 +65,6 @@ class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsPro
     @override
     String toString() => 'TestProtocolClass(corge: $corge, flarp: $flarp, frob: $frob)';
 
-    static CreatedRef ffi_get_corge(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<TestProtocolClass>(obj).corge
-        )
-    );
-
-    static CreatedRef ffi_get_flarp(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<TestProtocolClass>(obj).flarp
-        )
-    );
-
-    static CreatedRef ffi_get_frob(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<TestProtocolClass>(obj).frob
-        )
-    );
-
     /// <!-- FishyJoes.export(corge) -->
     String get corge =>
         GCRef.using(this, (_thisHandle) =>

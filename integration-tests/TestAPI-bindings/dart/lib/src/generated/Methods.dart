@@ -65,69 +65,6 @@ class Methods extends SwiftReference {
     @override
     String toString() => 'Methods(staticGet: $staticGet, staticGetMethod: $staticGetMethod, staticModifiable: $staticModifiable, staticStored: $staticStored, instanceGet: $instanceGet, garply: $garply, instanceGetMethod: $instanceGetMethod, instanceModifiable: $instanceModifiable, instanceStored: $instanceStored)';
 
-    static int ffi_get_staticGet(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catching(exn, () =>
-        Methods.staticGet
-    ) ?? 0;
-
-    static int ffi_get_staticGetMethod(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catching(exn, () =>
-        Methods.staticGetMethod
-    ) ?? 0;
-
-    static int ffi_get_staticModifiable(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catching(exn, () =>
-        Methods.staticModifiable
-    ) ?? 0;
-
-    static int ffi_get_staticStored(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catching(exn, () =>
-        Methods.staticStored
-    ) ?? 0;
-
-    static int ffi_get_instanceGet(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catching(exn, () =>
-        peekRef<Methods>(obj).instanceGet
-    ) ?? 0;
-
-    static int ffi_get_garply(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catching(exn, () =>
-        peekRef<Methods>(obj).garply
-    ) ?? 0;
-
-    static int ffi_get_instanceGetMethod(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catching(exn, () =>
-        peekRef<Methods>(obj).instanceGetMethod
-    ) ?? 0;
-
-    static int ffi_get_instanceModifiable(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catching(exn, () =>
-        peekRef<Methods>(obj).instanceModifiable
-    ) ?? 0;
-
-    static int ffi_get_instanceStored(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catching(exn, () =>
-        peekRef<Methods>(obj).instanceStored
-    ) ?? 0;
-
     /// <!-- FishyJoes.export(staticGet) -->
     static int get staticGet =>
         check((exn) =>

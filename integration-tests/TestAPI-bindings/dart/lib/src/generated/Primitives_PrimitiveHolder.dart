@@ -200,31 +200,6 @@ class Primitives_PrimitiveHolder {
     @override
     String toString() => 'Primitives_PrimitiveHolder(b: $b, bq: $bq, ui8: $ui8, ui8q: $ui8q, ui16: $ui16, ui16q: $ui16q, ui32: $ui32, ui32q: $ui32q, ui64: $ui64, ui64q: $ui64q, ui: $ui, uiq: $uiq, i8: $i8, i8q: $i8q, i16: $i16, i16q: $i16q, i32: $i32, i32q: $i32q, i64: $i64, i64q: $i64q, i: $i, iq: $iq, f: $f, fq: $fq, d: $d, dq: $dq)';
 
-    static CreatedRef ffi_get_staticProperty(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            Primitives_PrimitiveHolder.staticProperty
-        )
-    );
-
-    static CreatedRef ffi_get_staticMutableProperty(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            Primitives_PrimitiveHolder.staticMutableProperty
-        )
-    );
-    static void ffi_set_staticMutableProperty(
-        UnownedRef obj,
-        ConsumedRef newValue,
-        OutCreatedRef exn
-    ) => catching(exn, () {
-        Primitives_PrimitiveHolder.staticMutableProperty = consumeRef<List<int?>>(newValue);
-    });
-
     static bool ffi_get_b(
         UnownedRef obj,
         OutCreatedRef exn

@@ -65,24 +65,6 @@ class Actors_TemperatureLogger extends SwiftReference {
     @override
     String toString() => 'Actors_TemperatureLogger(label: $label, backwardsLabel: $backwardsLabel)';
 
-    static CreatedRef ffi_get_label(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<Actors_TemperatureLogger>(obj).label
-        )
-    );
-
-    static CreatedRef ffi_get_backwardsLabel(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<Actors_TemperatureLogger>(obj).backwardsLabel
-        )
-    );
-
     /// <!-- FishyJoes.export(label) -->
     String get label =>
         GCRef.using(this, (_thisHandle) =>

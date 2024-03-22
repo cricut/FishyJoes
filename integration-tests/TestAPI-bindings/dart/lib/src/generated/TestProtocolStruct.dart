@@ -75,15 +75,6 @@ class TestProtocolStruct implements TestAPI.TestMethodsProtocol, TestAPI.TestPro
     @override
     String toString() => 'TestProtocolStruct(corge: $corge)';
 
-    static CreatedRef ffi_get_frob(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<TestProtocolStruct>(obj).frob
-        )
-    );
-
     static CreatedRef ffi_get_corge(
         UnownedRef obj,
         OutCreatedRef exn
