@@ -35,7 +35,7 @@ public func TestAPI_CommonInterface__TestLeadingUnderscoredPropConverter_setup(
     TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter.__leadingUnderscorePropGetter[env] = _leadingUnderscorePropGetter
 }
 
-extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: IotaMutator {
+extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: IotaProtocolMutator {
     public typealias CType = foreignObject
     public typealias _ConstructorMethod = @convention(c) (
         _ ref: UnsafeMutableRawPointer,
@@ -62,8 +62,5 @@ extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: IotaMuta
                 exn
             )
         }
-    }
-
-    public static func mutateIota(_ this: foreignObject, to value: SwiftType, env: Env) throws {
     }
 }

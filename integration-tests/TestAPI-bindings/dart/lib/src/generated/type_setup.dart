@@ -307,16 +307,16 @@ typedef _TestAPI_TestMethodsProtocol_garply = CreatedRef Function(UnownedRef obj
 typedef _TestAPI_TestMethodsProtocol_xyzzy = CreatedRef Function(UnownedRef obj, ffi.IntPtr thud, ffi.Pointer grault, OutCreatedRef exn);
 typedef _TestAPI_TestMethodsProtocol_plugh = CreatedRef Function(UnownedRef obj, ffi.Pointer fred, OutCreatedRef exn);
 typedef _TestAPI_TestMutatingCounterConstructor = CreatedRef Function(
-    ffi.Int count,
+    ffi.IntPtr count,
     OutCreatedRef exn
 );
-typedef _TestAPI_TestMutatingCounter_countGetter = ffi.Int Function(UnownedRef obj, OutCreatedRef exn);
-typedef _TestAPI_TestMutatingCounter_countSetter = ffi.Void Function(UnownedRef obj, ffi.Int newValue, OutCreatedRef exn);
+typedef _TestAPI_TestMutatingCounter_countGetter = ffi.IntPtr Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestMutatingCounter_countSetter = ffi.Void Function(UnownedRef obj, ffi.IntPtr newValue, OutCreatedRef exn);
 typedef _TestAPI_TestMutatingCounterProtocolConstructor = CreatedRef Function(
     ffi.Pointer ref,
     OutCreatedRef exn
 );
-typedef _TestAPI_TestMutatingCounterProtocol_countGetter = ffi.Int Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestMutatingCounterProtocol_countGetter = ffi.IntPtr Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestMutatingCounterProtocol_tick = ffi.Void Function(UnownedRef obj,  OutCreatedRef exn);
 typedef _TestAPI_TestMutatingCounterProtocol_witness = CreatedRef Function(UnownedRef obj,  OutCreatedRef exn);
 typedef _TestAPI_TestMutatingCounterProtocol_tickTwice = ffi.Void Function(UnownedRef obj,  OutCreatedRef exn);
@@ -4771,18 +4771,6 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_Structs_ReferenceStruct_mutable");
-    TestAPI.ExternalWitness_TestMutatingCounterProtocol.f__iota_get_TestAPI_TestMutatingCounterProtocol_count = dylib.lookupFunction<
-        ffi.Int Function(
-            Env env,
-            UnownedRef _this,
-            OutCreatedRef _exn
-        ),
-        int Function(
-            Env env,
-            UnownedRef _this,
-            OutCreatedRef _exn
-        )
-    >("__iota_get_TestAPI_TestMutatingCounterProtocol_count");
     TestAPI.ExternalWitness_TestLeadingUnderscoredProp.f__iota_get_TestAPI_TestLeadingUnderscoredProp__leadingUnderscoreProp = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -4795,6 +4783,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_TestLeadingUnderscoredProp__leadingUnderscoreProp");
+    TestAPI.ExternalWitness_TestMutatingCounterProtocol.f__iota_get_TestAPI_TestMutatingCounterProtocol_count = dylib.lookupFunction<
+        ffi.IntPtr Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestMutatingCounterProtocol_count");
     TestAPI.ExternalWitness_TestOptionalsProtocol.f__iota_get_TestAPI_TestOptionalsProtocol_flarp = dylib.lookupFunction<
         CreatedRef Function(
             Env env,

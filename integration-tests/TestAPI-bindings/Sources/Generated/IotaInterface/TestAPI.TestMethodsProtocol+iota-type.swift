@@ -134,7 +134,7 @@ public func TestAPI_CommonInterface__TestMethodsProtocolConverter_setup(
     TestAPI_CommonInterface._TestMethodsProtocolConverter._plugh[env] = plugh
 }
 
-extension TestAPI_CommonInterface._TestMethodsProtocolConverter: IotaMutator {
+extension TestAPI_CommonInterface._TestMethodsProtocolConverter: IotaProtocolMutator {
     public typealias CType = foreignObject
     public typealias _ConstructorMethod = @convention(c) (
         _ ref: UnsafeMutableRawPointer,
@@ -189,10 +189,5 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: IotaMutator {
                 exn
             )
         }
-    }
-
-    public static func mutateIota(_ this: foreignObject, to value: SwiftType, env: Env) throws {
-        let box = try Box<SwiftType>.peekIota(this, env: env)
-        box.value = value
     }
 }

@@ -489,7 +489,7 @@ struct TranslatedProtocol: TranslatedType {
         }
         fragment.blankLine()
 
-        fragment.outputBlock("extension \(converterType.name): IotaMutator {") {
+        fragment.outputBlock("extension \(converterType.name): IotaProtocolMutator {") {
             fragment.output("public typealias CType = foreignObject")
 
             fragment.outputBlock("public typealias _ConstructorMethod = @convention(c) (", closeWith: ") -> foreignObject") {
@@ -537,12 +537,6 @@ struct TranslatedProtocol: TranslatedType {
                         fragment.output("exn")
                     }
                 }
-            }
-            fragment.blankLine()
-
-            fragment.outputBlock("public static func mutateIota(_ this: foreignObject, to value: SwiftType, env: Env) throws {") {
-                fragment.output("let box = try Box<SwiftType>.peekIota(this, env: env)")
-                fragment.output("box.value = value")
             }
         }
 

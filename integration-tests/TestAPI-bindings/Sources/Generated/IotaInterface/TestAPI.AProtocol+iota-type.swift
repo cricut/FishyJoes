@@ -113,7 +113,7 @@ public func TestAPI_CommonInterface__AProtocolConverter_setup(
     TestAPI_CommonInterface._AProtocolConverter._hasADefaultImplementation2[env] = hasADefaultImplementation2
 }
 
-extension TestAPI_CommonInterface._AProtocolConverter: IotaMutator {
+extension TestAPI_CommonInterface._AProtocolConverter: IotaProtocolMutator {
     public typealias CType = foreignObject
     public typealias _ConstructorMethod = @convention(c) (
         _ ref: UnsafeMutableRawPointer,
@@ -160,10 +160,5 @@ extension TestAPI_CommonInterface._AProtocolConverter: IotaMutator {
                 exn
             )
         }
-    }
-
-    public static func mutateIota(_ this: foreignObject, to value: SwiftType, env: Env) throws {
-        let box = try Box<SwiftType>.peekIota(this, env: env)
-        box.value = value
     }
 }
