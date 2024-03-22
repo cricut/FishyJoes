@@ -1969,7 +1969,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up TestAPI.TestMutatingCounter...")
         try TestAPI.TestMutatingCounter.javaSetup(env: env)
         try env.RegisterNatives(
-            TestAPI.TestMutatingCounter.externalWitnessClass ?? TestAPI.TestMutatingCounter.javaClass,
+            TestAPI.TestMutatingCounter.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_tick"),
                 signature: bag.add("()V"),
@@ -1992,7 +1992,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
             )
         )
         try env.RegisterNatives(
-            TestAPI_CommonInterface._TestMutatingCounterProtocolConverter.externalWitnessClass ?? TestAPI_CommonInterface._TestMutatingCounterProtocolConverter.javaClass,
+            TestAPI_CommonInterface._TestMutatingCounterProtocolConverter.externalWitnessClass!,
             JNINativeMethod(
                 name: bag.add("__jni_tick"),
                 signature: bag.add("()V"),
