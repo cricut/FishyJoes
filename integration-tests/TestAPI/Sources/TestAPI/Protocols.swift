@@ -226,13 +226,13 @@ public protocol TestLeadingUnderscoredProp {
 
 // TODO: make this work for Kotlin
 ///// <!-- FishyJoes.export(TestLeadingUnderscoredMethod) -->
-//public protocol TestLeadingUnderscoredMethod {
+// public protocol TestLeadingUnderscoredMethod {
 //    /// <!-- FishyJoes.export(_leadingUnderscoreMethod) -->
 //    func _leadingUnderscoreMethod() throws -> String
-//}
+// }
 
 ///// <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp, TestLeadingUnderscoredMethod]) -->
-//public struct TestLeadingUnderscoredPropStruct: TestLeadingUnderscoredProp, TestLeadingUnderscoredMethod {
+// public struct TestLeadingUnderscoredPropStruct: TestLeadingUnderscoredProp, TestLeadingUnderscoredMethod {
 /// <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp]) -->
 public struct TestLeadingUnderscoredPropStruct: TestLeadingUnderscoredProp {
     public var _leadingUnderscoreProp: String
