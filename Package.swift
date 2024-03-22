@@ -50,7 +50,11 @@ let package = Package(
             P.executable(name: "🐟☕️", targets: ["FishyJoesExecutionHelper"]),
         ]
     ),
-    dependencies: generationEnabled(
+    dependencies:
+        (androidCompatibleOnly || wasmCompatibleOnly ? [] : [
+             D.package(url: "https://github.com/cobbal/Yams", branch: "cobbal/filenames"),
+         ]) +
+        generationEnabled(
         [
             D.package(
                 url: "https://github.com/krzysztofzablocki/Sourcery", branch: "2.0.2"
@@ -61,9 +65,7 @@ let package = Package(
             D.package(url: "https://github.com/mstokercricut/swsh", exact: "5.0.0-alpha0"),
             D.package(url: "https://github.com/apple/swift-argument-parser", from: "1.2.2"),
         ]
-    ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] : [
-        D.package(url: "https://github.com/jpsim/Yams", .upToNextMinor(from: "5.0.3")),
-    ]),
+        ),
     targets: [
         T.target(name: "FishyJoesCommonRuntime"),
         // Kotlin / Java
