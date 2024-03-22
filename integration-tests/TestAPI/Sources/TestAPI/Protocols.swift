@@ -237,7 +237,7 @@ public struct TestLeadingUnderscoredPropStruct: TestLeadingUnderscoredProp, Test
     public init(_leadingUnderscoreProp: String) {
         self._leadingUnderscoreProp = _leadingUnderscoreProp
     }
-    
+
     /// <!-- FishyJoes.export(_leadingUnderscoreMethod) -->
     public func _leadingUnderscoreMethod() throws -> String {
         "Captain Planet, he's our hero; Gonna take pollution down to zero."
