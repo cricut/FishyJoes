@@ -81,9 +81,10 @@ void main() {
         expect(testProtocolClass.plugh(tuple.Tuple3<bool, double, List<String>>(true, 92.47, ["Please let this be a normal field trip", "I knew I should've stayed home today"])), equals(tuple.Tuple3<bool, int, String>(true, 83, "Please let this be a normal field trip _-^= I knew I should've stayed home today")));
       });
 
-      test('testLeadingUnderscoreProp', () {
+      test('testLeadingUnderscoreInNames', () {
         final lups = TestLeadingUnderscoredPropStruct(m_leadingUnderscoreProp: "With great power comes great responsibility.");
         expect(lups.m_leadingUnderscoreProp, equals("With great power comes great responsibility."));
+        // test for _leadingUnderscoreMethod is just that tests build and run, since currently leading underscore on method name means it's only visible on the Swift side, not the Foreign/Dart side.
       });
   });
 

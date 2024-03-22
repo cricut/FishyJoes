@@ -1941,6 +1941,19 @@ export declare namespace TestAPI {
     }
 
     /**
+     * <!-- FishyJoes.export(TestLeadingUnderscoredMethod) -->
+     */
+    export class TestLeadingUnderscoredMethod {
+        constructor()
+
+        /**
+         * <!-- FishyJoes.export(_leadingUnderscoreMethod) -->
+         */
+        _leadingUnderscoreMethod(
+        ): string;
+    }
+
+    /**
      * <!-- FishyJoes.export(TestLeadingUnderscoredProp) -->
      */
     export class TestLeadingUnderscoredProp {
@@ -1953,12 +1966,18 @@ export declare namespace TestAPI {
     }
 
     /**
-     * <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp]) -->
+     * <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp, TestLeadingUnderscoredMethod]) -->
      */
     export class TestLeadingUnderscoredPropStruct {
         constructor(_leadingUnderscoreProp: string)
 
         _leadingUnderscoreProp: string;
+
+        /**
+         * <!-- FishyJoes.export(_leadingUnderscoreMethod) -->
+         */
+        _leadingUnderscoreMethod(
+        ): string;
     }
 
     /**

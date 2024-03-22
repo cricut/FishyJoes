@@ -7,37 +7,40 @@ import Foundation
 import TestAPI
 import TestAPI_CommonInterface
 
-extension TestAPI.TestLeadingUnderscoredPropStruct: NodeMutator {
-    public typealias SwiftType = Self
-    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        Self(
-            _leadingUnderscoreProp: try { () -> Swift.String in
-                let fieldValue = try env.getNamedProperty(value, "_leadingUnderscoreProp")
-                return try Swift.String.fromNode(fieldValue, env: env)
-            }()
+struct _NodeTestLeadingUnderscoredMethod: TestAPI.TestLeadingUnderscoredMethod {
+    let _nodeWitness: NodeReference
+
+    var _leadingUnderscoreMethodImpl: (() -> String)?
+    public func _leadingUnderscoreMethod() throws -> String {
+        _leadingUnderscoreMethodImpl!()
+    }
+}
+extension TestAPI_CommonInterface._TestLeadingUnderscoredMethodConverter: NodeMutator {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
+        return _NodeTestLeadingUnderscoredMethod(
+            _nodeWitness: try NodeReference(env: env, value: value)
         )
     }
-    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try NodeClass.constructor(for: "TestLeadingUnderscoredPropStruct", env: env)
+    public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
+        let constructor = try NodeClass.constructor(for: "TestLeadingUnderscoredMethod", env: env)
         let args: [NAPI.Value] = [
-            try Swift.String.toNode(value._leadingUnderscoreProp, env: env),
         ]
         return try env.newInstance(constructor, args)
     }
-    public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {
-        try env.setNamedProperty(this, "_leadingUnderscoreProp", Swift.String.toNode(value._leadingUnderscoreProp, env: env))
+    public static func mutateNode(_ value: SwiftType, this: NAPI.Value, env: NAPI.Env) throws {
     }
+
     @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
-            name: "TestLeadingUnderscoredPropStruct",
+            name: "TestLeadingUnderscoredMethod",
             properties: [
                 "_leadingUnderscoreMethod": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "_leadingUnderscoreMethod", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
-                                env.this(converter: TestAPI.TestLeadingUnderscoredPropStruct.self)._leadingUnderscoreMethod(
+                                env.this(converter: TestAPI_CommonInterface._TestLeadingUnderscoredMethodConverter.self)._leadingUnderscoreMethod(
                                 ),
                                 env: env.env
                             )
@@ -46,13 +49,11 @@ extension TestAPI.TestLeadingUnderscoredPropStruct: NodeMutator {
                     },
                     isStatic: false
                 ),
-                "_leadingUnderscoreProp": (.stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in
-                callbackBody(env, info, name: "TestLeadingUnderscoredPropStruct_constructor", expectedArgumentCount: 1) { env in
+                callbackBody(env, info, name: "TestLeadingUnderscoredMethod_constructor", expectedArgumentCount: 0) { env in
                     // TODO: typecheck?
                     let this = try env.this()
-                    try env.env.setNamedProperty(this, "_leadingUnderscoreProp", env.argument(at: 0))
                     return this
                 }
             }
@@ -60,7 +61,7 @@ extension TestAPI.TestLeadingUnderscoredPropStruct: NodeMutator {
         try mergeDefinitionInto(
             env: env,
             module: module,
-            path: "TestLeadingUnderscoredPropStruct",
+            path: "TestLeadingUnderscoredMethod",
             nodeClass: nodeClass.constructor.value(env: env)
         )
     }

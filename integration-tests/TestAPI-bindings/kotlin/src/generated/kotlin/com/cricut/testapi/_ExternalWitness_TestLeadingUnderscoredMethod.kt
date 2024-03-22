@@ -3,12 +3,7 @@ package com.cricut.testapi
 import kotlinx.coroutines.*
 import java.lang.Exception
 
-/**
- * <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp, TestLeadingUnderscoredMethod]) -->
- */
-data class TestLeadingUnderscoredPropStruct(
-    override var _leadingUnderscoreProp: kotlin.String
-): TestLeadingUnderscoredMethod, TestLeadingUnderscoredProp {
+private class _ExternalWitness_TestLeadingUnderscoredMethod private constructor(_swiftReference: Long): TestLeadingUnderscoredMethod, com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference) {
     /**
      * <!-- FishyJoes.export(_leadingUnderscoreMethod) -->
      */

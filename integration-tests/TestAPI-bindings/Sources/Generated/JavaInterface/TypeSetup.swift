@@ -1919,6 +1919,16 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         )
         // print("setting up TestAPI.Structs...")
         try TestAPI.Structs.javaSetup(env: env)
+        // print("setting up TestAPI_CommonInterface._TestLeadingUnderscoredMethodConverter...")
+        try TestAPI_CommonInterface._TestLeadingUnderscoredMethodConverter.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI_CommonInterface._TestLeadingUnderscoredMethodConverter.externalWitnessClass!,
+            JNINativeMethod(
+                name: bag.add("__jni__leadingUnderscoreMethod"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestLeadingUnderscoredMethodConverter__leadingUnderscoreMethod, to: UnsafeMutableRawPointer.self)
+            )
+        )
         // print("setting up TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter...")
         try TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter.javaSetup(env: env)
         try env.RegisterNatives(
@@ -1931,6 +1941,14 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         )
         // print("setting up TestAPI.TestLeadingUnderscoredPropStruct...")
         try TestAPI.TestLeadingUnderscoredPropStruct.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI.TestLeadingUnderscoredPropStruct.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni__leadingUnderscoreMethod"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestLeadingUnderscoredPropStruct__leadingUnderscoreMethod, to: UnsafeMutableRawPointer.self)
+            )
+        )
         // print("setting up TestAPI_CommonInterface._TestMethodsProtocolConverter...")
         try TestAPI_CommonInterface._TestMethodsProtocolConverter.javaSetup(env: env)
         try env.RegisterNatives(

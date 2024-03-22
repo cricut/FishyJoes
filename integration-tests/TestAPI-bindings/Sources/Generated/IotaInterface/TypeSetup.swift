@@ -173,6 +173,7 @@ public func FishyJoes_TestAPI_registerTypes() {
     Env.registerType(TestAPI.SimpleEnum.self, as: "TestAPI.SimpleEnum")
     Env.registerType(TestAPI.Strings.self, as: "TestAPI.Strings")
     Env.registerType(TestAPI.Structs.self, as: "TestAPI.Structs")
+    Env.registerType(TestAPI_CommonInterface._TestLeadingUnderscoredMethodConverter.self, as: "TestAPI_CommonInterface._TestLeadingUnderscoredMethodConverter")
     Env.registerType(TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter.self, as: "TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter")
     Env.registerType(TestAPI.TestLeadingUnderscoredPropStruct.self, as: "TestAPI.TestLeadingUnderscoredPropStruct")
     Env.registerType(TestAPI_CommonInterface._TestMethodsProtocolConverter.self, as: "TestAPI_CommonInterface._TestMethodsProtocolConverter")

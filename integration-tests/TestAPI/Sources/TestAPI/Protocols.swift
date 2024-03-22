@@ -224,11 +224,22 @@ public protocol TestLeadingUnderscoredProp {
     var _leadingUnderscoreProp: String { get throws }
 }
 
-/// <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp]) -->
-public struct TestLeadingUnderscoredPropStruct: TestLeadingUnderscoredProp {
+/// <!-- FishyJoes.export(TestLeadingUnderscoredMethod) -->
+public protocol TestLeadingUnderscoredMethod {
+    /// <!-- FishyJoes.export(_leadingUnderscoreMethod) -->
+    func _leadingUnderscoreMethod() throws -> String
+}
+
+/// <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp, TestLeadingUnderscoredMethod]) -->
+public struct TestLeadingUnderscoredPropStruct: TestLeadingUnderscoredProp, TestLeadingUnderscoredMethod {
     public var _leadingUnderscoreProp: String
 
     public init(_leadingUnderscoreProp: String) {
         self._leadingUnderscoreProp = _leadingUnderscoreProp
+    }
+    
+    /// <!-- FishyJoes.export(_leadingUnderscoreMethod) -->
+    public func _leadingUnderscoreMethod() throws -> String {
+        "Captain Planet, he's our hero; Gonna take pollution down to zero."
     }
 }
