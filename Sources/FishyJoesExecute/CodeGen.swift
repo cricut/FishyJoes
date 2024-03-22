@@ -278,7 +278,9 @@ extension CodeGen {
             // When building a node native target on Windows, node.lib must be downloaded and put in the LIBPATH in order to build the NodeAPI dependency
             #if os(Windows)
             if platforms.contains(.node) {
-                try DownloadNodeLib.download(destination: "\(try Platform.node.extraLibPathDir(configuration))\(ps)node.lib")
+                try DownloadNodeLib.download(
+                    destinations: ["\(try Platform.node.extraLibPathDir(configuration))\(ps)node.lib"]
+                )
             }
             #endif
 
