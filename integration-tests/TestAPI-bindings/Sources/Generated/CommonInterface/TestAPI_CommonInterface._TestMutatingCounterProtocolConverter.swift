@@ -22,7 +22,7 @@ public struct TestMutatingCounterProtocol_sans_tickTwice: TestAPI.TestMutatingCo
         }
     }
 
-    public mutating func tick() throws -> Void {
+    public mutating func tick() throws {
         try wrapped.tick()
     }
 

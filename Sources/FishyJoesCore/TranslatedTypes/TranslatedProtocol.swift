@@ -243,7 +243,10 @@ struct TranslatedProtocol: TranslatedType {
                         continue
                     }
                     fragment.output()
-                    let returnSignature = "\(method.isThrowing ? " throws" : "") -> \(method.returnType.name)"
+                    var returnSignature = method.isThrowing ? " throws" : ""
+                    if method.returnType != .void {
+                        returnSignature += " -> \(method.returnType.name)"
+                    }
                     fragment.outputBlock("public \(method.isMutating ? "mutating " : "")func \(method.name)\(returnSignature) {", closeWith: "}") {
                         var methodParamsStr = [String]()
                         for param in method.parameters {
