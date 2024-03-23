@@ -150,12 +150,15 @@ final class KotlinTranslator: Translator {
                     }
 
                     mutateBlock {
+                        let sansMethodName = "\(typeName)_sans_\(method.callName)"
+                        if method.isDefaultImplementation {
+                            fragment.output("var wrapper = \(sansMethodName)(wrapped: mutatingSelf)")
+                            fragment.output("defer { mutatingSelf = wrapper.wrapped }")
+                            fragment.blankLine()
+                        }
                         fragment.outputBlock("return try \(returnType.converterType.name).toJava(") {
                             if method.isDefaultImplementation {
-                                fragment.outputBlock("\(method.isThrowing ? "try " : "")\(typeName)_sans_\(method.callName)(wrapped:", closeWith: ")", newLineTerminated: false) {
-                                    fragment.output("\(method.isThrowing ? "try " : "")\(selfExpression)")
-                                }
-                                fragment.outputBlock("\(callName)(", closeWith: "),") {
+                                fragment.outputBlock("try wrapper\(callName)(", closeWith: "),") {
                                     fragment.outputMap(method.parameters, separator: ",") { formal in
                                         let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
                                         return (formal.label.map { "\($0): " } ?? "") +

@@ -49,7 +49,7 @@ let java_TestAPI_CommonInterface__TestMutatingCounterProtocolConverter__default_
             defer { mutatingSelf = wrapper.wrapped }
 
             return try FishyJoesCommonRuntime.VoidConverter.toJava(
-                wrapper.tickTwice(
+                try wrapper.tickTwice(
                 ),
                 env: _javaEnv
             )
