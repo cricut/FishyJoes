@@ -58,7 +58,12 @@ extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: JavaMutator 
         )
     }
     public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout SwiftType) throws -> R) throws -> R {
-        try body(&Box<SwiftType>.fromJava(this, env: env).value)
+        if env.IsInstanceOf(this, AnyBox.javaClass) {
+            let box = try Box<SwiftType>.fromJava(this, env: env)
+            return try body(&box.value)
+        }
+        var javaWitness = _JavaTestPropertiesProtocol(_javaWitness: try JavaReference(local: this, env: env)) as SwiftType
+        return try body(&javaWitness)
     }
     public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout SwiftType, inout Env) async throws -> R) async throws -> R {
         try await body(&Box<SwiftType>.fromJava(this, env: env).value, &env)

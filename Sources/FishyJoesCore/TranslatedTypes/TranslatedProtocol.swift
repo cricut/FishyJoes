@@ -668,7 +668,12 @@ struct TranslatedProtocol: TranslatedType {
             }
 
             fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout SwiftType) throws -> R) throws -> R {") {
-                fragment.output("try body(&Box<SwiftType>.fromJava(this, env: env).value)")
+                fragment.outputBlock("if env.IsInstanceOf(this, AnyBox.javaClass) {") {
+                    fragment.output("let box = try Box<SwiftType>.fromJava(this, env: env)")
+                    fragment.output("return try body(&box.value)")
+                }
+                fragment.output("var javaWitness = \(foreignProtocolType)(_javaWitness: try JavaReference(local: this, env: env)) as SwiftType")
+                fragment.output("return try body(&javaWitness)")
             }
 
             fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout SwiftType, inout Env) async throws -> R) async throws -> R {") {

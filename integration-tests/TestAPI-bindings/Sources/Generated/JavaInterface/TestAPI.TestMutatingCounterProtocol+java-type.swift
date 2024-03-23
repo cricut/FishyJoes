@@ -94,7 +94,7 @@ extension TestAPI_CommonInterface._TestMutatingCounterProtocolConverter: JavaMut
             let box = try Box<SwiftType>.fromJava(this, env: env)
             return try body(&box.value)
         }
-        var javaWitness: any _TestMutatingCounterProtocolConverter.SwiftType = _JavaTestMutatingCounterProtocol(_javaWitness: try JavaReference(local: this, env: env))
+        var javaWitness = _JavaTestMutatingCounterProtocol(_javaWitness: try JavaReference(local: this, env: env)) as SwiftType
         return try body(&javaWitness)
     }
     public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout SwiftType, inout Env) async throws -> R) async throws -> R {
