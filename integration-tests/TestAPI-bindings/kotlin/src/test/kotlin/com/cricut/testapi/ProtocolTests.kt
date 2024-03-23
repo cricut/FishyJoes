@@ -145,14 +145,11 @@ internal class ProtocolTests {
         mc2.tick()
         assertEquals(130, mc2.count)
 
-        var mc3 = AMutatingCounter(count = 289)
-        println("a mc3: ${mc3}")
+        val mc3 = AMutatingCounter(count = 289)
         assertEquals(289, mc3.count)
         mc3.tick()
-        println("b mc3: ${mc3}")
         assertEquals(578, mc3.count)
         mc3.tickTwice()
-        println("c mc3: ${mc3}")
         assertEquals(2312, mc3.count)
     }
 
