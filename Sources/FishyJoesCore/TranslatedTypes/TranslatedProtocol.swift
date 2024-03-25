@@ -581,6 +581,9 @@ struct TranslatedProtocol: TranslatedType {
         )
 
         let foreignProtocolType = "_Java\(sourceType.nonNamespacedName)"
+        if sourceType.nonNamespacedName.contains("TestAsyncFunctions") {
+            let elegoo = 1
+        }
 
         var methodIDs: [(idHandle: String, name: String, signature: String)] = []
         let defaultMethods = methods.filter { $0.isDefaultImplementation }
@@ -592,7 +595,10 @@ struct TranslatedProtocol: TranslatedType {
             for variable in fields {
                 fragment.output()
                 let name = variable.name
-                let type = variable.typeName.better.name
+                var type = variable.typeName.better.name
+                if variable.throws {
+                    type = type.replacingOccurrences(of: " ->", with: " throws ->")
+                }
                 let resolved = context.resolve(type: variable.typeName.better)
                 let getID = "_\(name)GetMethodID"
                 let setID = variable.isMutable ? "_\(name)SetMethodID" : nil
@@ -603,7 +609,7 @@ struct TranslatedProtocol: TranslatedType {
                     fragment.output("static var \(setID): jmethodID?")
                 }
                 fragment.outputBlock("\(variable.isStatic ? "static " : "")public var \(name): \(type) {") {
-                    fragment.outputBlock("get\(!variable.isMutable ? " throws" : "") {") {
+                    fragment.outputBlock("get\(variable.throws ? " throws" : "") {") {
                         let perhapsExclaim = variable.isMutable ? "!" : ""
                         fragment.output("let env = try\(perhapsExclaim) Env.acquireJVMThread(on: _javaWitness.vm)")
                         fragment.outputBlock("defer {") {

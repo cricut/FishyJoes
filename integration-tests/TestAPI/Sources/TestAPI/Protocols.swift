@@ -247,3 +247,14 @@ public struct TestLeadingUnderscoredPropStruct: TestLeadingUnderscoredProp {
 //        "Captain Planet, he's our hero; Gonna take pollution down to zero."
 //    }
 }
+
+/// <!-- FishyJoes.export(TestAsyncFunctions) -->
+public protocol TestAsyncFunctions {
+    /// <!-- FishyJoes.export(const42) -->
+    var const42: AsyncFunctions.AFun0 { get throws }
+}
+
+/// <!-- FishyJoes.export(TestAsyncFunctionsStruct) -->
+public struct TestAsyncFunctionsStruct: TestAsyncFunctions {
+    public var const42: AsyncFunctions.AFun0 = { 42 }
+}
