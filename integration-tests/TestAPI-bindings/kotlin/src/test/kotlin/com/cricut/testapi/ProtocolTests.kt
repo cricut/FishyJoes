@@ -1,12 +1,14 @@
 package com.cricut.testapi
 
 import kotlinx.coroutines.*
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.DisplayNameGenerator.Simple
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import java.lang.Exception
+import kotlin.time.Duration.Companion.seconds
 
 @kotlinx.coroutines.ExperimentalCoroutinesApi
 internal class ProtocolTests {
@@ -144,6 +146,13 @@ internal class ProtocolTests {
         assertEquals("bazzy 52558 / 27 = 1946", b)
         val c = a.hasADefaultImplementation2(a = "With the Frizz? No way!", b = false, c = 8923.8293)
         assertEquals(-3.14159265359, c)
+    }
+
+    @Test
+    fun testAsyncFunctions() = runTest(timeout = 1000000.seconds) {
+        var a = TestAsyncFunctionsStruct(const42 = { 49 })
+        println("a: $a")
+        println("a.const42(): ${a.const42()}")
     }
 
     data class ProtocolKotlinImpl(
