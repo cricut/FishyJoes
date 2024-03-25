@@ -1919,6 +1919,18 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         )
         // print("setting up TestAPI.Structs...")
         try TestAPI.Structs.javaSetup(env: env)
+        // print("setting up TestAPI_CommonInterface._TestAsyncFunctionsConverter...")
+        try TestAPI_CommonInterface._TestAsyncFunctionsConverter.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI_CommonInterface._TestAsyncFunctionsConverter.externalWitnessClass!,
+            JNINativeMethod(
+                name: bag.add("__jni_get_const42"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function1;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestAsyncFunctions_const42, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        // print("setting up TestAPI.TestAsyncFunctionsStruct...")
+        try TestAPI.TestAsyncFunctionsStruct.javaSetup(env: env)
         // print("setting up TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter...")
         try TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter.javaSetup(env: env)
         try env.RegisterNatives(

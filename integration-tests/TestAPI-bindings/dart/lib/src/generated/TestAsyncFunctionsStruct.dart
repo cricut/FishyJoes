@@ -61,34 +61,63 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
-/// <!-- FishyJoes.export(DefaultArguments) -->
-class DefaultArguments {
-    DefaultArguments._();
+/// <!-- FishyJoes.export(TestAsyncFunctionsStruct) -->
+class TestAsyncFunctionsStruct {
+    Future<int> Function() const42;
 
-    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
-        throw UnsupportedError('This class is supposed to be uninhabited');
+    TestAsyncFunctionsStruct({
+        required Future<int> Function() const42
+    }):
+        this.const42 = const42;
+
+    static CreatedRef ffi_constructor(
+        ConsumedRef const42,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(TestAsyncFunctionsStruct(
+            const42: consumeRef(const42),
+        ))
+    );
+    @override
+    String toString() => 'TestAsyncFunctionsStruct(const42: $const42)';
+
+    static CreatedRef ffi_get_const42(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestAsyncFunctionsStruct>(obj).const42
+        )
+    );
+    static void ffi_set_const42(
+        UnownedRef obj,
+        ConsumedRef newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        peekRef<TestAsyncFunctionsStruct>(obj).const42 = consumeRef<Future<int> Function()>(newValue);
     });
 
-    /// <!-- FishyJoes.export(echoDefaults, compatibilityOrder: [z, y]) -->
-    static String echoDefaults(
-        int? x,
-        {
-            int? y = null,
-            double /* theLabelForZ */ z = 3.14,
-        }
-    ) =>
-        GCRef.using(y, (_yHandle) =>
-            GCRef.using(x, (_xHandle) =>
-                consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_DefaultArguments_echoDefaults(Loader.shared.env, _yHandle.ptr, _xHandle.ptr, z, _exn)))
+    @override
+    bool operator ==(Object other) {
+        return identical(other, this) ||
+        (
+            other.runtimeType == runtimeType &&
+            other is TestAsyncFunctionsStruct &&
+            (
+                const DeepCollectionEquality().equals(other.const42, const42)
             )
-        )
-    ;
+        );
+    }
 
-    static late CreatedRef Function(
-        Env env,
-        UnownedRef y,
-        UnownedRef x,
-        double z,
-        OutCreatedRef _exn
-    ) f__iota_TestAPI_DefaultArguments_echoDefaults;
+    @override
+    int get hashCode => Object.hash(
+        runtimeType,
+        const DeepCollectionEquality().hash(const42)
+    );
+
+    TestAsyncFunctionsStruct copyWith({
+        Future<int> Function()? const42
+    }) => TestAsyncFunctionsStruct(
+        const42: const42 ?? this.const42
+    );
 }

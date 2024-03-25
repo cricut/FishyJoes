@@ -182,6 +182,8 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try TestAPI.SimpleEnum.nodeSetup(env: env, module: module)
     try TestAPI.Strings.nodeSetup(env: env, module: module)
     try TestAPI.Structs.nodeSetup(env: env, module: module)
+    try TestAPI_CommonInterface._TestAsyncFunctionsConverter.nodeSetup(env: env, module: module)
+    try TestAPI.TestAsyncFunctionsStruct.nodeSetup(env: env, module: module)
     try TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter.nodeSetup(env: env, module: module)
     try TestAPI.TestLeadingUnderscoredPropStruct.nodeSetup(env: env, module: module)
     try TestAPI_CommonInterface._TestMethodsProtocolConverter.nodeSetup(env: env, module: module)

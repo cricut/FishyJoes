@@ -61,34 +61,28 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
-/// <!-- FishyJoes.export(DefaultArguments) -->
-class DefaultArguments {
-    DefaultArguments._();
+/// <!-- FishyJoes.export(TestAsyncFunctions) -->
+class ExternalWitness_TestAsyncFunctions extends SwiftReference implements TestAPI.TestAsyncFunctions {
+    ExternalWitness_TestAsyncFunctions(ffi.Pointer reference): super(reference) {}
+    static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
+        createRef(ExternalWitness_TestAsyncFunctions(ref))
+    );
 
-    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
-        throw UnsupportedError('This class is supposed to be uninhabited');
-    });
+    @override
+    String toString() => 'ExternalWitness_TestAsyncFunctions(const42: $const42)';
 
-    /// <!-- FishyJoes.export(echoDefaults, compatibilityOrder: [z, y]) -->
-    static String echoDefaults(
-        int? x,
-        {
-            int? y = null,
-            double /* theLabelForZ */ z = 3.14,
-        }
-    ) =>
-        GCRef.using(y, (_yHandle) =>
-            GCRef.using(x, (_xHandle) =>
-                consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_DefaultArguments_echoDefaults(Loader.shared.env, _yHandle.ptr, _xHandle.ptr, z, _exn)))
+    /// <!-- FishyJoes.export(const42) -->
+    Future<int> Function() get const42 =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                consumeCreatedRef<Future<int> Function()>(f__iota_get_TestAPI_TestAsyncFunctions_const42(Loader.shared.env, _thisHandle.ptr, exn))
             )
         )
     ;
 
     static late CreatedRef Function(
         Env env,
-        UnownedRef y,
-        UnownedRef x,
-        double z,
+        UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_DefaultArguments_echoDefaults;
+    ) f__iota_get_TestAPI_TestAsyncFunctions_const42;
 }

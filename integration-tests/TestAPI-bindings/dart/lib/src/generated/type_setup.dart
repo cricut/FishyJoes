@@ -14,6 +14,7 @@ import './DefaultArguments.dart' as TestAPI;
 import './Deprecations.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
 import './ExternalWitness_AProtocol.dart' as TestAPI;
+import './ExternalWitness_TestAsyncFunctions.dart' as TestAPI;
 import './ExternalWitness_TestLeadingUnderscoredProp.dart' as TestAPI;
 import './ExternalWitness_TestMethodsProtocol.dart' as TestAPI;
 import './ExternalWitness_TestOptionalsProtocol.dart' as TestAPI;
@@ -31,6 +32,8 @@ import './Structs_MemberwiseStruct.dart' as TestAPI;
 import './Structs_MutableStruct.dart' as TestAPI;
 import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Structs_ReferenceStruct.dart' as TestAPI;
+import './TestAsyncFunctions.dart' as TestAPI;
+import './TestAsyncFunctionsStruct.dart' as TestAPI;
 import './TestLeadingUnderscoredProp.dart' as TestAPI;
 import './TestLeadingUnderscoredPropStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
@@ -282,6 +285,17 @@ typedef TestAPI_SimpleEnum_extract_blue = ffi.Void Function(
     UnownedRef obj,
     OutCreatedRef _exn
 );
+typedef _TestAPI_TestAsyncFunctionsConstructor = CreatedRef Function(
+    ffi.Pointer ref,
+    OutCreatedRef exn
+);
+typedef _TestAPI_TestAsyncFunctions_const42Getter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctionsStructConstructor = CreatedRef Function(
+    ConsumedRef const42,
+    OutCreatedRef exn
+);
+typedef _TestAPI_TestAsyncFunctionsStruct_const42Getter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctionsStruct_const42Setter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
 typedef _TestAPI_TestLeadingUnderscoredPropConstructor = CreatedRef Function(
     ffi.Pointer ref,
     OutCreatedRef exn
@@ -868,6 +882,36 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_Structs_setup');
+    final TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_const42Getter>> get_const42,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_const42Getter>> get_const42,
+            OutCreatedRef exn
+        )
+    >('TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup');
+    final TestAPI_TestAsyncFunctionsStruct_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsStructConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsStruct_const42Getter>> get_const42,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsStruct_const42Setter>> set_const42,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsStructConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsStruct_const42Getter>> get_const42,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsStruct_const42Setter>> set_const42,
+            OutCreatedRef exn
+        )
+    >('TestAPI_TestAsyncFunctionsStruct_setup');
     final TestAPI_CommonInterface__TestLeadingUnderscoredPropConverter_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -4658,6 +4702,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_Structs_ReferenceStruct_mutable");
+    TestAPI.ExternalWitness_TestAsyncFunctions.f__iota_get_TestAPI_TestAsyncFunctions_const42 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestAsyncFunctions_const42");
     TestAPI.ExternalWitness_TestLeadingUnderscoredProp.f__iota_get_TestAPI_TestLeadingUnderscoredProp__leadingUnderscoreProp = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -6827,6 +6883,31 @@ final ensureLoaded = (() {
         utils.check<void>((exn) {
             TestAPI_Structs_setup(
                 Loader.shared.env,
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI_CommonInterface._TestAsyncFunctionsConverter", () {
+        // print("setting up TestAPI.TestAsyncFunctions (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestAsyncFunctions.ffi_new),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_get_const42),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.TestAsyncFunctionsStruct", () {
+        // print("setting up TestAPI.TestAsyncFunctionsStruct (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_TestAsyncFunctionsStruct_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctionsStruct.ffi_constructor),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctionsStruct.ffi_get_const42),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctionsStruct.ffi_set_const42),
                 exn
             );
         });
