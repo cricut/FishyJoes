@@ -11,7 +11,7 @@ CONFIGURATION="${CONFIGURATION:-release}"
 SKIP_LIPO="${SKIP_LIPO:-0}"
 commonOptions=("$@" --configuration "$CONFIGURATION")
 if [[ "${SWIFT_PACKAGE_RESOLVE:-1}" == 0 ]]; then
-    commonOptions+=(--force-resolved-versions)
+    commonOptions+=(--disable-automatic-resolution)
 fi
 
 SHIM_DIR="node-runtime/register-module-shim"
