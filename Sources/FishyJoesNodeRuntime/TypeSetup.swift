@@ -17,6 +17,7 @@ public func registerModuleRuntime(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try AttributedString.Runs.Run.nodeSetup(env: env, module: module)
     try AttributedString.Runs.nodeSetup(env: env, module: module)
     try AttributedString.UnicodeScalarView.nodeSetup(env: env, module: module)
+    try Data.nodeSetup(env: env, module: module)
     return exports
 }
 

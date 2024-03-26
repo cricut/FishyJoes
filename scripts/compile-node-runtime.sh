@@ -85,8 +85,9 @@ function install-node-lib {
     LIB_DIR="$2"
     if [ -e "$BIN_DIR/$LIB_NAME" ]; then
         mkdir -p "$LIB_DIR"
-        cp "$BIN_DIR/$LIB_NAME" "$LIB_DIR"
-        echo "Copied $LIB_NAME to $LIB_DIR"
+        rm -f "$LIB_DIR/$LIB_NAME"
+        cp "$BIN_DIR/$LIB_NAME" "$LIB_DIR/$LIB_NAME"
+        echo "Copied $LIB_NAME to $LIB_DIR/$LIB_NAME"
         return 0
     else
         return 1
@@ -103,6 +104,7 @@ function install-shim-lib {
     NODE_LIB_NAME="Runtime.cjs.node"
     if [ -e "$BIN_DIR/$LIB_NAME" ]; then
         mkdir -p "$LIB_DIR"
+        rm -f "$LIB_DIR/$NODE_LIB_NAME"
         cp "$BIN_DIR/$LIB_NAME" "$LIB_DIR/$NODE_LIB_NAME"
         echo "Copied $LIB_NAME to $LIB_DIR/$NODE_LIB_NAME"
         return 0

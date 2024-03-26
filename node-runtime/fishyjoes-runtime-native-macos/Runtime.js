@@ -4,7 +4,7 @@ const { Runtime } = require('./Runtime.cjs');
 
 const library = { Runtime };
 import { applyExtensions } from './Runtime.extensions.js';
-applyExtensions(library);
+applyExtensions(library, {});
 
 export { Runtime };
 export default Runtime;

@@ -1,4 +1,4 @@
-function applyExtensions(library) {
+function applyExtensions(library, { wasmNapi }) {
     library.Runtime.AttributeContainer.FoundationAttributes.create = function(attributes) {
         const container = library.Runtime.AttributeContainer.FoundationAttributes.createEmpty();
         if (attributes.languageIdentifier) {
@@ -29,7 +29,7 @@ function applyExtensions(library) {
             index = this.indexAfter(index)
         }
     }
-    
+
     library.Runtime.AttributedString.Runs.prototype.forEach = function(callback) {
         [...this].forEach(callback)
     }
@@ -41,7 +41,7 @@ function applyExtensions(library) {
             index = this.indexAfter(index)
         }
     }
-    
+
     library.Runtime.AttributedString.CharacterView.prototype.forEach = function(callback) {
         [...this].forEach(callback)
     }
@@ -53,9 +53,25 @@ function applyExtensions(library) {
             index = this.indexAfter(index)
         }
     }
-    
+
     library.Runtime.AttributedString.UnicodeScalarView.prototype.forEach = function(callback) {
         [...this].forEach(callback)
+    }
+
+    if (typeof wasmNapi !== 'undefined') {
+        library.Runtime._DataNodeConverter = {
+            fromWasi(buffer) {
+                const dataPtr = wasmNapi.malloc(buffer.byteLength);
+                const view = new Uint8Array(wasmNapi.memory.buffer, dataPtr, buffer.byteLength);
+                view.set(new Uint8Array(buffer));
+                wasmNapi.wasi.refreshMemory();
+                return [buffer.byteLength, dataPtr];
+            },
+            toWasi(byteLength, dataPtr) {
+                const buffer = wasmNapi.memory.buffer.slice(dataPtr, dataPtr + byteLength);
+                return buffer;
+            },
+        }
     }
 }
 const imports = {};
