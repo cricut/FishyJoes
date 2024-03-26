@@ -258,12 +258,15 @@ public protocol TestAsyncFunctions {
 public struct TestAsyncFunctionsStruct: TestAsyncFunctions {
     public let const42: AsyncFunctions.AFun0
     public let iabs: AsyncFunctions.AFun1
+    public let intCompose: AsyncFunctions.AFun2
     
     public init(
         const42: @escaping AsyncFunctions.AFun0,
-        iabs: @escaping AsyncFunctions.AFun1
+        iabs: @escaping AsyncFunctions.AFun1,
+        intCompose: @escaping AsyncFunctions.AFun2
     ) {
         self.const42 = const42
         self.iabs = iabs
+        self.intCompose = intCompose
     }
 }

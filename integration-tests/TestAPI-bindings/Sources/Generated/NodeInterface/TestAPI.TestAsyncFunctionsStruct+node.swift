@@ -18,6 +18,10 @@ extension TestAPI.TestAsyncFunctionsStruct: NodeMutator {
             iabs: try { () -> (Swift.Int) async -> Swift.Int in
                 let fieldValue = try env.getNamedProperty(value, "iabs")
                 return try AsyncFunction1Converter<Swift.Int, Swift.Int>.fromNode(fieldValue, env: env)
+            }(),
+            intCompose: try { () -> ((Swift.Int) async -> Swift.Int, (Swift.Int) async -> Swift.Int) -> (Swift.Int) async -> Swift.Int in
+                let fieldValue = try env.getNamedProperty(value, "intCompose")
+                return try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.fromNode(fieldValue, env: env)
             }()
         )
     }
@@ -26,6 +30,7 @@ extension TestAPI.TestAsyncFunctionsStruct: NodeMutator {
         let args: [NAPI.Value] = [
             try AsyncFunction0Converter<Swift.Int>.toNode(value.const42, env: env),
             try AsyncFunction1Converter<Swift.Int, Swift.Int>.toNode(value.iabs, env: env),
+            try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.toNode(value.intCompose, env: env),
         ]
         return try env.newInstance(constructor, args)
     }
@@ -39,13 +44,15 @@ extension TestAPI.TestAsyncFunctionsStruct: NodeMutator {
             properties: [
                 "const42": (.stored(mutable: true), isStatic: false),
                 "iabs": (.stored(mutable: true), isStatic: false),
+                "intCompose": (.stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in
-                callbackBody(env, info, name: "TestAsyncFunctionsStruct_constructor", expectedArgumentCount: 2) { env in
+                callbackBody(env, info, name: "TestAsyncFunctionsStruct_constructor", expectedArgumentCount: 3) { env in
                     // TODO: typecheck?
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "const42", env.argument(at: 0))
                     try env.env.setNamedProperty(this, "iabs", env.argument(at: 1))
+                    try env.env.setNamedProperty(this, "intCompose", env.argument(at: 2))
                     return this
                 }
             }

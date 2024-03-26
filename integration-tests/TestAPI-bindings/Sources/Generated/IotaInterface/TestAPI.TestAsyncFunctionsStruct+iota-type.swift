@@ -12,6 +12,7 @@ public func TestAPI_TestAsyncFunctionsStruct_setup(
     constructorMethod: @escaping TestAPI.TestAsyncFunctionsStruct._ConstructorMethod,
     _ const42Getter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction0Converter<Swift.Int>.CType,
     _ iabsGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction1Converter<Swift.Int, Swift.Int>.CType,
+    _ intComposeGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.CType,
     _ exn: foreignOutExn
 ) {
     let env = Env(envRef)
@@ -19,14 +20,17 @@ public func TestAPI_TestAsyncFunctionsStruct_setup(
     TestAPI.TestAsyncFunctionsStruct._constructorMethod[env] = constructorMethod
     TestAPI.TestAsyncFunctionsStruct._const42Getter[env] = const42Getter
     TestAPI.TestAsyncFunctionsStruct._iabsGetter[env] = iabsGetter
+    TestAPI.TestAsyncFunctionsStruct._intComposeGetter[env] = intComposeGetter
 }
 
 extension TestAPI.TestAsyncFunctionsStruct: IotaMutator {
     fileprivate static let _const42Getter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction0Converter<Swift.Int>.CType>()
     fileprivate static let _iabsGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction1Converter<Swift.Int, Swift.Int>.CType>()
+    fileprivate static let _intComposeGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.CType>()
     public typealias _ConstructorMethod = @convention(c) (
         AsyncFunction0Converter<Swift.Int>.CType,
         AsyncFunction1Converter<Swift.Int, Swift.Int>.CType,
+        Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.CType,
         _ exn: foreignOutExn
     ) -> foreignObject
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
@@ -40,6 +44,10 @@ extension TestAPI.TestAsyncFunctionsStruct: IotaMutator {
             iabs: try AsyncFunction1Converter<Swift.Int, Swift.Int>.consumeIota(
                 try env.check { exn in _iabsGetter[env](value, exn) },
                 env: env
+            ),
+            intCompose: try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.consumeIota(
+                try env.check { exn in _intComposeGetter[env](value, exn) },
+                env: env
             )
         )
     }
@@ -49,6 +57,7 @@ extension TestAPI.TestAsyncFunctionsStruct: IotaMutator {
             _constructorMethod[env](
                 try AsyncFunction0Converter<Swift.Int>.toIota(value.const42, env: env),
                 try AsyncFunction1Converter<Swift.Int, Swift.Int>.toIota(value.iabs, env: env),
+                try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.toIota(value.intCompose, env: env),
                 exn
             )
         }

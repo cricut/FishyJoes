@@ -8,7 +8,8 @@ import java.lang.Exception
  */
 data class TestAsyncFunctionsStruct(
     val const42: (suspend () -> Long),
-    val iabs: (suspend (Long) -> Long)
+    val iabs: (suspend (Long) -> Long),
+    val intCompose: (((suspend (Long) -> Long), (suspend (Long) -> Long)) -> (suspend (Long) -> Long))
 ) {
 
     companion object {

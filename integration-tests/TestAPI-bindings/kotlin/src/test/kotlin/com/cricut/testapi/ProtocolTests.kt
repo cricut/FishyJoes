@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayNameGenerator.Simple
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import java.lang.Exception
+import kotlin.math.abs
 import kotlin.time.Duration.Companion.seconds
 
 @kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -153,11 +154,19 @@ internal class ProtocolTests {
         val a = TestAsyncFunctionsStruct(
             const42 = { 49 },
             iabs = { x: Long ->
-                x * 3
+                abs(x)
+            },
+            intCompose = { f: suspend (Long) -> Long, g: suspend (Long) -> Long ->
+                { x: Long ->
+                    f(g(x))
+                }
             }
+
         )
         assertEquals(49, a.const42())
-        assertEquals(12, a.iabs(4))
+        assertEquals(4, a.iabs(-4))
+        val b = a.intCompose({x: Long -> x * 3}, {y: Long -> y * 5})
+        assertEquals(b(92), 1380)
     }
 
     data class ProtocolKotlinImpl(
