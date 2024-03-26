@@ -196,6 +196,12 @@ internal class ProtocolTests {
         assertEquals(a.iabs(-2398),2398)
         val b = a.intCompose({x: Long -> x * 3}, {y: Long -> y * 5})
         assertEquals(b(92), 1380)
+        val d = a.makeList("By", "your", "powers", "combined")
+        assertEquals(d, listOf("By", "your", "powers", "combined"))
+        val e = a.fifthThing("I, am", Long.MAX_VALUE, Double.MIN_VALUE, "Captain Planet!") { 42 }
+        assertEquals(e(), 42)
+        val f = a.six("Big, bad", 24, 3.14159265359, "Beetleborgs", { 43 }, Long.MIN_VALUE)
+        assertEquals(f, Long.MIN_VALUE)
     }
 
     data class ProtocolKotlinImpl(
