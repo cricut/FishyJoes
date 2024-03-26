@@ -1,4 +1,4 @@
-function applyExtensions(library, { wasmNapi }) {
+function applyExtensions(library, { wasmNapi } = {}) {
     library.Runtime.AttributeContainer.FoundationAttributes.create = function(attributes) {
         const container = library.Runtime.AttributeContainer.FoundationAttributes.createEmpty();
         if (attributes.languageIdentifier) {
