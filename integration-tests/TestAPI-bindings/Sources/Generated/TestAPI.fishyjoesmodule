@@ -3158,7 +3158,8 @@
                 "names" : [
                   "const42",
                   "iabs",
-                  "intCompose"
+                  "intCompose",
+                  "add3Things"
                 ],
                 "types" : [
                   {
@@ -3174,6 +3175,11 @@
                   {
                     "named" : {
                       "_0" : "(_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: number, _1: number, _2: number) => Promise<number>"
                     }
                   }
                 ]
@@ -3222,6 +3228,19 @@
                 "type" : {
                   "named" : {
                     "_0" : "(_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "add3Things",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: number, _1: number, _2: number) => Promise<number>"
                   }
                 }
               }

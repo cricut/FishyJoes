@@ -66,30 +66,35 @@ class TestAsyncFunctionsStruct {
     final Future<int> Function() const42;
     final Future<int> Function(int) iabs;
     final Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int)) intCompose;
+    final Future<double> Function(double, double, int) add3Things;
 
     TestAsyncFunctionsStruct({
         required Future<int> Function() const42,
         required Future<int> Function(int) iabs,
-        required Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int)) intCompose
+        required Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int)) intCompose,
+        required Future<double> Function(double, double, int) add3Things
     }):
         this.const42 = const42,
         this.iabs = iabs,
-        this.intCompose = intCompose;
+        this.intCompose = intCompose,
+        this.add3Things = add3Things;
 
     static CreatedRef ffi_constructor(
         ConsumedRef const42,
         ConsumedRef iabs,
         ConsumedRef intCompose,
+        ConsumedRef add3Things,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(TestAsyncFunctionsStruct(
             const42: consumeRef(const42),
             iabs: consumeRef(iabs),
             intCompose: consumeRef(intCompose),
+            add3Things: consumeRef(add3Things),
         ))
     );
     @override
-    String toString() => 'TestAsyncFunctionsStruct(const42: $const42, iabs: $iabs, intCompose: $intCompose)';
+    String toString() => 'TestAsyncFunctionsStruct(const42: $const42, iabs: $iabs, intCompose: $intCompose, add3Things: $add3Things)';
 
     static CreatedRef ffi_get_const42(
         UnownedRef obj,
@@ -118,6 +123,15 @@ class TestAsyncFunctionsStruct {
         )
     );
 
+    static CreatedRef ffi_get_add3Things(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestAsyncFunctionsStruct>(obj).add3Things
+        )
+    );
+
     @override
     bool operator ==(Object other) {
         return identical(other, this) ||
@@ -127,7 +141,8 @@ class TestAsyncFunctionsStruct {
             (
                 const DeepCollectionEquality().equals(other.const42, const42) &&
                 const DeepCollectionEquality().equals(other.iabs, iabs) &&
-                const DeepCollectionEquality().equals(other.intCompose, intCompose)
+                const DeepCollectionEquality().equals(other.intCompose, intCompose) &&
+                const DeepCollectionEquality().equals(other.add3Things, add3Things)
             )
         );
     }
@@ -137,16 +152,19 @@ class TestAsyncFunctionsStruct {
         runtimeType,
         const DeepCollectionEquality().hash(const42), 
         const DeepCollectionEquality().hash(iabs), 
-        const DeepCollectionEquality().hash(intCompose)
+        const DeepCollectionEquality().hash(intCompose), 
+        const DeepCollectionEquality().hash(add3Things)
     );
 
     TestAsyncFunctionsStruct copyWith({
         Future<int> Function()? const42,
         Future<int> Function(int)? iabs,
-        Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int))? intCompose
+        Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int))? intCompose,
+        Future<double> Function(double, double, int)? add3Things
     }) => TestAsyncFunctionsStruct(
         const42: const42 ?? this.const42,
         iabs: iabs ?? this.iabs,
-        intCompose: intCompose ?? this.intCompose
+        intCompose: intCompose ?? this.intCompose,
+        add3Things: add3Things ?? this.add3Things
     );
 }

@@ -1956,13 +1956,15 @@ export declare namespace TestAPI {
      * <!-- FishyJoes.export(TestAsyncFunctionsStruct) -->
      */
     export class TestAsyncFunctionsStruct {
-        constructor(const42: () => Promise<number>, iabs: (_0: number) => Promise<number>, intCompose: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>)
+        constructor(const42: () => Promise<number>, iabs: (_0: number) => Promise<number>, intCompose: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>, add3Things: (_0: number, _1: number, _2: number) => Promise<number>)
 
         readonly const42: () => Promise<number>;
 
         readonly iabs: (_0: number) => Promise<number>;
 
         readonly intCompose: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>;
+
+        readonly add3Things: (_0: number, _1: number, _2: number) => Promise<number>;
     }
 
     /**

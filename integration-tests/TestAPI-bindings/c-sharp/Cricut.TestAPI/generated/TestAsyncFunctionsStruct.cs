@@ -12,15 +12,18 @@ namespace Cricut.TestAPI {
         public System.Func<System.Threading.Tasks.Task<nint>> Const42 { get; internal set; }
         public System.Func<nint, System.Threading.Tasks.Task<nint>> Iabs { get; internal set; }
         public System.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>> IntCompose { get; internal set; }
+        public System.Func<float, double, nint, System.Threading.Tasks.Task<double>> Add3Things { get; internal set; }
 
         public TestAsyncFunctionsStruct(
             System.Func<System.Threading.Tasks.Task<nint>> Const42,
             System.Func<nint, System.Threading.Tasks.Task<nint>> Iabs,
-            System.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>> IntCompose
+            System.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>> IntCompose,
+            System.Func<float, double, nint, System.Threading.Tasks.Task<double>> Add3Things
         ) {
             this.Const42 = Const42;
             this.Iabs = Iabs;
             this.IntCompose = IntCompose;
+            this.Add3Things = Add3Things;
         }
 
         static TestAsyncFunctionsStruct() { _TypeSetup._ensureLoaded(); }

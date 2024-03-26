@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import java.lang.Exception
 import kotlin.math.abs
+import kotlin.math.pow
 import kotlin.time.Duration.Companion.seconds
 
 @kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -160,13 +161,17 @@ internal class ProtocolTests {
                 { x: Long ->
                     f(g(x))
                 }
+            },
+            add3Things = { x: Float, y: Double, z: Long ->
+                x.toDouble() + y + z.toDouble()
             }
-
         )
         assertEquals(49, a.const42())
         assertEquals(4, a.iabs(-4))
         val b = a.intCompose({x: Long -> x * 3}, {y: Long -> y * 5})
         assertEquals(b(92), 1380)
+        val c = a.add3Things(3.14F, 3.14159, 128)
+        assertEquals(c, 134.28159010490418)
     }
 
     data class ProtocolKotlinImpl(
