@@ -59,6 +59,24 @@ abstract class TestAsyncFunctions {
 
     /// <!-- FishyJoes.export(const42) -->
     Future<int> Function() get const42;
+
+    /// <!-- FishyJoes.export(iabs) -->
+    Future<int> Function(int) get iabs;
+
+    /// <!-- FishyJoes.export(intCompose) -->
+    Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int)) get intCompose;
+
+    /// <!-- FishyJoes.export(add3Things) -->
+    Future<double> Function(double, double, int) get add3Things;
+
+    /// <!-- FishyJoes.export(makeList) -->
+    Future<List<String>> Function(String, String, String, String) get makeList;
+
+    /// <!-- FishyJoes.export(fifthThing) -->
+    Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function()) get fifthThing;
+
+    /// <!-- FishyJoes.export(six) -->
+    Future<int> Function(String, int, double, String, Future<int> Function(), int) get six;
 }
 
 extension TestAsyncFunctions_DefaultImplementations on TestAsyncFunctions {
@@ -71,6 +89,60 @@ extension TestAsyncFunctions_FfiHooks on TestAsyncFunctions {
     ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncFunctions>(obj).const42
+        )
+    );
+
+    static CreatedRef ffi_get_iabs(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestAsyncFunctions>(obj).iabs
+        )
+    );
+
+    static CreatedRef ffi_get_intCompose(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestAsyncFunctions>(obj).intCompose
+        )
+    );
+
+    static CreatedRef ffi_get_add3Things(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestAsyncFunctions>(obj).add3Things
+        )
+    );
+
+    static CreatedRef ffi_get_makeList(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestAsyncFunctions>(obj).makeList
+        )
+    );
+
+    static CreatedRef ffi_get_fifthThing(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestAsyncFunctions>(obj).fifthThing
+        )
+    );
+
+    static CreatedRef ffi_get_six(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestAsyncFunctions>(obj).six
         )
     );
 }

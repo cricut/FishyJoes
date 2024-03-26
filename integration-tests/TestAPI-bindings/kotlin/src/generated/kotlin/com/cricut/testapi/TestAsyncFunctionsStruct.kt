@@ -8,12 +8,12 @@ import java.lang.Exception
  */
 data class TestAsyncFunctionsStruct(
     override val const42: (suspend () -> Long),
-    val iabs: (suspend (Long) -> Long),
-    val intCompose: (((suspend (Long) -> Long), (suspend (Long) -> Long)) -> (suspend (Long) -> Long)),
-    val add3Things: (suspend (Float, Double, Long) -> Double),
-    val makeList: (suspend (kotlin.String, kotlin.String, kotlin.String, kotlin.String) -> kotlin.collections.List<kotlin.String>),
-    val fifthThing: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long)) -> (suspend () -> Long)),
-    val six: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)
+    override val iabs: (suspend (Long) -> Long),
+    override val intCompose: (((suspend (Long) -> Long), (suspend (Long) -> Long)) -> (suspend (Long) -> Long)),
+    override val add3Things: (suspend (Float, Double, Long) -> Double),
+    override val makeList: (suspend (kotlin.String, kotlin.String, kotlin.String, kotlin.String) -> kotlin.collections.List<kotlin.String>),
+    override val fifthThing: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long)) -> (suspend () -> Long)),
+    override val six: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)
 ): TestAsyncFunctions {
 
     companion object {

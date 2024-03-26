@@ -252,6 +252,18 @@ public struct TestLeadingUnderscoredPropStruct: TestLeadingUnderscoredProp {
 public protocol TestAsyncFunctions {
     /// <!-- FishyJoes.export(const42) -->
     var const42: AsyncFunctions.AFun0 { get throws }
+    /// <!-- FishyJoes.export(iabs) -->
+    var iabs: AsyncFunctions.AFun1 { get throws }
+    /// <!-- FishyJoes.export(intCompose) -->
+    var intCompose: AsyncFunctions.AFun2 { get throws }
+    /// <!-- FishyJoes.export(add3Things) -->
+    var add3Things: AsyncFunctions.AFun3 { get throws }
+    /// <!-- FishyJoes.export(makeList) -->
+    var makeList: AsyncFunctions.AFun4 { get throws }
+    /// <!-- FishyJoes.export(fifthThing) -->
+    var fifthThing: AsyncFunctions.AFun5 { get throws }
+    /// <!-- FishyJoes.export(six) -->
+    var six: AsyncFunctions.AFun6 { get throws }
 }
 
 /// <!-- FishyJoes.export(TestAsyncFunctionsStruct, conformances: [TestAsyncFunctions]) -->

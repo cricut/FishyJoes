@@ -595,6 +595,11 @@ struct TranslatedProtocol: TranslatedType {
             for variable in fields {
                 fragment.output()
                 let name = variable.name
+                
+                if foreignProtocolType.contains("TestAsyncFunctions"), variable.name.contains("intCompose") {
+                    let elegoo = 1
+                }
+
                 var type = variable.typeName.better.name
                 if variable.throws {
                     type = type.replacingOccurrences(of: " ->", with: " throws ->")
@@ -604,6 +609,7 @@ struct TranslatedProtocol: TranslatedType {
                 let setID = variable.isMutable ? "_\(name)SetMethodID" : nil
                 methodIDs.append((idHandle: getID, name: "get_\(name)", signature: "()\(resolved.jniType.asSignature)"))
                 fragment.output("static var \(getID): jmethodID?")
+
                 if let setID = setID {
                     methodIDs.append((idHandle: setID, name: "set_\(name)", signature: "(\(resolved.jniType.asSignature))V"))
                     fragment.output("static var \(setID): jmethodID?")

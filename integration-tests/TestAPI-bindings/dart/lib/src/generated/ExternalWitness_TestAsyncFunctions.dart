@@ -69,7 +69,7 @@ class ExternalWitness_TestAsyncFunctions extends SwiftReference implements TestA
     );
 
     @override
-    String toString() => 'ExternalWitness_TestAsyncFunctions(const42: $const42)';
+    String toString() => 'ExternalWitness_TestAsyncFunctions(const42: $const42, iabs: $iabs, intCompose: $intCompose, add3Things: $add3Things, makeList: $makeList, fifthThing: $fifthThing, six: $six)';
 
     /// <!-- FishyJoes.export(const42) -->
     Future<int> Function() get const42 =>
@@ -79,10 +79,88 @@ class ExternalWitness_TestAsyncFunctions extends SwiftReference implements TestA
             )
         )
     ;
+    /// <!-- FishyJoes.export(iabs) -->
+    Future<int> Function(int) get iabs =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                consumeCreatedRef<Future<int> Function(int)>(f__iota_get_TestAPI_TestAsyncFunctions_iabs(Loader.shared.env, _thisHandle.ptr, exn))
+            )
+        )
+    ;
+    /// <!-- FishyJoes.export(intCompose) -->
+    Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int)) get intCompose =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                consumeCreatedRef<Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int))>(f__iota_get_TestAPI_TestAsyncFunctions_intCompose(Loader.shared.env, _thisHandle.ptr, exn))
+            )
+        )
+    ;
+    /// <!-- FishyJoes.export(add3Things) -->
+    Future<double> Function(double, double, int) get add3Things =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                consumeCreatedRef<Future<double> Function(double, double, int)>(f__iota_get_TestAPI_TestAsyncFunctions_add3Things(Loader.shared.env, _thisHandle.ptr, exn))
+            )
+        )
+    ;
+    /// <!-- FishyJoes.export(makeList) -->
+    Future<List<String>> Function(String, String, String, String) get makeList =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                consumeCreatedRef<Future<List<String>> Function(String, String, String, String)>(f__iota_get_TestAPI_TestAsyncFunctions_makeList(Loader.shared.env, _thisHandle.ptr, exn))
+            )
+        )
+    ;
+    /// <!-- FishyJoes.export(fifthThing) -->
+    Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function()) get fifthThing =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                consumeCreatedRef<Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function())>(f__iota_get_TestAPI_TestAsyncFunctions_fifthThing(Loader.shared.env, _thisHandle.ptr, exn))
+            )
+        )
+    ;
+    /// <!-- FishyJoes.export(six) -->
+    Future<int> Function(String, int, double, String, Future<int> Function(), int) get six =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                consumeCreatedRef<Future<int> Function(String, int, double, String, Future<int> Function(), int)>(f__iota_get_TestAPI_TestAsyncFunctions_six(Loader.shared.env, _thisHandle.ptr, exn))
+            )
+        )
+    ;
 
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,
         OutCreatedRef _exn
+    ) f__iota_get_TestAPI_TestAsyncFunctions_add3Things;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
     ) f__iota_get_TestAPI_TestAsyncFunctions_const42;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_get_TestAPI_TestAsyncFunctions_fifthThing;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_get_TestAPI_TestAsyncFunctions_iabs;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_get_TestAPI_TestAsyncFunctions_intCompose;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_get_TestAPI_TestAsyncFunctions_makeList;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_get_TestAPI_TestAsyncFunctions_six;
 }

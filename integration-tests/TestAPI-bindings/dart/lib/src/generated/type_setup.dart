@@ -290,6 +290,12 @@ typedef _TestAPI_TestAsyncFunctionsConstructor = CreatedRef Function(
     OutCreatedRef exn
 );
 typedef _TestAPI_TestAsyncFunctions_const42Getter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctions_iabsGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctions_intComposeGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctions_add3ThingsGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctions_makeListGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctions_fifthThingGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctions_sixGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestAsyncFunctionsStructConstructor = CreatedRef Function(
     ConsumedRef const42,
     ConsumedRef iabs,
@@ -898,12 +904,24 @@ final ensureLoaded = (() {
             Env env,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsConstructor>> constructor,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_const42Getter>> get_const42,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_iabsGetter>> get_iabs,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_intComposeGetter>> get_intCompose,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_add3ThingsGetter>> get_add3Things,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_makeListGetter>> get_makeList,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_fifthThingGetter>> get_fifthThing,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_sixGetter>> get_six,
             OutCreatedRef exn
         ),
         void Function(
             Env env,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsConstructor>> constructor,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_const42Getter>> get_const42,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_iabsGetter>> get_iabs,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_intComposeGetter>> get_intCompose,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_add3ThingsGetter>> get_add3Things,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_makeListGetter>> get_makeList,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_fifthThingGetter>> get_fifthThing,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_sixGetter>> get_six,
             OutCreatedRef exn
         )
     >('TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup');
@@ -4723,6 +4741,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_Structs_ReferenceStruct_mutable");
+    TestAPI.ExternalWitness_TestAsyncFunctions.f__iota_get_TestAPI_TestAsyncFunctions_add3Things = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestAsyncFunctions_add3Things");
     TestAPI.ExternalWitness_TestAsyncFunctions.f__iota_get_TestAPI_TestAsyncFunctions_const42 = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -4735,6 +4765,66 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_TestAsyncFunctions_const42");
+    TestAPI.ExternalWitness_TestAsyncFunctions.f__iota_get_TestAPI_TestAsyncFunctions_fifthThing = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestAsyncFunctions_fifthThing");
+    TestAPI.ExternalWitness_TestAsyncFunctions.f__iota_get_TestAPI_TestAsyncFunctions_iabs = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestAsyncFunctions_iabs");
+    TestAPI.ExternalWitness_TestAsyncFunctions.f__iota_get_TestAPI_TestAsyncFunctions_intCompose = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestAsyncFunctions_intCompose");
+    TestAPI.ExternalWitness_TestAsyncFunctions.f__iota_get_TestAPI_TestAsyncFunctions_makeList = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestAsyncFunctions_makeList");
+    TestAPI.ExternalWitness_TestAsyncFunctions.f__iota_get_TestAPI_TestAsyncFunctions_six = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestAsyncFunctions_six");
     TestAPI.ExternalWitness_TestLeadingUnderscoredProp.f__iota_get_TestAPI_TestLeadingUnderscoredProp__leadingUnderscoreProp = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -6916,6 +7006,12 @@ final ensureLoaded = (() {
                 Loader.shared.env,
                 ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestAsyncFunctions.ffi_new),
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_get_const42),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_get_iabs),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_get_intCompose),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_get_add3Things),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_get_makeList),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_get_fifthThing),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_get_six),
                 exn
             );
         });
