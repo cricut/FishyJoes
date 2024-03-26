@@ -166,6 +166,12 @@ enum Platform: CustomStringConvertible, Hashable {
 
     func swiftBuild(arguments: [String], configuration: BuildConfiguration, addEnv: [String: String] = [:]) -> Command {
         var args = arguments
+
+        // Read "SWIFT_PACKAGE_RESOLVE" from our environment variables, and pass as flag to swift compiler
+        if ProcessInfo.processInfo.environment["SWIFT_PACKAGE_RESOLVE"] == "0" {
+            args.append("--disable-automatic-resolution")
+        }
+
         args.append(contentsOf: ["--configuration", configuration.debug ? "debug" : "release"])
         if configuration.codeCoverage {
             args.append(contentsOf: Platform.coverageFlags)
@@ -177,6 +183,7 @@ enum Platform: CustomStringConvertible, Hashable {
         var env: [String: String] = addEnv
         env["SWIFT_PACKAGE_FORCE_DYNAMIC"] = "1"
         env["FISHYJOES_TARGET_PLATFORM"] = "\(self)"
+        env["EXTRA_LIBPATH"] = try? extraLibPathDir(configuration)
         switch self {
         case .wasm:
             path = "\(wasmToolchain)\(ps)usr\(ps)bin\(ps)swift-build"
@@ -602,6 +609,6 @@ enum Platform: CustomStringConvertible, Hashable {
     }
 
     func extraLibPathDir(_ configuration: BuildConfiguration) throws -> String {
-        return "\(try buildDir(configuration))\(ps)lib"
+        return ".build\(ps)lib"
     }
 }

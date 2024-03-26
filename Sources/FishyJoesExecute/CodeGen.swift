@@ -278,7 +278,9 @@ extension CodeGen {
             // When building a node native target on Windows, node.lib must be downloaded and put in the LIBPATH in order to build the NodeAPI dependency
             #if os(Windows)
             if platforms.contains(.node) {
-                try DownloadNodeLib.download(destination: "\(try Platform.node.extraLibPathDir(configuration))\(ps)node.lib")
+                try DownloadNodeLib.download(
+                    destinations: ["\(try Platform.node.extraLibPathDir(configuration))\(ps)node.lib"]
+                )
             }
             #endif
 
@@ -292,22 +294,19 @@ extension CodeGen {
                     try platform.build(
                         product: "\(config.module)-node",
                         libs: libs.flatMap { [$0, "\($0)-node"] } + ["FishyJoesNodeRuntime"],
-                        configuration: configuration,
-                        addEnv: ["EXTRA_LIBPATH": try platform.extraLibPathDir(configuration)]
+                        configuration: configuration
                     )
                 case .kotlinSystem, .kotlinAndroid:
                     try platform.build(
                         product: "\(config.module)-java",
                         libs: libs.flatMap { [$0, "\($0)-java"] } + ["FishyJoesJavaRuntime"],
-                        configuration: configuration,
-                        addEnv: ["EXTRA_LIBPATH": try platform.extraLibPathDir(configuration)]
+                        configuration: configuration
                     )
                 case .cSharp, .dart:
                     try platform.build(
                         product: "\(config.module)-iota",
                         libs: libs.flatMap { [$0, "\($0)-iota"] } + ["FishyJoesIotaRuntime"],
-                        configuration: configuration,
-                        addEnv: ["EXTRA_LIBPATH": try platform.extraLibPathDir(configuration)]
+                        configuration: configuration
                     )
                 }
             }
