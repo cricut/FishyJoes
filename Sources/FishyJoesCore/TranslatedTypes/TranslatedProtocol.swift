@@ -600,10 +600,7 @@ struct TranslatedProtocol: TranslatedType {
                     let elegoo = 1
                 }
 
-                var type = variable.typeName.better.name
-                if variable.throws {
-                    type = type.replacingOccurrences(of: " ->", with: " throws ->")
-                }
+                let type = variable.typeName.actualTypeName?.name ?? variable.typeName.better.name
                 let resolved = context.resolve(type: variable.typeName.better)
                 let getID = "_\(name)GetMethodID"
                 let setID = variable.isMutable ? "_\(name)SetMethodID" : nil

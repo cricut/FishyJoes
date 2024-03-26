@@ -39,7 +39,7 @@ struct _JavaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
     }
 
     static var _intComposeGetMethodID: jmethodID?
-    public var intCompose: ((Int) async throws -> Int, (Int) async throws -> Int) throws -> (Int) async throws -> Int {
+    public var intCompose: (@escaping (Int) async throws -> Int, @escaping (Int) async throws -> Int) throws -> (Int) async throws -> Int {
         get throws {
             let env = try Env.acquireJVMThread(on: _javaWitness.vm)
             defer {
@@ -67,7 +67,7 @@ struct _JavaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
     }
 
     static var _makeListGetMethodID: jmethodID?
-    public var makeList: (String, String, String, String) async throws -> Array<String> {
+    public var makeList: (String, String, String, String) async throws -> [String] {
         get throws {
             let env = try Env.acquireJVMThread(on: _javaWitness.vm)
             defer {
@@ -81,7 +81,7 @@ struct _JavaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
     }
 
     static var _fifthThingGetMethodID: jmethodID?
-    public var fifthThing: (String, Int, Double, String, () async throws -> Int) async throws -> () async throws -> Int {
+    public var fifthThing: (String, Int, Double, String, @escaping () async throws -> Int) async throws -> () async throws -> Int {
         get throws {
             let env = try Env.acquireJVMThread(on: _javaWitness.vm)
             defer {
@@ -95,7 +95,7 @@ struct _JavaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
     }
 
     static var _sixGetMethodID: jmethodID?
-    public var six: (String, Int, Double, String, () async throws -> Int, Int) async throws -> Int {
+    public var six: (String, Int, Double, String, @escaping () async throws -> Int, Int) async throws -> Int {
         get throws {
             let env = try Env.acquireJVMThread(on: _javaWitness.vm)
             defer {
