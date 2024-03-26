@@ -16,6 +16,7 @@ public func TestAPI_TestAsyncFunctionsStruct_setup(
     _ add3ThingsGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.CType,
     _ makeListGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.CType,
     _ fifthThingGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.CType,
+    _ sixGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType,
     _ exn: foreignOutExn
 ) {
     let env = Env(envRef)
@@ -27,6 +28,7 @@ public func TestAPI_TestAsyncFunctionsStruct_setup(
     TestAPI.TestAsyncFunctionsStruct._add3ThingsGetter[env] = add3ThingsGetter
     TestAPI.TestAsyncFunctionsStruct._makeListGetter[env] = makeListGetter
     TestAPI.TestAsyncFunctionsStruct._fifthThingGetter[env] = fifthThingGetter
+    TestAPI.TestAsyncFunctionsStruct._sixGetter[env] = sixGetter
 }
 
 extension TestAPI.TestAsyncFunctionsStruct: IotaMutator {
@@ -36,6 +38,7 @@ extension TestAPI.TestAsyncFunctionsStruct: IotaMutator {
     fileprivate static let _add3ThingsGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.CType>()
     fileprivate static let _makeListGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.CType>()
     fileprivate static let _fifthThingGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.CType>()
+    fileprivate static let _sixGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType>()
     public typealias _ConstructorMethod = @convention(c) (
         AsyncFunction0Converter<Swift.Int>.CType,
         AsyncFunction1Converter<Swift.Int, Swift.Int>.CType,
@@ -43,6 +46,7 @@ extension TestAPI.TestAsyncFunctionsStruct: IotaMutator {
         AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.CType,
         AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.CType,
         AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.CType,
+        AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType,
         _ exn: foreignOutExn
     ) -> foreignObject
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
@@ -72,6 +76,10 @@ extension TestAPI.TestAsyncFunctionsStruct: IotaMutator {
             fifthThing: try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.consumeIota(
                 try env.check { exn in _fifthThingGetter[env](value, exn) },
                 env: env
+            ),
+            six: try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.consumeIota(
+                try env.check { exn in _sixGetter[env](value, exn) },
+                env: env
             )
         )
     }
@@ -85,6 +93,7 @@ extension TestAPI.TestAsyncFunctionsStruct: IotaMutator {
                 try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.toIota(value.add3Things, env: env),
                 try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.toIota(value.makeList, env: env),
                 try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.toIota(value.fifthThing, env: env),
+                try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.toIota(value.six, env: env),
                 exn
             )
         }

@@ -61,14 +61,15 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
-/// <!-- FishyJoes.export(TestAsyncFunctionsStruct) -->
-class TestAsyncFunctionsStruct {
+/// <!-- FishyJoes.export(TestAsyncFunctionsStruct, conformances: [TestAsyncFunctions]) -->
+class TestAsyncFunctionsStruct implements TestAPI.TestAsyncFunctions {
     final Future<int> Function() const42;
     final Future<int> Function(int) iabs;
     final Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int)) intCompose;
     final Future<double> Function(double, double, int) add3Things;
     final Future<List<String>> Function(String, String, String, String) makeList;
     final Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function()) fifthThing;
+    final Future<int> Function(String, int, double, String, Future<int> Function(), int) six;
 
     TestAsyncFunctionsStruct({
         required Future<int> Function() const42,
@@ -76,14 +77,16 @@ class TestAsyncFunctionsStruct {
         required Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int)) intCompose,
         required Future<double> Function(double, double, int) add3Things,
         required Future<List<String>> Function(String, String, String, String) makeList,
-        required Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function()) fifthThing
+        required Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function()) fifthThing,
+        required Future<int> Function(String, int, double, String, Future<int> Function(), int) six
     }):
         this.const42 = const42,
         this.iabs = iabs,
         this.intCompose = intCompose,
         this.add3Things = add3Things,
         this.makeList = makeList,
-        this.fifthThing = fifthThing;
+        this.fifthThing = fifthThing,
+        this.six = six;
 
     static CreatedRef ffi_constructor(
         ConsumedRef const42,
@@ -92,6 +95,7 @@ class TestAsyncFunctionsStruct {
         ConsumedRef add3Things,
         ConsumedRef makeList,
         ConsumedRef fifthThing,
+        ConsumedRef six,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(TestAsyncFunctionsStruct(
@@ -101,10 +105,11 @@ class TestAsyncFunctionsStruct {
             add3Things: consumeRef(add3Things),
             makeList: consumeRef(makeList),
             fifthThing: consumeRef(fifthThing),
+            six: consumeRef(six),
         ))
     );
     @override
-    String toString() => 'TestAsyncFunctionsStruct(const42: $const42, iabs: $iabs, intCompose: $intCompose, add3Things: $add3Things, makeList: $makeList, fifthThing: $fifthThing)';
+    String toString() => 'TestAsyncFunctionsStruct(const42: $const42, iabs: $iabs, intCompose: $intCompose, add3Things: $add3Things, makeList: $makeList, fifthThing: $fifthThing, six: $six)';
 
     static CreatedRef ffi_get_const42(
         UnownedRef obj,
@@ -160,6 +165,15 @@ class TestAsyncFunctionsStruct {
         )
     );
 
+    static CreatedRef ffi_get_six(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestAsyncFunctionsStruct>(obj).six
+        )
+    );
+
     @override
     bool operator ==(Object other) {
         return identical(other, this) ||
@@ -172,7 +186,8 @@ class TestAsyncFunctionsStruct {
                 const DeepCollectionEquality().equals(other.intCompose, intCompose) &&
                 const DeepCollectionEquality().equals(other.add3Things, add3Things) &&
                 const DeepCollectionEquality().equals(other.makeList, makeList) &&
-                const DeepCollectionEquality().equals(other.fifthThing, fifthThing)
+                const DeepCollectionEquality().equals(other.fifthThing, fifthThing) &&
+                const DeepCollectionEquality().equals(other.six, six)
             )
         );
     }
@@ -185,7 +200,8 @@ class TestAsyncFunctionsStruct {
         const DeepCollectionEquality().hash(intCompose), 
         const DeepCollectionEquality().hash(add3Things), 
         const DeepCollectionEquality().hash(makeList), 
-        const DeepCollectionEquality().hash(fifthThing)
+        const DeepCollectionEquality().hash(fifthThing), 
+        const DeepCollectionEquality().hash(six)
     );
 
     TestAsyncFunctionsStruct copyWith({
@@ -194,13 +210,15 @@ class TestAsyncFunctionsStruct {
         Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int))? intCompose,
         Future<double> Function(double, double, int)? add3Things,
         Future<List<String>> Function(String, String, String, String)? makeList,
-        Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function())? fifthThing
+        Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function())? fifthThing,
+        Future<int> Function(String, int, double, String, Future<int> Function(), int)? six
     }) => TestAsyncFunctionsStruct(
         const42: const42 ?? this.const42,
         iabs: iabs ?? this.iabs,
         intCompose: intCompose ?? this.intCompose,
         add3Things: add3Things ?? this.add3Things,
         makeList: makeList ?? this.makeList,
-        fifthThing: fifthThing ?? this.fifthThing
+        fifthThing: fifthThing ?? this.fifthThing,
+        six: six ?? this.six
     );
 }

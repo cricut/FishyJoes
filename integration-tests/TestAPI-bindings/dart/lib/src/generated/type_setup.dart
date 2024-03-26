@@ -297,6 +297,7 @@ typedef _TestAPI_TestAsyncFunctionsStructConstructor = CreatedRef Function(
     ConsumedRef add3Things,
     ConsumedRef makeList,
     ConsumedRef fifthThing,
+    ConsumedRef six,
     OutCreatedRef exn
 );
 typedef _TestAPI_TestAsyncFunctionsStruct_const42Getter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
@@ -305,6 +306,7 @@ typedef _TestAPI_TestAsyncFunctionsStruct_intComposeGetter = CreatedRef Function
 typedef _TestAPI_TestAsyncFunctionsStruct_add3ThingsGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestAsyncFunctionsStruct_makeListGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestAsyncFunctionsStruct_fifthThingGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctionsStruct_sixGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestLeadingUnderscoredPropConstructor = CreatedRef Function(
     ffi.Pointer ref,
     OutCreatedRef exn
@@ -915,6 +917,7 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsStruct_add3ThingsGetter>> get_add3Things,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsStruct_makeListGetter>> get_makeList,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsStruct_fifthThingGetter>> get_fifthThing,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsStruct_sixGetter>> get_six,
             OutCreatedRef exn
         ),
         void Function(
@@ -926,6 +929,7 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsStruct_add3ThingsGetter>> get_add3Things,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsStruct_makeListGetter>> get_makeList,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsStruct_fifthThingGetter>> get_fifthThing,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsStruct_sixGetter>> get_six,
             OutCreatedRef exn
         )
     >('TestAPI_TestAsyncFunctionsStruct_setup');
@@ -6929,6 +6933,7 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctionsStruct.ffi_get_add3Things),
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctionsStruct.ffi_get_makeList),
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctionsStruct.ffi_get_fifthThing),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctionsStruct.ffi_get_six),
                 exn
             );
         });

@@ -1953,10 +1953,10 @@ export declare namespace TestAPI {
     }
 
     /**
-     * <!-- FishyJoes.export(TestAsyncFunctionsStruct) -->
+     * <!-- FishyJoes.export(TestAsyncFunctionsStruct, conformances: [TestAsyncFunctions]) -->
      */
     export class TestAsyncFunctionsStruct {
-        constructor(const42: () => Promise<number>, iabs: (_0: number) => Promise<number>, intCompose: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>, add3Things: (_0: number, _1: number, _2: number) => Promise<number>, makeList: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>, fifthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>)
+        constructor(const42: () => Promise<number>, iabs: (_0: number) => Promise<number>, intCompose: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>, add3Things: (_0: number, _1: number, _2: number) => Promise<number>, makeList: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>, fifthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>, six: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>)
 
         readonly const42: () => Promise<number>;
 
@@ -1969,6 +1969,8 @@ export declare namespace TestAPI {
         readonly makeList: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>;
 
         readonly fifthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>;
+
+        readonly six: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>;
     }
 
     /**

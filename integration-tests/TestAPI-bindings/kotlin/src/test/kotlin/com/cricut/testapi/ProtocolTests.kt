@@ -170,6 +170,9 @@ internal class ProtocolTests {
             },
             fifthThing = { a: String, b: Long, c: Double, d: String, e: suspend () -> Long ->
                 e
+            },
+            six = { a: String, b: Long, c: Double, d: String, e: suspend () -> Long, f: Long ->
+                f
             }
         )
         assertEquals(49, a.const42())
@@ -182,6 +185,8 @@ internal class ProtocolTests {
         assertEquals(d, listOf("By", "your", "powers", "combined"))
         val e = a.fifthThing("I, am", Long.MAX_VALUE, Double.MIN_VALUE, "Captain Planet!") { 42 }
         assertEquals(e(), 42)
+        val f = a.six("Big, bad", 24, 3.14159265359, "Beetleborgs", { 43 }, Long.MIN_VALUE)
+        assertEquals(f, Long.MIN_VALUE)
     }
 
     data class ProtocolKotlinImpl(

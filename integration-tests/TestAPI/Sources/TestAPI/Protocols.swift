@@ -254,7 +254,7 @@ public protocol TestAsyncFunctions {
     var const42: AsyncFunctions.AFun0 { get throws }
 }
 
-/// <!-- FishyJoes.export(TestAsyncFunctionsStruct) -->
+/// <!-- FishyJoes.export(TestAsyncFunctionsStruct, conformances: [TestAsyncFunctions]) -->
 public struct TestAsyncFunctionsStruct: TestAsyncFunctions {
     public let const42: AsyncFunctions.AFun0
     public let iabs: AsyncFunctions.AFun1
@@ -262,6 +262,7 @@ public struct TestAsyncFunctionsStruct: TestAsyncFunctions {
     public let add3Things: AsyncFunctions.AFun3
     public let makeList: AsyncFunctions.AFun4
     public let fifthThing: AsyncFunctions.AFun5
+    public let six: AsyncFunctions.AFun6
 
     public init(
         const42: @escaping AsyncFunctions.AFun0,
@@ -269,7 +270,8 @@ public struct TestAsyncFunctionsStruct: TestAsyncFunctions {
         intCompose: @escaping AsyncFunctions.AFun2,
         add3Things: @escaping AsyncFunctions.AFun3,
         makeList: @escaping AsyncFunctions.AFun4,
-        fifthThing: @escaping AsyncFunctions.AFun5
+        fifthThing: @escaping AsyncFunctions.AFun5,
+        six: @escaping AsyncFunctions.AFun6
     ) {
         self.const42 = const42
         self.iabs = iabs
@@ -277,5 +279,6 @@ public struct TestAsyncFunctionsStruct: TestAsyncFunctions {
         self.add3Things = add3Things
         self.makeList = makeList
         self.fifthThing = fifthThing
+        self.six = six
     }
 }
