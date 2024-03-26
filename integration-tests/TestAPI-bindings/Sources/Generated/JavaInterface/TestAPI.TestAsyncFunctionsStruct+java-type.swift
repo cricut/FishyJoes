@@ -12,11 +12,16 @@ extension TestAPI.TestAsyncFunctionsStruct: JavaMutator {
 
     public static var javaClass: jclass?
     private static var _java_const42_id: jfieldID!
+    private static var _java_iabs_id: jfieldID!
     private static var _constructorMethodID: jmethodID!
     public static func fromJava(_ value: jobject?, env: Env) throws -> Self {
         Self(
             const42: try AsyncFunction0Converter<Swift.Int>.fromJava(
                 env.GetObjectField(value, Self._java_const42_id),
+                env: env
+            ),
+            iabs: try AsyncFunction1Converter<Swift.Int, Swift.Int>.fromJava(
+                env.GetObjectField(value, Self._java_iabs_id),
                 env: env
             )
         )
@@ -25,14 +30,16 @@ extension TestAPI.TestAsyncFunctionsStruct: JavaMutator {
         try env.NewObject(
             Self.javaClass,
             Self._constructorMethodID,
-            jvalue(AsyncFunction0Converter<Swift.Int>.toJava(value.const42, env: env))
+            jvalue(AsyncFunction0Converter<Swift.Int>.toJava(value.const42, env: env)),
+            jvalue(AsyncFunction1Converter<Swift.Int, Swift.Int>.toJava(value.iabs, env: env))
         )
     }
     public static func javaSetup(env: Env) throws {
         guard javaClass == nil else { return }
         javaClass = try env.globalRef(env.FindClass("com/cricut/testapi/TestAsyncFunctionsStruct"))
         _java_const42_id = try env.GetFieldID(javaClass, "const42", "Lkotlin/jvm/functions/Function1;")
-        _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(Lkotlin/jvm/functions/Function1;)V")
+        _java_iabs_id = try env.GetFieldID(javaClass, "iabs", "Lkotlin/jvm/functions/Function2;")
+        _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;)V")
     }
     public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout Self) throws -> R) throws -> R {
         var mutatingSelf = try fromJava(this, env: env)
@@ -40,6 +47,10 @@ extension TestAPI.TestAsyncFunctionsStruct: JavaMutator {
         try env.SetObjectField(
             this, Self._java_const42_id,
             AsyncFunction0Converter<Swift.Int>.toJava(mutatingSelf.const42, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_iabs_id,
+            AsyncFunction1Converter<Swift.Int, Swift.Int>.toJava(mutatingSelf.iabs, env: env)
         )
         return result
     }
@@ -49,6 +60,10 @@ extension TestAPI.TestAsyncFunctionsStruct: JavaMutator {
         try env.SetObjectField(
             this, Self._java_const42_id,
             AsyncFunction0Converter<Swift.Int>.toJava(mutatingSelf.const42, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_iabs_id,
+            AsyncFunction1Converter<Swift.Int, Swift.Int>.toJava(mutatingSelf.iabs, env: env)
         )
         return result
     }

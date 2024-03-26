@@ -63,23 +63,28 @@ import 'package:tuple/tuple.dart' as tuple;
 
 /// <!-- FishyJoes.export(TestAsyncFunctionsStruct) -->
 class TestAsyncFunctionsStruct {
-    Future<int> Function() const42;
+    final Future<int> Function() const42;
+    final Future<int> Function(int) iabs;
 
     TestAsyncFunctionsStruct({
-        required Future<int> Function() const42
+        required Future<int> Function() const42,
+        required Future<int> Function(int) iabs
     }):
-        this.const42 = const42;
+        this.const42 = const42,
+        this.iabs = iabs;
 
     static CreatedRef ffi_constructor(
         ConsumedRef const42,
+        ConsumedRef iabs,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(TestAsyncFunctionsStruct(
             const42: consumeRef(const42),
+            iabs: consumeRef(iabs),
         ))
     );
     @override
-    String toString() => 'TestAsyncFunctionsStruct(const42: $const42)';
+    String toString() => 'TestAsyncFunctionsStruct(const42: $const42, iabs: $iabs)';
 
     static CreatedRef ffi_get_const42(
         UnownedRef obj,
@@ -89,13 +94,15 @@ class TestAsyncFunctionsStruct {
             peekRef<TestAsyncFunctionsStruct>(obj).const42
         )
     );
-    static void ffi_set_const42(
+
+    static CreatedRef ffi_get_iabs(
         UnownedRef obj,
-        ConsumedRef newValue,
         OutCreatedRef exn
-    ) => catching(exn, () {
-        peekRef<TestAsyncFunctionsStruct>(obj).const42 = consumeRef<Future<int> Function()>(newValue);
-    });
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestAsyncFunctionsStruct>(obj).iabs
+        )
+    );
 
     @override
     bool operator ==(Object other) {
@@ -104,7 +111,8 @@ class TestAsyncFunctionsStruct {
             other.runtimeType == runtimeType &&
             other is TestAsyncFunctionsStruct &&
             (
-                const DeepCollectionEquality().equals(other.const42, const42)
+                const DeepCollectionEquality().equals(other.const42, const42) &&
+                const DeepCollectionEquality().equals(other.iabs, iabs)
             )
         );
     }
@@ -112,12 +120,15 @@ class TestAsyncFunctionsStruct {
     @override
     int get hashCode => Object.hash(
         runtimeType,
-        const DeepCollectionEquality().hash(const42)
+        const DeepCollectionEquality().hash(const42), 
+        const DeepCollectionEquality().hash(iabs)
     );
 
     TestAsyncFunctionsStruct copyWith({
-        Future<int> Function()? const42
+        Future<int> Function()? const42,
+        Future<int> Function(int)? iabs
     }) => TestAsyncFunctionsStruct(
-        const42: const42 ?? this.const42
+        const42: const42 ?? this.const42,
+        iabs: iabs ?? this.iabs
     );
 }

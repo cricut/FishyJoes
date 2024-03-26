@@ -150,9 +150,14 @@ internal class ProtocolTests {
 
     @Test
     fun testAsyncFunctions() = runTest(timeout = 1000000.seconds) {
-        var a = TestAsyncFunctionsStruct(const42 = { 49 })
-        println("a: $a")
-        println("a.const42(): ${a.const42()}")
+        val a = TestAsyncFunctionsStruct(
+            const42 = { 49 },
+            iabs = { x: Long ->
+                x * 3
+            }
+        )
+        assertEquals(49, a.const42())
+        assertEquals(12, a.iabs(4))
     }
 
     data class ProtocolKotlinImpl(

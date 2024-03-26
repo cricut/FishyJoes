@@ -495,16 +495,17 @@ namespace Cricut.TestAPI {
 
         delegate CreatedRef _TestAPI_TestAsyncFunctionsStructConstructor(
             ConsumedRef const42,
+            ConsumedRef iabs,
             out CreatedRef exn
         );
         delegate CreatedRef _TestAPI_TestAsyncFunctionsStruct_const42Getter(UnownedRef obj, out CreatedRef exn);
-        delegate void _TestAPI_TestAsyncFunctionsStruct_const42Setter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_TestAsyncFunctionsStruct_iabsGetter(UnownedRef obj, out CreatedRef exn);
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_TestAsyncFunctionsStruct_setup(
             IntPtr envRef,
             _TestAPI_TestAsyncFunctionsStructConstructor constructor,
             _TestAPI_TestAsyncFunctionsStruct_const42Getter get_const42,
-            _TestAPI_TestAsyncFunctionsStruct_const42Setter set_const42,
+            _TestAPI_TestAsyncFunctionsStruct_iabsGetter get_iabs,
             out CreatedRef _exn
         );
 
@@ -2316,17 +2317,18 @@ namespace Cricut.TestAPI {
                 Console.WriteLine("setting up TestAPI.TestAsyncFunctionsStruct...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_TestAsyncFunctionsStruct_setup(
                     Loader.env,
-                    bag<_TestAPI_TestAsyncFunctionsStructConstructor>((ConsumedRef const42, out CreatedRef exn) => Catching(out exn, () => {
+                    bag<_TestAPI_TestAsyncFunctionsStructConstructor>((ConsumedRef const42, ConsumedRef iabs, out CreatedRef exn) => Catching(out exn, () => {
                         return new CreatedRef(new Cricut.TestAPI.TestAsyncFunctionsStruct(
-                            const42.Consume<System.Func<System.Threading.Tasks.Task<nint>>>()
+                            const42.Consume<System.Func<System.Threading.Tasks.Task<nint>>>(),
+                            iabs.Consume<System.Func<nint, System.Threading.Tasks.Task<nint>>>()
                         ));
                     })),
                     bag<_TestAPI_TestAsyncFunctionsStruct_const42Getter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncFunctionsStruct>().Const42)
                     )),
-                    bag<_TestAPI_TestAsyncFunctionsStruct_const42Setter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.TestAsyncFunctionsStruct>().Const42 = newValue.Consume<System.Func<System.Threading.Tasks.Task<nint>>>();
-                    })),
+                    bag<_TestAPI_TestAsyncFunctionsStruct_iabsGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncFunctionsStruct>().Iabs)
+                    )),
                     out exn
                 ));
             });

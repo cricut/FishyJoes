@@ -256,9 +256,14 @@ public protocol TestAsyncFunctions {
 
 /// <!-- FishyJoes.export(TestAsyncFunctionsStruct) -->
 public struct TestAsyncFunctionsStruct: TestAsyncFunctions {
-    public var const42: AsyncFunctions.AFun0
+    public let const42: AsyncFunctions.AFun0
+    public let iabs: AsyncFunctions.AFun1
     
-    public init(const42: @escaping AsyncFunctions.AFun0) {
+    public init(
+        const42: @escaping AsyncFunctions.AFun0,
+        iabs: @escaping AsyncFunctions.AFun1
+    ) {
         self.const42 = const42
+        self.iabs = iabs
     }
 }

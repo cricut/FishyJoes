@@ -292,10 +292,11 @@ typedef _TestAPI_TestAsyncFunctionsConstructor = CreatedRef Function(
 typedef _TestAPI_TestAsyncFunctions_const42Getter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestAsyncFunctionsStructConstructor = CreatedRef Function(
     ConsumedRef const42,
+    ConsumedRef iabs,
     OutCreatedRef exn
 );
 typedef _TestAPI_TestAsyncFunctionsStruct_const42Getter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
-typedef _TestAPI_TestAsyncFunctionsStruct_const42Setter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctionsStruct_iabsGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestLeadingUnderscoredPropConstructor = CreatedRef Function(
     ffi.Pointer ref,
     OutCreatedRef exn
@@ -901,14 +902,14 @@ final ensureLoaded = (() {
             Env env,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsStructConstructor>> constructor,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsStruct_const42Getter>> get_const42,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsStruct_const42Setter>> set_const42,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsStruct_iabsGetter>> get_iabs,
             OutCreatedRef exn
         ),
         void Function(
             Env env,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsStructConstructor>> constructor,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsStruct_const42Getter>> get_const42,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsStruct_const42Setter>> set_const42,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsStruct_iabsGetter>> get_iabs,
             OutCreatedRef exn
         )
     >('TestAPI_TestAsyncFunctionsStruct_setup');
@@ -6907,7 +6908,7 @@ final ensureLoaded = (() {
                 Loader.shared.env,
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctionsStruct.ffi_constructor),
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctionsStruct.ffi_get_const42),
-                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctionsStruct.ffi_set_const42),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctionsStruct.ffi_get_iabs),
                 exn
             );
         });

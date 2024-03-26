@@ -3156,12 +3156,18 @@
             "constructor" : {
               "visible" : {
                 "names" : [
-                  "const42"
+                  "const42",
+                  "iabs"
                 ],
                 "types" : [
                   {
                     "named" : {
                       "_0" : "() => Promise<number>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: number) => Promise<number>"
                     }
                   }
                 ]
@@ -3180,10 +3186,23 @@
                 ],
                 "isStatic" : false,
                 "name" : "const42",
-                "readOnly" : false,
+                "readOnly" : true,
                 "type" : {
                   "named" : {
                     "_0" : "() => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "iabs",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: number) => Promise<number>"
                   }
                 }
               }
