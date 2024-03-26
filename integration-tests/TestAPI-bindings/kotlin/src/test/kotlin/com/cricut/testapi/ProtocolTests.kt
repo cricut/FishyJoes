@@ -189,6 +189,15 @@ internal class ProtocolTests {
         assertEquals(f, Long.MIN_VALUE)
     }
 
+    @Test
+    fun testAsyncSwiftSideFunctions() = runTest(timeout = 1000000.seconds) {
+        val a = TestAsyncSwiftSideFunctionsClass.init()
+        assertEquals(a.const42(), 42)
+        assertEquals(a.iabs(-2398),2398)
+        val b = a.intCompose({x: Long -> x * 3}, {y: Long -> y * 5})
+        assertEquals(b(92), 1380)
+    }
+
     data class ProtocolKotlinImpl(
         override var foo: kotlin.String,
         override val baz: Boolean

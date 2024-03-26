@@ -1961,6 +1961,51 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_get_TestAPI_TestAsyncFunctions_six, to: UnsafeMutableRawPointer.self)
             )
         )
+        // print("setting up TestAPI.TestAsyncSwiftSideFunctionsClass...")
+        try TestAPI.TestAsyncSwiftSideFunctionsClass.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI.TestAsyncSwiftSideFunctionsClass.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_init"),
+                signature: bag.add("()Lcom/cricut/testapi/TestAsyncSwiftSideFunctionsClass;"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestAsyncSwiftSideFunctionsClass_init, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_const42"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function1;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestAsyncSwiftSideFunctionsClass_const42, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_iabs"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function2;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestAsyncSwiftSideFunctionsClass_iabs, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_intCompose"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function2;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestAsyncSwiftSideFunctionsClass_intCompose, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_add3Things"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function4;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestAsyncSwiftSideFunctionsClass_add3Things, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_makeList"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function5;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestAsyncSwiftSideFunctionsClass_makeList, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_fifthThing"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function6;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestAsyncSwiftSideFunctionsClass_fifthThing, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_six"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function7;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestAsyncSwiftSideFunctionsClass_six, to: UnsafeMutableRawPointer.self)
+            )
+        )
         // print("setting up TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter...")
         try TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter.javaSetup(env: env)
         try env.RegisterNatives(

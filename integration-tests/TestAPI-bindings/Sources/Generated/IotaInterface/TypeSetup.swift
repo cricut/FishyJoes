@@ -175,6 +175,7 @@ public func FishyJoes_TestAPI_registerTypes() {
     Env.registerType(TestAPI.Structs.self, as: "TestAPI.Structs")
     Env.registerType(TestAPI.TestAsyncForeignSideFunctionsStruct.self, as: "TestAPI.TestAsyncForeignSideFunctionsStruct")
     Env.registerType(TestAPI_CommonInterface._TestAsyncFunctionsConverter.self, as: "TestAPI_CommonInterface._TestAsyncFunctionsConverter")
+    Env.registerType(TestAPI.TestAsyncSwiftSideFunctionsClass.self, as: "TestAPI.TestAsyncSwiftSideFunctionsClass")
     Env.registerType(TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter.self, as: "TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter")
     Env.registerType(TestAPI.TestLeadingUnderscoredPropStruct.self, as: "TestAPI.TestLeadingUnderscoredPropStruct")
     Env.registerType(TestAPI_CommonInterface._TestMethodsProtocolConverter.self, as: "TestAPI_CommonInterface._TestMethodsProtocolConverter")

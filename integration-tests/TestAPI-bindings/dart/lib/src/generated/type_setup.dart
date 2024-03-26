@@ -34,6 +34,7 @@ import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Structs_ReferenceStruct.dart' as TestAPI;
 import './TestAsyncForeignSideFunctionsStruct.dart' as TestAPI;
 import './TestAsyncFunctions.dart' as TestAPI;
+import './TestAsyncSwiftSideFunctionsClass.dart' as TestAPI;
 import './TestLeadingUnderscoredProp.dart' as TestAPI;
 import './TestLeadingUnderscoredPropStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
@@ -951,6 +952,18 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup');
+    final TestAPI_TestAsyncSwiftSideFunctionsClass_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
+            OutCreatedRef exn
+        )
+    >('TestAPI_TestAsyncSwiftSideFunctionsClass_setup');
     final TestAPI_CommonInterface__TestLeadingUnderscoredPropConverter_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -2683,6 +2696,16 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Structs_ReferenceStruct_equals");
+    TestAPI.TestAsyncSwiftSideFunctionsClass.f__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_init = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_init");
     TestAPI.ExternalWitness_TestMethodsProtocol.f__iota_TestAPI_TestMethodsProtocol_bar = dylib.lookupFunction<
         ffi.Bool Function(
             Env env,
@@ -4825,6 +4848,90 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_TestAsyncFunctions_six");
+    TestAPI.TestAsyncSwiftSideFunctionsClass.f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_add3Things = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_add3Things");
+    TestAPI.TestAsyncSwiftSideFunctionsClass.f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_const42 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_const42");
+    TestAPI.TestAsyncSwiftSideFunctionsClass.f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_fifthThing = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_fifthThing");
+    TestAPI.TestAsyncSwiftSideFunctionsClass.f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_iabs = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_iabs");
+    TestAPI.TestAsyncSwiftSideFunctionsClass.f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_intCompose = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_intCompose");
+    TestAPI.TestAsyncSwiftSideFunctionsClass.f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_makeList = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_makeList");
+    TestAPI.TestAsyncSwiftSideFunctionsClass.f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_six = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_six");
     TestAPI.ExternalWitness_TestLeadingUnderscoredProp.f__iota_get_TestAPI_TestLeadingUnderscoredProp__leadingUnderscoreProp = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -7030,6 +7137,17 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_get_makeList),
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_get_fifthThing),
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_get_six),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.TestAsyncSwiftSideFunctionsClass", () {
+        // print("setting up TestAPI.TestAsyncSwiftSideFunctionsClass (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_TestAsyncSwiftSideFunctionsClass_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncSwiftSideFunctionsClass.ffi_new),
                 exn
             );
         });

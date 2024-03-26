@@ -294,3 +294,24 @@ public struct TestAsyncForeignSideFunctionsStruct: TestAsyncFunctions {
         self.six = six
     }
 }
+
+/// <!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass, conformances: [TestAsyncFunctions]) -->
+public class TestAsyncSwiftSideFunctionsClass: TestAsyncFunctions {
+    /// <!-- FishyJoes.export(const42) -->
+    public var const42: AsyncFunctions.AFun0 { AsyncFunctions.const42 }
+    /// <!-- FishyJoes.export(iabs) -->
+    public var iabs: AsyncFunctions.AFun1 { AsyncFunctions.iabs }
+    /// <!-- FishyJoes.export(intCompose) -->
+    public var intCompose: AsyncFunctions.AFun2 { AsyncFunctions.intCompose }
+    /// <!-- FishyJoes.export(add3Things) -->
+    public var add3Things: AsyncFunctions.AFun3 { AsyncFunctions.add3Things }
+    /// <!-- FishyJoes.export(makeList) -->
+    public var makeList: AsyncFunctions.AFun4 { AsyncFunctions.makeList }
+    /// <!-- FishyJoes.export(fifthThing) -->
+    public var fifthThing: AsyncFunctions.AFun5 { AsyncFunctions.fifthThing }
+    /// <!-- FishyJoes.export(six) -->
+    public var six: AsyncFunctions.AFun6 { AsyncFunctions.six }
+
+    /// <!-- FishyJoes.export(init) -->
+    public init() {}
+}

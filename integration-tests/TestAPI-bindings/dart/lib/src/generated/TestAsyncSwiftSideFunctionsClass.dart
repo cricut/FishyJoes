@@ -62,171 +62,115 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
-/// <!-- FishyJoes.export(TestProtocolStruct, conformances: [TestMethodsProtocol, TestPropertiesProtocol]) -->
-class TestProtocolStruct implements TestAPI.TestMethodsProtocol, TestAPI.TestPropertiesProtocol {
-    String corge;
-
-    TestProtocolStruct({
-        required String corge
-    }):
-        this.corge = corge;
-
-    static CreatedRef ffi_constructor(
-        ConsumedRef corge,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(TestProtocolStruct(
-            corge: consumeRef(corge),
-        ))
+/// <!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass, conformances: [TestAsyncFunctions]) -->
+class TestAsyncSwiftSideFunctionsClass extends SwiftReference implements TestAPI.TestAsyncFunctions {
+    TestAsyncSwiftSideFunctionsClass(ffi.Pointer reference): super(reference) {}
+    static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
+        createRef(TestAsyncSwiftSideFunctionsClass(ref))
     );
-    @override
-    String toString() => 'TestProtocolStruct(corge: $corge)';
-
-    static CreatedRef ffi_get_corge(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<TestProtocolStruct>(obj).corge
-        )
-    );
-    static void ffi_set_corge(
-        UnownedRef obj,
-        ConsumedRef newValue,
-        OutCreatedRef exn
-    ) => catching(exn, () {
-        peekRef<TestProtocolStruct>(obj).corge = consumeRef<String>(newValue);
-    });
 
     @override
-    bool operator ==(Object other) {
-        return identical(other, this) ||
-        (
-            other.runtimeType == runtimeType &&
-            other is TestProtocolStruct &&
-            (
-                const DeepCollectionEquality().equals(other.corge, corge)
-            )
-        );
-    }
+    String toString() => 'TestAsyncSwiftSideFunctionsClass(const42: $const42, iabs: $iabs, intCompose: $intCompose, add3Things: $add3Things, makeList: $makeList, fifthThing: $fifthThing, six: $six)';
 
-    @override
-    int get hashCode => Object.hash(
-        runtimeType,
-        const DeepCollectionEquality().hash(corge)
-    );
-
-    TestProtocolStruct copyWith({
-        String? corge
-    }) => TestProtocolStruct(
-        corge: corge ?? this.corge
-    );
-
-    /// <!-- FishyJoes.export(frob) -->
-    List<double> get frob =>
+    /// <!-- FishyJoes.export(const42) -->
+    Future<int> Function() get const42 =>
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
-                consumeCreatedRef<List<double>>(f__iota_get_TestAPI_TestProtocolStruct_frob(Loader.shared.env, _thisHandle.ptr, exn))
+                consumeCreatedRef<Future<int> Function()>(f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_const42(Loader.shared.env, _thisHandle.ptr, exn))
             )
         )
     ;
-    /// <!-- FishyJoes.export(bar) -->
-    bool bar(
-    ) =>
+    /// <!-- FishyJoes.export(iabs) -->
+    Future<int> Function(int) get iabs =>
         GCRef.using(this, (_thisHandle) =>
-            check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolStruct_bar(Loader.shared.env, _thisHandle.ptr, _exn))
-        )
-    ;
-
-    /// <!-- FishyJoes.export(baz) -->
-    void baz(
-        bool qux,
-    ) =>
-        GCRef.using(this, (_thisHandle) =>
-            check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolStruct_baz(Loader.shared.env, _thisHandle.ptr, qux, _exn))
-        )
-    ;
-
-    /// <!-- FishyJoes.export(foo) -->
-    void foo(
-    ) =>
-        GCRef.using(this, (_thisHandle) =>
-            check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolStruct_foo(Loader.shared.env, _thisHandle.ptr, _exn))
-        )
-    ;
-
-    /// <!-- FishyJoes.export(garply) -->
-    String garply(
-        String str,
-    ) =>
-        GCRef.using(this, (_thisHandle) =>
-            GCRef.using(str, (_strHandle) =>
-                consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolStruct_garply(Loader.shared.env, _thisHandle.ptr, _strHandle.ptr, _exn)))
+            check((exn) =>
+                consumeCreatedRef<Future<int> Function(int)>(f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_iabs(Loader.shared.env, _thisHandle.ptr, exn))
             )
         )
     ;
-
-    /// <!-- FishyJoes.export(plugh) -->
-    tuple.Tuple3<bool, int, String> plugh(
-        tuple.Tuple3<bool, double, List<String>> fred,
-    ) =>
+    /// <!-- FishyJoes.export(intCompose) -->
+    Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int)) get intCompose =>
         GCRef.using(this, (_thisHandle) =>
-            GCRef.using(fred, (_fredHandle) =>
-                consumeCreatedRef<tuple.Tuple3<bool, int, String>>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolStruct_plugh(Loader.shared.env, _thisHandle.ptr, _fredHandle.ptr, _exn)))
+            check((exn) =>
+                consumeCreatedRef<Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int))>(f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_intCompose(Loader.shared.env, _thisHandle.ptr, exn))
             )
         )
     ;
-
-    /// <!-- FishyJoes.export(xyzzy) -->
-    String xyzzy(
-        int thud,
-        List<double> grault,
-    ) =>
+    /// <!-- FishyJoes.export(add3Things) -->
+    Future<double> Function(double, double, int) get add3Things =>
         GCRef.using(this, (_thisHandle) =>
-            GCRef.using(grault, (_graultHandle) =>
-                consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolStruct_xyzzy(Loader.shared.env, _thisHandle.ptr, thud, _graultHandle.ptr, _exn)))
+            check((exn) =>
+                consumeCreatedRef<Future<double> Function(double, double, int)>(f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_add3Things(Loader.shared.env, _thisHandle.ptr, exn))
             )
         )
     ;
+    /// <!-- FishyJoes.export(makeList) -->
+    Future<List<String>> Function(String, String, String, String) get makeList =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                consumeCreatedRef<Future<List<String>> Function(String, String, String, String)>(f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_makeList(Loader.shared.env, _thisHandle.ptr, exn))
+            )
+        )
+    ;
+    /// <!-- FishyJoes.export(fifthThing) -->
+    Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function()) get fifthThing =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                consumeCreatedRef<Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function())>(f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_fifthThing(Loader.shared.env, _thisHandle.ptr, exn))
+            )
+        )
+    ;
+    /// <!-- FishyJoes.export(six) -->
+    Future<int> Function(String, int, double, String, Future<int> Function(), int) get six =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                consumeCreatedRef<Future<int> Function(String, int, double, String, Future<int> Function(), int)>(f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_six(Loader.shared.env, _thisHandle.ptr, exn))
+            )
+        )
+    ;
+    /// <!-- FishyJoes.export(init) -->
+    static TestAPI.TestAsyncSwiftSideFunctionsClass init(
+    ) =>
+        consumeCreatedRef<TestAPI.TestAsyncSwiftSideFunctionsClass>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_init(Loader.shared.env, _exn)))
+    ;
 
-    static late bool Function(
-        Env env,
-        UnownedRef _this,
-        OutCreatedRef _exn
-    ) f__iota_TestAPI_TestProtocolStruct_bar;
-    static late void Function(
-        Env env,
-        UnownedRef _this,
-        bool qux,
-        OutCreatedRef _exn
-    ) f__iota_TestAPI_TestProtocolStruct_baz;
-    static late void Function(
-        Env env,
-        UnownedRef _this,
-        OutCreatedRef _exn
-    ) f__iota_TestAPI_TestProtocolStruct_foo;
     static late CreatedRef Function(
         Env env,
-        UnownedRef _this,
-        UnownedRef str,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_TestProtocolStruct_garply;
-    static late CreatedRef Function(
-        Env env,
-        UnownedRef _this,
-        UnownedRef fred,
-        OutCreatedRef _exn
-    ) f__iota_TestAPI_TestProtocolStruct_plugh;
-    static late CreatedRef Function(
-        Env env,
-        UnownedRef _this,
-        int thud,
-        UnownedRef grault,
-        OutCreatedRef _exn
-    ) f__iota_TestAPI_TestProtocolStruct_xyzzy;
+    ) f__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_init;
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_get_TestAPI_TestProtocolStruct_frob;
+    ) f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_add3Things;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_const42;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_fifthThing;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_iabs;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_intCompose;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_makeList;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_six;
 }

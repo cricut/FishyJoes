@@ -31,6 +31,7 @@ export './Structs.dart';
 export './TestAsyncForeignSideFunctionsStruct.dart';
 export './TestAsyncFunctions.dart';
 export './ExternalWitness_TestAsyncFunctions.dart';
+export './TestAsyncSwiftSideFunctionsClass.dart';
 export './TestLeadingUnderscoredProp.dart';
 export './ExternalWitness_TestLeadingUnderscoredProp.dart';
 export './TestLeadingUnderscoredPropStruct.dart';
