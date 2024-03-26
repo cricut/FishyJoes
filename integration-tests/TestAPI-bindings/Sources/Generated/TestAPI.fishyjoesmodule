@@ -1460,6 +1460,58 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestAsyncForeignSideFunctionsStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestAsyncForeignSideFunctionsStruct",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestAsyncForeignSideFunctionsStruct",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestAsyncForeignSideFunctionsStruct"
+        }
+      },
+      "kotlinName" : "TestAsyncForeignSideFunctionsStruct",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestAsyncForeignSideFunctionsStruct>>",
+      "nodeName" : "TestAPI.TestAsyncForeignSideFunctionsStruct",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestAsyncForeignSideFunctionsStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
             "module" : "TestAPI_CommonInterface",
             "name" : "_TestAsyncFunctionsConverter",
             "namespace" : [
@@ -1501,58 +1553,6 @@
           "_0" : {
             "module" : "TestAPI",
             "name" : "TestAsyncFunctions",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TestAsyncFunctionsStruct",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "TestAsyncFunctionsStruct",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "TestAsyncFunctionsStruct",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/TestAsyncFunctionsStruct"
-        }
-      },
-      "kotlinName" : "TestAsyncFunctionsStruct",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestAsyncFunctionsStruct>>",
-      "nodeName" : "TestAPI.TestAsyncFunctionsStruct",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TestAsyncFunctionsStruct",
             "namespace" : [
 
             ]
@@ -3163,6 +3163,161 @@
               }
             },
             "documentation" : [
+              "<!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct, conformances: [TestAsyncFunctions]) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "const42",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "() => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "iabs",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "intCompose",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "add3Things",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: number, _1: number, _2: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "makeList",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: string, _1: string, _2: string, _3: string) => Promise<string[]>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "fifthThing",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "six",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
+                  }
+                }
+              }
+            ],
+            "methods" : [
+
+            ],
+            "name" : "TestAsyncForeignSideFunctionsStruct"
+          },
+          {
+            "constructor" : {
+              "visible" : {
+                "names" : [
+                  "const42",
+                  "iabs",
+                  "intCompose",
+                  "add3Things",
+                  "makeList",
+                  "fifthThing",
+                  "six"
+                ],
+                "types" : [
+                  {
+                    "named" : {
+                      "_0" : "() => Promise<number>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: number) => Promise<number>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: number, _1: number, _2: number) => Promise<number>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: string, _1: string, _2: string, _3: string) => Promise<string[]>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
+                    }
+                  }
+                ]
+              }
+            },
+            "documentation" : [
               "<!-- FishyJoes.export(TestAsyncFunctions) -->"
             ],
             "extends" : [
@@ -3265,161 +3420,6 @@
 
             ],
             "name" : "TestAsyncFunctions"
-          },
-          {
-            "constructor" : {
-              "visible" : {
-                "names" : [
-                  "const42",
-                  "iabs",
-                  "intCompose",
-                  "add3Things",
-                  "makeList",
-                  "fifthThing",
-                  "six"
-                ],
-                "types" : [
-                  {
-                    "named" : {
-                      "_0" : "() => Promise<number>"
-                    }
-                  },
-                  {
-                    "named" : {
-                      "_0" : "(_0: number) => Promise<number>"
-                    }
-                  },
-                  {
-                    "named" : {
-                      "_0" : "(_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>"
-                    }
-                  },
-                  {
-                    "named" : {
-                      "_0" : "(_0: number, _1: number, _2: number) => Promise<number>"
-                    }
-                  },
-                  {
-                    "named" : {
-                      "_0" : "(_0: string, _1: string, _2: string, _3: string) => Promise<string[]>"
-                    }
-                  },
-                  {
-                    "named" : {
-                      "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>"
-                    }
-                  },
-                  {
-                    "named" : {
-                      "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
-                    }
-                  }
-                ]
-              }
-            },
-            "documentation" : [
-              "<!-- FishyJoes.export(TestAsyncFunctionsStruct, conformances: [TestAsyncFunctions]) -->"
-            ],
-            "extends" : [
-
-            ],
-            "fields" : [
-              {
-                "documentation" : [
-
-                ],
-                "isStatic" : false,
-                "name" : "const42",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "() => Promise<number>"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-
-                ],
-                "isStatic" : false,
-                "name" : "iabs",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "(_0: number) => Promise<number>"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-
-                ],
-                "isStatic" : false,
-                "name" : "intCompose",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "(_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-
-                ],
-                "isStatic" : false,
-                "name" : "add3Things",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "(_0: number, _1: number, _2: number) => Promise<number>"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-
-                ],
-                "isStatic" : false,
-                "name" : "makeList",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "(_0: string, _1: string, _2: string, _3: string) => Promise<string[]>"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-
-                ],
-                "isStatic" : false,
-                "name" : "fifthThing",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-
-                ],
-                "isStatic" : false,
-                "name" : "six",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
-                  }
-                }
-              }
-            ],
-            "methods" : [
-
-            ],
-            "name" : "TestAsyncFunctionsStruct"
           },
           {
             "constructor" : {

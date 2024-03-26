@@ -4,9 +4,9 @@ import kotlinx.coroutines.*
 import java.lang.Exception
 
 /**
- * <!-- FishyJoes.export(TestAsyncFunctionsStruct, conformances: [TestAsyncFunctions]) -->
+ * <!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct, conformances: [TestAsyncFunctions]) -->
  */
-data class TestAsyncFunctionsStruct(
+data class TestAsyncForeignSideFunctionsStruct(
     override val const42: (suspend () -> Long),
     override val iabs: (suspend (Long) -> Long),
     override val intCompose: (((suspend (Long) -> Long), (suspend (Long) -> Long)) -> (suspend (Long) -> Long)),

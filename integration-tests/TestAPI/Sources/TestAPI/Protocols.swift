@@ -266,8 +266,8 @@ public protocol TestAsyncFunctions {
     var six: AsyncFunctions.AFun6 { get throws }
 }
 
-/// <!-- FishyJoes.export(TestAsyncFunctionsStruct, conformances: [TestAsyncFunctions]) -->
-public struct TestAsyncFunctionsStruct: TestAsyncFunctions {
+/// <!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct, conformances: [TestAsyncFunctions]) -->
+public struct TestAsyncForeignSideFunctionsStruct: TestAsyncFunctions {
     public let const42: AsyncFunctions.AFun0
     public let iabs: AsyncFunctions.AFun1
     public let intCompose: AsyncFunctions.AFun2

@@ -32,8 +32,8 @@ import './Structs_MemberwiseStruct.dart' as TestAPI;
 import './Structs_MutableStruct.dart' as TestAPI;
 import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Structs_ReferenceStruct.dart' as TestAPI;
+import './TestAsyncForeignSideFunctionsStruct.dart' as TestAPI;
 import './TestAsyncFunctions.dart' as TestAPI;
-import './TestAsyncFunctionsStruct.dart' as TestAPI;
 import './TestLeadingUnderscoredProp.dart' as TestAPI;
 import './TestLeadingUnderscoredPropStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
@@ -61,8 +61,8 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
-/// <!-- FishyJoes.export(TestAsyncFunctionsStruct, conformances: [TestAsyncFunctions]) -->
-class TestAsyncFunctionsStruct implements TestAPI.TestAsyncFunctions {
+/// <!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct, conformances: [TestAsyncFunctions]) -->
+class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions {
     final Future<int> Function() const42;
     final Future<int> Function(int) iabs;
     final Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int)) intCompose;
@@ -71,7 +71,7 @@ class TestAsyncFunctionsStruct implements TestAPI.TestAsyncFunctions {
     final Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function()) fifthThing;
     final Future<int> Function(String, int, double, String, Future<int> Function(), int) six;
 
-    TestAsyncFunctionsStruct({
+    TestAsyncForeignSideFunctionsStruct({
         required Future<int> Function() const42,
         required Future<int> Function(int) iabs,
         required Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int)) intCompose,
@@ -98,7 +98,7 @@ class TestAsyncFunctionsStruct implements TestAPI.TestAsyncFunctions {
         ConsumedRef six,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
-        createRef(TestAsyncFunctionsStruct(
+        createRef(TestAsyncForeignSideFunctionsStruct(
             const42: consumeRef(const42),
             iabs: consumeRef(iabs),
             intCompose: consumeRef(intCompose),
@@ -109,14 +109,14 @@ class TestAsyncFunctionsStruct implements TestAPI.TestAsyncFunctions {
         ))
     );
     @override
-    String toString() => 'TestAsyncFunctionsStruct(const42: $const42, iabs: $iabs, intCompose: $intCompose, add3Things: $add3Things, makeList: $makeList, fifthThing: $fifthThing, six: $six)';
+    String toString() => 'TestAsyncForeignSideFunctionsStruct(const42: $const42, iabs: $iabs, intCompose: $intCompose, add3Things: $add3Things, makeList: $makeList, fifthThing: $fifthThing, six: $six)';
 
     static CreatedRef ffi_get_const42(
         UnownedRef obj,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
-            peekRef<TestAsyncFunctionsStruct>(obj).const42
+            peekRef<TestAsyncForeignSideFunctionsStruct>(obj).const42
         )
     );
 
@@ -125,7 +125,7 @@ class TestAsyncFunctionsStruct implements TestAPI.TestAsyncFunctions {
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
-            peekRef<TestAsyncFunctionsStruct>(obj).iabs
+            peekRef<TestAsyncForeignSideFunctionsStruct>(obj).iabs
         )
     );
 
@@ -134,7 +134,7 @@ class TestAsyncFunctionsStruct implements TestAPI.TestAsyncFunctions {
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
-            peekRef<TestAsyncFunctionsStruct>(obj).intCompose
+            peekRef<TestAsyncForeignSideFunctionsStruct>(obj).intCompose
         )
     );
 
@@ -143,7 +143,7 @@ class TestAsyncFunctionsStruct implements TestAPI.TestAsyncFunctions {
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
-            peekRef<TestAsyncFunctionsStruct>(obj).add3Things
+            peekRef<TestAsyncForeignSideFunctionsStruct>(obj).add3Things
         )
     );
 
@@ -152,7 +152,7 @@ class TestAsyncFunctionsStruct implements TestAPI.TestAsyncFunctions {
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
-            peekRef<TestAsyncFunctionsStruct>(obj).makeList
+            peekRef<TestAsyncForeignSideFunctionsStruct>(obj).makeList
         )
     );
 
@@ -161,7 +161,7 @@ class TestAsyncFunctionsStruct implements TestAPI.TestAsyncFunctions {
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
-            peekRef<TestAsyncFunctionsStruct>(obj).fifthThing
+            peekRef<TestAsyncForeignSideFunctionsStruct>(obj).fifthThing
         )
     );
 
@@ -170,7 +170,7 @@ class TestAsyncFunctionsStruct implements TestAPI.TestAsyncFunctions {
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
-            peekRef<TestAsyncFunctionsStruct>(obj).six
+            peekRef<TestAsyncForeignSideFunctionsStruct>(obj).six
         )
     );
 
@@ -179,7 +179,7 @@ class TestAsyncFunctionsStruct implements TestAPI.TestAsyncFunctions {
         return identical(other, this) ||
         (
             other.runtimeType == runtimeType &&
-            other is TestAsyncFunctionsStruct &&
+            other is TestAsyncForeignSideFunctionsStruct &&
             (
                 const DeepCollectionEquality().equals(other.const42, const42) &&
                 const DeepCollectionEquality().equals(other.iabs, iabs) &&
@@ -204,7 +204,7 @@ class TestAsyncFunctionsStruct implements TestAPI.TestAsyncFunctions {
         const DeepCollectionEquality().hash(six)
     );
 
-    TestAsyncFunctionsStruct copyWith({
+    TestAsyncForeignSideFunctionsStruct copyWith({
         Future<int> Function()? const42,
         Future<int> Function(int)? iabs,
         Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int))? intCompose,
@@ -212,7 +212,7 @@ class TestAsyncFunctionsStruct implements TestAPI.TestAsyncFunctions {
         Future<List<String>> Function(String, String, String, String)? makeList,
         Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function())? fifthThing,
         Future<int> Function(String, int, double, String, Future<int> Function(), int)? six
-    }) => TestAsyncFunctionsStruct(
+    }) => TestAsyncForeignSideFunctionsStruct(
         const42: const42 ?? this.const42,
         iabs: iabs ?? this.iabs,
         intCompose: intCompose ?? this.intCompose,

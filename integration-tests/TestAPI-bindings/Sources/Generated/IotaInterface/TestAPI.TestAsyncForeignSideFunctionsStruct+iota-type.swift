@@ -6,10 +6,10 @@ import FishyJoesIotaRuntime
 import Foundation
 import TestAPI
 
-@_cdecl("TestAPI_TestAsyncFunctionsStruct_setup")
-public func TestAPI_TestAsyncFunctionsStruct_setup(
+@_cdecl("TestAPI_TestAsyncForeignSideFunctionsStruct_setup")
+public func TestAPI_TestAsyncForeignSideFunctionsStruct_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping TestAPI.TestAsyncFunctionsStruct._ConstructorMethod,
+    constructorMethod: @escaping TestAPI.TestAsyncForeignSideFunctionsStruct._ConstructorMethod,
     _ const42Getter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction0Converter<Swift.Int>.CType,
     _ iabsGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction1Converter<Swift.Int, Swift.Int>.CType,
     _ intComposeGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.CType,
@@ -20,18 +20,18 @@ public func TestAPI_TestAsyncFunctionsStruct_setup(
     _ exn: foreignOutExn
 ) {
     let env = Env(envRef)
-    if TestAPI.TestAsyncFunctionsStruct._constructorMethod.isInitialized(env) { return }
-    TestAPI.TestAsyncFunctionsStruct._constructorMethod[env] = constructorMethod
-    TestAPI.TestAsyncFunctionsStruct._const42Getter[env] = const42Getter
-    TestAPI.TestAsyncFunctionsStruct._iabsGetter[env] = iabsGetter
-    TestAPI.TestAsyncFunctionsStruct._intComposeGetter[env] = intComposeGetter
-    TestAPI.TestAsyncFunctionsStruct._add3ThingsGetter[env] = add3ThingsGetter
-    TestAPI.TestAsyncFunctionsStruct._makeListGetter[env] = makeListGetter
-    TestAPI.TestAsyncFunctionsStruct._fifthThingGetter[env] = fifthThingGetter
-    TestAPI.TestAsyncFunctionsStruct._sixGetter[env] = sixGetter
+    if TestAPI.TestAsyncForeignSideFunctionsStruct._constructorMethod.isInitialized(env) { return }
+    TestAPI.TestAsyncForeignSideFunctionsStruct._constructorMethod[env] = constructorMethod
+    TestAPI.TestAsyncForeignSideFunctionsStruct._const42Getter[env] = const42Getter
+    TestAPI.TestAsyncForeignSideFunctionsStruct._iabsGetter[env] = iabsGetter
+    TestAPI.TestAsyncForeignSideFunctionsStruct._intComposeGetter[env] = intComposeGetter
+    TestAPI.TestAsyncForeignSideFunctionsStruct._add3ThingsGetter[env] = add3ThingsGetter
+    TestAPI.TestAsyncForeignSideFunctionsStruct._makeListGetter[env] = makeListGetter
+    TestAPI.TestAsyncForeignSideFunctionsStruct._fifthThingGetter[env] = fifthThingGetter
+    TestAPI.TestAsyncForeignSideFunctionsStruct._sixGetter[env] = sixGetter
 }
 
-extension TestAPI.TestAsyncFunctionsStruct: IotaMutator {
+extension TestAPI.TestAsyncForeignSideFunctionsStruct: IotaMutator {
     fileprivate static let _const42Getter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction0Converter<Swift.Int>.CType>()
     fileprivate static let _iabsGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction1Converter<Swift.Int, Swift.Int>.CType>()
     fileprivate static let _intComposeGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.CType>()

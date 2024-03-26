@@ -6,7 +6,7 @@ import FishyJoesJavaRuntime
 import Foundation
 import TestAPI
 
-extension TestAPI.TestAsyncFunctionsStruct: JavaMutator {
+extension TestAPI.TestAsyncForeignSideFunctionsStruct: JavaMutator {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -66,7 +66,7 @@ extension TestAPI.TestAsyncFunctionsStruct: JavaMutator {
     }
     public static func javaSetup(env: Env) throws {
         guard javaClass == nil else { return }
-        javaClass = try env.globalRef(env.FindClass("com/cricut/testapi/TestAsyncFunctionsStruct"))
+        javaClass = try env.globalRef(env.FindClass("com/cricut/testapi/TestAsyncForeignSideFunctionsStruct"))
         _java_const42_id = try env.GetFieldID(javaClass, "const42", "Lkotlin/jvm/functions/Function1;")
         _java_iabs_id = try env.GetFieldID(javaClass, "iabs", "Lkotlin/jvm/functions/Function2;")
         _java_intCompose_id = try env.GetFieldID(javaClass, "intCompose", "Lkotlin/jvm/functions/Function2;")

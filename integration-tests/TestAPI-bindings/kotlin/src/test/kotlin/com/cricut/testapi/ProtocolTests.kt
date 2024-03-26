@@ -151,8 +151,8 @@ internal class ProtocolTests {
     }
 
     @Test
-    fun testAsyncFunctions() = runTest(timeout = 1000000.seconds) {
-        val a = TestAsyncFunctionsStruct(
+    fun testAsyncForeignSideFunctions() = runTest(timeout = 1000000.seconds) {
+        val a = TestAsyncForeignSideFunctionsStruct(
             const42 = { 49 },
             iabs = { x: Long ->
                 abs(x)

@@ -1919,6 +1919,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         )
         // print("setting up TestAPI.Structs...")
         try TestAPI.Structs.javaSetup(env: env)
+        // print("setting up TestAPI.TestAsyncForeignSideFunctionsStruct...")
+        try TestAPI.TestAsyncForeignSideFunctionsStruct.javaSetup(env: env)
         // print("setting up TestAPI_CommonInterface._TestAsyncFunctionsConverter...")
         try TestAPI_CommonInterface._TestAsyncFunctionsConverter.javaSetup(env: env)
         try env.RegisterNatives(
@@ -1959,8 +1961,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_get_TestAPI_TestAsyncFunctions_six, to: UnsafeMutableRawPointer.self)
             )
         )
-        // print("setting up TestAPI.TestAsyncFunctionsStruct...")
-        try TestAPI.TestAsyncFunctionsStruct.javaSetup(env: env)
         // print("setting up TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter...")
         try TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter.javaSetup(env: env)
         try env.RegisterNatives(

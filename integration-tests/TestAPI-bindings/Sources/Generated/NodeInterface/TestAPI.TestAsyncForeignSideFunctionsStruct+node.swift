@@ -7,7 +7,7 @@ import Foundation
 import TestAPI
 import TestAPI_CommonInterface
 
-extension TestAPI.TestAsyncFunctionsStruct: NodeMutator {
+extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(
@@ -42,7 +42,7 @@ extension TestAPI.TestAsyncFunctionsStruct: NodeMutator {
         )
     }
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try NodeClass.constructor(for: "TestAsyncFunctionsStruct", env: env)
+        let constructor = try NodeClass.constructor(for: "TestAsyncForeignSideFunctionsStruct", env: env)
         let args: [NAPI.Value] = [
             try AsyncFunction0Converter<Swift.Int>.toNode(value.const42, env: env),
             try AsyncFunction1Converter<Swift.Int, Swift.Int>.toNode(value.iabs, env: env),
@@ -60,7 +60,7 @@ extension TestAPI.TestAsyncFunctionsStruct: NodeMutator {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
-            name: "TestAsyncFunctionsStruct",
+            name: "TestAsyncForeignSideFunctionsStruct",
             properties: [
                 "const42": (.stored(mutable: true), isStatic: false),
                 "iabs": (.stored(mutable: true), isStatic: false),
@@ -71,7 +71,7 @@ extension TestAPI.TestAsyncFunctionsStruct: NodeMutator {
                 "six": (.stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in
-                callbackBody(env, info, name: "TestAsyncFunctionsStruct_constructor", expectedArgumentCount: 7) { env in
+                callbackBody(env, info, name: "TestAsyncForeignSideFunctionsStruct_constructor", expectedArgumentCount: 7) { env in
                     // TODO: typecheck?
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "const42", env.argument(at: 0))
@@ -88,7 +88,7 @@ extension TestAPI.TestAsyncFunctionsStruct: NodeMutator {
         try mergeDefinitionInto(
             env: env,
             module: module,
-            path: "TestAsyncFunctionsStruct",
+            path: "TestAsyncForeignSideFunctionsStruct",
             nodeClass: nodeClass.constructor.value(env: env)
         )
     }
