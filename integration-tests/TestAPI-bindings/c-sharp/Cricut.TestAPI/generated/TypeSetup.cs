@@ -499,6 +499,7 @@ namespace Cricut.TestAPI {
             ConsumedRef intCompose,
             ConsumedRef add3Things,
             ConsumedRef makeList,
+            ConsumedRef fifthThing,
             out CreatedRef exn
         );
         delegate CreatedRef _TestAPI_TestAsyncFunctionsStruct_const42Getter(UnownedRef obj, out CreatedRef exn);
@@ -506,6 +507,7 @@ namespace Cricut.TestAPI {
         delegate CreatedRef _TestAPI_TestAsyncFunctionsStruct_intComposeGetter(UnownedRef obj, out CreatedRef exn);
         delegate CreatedRef _TestAPI_TestAsyncFunctionsStruct_add3ThingsGetter(UnownedRef obj, out CreatedRef exn);
         delegate CreatedRef _TestAPI_TestAsyncFunctionsStruct_makeListGetter(UnownedRef obj, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_TestAsyncFunctionsStruct_fifthThingGetter(UnownedRef obj, out CreatedRef exn);
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_TestAsyncFunctionsStruct_setup(
             IntPtr envRef,
@@ -515,6 +517,7 @@ namespace Cricut.TestAPI {
             _TestAPI_TestAsyncFunctionsStruct_intComposeGetter get_intCompose,
             _TestAPI_TestAsyncFunctionsStruct_add3ThingsGetter get_add3Things,
             _TestAPI_TestAsyncFunctionsStruct_makeListGetter get_makeList,
+            _TestAPI_TestAsyncFunctionsStruct_fifthThingGetter get_fifthThing,
             out CreatedRef _exn
         );
 
@@ -2326,13 +2329,14 @@ namespace Cricut.TestAPI {
                 Console.WriteLine("setting up TestAPI.TestAsyncFunctionsStruct...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_TestAsyncFunctionsStruct_setup(
                     Loader.env,
-                    bag<_TestAPI_TestAsyncFunctionsStructConstructor>((ConsumedRef const42, ConsumedRef iabs, ConsumedRef intCompose, ConsumedRef add3Things, ConsumedRef makeList, out CreatedRef exn) => Catching(out exn, () => {
+                    bag<_TestAPI_TestAsyncFunctionsStructConstructor>((ConsumedRef const42, ConsumedRef iabs, ConsumedRef intCompose, ConsumedRef add3Things, ConsumedRef makeList, ConsumedRef fifthThing, out CreatedRef exn) => Catching(out exn, () => {
                         return new CreatedRef(new Cricut.TestAPI.TestAsyncFunctionsStruct(
                             const42.Consume<System.Func<System.Threading.Tasks.Task<nint>>>(),
                             iabs.Consume<System.Func<nint, System.Threading.Tasks.Task<nint>>>(),
                             intCompose.Consume<System.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>>>(),
                             add3Things.Consume<System.Func<float, double, nint, System.Threading.Tasks.Task<double>>>(),
-                            makeList.Consume<System.Func<string, string, string, string, System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>>>()
+                            makeList.Consume<System.Func<string, string, string, string, System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>>>(),
+                            fifthThing.Consume<System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>>>()
                         ));
                     })),
                     bag<_TestAPI_TestAsyncFunctionsStruct_const42Getter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
@@ -2349,6 +2353,9 @@ namespace Cricut.TestAPI {
                     )),
                     bag<_TestAPI_TestAsyncFunctionsStruct_makeListGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncFunctionsStruct>().MakeList)
+                    )),
+                    bag<_TestAPI_TestAsyncFunctionsStruct_fifthThingGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncFunctionsStruct>().FifthThing)
                     )),
                     out exn
                 ));

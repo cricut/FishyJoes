@@ -261,18 +261,21 @@ public struct TestAsyncFunctionsStruct: TestAsyncFunctions {
     public let intCompose: AsyncFunctions.AFun2
     public let add3Things: AsyncFunctions.AFun3
     public let makeList: AsyncFunctions.AFun4
-    
+    public let fifthThing: AsyncFunctions.AFun5
+
     public init(
         const42: @escaping AsyncFunctions.AFun0,
         iabs: @escaping AsyncFunctions.AFun1,
         intCompose: @escaping AsyncFunctions.AFun2,
         add3Things: @escaping AsyncFunctions.AFun3,
-        makeList: @escaping AsyncFunctions.AFun4
+        makeList: @escaping AsyncFunctions.AFun4,
+        fifthThing: @escaping AsyncFunctions.AFun5
     ) {
         self.const42 = const42
         self.iabs = iabs
         self.intCompose = intCompose
         self.add3Things = add3Things
         self.makeList = makeList
+        self.fifthThing = fifthThing
     }
 }

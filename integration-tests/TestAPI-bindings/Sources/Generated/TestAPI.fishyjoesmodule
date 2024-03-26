@@ -3160,7 +3160,8 @@
                   "iabs",
                   "intCompose",
                   "add3Things",
-                  "makeList"
+                  "makeList",
+                  "fifthThing"
                 ],
                 "types" : [
                   {
@@ -3186,6 +3187,11 @@
                   {
                     "named" : {
                       "_0" : "(_0: string, _1: string, _2: string, _3: string) => Promise<string[]>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>"
                     }
                   }
                 ]
@@ -3260,6 +3266,19 @@
                 "type" : {
                   "named" : {
                     "_0" : "(_0: string, _1: string, _2: string, _3: string) => Promise<string[]>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "fifthThing",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>"
                   }
                 }
               }

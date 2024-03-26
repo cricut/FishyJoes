@@ -11,7 +11,8 @@ data class TestAsyncFunctionsStruct(
     val iabs: (suspend (Long) -> Long),
     val intCompose: (((suspend (Long) -> Long), (suspend (Long) -> Long)) -> (suspend (Long) -> Long)),
     val add3Things: (suspend (Float, Double, Long) -> Double),
-    val makeList: (suspend (kotlin.String, kotlin.String, kotlin.String, kotlin.String) -> kotlin.collections.List<kotlin.String>)
+    val makeList: (suspend (kotlin.String, kotlin.String, kotlin.String, kotlin.String) -> kotlin.collections.List<kotlin.String>),
+    val fifthThing: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long)) -> (suspend () -> Long))
 ) {
 
     companion object {

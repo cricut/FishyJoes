@@ -68,19 +68,22 @@ class TestAsyncFunctionsStruct {
     final Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int)) intCompose;
     final Future<double> Function(double, double, int) add3Things;
     final Future<List<String>> Function(String, String, String, String) makeList;
+    final Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function()) fifthThing;
 
     TestAsyncFunctionsStruct({
         required Future<int> Function() const42,
         required Future<int> Function(int) iabs,
         required Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int)) intCompose,
         required Future<double> Function(double, double, int) add3Things,
-        required Future<List<String>> Function(String, String, String, String) makeList
+        required Future<List<String>> Function(String, String, String, String) makeList,
+        required Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function()) fifthThing
     }):
         this.const42 = const42,
         this.iabs = iabs,
         this.intCompose = intCompose,
         this.add3Things = add3Things,
-        this.makeList = makeList;
+        this.makeList = makeList,
+        this.fifthThing = fifthThing;
 
     static CreatedRef ffi_constructor(
         ConsumedRef const42,
@@ -88,6 +91,7 @@ class TestAsyncFunctionsStruct {
         ConsumedRef intCompose,
         ConsumedRef add3Things,
         ConsumedRef makeList,
+        ConsumedRef fifthThing,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(TestAsyncFunctionsStruct(
@@ -96,10 +100,11 @@ class TestAsyncFunctionsStruct {
             intCompose: consumeRef(intCompose),
             add3Things: consumeRef(add3Things),
             makeList: consumeRef(makeList),
+            fifthThing: consumeRef(fifthThing),
         ))
     );
     @override
-    String toString() => 'TestAsyncFunctionsStruct(const42: $const42, iabs: $iabs, intCompose: $intCompose, add3Things: $add3Things, makeList: $makeList)';
+    String toString() => 'TestAsyncFunctionsStruct(const42: $const42, iabs: $iabs, intCompose: $intCompose, add3Things: $add3Things, makeList: $makeList, fifthThing: $fifthThing)';
 
     static CreatedRef ffi_get_const42(
         UnownedRef obj,
@@ -146,6 +151,15 @@ class TestAsyncFunctionsStruct {
         )
     );
 
+    static CreatedRef ffi_get_fifthThing(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestAsyncFunctionsStruct>(obj).fifthThing
+        )
+    );
+
     @override
     bool operator ==(Object other) {
         return identical(other, this) ||
@@ -157,7 +171,8 @@ class TestAsyncFunctionsStruct {
                 const DeepCollectionEquality().equals(other.iabs, iabs) &&
                 const DeepCollectionEquality().equals(other.intCompose, intCompose) &&
                 const DeepCollectionEquality().equals(other.add3Things, add3Things) &&
-                const DeepCollectionEquality().equals(other.makeList, makeList)
+                const DeepCollectionEquality().equals(other.makeList, makeList) &&
+                const DeepCollectionEquality().equals(other.fifthThing, fifthThing)
             )
         );
     }
@@ -169,7 +184,8 @@ class TestAsyncFunctionsStruct {
         const DeepCollectionEquality().hash(iabs), 
         const DeepCollectionEquality().hash(intCompose), 
         const DeepCollectionEquality().hash(add3Things), 
-        const DeepCollectionEquality().hash(makeList)
+        const DeepCollectionEquality().hash(makeList), 
+        const DeepCollectionEquality().hash(fifthThing)
     );
 
     TestAsyncFunctionsStruct copyWith({
@@ -177,12 +193,14 @@ class TestAsyncFunctionsStruct {
         Future<int> Function(int)? iabs,
         Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int))? intCompose,
         Future<double> Function(double, double, int)? add3Things,
-        Future<List<String>> Function(String, String, String, String)? makeList
+        Future<List<String>> Function(String, String, String, String)? makeList,
+        Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function())? fifthThing
     }) => TestAsyncFunctionsStruct(
         const42: const42 ?? this.const42,
         iabs: iabs ?? this.iabs,
         intCompose: intCompose ?? this.intCompose,
         add3Things: add3Things ?? this.add3Things,
-        makeList: makeList ?? this.makeList
+        makeList: makeList ?? this.makeList,
+        fifthThing: fifthThing ?? this.fifthThing
     );
 }

@@ -30,6 +30,10 @@ extension TestAPI.TestAsyncFunctionsStruct: NodeMutator {
             makeList: try { () -> (Swift.String, Swift.String, Swift.String, Swift.String) async -> Array<Swift.String> in
                 let fieldValue = try env.getNamedProperty(value, "makeList")
                 return try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.fromNode(fieldValue, env: env)
+            }(),
+            fifthThing: try { () -> (Swift.String, Swift.Int, Swift.Double, Swift.String, () async -> Swift.Int) async -> () async -> Swift.Int in
+                let fieldValue = try env.getNamedProperty(value, "fifthThing")
+                return try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.fromNode(fieldValue, env: env)
             }()
         )
     }
@@ -41,6 +45,7 @@ extension TestAPI.TestAsyncFunctionsStruct: NodeMutator {
             try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.toNode(value.intCompose, env: env),
             try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.toNode(value.add3Things, env: env),
             try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.toNode(value.makeList, env: env),
+            try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.toNode(value.fifthThing, env: env),
         ]
         return try env.newInstance(constructor, args)
     }
@@ -57,9 +62,10 @@ extension TestAPI.TestAsyncFunctionsStruct: NodeMutator {
                 "intCompose": (.stored(mutable: true), isStatic: false),
                 "add3Things": (.stored(mutable: true), isStatic: false),
                 "makeList": (.stored(mutable: true), isStatic: false),
+                "fifthThing": (.stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in
-                callbackBody(env, info, name: "TestAsyncFunctionsStruct_constructor", expectedArgumentCount: 5) { env in
+                callbackBody(env, info, name: "TestAsyncFunctionsStruct_constructor", expectedArgumentCount: 6) { env in
                     // TODO: typecheck?
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "const42", env.argument(at: 0))
@@ -67,6 +73,7 @@ extension TestAPI.TestAsyncFunctionsStruct: NodeMutator {
                     try env.env.setNamedProperty(this, "intCompose", env.argument(at: 2))
                     try env.env.setNamedProperty(this, "add3Things", env.argument(at: 3))
                     try env.env.setNamedProperty(this, "makeList", env.argument(at: 4))
+                    try env.env.setNamedProperty(this, "fifthThing", env.argument(at: 5))
                     return this
                 }
             }
