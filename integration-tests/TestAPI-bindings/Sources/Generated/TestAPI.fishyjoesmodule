@@ -3576,6 +3576,19 @@
                     "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
                   }
                 }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(willThrow) -->"
+                ],
+                "isStatic" : false,
+                "name" : "willThrow",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "() => Promise<number>"
+                  }
+                }
               }
             ],
             "methods" : [

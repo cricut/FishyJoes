@@ -311,6 +311,10 @@ public class TestAsyncSwiftSideFunctionsClass: TestAsyncFunctions {
     public var fifthThing: AsyncFunctions.AFun5 { AsyncFunctions.fifthThing }
     /// <!-- FishyJoes.export(six) -->
     public var six: AsyncFunctions.AFun6 { AsyncFunctions.six }
+    /// <!-- FishyJoes.export(willThrow) -->
+    public var willThrow: AsyncFunctions.AFun0 {
+        AsyncFunctions.willThrow
+    }
 
     /// <!-- FishyJoes.export(init) -->
     public init() {}

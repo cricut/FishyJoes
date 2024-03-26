@@ -2004,6 +2004,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_get_six"),
                 signature: bag.add("()Lkotlin/jvm/functions/Function7;"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_TestAsyncSwiftSideFunctionsClass_six, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_willThrow"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function1;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestAsyncSwiftSideFunctionsClass_willThrow, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter...")

@@ -70,7 +70,7 @@ class TestAsyncSwiftSideFunctionsClass extends SwiftReference implements TestAPI
     );
 
     @override
-    String toString() => 'TestAsyncSwiftSideFunctionsClass(const42: $const42, iabs: $iabs, intCompose: $intCompose, add3Things: $add3Things, makeList: $makeList, fifthThing: $fifthThing, six: $six)';
+    String toString() => 'TestAsyncSwiftSideFunctionsClass(const42: $const42, iabs: $iabs, intCompose: $intCompose, add3Things: $add3Things, makeList: $makeList, fifthThing: $fifthThing, six: $six, willThrow: $willThrow)';
 
     /// <!-- FishyJoes.export(const42) -->
     Future<int> Function() get const42 =>
@@ -128,6 +128,14 @@ class TestAsyncSwiftSideFunctionsClass extends SwiftReference implements TestAPI
             )
         )
     ;
+    /// <!-- FishyJoes.export(willThrow) -->
+    Future<int> Function() get willThrow =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                consumeCreatedRef<Future<int> Function()>(f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_willThrow(Loader.shared.env, _thisHandle.ptr, exn))
+            )
+        )
+    ;
     /// <!-- FishyJoes.export(init) -->
     static TestAPI.TestAsyncSwiftSideFunctionsClass init(
     ) =>
@@ -173,4 +181,9 @@ class TestAsyncSwiftSideFunctionsClass extends SwiftReference implements TestAPI
         UnownedRef _this,
         OutCreatedRef _exn
     ) f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_six;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_willThrow;
 }

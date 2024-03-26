@@ -63,6 +63,14 @@ class TestAsyncSwiftSideFunctionsClass private constructor(_swiftReference: Long
     @JvmName("__jni_get_six")
     private external fun __jni_get_six(): (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)
 
+    /**
+     * <!-- FishyJoes.export(willThrow) -->
+     */
+    val willThrow: (suspend () -> Long)
+      get() = __jni_get_willThrow()
+    @JvmName("__jni_get_willThrow")
+    private external fun __jni_get_willThrow(): (suspend () -> Long)
+
     companion object {
         /**
          * <!-- FishyJoes.export(init) -->

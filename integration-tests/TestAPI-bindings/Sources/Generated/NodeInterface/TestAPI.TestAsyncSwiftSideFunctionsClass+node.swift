@@ -123,6 +123,17 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                     ),
                     isStatic: false
                 ),
+                "willThrow": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "willThrow", expectedArgumentCount: 0) { env in
+                                try AsyncFunction0Converter<Swift.Int>.toNode(env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self).willThrow, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: false
+                ),
             ],
             constructor: { env, info in
                 FishyJoesNodeRuntime.callbackBody(env, info, name: "TestAsyncSwiftSideFunctionsClass_constructor", expectedArgumentCount: 1) { env in

@@ -4932,6 +4932,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_six");
+    TestAPI.TestAsyncSwiftSideFunctionsClass.f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_willThrow = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_willThrow");
     TestAPI.ExternalWitness_TestLeadingUnderscoredProp.f__iota_get_TestAPI_TestLeadingUnderscoredProp__leadingUnderscoreProp = dylib.lookupFunction<
         CreatedRef Function(
             Env env,

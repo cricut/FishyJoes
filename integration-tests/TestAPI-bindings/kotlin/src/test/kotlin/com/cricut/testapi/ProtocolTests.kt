@@ -202,6 +202,12 @@ internal class ProtocolTests {
         assertEquals(e(), 42)
         val f = a.six("Big, bad", 24, 3.14159265359, "Beetleborgs", { 43 }, Long.MIN_VALUE)
         assertEquals(f, Long.MIN_VALUE)
+
+        val result = runCatching {
+            AsyncFunctions.willThrow()
+        }
+        assertInstanceOf(Error::class.java, result.exceptionOrNull())
+        assertEquals("TheAsyncError()", result.exceptionOrNull()?.message)
     }
 
     data class ProtocolKotlinImpl(
