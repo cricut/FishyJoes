@@ -1,4 +1,5 @@
-#!/usr/bin/env powershell
+#!/usr/bin/env pwsh
+#requires -PSEdition Core
 
 # Swift does not properly read Windows "PATH" variable, instead trying to read "Path" only.
 # See: https://github.com/apple/swift-tools-support-core/issues/446
@@ -11,4 +12,10 @@ $env:Path = $DeduplicatedPath
 
 # Perform execution and report errors encountered
 swift.exe @args
-if (-not $?) { throw "swift exited with code $LastExitCode" }
+$SwiftExit = $?
+$SwiftExitMessage = "swift exited with code $LastExitCode"
+
+if (-not $SwiftExit) {
+    gci Env:PATH | Format-List | Out-String | Write-Debug
+    throw $SwiftExitMessage
+}
