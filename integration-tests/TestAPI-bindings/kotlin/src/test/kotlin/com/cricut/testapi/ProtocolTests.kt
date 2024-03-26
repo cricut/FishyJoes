@@ -164,6 +164,9 @@ internal class ProtocolTests {
             },
             add3Things = { x: Float, y: Double, z: Long ->
                 x.toDouble() + y + z.toDouble()
+            },
+            makeList = { a: String, b: String, c: String, d: String ->
+                listOf(a, b, c, d)
             }
         )
         assertEquals(49, a.const42())
@@ -172,6 +175,8 @@ internal class ProtocolTests {
         assertEquals(b(92), 1380)
         val c = a.add3Things(3.14F, 3.14159, 128)
         assertEquals(c, 134.28159010490418)
+        val d = a.makeList("By", "your", "powers", "combined")
+        assertEquals(d, listOf("By", "your", "powers", "combined"))
     }
 
     data class ProtocolKotlinImpl(

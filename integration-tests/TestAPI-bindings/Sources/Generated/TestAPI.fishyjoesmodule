@@ -3159,7 +3159,8 @@
                   "const42",
                   "iabs",
                   "intCompose",
-                  "add3Things"
+                  "add3Things",
+                  "makeList"
                 ],
                 "types" : [
                   {
@@ -3180,6 +3181,11 @@
                   {
                     "named" : {
                       "_0" : "(_0: number, _1: number, _2: number) => Promise<number>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: string, _1: string, _2: string, _3: string) => Promise<string[]>"
                     }
                   }
                 ]
@@ -3241,6 +3247,19 @@
                 "type" : {
                   "named" : {
                     "_0" : "(_0: number, _1: number, _2: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "makeList",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: string, _1: string, _2: string, _3: string) => Promise<string[]>"
                   }
                 }
               }

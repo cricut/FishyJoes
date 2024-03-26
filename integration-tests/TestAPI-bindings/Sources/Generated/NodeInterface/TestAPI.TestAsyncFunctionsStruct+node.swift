@@ -26,6 +26,10 @@ extension TestAPI.TestAsyncFunctionsStruct: NodeMutator {
             add3Things: try { () -> (Swift.Float, Swift.Double, Swift.Int) async -> Swift.Double in
                 let fieldValue = try env.getNamedProperty(value, "add3Things")
                 return try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.fromNode(fieldValue, env: env)
+            }(),
+            makeList: try { () -> (Swift.String, Swift.String, Swift.String, Swift.String) async -> Array<Swift.String> in
+                let fieldValue = try env.getNamedProperty(value, "makeList")
+                return try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.fromNode(fieldValue, env: env)
             }()
         )
     }
@@ -36,6 +40,7 @@ extension TestAPI.TestAsyncFunctionsStruct: NodeMutator {
             try AsyncFunction1Converter<Swift.Int, Swift.Int>.toNode(value.iabs, env: env),
             try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.toNode(value.intCompose, env: env),
             try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.toNode(value.add3Things, env: env),
+            try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.toNode(value.makeList, env: env),
         ]
         return try env.newInstance(constructor, args)
     }
@@ -51,15 +56,17 @@ extension TestAPI.TestAsyncFunctionsStruct: NodeMutator {
                 "iabs": (.stored(mutable: true), isStatic: false),
                 "intCompose": (.stored(mutable: true), isStatic: false),
                 "add3Things": (.stored(mutable: true), isStatic: false),
+                "makeList": (.stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in
-                callbackBody(env, info, name: "TestAsyncFunctionsStruct_constructor", expectedArgumentCount: 4) { env in
+                callbackBody(env, info, name: "TestAsyncFunctionsStruct_constructor", expectedArgumentCount: 5) { env in
                     // TODO: typecheck?
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "const42", env.argument(at: 0))
                     try env.env.setNamedProperty(this, "iabs", env.argument(at: 1))
                     try env.env.setNamedProperty(this, "intCompose", env.argument(at: 2))
                     try env.env.setNamedProperty(this, "add3Things", env.argument(at: 3))
+                    try env.env.setNamedProperty(this, "makeList", env.argument(at: 4))
                     return this
                 }
             }

@@ -67,23 +67,27 @@ class TestAsyncFunctionsStruct {
     final Future<int> Function(int) iabs;
     final Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int)) intCompose;
     final Future<double> Function(double, double, int) add3Things;
+    final Future<List<String>> Function(String, String, String, String) makeList;
 
     TestAsyncFunctionsStruct({
         required Future<int> Function() const42,
         required Future<int> Function(int) iabs,
         required Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int)) intCompose,
-        required Future<double> Function(double, double, int) add3Things
+        required Future<double> Function(double, double, int) add3Things,
+        required Future<List<String>> Function(String, String, String, String) makeList
     }):
         this.const42 = const42,
         this.iabs = iabs,
         this.intCompose = intCompose,
-        this.add3Things = add3Things;
+        this.add3Things = add3Things,
+        this.makeList = makeList;
 
     static CreatedRef ffi_constructor(
         ConsumedRef const42,
         ConsumedRef iabs,
         ConsumedRef intCompose,
         ConsumedRef add3Things,
+        ConsumedRef makeList,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(TestAsyncFunctionsStruct(
@@ -91,10 +95,11 @@ class TestAsyncFunctionsStruct {
             iabs: consumeRef(iabs),
             intCompose: consumeRef(intCompose),
             add3Things: consumeRef(add3Things),
+            makeList: consumeRef(makeList),
         ))
     );
     @override
-    String toString() => 'TestAsyncFunctionsStruct(const42: $const42, iabs: $iabs, intCompose: $intCompose, add3Things: $add3Things)';
+    String toString() => 'TestAsyncFunctionsStruct(const42: $const42, iabs: $iabs, intCompose: $intCompose, add3Things: $add3Things, makeList: $makeList)';
 
     static CreatedRef ffi_get_const42(
         UnownedRef obj,
@@ -132,6 +137,15 @@ class TestAsyncFunctionsStruct {
         )
     );
 
+    static CreatedRef ffi_get_makeList(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestAsyncFunctionsStruct>(obj).makeList
+        )
+    );
+
     @override
     bool operator ==(Object other) {
         return identical(other, this) ||
@@ -142,7 +156,8 @@ class TestAsyncFunctionsStruct {
                 const DeepCollectionEquality().equals(other.const42, const42) &&
                 const DeepCollectionEquality().equals(other.iabs, iabs) &&
                 const DeepCollectionEquality().equals(other.intCompose, intCompose) &&
-                const DeepCollectionEquality().equals(other.add3Things, add3Things)
+                const DeepCollectionEquality().equals(other.add3Things, add3Things) &&
+                const DeepCollectionEquality().equals(other.makeList, makeList)
             )
         );
     }
@@ -153,18 +168,21 @@ class TestAsyncFunctionsStruct {
         const DeepCollectionEquality().hash(const42), 
         const DeepCollectionEquality().hash(iabs), 
         const DeepCollectionEquality().hash(intCompose), 
-        const DeepCollectionEquality().hash(add3Things)
+        const DeepCollectionEquality().hash(add3Things), 
+        const DeepCollectionEquality().hash(makeList)
     );
 
     TestAsyncFunctionsStruct copyWith({
         Future<int> Function()? const42,
         Future<int> Function(int)? iabs,
         Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int))? intCompose,
-        Future<double> Function(double, double, int)? add3Things
+        Future<double> Function(double, double, int)? add3Things,
+        Future<List<String>> Function(String, String, String, String)? makeList
     }) => TestAsyncFunctionsStruct(
         const42: const42 ?? this.const42,
         iabs: iabs ?? this.iabs,
         intCompose: intCompose ?? this.intCompose,
-        add3Things: add3Things ?? this.add3Things
+        add3Things: add3Things ?? this.add3Things,
+        makeList: makeList ?? this.makeList
     );
 }

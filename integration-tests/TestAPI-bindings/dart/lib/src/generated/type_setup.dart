@@ -295,12 +295,14 @@ typedef _TestAPI_TestAsyncFunctionsStructConstructor = CreatedRef Function(
     ConsumedRef iabs,
     ConsumedRef intCompose,
     ConsumedRef add3Things,
+    ConsumedRef makeList,
     OutCreatedRef exn
 );
 typedef _TestAPI_TestAsyncFunctionsStruct_const42Getter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestAsyncFunctionsStruct_iabsGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestAsyncFunctionsStruct_intComposeGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestAsyncFunctionsStruct_add3ThingsGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctionsStruct_makeListGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestLeadingUnderscoredPropConstructor = CreatedRef Function(
     ffi.Pointer ref,
     OutCreatedRef exn
@@ -909,6 +911,7 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsStruct_iabsGetter>> get_iabs,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsStruct_intComposeGetter>> get_intCompose,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsStruct_add3ThingsGetter>> get_add3Things,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsStruct_makeListGetter>> get_makeList,
             OutCreatedRef exn
         ),
         void Function(
@@ -918,6 +921,7 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsStruct_iabsGetter>> get_iabs,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsStruct_intComposeGetter>> get_intCompose,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsStruct_add3ThingsGetter>> get_add3Things,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsStruct_makeListGetter>> get_makeList,
             OutCreatedRef exn
         )
     >('TestAPI_TestAsyncFunctionsStruct_setup');
@@ -6919,6 +6923,7 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctionsStruct.ffi_get_iabs),
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctionsStruct.ffi_get_intCompose),
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctionsStruct.ffi_get_add3Things),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctionsStruct.ffi_get_makeList),
                 exn
             );
         });

@@ -15,6 +15,7 @@ extension TestAPI.TestAsyncFunctionsStruct: JavaMutator {
     private static var _java_iabs_id: jfieldID!
     private static var _java_intCompose_id: jfieldID!
     private static var _java_add3Things_id: jfieldID!
+    private static var _java_makeList_id: jfieldID!
     private static var _constructorMethodID: jmethodID!
     public static func fromJava(_ value: jobject?, env: Env) throws -> Self {
         Self(
@@ -33,6 +34,10 @@ extension TestAPI.TestAsyncFunctionsStruct: JavaMutator {
             add3Things: try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.fromJava(
                 env.GetObjectField(value, Self._java_add3Things_id),
                 env: env
+            ),
+            makeList: try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.fromJava(
+                env.GetObjectField(value, Self._java_makeList_id),
+                env: env
             )
         )
     }
@@ -43,7 +48,8 @@ extension TestAPI.TestAsyncFunctionsStruct: JavaMutator {
             jvalue(AsyncFunction0Converter<Swift.Int>.toJava(value.const42, env: env)),
             jvalue(AsyncFunction1Converter<Swift.Int, Swift.Int>.toJava(value.iabs, env: env)),
             jvalue(Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.toJava(value.intCompose, env: env)),
-            jvalue(AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.toJava(value.add3Things, env: env))
+            jvalue(AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.toJava(value.add3Things, env: env)),
+            jvalue(AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.toJava(value.makeList, env: env))
         )
     }
     public static func javaSetup(env: Env) throws {
@@ -53,7 +59,8 @@ extension TestAPI.TestAsyncFunctionsStruct: JavaMutator {
         _java_iabs_id = try env.GetFieldID(javaClass, "iabs", "Lkotlin/jvm/functions/Function2;")
         _java_intCompose_id = try env.GetFieldID(javaClass, "intCompose", "Lkotlin/jvm/functions/Function2;")
         _java_add3Things_id = try env.GetFieldID(javaClass, "add3Things", "Lkotlin/jvm/functions/Function4;")
-        _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function4;)V")
+        _java_makeList_id = try env.GetFieldID(javaClass, "makeList", "Lkotlin/jvm/functions/Function5;")
+        _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function4;Lkotlin/jvm/functions/Function5;)V")
     }
     public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout Self) throws -> R) throws -> R {
         var mutatingSelf = try fromJava(this, env: env)
@@ -73,6 +80,10 @@ extension TestAPI.TestAsyncFunctionsStruct: JavaMutator {
         try env.SetObjectField(
             this, Self._java_add3Things_id,
             AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.toJava(mutatingSelf.add3Things, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_makeList_id,
+            AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.toJava(mutatingSelf.makeList, env: env)
         )
         return result
     }
@@ -94,6 +105,10 @@ extension TestAPI.TestAsyncFunctionsStruct: JavaMutator {
         try env.SetObjectField(
             this, Self._java_add3Things_id,
             AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.toJava(mutatingSelf.add3Things, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_makeList_id,
+            AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.toJava(mutatingSelf.makeList, env: env)
         )
         return result
     }
