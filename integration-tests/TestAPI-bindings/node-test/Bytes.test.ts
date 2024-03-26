@@ -1,17 +1,17 @@
 import { TestAPI } from 'TestAPI';
 
+function arrayFrom(buffer: ArrayBuffer): number[] {
+    return Array.from(new Uint8Array(buffer));
+}
+
 test('BytesValues', () => {
     expect(TestAPI.Bytes.bytes).toEqual([0xDE, 0xAD, 0xBE, 0xEF])
-    var buffer = new ArrayBuffer(4)
-    var int8View = new Int8Array(buffer)
-    int8View[0] = 0x0B
-    int8View[1] = 0xAD
-    int8View[2] = 0xF0
-    int8View[3] = 0x0D
-    expect(TestAPI.Bytes.data).toEqual(buffer)
+    expect(arrayFrom(TestAPI.Bytes.data)).toEqual([0x0B, 0xAD, 0xF0, 0x0D]);
 });
 
 test('BytesEcho', () => {
-    expect(TestAPI.Bytes.echoBytes(TestAPI.Bytes.bytes)).toEqual(TestAPI.Bytes.bytes)
-    expect(TestAPI.Bytes.echoData(TestAPI.Bytes.data)).toEqual(TestAPI.Bytes.data)
+    const byteArray = Uint8Array.from([0xFE, 0xED, 0xFA, 0xCE]);
+    expect(TestAPI.Bytes.echoBytes([...byteArray])).toEqual([...byteArray]);
+    expect(arrayFrom(TestAPI.Bytes.echoData(byteArray.buffer)))
+        .toEqual(arrayFrom(byteArray.buffer));
 });

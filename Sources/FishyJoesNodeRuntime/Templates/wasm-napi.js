@@ -541,6 +541,7 @@ export class NAPI {
       napi_create_arraybuffer: this.wrap((envPtr, length, dataPtr, resultPtr) => {
         length >>>= 0;
         dataPtr >>>= 0;
+        // NOTE: this is wrong. data is an output, not an input.
         this.writeU32(resultPtr, this.store(this.memory.buffer.slice(dataPtr, dataPtr + length)));
         return NAPI_OK;
       }),
@@ -691,7 +692,7 @@ export class NAPI {
         this.writeU32(resultPtr, this.store(proto));
         return NAPI_OK;
       }),
-      napi_get_typedarray_info: this.wrap((envPtr, typedarrayIdx, typePtr, lengthPtr, dataPtr, arraybufferPtr, byteOffsetPtr) => {
+      napi_get_typedarray_info: this.wrap((envPtr, typedarrayIdx, typePtr, lengthPtr, dataPtrPtr, arraybufferPtr, byteOffsetPtr) => {
         const typedArray = this.load(typedarrayIdx);
         if (!util.types.isTypedArray(typedArray)) {
           return this.returnError(NAPI_ARRAYBUFFER_EXPECTED);
@@ -710,7 +711,7 @@ export class NAPI {
           BigUint64Array: 10,
         }[typedArray[Symbol.toStringTag]]);
         this.writeU32(lengthPtr, typedArray.length);
-        this.writeU32(dataPtr, 0);
+        this.writeU32(dataPtrPtr, 0);
         this.writeU32(arraybufferPtr, this.store(typedArray.buffer));
         this.writeU32(byteOffsetPtr, typedArray.byteOffset);
         return NAPI_OK;

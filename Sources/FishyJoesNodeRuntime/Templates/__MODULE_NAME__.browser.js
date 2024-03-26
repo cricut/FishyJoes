@@ -38,8 +38,8 @@ const init = async () => {
     __MODULE_NAME__,
     __MODULE_DEPENDENCY__,
   } = library);
-  __MODULE_DEPENDENCY__Extensions.applyExtensions(library);
-  __MODULE_NAME__Extensions.applyExtensions(library);
+  __MODULE_DEPENDENCY__Extensions.applyExtensions(library, { wasmNapi: napi });
+  __MODULE_NAME__Extensions.applyExtensions(library, { wasmNapi: napi });
   return library;
 };
 

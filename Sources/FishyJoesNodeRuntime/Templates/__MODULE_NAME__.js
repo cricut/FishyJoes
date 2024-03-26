@@ -36,8 +36,8 @@ export const init = async () => {
   const { instance } = await wasmPromise;
   // console.log(instance);
   const library = napi.init(instance);
-  __MODULE_DEPENDENCY__Extensions.applyExtensions(library);
-  __MODULE_NAME__Extensions.applyExtensions(library);
+  __MODULE_DEPENDENCY__Extensions.applyExtensions(library, { wasmNapi: napi });
+  __MODULE_NAME__Extensions.applyExtensions(library, { wasmNapi: napi });
   return library;
 };
 
