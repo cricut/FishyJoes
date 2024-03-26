@@ -70,7 +70,7 @@ class ExternalWitness_TestAsyncFunctions extends SwiftReference implements TestA
     );
 
     @override
-    String toString() => 'ExternalWitness_TestAsyncFunctions(const42: $const42, iabs: $iabs, intCompose: $intCompose, add3Things: $add3Things, makeList: $makeList, fifthThing: $fifthThing, six: $six)';
+    String toString() => 'ExternalWitness_TestAsyncFunctions(const42: $const42, iabs: $iabs, intCompose: $intCompose, add3Things: $add3Things, makeList: $makeList, fifthThing: $fifthThing, six: $six, willThrow: $willThrow)';
 
     /// <!-- FishyJoes.export(const42) -->
     Future<int> Function() get const42 =>
@@ -128,6 +128,14 @@ class ExternalWitness_TestAsyncFunctions extends SwiftReference implements TestA
             )
         )
     ;
+    /// <!-- FishyJoes.export(willThrow) -->
+    Future<int> Function() get willThrow =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                consumeCreatedRef<Future<int> Function()>(f__iota_get_TestAPI_TestAsyncFunctions_willThrow(Loader.shared.env, _thisHandle.ptr, exn))
+            )
+        )
+    ;
 
     static late CreatedRef Function(
         Env env,
@@ -164,4 +172,9 @@ class ExternalWitness_TestAsyncFunctions extends SwiftReference implements TestA
         UnownedRef _this,
         OutCreatedRef _exn
     ) f__iota_get_TestAPI_TestAsyncFunctions_six;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_get_TestAPI_TestAsyncFunctions_willThrow;
 }

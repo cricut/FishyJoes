@@ -107,6 +107,20 @@ struct _JavaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
             )
         }
     }
+
+    static var _willThrowGetMethodID: jmethodID?
+    public var willThrow: () async throws -> Int {
+        get throws {
+            let env = try Env.acquireJVMThread(on: _javaWitness.vm)
+            defer {
+                try? Env.relinquishJVMThread(on: _javaWitness.vm)
+            }
+            return try AsyncFunction0Converter<Swift.Int>.fromJava(
+                env.CallObjectMethod(_javaWitness.object, Self._willThrowGetMethodID),
+                env: env
+            )
+        }
+    }
 }
 
 extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: JavaMutator {
@@ -144,5 +158,6 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: JavaMutator {
         _JavaTestAsyncFunctions._makeListGetMethodID = try env.GetMethodID(javaClass, "getMakeList", "()Lkotlin/jvm/functions/Function5;")
         _JavaTestAsyncFunctions._fifthThingGetMethodID = try env.GetMethodID(javaClass, "getFifthThing", "()Lkotlin/jvm/functions/Function6;")
         _JavaTestAsyncFunctions._sixGetMethodID = try env.GetMethodID(javaClass, "getSix", "()Lkotlin/jvm/functions/Function7;")
+        _JavaTestAsyncFunctions._willThrowGetMethodID = try env.GetMethodID(javaClass, "getWillThrow", "()Lkotlin/jvm/functions/Function1;")
     }
 }

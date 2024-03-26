@@ -173,6 +173,9 @@ internal class ProtocolTests {
             },
             six = { a: String, b: Long, c: Double, d: String, e: suspend () -> Long, f: Long ->
                 f
+            },
+            willThrow = {
+                throw(Error("Spoon!"))
             }
         )
         assertEquals(49, a.const42())
@@ -187,6 +190,12 @@ internal class ProtocolTests {
         assertEquals(e(), 42)
         val f = a.six("Big, bad", 24, 3.14159265359, "Beetleborgs", { 43 }, Long.MIN_VALUE)
         assertEquals(f, Long.MIN_VALUE)
+
+        val result = runCatching {
+            a.willThrow()
+        }
+        assertInstanceOf(Error::class.java, result.exceptionOrNull())
+        assertEquals("Spoon!", result.exceptionOrNull()?.message)
     }
 
     @Test
@@ -204,7 +213,7 @@ internal class ProtocolTests {
         assertEquals(f, Long.MIN_VALUE)
 
         val result = runCatching {
-            AsyncFunctions.willThrow()
+            a.willThrow()
         }
         assertInstanceOf(Error::class.java, result.exceptionOrNull())
         assertEquals("TheAsyncError()", result.exceptionOrNull()?.message)

@@ -17,6 +17,7 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
     var makeList: (String, String, String, String) async -> Array<String>
     var fifthThing: (String, Int, Double, String, () async -> Int) async -> () async -> Int
     var six: (String, Int, Double, String, () async -> Int, Int) async -> Int
+    var willThrow: () async -> Int
 }
 extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeMutator {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
@@ -28,7 +29,8 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeMutator {
             add3Things: AsyncFunctions.AFun3(),
             makeList: AsyncFunctions.AFun4(),
             fifthThing: AsyncFunctions.AFun5(),
-            six: AsyncFunctions.AFun6()
+            six: AsyncFunctions.AFun6(),
+            willThrow: AsyncFunctions.AFun0()
         )
     }
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
@@ -41,6 +43,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeMutator {
             try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.toNode(value.makeList, env: env),
             try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.toNode(value.fifthThing, env: env),
             try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.toNode(value.six, env: env),
+            try AsyncFunction0Converter<Swift.Int>.toNode(value.willThrow, env: env),
         ]
         return try env.newInstance(constructor, args)
     }
@@ -130,9 +133,20 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeMutator {
                     ),
                     isStatic: false
                 ),
+                "willThrow": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "willThrow", expectedArgumentCount: 0) { env in
+                                try AsyncFunction0Converter<Swift.Int>.toNode(env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self).willThrow, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: false
+                ),
             ],
             constructor: { env, info in
-                callbackBody(env, info, name: "TestAsyncFunctions_constructor", expectedArgumentCount: 7) { env in
+                callbackBody(env, info, name: "TestAsyncFunctions_constructor", expectedArgumentCount: 8) { env in
                     // TODO: typecheck?
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "const42", env.argument(at: 0))
@@ -142,6 +156,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeMutator {
                     try env.env.setNamedProperty(this, "makeList", env.argument(at: 4))
                     try env.env.setNamedProperty(this, "fifthThing", env.argument(at: 5))
                     try env.env.setNamedProperty(this, "six", env.argument(at: 6))
+                    try env.env.setNamedProperty(this, "willThrow", env.argument(at: 7))
                     return this
                 }
             }

@@ -60,6 +60,14 @@ private class _ExternalWitness_TestAsyncFunctions private constructor(_swiftRefe
     @JvmName("__jni_get_six")
     private external fun __jni_get_six(): (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)
 
+    /**
+     * <!-- FishyJoes.export(willThrow) -->
+     */
+    override val willThrow: (suspend () -> Long)
+      get() = __jni_get_willThrow()
+    @JvmName("__jni_get_willThrow")
+    private external fun __jni_get_willThrow(): (suspend () -> Long)
+
     companion object {
         init { loadNativeLibs() }
     }

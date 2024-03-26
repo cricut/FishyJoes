@@ -3173,7 +3173,8 @@
                   "add3Things",
                   "makeList",
                   "fifthThing",
-                  "six"
+                  "six",
+                  "willThrow"
                 ],
                 "types" : [
                   {
@@ -3209,6 +3210,11 @@
                   {
                     "named" : {
                       "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "() => Promise<number>"
                     }
                   }
                 ]
@@ -3311,6 +3317,19 @@
                     "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
                   }
                 }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "willThrow",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "() => Promise<number>"
+                  }
+                }
               }
             ],
             "methods" : [
@@ -3328,7 +3347,8 @@
                   "add3Things",
                   "makeList",
                   "fifthThing",
-                  "six"
+                  "six",
+                  "willThrow"
                 ],
                 "types" : [
                   {
@@ -3364,6 +3384,11 @@
                   {
                     "named" : {
                       "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "() => Promise<number>"
                     }
                   }
                 ]
@@ -3464,6 +3489,19 @@
                 "type" : {
                   "named" : {
                     "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(willThrow) -->"
+                ],
+                "isStatic" : false,
+                "name" : "willThrow",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "() => Promise<number>"
                   }
                 }
               }

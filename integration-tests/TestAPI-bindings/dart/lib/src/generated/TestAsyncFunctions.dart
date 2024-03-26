@@ -78,6 +78,9 @@ abstract class TestAsyncFunctions {
 
     /// <!-- FishyJoes.export(six) -->
     Future<int> Function(String, int, double, String, Future<int> Function(), int) get six;
+
+    /// <!-- FishyJoes.export(willThrow) -->
+    Future<int> Function() get willThrow;
 }
 
 extension TestAsyncFunctions_DefaultImplementations on TestAsyncFunctions {
@@ -144,6 +147,15 @@ extension TestAsyncFunctions_FfiHooks on TestAsyncFunctions {
     ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncFunctions>(obj).six
+        )
+    );
+
+    static CreatedRef ffi_get_willThrow(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestAsyncFunctions>(obj).willThrow
         )
     );
 }

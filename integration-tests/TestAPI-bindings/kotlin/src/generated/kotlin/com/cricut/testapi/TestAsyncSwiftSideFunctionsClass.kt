@@ -66,7 +66,7 @@ class TestAsyncSwiftSideFunctionsClass private constructor(_swiftReference: Long
     /**
      * <!-- FishyJoes.export(willThrow) -->
      */
-    val willThrow: (suspend () -> Long)
+    override val willThrow: (suspend () -> Long)
       get() = __jni_get_willThrow()
     @JvmName("__jni_get_willThrow")
     private external fun __jni_get_willThrow(): (suspend () -> Long)

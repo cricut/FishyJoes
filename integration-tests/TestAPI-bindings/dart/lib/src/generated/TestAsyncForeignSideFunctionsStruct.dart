@@ -71,6 +71,7 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
     final Future<List<String>> Function(String, String, String, String) makeList;
     final Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function()) fifthThing;
     final Future<int> Function(String, int, double, String, Future<int> Function(), int) six;
+    final Future<int> Function() willThrow;
 
     TestAsyncForeignSideFunctionsStruct({
         required Future<int> Function() const42,
@@ -79,7 +80,8 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
         required Future<double> Function(double, double, int) add3Things,
         required Future<List<String>> Function(String, String, String, String) makeList,
         required Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function()) fifthThing,
-        required Future<int> Function(String, int, double, String, Future<int> Function(), int) six
+        required Future<int> Function(String, int, double, String, Future<int> Function(), int) six,
+        required Future<int> Function() willThrow
     }):
         this.const42 = const42,
         this.iabs = iabs,
@@ -87,7 +89,8 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
         this.add3Things = add3Things,
         this.makeList = makeList,
         this.fifthThing = fifthThing,
-        this.six = six;
+        this.six = six,
+        this.willThrow = willThrow;
 
     static CreatedRef ffi_constructor(
         ConsumedRef const42,
@@ -97,6 +100,7 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
         ConsumedRef makeList,
         ConsumedRef fifthThing,
         ConsumedRef six,
+        ConsumedRef willThrow,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(TestAsyncForeignSideFunctionsStruct(
@@ -107,10 +111,11 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
             makeList: consumeRef(makeList),
             fifthThing: consumeRef(fifthThing),
             six: consumeRef(six),
+            willThrow: consumeRef(willThrow),
         ))
     );
     @override
-    String toString() => 'TestAsyncForeignSideFunctionsStruct(const42: $const42, iabs: $iabs, intCompose: $intCompose, add3Things: $add3Things, makeList: $makeList, fifthThing: $fifthThing, six: $six)';
+    String toString() => 'TestAsyncForeignSideFunctionsStruct(const42: $const42, iabs: $iabs, intCompose: $intCompose, add3Things: $add3Things, makeList: $makeList, fifthThing: $fifthThing, six: $six, willThrow: $willThrow)';
 
     static CreatedRef ffi_get_const42(
         UnownedRef obj,
@@ -175,6 +180,15 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
         )
     );
 
+    static CreatedRef ffi_get_willThrow(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestAsyncForeignSideFunctionsStruct>(obj).willThrow
+        )
+    );
+
     @override
     bool operator ==(Object other) {
         return identical(other, this) ||
@@ -188,7 +202,8 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
                 const DeepCollectionEquality().equals(other.add3Things, add3Things) &&
                 const DeepCollectionEquality().equals(other.makeList, makeList) &&
                 const DeepCollectionEquality().equals(other.fifthThing, fifthThing) &&
-                const DeepCollectionEquality().equals(other.six, six)
+                const DeepCollectionEquality().equals(other.six, six) &&
+                const DeepCollectionEquality().equals(other.willThrow, willThrow)
             )
         );
     }
@@ -202,7 +217,8 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
         const DeepCollectionEquality().hash(add3Things), 
         const DeepCollectionEquality().hash(makeList), 
         const DeepCollectionEquality().hash(fifthThing), 
-        const DeepCollectionEquality().hash(six)
+        const DeepCollectionEquality().hash(six), 
+        const DeepCollectionEquality().hash(willThrow)
     );
 
     TestAsyncForeignSideFunctionsStruct copyWith({
@@ -212,7 +228,8 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
         Future<double> Function(double, double, int)? add3Things,
         Future<List<String>> Function(String, String, String, String)? makeList,
         Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function())? fifthThing,
-        Future<int> Function(String, int, double, String, Future<int> Function(), int)? six
+        Future<int> Function(String, int, double, String, Future<int> Function(), int)? six,
+        Future<int> Function()? willThrow
     }) => TestAsyncForeignSideFunctionsStruct(
         const42: const42 ?? this.const42,
         iabs: iabs ?? this.iabs,
@@ -220,6 +237,7 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
         add3Things: add3Things ?? this.add3Things,
         makeList: makeList ?? this.makeList,
         fifthThing: fifthThing ?? this.fifthThing,
-        six: six ?? this.six
+        six: six ?? this.six,
+        willThrow: willThrow ?? this.willThrow
     );
 }

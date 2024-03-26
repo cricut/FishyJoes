@@ -294,6 +294,7 @@ typedef _TestAPI_TestAsyncForeignSideFunctionsStructConstructor = CreatedRef Fun
     ConsumedRef makeList,
     ConsumedRef fifthThing,
     ConsumedRef six,
+    ConsumedRef willThrow,
     OutCreatedRef exn
 );
 typedef _TestAPI_TestAsyncForeignSideFunctionsStruct_const42Getter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
@@ -303,6 +304,7 @@ typedef _TestAPI_TestAsyncForeignSideFunctionsStruct_add3ThingsGetter = CreatedR
 typedef _TestAPI_TestAsyncForeignSideFunctionsStruct_makeListGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestAsyncForeignSideFunctionsStruct_fifthThingGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestAsyncForeignSideFunctionsStruct_sixGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncForeignSideFunctionsStruct_willThrowGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestAsyncFunctionsConstructor = CreatedRef Function(
     ffi.Pointer ref,
     OutCreatedRef exn
@@ -314,6 +316,7 @@ typedef _TestAPI_TestAsyncFunctions_add3ThingsGetter = CreatedRef Function(Unown
 typedef _TestAPI_TestAsyncFunctions_makeListGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestAsyncFunctions_fifthThingGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestAsyncFunctions_sixGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctions_willThrowGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestLeadingUnderscoredPropConstructor = CreatedRef Function(
     ffi.Pointer ref,
     OutCreatedRef exn
@@ -911,6 +914,7 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_makeListGetter>> get_makeList,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_fifthThingGetter>> get_fifthThing,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_sixGetter>> get_six,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_willThrowGetter>> get_willThrow,
             OutCreatedRef exn
         ),
         void Function(
@@ -923,6 +927,7 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_makeListGetter>> get_makeList,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_fifthThingGetter>> get_fifthThing,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_sixGetter>> get_six,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_willThrowGetter>> get_willThrow,
             OutCreatedRef exn
         )
     >('TestAPI_TestAsyncForeignSideFunctionsStruct_setup');
@@ -937,6 +942,7 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_makeListGetter>> get_makeList,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_fifthThingGetter>> get_fifthThing,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_sixGetter>> get_six,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_willThrowGetter>> get_willThrow,
             OutCreatedRef exn
         ),
         void Function(
@@ -949,6 +955,7 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_makeListGetter>> get_makeList,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_fifthThingGetter>> get_fifthThing,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_sixGetter>> get_six,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_willThrowGetter>> get_willThrow,
             OutCreatedRef exn
         )
     >('TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup');
@@ -4848,6 +4855,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_TestAsyncFunctions_six");
+    TestAPI.ExternalWitness_TestAsyncFunctions.f__iota_get_TestAPI_TestAsyncFunctions_willThrow = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestAsyncFunctions_willThrow");
     TestAPI.TestAsyncSwiftSideFunctionsClass.f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_add3Things = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -7131,6 +7150,7 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncForeignSideFunctionsStruct.ffi_get_makeList),
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncForeignSideFunctionsStruct.ffi_get_fifthThing),
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncForeignSideFunctionsStruct.ffi_get_six),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncForeignSideFunctionsStruct.ffi_get_willThrow),
                 exn
             );
         });
@@ -7149,6 +7169,7 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_get_makeList),
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_get_fifthThing),
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_get_six),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_get_willThrow),
                 exn
             );
         });
