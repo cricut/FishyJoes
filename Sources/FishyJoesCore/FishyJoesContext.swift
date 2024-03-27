@@ -487,8 +487,8 @@ public class FishyJoesContext {
                             """
                     )
                 }
-            case .function(let parameters, let returnType, let isAsync):
-                return try TranslatedFunction(parameters: parameters.map(recur), returnType: recur(returnType), isAsync: isAsync)
+            case let .function(parameters, returnType, isAsync, isThrowing, isEscaping):
+                return try TranslatedFunction(parameters: parameters.map(recur), returnType: recur(returnType), isAsync: isAsync, isThrowing: isThrowing, isEscaping: isEscaping)
             default:
                 throw ResolveError(
                     message: """
