@@ -108,10 +108,6 @@ extension Method {
         for parameter in parameters {
             let resolved = context.resolve(type: parameter.type, generics: exportAnnotation.genericOverrides)
             jniSignature += resolved.jniType.asSignature
-            if let translatedFunction = resolved as? TranslatedFunction,
-               translatedFunction.isAsync {
-                jniSignature += "Lkotlin/coroutines/Continuation;"
-            }
         }
         let returnType = context.resolve(type: returnType, generics: exportAnnotation.genericOverrides)
         jniSignature = "(\(jniSignature))\(isAsync ? "Lkotlinx/coroutines/Deferred;" : returnType.jniType.asSignature)"
