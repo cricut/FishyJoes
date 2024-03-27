@@ -121,6 +121,38 @@ struct _JavaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
             )
         }
     }
+
+    static var _exercise0MethodID: jmethodID?
+    public func exercise0(_ fn: @escaping () async throws -> Int) throws -> String {
+        let env = try Env.acquireJVMThread(on: _javaWitness.vm)
+        defer {
+            try? Env.relinquishJVMThread(on: _javaWitness.vm)
+        }
+        return try Swift.String.fromJava(
+            env.CallObjectMethod(
+                _javaWitness.object,
+                Self._exercise0MethodID,
+                jvalue(try AsyncFunction0Converter<Swift.Int>.toJava(fn, env: env))
+            ),
+            env: env
+        )
+    }
+
+    static var _exercise1MethodID: jmethodID?
+    public func exercise1(_ fn: @escaping (Int) async throws -> Int) throws -> String {
+        let env = try Env.acquireJVMThread(on: _javaWitness.vm)
+        defer {
+            try? Env.relinquishJVMThread(on: _javaWitness.vm)
+        }
+        return try Swift.String.fromJava(
+            env.CallObjectMethod(
+                _javaWitness.object,
+                Self._exercise1MethodID,
+                jvalue(try AsyncFunction1Converter<Swift.Int, Swift.Int>.toJava(fn, env: env))
+            ),
+            env: env
+        )
+    }
 }
 
 extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: JavaMutator {
@@ -159,5 +191,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: JavaMutator {
         _JavaTestAsyncFunctions._fifthThingGetMethodID = try env.GetMethodID(javaClass, "getFifthThing", "()Lkotlin/jvm/functions/Function6;")
         _JavaTestAsyncFunctions._sixGetMethodID = try env.GetMethodID(javaClass, "getSix", "()Lkotlin/jvm/functions/Function7;")
         _JavaTestAsyncFunctions._willThrowGetMethodID = try env.GetMethodID(javaClass, "getWillThrow", "()Lkotlin/jvm/functions/Function1;")
+        _JavaTestAsyncFunctions._exercise0MethodID = try env.GetMethodID(javaClass, "exercise0", "(Lkotlin/jvm/functions/Function1;)Lkotlinx/coroutines/Deferred;")
+        _JavaTestAsyncFunctions._exercise1MethodID = try env.GetMethodID(javaClass, "exercise1", "(Lkotlin/jvm/functions/Function2;)Lkotlinx/coroutines/Deferred;")
     }
 }

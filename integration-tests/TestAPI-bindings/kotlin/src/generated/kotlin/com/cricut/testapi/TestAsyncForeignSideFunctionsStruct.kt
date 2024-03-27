@@ -16,6 +16,27 @@ data class TestAsyncForeignSideFunctionsStruct(
     override val six: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long),
     override val willThrow: (suspend () -> Long)
 ): TestAsyncFunctions {
+    /**
+     * <!-- FishyJoes.export(exercise0) -->
+     */
+    override suspend fun exercise0(
+        fn: (suspend () -> Long)
+    ): kotlin.String = __jni_exercise0(fn).await()
+    @JvmName("__jni_exercise0")
+    private external fun __jni_exercise0(
+        fn: (suspend () -> Long)
+    ): kotlinx.coroutines.Deferred<kotlin.String>
+
+    /**
+     * <!-- FishyJoes.export(exercise1) -->
+     */
+    override suspend fun exercise1(
+        fn: (suspend (Long) -> Long)
+    ): kotlin.String = __jni_exercise1(fn).await()
+    @JvmName("__jni_exercise1")
+    private external fun __jni_exercise1(
+        fn: (suspend (Long) -> Long)
+    ): kotlinx.coroutines.Deferred<kotlin.String>
 
     companion object {
         init { loadNativeLibs() }

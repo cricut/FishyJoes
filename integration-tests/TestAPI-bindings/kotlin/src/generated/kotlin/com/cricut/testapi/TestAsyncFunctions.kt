@@ -39,6 +39,19 @@ interface TestAsyncFunctions {
      * <!-- FishyJoes.export(willThrow) -->
      */
     val willThrow: (suspend () -> Long)
+    /**
+     * <!-- FishyJoes.export(exercise0) -->
+     */
+    suspend fun exercise0(
+        fn: (suspend () -> Long)
+    ): kotlin.String
+
+    /**
+     * <!-- FishyJoes.export(exercise1) -->
+     */
+    suspend fun exercise1(
+        fn: (suspend (Long) -> Long)
+    ): kotlin.String
 
     companion object {
         init {

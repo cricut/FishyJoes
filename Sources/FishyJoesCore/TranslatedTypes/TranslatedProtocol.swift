@@ -640,7 +640,11 @@ struct TranslatedProtocol: TranslatedType {
                 var paramSigs = [String]()
                 do {
                     for param in method.parameters {
-                        paramSigs.append("\(param.labelAndName): \(param.type.name)")
+                        var paramTypeName = param.type.name
+                        if case .function = param.type {
+                            paramTypeName = "@escaping " + paramTypeName
+                        }
+                        paramSigs.append("\(param.labelAndName): \(paramTypeName)")
                     }
                 }
                 fragment.outputBlock("\(method.isStatic ? "static " : "")public func \(method.callName)(\(paramSigs.joined(separator: ", ")))\(returnSignature) {") {

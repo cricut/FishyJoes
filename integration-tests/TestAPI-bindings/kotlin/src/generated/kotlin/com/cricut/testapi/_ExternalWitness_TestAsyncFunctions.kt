@@ -68,6 +68,28 @@ private class _ExternalWitness_TestAsyncFunctions private constructor(_swiftRefe
     @JvmName("__jni_get_willThrow")
     private external fun __jni_get_willThrow(): (suspend () -> Long)
 
+    /**
+     * <!-- FishyJoes.export(exercise0) -->
+     */
+    override suspend fun exercise0(
+        fn: (suspend () -> Long)
+    ): kotlin.String = __jni_exercise0(fn).await()
+    @JvmName("__jni_exercise0")
+    private external fun __jni_exercise0(
+        fn: (suspend () -> Long)
+    ): kotlinx.coroutines.Deferred<kotlin.String>
+
+    /**
+     * <!-- FishyJoes.export(exercise1) -->
+     */
+    override suspend fun exercise1(
+        fn: (suspend (Long) -> Long)
+    ): kotlin.String = __jni_exercise1(fn).await()
+    @JvmName("__jni_exercise1")
+    private external fun __jni_exercise1(
+        fn: (suspend (Long) -> Long)
+    ): kotlinx.coroutines.Deferred<kotlin.String>
+
     companion object {
         init { loadNativeLibs() }
     }

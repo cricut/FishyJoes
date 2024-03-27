@@ -57,6 +57,13 @@ import 'package:tuple/tuple.dart' as tuple;
 
 /// <!-- FishyJoes.export(TestAsyncFunctions) -->
 abstract class TestAsyncFunctions {
+    Future<String> exercise0(
+        Future<int> Function() fn
+    );
+
+    Future<String> exercise1(
+        Future<int> Function(int) fn
+    );
 
     /// <!-- FishyJoes.export(const42) -->
     Future<int> Function() get const42;
@@ -156,6 +163,30 @@ extension TestAsyncFunctions_FfiHooks on TestAsyncFunctions {
     ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncFunctions>(obj).willThrow
+        )
+    );
+
+    static CreatedRef ffi_exercise0(
+        UnownedRef obj,
+        ConsumedRef fn,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestAsyncFunctions>(obj).exercise0(
+                consumeRef(fn)
+            )
+        )
+    );
+
+    static CreatedRef ffi_exercise1(
+        UnownedRef obj,
+        ConsumedRef fn,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestAsyncFunctions>(obj).exercise1(
+                consumeRef(fn)
+            )
         )
     );
 }
