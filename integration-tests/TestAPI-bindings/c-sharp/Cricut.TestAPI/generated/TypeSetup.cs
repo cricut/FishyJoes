@@ -544,6 +544,21 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_Function1Converter<AsyncFunction0Converter<Swift.Int>, FutureConverter<Swift.String>>", () => {
+                Console.WriteLine("setting up (() async throws -> Swift.Int) -> Future<Swift.String>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function1Converter_setup<System.Threading.Tasks.Task<string>, System.Func<System.Threading.Tasks.Task<nint>>>(
+                    Loader.env,
+                    "Function1Converter<AsyncFunction0Converter<Swift.Int>, FutureConverter<Swift.String>>",
+                    out exn
+                ));
+            });
+            Once("setup_AsyncFunction1Converter<AsyncFunction0Converter<Swift.Int>, Swift.String>", () => {
+                Console.WriteLine("setting up (() async throws -> Int) async throws -> String...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_AsyncFunction1Converter_setup(
+                    Loader.env,
+                    out exn
+                ));
+            });
             Once("setup_Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>", () => {
                 Console.WriteLine("setting up (Optional<Array<Optional<Swift.Int>>>) throws -> Optional<Array<Optional<Swift.Int>>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function1Converter_setup<System.Collections.Generic.IList<nint?>?, System.Collections.Generic.IList<nint?>?>(
@@ -846,6 +861,14 @@ namespace Cricut.TestAPI {
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<System.Threading.Tasks.Task<nint>>(
                     Loader.env,
                     "FutureConverter<FutureConverter<Swift.Int>>",
+                    out exn
+                ));
+            });
+            Once("setup_FutureConverter<FutureConverter<Swift.String>>", () => {
+                Console.WriteLine("setting up Future<Future<Swift.String>>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<System.Threading.Tasks.Task<string>>(
+                    Loader.env,
+                    "FutureConverter<FutureConverter<Swift.String>>",
                     out exn
                 ));
             });

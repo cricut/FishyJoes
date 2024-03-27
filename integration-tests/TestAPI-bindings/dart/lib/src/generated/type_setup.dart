@@ -295,6 +295,7 @@ typedef _TestAPI_TestAsyncForeignSideFunctionsStructConstructor = CreatedRef Fun
     ConsumedRef fifthThing,
     ConsumedRef six,
     ConsumedRef willThrow,
+    ConsumedRef exercise0Fun,
     OutCreatedRef exn
 );
 typedef _TestAPI_TestAsyncForeignSideFunctionsStruct_const42Getter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
@@ -305,6 +306,7 @@ typedef _TestAPI_TestAsyncForeignSideFunctionsStruct_makeListGetter = CreatedRef
 typedef _TestAPI_TestAsyncForeignSideFunctionsStruct_fifthThingGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestAsyncForeignSideFunctionsStruct_sixGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestAsyncForeignSideFunctionsStruct_willThrowGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncForeignSideFunctionsStruct_exercise0FunGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestAsyncFunctionsConstructor = CreatedRef Function(
     ffi.Pointer ref,
     OutCreatedRef exn
@@ -917,6 +919,7 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_fifthThingGetter>> get_fifthThing,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_sixGetter>> get_six,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_willThrowGetter>> get_willThrow,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise0FunGetter>> get_exercise0Fun,
             OutCreatedRef exn
         ),
         void Function(
@@ -930,6 +933,7 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_fifthThingGetter>> get_fifthThing,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_sixGetter>> get_six,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_willThrowGetter>> get_willThrow,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise0FunGetter>> get_exercise0Fun,
             OutCreatedRef exn
         )
     >('TestAPI_TestAsyncForeignSideFunctionsStruct_setup');
@@ -5404,6 +5408,27 @@ final ensureLoaded = (() {
         });
     });
 
+    Loader.shared.once("setup_Function1Converter<AsyncFunction0Converter<Swift.Int>, FutureConverter<Swift.String>>", () {
+        // print("setting up (() async throws -> Swift.Int) -> Future<Swift.String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_Function1Converter_setup<Future<String>, Future<int> Function()>(
+                Loader.shared.env,
+                "Function1Converter<AsyncFunction0Converter<Swift.Int>, FutureConverter<Swift.String>>",
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_AsyncFunction1Converter<AsyncFunction0Converter<Swift.Int>, Swift.String>", () {
+        // print("setting up (() async throws -> Int) async throws -> String (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_AsyncFunction1Converter_setup(
+                Loader.shared.env,
+                exn
+            );
+        });
+    });
+
     Loader.shared.once("setup_Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>", () {
         // print("setting up (Optional<Array<Optional<Swift.Int>>>) throws -> Optional<Array<Optional<Swift.Int>>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
@@ -5821,6 +5846,17 @@ final ensureLoaded = (() {
             Loader.shared.FishyJoesCommonRuntime_FutureConverter_setup<Future<int>>(
                 Loader.shared.env,
                 "FutureConverter<FutureConverter<Swift.Int>>",
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_FutureConverter<FutureConverter<Swift.String>>", () {
+        // print("setting up Future<Future<Swift.String>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_FutureConverter_setup<Future<String>>(
+                Loader.shared.env,
+                "FutureConverter<FutureConverter<Swift.String>>",
                 exn
             );
         });
@@ -7241,6 +7277,7 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncForeignSideFunctionsStruct.ffi_get_fifthThing),
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncForeignSideFunctionsStruct.ffi_get_six),
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncForeignSideFunctionsStruct.ffi_get_willThrow),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncForeignSideFunctionsStruct.ffi_get_exercise0Fun),
                 exn
             );
         });

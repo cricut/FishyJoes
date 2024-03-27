@@ -3174,7 +3174,8 @@
                   "makeList",
                   "fifthThing",
                   "six",
-                  "willThrow"
+                  "willThrow",
+                  "exercise0Fun"
                 ],
                 "types" : [
                   {
@@ -3215,6 +3216,11 @@
                   {
                     "named" : {
                       "_0" : "() => Promise<number>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: () => Promise<number>) => Promise<string>"
                     }
                   }
                 ]
@@ -3328,6 +3334,19 @@
                 "type" : {
                   "named" : {
                     "_0" : "() => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "exercise0Fun",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: () => Promise<number>) => Promise<string>"
                   }
                 }
               }

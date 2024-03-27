@@ -123,7 +123,7 @@ struct _JavaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
     }
 
     static var _exercise0MethodID: jmethodID?
-    public func exercise0(_ fn: @escaping () async throws -> Int) throws -> String {
+    public func exercise0(_ fn: @escaping () async throws -> Int) async throws -> String {
         let env = try Env.acquireJVMThread(on: _javaWitness.vm)
         defer {
             try? Env.relinquishJVMThread(on: _javaWitness.vm)
@@ -139,7 +139,7 @@ struct _JavaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
     }
 
     static var _exercise1MethodID: jmethodID?
-    public func exercise1(_ fn: @escaping (Int) async throws -> Int) throws -> String {
+    public func exercise1(_ fn: @escaping (Int) async throws -> Int) async throws -> String {
         let env = try Env.acquireJVMThread(on: _javaWitness.vm)
         defer {
             try? Env.relinquishJVMThread(on: _javaWitness.vm)

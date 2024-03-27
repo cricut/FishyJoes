@@ -176,6 +176,9 @@ internal class ProtocolTests {
             },
             willThrow = {
                 throw(Error("Spoon!"))
+            },
+            exercise0Fun = {fn: suspend () -> Long ->
+                "${fn()*2}"
             }
         )
         assertEquals(49, a.const42())
@@ -198,7 +201,7 @@ internal class ProtocolTests {
         assertEquals("Spoon!", result.exceptionOrNull()?.message)
 
         val g = a.exercise0(e)
-        assertEquals(g, "42")
+        assertEquals(g, "84")
         val h = a.exercise1(b)
         print("h: $h")
     }
