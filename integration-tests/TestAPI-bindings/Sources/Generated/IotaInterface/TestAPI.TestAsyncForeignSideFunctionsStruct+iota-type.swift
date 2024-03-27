@@ -19,6 +19,7 @@ public func TestAPI_TestAsyncForeignSideFunctionsStruct_setup(
     _ sixGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType,
     _ willThrowGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction0Converter<Swift.Int>.CType,
     _ exercise0FunGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction1Converter<AsyncFunction0Converter<Swift.Int>, Swift.String>.CType,
+    _ exercise1FunGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, Swift.String>.CType,
     _ exn: foreignOutExn
 ) {
     let env = Env(envRef)
@@ -33,6 +34,7 @@ public func TestAPI_TestAsyncForeignSideFunctionsStruct_setup(
     TestAPI.TestAsyncForeignSideFunctionsStruct._sixGetter[env] = sixGetter
     TestAPI.TestAsyncForeignSideFunctionsStruct._willThrowGetter[env] = willThrowGetter
     TestAPI.TestAsyncForeignSideFunctionsStruct._exercise0FunGetter[env] = exercise0FunGetter
+    TestAPI.TestAsyncForeignSideFunctionsStruct._exercise1FunGetter[env] = exercise1FunGetter
 }
 
 extension TestAPI.TestAsyncForeignSideFunctionsStruct: IotaMutator {
@@ -45,6 +47,7 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: IotaMutator {
     fileprivate static let _sixGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType>()
     fileprivate static let _willThrowGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction0Converter<Swift.Int>.CType>()
     fileprivate static let _exercise0FunGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction1Converter<AsyncFunction0Converter<Swift.Int>, Swift.String>.CType>()
+    fileprivate static let _exercise1FunGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, Swift.String>.CType>()
     public typealias _ConstructorMethod = @convention(c) (
         AsyncFunction0Converter<Swift.Int>.CType,
         AsyncFunction1Converter<Swift.Int, Swift.Int>.CType,
@@ -55,6 +58,7 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: IotaMutator {
         AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType,
         AsyncFunction0Converter<Swift.Int>.CType,
         AsyncFunction1Converter<AsyncFunction0Converter<Swift.Int>, Swift.String>.CType,
+        AsyncFunction1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, Swift.String>.CType,
         _ exn: foreignOutExn
     ) -> foreignObject
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
@@ -96,6 +100,10 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: IotaMutator {
             exercise0Fun: try AsyncFunction1Converter<AsyncFunction0Converter<Swift.Int>, Swift.String>.consumeIota(
                 try env.check { exn in _exercise0FunGetter[env](value, exn) },
                 env: env
+            ),
+            exercise1Fun: try AsyncFunction1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, Swift.String>.consumeIota(
+                try env.check { exn in _exercise1FunGetter[env](value, exn) },
+                env: env
             )
         )
     }
@@ -112,6 +120,7 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: IotaMutator {
                 try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.toIota(value.six, env: env),
                 try AsyncFunction0Converter<Swift.Int>.toIota(value.willThrow, env: env),
                 try AsyncFunction1Converter<AsyncFunction0Converter<Swift.Int>, Swift.String>.toIota(value.exercise0Fun, env: env),
+                try AsyncFunction1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, Swift.String>.toIota(value.exercise1Fun, env: env),
                 exn
             )
         }

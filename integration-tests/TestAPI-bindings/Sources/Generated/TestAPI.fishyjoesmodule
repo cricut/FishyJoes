@@ -3175,7 +3175,8 @@
                   "fifthThing",
                   "six",
                   "willThrow",
-                  "exercise0Fun"
+                  "exercise0Fun",
+                  "exercise1Fun"
                 ],
                 "types" : [
                   {
@@ -3221,6 +3222,11 @@
                   {
                     "named" : {
                       "_0" : "(_0: () => Promise<number>) => Promise<string>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: (_0: number) => Promise<number>) => Promise<string>"
                     }
                   }
                 ]
@@ -3347,6 +3353,19 @@
                 "type" : {
                   "named" : {
                     "_0" : "(_0: () => Promise<number>) => Promise<string>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "exercise1Fun",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: (_0: number) => Promise<number>) => Promise<string>"
                   }
                 }
               }

@@ -46,6 +46,10 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
             exercise0Fun: try { () -> (() async throws -> Swift.Int) async throws -> Swift.String in
                 let fieldValue = try env.getNamedProperty(value, "exercise0Fun")
                 return try AsyncFunction1Converter<AsyncFunction0Converter<Swift.Int>, Swift.String>.fromNode(fieldValue, env: env)
+            }(),
+            exercise1Fun: try { () -> ((Swift.Int) async throws -> Swift.Int) async throws -> Swift.String in
+                let fieldValue = try env.getNamedProperty(value, "exercise1Fun")
+                return try AsyncFunction1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, Swift.String>.fromNode(fieldValue, env: env)
             }()
         )
     }
@@ -61,6 +65,7 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
             try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.toNode(value.six, env: env),
             try AsyncFunction0Converter<Swift.Int>.toNode(value.willThrow, env: env),
             try AsyncFunction1Converter<AsyncFunction0Converter<Swift.Int>, Swift.String>.toNode(value.exercise0Fun, env: env),
+            try AsyncFunction1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, Swift.String>.toNode(value.exercise1Fun, env: env),
         ]
         return try env.newInstance(constructor, args)
     }
@@ -145,9 +150,10 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
                 "six": (.stored(mutable: true), isStatic: false),
                 "willThrow": (.stored(mutable: true), isStatic: false),
                 "exercise0Fun": (.stored(mutable: true), isStatic: false),
+                "exercise1Fun": (.stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in
-                callbackBody(env, info, name: "TestAsyncForeignSideFunctionsStruct_constructor", expectedArgumentCount: 9) { env in
+                callbackBody(env, info, name: "TestAsyncForeignSideFunctionsStruct_constructor", expectedArgumentCount: 10) { env in
                     // TODO: typecheck?
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "const42", env.argument(at: 0))
@@ -159,6 +165,7 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
                     try env.env.setNamedProperty(this, "six", env.argument(at: 6))
                     try env.env.setNamedProperty(this, "willThrow", env.argument(at: 7))
                     try env.env.setNamedProperty(this, "exercise0Fun", env.argument(at: 8))
+                    try env.env.setNamedProperty(this, "exercise1Fun", env.argument(at: 9))
                     return this
                 }
             }

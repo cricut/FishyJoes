@@ -20,6 +20,7 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: JavaMutator {
     private static var _java_six_id: jfieldID!
     private static var _java_willThrow_id: jfieldID!
     private static var _java_exercise0Fun_id: jfieldID!
+    private static var _java_exercise1Fun_id: jfieldID!
     private static var _constructorMethodID: jmethodID!
     public static func fromJava(_ value: jobject?, env: Env) throws -> Self {
         Self(
@@ -58,6 +59,10 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: JavaMutator {
             exercise0Fun: try AsyncFunction1Converter<AsyncFunction0Converter<Swift.Int>, Swift.String>.fromJava(
                 env.GetObjectField(value, Self._java_exercise0Fun_id),
                 env: env
+            ),
+            exercise1Fun: try AsyncFunction1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, Swift.String>.fromJava(
+                env.GetObjectField(value, Self._java_exercise1Fun_id),
+                env: env
             )
         )
     }
@@ -73,7 +78,8 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: JavaMutator {
             jvalue(AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.toJava(value.fifthThing, env: env)),
             jvalue(AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.toJava(value.six, env: env)),
             jvalue(AsyncFunction0Converter<Swift.Int>.toJava(value.willThrow, env: env)),
-            jvalue(AsyncFunction1Converter<AsyncFunction0Converter<Swift.Int>, Swift.String>.toJava(value.exercise0Fun, env: env))
+            jvalue(AsyncFunction1Converter<AsyncFunction0Converter<Swift.Int>, Swift.String>.toJava(value.exercise0Fun, env: env)),
+            jvalue(AsyncFunction1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, Swift.String>.toJava(value.exercise1Fun, env: env))
         )
     }
     public static func javaSetup(env: Env) throws {
@@ -88,7 +94,8 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: JavaMutator {
         _java_six_id = try env.GetFieldID(javaClass, "six", "Lkotlin/jvm/functions/Function7;")
         _java_willThrow_id = try env.GetFieldID(javaClass, "willThrow", "Lkotlin/jvm/functions/Function1;")
         _java_exercise0Fun_id = try env.GetFieldID(javaClass, "exercise0Fun", "Lkotlin/jvm/functions/Function2;")
-        _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function4;Lkotlin/jvm/functions/Function5;Lkotlin/jvm/functions/Function6;Lkotlin/jvm/functions/Function7;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;)V")
+        _java_exercise1Fun_id = try env.GetFieldID(javaClass, "exercise1Fun", "Lkotlin/jvm/functions/Function2;")
+        _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function4;Lkotlin/jvm/functions/Function5;Lkotlin/jvm/functions/Function6;Lkotlin/jvm/functions/Function7;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;)V")
     }
     public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout Self) throws -> R) throws -> R {
         var mutatingSelf = try fromJava(this, env: env)
@@ -128,6 +135,10 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: JavaMutator {
         try env.SetObjectField(
             this, Self._java_exercise0Fun_id,
             AsyncFunction1Converter<AsyncFunction0Converter<Swift.Int>, Swift.String>.toJava(mutatingSelf.exercise0Fun, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_exercise1Fun_id,
+            AsyncFunction1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, Swift.String>.toJava(mutatingSelf.exercise1Fun, env: env)
         )
         return result
     }
@@ -169,6 +180,10 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: JavaMutator {
         try env.SetObjectField(
             this, Self._java_exercise0Fun_id,
             AsyncFunction1Converter<AsyncFunction0Converter<Swift.Int>, Swift.String>.toJava(mutatingSelf.exercise0Fun, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_exercise1Fun_id,
+            AsyncFunction1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, Swift.String>.toJava(mutatingSelf.exercise1Fun, env: env)
         )
         return result
     }

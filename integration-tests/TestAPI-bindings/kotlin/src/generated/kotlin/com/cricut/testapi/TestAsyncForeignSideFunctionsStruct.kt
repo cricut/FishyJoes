@@ -15,7 +15,8 @@ data class TestAsyncForeignSideFunctionsStruct(
     override val fifthThing: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long)) -> (suspend () -> Long)),
     override val six: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long),
     override val willThrow: (suspend () -> Long),
-    val exercise0Fun: (suspend ((suspend () -> Long)) -> kotlin.String)
+    val exercise0Fun: (suspend ((suspend () -> Long)) -> kotlin.String),
+    val exercise1Fun: (suspend ((suspend (Long) -> Long)) -> kotlin.String)
 ): TestAsyncFunctions {
     /**
      * <!-- FishyJoes.export(exercise0) -->

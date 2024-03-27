@@ -179,6 +179,9 @@ internal class ProtocolTests {
             },
             exercise0Fun = {fn: suspend () -> Long ->
                 "${fn()*2}"
+            },
+            exercise1Fun = {fn: suspend (Long) -> Long ->
+                "${fn(-7)}"
             }
         )
         assertEquals(49, a.const42())
@@ -203,7 +206,7 @@ internal class ProtocolTests {
         val g = a.exercise0(e)
         assertEquals(g, "84")
         val h = a.exercise1(b)
-        print("h: $h")
+        assertEquals(h, "-105")
     }
 
     @Test

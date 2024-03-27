@@ -20,8 +20,10 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
 
     try Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>.nodeSetup(env: env, module: module)
     try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.nodeSetup(env: env, module: module)
+    try Function1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, FutureConverter<Swift.String>>.nodeSetup(env: env, module: module)
     try Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>.nodeSetup(env: env, module: module)
     try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.nodeSetup(env: env, module: module)
+    try AsyncFunction1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, Swift.String>.nodeSetup(env: env, module: module)
     try Function1Converter<AsyncFunction0Converter<Swift.Int>, FutureConverter<Swift.String>>.nodeSetup(env: env, module: module)
     try AsyncFunction1Converter<AsyncFunction0Converter<Swift.Int>, Swift.String>.nodeSetup(env: env, module: module)
     try Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>.nodeSetup(env: env, module: module)

@@ -283,6 +283,7 @@ public struct TestAsyncForeignSideFunctionsStruct: TestAsyncFunctions {
     public let six: AsyncFunctions.AFun6
     public let willThrow: AsyncFunctions.AFun0
     public let exercise0Fun: (@escaping AsyncFunctions.AFun0) async throws -> String
+    public let exercise1Fun: (@escaping AsyncFunctions.AFun1) async throws -> String
 
     public init(
         const42: @escaping AsyncFunctions.AFun0,
@@ -293,7 +294,8 @@ public struct TestAsyncForeignSideFunctionsStruct: TestAsyncFunctions {
         fifthThing: @escaping AsyncFunctions.AFun5,
         six: @escaping AsyncFunctions.AFun6,
         willThrow: @escaping AsyncFunctions.AFun0,
-        exercise0Fun: @escaping (@escaping AsyncFunctions.AFun0) async throws -> String
+        exercise0Fun: @escaping (@escaping AsyncFunctions.AFun0) async throws -> String,
+        exercise1Fun: @escaping (@escaping AsyncFunctions.AFun1) async throws -> String
     ) {
         self.const42 = const42
         self.iabs = iabs
@@ -304,6 +306,7 @@ public struct TestAsyncForeignSideFunctionsStruct: TestAsyncFunctions {
         self.six = six
         self.willThrow = willThrow
         self.exercise0Fun = exercise0Fun
+        self.exercise1Fun = exercise1Fun
     }
     /// <!-- FishyJoes.export(exercise0) -->
     public func exercise0(_ fn: @escaping AsyncFunctions.AFun0) async throws -> String {
@@ -311,7 +314,7 @@ public struct TestAsyncForeignSideFunctionsStruct: TestAsyncFunctions {
     }
     /// <!-- FishyJoes.export(exercise1) -->
     public func exercise1(_ fn: @escaping AsyncFunctions.AFun1) async throws -> String {
-        try await AsyncFunctions.exercise1(fn)
+        try await exercise1Fun(fn)
     }
 }
 

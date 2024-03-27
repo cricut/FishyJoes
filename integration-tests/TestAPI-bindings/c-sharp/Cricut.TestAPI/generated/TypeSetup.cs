@@ -528,6 +528,14 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_Function1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, FutureConverter<Swift.String>>", () => {
+                Console.WriteLine("setting up ((Swift.Int) async throws -> Swift.Int) -> Future<Swift.String>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function1Converter_setup<System.Threading.Tasks.Task<string>, System.Func<nint, System.Threading.Tasks.Task<nint>>>(
+                    Loader.env,
+                    "Function1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, FutureConverter<Swift.String>>",
+                    out exn
+                ));
+            });
             Once("setup_Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>", () => {
                 Console.WriteLine("setting up ((Int) throws -> Int, (Int) throws -> Int) throws -> (Int) throws -> Int...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function2Converter_setup<System.Func<nint, nint>, System.Func<nint, nint>, System.Func<nint, nint>>(
@@ -541,6 +549,13 @@ namespace Cricut.TestAPI {
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function2Converter_setup<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>>(
                     Loader.env,
                     "Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>",
+                    out exn
+                ));
+            });
+            Once("setup_AsyncFunction1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, Swift.String>", () => {
+                Console.WriteLine("setting up ((Int) async throws -> Int) async throws -> String...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_AsyncFunction1Converter_setup(
+                    Loader.env,
                     out exn
                 ));
             });
