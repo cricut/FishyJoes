@@ -1,4 +1,5 @@
 import Foundation
+import NodeAPI
 
 // MARK: - NodeJS Type Conversion Protocols
 
@@ -194,47 +195,75 @@ extension String: NodeConverter {
 
 // MARK: - Data Type Conversion
 
+// Implementing the NAPI arraybuffer functions in wasm would be very difficult, since they assume storage is in wasm memory. Use alternate hooks instead
 extension Data: NodeConverter {
+    static var moduleReference: NodeReference?
+
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Data {
-        let global = try env.getGlobal()
-
-        // Get the number of bytes in the ArrayBuffer
-        let byteLength = try env.getNamedProperty(value, "byteLength")
-
-        // Get a byte-oriented view of the ArrayBuffer with UInt8Array
-        let uInt8ArrayConstructor = try env.getNamedProperty(global, "Uint8Array")
-        let uInt8View = try env.newInstance(uInt8ArrayConstructor, [value])
-
-        // Create a Data to store the memory from the ArrayBuffer
-        let count = try Int.fromNode(byteLength, env: env)
-        var data = Data(count: count)
-
-        // Copy the bytes from the UInt8Array to the Data
-        for index in 0..<count {
-            data[index] = try UInt8.fromNode(try env.getElement(uInt8View, UInt32(index)), env: env)
+        #if os(WASI)
+        guard let module = try moduleReference?.value(env: env),
+              case let fromWasi = try env.getNamedProperty(env.getNamedProperty(module, "_DataNodeConverter"), "fromWasi"),
+              try env.typeof(fromWasi) == NodeAPI.napi_function
+        else {
+            // These should be implemented in Runtime.extensions.js
+            throw JSException(message: "Internal error: Expected Runtime._DataNodeConverter.fromWasi to be a function")
         }
-
-        return data
+        let undefined = try env.getUndefined()
+        // fromWasi should be js function of type (Arraybuffer) -> [ssize_t, void *]
+        // the memory will be freed by the caller
+        let result = try env.callFunction(undefined, fromWasi, [value])
+        let length = try Int.fromNode(env.getElement(result, 0), env: env)
+        let data = try UInt.fromNode(env.getElement(result, 1), env: env)
+        return Data(bytesNoCopy: UnsafeMutableRawPointer(bitPattern: data)!, count: length, deallocator: .free)
+        #else
+        let (data, length) = try env.getArraybufferInfo(value)
+        if length == 0 {
+            return Data()
+        } else if let data = data {
+            return Data(bytes: data, count: length)
+        } else {
+            throw JSException(message: "napi_get_typedarray_info unexpectedly returned NULL")
+        }
+        #endif
     }
 
     public static func toNode(_ value: Data, env: NAPI.Env) throws -> NAPI.Value {
-        let global = try env.getGlobal()
-
-        // Create an ArrayBuffer of the same size as the Data
-        let arrayBufferConstructor = try env.getNamedProperty(global, "ArrayBuffer")
-        let byteCount = try Int.toNode(value.count, env: env)
-        let arrayBuffer = try env.newInstance(arrayBufferConstructor, [byteCount])
-
-        // Get a byte-oriented view of the ArrayBuffer with UInt8Array
-        let uInt8ArrayConstructor = try env.getNamedProperty(global, "Uint8Array")
-        let uInt8View = try env.newInstance(uInt8ArrayConstructor, [arrayBuffer])
-
-        // Copy the bytes from the Data to the UInt8Array
-        for (index, byte) in value.enumerated() {
-            try env.setElement(uInt8View, UInt32(index), UInt8.toNode(byte, env: env))
+        #if os(WASI)
+        guard let module = try moduleReference?.value(env: env),
+              case let toWasi = try env.getNamedProperty(env.getNamedProperty(module, "_DataNodeConverter"), "toWasi"),
+              try env.typeof(toWasi) == NodeAPI.napi_function
+        else {
+            // These should be implemented in Runtime.extensions.js
+            throw JSException(message: "Internal error: Expected Runtime._DataNodeConverter.toWasi to be a function")
         }
-
+        let undefined = try env.getUndefined()
+        return try value.withUnsafeBytes { buffer in
+            let nodeLength = try Int.toNode(value.count, env: env)
+            let nodePointer = try UInt.toNode(UInt(bitPattern: buffer.baseAddress), env: env)
+            // toWasi should be js function of type (ssize_t, void *) -> Arraybuffer
+            // memory is copied without ownership change
+            return try env.callFunction(undefined, toWasi, [nodeLength, nodePointer])
+        }
+        #else
+        let length = value.count
+        let (data, arrayBuffer) = try env.createArraybuffer(length)
+        guard length > 0 else {
+            return arrayBuffer
+        }
+        guard let data = data else {
+            throw JSException(message: "napi_create_arraybuffer unexpectedly returned NULL")
+        }
+        data.withMemoryRebound(to: UInt8.self, capacity: length) { ptr in
+            value.copyBytes(to: ptr, count: length)
+        }
         return arrayBuffer
+        #endif
+    }
+
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        if moduleReference == nil {
+            moduleReference = try NodeReference(env: env, value: module)
+        }
     }
 }
 
