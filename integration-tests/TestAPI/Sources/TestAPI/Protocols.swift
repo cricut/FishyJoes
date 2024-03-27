@@ -334,11 +334,11 @@ public class TestAsyncSwiftSideFunctionsClass: TestAsyncFunctions {
     }
     /// <!-- FishyJoes.export(exercise0) -->
     public func exercise0(_ fn: @escaping AsyncFunctions.AFun0) async throws -> String {
-        await try AsyncFunctions.exercise0(fn)
+        try await AsyncFunctions.exercise0(fn)
     }
     /// <!-- FishyJoes.export(exercise1) -->
     public func exercise1(_ fn: @escaping AsyncFunctions.AFun1) async throws -> String {
-        await try AsyncFunctions.exercise1(fn)
+        try await AsyncFunctions.exercise1(fn)
     }
 
     /// <!-- FishyJoes.export(init) -->
