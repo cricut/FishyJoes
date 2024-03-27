@@ -13,7 +13,7 @@ indirect enum BetterType: Codable, Hashable {
     case named(Name)
     case tuple([TupleElement])
     case void
-    case function([BetterType], BetterType, isAsync: Bool, isThrowing: Bool, isEscaping: Bool)
+    case function([BetterType], BetterType, isAsync: Bool, isThrowing: Bool)
     case generic(base: Name, args: [BetterType])
     case selfType
 
@@ -83,8 +83,7 @@ extension TypeName {
                 closure.parameters.map(\.typeName.better),
                 closure.returnTypeName.better,
                 isAsync: closure.isAsync,
-                isThrowing: closure.throws,
-                isEscaping: closure.attributeKeys.contains(Attribute.Identifier.escaping.rawValue)
+                isThrowing: closure.throws
             )
         } else if name.unwrappedTypeName == "Self" {
             better = .selfType
@@ -188,8 +187,8 @@ extension BetterType {
             }.joined(separator: ", ") + ")"
         case .void:
             return "Void"
-        case let .function(args, ret, isAsync, isThrowing, isEscaping):
-            return "\(isEscaping ? "@escaping ": "")(\(args.map(\.name).joined(separator: ", ")))\(isAsync ? " async" : "")\(isThrowing ? " throws" : "") -> \(ret.name)"
+        case let .function(args, ret, isAsync, isThrowing):
+            return "(\(args.map(\.name).joined(separator: ", ")))\(isAsync ? " async" : "")\(isThrowing ? " throws" : "") -> \(ret.name)"
         case .generic(let base, let args):
             return "\(base.name)<\(args.map(\.name).joined(separator: ", "))>"
         case .selfType:
@@ -211,8 +210,8 @@ extension BetterType {
             }.joined(separator: ", ") + ")"
         case .void:
             return "Void"
-        case let .function(args, ret, isAsync, isThrowing, isEscaping):
-            return "\(isEscaping ? "@escaping " : "")(\(args.map(\.name).joined(separator: ", ")))\(isAsync ? " async" : "")\(isThrowing ? " throws" : "") -> \(ret.name)"
+        case let .function(args, ret, isAsync, isThrowing):
+            return "(\(args.map(\.name).joined(separator: ", ")))\(isAsync ? " async" : "")\(isThrowing ? " throws" : "") -> \(ret.name)"
         case .generic(let base, let args):
             return "\(base.name)<\(args.map(\.name).joined(separator: ", "))>"
         case .selfType:

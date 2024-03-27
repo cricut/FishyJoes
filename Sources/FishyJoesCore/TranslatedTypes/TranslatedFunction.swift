@@ -15,7 +15,7 @@ struct TranslatedFunction: TranslatedType {
     let dartType: DartClass.DartType
     let definingModule = Module.runtime
 
-    init(parameters: [TranslatedType], returnType: TranslatedType, isAsync: Bool, isThrowing: Bool, isEscaping: Bool) {
+    init(parameters: [TranslatedType], returnType: TranslatedType, isAsync: Bool, isThrowing: Bool) {
         self.parameters = parameters
         self.returnType = returnType
         self.isAsync = isAsync
@@ -23,8 +23,7 @@ struct TranslatedFunction: TranslatedType {
         self.sourceType = .function(
             parameters.map(\.sourceType), returnType.sourceType,
             isAsync: isAsync,
-            isThrowing: isThrowing,
-            isEscaping: isEscaping
+            isThrowing: isThrowing
         )
         self.neutralName = "Function<ReturnType=\(returnType.neutralName), Params=[\(parameters.map { $0.neutralName }.joined(separator: ", "))]>"
         self.nodeName = "(\(parameters.enumerated().map { "_\($0.offset): \($0.element.nodeType)" }.joined(separator: ", "))) => \(isAsync ? "Promise<" : "")\(returnType.nodeType)\(isAsync ? ">" : "")"
@@ -71,8 +70,7 @@ struct TranslatedFunction: TranslatedType {
                 parameters: parameters,
                 returnType: translatedFutureReturn,
                 isAsync: false,
-                isThrowing: false,
-                isEscaping: false
+                isThrowing: false
             )
         } else {
             return self

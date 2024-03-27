@@ -47,6 +47,7 @@ struct TranslatedProtocol: TranslatedType {
         self.conformances = exportAnnotation.conformances
 
         let methodsToConvert = type.methodsPreferringDefaultImpl()
+
         self.methods = methodsToConvert.compactMap { Method($0, isProtocol: true) }
 
         self.fields = type.variables.filter { $0.exportAnnotation != nil }
@@ -581,9 +582,6 @@ struct TranslatedProtocol: TranslatedType {
         )
 
         let foreignProtocolType = "_Java\(sourceType.nonNamespacedName)"
-        if sourceType.nonNamespacedName.contains("TestAsyncFunctions") {
-            let elegoo = 1
-        }
 
         var methodIDs: [(idHandle: String, name: String, signature: String)] = []
         let defaultMethods = methods.filter { $0.isDefaultImplementation }
@@ -595,11 +593,6 @@ struct TranslatedProtocol: TranslatedType {
             for variable in fields {
                 fragment.output()
                 let name = variable.name
-                
-                if foreignProtocolType.contains("TestAsyncFunctions"), variable.name.contains("intCompose") {
-                    let elegoo = 1
-                }
-
                 let type = variable.typeName.actualTypeName?.name ?? variable.typeName.better.name
                 let resolved = context.resolve(type: variable.typeName.better)
                 let getID = "_\(name)GetMethodID"
@@ -637,6 +630,7 @@ struct TranslatedProtocol: TranslatedType {
             }
             for method in methods {
                 fragment.output()
+                
                 let resolvedReturn = context.resolve(type: method.returnType)
                 var returnSignature = "\(method.isThrowing ? " throws" : "")"
                 if method.returnType.name != "Void" {

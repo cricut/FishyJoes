@@ -61,7 +61,7 @@ struct Method: Hashable {
         var omitParameters = Set(exportAnnotation.omitParameters)
 
         var unnamedParamCnt = 0
-        for parameter in method.parameters {
+        for parameter in method.parameters {            
             if omitParameters.contains(parameter.name) {
                 precondition(parameter.defaultValue != nil, "Can't omit non-default parameter")
                 omitParameters.remove(parameter.name)
