@@ -99,38 +99,6 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
                     },
                     isStatic: false
                 ),
-                "exercise1": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise1", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let (deferred, promise) = try env.env.createPromise()
-                            let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction1Converter<Swift.Int, Swift.Int>.self))
-                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.TestAsyncForeignSideFunctionsStruct.self))
-                            Task {
-                                do {
-                                    let taskResult: String = try await swiftSelf.value.exercise1(
-                                        arg0.value
-                                    )
-                                    try onMainThread { env in
-                                        let convertedTaskResult: NAPI.Value
-                                        do {
-                                            convertedTaskResult = try Swift.String.toNode(taskResult, env: env)
-                                        } catch {
-                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
-                                            return
-                                        }
-                                        try env.resolveDeferred(deferred, convertedTaskResult)
-                                    }
-                                } catch {
-                                    try onMainThread { env in
-                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
-                                    }
-                                }
-                            }
-                            return promise
-                        }
-                    },
-                    isStatic: false
-                ),
                 "const42": (.stored(mutable: true), isStatic: false),
                 "iabs": (.stored(mutable: true), isStatic: false),
                 "intCompose": (.stored(mutable: true), isStatic: false),

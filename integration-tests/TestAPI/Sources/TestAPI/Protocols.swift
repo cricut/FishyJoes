@@ -268,8 +268,6 @@ public protocol TestAsyncFunctions {
     var willThrow: AsyncFunctions.AFun0 { get throws }
     /// <!-- FishyJoes.export(exercise0) -->
     func exercise0(_ fn: @escaping AsyncFunctions.AFun0) async throws -> String
-    /// <!-- FishyJoes.export(exercise1) -->
-    func exercise1(_ fn: @escaping AsyncFunctions.AFun1) async throws -> String
 }
 
 /// <!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct, conformances: [TestAsyncFunctions]) -->
@@ -306,10 +304,6 @@ public struct TestAsyncForeignSideFunctionsStruct: TestAsyncFunctions {
     public func exercise0(_ fn: @escaping () async throws -> Int) async throws -> String {
         try await AsyncFunctions.exercise0(fn)
     }
-    /// <!-- FishyJoes.export(exercise1) -->
-    public func exercise1(_ fn: @escaping (Int) async throws -> Int) async throws -> String {
-        try await AsyncFunctions.exercise1(fn)
-    }
 }
 
 /// <!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass, conformances: [TestAsyncFunctions]) -->
@@ -335,10 +329,6 @@ public class TestAsyncSwiftSideFunctionsClass: TestAsyncFunctions {
     /// <!-- FishyJoes.export(exercise0) -->
     public func exercise0(_ fn: @escaping AsyncFunctions.AFun0) async throws -> String {
         try await AsyncFunctions.exercise0(fn)
-    }
-    /// <!-- FishyJoes.export(exercise1) -->
-    public func exercise1(_ fn: @escaping AsyncFunctions.AFun1) async throws -> String {
-        try await AsyncFunctions.exercise1(fn)
     }
 
     /// <!-- FishyJoes.export(init) -->

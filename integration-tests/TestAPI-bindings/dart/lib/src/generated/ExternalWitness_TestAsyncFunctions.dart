@@ -147,29 +147,12 @@ class ExternalWitness_TestAsyncFunctions extends SwiftReference implements TestA
         )
     ;
 
-    /// <!-- FishyJoes.export(exercise1) -->
-    Future<String> exercise1(
-        Future<int> Function(int) fn,
-    ) =>
-        GCRef.using(this, (_thisHandle) =>
-            GCRef.using(fn, (_fnHandle) =>
-                consumeCreatedRef<Future<String>>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestAsyncFunctions_exercise1(Loader.shared.env, _thisHandle.ptr, _fnHandle.ptr, _exn)))
-            )
-        )
-    ;
-
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,
         UnownedRef fn,
         OutCreatedRef _exn
     ) f__iota_TestAPI_TestAsyncFunctions_exercise0;
-    static late CreatedRef Function(
-        Env env,
-        UnownedRef _this,
-        UnownedRef fn,
-        OutCreatedRef _exn
-    ) f__iota_TestAPI_TestAsyncFunctions_exercise1;
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,

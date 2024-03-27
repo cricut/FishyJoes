@@ -1,6 +1,9 @@
 class KotlinInterface: KotlinClass {
     override func output(to fragment: SourceFragment) {
         document(documentation, fragment: fragment)
+        if unqualifiedName.contains("TestAsyncFunctions") {
+            let elegoo = 1
+        }
         fragment.outputBlock("interface \(unqualifiedName) {") {
             fields.filter { !$0.isStatic }.forEach { output(field: $0, to: fragment, external: false) }
             methods.filter { !$0.isStatic }.forEach { output(method: $0, to: fragment, external: false) }
@@ -14,6 +17,18 @@ class KotlinInterface: KotlinClass {
                     var unstaticked = $0
                     unstaticked.isStatic = false
                     output(method: unstaticked, to: fragment)
+                }
+                for method in methods {
+                    if method.isSuspend {
+                        fragment.output("@JvmStatic")
+                        fragment.outputBlock("fun exercise0(", newLineTerminated: false) {
+                            fragment.output("self: \(unqualifiedName),")
+                            fragment.outputMap(method.parameters, separator: ",") {
+                                "\($0.name): \($0.type.kotlinType)"
+                            }
+                        }
+                        fragment.output(": Deferred<\(method.returnType.kotlinType)> = CoroutineScope(Dispatchers.Default).async { self.\(method.name)(\(method.parameters.map { $0.name }.joined(separator: ", "))) }")
+                    }
                 }
                 fragment.outputBlock("init {", closeWith: "}") {
                     fragment.output("loadNativeLibs()")

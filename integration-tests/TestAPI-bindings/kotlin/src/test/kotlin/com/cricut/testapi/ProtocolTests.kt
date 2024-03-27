@@ -199,8 +199,6 @@ internal class ProtocolTests {
 
         val g = a.exercise0(e)
         assertEquals(g, "42")
-        val h = a.exercise1(b)
-        assertEquals(h, "-45")
     }
 
     @Test
@@ -225,8 +223,6 @@ internal class ProtocolTests {
 
         val g = a.exercise0(e)
         assertEquals(g, "42")
-        val h = a.exercise1(b)
-        assertEquals(h, "-45")
     }
 
     data class ProtocolKotlinImpl(

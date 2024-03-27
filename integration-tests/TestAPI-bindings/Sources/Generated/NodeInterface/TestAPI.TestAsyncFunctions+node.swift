@@ -22,10 +22,6 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
     public func exercise0(_ fn: () async throws -> Int) throws -> String {
         exercise0Impl!()
     }
-    var exercise1Impl: (() -> String)?
-    public func exercise1(_ fn: (Int) async throws -> Int) throws -> String {
-        exercise1Impl!()
-    }
 }
 extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeMutator {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
@@ -73,38 +69,6 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeMutator {
                             Task {
                                 do {
                                     let taskResult: String = try await swiftSelf.value.exercise0(
-                                        arg0.value
-                                    )
-                                    try onMainThread { env in
-                                        let convertedTaskResult: NAPI.Value
-                                        do {
-                                            convertedTaskResult = try Swift.String.toNode(taskResult, env: env)
-                                        } catch {
-                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
-                                            return
-                                        }
-                                        try env.resolveDeferred(deferred, convertedTaskResult)
-                                    }
-                                } catch {
-                                    try onMainThread { env in
-                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
-                                    }
-                                }
-                            }
-                            return promise
-                        }
-                    },
-                    isStatic: false
-                ),
-                "exercise1": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise1", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let (deferred, promise) = try env.env.createPromise()
-                            let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction1Converter<Swift.Int, Swift.Int>.self))
-                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self))
-                            Task {
-                                do {
-                                    let taskResult: String = try await swiftSelf.value.exercise1(
                                         arg0.value
                                     )
                                     try onMainThread { env in

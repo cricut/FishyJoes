@@ -1927,11 +1927,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_exercise0"),
                 signature: bag.add("(Lkotlin/jvm/functions/Function1;)Lkotlinx/coroutines/Deferred;"),
                 fnPtr: unsafeBitCast(java_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise0, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_exercise1"),
-                signature: bag.add("(Lkotlin/jvm/functions/Function2;)Lkotlinx/coroutines/Deferred;"),
-                fnPtr: unsafeBitCast(java_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise1, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI_CommonInterface._TestAsyncFunctionsConverter...")
@@ -1942,11 +1937,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_exercise0"),
                 signature: bag.add("(Lkotlin/jvm/functions/Function1;)Lkotlinx/coroutines/Deferred;"),
                 fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise0, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_exercise1"),
-                signature: bag.add("(Lkotlin/jvm/functions/Function2;)Lkotlinx/coroutines/Deferred;"),
-                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise1, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_const42"),
@@ -1997,11 +1987,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_exercise0"),
                 signature: bag.add("(Lkotlin/jvm/functions/Function1;)Lkotlinx/coroutines/Deferred;"),
                 fnPtr: unsafeBitCast(java_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise0, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_exercise1"),
-                signature: bag.add("(Lkotlin/jvm/functions/Function2;)Lkotlinx/coroutines/Deferred;"),
-                fnPtr: unsafeBitCast(java_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise1, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_init"),
