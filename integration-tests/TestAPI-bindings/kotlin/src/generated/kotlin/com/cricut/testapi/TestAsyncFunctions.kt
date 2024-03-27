@@ -59,11 +59,13 @@ interface TestAsyncFunctions {
             self: TestAsyncFunctions,
             fn: (suspend () -> Long)
         ): Deferred<kotlin.String> = CoroutineScope(Dispatchers.Default).async { self.exercise0(fn) }
+
         @JvmStatic
         fun exercise1(
             self: TestAsyncFunctions,
             fn: (suspend (Long) -> Long)
         ): Deferred<kotlin.String> = CoroutineScope(Dispatchers.Default).async { self.exercise1(fn) }
+
         init {
             loadNativeLibs()
         }

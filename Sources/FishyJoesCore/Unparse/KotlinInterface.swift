@@ -28,6 +28,7 @@ class KotlinInterface: KotlinClass {
                             }
                         }
                         fragment.output(": Deferred<\(method.returnType.kotlinType)> = CoroutineScope(Dispatchers.Default).async { self.\(method.name)(\(method.parameters.map { $0.name }.joined(separator: ", "))) }")
+                        fragment.blankLine()
                     }
                 }
                 fragment.outputBlock("init {", closeWith: "}") {
