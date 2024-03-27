@@ -218,6 +218,29 @@ extension BetterType {
             return "Self"
         }
     }
+    
+    var escapingFunctionsName: String {
+        switch self {
+        case let .named(name):
+            return name.globalName
+        case .tuple(let elements):
+            return "(" + elements.map {
+                if Int($0.label) == nil {
+                    return "\($0.label): \($0.type.name)"
+                } else {
+                    return $0.type.name
+                }
+            }.joined(separator: ", ") + ")"
+        case .void:
+            return "Void"
+        case let .function(args, ret, isAsync, isThrowing):
+            return "@escaping (\(args.map(\.escapingFunctionsName).joined(separator: ", ")))\(isAsync ? " async" : "")\(isThrowing ? " throws" : "") -> \(ret.name)"
+        case .generic(let base, let args):
+            return "\(base.name)<\(args.map(\.name).joined(separator: ", "))>"
+        case .selfType:
+            return "Self"
+        }
+    }
 
     var module: String? {
         switch self {
