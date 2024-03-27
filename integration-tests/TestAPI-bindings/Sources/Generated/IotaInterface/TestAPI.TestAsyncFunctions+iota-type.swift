@@ -110,6 +110,19 @@ struct _IotaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
             env: _iotaWitness.env
         )
     }
+
+    public func exercise1(_ fn: (Int) async throws -> Int) throws -> String {
+        try Swift.String.peekIota(
+            try _iotaWitness.env.check { exn in
+                TestAPI_CommonInterface._TestAsyncFunctionsConverter._exercise1[_iotaWitness.env](
+                    _iotaWitness.object,
+                    try AsyncFunction1Converter<Swift.Int, Swift.Int>.toIota(fn, env: _iotaWitness.env),
+                    exn
+                )
+            },
+            env: _iotaWitness.env
+        )
+    }
 }
 
 @_cdecl("TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup")
@@ -129,6 +142,11 @@ public func TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup(
         AsyncFunction0Converter<Swift.Int>.CType,
         _ exn: foreignOutExn
     ) -> Swift.String.CType,
+    _ exercise1: @escaping @convention(c) (
+        foreignObject,
+        AsyncFunction1Converter<Swift.Int, Swift.Int>.CType,
+        _ exn: foreignOutExn
+    ) -> Swift.String.CType,
     _ exn: foreignOutExn
 ) {
     let env = Env(envRef)
@@ -143,6 +161,7 @@ public func TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup(
     TestAPI_CommonInterface._TestAsyncFunctionsConverter._sixGetter[env] = sixGetter
     TestAPI_CommonInterface._TestAsyncFunctionsConverter._willThrowGetter[env] = willThrowGetter
     TestAPI_CommonInterface._TestAsyncFunctionsConverter._exercise0[env] = exercise0
+    TestAPI_CommonInterface._TestAsyncFunctionsConverter._exercise1[env] = exercise1
 }
 
 extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: IotaMutator {
@@ -163,6 +182,11 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: IotaMutator {
     fileprivate static let _exercise0 = Env.CallbackMap<@convention(c) (
         foreignObject,
         AsyncFunction0Converter<Swift.Int>.CType,
+        _ exn: foreignOutExn
+    ) -> Swift.String.CType>()
+    fileprivate static let _exercise1 = Env.CallbackMap<@convention(c) (
+        foreignObject,
+        AsyncFunction1Converter<Swift.Int, Swift.Int>.CType,
         _ exn: foreignOutExn
     ) -> Swift.String.CType>()
 

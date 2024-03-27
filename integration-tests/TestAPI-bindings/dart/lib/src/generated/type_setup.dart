@@ -318,6 +318,7 @@ typedef _TestAPI_TestAsyncFunctions_fifthThingGetter = CreatedRef Function(Unown
 typedef _TestAPI_TestAsyncFunctions_sixGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestAsyncFunctions_willThrowGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestAsyncFunctions_exercise0 = CreatedRef Function(UnownedRef obj, ffi.Pointer Function() fn, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctions_exercise1 = CreatedRef Function(UnownedRef obj, ffi.Pointer Function(ffi.IntPtr) fn, OutCreatedRef exn);
 typedef _TestAPI_TestLeadingUnderscoredPropConstructor = CreatedRef Function(
     ffi.Pointer ref,
     OutCreatedRef exn
@@ -945,6 +946,7 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_sixGetter>> get_six,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_willThrowGetter>> get_willThrow,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_exercise0>> exercise0,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_exercise1>> exercise1,
             OutCreatedRef exn
         ),
         void Function(
@@ -959,6 +961,7 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_sixGetter>> get_six,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_willThrowGetter>> get_willThrow,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_exercise0>> exercise0,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_exercise1>> exercise1,
             OutCreatedRef exn
         )
     >('TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup');
@@ -2720,6 +2723,20 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise0");
+    TestAPI.TestAsyncForeignSideFunctionsStruct.f__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise1 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise1");
     TestAPI.ExternalWitness_TestAsyncFunctions.f__iota_TestAPI_TestAsyncFunctions_exercise0 = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -2734,6 +2751,20 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_TestAsyncFunctions_exercise0");
+    TestAPI.ExternalWitness_TestAsyncFunctions.f__iota_TestAPI_TestAsyncFunctions_exercise1 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncFunctions_exercise1");
     TestAPI.TestAsyncSwiftSideFunctionsClass.f__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise0 = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -2748,6 +2779,20 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise0");
+    TestAPI.TestAsyncSwiftSideFunctionsClass.f__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise1 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise1");
     TestAPI.TestAsyncSwiftSideFunctionsClass.f__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_init = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -7216,6 +7261,7 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_get_six),
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_get_willThrow),
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_exercise0),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_exercise1),
                 exn
             );
         });

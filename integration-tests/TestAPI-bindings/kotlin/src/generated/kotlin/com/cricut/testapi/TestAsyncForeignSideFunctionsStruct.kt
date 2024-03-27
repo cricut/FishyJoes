@@ -27,6 +27,17 @@ data class TestAsyncForeignSideFunctionsStruct(
         fn: (suspend () -> Long)
     ): kotlinx.coroutines.Deferred<kotlin.String>
 
+    /**
+     * <!-- FishyJoes.export(exercise1) -->
+     */
+    override suspend fun exercise1(
+        fn: (suspend (Long) -> Long)
+    ): kotlin.String = __jni_exercise1(fn).await()
+    @JvmName("__jni_exercise1")
+    private external fun __jni_exercise1(
+        fn: (suspend (Long) -> Long)
+    ): kotlinx.coroutines.Deferred<kotlin.String>
+
     companion object {
         init { loadNativeLibs() }
     }

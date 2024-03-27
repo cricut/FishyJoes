@@ -1968,6 +1968,13 @@ export declare namespace TestAPI {
         exercise0(
             fn: () => Promise<number>
         ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(exercise1) -->
+         */
+        exercise1(
+            fn: (_0: number) => Promise<number>
+        ): Promise<string>;
     }
 
     /**
@@ -2021,6 +2028,13 @@ export declare namespace TestAPI {
          */
         exercise0(
             fn: () => Promise<number>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(exercise1) -->
+         */
+        exercise1(
+            fn: (_0: number) => Promise<number>
         ): Promise<string>;
     }
 
@@ -2076,6 +2090,13 @@ export declare namespace TestAPI {
          */
         exercise0(
             fn: () => Promise<number>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(exercise1) -->
+         */
+        exercise1(
+            fn: (_0: number) => Promise<number>
         ): Promise<string>;
 
         /**

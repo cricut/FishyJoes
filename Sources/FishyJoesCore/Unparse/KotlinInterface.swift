@@ -21,7 +21,7 @@ class KotlinInterface: KotlinClass {
                 for method in methods {
                     if method.isSuspend {
                         fragment.output("@JvmStatic")
-                        fragment.outputBlock("fun exercise0(", newLineTerminated: false) {
+                        fragment.outputBlock("fun \(method.name)(", newLineTerminated: false) {
                             fragment.output("self: \(unqualifiedName),")
                             fragment.outputMap(method.parameters, separator: ",") {
                                 "\($0.name): \($0.type.kotlinType)"
