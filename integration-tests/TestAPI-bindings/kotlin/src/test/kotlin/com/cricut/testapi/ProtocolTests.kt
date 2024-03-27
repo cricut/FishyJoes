@@ -222,6 +222,11 @@ internal class ProtocolTests {
         }
         assertInstanceOf(Error::class.java, result.exceptionOrNull())
         assertEquals("TheAsyncError()", result.exceptionOrNull()?.message)
+
+        val g = a.exercise0(e)
+        assertEquals(g, "42")
+        val h = a.exercise1(b)
+        assertEquals(h, "-45")
     }
 
     data class ProtocolKotlinImpl(
