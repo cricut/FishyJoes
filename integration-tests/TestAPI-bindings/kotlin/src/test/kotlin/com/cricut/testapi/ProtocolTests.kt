@@ -182,6 +182,9 @@ internal class ProtocolTests {
             },
             exercise1Fun = {fn: suspend (Long) -> Long ->
                 "${fn(-7)}"
+            },
+            exercise2Fun = {fn: (suspend (Long) -> Long, suspend (Long) -> Long) -> suspend (Long) -> Long ->
+                "${fn({a: Long -> a + 1}, {b: Long -> b * 3})(23)}"
             }
         )
         assertEquals(49, a.const42())
@@ -203,10 +206,16 @@ internal class ProtocolTests {
         assertInstanceOf(Error::class.java, result.exceptionOrNull())
         assertEquals("Spoon!", result.exceptionOrNull()?.message)
 
-        val g = a.exercise0(e)
-        assertEquals(g, "84")
+        val g = a.exercise0 { 42 }
+        assertEquals("84", g)
         val h = a.exercise1(b)
-        assertEquals(h, "-105")
+        assertEquals("-105", h)
+        val i = a.exercise2 { a: suspend (Long) -> Long, b: suspend (Long) ->
+            Long -> { z: Long ->
+                a(3) + b(3) + z
+            }
+        }
+        assertEquals("36", i)
     }
 
     @Test

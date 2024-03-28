@@ -65,6 +65,10 @@ abstract class TestAsyncFunctions {
         Future<int> Function(int) fn
     );
 
+    Future<String> exercise2(
+        Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int)) fn
+    );
+
     /// <!-- FishyJoes.export(const42) -->
     Future<int> Function() get const42;
 
@@ -185,6 +189,18 @@ extension TestAsyncFunctions_FfiHooks on TestAsyncFunctions {
     ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncFunctions>(obj).exercise1(
+                consumeRef(fn)
+            )
+        )
+    );
+
+    static CreatedRef ffi_exercise2(
+        UnownedRef obj,
+        ConsumedRef fn,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestAsyncFunctions>(obj).exercise2(
                 consumeRef(fn)
             )
         )

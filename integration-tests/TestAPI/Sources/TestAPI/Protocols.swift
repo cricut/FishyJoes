@@ -270,6 +270,8 @@ public protocol TestAsyncFunctions {
     func exercise0(_ fn: @escaping AsyncFunctions.AFun0) async throws -> String
     /// <!-- FishyJoes.export(exercise1) -->
     func exercise1(_ fn: @escaping AsyncFunctions.AFun1) async throws -> String
+    /// <!-- FishyJoes.export(exercise2) -->
+    func exercise2(_ fn: @escaping AsyncFunctions.AFun2) async throws -> String
 }
 
 /// <!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct, conformances: [TestAsyncFunctions]) -->
@@ -284,6 +286,7 @@ public struct TestAsyncForeignSideFunctionsStruct: TestAsyncFunctions {
     public let willThrow: AsyncFunctions.AFun0
     public let exercise0Fun: (@escaping AsyncFunctions.AFun0) async throws -> String
     public let exercise1Fun: (@escaping AsyncFunctions.AFun1) async throws -> String
+    public let exercise2Fun: (@escaping AsyncFunctions.AFun2) async throws -> String
 
     public init(
         const42: @escaping AsyncFunctions.AFun0,
@@ -295,7 +298,8 @@ public struct TestAsyncForeignSideFunctionsStruct: TestAsyncFunctions {
         six: @escaping AsyncFunctions.AFun6,
         willThrow: @escaping AsyncFunctions.AFun0,
         exercise0Fun: @escaping (@escaping AsyncFunctions.AFun0) async throws -> String,
-        exercise1Fun: @escaping (@escaping AsyncFunctions.AFun1) async throws -> String
+        exercise1Fun: @escaping (@escaping AsyncFunctions.AFun1) async throws -> String,
+        exercise2Fun: @escaping (@escaping AsyncFunctions.AFun2) async throws -> String
     ) {
         self.const42 = const42
         self.iabs = iabs
@@ -307,6 +311,7 @@ public struct TestAsyncForeignSideFunctionsStruct: TestAsyncFunctions {
         self.willThrow = willThrow
         self.exercise0Fun = exercise0Fun
         self.exercise1Fun = exercise1Fun
+        self.exercise2Fun = exercise2Fun
     }
     /// <!-- FishyJoes.export(exercise0) -->
     public func exercise0(_ fn: @escaping AsyncFunctions.AFun0) async throws -> String {
@@ -315,6 +320,10 @@ public struct TestAsyncForeignSideFunctionsStruct: TestAsyncFunctions {
     /// <!-- FishyJoes.export(exercise1) -->
     public func exercise1(_ fn: @escaping AsyncFunctions.AFun1) async throws -> String {
         try await exercise1Fun(fn)
+    }
+    /// <!-- FishyJoes.export(exercise2) -->
+    public func exercise2(_ fn: @escaping AsyncFunctions.AFun2) async throws -> String {
+        try await exercise2Fun(fn)
     }
 }
 
@@ -345,6 +354,10 @@ public class TestAsyncSwiftSideFunctionsClass: TestAsyncFunctions {
     /// <!-- FishyJoes.export(exercise1) -->
     public func exercise1(_ fn: @escaping AsyncFunctions.AFun1) async throws -> String {
         try await AsyncFunctions.exercise1(fn)
+    }
+    /// <!-- FishyJoes.export(exercise2) -->
+    public func exercise2(_ fn: @escaping AsyncFunctions.AFun2) async throws -> String {
+        try await AsyncFunctions.exercise2(fn)
     }
 
     /// <!-- FishyJoes.export(init) -->

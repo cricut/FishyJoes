@@ -158,6 +158,17 @@ class TestAsyncSwiftSideFunctionsClass extends SwiftReference implements TestAPI
         )
     ;
 
+    /// <!-- FishyJoes.export(exercise2) -->
+    Future<String> exercise2(
+        Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int)) fn,
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            GCRef.using(fn, (_fnHandle) =>
+                consumeCreatedRef<Future<String>>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise2(Loader.shared.env, _thisHandle.ptr, _fnHandle.ptr, _exn)))
+            )
+        )
+    ;
+
     /// <!-- FishyJoes.export(init) -->
     static TestAPI.TestAsyncSwiftSideFunctionsClass init(
     ) =>
@@ -176,6 +187,12 @@ class TestAsyncSwiftSideFunctionsClass extends SwiftReference implements TestAPI
         UnownedRef fn,
         OutCreatedRef _exn
     ) f__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise1;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        UnownedRef fn,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise2;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn

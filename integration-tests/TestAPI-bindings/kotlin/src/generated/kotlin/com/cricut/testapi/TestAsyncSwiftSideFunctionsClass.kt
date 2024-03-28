@@ -93,6 +93,17 @@ class TestAsyncSwiftSideFunctionsClass private constructor(_swiftReference: Long
         fn: (suspend (Long) -> Long)
     ): kotlinx.coroutines.Deferred<kotlin.String>
 
+    /**
+     * <!-- FishyJoes.export(exercise2) -->
+     */
+    override suspend fun exercise2(
+        fn: (((suspend (Long) -> Long), (suspend (Long) -> Long)) -> (suspend (Long) -> Long))
+    ): kotlin.String = __jni_exercise2(fn).await()
+    @JvmName("__jni_exercise2")
+    private external fun __jni_exercise2(
+        fn: (((suspend (Long) -> Long), (suspend (Long) -> Long)) -> (suspend (Long) -> Long))
+    ): kotlinx.coroutines.Deferred<kotlin.String>
+
     companion object {
         /**
          * <!-- FishyJoes.export(init) -->
