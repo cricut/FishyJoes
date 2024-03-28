@@ -88,6 +88,13 @@ interface TestAsyncFunctions {
         fn: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)
     ): kotlin.String
 
+    /**
+     * <!-- FishyJoes.export(thunkTwiceMaker) -->
+     */
+    fun thunkTwiceMaker(
+        thunk: (suspend () -> kotlin.Unit)
+    ): (suspend () -> kotlin.Unit)
+
     companion object {
         @JvmStatic
         fun exercise0(

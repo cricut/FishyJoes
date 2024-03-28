@@ -649,6 +649,14 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>", () => {
+                Console.WriteLine("setting up (() async throws -> Void) throws -> () async throws -> Void...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function1Converter_setup<System.Func<System.Threading.Tasks.Task>, System.Func<System.Threading.Tasks.Task>>(
+                    Loader.env,
+                    "Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>",
+                    out exn
+                ));
+            });
             Once("setup_Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>", () => {
                 Console.WriteLine("setting up (Optional<Array<Optional<Swift.Int>>>) throws -> Optional<Array<Optional<Swift.Int>>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function1Converter_setup<System.Collections.Generic.IList<nint?>?, System.Collections.Generic.IList<nint?>?>(
@@ -919,6 +927,14 @@ namespace Cricut.TestAPI {
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<System.Func<System.Threading.Tasks.Task<nint>>>(
                     Loader.env,
                     "FutureConverter<AsyncFunction0Converter<Swift.Int>>",
+                    out exn
+                ));
+            });
+            Once("setup_FutureConverter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>", () => {
+                Console.WriteLine("setting up Future<() async throws -> Void>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<System.Func<System.Threading.Tasks.Task>>(
+                    Loader.env,
+                    "FutureConverter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>",
                     out exn
                 ));
             });

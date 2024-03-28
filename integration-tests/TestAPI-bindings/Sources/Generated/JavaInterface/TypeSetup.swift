@@ -53,6 +53,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try Function1Converter<AsyncFunction0Converter<Swift.Int>, FutureConverter<Swift.String>>.javaSetup(env: env)
         // print("setting up AsyncFunction1Converter<AsyncFunction0Converter<Swift.Int>, Swift.String>...")
         try AsyncFunction1Converter<AsyncFunction0Converter<Swift.Int>, Swift.String>.javaSetup(env: env)
+        // print("setting up Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>...")
+        try Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>.javaSetup(env: env)
         // print("setting up Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>...")
         try Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>.javaSetup(env: env)
         // print("setting up Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>...")
@@ -123,6 +125,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try FutureConverter<Function0Converter<Swift.Int>>.javaSetup(env: env)
         // print("setting up FutureConverter<AsyncFunction0Converter<Swift.Int>>...")
         try FutureConverter<AsyncFunction0Converter<Swift.Int>>.javaSetup(env: env)
+        // print("setting up FutureConverter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>...")
+        try FutureConverter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>.javaSetup(env: env)
         // print("setting up FutureConverter<FutureConverter<AsyncFunction0Converter<Swift.Int>>>...")
         try FutureConverter<FutureConverter<AsyncFunction0Converter<Swift.Int>>>.javaSetup(env: env)
         // print("setting up FutureConverter<FutureConverter<ArrayConverter<Swift.String>>>...")
@@ -1987,6 +1991,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_exercise6"),
                 signature: bag.add("(Lkotlin/jvm/functions/Function7;)Lkotlinx/coroutines/Deferred;"),
                 fnPtr: unsafeBitCast(java_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise6, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_thunkTwiceMaker"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function1;)Lkotlin/jvm/functions/Function1;"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestAsyncForeignSideFunctionsStruct_thunkTwiceMaker, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI_CommonInterface._TestAsyncFunctionsConverter...")
@@ -2027,6 +2036,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_exercise6"),
                 signature: bag.add("(Lkotlin/jvm/functions/Function7;)Lkotlinx/coroutines/Deferred;"),
                 fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise6, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_thunkTwiceMaker"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function1;)Lkotlin/jvm/functions/Function1;"),
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestAsyncFunctionsConverter_thunkTwiceMaker, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_const42"),
@@ -2107,6 +2121,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_exercise6"),
                 signature: bag.add("(Lkotlin/jvm/functions/Function7;)Lkotlinx/coroutines/Deferred;"),
                 fnPtr: unsafeBitCast(java_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise6, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_thunkTwiceMaker"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function1;)Lkotlin/jvm/functions/Function1;"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestAsyncSwiftSideFunctionsClass_thunkTwiceMaker, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_init"),

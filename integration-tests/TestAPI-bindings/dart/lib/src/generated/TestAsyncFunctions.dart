@@ -85,6 +85,10 @@ abstract class TestAsyncFunctions {
         Future<int> Function(String, int, double, String, Future<int> Function(), int) fn
     );
 
+    Future<void> Function() thunkTwiceMaker(
+        Future<void> Function() thunk
+    );
+
     /// <!-- FishyJoes.export(const42) -->
     Future<int> Function() get const42;
 
@@ -266,6 +270,18 @@ extension TestAsyncFunctions_FfiHooks on TestAsyncFunctions {
         createRef(
             peekRef<TestAsyncFunctions>(obj).exercise6(
                 consumeRef(fn)
+            )
+        )
+    );
+
+    static CreatedRef ffi_thunkTwiceMaker(
+        UnownedRef obj,
+        ConsumedRef thunk,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestAsyncFunctions>(obj).thunkTwiceMaker(
+                consumeRef(thunk)
             )
         )
     );

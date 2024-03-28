@@ -21,7 +21,8 @@ data class TestAsyncForeignSideFunctionsStruct(
     val exercise3Fun: (suspend ((suspend (Float, Double, Long) -> Double)) -> kotlin.String),
     val exercise4Fun: (suspend ((suspend (kotlin.String, kotlin.String, kotlin.String, kotlin.String) -> kotlin.collections.List<kotlin.String>)) -> kotlin.String),
     val exercise5Fun: (suspend ((suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long)) -> (suspend () -> Long))) -> kotlin.String),
-    val exercise6Fun: (suspend ((suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)) -> kotlin.String)
+    val exercise6Fun: (suspend ((suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)) -> kotlin.String),
+    val thunkTwiceMakerFun: (((suspend () -> kotlin.Unit)) -> (suspend () -> kotlin.Unit))
 ): TestAsyncFunctions {
     /**
      * <!-- FishyJoes.export(exercise0) -->
@@ -99,6 +100,17 @@ data class TestAsyncForeignSideFunctionsStruct(
     private external fun __jni_exercise6(
         fn: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)
     ): kotlinx.coroutines.Deferred<kotlin.String>
+
+    /**
+     * <!-- FishyJoes.export(thunkTwiceMaker) -->
+     */
+    override fun thunkTwiceMaker(
+        thunk: (suspend () -> kotlin.Unit)
+    ): (suspend () -> kotlin.Unit) = __jni_thunkTwiceMaker(thunk)
+    @JvmName("__jni_thunkTwiceMaker")
+    private external fun __jni_thunkTwiceMaker(
+        thunk: (suspend () -> kotlin.Unit)
+    ): (suspend () -> kotlin.Unit)
 
     companion object {
         init { loadNativeLibs() }

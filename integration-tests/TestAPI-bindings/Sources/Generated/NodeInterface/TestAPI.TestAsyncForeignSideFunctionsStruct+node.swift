@@ -70,6 +70,10 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
             exercise6Fun: try { () -> ((Swift.String, Swift.Int, Swift.Double, Swift.String, () async throws -> Swift.Int, Swift.Int) async throws -> Swift.Int) async throws -> Swift.String in
                 let fieldValue = try env.getNamedProperty(value, "exercise6Fun")
                 return try AsyncFunction1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, Swift.String>.fromNode(fieldValue, env: env)
+            }(),
+            thunkTwiceMakerFun: try { () -> (() async throws -> Void) throws -> () async throws -> Void in
+                let fieldValue = try env.getNamedProperty(value, "thunkTwiceMakerFun")
+                return try Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>.fromNode(fieldValue, env: env)
             }()
         )
     }
@@ -91,6 +95,7 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
             try AsyncFunction1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, Swift.String>.toNode(value.exercise4Fun, env: env),
             try AsyncFunction1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, Swift.String>.toNode(value.exercise5Fun, env: env),
             try AsyncFunction1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, Swift.String>.toNode(value.exercise6Fun, env: env),
+            try Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>.toNode(value.thunkTwiceMakerFun, env: env),
         ]
         return try env.newInstance(constructor, args)
     }
@@ -326,6 +331,20 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
                     },
                     isStatic: false
                 ),
+                "thunkTwiceMaker": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "thunkTwiceMaker", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.toNode(
+                                env.this(converter: TestAPI.TestAsyncForeignSideFunctionsStruct.self).thunkTwiceMaker(
+                                    thunk: try env.argument(at: 0, converter: AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                ),
                 "const42": (.stored(mutable: true), isStatic: false),
                 "iabs": (.stored(mutable: true), isStatic: false),
                 "intCompose": (.stored(mutable: true), isStatic: false),
@@ -341,9 +360,10 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
                 "exercise4Fun": (.stored(mutable: true), isStatic: false),
                 "exercise5Fun": (.stored(mutable: true), isStatic: false),
                 "exercise6Fun": (.stored(mutable: true), isStatic: false),
+                "thunkTwiceMakerFun": (.stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in
-                callbackBody(env, info, name: "TestAsyncForeignSideFunctionsStruct_constructor", expectedArgumentCount: 15) { env in
+                callbackBody(env, info, name: "TestAsyncForeignSideFunctionsStruct_constructor", expectedArgumentCount: 16) { env in
                     // TODO: typecheck?
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "const42", env.argument(at: 0))
@@ -361,6 +381,7 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
                     try env.env.setNamedProperty(this, "exercise4Fun", env.argument(at: 12))
                     try env.env.setNamedProperty(this, "exercise5Fun", env.argument(at: 13))
                     try env.env.setNamedProperty(this, "exercise6Fun", env.argument(at: 14))
+                    try env.env.setNamedProperty(this, "thunkTwiceMakerFun", env.argument(at: 15))
                     return this
                 }
             }

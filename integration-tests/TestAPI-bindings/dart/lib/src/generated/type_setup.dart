@@ -302,6 +302,7 @@ typedef _TestAPI_TestAsyncForeignSideFunctionsStructConstructor = CreatedRef Fun
     ConsumedRef exercise4Fun,
     ConsumedRef exercise5Fun,
     ConsumedRef exercise6Fun,
+    ConsumedRef thunkTwiceMakerFun,
     OutCreatedRef exn
 );
 typedef _TestAPI_TestAsyncForeignSideFunctionsStruct_const42Getter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
@@ -319,6 +320,7 @@ typedef _TestAPI_TestAsyncForeignSideFunctionsStruct_exercise3FunGetter = Create
 typedef _TestAPI_TestAsyncForeignSideFunctionsStruct_exercise4FunGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestAsyncForeignSideFunctionsStruct_exercise5FunGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestAsyncForeignSideFunctionsStruct_exercise6FunGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncForeignSideFunctionsStruct_thunkTwiceMakerFunGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestAsyncFunctionsConstructor = CreatedRef Function(
     ffi.Pointer ref,
     OutCreatedRef exn
@@ -338,6 +340,7 @@ typedef _TestAPI_TestAsyncFunctions_exercise3 = CreatedRef Function(UnownedRef o
 typedef _TestAPI_TestAsyncFunctions_exercise4 = CreatedRef Function(UnownedRef obj, ffi.Pointer Function(ffi.Pointer, ffi.Pointer, ffi.Pointer, ffi.Pointer) fn, OutCreatedRef exn);
 typedef _TestAPI_TestAsyncFunctions_exercise5 = CreatedRef Function(UnownedRef obj, ffi.Pointer Function(ffi.Pointer, ffi.IntPtr, ffi.Double, ffi.Pointer, ffi.Pointer Function()) fn, OutCreatedRef exn);
 typedef _TestAPI_TestAsyncFunctions_exercise6 = CreatedRef Function(UnownedRef obj, ffi.Pointer Function(ffi.Pointer, ffi.IntPtr, ffi.Double, ffi.Pointer, ffi.Pointer Function(), ffi.IntPtr) fn, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctions_thunkTwiceMaker = CreatedRef Function(UnownedRef obj, ffi.Pointer Function() thunk, OutCreatedRef exn);
 typedef _TestAPI_TestLeadingUnderscoredPropConstructor = CreatedRef Function(
     ffi.Pointer ref,
     OutCreatedRef exn
@@ -943,6 +946,7 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise4FunGetter>> get_exercise4Fun,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise5FunGetter>> get_exercise5Fun,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise6FunGetter>> get_exercise6Fun,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_thunkTwiceMakerFunGetter>> get_thunkTwiceMakerFun,
             OutCreatedRef exn
         ),
         void Function(
@@ -963,6 +967,7 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise4FunGetter>> get_exercise4Fun,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise5FunGetter>> get_exercise5Fun,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise6FunGetter>> get_exercise6Fun,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_thunkTwiceMakerFunGetter>> get_thunkTwiceMakerFun,
             OutCreatedRef exn
         )
     >('TestAPI_TestAsyncForeignSideFunctionsStruct_setup');
@@ -985,6 +990,7 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_exercise4>> exercise4,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_exercise5>> exercise5,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_exercise6>> exercise6,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_thunkTwiceMaker>> thunkTwiceMaker,
             OutCreatedRef exn
         ),
         void Function(
@@ -1005,6 +1011,7 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_exercise4>> exercise4,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_exercise5>> exercise5,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_exercise6>> exercise6,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_thunkTwiceMaker>> thunkTwiceMaker,
             OutCreatedRef exn
         )
     >('TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup');
@@ -2850,6 +2857,20 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise6");
+    TestAPI.TestAsyncForeignSideFunctionsStruct.f__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_thunkTwiceMaker = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef thunk,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef thunk,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_thunkTwiceMaker");
     TestAPI.ExternalWitness_TestAsyncFunctions.f__iota_TestAPI_TestAsyncFunctions_exercise0 = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -2948,6 +2969,20 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_TestAsyncFunctions_exercise6");
+    TestAPI.ExternalWitness_TestAsyncFunctions.f__iota_TestAPI_TestAsyncFunctions_thunkTwiceMaker = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef thunk,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef thunk,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncFunctions_thunkTwiceMaker");
     TestAPI.TestAsyncSwiftSideFunctionsClass.f__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise0 = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -3056,6 +3091,20 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_init");
+    TestAPI.TestAsyncSwiftSideFunctionsClass.f__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_thunkTwiceMaker = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef thunk,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef thunk,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_thunkTwiceMaker");
     TestAPI.ExternalWitness_TestMethodsProtocol.f__iota_TestAPI_TestMethodsProtocol_bar = dylib.lookupFunction<
         ffi.Bool Function(
             Env env,
@@ -5804,6 +5853,17 @@ final ensureLoaded = (() {
         });
     });
 
+    Loader.shared.once("setup_Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>", () {
+        // print("setting up (() async throws -> Void) throws -> () async throws -> Void (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_Function1Converter_setup<Future<void> Function(), Future<void> Function()>(
+                Loader.shared.env,
+                "Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>",
+                exn
+            );
+        });
+    });
+
     Loader.shared.once("setup_Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>", () {
         // print("setting up (Optional<Array<Optional<Swift.Int>>>) throws -> Optional<Array<Optional<Swift.Int>>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
@@ -6177,6 +6237,17 @@ final ensureLoaded = (() {
             Loader.shared.FishyJoesCommonRuntime_FutureConverter_setup<Future<int> Function()>(
                 Loader.shared.env,
                 "FutureConverter<AsyncFunction0Converter<Swift.Int>>",
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_FutureConverter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>", () {
+        // print("setting up Future<() async throws -> Void> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_FutureConverter_setup<Future<void> Function()>(
+                Loader.shared.env,
+                "FutureConverter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>",
                 exn
             );
         });
@@ -7659,6 +7730,7 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncForeignSideFunctionsStruct.ffi_get_exercise4Fun),
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncForeignSideFunctionsStruct.ffi_get_exercise5Fun),
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncForeignSideFunctionsStruct.ffi_get_exercise6Fun),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncForeignSideFunctionsStruct.ffi_get_thunkTwiceMakerFun),
                 exn
             );
         });
@@ -7685,6 +7757,7 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_exercise4),
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_exercise5),
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_exercise6),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_thunkTwiceMaker),
                 exn
             );
         });

@@ -257,6 +257,20 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                     },
                     isStatic: false
                 ),
+                "thunkTwiceMaker": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "thunkTwiceMaker", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.toNode(
+                                env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self).thunkTwiceMaker(
+                                    thunk: try env.argument(at: 0, converter: AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                ),
                 "init": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "init", expectedArgumentCount: 0, hasNamedOptions: false) { env in

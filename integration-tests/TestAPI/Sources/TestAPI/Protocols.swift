@@ -280,6 +280,8 @@ public protocol TestAsyncFunctions {
     func exercise5(_ fn: @escaping AsyncFunctions.AFun5) async throws -> String
     /// <!-- FishyJoes.export(exercise6) -->
     func exercise6(_ fn: @escaping AsyncFunctions.AFun6) async throws -> String
+    /// <!-- FishyJoes.export(thunkTwiceMaker) -->
+    func thunkTwiceMaker(thunk: @escaping () async throws -> Void) throws -> () async throws -> Void
 }
 
 /// <!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct, conformances: [TestAsyncFunctions]) -->
@@ -299,6 +301,7 @@ public struct TestAsyncForeignSideFunctionsStruct: TestAsyncFunctions {
     public let exercise4Fun: (@escaping AsyncFunctions.AFun4) async throws -> String
     public let exercise5Fun: (@escaping AsyncFunctions.AFun5) async throws -> String
     public let exercise6Fun: (@escaping AsyncFunctions.AFun6) async throws -> String
+    public let thunkTwiceMakerFun: (@escaping () async throws -> Void) throws -> () async throws -> Void
 
     public init(
         const42: @escaping AsyncFunctions.AFun0,
@@ -315,7 +318,8 @@ public struct TestAsyncForeignSideFunctionsStruct: TestAsyncFunctions {
         exercise3Fun: @escaping (@escaping AsyncFunctions.AFun3) async throws -> String,
         exercise4Fun: @escaping (@escaping AsyncFunctions.AFun4) async throws -> String,
         exercise5Fun: @escaping (@escaping AsyncFunctions.AFun5) async throws -> String,
-        exercise6Fun: @escaping (@escaping AsyncFunctions.AFun6) async throws -> String
+        exercise6Fun: @escaping (@escaping AsyncFunctions.AFun6) async throws -> String,
+        thunkTwiceMakerFun: @escaping (@escaping () async throws -> Void) throws -> () async throws -> Void
     ) {
         self.const42 = const42
         self.iabs = iabs
@@ -332,6 +336,7 @@ public struct TestAsyncForeignSideFunctionsStruct: TestAsyncFunctions {
         self.exercise4Fun = exercise4Fun
         self.exercise5Fun = exercise5Fun
         self.exercise6Fun = exercise6Fun
+        self.thunkTwiceMakerFun = thunkTwiceMakerFun
     }
     /// <!-- FishyJoes.export(exercise0) -->
     public func exercise0(_ fn: @escaping AsyncFunctions.AFun0) async throws -> String {
@@ -360,6 +365,11 @@ public struct TestAsyncForeignSideFunctionsStruct: TestAsyncFunctions {
     /// <!-- FishyJoes.export(exercise6) -->
     public func exercise6(_ fn: @escaping AsyncFunctions.AFun6) async throws -> String {
         try await exercise6Fun(fn)
+    }
+    // void -> void functions are an edge case in C#
+    /// <!-- FishyJoes.export(thunkTwiceMaker) -->
+    public func thunkTwiceMaker(thunk: @escaping () async throws -> Void) throws -> () async throws -> Void {
+        try thunkTwiceMakerFun(thunk)
     }
 }
 
@@ -410,6 +420,14 @@ public class TestAsyncSwiftSideFunctionsClass: TestAsyncFunctions {
     /// <!-- FishyJoes.export(exercise6) -->
     public func exercise6(_ fn: @escaping AsyncFunctions.AFun6) async throws -> String {
         try await AsyncFunctions.exercise6(fn)
+    }
+    // void -> void functions are an edge case in C#
+    /// <!-- FishyJoes.export(thunkTwiceMaker) -->
+    public func thunkTwiceMaker(thunk: @escaping () async throws -> Void) throws -> () async throws -> Void {
+        {
+            try await thunk()
+            try await thunk()
+        }
     }
 
     /// <!-- FishyJoes.export(init) -->

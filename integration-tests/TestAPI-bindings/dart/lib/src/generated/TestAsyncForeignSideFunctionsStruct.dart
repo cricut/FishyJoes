@@ -79,6 +79,7 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
     final Future<String> Function(Future<List<String>> Function(String, String, String, String)) exercise4Fun;
     final Future<String> Function(Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function())) exercise5Fun;
     final Future<String> Function(Future<int> Function(String, int, double, String, Future<int> Function(), int)) exercise6Fun;
+    final Future<void> Function() Function(Future<void> Function()) thunkTwiceMakerFun;
 
     TestAsyncForeignSideFunctionsStruct({
         required Future<int> Function() const42,
@@ -95,7 +96,8 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
         required Future<String> Function(Future<double> Function(double, double, int)) exercise3Fun,
         required Future<String> Function(Future<List<String>> Function(String, String, String, String)) exercise4Fun,
         required Future<String> Function(Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function())) exercise5Fun,
-        required Future<String> Function(Future<int> Function(String, int, double, String, Future<int> Function(), int)) exercise6Fun
+        required Future<String> Function(Future<int> Function(String, int, double, String, Future<int> Function(), int)) exercise6Fun,
+        required Future<void> Function() Function(Future<void> Function()) thunkTwiceMakerFun
     }):
         this.const42 = const42,
         this.iabs = iabs,
@@ -111,7 +113,8 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
         this.exercise3Fun = exercise3Fun,
         this.exercise4Fun = exercise4Fun,
         this.exercise5Fun = exercise5Fun,
-        this.exercise6Fun = exercise6Fun;
+        this.exercise6Fun = exercise6Fun,
+        this.thunkTwiceMakerFun = thunkTwiceMakerFun;
 
     static CreatedRef ffi_constructor(
         ConsumedRef const42,
@@ -129,6 +132,7 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
         ConsumedRef exercise4Fun,
         ConsumedRef exercise5Fun,
         ConsumedRef exercise6Fun,
+        ConsumedRef thunkTwiceMakerFun,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(TestAsyncForeignSideFunctionsStruct(
@@ -147,10 +151,11 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
             exercise4Fun: consumeRef(exercise4Fun),
             exercise5Fun: consumeRef(exercise5Fun),
             exercise6Fun: consumeRef(exercise6Fun),
+            thunkTwiceMakerFun: consumeRef(thunkTwiceMakerFun),
         ))
     );
     @override
-    String toString() => 'TestAsyncForeignSideFunctionsStruct(const42: $const42, iabs: $iabs, intCompose: $intCompose, add3Things: $add3Things, makeList: $makeList, fifthThing: $fifthThing, six: $six, willThrow: $willThrow, exercise0Fun: $exercise0Fun, exercise1Fun: $exercise1Fun, exercise2Fun: $exercise2Fun, exercise3Fun: $exercise3Fun, exercise4Fun: $exercise4Fun, exercise5Fun: $exercise5Fun, exercise6Fun: $exercise6Fun)';
+    String toString() => 'TestAsyncForeignSideFunctionsStruct(const42: $const42, iabs: $iabs, intCompose: $intCompose, add3Things: $add3Things, makeList: $makeList, fifthThing: $fifthThing, six: $six, willThrow: $willThrow, exercise0Fun: $exercise0Fun, exercise1Fun: $exercise1Fun, exercise2Fun: $exercise2Fun, exercise3Fun: $exercise3Fun, exercise4Fun: $exercise4Fun, exercise5Fun: $exercise5Fun, exercise6Fun: $exercise6Fun, thunkTwiceMakerFun: $thunkTwiceMakerFun)';
 
     static CreatedRef ffi_get_const42(
         UnownedRef obj,
@@ -287,6 +292,15 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
         )
     );
 
+    static CreatedRef ffi_get_thunkTwiceMakerFun(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestAsyncForeignSideFunctionsStruct>(obj).thunkTwiceMakerFun
+        )
+    );
+
     @override
     bool operator ==(Object other) {
         return identical(other, this) ||
@@ -308,7 +322,8 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
                 const DeepCollectionEquality().equals(other.exercise3Fun, exercise3Fun) &&
                 const DeepCollectionEquality().equals(other.exercise4Fun, exercise4Fun) &&
                 const DeepCollectionEquality().equals(other.exercise5Fun, exercise5Fun) &&
-                const DeepCollectionEquality().equals(other.exercise6Fun, exercise6Fun)
+                const DeepCollectionEquality().equals(other.exercise6Fun, exercise6Fun) &&
+                const DeepCollectionEquality().equals(other.thunkTwiceMakerFun, thunkTwiceMakerFun)
             )
         );
     }
@@ -330,7 +345,8 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
         const DeepCollectionEquality().hash(exercise3Fun), 
         const DeepCollectionEquality().hash(exercise4Fun), 
         const DeepCollectionEquality().hash(exercise5Fun), 
-        const DeepCollectionEquality().hash(exercise6Fun)
+        const DeepCollectionEquality().hash(exercise6Fun), 
+        const DeepCollectionEquality().hash(thunkTwiceMakerFun)
     );
 
     TestAsyncForeignSideFunctionsStruct copyWith({
@@ -348,7 +364,8 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
         Future<String> Function(Future<double> Function(double, double, int))? exercise3Fun,
         Future<String> Function(Future<List<String>> Function(String, String, String, String))? exercise4Fun,
         Future<String> Function(Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function()))? exercise5Fun,
-        Future<String> Function(Future<int> Function(String, int, double, String, Future<int> Function(), int))? exercise6Fun
+        Future<String> Function(Future<int> Function(String, int, double, String, Future<int> Function(), int))? exercise6Fun,
+        Future<void> Function() Function(Future<void> Function())? thunkTwiceMakerFun
     }) => TestAsyncForeignSideFunctionsStruct(
         const42: const42 ?? this.const42,
         iabs: iabs ?? this.iabs,
@@ -364,7 +381,8 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
         exercise3Fun: exercise3Fun ?? this.exercise3Fun,
         exercise4Fun: exercise4Fun ?? this.exercise4Fun,
         exercise5Fun: exercise5Fun ?? this.exercise5Fun,
-        exercise6Fun: exercise6Fun ?? this.exercise6Fun
+        exercise6Fun: exercise6Fun ?? this.exercise6Fun,
+        thunkTwiceMakerFun: thunkTwiceMakerFun ?? this.thunkTwiceMakerFun
     );
 
     /// <!-- FishyJoes.export(exercise0) -->
@@ -444,6 +462,17 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
         )
     ;
 
+    /// <!-- FishyJoes.export(thunkTwiceMaker) -->
+    Future<void> Function() thunkTwiceMaker(
+        Future<void> Function() thunk,
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            GCRef.using(thunk, (_thunkHandle) =>
+                consumeCreatedRef<Future<void> Function()>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_thunkTwiceMaker(Loader.shared.env, _thisHandle.ptr, _thunkHandle.ptr, _exn)))
+            )
+        )
+    ;
+
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,
@@ -486,4 +515,10 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
         UnownedRef fn,
         OutCreatedRef _exn
     ) f__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise6;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        UnownedRef thunk,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_thunkTwiceMaker;
 }

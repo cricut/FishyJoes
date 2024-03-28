@@ -145,6 +145,17 @@ private class _ExternalWitness_TestAsyncFunctions private constructor(_swiftRefe
         fn: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)
     ): kotlinx.coroutines.Deferred<kotlin.String>
 
+    /**
+     * <!-- FishyJoes.export(thunkTwiceMaker) -->
+     */
+    override fun thunkTwiceMaker(
+        thunk: (suspend () -> kotlin.Unit)
+    ): (suspend () -> kotlin.Unit) = __jni_thunkTwiceMaker(thunk)
+    @JvmName("__jni_thunkTwiceMaker")
+    private external fun __jni_thunkTwiceMaker(
+        thunk: (suspend () -> kotlin.Unit)
+    ): (suspend () -> kotlin.Unit)
+
     companion object {
         init { loadNativeLibs() }
     }

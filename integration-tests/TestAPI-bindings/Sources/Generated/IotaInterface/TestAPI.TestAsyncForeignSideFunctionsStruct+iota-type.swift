@@ -25,6 +25,7 @@ public func TestAPI_TestAsyncForeignSideFunctionsStruct_setup(
     _ exercise4FunGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, Swift.String>.CType,
     _ exercise5FunGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, Swift.String>.CType,
     _ exercise6FunGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, Swift.String>.CType,
+    _ thunkTwiceMakerFunGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>.CType,
     _ exn: foreignOutExn
 ) {
     let env = Env(envRef)
@@ -45,6 +46,7 @@ public func TestAPI_TestAsyncForeignSideFunctionsStruct_setup(
     TestAPI.TestAsyncForeignSideFunctionsStruct._exercise4FunGetter[env] = exercise4FunGetter
     TestAPI.TestAsyncForeignSideFunctionsStruct._exercise5FunGetter[env] = exercise5FunGetter
     TestAPI.TestAsyncForeignSideFunctionsStruct._exercise6FunGetter[env] = exercise6FunGetter
+    TestAPI.TestAsyncForeignSideFunctionsStruct._thunkTwiceMakerFunGetter[env] = thunkTwiceMakerFunGetter
 }
 
 extension TestAPI.TestAsyncForeignSideFunctionsStruct: IotaMutator {
@@ -63,6 +65,7 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: IotaMutator {
     fileprivate static let _exercise4FunGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, Swift.String>.CType>()
     fileprivate static let _exercise5FunGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, Swift.String>.CType>()
     fileprivate static let _exercise6FunGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, Swift.String>.CType>()
+    fileprivate static let _thunkTwiceMakerFunGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>.CType>()
     public typealias _ConstructorMethod = @convention(c) (
         AsyncFunction0Converter<Swift.Int>.CType,
         AsyncFunction1Converter<Swift.Int, Swift.Int>.CType,
@@ -79,6 +82,7 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: IotaMutator {
         AsyncFunction1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, Swift.String>.CType,
         AsyncFunction1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, Swift.String>.CType,
         AsyncFunction1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, Swift.String>.CType,
+        Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>.CType,
         _ exn: foreignOutExn
     ) -> foreignObject
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
@@ -144,6 +148,10 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: IotaMutator {
             exercise6Fun: try AsyncFunction1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, Swift.String>.consumeIota(
                 try env.check { exn in _exercise6FunGetter[env](value, exn) },
                 env: env
+            ),
+            thunkTwiceMakerFun: try Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>.consumeIota(
+                try env.check { exn in _thunkTwiceMakerFunGetter[env](value, exn) },
+                env: env
             )
         )
     }
@@ -166,6 +174,7 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: IotaMutator {
                 try AsyncFunction1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, Swift.String>.toIota(value.exercise4Fun, env: env),
                 try AsyncFunction1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, Swift.String>.toIota(value.exercise5Fun, env: env),
                 try AsyncFunction1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, Swift.String>.toIota(value.exercise6Fun, env: env),
+                try Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>.toIota(value.thunkTwiceMakerFun, env: env),
                 exn
             )
         }

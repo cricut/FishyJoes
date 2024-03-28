@@ -213,6 +213,17 @@ class ExternalWitness_TestAsyncFunctions extends SwiftReference implements TestA
         )
     ;
 
+    /// <!-- FishyJoes.export(thunkTwiceMaker) -->
+    Future<void> Function() thunkTwiceMaker(
+        Future<void> Function() thunk,
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            GCRef.using(thunk, (_thunkHandle) =>
+                consumeCreatedRef<Future<void> Function()>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestAsyncFunctions_thunkTwiceMaker(Loader.shared.env, _thisHandle.ptr, _thunkHandle.ptr, _exn)))
+            )
+        )
+    ;
+
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,
@@ -255,6 +266,12 @@ class ExternalWitness_TestAsyncFunctions extends SwiftReference implements TestA
         UnownedRef fn,
         OutCreatedRef _exn
     ) f__iota_TestAPI_TestAsyncFunctions_exercise6;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        UnownedRef thunk,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_TestAsyncFunctions_thunkTwiceMaker;
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,

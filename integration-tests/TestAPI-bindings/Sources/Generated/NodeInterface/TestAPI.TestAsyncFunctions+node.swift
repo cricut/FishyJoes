@@ -46,6 +46,10 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
     public func exercise6(_ fn: (String, Int, Double, String, () async throws -> Int, Int) async throws -> Int) throws -> String {
         exercise6Impl!()
     }
+    var thunkTwiceMakerImpl: (() -> () async throws -> Void)?
+    public func thunkTwiceMaker(thunk: () async throws -> Void) throws -> () async throws -> Void {
+        thunkTwiceMakerImpl!()
+    }
 }
 extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeMutator {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
@@ -304,6 +308,20 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeMutator {
                                 }
                             }
                             return promise
+                        }
+                    },
+                    isStatic: false
+                ),
+                "thunkTwiceMaker": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "thunkTwiceMaker", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.toNode(
+                                env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self).thunkTwiceMaker(
+                                    thunk: try env.argument(at: 0, converter: AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
                         }
                     },
                     isStatic: false

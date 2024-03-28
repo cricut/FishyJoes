@@ -26,6 +26,7 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: JavaMutator {
     private static var _java_exercise4Fun_id: jfieldID!
     private static var _java_exercise5Fun_id: jfieldID!
     private static var _java_exercise6Fun_id: jfieldID!
+    private static var _java_thunkTwiceMakerFun_id: jfieldID!
     private static var _constructorMethodID: jmethodID!
     public static func fromJava(_ value: jobject?, env: Env) throws -> Self {
         Self(
@@ -88,6 +89,10 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: JavaMutator {
             exercise6Fun: try AsyncFunction1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, Swift.String>.fromJava(
                 env.GetObjectField(value, Self._java_exercise6Fun_id),
                 env: env
+            ),
+            thunkTwiceMakerFun: try Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>.fromJava(
+                env.GetObjectField(value, Self._java_thunkTwiceMakerFun_id),
+                env: env
             )
         )
     }
@@ -109,7 +114,8 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: JavaMutator {
             jvalue(AsyncFunction1Converter<AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>, Swift.String>.toJava(value.exercise3Fun, env: env)),
             jvalue(AsyncFunction1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, Swift.String>.toJava(value.exercise4Fun, env: env)),
             jvalue(AsyncFunction1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, Swift.String>.toJava(value.exercise5Fun, env: env)),
-            jvalue(AsyncFunction1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, Swift.String>.toJava(value.exercise6Fun, env: env))
+            jvalue(AsyncFunction1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, Swift.String>.toJava(value.exercise6Fun, env: env)),
+            jvalue(Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>.toJava(value.thunkTwiceMakerFun, env: env))
         )
     }
     public static func javaSetup(env: Env) throws {
@@ -130,7 +136,8 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: JavaMutator {
         _java_exercise4Fun_id = try env.GetFieldID(javaClass, "exercise4Fun", "Lkotlin/jvm/functions/Function2;")
         _java_exercise5Fun_id = try env.GetFieldID(javaClass, "exercise5Fun", "Lkotlin/jvm/functions/Function2;")
         _java_exercise6Fun_id = try env.GetFieldID(javaClass, "exercise6Fun", "Lkotlin/jvm/functions/Function2;")
-        _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function4;Lkotlin/jvm/functions/Function5;Lkotlin/jvm/functions/Function6;Lkotlin/jvm/functions/Function7;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;)V")
+        _java_thunkTwiceMakerFun_id = try env.GetFieldID(javaClass, "thunkTwiceMakerFun", "Lkotlin/jvm/functions/Function1;")
+        _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function4;Lkotlin/jvm/functions/Function5;Lkotlin/jvm/functions/Function6;Lkotlin/jvm/functions/Function7;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function1;)V")
     }
     public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout Self) throws -> R) throws -> R {
         var mutatingSelf = try fromJava(this, env: env)
@@ -194,6 +201,10 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: JavaMutator {
         try env.SetObjectField(
             this, Self._java_exercise6Fun_id,
             AsyncFunction1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, Swift.String>.toJava(mutatingSelf.exercise6Fun, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_thunkTwiceMakerFun_id,
+            Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>.toJava(mutatingSelf.thunkTwiceMakerFun, env: env)
         )
         return result
     }
@@ -259,6 +270,10 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: JavaMutator {
         try env.SetObjectField(
             this, Self._java_exercise6Fun_id,
             AsyncFunction1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, Swift.String>.toJava(mutatingSelf.exercise6Fun, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_thunkTwiceMakerFun_id,
+            Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>.toJava(mutatingSelf.thunkTwiceMakerFun, env: env)
         )
         return result
     }

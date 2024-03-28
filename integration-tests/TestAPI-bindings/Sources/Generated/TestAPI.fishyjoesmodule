@@ -3181,7 +3181,8 @@
                   "exercise3Fun",
                   "exercise4Fun",
                   "exercise5Fun",
-                  "exercise6Fun"
+                  "exercise6Fun",
+                  "thunkTwiceMakerFun"
                 ],
                 "types" : [
                   {
@@ -3257,6 +3258,11 @@
                   {
                     "named" : {
                       "_0" : "(_0: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>) => Promise<string>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: () => Promise<void>) => () => Promise<void>"
                     }
                   }
                 ]
@@ -3463,6 +3469,19 @@
                     "_0" : "(_0: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>) => Promise<string>"
                   }
                 }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "thunkTwiceMakerFun",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: () => Promise<void>) => () => Promise<void>"
+                  }
+                }
               }
             ],
             "methods" : [
@@ -3652,6 +3671,29 @@
                         "_0" : "string"
                       }
                     }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(thunkTwiceMaker) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "thunkTwiceMaker",
+                "parameters" : [
+                  {
+                    "name" : "thunk",
+                    "type" : {
+                      "named" : {
+                        "_0" : "() => Promise<void>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "() => Promise<void>"
                   }
                 }
               }
@@ -4016,6 +4058,29 @@
                     }
                   }
                 }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(thunkTwiceMaker) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "thunkTwiceMaker",
+                "parameters" : [
+                  {
+                    "name" : "thunk",
+                    "type" : {
+                      "named" : {
+                        "_0" : "() => Promise<void>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "() => Promise<void>"
+                  }
+                }
               }
             ],
             "name" : "TestAsyncFunctions"
@@ -4325,6 +4390,29 @@
                         "_0" : "string"
                       }
                     }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(thunkTwiceMaker) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "thunkTwiceMaker",
+                "parameters" : [
+                  {
+                    "name" : "thunk",
+                    "type" : {
+                      "named" : {
+                        "_0" : "() => Promise<void>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "() => Promise<void>"
                   }
                 }
               },
