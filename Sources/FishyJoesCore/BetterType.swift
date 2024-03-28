@@ -218,7 +218,7 @@ extension BetterType {
             return "Self"
         }
     }
-    
+
     var escapingFunctionsName: String {
         switch self {
         case let .named(name):

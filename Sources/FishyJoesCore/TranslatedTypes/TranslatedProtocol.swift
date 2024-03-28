@@ -634,7 +634,7 @@ struct TranslatedProtocol: TranslatedType {
             }
             for method in methods {
                 fragment.output()
-                
+
                 let resolvedReturn = context.resolve(type: method.returnType)
                 var returnSignature = "\(method.isAsync ? " async" : "")\(method.isThrowing ? " throws" : "")"
                 if method.returnType.name != "Void" {
