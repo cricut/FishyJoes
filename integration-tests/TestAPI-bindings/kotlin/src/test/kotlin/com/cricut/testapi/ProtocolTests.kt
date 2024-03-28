@@ -246,6 +246,8 @@ internal class ProtocolTests {
             }
         }
         assertEquals("21", i)
+        val j = a.exercise3 { fl, d, l -> (fl / d) + 9 * l }
+        assertEquals("18.227272727272727", j)
     }
 
     data class ProtocolKotlinImpl(
