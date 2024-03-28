@@ -302,12 +302,14 @@ extension NAPI.Env {
         return result
     }
 
+    #if !os(WASI)
     public func getArraybufferInfo(_ arraybuffer: NAPI.Value) throws -> (data: UnsafeMutableRawPointer?, byteLength: Int) {
         var data: UnsafeMutableRawPointer?
         var byteLength: Int = 0
         try check(napi_get_arraybuffer_info(ptr, arraybuffer.ptr, &data, &byteLength))
         return (data, byteLength)
     }
+    #endif
 
     // Currently unused. If needed, will need a wasm implementation
     // public func getBufferInfo(_ value: NAPI.Value) throws -> (data: UnsafeMutableRawPointer?, length: Int) {
