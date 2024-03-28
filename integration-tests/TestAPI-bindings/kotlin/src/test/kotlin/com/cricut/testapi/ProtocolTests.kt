@@ -229,8 +229,13 @@ internal class ProtocolTests {
         assertEquals("754", l)
         val m = a.exercise6(fn = {a: String, b: Long, c: Double, d: String, e: suspend () -> Long, f: Long -> (a.toDouble() + b.toDouble() + c + d.toDouble() + e() + f).toLong() } )
         assertEquals("852", m)
-        val n = a.thunkTwiceMaker { println("thunkity thunk!") }
+        var o = 1
+        val n = a.thunkTwiceMaker {
+            o += 1
+            println("thunkity thunk!")
+        }
         n()
+        assertEquals(3, o)
     }
 
     @Test
@@ -271,8 +276,13 @@ internal class ProtocolTests {
         assertEquals("93", l)
         val m = a.exercise6(fn = {a: String, b: Long, c: Double, d: String, e: suspend () -> Long, f: Long -> (b.toDouble() + c + e() + f).toLong() } )
         assertEquals("135", m)
-        val n = a.thunkTwiceMaker { println("Thunkmaster thex") }
+        var o = 3.14159265359
+        val n = a.thunkTwiceMaker {
+            o = o * o
+            println("Thunkmaster thex")
+        }
         n()
+        assertEquals(97.4090910340281, o)
     }
 
     data class ProtocolKotlinImpl(
