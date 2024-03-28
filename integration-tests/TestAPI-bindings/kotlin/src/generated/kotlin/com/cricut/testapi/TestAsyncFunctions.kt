@@ -81,6 +81,13 @@ interface TestAsyncFunctions {
         fn: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long)) -> (suspend () -> Long))
     ): kotlin.String
 
+    /**
+     * <!-- FishyJoes.export(exercise6) -->
+     */
+    suspend fun exercise6(
+        fn: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)
+    ): kotlin.String
+
     companion object {
         @JvmStatic
         fun exercise0(
@@ -117,6 +124,12 @@ interface TestAsyncFunctions {
             self: TestAsyncFunctions,
             fn: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long)) -> (suspend () -> Long))
         ): Deferred<kotlin.String> = CoroutineScope(Dispatchers.Default).async { self.exercise5(fn) }
+
+        @JvmStatic
+        fun exercise6(
+            self: TestAsyncFunctions,
+            fn: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)
+        ): Deferred<kotlin.String> = CoroutineScope(Dispatchers.Default).async { self.exercise6(fn) }
 
         init {
             loadNativeLibs()

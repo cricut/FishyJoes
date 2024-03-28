@@ -3180,7 +3180,8 @@
                   "exercise2Fun",
                   "exercise3Fun",
                   "exercise4Fun",
-                  "exercise5Fun"
+                  "exercise5Fun",
+                  "exercise6Fun"
                 ],
                 "types" : [
                   {
@@ -3251,6 +3252,11 @@
                   {
                     "named" : {
                       "_0" : "(_0: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>) => Promise<string>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>) => Promise<string>"
                     }
                   }
                 ]
@@ -3444,6 +3450,19 @@
                     "_0" : "(_0: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>) => Promise<string>"
                   }
                 }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "exercise6Fun",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>) => Promise<string>"
+                  }
+                }
               }
             ],
             "methods" : [
@@ -3595,6 +3614,33 @@
                     "type" : {
                       "named" : {
                         "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise6) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise6",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
                       }
                     }
                   }
@@ -3943,6 +3989,33 @@
                     }
                   }
                 }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise6) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise6",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
               }
             ],
             "name" : "TestAsyncFunctions"
@@ -4214,6 +4287,33 @@
                     "type" : {
                       "named" : {
                         "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise6) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise6",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
                       }
                     }
                   }

@@ -175,6 +175,19 @@ struct _IotaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
             env: _iotaWitness.env
         )
     }
+
+    public func exercise6(_ fn: (String, Int, Double, String, () async throws -> Int, Int) async throws -> Int) throws -> String {
+        try Swift.String.peekIota(
+            try _iotaWitness.env.check { exn in
+                TestAPI_CommonInterface._TestAsyncFunctionsConverter._exercise6[_iotaWitness.env](
+                    _iotaWitness.object,
+                    try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.toIota(fn, env: _iotaWitness.env),
+                    exn
+                )
+            },
+            env: _iotaWitness.env
+        )
+    }
 }
 
 @_cdecl("TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup")
@@ -219,6 +232,11 @@ public func TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup(
         AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.CType,
         _ exn: foreignOutExn
     ) -> Swift.String.CType,
+    _ exercise6: @escaping @convention(c) (
+        foreignObject,
+        AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType,
+        _ exn: foreignOutExn
+    ) -> Swift.String.CType,
     _ exn: foreignOutExn
 ) {
     let env = Env(envRef)
@@ -238,6 +256,7 @@ public func TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup(
     TestAPI_CommonInterface._TestAsyncFunctionsConverter._exercise3[env] = exercise3
     TestAPI_CommonInterface._TestAsyncFunctionsConverter._exercise4[env] = exercise4
     TestAPI_CommonInterface._TestAsyncFunctionsConverter._exercise5[env] = exercise5
+    TestAPI_CommonInterface._TestAsyncFunctionsConverter._exercise6[env] = exercise6
 }
 
 extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: IotaMutator {
@@ -283,6 +302,11 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: IotaMutator {
     fileprivate static let _exercise5 = Env.CallbackMap<@convention(c) (
         foreignObject,
         AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.CType,
+        _ exn: foreignOutExn
+    ) -> Swift.String.CType>()
+    fileprivate static let _exercise6 = Env.CallbackMap<@convention(c) (
+        foreignObject,
+        AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType,
         _ exn: foreignOutExn
     ) -> Swift.String.CType>()
 

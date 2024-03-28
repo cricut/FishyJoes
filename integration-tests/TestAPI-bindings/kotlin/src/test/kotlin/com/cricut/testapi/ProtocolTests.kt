@@ -183,7 +183,8 @@ internal class ProtocolTests {
             },
             exercise3Fun = {fn: suspend (Float, Double, Long) -> Double -> "${fn(1.0F, 4.4, 2)}" },
             exercise4Fun = {fn: suspend (a: String, b: String, c: String, d: String) -> List<String> -> "${fn("Pump", "up", "the", "jam")}"},
-            exercise5Fun = {fn: suspend (a: String, b: Long, c: Double, d: String, e: suspend () -> Long) -> suspend () -> Long -> "${fn("78", 6, 4.2, "12", { 654 })()}" }
+            exercise5Fun = {fn: suspend (a: String, b: Long, c: Double, d: String, e: suspend () -> Long) -> suspend () -> Long -> "${fn("78", 6, 4.2, "12", { 654 })()}" },
+            exercise6Fun = {fn: suspend (a: String, b: Long, c: Double, d: String, e: suspend () -> Long, f: Long) -> Long -> "${fn("78", 6, 4.2, "12", { 654 }, 98)}" }
         )
         assertEquals(49, a.const42())
         assertEquals(4, a.iabs(-4))
@@ -220,6 +221,8 @@ internal class ProtocolTests {
         assertEquals("[jam, the, up, Pump]", k)
         val l = a.exercise5(fn = {a: String, b: Long, c: Double, d: String, e: suspend () -> Long -> { (a.toDouble() + b.toDouble() + c + d.toDouble() + e()).toLong() } } )
         assertEquals("754", l)
+        val m = a.exercise6(fn = {a: String, b: Long, c: Double, d: String, e: suspend () -> Long, f: Long -> (a.toDouble() + b.toDouble() + c + d.toDouble() + e() + f).toLong() } )
+        assertEquals("852", m)
     }
 
     @Test
@@ -258,6 +261,8 @@ internal class ProtocolTests {
         assertEquals("[\"d\", \"c\", \"b\", \"a\"]", k)
         val l = a.exercise5(fn = {a: String, b: Long, c: Double, d: String, e: suspend () -> Long -> { (b.toDouble() + c + e()).toLong() } } )
         assertEquals("93", l)
+        val m = a.exercise6(fn = {a: String, b: Long, c: Double, d: String, e: suspend () -> Long, f: Long -> (b.toDouble() + c + e() + f).toLong() } )
+        assertEquals("135", m)
     }
 
     data class ProtocolKotlinImpl(
