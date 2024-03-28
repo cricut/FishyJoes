@@ -32,7 +32,7 @@ struct _IotaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
         }
     }
 
-    public var intCompose: ((Int) async throws -> Int, (Int) async throws -> Int) throws -> (Int) async throws -> Int {
+    public var intCompose: (@escaping (Int) async throws -> Int, @escaping (Int) async throws -> Int) throws -> (Int) async throws -> Int {
         get throws {
             try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.consumeIota(
                 try _iotaWitness.env.check { exn in
@@ -54,7 +54,7 @@ struct _IotaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
         }
     }
 
-    public var makeList: (String, String, String, String) async throws -> Array<String> {
+    public var makeList: (String, String, String, String) async throws -> [String] {
         get throws {
             try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.consumeIota(
                 try _iotaWitness.env.check { exn in
@@ -65,7 +65,7 @@ struct _IotaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
         }
     }
 
-    public var fifthThing: (String, Int, Double, String, () async throws -> Int) async throws -> () async throws -> Int {
+    public var fifthThing: (String, Int, Double, String, @escaping () async throws -> Int) async throws -> () async throws -> Int {
         get throws {
             try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.consumeIota(
                 try _iotaWitness.env.check { exn in
@@ -76,7 +76,7 @@ struct _IotaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
         }
     }
 
-    public var six: (String, Int, Double, String, () async throws -> Int, Int) async throws -> Int {
+    public var six: (String, Int, Double, String, @escaping () async throws -> Int, Int) async throws -> Int {
         get throws {
             try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.consumeIota(
                 try _iotaWitness.env.check { exn in
@@ -98,7 +98,7 @@ struct _IotaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
         }
     }
 
-    public func exercise0(_ fn: () async throws -> Int) throws -> String {
+    public func exercise0(_ fn: @escaping () async throws -> Int) async throws -> String {
         try Swift.String.peekIota(
             try _iotaWitness.env.check { exn in
                 TestAPI_CommonInterface._TestAsyncFunctionsConverter._exercise0[_iotaWitness.env](
@@ -111,7 +111,7 @@ struct _IotaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
         )
     }
 
-    public func exercise1(_ fn: (Int) async throws -> Int) throws -> String {
+    public func exercise1(_ fn: @escaping (Int) async throws -> Int) async throws -> String {
         try Swift.String.peekIota(
             try _iotaWitness.env.check { exn in
                 TestAPI_CommonInterface._TestAsyncFunctionsConverter._exercise1[_iotaWitness.env](
@@ -124,7 +124,7 @@ struct _IotaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
         )
     }
 
-    public func exercise2(_ fn: ((Int) async throws -> Int, (Int) async throws -> Int) throws -> (Int) async throws -> Int) throws -> String {
+    public func exercise2(_ fn: @escaping (@escaping (Int) async throws -> Int, @escaping (Int) async throws -> Int) throws -> (Int) async throws -> Int) async throws -> String {
         try Swift.String.peekIota(
             try _iotaWitness.env.check { exn in
                 TestAPI_CommonInterface._TestAsyncFunctionsConverter._exercise2[_iotaWitness.env](
@@ -137,7 +137,7 @@ struct _IotaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
         )
     }
 
-    public func exercise3(_ fn: (Float, Double, Int) async throws -> Double) throws -> String {
+    public func exercise3(_ fn: @escaping (Float, Double, Int) async throws -> Double) async throws -> String {
         try Swift.String.peekIota(
             try _iotaWitness.env.check { exn in
                 TestAPI_CommonInterface._TestAsyncFunctionsConverter._exercise3[_iotaWitness.env](
@@ -150,7 +150,7 @@ struct _IotaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
         )
     }
 
-    public func exercise4(_ fn: (String, String, String, String) async throws -> Array<String>) throws -> String {
+    public func exercise4(_ fn: @escaping (String, String, String, String) async throws -> Array<String>) async throws -> String {
         try Swift.String.peekIota(
             try _iotaWitness.env.check { exn in
                 TestAPI_CommonInterface._TestAsyncFunctionsConverter._exercise4[_iotaWitness.env](
@@ -163,7 +163,7 @@ struct _IotaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
         )
     }
 
-    public func exercise5(_ fn: (String, Int, Double, String, () async throws -> Int) async throws -> () async throws -> Int) throws -> String {
+    public func exercise5(_ fn: @escaping (String, Int, Double, String, @escaping () async throws -> Int) async throws -> () async throws -> Int) async throws -> String {
         try Swift.String.peekIota(
             try _iotaWitness.env.check { exn in
                 TestAPI_CommonInterface._TestAsyncFunctionsConverter._exercise5[_iotaWitness.env](
@@ -176,7 +176,7 @@ struct _IotaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
         )
     }
 
-    public func exercise6(_ fn: (String, Int, Double, String, () async throws -> Int, Int) async throws -> Int) throws -> String {
+    public func exercise6(_ fn: @escaping (String, Int, Double, String, @escaping () async throws -> Int, Int) async throws -> Int) async throws -> String {
         try Swift.String.peekIota(
             try _iotaWitness.env.check { exn in
                 TestAPI_CommonInterface._TestAsyncFunctionsConverter._exercise6[_iotaWitness.env](
@@ -189,7 +189,7 @@ struct _IotaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
         )
     }
 
-    public func thunkTwiceMaker(thunk: () async throws -> Void) throws -> () async throws -> Void {
+    public func thunkTwiceMaker(thunk: @escaping () async throws -> Void) throws -> () async throws -> Void {
         try AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.peekIota(
             try _iotaWitness.env.check { exn in
                 TestAPI_CommonInterface._TestAsyncFunctionsConverter._thunkTwiceMaker[_iotaWitness.env](

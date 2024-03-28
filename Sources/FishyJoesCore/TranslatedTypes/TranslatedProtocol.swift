@@ -412,10 +412,11 @@ struct TranslatedProtocol: TranslatedType {
             fragment.output("let _iotaWitness: IotaReference")
             for variable in fields {
                 fragment.output()
+                let type = variable.typeName.actualTypeName?.name ?? variable.typeName.better.name
                 let resolvedVar = context.resolve(type: variable.typeName.better)
 
-                fragment.outputBlock("\(variable.isStatic ? "static " : "")public var \(variable.name): \(variable.typeName.better.name) {") {
-                    fragment.outputBlock("get throws {") {
+                fragment.outputBlock("\(variable.isStatic ? "static " : "")public var \(variable.name): \(type) {") {
+                    fragment.outputBlock("get\(variable.throws ? " throws" : "") {") {
                         fragment.outputBlock("try \(resolvedVar.converterType.name).consumeIota(") {
                             fragment.outputBlock("try _iotaWitness.env.check { exn in", closeWith: "},") {
                                 fragment.output("\(converterType.name)._\(variable.name)Getter[_iotaWitness.env](_iotaWitness.object, exn)")
@@ -429,7 +430,7 @@ struct TranslatedProtocol: TranslatedType {
             for method in methods {
                 fragment.output()
                 let resolvedReturn = context.resolve(type: method.returnType)
-                var returnSignature = "\(method.isThrowing ? " throws" : "")"
+                var returnSignature = "\(method.isAsync ? " async" : "")\(method.isThrowing ? " throws" : "")"
                 if method.returnType.name != "Void" {
                     returnSignature.append(" -> \(method.returnType.name)")
                 }
@@ -437,7 +438,7 @@ struct TranslatedProtocol: TranslatedType {
                 var paramSigs = [String]()
                 do {
                     for param in method.parameters {
-                        paramSigs.append("\(param.labelAndName): \(param.type.name)")
+                        paramSigs.append("\(param.labelAndName): \(param.type.escapingFunctionsName)")
                     }
                 }
                 fragment.outputBlock("\(method.isStatic ? "static " : "")public func \(method.callName)(\(paramSigs.joined(separator: ", ")))\(returnSignature) {") {

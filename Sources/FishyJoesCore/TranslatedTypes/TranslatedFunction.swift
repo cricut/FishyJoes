@@ -21,7 +21,8 @@ struct TranslatedFunction: TranslatedType {
         self.isAsync = isAsync
 
         self.sourceType = .function(
-            parameters.map(\.sourceType), returnType.sourceType,
+            parameters.map(\.sourceType), 
+            returnType.sourceType,
             isAsync: isAsync,
             isThrowing: isThrowing
         )
