@@ -1,9 +1,6 @@
 class KotlinInterface: KotlinClass {
     override func output(to fragment: SourceFragment) {
         document(documentation, fragment: fragment)
-        if unqualifiedName.contains("TestAsyncFunctions") {
-            let elegoo = 1
-        }
         fragment.outputBlock("interface \(unqualifiedName) {") {
             fields.filter { !$0.isStatic }.forEach { output(field: $0, to: fragment, external: false) }
             methods.filter { !$0.isStatic }.forEach { output(method: $0, to: fragment, external: false) }

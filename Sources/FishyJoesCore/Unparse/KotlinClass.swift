@@ -73,9 +73,6 @@ class KotlinClass: NestedClass {
 
     func fragment(context: FishyJoesContext) -> SourceFragment {
         let fragment = SourceFragment(sourceryDestination: "file:../../kotlin/src/generated/kotlin/com/cricut/\(module.name.lowercased())/\(name).kt")
-        if name.contains("TestAsyncFunctions") {
-            let elegoo = 1
-        }
         fragment.output("package \(module.kotlinPackage)")
         fragment.blankLine()
         fragment.output("import kotlinx.coroutines.*")

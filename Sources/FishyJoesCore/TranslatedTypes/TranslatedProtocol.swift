@@ -56,9 +56,6 @@ struct TranslatedProtocol: TranslatedType {
         self.javaExternalWitnessClassName = context.kotlinTranslator.javaClassName("_ExternalWitness_\(kotlinName)", in: context)
         self.iotaExternalWitnessClassName = "ExternalWitness_\(sourceType.nonNamespacedName)"
 
-        if typeName.contains("TestAsyncFunctions") {
-            let elegoo = 1
-        }
         enforceProtocolThrows()
         enforceNoProtocolSetters()
         enforceNoProtocolStatics()
