@@ -123,6 +123,17 @@ private class _ExternalWitness_TestAsyncFunctions private constructor(_swiftRefe
         fn: (suspend (kotlin.String, kotlin.String, kotlin.String, kotlin.String) -> kotlin.collections.List<kotlin.String>)
     ): kotlinx.coroutines.Deferred<kotlin.String>
 
+    /**
+     * <!-- FishyJoes.export(exercise5) -->
+     */
+    override suspend fun exercise5(
+        fn: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long)) -> (suspend () -> Long))
+    ): kotlin.String = __jni_exercise5(fn).await()
+    @JvmName("__jni_exercise5")
+    private external fun __jni_exercise5(
+        fn: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long)) -> (suspend () -> Long))
+    ): kotlinx.coroutines.Deferred<kotlin.String>
+
     companion object {
         init { loadNativeLibs() }
     }

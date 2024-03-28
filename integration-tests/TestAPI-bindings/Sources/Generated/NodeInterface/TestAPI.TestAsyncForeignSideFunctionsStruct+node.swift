@@ -62,6 +62,10 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
             exercise4Fun: try { () -> ((Swift.String, Swift.String, Swift.String, Swift.String) async throws -> Array<Swift.String>) async throws -> Swift.String in
                 let fieldValue = try env.getNamedProperty(value, "exercise4Fun")
                 return try AsyncFunction1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, Swift.String>.fromNode(fieldValue, env: env)
+            }(),
+            exercise5Fun: try { () -> ((Swift.String, Swift.Int, Swift.Double, Swift.String, () async throws -> Swift.Int) async throws -> () async throws -> Swift.Int) async throws -> Swift.String in
+                let fieldValue = try env.getNamedProperty(value, "exercise5Fun")
+                return try AsyncFunction1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, Swift.String>.fromNode(fieldValue, env: env)
             }()
         )
     }
@@ -81,6 +85,7 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
             try AsyncFunction1Converter<Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>, Swift.String>.toNode(value.exercise2Fun, env: env),
             try AsyncFunction1Converter<AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>, Swift.String>.toNode(value.exercise3Fun, env: env),
             try AsyncFunction1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, Swift.String>.toNode(value.exercise4Fun, env: env),
+            try AsyncFunction1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, Swift.String>.toNode(value.exercise5Fun, env: env),
         ]
         return try env.newInstance(constructor, args)
     }
@@ -252,6 +257,38 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
                     },
                     isStatic: false
                 ),
+                "exercise5": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise5", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.self))
+                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.TestAsyncForeignSideFunctionsStruct.self))
+                            Task {
+                                do {
+                                    let taskResult: String = try await swiftSelf.value.exercise5(
+                                        arg0.value
+                                    )
+                                    try onMainThread { env in
+                                        let convertedTaskResult: NAPI.Value
+                                        do {
+                                            convertedTaskResult = try Swift.String.toNode(taskResult, env: env)
+                                        } catch {
+                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                            return
+                                        }
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
+                                    }
+                                } catch {
+                                    try onMainThread { env in
+                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                    }
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: false
+                ),
                 "const42": (.stored(mutable: true), isStatic: false),
                 "iabs": (.stored(mutable: true), isStatic: false),
                 "intCompose": (.stored(mutable: true), isStatic: false),
@@ -265,9 +302,10 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
                 "exercise2Fun": (.stored(mutable: true), isStatic: false),
                 "exercise3Fun": (.stored(mutable: true), isStatic: false),
                 "exercise4Fun": (.stored(mutable: true), isStatic: false),
+                "exercise5Fun": (.stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in
-                callbackBody(env, info, name: "TestAsyncForeignSideFunctionsStruct_constructor", expectedArgumentCount: 13) { env in
+                callbackBody(env, info, name: "TestAsyncForeignSideFunctionsStruct_constructor", expectedArgumentCount: 14) { env in
                     // TODO: typecheck?
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "const42", env.argument(at: 0))
@@ -283,6 +321,7 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
                     try env.env.setNamedProperty(this, "exercise2Fun", env.argument(at: 10))
                     try env.env.setNamedProperty(this, "exercise3Fun", env.argument(at: 11))
                     try env.env.setNamedProperty(this, "exercise4Fun", env.argument(at: 12))
+                    try env.env.setNamedProperty(this, "exercise5Fun", env.argument(at: 13))
                     return this
                 }
             }
