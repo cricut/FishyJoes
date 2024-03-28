@@ -559,6 +559,14 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_Function1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, FutureConverter<Swift.String>>", () => {
+                Console.WriteLine("setting up ((Swift.String, Swift.String, Swift.String, Swift.String) async throws -> Array<Swift.String>) -> Future<Swift.String>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function1Converter_setup<System.Threading.Tasks.Task<string>, System.Func<string, string, string, string, System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>>>(
+                    Loader.env,
+                    "Function1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, FutureConverter<Swift.String>>",
+                    out exn
+                ));
+            });
             Once("setup_AsyncFunction1Converter<AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>, Swift.String>", () => {
                 Console.WriteLine("setting up ((Float, Double, Int) async throws -> Double) async throws -> String...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_AsyncFunction1Converter_setup(
@@ -584,6 +592,13 @@ namespace Cricut.TestAPI {
             });
             Once("setup_AsyncFunction1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, Swift.String>", () => {
                 Console.WriteLine("setting up ((Int) async throws -> Int) async throws -> String...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_AsyncFunction1Converter_setup(
+                    Loader.env,
+                    out exn
+                ));
+            });
+            Once("setup_AsyncFunction1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, Swift.String>", () => {
+                Console.WriteLine("setting up ((String, String, String, String) async throws -> Array<String>) async throws -> String...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_AsyncFunction1Converter_setup(
                     Loader.env,
                     out exn

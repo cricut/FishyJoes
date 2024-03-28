@@ -185,6 +185,22 @@ struct _JavaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
             env: env
         )
     }
+
+    static var _exercise4MethodID: jmethodID?
+    public func exercise4(_ fn: @escaping (String, String, String, String) async throws -> Array<String>) async throws -> String {
+        let env = try Env.acquireJVMThread(on: _javaWitness.vm)
+        defer {
+            try? Env.relinquishJVMThread(on: _javaWitness.vm)
+        }
+        return try Swift.String.fromJava(
+            env.CallObjectMethod(
+                _javaWitness.object,
+                Self._exercise4MethodID,
+                jvalue(try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.toJava(fn, env: env))
+            ),
+            env: env
+        )
+    }
 }
 
 extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: JavaMutator {
@@ -229,5 +245,6 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: JavaMutator {
         _JavaTestAsyncFunctions._exercise1MethodID = try env.GetMethodID(externalCompanionClass, "exercise1", "(Lcom/cricut/testapi/TestAsyncFunctions;Lkotlin/jvm/functions/Function2;)Lkotlinx/coroutines/Deferred;")
         _JavaTestAsyncFunctions._exercise2MethodID = try env.GetMethodID(externalCompanionClass, "exercise2", "(Lcom/cricut/testapi/TestAsyncFunctions;Lkotlin/jvm/functions/Function2;)Lkotlinx/coroutines/Deferred;")
         _JavaTestAsyncFunctions._exercise3MethodID = try env.GetMethodID(externalCompanionClass, "exercise3", "(Lcom/cricut/testapi/TestAsyncFunctions;Lkotlin/jvm/functions/Function4;)Lkotlinx/coroutines/Deferred;")
+        _JavaTestAsyncFunctions._exercise4MethodID = try env.GetMethodID(externalCompanionClass, "exercise4", "(Lcom/cricut/testapi/TestAsyncFunctions;Lkotlin/jvm/functions/Function5;)Lkotlinx/coroutines/Deferred;")
     }
 }

@@ -76,6 +76,7 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
     final Future<String> Function(Future<int> Function(int)) exercise1Fun;
     final Future<String> Function(Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int))) exercise2Fun;
     final Future<String> Function(Future<double> Function(double, double, int)) exercise3Fun;
+    final Future<String> Function(Future<List<String>> Function(String, String, String, String)) exercise4Fun;
 
     TestAsyncForeignSideFunctionsStruct({
         required Future<int> Function() const42,
@@ -89,7 +90,8 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
         required Future<String> Function(Future<int> Function()) exercise0Fun,
         required Future<String> Function(Future<int> Function(int)) exercise1Fun,
         required Future<String> Function(Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int))) exercise2Fun,
-        required Future<String> Function(Future<double> Function(double, double, int)) exercise3Fun
+        required Future<String> Function(Future<double> Function(double, double, int)) exercise3Fun,
+        required Future<String> Function(Future<List<String>> Function(String, String, String, String)) exercise4Fun
     }):
         this.const42 = const42,
         this.iabs = iabs,
@@ -102,7 +104,8 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
         this.exercise0Fun = exercise0Fun,
         this.exercise1Fun = exercise1Fun,
         this.exercise2Fun = exercise2Fun,
-        this.exercise3Fun = exercise3Fun;
+        this.exercise3Fun = exercise3Fun,
+        this.exercise4Fun = exercise4Fun;
 
     static CreatedRef ffi_constructor(
         ConsumedRef const42,
@@ -117,6 +120,7 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
         ConsumedRef exercise1Fun,
         ConsumedRef exercise2Fun,
         ConsumedRef exercise3Fun,
+        ConsumedRef exercise4Fun,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(TestAsyncForeignSideFunctionsStruct(
@@ -132,10 +136,11 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
             exercise1Fun: consumeRef(exercise1Fun),
             exercise2Fun: consumeRef(exercise2Fun),
             exercise3Fun: consumeRef(exercise3Fun),
+            exercise4Fun: consumeRef(exercise4Fun),
         ))
     );
     @override
-    String toString() => 'TestAsyncForeignSideFunctionsStruct(const42: $const42, iabs: $iabs, intCompose: $intCompose, add3Things: $add3Things, makeList: $makeList, fifthThing: $fifthThing, six: $six, willThrow: $willThrow, exercise0Fun: $exercise0Fun, exercise1Fun: $exercise1Fun, exercise2Fun: $exercise2Fun, exercise3Fun: $exercise3Fun)';
+    String toString() => 'TestAsyncForeignSideFunctionsStruct(const42: $const42, iabs: $iabs, intCompose: $intCompose, add3Things: $add3Things, makeList: $makeList, fifthThing: $fifthThing, six: $six, willThrow: $willThrow, exercise0Fun: $exercise0Fun, exercise1Fun: $exercise1Fun, exercise2Fun: $exercise2Fun, exercise3Fun: $exercise3Fun, exercise4Fun: $exercise4Fun)';
 
     static CreatedRef ffi_get_const42(
         UnownedRef obj,
@@ -245,6 +250,15 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
         )
     );
 
+    static CreatedRef ffi_get_exercise4Fun(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestAsyncForeignSideFunctionsStruct>(obj).exercise4Fun
+        )
+    );
+
     @override
     bool operator ==(Object other) {
         return identical(other, this) ||
@@ -263,7 +277,8 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
                 const DeepCollectionEquality().equals(other.exercise0Fun, exercise0Fun) &&
                 const DeepCollectionEquality().equals(other.exercise1Fun, exercise1Fun) &&
                 const DeepCollectionEquality().equals(other.exercise2Fun, exercise2Fun) &&
-                const DeepCollectionEquality().equals(other.exercise3Fun, exercise3Fun)
+                const DeepCollectionEquality().equals(other.exercise3Fun, exercise3Fun) &&
+                const DeepCollectionEquality().equals(other.exercise4Fun, exercise4Fun)
             )
         );
     }
@@ -282,7 +297,8 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
         const DeepCollectionEquality().hash(exercise0Fun), 
         const DeepCollectionEquality().hash(exercise1Fun), 
         const DeepCollectionEquality().hash(exercise2Fun), 
-        const DeepCollectionEquality().hash(exercise3Fun)
+        const DeepCollectionEquality().hash(exercise3Fun), 
+        const DeepCollectionEquality().hash(exercise4Fun)
     );
 
     TestAsyncForeignSideFunctionsStruct copyWith({
@@ -297,7 +313,8 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
         Future<String> Function(Future<int> Function())? exercise0Fun,
         Future<String> Function(Future<int> Function(int))? exercise1Fun,
         Future<String> Function(Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int)))? exercise2Fun,
-        Future<String> Function(Future<double> Function(double, double, int))? exercise3Fun
+        Future<String> Function(Future<double> Function(double, double, int))? exercise3Fun,
+        Future<String> Function(Future<List<String>> Function(String, String, String, String))? exercise4Fun
     }) => TestAsyncForeignSideFunctionsStruct(
         const42: const42 ?? this.const42,
         iabs: iabs ?? this.iabs,
@@ -310,7 +327,8 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
         exercise0Fun: exercise0Fun ?? this.exercise0Fun,
         exercise1Fun: exercise1Fun ?? this.exercise1Fun,
         exercise2Fun: exercise2Fun ?? this.exercise2Fun,
-        exercise3Fun: exercise3Fun ?? this.exercise3Fun
+        exercise3Fun: exercise3Fun ?? this.exercise3Fun,
+        exercise4Fun: exercise4Fun ?? this.exercise4Fun
     );
 
     /// <!-- FishyJoes.export(exercise0) -->
@@ -357,6 +375,17 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
         )
     ;
 
+    /// <!-- FishyJoes.export(exercise4) -->
+    Future<String> exercise4(
+        Future<List<String>> Function(String, String, String, String) fn,
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            GCRef.using(fn, (_fnHandle) =>
+                consumeCreatedRef<Future<String>>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise4(Loader.shared.env, _thisHandle.ptr, _fnHandle.ptr, _exn)))
+            )
+        )
+    ;
+
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,
@@ -381,4 +410,10 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
         UnownedRef fn,
         OutCreatedRef _exn
     ) f__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise3;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        UnownedRef fn,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise4;
 }
