@@ -24,7 +24,7 @@ jobs:
       GITHUB_USER: cricut-builduser
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       SWIFT_WASM_URL: |-
-        https://github.com/swiftwasm/swift/releases/download/swift-wasm-5.9.1-RELEASE/swift-wasm-5.9.1-RELEASE-macos_x86_64.pkg
+        https://github.com/swiftwasm/swift/releases/download/swift-wasm-5.9-SNAPSHOT-2024-03-27-a/swift-wasm-5.9-SNAPSHOT-2024-03-27-a-macos_x86_64.pkg
     steps:
       - name: Checkout
         uses: actions/checkout@v4

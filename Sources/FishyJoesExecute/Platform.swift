@@ -2,12 +2,11 @@ import Foundation
 import swsh
 
 #if os(macOS)
-let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.9.1-RELEASE.xctoolchain"
+let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2024-03-27-a.xctoolchain"
 #elseif os(Linux)
-let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.9.1-RELEASE.xctoolchain"
-#elseif os(Windows)
-// TODO: There does not appear to be a Windows-native version of this. WSL could maybe use this, but would it still identify the platform as Windows?
-let wasmToolchain = "C:\\Library\\Developer\\Toolchains\\swift-wasm-5.9.1-RELEASE-ubuntu22.04_x86_64"
+let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2024-03-27-a.xctoolchain"
+#else
+let wasmToolchain: String = { fatalError("wasm compilation is currently only supported on mac and linux") }()
 #endif
 
 #if os(macOS)
