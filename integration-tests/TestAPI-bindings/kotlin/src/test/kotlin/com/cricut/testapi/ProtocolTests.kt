@@ -1,15 +1,10 @@
 package com.cricut.testapi
 
-import kotlinx.coroutines.*
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.DisplayNameGenerator.Simple
-import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import java.lang.Exception
 import kotlin.math.abs
-import kotlin.math.pow
 import kotlin.time.Duration.Companion.seconds
 
 @kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -185,7 +180,8 @@ internal class ProtocolTests {
             },
             exercise2Fun = {fn: (suspend (Long) -> Long, suspend (Long) -> Long) -> suspend (Long) -> Long ->
                 "${fn({a: Long -> a + 1}, {b: Long -> b * 3})(23)}"
-            }
+            },
+            exercise3Fun = {fn: suspend (Float, Double, Long) -> Double -> "${fn(1.0F, 4.4, 2)}" }
         )
         assertEquals(49, a.const42())
         assertEquals(4, a.iabs(-4))
@@ -216,6 +212,8 @@ internal class ProtocolTests {
             }
         }
         assertEquals("36", i)
+        val j = a.exercise3 { fl: Float, d: Double, l: Long -> (fl / d) + 9 * l }
+        assertEquals("18.227272727272727", j)
     }
 
     @Test
@@ -241,7 +239,13 @@ internal class ProtocolTests {
         val g = a.exercise0(e)
         assertEquals(g, "42")
         val h = a.exercise1(b)
-        print("h: $h")
+        assertEquals(h, "-45")
+        val i = a.exercise2 { a: suspend (Long) -> Long, b: suspend (Long) ->
+            Long -> { z: Long ->
+                a(3) + b(3) + z
+            }
+        }
+        assertEquals("21", i)
     }
 
     data class ProtocolKotlinImpl(

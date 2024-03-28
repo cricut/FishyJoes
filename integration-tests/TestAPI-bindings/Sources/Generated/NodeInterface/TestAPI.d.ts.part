@@ -1944,7 +1944,7 @@ export declare namespace TestAPI {
      * <!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct, conformances: [TestAsyncFunctions]) -->
      */
     export class TestAsyncForeignSideFunctionsStruct {
-        constructor(const42: () => Promise<number>, iabs: (_0: number) => Promise<number>, intCompose: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>, add3Things: (_0: number, _1: number, _2: number) => Promise<number>, makeList: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>, fifthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>, six: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>, willThrow: () => Promise<number>, exercise0Fun: (_0: () => Promise<number>) => Promise<string>, exercise1Fun: (_0: (_0: number) => Promise<number>) => Promise<string>, exercise2Fun: (_0: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>) => Promise<string>)
+        constructor(const42: () => Promise<number>, iabs: (_0: number) => Promise<number>, intCompose: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>, add3Things: (_0: number, _1: number, _2: number) => Promise<number>, makeList: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>, fifthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>, six: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>, willThrow: () => Promise<number>, exercise0Fun: (_0: () => Promise<number>) => Promise<string>, exercise1Fun: (_0: (_0: number) => Promise<number>) => Promise<string>, exercise2Fun: (_0: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>) => Promise<string>, exercise3Fun: (_0: (_0: number, _1: number, _2: number) => Promise<number>) => Promise<string>)
 
         readonly const42: () => Promise<number>;
 
@@ -1968,6 +1968,8 @@ export declare namespace TestAPI {
 
         readonly exercise2Fun: (_0: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>) => Promise<string>;
 
+        readonly exercise3Fun: (_0: (_0: number, _1: number, _2: number) => Promise<number>) => Promise<string>;
+
         /**
          * <!-- FishyJoes.export(exercise0) -->
          */
@@ -1987,6 +1989,13 @@ export declare namespace TestAPI {
          */
         exercise2(
             fn: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(exercise3) -->
+         */
+        exercise3(
+            fn: (_0: number, _1: number, _2: number) => Promise<number>
         ): Promise<string>;
     }
 
@@ -2056,6 +2065,13 @@ export declare namespace TestAPI {
         exercise2(
             fn: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>
         ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(exercise3) -->
+         */
+        exercise3(
+            fn: (_0: number, _1: number, _2: number) => Promise<number>
+        ): Promise<string>;
     }
 
     /**
@@ -2124,6 +2140,13 @@ export declare namespace TestAPI {
          */
         exercise2(
             fn: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(exercise3) -->
+         */
+        exercise3(
+            fn: (_0: number, _1: number, _2: number) => Promise<number>
         ): Promise<string>;
 
         /**

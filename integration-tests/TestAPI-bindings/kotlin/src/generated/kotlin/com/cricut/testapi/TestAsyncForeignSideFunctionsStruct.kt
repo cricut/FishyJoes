@@ -17,7 +17,8 @@ data class TestAsyncForeignSideFunctionsStruct(
     override val willThrow: (suspend () -> Long),
     val exercise0Fun: (suspend ((suspend () -> Long)) -> kotlin.String),
     val exercise1Fun: (suspend ((suspend (Long) -> Long)) -> kotlin.String),
-    val exercise2Fun: (suspend ((((suspend (Long) -> Long), (suspend (Long) -> Long)) -> (suspend (Long) -> Long))) -> kotlin.String)
+    val exercise2Fun: (suspend ((((suspend (Long) -> Long), (suspend (Long) -> Long)) -> (suspend (Long) -> Long))) -> kotlin.String),
+    val exercise3Fun: (suspend ((suspend (Float, Double, Long) -> Double)) -> kotlin.String)
 ): TestAsyncFunctions {
     /**
      * <!-- FishyJoes.export(exercise0) -->
@@ -50,6 +51,17 @@ data class TestAsyncForeignSideFunctionsStruct(
     @JvmName("__jni_exercise2")
     private external fun __jni_exercise2(
         fn: (((suspend (Long) -> Long), (suspend (Long) -> Long)) -> (suspend (Long) -> Long))
+    ): kotlinx.coroutines.Deferred<kotlin.String>
+
+    /**
+     * <!-- FishyJoes.export(exercise3) -->
+     */
+    override suspend fun exercise3(
+        fn: (suspend (Float, Double, Long) -> Double)
+    ): kotlin.String = __jni_exercise3(fn).await()
+    @JvmName("__jni_exercise3")
+    private external fun __jni_exercise3(
+        fn: (suspend (Float, Double, Long) -> Double)
     ): kotlinx.coroutines.Deferred<kotlin.String>
 
     companion object {
