@@ -168,9 +168,9 @@ jobs:
           # Sadly, Ubuntu LTS doesn't have an up-to-date binaryen, so use a wasm version instead
           npm -g install binaryen@111.0.0
 
-          curl -Lo swift-wasm.tgz https://github.com/swiftwasm/swift/releases/download/swift-wasm-5.9.1-RELEASE/swift-wasm-5.9.1-RELEASE-ubuntu20.04_x86_64.tar.gz
-          sudo mkdir -p /Library/Developer/Toolchains/swift-wasm-5.9.1-RELEASE.xctoolchain
-          sudo tar -xf swift-wasm.tgz -C /Library/Developer/Toolchains/swift-wasm-5.9.1-RELEASE.xctoolchain --strip-components 1
+          curl -Lo swift-wasm.tgz https://github.com/swiftwasm/swift/releases/download/swift-wasm-5.9-SNAPSHOT-2024-03-27-a/swift-wasm-5.9-SNAPSHOT-2024-03-27-a-ubuntu20.04_x86_64.tar.gz
+          sudo mkdir -p /Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2024-03-27-a.xctoolchain
+          sudo tar -xf swift-wasm.tgz -C /Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2024-03-27-a.xctoolchain --strip-components 1
 
       - name: Build FishyJoesNodeRuntime
         shell: zsh {0}
