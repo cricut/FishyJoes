@@ -12,8 +12,7 @@ class NAPITests: XCTestCase {
     lazy var CFLAGS = [
         "-target", "wasm32-unknown-wasi",
         "--sysroot", wasiSDKPath,
-        "-I/opt/homebrew/include/node",
-        "-I/usr/local/include/node",
+        "-ISources/NodeAPI/include",
     ]
     lazy var LDFLAGS = [
         "-L\(wasmToolchainPath)/usr/lib",
