@@ -11,107 +11,107 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(
-            b: try { () -> Swift.Bool in
+            b: try { () -> Bool in
                 let fieldValue = try env.getNamedProperty(value, "b")
                 return try Swift.Bool.fromNode(fieldValue, env: env)
             }(),
-            bq: try { () -> Optional<Swift.Bool> in
+            bq: try { () -> Optional<Bool> in
                 let fieldValue = try env.getNamedProperty(value, "bq")
                 return try OptionalConverter<Swift.Bool>.fromNode(fieldValue, env: env)
             }(),
-            ui8: try { () -> Swift.UInt8 in
+            ui8: try { () -> UInt8 in
                 let fieldValue = try env.getNamedProperty(value, "ui8")
                 return try Swift.UInt8.fromNode(fieldValue, env: env)
             }(),
-            ui8q: try { () -> Optional<Swift.UInt8> in
+            ui8q: try { () -> Optional<UInt8> in
                 let fieldValue = try env.getNamedProperty(value, "ui8q")
                 return try OptionalConverter<Swift.UInt8>.fromNode(fieldValue, env: env)
             }(),
-            ui16: try { () -> Swift.UInt16 in
+            ui16: try { () -> UInt16 in
                 let fieldValue = try env.getNamedProperty(value, "ui16")
                 return try Swift.UInt16.fromNode(fieldValue, env: env)
             }(),
-            ui16q: try { () -> Optional<Swift.UInt16> in
+            ui16q: try { () -> Optional<UInt16> in
                 let fieldValue = try env.getNamedProperty(value, "ui16q")
                 return try OptionalConverter<Swift.UInt16>.fromNode(fieldValue, env: env)
             }(),
-            ui32: try { () -> Swift.UInt32 in
+            ui32: try { () -> UInt32 in
                 let fieldValue = try env.getNamedProperty(value, "ui32")
                 return try Swift.UInt32.fromNode(fieldValue, env: env)
             }(),
-            ui32q: try { () -> Optional<Swift.UInt32> in
+            ui32q: try { () -> Optional<UInt32> in
                 let fieldValue = try env.getNamedProperty(value, "ui32q")
                 return try OptionalConverter<Swift.UInt32>.fromNode(fieldValue, env: env)
             }(),
-            ui64: try { () -> Swift.UInt64 in
+            ui64: try { () -> UInt64 in
                 let fieldValue = try env.getNamedProperty(value, "ui64")
                 return try Swift.UInt64.fromNode(fieldValue, env: env)
             }(),
-            ui64q: try { () -> Optional<Swift.UInt64> in
+            ui64q: try { () -> Optional<UInt64> in
                 let fieldValue = try env.getNamedProperty(value, "ui64q")
                 return try OptionalConverter<Swift.UInt64>.fromNode(fieldValue, env: env)
             }(),
-            ui: try { () -> Swift.UInt in
+            ui: try { () -> UInt in
                 let fieldValue = try env.getNamedProperty(value, "ui")
                 return try Swift.UInt.fromNode(fieldValue, env: env)
             }(),
-            uiq: try { () -> Optional<Swift.UInt> in
+            uiq: try { () -> Optional<UInt> in
                 let fieldValue = try env.getNamedProperty(value, "uiq")
                 return try OptionalConverter<Swift.UInt>.fromNode(fieldValue, env: env)
             }(),
-            i8: try { () -> Swift.Int8 in
+            i8: try { () -> Int8 in
                 let fieldValue = try env.getNamedProperty(value, "i8")
                 return try Swift.Int8.fromNode(fieldValue, env: env)
             }(),
-            i8q: try { () -> Optional<Swift.Int8> in
+            i8q: try { () -> Optional<Int8> in
                 let fieldValue = try env.getNamedProperty(value, "i8q")
                 return try OptionalConverter<Swift.Int8>.fromNode(fieldValue, env: env)
             }(),
-            i16: try { () -> Swift.Int16 in
+            i16: try { () -> Int16 in
                 let fieldValue = try env.getNamedProperty(value, "i16")
                 return try Swift.Int16.fromNode(fieldValue, env: env)
             }(),
-            i16q: try { () -> Optional<Swift.Int16> in
+            i16q: try { () -> Optional<Int16> in
                 let fieldValue = try env.getNamedProperty(value, "i16q")
                 return try OptionalConverter<Swift.Int16>.fromNode(fieldValue, env: env)
             }(),
-            i32: try { () -> Swift.Int32 in
+            i32: try { () -> Int32 in
                 let fieldValue = try env.getNamedProperty(value, "i32")
                 return try Swift.Int32.fromNode(fieldValue, env: env)
             }(),
-            i32q: try { () -> Optional<Swift.Int32> in
+            i32q: try { () -> Optional<Int32> in
                 let fieldValue = try env.getNamedProperty(value, "i32q")
                 return try OptionalConverter<Swift.Int32>.fromNode(fieldValue, env: env)
             }(),
-            i64: try { () -> Swift.Int64 in
+            i64: try { () -> Int64 in
                 let fieldValue = try env.getNamedProperty(value, "i64")
                 return try Swift.Int64.fromNode(fieldValue, env: env)
             }(),
-            i64q: try { () -> Optional<Swift.Int64> in
+            i64q: try { () -> Optional<Int64> in
                 let fieldValue = try env.getNamedProperty(value, "i64q")
                 return try OptionalConverter<Swift.Int64>.fromNode(fieldValue, env: env)
             }(),
-            i: try { () -> Swift.Int in
+            i: try { () -> Int in
                 let fieldValue = try env.getNamedProperty(value, "i")
                 return try Swift.Int.fromNode(fieldValue, env: env)
             }(),
-            iq: try { () -> Optional<Swift.Int> in
+            iq: try { () -> Optional<Int> in
                 let fieldValue = try env.getNamedProperty(value, "iq")
                 return try OptionalConverter<Swift.Int>.fromNode(fieldValue, env: env)
             }(),
-            f: try { () -> Swift.Float in
+            f: try { () -> Float in
                 let fieldValue = try env.getNamedProperty(value, "f")
                 return try Swift.Float.fromNode(fieldValue, env: env)
             }(),
-            fq: try { () -> Optional<Swift.Float> in
+            fq: try { () -> Optional<Float> in
                 let fieldValue = try env.getNamedProperty(value, "fq")
                 return try OptionalConverter<Swift.Float>.fromNode(fieldValue, env: env)
             }(),
-            d: try { () -> Swift.Double in
+            d: try { () -> Double in
                 let fieldValue = try env.getNamedProperty(value, "d")
                 return try Swift.Double.fromNode(fieldValue, env: env)
             }(),
-            dq: try { () -> Optional<Swift.Double> in
+            dq: try { () -> Optional<Double> in
                 let fieldValue = try env.getNamedProperty(value, "dq")
                 return try OptionalConverter<Swift.Double>.fromNode(fieldValue, env: env)
             }()

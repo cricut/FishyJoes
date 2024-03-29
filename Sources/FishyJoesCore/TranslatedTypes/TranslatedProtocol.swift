@@ -283,7 +283,8 @@ struct TranslatedProtocol: TranslatedType {
             fragment.blankLine()
 
             for field in fields {
-                fragment.output("var \(field.name): \(field.typeName.better.name)")
+                let fieldType = field.typeName.actualTypeName?.name ?? field.typeName.better.name
+                fragment.output("var \(field.name): \(fieldType)")
             }
             for method in methods {
                 var returnSignature = "\(method.isThrowing ? " throws" : "")"

@@ -11,7 +11,7 @@ extension TestAPI.Structs.MutableStruct: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(
-            i: try { () -> Swift.Int in
+            i: try { () -> Int in
                 let fieldValue = try env.getNamedProperty(value, "i")
                 return try Swift.Int.fromNode(fieldValue, env: env)
             }()

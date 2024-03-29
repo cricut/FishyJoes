@@ -11,39 +11,39 @@ extension TestAPI.Collections.CollectionHolder: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(
-            boolArray: try { () -> Array<Swift.Bool> in
+            boolArray: try { () -> Array<Bool> in
                 let fieldValue = try env.getNamedProperty(value, "boolArray")
                 return try ArrayConverter<Swift.Bool>.fromNode(fieldValue, env: env)
             }(),
-            boolSet: try { () -> Set<Swift.Bool> in
+            boolSet: try { () -> Set<Bool> in
                 let fieldValue = try env.getNamedProperty(value, "boolSet")
                 return try SetConverter<Swift.Bool>.fromNode(fieldValue, env: env)
             }(),
-            boolDictionary: try { () -> Dictionary<Swift.Bool, Swift.Bool> in
+            boolDictionary: try { () -> Dictionary<Bool, Bool> in
                 let fieldValue = try env.getNamedProperty(value, "boolDictionary")
                 return try DictionaryConverter<Swift.Bool, Swift.Bool>.fromNode(fieldValue, env: env)
             }(),
-            integerArray: try { () -> Array<Swift.Int> in
+            integerArray: try { () -> Array<Int> in
                 let fieldValue = try env.getNamedProperty(value, "integerArray")
                 return try ArrayConverter<Swift.Int>.fromNode(fieldValue, env: env)
             }(),
-            integerSet: try { () -> Set<Swift.Int> in
+            integerSet: try { () -> Set<Int> in
                 let fieldValue = try env.getNamedProperty(value, "integerSet")
                 return try SetConverter<Swift.Int>.fromNode(fieldValue, env: env)
             }(),
-            integerDictionary: try { () -> Dictionary<Swift.Int, Swift.Int> in
+            integerDictionary: try { () -> Dictionary<Int, Int> in
                 let fieldValue = try env.getNamedProperty(value, "integerDictionary")
                 return try DictionaryConverter<Swift.Int, Swift.Int>.fromNode(fieldValue, env: env)
             }(),
-            stringArray: try { () -> Array<Swift.String> in
+            stringArray: try { () -> Array<String> in
                 let fieldValue = try env.getNamedProperty(value, "stringArray")
                 return try ArrayConverter<Swift.String>.fromNode(fieldValue, env: env)
             }(),
-            stringSet: try { () -> Set<Swift.String> in
+            stringSet: try { () -> Set<String> in
                 let fieldValue = try env.getNamedProperty(value, "stringSet")
                 return try SetConverter<Swift.String>.fromNode(fieldValue, env: env)
             }(),
-            stringDictionary: try { () -> Dictionary<Swift.String, Swift.String> in
+            stringDictionary: try { () -> Dictionary<String, String> in
                 let fieldValue = try env.getNamedProperty(value, "stringDictionary")
                 return try DictionaryConverter<Swift.String, Swift.String>.fromNode(fieldValue, env: env)
             }()

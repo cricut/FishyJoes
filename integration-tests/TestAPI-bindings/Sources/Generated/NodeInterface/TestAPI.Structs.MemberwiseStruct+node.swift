@@ -11,11 +11,11 @@ extension TestAPI.Structs.MemberwiseStruct: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(
-            immutable: try { () -> Swift.String in
+            immutable: try { () -> String in
                 let fieldValue = try env.getNamedProperty(value, "immutable")
                 return try Swift.String.fromNode(fieldValue, env: env)
             }(),
-            mutable: try { () -> Swift.String in
+            mutable: try { () -> String in
                 let fieldValue = try env.getNamedProperty(value, "mutable")
                 return try Swift.String.fromNode(fieldValue, env: env)
             }()
