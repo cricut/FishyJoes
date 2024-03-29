@@ -5663,7 +5663,7 @@ final ensureLoaded = (() {
     >("__iota_set_TestAPI_TestProtocolClass_flarp");
 
     Loader.shared.once("setup_Function1Converter<Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>, FutureConverter<Swift.String>>", () {
-        // print("setting up (((Swift.Int) async throws -> Swift.Int, (Swift.Int) async throws -> Swift.Int) throws -> (Swift.Int) async throws -> Swift.Int) -> Future<Swift.String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (@escaping (@escaping (Swift.Int) async throws -> Swift.Int, @escaping (Swift.Int) async throws -> Swift.Int) throws -> (Swift.Int) async throws -> Swift.Int) throws -> Future<Swift.String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function1Converter_setup<Future<String>, Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int))>(
                 Loader.shared.env,
@@ -5674,7 +5674,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_AsyncFunction1Converter<Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>, Swift.String>", () {
-        // print("setting up (((Int) async throws -> Int, (Int) async throws -> Int) throws -> (Int) async throws -> Int) async throws -> String (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (@escaping (@escaping (Int) async throws -> Int, @escaping (Int) async throws -> Int) throws -> (Int) async throws -> Int) async throws -> String (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_AsyncFunction1Converter_setup(
                 Loader.shared.env,
@@ -5684,7 +5684,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function1Converter<AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>, FutureConverter<Swift.String>>", () {
-        // print("setting up ((Swift.Float, Swift.Double, Swift.Int) async throws -> Swift.Double) -> Future<Swift.String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (@escaping (Swift.Float, Swift.Double, Swift.Int) async throws -> Swift.Double) throws -> Future<Swift.String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function1Converter_setup<Future<String>, Future<double> Function(double, double, int)>(
                 Loader.shared.env,
@@ -5695,7 +5695,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>", () {
-        // print("setting up ((Swift.Int) throws -> Swift.Int, (Swift.Int) throws -> Swift.Int) throws -> (Swift.Int) throws -> Swift.Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (@escaping (Swift.Int) throws -> Swift.Int, @escaping (Swift.Int) throws -> Swift.Int) throws -> (Swift.Int) throws -> Swift.Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function2Converter_setup<int Function(int), int Function(int), int Function(int)>(
                 Loader.shared.env,
@@ -5706,7 +5706,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>", () {
-        // print("setting up ((Swift.Int) async throws -> Swift.Int, (Swift.Int) async throws -> Swift.Int) throws -> (Swift.Int) async throws -> Swift.Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (@escaping (Swift.Int) async throws -> Swift.Int, @escaping (Swift.Int) async throws -> Swift.Int) throws -> (Swift.Int) async throws -> Swift.Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function2Converter_setup<Future<int> Function(int), Future<int> Function(int), Future<int> Function(int)>(
                 Loader.shared.env,
@@ -5717,7 +5717,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, FutureConverter<Swift.String>>", () {
-        // print("setting up ((Swift.Int) async throws -> Swift.Int) -> Future<Swift.String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (@escaping (Swift.Int) async throws -> Swift.Int) throws -> Future<Swift.String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function1Converter_setup<Future<String>, Future<int> Function(int)>(
                 Loader.shared.env,
@@ -5728,7 +5728,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, FutureConverter<Swift.String>>", () {
-        // print("setting up ((Swift.String, Swift.Int, Swift.Double, Swift.String, () async throws -> Swift.Int, Swift.Int) async throws -> Swift.Int) -> Future<Swift.String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (@escaping (Swift.String, Swift.Int, Swift.Double, Swift.String, @escaping () async throws -> Swift.Int, Swift.Int) async throws -> Swift.Int) throws -> Future<Swift.String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function1Converter_setup<Future<String>, Future<int> Function(String, int, double, String, Future<int> Function(), int)>(
                 Loader.shared.env,
@@ -5739,7 +5739,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, FutureConverter<Swift.String>>", () {
-        // print("setting up ((Swift.String, Swift.Int, Swift.Double, Swift.String, () async throws -> Swift.Int) async throws -> () async throws -> Swift.Int) -> Future<Swift.String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (@escaping (Swift.String, Swift.Int, Swift.Double, Swift.String, @escaping () async throws -> Swift.Int) async throws -> () async throws -> Swift.Int) throws -> Future<Swift.String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function1Converter_setup<Future<String>, Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function())>(
                 Loader.shared.env,
@@ -5750,7 +5750,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, FutureConverter<Swift.String>>", () {
-        // print("setting up ((Swift.String, Swift.String, Swift.String, Swift.String) async throws -> Array<Swift.String>) -> Future<Swift.String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (@escaping (Swift.String, Swift.String, Swift.String, Swift.String) async throws -> Array<Swift.String>) throws -> Future<Swift.String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function1Converter_setup<Future<String>, Future<List<String>> Function(String, String, String, String)>(
                 Loader.shared.env,
@@ -5761,7 +5761,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_AsyncFunction1Converter<AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>, Swift.String>", () {
-        // print("setting up ((Float, Double, Int) async throws -> Double) async throws -> String (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (@escaping (Float, Double, Int) async throws -> Double) async throws -> String (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_AsyncFunction1Converter_setup(
                 Loader.shared.env,
@@ -5771,7 +5771,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>", () {
-        // print("setting up ((Int) throws -> Int, (Int) throws -> Int) throws -> (Int) throws -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (@escaping (Int) throws -> Int, @escaping (Int) throws -> Int) throws -> (Int) throws -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function2Converter_setup<int Function(int), int Function(int), int Function(int)>(
                 Loader.shared.env,
@@ -5782,7 +5782,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>", () {
-        // print("setting up ((Int) async throws -> Int, (Int) async throws -> Int) throws -> (Int) async throws -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (@escaping (Int) async throws -> Int, @escaping (Int) async throws -> Int) throws -> (Int) async throws -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function2Converter_setup<Future<int> Function(int), Future<int> Function(int), Future<int> Function(int)>(
                 Loader.shared.env,
@@ -5793,7 +5793,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_AsyncFunction1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, Swift.String>", () {
-        // print("setting up ((Int) async throws -> Int) async throws -> String (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (@escaping (Int) async throws -> Int) async throws -> String (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_AsyncFunction1Converter_setup(
                 Loader.shared.env,
@@ -5803,7 +5803,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_AsyncFunction1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, Swift.String>", () {
-        // print("setting up ((String, Int, Double, String, () async throws -> Int, Int) async throws -> Int) async throws -> String (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (@escaping (String, Int, Double, String, @escaping () async throws -> Int, Int) async throws -> Int) async throws -> String (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_AsyncFunction1Converter_setup(
                 Loader.shared.env,
@@ -5813,7 +5813,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_AsyncFunction1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, Swift.String>", () {
-        // print("setting up ((String, Int, Double, String, () async throws -> Int) async throws -> () async throws -> Int) async throws -> String (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (@escaping (String, Int, Double, String, @escaping () async throws -> Int) async throws -> () async throws -> Int) async throws -> String (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_AsyncFunction1Converter_setup(
                 Loader.shared.env,
@@ -5823,7 +5823,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_AsyncFunction1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, Swift.String>", () {
-        // print("setting up ((String, String, String, String) async throws -> Array<String>) async throws -> String (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (@escaping (String, String, String, String) async throws -> Array<String>) async throws -> String (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_AsyncFunction1Converter_setup(
                 Loader.shared.env,
@@ -5833,7 +5833,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function1Converter<AsyncFunction0Converter<Swift.Int>, FutureConverter<Swift.String>>", () {
-        // print("setting up (() async throws -> Swift.Int) -> Future<Swift.String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (@escaping () async throws -> Swift.Int) throws -> Future<Swift.String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function1Converter_setup<Future<String>, Future<int> Function()>(
                 Loader.shared.env,
@@ -5844,7 +5844,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_AsyncFunction1Converter<AsyncFunction0Converter<Swift.Int>, Swift.String>", () {
-        // print("setting up (() async throws -> Int) async throws -> String (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (@escaping () async throws -> Int) async throws -> String (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_AsyncFunction1Converter_setup(
                 Loader.shared.env,
@@ -5854,7 +5854,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>", () {
-        // print("setting up (() async throws -> Void) throws -> () async throws -> Void (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (@escaping () async throws -> Void) throws -> () async throws -> Void (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function1Converter_setup<Future<void> Function(), Future<void> Function()>(
                 Loader.shared.env,
@@ -5909,7 +5909,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function3Converter<Swift.Float, Swift.Double, Swift.Int, FutureConverter<Swift.Double>>", () {
-        // print("setting up (Swift.Float, Swift.Double, Swift.Int) -> Future<Swift.Double> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (Swift.Float, Swift.Double, Swift.Int) throws -> Future<Swift.Double> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function3Converter_setup<Future<double>, double, double, int>(
                 Loader.shared.env,
@@ -5931,7 +5931,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function1Converter<Swift.Int, FutureConverter<Swift.Int>>", () {
-        // print("setting up (Swift.Int) -> Future<Swift.Int> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (Swift.Int) throws -> Future<Swift.Int> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function1Converter_setup<Future<int>, int>(
                 Loader.shared.env,
@@ -5953,7 +5953,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Swift.Int, Swift.Int>", () {
-        // print("setting up (Swift.String, Swift.Int, Swift.Double, Swift.String, () throws -> Swift.Int, Swift.Int) throws -> Swift.Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (Swift.String, Swift.Int, Swift.Double, Swift.String, @escaping () throws -> Swift.Int, Swift.Int) throws -> Swift.Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function6Converter_setup<int, String, int, double, String, int Function(), int>(
                 Loader.shared.env,
@@ -5964,7 +5964,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Function0Converter<Swift.Int>>", () {
-        // print("setting up (Swift.String, Swift.Int, Swift.Double, Swift.String, () throws -> Swift.Int) throws -> () throws -> Swift.Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (Swift.String, Swift.Int, Swift.Double, Swift.String, @escaping () throws -> Swift.Int) throws -> () throws -> Swift.Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function5Converter_setup<int Function(), String, int, double, String, int Function()>(
                 Loader.shared.env,
@@ -5975,7 +5975,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, FutureConverter<Swift.Int>>", () {
-        // print("setting up (Swift.String, Swift.Int, Swift.Double, Swift.String, () async throws -> Swift.Int, Swift.Int) -> Future<Swift.Int> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (Swift.String, Swift.Int, Swift.Double, Swift.String, @escaping () async throws -> Swift.Int, Swift.Int) throws -> Future<Swift.Int> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function6Converter_setup<Future<int>, String, int, double, String, Future<int> Function(), int>(
                 Loader.shared.env,
@@ -5986,7 +5986,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, FutureConverter<AsyncFunction0Converter<Swift.Int>>>", () {
-        // print("setting up (Swift.String, Swift.Int, Swift.Double, Swift.String, () async throws -> Swift.Int) -> Future<() async throws -> Swift.Int> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (Swift.String, Swift.Int, Swift.Double, Swift.String, @escaping () async throws -> Swift.Int) throws -> Future<() async throws -> Swift.Int> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function5Converter_setup<Future<Future<int> Function()>, String, int, double, String, Future<int> Function()>(
                 Loader.shared.env,
@@ -5997,7 +5997,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, FutureConverter<ArrayConverter<Swift.String>>>", () {
-        // print("setting up (Swift.String, Swift.String, Swift.String, Swift.String) -> Future<Array<Swift.String>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (Swift.String, Swift.String, Swift.String, Swift.String) throws -> Future<Array<Swift.String>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function4Converter_setup<Future<List<String>>, String, String, String, String>(
                 Loader.shared.env,
@@ -6061,7 +6061,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Swift.Int, Swift.Int>", () {
-        // print("setting up (String, Int, Double, String, () throws -> Int, Int) throws -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (String, Int, Double, String, @escaping () throws -> Int, Int) throws -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function6Converter_setup<int, String, int, double, String, int Function(), int>(
                 Loader.shared.env,
@@ -6072,7 +6072,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Function0Converter<Swift.Int>>", () {
-        // print("setting up (String, Int, Double, String, () throws -> Int) throws -> () throws -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (String, Int, Double, String, @escaping () throws -> Int) throws -> () throws -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function5Converter_setup<int Function(), String, int, double, String, int Function()>(
                 Loader.shared.env,
@@ -6083,7 +6083,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>", () {
-        // print("setting up (String, Int, Double, String, () async throws -> Int, Int) async throws -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (String, Int, Double, String, @escaping () async throws -> Int, Int) async throws -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_AsyncFunction6Converter_setup(
                 Loader.shared.env,
@@ -6093,7 +6093,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>", () {
-        // print("setting up (String, Int, Double, String, () async throws -> Int) async throws -> () async throws -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (String, Int, Double, String, @escaping () async throws -> Int) async throws -> () async throws -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_AsyncFunction5Converter_setup(
                 Loader.shared.env,
@@ -6124,7 +6124,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function0Converter<FutureConverter<Swift.Int>>", () {
-        // print("setting up () -> Future<Swift.Int> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up () throws -> Future<Swift.Int> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function0Converter_setup<Future<int>>(
                 Loader.shared.env,
@@ -6135,7 +6135,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function0Converter<FutureConverter<FishyJoesCommonRuntime.VoidConverter>>", () {
-        // print("setting up () -> Future<Void> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up () throws -> Future<Void> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function0Converter_setup<Future<void>>(
                 Loader.shared.env,

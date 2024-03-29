@@ -60,7 +60,7 @@ struct _IotaTestMethodsProtocol: TestAPI.TestMethodsProtocol {
         )
     }
 
-    public func xyzzy(thud: Int, grault: Swift.Array<Double>) throws -> String {
+    public func xyzzy(thud: Int, grault: Array<Double>) throws -> String {
         try Swift.String.peekIota(
             try _iotaWitness.env.check { exn in
                 TestAPI_CommonInterface._TestMethodsProtocolConverter._xyzzy[_iotaWitness.env](

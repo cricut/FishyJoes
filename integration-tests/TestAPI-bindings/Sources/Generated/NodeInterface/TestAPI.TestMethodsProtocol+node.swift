@@ -27,7 +27,7 @@ struct _NodeTestMethodsProtocol: TestAPI.TestMethodsProtocol {
         garplyImpl!()
     }
     var xyzzyImpl: (() -> String)?
-    public func xyzzy(thud: Int, grault: Swift.Array<Double>) throws -> String {
+    public func xyzzy(thud: Int, grault: Array<Double>) throws -> String {
         xyzzyImpl!()
     }
     var plughImpl: (() -> (Bool, Int, String))?

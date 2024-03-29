@@ -25,7 +25,7 @@ struct _JavaTestOptionalsProtocol: TestAPI.TestOptionalsProtocol {
     }
 
     static var _wombatMethodID: jmethodID?
-    public func wombat(zxc: Swift.Optional<Int>) throws -> Optional<Double> {
+    public func wombat(zxc: Optional<Int>) throws -> Optional<Double> {
         let env = try Env.acquireJVMThread(on: _javaWitness.vm)
         defer {
             try? Env.relinquishJVMThread(on: _javaWitness.vm)

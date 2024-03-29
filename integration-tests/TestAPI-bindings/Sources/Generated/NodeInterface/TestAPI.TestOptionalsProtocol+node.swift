@@ -12,7 +12,7 @@ struct _NodeTestOptionalsProtocol: TestAPI.TestOptionalsProtocol {
 
     var flarp: Optional<String>
     var wombatImpl: (() -> Optional<Double>)?
-    public func wombat(zxc: Swift.Optional<Int>) throws -> Optional<Double> {
+    public func wombat(zxc: Optional<Int>) throws -> Optional<Double> {
         wombatImpl!()
     }
     var spqrImpl: (() -> Int)?

@@ -188,80 +188,29 @@ extension BetterType {
         case .void:
             return "Void"
         case let .function(args, ret, isAsync, isThrowing):
-            return "(\(args.map(\.name).joined(separator: ", ")))\(isAsync ? " async" : "")\(isThrowing ? " throws" : "") -> \(ret.name)"
+            return "(\(args.map(\.escapingName).joined(separator: ", ")))\(isAsync ? " async" : "")\(isThrowing ? " throws" : "") -> \(ret.name)"
         case .generic(let base, let args):
             return "\(base.name)<\(args.map(\.name).joined(separator: ", "))>"
         case .selfType:
             return "Self"
         }
     }
-
+    
     var nonNamespacedName: String {
         switch self {
         case let .named(name):
             return name.name
-        case .tuple(let elements):
-            return "(" + elements.map {
-                if Int($0.label) == nil {
-                    return "\($0.label): \($0.type.name)"
-                } else {
-                    return $0.type.name
-                }
-            }.joined(separator: ", ") + ")"
-        case .void:
-            return "Void"
-        case let .function(args, ret, isAsync, isThrowing):
-            return "(\(args.map(\.name).joined(separator: ", ")))\(isAsync ? " async" : "")\(isThrowing ? " throws" : "") -> \(ret.name)"
-        case .generic(let base, let args):
-            return "\(base.name)<\(args.map(\.name).joined(separator: ", "))>"
-        case .selfType:
-            return "Self"
+        default:
+            return name
         }
     }
-
-    var escapingFunctionsName: String {
+    
+    var escapingName: String {
         switch self {
-        case let .named(name):
-            return name.globalName
-        case .tuple(let elements):
-            return "(" + elements.map {
-                if Int($0.label) == nil {
-                    return "\($0.label): \($0.type.name)"
-                } else {
-                    return $0.type.name
-                }
-            }.joined(separator: ", ") + ")"
-        case .void:
-            return "Void"
-        case let .function(args, ret, isAsync, isThrowing):
-            return "@escaping (\(args.map(\.escapingFunctionsName).joined(separator: ", ")))\(isAsync ? " async" : "")\(isThrowing ? " throws" : "") -> \(ret.name)"
-        case .generic(let base, let args):
-            return "\(base.globalName)<\(args.map(\.name).joined(separator: ", "))>"
-        case .selfType:
-            return "Self"
-        }
-    }
-
-    var escapingFunctionsNameSansFirst: String {
-        switch self {
-        case let .named(name):
-            return name.globalName
-        case .tuple(let elements):
-            return "(" + elements.map {
-                if Int($0.label) == nil {
-                    return "\($0.label): \($0.type.name)"
-                } else {
-                    return $0.type.name
-                }
-            }.joined(separator: ", ") + ")"
-        case .void:
-            return "Void"
-        case let .function(args, ret, isAsync, isThrowing):
-            return "(\(args.map(\.escapingFunctionsName).joined(separator: ", ")))\(isAsync ? " async" : "")\(isThrowing ? " throws" : "") -> \(ret.name)"
-        case .generic(let base, let args):
-            return "\(base.globalName)<\(args.map(\.name).joined(separator: ", "))>"
-        case .selfType:
-            return "Self"
+        case .function:
+            return "@escaping \(name)"
+        default:
+            return name
         }
     }
 
