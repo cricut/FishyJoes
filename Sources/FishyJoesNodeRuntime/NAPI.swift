@@ -309,15 +309,14 @@ extension NAPI.Env {
         try check(napi_get_arraybuffer_info(ptr, arraybuffer.ptr, &data, &byteLength))
         return (data, byteLength)
     }
+    public func getBufferInfo(_ value: NAPI.Value) throws -> (data: UnsafeMutableRawPointer?, length: Int) {
+        var data: UnsafeMutableRawPointer?
+        var length: Int = 0
+        try check(napi_get_buffer_info(ptr, value.ptr, &data, &length))
+        return (data, length)
+    }
     #endif
 
-    // Currently unused. If needed, will need a wasm implementation
-    // public func getBufferInfo(_ value: NAPI.Value) throws -> (data: UnsafeMutableRawPointer?, length: Int) {
-    //     var data: UnsafeMutableRawPointer?
-    //     var length: Int = 0
-    //     try check(napi_get_buffer_info(ptr, value.ptr, &data, &length))
-    //     return (data, length)
-    // }
     public func getPrototype(_ object: NAPI.Value) throws -> NAPI.Value {
         var result = NAPI.Value()
         try check(napi_get_prototype(ptr, object.ptr, &result.ptr))

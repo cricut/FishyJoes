@@ -15,3 +15,9 @@ test('BytesEcho', () => {
     expect(arrayFrom(TestAPI.Bytes.echoData(byteArray.buffer)))
         .toEqual(arrayFrom(byteArray.buffer));
 });
+
+test('typescriptThinksBuffersAreArrayBuffersForSomeReasonSoTestThatThatWorksAnyway', () => {
+    const buffer = Buffer.alloc(8, 'na-');
+    expect(arrayFrom(TestAPI.Bytes.echoData(buffer)))
+        .toEqual([110, 97, 45, 110, 97, 45, 110, 97]);
+});

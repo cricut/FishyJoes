@@ -6,7 +6,7 @@ public struct CodeGen: ParsableCommand {
     @Flag(name: .shortAndLong, help: "suppress verbose output")
     var quiet = false
 
-    @Flag(name: .long, inversion: .prefixedNo, help: "Generate a NodeJS N-API based node package")
+    @Flag(name: [.long, .customLong("node-js")], inversion: .prefixedNo, help: "Generate a NodeJS N-API based node package")
     var nodejs = false
 
     @Flag(name: .long, inversion: .prefixedNo, help: "Generate a Web-assembly based node package")
@@ -24,7 +24,7 @@ public struct CodeGen: ParsableCommand {
     @Flag(name: .long, inversion: .prefixedNo, help: "Generate a Dart package")
     var dart = false
 
-    @Flag(name: .long, inversion: .prefixedNo, help: "Additional wasm optimizations (takes some time)")
+    @Flag(name: [.long, .customLong("wasmopt")], inversion: .prefixedNo, help: "Additional wasm optimizations (takes some time)")
     var wasmOpt = true
 
     @Flag(name: .long, help: "build macOS libraries for both x64_64 and arm64")
