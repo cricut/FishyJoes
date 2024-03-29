@@ -25,6 +25,11 @@ jobs:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       SWIFT_WASM_VERSION: 5.9-SNAPSHOT-2024-03-27-a
     steps:
+      - name: dump env
+        run: |
+          env
+          exit 1
+
       - name: Checkout
         uses: actions/checkout@v4
 
