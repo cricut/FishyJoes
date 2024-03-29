@@ -54,7 +54,7 @@ struct _IotaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
         }
     }
 
-    public var makeList: (String, String, String, String) async throws -> [String] {
+    public var makeList: (String, String, String, String) async throws -> Array<String> {
         get throws {
             try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.consumeIota(
                 try _iotaWitness.env.check { exn in

@@ -96,10 +96,8 @@ struct TranslatedStruct: TranslatedType {
                 fragment.outputBlock("Self(") {
                     for (index, storedVar) in storedVariables.enumerated() {
                         let resolved = context.resolve(type: storedVar.typeName.better)
-                        let fieldType = storedVar.typeName.actualTypeName?.name ?? storedVar.typeName.better.name
-
                         let last = index == storedVariables.count - 1
-                        fragment.outputBlock("\(storedVar.name): try { () -> \(fieldType) in", closeWith: last ? "}()" : "}(),") {
+                        fragment.outputBlock("\(storedVar.name): try { () -> \(storedVar.typeName.better.name) in", closeWith: last ? "}()" : "}(),") {
                             fragment.output("let fieldValue = try env.getNamedProperty(value, \"\(storedVar.name)\")")
                             fragment.output("return try \(resolved.converterType.name).fromNode(fieldValue, env: env)")
                         }

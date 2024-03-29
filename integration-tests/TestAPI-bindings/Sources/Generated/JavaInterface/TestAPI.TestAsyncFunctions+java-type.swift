@@ -67,7 +67,7 @@ struct _JavaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
     }
 
     static var _makeListGetMethodID: jmethodID?
-    public var makeList: (String, String, String, String) async throws -> [String] {
+    public var makeList: (String, String, String, String) async throws -> Array<String> {
         get throws {
             let env = try Env.acquireJVMThread(on: _javaWitness.vm)
             defer {

@@ -14,7 +14,7 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
     var iabs: (Int) async throws -> Int
     var intCompose: (@escaping (Int) async throws -> Int, @escaping (Int) async throws -> Int) throws -> (Int) async throws -> Int
     var add3Things: (Float, Double, Int) async throws -> Double
-    var makeList: (String, String, String, String) async throws -> [String]
+    var makeList: (String, String, String, String) async throws -> Array<String>
     var fifthThing: (String, Int, Double, String, @escaping () async throws -> Int) async throws -> () async throws -> Int
     var six: (String, Int, Double, String, @escaping () async throws -> Int, Int) async throws -> Int
     var willThrow: () async throws -> Int

@@ -283,8 +283,7 @@ struct TranslatedProtocol: TranslatedType {
             fragment.blankLine()
 
             for field in fields {
-                let fieldType = field.typeName.actualTypeName?.name ?? field.typeName.better.name
-                fragment.output("var \(field.name): \(fieldType)")
+                fragment.output("var \(field.name): \(field.typeName.better.name)")
             }
             for method in methods {
                 var returnSignature = "\(method.isThrowing ? " throws" : "")"
@@ -420,10 +419,9 @@ struct TranslatedProtocol: TranslatedType {
             fragment.output("let _iotaWitness: IotaReference")
             for variable in fields {
                 fragment.output()
-                let type = variable.typeName.actualTypeName?.name ?? variable.typeName.better.name
                 let resolvedVar = context.resolve(type: variable.typeName.better)
 
-                fragment.outputBlock("\(variable.isStatic ? "static " : "")public var \(variable.name): \(type) {") {
+                fragment.outputBlock("\(variable.isStatic ? "static " : "")public var \(variable.name): \(variable.typeName.better.name) {") {
                     fragment.outputBlock("get\(variable.throws ? " throws" : "") {") {
                         fragment.outputBlock("try \(resolvedVar.converterType.name).consumeIota(") {
                             fragment.outputBlock("try _iotaWitness.env.check { exn in", closeWith: "},") {
@@ -603,7 +601,7 @@ struct TranslatedProtocol: TranslatedType {
             for variable in fields {
                 fragment.output()
                 let name = variable.name
-                let type = variable.typeName.actualTypeName?.name ?? variable.typeName.better.name
+                let type = variable.typeName.better.name
                 let resolved = context.resolve(type: variable.typeName.better)
                 let getID = "_\(name)GetMethodID"
                 let setID = variable.isMutable ? "_\(name)SetMethodID" : nil
