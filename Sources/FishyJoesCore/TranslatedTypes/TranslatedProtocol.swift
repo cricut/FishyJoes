@@ -142,7 +142,7 @@ struct TranslatedProtocol: TranslatedType {
             let commonName = "_\(sourceType.genericBaseName.mangledName)_\(method.callName)"
             let params = method.parameters.map {
                 let resolved = context.resolve(type: $0.type)
-                return "\(resolved.dartType.ffiTag) \($0.name)"
+                return "\(resolved.dartType.ffiUnownedTag) \($0.name)"
             }
             let paramsStr = params.isEmpty ? "" : "\(params.joined(separator: ", ")),"
             lines.append("typedef \(commonName) = \(returnType.dartType.ffiCreatedTag) Function(\(dartType.ffiUnownedTag) obj, \(paramsStr) OutCreatedRef exn);")

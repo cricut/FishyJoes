@@ -113,12 +113,12 @@ extension TestMethodsProtocol_FfiHooks on TestMethodsProtocol {
 
     static CreatedRef ffi_garply(
         UnownedRef obj,
-        ConsumedRef m_0,
+        UnownedRef m_0,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestMethodsProtocol>(obj).garply(
-                consumeRef(m_0)
+                peekRef(m_0)
             )
         )
     );
@@ -126,25 +126,25 @@ extension TestMethodsProtocol_FfiHooks on TestMethodsProtocol {
     static CreatedRef ffi_xyzzy(
         UnownedRef obj,
         int thud,
-        ConsumedRef grault,
+        UnownedRef grault,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestMethodsProtocol>(obj).xyzzy(
                 thud,
-                consumeRef(grault)
+                peekRef(grault)
             )
         )
     );
 
     static CreatedRef ffi_plugh(
         UnownedRef obj,
-        ConsumedRef fred,
+        UnownedRef fred,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestMethodsProtocol>(obj).plugh(
-                consumeRef(fred)
+                peekRef(fred)
             )
         )
     );

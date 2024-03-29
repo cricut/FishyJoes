@@ -463,7 +463,7 @@ extension DartClass {
             fragment.outputBlock("static \(method.returnType.ffiCreatedName) ffi_\(method.name)(", newLineTerminated: false) {
                 fragment.output("UnownedRef obj,")
                 for param in method.parameters {
-                    fragment.output("\(param.type.ffiConsumedName) \(DartClass.deforbidify(param.name)),")
+                    fragment.output("\(param.type.ffiUnownedName) \(DartClass.deforbidify(param.name)),")
                 }
                 fragment.output("OutCreatedRef exn")
             }
@@ -499,7 +499,7 @@ extension DartClass {
                     let optionalParams = method.parameters.filter { $0.defaultValue != nil }
                     fragment.outputMap(requiredParams, separator: ",", newLineTerminated: false) {
                         if $0.type.isObject {
-                            return "consumeRef(\(DartClass.deforbidify($0.name)))"
+                            return "peekRef(\(DartClass.deforbidify($0.name)))"
                         } else {
                             return DartClass.deforbidify($0.name)
                         }

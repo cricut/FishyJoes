@@ -208,7 +208,7 @@ typedef _TestAPI_AProtocol_fooGetter = CreatedRef Function(UnownedRef obj, OutCr
 typedef _TestAPI_AProtocol_bazGetter = ffi.Bool Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_AProtocol_bar = CreatedRef Function(UnownedRef obj, ffi.IntPtr x, ffi.IntPtr y, OutCreatedRef exn);
 typedef _TestAPI_AProtocol_hasADefaultImplementation = CreatedRef Function(UnownedRef obj, ffi.IntPtr x, ffi.Double y, OutCreatedRef exn);
-typedef _TestAPI_AProtocol_hasADefaultImplementation2 = ffi.Double Function(UnownedRef obj, ffi.Pointer a, ffi.Bool b, ffi.Double c, OutCreatedRef exn);
+typedef _TestAPI_AProtocol_hasADefaultImplementation2 = ffi.Double Function(UnownedRef obj, UnownedRef a, ffi.Bool b, ffi.Double c, OutCreatedRef exn);
 typedef _TestAPI_AProtocolImplementationConstructor = CreatedRef Function(
     ConsumedRef foo,
     ffi.Bool baz,
@@ -333,14 +333,14 @@ typedef _TestAPI_TestAsyncFunctions_makeListGetter = CreatedRef Function(Unowned
 typedef _TestAPI_TestAsyncFunctions_fifthThingGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestAsyncFunctions_sixGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestAsyncFunctions_willThrowGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
-typedef _TestAPI_TestAsyncFunctions_exercise0 = CreatedRef Function(UnownedRef obj, ffi.Pointer Function() fn, OutCreatedRef exn);
-typedef _TestAPI_TestAsyncFunctions_exercise1 = CreatedRef Function(UnownedRef obj, ffi.Pointer Function(ffi.IntPtr) fn, OutCreatedRef exn);
-typedef _TestAPI_TestAsyncFunctions_exercise2 = CreatedRef Function(UnownedRef obj, ffi.Pointer Function(ffi.IntPtr) Function(ffi.Pointer Function(ffi.IntPtr), ffi.Pointer Function(ffi.IntPtr)) fn, OutCreatedRef exn);
-typedef _TestAPI_TestAsyncFunctions_exercise3 = CreatedRef Function(UnownedRef obj, ffi.Pointer Function(ffi.Float, ffi.Double, ffi.IntPtr) fn, OutCreatedRef exn);
-typedef _TestAPI_TestAsyncFunctions_exercise4 = CreatedRef Function(UnownedRef obj, ffi.Pointer Function(ffi.Pointer, ffi.Pointer, ffi.Pointer, ffi.Pointer) fn, OutCreatedRef exn);
-typedef _TestAPI_TestAsyncFunctions_exercise5 = CreatedRef Function(UnownedRef obj, ffi.Pointer Function(ffi.Pointer, ffi.IntPtr, ffi.Double, ffi.Pointer, ffi.Pointer Function()) fn, OutCreatedRef exn);
-typedef _TestAPI_TestAsyncFunctions_exercise6 = CreatedRef Function(UnownedRef obj, ffi.Pointer Function(ffi.Pointer, ffi.IntPtr, ffi.Double, ffi.Pointer, ffi.Pointer Function(), ffi.IntPtr) fn, OutCreatedRef exn);
-typedef _TestAPI_TestAsyncFunctions_thunkTwiceMaker = CreatedRef Function(UnownedRef obj, ffi.Pointer Function() thunk, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctions_exercise0 = CreatedRef Function(UnownedRef obj, UnownedRef fn, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctions_exercise1 = CreatedRef Function(UnownedRef obj, UnownedRef fn, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctions_exercise2 = CreatedRef Function(UnownedRef obj, UnownedRef fn, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctions_exercise3 = CreatedRef Function(UnownedRef obj, UnownedRef fn, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctions_exercise4 = CreatedRef Function(UnownedRef obj, UnownedRef fn, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctions_exercise5 = CreatedRef Function(UnownedRef obj, UnownedRef fn, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctions_exercise6 = CreatedRef Function(UnownedRef obj, UnownedRef fn, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctions_thunkTwiceMaker = CreatedRef Function(UnownedRef obj, UnownedRef thunk, OutCreatedRef exn);
 typedef _TestAPI_TestLeadingUnderscoredPropConstructor = CreatedRef Function(
     ffi.Pointer ref,
     OutCreatedRef exn
@@ -359,16 +359,16 @@ typedef _TestAPI_TestMethodsProtocolConstructor = CreatedRef Function(
 typedef _TestAPI_TestMethodsProtocol_foo = ffi.Void Function(UnownedRef obj,  OutCreatedRef exn);
 typedef _TestAPI_TestMethodsProtocol_bar = ffi.Bool Function(UnownedRef obj,  OutCreatedRef exn);
 typedef _TestAPI_TestMethodsProtocol_baz = ffi.Void Function(UnownedRef obj, ffi.Bool qux, OutCreatedRef exn);
-typedef _TestAPI_TestMethodsProtocol_garply = CreatedRef Function(UnownedRef obj, ffi.Pointer _0, OutCreatedRef exn);
-typedef _TestAPI_TestMethodsProtocol_xyzzy = CreatedRef Function(UnownedRef obj, ffi.IntPtr thud, ffi.Pointer grault, OutCreatedRef exn);
-typedef _TestAPI_TestMethodsProtocol_plugh = CreatedRef Function(UnownedRef obj, ffi.Pointer fred, OutCreatedRef exn);
+typedef _TestAPI_TestMethodsProtocol_garply = CreatedRef Function(UnownedRef obj, UnownedRef _0, OutCreatedRef exn);
+typedef _TestAPI_TestMethodsProtocol_xyzzy = CreatedRef Function(UnownedRef obj, ffi.IntPtr thud, UnownedRef grault, OutCreatedRef exn);
+typedef _TestAPI_TestMethodsProtocol_plugh = CreatedRef Function(UnownedRef obj, UnownedRef fred, OutCreatedRef exn);
 typedef _TestAPI_TestOptionalsProtocolConstructor = CreatedRef Function(
     ffi.Pointer ref,
     OutCreatedRef exn
 );
 typedef _TestAPI_TestOptionalsProtocol_flarpGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
-typedef _TestAPI_TestOptionalsProtocol_wombat = CreatedRef Function(UnownedRef obj, ffi.Pointer zxc, OutCreatedRef exn);
-typedef _TestAPI_TestOptionalsProtocol_spqr = ffi.IntPtr Function(UnownedRef obj, ffi.Pointer pippo, OutCreatedRef exn);
+typedef _TestAPI_TestOptionalsProtocol_wombat = CreatedRef Function(UnownedRef obj, UnownedRef zxc, OutCreatedRef exn);
+typedef _TestAPI_TestOptionalsProtocol_spqr = ffi.IntPtr Function(UnownedRef obj, UnownedRef pippo, OutCreatedRef exn);
 typedef _TestAPI_TestPropertiesProtocolConstructor = CreatedRef Function(
     ffi.Pointer ref,
     OutCreatedRef exn

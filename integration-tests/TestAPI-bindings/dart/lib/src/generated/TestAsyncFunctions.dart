@@ -192,96 +192,96 @@ extension TestAsyncFunctions_FfiHooks on TestAsyncFunctions {
 
     static CreatedRef ffi_exercise0(
         UnownedRef obj,
-        ConsumedRef fn,
+        UnownedRef fn,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncFunctions>(obj).exercise0(
-                consumeRef(fn)
+                peekRef(fn)
             )
         )
     );
 
     static CreatedRef ffi_exercise1(
         UnownedRef obj,
-        ConsumedRef fn,
+        UnownedRef fn,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncFunctions>(obj).exercise1(
-                consumeRef(fn)
+                peekRef(fn)
             )
         )
     );
 
     static CreatedRef ffi_exercise2(
         UnownedRef obj,
-        ConsumedRef fn,
+        UnownedRef fn,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncFunctions>(obj).exercise2(
-                consumeRef(fn)
+                peekRef(fn)
             )
         )
     );
 
     static CreatedRef ffi_exercise3(
         UnownedRef obj,
-        ConsumedRef fn,
+        UnownedRef fn,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncFunctions>(obj).exercise3(
-                consumeRef(fn)
+                peekRef(fn)
             )
         )
     );
 
     static CreatedRef ffi_exercise4(
         UnownedRef obj,
-        ConsumedRef fn,
+        UnownedRef fn,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncFunctions>(obj).exercise4(
-                consumeRef(fn)
+                peekRef(fn)
             )
         )
     );
 
     static CreatedRef ffi_exercise5(
         UnownedRef obj,
-        ConsumedRef fn,
+        UnownedRef fn,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncFunctions>(obj).exercise5(
-                consumeRef(fn)
+                peekRef(fn)
             )
         )
     );
 
     static CreatedRef ffi_exercise6(
         UnownedRef obj,
-        ConsumedRef fn,
+        UnownedRef fn,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncFunctions>(obj).exercise6(
-                consumeRef(fn)
+                peekRef(fn)
             )
         )
     );
 
     static CreatedRef ffi_thunkTwiceMaker(
         UnownedRef obj,
-        ConsumedRef thunk,
+        UnownedRef thunk,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncFunctions>(obj).thunkTwiceMaker(
-                consumeRef(thunk)
+                peekRef(thunk)
             )
         )
     );

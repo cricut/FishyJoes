@@ -84,23 +84,23 @@ extension TestOptionalsProtocol_FfiHooks on TestOptionalsProtocol {
 
     static CreatedRef ffi_wombat(
         UnownedRef obj,
-        ConsumedRef zxc,
+        UnownedRef zxc,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestOptionalsProtocol>(obj).wombat(
-                consumeRef(zxc)
+                peekRef(zxc)
             )
         )
     );
 
     static int ffi_spqr(
         UnownedRef obj,
-        ConsumedRef pippo,
+        UnownedRef pippo,
         OutCreatedRef exn
     ) => catching(exn, () =>
         peekRef<TestOptionalsProtocol>(obj).spqr(
-            consumeRef(pippo)
+            peekRef(pippo)
         )
     ) ?? 0;
 }
