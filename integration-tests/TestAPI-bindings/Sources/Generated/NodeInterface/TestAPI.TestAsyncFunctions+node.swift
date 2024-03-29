@@ -19,35 +19,35 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
     var six: (String, Int, Double, String, () async throws -> Int, Int) async throws -> Int
     var willThrow: () async throws -> Int
     var exercise0Impl: (() -> String)?
-    public func exercise0(_ fn: () async throws -> Int) throws -> String {
+    public func exercise0(_ fn: @escaping () async throws -> Int) throws -> String {
         exercise0Impl!()
     }
     var exercise1Impl: (() -> String)?
-    public func exercise1(_ fn: (Int) async throws -> Int) throws -> String {
+    public func exercise1(_ fn: @escaping (Int) async throws -> Int) throws -> String {
         exercise1Impl!()
     }
     var exercise2Impl: (() -> String)?
-    public func exercise2(_ fn: ((Int) async throws -> Int, (Int) async throws -> Int) throws -> (Int) async throws -> Int) throws -> String {
+    public func exercise2(_ fn: @escaping (@escaping (Int) async throws -> Int, @escaping (Int) async throws -> Int) throws -> (Int) async throws -> Int) throws -> String {
         exercise2Impl!()
     }
     var exercise3Impl: (() -> String)?
-    public func exercise3(_ fn: (Float, Double, Int) async throws -> Double) throws -> String {
+    public func exercise3(_ fn: @escaping (Float, Double, Int) async throws -> Double) throws -> String {
         exercise3Impl!()
     }
     var exercise4Impl: (() -> String)?
-    public func exercise4(_ fn: (String, String, String, String) async throws -> Array<String>) throws -> String {
+    public func exercise4(_ fn: @escaping (String, String, String, String) async throws -> Array<String>) throws -> String {
         exercise4Impl!()
     }
     var exercise5Impl: (() -> String)?
-    public func exercise5(_ fn: (String, Int, Double, String, () async throws -> Int) async throws -> () async throws -> Int) throws -> String {
+    public func exercise5(_ fn: @escaping (String, Int, Double, String, @escaping () async throws -> Int) async throws -> () async throws -> Int) throws -> String {
         exercise5Impl!()
     }
     var exercise6Impl: (() -> String)?
-    public func exercise6(_ fn: (String, Int, Double, String, () async throws -> Int, Int) async throws -> Int) throws -> String {
+    public func exercise6(_ fn: @escaping (String, Int, Double, String, @escaping () async throws -> Int, Int) async throws -> Int) throws -> String {
         exercise6Impl!()
     }
     var thunkTwiceMakerImpl: (() -> () async throws -> Void)?
-    public func thunkTwiceMaker(thunk: () async throws -> Void) throws -> () async throws -> Void {
+    public func thunkTwiceMaker(thunk: @escaping () async throws -> Void) throws -> () async throws -> Void {
         thunkTwiceMakerImpl!()
     }
 }

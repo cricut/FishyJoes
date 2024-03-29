@@ -293,7 +293,7 @@ struct TranslatedProtocol: TranslatedType {
                 var paramSigs = [String]()
                 do {
                     for param in method.parameters {
-                        paramSigs.append("\(param.labelAndName): \(param.type.name)")
+                        paramSigs.append("\(param.labelAndName): \(param.type.escapingFunctionsName)")
                     }
                 }
                 fragment.output("var \(method.callName)Impl: (() -> \(method.returnType.name))?")
