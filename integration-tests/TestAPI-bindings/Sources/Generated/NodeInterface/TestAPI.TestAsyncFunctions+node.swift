@@ -55,14 +55,14 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeMutator {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         return _NodeTestAsyncFunctions(
             _nodeWitness: try NodeReference(env: env, value: value),
-            const42: AsyncFunctions.AFun0(),
-            iabs: AsyncFunctions.AFun1(),
-            intCompose: AsyncFunctions.AFun2(),
-            add3Things: AsyncFunctions.AFun3(),
-            makeList: AsyncFunctions.AFun4(),
-            fifthThing: AsyncFunctions.AFun5(),
-            six: AsyncFunctions.AFun6(),
-            willThrow: AsyncFunctions.AFun0()
+            const42: AsyncFunctions.const42,
+            iabs: AsyncFunctions.iabs,
+            intCompose: AsyncFunctions.intCompose,
+            add3Things: AsyncFunctions.add3Things,
+            makeList: AsyncFunctions.makeList,
+            fifthThing: AsyncFunctions.fifthThing,
+            six: AsyncFunctions.six,
+            willThrow: AsyncFunctions.willThrow
         )
     }
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {

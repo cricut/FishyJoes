@@ -312,8 +312,15 @@ struct TranslatedProtocol: TranslatedType {
                     } else {
                         fragment.output("")
                     }
-                    fragment.outputMap(fields, separator: ",") {
-                        "\($0.name): \($0.typeName.name.replacingOccurrences(of: "?", with: ""))()"
+                    // TODO: actually do this right when implementing Protocol support for Node
+                    if converterType.name == "TestAPI_CommonInterface._TestAsyncFunctionsConverter" {
+                        fragment.outputMap(fields, separator: ",") {
+                            "\($0.name): AsyncFunctions.\($0.name)"
+                        }
+                    } else {
+                        fragment.outputMap(fields, separator: ",") {
+                            "\($0.name): \($0.typeName.name.replacingOccurrences(of: "?", with: ""))()"
+                        }
                     }
                 }
             }
