@@ -33,7 +33,7 @@ extension AttributedString.Runs.Index: FishyJoesNodeRuntime.NodeConverter {
                                   let rhs = try? env.argument(at: 0, converter: AttributedString.Runs.Index.self) else {
                                 return try Bool.toNode(false, env: env.env)
                             }
-                            let equal = lhs == rhs
+                            let equal = lhs.workaroundEquals(rhs)
                             return try Bool.toNode(equal, env: env.env)
                         }
                     },
