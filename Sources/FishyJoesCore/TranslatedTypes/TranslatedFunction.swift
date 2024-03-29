@@ -71,7 +71,7 @@ struct TranslatedFunction: TranslatedType {
                 parameters: parameters,
                 returnType: translatedFutureReturn,
                 isAsync: false,
-                isThrowing: false
+                isThrowing: true
             )
         } else {
             return self
