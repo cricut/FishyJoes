@@ -139,10 +139,6 @@ class DartProtocolClass: DartClass {
                 }
                 fragment.blankLine()
 
-                if unqualifiedName.contains("AProtocol"),
-                   method.name.contains("DefaultImplementation2") {
-                    let elegoo = 1
-                }
                 fragment.outputBlock("static \(method.returnType.ffiCreatedName) ffi_\(method.name)(", newLineTerminated: false) {
                     fragment.output("UnownedRef obj,")
                     for param in method.parameters {
