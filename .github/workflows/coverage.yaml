@@ -53,11 +53,13 @@ jobs:
         run: |
           set -euxo pipefail
 
-          (cd integration-tests/TestAPI-bindings; npm install)
+          (cd integration-tests/TestAPI-bindings/node-tests; npm install)
           (cd Tests/NAPITests/node-tests; npm install)
 
-          dotnet tool install --global dotnet-coverage
-          echo ${HOME}/.dotnet/tools >> $GITHUB_PATH
+          if [[ ! -f $HOME/.dotnet/tools/dotnet-coverage ]]; then
+            dotnet tool install --global dotnet-coverage
+          fi
+          echo $HOME/.dotnet/tools >> $GITHUB_PATH
 
       - name: Gather coverage
         shell: zsh {0}
