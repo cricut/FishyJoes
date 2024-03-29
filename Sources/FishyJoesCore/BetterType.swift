@@ -195,7 +195,7 @@ extension BetterType {
             return "Self"
         }
     }
-    
+
     var nonNamespacedName: String {
         switch self {
         case let .named(name):
@@ -204,7 +204,7 @@ extension BetterType {
             return name
         }
     }
-    
+
     var escapingName: String {
         switch self {
         case .function:
