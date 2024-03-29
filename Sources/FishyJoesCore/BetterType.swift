@@ -236,7 +236,7 @@ extension BetterType {
         case let .function(args, ret, isAsync, isThrowing):
             return "@escaping (\(args.map(\.escapingFunctionsName).joined(separator: ", ")))\(isAsync ? " async" : "")\(isThrowing ? " throws" : "") -> \(ret.name)"
         case .generic(let base, let args):
-            return "\(base.name)<\(args.map(\.name).joined(separator: ", "))>"
+            return "\(base.globalName)<\(args.map(\.name).joined(separator: ", "))>"
         case .selfType:
             return "Self"
         }

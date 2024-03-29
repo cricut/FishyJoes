@@ -21,7 +21,7 @@ struct _IotaTestOptionalsProtocol: TestAPI.TestOptionalsProtocol {
         }
     }
 
-    public func wombat(zxc: Optional<Int>) throws -> Optional<Double> {
+    public func wombat(zxc: Swift.Optional<Int>) throws -> Optional<Double> {
         try OptionalConverter<Swift.Double>.peekIota(
             try _iotaWitness.env.check { exn in
                 TestAPI_CommonInterface._TestOptionalsProtocolConverter._wombat[_iotaWitness.env](

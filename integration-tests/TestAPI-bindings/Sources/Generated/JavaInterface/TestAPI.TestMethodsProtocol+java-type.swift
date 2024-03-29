@@ -73,7 +73,7 @@ struct _JavaTestMethodsProtocol: TestAPI.TestMethodsProtocol {
     }
 
     static var _xyzzyMethodID: jmethodID?
-    public func xyzzy(thud: Int, grault: Array<Double>) throws -> String {
+    public func xyzzy(thud: Int, grault: Swift.Array<Double>) throws -> String {
         let env = try Env.acquireJVMThread(on: _javaWitness.vm)
         defer {
             try? Env.relinquishJVMThread(on: _javaWitness.vm)
