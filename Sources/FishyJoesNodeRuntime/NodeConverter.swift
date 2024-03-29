@@ -216,7 +216,15 @@ extension Data: NodeConverter {
         let data = try UInt.fromNode(env.getElement(result, 1), env: env)
         return Data(bytesNoCopy: UnsafeMutableRawPointer(bitPattern: data)!, count: length, deallocator: .free)
         #else
-        let (data, length) = try env.getArraybufferInfo(value)
+        let data: UnsafeMutableRawPointer?
+        let length: Int
+        if try env.isArraybuffer(value) {
+            (data, length) = try env.getArraybufferInfo(value)
+        } else if try env.isBuffer(value) {
+            (data, length) = try env.getBufferInfo(value)
+        } else {
+            throw JSException(message: "expected ArrayBuffer (or Buffer, if you must) but got: \(try nodeDescribe(value, env: env))")
+        }
         if length == 0 {
             return Data()
         } else if let data = data {
