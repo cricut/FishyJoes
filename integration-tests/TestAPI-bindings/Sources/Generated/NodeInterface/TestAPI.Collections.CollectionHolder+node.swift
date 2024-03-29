@@ -11,7 +11,7 @@ extension TestAPI.Collections.CollectionHolder: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(
-            boolArray: try { () -> Array<Bool> in
+            boolArray: try { () -> Swift.Array<Bool> in
                 let fieldValue = try env.getNamedProperty(value, "boolArray")
                 return try ArrayConverter<Swift.Bool>.fromNode(fieldValue, env: env)
             }(),
@@ -19,11 +19,11 @@ extension TestAPI.Collections.CollectionHolder: NodeMutator {
                 let fieldValue = try env.getNamedProperty(value, "boolSet")
                 return try SetConverter<Swift.Bool>.fromNode(fieldValue, env: env)
             }(),
-            boolDictionary: try { () -> Dictionary<Bool, Bool> in
+            boolDictionary: try { () -> Swift.Dictionary<Bool, Bool> in
                 let fieldValue = try env.getNamedProperty(value, "boolDictionary")
                 return try DictionaryConverter<Swift.Bool, Swift.Bool>.fromNode(fieldValue, env: env)
             }(),
-            integerArray: try { () -> Array<Int> in
+            integerArray: try { () -> Swift.Array<Int> in
                 let fieldValue = try env.getNamedProperty(value, "integerArray")
                 return try ArrayConverter<Swift.Int>.fromNode(fieldValue, env: env)
             }(),
@@ -31,11 +31,11 @@ extension TestAPI.Collections.CollectionHolder: NodeMutator {
                 let fieldValue = try env.getNamedProperty(value, "integerSet")
                 return try SetConverter<Swift.Int>.fromNode(fieldValue, env: env)
             }(),
-            integerDictionary: try { () -> Dictionary<Int, Int> in
+            integerDictionary: try { () -> Swift.Dictionary<Int, Int> in
                 let fieldValue = try env.getNamedProperty(value, "integerDictionary")
                 return try DictionaryConverter<Swift.Int, Swift.Int>.fromNode(fieldValue, env: env)
             }(),
-            stringArray: try { () -> Array<String> in
+            stringArray: try { () -> Swift.Array<String> in
                 let fieldValue = try env.getNamedProperty(value, "stringArray")
                 return try ArrayConverter<Swift.String>.fromNode(fieldValue, env: env)
             }(),
@@ -43,7 +43,7 @@ extension TestAPI.Collections.CollectionHolder: NodeMutator {
                 let fieldValue = try env.getNamedProperty(value, "stringSet")
                 return try SetConverter<Swift.String>.fromNode(fieldValue, env: env)
             }(),
-            stringDictionary: try { () -> Dictionary<String, String> in
+            stringDictionary: try { () -> Swift.Dictionary<String, String> in
                 let fieldValue = try env.getNamedProperty(value, "stringDictionary")
                 return try DictionaryConverter<Swift.String, Swift.String>.fromNode(fieldValue, env: env)
             }()

@@ -15,7 +15,7 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
                 let fieldValue = try env.getNamedProperty(value, "b")
                 return try Swift.Bool.fromNode(fieldValue, env: env)
             }(),
-            bq: try { () -> Optional<Bool> in
+            bq: try { () -> Swift.Optional<Bool> in
                 let fieldValue = try env.getNamedProperty(value, "bq")
                 return try OptionalConverter<Swift.Bool>.fromNode(fieldValue, env: env)
             }(),
@@ -23,7 +23,7 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
                 let fieldValue = try env.getNamedProperty(value, "ui8")
                 return try Swift.UInt8.fromNode(fieldValue, env: env)
             }(),
-            ui8q: try { () -> Optional<UInt8> in
+            ui8q: try { () -> Swift.Optional<UInt8> in
                 let fieldValue = try env.getNamedProperty(value, "ui8q")
                 return try OptionalConverter<Swift.UInt8>.fromNode(fieldValue, env: env)
             }(),
@@ -31,7 +31,7 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
                 let fieldValue = try env.getNamedProperty(value, "ui16")
                 return try Swift.UInt16.fromNode(fieldValue, env: env)
             }(),
-            ui16q: try { () -> Optional<UInt16> in
+            ui16q: try { () -> Swift.Optional<UInt16> in
                 let fieldValue = try env.getNamedProperty(value, "ui16q")
                 return try OptionalConverter<Swift.UInt16>.fromNode(fieldValue, env: env)
             }(),
@@ -39,7 +39,7 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
                 let fieldValue = try env.getNamedProperty(value, "ui32")
                 return try Swift.UInt32.fromNode(fieldValue, env: env)
             }(),
-            ui32q: try { () -> Optional<UInt32> in
+            ui32q: try { () -> Swift.Optional<UInt32> in
                 let fieldValue = try env.getNamedProperty(value, "ui32q")
                 return try OptionalConverter<Swift.UInt32>.fromNode(fieldValue, env: env)
             }(),
@@ -47,7 +47,7 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
                 let fieldValue = try env.getNamedProperty(value, "ui64")
                 return try Swift.UInt64.fromNode(fieldValue, env: env)
             }(),
-            ui64q: try { () -> Optional<UInt64> in
+            ui64q: try { () -> Swift.Optional<UInt64> in
                 let fieldValue = try env.getNamedProperty(value, "ui64q")
                 return try OptionalConverter<Swift.UInt64>.fromNode(fieldValue, env: env)
             }(),
@@ -55,7 +55,7 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
                 let fieldValue = try env.getNamedProperty(value, "ui")
                 return try Swift.UInt.fromNode(fieldValue, env: env)
             }(),
-            uiq: try { () -> Optional<UInt> in
+            uiq: try { () -> Swift.Optional<UInt> in
                 let fieldValue = try env.getNamedProperty(value, "uiq")
                 return try OptionalConverter<Swift.UInt>.fromNode(fieldValue, env: env)
             }(),
@@ -63,7 +63,7 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
                 let fieldValue = try env.getNamedProperty(value, "i8")
                 return try Swift.Int8.fromNode(fieldValue, env: env)
             }(),
-            i8q: try { () -> Optional<Int8> in
+            i8q: try { () -> Swift.Optional<Int8> in
                 let fieldValue = try env.getNamedProperty(value, "i8q")
                 return try OptionalConverter<Swift.Int8>.fromNode(fieldValue, env: env)
             }(),
@@ -71,7 +71,7 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
                 let fieldValue = try env.getNamedProperty(value, "i16")
                 return try Swift.Int16.fromNode(fieldValue, env: env)
             }(),
-            i16q: try { () -> Optional<Int16> in
+            i16q: try { () -> Swift.Optional<Int16> in
                 let fieldValue = try env.getNamedProperty(value, "i16q")
                 return try OptionalConverter<Swift.Int16>.fromNode(fieldValue, env: env)
             }(),
@@ -79,7 +79,7 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
                 let fieldValue = try env.getNamedProperty(value, "i32")
                 return try Swift.Int32.fromNode(fieldValue, env: env)
             }(),
-            i32q: try { () -> Optional<Int32> in
+            i32q: try { () -> Swift.Optional<Int32> in
                 let fieldValue = try env.getNamedProperty(value, "i32q")
                 return try OptionalConverter<Swift.Int32>.fromNode(fieldValue, env: env)
             }(),
@@ -87,7 +87,7 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
                 let fieldValue = try env.getNamedProperty(value, "i64")
                 return try Swift.Int64.fromNode(fieldValue, env: env)
             }(),
-            i64q: try { () -> Optional<Int64> in
+            i64q: try { () -> Swift.Optional<Int64> in
                 let fieldValue = try env.getNamedProperty(value, "i64q")
                 return try OptionalConverter<Swift.Int64>.fromNode(fieldValue, env: env)
             }(),
@@ -95,7 +95,7 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
                 let fieldValue = try env.getNamedProperty(value, "i")
                 return try Swift.Int.fromNode(fieldValue, env: env)
             }(),
-            iq: try { () -> Optional<Int> in
+            iq: try { () -> Swift.Optional<Int> in
                 let fieldValue = try env.getNamedProperty(value, "iq")
                 return try OptionalConverter<Swift.Int>.fromNode(fieldValue, env: env)
             }(),
@@ -103,7 +103,7 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
                 let fieldValue = try env.getNamedProperty(value, "f")
                 return try Swift.Float.fromNode(fieldValue, env: env)
             }(),
-            fq: try { () -> Optional<Float> in
+            fq: try { () -> Swift.Optional<Float> in
                 let fieldValue = try env.getNamedProperty(value, "fq")
                 return try OptionalConverter<Swift.Float>.fromNode(fieldValue, env: env)
             }(),
@@ -111,7 +111,7 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
                 let fieldValue = try env.getNamedProperty(value, "d")
                 return try Swift.Double.fromNode(fieldValue, env: env)
             }(),
-            dq: try { () -> Optional<Double> in
+            dq: try { () -> Swift.Optional<Double> in
                 let fieldValue = try env.getNamedProperty(value, "dq")
                 return try OptionalConverter<Swift.Double>.fromNode(fieldValue, env: env)
             }()
