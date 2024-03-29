@@ -75,8 +75,8 @@ jobs:
         run: |
           set -euxo pipefail
 
-          export SWIFT_WASM_TOOLCHAIN=~/Downloads/swift-wasm-5.9-SNAPSHOT-2024-03-27-a-macos_arm64.artifactbundle/5.9-SNAPSHOT-2024-03-27-a-wasm/wasm32-unknown-wasi/swift.xctoolchain
-          export WASI_SDK=~/Downloads/swift-wasm-5.9-SNAPSHOT-2024-03-27-a-macos_arm64.artifactbundle/5.9-SNAPSHOT-2024-03-27-a-wasm/wasm32-unknown-wasi/WASI.sdk
+          export SWIFT_WASM_TOOLCHAIN=~/swift-wasm-toolchains/swift-wasm-$SWIFT_WASM_VERSION-macos_arm64.artifactbundle/$SWIFT_WASM_VERSION-wasm/wasm32-unknown-wasi/swift.xctoolchain
+          export WASI_SDK=~/swift-wasm-toolchains/swift-wasm-$SWIFT_WASM_VERSION-macos_arm64.artifactbundle/$SWIFT_WASM_VERSION-wasm/wasm32-unknown-wasi/WASI.sdk
 
           ./scripts/generate-raw-coverage.sh
           ./scripts/gather-coverage.sh
