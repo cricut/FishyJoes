@@ -25,11 +25,6 @@ jobs:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       SWIFT_WASM_VERSION: 5.9-SNAPSHOT-2024-03-27-a
     steps:
-      - name: dump env
-        run: |
-          env
-          exit 1
-
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -84,6 +79,15 @@ jobs:
           export WASI_SDK=~/swift-wasm-toolchains/swift-wasm-$SWIFT_WASM_VERSION-macos_arm64.artifactbundle/$SWIFT_WASM_VERSION-wasm/wasm32-unknown-wasi/WASI.sdk
 
           ./scripts/generate-raw-coverage.sh
+
+          # Something's not set up correctly on the local runners for unicode, but I don't know what
+          echo $'\n\n\n\n\n\n'
+          env
+          echo $'\n\n\n\n\n\n'
+          export LC_ALL=C.UTF-8
+          echo $'\n\n\n\n\n\n'
+          env
+          echo $'\n\n\n\n\n\n'
           ./scripts/gather-coverage.sh
 
       - name: Upload to sonar cloud
