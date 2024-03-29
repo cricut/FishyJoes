@@ -4,17 +4,20 @@ import XCTest
 
 class NAPITests: XCTestCase {
     lazy var testDirectory = "Tests/NAPITests/node-tests/js-native-api"
-    let CC = "/Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2024-03-27-a.xctoolchain/usr/bin/clang"
-    let LD = "/Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2024-03-27-a.xctoolchain/usr/bin/swiftc"
-    let CFLAGS = [
+    lazy var wasmToolchainPath = ProcessInfo.processInfo.environment["SWIFT_WASM_TOOLCHAIN"] ??
+        "/Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2024-03-27-a.xctoolchain"
+    lazy var wasiSDKPath = ProcessInfo.processInfo.environment["WASI_SDK"] ?? "\(wasmToolchainPath)/usr/share/wasi-sysroot"
+    lazy var CC = "\(wasmToolchainPath)/usr/bin/clang"
+    lazy var LD = "\(wasmToolchainPath)/usr/bin/swiftc"
+    lazy var CFLAGS = [
         "-target", "wasm32-unknown-wasi",
-        "--sysroot", "/Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2024-03-27-a.xctoolchain/usr/share/wasi-sysroot",
+        "--sysroot", wasiSDKPath,
         "-I/opt/homebrew/include/node",
         "-I/usr/local/include/node",
     ]
-    let LDFLAGS = [
-        "-L/Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2024-03-27-a.xctoolchain/usr/lib",
-        "-sdk", "/Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2024-03-27-a.xctoolchain/usr/share/wasi-sysroot",
+    lazy var LDFLAGS = [
+        "-L\(wasmToolchainPath)/usr/lib",
+        "-sdk", wasiSDKPath,
         "-lswiftCore",
         "-emit-executable",
         "-target", "wasm32-unknown-wasi",
@@ -32,9 +35,7 @@ class NAPITests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        #if false
-        ExternalCommand.verbose = true
-        #endif
+        ExternalCommand.verbose = false
     }
 
     func testNative(_ testName: String, js: [String] = ["test.js"], fixups: [String] = []) throws {

@@ -23,6 +23,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      SWIFT_WASM_VERSION: 5.9-SNAPSHOT-2024-03-27-a
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -53,6 +54,14 @@ jobs:
         run: |
           set -euxo pipefail
 
+          [[ -d ~/swift-wasm-toolchains/swift-wasm-$SWIFT_WASM_VERSION-macos_arm64.artifactbundle ]] || {
+              mkdir -p ~/swift-wasm-toolchains
+              curl -LJo swift-wasm.artifactbundle.zip \
+                  https://github.com/swiftwasm/swift/releases/download/swift-wasm-$SWIFT_WASM_VERSION/swift-wasm-$SWIFT_WASM_VERSION-macos_arm64.artifactbundle.zip
+              tar xf swift-wasm.artifactbundle.zip
+              mv swift-wasm-$SWIFT_WASM_VERSION-macos_arm64.artifactbundle ~/swift-wasm-toolchains
+          }
+
           (cd integration-tests/TestAPI-bindings/node-test; npm install)
           (cd Tests/NAPITests/node-tests; npm install)
 
@@ -65,6 +74,9 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
+
+          export SWIFT_WASM_TOOLCHAIN=~/Downloads/swift-wasm-5.9-SNAPSHOT-2024-03-27-a-macos_arm64.artifactbundle/5.9-SNAPSHOT-2024-03-27-a-wasm/wasm32-unknown-wasi/swift.xctoolchain
+          export WASI_SDK=~/Downloads/swift-wasm-5.9-SNAPSHOT-2024-03-27-a-macos_arm64.artifactbundle/5.9-SNAPSHOT-2024-03-27-a-wasm/wasm32-unknown-wasi/WASI.sdk
 
           ./scripts/generate-raw-coverage.sh
           ./scripts/gather-coverage.sh
