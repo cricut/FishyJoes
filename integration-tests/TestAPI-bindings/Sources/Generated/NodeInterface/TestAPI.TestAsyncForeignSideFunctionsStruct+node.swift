@@ -71,7 +71,7 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
                 let fieldValue = try env.getNamedProperty(value, "exercise6Fun")
                 return try AsyncFunction1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, Swift.String>.fromNode(fieldValue, env: env)
             }(),
-            thunkTwiceMakerFun: try { () -> (() async throws -> Void) throws -> () async throws -> Void in
+            thunkTwiceMakerFun: try { () -> (@escaping () async throws -> Void) throws -> () async throws -> Void in
                 let fieldValue = try env.getNamedProperty(value, "thunkTwiceMakerFun")
                 return try Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>.fromNode(fieldValue, env: env)
             }()

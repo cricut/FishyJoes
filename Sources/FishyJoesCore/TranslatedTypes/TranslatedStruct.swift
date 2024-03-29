@@ -96,7 +96,7 @@ struct TranslatedStruct: TranslatedType {
                 fragment.outputBlock("Self(") {
                     for (index, storedVar) in storedVariables.enumerated() {
                         let resolved = context.resolve(type: storedVar.typeName.better)
-                        let fieldType = storedVar.typeName.actualTypeName?.name ?? storedVar.typeName.better.name
+                        let fieldType = storedVar.typeName.actualTypeName?.name ?? storedVar.typeName.better.escapingFunctionsNameSansFirst
 
                         let last = index == storedVariables.count - 1
                         fragment.outputBlock("\(storedVar.name): try { () -> \(fieldType) in", closeWith: last ? "}()" : "}(),") {
