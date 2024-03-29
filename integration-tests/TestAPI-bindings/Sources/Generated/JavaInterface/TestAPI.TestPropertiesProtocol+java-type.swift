@@ -44,6 +44,7 @@ extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: JavaMutator 
     public static var javaClass: jclass?
     public static var externalWitnessClass: jclass?
     public static var externalWitnessConstructor: jmethodID?
+    public static var externalCompanionClass: jclass?
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
         if env.IsInstanceOf(value, AnyBox.javaClass) {
             return try Box<SwiftType>.fromJava(value, env: env).value
@@ -69,5 +70,6 @@ extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: JavaMutator 
         externalWitnessConstructor = try env.GetMethodID(externalWitnessClass, "<init>", "(J)V")
         _JavaTestPropertiesProtocol._corgeGetMethodID = try env.GetMethodID(javaClass, "getCorge", "()Ljava/lang/String;")
         _JavaTestPropertiesProtocol._frobGetMethodID = try env.GetMethodID(javaClass, "getFrob", "()Ljava/util/List;")
+        externalCompanionClass = try env.globalRef(env.FindClass("com/cricut/testapi/TestPropertiesProtocol$Companion"))
     }
 }

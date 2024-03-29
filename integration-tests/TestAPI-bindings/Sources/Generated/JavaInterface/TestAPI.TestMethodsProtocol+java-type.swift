@@ -111,6 +111,7 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: JavaMutator {
     public static var javaClass: jclass?
     public static var externalWitnessClass: jclass?
     public static var externalWitnessConstructor: jmethodID?
+    public static var externalCompanionClass: jclass?
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
         if env.IsInstanceOf(value, AnyBox.javaClass) {
             return try Box<SwiftType>.fromJava(value, env: env).value
@@ -140,5 +141,6 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: JavaMutator {
         _JavaTestMethodsProtocol._garplyMethodID = try env.GetMethodID(javaClass, "garply", "(Ljava/lang/String;)Ljava/lang/String;")
         _JavaTestMethodsProtocol._xyzzyMethodID = try env.GetMethodID(javaClass, "xyzzy", "(JLjava/util/List;)Ljava/lang/String;")
         _JavaTestMethodsProtocol._plughMethodID = try env.GetMethodID(javaClass, "plugh", "(Lkotlin/Triple;)Lkotlin/Triple;")
+        externalCompanionClass = try env.globalRef(env.FindClass("com/cricut/testapi/TestMethodsProtocol$Companion"))
     }
 }

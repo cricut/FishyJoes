@@ -680,14 +680,8 @@ struct TranslatedProtocol: TranslatedType {
 
             fragment.output("public static var javaClass: jclass?")
             fragment.output("public static var externalWitnessClass: jclass?")
-
             fragment.output("public static var externalWitnessConstructor: jmethodID?")
-
-            let doExternalCompanionClass = !defaultMethods.isEmpty ||
-            !asyncMethods.isEmpty
-            if doExternalCompanionClass {
-                fragment.output("public static var externalCompanionClass: jclass?")
-            }
+            fragment.output("public static var externalCompanionClass: jclass?")
 
             fragment.outputBlock("public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {") {
                 fragment.outputBlock("if env.IsInstanceOf(value, AnyBox.javaClass) {") {
@@ -728,17 +722,15 @@ struct TranslatedProtocol: TranslatedType {
                     let jniSignature = normalMethod.jniSignature(context: context)
                     fragment.output("\(foreignProtocolType)._\(normalMethod.callName)MethodID = try env.GetMethodID(javaClass, \"\(normalMethod.callName)\", \"\(jniSignature)\")")
                 }
-                if doExternalCompanionClass {
-                    fragment.output("externalCompanionClass = try env.globalRef(env.FindClass(\"\(className)$Companion\"))")
-                    for defaultMethod in defaultMethods {
-                        let jniSignature = defaultMethod.jniSignature(context: context)
-                        fragment.output("\(foreignProtocolType)._\(defaultMethod.callName)MethodID = try env.GetMethodID(javaClass, \"\(defaultMethod.callName)\", \"\(jniSignature)\")")
-                    }
-                    for asyncMethod in asyncMethods {
-                        var jniSignature = asyncMethod.jniSignature(context: context)
-                        jniSignature = "(L\(className);" + String(jniSignature.dropFirst())
-                        fragment.output("\(foreignProtocolType)._\(asyncMethod.callName)MethodID = try env.GetMethodID(externalCompanionClass, \"\(asyncMethod.callName)\", \"\(jniSignature)\")")
-                    }
+                fragment.output("externalCompanionClass = try env.globalRef(env.FindClass(\"\(className)$Companion\"))")
+                for defaultMethod in defaultMethods {
+                    let jniSignature = defaultMethod.jniSignature(context: context)
+                    fragment.output("\(foreignProtocolType)._\(defaultMethod.callName)MethodID = try env.GetMethodID(javaClass, \"\(defaultMethod.callName)\", \"\(jniSignature)\")")
+                }
+                for asyncMethod in asyncMethods {
+                    var jniSignature = asyncMethod.jniSignature(context: context)
+                    jniSignature = "(L\(className);" + String(jniSignature.dropFirst())
+                    fragment.output("\(foreignProtocolType)._\(asyncMethod.callName)MethodID = try env.GetMethodID(externalCompanionClass, \"\(asyncMethod.callName)\", \"\(jniSignature)\")")
                 }
             }
         }
