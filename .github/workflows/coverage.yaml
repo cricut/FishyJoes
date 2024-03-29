@@ -23,8 +23,6 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      SWIFT_WASM_URL: |-
-        https://github.com/swiftwasm/swift/releases/download/swift-wasm-5.9-SNAPSHOT-2024-03-27-a/swift-wasm-5.9-SNAPSHOT-2024-03-27-a-macos_arm64.pkg
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -49,12 +47,6 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
-
-          curl -Lo swift-wasm.pkg $SWIFT_WASM_URL
-          ls -la /Library/Developer/Toolchains
-          sudo installer -pkg swift-wasm.pkg -target /
-
-          brew install binaryen
 
           (cd integration-tests/TestAPI-bindings; npm install)
           (cd Tests/NAPITests/node-tests; npm install)
