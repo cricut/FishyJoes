@@ -719,15 +719,16 @@ struct TranslatedProtocol: TranslatedType {
                         fragment.output("\(foreignProtocolType)._\(field.name)SetMethodID = try env.GetMethodID(javaClass, \"set\(upperCaseFirst(field.name))\", \"(\(jniSignature))V\")")
                     }
                 }
+                fragment.output("externalCompanionClass = try env.globalRef(env.FindClass(\"\(className)$Companion\"))")
                 for normalMethod in normalMethods {
                     let jniSignature = normalMethod.jniSignature(context: context)
                     fragment.output("\(foreignProtocolType)._\(normalMethod.callName)MethodID = try env.GetMethodID(javaClass, \"\(normalMethod.callName)\", \"\(jniSignature)\")")
                 }
                 for asyncNormalMethod in asyncNormalMethods {
-                    let jniSignature = asyncNormalMethod.jniSignature(context: context)
-                    fragment.output("\(foreignProtocolType)._\(asyncNormalMethod.callName)MethodID = try env.GetMethodID(javaClass, \"\(asyncNormalMethod.callName)\", \"\(jniSignature)\")")
+                    var jniSignature = asyncNormalMethod.jniSignature(context: context)
+                    jniSignature = "(L\(className);" + String(jniSignature.dropFirst())
+                    fragment.output("\(foreignProtocolType)._\(asyncNormalMethod.callName)MethodID = try env.GetMethodID(externalCompanionClass, \"\(asyncNormalMethod.callName)\", \"\(jniSignature)\")")
                 }
-                fragment.output("externalCompanionClass = try env.globalRef(env.FindClass(\"\(className)$Companion\"))")
                 for defaultMethod in defaultMethods {
                     let jniSignature = defaultMethod.jniSignature(context: context)
                     fragment.output("\(foreignProtocolType)._\(defaultMethod.callName)MethodID = try env.GetMethodID(javaClass, \"\(defaultMethod.callName)\", \"\(jniSignature)\")")

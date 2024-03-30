@@ -135,12 +135,12 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: JavaMutator {
         javaClass = try env.globalRef(env.FindClass("com/cricut/testapi/TestMethodsProtocol"))
         externalWitnessClass = try env.globalRef(env.FindClass("com/cricut/testapi/_ExternalWitness_TestMethodsProtocol"))
         externalWitnessConstructor = try env.GetMethodID(externalWitnessClass, "<init>", "(J)V")
+        externalCompanionClass = try env.globalRef(env.FindClass("com/cricut/testapi/TestMethodsProtocol$Companion"))
         _JavaTestMethodsProtocol._fooMethodID = try env.GetMethodID(javaClass, "foo", "()V")
         _JavaTestMethodsProtocol._barMethodID = try env.GetMethodID(javaClass, "bar", "()Z")
         _JavaTestMethodsProtocol._bazMethodID = try env.GetMethodID(javaClass, "baz", "(Z)V")
         _JavaTestMethodsProtocol._garplyMethodID = try env.GetMethodID(javaClass, "garply", "(Ljava/lang/String;)Ljava/lang/String;")
         _JavaTestMethodsProtocol._xyzzyMethodID = try env.GetMethodID(javaClass, "xyzzy", "(JLjava/util/List;)Ljava/lang/String;")
         _JavaTestMethodsProtocol._plughMethodID = try env.GetMethodID(javaClass, "plugh", "(Lkotlin/Triple;)Lkotlin/Triple;")
-        externalCompanionClass = try env.globalRef(env.FindClass("com/cricut/testapi/TestMethodsProtocol$Companion"))
     }
 }
