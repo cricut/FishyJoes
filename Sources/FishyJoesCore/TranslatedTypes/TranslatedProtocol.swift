@@ -254,7 +254,7 @@ struct TranslatedProtocol: TranslatedType {
                         continue
                     }
                     fragment.output()
-                    let returnSignature = "\(method.isThrowing ? " throws" : "") -> \(method.returnType.name)"
+                    let returnSignature = "\(method.isAsync ? " async": "")\(method.isThrowing ? " throws" : "") -> \(method.returnType.name)"
                     fragment.outputBlock("public func \(method.name)\(returnSignature) {", closeWith: "}") {
                         var methodParamsStr = [String]()
                         for param in method.parameters {
@@ -264,7 +264,7 @@ struct TranslatedProtocol: TranslatedType {
                                 methodParamsStr.append("\(param.name)")
                             }
                         }
-                        fragment.output("\(method.isThrowing ? "try " : "")wrapped.\(method.callName)(\(methodParamsStr.joined(separator: ", ")))")
+                        fragment.output("\(method.isThrowing ? "try " : "")\(method.isAsync ? "await ": "")wrapped.\(method.callName)(\(methodParamsStr.joined(separator: ", ")))")
                     }
                 }
             }
