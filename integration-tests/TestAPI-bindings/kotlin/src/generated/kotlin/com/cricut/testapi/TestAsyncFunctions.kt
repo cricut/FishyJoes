@@ -95,7 +95,23 @@ interface TestAsyncFunctions {
         thunk: (suspend () -> kotlin.Unit)
     ): (suspend () -> kotlin.Unit)
 
+    /**
+     * <!-- FishyJoes.export(defaultExercise6) -->
+     */
+    suspend fun defaultExercise6(
+        fn: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)
+    ): kotlin.String = __jni__default_defaultExercise6(this, fn).await()
+
     companion object {
+        /**
+         * <!-- FishyJoes.export(defaultExercise6) -->
+         */
+        @JvmName("__jni__default_defaultExercise6")
+        private external fun __jni__default_defaultExercise6(
+            self: TestAsyncFunctions,
+            fn: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)
+        ): kotlinx.coroutines.Deferred<kotlin.String>
+
         @JvmStatic
         fun exercise0(
             self: TestAsyncFunctions,
@@ -137,6 +153,19 @@ interface TestAsyncFunctions {
             self: TestAsyncFunctions,
             fn: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)
         ): Deferred<kotlin.String> = CoroutineScope(Dispatchers.Default).async { self.exercise6(fn) }
+
+        @JvmStatic
+        fun defaultExercise6(
+            self: TestAsyncFunctions,
+            fn: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)
+        ): Deferred<kotlin.String> = CoroutineScope(Dispatchers.Default).async { self.defaultExercise6(fn) }
+
+        @JvmStatic
+        fun _default_defaultExercise6(
+            self: TestAsyncFunctions,
+            self: TestAsyncFunctions,
+            fn: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)
+        ): Deferred<kotlin.String> = CoroutineScope(Dispatchers.Default).async { self._default_defaultExercise6(self, fn) }
 
         init {
             loadNativeLibs()

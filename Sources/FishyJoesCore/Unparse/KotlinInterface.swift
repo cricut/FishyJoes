@@ -17,6 +17,9 @@ class KotlinInterface: KotlinClass {
                 }
                 for method in methods {
                     if method.isSuspend {
+                        if method.name.contains("_default_defaultExercise6") {
+                            let elegoo = 1
+                        }
                         fragment.output("@JvmStatic")
                         fragment.outputBlock("fun \(method.name)(", newLineTerminated: false) {
                             fragment.output("self: \(unqualifiedName),")

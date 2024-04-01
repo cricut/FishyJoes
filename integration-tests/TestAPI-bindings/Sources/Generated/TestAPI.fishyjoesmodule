@@ -4081,6 +4081,33 @@
                     "_0" : "() => Promise<void>"
                   }
                 }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(defaultExercise6) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "defaultExercise6",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
               }
             ],
             "name" : "TestAsyncFunctions"

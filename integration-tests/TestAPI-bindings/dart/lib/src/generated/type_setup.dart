@@ -341,6 +341,7 @@ typedef _TestAPI_TestAsyncFunctions_exercise4 = CreatedRef Function(UnownedRef o
 typedef _TestAPI_TestAsyncFunctions_exercise5 = CreatedRef Function(UnownedRef obj, UnownedRef fn, OutCreatedRef exn);
 typedef _TestAPI_TestAsyncFunctions_exercise6 = CreatedRef Function(UnownedRef obj, UnownedRef fn, OutCreatedRef exn);
 typedef _TestAPI_TestAsyncFunctions_thunkTwiceMaker = CreatedRef Function(UnownedRef obj, UnownedRef thunk, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctions_defaultExercise6 = CreatedRef Function(UnownedRef obj, UnownedRef fn, OutCreatedRef exn);
 typedef _TestAPI_TestLeadingUnderscoredPropConstructor = CreatedRef Function(
     ffi.Pointer ref,
     OutCreatedRef exn
@@ -991,6 +992,7 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_exercise5>> exercise5,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_exercise6>> exercise6,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_thunkTwiceMaker>> thunkTwiceMaker,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_defaultExercise6>> defaultExercise6,
             OutCreatedRef exn
         ),
         void Function(
@@ -1012,6 +1014,7 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_exercise5>> exercise5,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_exercise6>> exercise6,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_thunkTwiceMaker>> thunkTwiceMaker,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_defaultExercise6>> defaultExercise6,
             OutCreatedRef exn
         )
     >('TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup');
@@ -2871,6 +2874,20 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_thunkTwiceMaker");
+    TestAPI.TestAsyncFunctions_DefaultImplementations.f__iota_TestAPI_TestAsyncFunctions_defaultExercise6 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncFunctions_defaultExercise6");
     TestAPI.ExternalWitness_TestAsyncFunctions.f__iota_TestAPI_TestAsyncFunctions_exercise0 = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -7758,6 +7775,7 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_exercise5),
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_exercise6),
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_thunkTwiceMaker),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_DefaultImplementations.ffi_defaultExercise6),
                 exn
             );
         });

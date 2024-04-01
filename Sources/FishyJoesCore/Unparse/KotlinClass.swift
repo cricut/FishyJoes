@@ -134,6 +134,9 @@ class KotlinClass: NestedClass {
 
     func output(method: Method, to fragment: SourceFragment, external: Bool = true) {
         document(method.documentation, fragment: fragment)
+        if method.name.contains("_default_defaultExercise6") {
+            let elegoo = 1
+        }
         if !method.name.hasPrefix("_") {
             let compatibilityParameters = Set(method.compatibilityOrder)
             for compatibilityIndex in 0...method.compatibilityOrder.count {
@@ -158,7 +161,7 @@ class KotlinClass: NestedClass {
                 }
                 if let body = method.body {
                     precondition(compatibilityParameters.isEmpty, "internal error: compatibilityOrder can't be used with a non-native body")
-                    fragment.output(" = \(body)\(method.returnType.toKotlinType)")
+                    fragment.output(" = \(body)\(method.returnType.toKotlinType)\(method.isSuspend ? ".await()": "")")
                 } else if external {
                     var arguments: [String] = []
                     for parameter in method.parameters {

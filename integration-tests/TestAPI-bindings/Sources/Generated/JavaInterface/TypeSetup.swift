@@ -2001,6 +2001,14 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up TestAPI_CommonInterface._TestAsyncFunctionsConverter...")
         try TestAPI_CommonInterface._TestAsyncFunctionsConverter.javaSetup(env: env)
         try env.RegisterNatives(
+            TestAPI_CommonInterface._TestAsyncFunctionsConverter.externalCompanionClass,
+            JNINativeMethod(
+                name: bag.add("__jni__default_defaultExercise6"),
+                signature: bag.add("(Lcom/cricut/testapi/TestAsyncFunctions;Lkotlin/jvm/functions/Function7;)Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestAsyncFunctionsConverter__default_defaultExercise6, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        try env.RegisterNatives(
             TestAPI_CommonInterface._TestAsyncFunctionsConverter.externalWitnessClass!,
             JNINativeMethod(
                 name: bag.add("__jni_exercise0"),

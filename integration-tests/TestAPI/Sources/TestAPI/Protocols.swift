@@ -282,6 +282,15 @@ public protocol TestAsyncFunctions {
     func exercise6(_ fn: @escaping AsyncFunctions.AFun6) async throws -> String
     /// <!-- FishyJoes.export(thunkTwiceMaker) -->
     func thunkTwiceMaker(thunk: @escaping () async throws -> Void) throws -> () async throws -> Void
+    /// <!-- FishyJoes.export(defaultExercise6) -->
+    func defaultExercise6(_ fn: @escaping (String, Int, Double, String, @escaping () async throws -> Int, Int) async throws -> Int) async throws -> String
+}
+
+extension TestAsyncFunctions {
+    /// <!-- FishyJoes.export(defaultExercise6) -->
+    public func defaultExercise6(_ fn: @escaping (String, Int, Double, String, @escaping () async throws -> Int, Int) async throws -> Int) async throws -> String {
+        try await "\(fn("213", 89, 2.4, "23", { 546 }, 89))"
+    }
 }
 
 /// <!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct, conformances: [TestAsyncFunctions]) -->
