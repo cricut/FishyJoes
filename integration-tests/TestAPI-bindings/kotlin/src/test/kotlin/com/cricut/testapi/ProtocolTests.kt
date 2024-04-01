@@ -236,8 +236,13 @@ internal class ProtocolTests {
         }
         n()
         assertEquals(3, o)
-        val p = a.defaultExercise6(fn = {a: String, b: Long, c: Double, d: String, e: suspend () -> Long, f: Long -> (a.toDouble() + b.toDouble() + c + d.toDouble() + e() + f).toLong() } )
-        println("p: $p")
+        val p = a.defaultExercise6(fn =
+            {
+                a: String, b: Long, c: Double, d: String, e: suspend () -> Long, f: Long ->
+                    (a.toDouble() + b.toDouble() + c + d.toDouble() + e() + f).toLong()
+            }
+        )
+        assertEquals("962", p)
     }
 
     @Test
@@ -336,7 +341,12 @@ internal class ProtocolTests {
         }
         n()
         assertEquals(3, o)
-        val p = a.defaultExercise6(fn = {a: String, b: Long, c: Double, d: String, e: suspend () -> Long, f: Long -> (a.toDouble() + b.toDouble() + c + d.toDouble() + e() + f).toLong() } )
+        val p = a.defaultExercise6(fn =
+            {
+                a: String, b: Long, c: Double, d: String, e: suspend () -> Long, f: Long ->
+                    (a.toDouble() + b.toDouble() + c + d.toDouble() + e() + f).toLong()
+            }
+        )
         assertEquals("962", p)
     }
 
