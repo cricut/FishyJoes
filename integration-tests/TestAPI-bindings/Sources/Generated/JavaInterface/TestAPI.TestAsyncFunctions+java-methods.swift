@@ -17,7 +17,7 @@ let java_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise0: @conven
         let fn = try AsyncFunction0Converter<Swift.Int>.fromJava(fn, env: _javaEnv)
         let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)
         return try swiftTask(env: _javaEnv) { _javaEnv, _vm in
-            let _swiftThis = try TestAPI_CommonInterface._TestAsyncFunctionsConverter.fromJava(_javaThisRef.object, env: _javaEnv)
+            let _swiftThis = try TestAPI_CommonInterface._TestAsyncFunctionsConverter.fromJava(_javaThisRef.createLocalRef(env: _javaEnv), env: _javaEnv)
             let value: Swift.String.SwiftType = try await {
                 try Env.relinquishJVMThread(on: _vm)
                 defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }
@@ -40,7 +40,7 @@ let java_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise1: @conven
         let fn = try AsyncFunction1Converter<Swift.Int, Swift.Int>.fromJava(fn, env: _javaEnv)
         let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)
         return try swiftTask(env: _javaEnv) { _javaEnv, _vm in
-            let _swiftThis = try TestAPI_CommonInterface._TestAsyncFunctionsConverter.fromJava(_javaThisRef.object, env: _javaEnv)
+            let _swiftThis = try TestAPI_CommonInterface._TestAsyncFunctionsConverter.fromJava(_javaThisRef.createLocalRef(env: _javaEnv), env: _javaEnv)
             let value: Swift.String.SwiftType = try await {
                 try Env.relinquishJVMThread(on: _vm)
                 defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }
@@ -63,7 +63,7 @@ let java_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise2: @conven
         let fn = try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.fromJava(fn, env: _javaEnv)
         let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)
         return try swiftTask(env: _javaEnv) { _javaEnv, _vm in
-            let _swiftThis = try TestAPI_CommonInterface._TestAsyncFunctionsConverter.fromJava(_javaThisRef.object, env: _javaEnv)
+            let _swiftThis = try TestAPI_CommonInterface._TestAsyncFunctionsConverter.fromJava(_javaThisRef.createLocalRef(env: _javaEnv), env: _javaEnv)
             let value: Swift.String.SwiftType = try await {
                 try Env.relinquishJVMThread(on: _vm)
                 defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }
@@ -86,7 +86,7 @@ let java_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise3: @conven
         let fn = try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.fromJava(fn, env: _javaEnv)
         let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)
         return try swiftTask(env: _javaEnv) { _javaEnv, _vm in
-            let _swiftThis = try TestAPI_CommonInterface._TestAsyncFunctionsConverter.fromJava(_javaThisRef.object, env: _javaEnv)
+            let _swiftThis = try TestAPI_CommonInterface._TestAsyncFunctionsConverter.fromJava(_javaThisRef.createLocalRef(env: _javaEnv), env: _javaEnv)
             let value: Swift.String.SwiftType = try await {
                 try Env.relinquishJVMThread(on: _vm)
                 defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }
@@ -109,7 +109,7 @@ let java_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise4: @conven
         let fn = try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.fromJava(fn, env: _javaEnv)
         let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)
         return try swiftTask(env: _javaEnv) { _javaEnv, _vm in
-            let _swiftThis = try TestAPI_CommonInterface._TestAsyncFunctionsConverter.fromJava(_javaThisRef.object, env: _javaEnv)
+            let _swiftThis = try TestAPI_CommonInterface._TestAsyncFunctionsConverter.fromJava(_javaThisRef.createLocalRef(env: _javaEnv), env: _javaEnv)
             let value: Swift.String.SwiftType = try await {
                 try Env.relinquishJVMThread(on: _vm)
                 defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }
@@ -132,7 +132,7 @@ let java_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise5: @conven
         let fn = try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.fromJava(fn, env: _javaEnv)
         let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)
         return try swiftTask(env: _javaEnv) { _javaEnv, _vm in
-            let _swiftThis = try TestAPI_CommonInterface._TestAsyncFunctionsConverter.fromJava(_javaThisRef.object, env: _javaEnv)
+            let _swiftThis = try TestAPI_CommonInterface._TestAsyncFunctionsConverter.fromJava(_javaThisRef.createLocalRef(env: _javaEnv), env: _javaEnv)
             let value: Swift.String.SwiftType = try await {
                 try Env.relinquishJVMThread(on: _vm)
                 defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }
@@ -155,7 +155,7 @@ let java_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise6: @conven
         let fn = try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.fromJava(fn, env: _javaEnv)
         let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)
         return try swiftTask(env: _javaEnv) { _javaEnv, _vm in
-            let _swiftThis = try TestAPI_CommonInterface._TestAsyncFunctionsConverter.fromJava(_javaThisRef.object, env: _javaEnv)
+            let _swiftThis = try TestAPI_CommonInterface._TestAsyncFunctionsConverter.fromJava(_javaThisRef.createLocalRef(env: _javaEnv), env: _javaEnv)
             let value: Swift.String.SwiftType = try await {
                 try Env.relinquishJVMThread(on: _vm)
                 defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }
@@ -196,7 +196,7 @@ let java_TestAPI_CommonInterface__TestAsyncFunctionsConverter__default_defaultEx
         let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)
         return try swiftTask(env: _javaEnv) { _javaEnv, _vm in
             let _swiftThis = TestAsyncFunctions_sans_defaultExercise6(wrapped:
-                try TestAPI_CommonInterface._TestAsyncFunctionsConverter.fromJava(_javaThisRef.object, env: _javaEnv)
+                try TestAPI_CommonInterface._TestAsyncFunctionsConverter.fromJava(_javaThisRef.createLocalRef(env: _javaEnv), env: _javaEnv)
             )
             let value: Swift.String.SwiftType = try await {
                 try Env.relinquishJVMThread(on: _vm)

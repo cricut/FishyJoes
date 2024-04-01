@@ -28,7 +28,7 @@ final class KotlinTranslator: Translator {
                 if method.isMutating {
                     selfExpression = "await \(resolved.converterType.name).mutateJava(_javaThisRef.object, env: &_javaEnv)"
                 } else {
-                    selfExpression = "\(resolved.converterType.name).fromJava(_javaThisRef.object, env: _javaEnv)"
+                    selfExpression = "\(resolved.converterType.name).fromJava(_javaThisRef.createLocalRef(env: _javaEnv), env: _javaEnv)"
                 }
             } else {
                 selfExpression = "\(resolved.converterType.name).fromJava(_javaThis, env: _javaEnv)"

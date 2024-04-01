@@ -29,7 +29,7 @@ let java_TestAPI_Structs_ReferenceStruct_asyncGetMutable: @convention(c) (
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)
         return try swiftTask(env: _javaEnv) { _javaEnv, _vm in
-            let _swiftThis = try TestAPI.Structs.ReferenceStruct.fromJava(_javaThisRef.object, env: _javaEnv)
+            let _swiftThis = try TestAPI.Structs.ReferenceStruct.fromJava(_javaThisRef.createLocalRef(env: _javaEnv), env: _javaEnv)
             let value: Swift.String.SwiftType = try await {
                 try Env.relinquishJVMThread(on: _vm)
                 defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }
