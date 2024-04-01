@@ -20,10 +20,7 @@ concurrency:
 jobs:
   test:
     name: Build & Test
-    env:
-      SWIFT_WASM_URL: |-
-        https://github.com/swiftwasm/swift/releases/download/swift-wasm-5.9-SNAPSHOT-2024-03-27-a/swift-wasm-5.9-SNAPSHOT-2024-03-27-a-macos_x86_64.pkg
-    runs-on: macOS-12
+    runs-on: [macOS, self-hosted, ARM64]
     steps:
       - name: Checkout
         uses: actions/checkout@v4

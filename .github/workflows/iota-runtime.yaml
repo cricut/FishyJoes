@@ -17,13 +17,14 @@ concurrency:
   group: build-${{ github.event.pull_request.number || github.ref }}-${{ github.workflow }}
   cancel-in-progress: true
 
+env:
+  GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
+  GITHUB_USER: cricut-builduser
+
 jobs:
   build-iota-mac:
     name: "macOS: Build Iota Runtime"
-    runs-on: macOS-12
-    env:
-      GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
-      GITHUB_USER: cricut-builduser
+    runs-on: [macOS, self-hosted, ARM64]
 
     steps:
       - name: Checkout
@@ -56,8 +57,6 @@ jobs:
         username: cricut-builduser
         password: ${{ secrets.CRICUT_GPR_TOKEN }}
     env:
-      GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
-      GITHUB_USER: cricut-builduser
       LIB_DIR: .build/linux-iota-libs
     steps:
       - name: Checkout
@@ -123,8 +122,6 @@ jobs:
     name: "Windows: Build Iota Runtime"
     runs-on: windows-latest
     env:
-      GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
-      GITHUB_USER: cricut-builduser
       LIB_DIR: .build/windows-iota-libs
     steps:
       - name: Checkout
@@ -148,7 +145,7 @@ jobs:
           swift package resolve
           swift package resolve
           swift package resolve
-      
+
       - name: Build FishyJoesIotaRuntime
         shell: bash
         run: |
@@ -175,8 +172,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build-iota-mac, build-iota-ubuntu, build-iota-windows]
     env:
-      GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
-      GITHUB_USER: cricut-builduser
       GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout
