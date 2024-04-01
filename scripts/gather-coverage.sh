@@ -9,7 +9,7 @@ binaries=(
     .build/debug/libJavaRuntimeTestHarness.dylib
     .build/debug/libFishyJoesJavaRuntime.dylib
     .build/debug/libFishyJoesIotaRuntime.dylib
-    .build/debug/$'\U1f41f\U2615\Ufe0f'
+    .build/debug/helper-fishy-joes-core
     integration-tests/TestAPI-bindings/.build/debug/libTestAPI.dylib
     integration-tests/TestAPI-bindings/.build/debug/libTestAPI-java.dylib
     integration-tests/TestAPI-bindings/.build/debug/libTestAPI-node.dylib

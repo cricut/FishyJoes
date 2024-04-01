@@ -197,7 +197,7 @@ extension CodeGen {
             try cmd("swift", "build", "--product", "sourcery").run()
 
             // Build the FishyJoes internal execution helper product
-            try cmd("swift", arguments: ["build"] + (codeCoveragePath == nil ? [] : Platform.coverageFlags) + ["--product", "🐟☕️"]).run()
+            try cmd("swift", arguments: ["build"] + (codeCoveragePath == nil ? [] : Platform.coverageFlags) + ["--product", "helper-fishy-joes-core"]).run()
 
             // Trampoline into fishy-joes-execution-helper via Sourcery
             var sourceryEnv: [String: String] = [:]
@@ -228,7 +228,7 @@ extension CodeGen {
                     "--args", "module=\(config.module)",
                     "--args", "debugRepresentation=\(debug)",
                     "--args", "requiredModules=\"\(try! JSONEncoder().encode(fishyJoesModuleFiles).base64EncodedString())\"",
-                    "--args", "fishyJoesExecutable=.build\(ps)debug\(ps)🐟☕️",
+                    "--args", "fishyJoesExecutable=.build\(ps)debug\(ps)helper-fishy-joes-core",
                     "--args", "stderrFifo=\(errorFifoPath)",
                     "--output", "Sources\(ps)Generated"
                 ].compactMap { $0 } + config.excludeSources.flatMap { exclude in
