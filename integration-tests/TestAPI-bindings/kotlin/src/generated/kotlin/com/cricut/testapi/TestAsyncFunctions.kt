@@ -160,13 +160,6 @@ interface TestAsyncFunctions {
             fn: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)
         ): Deferred<kotlin.String> = CoroutineScope(Dispatchers.Default).async { self.defaultExercise6(fn) }
 
-//        @JvmStatic
-//        fun _default_defaultExercise6(
-//            self: TestAsyncFunctions,
-//            self: TestAsyncFunctions,
-//            fn: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)
-//        ): Deferred<kotlin.String> = CoroutineScope(Dispatchers.Default).async { self._default_defaultExercise6(self, fn) }
-
         init {
             loadNativeLibs()
         }

@@ -134,9 +134,6 @@ class KotlinClass: NestedClass {
 
     func output(method: Method, to fragment: SourceFragment, external: Bool = true) {
         document(method.documentation, fragment: fragment)
-        if method.name.contains("_default_defaultExercise6") {
-            let elegoo = 1
-        }
         if !method.name.hasPrefix("_") {
             let compatibilityParameters = Set(method.compatibilityOrder)
             for compatibilityIndex in 0...method.compatibilityOrder.count {

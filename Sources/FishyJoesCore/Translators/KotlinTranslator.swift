@@ -131,9 +131,6 @@ final class KotlinTranslator: Translator {
                             callBlock = { $0() }
                         }
 
-                        if method.name.contains("defaultExercise6") {
-                            let elegoo = 1
-                        }
                         callBlock {
                             fragment.outputBlock("let value: \(returnType.converterType.name).SwiftType = try await {", closeWith: "}()") {
                                 fragment.output("try Env.relinquishJVMThread(on: _vm)")
