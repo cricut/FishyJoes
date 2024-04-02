@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:cricut_test_api/cricut_test_api.dart';
 import 'package:test/test.dart';
 import 'package:tuple/tuple.dart' as tuple;
+import 'package:dart_numerics/dart_numerics.dart';
 
 void main() {
   setUp(() {
@@ -121,6 +122,18 @@ void main() {
           }
         );
         expect(await b(92), equals(1380));
+        final d = await a.makeList("By", "your", "powers", "combined");
+        expect(d, List.of(["By", "your", "powers", "combined"]));
+        final e = await a.fifthThing(
+          "I, am",
+          int64MaxValue,
+          double.minPositive,
+          "Captain Planet!",
+          () { 
+            return Future.delayed(const Duration(seconds: 0), () => 42); 
+          }
+        );
+        expect(await e(), 42);
       });
   });
 
