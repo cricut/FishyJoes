@@ -152,6 +152,15 @@ void main() {
         expect(g, equals("42"));
         final h = await a.exercise1(b);
         expect(h, equals("-45"));
+
+        final i = await a.exercise2(
+          (p0, p1) { 
+            return (z) async {
+              return (await p0(3)) + (await p1(3)) + z;
+            };
+          }
+        );
+        expect(i, equals("21"));
       });
   });
 }
