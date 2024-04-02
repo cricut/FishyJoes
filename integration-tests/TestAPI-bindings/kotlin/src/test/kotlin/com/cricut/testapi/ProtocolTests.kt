@@ -145,6 +145,60 @@ internal class ProtocolTests {
         assertEquals(-3.14159265359, c)
     }
 
+    fun testAsyncForeignSideFunctionsCore(a: TestAsyncFunctions) =  runTest(timeout = 1000000.seconds) {
+        assertEquals(49, a.const42())
+        assertEquals(4, a.iabs(-4))
+        val b = a.intCompose({x: Long -> x * 3}, {y: Long -> y * 5})
+        assertEquals(b(92), 1380)
+        val c = a.add3Things(3.14F, 3.14159, 128)
+        assertEquals(c, 134.28159010490418)
+        val d = a.makeList("By", "your", "powers", "combined")
+        assertEquals(d, listOf("By", "your", "powers", "combined"))
+        val e = a.fifthThing("I, am", Long.MAX_VALUE, Double.MIN_VALUE, "Captain Planet!") { 42 }
+        assertEquals(e(), 42)
+        val f = a.six("Big, bad", 24, 3.14159265359, "Beetleborgs", { 43 }, Long.MIN_VALUE)
+        assertEquals(f, Long.MIN_VALUE)
+
+        val result = runCatching {
+            a.willThrow()
+        }
+        assertInstanceOf(Error::class.java, result.exceptionOrNull())
+        assertEquals("Spoon!", result.exceptionOrNull()?.message)
+
+        val g = a.exercise0 { 42 }
+        assertEquals("84", g)
+        val h = a.exercise1(b)
+        assertEquals("-105", h)
+        val i = a.exercise2 { a: suspend (Long) -> Long, b: suspend (Long) ->
+        Long -> { z: Long ->
+            a(3) + b(3) + z
+        }
+        }
+        assertEquals("36", i)
+        val j = a.exercise3 { fl: Float, d: Double, l: Long -> (fl / d) + 9 * l }
+        assertEquals("18.227272727272727", j)
+        val k = a.exercise4 { a: String, b: String, c: String, d: String -> listOf(d, c, b, a) }
+        assertEquals("[jam, the, up, Pump]", k)
+        val l = a.exercise5(fn = {a: String, b: Long, c: Double, d: String, e: suspend () -> Long -> { (a.toDouble() + b.toDouble() + c + d.toDouble() + e()).toLong() } } )
+        assertEquals("754", l)
+        val m = a.exercise6(fn = {a: String, b: Long, c: Double, d: String, e: suspend () -> Long, f: Long -> (a.toDouble() + b.toDouble() + c + d.toDouble() + e() + f).toLong() } )
+        assertEquals("852", m)
+        var o = 1
+        val n = a.thunkTwiceMaker {
+            o += 1
+            println("thunkity thunk!")
+        }
+        n()
+        assertEquals(3, o)
+        val p = a.defaultExercise6(fn =
+        {
+                a: String, b: Long, c: Double, d: String, e: suspend () -> Long, f: Long ->
+            (a.toDouble() + b.toDouble() + c + d.toDouble() + e() + f).toLong()
+        }
+        )
+        assertEquals("962", p)
+    }
+
     @Test
     fun testAsyncForeignSideFunctions() = runTest(timeout = 1000000.seconds) {
         val a = TestAsyncForeignSideFunctionsStruct(
@@ -192,62 +246,61 @@ internal class ProtocolTests {
                 }
             }
         )
-        assertEquals(49, a.const42())
-        assertEquals(4, a.iabs(-4))
-        val b = a.intCompose({x: Long -> x * 3}, {y: Long -> y * 5})
-        assertEquals(b(92), 1380)
-        val c = a.add3Things(3.14F, 3.14159, 128)
-        assertEquals(c, 134.28159010490418)
-        val d = a.makeList("By", "your", "powers", "combined")
-        assertEquals(d, listOf("By", "your", "powers", "combined"))
-        val e = a.fifthThing("I, am", Long.MAX_VALUE, Double.MIN_VALUE, "Captain Planet!") { 42 }
-        assertEquals(e(), 42)
-        val f = a.six("Big, bad", 24, 3.14159265359, "Beetleborgs", { 43 }, Long.MIN_VALUE)
-        assertEquals(f, Long.MIN_VALUE)
-
-        val result = runCatching {
-            a.willThrow()
-        }
-        assertInstanceOf(Error::class.java, result.exceptionOrNull())
-        assertEquals("Spoon!", result.exceptionOrNull()?.message)
-
-        val g = a.exercise0 { 42 }
-        assertEquals("84", g)
-        val h = a.exercise1(b)
-        assertEquals("-105", h)
-        val i = a.exercise2 { a: suspend (Long) -> Long, b: suspend (Long) ->
-            Long -> { z: Long ->
-                a(3) + b(3) + z
-            }
-        }
-        assertEquals("36", i)
-        val j = a.exercise3 { fl: Float, d: Double, l: Long -> (fl / d) + 9 * l }
-        assertEquals("18.227272727272727", j)
-        val k = a.exercise4 { a: String, b: String, c: String, d: String -> listOf(d, c, b, a) }
-        assertEquals("[jam, the, up, Pump]", k)
-        val l = a.exercise5(fn = {a: String, b: Long, c: Double, d: String, e: suspend () -> Long -> { (a.toDouble() + b.toDouble() + c + d.toDouble() + e()).toLong() } } )
-        assertEquals("754", l)
-        val m = a.exercise6(fn = {a: String, b: Long, c: Double, d: String, e: suspend () -> Long, f: Long -> (a.toDouble() + b.toDouble() + c + d.toDouble() + e() + f).toLong() } )
-        assertEquals("852", m)
-        var o = 1
-        val n = a.thunkTwiceMaker {
-            o += 1
-            println("thunkity thunk!")
-        }
-        n()
-        assertEquals(3, o)
-        val p = a.defaultExercise6(fn =
-            {
-                a: String, b: Long, c: Double, d: String, e: suspend () -> Long, f: Long ->
-                    (a.toDouble() + b.toDouble() + c + d.toDouble() + e() + f).toLong()
-            }
-        )
-        assertEquals("962", p)
+        testAsyncForeignSideFunctionsCore(a)
     }
 
     @Test
-    fun testAsyncSwiftSideFunctions() = runTest(timeout = 1000000.seconds) {
-        val a = TestAsyncSwiftSideFunctionsClass.init()
+    fun testAsyncForeignSideFunctionsWitness() = runTest(timeout = 1000000.seconds) {
+        val _a = TestAsyncForeignSideFunctionsStruct(
+            const42 = { 49 },
+            iabs = { x: Long ->
+                abs(x)
+            },
+            intCompose = { f: suspend (Long) -> Long, g: suspend (Long) -> Long ->
+                { x: Long ->
+                    f(g(x))
+                }
+            },
+            add3Things = { x: Float, y: Double, z: Long ->
+                x.toDouble() + y + z.toDouble()
+            },
+            makeList = { a: String, b: String, c: String, d: String ->
+                listOf(a, b, c, d)
+            },
+            fifthThing = { a: String, b: Long, c: Double, d: String, e: suspend () -> Long ->
+                e
+            },
+            six = { a: String, b: Long, c: Double, d: String, e: suspend () -> Long, f: Long ->
+                f
+            },
+            willThrow = {
+                throw(Error("Spoon!"))
+            },
+            exercise0Fun = {fn: suspend () -> Long ->
+                "${fn()*2}"
+            },
+            exercise1Fun = {fn: suspend (Long) -> Long ->
+                "${fn(-7)}"
+            },
+            exercise2Fun = {fn: (suspend (Long) -> Long, suspend (Long) -> Long) -> suspend (Long) -> Long ->
+                "${fn({a: Long -> a + 1}, {b: Long -> b * 3})(23)}"
+            },
+            exercise3Fun = {fn: suspend (Float, Double, Long) -> Double -> "${fn(1.0F, 4.4, 2)}" },
+            exercise4Fun = {fn: suspend (a: String, b: String, c: String, d: String) -> List<String> -> "${fn("Pump", "up", "the", "jam")}"},
+            exercise5Fun = {fn: suspend (a: String, b: Long, c: Double, d: String, e: suspend () -> Long) -> suspend () -> Long -> "${fn("78", 6, 4.2, "12", { 654 })()}" },
+            exercise6Fun = {fn: suspend (a: String, b: Long, c: Double, d: String, e: suspend () -> Long, f: Long) -> Long -> "${fn("78", 6, 4.2, "12", { 654 }, 98)}" },
+            thunkTwiceMakerFun = {fn: suspend () -> kotlin.Unit ->
+                {
+                    fn()
+                    fn()
+                }
+            }
+        )
+        val a = _a.witness()
+        testAsyncForeignSideFunctionsCore(a)
+    }
+
+    fun testAsyncSwiftSideFunctionsCore(a: TestAsyncFunctions) = runTest(timeout = 1000000.seconds) {
         assertEquals(a.const42(), 42)
         assertEquals(a.iabs(-2398),2398)
         val b = a.intCompose({x: Long -> x * 3}, {y: Long -> y * 5})
@@ -270,9 +323,9 @@ internal class ProtocolTests {
         val h = a.exercise1(b)
         assertEquals(h, "-45")
         val i = a.exercise2 { a: suspend (Long) -> Long, b: suspend (Long) ->
-            Long -> { z: Long ->
-                a(3) + b(3) + z
-            }
+        Long -> { z: Long ->
+            a(3) + b(3) + z
+        }
         }
         assertEquals("21", i)
         val j = a.exercise3 { fl, d, l -> (fl / d) + 9 * l }
@@ -293,10 +346,20 @@ internal class ProtocolTests {
         val p = a.defaultExercise6(fn = {a: String, b: Long, c: Double, d: String, e: suspend () -> Long, f: Long -> (a.toDouble() + b.toDouble() + c + d.toDouble() + e() + f).toLong() } )
         assertEquals("962", p)
     }
+    @Test
+    fun testAsyncSwiftSideFunctions() = runTest(timeout = 1000000.seconds) {
+        val a = TestAsyncSwiftSideFunctionsClass.init()
+        testAsyncSwiftSideFunctionsCore(a)
+    }
 
     @Test
-    fun testAsyncFunctionsImpl() = runTest(timeout = 1000000.seconds) {
-        val a = TestAsyncFunctionsImpl()
+    fun testAsyncSwiftSideFunctionsWitness() = runTest(timeout = 1000000.seconds) {
+        val _a = TestAsyncSwiftSideFunctionsClass.init()
+        val a = _a.witness()
+        testAsyncSwiftSideFunctionsCore(a)
+    }
+
+    fun testAsyncFunctionsImplCore(a: TestAsyncFunctions) = runTest(timeout = 1000000.seconds) {
         assertEquals(49, a.const42())
         assertEquals(4, a.iabs(-4))
         val b = a.intCompose({x: Long -> x * 3}, {y: Long -> y * 5})
@@ -342,12 +405,24 @@ internal class ProtocolTests {
         n()
         assertEquals(3, o)
         val p = a.defaultExercise6(fn =
-            {
+        {
                 a: String, b: Long, c: Double, d: String, e: suspend () -> Long, f: Long ->
-                    (a.toDouble() + b.toDouble() + c + d.toDouble() + e() + f).toLong()
-            }
+            (a.toDouble() + b.toDouble() + c + d.toDouble() + e() + f).toLong()
+        }
         )
         assertEquals("962", p)
+    }
+    @Test
+    fun testAsyncFunctionsImpl() = runTest(timeout = 1000000.seconds) {
+        val a = TestAsyncFunctionsImpl()
+        testAsyncFunctionsImplCore(a)
+    }
+
+    @Test
+    fun testAsyncFunctionsImplWitness() = runTest(timeout = 1000000.seconds) {
+        val _a = TestAsyncFunctionsImpl()
+        val a = _a.witness()
+        testAsyncFunctionsImplCore(a)
     }
 
     data class ProtocolKotlinImpl(
@@ -442,6 +517,10 @@ internal class ProtocolTests {
                 thunk()
                 thunk()
             }
+        }
+
+        override fun witness(): TestAsyncFunctions {
+            return TestAsyncFunctionsImpl()
         }
     }
 }

@@ -275,7 +275,11 @@ struct TranslatedProtocol: TranslatedType {
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
             "NodeInterface/\(sourceType.name)+node.swift",
-            additionalImports: ["Foundation", "FishyJoesNodeRuntime", "\(context.module.name)_CommonInterface"]
+            additionalImports: [
+                "Foundation",
+                "FishyJoesNodeRuntime",
+                "\(context.module.name)_CommonInterface"
+            ]
         )
 
         fragment.outputBlock("struct _Node\(sourceType.nonNamespacedName): \(sourceType.name) {") {
@@ -727,7 +731,7 @@ struct TranslatedProtocol: TranslatedType {
                 for asyncNormalMethod in asyncNormalMethods {
                     var jniSignature = asyncNormalMethod.jniSignature(context: context)
                     jniSignature = "(L\(className);" + String(jniSignature.dropFirst())
-                    fragment.output("\(foreignProtocolType)._\(asyncNormalMethod.callName)MethodID = try env.GetMethodID(externalCompanionClass, \"\(asyncNormalMethod.callName)\", \"\(jniSignature)\")")
+                    fragment.output("\(foreignProtocolType)._\(asyncNormalMethod.callName)MethodID = try env.GetMethodID(externalCompanionClass, \"_deferred_\(asyncNormalMethod.callName)\", \"\(jniSignature)\")")
                 }
                 for defaultMethod in defaultMethods {
                     let jniSignature = defaultMethod.jniSignature(context: context)
@@ -736,7 +740,7 @@ struct TranslatedProtocol: TranslatedType {
                 for asyncDefaultMethod in asyncDefaultMethods {
                     var jniSignature = asyncDefaultMethod.jniSignature(context: context)
                     jniSignature = "(L\(className);" + String(jniSignature.dropFirst())
-                    fragment.output("\(foreignProtocolType)._\(asyncDefaultMethod.callName)MethodID = try env.GetMethodID(externalCompanionClass, \"\(asyncDefaultMethod.callName)\", \"\(jniSignature)\")")
+                    fragment.output("\(foreignProtocolType)._\(asyncDefaultMethod.callName)MethodID = try env.GetMethodID(externalCompanionClass, \"_deferred_\(asyncDefaultMethod.callName)\", \"\(jniSignature)\")")
                 }
             }
         }

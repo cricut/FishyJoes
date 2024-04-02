@@ -1996,6 +1996,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_thunkTwiceMaker"),
                 signature: bag.add("(Lkotlin/jvm/functions/Function1;)Lkotlin/jvm/functions/Function1;"),
                 fnPtr: unsafeBitCast(java_TestAPI_TestAsyncForeignSideFunctionsStruct_thunkTwiceMaker, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_witness"),
+                signature: bag.add("()Lcom/cricut/testapi/TestAsyncFunctions;"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestAsyncForeignSideFunctionsStruct_witness, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI_CommonInterface._TestAsyncFunctionsConverter...")
@@ -2049,6 +2054,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_thunkTwiceMaker"),
                 signature: bag.add("(Lkotlin/jvm/functions/Function1;)Lkotlin/jvm/functions/Function1;"),
                 fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestAsyncFunctionsConverter_thunkTwiceMaker, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_witness"),
+                signature: bag.add("()Lcom/cricut/testapi/TestAsyncFunctions;"),
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestAsyncFunctionsConverter_witness, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_const42"),
@@ -2134,6 +2144,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_thunkTwiceMaker"),
                 signature: bag.add("(Lkotlin/jvm/functions/Function1;)Lkotlin/jvm/functions/Function1;"),
                 fnPtr: unsafeBitCast(java_TestAPI_TestAsyncSwiftSideFunctionsClass_thunkTwiceMaker, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_witness"),
+                signature: bag.add("()Lcom/cricut/testapi/TestAsyncFunctions;"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestAsyncSwiftSideFunctionsClass_witness, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_init"),

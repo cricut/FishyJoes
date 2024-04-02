@@ -214,6 +214,18 @@ struct _IotaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
             env: _iotaWitness.env
         )
     }
+
+    public func witness() throws -> TestAsyncFunctions {
+        try TestAPI_CommonInterface._TestAsyncFunctionsConverter.peekIota(
+            try _iotaWitness.env.check { exn in
+                TestAPI_CommonInterface._TestAsyncFunctionsConverter._witness[_iotaWitness.env](
+                    _iotaWitness.object,
+                    exn
+                )
+            },
+            env: _iotaWitness.env
+        )
+    }
 }
 
 @_cdecl("TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup")
@@ -273,6 +285,10 @@ public func TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup(
         AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType,
         _ exn: foreignOutExn
     ) -> Swift.String.CType,
+    _ witness: @escaping @convention(c) (
+        foreignObject,
+        _ exn: foreignOutExn
+    ) -> TestAPI_CommonInterface._TestAsyncFunctionsConverter.CType,
     _ exn: foreignOutExn
 ) {
     let env = Env(envRef)
@@ -295,6 +311,7 @@ public func TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup(
     TestAPI_CommonInterface._TestAsyncFunctionsConverter._exercise6[env] = exercise6
     TestAPI_CommonInterface._TestAsyncFunctionsConverter._thunkTwiceMaker[env] = thunkTwiceMaker
     TestAPI_CommonInterface._TestAsyncFunctionsConverter._defaultExercise6[env] = defaultExercise6
+    TestAPI_CommonInterface._TestAsyncFunctionsConverter._witness[env] = witness
 }
 
 extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: IotaMutator {
@@ -357,6 +374,10 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: IotaMutator {
         AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType,
         _ exn: foreignOutExn
     ) -> Swift.String.CType>()
+    fileprivate static let _witness = Env.CallbackMap<@convention(c) (
+        foreignObject,
+        _ exn: foreignOutExn
+    ) -> TestAPI_CommonInterface._TestAsyncFunctionsConverter.CType>()
 
     public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
         do {

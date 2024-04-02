@@ -102,6 +102,12 @@ interface TestAsyncFunctions {
         fn: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)
     ): kotlin.String = __jni__default_defaultExercise6(this, fn).await()
 
+    /**
+     * <!-- FishyJoes.export(witness) -->
+     */
+    fun witness(
+    ): com.cricut.testapi.TestAsyncFunctions
+
     companion object {
         /**
          * <!-- FishyJoes.export(defaultExercise6) -->
@@ -113,49 +119,49 @@ interface TestAsyncFunctions {
         ): kotlinx.coroutines.Deferred<kotlin.String>
 
         @JvmStatic
-        fun exercise0(
+        fun _deferred_exercise0(
             self: TestAsyncFunctions,
             fn: (suspend () -> Long)
         ): Deferred<kotlin.String> = CoroutineScope(Dispatchers.Default).async { self.exercise0(fn) }
 
         @JvmStatic
-        fun exercise1(
+        fun _deferred_exercise1(
             self: TestAsyncFunctions,
             fn: (suspend (Long) -> Long)
         ): Deferred<kotlin.String> = CoroutineScope(Dispatchers.Default).async { self.exercise1(fn) }
 
         @JvmStatic
-        fun exercise2(
+        fun _deferred_exercise2(
             self: TestAsyncFunctions,
             fn: (((suspend (Long) -> Long), (suspend (Long) -> Long)) -> (suspend (Long) -> Long))
         ): Deferred<kotlin.String> = CoroutineScope(Dispatchers.Default).async { self.exercise2(fn) }
 
         @JvmStatic
-        fun exercise3(
+        fun _deferred_exercise3(
             self: TestAsyncFunctions,
             fn: (suspend (Float, Double, Long) -> Double)
         ): Deferred<kotlin.String> = CoroutineScope(Dispatchers.Default).async { self.exercise3(fn) }
 
         @JvmStatic
-        fun exercise4(
+        fun _deferred_exercise4(
             self: TestAsyncFunctions,
             fn: (suspend (kotlin.String, kotlin.String, kotlin.String, kotlin.String) -> kotlin.collections.List<kotlin.String>)
         ): Deferred<kotlin.String> = CoroutineScope(Dispatchers.Default).async { self.exercise4(fn) }
 
         @JvmStatic
-        fun exercise5(
+        fun _deferred_exercise5(
             self: TestAsyncFunctions,
             fn: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long)) -> (suspend () -> Long))
         ): Deferred<kotlin.String> = CoroutineScope(Dispatchers.Default).async { self.exercise5(fn) }
 
         @JvmStatic
-        fun exercise6(
+        fun _deferred_exercise6(
             self: TestAsyncFunctions,
             fn: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)
         ): Deferred<kotlin.String> = CoroutineScope(Dispatchers.Default).async { self.exercise6(fn) }
 
         @JvmStatic
-        fun defaultExercise6(
+        fun _deferred_defaultExercise6(
             self: TestAsyncFunctions,
             fn: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)
         ): Deferred<kotlin.String> = CoroutineScope(Dispatchers.Default).async { self.defaultExercise6(fn) }

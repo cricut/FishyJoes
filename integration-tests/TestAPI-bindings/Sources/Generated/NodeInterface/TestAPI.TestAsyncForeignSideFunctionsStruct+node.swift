@@ -345,6 +345,19 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
                     },
                     isStatic: false
                 ),
+                "witness": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "witness", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try TestAPI_CommonInterface._TestAsyncFunctionsConverter.toNode(
+                                env.this(converter: TestAPI.TestAsyncForeignSideFunctionsStruct.self).witness(
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                ),
                 "const42": (.stored(mutable: true), isStatic: false),
                 "iabs": (.stored(mutable: true), isStatic: false),
                 "intCompose": (.stored(mutable: true), isStatic: false),

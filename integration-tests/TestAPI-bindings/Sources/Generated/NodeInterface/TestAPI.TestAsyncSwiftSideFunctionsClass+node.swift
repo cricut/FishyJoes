@@ -5,6 +5,7 @@
 import FishyJoesNodeRuntime
 import Foundation
 import TestAPI
+import TestAPI_CommonInterface
 
 extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> TestAPI.TestAsyncSwiftSideFunctionsClass {
@@ -263,6 +264,19 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                             let result = try AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.toNode(
                                 env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self).thunkTwiceMaker(
                                     thunk: try env.argument(at: 0, converter: AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                ),
+                "witness": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "witness", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try TestAPI_CommonInterface._TestAsyncFunctionsConverter.toNode(
+                                env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self).witness(
                                 ),
                                 env: env.env
                             )

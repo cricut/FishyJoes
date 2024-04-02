@@ -95,4 +95,8 @@ public struct TestAsyncFunctions_sans_defaultExercise6: TestAPI.TestAsyncFunctio
     public func thunkTwiceMaker(thunk: @escaping () async throws -> Void) throws -> () async throws -> Void {
         try wrapped.thunkTwiceMaker(thunk: thunk)
     }
+
+    public func witness() throws -> TestAsyncFunctions {
+        try wrapped.witness()
+    }
 }

@@ -156,6 +156,15 @@ private class _ExternalWitness_TestAsyncFunctions private constructor(_swiftRefe
         thunk: (suspend () -> kotlin.Unit)
     ): (suspend () -> kotlin.Unit)
 
+    /**
+     * <!-- FishyJoes.export(witness) -->
+     */
+    override fun witness(
+    ): com.cricut.testapi.TestAsyncFunctions = __jni_witness()
+    @JvmName("__jni_witness")
+    private external fun __jni_witness(
+    ): com.cricut.testapi.TestAsyncFunctions
+
     companion object {
         init { loadNativeLibs() }
     }
