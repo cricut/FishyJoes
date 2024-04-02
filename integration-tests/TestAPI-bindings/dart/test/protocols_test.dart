@@ -86,6 +86,42 @@ void main() {
         expect(lups.m_leadingUnderscoreProp, equals("With great power comes great responsibility."));
         // test for _leadingUnderscoreMethod is just that tests build and run, since currently leading underscore on method name means it's only visible on the Swift side, not the Foreign/Dart side.
       });
+
+      // test('testAsyncForeignSideFunctions', () async {
+      //   final a = TestAsyncForeignSideFunctionsStruct(
+      //     const42: const42, 
+      //     iabs: iabs, 
+      //     intCompose: intCompose, 
+      //     add3Things: add3Things, 
+      //     makeList: makeList, 
+      //     fifthThing: fifthThing, 
+      //     six: six, 
+      //     willThrow: willThrow, 
+      //     exercise0Fun: exercise0Fun, 
+      //     exercise1Fun: exercise1Fun, 
+      //     exercise2Fun: exercise2Fun, 
+      //     exercise3Fun: exercise3Fun, 
+      //     exercise4Fun: exercise4Fun, 
+      //     exercise5Fun: exercise5Fun, 
+      //     exercise6Fun: exercise6Fun, 
+      //     thunkTwiceMakerFun: thunkTwiceMakerFun
+      //     )
+      // });
+
+      test('testAsyncSwiftSideFunctions', () async {
+        final a = TestAsyncSwiftSideFunctionsClass.init();
+        expect(await a.const42(), equals(42));
+        expect(await a.iabs(-2398), equals(2398));
+        final b = a.intCompose(
+          (x) {
+          return Future.delayed(const Duration(seconds: 0), () => x * 3);
+          }, 
+          (y) {
+          return Future.delayed(const Duration(seconds: 0), () => y * 5);
+          }
+        );
+        expect(await b(92), equals(1380));
+      });
   });
 
 }
