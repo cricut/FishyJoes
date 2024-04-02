@@ -11,7 +11,7 @@ extension TestAPI.TestLeadingUnderscoredPropStruct: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(
-            _leadingUnderscoreProp: try { () -> String in
+            _leadingUnderscoreProp: try { () -> Swift.String in
                 let fieldValue = try env.getNamedProperty(value, "_leadingUnderscoreProp")
                 return try Swift.String.fromNode(fieldValue, env: env)
             }()

@@ -11,7 +11,7 @@ extension TestAPI.TestProtocolStruct: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(
-            corge: try { () -> String in
+            corge: try { () -> Swift.String in
                 let fieldValue = try env.getNamedProperty(value, "corge")
                 return try Swift.String.fromNode(fieldValue, env: env)
             }()

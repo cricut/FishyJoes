@@ -11,63 +11,63 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(
-            const42: try { () -> () async throws -> Int in
+            const42: try { () -> () async throws -> Swift.Int in
                 let fieldValue = try env.getNamedProperty(value, "const42")
                 return try AsyncFunction0Converter<Swift.Int>.fromNode(fieldValue, env: env)
             }(),
-            iabs: try { () -> (Int) async throws -> Int in
+            iabs: try { () -> (Swift.Int) async throws -> Swift.Int in
                 let fieldValue = try env.getNamedProperty(value, "iabs")
                 return try AsyncFunction1Converter<Swift.Int, Swift.Int>.fromNode(fieldValue, env: env)
             }(),
-            intCompose: try { () -> (@escaping (Int) async throws -> Int, @escaping (Int) async throws -> Int) throws -> (Int) async throws -> Int in
+            intCompose: try { () -> (@escaping (Swift.Int) async throws -> Swift.Int, @escaping (Swift.Int) async throws -> Swift.Int) throws -> (Swift.Int) async throws -> Swift.Int in
                 let fieldValue = try env.getNamedProperty(value, "intCompose")
                 return try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.fromNode(fieldValue, env: env)
             }(),
-            add3Things: try { () -> (Float, Double, Int) async throws -> Double in
+            add3Things: try { () -> (Swift.Float, Swift.Double, Swift.Int) async throws -> Swift.Double in
                 let fieldValue = try env.getNamedProperty(value, "add3Things")
                 return try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.fromNode(fieldValue, env: env)
             }(),
-            makeList: try { () -> (String, String, String, String) async throws -> Array<String> in
+            makeList: try { () -> (Swift.String, Swift.String, Swift.String, Swift.String) async throws -> Array<Swift.String> in
                 let fieldValue = try env.getNamedProperty(value, "makeList")
                 return try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.fromNode(fieldValue, env: env)
             }(),
-            fifthThing: try { () -> (String, Int, Double, String, @escaping () async throws -> Int) async throws -> () async throws -> Int in
+            fifthThing: try { () -> (Swift.String, Swift.Int, Swift.Double, Swift.String, @escaping () async throws -> Swift.Int) async throws -> () async throws -> Swift.Int in
                 let fieldValue = try env.getNamedProperty(value, "fifthThing")
                 return try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.fromNode(fieldValue, env: env)
             }(),
-            six: try { () -> (String, Int, Double, String, @escaping () async throws -> Int, Int) async throws -> Int in
+            six: try { () -> (Swift.String, Swift.Int, Swift.Double, Swift.String, @escaping () async throws -> Swift.Int, Swift.Int) async throws -> Swift.Int in
                 let fieldValue = try env.getNamedProperty(value, "six")
                 return try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.fromNode(fieldValue, env: env)
             }(),
-            willThrow: try { () -> () async throws -> Int in
+            willThrow: try { () -> () async throws -> Swift.Int in
                 let fieldValue = try env.getNamedProperty(value, "willThrow")
                 return try AsyncFunction0Converter<Swift.Int>.fromNode(fieldValue, env: env)
             }(),
-            exercise0Fun: try { () -> (@escaping () async throws -> Int) async throws -> String in
+            exercise0Fun: try { () -> (@escaping () async throws -> Swift.Int) async throws -> Swift.String in
                 let fieldValue = try env.getNamedProperty(value, "exercise0Fun")
                 return try AsyncFunction1Converter<AsyncFunction0Converter<Swift.Int>, Swift.String>.fromNode(fieldValue, env: env)
             }(),
-            exercise1Fun: try { () -> (@escaping (Int) async throws -> Int) async throws -> String in
+            exercise1Fun: try { () -> (@escaping (Swift.Int) async throws -> Swift.Int) async throws -> Swift.String in
                 let fieldValue = try env.getNamedProperty(value, "exercise1Fun")
                 return try AsyncFunction1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, Swift.String>.fromNode(fieldValue, env: env)
             }(),
-            exercise2Fun: try { () -> (@escaping (@escaping (Int) async throws -> Int, @escaping (Int) async throws -> Int) throws -> (Int) async throws -> Int) async throws -> String in
+            exercise2Fun: try { () -> (@escaping (@escaping (Swift.Int) async throws -> Swift.Int, @escaping (Swift.Int) async throws -> Swift.Int) throws -> (Swift.Int) async throws -> Swift.Int) async throws -> Swift.String in
                 let fieldValue = try env.getNamedProperty(value, "exercise2Fun")
                 return try AsyncFunction1Converter<Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>, Swift.String>.fromNode(fieldValue, env: env)
             }(),
-            exercise3Fun: try { () -> (@escaping (Float, Double, Int) async throws -> Double) async throws -> String in
+            exercise3Fun: try { () -> (@escaping (Swift.Float, Swift.Double, Swift.Int) async throws -> Swift.Double) async throws -> Swift.String in
                 let fieldValue = try env.getNamedProperty(value, "exercise3Fun")
                 return try AsyncFunction1Converter<AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>, Swift.String>.fromNode(fieldValue, env: env)
             }(),
-            exercise4Fun: try { () -> (@escaping (String, String, String, String) async throws -> Array<String>) async throws -> String in
+            exercise4Fun: try { () -> (@escaping (Swift.String, Swift.String, Swift.String, Swift.String) async throws -> Array<Swift.String>) async throws -> Swift.String in
                 let fieldValue = try env.getNamedProperty(value, "exercise4Fun")
                 return try AsyncFunction1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, Swift.String>.fromNode(fieldValue, env: env)
             }(),
-            exercise5Fun: try { () -> (@escaping (String, Int, Double, String, @escaping () async throws -> Int) async throws -> () async throws -> Int) async throws -> String in
+            exercise5Fun: try { () -> (@escaping (Swift.String, Swift.Int, Swift.Double, Swift.String, @escaping () async throws -> Swift.Int) async throws -> () async throws -> Swift.Int) async throws -> Swift.String in
                 let fieldValue = try env.getNamedProperty(value, "exercise5Fun")
                 return try AsyncFunction1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, Swift.String>.fromNode(fieldValue, env: env)
             }(),
-            exercise6Fun: try { () -> (@escaping (String, Int, Double, String, @escaping () async throws -> Int, Int) async throws -> Int) async throws -> String in
+            exercise6Fun: try { () -> (@escaping (Swift.String, Swift.Int, Swift.Double, Swift.String, @escaping () async throws -> Swift.Int, Swift.Int) async throws -> Swift.Int) async throws -> Swift.String in
                 let fieldValue = try env.getNamedProperty(value, "exercise6Fun")
                 return try AsyncFunction1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, Swift.String>.fromNode(fieldValue, env: env)
             }(),

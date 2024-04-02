@@ -11,11 +11,11 @@ extension TestAPI.AProtocolImplementation: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(
-            foo: try { () -> String in
+            foo: try { () -> Swift.String in
                 let fieldValue = try env.getNamedProperty(value, "foo")
                 return try Swift.String.fromNode(fieldValue, env: env)
             }(),
-            baz: try { () -> Bool in
+            baz: try { () -> Swift.Bool in
                 let fieldValue = try env.getNamedProperty(value, "baz")
                 return try Swift.Bool.fromNode(fieldValue, env: env)
             }()
