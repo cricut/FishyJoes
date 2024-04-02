@@ -145,6 +145,8 @@ void main() {
           int64MinValue
         );
         expect(f, equals(int64MinValue));
+
+        expect(() async => await a.willThrow(), throwsA(predicate((e) => '$e'.contains("TheAsyncError()"))));
       });
   });
 }
