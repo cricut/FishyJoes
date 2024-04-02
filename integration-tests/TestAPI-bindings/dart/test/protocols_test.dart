@@ -147,6 +147,11 @@ void main() {
         expect(f, equals(int64MinValue));
 
         expect(() async => await a.willThrow(), throwsA(predicate((e) => '$e'.contains("TheAsyncError()"))));
+
+        final g = await a.exercise0(e);
+        expect(g, equals("42"));
+        final h = await a.exercise1(b);
+        expect(h, equals("-45"));
       });
   });
 }
