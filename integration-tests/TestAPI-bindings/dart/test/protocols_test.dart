@@ -134,7 +134,7 @@ void main() {
           }
         );
         expect(await e(), 42);
-        final f = a.six(
+        final f = await a.six(
           "Big, bad",
           24,
           3.14159265359,
@@ -144,7 +144,7 @@ void main() {
           },
           int64MinValue
         );
-        assert(f, equals(int64MinValue));
+        expect(f, equals(int64MinValue));
       });
   });
 }
