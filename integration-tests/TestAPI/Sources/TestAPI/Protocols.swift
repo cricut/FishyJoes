@@ -284,6 +284,8 @@ public protocol TestAsyncFunctions {
     func thunkTwiceMaker(thunk: @escaping () async throws -> Void) throws -> () async throws -> Void
     /// <!-- FishyJoes.export(defaultExercise6) -->
     func defaultExercise6(_ fn: @escaping (String, Int, Double, String, @escaping () async throws -> Int, Int) async throws -> Int) async throws -> String
+    /// <!-- FishyJoes.export(witness) -->
+    func witness() throws -> TestAsyncFunctions
 }
 
 extension TestAsyncFunctions {
@@ -380,6 +382,27 @@ public struct TestAsyncForeignSideFunctionsStruct: TestAsyncFunctions {
     public func thunkTwiceMaker(thunk: @escaping () async throws -> Void) throws -> () async throws -> Void {
         try thunkTwiceMakerFun(thunk)
     }
+    /// <!-- FishyJoes.export(witness) -->
+    public func witness() throws -> TestAsyncFunctions {
+        TestAsyncForeignSideFunctionsStruct(
+            const42: const42,
+            iabs: iabs,
+            intCompose: intCompose,
+            add3Things: add3Things,
+            makeList: makeList,
+            fifthThing: fifthThing,
+            six: six,
+            willThrow: willThrow,
+            exercise0Fun: exercise0Fun,
+            exercise1Fun: exercise1Fun,
+            exercise2Fun: exercise2Fun,
+            exercise3Fun: exercise3Fun,
+            exercise4Fun: exercise4Fun,
+            exercise5Fun: exercise5Fun,
+            exercise6Fun: exercise6Fun,
+            thunkTwiceMakerFun: thunkTwiceMakerFun
+        )
+    }
 }
 
 /// <!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass, conformances: [TestAsyncFunctions]) -->
@@ -437,6 +460,10 @@ public class TestAsyncSwiftSideFunctionsClass: TestAsyncFunctions {
             try await thunk()
             try await thunk()
         }
+    }
+    /// <!-- FishyJoes.export(witness) -->
+    public func witness() throws -> TestAsyncFunctions {
+        TestAsyncSwiftSideFunctionsClass()
     }
 
     /// <!-- FishyJoes.export(init) -->

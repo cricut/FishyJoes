@@ -224,6 +224,14 @@ class ExternalWitness_TestAsyncFunctions extends SwiftReference implements TestA
         )
     ;
 
+    /// <!-- FishyJoes.export(witness) -->
+    TestAPI.TestAsyncFunctions witness(
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            consumeCreatedRef<TestAPI.TestAsyncFunctions>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestAsyncFunctions_witness(Loader.shared.env, _thisHandle.ptr, _exn)))
+        )
+    ;
+
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,
@@ -272,6 +280,11 @@ class ExternalWitness_TestAsyncFunctions extends SwiftReference implements TestA
         UnownedRef thunk,
         OutCreatedRef _exn
     ) f__iota_TestAPI_TestAsyncFunctions_thunkTwiceMaker;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_TestAsyncFunctions_witness;
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,

@@ -102,6 +102,12 @@ interface TestAsyncFunctions {
         fn: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)
     ): kotlin.String = __jni__default_defaultExercise6(this, fn).await()
 
+    /**
+     * <!-- FishyJoes.export(witness) -->
+     */
+    fun witness(
+    ): com.cricut.testapi.TestAsyncFunctions
+
     companion object {
         /**
          * <!-- FishyJoes.export(defaultExercise6) -->

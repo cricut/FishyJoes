@@ -3696,6 +3696,22 @@
                     "_0" : "() => Promise<void>"
                   }
                 }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(witness) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "witness",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.TestAsyncFunctions"
+                  }
+                }
               }
             ],
             "name" : "TestAsyncForeignSideFunctionsStruct"
@@ -4108,6 +4124,22 @@
                     }
                   }
                 }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(witness) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "witness",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.TestAsyncFunctions"
+                  }
+                }
               }
             ],
             "name" : "TestAsyncFunctions"
@@ -4440,6 +4472,22 @@
                 "returnType" : {
                   "named" : {
                     "_0" : "() => Promise<void>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(witness) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "witness",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.TestAsyncFunctions"
                   }
                 }
               },

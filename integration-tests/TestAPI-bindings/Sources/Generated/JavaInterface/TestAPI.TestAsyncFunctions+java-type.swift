@@ -265,6 +265,21 @@ struct _JavaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
             env: env
         )
     }
+
+    static var _witnessMethodID: jmethodID?
+    public func witness() throws -> TestAsyncFunctions {
+        let env = try Env.acquireJVMThread(on: _javaWitness.vm)
+        defer {
+            try? Env.relinquishJVMThread(on: _javaWitness.vm)
+        }
+        return try TestAPI_CommonInterface._TestAsyncFunctionsConverter.fromJava(
+            env.CallObjectMethod(
+                _javaWitness.object,
+                Self._witnessMethodID
+            ),
+            env: env
+        )
+    }
 }
 
 extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: JavaMutator {
@@ -306,6 +321,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: JavaMutator {
         _JavaTestAsyncFunctions._willThrowGetMethodID = try env.GetMethodID(javaClass, "getWillThrow", "()Lkotlin/jvm/functions/Function1;")
         externalCompanionClass = try env.globalRef(env.FindClass("com/cricut/testapi/TestAsyncFunctions$Companion"))
         _JavaTestAsyncFunctions._thunkTwiceMakerMethodID = try env.GetMethodID(javaClass, "thunkTwiceMaker", "(Lkotlin/jvm/functions/Function1;)Lkotlin/jvm/functions/Function1;")
+        _JavaTestAsyncFunctions._witnessMethodID = try env.GetMethodID(javaClass, "witness", "()Lcom/cricut/testapi/TestAsyncFunctions;")
         _JavaTestAsyncFunctions._exercise0MethodID = try env.GetMethodID(externalCompanionClass, "exercise0", "(Lcom/cricut/testapi/TestAsyncFunctions;Lkotlin/jvm/functions/Function1;)Lkotlinx/coroutines/Deferred;")
         _JavaTestAsyncFunctions._exercise1MethodID = try env.GetMethodID(externalCompanionClass, "exercise1", "(Lcom/cricut/testapi/TestAsyncFunctions;Lkotlin/jvm/functions/Function2;)Lkotlinx/coroutines/Deferred;")
         _JavaTestAsyncFunctions._exercise2MethodID = try env.GetMethodID(externalCompanionClass, "exercise2", "(Lcom/cricut/testapi/TestAsyncFunctions;Lkotlin/jvm/functions/Function2;)Lkotlinx/coroutines/Deferred;")

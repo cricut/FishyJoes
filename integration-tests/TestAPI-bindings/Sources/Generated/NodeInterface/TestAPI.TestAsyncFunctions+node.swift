@@ -54,6 +54,10 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
     public func defaultExercise6(_ fn: @escaping (String, Int, Double, String, @escaping () async throws -> Int, Int) async throws -> Int) throws -> String {
         defaultExercise6Impl!()
     }
+    var witnessImpl: (() -> TestAsyncFunctions)?
+    public func witness() throws -> TestAsyncFunctions {
+        witnessImpl!()
+    }
 }
 extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeMutator {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
@@ -358,6 +362,19 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeMutator {
                                 }
                             }
                             return promise
+                        }
+                    },
+                    isStatic: false
+                ),
+                "witness": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "witness", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try TestAPI_CommonInterface._TestAsyncFunctionsConverter.toNode(
+                                env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self).witness(
+                                ),
+                                env: env.env
+                            )
+                            return result
                         }
                     },
                     isStatic: false

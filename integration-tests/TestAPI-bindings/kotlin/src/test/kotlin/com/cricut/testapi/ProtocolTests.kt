@@ -443,5 +443,9 @@ internal class ProtocolTests {
                 thunk()
             }
         }
+
+        override fun witness(): TestAsyncFunctions {
+            return TestAsyncFunctionsImpl()
+        }
     }
 }

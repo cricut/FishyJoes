@@ -271,6 +271,19 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                     },
                     isStatic: false
                 ),
+                "witness": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "witness", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try TestAPI_CommonInterface._TestAsyncFunctionsConverter.toNode(
+                                env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self).witness(
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                ),
                 "init": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "init", expectedArgumentCount: 0, hasNamedOptions: false) { env in

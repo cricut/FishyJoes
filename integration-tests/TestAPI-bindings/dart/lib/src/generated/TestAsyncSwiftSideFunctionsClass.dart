@@ -224,6 +224,14 @@ class TestAsyncSwiftSideFunctionsClass extends SwiftReference implements TestAPI
         )
     ;
 
+    /// <!-- FishyJoes.export(witness) -->
+    TestAPI.TestAsyncFunctions witness(
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            consumeCreatedRef<TestAPI.TestAsyncFunctions>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_witness(Loader.shared.env, _thisHandle.ptr, _exn)))
+        )
+    ;
+
     /// <!-- FishyJoes.export(init) -->
     static TestAPI.TestAsyncSwiftSideFunctionsClass init(
     ) =>
@@ -282,6 +290,11 @@ class TestAsyncSwiftSideFunctionsClass extends SwiftReference implements TestAPI
         UnownedRef thunk,
         OutCreatedRef _exn
     ) f__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_thunkTwiceMaker;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_witness;
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,

@@ -473,6 +473,14 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
         )
     ;
 
+    /// <!-- FishyJoes.export(witness) -->
+    TestAPI.TestAsyncFunctions witness(
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            consumeCreatedRef<TestAPI.TestAsyncFunctions>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_witness(Loader.shared.env, _thisHandle.ptr, _exn)))
+        )
+    ;
+
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,
@@ -521,4 +529,9 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
         UnownedRef thunk,
         OutCreatedRef _exn
     ) f__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_thunkTwiceMaker;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_witness;
 }

@@ -89,6 +89,9 @@ abstract class TestAsyncFunctions {
         Future<void> Function() thunk
     );
 
+    TestAPI.TestAsyncFunctions witness(
+    );
+
     /// <!-- FishyJoes.export(const42) -->
     Future<int> Function() get const42;
 
@@ -310,6 +313,16 @@ extension TestAsyncFunctions_FfiHooks on TestAsyncFunctions {
         createRef(
             peekRef<TestAsyncFunctions>(obj).thunkTwiceMaker(
                 peekRef(thunk)
+            )
+        )
+    );
+
+    static CreatedRef ffi_witness(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestAsyncFunctions>(obj).witness(
             )
         )
     );
