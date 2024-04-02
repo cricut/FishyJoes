@@ -174,8 +174,16 @@ void main() {
             return [p3, p2, p1, p0];
           }
         );
-        print("k: $k");
         expect(k, equals("[\"d\", \"c\", \"b\", \"a\"]"));
+
+        final l = await a.exercise5(
+          (p0, p1, p2, p3, p4) async {
+            return () async {
+              return (p1.toDouble() + p2 + (await p4())).toInt();
+            };
+          }
+        );
+        expect(l, "93");
       });
   });
 }
