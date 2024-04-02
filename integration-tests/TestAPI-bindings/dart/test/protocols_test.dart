@@ -190,8 +190,17 @@ void main() {
             return (b.toDouble() + c + await e() + f).toInt();
           }
         );
-        print("m: $m");
         expect(m, equals("135"));
+
+        var o = 3.14159265359;
+        final n = a.thunkTwiceMaker(
+          () async {
+            o = o * o;
+            print("Thunkmaster thex");
+          }
+        );
+        await n();
+        expect(o, equals(97.4090910340281));
       });
   });
 }
