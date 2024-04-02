@@ -97,7 +97,7 @@ struct TranslatedStruct: TranslatedType {
                     for (index, storedVar) in storedVariables.enumerated() {
                         let resolved = context.resolve(type: storedVar.typeName.better)
                         let last = index == storedVariables.count - 1
-                        fragment.outputBlock("\(storedVar.name): try { () -> \(storedVar.typeName.better.name) in", closeWith: last ? "}()" : "}(),") {
+                        fragment.outputBlock("\(storedVar.name): try { () -> \(resolved.sourceType.name) in", closeWith: last ? "}()" : "}(),") {
                             fragment.output("let fieldValue = try env.getNamedProperty(value, \"\(storedVar.name)\")")
                             fragment.output("return try \(resolved.converterType.name).fromNode(fieldValue, env: env)")
                         }
