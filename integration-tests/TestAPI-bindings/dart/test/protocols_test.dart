@@ -161,6 +161,14 @@ void main() {
           }
         );
         expect(i, equals("21"));
+
+        final j = await a.exercise3(
+          (fl, d, l) async {
+            return (fl / d) + (9 * l);
+          }
+        );
+        print("j: $j");
+        expect(j, equals("18.227272727272727"));
       });
   });
 }
