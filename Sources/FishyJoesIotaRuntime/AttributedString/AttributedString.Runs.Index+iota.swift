@@ -35,7 +35,8 @@ public func AttributedString_Runs_Index_iotaEquals(
     let env = Env(envRef)
     return env.catching(to: _exn) {
         return try Bool.toIota(
-            AttributedString.Runs.Index.peekIota(lhs, env: env) == AttributedString.Runs.Index.peekIota(rhs, env: env),
+            AttributedString.Runs.Index.peekIota(lhs, env: env)
+                .workaroundEquals(AttributedString.Runs.Index.peekIota(rhs, env: env)),
             env: env
         )
     }

@@ -20,7 +20,7 @@ concurrency:
 jobs:
   build-test-node-mac:
     name: "macOS: Build and test node runtime"
-    runs-on: macOS-12
+    runs-on: [macOS, self-hosted, ARM64]
     env:
       LIB_DIR: node-runtime/fishyjoes-runtime-native-macos
     steps:
