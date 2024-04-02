@@ -14,6 +14,7 @@ import './DefaultArguments.dart' as TestAPI;
 import './Deprecations.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
 import './ExternalWitness_AProtocol.dart' as TestAPI;
+import './ExternalWitness_TestAsyncFunctions.dart' as TestAPI;
 import './ExternalWitness_TestLeadingUnderscoredProp.dart' as TestAPI;
 import './ExternalWitness_TestMethodsProtocol.dart' as TestAPI;
 import './ExternalWitness_TestOptionalsProtocol.dart' as TestAPI;
@@ -31,6 +32,9 @@ import './Structs_MemberwiseStruct.dart' as TestAPI;
 import './Structs_MutableStruct.dart' as TestAPI;
 import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Structs_ReferenceStruct.dart' as TestAPI;
+import './TestAsyncForeignSideFunctionsStruct.dart' as TestAPI;
+import './TestAsyncFunctions.dart' as TestAPI;
+import './TestAsyncSwiftSideFunctionsClass.dart' as TestAPI;
 import './TestLeadingUnderscoredProp.dart' as TestAPI;
 import './TestLeadingUnderscoredPropStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
@@ -80,23 +84,23 @@ extension TestOptionalsProtocol_FfiHooks on TestOptionalsProtocol {
 
     static CreatedRef ffi_wombat(
         UnownedRef obj,
-        ConsumedRef zxc,
+        UnownedRef zxc,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestOptionalsProtocol>(obj).wombat(
-                consumeRef(zxc)
+                peekRef(zxc)
             )
         )
     );
 
     static int ffi_spqr(
         UnownedRef obj,
-        ConsumedRef pippo,
+        UnownedRef pippo,
         OutCreatedRef exn
     ) => catching(exn, () =>
         peekRef<TestOptionalsProtocol>(obj).spqr(
-            consumeRef(pippo)
+            peekRef(pippo)
         )
     ) ?? 0;
 }

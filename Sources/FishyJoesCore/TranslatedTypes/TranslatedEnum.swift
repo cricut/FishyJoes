@@ -148,7 +148,11 @@ struct TranslatedEnum: TranslatedType {
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
             "NodeInterface/\(sourceType.name)+node.swift",
-            additionalImports: ["Foundation", "FishyJoesNodeRuntime"]
+            additionalImports: [
+                "Foundation",
+                "FishyJoesNodeRuntime",
+                "\(context.module.name)_CommonInterface"
+            ]
         )
         if cases.allSatisfy({ $0.associatedValues.isEmpty }), !cases.isEmpty {
             // Simple enum, export as strings

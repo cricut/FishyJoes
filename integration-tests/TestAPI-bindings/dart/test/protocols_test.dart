@@ -87,5 +87,4 @@ void main() {
         // test for _leadingUnderscoreMethod is just that tests build and run, since currently leading underscore on method name means it's only visible on the Swift side, not the Foreign/Dart side.
       });
   });
-
 }

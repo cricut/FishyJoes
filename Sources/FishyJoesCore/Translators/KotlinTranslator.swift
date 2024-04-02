@@ -26,9 +26,9 @@ final class KotlinTranslator: Translator {
                 selfExpression = containingNamespace
             } else if method.isAsync {
                 if method.isMutating {
-                    selfExpression = "\(resolved.converterType.name).mutateJava(_javaThisRef.object, env: &_javaEnv)"
+                    selfExpression = "await \(resolved.converterType.name).mutateJava(_javaThisRef.object, env: &_javaEnv)"
                 } else {
-                    selfExpression = "\(resolved.converterType.name).fromJava(_javaThisRef.object, env: _javaEnv)"
+                    selfExpression = "\(resolved.converterType.name).fromJava(_javaThisRef.createLocalRef(env: _javaEnv), env: _javaEnv)"
                 }
             } else {
                 selfExpression = "\(resolved.converterType.name).fromJava(_javaThis, env: _javaEnv)"
@@ -109,7 +109,7 @@ final class KotlinTranslator: Translator {
                         if method.isMutating {
                             let _selfExpression = selfExpression
                             callBlock = { body in
-                                fragment.outputBlock("return try await \(_selfExpression) { mutatingSelf, _javaEnv in", closeWith: "}") {
+                                fragment.outputBlock("return try \(_selfExpression) { mutatingSelf, _javaEnv in", closeWith: "}") {
                                     body()
                                 }
                             }
@@ -117,7 +117,13 @@ final class KotlinTranslator: Translator {
                         } else if !method.isStatic {
                             let _selfExpression = selfExpression
                             callBlock = { body in
-                                fragment.output("let _swiftThis = try \(_selfExpression)")
+                                if method.isDefaultImplementation {
+                                    fragment.outputBlock("let _swiftThis = \(typeName)_sans_\(method.callName)(wrapped:", closeWith: ")") {
+                                        fragment.output("try \(_selfExpression)")
+                                    }
+                                } else {
+                                    fragment.output("let _swiftThis = try \(_selfExpression)")
+                                }
                                 body()
                             }
                             selfExpression = "_swiftThis"
@@ -129,7 +135,7 @@ final class KotlinTranslator: Translator {
                             fragment.outputBlock("let value: \(returnType.converterType.name).SwiftType = try await {", closeWith: "}()") {
                                 fragment.output("try Env.relinquishJVMThread(on: _vm)")
                                 fragment.output("defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }")
-                                fragment.outputBlock("return \(method.isThrowing ? "try " : "")await \(selfExpression)\(callName)(", closeWith: ")") {
+                                fragment.outputBlock("return \(method.isThrowing ? "try " : "")\(method.isAsync ? "await " : "")\(selfExpression)\(callName)(", closeWith: ")") {
                                     fragment.outputMap(method.parameters, separator: ",") { formal in
                                         (formal.label.map { "\($0): "} ?? "") + formal.name
                                     }
@@ -153,7 +159,7 @@ final class KotlinTranslator: Translator {
                         fragment.outputBlock("return try \(returnType.converterType.name).toJava(") {
                             if method.isDefaultImplementation {
                                 fragment.outputBlock("\(method.isThrowing ? "try " : "")\(typeName)_sans_\(method.callName)(wrapped:", closeWith: ")", newLineTerminated: false) {
-                                    fragment.output("\(method.isThrowing ? "try " : "")\(selfExpression)")
+                                    fragment.output("try \(selfExpression)")
                                 }
                                 fragment.outputBlock("\(callName)(", closeWith: "),") {
                                     fragment.outputMap(method.parameters, separator: ",") { formal in
@@ -164,7 +170,7 @@ final class KotlinTranslator: Translator {
                                 }
                                 fragment.output("env: _javaEnv")
                             } else {
-                                fragment.outputBlock("\(method.isThrowing ? "try " : "")\(selfExpression)\(callName)(", closeWith: "),") {
+                                fragment.outputBlock("\(method.isThrowing ? "try " : "")\(method.isAsync ? "await ": "")\(selfExpression)\(callName)(", closeWith: "),") {
                                     fragment.outputMap(method.parameters, separator: ",") { formal in
                                         let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
                                         return (formal.label.map { "\($0): " } ?? "") +

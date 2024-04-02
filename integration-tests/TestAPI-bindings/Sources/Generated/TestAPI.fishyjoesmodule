@@ -1460,6 +1460,162 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestAsyncForeignSideFunctionsStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestAsyncForeignSideFunctionsStruct",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestAsyncForeignSideFunctionsStruct",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestAsyncForeignSideFunctionsStruct"
+        }
+      },
+      "kotlinName" : "TestAsyncForeignSideFunctionsStruct",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestAsyncForeignSideFunctionsStruct>>",
+      "nodeName" : "TestAPI.TestAsyncForeignSideFunctionsStruct",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestAsyncForeignSideFunctionsStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI_CommonInterface",
+            "name" : "_TestAsyncFunctionsConverter",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestAsyncFunctions",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestAsyncFunctions",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestAsyncFunctions"
+        }
+      },
+      "kotlinName" : "TestAsyncFunctions",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestAsyncFunctions>>",
+      "nodeName" : "TestAPI.TestAsyncFunctions",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestAsyncFunctions",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestAsyncSwiftSideFunctionsClass",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestAsyncSwiftSideFunctionsClass",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestAsyncSwiftSideFunctionsClass",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestAsyncSwiftSideFunctionsClass"
+        }
+      },
+      "kotlinName" : "TestAsyncSwiftSideFunctionsClass",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=TestAsyncSwiftSideFunctionsClass>>",
+      "nodeName" : "TestAPI.TestAsyncSwiftSideFunctionsClass",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestAsyncSwiftSideFunctionsClass",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
             "module" : "TestAPI_CommonInterface",
             "name" : "_TestLeadingUnderscoredPropConverter",
             "namespace" : [
@@ -3006,6 +3162,1353 @@
               }
             ],
             "name" : "Methods"
+          },
+          {
+            "constructor" : {
+              "visible" : {
+                "names" : [
+                  "const42",
+                  "iabs",
+                  "intCompose",
+                  "add3Things",
+                  "makeList",
+                  "fifthThing",
+                  "six",
+                  "willThrow",
+                  "exercise0Fun",
+                  "exercise1Fun",
+                  "exercise2Fun",
+                  "exercise3Fun",
+                  "exercise4Fun",
+                  "exercise5Fun",
+                  "exercise6Fun",
+                  "thunkTwiceMakerFun"
+                ],
+                "types" : [
+                  {
+                    "named" : {
+                      "_0" : "() => Promise<number>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: number) => Promise<number>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: number, _1: number, _2: number) => Promise<number>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: string, _1: string, _2: string, _3: string) => Promise<string[]>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "() => Promise<number>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: () => Promise<number>) => Promise<string>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: (_0: number) => Promise<number>) => Promise<string>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>) => Promise<string>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: (_0: number, _1: number, _2: number) => Promise<number>) => Promise<string>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>) => Promise<string>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>) => Promise<string>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>) => Promise<string>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: () => Promise<void>) => () => Promise<void>"
+                    }
+                  }
+                ]
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct, conformances: [TestAsyncFunctions]) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "const42",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "() => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "iabs",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "intCompose",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "add3Things",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: number, _1: number, _2: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "makeList",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: string, _1: string, _2: string, _3: string) => Promise<string[]>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "fifthThing",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "six",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "willThrow",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "() => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "exercise0Fun",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: () => Promise<number>) => Promise<string>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "exercise1Fun",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: (_0: number) => Promise<number>) => Promise<string>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "exercise2Fun",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>) => Promise<string>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "exercise3Fun",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: (_0: number, _1: number, _2: number) => Promise<number>) => Promise<string>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "exercise4Fun",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>) => Promise<string>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "exercise5Fun",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>) => Promise<string>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "exercise6Fun",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>) => Promise<string>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "thunkTwiceMakerFun",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: () => Promise<void>) => () => Promise<void>"
+                  }
+                }
+              }
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise0) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise0",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "() => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise1) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise1",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise2) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise2",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise3) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise3",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: number, _1: number, _2: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise4) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise4",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: string, _1: string, _2: string, _3: string) => Promise<string[]>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise5) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise5",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise6) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise6",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(thunkTwiceMaker) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "thunkTwiceMaker",
+                "parameters" : [
+                  {
+                    "name" : "thunk",
+                    "type" : {
+                      "named" : {
+                        "_0" : "() => Promise<void>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "() => Promise<void>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(witness) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "witness",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.TestAsyncFunctions"
+                  }
+                }
+              }
+            ],
+            "name" : "TestAsyncForeignSideFunctionsStruct"
+          },
+          {
+            "constructor" : {
+              "visible" : {
+                "names" : [
+                  "const42",
+                  "iabs",
+                  "intCompose",
+                  "add3Things",
+                  "makeList",
+                  "fifthThing",
+                  "six",
+                  "willThrow"
+                ],
+                "types" : [
+                  {
+                    "named" : {
+                      "_0" : "() => Promise<number>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: number) => Promise<number>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: number, _1: number, _2: number) => Promise<number>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: string, _1: string, _2: string, _3: string) => Promise<string[]>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "() => Promise<number>"
+                    }
+                  }
+                ]
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.export(TestAsyncFunctions) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(const42) -->"
+                ],
+                "isStatic" : false,
+                "name" : "const42",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "() => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(iabs) -->"
+                ],
+                "isStatic" : false,
+                "name" : "iabs",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(intCompose) -->"
+                ],
+                "isStatic" : false,
+                "name" : "intCompose",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(add3Things) -->"
+                ],
+                "isStatic" : false,
+                "name" : "add3Things",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: number, _1: number, _2: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(makeList) -->"
+                ],
+                "isStatic" : false,
+                "name" : "makeList",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: string, _1: string, _2: string, _3: string) => Promise<string[]>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(fifthThing) -->"
+                ],
+                "isStatic" : false,
+                "name" : "fifthThing",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(six) -->"
+                ],
+                "isStatic" : false,
+                "name" : "six",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(willThrow) -->"
+                ],
+                "isStatic" : false,
+                "name" : "willThrow",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "() => Promise<number>"
+                  }
+                }
+              }
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise0) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise0",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "() => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise1) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise1",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise2) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise2",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise3) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise3",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: number, _1: number, _2: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise4) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise4",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: string, _1: string, _2: string, _3: string) => Promise<string[]>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise5) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise5",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise6) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise6",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(thunkTwiceMaker) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "thunkTwiceMaker",
+                "parameters" : [
+                  {
+                    "name" : "thunk",
+                    "type" : {
+                      "named" : {
+                        "_0" : "() => Promise<void>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "() => Promise<void>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(defaultExercise6) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "defaultExercise6",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(witness) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "witness",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.TestAsyncFunctions"
+                  }
+                }
+              }
+            ],
+            "name" : "TestAsyncFunctions"
+          },
+          {
+            "constructor" : {
+              "hidden" : {
+
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass, conformances: [TestAsyncFunctions]) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(const42) -->"
+                ],
+                "isStatic" : false,
+                "name" : "const42",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "() => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(iabs) -->"
+                ],
+                "isStatic" : false,
+                "name" : "iabs",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(intCompose) -->"
+                ],
+                "isStatic" : false,
+                "name" : "intCompose",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(add3Things) -->"
+                ],
+                "isStatic" : false,
+                "name" : "add3Things",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: number, _1: number, _2: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(makeList) -->"
+                ],
+                "isStatic" : false,
+                "name" : "makeList",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: string, _1: string, _2: string, _3: string) => Promise<string[]>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(fifthThing) -->"
+                ],
+                "isStatic" : false,
+                "name" : "fifthThing",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(six) -->"
+                ],
+                "isStatic" : false,
+                "name" : "six",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(willThrow) -->"
+                ],
+                "isStatic" : false,
+                "name" : "willThrow",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "() => Promise<number>"
+                  }
+                }
+              }
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise0) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise0",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "() => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise1) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise1",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise2) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise2",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise3) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise3",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: number, _1: number, _2: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise4) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise4",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: string, _1: string, _2: string, _3: string) => Promise<string[]>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise5) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise5",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise6) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise6",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(thunkTwiceMaker) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "thunkTwiceMaker",
+                "parameters" : [
+                  {
+                    "name" : "thunk",
+                    "type" : {
+                      "named" : {
+                        "_0" : "() => Promise<void>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "() => Promise<void>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(witness) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "witness",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.TestAsyncFunctions"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(init) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "init",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.TestAsyncSwiftSideFunctionsClass"
+                  }
+                }
+              }
+            ],
+            "name" : "TestAsyncSwiftSideFunctionsClass"
           },
           {
             "constructor" : {

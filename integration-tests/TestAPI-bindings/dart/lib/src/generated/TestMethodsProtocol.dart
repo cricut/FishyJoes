@@ -14,6 +14,7 @@ import './DefaultArguments.dart' as TestAPI;
 import './Deprecations.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
 import './ExternalWitness_AProtocol.dart' as TestAPI;
+import './ExternalWitness_TestAsyncFunctions.dart' as TestAPI;
 import './ExternalWitness_TestLeadingUnderscoredProp.dart' as TestAPI;
 import './ExternalWitness_TestMethodsProtocol.dart' as TestAPI;
 import './ExternalWitness_TestOptionalsProtocol.dart' as TestAPI;
@@ -31,6 +32,9 @@ import './Structs_MemberwiseStruct.dart' as TestAPI;
 import './Structs_MutableStruct.dart' as TestAPI;
 import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Structs_ReferenceStruct.dart' as TestAPI;
+import './TestAsyncForeignSideFunctionsStruct.dart' as TestAPI;
+import './TestAsyncFunctions.dart' as TestAPI;
+import './TestAsyncSwiftSideFunctionsClass.dart' as TestAPI;
 import './TestLeadingUnderscoredProp.dart' as TestAPI;
 import './TestLeadingUnderscoredPropStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
@@ -109,12 +113,12 @@ extension TestMethodsProtocol_FfiHooks on TestMethodsProtocol {
 
     static CreatedRef ffi_garply(
         UnownedRef obj,
-        ConsumedRef m_0,
+        UnownedRef m_0,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestMethodsProtocol>(obj).garply(
-                consumeRef(m_0)
+                peekRef(m_0)
             )
         )
     );
@@ -122,25 +126,25 @@ extension TestMethodsProtocol_FfiHooks on TestMethodsProtocol {
     static CreatedRef ffi_xyzzy(
         UnownedRef obj,
         int thud,
-        ConsumedRef grault,
+        UnownedRef grault,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestMethodsProtocol>(obj).xyzzy(
                 thud,
-                consumeRef(grault)
+                peekRef(grault)
             )
         )
     );
 
     static CreatedRef ffi_plugh(
         UnownedRef obj,
-        ConsumedRef fred,
+        UnownedRef fred,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestMethodsProtocol>(obj).plugh(
-                consumeRef(fred)
+                peekRef(fred)
             )
         )
     );

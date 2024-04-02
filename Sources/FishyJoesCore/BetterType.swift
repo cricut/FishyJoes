@@ -13,7 +13,7 @@ indirect enum BetterType: Codable, Hashable {
     case named(Name)
     case tuple([TupleElement])
     case void
-    case function([BetterType], BetterType, isAsync: Bool)
+    case function([BetterType], BetterType, isAsync: Bool, isThrowing: Bool)
     case generic(base: Name, args: [BetterType])
     case selfType
 
@@ -79,7 +79,12 @@ extension TypeName {
         } else if let dictionary = name.dictionary {
             better = .dictionary(dictionary.keyTypeName.better, dictionary.valueTypeName.better)
         } else if let closure = name.closure {
-            better = .function(closure.parameters.map(\.typeName.better), closure.returnTypeName.better, isAsync: closure.isAsync)
+            better = .function(
+                closure.parameters.map(\.typeName.better),
+                closure.returnTypeName.better,
+                isAsync: closure.isAsync,
+                isThrowing: closure.throws
+            )
         } else if name.unwrappedTypeName == "Self" {
             better = .selfType
         } else if let generic = name.generic {
@@ -182,8 +187,8 @@ extension BetterType {
             }.joined(separator: ", ") + ")"
         case .void:
             return "Void"
-        case .function(let args, let ret, let isAsync):
-            return "(\(args.map(\.name).joined(separator: ", ")))\(isAsync ? " async" : "") -> \(ret.name)"
+        case let .function(args, ret, isAsync, isThrowing):
+            return "(\(args.map(\.escapingName).joined(separator: ", ")))\(isAsync ? " async" : "")\(isThrowing ? " throws" : "") -> \(ret.name)"
         case .generic(let base, let args):
             return "\(base.name)<\(args.map(\.name).joined(separator: ", "))>"
         case .selfType:
@@ -195,22 +200,17 @@ extension BetterType {
         switch self {
         case let .named(name):
             return name.name
-        case .tuple(let elements):
-            return "(" + elements.map {
-                if Int($0.label) == nil {
-                    return "\($0.label): \($0.type.name)"
-                } else {
-                    return $0.type.name
-                }
-            }.joined(separator: ", ") + ")"
-        case .void:
-            return "Void"
-        case .function(let args, let ret, let isAsync):
-            return "(\(args.map(\.name).joined(separator: ", ")))\(isAsync ? " async" : "") -> \(ret.name)"
-        case .generic(let base, let args):
-            return "\(base.name)<\(args.map(\.name).joined(separator: ", "))>"
-        case .selfType:
-            return "Self"
+        default:
+            return name
+        }
+    }
+
+    var escapingName: String {
+        switch self {
+        case .function:
+            return "@escaping \(name)"
+        default:
+            return name
         }
     }
 

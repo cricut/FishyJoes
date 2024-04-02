@@ -30,6 +30,7 @@ extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: JavaMuta
     public static var javaClass: jclass?
     public static var externalWitnessClass: jclass?
     public static var externalWitnessConstructor: jmethodID?
+    public static var externalCompanionClass: jclass?
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
         if env.IsInstanceOf(value, AnyBox.javaClass) {
             return try Box<SwiftType>.fromJava(value, env: env).value
@@ -54,5 +55,6 @@ extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: JavaMuta
         externalWitnessClass = try env.globalRef(env.FindClass("com/cricut/testapi/_ExternalWitness_TestLeadingUnderscoredProp"))
         externalWitnessConstructor = try env.GetMethodID(externalWitnessClass, "<init>", "(J)V")
         _JavaTestLeadingUnderscoredProp.__leadingUnderscorePropGetMethodID = try env.GetMethodID(javaClass, "get_leadingUnderscoreProp", "()Ljava/lang/String;")
+        externalCompanionClass = try env.globalRef(env.FindClass("com/cricut/testapi/TestLeadingUnderscoredProp$Companion"))
     }
 }

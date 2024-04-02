@@ -17,14 +17,44 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
     let env = UnsafeMutablePointer<JNIEnv?>(OpaquePointer(envRaw))
     return FishyJoesJavaRuntime.callbackBody(env!) { env in
         let bag = CStringBag()
+        // print("setting up Function1Converter<Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>, FutureConverter<Swift.String>>...")
+        try Function1Converter<Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>, FutureConverter<Swift.String>>.javaSetup(env: env)
+        // print("setting up AsyncFunction1Converter<Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>, Swift.String>...")
+        try AsyncFunction1Converter<Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>, Swift.String>.javaSetup(env: env)
+        // print("setting up Function1Converter<AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>, FutureConverter<Swift.String>>...")
+        try Function1Converter<AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>, FutureConverter<Swift.String>>.javaSetup(env: env)
         // print("setting up Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>...")
         try Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>.javaSetup(env: env)
         // print("setting up Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>...")
         try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.javaSetup(env: env)
+        // print("setting up Function1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, FutureConverter<Swift.String>>...")
+        try Function1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, FutureConverter<Swift.String>>.javaSetup(env: env)
+        // print("setting up Function1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, FutureConverter<Swift.String>>...")
+        try Function1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, FutureConverter<Swift.String>>.javaSetup(env: env)
+        // print("setting up Function1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, FutureConverter<Swift.String>>...")
+        try Function1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, FutureConverter<Swift.String>>.javaSetup(env: env)
+        // print("setting up Function1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, FutureConverter<Swift.String>>...")
+        try Function1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, FutureConverter<Swift.String>>.javaSetup(env: env)
+        // print("setting up AsyncFunction1Converter<AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>, Swift.String>...")
+        try AsyncFunction1Converter<AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>, Swift.String>.javaSetup(env: env)
         // print("setting up Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>...")
         try Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>.javaSetup(env: env)
         // print("setting up Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>...")
         try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.javaSetup(env: env)
+        // print("setting up AsyncFunction1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, Swift.String>...")
+        try AsyncFunction1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, Swift.String>.javaSetup(env: env)
+        // print("setting up AsyncFunction1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, Swift.String>...")
+        try AsyncFunction1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, Swift.String>.javaSetup(env: env)
+        // print("setting up AsyncFunction1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, Swift.String>...")
+        try AsyncFunction1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, Swift.String>.javaSetup(env: env)
+        // print("setting up AsyncFunction1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, Swift.String>...")
+        try AsyncFunction1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, Swift.String>.javaSetup(env: env)
+        // print("setting up Function1Converter<AsyncFunction0Converter<Swift.Int>, FutureConverter<Swift.String>>...")
+        try Function1Converter<AsyncFunction0Converter<Swift.Int>, FutureConverter<Swift.String>>.javaSetup(env: env)
+        // print("setting up AsyncFunction1Converter<AsyncFunction0Converter<Swift.Int>, Swift.String>...")
+        try AsyncFunction1Converter<AsyncFunction0Converter<Swift.Int>, Swift.String>.javaSetup(env: env)
+        // print("setting up Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>...")
+        try Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>.javaSetup(env: env)
         // print("setting up Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>...")
         try Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>.javaSetup(env: env)
         // print("setting up Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>...")
@@ -95,6 +125,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try FutureConverter<Function0Converter<Swift.Int>>.javaSetup(env: env)
         // print("setting up FutureConverter<AsyncFunction0Converter<Swift.Int>>...")
         try FutureConverter<AsyncFunction0Converter<Swift.Int>>.javaSetup(env: env)
+        // print("setting up FutureConverter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>...")
+        try FutureConverter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>.javaSetup(env: env)
         // print("setting up FutureConverter<FutureConverter<AsyncFunction0Converter<Swift.Int>>>...")
         try FutureConverter<FutureConverter<AsyncFunction0Converter<Swift.Int>>>.javaSetup(env: env)
         // print("setting up FutureConverter<FutureConverter<ArrayConverter<Swift.String>>>...")
@@ -103,6 +135,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try FutureConverter<FutureConverter<Swift.Double>>.javaSetup(env: env)
         // print("setting up FutureConverter<FutureConverter<Swift.Int>>...")
         try FutureConverter<FutureConverter<Swift.Int>>.javaSetup(env: env)
+        // print("setting up FutureConverter<FutureConverter<Swift.String>>...")
+        try FutureConverter<FutureConverter<Swift.String>>.javaSetup(env: env)
         // print("setting up FutureConverter<FutureConverter<FishyJoesCommonRuntime.VoidConverter>>...")
         try FutureConverter<FutureConverter<FishyJoesCommonRuntime.VoidConverter>>.javaSetup(env: env)
         // print("setting up FutureConverter<ArrayConverter<Swift.String>>...")
@@ -1919,6 +1953,249 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         )
         // print("setting up TestAPI.Structs...")
         try TestAPI.Structs.javaSetup(env: env)
+        // print("setting up TestAPI.TestAsyncForeignSideFunctionsStruct...")
+        try TestAPI.TestAsyncForeignSideFunctionsStruct.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI.TestAsyncForeignSideFunctionsStruct.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_exercise0"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function1;)Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise0, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_exercise1"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function2;)Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise1, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_exercise2"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function2;)Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise2, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_exercise3"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function4;)Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise3, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_exercise4"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function5;)Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise4, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_exercise5"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function6;)Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise5, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_exercise6"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function7;)Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise6, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_thunkTwiceMaker"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function1;)Lkotlin/jvm/functions/Function1;"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestAsyncForeignSideFunctionsStruct_thunkTwiceMaker, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_witness"),
+                signature: bag.add("()Lcom/cricut/testapi/TestAsyncFunctions;"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestAsyncForeignSideFunctionsStruct_witness, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        // print("setting up TestAPI_CommonInterface._TestAsyncFunctionsConverter...")
+        try TestAPI_CommonInterface._TestAsyncFunctionsConverter.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI_CommonInterface._TestAsyncFunctionsConverter.externalCompanionClass,
+            JNINativeMethod(
+                name: bag.add("__jni__default_defaultExercise6"),
+                signature: bag.add("(Lcom/cricut/testapi/TestAsyncFunctions;Lkotlin/jvm/functions/Function7;)Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestAsyncFunctionsConverter__default_defaultExercise6, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        try env.RegisterNatives(
+            TestAPI_CommonInterface._TestAsyncFunctionsConverter.externalWitnessClass!,
+            JNINativeMethod(
+                name: bag.add("__jni_exercise0"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function1;)Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise0, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_exercise1"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function2;)Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise1, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_exercise2"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function2;)Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise2, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_exercise3"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function4;)Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise3, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_exercise4"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function5;)Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise4, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_exercise5"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function6;)Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise5, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_exercise6"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function7;)Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise6, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_thunkTwiceMaker"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function1;)Lkotlin/jvm/functions/Function1;"),
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestAsyncFunctionsConverter_thunkTwiceMaker, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_witness"),
+                signature: bag.add("()Lcom/cricut/testapi/TestAsyncFunctions;"),
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestAsyncFunctionsConverter_witness, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_const42"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function1;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestAsyncFunctions_const42, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_iabs"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function2;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestAsyncFunctions_iabs, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_intCompose"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function2;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestAsyncFunctions_intCompose, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_add3Things"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function4;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestAsyncFunctions_add3Things, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_makeList"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function5;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestAsyncFunctions_makeList, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_fifthThing"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function6;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestAsyncFunctions_fifthThing, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_six"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function7;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestAsyncFunctions_six, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_willThrow"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function1;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestAsyncFunctions_willThrow, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        // print("setting up TestAPI.TestAsyncSwiftSideFunctionsClass...")
+        try TestAPI.TestAsyncSwiftSideFunctionsClass.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI.TestAsyncSwiftSideFunctionsClass.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_exercise0"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function1;)Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise0, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_exercise1"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function2;)Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise1, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_exercise2"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function2;)Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise2, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_exercise3"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function4;)Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise3, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_exercise4"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function5;)Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise4, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_exercise5"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function6;)Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise5, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_exercise6"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function7;)Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise6, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_thunkTwiceMaker"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function1;)Lkotlin/jvm/functions/Function1;"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestAsyncSwiftSideFunctionsClass_thunkTwiceMaker, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_witness"),
+                signature: bag.add("()Lcom/cricut/testapi/TestAsyncFunctions;"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestAsyncSwiftSideFunctionsClass_witness, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_init"),
+                signature: bag.add("()Lcom/cricut/testapi/TestAsyncSwiftSideFunctionsClass;"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestAsyncSwiftSideFunctionsClass_init, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_const42"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function1;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestAsyncSwiftSideFunctionsClass_const42, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_iabs"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function2;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestAsyncSwiftSideFunctionsClass_iabs, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_intCompose"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function2;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestAsyncSwiftSideFunctionsClass_intCompose, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_add3Things"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function4;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestAsyncSwiftSideFunctionsClass_add3Things, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_makeList"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function5;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestAsyncSwiftSideFunctionsClass_makeList, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_fifthThing"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function6;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestAsyncSwiftSideFunctionsClass_fifthThing, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_six"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function7;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestAsyncSwiftSideFunctionsClass_six, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_willThrow"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function1;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestAsyncSwiftSideFunctionsClass_willThrow, to: UnsafeMutableRawPointer.self)
+            )
+        )
         // print("setting up TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter...")
         try TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter.javaSetup(env: env)
         try env.RegisterNatives(

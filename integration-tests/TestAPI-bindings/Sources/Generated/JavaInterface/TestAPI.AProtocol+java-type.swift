@@ -122,8 +122,8 @@ extension TestAPI_CommonInterface._AProtocolConverter: JavaMutator {
         externalWitnessConstructor = try env.GetMethodID(externalWitnessClass, "<init>", "(J)V")
         _JavaAProtocol._fooGetMethodID = try env.GetMethodID(javaClass, "getFoo", "()Ljava/lang/String;")
         _JavaAProtocol._bazGetMethodID = try env.GetMethodID(javaClass, "getBaz", "()Z")
-        _JavaAProtocol._barMethodID = try env.GetMethodID(javaClass, "bar", "(JJ)Lcom/cricut/testapi/AProtocol;")
         externalCompanionClass = try env.globalRef(env.FindClass("com/cricut/testapi/AProtocol$Companion"))
+        _JavaAProtocol._barMethodID = try env.GetMethodID(javaClass, "bar", "(JJ)Lcom/cricut/testapi/AProtocol;")
         _JavaAProtocol._hasADefaultImplementationMethodID = try env.GetMethodID(javaClass, "hasADefaultImplementation", "(JD)Ljava/lang/String;")
         _JavaAProtocol._hasADefaultImplementation2MethodID = try env.GetMethodID(javaClass, "hasADefaultImplementation2", "(Ljava/lang/String;ZD)D")
     }

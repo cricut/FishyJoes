@@ -14,6 +14,7 @@ import './DefaultArguments.dart' as TestAPI;
 import './Deprecations.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
 import './ExternalWitness_AProtocol.dart' as TestAPI;
+import './ExternalWitness_TestAsyncFunctions.dart' as TestAPI;
 import './ExternalWitness_TestLeadingUnderscoredProp.dart' as TestAPI;
 import './ExternalWitness_TestMethodsProtocol.dart' as TestAPI;
 import './ExternalWitness_TestOptionalsProtocol.dart' as TestAPI;
@@ -31,6 +32,9 @@ import './Structs_MemberwiseStruct.dart' as TestAPI;
 import './Structs_MutableStruct.dart' as TestAPI;
 import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Structs_ReferenceStruct.dart' as TestAPI;
+import './TestAsyncForeignSideFunctionsStruct.dart' as TestAPI;
+import './TestAsyncFunctions.dart' as TestAPI;
+import './TestAsyncSwiftSideFunctionsClass.dart' as TestAPI;
 import './TestLeadingUnderscoredProp.dart' as TestAPI;
 import './TestLeadingUnderscoredPropStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
@@ -204,7 +208,7 @@ typedef _TestAPI_AProtocol_fooGetter = CreatedRef Function(UnownedRef obj, OutCr
 typedef _TestAPI_AProtocol_bazGetter = ffi.Bool Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_AProtocol_bar = CreatedRef Function(UnownedRef obj, ffi.IntPtr x, ffi.IntPtr y, OutCreatedRef exn);
 typedef _TestAPI_AProtocol_hasADefaultImplementation = CreatedRef Function(UnownedRef obj, ffi.IntPtr x, ffi.Double y, OutCreatedRef exn);
-typedef _TestAPI_AProtocol_hasADefaultImplementation2 = ffi.Double Function(UnownedRef obj, ffi.Pointer a, ffi.Bool b, ffi.Double c, OutCreatedRef exn);
+typedef _TestAPI_AProtocol_hasADefaultImplementation2 = ffi.Double Function(UnownedRef obj, UnownedRef a, ffi.Bool b, ffi.Double c, OutCreatedRef exn);
 typedef _TestAPI_AProtocolImplementationConstructor = CreatedRef Function(
     ConsumedRef foo,
     ffi.Bool baz,
@@ -282,6 +286,63 @@ typedef TestAPI_SimpleEnum_extract_blue = ffi.Void Function(
     UnownedRef obj,
     OutCreatedRef _exn
 );
+typedef _TestAPI_TestAsyncForeignSideFunctionsStructConstructor = CreatedRef Function(
+    ConsumedRef const42,
+    ConsumedRef iabs,
+    ConsumedRef intCompose,
+    ConsumedRef add3Things,
+    ConsumedRef makeList,
+    ConsumedRef fifthThing,
+    ConsumedRef six,
+    ConsumedRef willThrow,
+    ConsumedRef exercise0Fun,
+    ConsumedRef exercise1Fun,
+    ConsumedRef exercise2Fun,
+    ConsumedRef exercise3Fun,
+    ConsumedRef exercise4Fun,
+    ConsumedRef exercise5Fun,
+    ConsumedRef exercise6Fun,
+    ConsumedRef thunkTwiceMakerFun,
+    OutCreatedRef exn
+);
+typedef _TestAPI_TestAsyncForeignSideFunctionsStruct_const42Getter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncForeignSideFunctionsStruct_iabsGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncForeignSideFunctionsStruct_intComposeGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncForeignSideFunctionsStruct_add3ThingsGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncForeignSideFunctionsStruct_makeListGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncForeignSideFunctionsStruct_fifthThingGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncForeignSideFunctionsStruct_sixGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncForeignSideFunctionsStruct_willThrowGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncForeignSideFunctionsStruct_exercise0FunGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncForeignSideFunctionsStruct_exercise1FunGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncForeignSideFunctionsStruct_exercise2FunGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncForeignSideFunctionsStruct_exercise3FunGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncForeignSideFunctionsStruct_exercise4FunGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncForeignSideFunctionsStruct_exercise5FunGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncForeignSideFunctionsStruct_exercise6FunGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncForeignSideFunctionsStruct_thunkTwiceMakerFunGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctionsConstructor = CreatedRef Function(
+    ffi.Pointer ref,
+    OutCreatedRef exn
+);
+typedef _TestAPI_TestAsyncFunctions_const42Getter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctions_iabsGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctions_intComposeGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctions_add3ThingsGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctions_makeListGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctions_fifthThingGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctions_sixGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctions_willThrowGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctions_exercise0 = CreatedRef Function(UnownedRef obj, UnownedRef fn, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctions_exercise1 = CreatedRef Function(UnownedRef obj, UnownedRef fn, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctions_exercise2 = CreatedRef Function(UnownedRef obj, UnownedRef fn, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctions_exercise3 = CreatedRef Function(UnownedRef obj, UnownedRef fn, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctions_exercise4 = CreatedRef Function(UnownedRef obj, UnownedRef fn, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctions_exercise5 = CreatedRef Function(UnownedRef obj, UnownedRef fn, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctions_exercise6 = CreatedRef Function(UnownedRef obj, UnownedRef fn, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctions_thunkTwiceMaker = CreatedRef Function(UnownedRef obj, UnownedRef thunk, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctions_defaultExercise6 = CreatedRef Function(UnownedRef obj, UnownedRef fn, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctions_witness = CreatedRef Function(UnownedRef obj,  OutCreatedRef exn);
 typedef _TestAPI_TestLeadingUnderscoredPropConstructor = CreatedRef Function(
     ffi.Pointer ref,
     OutCreatedRef exn
@@ -300,16 +361,16 @@ typedef _TestAPI_TestMethodsProtocolConstructor = CreatedRef Function(
 typedef _TestAPI_TestMethodsProtocol_foo = ffi.Void Function(UnownedRef obj,  OutCreatedRef exn);
 typedef _TestAPI_TestMethodsProtocol_bar = ffi.Bool Function(UnownedRef obj,  OutCreatedRef exn);
 typedef _TestAPI_TestMethodsProtocol_baz = ffi.Void Function(UnownedRef obj, ffi.Bool qux, OutCreatedRef exn);
-typedef _TestAPI_TestMethodsProtocol_garply = CreatedRef Function(UnownedRef obj, ffi.Pointer _0, OutCreatedRef exn);
-typedef _TestAPI_TestMethodsProtocol_xyzzy = CreatedRef Function(UnownedRef obj, ffi.IntPtr thud, ffi.Pointer grault, OutCreatedRef exn);
-typedef _TestAPI_TestMethodsProtocol_plugh = CreatedRef Function(UnownedRef obj, ffi.Pointer fred, OutCreatedRef exn);
+typedef _TestAPI_TestMethodsProtocol_garply = CreatedRef Function(UnownedRef obj, UnownedRef _0, OutCreatedRef exn);
+typedef _TestAPI_TestMethodsProtocol_xyzzy = CreatedRef Function(UnownedRef obj, ffi.IntPtr thud, UnownedRef grault, OutCreatedRef exn);
+typedef _TestAPI_TestMethodsProtocol_plugh = CreatedRef Function(UnownedRef obj, UnownedRef fred, OutCreatedRef exn);
 typedef _TestAPI_TestOptionalsProtocolConstructor = CreatedRef Function(
     ffi.Pointer ref,
     OutCreatedRef exn
 );
 typedef _TestAPI_TestOptionalsProtocol_flarpGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
-typedef _TestAPI_TestOptionalsProtocol_wombat = CreatedRef Function(UnownedRef obj, ffi.Pointer zxc, OutCreatedRef exn);
-typedef _TestAPI_TestOptionalsProtocol_spqr = ffi.IntPtr Function(UnownedRef obj, ffi.Pointer pippo, OutCreatedRef exn);
+typedef _TestAPI_TestOptionalsProtocol_wombat = CreatedRef Function(UnownedRef obj, UnownedRef zxc, OutCreatedRef exn);
+typedef _TestAPI_TestOptionalsProtocol_spqr = ffi.IntPtr Function(UnownedRef obj, UnownedRef pippo, OutCreatedRef exn);
 typedef _TestAPI_TestPropertiesProtocolConstructor = CreatedRef Function(
     ffi.Pointer ref,
     OutCreatedRef exn
@@ -868,6 +929,110 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_Structs_setup');
+    final TestAPI_TestAsyncForeignSideFunctionsStruct_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStructConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_const42Getter>> get_const42,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_iabsGetter>> get_iabs,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_intComposeGetter>> get_intCompose,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_add3ThingsGetter>> get_add3Things,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_makeListGetter>> get_makeList,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_fifthThingGetter>> get_fifthThing,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_sixGetter>> get_six,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_willThrowGetter>> get_willThrow,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise0FunGetter>> get_exercise0Fun,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise1FunGetter>> get_exercise1Fun,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise2FunGetter>> get_exercise2Fun,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise3FunGetter>> get_exercise3Fun,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise4FunGetter>> get_exercise4Fun,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise5FunGetter>> get_exercise5Fun,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise6FunGetter>> get_exercise6Fun,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_thunkTwiceMakerFunGetter>> get_thunkTwiceMakerFun,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStructConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_const42Getter>> get_const42,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_iabsGetter>> get_iabs,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_intComposeGetter>> get_intCompose,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_add3ThingsGetter>> get_add3Things,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_makeListGetter>> get_makeList,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_fifthThingGetter>> get_fifthThing,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_sixGetter>> get_six,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_willThrowGetter>> get_willThrow,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise0FunGetter>> get_exercise0Fun,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise1FunGetter>> get_exercise1Fun,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise2FunGetter>> get_exercise2Fun,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise3FunGetter>> get_exercise3Fun,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise4FunGetter>> get_exercise4Fun,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise5FunGetter>> get_exercise5Fun,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise6FunGetter>> get_exercise6Fun,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncForeignSideFunctionsStruct_thunkTwiceMakerFunGetter>> get_thunkTwiceMakerFun,
+            OutCreatedRef exn
+        )
+    >('TestAPI_TestAsyncForeignSideFunctionsStruct_setup');
+    final TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_const42Getter>> get_const42,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_iabsGetter>> get_iabs,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_intComposeGetter>> get_intCompose,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_add3ThingsGetter>> get_add3Things,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_makeListGetter>> get_makeList,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_fifthThingGetter>> get_fifthThing,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_sixGetter>> get_six,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_willThrowGetter>> get_willThrow,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_exercise0>> exercise0,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_exercise1>> exercise1,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_exercise2>> exercise2,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_exercise3>> exercise3,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_exercise4>> exercise4,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_exercise5>> exercise5,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_exercise6>> exercise6,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_thunkTwiceMaker>> thunkTwiceMaker,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_defaultExercise6>> defaultExercise6,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_witness>> witness,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_const42Getter>> get_const42,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_iabsGetter>> get_iabs,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_intComposeGetter>> get_intCompose,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_add3ThingsGetter>> get_add3Things,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_makeListGetter>> get_makeList,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_fifthThingGetter>> get_fifthThing,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_sixGetter>> get_six,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_willThrowGetter>> get_willThrow,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_exercise0>> exercise0,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_exercise1>> exercise1,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_exercise2>> exercise2,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_exercise3>> exercise3,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_exercise4>> exercise4,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_exercise5>> exercise5,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_exercise6>> exercise6,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_thunkTwiceMaker>> thunkTwiceMaker,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_defaultExercise6>> defaultExercise6,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_witness>> witness,
+            OutCreatedRef exn
+        )
+    >('TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup');
+    final TestAPI_TestAsyncSwiftSideFunctionsClass_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
+            OutCreatedRef exn
+        )
+    >('TestAPI_TestAsyncSwiftSideFunctionsClass_setup');
     final TestAPI_CommonInterface__TestLeadingUnderscoredPropConverter_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -2600,6 +2765,402 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Structs_ReferenceStruct_equals");
+    TestAPI.TestAsyncForeignSideFunctionsStruct.f__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise0 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise0");
+    TestAPI.TestAsyncForeignSideFunctionsStruct.f__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise1 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise1");
+    TestAPI.TestAsyncForeignSideFunctionsStruct.f__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise2 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise2");
+    TestAPI.TestAsyncForeignSideFunctionsStruct.f__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise3 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise3");
+    TestAPI.TestAsyncForeignSideFunctionsStruct.f__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise4 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise4");
+    TestAPI.TestAsyncForeignSideFunctionsStruct.f__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise5 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise5");
+    TestAPI.TestAsyncForeignSideFunctionsStruct.f__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise6 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise6");
+    TestAPI.TestAsyncForeignSideFunctionsStruct.f__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_thunkTwiceMaker = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef thunk,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef thunk,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_thunkTwiceMaker");
+    TestAPI.TestAsyncForeignSideFunctionsStruct.f__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_witness = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_witness");
+    TestAPI.TestAsyncFunctions_DefaultImplementations.f__iota_TestAPI_TestAsyncFunctions_defaultExercise6 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncFunctions_defaultExercise6");
+    TestAPI.ExternalWitness_TestAsyncFunctions.f__iota_TestAPI_TestAsyncFunctions_exercise0 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncFunctions_exercise0");
+    TestAPI.ExternalWitness_TestAsyncFunctions.f__iota_TestAPI_TestAsyncFunctions_exercise1 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncFunctions_exercise1");
+    TestAPI.ExternalWitness_TestAsyncFunctions.f__iota_TestAPI_TestAsyncFunctions_exercise2 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncFunctions_exercise2");
+    TestAPI.ExternalWitness_TestAsyncFunctions.f__iota_TestAPI_TestAsyncFunctions_exercise3 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncFunctions_exercise3");
+    TestAPI.ExternalWitness_TestAsyncFunctions.f__iota_TestAPI_TestAsyncFunctions_exercise4 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncFunctions_exercise4");
+    TestAPI.ExternalWitness_TestAsyncFunctions.f__iota_TestAPI_TestAsyncFunctions_exercise5 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncFunctions_exercise5");
+    TestAPI.ExternalWitness_TestAsyncFunctions.f__iota_TestAPI_TestAsyncFunctions_exercise6 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncFunctions_exercise6");
+    TestAPI.ExternalWitness_TestAsyncFunctions.f__iota_TestAPI_TestAsyncFunctions_thunkTwiceMaker = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef thunk,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef thunk,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncFunctions_thunkTwiceMaker");
+    TestAPI.ExternalWitness_TestAsyncFunctions.f__iota_TestAPI_TestAsyncFunctions_witness = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncFunctions_witness");
+    TestAPI.TestAsyncSwiftSideFunctionsClass.f__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise0 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise0");
+    TestAPI.TestAsyncSwiftSideFunctionsClass.f__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise1 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise1");
+    TestAPI.TestAsyncSwiftSideFunctionsClass.f__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise2 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise2");
+    TestAPI.TestAsyncSwiftSideFunctionsClass.f__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise3 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise3");
+    TestAPI.TestAsyncSwiftSideFunctionsClass.f__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise4 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise4");
+    TestAPI.TestAsyncSwiftSideFunctionsClass.f__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise5 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise5");
+    TestAPI.TestAsyncSwiftSideFunctionsClass.f__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise6 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise6");
+    TestAPI.TestAsyncSwiftSideFunctionsClass.f__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_init = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_init");
+    TestAPI.TestAsyncSwiftSideFunctionsClass.f__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_thunkTwiceMaker = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef thunk,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef thunk,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_thunkTwiceMaker");
+    TestAPI.TestAsyncSwiftSideFunctionsClass.f__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_witness = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_witness");
     TestAPI.ExternalWitness_TestMethodsProtocol.f__iota_TestAPI_TestMethodsProtocol_bar = dylib.lookupFunction<
         ffi.Bool Function(
             Env env,
@@ -4658,6 +5219,198 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_Structs_ReferenceStruct_mutable");
+    TestAPI.ExternalWitness_TestAsyncFunctions.f__iota_get_TestAPI_TestAsyncFunctions_add3Things = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestAsyncFunctions_add3Things");
+    TestAPI.ExternalWitness_TestAsyncFunctions.f__iota_get_TestAPI_TestAsyncFunctions_const42 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestAsyncFunctions_const42");
+    TestAPI.ExternalWitness_TestAsyncFunctions.f__iota_get_TestAPI_TestAsyncFunctions_fifthThing = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestAsyncFunctions_fifthThing");
+    TestAPI.ExternalWitness_TestAsyncFunctions.f__iota_get_TestAPI_TestAsyncFunctions_iabs = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestAsyncFunctions_iabs");
+    TestAPI.ExternalWitness_TestAsyncFunctions.f__iota_get_TestAPI_TestAsyncFunctions_intCompose = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestAsyncFunctions_intCompose");
+    TestAPI.ExternalWitness_TestAsyncFunctions.f__iota_get_TestAPI_TestAsyncFunctions_makeList = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestAsyncFunctions_makeList");
+    TestAPI.ExternalWitness_TestAsyncFunctions.f__iota_get_TestAPI_TestAsyncFunctions_six = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestAsyncFunctions_six");
+    TestAPI.ExternalWitness_TestAsyncFunctions.f__iota_get_TestAPI_TestAsyncFunctions_willThrow = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestAsyncFunctions_willThrow");
+    TestAPI.TestAsyncSwiftSideFunctionsClass.f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_add3Things = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_add3Things");
+    TestAPI.TestAsyncSwiftSideFunctionsClass.f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_const42 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_const42");
+    TestAPI.TestAsyncSwiftSideFunctionsClass.f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_fifthThing = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_fifthThing");
+    TestAPI.TestAsyncSwiftSideFunctionsClass.f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_iabs = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_iabs");
+    TestAPI.TestAsyncSwiftSideFunctionsClass.f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_intCompose = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_intCompose");
+    TestAPI.TestAsyncSwiftSideFunctionsClass.f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_makeList = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_makeList");
+    TestAPI.TestAsyncSwiftSideFunctionsClass.f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_six = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_six");
+    TestAPI.TestAsyncSwiftSideFunctionsClass.f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_willThrow = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_willThrow");
     TestAPI.ExternalWitness_TestLeadingUnderscoredProp.f__iota_get_TestAPI_TestLeadingUnderscoredProp__leadingUnderscoreProp = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -4965,8 +5718,40 @@ final ensureLoaded = (() {
         )
     >("__iota_set_TestAPI_TestProtocolClass_flarp");
 
+    Loader.shared.once("setup_Function1Converter<Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>, FutureConverter<Swift.String>>", () {
+        // print("setting up (@escaping (@escaping (Swift.Int) async throws -> Swift.Int, @escaping (Swift.Int) async throws -> Swift.Int) throws -> (Swift.Int) async throws -> Swift.Int) throws -> Future<Swift.String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_Function1Converter_setup<Future<String>, Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int))>(
+                Loader.shared.env,
+                "Function1Converter<Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>, FutureConverter<Swift.String>>",
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_AsyncFunction1Converter<Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>, Swift.String>", () {
+        // print("setting up (@escaping (@escaping (Int) async throws -> Int, @escaping (Int) async throws -> Int) throws -> (Int) async throws -> Int) async throws -> String (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_AsyncFunction1Converter_setup(
+                Loader.shared.env,
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_Function1Converter<AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>, FutureConverter<Swift.String>>", () {
+        // print("setting up (@escaping (Swift.Float, Swift.Double, Swift.Int) async throws -> Swift.Double) throws -> Future<Swift.String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_Function1Converter_setup<Future<String>, Future<double> Function(double, double, int)>(
+                Loader.shared.env,
+                "Function1Converter<AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>, FutureConverter<Swift.String>>",
+                exn
+            );
+        });
+    });
+
     Loader.shared.once("setup_Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>", () {
-        // print("setting up ((Swift.Int) -> Swift.Int, (Swift.Int) -> Swift.Int) -> (Swift.Int) -> Swift.Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (@escaping (Swift.Int) throws -> Swift.Int, @escaping (Swift.Int) throws -> Swift.Int) throws -> (Swift.Int) throws -> Swift.Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function2Converter_setup<int Function(int), int Function(int), int Function(int)>(
                 Loader.shared.env,
@@ -4977,7 +5762,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>", () {
-        // print("setting up ((Swift.Int) async -> Swift.Int, (Swift.Int) async -> Swift.Int) -> (Swift.Int) async -> Swift.Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (@escaping (Swift.Int) async throws -> Swift.Int, @escaping (Swift.Int) async throws -> Swift.Int) throws -> (Swift.Int) async throws -> Swift.Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function2Converter_setup<Future<int> Function(int), Future<int> Function(int), Future<int> Function(int)>(
                 Loader.shared.env,
@@ -4987,8 +5772,62 @@ final ensureLoaded = (() {
         });
     });
 
+    Loader.shared.once("setup_Function1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, FutureConverter<Swift.String>>", () {
+        // print("setting up (@escaping (Swift.Int) async throws -> Swift.Int) throws -> Future<Swift.String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_Function1Converter_setup<Future<String>, Future<int> Function(int)>(
+                Loader.shared.env,
+                "Function1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, FutureConverter<Swift.String>>",
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_Function1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, FutureConverter<Swift.String>>", () {
+        // print("setting up (@escaping (Swift.String, Swift.Int, Swift.Double, Swift.String, @escaping () async throws -> Swift.Int, Swift.Int) async throws -> Swift.Int) throws -> Future<Swift.String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_Function1Converter_setup<Future<String>, Future<int> Function(String, int, double, String, Future<int> Function(), int)>(
+                Loader.shared.env,
+                "Function1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, FutureConverter<Swift.String>>",
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_Function1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, FutureConverter<Swift.String>>", () {
+        // print("setting up (@escaping (Swift.String, Swift.Int, Swift.Double, Swift.String, @escaping () async throws -> Swift.Int) async throws -> () async throws -> Swift.Int) throws -> Future<Swift.String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_Function1Converter_setup<Future<String>, Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function())>(
+                Loader.shared.env,
+                "Function1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, FutureConverter<Swift.String>>",
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_Function1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, FutureConverter<Swift.String>>", () {
+        // print("setting up (@escaping (Swift.String, Swift.String, Swift.String, Swift.String) async throws -> Array<Swift.String>) throws -> Future<Swift.String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_Function1Converter_setup<Future<String>, Future<List<String>> Function(String, String, String, String)>(
+                Loader.shared.env,
+                "Function1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, FutureConverter<Swift.String>>",
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_AsyncFunction1Converter<AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>, Swift.String>", () {
+        // print("setting up (@escaping (Float, Double, Int) async throws -> Double) async throws -> String (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_AsyncFunction1Converter_setup(
+                Loader.shared.env,
+                exn
+            );
+        });
+    });
+
     Loader.shared.once("setup_Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>", () {
-        // print("setting up ((Int) -> Int, (Int) -> Int) -> (Int) -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (@escaping (Int) throws -> Int, @escaping (Int) throws -> Int) throws -> (Int) throws -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function2Converter_setup<int Function(int), int Function(int), int Function(int)>(
                 Loader.shared.env,
@@ -4999,18 +5838,90 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>", () {
-        // print("setting up ((Int) async -> Int, (Int) async -> Int) -> (Int) async -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (@escaping (Int) async throws -> Int, @escaping (Int) async throws -> Int) throws -> (Int) async throws -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function2Converter_setup<Future<int> Function(int), Future<int> Function(int), Future<int> Function(int)>(
                 Loader.shared.env,
                 "Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>",
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_AsyncFunction1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, Swift.String>", () {
+        // print("setting up (@escaping (Int) async throws -> Int) async throws -> String (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_AsyncFunction1Converter_setup(
+                Loader.shared.env,
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_AsyncFunction1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, Swift.String>", () {
+        // print("setting up (@escaping (String, Int, Double, String, @escaping () async throws -> Int, Int) async throws -> Int) async throws -> String (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_AsyncFunction1Converter_setup(
+                Loader.shared.env,
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_AsyncFunction1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, Swift.String>", () {
+        // print("setting up (@escaping (String, Int, Double, String, @escaping () async throws -> Int) async throws -> () async throws -> Int) async throws -> String (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_AsyncFunction1Converter_setup(
+                Loader.shared.env,
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_AsyncFunction1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, Swift.String>", () {
+        // print("setting up (@escaping (String, String, String, String) async throws -> Array<String>) async throws -> String (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_AsyncFunction1Converter_setup(
+                Loader.shared.env,
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_Function1Converter<AsyncFunction0Converter<Swift.Int>, FutureConverter<Swift.String>>", () {
+        // print("setting up (@escaping () async throws -> Swift.Int) throws -> Future<Swift.String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_Function1Converter_setup<Future<String>, Future<int> Function()>(
+                Loader.shared.env,
+                "Function1Converter<AsyncFunction0Converter<Swift.Int>, FutureConverter<Swift.String>>",
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_AsyncFunction1Converter<AsyncFunction0Converter<Swift.Int>, Swift.String>", () {
+        // print("setting up (@escaping () async throws -> Int) async throws -> String (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_AsyncFunction1Converter_setup(
+                Loader.shared.env,
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>", () {
+        // print("setting up (@escaping () async throws -> Void) throws -> () async throws -> Void (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_Function1Converter_setup<Future<void> Function(), Future<void> Function()>(
+                Loader.shared.env,
+                "Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>",
                 exn
             );
         });
     });
 
     Loader.shared.once("setup_Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>", () {
-        // print("setting up (Optional<Array<Optional<Swift.Int>>>) -> Optional<Array<Optional<Swift.Int>>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (Optional<Array<Optional<Swift.Int>>>) throws -> Optional<Array<Optional<Swift.Int>>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function1Converter_setup<List<int?>?, List<int?>?>(
                 Loader.shared.env,
@@ -5021,7 +5932,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>", () {
-        // print("setting up (Optional<Array<Optional<Int>>>) -> Optional<Array<Optional<Int>>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (Optional<Array<Optional<Int>>>) throws -> Optional<Array<Optional<Int>>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function1Converter_setup<List<int?>?, List<int?>?>(
                 Loader.shared.env,
@@ -5032,7 +5943,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function1Converter<OptionalConverter<Swift.UInt8>, OptionalConverter<Swift.UInt8>>", () {
-        // print("setting up (Optional<Swift.UInt8>) -> Optional<Swift.UInt8> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (Optional<Swift.UInt8>) throws -> Optional<Swift.UInt8> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function1Converter_setup<int?, int?>(
                 Loader.shared.env,
@@ -5043,7 +5954,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function1Converter<OptionalConverter<Swift.UInt8>, OptionalConverter<Swift.UInt8>>", () {
-        // print("setting up (Optional<UInt8>) -> Optional<UInt8> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (Optional<UInt8>) throws -> Optional<UInt8> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function1Converter_setup<int?, int?>(
                 Loader.shared.env,
@@ -5054,7 +5965,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function3Converter<Swift.Float, Swift.Double, Swift.Int, FutureConverter<Swift.Double>>", () {
-        // print("setting up (Swift.Float, Swift.Double, Swift.Int) -> Future<Swift.Double> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (Swift.Float, Swift.Double, Swift.Int) throws -> Future<Swift.Double> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function3Converter_setup<Future<double>, double, double, int>(
                 Loader.shared.env,
@@ -5065,7 +5976,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>", () {
-        // print("setting up (Swift.Float, Swift.Double, Swift.Int) -> Swift.Double (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (Swift.Float, Swift.Double, Swift.Int) throws -> Swift.Double (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function3Converter_setup<double, double, double, int>(
                 Loader.shared.env,
@@ -5076,7 +5987,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function1Converter<Swift.Int, FutureConverter<Swift.Int>>", () {
-        // print("setting up (Swift.Int) -> Future<Swift.Int> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (Swift.Int) throws -> Future<Swift.Int> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function1Converter_setup<Future<int>, int>(
                 Loader.shared.env,
@@ -5087,7 +5998,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function1Converter<Swift.Int, Swift.Int>", () {
-        // print("setting up (Swift.Int) -> Swift.Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (Swift.Int) throws -> Swift.Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function1Converter_setup<int, int>(
                 Loader.shared.env,
@@ -5098,7 +6009,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Swift.Int, Swift.Int>", () {
-        // print("setting up (Swift.String, Swift.Int, Swift.Double, Swift.String, () -> Swift.Int, Swift.Int) -> Swift.Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (Swift.String, Swift.Int, Swift.Double, Swift.String, @escaping () throws -> Swift.Int, Swift.Int) throws -> Swift.Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function6Converter_setup<int, String, int, double, String, int Function(), int>(
                 Loader.shared.env,
@@ -5109,7 +6020,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Function0Converter<Swift.Int>>", () {
-        // print("setting up (Swift.String, Swift.Int, Swift.Double, Swift.String, () -> Swift.Int) -> () -> Swift.Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (Swift.String, Swift.Int, Swift.Double, Swift.String, @escaping () throws -> Swift.Int) throws -> () throws -> Swift.Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function5Converter_setup<int Function(), String, int, double, String, int Function()>(
                 Loader.shared.env,
@@ -5120,7 +6031,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, FutureConverter<Swift.Int>>", () {
-        // print("setting up (Swift.String, Swift.Int, Swift.Double, Swift.String, () async -> Swift.Int, Swift.Int) -> Future<Swift.Int> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (Swift.String, Swift.Int, Swift.Double, Swift.String, @escaping () async throws -> Swift.Int, Swift.Int) throws -> Future<Swift.Int> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function6Converter_setup<Future<int>, String, int, double, String, Future<int> Function(), int>(
                 Loader.shared.env,
@@ -5131,7 +6042,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, FutureConverter<AsyncFunction0Converter<Swift.Int>>>", () {
-        // print("setting up (Swift.String, Swift.Int, Swift.Double, Swift.String, () async -> Swift.Int) -> Future<() async -> Swift.Int> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (Swift.String, Swift.Int, Swift.Double, Swift.String, @escaping () async throws -> Swift.Int) throws -> Future<() async throws -> Swift.Int> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function5Converter_setup<Future<Future<int> Function()>, String, int, double, String, Future<int> Function()>(
                 Loader.shared.env,
@@ -5142,7 +6053,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, FutureConverter<ArrayConverter<Swift.String>>>", () {
-        // print("setting up (Swift.String, Swift.String, Swift.String, Swift.String) -> Future<Array<Swift.String>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (Swift.String, Swift.String, Swift.String, Swift.String) throws -> Future<Array<Swift.String>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function4Converter_setup<Future<List<String>>, String, String, String, String>(
                 Loader.shared.env,
@@ -5153,7 +6064,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>", () {
-        // print("setting up (Swift.String, Swift.String, Swift.String, Swift.String) -> Array<Swift.String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (Swift.String, Swift.String, Swift.String, Swift.String) throws -> Array<Swift.String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function4Converter_setup<List<String>, String, String, String, String>(
                 Loader.shared.env,
@@ -5164,7 +6075,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>", () {
-        // print("setting up (Float, Double, Int) -> Double (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (Float, Double, Int) throws -> Double (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function3Converter_setup<double, double, double, int>(
                 Loader.shared.env,
@@ -5175,7 +6086,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>", () {
-        // print("setting up (Float, Double, Int) async -> Double (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (Float, Double, Int) async throws -> Double (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_AsyncFunction3Converter_setup(
                 Loader.shared.env,
@@ -5185,7 +6096,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function1Converter<Swift.Int, Swift.Int>", () {
-        // print("setting up (Int) -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (Int) throws -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function1Converter_setup<int, int>(
                 Loader.shared.env,
@@ -5196,7 +6107,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_AsyncFunction1Converter<Swift.Int, Swift.Int>", () {
-        // print("setting up (Int) async -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (Int) async throws -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_AsyncFunction1Converter_setup(
                 Loader.shared.env,
@@ -5206,7 +6117,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Swift.Int, Swift.Int>", () {
-        // print("setting up (String, Int, Double, String, () -> Int, Int) -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (String, Int, Double, String, @escaping () throws -> Int, Int) throws -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function6Converter_setup<int, String, int, double, String, int Function(), int>(
                 Loader.shared.env,
@@ -5217,7 +6128,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Function0Converter<Swift.Int>>", () {
-        // print("setting up (String, Int, Double, String, () -> Int) -> () -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (String, Int, Double, String, @escaping () throws -> Int) throws -> () throws -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function5Converter_setup<int Function(), String, int, double, String, int Function()>(
                 Loader.shared.env,
@@ -5228,7 +6139,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>", () {
-        // print("setting up (String, Int, Double, String, () async -> Int, Int) async -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (String, Int, Double, String, @escaping () async throws -> Int, Int) async throws -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_AsyncFunction6Converter_setup(
                 Loader.shared.env,
@@ -5238,7 +6149,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>", () {
-        // print("setting up (String, Int, Double, String, () async -> Int) async -> () async -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (String, Int, Double, String, @escaping () async throws -> Int) async throws -> () async throws -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_AsyncFunction5Converter_setup(
                 Loader.shared.env,
@@ -5248,7 +6159,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>", () {
-        // print("setting up (String, String, String, String) -> Array<String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (String, String, String, String) throws -> Array<String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function4Converter_setup<List<String>, String, String, String, String>(
                 Loader.shared.env,
@@ -5259,7 +6170,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>", () {
-        // print("setting up (String, String, String, String) async -> Array<String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (String, String, String, String) async throws -> Array<String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_AsyncFunction4Converter_setup(
                 Loader.shared.env,
@@ -5269,7 +6180,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function0Converter<FutureConverter<Swift.Int>>", () {
-        // print("setting up () -> Future<Swift.Int> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up () throws -> Future<Swift.Int> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function0Converter_setup<Future<int>>(
                 Loader.shared.env,
@@ -5280,7 +6191,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function0Converter<FutureConverter<FishyJoesCommonRuntime.VoidConverter>>", () {
-        // print("setting up () -> Future<Void> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up () throws -> Future<Void> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function0Converter_setup<Future<void>>(
                 Loader.shared.env,
@@ -5291,7 +6202,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function0Converter<Swift.Int>", () {
-        // print("setting up () -> Swift.Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up () throws -> Swift.Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function0Converter_setup<int>(
                 Loader.shared.env,
@@ -5302,7 +6213,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function0Converter<Swift.Int>", () {
-        // print("setting up () -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up () throws -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function0Converter_setup<int>(
                 Loader.shared.env,
@@ -5313,7 +6224,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_AsyncFunction0Converter<Swift.Int>", () {
-        // print("setting up () async -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up () async throws -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_AsyncFunction0Converter_setup(
                 Loader.shared.env,
@@ -5323,7 +6234,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function0Converter<FishyJoesCommonRuntime.VoidConverter>", () {
-        // print("setting up () -> Void (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up () throws -> Void (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function0Converter_setup<void>(
                 Loader.shared.env,
@@ -5334,7 +6245,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>", () {
-        // print("setting up () async -> Void (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up () async throws -> Void (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_AsyncFunction0Converter_setup(
                 Loader.shared.env,
@@ -5344,7 +6255,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_FutureConverter<Function1Converter<Swift.Int, Swift.Int>>", () {
-        // print("setting up Future<(Swift.Int) -> Swift.Int> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Future<(Swift.Int) throws -> Swift.Int> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_FutureConverter_setup<int Function(int)>(
                 Loader.shared.env,
@@ -5355,7 +6266,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_FutureConverter<AsyncFunction1Converter<Swift.Int, Swift.Int>>", () {
-        // print("setting up Future<(Swift.Int) async -> Swift.Int> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Future<(Swift.Int) async throws -> Swift.Int> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_FutureConverter_setup<Future<int> Function(int)>(
                 Loader.shared.env,
@@ -5366,7 +6277,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_FutureConverter<Function0Converter<Swift.Int>>", () {
-        // print("setting up Future<() -> Swift.Int> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Future<() throws -> Swift.Int> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_FutureConverter_setup<int Function()>(
                 Loader.shared.env,
@@ -5377,7 +6288,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_FutureConverter<AsyncFunction0Converter<Swift.Int>>", () {
-        // print("setting up Future<() async -> Swift.Int> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Future<() async throws -> Swift.Int> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_FutureConverter_setup<Future<int> Function()>(
                 Loader.shared.env,
@@ -5387,8 +6298,19 @@ final ensureLoaded = (() {
         });
     });
 
+    Loader.shared.once("setup_FutureConverter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>", () {
+        // print("setting up Future<() async throws -> Void> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_FutureConverter_setup<Future<void> Function()>(
+                Loader.shared.env,
+                "FutureConverter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>",
+                exn
+            );
+        });
+    });
+
     Loader.shared.once("setup_FutureConverter<FutureConverter<AsyncFunction0Converter<Swift.Int>>>", () {
-        // print("setting up Future<Future<() async -> Swift.Int>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Future<Future<() async throws -> Swift.Int>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_FutureConverter_setup<Future<Future<int> Function()>>(
                 Loader.shared.env,
@@ -5426,6 +6348,17 @@ final ensureLoaded = (() {
             Loader.shared.FishyJoesCommonRuntime_FutureConverter_setup<Future<int>>(
                 Loader.shared.env,
                 "FutureConverter<FutureConverter<Swift.Int>>",
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_FutureConverter<FutureConverter<Swift.String>>", () {
+        // print("setting up Future<Future<Swift.String>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_FutureConverter_setup<Future<String>>(
+                Loader.shared.env,
+                "FutureConverter<FutureConverter<Swift.String>>",
                 exn
             );
         });
@@ -6827,6 +7760,73 @@ final ensureLoaded = (() {
         utils.check<void>((exn) {
             TestAPI_Structs_setup(
                 Loader.shared.env,
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.TestAsyncForeignSideFunctionsStruct", () {
+        // print("setting up TestAPI.TestAsyncForeignSideFunctionsStruct (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_TestAsyncForeignSideFunctionsStruct_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncForeignSideFunctionsStruct.ffi_constructor),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncForeignSideFunctionsStruct.ffi_get_const42),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncForeignSideFunctionsStruct.ffi_get_iabs),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncForeignSideFunctionsStruct.ffi_get_intCompose),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncForeignSideFunctionsStruct.ffi_get_add3Things),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncForeignSideFunctionsStruct.ffi_get_makeList),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncForeignSideFunctionsStruct.ffi_get_fifthThing),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncForeignSideFunctionsStruct.ffi_get_six),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncForeignSideFunctionsStruct.ffi_get_willThrow),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncForeignSideFunctionsStruct.ffi_get_exercise0Fun),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncForeignSideFunctionsStruct.ffi_get_exercise1Fun),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncForeignSideFunctionsStruct.ffi_get_exercise2Fun),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncForeignSideFunctionsStruct.ffi_get_exercise3Fun),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncForeignSideFunctionsStruct.ffi_get_exercise4Fun),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncForeignSideFunctionsStruct.ffi_get_exercise5Fun),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncForeignSideFunctionsStruct.ffi_get_exercise6Fun),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncForeignSideFunctionsStruct.ffi_get_thunkTwiceMakerFun),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI_CommonInterface._TestAsyncFunctionsConverter", () {
+        // print("setting up TestAPI.TestAsyncFunctions (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestAsyncFunctions.ffi_new),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_get_const42),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_get_iabs),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_get_intCompose),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_get_add3Things),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_get_makeList),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_get_fifthThing),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_get_six),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_get_willThrow),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_exercise0),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_exercise1),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_exercise2),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_exercise3),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_exercise4),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_exercise5),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_exercise6),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_thunkTwiceMaker),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_DefaultImplementations.ffi_defaultExercise6),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_witness),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.TestAsyncSwiftSideFunctionsClass", () {
+        // print("setting up TestAPI.TestAsyncSwiftSideFunctionsClass (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_TestAsyncSwiftSideFunctionsClass_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncSwiftSideFunctionsClass.ffi_new),
                 exn
             );
         });

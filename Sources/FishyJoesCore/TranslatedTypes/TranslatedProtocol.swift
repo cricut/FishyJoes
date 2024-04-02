@@ -47,6 +47,7 @@ struct TranslatedProtocol: TranslatedType {
         self.conformances = exportAnnotation.conformances
 
         let methodsToConvert = type.methodsPreferringDefaultImpl()
+
         self.methods = methodsToConvert.compactMap { Method($0, isProtocol: true) }
 
         self.fields = type.variables.filter { $0.exportAnnotation != nil }
@@ -141,7 +142,7 @@ struct TranslatedProtocol: TranslatedType {
             let commonName = "_\(sourceType.genericBaseName.mangledName)_\(method.callName)"
             let params = method.parameters.map {
                 let resolved = context.resolve(type: $0.type)
-                return "\(resolved.dartType.ffiTag) \($0.name)"
+                return "\(resolved.dartType.ffiUnownedTag) \($0.name)"
             }
             let paramsStr = params.isEmpty ? "" : "\(params.joined(separator: ", ")),"
             lines.append("typedef \(commonName) = \(returnType.dartType.ffiCreatedTag) Function(\(dartType.ffiUnownedTag) obj, \(paramsStr) OutCreatedRef exn);")
@@ -253,7 +254,7 @@ struct TranslatedProtocol: TranslatedType {
                         continue
                     }
                     fragment.output()
-                    let returnSignature = "\(method.isThrowing ? " throws" : "") -> \(method.returnType.name)"
+                    let returnSignature = "\(method.isAsync ? " async": "")\(method.isThrowing ? " throws" : "") -> \(method.returnType.name)"
                     fragment.outputBlock("public func \(method.name)\(returnSignature) {", closeWith: "}") {
                         var methodParamsStr = [String]()
                         for param in method.parameters {
@@ -263,7 +264,7 @@ struct TranslatedProtocol: TranslatedType {
                                 methodParamsStr.append("\(param.name)")
                             }
                         }
-                        fragment.output("\(method.isThrowing ? "try " : "")wrapped.\(method.callName)(\(methodParamsStr.joined(separator: ", ")))")
+                        fragment.output("\(method.isThrowing ? "try " : "")\(method.isAsync ? "await ": "")wrapped.\(method.callName)(\(methodParamsStr.joined(separator: ", ")))")
                     }
                 }
             }
@@ -274,7 +275,11 @@ struct TranslatedProtocol: TranslatedType {
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
             "NodeInterface/\(sourceType.name)+node.swift",
-            additionalImports: ["Foundation", "FishyJoesNodeRuntime", "\(context.module.name)_CommonInterface"]
+            additionalImports: [
+                "Foundation",
+                "FishyJoesNodeRuntime",
+                "\(context.module.name)_CommonInterface"
+            ]
         )
 
         fragment.outputBlock("struct _Node\(sourceType.nonNamespacedName): \(sourceType.name) {") {
@@ -292,7 +297,7 @@ struct TranslatedProtocol: TranslatedType {
                 var paramSigs = [String]()
                 do {
                     for param in method.parameters {
-                        paramSigs.append("\(param.labelAndName): \(param.type.name)")
+                        paramSigs.append("\(param.labelAndName): \(param.type.escapingName)")
                     }
                 }
                 fragment.output("var \(method.callName)Impl: (() -> \(method.returnType.name))?")
@@ -310,8 +315,15 @@ struct TranslatedProtocol: TranslatedType {
                     } else {
                         fragment.output("")
                     }
-                    fragment.outputMap(fields, separator: ",") {
-                        "\($0.name): \($0.typeName.name.replacingOccurrences(of: "?", with: ""))()"
+                    // TODO: actually do this right when implementing Protocol support for Node
+                    if converterType.name == "TestAPI_CommonInterface._TestAsyncFunctionsConverter" {
+                        fragment.outputMap(fields, separator: ",") {
+                            "\($0.name): AsyncFunctions.\($0.name)"
+                        }
+                    } else {
+                        fragment.outputMap(fields, separator: ",") {
+                            "\($0.name): \($0.typeName.name.replacingOccurrences(of: "?", with: ""))()"
+                        }
                     }
                 }
             }
@@ -414,7 +426,7 @@ struct TranslatedProtocol: TranslatedType {
                 let resolvedVar = context.resolve(type: variable.typeName.better)
 
                 fragment.outputBlock("\(variable.isStatic ? "static " : "")public var \(variable.name): \(variable.typeName.better.name) {") {
-                    fragment.outputBlock("get throws {") {
+                    fragment.outputBlock("get\(variable.throws ? " throws" : "") {") {
                         fragment.outputBlock("try \(resolvedVar.converterType.name).consumeIota(") {
                             fragment.outputBlock("try _iotaWitness.env.check { exn in", closeWith: "},") {
                                 fragment.output("\(converterType.name)._\(variable.name)Getter[_iotaWitness.env](_iotaWitness.object, exn)")
@@ -428,7 +440,7 @@ struct TranslatedProtocol: TranslatedType {
             for method in methods {
                 fragment.output()
                 let resolvedReturn = context.resolve(type: method.returnType)
-                var returnSignature = "\(method.isThrowing ? " throws" : "")"
+                var returnSignature = "\(method.isAsync ? " async" : "")\(method.isThrowing ? " throws" : "")"
                 if method.returnType.name != "Void" {
                     returnSignature.append(" -> \(method.returnType.name)")
                 }
@@ -436,7 +448,7 @@ struct TranslatedProtocol: TranslatedType {
                 var paramSigs = [String]()
                 do {
                     for param in method.parameters {
-                        paramSigs.append("\(param.labelAndName): \(param.type.name)")
+                        paramSigs.append("\(param.labelAndName): \(param.type.escapingName)")
                     }
                 }
                 fragment.outputBlock("\(method.isStatic ? "static " : "")public func \(method.callName)(\(paramSigs.joined(separator: ", ")))\(returnSignature) {") {
@@ -583,8 +595,10 @@ struct TranslatedProtocol: TranslatedType {
         let foreignProtocolType = "_Java\(sourceType.nonNamespacedName)"
 
         var methodIDs: [(idHandle: String, name: String, signature: String)] = []
-        let defaultMethods = methods.filter { $0.isDefaultImplementation }
-        let normalMethods = methods.filter { !$0.isDefaultImplementation }
+        let defaultMethods = methods.filter { !$0.isAsync && $0.isDefaultImplementation }
+        let asyncDefaultMethods = methods.filter { $0.isAsync && $0.isDefaultImplementation}
+        let normalMethods = methods.filter { !$0.isAsync && !$0.isDefaultImplementation }
+        let asyncNormalMethods = methods.filter { $0.isAsync && !$0.isDefaultImplementation}
 
         fragment.outputBlock("struct \(foreignProtocolType): \(sourceType.name) {") {
             fragment.output("let _javaWitness: JavaReference")
@@ -598,12 +612,13 @@ struct TranslatedProtocol: TranslatedType {
                 let setID = variable.isMutable ? "_\(name)SetMethodID" : nil
                 methodIDs.append((idHandle: getID, name: "get_\(name)", signature: "()\(resolved.jniType.asSignature)"))
                 fragment.output("static var \(getID): jmethodID?")
+
                 if let setID = setID {
                     methodIDs.append((idHandle: setID, name: "set_\(name)", signature: "(\(resolved.jniType.asSignature))V"))
                     fragment.output("static var \(setID): jmethodID?")
                 }
                 fragment.outputBlock("\(variable.isStatic ? "static " : "")public var \(name): \(type) {") {
-                    fragment.outputBlock("get\(!variable.isMutable ? " throws" : "") {") {
+                    fragment.outputBlock("get\(variable.throws ? " throws" : "") {") {
                         let perhapsExclaim = variable.isMutable ? "!" : ""
                         fragment.output("let env = try\(perhapsExclaim) Env.acquireJVMThread(on: _javaWitness.vm)")
                         fragment.outputBlock("defer {") {
@@ -628,8 +643,9 @@ struct TranslatedProtocol: TranslatedType {
             }
             for method in methods {
                 fragment.output()
+
                 let resolvedReturn = context.resolve(type: method.returnType)
-                var returnSignature = "\(method.isThrowing ? " throws" : "")"
+                var returnSignature = "\(method.isAsync ? " async" : "")\(method.isThrowing ? " throws" : "")"
                 if method.returnType.name != "Void" {
                     returnSignature.append(" -> \(method.returnType.name)")
                 }
@@ -637,7 +653,7 @@ struct TranslatedProtocol: TranslatedType {
                 var paramSigs = [String]()
                 do {
                     for param in method.parameters {
-                        paramSigs.append("\(param.labelAndName): \(param.type.name)")
+                        paramSigs.append("\(param.labelAndName): \(param.type.escapingName)")
                     }
                 }
                 fragment.outputBlock("\(method.isStatic ? "static " : "")public func \(method.callName)(\(paramSigs.joined(separator: ", ")))\(returnSignature) {") {
@@ -669,12 +685,8 @@ struct TranslatedProtocol: TranslatedType {
 
             fragment.output("public static var javaClass: jclass?")
             fragment.output("public static var externalWitnessClass: jclass?")
-
             fragment.output("public static var externalWitnessConstructor: jmethodID?")
-
-            if !defaultMethods.isEmpty {
-                fragment.output("public static var externalCompanionClass: jclass?")
-            }
+            fragment.output("public static var externalCompanionClass: jclass?")
 
             fragment.outputBlock("public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {") {
                 fragment.outputBlock("if env.IsInstanceOf(value, AnyBox.javaClass) {") {
@@ -711,16 +723,24 @@ struct TranslatedProtocol: TranslatedType {
                         fragment.output("\(foreignProtocolType)._\(field.name)SetMethodID = try env.GetMethodID(javaClass, \"set\(upperCaseFirst(field.name))\", \"(\(jniSignature))V\")")
                     }
                 }
+                fragment.output("externalCompanionClass = try env.globalRef(env.FindClass(\"\(className)$Companion\"))")
                 for normalMethod in normalMethods {
                     let jniSignature = normalMethod.jniSignature(context: context)
                     fragment.output("\(foreignProtocolType)._\(normalMethod.callName)MethodID = try env.GetMethodID(javaClass, \"\(normalMethod.callName)\", \"\(jniSignature)\")")
                 }
-                if !defaultMethods.isEmpty {
-                    fragment.output("externalCompanionClass = try env.globalRef(env.FindClass(\"\(className)$Companion\"))")
-                    for defaultMethod in defaultMethods {
-                        let jniSignature = defaultMethod.jniSignature(context: context)
-                        fragment.output("\(foreignProtocolType)._\(defaultMethod.callName)MethodID = try env.GetMethodID(javaClass, \"\(defaultMethod.callName)\", \"\(jniSignature)\")")
-                    }
+                for asyncNormalMethod in asyncNormalMethods {
+                    var jniSignature = asyncNormalMethod.jniSignature(context: context)
+                    jniSignature = "(L\(className);" + String(jniSignature.dropFirst())
+                    fragment.output("\(foreignProtocolType)._\(asyncNormalMethod.callName)MethodID = try env.GetMethodID(externalCompanionClass, \"_deferred_\(asyncNormalMethod.callName)\", \"\(jniSignature)\")")
+                }
+                for defaultMethod in defaultMethods {
+                    let jniSignature = defaultMethod.jniSignature(context: context)
+                    fragment.output("\(foreignProtocolType)._\(defaultMethod.callName)MethodID = try env.GetMethodID(javaClass, \"\(defaultMethod.callName)\", \"\(jniSignature)\")")
+                }
+                for asyncDefaultMethod in asyncDefaultMethods {
+                    var jniSignature = asyncDefaultMethod.jniSignature(context: context)
+                    jniSignature = "(L\(className);" + String(jniSignature.dropFirst())
+                    fragment.output("\(foreignProtocolType)._\(asyncDefaultMethod.callName)MethodID = try env.GetMethodID(externalCompanionClass, \"_deferred_\(asyncDefaultMethod.callName)\", \"\(jniSignature)\")")
                 }
             }
         }

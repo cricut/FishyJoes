@@ -15,6 +15,20 @@ class KotlinInterface: KotlinClass {
                     unstaticked.isStatic = false
                     output(method: unstaticked, to: fragment)
                 }
+                for method in methods {
+                    if !method.name.hasPrefix("_default"),
+                       method.isSuspend {
+                        fragment.output("@JvmStatic")
+                        fragment.outputBlock("fun _deferred_\(method.name)(", newLineTerminated: false) {
+                            fragment.output("self: \(unqualifiedName),")
+                            fragment.outputMap(method.parameters, separator: ",") {
+                                "\($0.name): \($0.type.kotlinType)"
+                            }
+                        }
+                        fragment.output(": Deferred<\(method.returnType.kotlinType)> = CoroutineScope(Dispatchers.Default).async { self.\(method.name)(\(method.parameters.map { $0.name }.joined(separator: ", "))) }")
+                        fragment.blankLine()
+                    }
+                }
                 fragment.outputBlock("init {", closeWith: "}") {
                     fragment.output("loadNativeLibs()")
                 }

@@ -62,6 +62,7 @@ extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: JavaMutator {
     public static var javaClass: jclass?
     public static var externalWitnessClass: jclass?
     public static var externalWitnessConstructor: jmethodID?
+    public static var externalCompanionClass: jclass?
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
         if env.IsInstanceOf(value, AnyBox.javaClass) {
             return try Box<SwiftType>.fromJava(value, env: env).value
@@ -86,6 +87,7 @@ extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: JavaMutator {
         externalWitnessClass = try env.globalRef(env.FindClass("com/cricut/testapi/_ExternalWitness_TestOptionalsProtocol"))
         externalWitnessConstructor = try env.GetMethodID(externalWitnessClass, "<init>", "(J)V")
         _JavaTestOptionalsProtocol._flarpGetMethodID = try env.GetMethodID(javaClass, "getFlarp", "()Ljava/lang/String;")
+        externalCompanionClass = try env.globalRef(env.FindClass("com/cricut/testapi/TestOptionalsProtocol$Companion"))
         _JavaTestOptionalsProtocol._wombatMethodID = try env.GetMethodID(javaClass, "wombat", "(Ljava/lang/Long;)Ljava/lang/Double;")
         _JavaTestOptionalsProtocol._spqrMethodID = try env.GetMethodID(javaClass, "spqr", "(Lcom/cricut/testapi/AssociatedDataEnum;)J")
     }
