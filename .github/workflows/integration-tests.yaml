@@ -18,7 +18,7 @@ concurrency:
 jobs:
   integration-tests-mac:
     name: "macOS: Integration tests"
-    runs-on: macOS-12
+    runs-on: [macOS, self-hosted, ARM64]
     env:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
@@ -44,6 +44,11 @@ jobs:
           node-version: '16.x'
           registry-url: 'https://npm.pkg.github.com/'
           scope: '@cricut'
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '6'
 
       - uses: dart-lang/setup-dart@v1
 

@@ -47,7 +47,7 @@ let package = Package(
         ]
     ) + generationEnabled(
         [
-            P.executable(name: "🐟☕️", targets: ["FishyJoesExecutionHelper"]),
+            P.executable(name: "helper-fishy-joes-core", targets: ["FishyJoesExecutionHelper"]),
         ]
     ),
     dependencies: generationEnabled(

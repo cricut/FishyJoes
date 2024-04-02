@@ -55,7 +55,8 @@ extension AttributedString.Runs.Index: JavaMutator {
     ) -> Bool.CType = { _javaEnv, _, lhs, rhs in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
             return try Bool.toJava(
-                AttributedString.Runs.Index.fromJava(lhs, env: _javaEnv) == AttributedString.Runs.Index.fromJava(rhs, env: _javaEnv),
+                AttributedString.Runs.Index.fromJava(lhs, env: _javaEnv)
+                    .workaroundEquals(AttributedString.Runs.Index.fromJava(rhs, env: _javaEnv)),
                 env: _javaEnv
             )
         }

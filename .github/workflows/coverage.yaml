@@ -17,17 +17,18 @@ concurrency:
 
 jobs:
   coverage:
-    runs-on: macOS-12
+    runs-on: [macOS, self-hosted, ARM64]
     env:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      SWIFT_WASM_URL: |-
-        https://github.com/swiftwasm/swift/releases/download/swift-wasm-5.9-SNAPSHOT-2024-03-27-a/swift-wasm-5.9-SNAPSHOT-2024-03-27-a-macos_x86_64.pkg
+      SWIFT_WASM_VERSION: 5.9-SNAPSHOT-2024-03-27-a
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Git Credentials
         uses: de-vri-es/setup-git-credentials@v2
@@ -45,26 +46,39 @@ jobs:
         with:
           node-version: '16.x'
 
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '6'
+
       - name: Configure build environment
         shell: zsh {0}
         run: |
           set -euxo pipefail
 
-          curl -Lo swift-wasm.pkg $SWIFT_WASM_URL
-          sudo installer -pkg swift-wasm.pkg -target /
+          [[ -d ~/swift-wasm-toolchains/swift-wasm-$SWIFT_WASM_VERSION-macos_arm64.artifactbundle ]] || {
+              mkdir -p ~/swift-wasm-toolchains
+              curl -LJo swift-wasm.artifactbundle.zip \
+                  https://github.com/swiftwasm/swift/releases/download/swift-wasm-$SWIFT_WASM_VERSION/swift-wasm-$SWIFT_WASM_VERSION-macos_arm64.artifactbundle.zip
+              tar xf swift-wasm.artifactbundle.zip
+              mv swift-wasm-$SWIFT_WASM_VERSION-macos_arm64.artifactbundle ~/swift-wasm-toolchains
+          }
 
-          brew install binaryen
-
-          (cd integration-tests/TestAPI-bindings; npm install)
+          (cd integration-tests/TestAPI-bindings/node-test; npm install)
           (cd Tests/NAPITests/node-tests; npm install)
 
-          dotnet tool install --global dotnet-coverage
-          echo ${HOME}/.dotnet/tools >> $GITHUB_PATH
+          if [[ ! -f $HOME/.dotnet/tools/dotnet-coverage ]]; then
+            dotnet tool install --global dotnet-coverage
+          fi
+          echo $HOME/.dotnet/tools >> $GITHUB_PATH
 
       - name: Gather coverage
         shell: zsh {0}
         run: |
           set -euxo pipefail
+
+          export SWIFT_WASM_TOOLCHAIN=~/swift-wasm-toolchains/swift-wasm-$SWIFT_WASM_VERSION-macos_arm64.artifactbundle/$SWIFT_WASM_VERSION-wasm/wasm32-unknown-wasi/swift.xctoolchain
+          export WASI_SDK=~/swift-wasm-toolchains/swift-wasm-$SWIFT_WASM_VERSION-macos_arm64.artifactbundle/$SWIFT_WASM_VERSION-wasm/wasm32-unknown-wasi/WASI.sdk
 
           ./scripts/generate-raw-coverage.sh
           ./scripts/gather-coverage.sh
@@ -73,8 +87,6 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
-
-          git fetch origin main
 
           brew install sonar-scanner
 
