@@ -130,10 +130,21 @@ void main() {
           double.minPositive,
           "Captain Planet!",
           () { 
-            return Future.delayed(const Duration(seconds: 0), () => 42); 
+            return Future.delayed(const Duration(seconds: 0), () => 42);
           }
         );
         expect(await e(), 42);
+        final f = a.six(
+          "Big, bad",
+          24,
+          3.14159265359,
+          "Beetleborgs",
+          () { 
+            return Future.delayed(const Duration(seconds: 0), () => 43);
+          },
+          int64MinValue
+        );
+        assert(f, equals(int64MinValue));
       });
   });
 
