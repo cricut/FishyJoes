@@ -167,8 +167,15 @@ void main() {
             return (fl / d) + (9 * l);
           }
         );
-        print("j: $j");
         expect(j, equals("18.227272727272727"));
+
+        final k = await a.exercise4(
+          (p0, p1, p2, p3) async {
+            return [p3, p2, p1, p0];
+          }
+        );
+        print("k: $k");
+        expect(k, equals("[\"d\", \"c\", \"b\", \"a\"]"));
       });
   });
 }
