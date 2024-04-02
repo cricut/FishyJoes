@@ -300,9 +300,7 @@ internal class ProtocolTests {
         testAsyncForeignSideFunctionsCore(a)
     }
 
-    @Test
-    fun testAsyncSwiftSideFunctions() = runTest(timeout = 1000000.seconds) {
-        val a = TestAsyncSwiftSideFunctionsClass.init()
+    fun testAsyncSwiftSideFunctionsCore(a: TestAsyncFunctions) = runTest(timeout = 1000000.seconds) {
         assertEquals(a.const42(), 42)
         assertEquals(a.iabs(-2398),2398)
         val b = a.intCompose({x: Long -> x * 3}, {y: Long -> y * 5})
@@ -325,9 +323,9 @@ internal class ProtocolTests {
         val h = a.exercise1(b)
         assertEquals(h, "-45")
         val i = a.exercise2 { a: suspend (Long) -> Long, b: suspend (Long) ->
-            Long -> { z: Long ->
-                a(3) + b(3) + z
-            }
+        Long -> { z: Long ->
+            a(3) + b(3) + z
+        }
         }
         assertEquals("21", i)
         val j = a.exercise3 { fl, d, l -> (fl / d) + 9 * l }
@@ -347,6 +345,18 @@ internal class ProtocolTests {
         assertEquals(97.4090910340281, o)
         val p = a.defaultExercise6(fn = {a: String, b: Long, c: Double, d: String, e: suspend () -> Long, f: Long -> (a.toDouble() + b.toDouble() + c + d.toDouble() + e() + f).toLong() } )
         assertEquals("962", p)
+    }
+    @Test
+    fun testAsyncSwiftSideFunctions() = runTest(timeout = 1000000.seconds) {
+        val a = TestAsyncSwiftSideFunctionsClass.init()
+        testAsyncSwiftSideFunctionsCore(a)
+    }
+
+    @Test
+    fun testAsyncSwiftSideFunctionsWitness() = runTest(timeout = 1000000.seconds) {
+        val _a = TestAsyncSwiftSideFunctionsClass.init()
+        val a = _a.witness()
+        testAsyncSwiftSideFunctionsCore(a)
     }
 
     @Test
