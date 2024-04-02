@@ -275,7 +275,11 @@ struct TranslatedProtocol: TranslatedType {
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
             "NodeInterface/\(sourceType.name)+node.swift",
-            additionalImports: ["Foundation", "FishyJoesNodeRuntime", "\(context.module.name)_CommonInterface"]
+            additionalImports: [
+                "Foundation",
+                "FishyJoesNodeRuntime",
+                "\(context.module.name)_CommonInterface"
+            ]
         )
 
         fragment.outputBlock("struct _Node\(sourceType.nonNamespacedName): \(sourceType.name) {") {

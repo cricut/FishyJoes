@@ -5,6 +5,7 @@
 import FishyJoesNodeRuntime
 import Foundation
 import TestAPI
+import TestAPI_CommonInterface
 
 extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
     public typealias SwiftType = Self
