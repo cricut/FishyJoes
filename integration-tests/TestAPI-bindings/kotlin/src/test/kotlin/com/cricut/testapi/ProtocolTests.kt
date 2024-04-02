@@ -359,9 +359,7 @@ internal class ProtocolTests {
         testAsyncSwiftSideFunctionsCore(a)
     }
 
-    @Test
-    fun testAsyncFunctionsImpl() = runTest(timeout = 1000000.seconds) {
-        val a = TestAsyncFunctionsImpl()
+    fun testAsyncFunctionsImplCore(a: TestAsyncFunctions) = runTest(timeout = 1000000.seconds) {
         assertEquals(49, a.const42())
         assertEquals(4, a.iabs(-4))
         val b = a.intCompose({x: Long -> x * 3}, {y: Long -> y * 5})
@@ -407,12 +405,24 @@ internal class ProtocolTests {
         n()
         assertEquals(3, o)
         val p = a.defaultExercise6(fn =
-            {
+        {
                 a: String, b: Long, c: Double, d: String, e: suspend () -> Long, f: Long ->
-                    (a.toDouble() + b.toDouble() + c + d.toDouble() + e() + f).toLong()
-            }
+            (a.toDouble() + b.toDouble() + c + d.toDouble() + e() + f).toLong()
+        }
         )
         assertEquals("962", p)
+    }
+    @Test
+    fun testAsyncFunctionsImpl() = runTest(timeout = 1000000.seconds) {
+        val a = TestAsyncFunctionsImpl()
+        testAsyncFunctionsImplCore(a)
+    }
+
+    @Test
+    fun testAsyncFunctionsImplWitness() = runTest(timeout = 1000000.seconds) {
+        val _a = TestAsyncFunctionsImpl()
+        val a = _a.witness()
+        testAsyncFunctionsImplCore(a)
     }
 
     data class ProtocolKotlinImpl(
