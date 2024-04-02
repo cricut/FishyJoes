@@ -19,7 +19,7 @@ class KotlinInterface: KotlinClass {
                     if !method.name.hasPrefix("_default"),
                        method.isSuspend {
                         fragment.output("@JvmStatic")
-                        fragment.outputBlock("fun \(method.name)(", newLineTerminated: false) {
+                        fragment.outputBlock("fun _deferred_\(method.name)(", newLineTerminated: false) {
                             fragment.output("self: \(unqualifiedName),")
                             fragment.outputMap(method.parameters, separator: ",") {
                                 "\($0.name): \($0.type.kotlinType)"
