@@ -158,7 +158,12 @@ class KotlinClass: NestedClass {
                 }
                 if let body = method.body {
                     precondition(compatibilityParameters.isEmpty, "internal error: compatibilityOrder can't be used with a non-native body")
-                    fragment.output(" = \(body)\(method.returnType.toKotlinType)\(method.isSuspend ? ".await()": "")")
+                    fragment.output(" = \(body)\(method.returnType.toKotlinType)", newLineTerminated: false)
+                    if method.isSuspend {
+                        fragment.output(".await()")
+                    } else {
+                        fragment.output(method.returnType.toKotlinType)
+                    }
                 } else if external {
                     var arguments: [String] = []
                     for parameter in method.parameters {
