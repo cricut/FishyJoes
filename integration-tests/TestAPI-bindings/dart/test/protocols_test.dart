@@ -154,9 +154,9 @@ void main() {
         expect(h, equals("-45"));
 
         final i = await a.exercise2(
-          (p0, p1) { 
+          (a, b) { 
             return (z) async {
-              return (await p0(3)) + (await p1(3)) + z;
+              return (await a(3)) + (await b(3)) + z;
             };
           }
         );
@@ -170,20 +170,28 @@ void main() {
         expect(j, equals("18.227272727272727"));
 
         final k = await a.exercise4(
-          (p0, p1, p2, p3) async {
-            return [p3, p2, p1, p0];
+          (a, b, c, d) async {
+            return [d, c, b, a];
           }
         );
         expect(k, equals("[\"d\", \"c\", \"b\", \"a\"]"));
 
         final l = await a.exercise5(
-          (p0, p1, p2, p3, p4) async {
+          (a, b, c, d, e) async {
             return () async {
-              return (p1.toDouble() + p2 + (await p4())).toInt();
+              return (b.toDouble() + c + (await e())).toInt();
             };
           }
         );
-        expect(l, "93");
+        expect(l, equals("93"));
+
+        final m = await a.exercise6(
+          (a, b, c, d, e, f) async {
+            return (b.toDouble() + c + await e() + f).toInt();
+          }
+        );
+        print("m: $m");
+        expect(m, equals("135"));
       });
   });
 }
