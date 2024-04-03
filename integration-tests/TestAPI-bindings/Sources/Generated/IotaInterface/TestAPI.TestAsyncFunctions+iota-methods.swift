@@ -185,8 +185,9 @@ public func __iota_TestAPI_TestAsyncFunctions_defaultExercise6(
     return env.catching(to: _exn) {
         let fn = try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.peekIota(fn, env: env)
         let _swiftSelf = UncheckedSendableBox(try TestAPI_CommonInterface._TestAsyncFunctionsConverter.peekIota(_iotaThis, env: env))
+        let _wrappedSwiftSelf = TestAPI_CommonInterface.TestAsyncFunctions_sans_defaultExercise6(wrapped: _swiftSelf.value)
         let _swiftFuture = Future {
-            try await _swiftSelf.value.defaultExercise6(
+            try await _wrappedSwiftSelf.defaultExercise6(
                 fn
             )
         }

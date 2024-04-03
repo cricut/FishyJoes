@@ -1,8 +1,12 @@
 import 'dart:io';
+import 'dart:core';
 import 'dart:math';
 import 'package:cricut_test_api/cricut_test_api.dart';
+import 'package:cricut_test_api/src/generated/TestAsyncSwiftSideFunctionsClass.dart';
 import 'package:test/test.dart';
 import 'package:tuple/tuple.dart' as tuple;
+import 'package:dart_numerics/dart_numerics.dart';
+import 'package:cricut_test_api/src/generated/TestAsyncFunctions.dart' as TestAPI;
 
 void main() {
   setUp(() {
@@ -86,5 +90,406 @@ void main() {
         expect(lups.m_leadingUnderscoreProp, equals("With great power comes great responsibility."));
         // test for _leadingUnderscoreMethod is just that tests build and run, since currently leading underscore on method name means it's only visible on the Swift side, not the Foreign/Dart side.
       });
+
+      testAsyncForeignSideFunctionsCore(z) async {
+        final a = z as TestAsyncFunctions;
+        expect(await a.const42(), equals(49));
+        expect(await a.iabs(-4), equals(4));
+        final b = a.intCompose(
+          (x) {
+          return Future.delayed(const Duration(seconds: 0), () => x * 3);
+          }, 
+          (y) {
+          return Future.delayed(const Duration(seconds: 0), () => y * 5);
+          }
+        );
+        expect(await b(92), equals(1380));
+        final c = await a.add3Things(3.14, 3.14159, 128);
+        expect(c, closeTo(134.28159, 2E-7));
+        final d = await a.makeList("By", "your", "powers", "combined");
+        expect(d, List.of(["By", "your", "powers", "combined"]));
+        final e = await a.fifthThing(
+          "I, am",
+          int64MaxValue,
+          double.minPositive,
+          "Captain Planet!",
+          () { 
+            return Future.delayed(const Duration(seconds: 0), () => 42);
+          }
+        );
+        expect(await e(), 42);
+        final f = await a.six(
+          "Big, bad",
+          24,
+          3.14159265359,
+          "Beetleborgs",
+          () { 
+            return Future.delayed(const Duration(seconds: 0), () => 43);
+          },
+          int64MinValue
+        );
+        expect(f, equals(int64MinValue));
+
+        expect(() async => await a.willThrow(), throwsA(predicate((e) => '$e'.contains("Spoon!"))));
+
+        final g = await a.exercise0(e);
+        expect(g, equals("84"));
+        final h = await a.exercise1(b);
+        expect(h, equals("-105"));
+
+        final i = await a.exercise2(
+          (a, b) { 
+            return (z) async {
+              return (await a(3)) + (await b(3)) + z;
+            };
+          }
+        );
+        expect(i, equals("36"));
+
+        final j = await a.exercise3(
+          (fl, d, l) async {
+            return (fl / d) + (9 * l);
+          }
+        );
+        expect(j, equals("18.227272727272727"));
+
+        final k = await a.exercise4(
+          (a, b, c, d) async {
+            return [d, c, b, a];
+          }
+        );
+        expect(k, equals("[jam, the, up, Pump]"));
+
+        final l = await a.exercise5(
+          (a, b, c, d, e) async {
+            return () async {
+              return (double.parse(a) + b.toDouble() + c + double.parse(d) + (await e())).toInt();
+            };
+          }
+        );
+        expect(l, equals("754"));
+
+        final m = await a.exercise6(
+          (a, b, c, d, e, f) async {
+            return (double.parse(a) + b.toDouble() + c + double.parse(d) + await e() + f).toInt();
+          }
+        );
+        expect(m, equals("852"));
+
+        var o = 1;
+        final n = a.thunkTwiceMaker(
+          () async {
+            o += 1;
+            print("Thunker in paradise");
+          }
+        );
+        await n();
+        expect(o, equals(3));
+
+        final p = await a.defaultExercise6(
+          (a, b, c, d, e, f) async {
+            return (double.parse(a) + b.toDouble() + c + double.parse(d) + await e() + f).toInt();
+          }
+        );
+        expect(p, equals("962"));
+      }
+
+      TestAsyncFunctions makeAsyncForeignSideFunctions() {
+        return TestAsyncForeignSideFunctionsStruct(
+          const42: () async { return 49; },
+          iabs: (x) async { return x.abs(); },
+          intCompose: (f, g) {
+            return (x) async {
+              return f( await g(x));
+            };
+          },
+          add3Things: (x, y, z) async {
+            return x.toDouble() + y + z.toDouble();
+          }, 
+          makeList: (a, b, c, d) async {
+            return [a, b, c, d];
+          }, 
+          fifthThing: (a, b, c, d, e) async {
+            return e;
+          }, 
+          six: (a, b, c, d, e, f) async { 
+            return f;
+          }, 
+          willThrow: () async {
+            throw(Exception('Spoon!'));
+          }, 
+          exercise0Fun: (fn) async {
+            return "${await fn() * 2}";
+          }, 
+          exercise1Fun: (fn) async {
+            return "${await fn(-7)}";
+          },
+          exercise2Fun: (fn) async {
+            return "${await fn((a) async { return a + 1; }, (b) async { return b * 3; })(23)}";
+          },
+          exercise3Fun: (fn) async {
+            return "${await fn(1.0, 4.4, 2)}";
+          },
+          exercise4Fun: (fn) async {
+            return "${
+              await fn("Pump", "up", "the", "jam")
+            }";
+          },
+          exercise5Fun: (fn) async {
+            final y = await (await fn("78", 6, 4.2, "12", () async { return 654; }))();
+            return "$y";
+          },
+          exercise6Fun: (fn) async {
+            final y = await fn("78", 6, 4.2, "12", () async { return 654; }, 98);
+            return "$y";
+          },
+          thunkTwiceMakerFun: (thunk) { 
+            return () async {
+              await thunk();
+              await thunk();
+            };
+          }
+        );
+      }
+      test('testAsyncForeignSideFunctions', () async {
+        final a = makeAsyncForeignSideFunctions();
+        await testAsyncForeignSideFunctionsCore(a);
+      });
+
+      test('testAsyncForeignSideFunctionsWitness', () async {
+        final _a = makeAsyncForeignSideFunctions();
+        final a = _a.witness();
+        await testAsyncForeignSideFunctionsCore(a);
+      });
+
+      test('testTestAsyncFunctionsImpl', () async {
+        final a = TestAsyncFunctionsImpl();
+        await testAsyncForeignSideFunctionsCore(a);
+      });
+
+      test('testTestAsyncFunctionsImplWitness', () async {
+        final _a = TestAsyncFunctionsImpl();
+        final a = _a.witness();
+        await testAsyncForeignSideFunctionsCore(a);
+      });
+
+      testAsyncSwiftSideFunctionsCore(z) async {
+        final a = z as TestAsyncFunctions;
+        expect(await a.const42(), equals(42));
+        expect(await a.iabs(-2398), equals(2398));
+        final b = a.intCompose(
+          (x) {
+          return Future.delayed(const Duration(seconds: 0), () => x * 3);
+          }, 
+          (y) {
+          return Future.delayed(const Duration(seconds: 0), () => y * 5);
+          }
+        );
+        expect(await b(92), equals(1380));
+        final d = await a.makeList("By", "your", "powers", "combined");
+        expect(d, List.of(["By", "your", "powers", "combined"]));
+        final e = await a.fifthThing(
+          "I, am",
+          int64MaxValue,
+          double.minPositive,
+          "Captain Planet!",
+          () { 
+            return Future.delayed(const Duration(seconds: 0), () => 42);
+          }
+        );
+        expect(await e(), 42);
+        final f = await a.six(
+          "Big, bad",
+          24,
+          3.14159265359,
+          "Beetleborgs",
+          () { 
+            return Future.delayed(const Duration(seconds: 0), () => 43);
+          },
+          int64MinValue
+        );
+        expect(f, equals(int64MinValue));
+
+        expect(() async => await a.willThrow(), throwsA(predicate((e) => '$e'.contains("TheAsyncError()"))));
+
+        final g = await a.exercise0(e);
+        expect(g, equals("42"));
+        final h = await a.exercise1(b);
+        expect(h, equals("-45"));
+
+        final i = await a.exercise2(
+          (a, b) { 
+            return (z) async {
+              return (await a(3)) + (await b(3)) + z;
+            };
+          }
+        );
+        expect(i, equals("21"));
+
+        final j = await a.exercise3(
+          (fl, d, l) async {
+            return (fl / d) + (9 * l);
+          }
+        );
+        expect(j, equals("18.227272727272727"));
+
+        final k = await a.exercise4(
+          (a, b, c, d) async {
+            return [d, c, b, a];
+          }
+        );
+        expect(k, equals("[\"d\", \"c\", \"b\", \"a\"]"));
+
+        final l = await a.exercise5(
+          (a, b, c, d, e) async {
+            return () async {
+              return (b.toDouble() + c + (await e())).toInt();
+            };
+          }
+        );
+        expect(l, equals("93"));
+
+        final m = await a.exercise6(
+          (a, b, c, d, e, f) async {
+            return (b.toDouble() + c + await e() + f).toInt();
+          }
+        );
+        expect(m, equals("135"));
+
+        var o = 3.14159265359;
+        final n = a.thunkTwiceMaker(
+          () async {
+            o = o * o;
+            print("Thunkmaster thex");
+          }
+        );
+        await n();
+        expect(o, equals(97.4090910340281));
+
+        final p = await a.defaultExercise6(
+          (a, b, c, d, e, f) async {
+            return (double.parse(a) + b.toDouble() + c + double.parse(d) + await e() + f).toInt();
+          }
+        );
+        expect(p, equals("962"));
+      }
+
+      test('testAsyncSwiftSideFunctions', () async {
+        final a = TestAsyncSwiftSideFunctionsClass.init();
+        await testAsyncSwiftSideFunctionsCore(a);
+      });
+
+      test('testAsyncSwiftSideFunctionsWitness', () async {
+        final a = TestAsyncSwiftSideFunctionsClass.init();
+        final b = a.witness();
+        await testAsyncSwiftSideFunctionsCore(b);
+      });
   });
+}
+
+class TestAsyncFunctionsImpl implements TestAPI.TestAsyncFunctions {
+    @override
+    Future<String> exercise0(
+        Future<int> Function() fn
+    ) async {
+      return "${(await fn()) * 2}";
+    }
+    @override
+    Future<String> exercise1(
+        Future<int> Function(int) fn
+    ) async {
+      return "${await fn(-7)}";
+    }
+    @override
+    Future<String> exercise2(
+        Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int)) fn
+    ) async {
+      return "${await fn((a) async { return a + 1; }, (b) async { return b * 3; })(23)}";
+    }
+    @override
+    Future<String> exercise3(
+        Future<double> Function(double, double, int) fn
+    ) async {
+      return "${await fn(1.0, 4.4, 2)}";
+    }
+    @override
+    Future<String> exercise4(
+        Future<List<String>> Function(String, String, String, String) fn
+    ) async {
+      return "${await fn("Pump", "up", "the", "jam")}";
+    }
+    @override
+    Future<String> exercise5(
+        Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function()) fn
+    ) async {
+      final y = await (await fn("78", 6, 4.2, "12", () async { return 654; }))();
+      return "$y";
+    }
+    @override
+    Future<String> exercise6(
+        Future<int> Function(String, int, double, String, Future<int> Function(), int) fn
+    ) async {
+      final y = await fn("78", 6, 4.2, "12", () async { return 654; }, 98);
+      return "$y";
+    }
+    @override
+    Future<void> Function() thunkTwiceMaker(
+        Future<void> Function() thunk
+    ) {
+      return () async {
+        await thunk();
+        await thunk();
+      };
+    }
+    @override
+    TestAPI.TestAsyncFunctions witness(
+    ) {
+      return TestAsyncFunctionsImpl();
+    }
+    @override
+    Future<int> Function() get const42 {
+      return () async { return 49; };
+    }
+    @override
+    Future<int> Function(int) get iabs {
+      return (a) async { return a.abs(); };
+    }
+    @override
+    Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int)) get intCompose {
+      return (f, g) {
+        return (x) async {
+          return f( await g(x));
+        };
+      };
+    }
+    @override
+    Future<double> Function(double, double, int) get add3Things {
+      return (x, y, z) async {
+        return x.toDouble() + y + z.toDouble();
+      };
+    }
+    @override
+    Future<List<String>> Function(String, String, String, String) get makeList {
+      return (a, b, c, d) async {
+        return [a, b, c, d];
+      };
+    }
+    @override
+    Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function()) get fifthThing {
+      return (a, b, c, d, e) async {
+        return e;
+      };
+    }
+    @override
+    Future<int> Function(String, int, double, String, Future<int> Function(), int) get six {
+      return (a, b, c, d, e, f) async { 
+        return f;
+      };
+    }
+    @override
+    Future<int> Function() get willThrow {
+      return () async {
+        throw(Exception('Spoon!'));
+      };
+    }
 }

@@ -165,14 +165,14 @@ internal class ProtocolTests {
         assertInstanceOf(Error::class.java, result.exceptionOrNull())
         assertEquals("Spoon!", result.exceptionOrNull()?.message)
 
-        val g = a.exercise0 { 42 }
+        val g = a.exercise0(e)
         assertEquals("84", g)
         val h = a.exercise1(b)
         assertEquals("-105", h)
         val i = a.exercise2 { a: suspend (Long) -> Long, b: suspend (Long) ->
-        Long -> { z: Long ->
-            a(3) + b(3) + z
-        }
+            Long -> { z: Long ->
+                a(3) + b(3) + z
+            }
         }
         assertEquals("36", i)
         val j = a.exercise3 { fl: Float, d: Double, l: Long -> (fl / d) + 9 * l }
@@ -186,7 +186,7 @@ internal class ProtocolTests {
         var o = 1
         val n = a.thunkTwiceMaker {
             o += 1
-            println("thunkity thunk!")
+            println("Thunker in paradise")
         }
         n()
         assertEquals(3, o)

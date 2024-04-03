@@ -79,6 +79,10 @@ final class IotaTranslator: Translator {
                         fragment.output("let _swiftSelf = UncheckedSendableBox(try \(selfExpression))")
                         selfExpression = "_swiftSelf.value"
                     }
+                    if method.isDefaultImplementation {
+                        fragment.output("let _wrappedSwiftSelf = \(context.module.name)_CommonInterface.\(method.definedIn?.name ?? "")_sans_\(method.callName)(wrapped: _swiftSelf.value)")
+                        selfExpression = "_wrappedSwiftSelf"
+                    }
 
                     fragment.outputBlock("let _swiftFuture = Future {", newLineTerminated: false) {
                         fragment.outputBlock("\(method.isThrowing ? "try " : "")await \(selfExpression)\(callName)(") {
