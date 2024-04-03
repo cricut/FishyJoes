@@ -104,7 +104,7 @@ void main() {
         );
         expect(await b(92), equals(1380));
         final c = await a.add3Things(3.14, 3.14159, 128);
-        expect(c, equals(134.28159));
+        expect(c, closeTo(134.28159, 2E-7));
         final d = await a.makeList("By", "your", "powers", "combined");
         expect(d, List.of(["By", "your", "powers", "combined"]));
         final e = await a.fifthThing(
@@ -193,15 +193,15 @@ void main() {
         expect(p, equals("962"));
       }
 
-      test('testAsyncForeignSideFunctions', () async {
-        final a = TestAsyncForeignSideFunctionsStruct(
-          const42: () async { return 49; }, 
-          iabs: (x) async { return x.abs(); }, 
-          intCompose: (f, g) { 
-            return (x) async { 
-              return f( await g(x)); 
-            }; 
-          }, 
+      TestAsyncFunctions makeAsyncForeignSideFunctions() {
+        return TestAsyncForeignSideFunctionsStruct(
+          const42: () async { return 49; },
+          iabs: (x) async { return x.abs(); },
+          intCompose: (f, g) {
+            return (x) async {
+              return f( await g(x));
+            };
+          },
           add3Things: (x, y, z) async {
             return x.toDouble() + y + z.toDouble();
           }, 
@@ -249,7 +249,15 @@ void main() {
             };
           }
         );
+      }
+      test('testAsyncForeignSideFunctions', () async {
+        final a = makeAsyncForeignSideFunctions();
+        await testAsyncForeignSideFunctionsCore(a);
+      });
 
+      test('testAsyncForeignSideFunctionsWitness', () async {
+        final _a = makeAsyncForeignSideFunctions();
+        final a = _a.witness();
         await testAsyncForeignSideFunctionsCore(a);
       });
 
