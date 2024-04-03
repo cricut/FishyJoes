@@ -90,6 +90,11 @@ void main() {
         // test for _leadingUnderscoreMethod is just that tests build and run, since currently leading underscore on method name means it's only visible on the Swift side, not the Foreign/Dart side.
       });
 
+      testAsyncForeignSideFunctionsCore(z) async {
+        final a = z as TestAsyncFunctions;
+        expect(await a.const42(), equals(49));
+      }
+
       test('testAsyncForeignSideFunctions', () async {
         final a = TestAsyncForeignSideFunctionsStruct(
           const42: () async { return 49; }, 
@@ -146,7 +151,8 @@ void main() {
             };
           }
         );
-        print("a: $a");
+
+        await testAsyncForeignSideFunctionsCore(a);
       });
 
       testAsyncSwiftSideFunctionsCore(z) async {
