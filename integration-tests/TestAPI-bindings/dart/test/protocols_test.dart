@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 import 'package:cricut_test_api/cricut_test_api.dart';
+import 'package:cricut_test_api/src/generated/TestAsyncSwiftSideFunctionsClass.dart';
 import 'package:test/test.dart';
 import 'package:tuple/tuple.dart' as tuple;
 import 'package:dart_numerics/dart_numerics.dart';
@@ -109,8 +110,8 @@ void main() {
       //     )
       // });
 
-      test('testAsyncSwiftSideFunctions', () async {
-        final a = TestAsyncSwiftSideFunctionsClass.init();
+      testAsyncSwiftSideFunctionsCore(z) async {
+        final a = z as TestAsyncFunctions;
         expect(await a.const42(), equals(42));
         expect(await a.iabs(-2398), equals(2398));
         final b = a.intCompose(
@@ -208,6 +209,17 @@ void main() {
           }
         );
         expect(p, equals("962"));
+      }
+
+      test('testAsyncSwiftSideFunctions', () async {
+        final a = TestAsyncSwiftSideFunctionsClass.init();
+        await testAsyncSwiftSideFunctionsCore(a);
+      });
+
+      test('testAsyncSwiftSideFunctionsWitness', () async {
+        final a = TestAsyncSwiftSideFunctionsClass.init();
+        final b = a.witness();
+        await testAsyncSwiftSideFunctionsCore(b);
       });
   });
 }
