@@ -6,6 +6,7 @@ import 'package:cricut_test_api/src/generated/TestAsyncSwiftSideFunctionsClass.d
 import 'package:test/test.dart';
 import 'package:tuple/tuple.dart' as tuple;
 import 'package:dart_numerics/dart_numerics.dart';
+import 'package:cricut_test_api/src/generated/TestAsyncFunctions.dart' as TestAPI;
 
 void main() {
   setUp(() {
@@ -261,6 +262,17 @@ void main() {
         await testAsyncForeignSideFunctionsCore(a);
       });
 
+      test('testTestAsyncFunctionsImpl', () async {
+        final a = TestAsyncFunctionsImpl();
+        await testAsyncForeignSideFunctionsCore(a);
+      });
+
+      test('testTestAsyncFunctionsImplWitness', () async {
+        final _a = TestAsyncFunctionsImpl();
+        final a = _a.witness();
+        await testAsyncForeignSideFunctionsCore(a);
+      });
+
       testAsyncSwiftSideFunctionsCore(z) async {
         final a = z as TestAsyncFunctions;
         expect(await a.const42(), equals(42));
@@ -373,4 +385,111 @@ void main() {
         await testAsyncSwiftSideFunctionsCore(b);
       });
   });
+}
+
+class TestAsyncFunctionsImpl implements TestAPI.TestAsyncFunctions {
+    @override
+    Future<String> exercise0(
+        Future<int> Function() fn
+    ) async {
+      return "${(await fn()) * 2}";
+    }
+    @override
+    Future<String> exercise1(
+        Future<int> Function(int) fn
+    ) async {
+      return "${await fn(-7)}";
+    }
+    @override
+    Future<String> exercise2(
+        Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int)) fn
+    ) async {
+      return "${await fn((a) async { return a + 1; }, (b) async { return b * 3; })(23)}";
+    }
+    @override
+    Future<String> exercise3(
+        Future<double> Function(double, double, int) fn
+    ) async {
+      return "${await fn(1.0, 4.4, 2)}";
+    }
+    @override
+    Future<String> exercise4(
+        Future<List<String>> Function(String, String, String, String) fn
+    ) async {
+      return "${await fn("Pump", "up", "the", "jam")}";
+    }
+    @override
+    Future<String> exercise5(
+        Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function()) fn
+    ) async {
+      final y = await (await fn("78", 6, 4.2, "12", () async { return 654; }))();
+      return "$y";
+    }
+    @override
+    Future<String> exercise6(
+        Future<int> Function(String, int, double, String, Future<int> Function(), int) fn
+    ) async {
+      final y = await fn("78", 6, 4.2, "12", () async { return 654; }, 98);
+      return "$y";
+    }
+    @override
+    Future<void> Function() thunkTwiceMaker(
+        Future<void> Function() thunk
+    ) {
+      return () async {
+        await thunk();
+        await thunk();
+      };
+    }
+    @override
+    TestAPI.TestAsyncFunctions witness(
+    ) {
+      return TestAsyncFunctionsImpl();
+    }
+    @override
+    Future<int> Function() get const42 {
+      return () async { return 49; };
+    }
+    @override
+    Future<int> Function(int) get iabs {
+      return (a) async { return a.abs(); };
+    }
+    @override
+    Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int)) get intCompose {
+      return (f, g) {
+        return (x) async {
+          return f( await g(x));
+        };
+      };
+    }
+    @override
+    Future<double> Function(double, double, int) get add3Things {
+      return (x, y, z) async {
+        return x.toDouble() + y + z.toDouble();
+      };
+    }
+    @override
+    Future<List<String>> Function(String, String, String, String) get makeList {
+      return (a, b, c, d) async {
+        return [a, b, c, d];
+      };
+    }
+    @override
+    Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function()) get fifthThing {
+      return (a, b, c, d, e) async {
+        return e;
+      };
+    }
+    @override
+    Future<int> Function(String, int, double, String, Future<int> Function(), int) get six {
+      return (a, b, c, d, e, f) async { 
+        return f;
+      };
+    }
+    @override
+    Future<int> Function() get willThrow {
+      return () async {
+        throw(Exception('Spoon!'));
+      };
+    }
 }
