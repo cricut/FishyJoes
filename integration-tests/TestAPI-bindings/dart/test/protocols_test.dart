@@ -235,7 +235,7 @@ void main() {
             }";
           },
           exercise5Fun: (fn) async {
-            final y = await fn("78", 6, 4.2, "12", () async { return 654; });
+            final y = await (await fn("78", 6, 4.2, "12", () async { return 654; }))();
             return "$y";
           },
           exercise6Fun: (fn) async {
