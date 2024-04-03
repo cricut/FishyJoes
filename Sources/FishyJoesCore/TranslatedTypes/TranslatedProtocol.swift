@@ -511,7 +511,7 @@ struct TranslatedProtocol: TranslatedType {
         }
         fragment.blankLine()
 
-        fragment.outputBlock("extension \(converterType.name): IotaMutator {") {
+        fragment.outputBlock("extension \(converterType.name): IotaConverter {") {
             fragment.output("public typealias CType = foreignObject")
 
             fragment.outputBlock("public typealias _ConstructorMethod = @convention(c) (", closeWith: ") -> foreignObject") {
@@ -557,20 +557,6 @@ struct TranslatedProtocol: TranslatedType {
                     fragment.outputBlock("_constructorMethod[env](") {
                         fragment.output("Box(value).retainedOpaque(),")
                         fragment.output("exn")
-                    }
-                }
-            }
-            fragment.blankLine()
-
-            fragment.outputBlock("public static func mutateIota(_ this: foreignObject, to value: SwiftType, env: Env) throws {") {
-                for field in fields {
-                    let resolved = context.resolve(type: field.typeName.better)
-                    if field.isMutable {
-                        fragment.outputBlock("try env.check { exn in _\(field.name)Setter[env](", closeWith: ")}") {
-                            fragment.output("this,")
-                            fragment.output("try \(resolved.converterType.name).toIota(value.\(field.name), env: env),")
-                            fragment.output("exn")
-                        }
                     }
                 }
             }
@@ -680,7 +666,7 @@ struct TranslatedProtocol: TranslatedType {
 
         fragment.blankLine()
 
-        fragment.outputBlock("extension \(converterType.name): JavaMutator {") {
+        fragment.outputBlock("extension \(converterType.name): JavaConverter {") {
             fragment.output("public typealias CType = jobject?")
 
             fragment.output("public static var javaClass: jclass?")
@@ -701,14 +687,6 @@ struct TranslatedProtocol: TranslatedType {
                     fragment.output("externalWitnessConstructor,")
                     fragment.output("jvalue(pointer: Box(value).retainedOpaque())")
                 }
-            }
-
-            fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout SwiftType) throws -> R) throws -> R {") {
-                fragment.output("try body(&Box<SwiftType>.fromJava(this, env: env).value)")
-            }
-
-            fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout SwiftType, inout Env) async throws -> R) async throws -> R {") {
-                fragment.output("try await body(&Box<SwiftType>.fromJava(this, env: env).value, &env)")
             }
 
             fragment.outputBlock("public static func javaSetup(env: Env) throws {") {
