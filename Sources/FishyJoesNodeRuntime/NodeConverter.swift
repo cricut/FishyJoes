@@ -200,7 +200,23 @@ extension Data: NodeConverter {
     static var moduleReference: NodeReference?
 
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Data {
+        let dataPtr: UnsafeMutableRawPointer?
+        let length: Int
+        if try env.isArraybuffer(value) {
+            (dataPtr, length) = try env.getArraybufferInfo(value)
+        } else if try env.isBuffer(value) {
+            (dataPtr, length) = try env.getBufferInfo(value)
+        } else {
+            throw JSException(message: "expected ArrayBuffer (or Buffer, if you must) but got: \(try nodeDescribe(value, env: env))")
+        }
+
+        if length == 0 {
+            return Data()
+        }
+
         #if os(WASI)
+        // Limitations in the design of NAPI mean that we can't rely on dataPtr here.
+        // Use an external helper instead to get the bytes.
         guard let module = try moduleReference?.value(env: env),
               case let fromWasi = try env.getNamedProperty(env.getNamedProperty(module, "_DataNodeConverter"), "fromWasi"),
               try env.typeof(fromWasi) == NodeAPI.napi_function
@@ -209,28 +225,20 @@ extension Data: NodeConverter {
             throw JSException(message: "Internal error: Expected Runtime._DataNodeConverter.fromWasi to be a function")
         }
         let undefined = try env.getUndefined()
-        // fromWasi should be js function of type (Arraybuffer) -> [ssize_t, void *]
-        // the memory will be freed by the caller
-        let result = try env.callFunction(undefined, fromWasi, [value])
-        let length = try Int.fromNode(env.getElement(result, 0), env: env)
-        let data = try UInt.fromNode(env.getElement(result, 1), env: env)
-        return Data(bytesNoCopy: UnsafeMutableRawPointer(bitPattern: data)!, count: length, deallocator: .free)
-        #else
-        let data: UnsafeMutableRawPointer?
-        let length: Int
-        if try env.isArraybuffer(value) {
-            (data, length) = try env.getArraybufferInfo(value)
-        } else if try env.isBuffer(value) {
-            (data, length) = try env.getBufferInfo(value)
-        } else {
-            throw JSException(message: "expected ArrayBuffer (or Buffer, if you must) but got: \(try nodeDescribe(value, env: env))")
+        // fromWasi should be js function of type (Arraybuffer, ssize_t, void *) throws -> void
+        // the memory will be both allocated and freed by the caller
+        var data = Data(count: length)
+        let jsLength = try Int.toNode(length, env: env)
+        try data.withUnsafeMutableBytes { buffer in
+            let jsBuffer = try UInt.toNode(UInt(bitPattern: buffer.baseAddress), env: env)
+            try env.callFunction(undefined, fromWasi, [value, jsLength, jsBuffer])
         }
-        if length == 0 {
-            return Data()
-        } else if let data = data {
-            return Data(bytes: data, count: length)
+        return data
+        #else
+        if let dataPtr = dataPtr {
+            return Data(bytes: dataPtr, count: length)
         } else {
-            throw JSException(message: "napi_get_typedarray_info unexpectedly returned NULL")
+            throw JSException(message: "napi_get_arraybuffer_info unexpectedly returned NULL")
         }
         #endif
     }

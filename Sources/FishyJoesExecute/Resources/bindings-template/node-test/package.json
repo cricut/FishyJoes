@@ -5,13 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "npm run test-wasm",
-    "test-wasm": "node --experimental-wasm-eh --no-experimental-fetch --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.wasm.cjs",
-    "test-native-windows": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.native-windows.cjs",
-    "test-native-windows-lldb": "lldb -- node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.native-windows.cjs",
-    "test-native-macos": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.native-macos.cjs",
-    "test-native-macos-lldb": "lldb -- node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.native-macos.cjs",
-    "test-native-ubuntu": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.native-ubuntu.cjs",
-    "test-native-ubuntu-lldb": "lldb -- node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.native-ubuntu.cjs",
+    "test-wasm": "node --experimental-wasm-eh --no-experimental-fetch --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --debug -c jest.config.wasm.cjs",
+    "test-native-windows": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --debug -c jest.config.native-windows.cjs",
+    "test-native-windows-lldb": "lldb -- node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --debug -c jest.config.native-windows.cjs",
+    "test-native-macos": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --debug -c jest.config.native-macos.cjs",
+    "test-native-macos-lldb": "lldb -- node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --debug -c jest.config.native-macos.cjs",
+    "test-native-ubuntu": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --debug -c jest.config.native-ubuntu.cjs",
+    "test-native-ubuntu-lldb": "lldb -- node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --debug -c jest.config.native-ubuntu.cjs",
     "clear-cache": "node node_modules/jest/bin/jest.js --clear-cache"
   },
   "devDependencies": {
