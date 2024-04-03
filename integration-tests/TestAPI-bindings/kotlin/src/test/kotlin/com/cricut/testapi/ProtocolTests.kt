@@ -170,9 +170,9 @@ internal class ProtocolTests {
         val h = a.exercise1(b)
         assertEquals("-105", h)
         val i = a.exercise2 { a: suspend (Long) -> Long, b: suspend (Long) ->
-        Long -> { z: Long ->
-            a(3) + b(3) + z
-        }
+            Long -> { z: Long ->
+                a(3) + b(3) + z
+            }
         }
         assertEquals("36", i)
         val j = a.exercise3 { fl: Float, d: Double, l: Long -> (fl / d) + 9 * l }
