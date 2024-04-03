@@ -60,12 +60,14 @@ function applyExtensions(library, { wasmNapi } = {}) {
 
     if (typeof wasmNapi !== 'undefined') {
         library.Runtime._DataNodeConverter = {
-            fromWasi(buffer) {
-                const dataPtr = wasmNapi.malloc(buffer.byteLength);
-                const view = new Uint8Array(wasmNapi.memory.buffer, dataPtr, buffer.byteLength);
+            fromWasi(buffer, outBufferSize, outBufferPtr) {
+                const length = buffer.byteLength;
+                if (outBufferSize != length) {
+                    throw new Error("internal error: Runtime._DataNodeConverter.fromWasi size mismatch");
+                }
+                const view = new Uint8Array(wasmNapi.memory.buffer, outBufferPtr, length);
                 view.set(new Uint8Array(buffer));
                 wasmNapi.wasi.refreshMemory();
-                return [buffer.byteLength, dataPtr];
             },
             toWasi(byteLength, dataPtr) {
                 const buffer = wasmNapi.memory.buffer.slice(dataPtr, dataPtr + byteLength);
