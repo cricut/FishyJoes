@@ -302,7 +302,6 @@ extension NAPI.Env {
         return result
     }
 
-    #if !os(WASI)
     public func getArraybufferInfo(_ arraybuffer: NAPI.Value) throws -> (data: UnsafeMutableRawPointer?, byteLength: Int) {
         var data: UnsafeMutableRawPointer?
         var byteLength: Int = 0
@@ -315,7 +314,6 @@ extension NAPI.Env {
         try check(napi_get_buffer_info(ptr, value.ptr, &data, &length))
         return (data, length)
     }
-    #endif
 
     public func getPrototype(_ object: NAPI.Value) throws -> NAPI.Value {
         var result = NAPI.Value()

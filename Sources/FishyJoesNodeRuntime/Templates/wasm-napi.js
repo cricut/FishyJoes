@@ -144,6 +144,7 @@ export class NAPI {
 
     this.indirectFunctionTable = undefined;
     this.memory = undefined;
+    // There's some weird bug going on with this malloc... You may start getting weird memory corruption if you use it
     this.malloc = undefined;
     this.free = undefined;
     this.errorMessageTable = undefined;
@@ -684,6 +685,29 @@ export class NAPI {
         this.writeU32(resultPtr, a.length);
         return NAPI_OK;
       }),
+
+      napi_get_arraybuffer_info: this.wrap((envPtr, arraybufferIdx, dataPtrPtr, byteLengthPtr) => {
+        const arraybuffer = this.load(arraybufferIdx);
+        if (!util.types.isArrayBuffer(arraybuffer)) {
+          return this.returnError(NAPI_ARRAYBUFFER_EXPECTED);
+        }
+        this.writeU32(byteLengthPtr, arraybuffer.byteLength);
+        // Limitation in wasm implementation of NAPI
+        this.writeU32(dataPtrPtr, 0);
+        return NAPI_OK;
+      }),
+
+      napi_get_buffer_info: this.wrap((envPtr, bufferIdx, dataPtrPtr, lengthPtr) => {
+        const buffer = this.load(bufferIdx);
+        if (!Buffer.isBuffer(buffer)) {
+          return this.returnError(NAPI_ARRAYBUFFER_EXPECTED);
+        }
+        this.writeU32(lengthPtr, buffer.length);
+        // Limitation in wasm implementation of NAPI
+        this.writeU32(dataPtrPtr, 0);
+        return NAPI_OK;
+      }),
+
       napi_get_prototype: this.wrap((envPtr, valueIdx, resultPtr) => {
         if (envPtr === 0 || valueIdx === 0 || resultPtr === 0) {
           return this.returnError(NAPI_INVALID_ARG);
@@ -711,6 +735,7 @@ export class NAPI {
           BigUint64Array: 10,
         }[typedArray[Symbol.toStringTag]]);
         this.writeU32(lengthPtr, typedArray.length);
+        // Limitation in wasm implementation of NAPI
         this.writeU32(dataPtrPtr, 0);
         this.writeU32(arraybufferPtr, this.store(typedArray.buffer));
         this.writeU32(byteOffsetPtr, typedArray.byteOffset);
