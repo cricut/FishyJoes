@@ -314,7 +314,7 @@ public func TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup(
     TestAPI_CommonInterface._TestAsyncFunctionsConverter._witness[env] = witness
 }
 
-extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: IotaMutator {
+extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: IotaConverter {
     public typealias CType = foreignObject
     public typealias _ConstructorMethod = @convention(c) (
         _ ref: UnsafeMutableRawPointer,
@@ -397,8 +397,5 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: IotaMutator {
                 exn
             )
         }
-    }
-
-    public static func mutateIota(_ this: foreignObject, to value: SwiftType, env: Env) throws {
     }
 }

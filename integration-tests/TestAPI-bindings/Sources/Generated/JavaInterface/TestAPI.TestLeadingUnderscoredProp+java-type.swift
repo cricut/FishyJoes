@@ -25,7 +25,7 @@ struct _JavaTestLeadingUnderscoredProp: TestAPI.TestLeadingUnderscoredProp {
     }
 }
 
-extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: JavaMutator {
+extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: JavaConverter {
     public typealias CType = jobject?
     public static var javaClass: jclass?
     public static var externalWitnessClass: jclass?
@@ -43,12 +43,6 @@ extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: JavaMuta
             externalWitnessConstructor,
             jvalue(pointer: Box(value).retainedOpaque())
         )
-    }
-    public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout SwiftType) throws -> R) throws -> R {
-        try body(&Box<SwiftType>.fromJava(this, env: env).value)
-    }
-    public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout SwiftType, inout Env) async throws -> R) async throws -> R {
-        try await body(&Box<SwiftType>.fromJava(this, env: env).value, &env)
     }
     public static func javaSetup(env: Env) throws {
         javaClass = try env.globalRef(env.FindClass("com/cricut/testapi/TestLeadingUnderscoredProp"))
