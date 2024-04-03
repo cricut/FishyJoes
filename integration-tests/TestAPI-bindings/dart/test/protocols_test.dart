@@ -201,6 +201,13 @@ void main() {
         );
         await n();
         expect(o, equals(97.4090910340281));
+
+        final p = await a.defaultExercise6(
+          (a, b, c, d, e, f) async {
+            return (double.parse(a) + b.toDouble() + c + double.parse(d) + await e() + f).toInt();
+          }
+        );
+        expect(p, equals("962"));
       });
   });
 }
