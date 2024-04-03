@@ -93,6 +93,104 @@ void main() {
       testAsyncForeignSideFunctionsCore(z) async {
         final a = z as TestAsyncFunctions;
         expect(await a.const42(), equals(49));
+        expect(await a.iabs(-4), equals(4));
+        final b = a.intCompose(
+          (x) {
+          return Future.delayed(const Duration(seconds: 0), () => x * 3);
+          }, 
+          (y) {
+          return Future.delayed(const Duration(seconds: 0), () => y * 5);
+          }
+        );
+        expect(await b(92), equals(1380));
+        final c = await a.add3Things(3.14, 3.14159, 128);
+        expect(c, equals(134.28159));
+        final d = await a.makeList("By", "your", "powers", "combined");
+        expect(d, List.of(["By", "your", "powers", "combined"]));
+        final e = await a.fifthThing(
+          "I, am",
+          int64MaxValue,
+          double.minPositive,
+          "Captain Planet!",
+          () { 
+            return Future.delayed(const Duration(seconds: 0), () => 42);
+          }
+        );
+        expect(await e(), 42);
+        final f = await a.six(
+          "Big, bad",
+          24,
+          3.14159265359,
+          "Beetleborgs",
+          () { 
+            return Future.delayed(const Duration(seconds: 0), () => 43);
+          },
+          int64MinValue
+        );
+        expect(f, equals(int64MinValue));
+
+        expect(() async => await a.willThrow(), throwsA(predicate((e) => '$e'.contains("Spoon!"))));
+
+        final g = await a.exercise0(e);
+        expect(g, equals("84"));
+        final h = await a.exercise1(b);
+        expect(h, equals("-105"));
+
+        final i = await a.exercise2(
+          (a, b) { 
+            return (z) async {
+              return (await a(3)) + (await b(3)) + z;
+            };
+          }
+        );
+        expect(i, equals("36"));
+
+        final j = await a.exercise3(
+          (fl, d, l) async {
+            return (fl / d) + (9 * l);
+          }
+        );
+        expect(j, equals("18.227272727272727"));
+
+        final k = await a.exercise4(
+          (a, b, c, d) async {
+            return [d, c, b, a];
+          }
+        );
+        expect(k, equals("[jam, the, up, Pump]"));
+
+        final l = await a.exercise5(
+          (a, b, c, d, e) async {
+            return () async {
+              return (double.parse(a) + b.toDouble() + c + double.parse(d) + (await e())).toInt();
+            };
+          }
+        );
+        expect(l, equals("754"));
+
+        final m = await a.exercise6(
+          (a, b, c, d, e, f) async {
+            return (double.parse(a) + b.toDouble() + c + double.parse(d) + await e() + f).toInt();
+          }
+        );
+        expect(m, equals("852"));
+
+        var o = 1;
+        final n = a.thunkTwiceMaker(
+          () async {
+            o += 1;
+            print("Thunker in paradise");
+          }
+        );
+        await n();
+        expect(o, equals(3));
+
+        final p = await a.defaultExercise6(
+          (a, b, c, d, e, f) async {
+            return (double.parse(a) + b.toDouble() + c + double.parse(d) + await e() + f).toInt();
+          }
+        );
+        expect(p, equals("962"));
       }
 
       test('testAsyncForeignSideFunctions', () async {
@@ -126,7 +224,7 @@ void main() {
             return "${await fn(-7)}";
           },
           exercise2Fun: (fn) async {
-            return "${await fn((a) async { return a + 1; }, (b) async { return b + 1; })(23)}";
+            return "${await fn((a) async { return a + 1; }, (b) async { return b * 3; })(23)}";
           },
           exercise3Fun: (fn) async {
             return "${await fn(1.0, 4.4, 2)}";
