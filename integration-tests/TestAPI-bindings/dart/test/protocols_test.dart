@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:core';
 import 'dart:math';
 import 'package:cricut_test_api/cricut_test_api.dart';
 import 'package:cricut_test_api/src/generated/TestAsyncSwiftSideFunctionsClass.dart';
@@ -89,26 +90,64 @@ void main() {
         // test for _leadingUnderscoreMethod is just that tests build and run, since currently leading underscore on method name means it's only visible on the Swift side, not the Foreign/Dart side.
       });
 
-      // test('testAsyncForeignSideFunctions', () async {
-      //   final a = TestAsyncForeignSideFunctionsStruct(
-      //     const42: const42, 
-      //     iabs: iabs, 
-      //     intCompose: intCompose, 
-      //     add3Things: add3Things, 
-      //     makeList: makeList, 
-      //     fifthThing: fifthThing, 
-      //     six: six, 
-      //     willThrow: willThrow, 
-      //     exercise0Fun: exercise0Fun, 
-      //     exercise1Fun: exercise1Fun, 
-      //     exercise2Fun: exercise2Fun, 
-      //     exercise3Fun: exercise3Fun, 
-      //     exercise4Fun: exercise4Fun, 
-      //     exercise5Fun: exercise5Fun, 
-      //     exercise6Fun: exercise6Fun, 
-      //     thunkTwiceMakerFun: thunkTwiceMakerFun
-      //     )
-      // });
+      test('testAsyncForeignSideFunctions', () async {
+        final a = TestAsyncForeignSideFunctionsStruct(
+          const42: () async { return 49; }, 
+          iabs: (x) async { return x.abs(); }, 
+          intCompose: (f, g) { 
+            return (x) async { 
+              return f( await g(x)); 
+            }; 
+          }, 
+          add3Things: (x, y, z) async {
+            return x.toDouble() + y + z.toDouble();
+          }, 
+          makeList: (a, b, c, d) async {
+            return [a, b, c, d];
+          }, 
+          fifthThing: (a, b, c, d, e) async {
+            return e;
+          }, 
+          six: (a, b, c, d, e, f) async { 
+            return f;
+          }, 
+          willThrow: () async {
+            throw(Exception('Spoon!'));
+          }, 
+          exercise0Fun: (fn) async {
+            return "${await fn() * 2}";
+          }, 
+          exercise1Fun: (fn) async {
+            return "${await fn(-7)}";
+          },
+          exercise2Fun: (fn) async {
+            return "${await fn((a) async { return a + 1; }, (b) async { return b + 1; })(23)}";
+          },
+          exercise3Fun: (fn) async {
+            return "${await fn(1.0, 4.4, 2)}";
+          },
+          exercise4Fun: (fn) async {
+            return "${
+              await fn("Pump", "up", "the", "jam")
+            }";
+          },
+          exercise5Fun: (fn) async {
+            final y = await fn("78", 6, 4.2, "12", () async { return 654; });
+            return "$y";
+          },
+          exercise6Fun: (fn) async {
+            final y = await fn("78", 6, 4.2, "12", () async { return 654; }, 98);
+            return "$y";
+          },
+          thunkTwiceMakerFun: (thunk) { 
+            return () async {
+              await thunk();
+              await thunk();
+            };
+          }
+        );
+        print("a: $a");
+      });
 
       testAsyncSwiftSideFunctionsCore(z) async {
         final a = z as TestAsyncFunctions;
