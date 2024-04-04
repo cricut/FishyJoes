@@ -793,7 +793,8 @@ struct TranslatedProtocol: TranslatedType {
                 documentation: documentation,
                 name: cSharpType.name,
                 fields: protocolFields,
-                methods: protocolMethods
+                methods: protocolMethods,
+                conformances: conformances
             )
         )
     }

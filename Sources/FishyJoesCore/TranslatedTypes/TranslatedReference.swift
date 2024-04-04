@@ -488,13 +488,17 @@ struct TranslatedReference: TranslatedType {
                 )
             )
         }
+        
+        let (productFields, productMethods) = CSharpClass.separate(fieldsAndMethods: fieldsAndMethods)
 
         let product = CSharpProductClass(
             module: context.module,
             documentation: documentation,
             name: cSharpType.name,
             constructor: .reference,
-            fieldsAndMethods: fieldsAndMethods
+            fields: productFields,
+            methods: productMethods,
+            conformances: conformances
         )
         context.add(cSharpClass: product)
     }

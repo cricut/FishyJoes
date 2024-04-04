@@ -558,6 +558,7 @@ struct TranslatedStruct: TranslatedType {
         let fieldsAndMethods =
             computedVariables.compactMap { context.cSharp(field: $0, of: self, useNativeName: false) } +
             methods.compactMap { context.cSharp(method: $0, of: self) }
+        let (productFields, productMethods) = CSharpClass.separate(fieldsAndMethods: fieldsAndMethods)
 
         context.add(
             cSharpClass: CSharpProductClass(
@@ -573,7 +574,9 @@ struct TranslatedStruct: TranslatedType {
                         }
                     }
                 ),
-                fieldsAndMethods: fieldsAndMethods
+                fields: productFields,
+                methods: productMethods,
+                conformances: conformances
             )
         )
     }

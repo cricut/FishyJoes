@@ -40,11 +40,24 @@ class CSharpClass: NestedClass {
     let documentation: [String]
     let name: String
     var innerClasses: [CSharpClass] = []
+    let fields: [Variable]
+    let methods: [Method]
+    let conformances: [String]
 
-    init(module: Module, documentation: [String], name: String) {
+    init(
+        module: Module,
+        documentation: [String],
+        name: String,
+        fields: [Variable],
+        methods: [Method],
+        conformances: Set<String>
+    ) {
         self.name = name
         self.documentation = documentation
         self.module = module
+        self.fields = fields
+        self.methods = methods
+        self.conformances = Array(conformances).sorted(by: <)
     }
 
     func output(to fragment: SourceFragment) {
@@ -303,30 +316,25 @@ class CSharpProductClass: CSharpClass {
     }
 
     let constructor: Constructor
-    let fields: [Variable]
-    let methods: [Method]
 
     init(
         module: Module,
         documentation: [String],
         name: String,
         constructor: Constructor,
-        fieldsAndMethods: [MethodOrVariable]
+        fields: [Variable],
+        methods: [Method],
+        conformances: Set<String>
     ) {
         self.constructor = constructor
-        self.fields = fieldsAndMethods.compactMap {
-            guard case let .variable(field) = $0 else {
-                return nil
-            }
-            return field
-        }
-        self.methods = fieldsAndMethods.compactMap {
-            guard case let .method(method) = $0 else {
-                return nil
-            }
-            return method
-        }
-        super.init(module: module, documentation: documentation, name: name)
+        super.init(
+            module: module,
+            documentation: documentation,
+            name: name,
+            fields: fields,
+            methods: methods,
+            conformances: conformances
+        )
     }
 
     override func output(to fragment: SourceFragment) {
@@ -374,8 +382,6 @@ class CSharpProductClass: CSharpClass {
 
 class CSharpEnumClass: CSharpClass {
     let cases: [Case]
-    let fields: [Variable]
-    let methods: [Method]
 
     struct Case {
         let documentation: [String]
@@ -388,22 +394,19 @@ class CSharpEnumClass: CSharpClass {
         documentation: [String],
         name: String,
         cases: [Case],
-        fieldsAndMethods: [MethodOrVariable]
+        fields: [Variable],
+        methods: [Method],
+        conformances: Set<String>
     ) {
         self.cases = cases
-        self.fields = fieldsAndMethods.compactMap {
-            guard case let .variable(field) = $0 else {
-                return nil
-            }
-            return field
-        }
-        self.methods = fieldsAndMethods.compactMap {
-            guard case let .method(method) = $0 else {
-                return nil
-            }
-            return method
-        }
-        super.init(module: module, documentation: documentation, name: name)
+        super.init(
+            module: module,
+            documentation: documentation,
+            name: name,
+            fields: fields,
+            methods: methods,
+            conformances: conformances
+        )
     }
 
     override func output(to fragment: SourceFragment) {

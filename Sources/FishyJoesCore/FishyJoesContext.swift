@@ -241,7 +241,7 @@ public class FishyJoesContext {
         )
         collectedFragments.append(
             contentsOf: processInnerClasses(
-                rootClass: CSharpClass(module: module, documentation: [], name: "__root__"),
+                rootClass: CSharpClass(module: module, documentation: [], name: "__root__", fields: [], methods: [], conformances: []),
                 in: &cSharpClasses,
                 ignorePrefix: "\(module.cSharpNamespace)."
             )

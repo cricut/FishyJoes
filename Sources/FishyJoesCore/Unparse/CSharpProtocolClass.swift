@@ -1,19 +1,4 @@
 class CSharpProtocolClass: CSharpClass {
-    let fields: [Variable]
-    let methods: [Method]
-
-    init(
-        module: Module,
-        documentation: [String],
-        name: String,
-        fields: [Variable],
-        methods: [Method]
-    ) {
-        self.fields = fields
-        self.methods = methods
-        super.init(module: module, documentation: documentation, name: name)
-    }
-
     override func output(to fragment: SourceFragment) {
         document(documentation, fragment: fragment)
 

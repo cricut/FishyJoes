@@ -100,7 +100,13 @@ extension TranslatedEnum {
     }
 
     func cSharpClass(context: FishyJoesContext) -> CSharpEnumClass {
-        CSharpEnumClass(
+        let fieldsAndMethods =
+        fields.compactMap { context.cSharp(field: $0, of: self, useNativeName: false) } +
+        methods.compactMap { context.cSharp(method: $0, of: self) }
+        
+        let (enumFields, enumMethods) = CSharpClass.separate(fieldsAndMethods: fieldsAndMethods)
+
+        return CSharpEnumClass(
             module: context.module,
             documentation: documentation,
             name: cSharpType.name,
@@ -114,9 +120,9 @@ extension TranslatedEnum {
                     }
                 )
             },
-            fieldsAndMethods:
-                fields.compactMap { context.cSharp(field: $0, of: self, useNativeName: false) } +
-                methods.compactMap { context.cSharp(method: $0, of: self) }
+            fields: enumFields,
+            methods: enumMethods,
+            conformances: conformances
         )
     }
 }
