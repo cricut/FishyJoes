@@ -344,12 +344,12 @@ class CSharpProductClass: CSharpClass {
         case .reference:
             fragment.output("public class \(unqualifiedName) : SwiftReference", newLineTerminated: false)
             if !conformances.isEmpty {
-                fragment.output(", \(conformances.joined(separator: ", "))", newLineTerminated: false)
+                fragment.output(", \(Array(conformances).sorted(by: < ).joined(separator: ", "))", newLineTerminated: false)
             }
         case .public:
             fragment.output("public record \(unqualifiedName)", newLineTerminated: false)
             if !conformances.isEmpty {
-                fragment.output(": \(conformances.joined(separator: ", "))", newLineTerminated: false)
+                fragment.output(": \(Array(conformances).sorted(by: < ).joined(separator: ", "))", newLineTerminated: false)
             }
         }
         fragment.outputBlock(" {") {
