@@ -420,11 +420,7 @@ struct TranslatedReference: TranslatedType {
         }
 
         registerDartClass(in: context)
-
-        // TODO: Handle Protocols
-        if conformances.isEmpty {
-            registerCSharpClass(in: context)
-        }
+        registerCSharpClass(in: context)
 
         return fragment
     }

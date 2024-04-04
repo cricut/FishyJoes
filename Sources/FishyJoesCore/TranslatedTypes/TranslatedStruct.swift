@@ -549,11 +549,7 @@ struct TranslatedStruct: TranslatedType {
         }
 
         registerDartClass(context: context)
-
-        // TODO: Handle Protocols
-        if conformances.isEmpty {
-            registerCSharpClass(context: context)
-        }
+        registerCSharpClass(context: context)
 
         return fragment
     }

@@ -436,6 +436,24 @@ class CSharpEnumClass: CSharpClass {
 }
 
 extension CSharpClass {
+    static func separate(fieldsAndMethods: [CSharpClass.MethodOrVariable]) -> ([CSharpClass.Variable], [CSharpClass.Method]) {
+        let fields: [Variable] = fieldsAndMethods.compactMap {
+            guard case let .variable(field) = $0 else {
+                return nil
+            }
+            return field
+        }
+        let methods: [Method] = fieldsAndMethods.compactMap {
+            guard case let .method(method) = $0 else {
+                return nil
+            }
+            return method
+        }
+        return (fields, methods)
+    }
+}
+
+extension CSharpClass {
     private static var forbiddenVarNames: Set<String> = [
         "String",
         "string",

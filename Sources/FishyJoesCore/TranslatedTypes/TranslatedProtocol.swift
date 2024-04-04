@@ -563,11 +563,7 @@ struct TranslatedProtocol: TranslatedType {
         }
 
         registerDartClass(context: context)
-
-        // TODO: Handle Protocols
-        if conformances.isEmpty {
-            registerCSharpClass(context: context)
-        }
+        registerCSharpClass(context: context)
 
         return fragment
     }
@@ -782,7 +778,24 @@ struct TranslatedProtocol: TranslatedType {
     }
 
     func registerCSharpClass(context: FishyJoesContext) {
-        // TODO: Implement me!
+        let (protocolFields, protocolMethods) = CSharpClass.separate(
+            fieldsAndMethods: 
+                fields.compactMap {
+                    context.cSharp(field: $0, of: self, useNativeName: false)
+                } + methods.compactMap {
+                    context.cSharp(method: $0, of: self)
+                }
+        )
+
+        context.add(
+            cSharpClass: CSharpProtocolClass(
+                module: context.module,
+                documentation: documentation,
+                name: cSharpType.name,
+                fields: protocolFields,
+                methods: protocolMethods
+            )
+        )
     }
 
     func registerDartClass(context: FishyJoesContext) {
