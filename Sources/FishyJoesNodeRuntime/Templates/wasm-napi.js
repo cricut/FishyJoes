@@ -3,8 +3,51 @@
 // adapted from https://github.com/devsnek/napi-wasi-experiments/blob/main/napi.js
 
 // const vm = require('vm');
-import util from 'util';
 import { Buffer } from 'buffer';
+
+// mostly borrowed from https://github.com/browserify/node-util
+// borrowing removed deps on Node polyfills util/process
+function isArrayBuffer(value) { 
+    if (typeof ArrayBuffer === 'undefined') {
+        return false;
+    }
+    return value instanceof ArrayBuffer;
+}
+
+function isTypedArray(value) {
+    return value?.byteLength !== undefined
+}
+
+function isDataView(value) {
+    return Object.prototype.toString(value) === '[object DataView]'
+}
+
+function isObject(value) {
+    return typeof value === 'object' && value !== null;
+}
+
+function isDate(value) {
+    return isObject(value) && Object.prototype.toString(value) === '[object Date]';
+}
+
+function isNativeError(value) {
+    return isObject(value) && (Object.prototype.toString(value) === '[object Error]' || value instanceof Error);
+}
+  
+function isPromise(value) {
+    return (
+        (
+            typeof Promise !== 'undefined' &&
+            value instanceof Promise
+        ) ||
+        (
+            value !== null &&
+            typeof value === 'object' &&
+            typeof value.then === 'function' &&
+            typeof value.catch === 'function'
+        )
+    );
+}
 
 const NAPI_AUTO_LENGTH = -1 >>> 0;
 
@@ -679,7 +722,7 @@ export class NAPI {
 
       napi_get_array_length: this.wrap((envPtr, valueIdx, resultPtr) => {
         const a = this.load(valueIdx);
-        if (!util.isArray(a)) {
+        if (!Array.isArray(a)) {
           return this.returnError(NAPI_ARRAY_EXPECTED);
         }
         this.writeU32(resultPtr, a.length);
@@ -688,7 +731,7 @@ export class NAPI {
 
       napi_get_arraybuffer_info: this.wrap((envPtr, arraybufferIdx, dataPtrPtr, byteLengthPtr) => {
         const arraybuffer = this.load(arraybufferIdx);
-        if (!util.types.isArrayBuffer(arraybuffer)) {
+        if (!isArrayBuffer(arraybuffer)) {
           return this.returnError(NAPI_ARRAYBUFFER_EXPECTED);
         }
         this.writeU32(byteLengthPtr, arraybuffer.byteLength);
@@ -718,7 +761,7 @@ export class NAPI {
       }),
       napi_get_typedarray_info: this.wrap((envPtr, typedarrayIdx, typePtr, lengthPtr, dataPtrPtr, arraybufferPtr, byteOffsetPtr) => {
         const typedArray = this.load(typedarrayIdx);
-        if (!util.types.isTypedArray(typedArray)) {
+        if (!isTypedArray(typedArray)) {
           return this.returnError(NAPI_ARRAYBUFFER_EXPECTED);
         }
         this.writeU32(typePtr, {
@@ -743,7 +786,7 @@ export class NAPI {
       }),
       napi_get_dataview_info: this.wrap((envPtr, dataviewIdx, byteLengthPtr, dataPtr, arraybufferPtr, byteOffsetPtr) => {
         const dataView = this.load(dataviewIdx);
-        if (!util.types.isDataView(dataView)) {
+        if (!isDataView(dataView)) {
           return this.returnError(NAPI_INVALID_ARG);
         }
         this.writeU32(byteLengthPtr, dataView.byteLength);
@@ -754,7 +797,7 @@ export class NAPI {
       }),
       napi_get_date_value: this.wrap((envPtr, valueIdx, resultPtr) => {
         const d = this.load(valueIdx);
-        if (!util.types.isDate(d)) {
+        if (!isDate(d)) {
           return this.returnError(NAPI_DATE_EXPECTED);
         }
         this.writeF64(resultPtr, d.getTime());
@@ -1037,11 +1080,11 @@ export class NAPI {
         return NAPI_OK;
       }),
       napi_is_array: this.wrap((envPtr, valueIdx, resultPtr) => {
-        this.writeU8(resultPtr, util.isArray(this.load(valueIdx)));
+        this.writeU8(resultPtr, Array.isArray(this.load(valueIdx)));
         return NAPI_OK;
       }),
       napi_is_arraybuffer: this.wrap((envPtr, valueIdx, resultPtr) => {
-        this.writeU8(resultPtr, util.types.isArrayBuffer(this.load(valueIdx)));
+        this.writeU8(resultPtr, isArrayBuffer(this.load(valueIdx)));
         return NAPI_OK;
       }),
       napi_is_buffer: this.wrap((envPtr, valueIdx, resultPtr) => {
@@ -1049,19 +1092,19 @@ export class NAPI {
         return NAPI_OK;
       }),
       napi_is_date: this.wrap((envPtr, valueIdx, resultPtr) => {
-        this.writeU8(resultPtr, util.types.isDate(this.load(valueIdx)));
+        this.writeU8(resultPtr, isDate(this.load(valueIdx)));
         return NAPI_OK;
       }),
       napi_is_error: this.wrap((envPtr, valueIdx, resultPtr) => {
-        this.writeU8(resultPtr, util.types.isNativeError(this.load(valueIdx)));
+        this.writeU8(resultPtr, isNativeError(this.load(valueIdx)));
         return NAPI_OK;
       }),
       napi_is_typedarray: this.wrap((envPtr, valueIdx, resultPtr) => {
-        this.writeU8(resultPtr, util.types.isTypedArray(this.load(valueIdx)));
+        this.writeU8(resultPtr, isTypedArray(this.load(valueIdx)));
         return NAPI_OK;
       }),
       napi_is_dataview: this.wrap((envPtr, valueIdx, resultPtr) => {
-        this.writeU8(resultPtr, util.types.isDataView(this.load(valueIdx)));
+        this.writeU8(resultPtr, isDataView(this.load(valueIdx)));
         return NAPI_OK;
       }),
       napi_strict_equals: this.wrap((envPtr, lhsIdx, rhsIdx, resultPtr) => {
@@ -1070,14 +1113,14 @@ export class NAPI {
       }),
       napi_detach_arraybuffer: this.wrap((env, valueIdx) => {
         const ab = this.load(valueIdx);
-        if (!util.types.isArrayBuffer(ab)) {
+        if (!isArrayBuffer(ab)) {
           return this.returnError(NAPI_DETACHABLE_ARRAYBUFFER_EXPECTED);
         }
         return NAPI_OK;
       }),
       napi_is_detached_arraybuffer: this.wrap((envPtr, valueIdx, resultPtr) => {
         const ab = this.load(valueIdx);
-        if (!util.types.isArrayBuffer(ab)) {
+        if (!isArrayBuffer(ab)) {
           return this.returnError(NAPI_ARRAYBUFFER_EXPECTED);
         }
         this.writeU8(resultPtr, false);
@@ -1611,7 +1654,7 @@ export class NAPI {
       }),
       napi_type_tag_object: this.wrap((envPtr, jsObjectIdx, typeTagPtr) => {
         const jsObject = this.load(jsObjectIdx);
-        if (!util.isObject(jsObject)) {
+        if (!isObject(jsObject)) {
           return this.returnError(NAPI_OBJECT_EXPECTED);
         }
         if (this.typeTags.has(jsObject)) {
@@ -1626,7 +1669,7 @@ export class NAPI {
       }),
       napi_check_object_type_tag: this.wrap((envPtr, jsObjectIdx, typeTagPtr, resultPtr) => {
         const jsObject = this.load(jsObjectIdx);
-        if (!util.isObject(jsObject)) {
+        if (!isObject(jsObject)) {
           return this.returnError(NAPI_OBJECT_EXPECTED);
         }
         const typeTag = {
@@ -1680,7 +1723,7 @@ export class NAPI {
         return NAPI_OK;
       }),
       napi_is_promise: this.wrap((envPtr, valueIdx, resultPtr) => {
-        this.writeU8(resultPtr, util.types.isPromise(this.load(valueIdx)));
+        this.writeU8(resultPtr, isPromise(this.load(valueIdx)));
       }),
       napi_run_script: this.wrap((envPtr, scriptIdx, resultPtr) => {
         const script = this.load(scriptIdx);
