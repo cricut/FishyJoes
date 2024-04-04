@@ -305,6 +305,32 @@ namespace Cricut.TestAPI {
         );
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_CommonInterface__AProtocolConverter_setup(
+            IntPtr envRef,
+            out CreatedRef _exn
+        );
+
+        delegate CreatedRef _TestAPI_AProtocolImplementationConstructor(
+            ConsumedRef foo,
+            bool baz,
+            out CreatedRef exn
+        );
+        delegate CreatedRef _TestAPI_AProtocolImplementation_fooGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_AProtocolImplementation_fooSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate bool _TestAPI_AProtocolImplementation_bazGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_AProtocolImplementation_bazSetter(UnownedRef obj, bool newValue, out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_AProtocolImplementation_setup(
+            IntPtr envRef,
+            _TestAPI_AProtocolImplementationConstructor constructor,
+            _TestAPI_AProtocolImplementation_fooGetter get_foo,
+            _TestAPI_AProtocolImplementation_fooSetter set_foo,
+            _TestAPI_AProtocolImplementation_bazGetter get_baz,
+            _TestAPI_AProtocolImplementation_bazSetter set_baz,
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Actors_setup(
             IntPtr envRef,
             out CreatedRef _exn
@@ -490,6 +516,154 @@ namespace Cricut.TestAPI {
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Structs_setup(
             IntPtr envRef,
+            out CreatedRef _exn
+        );
+
+        delegate CreatedRef _TestAPI_TestAsyncForeignSideFunctionsStructConstructor(
+            ConsumedRef const42,
+            ConsumedRef iabs,
+            ConsumedRef intCompose,
+            ConsumedRef add3Things,
+            ConsumedRef makeList,
+            ConsumedRef fifthThing,
+            ConsumedRef six,
+            ConsumedRef willThrow,
+            ConsumedRef exercise0Fun,
+            ConsumedRef exercise1Fun,
+            ConsumedRef exercise2Fun,
+            ConsumedRef exercise3Fun,
+            ConsumedRef exercise4Fun,
+            ConsumedRef exercise5Fun,
+            ConsumedRef exercise6Fun,
+            ConsumedRef thunkTwiceMakerFun,
+            out CreatedRef exn
+        );
+        delegate CreatedRef _TestAPI_TestAsyncForeignSideFunctionsStruct_const42Getter(UnownedRef obj, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_TestAsyncForeignSideFunctionsStruct_iabsGetter(UnownedRef obj, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_TestAsyncForeignSideFunctionsStruct_intComposeGetter(UnownedRef obj, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_TestAsyncForeignSideFunctionsStruct_add3ThingsGetter(UnownedRef obj, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_TestAsyncForeignSideFunctionsStruct_makeListGetter(UnownedRef obj, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_TestAsyncForeignSideFunctionsStruct_fifthThingGetter(UnownedRef obj, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_TestAsyncForeignSideFunctionsStruct_sixGetter(UnownedRef obj, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_TestAsyncForeignSideFunctionsStruct_willThrowGetter(UnownedRef obj, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_TestAsyncForeignSideFunctionsStruct_exercise0FunGetter(UnownedRef obj, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_TestAsyncForeignSideFunctionsStruct_exercise1FunGetter(UnownedRef obj, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_TestAsyncForeignSideFunctionsStruct_exercise2FunGetter(UnownedRef obj, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_TestAsyncForeignSideFunctionsStruct_exercise3FunGetter(UnownedRef obj, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_TestAsyncForeignSideFunctionsStruct_exercise4FunGetter(UnownedRef obj, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_TestAsyncForeignSideFunctionsStruct_exercise5FunGetter(UnownedRef obj, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_TestAsyncForeignSideFunctionsStruct_exercise6FunGetter(UnownedRef obj, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_TestAsyncForeignSideFunctionsStruct_thunkTwiceMakerFunGetter(UnownedRef obj, out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_TestAsyncForeignSideFunctionsStruct_setup(
+            IntPtr envRef,
+            _TestAPI_TestAsyncForeignSideFunctionsStructConstructor constructor,
+            _TestAPI_TestAsyncForeignSideFunctionsStruct_const42Getter get_const42,
+            _TestAPI_TestAsyncForeignSideFunctionsStruct_iabsGetter get_iabs,
+            _TestAPI_TestAsyncForeignSideFunctionsStruct_intComposeGetter get_intCompose,
+            _TestAPI_TestAsyncForeignSideFunctionsStruct_add3ThingsGetter get_add3Things,
+            _TestAPI_TestAsyncForeignSideFunctionsStruct_makeListGetter get_makeList,
+            _TestAPI_TestAsyncForeignSideFunctionsStruct_fifthThingGetter get_fifthThing,
+            _TestAPI_TestAsyncForeignSideFunctionsStruct_sixGetter get_six,
+            _TestAPI_TestAsyncForeignSideFunctionsStruct_willThrowGetter get_willThrow,
+            _TestAPI_TestAsyncForeignSideFunctionsStruct_exercise0FunGetter get_exercise0Fun,
+            _TestAPI_TestAsyncForeignSideFunctionsStruct_exercise1FunGetter get_exercise1Fun,
+            _TestAPI_TestAsyncForeignSideFunctionsStruct_exercise2FunGetter get_exercise2Fun,
+            _TestAPI_TestAsyncForeignSideFunctionsStruct_exercise3FunGetter get_exercise3Fun,
+            _TestAPI_TestAsyncForeignSideFunctionsStruct_exercise4FunGetter get_exercise4Fun,
+            _TestAPI_TestAsyncForeignSideFunctionsStruct_exercise5FunGetter get_exercise5Fun,
+            _TestAPI_TestAsyncForeignSideFunctionsStruct_exercise6FunGetter get_exercise6Fun,
+            _TestAPI_TestAsyncForeignSideFunctionsStruct_thunkTwiceMakerFunGetter get_thunkTwiceMakerFun,
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup(
+            IntPtr envRef,
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_TestAsyncSwiftSideFunctionsClass_setup(
+            IntPtr envRef,
+            SwiftReference.ConstructorDelegate constructorMethod,
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_CommonInterface__TestLeadingUnderscoredPropConverter_setup(
+            IntPtr envRef,
+            out CreatedRef _exn
+        );
+
+        delegate CreatedRef _TestAPI_TestLeadingUnderscoredPropStructConstructor(
+            ConsumedRef _leadingUnderscoreProp,
+            out CreatedRef exn
+        );
+        delegate CreatedRef _TestAPI_TestLeadingUnderscoredPropStruct__leadingUnderscorePropGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_TestLeadingUnderscoredPropStruct__leadingUnderscorePropSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_TestLeadingUnderscoredPropStruct_setup(
+            IntPtr envRef,
+            _TestAPI_TestLeadingUnderscoredPropStructConstructor constructor,
+            _TestAPI_TestLeadingUnderscoredPropStruct__leadingUnderscorePropGetter get__leadingUnderscoreProp,
+            _TestAPI_TestLeadingUnderscoredPropStruct__leadingUnderscorePropSetter set__leadingUnderscoreProp,
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_CommonInterface__TestMethodsProtocolConverter_setup(
+            IntPtr envRef,
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_CommonInterface__TestOptionalsProtocolConverter_setup(
+            IntPtr envRef,
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_CommonInterface__TestPropertiesProtocolConverter_setup(
+            IntPtr envRef,
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_TestProtocolClass_setup(
+            IntPtr envRef,
+            SwiftReference.ConstructorDelegate constructorMethod,
+            out CreatedRef _exn
+        );
+
+        delegate CreatedRef Cricut_TestAPI_TestProtocolEnum_new_qux(
+            out CreatedRef _exn
+        );
+        unsafe delegate void Cricut_TestAPI_TestProtocolEnum_extract_qux(
+            UnownedRef obj,
+            out CreatedRef _exn
+        );
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_TestProtocolEnum_setup(
+            IntPtr envRef,
+            FishyJoesRuntime.EnumDiscriminator discriminator,
+            Cricut_TestAPI_TestProtocolEnum_new_qux qux_constructor,
+            Cricut_TestAPI_TestProtocolEnum_extract_qux qux_extractor,
+            out CreatedRef _exn
+        );
+
+        delegate CreatedRef _TestAPI_TestProtocolStructConstructor(
+            ConsumedRef corge,
+            out CreatedRef exn
+        );
+        delegate CreatedRef _TestAPI_TestProtocolStruct_corgeGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_TestProtocolStruct_corgeSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_TestProtocolStruct_setup(
+            IntPtr envRef,
+            _TestAPI_TestProtocolStructConstructor constructor,
+            _TestAPI_TestProtocolStruct_corgeGetter get_corge,
+            _TestAPI_TestProtocolStruct_corgeSetter set_corge,
             out CreatedRef _exn
         );
 
@@ -2096,6 +2270,38 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_TestAPI_CommonInterface._AProtocolConverter", () => {
+                Console.WriteLine("setting up TestAPI.AProtocol...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_CommonInterface__AProtocolConverter_setup(
+                    Loader.env,
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.AProtocolImplementation", () => {
+                Console.WriteLine("setting up TestAPI.AProtocolImplementation...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_AProtocolImplementation_setup(
+                    Loader.env,
+                    bag<_TestAPI_AProtocolImplementationConstructor>((ConsumedRef foo, bool baz, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.AProtocolImplementation(
+                            foo.Consume<string>(),
+                            baz
+                        ));
+                    })),
+                    bag<_TestAPI_AProtocolImplementation_fooGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.AProtocolImplementation>().Foo)
+                    )),
+                    bag<_TestAPI_AProtocolImplementation_fooSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.AProtocolImplementation>().Foo = newValue.Consume<string>();
+                    })),
+                    bag<_TestAPI_AProtocolImplementation_bazGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.AProtocolImplementation>().Baz
+                    )),
+                    bag<_TestAPI_AProtocolImplementation_bazSetter>((UnownedRef obj, bool newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.AProtocolImplementation>().Baz = newValue;
+                    })),
+                    out exn
+                ));
+            });
             Once("setup_TestAPI.Actors", () => {
                 Console.WriteLine("setting up TestAPI.Actors...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Actors_setup(
@@ -2423,6 +2629,205 @@ namespace Cricut.TestAPI {
                 Console.WriteLine("setting up TestAPI.Structs...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Structs_setup(
                     Loader.env,
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.TestAsyncForeignSideFunctionsStruct", () => {
+                Console.WriteLine("setting up TestAPI.TestAsyncForeignSideFunctionsStruct...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_TestAsyncForeignSideFunctionsStruct_setup(
+                    Loader.env,
+                    bag<_TestAPI_TestAsyncForeignSideFunctionsStructConstructor>((ConsumedRef const42, ConsumedRef iabs, ConsumedRef intCompose, ConsumedRef add3Things, ConsumedRef makeList, ConsumedRef fifthThing, ConsumedRef six, ConsumedRef willThrow, ConsumedRef exercise0Fun, ConsumedRef exercise1Fun, ConsumedRef exercise2Fun, ConsumedRef exercise3Fun, ConsumedRef exercise4Fun, ConsumedRef exercise5Fun, ConsumedRef exercise6Fun, ConsumedRef thunkTwiceMakerFun, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.TestAsyncForeignSideFunctionsStruct(
+                            const42.Consume<System.Func<System.Threading.Tasks.Task<nint>>>(),
+                            iabs.Consume<System.Func<nint, System.Threading.Tasks.Task<nint>>>(),
+                            intCompose.Consume<System.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>>>(),
+                            add3Things.Consume<System.Func<float, double, nint, System.Threading.Tasks.Task<double>>>(),
+                            makeList.Consume<System.Func<string, string, string, string, System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>>>(),
+                            fifthThing.Consume<System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>>>(),
+                            six.Consume<System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, nint, System.Threading.Tasks.Task<nint>>>(),
+                            willThrow.Consume<System.Func<System.Threading.Tasks.Task<nint>>>(),
+                            exercise0Fun.Consume<System.Func<System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<string>>>(),
+                            exercise1Fun.Consume<System.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<string>>>(),
+                            exercise2Fun.Consume<System.Func<System.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>>, System.Threading.Tasks.Task<string>>>(),
+                            exercise3Fun.Consume<System.Func<System.Func<float, double, nint, System.Threading.Tasks.Task<double>>, System.Threading.Tasks.Task<string>>>(),
+                            exercise4Fun.Consume<System.Func<System.Func<string, string, string, string, System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>>, System.Threading.Tasks.Task<string>>>(),
+                            exercise5Fun.Consume<System.Func<System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>>, System.Threading.Tasks.Task<string>>>(),
+                            exercise6Fun.Consume<System.Func<System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, nint, System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<string>>>(),
+                            thunkTwiceMakerFun.Consume<System.Func<System.Func<System.Threading.Tasks.Task>, System.Func<System.Threading.Tasks.Task>>>()
+                        ));
+                    })),
+                    bag<_TestAPI_TestAsyncForeignSideFunctionsStruct_const42Getter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncForeignSideFunctionsStruct>().Const42)
+                    )),
+                    bag<_TestAPI_TestAsyncForeignSideFunctionsStruct_iabsGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncForeignSideFunctionsStruct>().Iabs)
+                    )),
+                    bag<_TestAPI_TestAsyncForeignSideFunctionsStruct_intComposeGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncForeignSideFunctionsStruct>().IntCompose)
+                    )),
+                    bag<_TestAPI_TestAsyncForeignSideFunctionsStruct_add3ThingsGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncForeignSideFunctionsStruct>().Add3Things)
+                    )),
+                    bag<_TestAPI_TestAsyncForeignSideFunctionsStruct_makeListGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncForeignSideFunctionsStruct>().MakeList)
+                    )),
+                    bag<_TestAPI_TestAsyncForeignSideFunctionsStruct_fifthThingGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncForeignSideFunctionsStruct>().FifthThing)
+                    )),
+                    bag<_TestAPI_TestAsyncForeignSideFunctionsStruct_sixGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncForeignSideFunctionsStruct>().Six)
+                    )),
+                    bag<_TestAPI_TestAsyncForeignSideFunctionsStruct_willThrowGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncForeignSideFunctionsStruct>().WillThrow)
+                    )),
+                    bag<_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise0FunGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncForeignSideFunctionsStruct>().Exercise0Fun)
+                    )),
+                    bag<_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise1FunGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncForeignSideFunctionsStruct>().Exercise1Fun)
+                    )),
+                    bag<_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise2FunGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncForeignSideFunctionsStruct>().Exercise2Fun)
+                    )),
+                    bag<_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise3FunGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncForeignSideFunctionsStruct>().Exercise3Fun)
+                    )),
+                    bag<_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise4FunGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncForeignSideFunctionsStruct>().Exercise4Fun)
+                    )),
+                    bag<_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise5FunGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncForeignSideFunctionsStruct>().Exercise5Fun)
+                    )),
+                    bag<_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise6FunGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncForeignSideFunctionsStruct>().Exercise6Fun)
+                    )),
+                    bag<_TestAPI_TestAsyncForeignSideFunctionsStruct_thunkTwiceMakerFunGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncForeignSideFunctionsStruct>().ThunkTwiceMakerFun)
+                    )),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI_CommonInterface._TestAsyncFunctionsConverter", () => {
+                Console.WriteLine("setting up TestAPI.TestAsyncFunctions...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup(
+                    Loader.env,
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.TestAsyncSwiftSideFunctionsClass", () => {
+                Console.WriteLine("setting up TestAPI.TestAsyncSwiftSideFunctionsClass...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_TestAsyncSwiftSideFunctionsClass_setup(
+                    Loader.env,
+                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.TestAsyncSwiftSideFunctionsClass(ptr));
+                    })),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter", () => {
+                Console.WriteLine("setting up TestAPI.TestLeadingUnderscoredProp...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_CommonInterface__TestLeadingUnderscoredPropConverter_setup(
+                    Loader.env,
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.TestLeadingUnderscoredPropStruct", () => {
+                Console.WriteLine("setting up TestAPI.TestLeadingUnderscoredPropStruct...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_TestLeadingUnderscoredPropStruct_setup(
+                    Loader.env,
+                    bag<_TestAPI_TestLeadingUnderscoredPropStructConstructor>((ConsumedRef _leadingUnderscoreProp, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.TestLeadingUnderscoredPropStruct(
+                            _leadingUnderscoreProp.Consume<string>()
+                        ));
+                    })),
+                    bag<_TestAPI_TestLeadingUnderscoredPropStruct__leadingUnderscorePropGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.TestLeadingUnderscoredPropStruct>()._leadingUnderscoreProp)
+                    )),
+                    bag<_TestAPI_TestLeadingUnderscoredPropStruct__leadingUnderscorePropSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.TestLeadingUnderscoredPropStruct>()._leadingUnderscoreProp = newValue.Consume<string>();
+                    })),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI_CommonInterface._TestMethodsProtocolConverter", () => {
+                Console.WriteLine("setting up TestAPI.TestMethodsProtocol...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_CommonInterface__TestMethodsProtocolConverter_setup(
+                    Loader.env,
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI_CommonInterface._TestOptionalsProtocolConverter", () => {
+                Console.WriteLine("setting up TestAPI.TestOptionalsProtocol...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_CommonInterface__TestOptionalsProtocolConverter_setup(
+                    Loader.env,
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI_CommonInterface._TestPropertiesProtocolConverter", () => {
+                Console.WriteLine("setting up TestAPI.TestPropertiesProtocol...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_CommonInterface__TestPropertiesProtocolConverter_setup(
+                    Loader.env,
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.TestProtocolClass", () => {
+                Console.WriteLine("setting up TestAPI.TestProtocolClass...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_TestProtocolClass_setup(
+                    Loader.env,
+                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.TestProtocolClass(ptr));
+                    })),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.TestProtocolEnum", () => {
+                Console.WriteLine("setting up TestAPI.TestProtocolEnum...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_TestProtocolEnum_setup(
+                    Loader.env,
+                    bag<FishyJoesRuntime.EnumDiscriminator>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
+                        var enumeration = obj.Peek<Cricut.TestAPI.TestProtocolEnum>();
+                        if (enumeration is Cricut.TestAPI.TestProtocolEnum.Qux) { return (nint)0; }
+                        throw new Exception($"Found unexpected subclass of Cricut.TestAPI.TestProtocolEnum: {enumeration}");
+                    })),
+                    bag<Cricut_TestAPI_TestProtocolEnum_new_qux>(
+                        (
+                            out CreatedRef exn
+                        ) => Catching(out exn, () => 
+                            new CreatedRef(new Cricut.TestAPI.TestProtocolEnum.Qux(
+                            ))
+                        )
+                    ),
+                    bag<Cricut_TestAPI_TestProtocolEnum_extract_qux>(
+                        (
+                            UnownedRef obj,
+                            out CreatedRef exn
+                        ) => {
+                            try {
+                                var enumeration = obj.Peek<Cricut.TestAPI.TestProtocolEnum.Qux>();
+                                exn = CreatedRef.Null;
+                            } catch (Exception e) {
+                                exn = new CreatedRef(e);
+                            }
+                        }
+                    ),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.TestProtocolStruct", () => {
+                Console.WriteLine("setting up TestAPI.TestProtocolStruct...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_TestProtocolStruct_setup(
+                    Loader.env,
+                    bag<_TestAPI_TestProtocolStructConstructor>((ConsumedRef corge, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.TestProtocolStruct(
+                            corge.Consume<string>()
+                        ));
+                    })),
+                    bag<_TestAPI_TestProtocolStruct_corgeGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.TestProtocolStruct>().Corge)
+                    )),
+                    bag<_TestAPI_TestProtocolStruct_corgeSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.TestProtocolStruct>().Corge = newValue.Consume<string>();
+                    })),
                     out exn
                 ));
             });

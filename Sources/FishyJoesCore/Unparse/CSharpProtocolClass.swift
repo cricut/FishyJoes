@@ -2,7 +2,7 @@ class CSharpProtocolClass: CSharpClass {
     override func output(to fragment: SourceFragment) {
         document(documentation, fragment: fragment)
 
-        fragment.outputBlock("interface \(unqualifiedName) {") {
+        fragment.outputBlock("public interface \(unqualifiedName) {") {
             for field in fields {
                 fragment.output("public \(field.type.name) \(CSharpClass.deforbidify(field.name)) { get; \(field.isPubliclyWritable ? "set;" : "internal set;") }")
             }
