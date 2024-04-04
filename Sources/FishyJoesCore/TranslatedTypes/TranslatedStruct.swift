@@ -16,6 +16,7 @@ struct TranslatedStruct: TranslatedType {
     let jniType: JNIType
     let isInhabited: Bool
     let definingModule: Module
+    let implements: [Type]
     let conformances: Set<String>
 
     init(context: FishyJoesContext, type: Type) {
@@ -41,6 +42,7 @@ struct TranslatedStruct: TranslatedType {
         self.documentation = type.documentation
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
+        self.implements = Array(type.implements.values)
         self.conformances = exportAnnotation.conformances
     }
 
