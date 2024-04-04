@@ -27,6 +27,8 @@ namespace Cricut.TestAPI {
                     __iota_get_TestAPI_TestProtocolStruct_frob(Loader.env, thisHandle.ptr, out exn).Consume<System.Collections.Generic.IList<double>>()
                 );
             }
+            set {
+            }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]

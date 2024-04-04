@@ -21,6 +21,8 @@ namespace Cricut.TestAPI {
                     __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_const42(Loader.env, thisHandle.ptr, out exn).Consume<System.Func<System.Threading.Tasks.Task<nint>>>()
                 );
             }
+            set {
+            }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -35,6 +37,8 @@ namespace Cricut.TestAPI {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_iabs(Loader.env, thisHandle.ptr, out exn).Consume<System.Func<nint, System.Threading.Tasks.Task<nint>>>()
                 );
+            }
+            set {
             }
         }
 
@@ -51,6 +55,8 @@ namespace Cricut.TestAPI {
                     __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_intCompose(Loader.env, thisHandle.ptr, out exn).Consume<System.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>>>()
                 );
             }
+            set {
+            }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -65,6 +71,8 @@ namespace Cricut.TestAPI {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_add3Things(Loader.env, thisHandle.ptr, out exn).Consume<System.Func<float, double, nint, System.Threading.Tasks.Task<double>>>()
                 );
+            }
+            set {
             }
         }
 
@@ -81,6 +89,8 @@ namespace Cricut.TestAPI {
                     __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_makeList(Loader.env, thisHandle.ptr, out exn).Consume<System.Func<string, string, string, string, System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>>>()
                 );
             }
+            set {
+            }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -95,6 +105,8 @@ namespace Cricut.TestAPI {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_fifthThing(Loader.env, thisHandle.ptr, out exn).Consume<System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>>>()
                 );
+            }
+            set {
             }
         }
 
@@ -111,6 +123,8 @@ namespace Cricut.TestAPI {
                     __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_six(Loader.env, thisHandle.ptr, out exn).Consume<System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, nint, System.Threading.Tasks.Task<nint>>>()
                 );
             }
+            set {
+            }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -125,6 +139,8 @@ namespace Cricut.TestAPI {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_willThrow(Loader.env, thisHandle.ptr, out exn).Consume<System.Func<System.Threading.Tasks.Task<nint>>>()
                 );
+            }
+            set {
             }
         }
 

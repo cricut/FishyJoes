@@ -34,6 +34,7 @@ class CSharpClass: NestedClass {
         let mangledName: String
         let type: CSType
         let deprecation: Deprecation?
+        let implementsProtocol: Bool
     }
 
     let module: Module
@@ -162,9 +163,12 @@ class CSharpClass: NestedClass {
                 fragment.outputBlock("get {") {
                     outputGetterBody()
                 }
-                if field.isPubliclyWritable {
+                // If field.implementsProtocol but field is not publicly writable we need to spit out an empty setter, because C# compels us!
+                if field.isPubliclyWritable || field.implementsProtocol {
                     fragment.outputBlock("set {") {
-                        outputSetterBody()
+                        if field.isPubliclyWritable {
+                            outputSetterBody()
+                        }
                     }
                 }
             }

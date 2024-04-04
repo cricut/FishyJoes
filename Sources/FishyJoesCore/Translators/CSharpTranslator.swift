@@ -131,11 +131,11 @@ final class CSharpTranslator: Translator {
         var asMethod = false
 
         let isOverride = field.exportAnnotation?.isOverride ?? false
-        var noComputedAsMethod = false
+        var implementsProtocol = false
         for sourceryProtocol in type.implements {
             let protocolFieldNames = sourceryProtocol.variables.map { $0.name }
             if protocolFieldNames.contains(field.name) {
-                noComputedAsMethod = true
+                implementsProtocol = true
             }
         }
 
@@ -149,7 +149,7 @@ final class CSharpTranslator: Translator {
             guard let exportAnnotation = field.exportAnnotation else {
                 return nil
             }
-            asMethod = exportAnnotation.kind == .asMethod || (field.isComputed && !isOverride && !noComputedAsMethod)
+            asMethod = exportAnnotation.kind == .asMethod || (field.isComputed && !isOverride && !implementsProtocol)
             csName = upperCaseFirst(exportAnnotation.cSharpName)
             mangledName = exportAnnotation.name.mangled
         }
@@ -166,7 +166,8 @@ final class CSharpTranslator: Translator {
                 name: csName,
                 mangledName: "\(type.mangledName)_\(mangledName)",
                 type: resolved.cSharpType,
-                deprecation: field.deprecation
+                deprecation: field.deprecation,
+                implementsProtocol: implementsProtocol
             )
         )
     }
