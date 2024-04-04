@@ -7,7 +7,7 @@ import { Buffer } from 'buffer';
 
 // mostly borrowed from https://github.com/browserify/node-util
 // borrowing removed deps on Node polyfills util/process
-function isArrayBuffer(value) { 
+function isArrayBuffer(value) {
     if (typeof ArrayBuffer === 'undefined') {
         return false;
     }
@@ -15,11 +15,15 @@ function isArrayBuffer(value) {
 }
 
 function isTypedArray(value) {
-    return value?.byteLength !== undefined
+    return value?.byteLength !== undefined;
+}
+
+function objectToString(value) {
+    return Object.prototype.toString.call(value);
 }
 
 function isDataView(value) {
-    return Object.prototype.toString(value) === '[object DataView]'
+    return objectToString(value) === '[object DataView]';
 }
 
 function isObject(value) {
@@ -27,25 +31,23 @@ function isObject(value) {
 }
 
 function isDate(value) {
-    return isObject(value) && Object.prototype.toString(value) === '[object Date]';
+    return isObject(value) && objectToString(value) === '[object Date]';
 }
 
 function isNativeError(value) {
-    return isObject(value) && (Object.prototype.toString(value) === '[object Error]' || value instanceof Error);
+    return (
+        isObject(value) &&
+        (objectToString(value) === '[object Error]' || value instanceof Error)
+    );
 }
-  
+
 function isPromise(value) {
     return (
-        (
-            typeof Promise !== 'undefined' &&
-            value instanceof Promise
-        ) ||
-        (
-            value !== null &&
+        (typeof Promise !== 'undefined' && value instanceof Promise) ||
+        (value !== null &&
             typeof value === 'object' &&
             typeof value.then === 'function' &&
-            typeof value.catch === 'function'
-        )
+            typeof value.catch === 'function')
     );
 }
 
