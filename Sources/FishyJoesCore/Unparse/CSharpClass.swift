@@ -342,11 +342,17 @@ class CSharpProductClass: CSharpClass {
 
         switch constructor {
         case .reference:
-            fragment.output("public class \(unqualifiedName) : SwiftReference ", newLineTerminated: false)
+            fragment.output("public class \(unqualifiedName) : SwiftReference", newLineTerminated: false)
+            if !conformances.isEmpty {
+                fragment.output(", \(conformances.joined(separator: ", "))", newLineTerminated: false)
+            }
         case .public:
-            fragment.output("public record \(unqualifiedName) ", newLineTerminated: false)
+            fragment.output("public record \(unqualifiedName)", newLineTerminated: false)
+            if !conformances.isEmpty {
+                fragment.output(": \(conformances.joined(separator: ", "))", newLineTerminated: false)
+            }
         }
-        fragment.outputBlock("{") {
+        fragment.outputBlock(" {") {
             switch constructor {
             case .reference:
                 fragment.output("internal \(unqualifiedName)(ConsumedRef reference): base(reference) {}")

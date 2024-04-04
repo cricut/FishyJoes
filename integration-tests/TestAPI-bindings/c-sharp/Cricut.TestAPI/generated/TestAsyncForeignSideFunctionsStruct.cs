@@ -8,7 +8,7 @@ namespace Cricut.TestAPI {
     /// <summary>
     /// <!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct, conformances: [TestAsyncFunctions]) -->
     /// </summary>
-    public record TestAsyncForeignSideFunctionsStruct {
+    public record TestAsyncForeignSideFunctionsStruct: TestAsyncFunctions {
         public System.Func<System.Threading.Tasks.Task<nint>> Const42 { get; internal set; }
         public System.Func<nint, System.Threading.Tasks.Task<nint>> Iabs { get; internal set; }
         public System.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>> IntCompose { get; internal set; }
