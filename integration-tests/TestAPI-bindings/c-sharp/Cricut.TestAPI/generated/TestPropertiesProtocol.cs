@@ -9,8 +9,8 @@ namespace Cricut.TestAPI {
     /// <!-- FishyJoes.export(TestPropertiesProtocol) -->
     /// </summary>
     public interface TestPropertiesProtocol {
-        public string Corge { get; internal set; }
-        public System.Collections.Generic.IList<double> Frob { get; internal set; }
+        public string Corge { get;  }
+        public System.Collections.Generic.IList<double> Frob { get;  }
 
         static TestPropertiesProtocol() { _TypeSetup._ensureLoaded(); }
     }

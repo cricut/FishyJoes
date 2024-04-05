@@ -9,7 +9,7 @@ namespace Cricut.TestAPI {
     /// <!-- FishyJoes.export(TestLeadingUnderscoredProp) -->
     /// </summary>
     public interface TestLeadingUnderscoredProp {
-        public string _leadingUnderscoreProp { get; internal set; }
+        public string _leadingUnderscoreProp { get;  }
 
         static TestLeadingUnderscoredProp() { _TypeSetup._ensureLoaded(); }
     }

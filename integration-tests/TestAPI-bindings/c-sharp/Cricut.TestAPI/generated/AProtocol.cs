@@ -9,8 +9,8 @@ namespace Cricut.TestAPI {
     /// <!-- FishyJoes.export(AProtocol) -->
     /// </summary>
     public interface AProtocol {
-        public string Foo { get; internal set; }
-        public bool Baz { get; internal set; }
+        public string Foo { get;  }
+        public bool Baz { get;  }
 
         /// <summary>
         /// <!-- FishyJoes.export(bar) -->

@@ -4,7 +4,7 @@ class CSharpProtocolClass: CSharpClass {
 
         fragment.outputBlock("public interface \(unqualifiedName) {") {
             for field in fields {
-                fragment.output("public \(field.type.name) \(CSharpClass.deforbidify(field.name)) { get; \(field.isPubliclyWritable ? "set;" : "internal set;") }")
+                fragment.output("public \(field.type.name) \(CSharpClass.deforbidify(field.name)) { get; \(field.isPubliclyWritable ? "set;" : "") }")
             }
             fragment.blankLine()
 

@@ -9,14 +9,14 @@ namespace Cricut.TestAPI {
     /// <!-- FishyJoes.export(TestAsyncFunctions) -->
     /// </summary>
     public interface TestAsyncFunctions {
-        public System.Func<System.Threading.Tasks.Task<nint>> Const42 { get; internal set; }
-        public System.Func<nint, System.Threading.Tasks.Task<nint>> Iabs { get; internal set; }
-        public System.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>> IntCompose { get; internal set; }
-        public System.Func<float, double, nint, System.Threading.Tasks.Task<double>> Add3Things { get; internal set; }
-        public System.Func<string, string, string, string, System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>> MakeList { get; internal set; }
-        public System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>> FifthThing { get; internal set; }
-        public System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, nint, System.Threading.Tasks.Task<nint>> Six { get; internal set; }
-        public System.Func<System.Threading.Tasks.Task<nint>> WillThrow { get; internal set; }
+        public System.Func<System.Threading.Tasks.Task<nint>> Const42 { get;  }
+        public System.Func<nint, System.Threading.Tasks.Task<nint>> Iabs { get;  }
+        public System.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>> IntCompose { get;  }
+        public System.Func<float, double, nint, System.Threading.Tasks.Task<double>> Add3Things { get;  }
+        public System.Func<string, string, string, string, System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>> MakeList { get;  }
+        public System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>> FifthThing { get;  }
+        public System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, nint, System.Threading.Tasks.Task<nint>> Six { get;  }
+        public System.Func<System.Threading.Tasks.Task<nint>> WillThrow { get;  }
 
         /// <summary>
         /// <!-- FishyJoes.export(exercise0) -->

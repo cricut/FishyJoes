@@ -9,7 +9,7 @@ namespace Cricut.TestAPI {
     /// <!-- FishyJoes.export(TestOptionalsProtocol) -->
     /// </summary>
     public interface TestOptionalsProtocol {
-        public string? Flarp { get; internal set; }
+        public string? Flarp { get;  }
 
         /// <summary>
         /// <!-- FishyJoes.export(wombat) -->
