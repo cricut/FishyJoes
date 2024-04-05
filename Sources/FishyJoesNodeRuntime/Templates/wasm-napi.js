@@ -15,7 +15,7 @@ function isArrayBuffer(value) {
 }
 
 function isTypedArray(value) {
-    return value?.byteLength !== undefined;
+    return !isArrayBuffer(value) && value?.byteLength !== undefined;
 }
 
 function objectToString(value) {
