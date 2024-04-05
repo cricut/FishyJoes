@@ -6,10 +6,10 @@ namespace Cricut.TestAPI.Tests {
     public class ProtocolTests {
         [Fact]
         public void testAProtocol() {
-            var a = new AProtocolImplementation(Foo: "Haylo!", Baz: false);
+            var a = new AProtocolImplementation(Foo: "Garply", Baz: false);
+            Assert.Equal("Garply", a.Foo);
             System.Diagnostics.Debug.WriteLine($"a: {a}");
-            System.Diagnostics.Debug.WriteLine("Well, hello");
-            Assert.Equal(9, 9);
+            
         }
     }
 }
