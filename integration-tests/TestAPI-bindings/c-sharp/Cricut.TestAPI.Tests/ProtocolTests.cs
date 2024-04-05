@@ -15,8 +15,8 @@ namespace Cricut.TestAPI.Tests {
 
             System.Diagnostics.Debug.WriteLine($"a: {a}");
             
-            // var b = a.Bar(x: 2, y: 128);
-            // System.Diagnostics.Debug.WriteLine($"b: {b}");
+            var b = a.Bar(x: 2, y: 128);
+            System.Diagnostics.Debug.WriteLine($"b: {b}");
         }
     }
 }
