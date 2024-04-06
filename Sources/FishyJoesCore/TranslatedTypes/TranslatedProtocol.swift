@@ -208,10 +208,7 @@ struct TranslatedProtocol: TranslatedType {
     func cSharpSetupDelegates(in context: FishyJoesContext) -> [String] {
         var lines: [String] = []
         lines.append("delegate \(cSharpType.pInvokeCreatedName) _\(converterType.genericBaseName.mangledName)Constructor(")
-        for field in fields {
-            let resolved = context.resolve(type: field.typeName.better)
-            lines.append("    \(resolved.cSharpType.pInvokeConsumedName) \(CSharpClass.deforbidify(field.name)),")
-        }
+        lines.append("    UnownedRef obj,")
         lines.append("    out CreatedRef exn")
         lines.append(");")
         for field in fields {

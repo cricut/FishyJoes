@@ -305,8 +305,7 @@ namespace Cricut.TestAPI {
         );
 
         delegate CreatedRef _TestAPI_CommonInterface__AProtocolConverterConstructor(
-            ConsumedRef foo,
-            bool baz,
+            UnownedRef obj,
             out CreatedRef exn
         );
         delegate CreatedRef _TestAPI_CommonInterface__AProtocolConverter_fooGetter(UnownedRef obj, out CreatedRef exn);
@@ -594,14 +593,7 @@ namespace Cricut.TestAPI {
         );
 
         delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverterConstructor(
-            ConsumedRef const42,
-            ConsumedRef iabs,
-            ConsumedRef intCompose,
-            ConsumedRef add3Things,
-            ConsumedRef makeList,
-            ConsumedRef fifthThing,
-            ConsumedRef six,
-            ConsumedRef willThrow,
+            UnownedRef obj,
             out CreatedRef exn
         );
         delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverter_const42Getter(UnownedRef obj, out CreatedRef exn);
@@ -655,7 +647,7 @@ namespace Cricut.TestAPI {
         );
 
         delegate CreatedRef _TestAPI_CommonInterface__TestLeadingUnderscoredPropConverterConstructor(
-            ConsumedRef _leadingUnderscoreProp,
+            UnownedRef obj,
             out CreatedRef exn
         );
         delegate CreatedRef _TestAPI_CommonInterface__TestLeadingUnderscoredPropConverter__leadingUnderscorePropGetter(UnownedRef obj, out CreatedRef exn);
@@ -683,6 +675,7 @@ namespace Cricut.TestAPI {
         );
 
         delegate CreatedRef _TestAPI_CommonInterface__TestMethodsProtocolConverterConstructor(
+            UnownedRef obj,
             out CreatedRef exn
         );
         delegate void _TestAPI_CommonInterface__TestMethodsProtocolConverter_foo(CreatedRef obj, out CreatedRef exn);
@@ -705,7 +698,7 @@ namespace Cricut.TestAPI {
         );
 
         delegate CreatedRef _TestAPI_CommonInterface__TestOptionalsProtocolConverterConstructor(
-            ConsumedRef flarp,
+            UnownedRef obj,
             out CreatedRef exn
         );
         delegate CreatedRef _TestAPI_CommonInterface__TestOptionalsProtocolConverter_flarpGetter(UnownedRef obj, out CreatedRef exn);
@@ -722,8 +715,7 @@ namespace Cricut.TestAPI {
         );
 
         delegate CreatedRef _TestAPI_CommonInterface__TestPropertiesProtocolConverterConstructor(
-            ConsumedRef corge,
-            ConsumedRef frob,
+            UnownedRef obj,
             out CreatedRef exn
         );
         delegate CreatedRef _TestAPI_CommonInterface__TestPropertiesProtocolConverter_corgeGetter(UnownedRef obj, out CreatedRef exn);
