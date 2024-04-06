@@ -204,6 +204,124 @@ struct TranslatedProtocol: TranslatedType {
 
         return setupParams
     }
+    
+    func cSharpSetupDelegates(in context: FishyJoesContext) -> [String] {
+        var lines: [String] = []
+        lines.append("delegate \(cSharpType.pInvokeCreatedName) _\(converterType.genericBaseName.mangledName)Constructor(")
+        for field in fields {
+            let resolved = context.resolve(type: field.typeName.better)
+            lines.append("    \(resolved.cSharpType.pInvokeConsumedName) \(CSharpClass.deforbidify(field.name)),")
+        }
+        lines.append("    out CreatedRef exn")
+        lines.append(");")
+        for field in fields {
+            let resolved = context.resolve(type: field.typeName.better)
+            let commonName = "_\(converterType.genericBaseName.mangledName)_\(field.name)"
+            lines.append("delegate \(resolved.cSharpType.pInvokeCreatedName) \(commonName)Getter(\(cSharpType.pInvokeUnownedName) obj, out CreatedRef exn);")
+            if field.isMutable {
+                lines.append("delegate void \(commonName)Setter(\(cSharpType.pInvokeUnownedName) obj, \(resolved.cSharpType.pInvokeConsumedName) newValue, out CreatedRef exn);")
+            }
+        }
+        for method in methods {
+            let resolvedReturnType = context.resolve(type: method.returnType)
+            let commonName = "_\(converterType.genericBaseName.mangledName)_\(method.callName)"
+            var line = "delegate \(resolvedReturnType.cSharpType.pInvokeCreatedName) \(commonName)(\(cSharpType.pInvokeCreatedName) obj, "
+            for parameter in method.parameters {
+                let resolved = context.resolve(type: parameter.type)
+                line.append("\(resolved.cSharpType.name) \(parameter.name), ")
+            }
+            line.append("out CreatedRef exn);")
+            lines.append(line)
+        }
+        return lines
+    }
+
+    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>] {
+        let constructorType = "_\(converterType.genericBaseName.mangledName)Constructor"
+        let constructorArgs = fields.map { field in
+            let resolved = context.resolve(type: field.typeName.better)
+            return "\(resolved.cSharpType.pInvokeConsumedName) \(CSharpClass.deforbidify(field.name)), "
+        }.joined()
+
+        var foreignSetupParameters = [ForeignSetupParameter<String>]()
+        
+        foreignSetupParameters.append(
+            .value(
+                name: "constructor",
+                type: constructorType
+            ) { fragment in
+                fragment.outputBlock("bag<\(constructorType)>((\(constructorArgs)out CreatedRef exn) => Catching(out exn, () => {", closeWith: "})),") {
+                    fragment.outputBlock("return new CreatedRef(new \(cSharpType.name)(", closeWith: "));") {
+                        fragment.outputMap(fields, separator: ",") { field in
+                            let resolved = context.resolve(type: field.typeName.better)
+                            if resolved.cSharpType.isObject {
+                                return "\(CSharpClass.deforbidify(field.name)).Consume<\(resolved.cSharpType.name)>()"
+                            } else {
+                                return CSharpClass.deforbidify(field.name)
+                            }
+                        }
+                    }
+                }
+            }
+        )
+        
+        let fieldsParameters = fields.flatMap { field -> [ForeignSetupParameter] in
+            let resolved = context.resolve(type: field.typeName.better)
+            let commonName = "_\(converterType.genericBaseName.mangledName)_\(field.name)"
+            let getType = "\(commonName)Getter"
+            let setType = "\(commonName)Setter"
+            return [
+                .value(
+                    name: "get_\(field.name)",
+                    type: getType
+                ) { fragment in
+                    fragment.outputBlock("bag<\(getType)>((\(cSharpType.pInvokeUnownedName) obj, out CreatedRef exn) => Catching(out exn, () =>", closeWith: ")),") {
+                        let grab = "obj.Peek<\(cSharpType.name)>().\(CSharpClass.deforbidify(upperCaseFirst(field.name)))"
+                        if resolved.cSharpType.isObject {
+                            fragment.output("new CreatedRef(\(grab))")
+                        } else {
+                            fragment.output("\(grab)")
+                        }
+                    }
+                }
+            ] + (
+                field.isMutable ? [
+                    .value(
+                        name: "set_\(field.name)",
+                        type: setType
+                    ) { fragment in
+                        fragment.outputBlock("bag<\(setType)>((\(cSharpType.pInvokeUnownedName) obj, \(resolved.cSharpType.pInvokeConsumedName) newValue, out CreatedRef exn) => Catching(out exn, () => {", closeWith: "})),") {
+                            fragment.output("obj.Peek<\(cSharpType.name)>().\(CSharpClass.deforbidify(upperCaseFirst(field.name))) = ", newLineTerminated: false)
+                            fragment.output(resolved.cSharpType.isObject ? "newValue.Consume<\(resolved.cSharpType.name)>();" : "newValue;")
+                        }
+                    },
+                ] : []
+            )
+        }
+        foreignSetupParameters.append(contentsOf: fieldsParameters)
+
+        let methodsParameters = methods.map { method -> ForeignSetupParameter in
+            let resolvedReturnType = context.resolve(type: method.returnType)
+            let commonName = "_\(converterType.genericBaseName.mangledName)_\(method.callName)"
+            return .value(
+                name: method.callName,
+                type: commonName
+            ) { fragment in
+                var line = "bag<\(commonName)>((\(cSharpType.pInvokeUnownedName) obj, "
+                for parameter in method.parameters {
+                    let resolved = context.resolve(type: parameter.type)
+                    line.append("\(resolved.cSharpType.name) \(parameter.name), ")
+                }
+                line.append("out CreatedRef exn) => Catching(out exn, () => ")
+                fragment.outputBlock(line, closeWith: ")),") {
+                    fragment.output("obj.Peek<\(cSharpType.name)>().\(CSharpClass.deforbidify(upperCaseFirst(method.callName)))")
+                }
+            }
+        }
+        foreignSetupParameters.append(contentsOf: methodsParameters)
+
+        return foreignSetupParameters
+    }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
         return [
