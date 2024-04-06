@@ -298,7 +298,6 @@ struct TranslatedProtocol: TranslatedType {
         foreignSetupParameters.append(contentsOf: fieldsParameters)
 
         let methodsParameters = methods.map { method -> ForeignSetupParameter in
-            let resolvedReturnType = context.resolve(type: method.returnType)
             let commonName = "_\(converterType.genericBaseName.mangledName)_\(method.callName)"
             return .value(
                 name: method.callName,
