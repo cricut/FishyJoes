@@ -310,9 +310,9 @@ namespace Cricut.TestAPI {
         );
         delegate CreatedRef _TestAPI_CommonInterface__AProtocolConverter_fooGetter(UnownedRef obj, out CreatedRef exn);
         delegate bool _TestAPI_CommonInterface__AProtocolConverter_bazGetter(UnownedRef obj, out CreatedRef exn);
-        delegate CreatedRef _TestAPI_CommonInterface__AProtocolConverter_bar(CreatedRef obj, nint x, nint y, out CreatedRef exn);
-        delegate CreatedRef _TestAPI_CommonInterface__AProtocolConverter_hasADefaultImplementation(CreatedRef obj, nint x, double y, out CreatedRef exn);
-        delegate double _TestAPI_CommonInterface__AProtocolConverter_hasADefaultImplementation2(CreatedRef obj, string a, bool b, double c, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_CommonInterface__AProtocolConverter_bar(UnownedRef obj, nint x, nint y, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_CommonInterface__AProtocolConverter_hasADefaultImplementation(UnownedRef obj, nint x, double y, out CreatedRef exn);
+        delegate double _TestAPI_CommonInterface__AProtocolConverter_hasADefaultImplementation2(UnownedRef obj, string a, bool b, double c, out CreatedRef exn);
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_CommonInterface__AProtocolConverter_setup(
             IntPtr envRef,
@@ -604,16 +604,16 @@ namespace Cricut.TestAPI {
         delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverter_fifthThingGetter(UnownedRef obj, out CreatedRef exn);
         delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverter_sixGetter(UnownedRef obj, out CreatedRef exn);
         delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverter_willThrowGetter(UnownedRef obj, out CreatedRef exn);
-        delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise0(CreatedRef obj, System.Func<System.Threading.Tasks.Task<nint>> fn, out CreatedRef exn);
-        delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise1(CreatedRef obj, System.Func<nint, System.Threading.Tasks.Task<nint>> fn, out CreatedRef exn);
-        delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise2(CreatedRef obj, System.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>> fn, out CreatedRef exn);
-        delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise3(CreatedRef obj, System.Func<float, double, nint, System.Threading.Tasks.Task<double>> fn, out CreatedRef exn);
-        delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise4(CreatedRef obj, System.Func<string, string, string, string, System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>> fn, out CreatedRef exn);
-        delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise5(CreatedRef obj, System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>> fn, out CreatedRef exn);
-        delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise6(CreatedRef obj, System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, nint, System.Threading.Tasks.Task<nint>> fn, out CreatedRef exn);
-        delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverter_thunkTwiceMaker(CreatedRef obj, System.Func<System.Threading.Tasks.Task> thunk, out CreatedRef exn);
-        delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverter_defaultExercise6(CreatedRef obj, System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, nint, System.Threading.Tasks.Task<nint>> fn, out CreatedRef exn);
-        delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverter_witness(CreatedRef obj, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise0(UnownedRef obj, System.Func<System.Threading.Tasks.Task<nint>> fn, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise1(UnownedRef obj, System.Func<nint, System.Threading.Tasks.Task<nint>> fn, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise2(UnownedRef obj, System.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>> fn, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise3(UnownedRef obj, System.Func<float, double, nint, System.Threading.Tasks.Task<double>> fn, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise4(UnownedRef obj, System.Func<string, string, string, string, System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>> fn, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise5(UnownedRef obj, System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>> fn, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise6(UnownedRef obj, System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, nint, System.Threading.Tasks.Task<nint>> fn, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverter_thunkTwiceMaker(UnownedRef obj, System.Func<System.Threading.Tasks.Task> thunk, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverter_defaultExercise6(UnownedRef obj, System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, nint, System.Threading.Tasks.Task<nint>> fn, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverter_witness(UnownedRef obj, out CreatedRef exn);
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup(
             IntPtr envRef,
@@ -678,12 +678,12 @@ namespace Cricut.TestAPI {
             ConsumedRef ptr,
             out CreatedRef exn
         );
-        delegate void _TestAPI_CommonInterface__TestMethodsProtocolConverter_foo(CreatedRef obj, out CreatedRef exn);
-        delegate bool _TestAPI_CommonInterface__TestMethodsProtocolConverter_bar(CreatedRef obj, out CreatedRef exn);
-        delegate void _TestAPI_CommonInterface__TestMethodsProtocolConverter_baz(CreatedRef obj, bool qux, out CreatedRef exn);
-        delegate CreatedRef _TestAPI_CommonInterface__TestMethodsProtocolConverter_garply(CreatedRef obj, string _0, out CreatedRef exn);
-        delegate CreatedRef _TestAPI_CommonInterface__TestMethodsProtocolConverter_xyzzy(CreatedRef obj, nint thud, System.Collections.Generic.IList<double> grault, out CreatedRef exn);
-        delegate CreatedRef _TestAPI_CommonInterface__TestMethodsProtocolConverter_plugh(CreatedRef obj, System.Tuple<bool, double, System.Collections.Generic.IList<string>> fred, out CreatedRef exn);
+        delegate void _TestAPI_CommonInterface__TestMethodsProtocolConverter_foo(UnownedRef obj, out CreatedRef exn);
+        delegate bool _TestAPI_CommonInterface__TestMethodsProtocolConverter_bar(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_CommonInterface__TestMethodsProtocolConverter_baz(UnownedRef obj, bool qux, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_CommonInterface__TestMethodsProtocolConverter_garply(UnownedRef obj, string _0, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_CommonInterface__TestMethodsProtocolConverter_xyzzy(UnownedRef obj, nint thud, System.Collections.Generic.IList<double> grault, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_CommonInterface__TestMethodsProtocolConverter_plugh(UnownedRef obj, System.Tuple<bool, double, System.Collections.Generic.IList<string>> fred, out CreatedRef exn);
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_CommonInterface__TestMethodsProtocolConverter_setup(
             IntPtr envRef,
@@ -702,8 +702,8 @@ namespace Cricut.TestAPI {
             out CreatedRef exn
         );
         delegate CreatedRef _TestAPI_CommonInterface__TestOptionalsProtocolConverter_flarpGetter(UnownedRef obj, out CreatedRef exn);
-        delegate CreatedRef _TestAPI_CommonInterface__TestOptionalsProtocolConverter_wombat(CreatedRef obj, nint? zxc, out CreatedRef exn);
-        delegate nint _TestAPI_CommonInterface__TestOptionalsProtocolConverter_spqr(CreatedRef obj, Cricut.TestAPI.AssociatedDataEnum pippo, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_CommonInterface__TestOptionalsProtocolConverter_wombat(UnownedRef obj, nint? zxc, out CreatedRef exn);
+        delegate nint _TestAPI_CommonInterface__TestOptionalsProtocolConverter_spqr(UnownedRef obj, Cricut.TestAPI.AssociatedDataEnum pippo, out CreatedRef exn);
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_CommonInterface__TestOptionalsProtocolConverter_setup(
             IntPtr envRef,
@@ -2384,13 +2384,13 @@ namespace Cricut.TestAPI {
                         obj.Peek<Cricut.TestAPI.AProtocol>().Baz
                     )),
                     bag<_TestAPI_CommonInterface__AProtocolConverter_bar>((UnownedRef obj, nint x, nint y, out CreatedRef exn) => Catching(out exn, () => 
-                        obj.Peek<Cricut.TestAPI.AProtocol>().Bar
+                        obj.Peek<Cricut.TestAPI.AProtocol>().Bar(x, y)
                     )),
                     bag<_TestAPI_CommonInterface__AProtocolConverter_hasADefaultImplementation>((UnownedRef obj, nint x, double y, out CreatedRef exn) => Catching(out exn, () => 
-                        obj.Peek<Cricut.TestAPI.AProtocol>().HasADefaultImplementation
+                        obj.Peek<Cricut.TestAPI.AProtocol>().HasADefaultImplementation(x, y)
                     )),
                     bag<_TestAPI_CommonInterface__AProtocolConverter_hasADefaultImplementation2>((UnownedRef obj, string a, bool b, double c, out CreatedRef exn) => Catching(out exn, () => 
-                        obj.Peek<Cricut.TestAPI.AProtocol>().HasADefaultImplementation2
+                        obj.Peek<Cricut.TestAPI.AProtocol>().HasADefaultImplementation2(a, b, c)
                     )),
                     out exn
                 ));
@@ -2857,34 +2857,34 @@ namespace Cricut.TestAPI {
                         new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().WillThrow)
                     )),
                     bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise0>((UnownedRef obj, System.Func<System.Threading.Tasks.Task<nint>> fn, out CreatedRef exn) => Catching(out exn, () => 
-                        obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().Exercise0
+                        obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().Exercise0(fn)
                     )),
                     bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise1>((UnownedRef obj, System.Func<nint, System.Threading.Tasks.Task<nint>> fn, out CreatedRef exn) => Catching(out exn, () => 
-                        obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().Exercise1
+                        obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().Exercise1(fn)
                     )),
                     bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise2>((UnownedRef obj, System.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>> fn, out CreatedRef exn) => Catching(out exn, () => 
-                        obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().Exercise2
+                        obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().Exercise2(fn)
                     )),
                     bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise3>((UnownedRef obj, System.Func<float, double, nint, System.Threading.Tasks.Task<double>> fn, out CreatedRef exn) => Catching(out exn, () => 
-                        obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().Exercise3
+                        obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().Exercise3(fn)
                     )),
                     bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise4>((UnownedRef obj, System.Func<string, string, string, string, System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>> fn, out CreatedRef exn) => Catching(out exn, () => 
-                        obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().Exercise4
+                        obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().Exercise4(fn)
                     )),
                     bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise5>((UnownedRef obj, System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>> fn, out CreatedRef exn) => Catching(out exn, () => 
-                        obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().Exercise5
+                        obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().Exercise5(fn)
                     )),
                     bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise6>((UnownedRef obj, System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, nint, System.Threading.Tasks.Task<nint>> fn, out CreatedRef exn) => Catching(out exn, () => 
-                        obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().Exercise6
+                        obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().Exercise6(fn)
                     )),
                     bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_thunkTwiceMaker>((UnownedRef obj, System.Func<System.Threading.Tasks.Task> thunk, out CreatedRef exn) => Catching(out exn, () => 
-                        obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().ThunkTwiceMaker
+                        obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().ThunkTwiceMaker(thunk)
                     )),
                     bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_defaultExercise6>((UnownedRef obj, System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, nint, System.Threading.Tasks.Task<nint>> fn, out CreatedRef exn) => Catching(out exn, () => 
-                        obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().DefaultExercise6
+                        obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().DefaultExercise6(fn)
                     )),
                     bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_witness>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => 
-                        obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().Witness
+                        obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().Witness()
                     )),
                     out exn
                 ));
@@ -2938,22 +2938,22 @@ namespace Cricut.TestAPI {
                         return new CreatedRef(new Cricut.TestAPI.ExternalWitness_TestMethodsProtocol(ptr));
                     })),
                     bag<_TestAPI_CommonInterface__TestMethodsProtocolConverter_foo>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => 
-                        obj.Peek<Cricut.TestAPI.TestMethodsProtocol>().Foo
+                        obj.Peek<Cricut.TestAPI.TestMethodsProtocol>().Foo()
                     )),
                     bag<_TestAPI_CommonInterface__TestMethodsProtocolConverter_bar>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => 
-                        obj.Peek<Cricut.TestAPI.TestMethodsProtocol>().Bar
+                        obj.Peek<Cricut.TestAPI.TestMethodsProtocol>().Bar()
                     )),
                     bag<_TestAPI_CommonInterface__TestMethodsProtocolConverter_baz>((UnownedRef obj, bool qux, out CreatedRef exn) => Catching(out exn, () => 
-                        obj.Peek<Cricut.TestAPI.TestMethodsProtocol>().Baz
+                        obj.Peek<Cricut.TestAPI.TestMethodsProtocol>().Baz(qux)
                     )),
                     bag<_TestAPI_CommonInterface__TestMethodsProtocolConverter_garply>((UnownedRef obj, string _0, out CreatedRef exn) => Catching(out exn, () => 
-                        obj.Peek<Cricut.TestAPI.TestMethodsProtocol>().Garply
+                        obj.Peek<Cricut.TestAPI.TestMethodsProtocol>().Garply(_0)
                     )),
                     bag<_TestAPI_CommonInterface__TestMethodsProtocolConverter_xyzzy>((UnownedRef obj, nint thud, System.Collections.Generic.IList<double> grault, out CreatedRef exn) => Catching(out exn, () => 
-                        obj.Peek<Cricut.TestAPI.TestMethodsProtocol>().Xyzzy
+                        obj.Peek<Cricut.TestAPI.TestMethodsProtocol>().Xyzzy(thud, grault)
                     )),
                     bag<_TestAPI_CommonInterface__TestMethodsProtocolConverter_plugh>((UnownedRef obj, System.Tuple<bool, double, System.Collections.Generic.IList<string>> fred, out CreatedRef exn) => Catching(out exn, () => 
-                        obj.Peek<Cricut.TestAPI.TestMethodsProtocol>().Plugh
+                        obj.Peek<Cricut.TestAPI.TestMethodsProtocol>().Plugh(fred)
                     )),
                     out exn
                 ));
@@ -2969,10 +2969,10 @@ namespace Cricut.TestAPI {
                         new CreatedRef(obj.Peek<Cricut.TestAPI.TestOptionalsProtocol>().Flarp)
                     )),
                     bag<_TestAPI_CommonInterface__TestOptionalsProtocolConverter_wombat>((UnownedRef obj, nint? zxc, out CreatedRef exn) => Catching(out exn, () => 
-                        obj.Peek<Cricut.TestAPI.TestOptionalsProtocol>().Wombat
+                        obj.Peek<Cricut.TestAPI.TestOptionalsProtocol>().Wombat(zxc)
                     )),
                     bag<_TestAPI_CommonInterface__TestOptionalsProtocolConverter_spqr>((UnownedRef obj, Cricut.TestAPI.AssociatedDataEnum pippo, out CreatedRef exn) => Catching(out exn, () => 
-                        obj.Peek<Cricut.TestAPI.TestOptionalsProtocol>().Spqr
+                        obj.Peek<Cricut.TestAPI.TestOptionalsProtocol>().Spqr(pippo)
                     )),
                     out exn
                 ));

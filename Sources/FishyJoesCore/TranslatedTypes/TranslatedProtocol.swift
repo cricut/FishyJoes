@@ -222,7 +222,7 @@ struct TranslatedProtocol: TranslatedType {
         for method in methods {
             let resolvedReturnType = context.resolve(type: method.returnType)
             let commonName = "_\(converterType.genericBaseName.mangledName)_\(method.callName)"
-            var line = "delegate \(resolvedReturnType.cSharpType.pInvokeCreatedName) \(commonName)(\(cSharpType.pInvokeCreatedName) obj, "
+            var line = "delegate \(resolvedReturnType.cSharpType.pInvokeCreatedName) \(commonName)(\(cSharpType.pInvokeUnownedName) obj, "
             for parameter in method.parameters {
                 let resolved = context.resolve(type: parameter.type)
                 line.append("\(resolved.cSharpType.name) \(parameter.name), ")
@@ -296,7 +296,7 @@ struct TranslatedProtocol: TranslatedType {
                 }
                 line.append("out CreatedRef exn) => Catching(out exn, () => ")
                 fragment.outputBlock(line, closeWith: ")),") {
-                    fragment.output("obj.Peek<\(cSharpType.name)>().\(CSharpClass.deforbidify(upperCaseFirst(method.callName)))")
+                    fragment.output("obj.Peek<\(cSharpType.name)>().\(CSharpClass.deforbidify(upperCaseFirst(method.callName)))(\(method.parameters.map { $0.name }.joined(separator: ", ")))")
                 }
             }
         }
