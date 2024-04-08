@@ -9,7 +9,7 @@ namespace Cricut.TestAPI.Tests {
             int nProcessId = System.Diagnostics.Process.GetCurrentProcess().Id;
             System.Diagnostics.Debug.WriteLine($"nProcessId: {nProcessId}");
 
-            var a = new AProtocolImplementation(Foo: "Garply", Baz: false);
+            AProtocol a = new AProtocolImplementation(Foo: "Garply", Baz: false);
             Assert.Equal("Garply", a.Foo);
             Assert.False(a.Baz);
 
@@ -17,7 +17,9 @@ namespace Cricut.TestAPI.Tests {
             Assert.Equal("130", b.Foo);
             Assert.True(b.Baz);
 
-            //Assert.Equal("-312 notBazzed", a.hasADefaultImplementation(9, -102.1));
+            var c = a.HasADefaultImplementation(9, -102.1);
+            System.Diagnostics.Debug.WriteLine($"c: {c}");
+            Assert.Equal("-312 notBazzed", c);
         }
     }
 }
