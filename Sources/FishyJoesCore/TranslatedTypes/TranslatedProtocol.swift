@@ -235,11 +235,6 @@ struct TranslatedProtocol: TranslatedType {
 
     func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>] {
         let constructorType = "_\(converterType.genericBaseName.mangledName)Constructor"
-        let constructorArgs = fields.map { field in
-            let resolved = context.resolve(type: field.typeName.better)
-            return "\(resolved.cSharpType.pInvokeConsumedName) \(CSharpClass.deforbidify(field.name)), "
-        }.joined()
-
         var foreignSetupParameters = [ForeignSetupParameter<String>]()
         
         foreignSetupParameters.append(
@@ -247,17 +242,8 @@ struct TranslatedProtocol: TranslatedType {
                 name: "constructor",
                 type: constructorType
             ) { fragment in
-                fragment.outputBlock("bag<\(constructorType)>((\(constructorArgs)out CreatedRef exn) => Catching(out exn, () => {", closeWith: "})),") {
-                    fragment.outputBlock("return new CreatedRef(new \(cSharpType.name)(", closeWith: "));") {
-                        fragment.outputMap(fields, separator: ",") { field in
-                            let resolved = context.resolve(type: field.typeName.better)
-                            if resolved.cSharpType.isObject {
-                                return "\(CSharpClass.deforbidify(field.name)).Consume<\(resolved.cSharpType.name)>()"
-                            } else {
-                                return CSharpClass.deforbidify(field.name)
-                            }
-                        }
-                    }
+                fragment.outputBlock("bag<\(constructorType)>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {", closeWith: "})),") {
+                    // create the external witness here
                 }
             }
         )
