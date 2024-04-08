@@ -899,6 +899,27 @@ struct TranslatedProtocol: TranslatedType {
                 conformances: conformances
             )
         )
+
+        let (externalWitnessFields, externalWitnessMethods) = CSharpClass.separate(
+            fieldsAndMethods:
+                fields.compactMap {
+                    context.cSharp(field: $0, of: self, useNativeName: false)
+                } + methods.filter { !$0.isDefaultImplementation }.compactMap {
+                    context.cSharp(method: $0, of: self)
+                }
+        )        
+        context.add(
+            cSharpClass: CSharpProductClass(
+                module: context.module,
+                documentation: documentation,
+                name: "\(cSharpType.package ?? "Cricut.\(context.module.name)").\(iotaExternalWitnessClassName)",
+                constructor: .reference,
+                fields: externalWitnessFields,
+                methods: externalWitnessMethods,
+                conformances: [sourceType.nonNamespacedName],
+                isExternalWitness: true
+            )
+        )
     }
 
     func registerDartClass(context: FishyJoesContext) {
@@ -929,12 +950,11 @@ struct TranslatedProtocol: TranslatedType {
                     context.dart(method: $0, of: self)
                 }
         )
-        let externalWitnessName = "ExternalWitness_\(sourceType.nonNamespacedName)"
         context.add(
             dartClass: DartProductClass(
                 module: context.module,
                 documentation: documentation,
-                name: "\(context.module.name).\(externalWitnessName)",
+                name: "\(context.module.name).\(iotaExternalWitnessClassName)",
                 constructor: .reference,
                 fields: externalWitnessFields,
                 methods: externalWitnessMethods,
