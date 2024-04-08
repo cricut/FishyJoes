@@ -208,7 +208,7 @@ struct TranslatedProtocol: TranslatedType {
     func cSharpSetupDelegates(in context: FishyJoesContext) -> [String] {
         var lines: [String] = []
         lines.append("delegate \(cSharpType.pInvokeCreatedName) _\(converterType.genericBaseName.mangledName)Constructor(")
-        lines.append("    UnownedRef obj,")
+        lines.append("    ConsumedRef ptr,")
         lines.append("    out CreatedRef exn")
         lines.append(");")
         for field in fields {
@@ -242,8 +242,8 @@ struct TranslatedProtocol: TranslatedType {
                 name: "constructor",
                 type: constructorType
             ) { fragment in
-                fragment.outputBlock("bag<\(constructorType)>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {", closeWith: "})),") {
-                    // create the external witness here
+                fragment.outputBlock("bag<\(constructorType)>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {", closeWith: "})),") {
+                    fragment.output("return new CreatedRef(new \(cSharpType.package ?? context.module.name).ExternalWitness_\(sourceType.genericBaseName.name)(ptr));")
                 }
             }
         )

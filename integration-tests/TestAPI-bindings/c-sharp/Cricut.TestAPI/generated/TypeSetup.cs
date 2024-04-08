@@ -305,7 +305,7 @@ namespace Cricut.TestAPI {
         );
 
         delegate CreatedRef _TestAPI_CommonInterface__AProtocolConverterConstructor(
-            UnownedRef obj,
+            ConsumedRef ptr,
             out CreatedRef exn
         );
         delegate CreatedRef _TestAPI_CommonInterface__AProtocolConverter_fooGetter(UnownedRef obj, out CreatedRef exn);
@@ -593,7 +593,7 @@ namespace Cricut.TestAPI {
         );
 
         delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverterConstructor(
-            UnownedRef obj,
+            ConsumedRef ptr,
             out CreatedRef exn
         );
         delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverter_const42Getter(UnownedRef obj, out CreatedRef exn);
@@ -647,7 +647,7 @@ namespace Cricut.TestAPI {
         );
 
         delegate CreatedRef _TestAPI_CommonInterface__TestLeadingUnderscoredPropConverterConstructor(
-            UnownedRef obj,
+            ConsumedRef ptr,
             out CreatedRef exn
         );
         delegate CreatedRef _TestAPI_CommonInterface__TestLeadingUnderscoredPropConverter__leadingUnderscorePropGetter(UnownedRef obj, out CreatedRef exn);
@@ -675,7 +675,7 @@ namespace Cricut.TestAPI {
         );
 
         delegate CreatedRef _TestAPI_CommonInterface__TestMethodsProtocolConverterConstructor(
-            UnownedRef obj,
+            ConsumedRef ptr,
             out CreatedRef exn
         );
         delegate void _TestAPI_CommonInterface__TestMethodsProtocolConverter_foo(CreatedRef obj, out CreatedRef exn);
@@ -698,7 +698,7 @@ namespace Cricut.TestAPI {
         );
 
         delegate CreatedRef _TestAPI_CommonInterface__TestOptionalsProtocolConverterConstructor(
-            UnownedRef obj,
+            ConsumedRef ptr,
             out CreatedRef exn
         );
         delegate CreatedRef _TestAPI_CommonInterface__TestOptionalsProtocolConverter_flarpGetter(UnownedRef obj, out CreatedRef exn);
@@ -715,7 +715,7 @@ namespace Cricut.TestAPI {
         );
 
         delegate CreatedRef _TestAPI_CommonInterface__TestPropertiesProtocolConverterConstructor(
-            UnownedRef obj,
+            ConsumedRef ptr,
             out CreatedRef exn
         );
         delegate CreatedRef _TestAPI_CommonInterface__TestPropertiesProtocolConverter_corgeGetter(UnownedRef obj, out CreatedRef exn);
@@ -2374,7 +2374,8 @@ namespace Cricut.TestAPI {
                 Console.WriteLine("setting up TestAPI.AProtocol...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_CommonInterface__AProtocolConverter_setup(
                     Loader.env,
-                    bag<_TestAPI_CommonInterface__AProtocolConverterConstructor>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
+                    bag<_TestAPI_CommonInterface__AProtocolConverterConstructor>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.ExternalWitness_AProtocol(ptr));
                     })),
                     bag<_TestAPI_CommonInterface__AProtocolConverter_fooGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.AProtocol>().Foo)
@@ -2828,7 +2829,8 @@ namespace Cricut.TestAPI {
                 Console.WriteLine("setting up TestAPI.TestAsyncFunctions...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup(
                     Loader.env,
-                    bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverterConstructor>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
+                    bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverterConstructor>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.ExternalWitness_TestAsyncFunctions(ptr));
                     })),
                     bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_const42Getter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().Const42)
@@ -2901,7 +2903,8 @@ namespace Cricut.TestAPI {
                 Console.WriteLine("setting up TestAPI.TestLeadingUnderscoredProp...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_CommonInterface__TestLeadingUnderscoredPropConverter_setup(
                     Loader.env,
-                    bag<_TestAPI_CommonInterface__TestLeadingUnderscoredPropConverterConstructor>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
+                    bag<_TestAPI_CommonInterface__TestLeadingUnderscoredPropConverterConstructor>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.ExternalWitness_TestLeadingUnderscoredProp(ptr));
                     })),
                     bag<_TestAPI_CommonInterface__TestLeadingUnderscoredPropConverter__leadingUnderscorePropGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.TestLeadingUnderscoredProp>()._leadingUnderscoreProp)
@@ -2931,7 +2934,8 @@ namespace Cricut.TestAPI {
                 Console.WriteLine("setting up TestAPI.TestMethodsProtocol...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_CommonInterface__TestMethodsProtocolConverter_setup(
                     Loader.env,
-                    bag<_TestAPI_CommonInterface__TestMethodsProtocolConverterConstructor>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
+                    bag<_TestAPI_CommonInterface__TestMethodsProtocolConverterConstructor>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.ExternalWitness_TestMethodsProtocol(ptr));
                     })),
                     bag<_TestAPI_CommonInterface__TestMethodsProtocolConverter_foo>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => 
                         obj.Peek<Cricut.TestAPI.TestMethodsProtocol>().Foo
@@ -2958,7 +2962,8 @@ namespace Cricut.TestAPI {
                 Console.WriteLine("setting up TestAPI.TestOptionalsProtocol...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_CommonInterface__TestOptionalsProtocolConverter_setup(
                     Loader.env,
-                    bag<_TestAPI_CommonInterface__TestOptionalsProtocolConverterConstructor>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
+                    bag<_TestAPI_CommonInterface__TestOptionalsProtocolConverterConstructor>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.ExternalWitness_TestOptionalsProtocol(ptr));
                     })),
                     bag<_TestAPI_CommonInterface__TestOptionalsProtocolConverter_flarpGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.TestOptionalsProtocol>().Flarp)
@@ -2976,7 +2981,8 @@ namespace Cricut.TestAPI {
                 Console.WriteLine("setting up TestAPI.TestPropertiesProtocol...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_CommonInterface__TestPropertiesProtocolConverter_setup(
                     Loader.env,
-                    bag<_TestAPI_CommonInterface__TestPropertiesProtocolConverterConstructor>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
+                    bag<_TestAPI_CommonInterface__TestPropertiesProtocolConverterConstructor>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.ExternalWitness_TestPropertiesProtocol(ptr));
                     })),
                     bag<_TestAPI_CommonInterface__TestPropertiesProtocolConverter_corgeGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.TestPropertiesProtocol>().Corge)
