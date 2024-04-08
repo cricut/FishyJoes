@@ -289,6 +289,10 @@ struct TranslatedProtocol: TranslatedType {
                 name: method.callName,
                 type: commonName
             ) { fragment in
+                if method.callName.contains("asADefaultImplementation2") {
+                    let elegoo = 1
+                }
+                let resolvedReturnType = context.resolve(type: method.returnType)
                 var line = "bag<\(commonName)>((\(cSharpType.pInvokeUnownedName) obj, "
                 for parameter in method.parameters {
                     let resolved = context.resolve(type: parameter.type)
@@ -296,7 +300,13 @@ struct TranslatedProtocol: TranslatedType {
                 }
                 line.append("out CreatedRef exn) => Catching(out exn, () => ")
                 fragment.outputBlock(line, closeWith: ")),") {
-                    fragment.output("obj.Peek<\(cSharpType.name)>().\(CSharpClass.deforbidify(upperCaseFirst(method.callName)))(\(method.parameters.map { $0.name }.joined(separator: ", ")))")
+                    let grab = "obj.Peek<\(cSharpType.name)>().\(CSharpClass.deforbidify(upperCaseFirst(method.callName)))(\(method.parameters.map { $0.name }.joined(separator: ", ")))"
+                    if resolvedReturnType.cSharpType.isObject {
+                        fragment.output("new CreatedRef(\(grab))")
+                    } else {
+                        fragment.output("\(grab)")
+                    }
+                    fragment.blankLine()
                 }
             }
         }
