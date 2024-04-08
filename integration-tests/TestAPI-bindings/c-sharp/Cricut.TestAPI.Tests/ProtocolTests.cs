@@ -13,10 +13,11 @@ namespace Cricut.TestAPI.Tests {
             Assert.Equal("Garply", a.Foo);
             Assert.False(a.Baz);
 
-            System.Diagnostics.Debug.WriteLine($"a: {a}");
-            
             var b = a.Bar(x: 2, y: 128);
-            System.Diagnostics.Debug.WriteLine($"b: {b}");
+            Assert.Equal("130", b.Foo);
+            Assert.True(b.Baz);
+
+            //Assert.Equal("-312 notBazzed", a.hasADefaultImplementation(9, -102.1));
         }
     }
 }
