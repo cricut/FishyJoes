@@ -44,14 +44,12 @@ test('ConsumeUint8ClampedArray', () => {
         .toEqual([2, 3, 6, 11]);
 });
 
-
 test('ConsumeUint16Array', () => {
     let u16Array = Uint16Array.from([1, 1, 1, 2, 3, 6, 11]);
     u16Array = new Uint16Array(u16Array.buffer, 4);
     expect(arrayFrom(TestAPI.Bytes.echoData(u16Array)))
         .toEqual([1, 0, 2, 0, 3, 0, 6, 0, 11, 0]);
 });
-
 
 test('ConsumeBigUint64Array', () => {
     let u16Array = BigUint64Array.from([BigInt("0xdecafbadc0ffee")]);
