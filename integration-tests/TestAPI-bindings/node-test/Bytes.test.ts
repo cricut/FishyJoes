@@ -26,7 +26,19 @@ test('ConsumeNodeBuffer', () => {
 
 // typescript also thinks Uint8Arrays are ArrayBuffers
 test('ConsumeUint8Array', () => {
-    const array = Uint8Array.from([1, 2, 3, 6, 11, 23, 47, 106, 235]);
-    expect(arrayFrom(TestAPI.Bytes.echoData(array)))
+    const u8Array = Uint8Array.from([1, 2, 3, 6, 11, 23, 47, 106, 235]);
+    expect(arrayFrom(TestAPI.Bytes.echoData(u8Array)))
+        .toEqual([1, 2, 3, 6, 11, 23, 47, 106, 235]);
+});
+
+test('ConsumeInt8Array', () => {
+    const i8Array = Int8Array.from([1, 2, 3, 6, 11, 23, 47, 106, -21]);
+    expect(arrayFrom(TestAPI.Bytes.echoData(i8Array)))
+        .toEqual([1, 2, 3, 6, 11, 23, 47, 106, 235]);
+});
+
+test('ConsumeUint8ClampedArray', () => {
+    const u8cArray = Uint8ClampedArray.from([1, 2, 3, 6, 11, 23, 47, 106, 235]);
+    expect(arrayFrom(TestAPI.Bytes.echoData(u8cArray)))
         .toEqual([1, 2, 3, 6, 11, 23, 47, 106, 235]);
 });
