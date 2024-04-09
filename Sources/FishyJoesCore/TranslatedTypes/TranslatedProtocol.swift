@@ -564,7 +564,7 @@ struct TranslatedProtocol: TranslatedType {
                     }
                 }
                 fragment.outputBlock("\(method.isStatic ? "static " : "")public func \(method.callName)(\(paramSigs.joined(separator: ", ")))\(returnSignature) {") {
-                    fragment.outputBlock("try \(resolvedReturn.converterType.name).peekIota(") {
+                    fragment.outputBlock("try \(resolvedReturn.converterType.name).consumeIota(") {
                         fragment.outputBlock("try _iotaWitness.env.check { exn in", closeWith: "},") {
                             fragment.outputBlock("\(converterType.name)._\(method.callName)[_iotaWitness.env](") {
                                 fragment.output("_iotaWitness.object,")

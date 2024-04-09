@@ -11,7 +11,7 @@ struct _IotaTestMethodsProtocol: TestAPI.TestMethodsProtocol {
     let _iotaWitness: IotaReference
 
     public func foo() throws {
-        try FishyJoesCommonRuntime.VoidConverter.peekIota(
+        try FishyJoesCommonRuntime.VoidConverter.consumeIota(
             try _iotaWitness.env.check { exn in
                 TestAPI_CommonInterface._TestMethodsProtocolConverter._foo[_iotaWitness.env](
                     _iotaWitness.object,
@@ -23,7 +23,7 @@ struct _IotaTestMethodsProtocol: TestAPI.TestMethodsProtocol {
     }
 
     public func bar() throws -> Bool {
-        try Swift.Bool.peekIota(
+        try Swift.Bool.consumeIota(
             try _iotaWitness.env.check { exn in
                 TestAPI_CommonInterface._TestMethodsProtocolConverter._bar[_iotaWitness.env](
                     _iotaWitness.object,
@@ -35,7 +35,7 @@ struct _IotaTestMethodsProtocol: TestAPI.TestMethodsProtocol {
     }
 
     public func baz(qux: Bool) throws {
-        try FishyJoesCommonRuntime.VoidConverter.peekIota(
+        try FishyJoesCommonRuntime.VoidConverter.consumeIota(
             try _iotaWitness.env.check { exn in
                 TestAPI_CommonInterface._TestMethodsProtocolConverter._baz[_iotaWitness.env](
                     _iotaWitness.object,
@@ -48,7 +48,7 @@ struct _IotaTestMethodsProtocol: TestAPI.TestMethodsProtocol {
     }
 
     public func garply(_ _0: String) throws -> String {
-        try Swift.String.peekIota(
+        try Swift.String.consumeIota(
             try _iotaWitness.env.check { exn in
                 TestAPI_CommonInterface._TestMethodsProtocolConverter._garply[_iotaWitness.env](
                     _iotaWitness.object,
@@ -61,7 +61,7 @@ struct _IotaTestMethodsProtocol: TestAPI.TestMethodsProtocol {
     }
 
     public func xyzzy(thud: Int, grault: Array<Double>) throws -> String {
-        try Swift.String.peekIota(
+        try Swift.String.consumeIota(
             try _iotaWitness.env.check { exn in
                 TestAPI_CommonInterface._TestMethodsProtocolConverter._xyzzy[_iotaWitness.env](
                     _iotaWitness.object,
@@ -75,7 +75,7 @@ struct _IotaTestMethodsProtocol: TestAPI.TestMethodsProtocol {
     }
 
     public func plugh(fred: (Bool, Double, Array<String>)) throws -> (Bool, Int, String) {
-        try Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.peekIota(
+        try Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.consumeIota(
             try _iotaWitness.env.check { exn in
                 TestAPI_CommonInterface._TestMethodsProtocolConverter._plugh[_iotaWitness.env](
                     _iotaWitness.object,
