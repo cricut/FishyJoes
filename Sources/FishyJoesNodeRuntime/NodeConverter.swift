@@ -199,6 +199,21 @@ extension String: NodeConverter {
 extension Data: NodeConverter {
     static var moduleReference: NodeReference?
 
+    fileprivate static func typedArrayElementSize(for arrayType: napi_typedarray_type) -> Int? {
+        switch arrayType {
+        case napi_int8_array, napi_uint8_array, napi_uint8_clamped_array:
+            return 1
+        case napi_int16_array, napi_uint16_array:
+            return 2
+        case napi_int32_array, napi_uint32_array, napi_float32_array:
+            return 4
+        case napi_float64_array, napi_bigint64_array, napi_biguint64_array:
+            return 8
+        default:
+            return nil
+        }
+    }
+
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Data {
         let dataPtr: UnsafeMutableRawPointer?
         let length: Int
@@ -207,12 +222,12 @@ extension Data: NodeConverter {
         } else if
             try env.isTypedarray(value),
             case let info = try env.getTypedarrayInfo(value),
-            [napi_int8_array, napi_uint8_array, napi_uint8_clamped_array].contains(info.type)
+            let elementSize = typedArrayElementSize(for: info.type)
         {
-            length = info.length
+            length = info.length * elementSize
             dataPtr = info.data
         } else {
-            throw JSException(message: "expected ArrayBuffer (or Uint8Array, or Buffer, if you must) but got: \(try nodeDescribe(value, env: env))")
+            throw JSException(message: "expected ArrayBuffer (or TypedArray, or Buffer, if you must) but got: \(try nodeDescribe(value, env: env))")
         }
 
         if length == 0 {
