@@ -5,7 +5,7 @@ using Xunit;
 namespace Cricut.TestAPI.Tests {
     public class ProtocolTests {
         [Fact]
-        public void testAProtocol() {
+        public void testProtocolImplementation() {
             _TypeSetup._ensureLoaded();
 
             int nProcessId = System.Diagnostics.Process.GetCurrentProcess().Id;
@@ -19,9 +19,11 @@ namespace Cricut.TestAPI.Tests {
             Assert.Equal("130", b.Foo);
             Assert.True(b.Baz);
 
-            var c = a.HasADefaultImplementation(9, -102.1);
-            System.Diagnostics.Debug.WriteLine($"c: {c}");
-            Assert.Equal("-312 notBazzed", c);
+            Assert.Equal("-312 notBazzed", a.HasADefaultImplementation(9, -102.1));
+            Assert.Equal("bazzy 3", a.HasADefaultImplementation(2, 0.345));
+
+            Assert.Equal(3.7838466771424932E9, a.HasADefaultImplementation2("923.2185", true, 0.0898714));
+            Assert.Equal(1.9556754407899822E-5, a.HasADefaultImplementation2("923.2185", false, 0.0898714));
 
             var d = new AProtocolCSharpImpl("Locally Dokelly Neighborino!", true);
             Assert.Equal("Locally Dokelly Neighborino!", d.Foo);
