@@ -16,8 +16,17 @@ test('BytesEcho', () => {
         .toEqual(arrayFrom(byteArray.buffer));
 });
 
-test('typescriptThinksBuffersAreArrayBuffersForSomeReasonSoTestThatThatWorksAnyway', () => {
+// typescript thinks node Buffers are ArrayBuffers for some reason, so test that that works anyway
+test('ConsumeNodeBuffer', () => {
+
     const buffer = Buffer.alloc(8, 'na-');
     expect(arrayFrom(TestAPI.Bytes.echoData(buffer)))
         .toEqual([110, 97, 45, 110, 97, 45, 110, 97]);
+});
+
+// typescript also thinks Uint8Arrays are ArrayBuffers
+test('ConsumeUint8Array', () => {
+    const array = Uint8Array.from([1, 2, 3, 6, 11, 23, 47, 106, 235]);
+    expect(arrayFrom(TestAPI.Bytes.echoData(array)))
+        .toEqual([1, 2, 3, 6, 11, 23, 47, 106, 235]);
 });

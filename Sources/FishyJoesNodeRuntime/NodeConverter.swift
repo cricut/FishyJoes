@@ -204,10 +204,15 @@ extension Data: NodeConverter {
         let length: Int
         if try env.isArraybuffer(value) {
             (dataPtr, length) = try env.getArraybufferInfo(value)
-        } else if try env.isBuffer(value) {
-            (dataPtr, length) = try env.getBufferInfo(value)
+        } else if
+            try env.isTypedarray(value),
+            case let info = try env.getTypedarrayInfo(value),
+            [napi_int8_array, napi_uint8_array, napi_uint8_clamped_array].contains(info.type)
+        {
+            length = info.length
+            dataPtr = info.data
         } else {
-            throw JSException(message: "expected ArrayBuffer (or Buffer, if you must) but got: \(try nodeDescribe(value, env: env))")
+            throw JSException(message: "expected ArrayBuffer (or Uint8Array, or Buffer, if you must) but got: \(try nodeDescribe(value, env: env))")
         }
 
         if length == 0 {
@@ -231,7 +236,7 @@ extension Data: NodeConverter {
         let jsLength = try Int.toNode(length, env: env)
         try data.withUnsafeMutableBytes { buffer in
             let jsBuffer = try UInt.toNode(UInt(bitPattern: buffer.baseAddress), env: env)
-            try env.callFunction(undefined, fromWasi, [value, jsLength, jsBuffer])
+            _ = try env.callFunction(undefined, fromWasi, [value, jsLength, jsBuffer])
         }
         return data
         #else
