@@ -3,15 +3,16 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using Xunit;
 
-namespace Cricut.TestAPI.Tests {
+namespace Cricut.TestAPI.Tests {    
     public class ProtocolTests {
+        public ProtocolTests() {
+            _TypeSetup._ensureLoaded();
+        }
+
+        ~ProtocolTests() {}
+
         [Fact]
         public void testProtocolImplementation() {
-            _TypeSetup._ensureLoaded();
-
-            int nProcessId = System.Diagnostics.Process.GetCurrentProcess().Id;
-            System.Diagnostics.Debug.WriteLine($"nProcessId: {nProcessId}");
-
             AProtocol a = new AProtocolImplementation(Foo: "Garply", Baz: false);
             Assert.Equal("Garply", a.Foo);
             Assert.False(a.Baz);
@@ -36,11 +37,6 @@ namespace Cricut.TestAPI.Tests {
 
         [Fact]
         public void testProtocolEnum() {
-            _TypeSetup._ensureLoaded();
-
-            int nProcessId = System.Diagnostics.Process.GetCurrentProcess().Id;
-            System.Diagnostics.Debug.WriteLine($"nProcessId: {nProcessId}");
-
             var testProtocolEnum = new TestProtocolEnum.Qux();
             testProtocolEnum.Foo();
             Assert.True(testProtocolEnum.Bar());
@@ -72,7 +68,5 @@ namespace Cricut.TestAPI.Tests {
         ) {
             return new AProtocolCSharpImpl("what", false);
         }
-
-        //static AProtocolCSharpImpl() { _TypeSetup._ensureLoaded(); }
     }
 }
