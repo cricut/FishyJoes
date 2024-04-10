@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using System.Linq;
 using System.Runtime.InteropServices;
 using FluentAssertions;
@@ -112,6 +113,68 @@ namespace Cricut.TestAPI.Tests {
             var lups = new TestLeadingUnderscoredPropStruct("With great power comes great responsibility.");
             Assert.Equal("With great power comes great responsibility.", lups._leadingUnderscoreProp);
             // test for _leadingUnderscoreMethod is just that tests build and run, since currently leading underscore on method name means it's only visible on the Swift side, not the Foreign/Dart side. For C#, leading underscore ought not be a problem, but just a test for it just in case you know.
+        }
+
+        // Helper to avoid warnings about trivial async functions
+        private static async Task<T> Async<T>(T result) {
+            await Task.Yield();
+            return result;
+        }
+
+        [Fact]
+        async Task testAsyncForeignSideFunctions() {
+            Assert.Equal(42, await AsyncFunctions.Const42());
+            var a = new TestAsyncForeignSideFunctionsStruct(
+                Const42: async () => { return await Async(49); },
+                Iabs: async (x) => { return await Async(Math.Abs(x)); },
+                IntCompose: (f, g) => {                     
+                    return async (x) => {
+                        return await f( await g(x) );
+                    };
+                },
+                Add3Things: async (x, y, z) => {
+                    return await Async((double)x + y + (double)z);
+                },
+                MakeList: async (a, b, c, d) => {
+                    return await Async<string[]>([a, b, c, d]);
+                },
+                FifthThing: async (a, b, c, d, e) => {
+                    return await Async(e);
+                },
+                Six: async (a, b, c, d, e, f) => {
+                    return await Async(f);
+                },
+                WillThrow: () => {
+                    throw new Exception("Spoon!");
+                },
+                Exercise0Fun: async (fn) => {
+                    return $"{await fn() * 2}";
+                },
+                Exercise1Fun: async (fn) => {
+                    return $"{await fn(-7)}";
+                },
+                Exercise2Fun: async (fn) => {
+                    return $"{await fn( (a) => { return Async(a + 1); }, (b) => { return Async(b * 3); } )(23)}";
+                },
+                Exercise3Fun: async (fn) => {
+                    return $"{ await fn(1.0f, 4.4, 2) }";
+                },
+                Exercise4Fun: async (fn) => {
+                    return $"{ await fn("Pump", "up", "the", "jam") }";
+                },
+                Exercise5Fun: async (fn) => {
+                    return $"{ ( await fn("78", 6, 4.2, "12", async () => { return await Async(654); } ) )() }";
+                },
+                Exercise6Fun: async (fn) => {
+                    return $"{ await fn("78", 6, 4.2, "12", async () => { return await Async(654); }, 98) }";
+                },
+                ThunkTwiceMakerFun: (thunk) => {
+                    return async () => {
+                        await thunk();
+                        await thunk();
+                    };
+                }
+            );
         }
     }
 
