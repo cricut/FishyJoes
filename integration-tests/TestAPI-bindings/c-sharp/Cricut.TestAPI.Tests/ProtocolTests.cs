@@ -50,6 +50,16 @@ namespace Cricut.TestAPI.Tests {
         public void testProtocolStruct() {
             var testProtocolStruct = new TestProtocolStruct("Raft a river of lava-ah!");
             Assert.Equal("Raft a river of lava-ah!", testProtocolStruct.Corge);
+            testProtocolStruct.Corge = "Spank a plankton too! (take that)";
+            Assert.Equal("Spank a plankton too! (take that)", testProtocolStruct.Corge);
+            Assert.Equal([3.14159265359, 42.0, -1.23456789], testProtocolStruct.Frob);
+            Assert.Equal(Tuple.Create<bool, nint, string>(true, 51, "Ride on the magic school bus *>-<* You might get baked into a pie"), testProtocolStruct.Plugh(Tuple.Create(true, 42.9, (System.Collections.Generic.IList<string>) new string[] {"Ride on the magic school bus", "You might get baked into a pie"})));
+
+            testProtocolStruct.Foo();
+            Assert.False(testProtocolStruct.Bar());
+            testProtocolStruct.Baz(true);
+            Assert.Equal("garp garpity An octopus in your neighborhood? garpee", testProtocolStruct.Garply("An octopus in your neighborhood?"));
+            Assert.Equal("thud: 42 | grault: [1.234, 45.235890198, 892.8]", testProtocolStruct.Xyzzy(42, [1.234, 45.235890198, 892.80]));
         }
     }
 
