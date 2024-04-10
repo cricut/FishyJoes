@@ -207,6 +207,19 @@ namespace Cricut.TestAPI.Tests {
                 }
             );
             Assert.Equal(42, await e());
+
+            var f = await a.Six(
+                "Big, bad",
+                24,
+                3.14159265359,
+                "Beetleborgs",
+                async () => {
+                    await Task.Delay(100);
+                    return 43;
+                },
+                int.MinValue
+            );
+            Assert.Equal(int.MinValue, f);
         }
     }
 
