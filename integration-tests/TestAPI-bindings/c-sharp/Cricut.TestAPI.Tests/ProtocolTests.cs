@@ -67,6 +67,20 @@ namespace Cricut.TestAPI.Tests {
             var testProtocolClass = TestProtocolClass.Init("Step inside it's a wilder ride!");
             Assert.Equal("Step inside it's a wilder ride!", testProtocolClass.Corge);
             Assert.Equal([42.0, -1.23456789, 3.14159265359], testProtocolClass.Frob);
+
+            Assert.Null(testProtocolClass.Flarp);
+            testProtocolClass.Flarp = "Excellent observation Kiki!";
+            Assert.Equal("Excellent observation Kiki!", testProtocolClass.Flarp);
+
+            Assert.Equal(42.909, testProtocolClass.Wombat(null));
+            Assert.Null(testProtocolClass.Wombat(57));
+            Assert.Equal(7890.2, testProtocolClass.Wombat(56));
+
+            Assert.Equal(23947889, testProtocolClass.Spqr(new AssociatedDataEnum.Thing(23947889)));
+            Assert.Equal(89708973, testProtocolClass.Spqr(new AssociatedDataEnum.Other("zxc", 89708973)));
+            Assert.Equal(45, testProtocolClass.Spqr(new AssociatedDataEnum.Bar("shme", new AssociatedDataEnum.NoValue())));
+            Assert.Equal(42, testProtocolClass.Spqr(new AssociatedDataEnum.NoValue()));
+            Assert.Equal(1, testProtocolClass.Spqr(new AssociatedDataEnum.SimpleEnum(new SimpleEnum.Blue())));
         }
     }
 
