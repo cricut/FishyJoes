@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Runtime.InteropServices;
+using FluentAssertions;
 using Xunit;
 
 namespace Cricut.TestAPI.Tests {    
@@ -88,6 +89,13 @@ namespace Cricut.TestAPI.Tests {
             Assert.Equal("garplify Surfin' on a sine wave parguino", testProtocolClass.Garply("Surfin' on a sine wave"));
             Assert.Equal("thud: 42 \\|/ grault: [1.234, 45.235890198, 892.8]", testProtocolClass.Xyzzy(42, [1.234, 45.235890198, 892.80]));
             Assert.Equal(Tuple.Create<bool, nint, string>(true, 83, "Please let this be a normal field trip _-^= I knew I should've stayed home today"), testProtocolClass.Plugh(Tuple.Create(true, 92.47, (System.Collections.Generic.IList<string>) new string[] {"Please let this be a normal field trip", "I knew I should've stayed home today"})));
+        }
+
+        [Fact]
+        public void testLeadingUnderscoreInNames() {
+            var lups = new TestLeadingUnderscoredPropStruct("With great power comes great responsibility.");
+            Assert.Equal("With great power comes great responsibility.", lups._leadingUnderscoreProp);
+            // test for _leadingUnderscoreMethod is just that tests build and run, since currently leading underscore on method name means it's only visible on the Swift side, not the Foreign/Dart side. For C#, leading underscore ought not be a problem, but just a test for it just in case you know.
         }
     }
 
