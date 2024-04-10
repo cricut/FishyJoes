@@ -61,6 +61,13 @@ namespace Cricut.TestAPI.Tests {
             Assert.Equal("garp garpity An octopus in your neighborhood? garpee", testProtocolStruct.Garply("An octopus in your neighborhood?"));
             Assert.Equal("thud: 42 | grault: [1.234, 45.235890198, 892.8]", testProtocolStruct.Xyzzy(42, [1.234, 45.235890198, 892.80]));
         }
+
+        [Fact]
+        public void testProtocolClass() {
+            var testProtocolClass = TestProtocolClass.Init("Step inside it's a wilder ride!");
+            Assert.Equal("Step inside it's a wilder ride!", testProtocolClass.Corge);
+            Assert.Equal([42.0, -1.23456789, 3.14159265359], testProtocolClass.Frob);
+        }
     }
 
     public record AProtocolCSharpImpl: AProtocol {
