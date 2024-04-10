@@ -192,6 +192,21 @@ namespace Cricut.TestAPI.Tests {
 
             var c = await a.Add3Things(3.14f, 3.14159, 128);
             Assert.Equal(134.28159, c, 5);
+
+            var d = await a.MakeList("By", "your", "powers", "combined");
+            Assert.Equal(["By", "your", "powers", "combined"], d);
+
+            var e = await a.FifthThing(
+                "I, am",
+                int.MaxValue,
+                double.MinValue,
+                "Captain Planet!",
+                async () => {
+                    await Task.Delay(100);
+                    return 42;
+                }
+            );
+            Assert.Equal(42, await e());
         }
     }
 
