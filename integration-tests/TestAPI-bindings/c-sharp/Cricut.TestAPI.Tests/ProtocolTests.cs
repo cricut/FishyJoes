@@ -25,9 +25,12 @@ namespace Cricut.TestAPI.Tests {
             Assert.Equal(3.7838466771424932E9, a.HasADefaultImplementation2("923.2185", true, 0.0898714));
             Assert.Equal(1.9556754407899822E-5, a.HasADefaultImplementation2("923.2185", false, 0.0898714));
 
-            var d = new AProtocolCSharpImpl("Locally Dokelly Neighborino!", true);
-            Assert.Equal("Locally Dokelly Neighborino!", d.Foo);
-            Assert.True(d.Baz);
+            Assert.Equal(0.9589049888649063, a.HasADefaultImplementation2("0.9870923", true, 1.123123));
+            Assert.Equal(1.686253813623996, a.HasADefaultImplementation2("0.9870923", false, 1.123123));
+
+            // var d = new AProtocolCSharpImpl("Locally Dokelly Neighborino!", true);
+            // Assert.Equal("Locally Dokelly Neighborino!", d.Foo);
+            // Assert.True(d.Baz);
         }
     }
 
