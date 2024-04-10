@@ -45,6 +45,12 @@ namespace Cricut.TestAPI.Tests {
             Assert.Equal("thud: 42; grault: [1.234, 45.235890198, 892.8]", testProtocolEnum.Xyzzy(42, [1.234, 45.235890198, 892.80]));
             Assert.Equal(Tuple.Create<bool, nint, string>(false, 3, "Take a left at your intestines -<*>- Take the second right past Mars"), testProtocolEnum.Plugh(Tuple.Create(true, 3.14159265359, (System.Collections.Generic.IList<string>) new string[] {"Take a left at your intestines", "Take the second right past Mars"})));
         }
+
+        [Fact]
+        public void testProtocolStruct() {
+            var testProtocolStruct = new TestProtocolStruct("Raft a river of lava-ah!");
+            Assert.Equal("Raft a river of lava-ah!", testProtocolStruct.Corge);
+        }
     }
 
     public record AProtocolCSharpImpl: AProtocol {
