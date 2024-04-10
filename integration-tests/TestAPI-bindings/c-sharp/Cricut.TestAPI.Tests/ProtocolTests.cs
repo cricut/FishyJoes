@@ -47,8 +47,7 @@ namespace Cricut.TestAPI.Tests {
             testProtocolEnum.Baz(true);
             Assert.Equal("garply Navigate a nostril! garpity garp", testProtocolEnum.Garply("Navigate a nostril!"));
             Assert.Equal("thud: 42; grault: [1.234, 45.235890198, 892.8]", testProtocolEnum.Xyzzy(42, [1.234, 45.235890198, 892.80]));
-            System.Collections.Generic.IList<string> a = new string[] {"Take a left at your intestines", "Take the second right past Mars"};
-            Assert.Equal(Tuple.Create<bool, nint, string>(false, 3, "Take a left at your intestines -<*>- Take the second right past Mars"), testProtocolEnum.Plugh(Tuple.Create(true, 3.14159265359, a)));
+            Assert.Equal(Tuple.Create<bool, nint, string>(false, 3, "Take a left at your intestines -<*>- Take the second right past Mars"), testProtocolEnum.Plugh(Tuple.Create(true, 3.14159265359, (System.Collections.Generic.IList<string>) new string[] {"Take a left at your intestines", "Take the second right past Mars"})));
         }
     }
 
