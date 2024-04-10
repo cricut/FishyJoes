@@ -30,10 +30,6 @@ namespace Cricut.TestAPI.Tests {
 
             Assert.Equal(0.9589049888649063, a.HasADefaultImplementation2("0.9870923", true, 1.123123));
             Assert.Equal(1.686253813623996, a.HasADefaultImplementation2("0.9870923", false, 1.123123));
-
-            // var d = new AProtocolCSharpImpl("Locally Dokelly Neighborino!", true);
-            // Assert.Equal("Locally Dokelly Neighborino!", d.Foo);
-            // Assert.True(d.Baz);
         }
 
         [Fact]
@@ -92,6 +88,26 @@ namespace Cricut.TestAPI.Tests {
         }
 
         [Fact]
+        public void testAProtocolImpl() {
+            AProtocol a = new AProtocolCSharpImpl("Garply", false);
+            Assert.Equal("Garply", a.Foo);
+            Assert.True(a.Baz);
+
+            var b = a.Bar(x: 2, y: 128);
+            Assert.Equal("256", b.Foo);
+            Assert.True(b.Baz);
+
+            Assert.Equal("bazzy -2889", a.HasADefaultImplementation(9, -102.1));
+            Assert.Equal("bazzy 2", a.HasADefaultImplementation(2, 0.345));
+
+            Assert.Equal(3.7838466771424932E9, a.HasADefaultImplementation2("923.2185", true, 0.0898714));
+            Assert.Equal(1.9556754407899822E-5, a.HasADefaultImplementation2("923.2185", false, 0.0898714));
+
+            Assert.Equal(0.9589049888649063, a.HasADefaultImplementation2("0.9870923", true, 1.123123));
+            Assert.Equal(1.686253813623996, a.HasADefaultImplementation2("0.9870923", false, 1.123123));
+        }
+
+        [Fact]
         public void testLeadingUnderscoreInNames() {
             var lups = new TestLeadingUnderscoredPropStruct("With great power comes great responsibility.");
             Assert.Equal("With great power comes great responsibility.", lups._leadingUnderscoreProp);
@@ -108,7 +124,7 @@ namespace Cricut.TestAPI.Tests {
             bool Baz
         ) {
             this.Foo = Foo;
-            this.Baz = Baz;
+            this.Baz = !Baz;
         }
 
         /// <summary>
@@ -118,7 +134,7 @@ namespace Cricut.TestAPI.Tests {
             nint x,
             nint y
         ) {
-            return new AProtocolCSharpImpl("what", false);
+            return new AProtocolCSharpImpl($"{x * y}", false);
         }
     }
 }
