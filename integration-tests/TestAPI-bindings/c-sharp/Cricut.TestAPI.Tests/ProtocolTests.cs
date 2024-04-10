@@ -177,6 +177,17 @@ namespace Cricut.TestAPI.Tests {
 
             Assert.Equal(49, await a.Const42());
             Assert.Equal(4, await a.Iabs(-4));
+            var b = a.IntCompose(
+                async (x) => {
+                    await Task.Delay(100);
+                    return x * 3;
+                },
+                async (y) => {
+                    await Task.Delay(100);
+                    return y * 5;
+                }
+            );
+            Assert.Equal(1380, await b(92));
         }
     }
 
