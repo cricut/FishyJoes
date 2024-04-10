@@ -199,15 +199,35 @@ extension String: NodeConverter {
 extension Data: NodeConverter {
     static var moduleReference: NodeReference?
 
+    fileprivate static func typedArrayElementSize(for arrayType: napi_typedarray_type) -> Int? {
+        switch arrayType {
+        case napi_int8_array, napi_uint8_array, napi_uint8_clamped_array:
+            return 1
+        case napi_int16_array, napi_uint16_array:
+            return 2
+        case napi_int32_array, napi_uint32_array, napi_float32_array:
+            return 4
+        case napi_float64_array, napi_bigint64_array, napi_biguint64_array:
+            return 8
+        default:
+            return nil
+        }
+    }
+
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Data {
         let dataPtr: UnsafeMutableRawPointer?
         let length: Int
         if try env.isArraybuffer(value) {
             (dataPtr, length) = try env.getArraybufferInfo(value)
-        } else if try env.isBuffer(value) {
-            (dataPtr, length) = try env.getBufferInfo(value)
+        } else if
+            try env.isTypedarray(value),
+            case let info = try env.getTypedarrayInfo(value),
+            let elementSize = typedArrayElementSize(for: info.type)
+        {
+            length = info.length * elementSize
+            dataPtr = info.data
         } else {
-            throw JSException(message: "expected ArrayBuffer (or Buffer, if you must) but got: \(try nodeDescribe(value, env: env))")
+            throw JSException(message: "expected ArrayBuffer (or TypedArray, or Buffer, if you must) but got: \(try nodeDescribe(value, env: env))")
         }
 
         if length == 0 {
@@ -231,7 +251,7 @@ extension Data: NodeConverter {
         let jsLength = try Int.toNode(length, env: env)
         try data.withUnsafeMutableBytes { buffer in
             let jsBuffer = try UInt.toNode(UInt(bitPattern: buffer.baseAddress), env: env)
-            try env.callFunction(undefined, fromWasi, [value, jsLength, jsBuffer])
+            _ = try env.callFunction(undefined, fromWasi, [value, jsLength, jsBuffer])
         }
         return data
         #else
