@@ -122,9 +122,8 @@ namespace Cricut.TestAPI.Tests {
         }
 
         [Fact]
-        async Task testAsyncForeignSideFunctions() {
-            Assert.Equal(42, await AsyncFunctions.Const42());
-            var a = new TestAsyncForeignSideFunctionsStruct(
+        async Task testAsyncForeignSideFunctions() {            
+            TestAsyncFunctions a = new TestAsyncForeignSideFunctionsStruct(
                 Const42: async () => { return await Async(49); },
                 Iabs: async (x) => { return await Async(Math.Abs(x)); },
                 IntCompose: (f, g) => {                     
@@ -175,6 +174,9 @@ namespace Cricut.TestAPI.Tests {
                     };
                 }
             );
+
+            Assert.Equal(49, await a.Const42());
+            Assert.Equal(4, await a.Iabs(-4));
         }
     }
 
