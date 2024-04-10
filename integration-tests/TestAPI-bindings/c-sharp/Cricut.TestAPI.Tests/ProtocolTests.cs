@@ -32,6 +32,21 @@ namespace Cricut.TestAPI.Tests {
             // Assert.Equal("Locally Dokelly Neighborino!", d.Foo);
             // Assert.True(d.Baz);
         }
+
+        [Fact]
+        public void testProtocolEnum() {
+            _TypeSetup._ensureLoaded();
+
+            int nProcessId = System.Diagnostics.Process.GetCurrentProcess().Id;
+            System.Diagnostics.Debug.WriteLine($"nProcessId: {nProcessId}");
+
+            var testProtocolEnum = new TestProtocolEnum.Qux();
+            testProtocolEnum.Foo();
+            Assert.True(testProtocolEnum.Bar());
+            testProtocolEnum.Baz(true);
+            Assert.Equal("garply Navigate a nostril! garpity garp", testProtocolEnum.Garply("Navigate a nostril!"));
+            Assert.Equal("thud: 42; grault: [1.234, 45.235890198, 892.8]", testProtocolEnum.Xyzzy(42, [1.234, 45.235890198, 892.80]));
+        }
     }
 
     public record AProtocolCSharpImpl: AProtocol {
