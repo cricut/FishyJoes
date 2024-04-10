@@ -81,6 +81,13 @@ namespace Cricut.TestAPI.Tests {
             Assert.Equal(45, testProtocolClass.Spqr(new AssociatedDataEnum.Bar("shme", new AssociatedDataEnum.NoValue())));
             Assert.Equal(42, testProtocolClass.Spqr(new AssociatedDataEnum.NoValue()));
             Assert.Equal(1, testProtocolClass.Spqr(new AssociatedDataEnum.SimpleEnum(new SimpleEnum.Blue())));
+
+            testProtocolClass.Foo();
+            Assert.True(testProtocolClass.Bar());
+            testProtocolClass.Baz(true);
+            Assert.Equal("garplify Surfin' on a sine wave parguino", testProtocolClass.Garply("Surfin' on a sine wave"));
+            Assert.Equal("thud: 42 \\|/ grault: [1.234, 45.235890198, 892.8]", testProtocolClass.Xyzzy(42, [1.234, 45.235890198, 892.80]));
+            Assert.Equal(Tuple.Create<bool, nint, string>(true, 83, "Please let this be a normal field trip _-^= I knew I should've stayed home today"), testProtocolClass.Plugh(Tuple.Create(true, 92.47, (System.Collections.Generic.IList<string>) new string[] {"Please let this be a normal field trip", "I knew I should've stayed home today"})));
         }
     }
 
