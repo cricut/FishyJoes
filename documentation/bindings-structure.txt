@@ -3,11 +3,12 @@ CriGeo/
    - swift-interfaces/
      - Package.part.swift
      - generated/
-       - Package.swift
-       - Sources/
-         - CriGeoIotaInterface/
-         - CriGeoJavaInterface/
-         - CriGeoNodeInterface/
+       - CriGeo-bindings
+         - Package.swift
+         - Sources/
+           - CriGeoIotaInterface/
+           - CriGeoJavaInterface/
+           - CriGeoNodeInterface/
    - kotlin/
      - tests/
      - generated/

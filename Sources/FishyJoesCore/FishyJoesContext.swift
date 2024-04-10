@@ -89,7 +89,7 @@ public class FishyJoesContext {
     }
 
     func kotlinFragment(_ name: String) -> SourceFragment {
-        let fileName = "../../../kotlin/generated/src/main/kotlin/com/cricut/\(module.name.lowercased())/\(name)"
+        let fileName = "../../../../kotlin/generated/src/main/kotlin/com/cricut/\(module.name.lowercased())/\(name)"
         fileHeaders[fileName, default: []].formUnion(
             [
                 "package \(module.kotlinPackage)",
@@ -103,7 +103,7 @@ public class FishyJoesContext {
     }
 
     func cSharpFragment(_ name: String) -> SourceFragment {
-        let fileName = "../../../c-sharp/generated/Cricut.\(module.name)/\(name)"
+        let fileName = "../../../../c-sharp/generated/Cricut.\(module.name)/\(name)"
         fileHeaders[fileName, default: []].formUnion(
             [
                 "using System;",
@@ -119,7 +119,7 @@ public class FishyJoesContext {
     }
 
     func dartFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
-        let fileName = "../../../dart/generated/lib/src/\(name)"
+        let fileName = "../../../../dart/generated/lib/src/\(name)"
         fileHeaders[fileName, default: []].formUnion(
             [
                 "import 'dart:ffi' as ffi;",
@@ -249,7 +249,7 @@ public class FishyJoesContext {
         )
 
         // Output moduleInfo for FishyJoes packages that depend on this one
-        let moduleInfoFragment = SourceFragment(sourceryDestination: "file:../\(module).fishyjoesmodule")
+        let moduleInfoFragment = SourceFragment(sourceryDestination: "file:../../\(module).fishyjoesmodule")
         let moduleInfo = ModuleInfo(
             types: moduleDefinedTypes,
             typeScriptAnnotations: tsAnnotations

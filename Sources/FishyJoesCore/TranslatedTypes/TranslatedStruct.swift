@@ -54,7 +54,7 @@ struct TranslatedStruct: TranslatedType {
         guard context.dumpDebugRepresentation else { return [] }
 
         let fragment = SourceFragment(
-            sourceryDestination: "file:../../DebugGenerated/\(sourceType.name)+StructInfo.txt"
+            sourceryDestination: "file:../../../DebugGenerated/\(sourceType.name)+StructInfo.txt"
         )
         fragment.outputBlock("TranslatedStruct for \(sourceType.name) {") {
             fragment.outputBlock("Documentation {") {

@@ -101,7 +101,7 @@ struct TranslatedEnum: TranslatedType {
         guard context.dumpDebugRepresentation else { return [] }
 
         let fragment = SourceFragment(
-            sourceryDestination: "file:../../DebugGenerated/\(sourceType.name)+EnumInfo.txt"
+            sourceryDestination: "file:../../../DebugGenerated/\(sourceType.name)+EnumInfo.txt"
         )
         fragment.outputBlock("TranslatedEnum for \(sourceType.name) {") {
             fragment.outputBlock("Documentation {") {

@@ -33,6 +33,9 @@ public struct CodeGen: ParsableCommand {
     @Flag(name: .long, help: "Build library in debug mode")
     var debug = false
 
+    @Flag(name: .long, help: "dump intermediates in DebugRepresentation")
+    var dumpDebugRepresentation = false
+
     @Flag(name: .long, inversion: .prefixedNo, help: "Use docker")
     var useDocker = true
 
@@ -74,6 +77,7 @@ public struct CodeGen: ParsableCommand {
         case version
         case buildStep
         case debug
+        case dumpDebugRepresentation
         case fat
     }
 
@@ -133,15 +137,17 @@ extension CodeGen {
         }
 
         // Locate dependency bindings modules required by this bindings module
-        var dependencySourcePaths: [String: String] = [config.module: "."]
+        var dependencyBindingsPaths: [String: String] = [config.module: "."]
         for moduleName in config.requiredModules {
-            let bindingModule = "\(moduleName)-bindings"
-            guard let dependencyPath = packageInfo.dependencyMap[bindingModule]?.localPath else {
-                fatalError("Couldn't locate \(bindingModule) in Package.swift, but it's required by fishyjoes.json")
+            guard let dependencyPath = packageInfo.dependencyMap[moduleName]?.localPath else {
+                fatalError("Couldn't locate \(moduleName) in Package.swift, but it's required by fishyjoes.json")
             }
-            let dependencySourcesPath = dependencyPath + "/Sources"
-            dependencySourcePaths[moduleName] = dependencySourcesPath
+            let dependencySourcesPath = "\(dependencyPath)/bindings"
+            dependencyBindingsPaths[moduleName] = dependencySourcesPath
         }
+
+        // the "module-bindings" subdirectory is needed to avoid this: https://stackoverflow.com/a/71759561
+        let swiftBindingsRoot = "bindings/swift-interfaces/generated/\(config.module)-bindings"
 
         // MARK: - Generate Step
         if buildStep.contains(.generate) {
@@ -157,34 +163,46 @@ extension CodeGen {
             translateeSources = "Sources/"
 
             // Locate dependency module configuration files
-            let fishyJoesModuleFiles: [String] = dependencySourcePaths.compactMap {
-                $0.key == config.module ? nil : "\($0.value)/Generated/\($0.key).fishyjoesmodule"
+            let fishyJoesModuleFiles: [String] = dependencyBindingsPaths.compactMap {
+                $0.key == config.module ? nil : "\($0.value)/swift-interfaces/generated/\($0.key).fishyjoesmodule"
             }
 
             // Create / clean directories used by Sourcery to generate Swift and foreign language code files for the translated foreign languages
             let generatedSwiftTargets = ["DummyMain", "IotaInterface", "NodeInterface", "JavaInterface"]
             let sourceLocations = generatedSwiftTargets.map {
-                "bindings/swift-interfaces/generated/Sources/\($0)"
+                "\(swiftBindingsRoot)/Sources/\($0)"
             } + [
                 "bindings/kotlin/generated/src/main/kotlin/com/cricut/\(config.module.lowercased())",
                 "bindings/c-sharp/generated/Cricut.\(config.module.lowercased())",
                 "bindings/dart/generated/lib/src",
             ]
-            try cmd("rm", "-rf", "bindings/swift-interface/generated").run()
+            try cmd("rm", "-rf", "bindings/swift-interfaces/generated").run()
             try cmd("rm", "-rf", "bindings/kotlin/generated").run()
             try cmd("rm", "-rf", "bindings/c-sharp/generated").run()
             try cmd("rm", "-rf", "bindings/dart/generated").run()
             try cmd("mkdir", arguments: ["-p"] + sourceLocations).run()
             for target in generatedSwiftTargets {
                 try cmd("echo")
-                    .output(overwritingFile: "bindings/swift-interfaces/generated/Sources/\(target)/EmptyPlaceholder.swift")
+                    .output(overwritingFile: "\(swiftBindingsRoot)/Sources/\(target)/EmptyPlaceholder.swift")
                     .run()
             }
+            let bindingsPackageDeps = config.requiredModules.map {
+                "        packageDep(\"\($0)\", bindings: true),"
+            }.joined(separator: "\n")
 
             let packageCustomization = try cmd("cat", "bindings/swift-interfaces/Package.part.swift").runString()
             // Create Package.swift for the bindings package
+
+            func targetDeps(_ name: String, tabs: Int) -> String {
+                config.requiredModules.flatMap {
+                    ["\n"] +
+                    Array(repeating: "    ", count: tabs) +
+                    [".product(name: \"\($0)-\(name)\", package: \"\($0)-bindings\"),"]
+                }.joined()
+            }
+
             try cmd("cat")
-                .output(overwritingFile: "bindings/swift-interfaces/generated/Package.swift")
+                .output(overwritingFile: "\(swiftBindingsRoot)/Package.swift")
                 .input(
                     """
                         // swift-tools-version:5.6
@@ -201,16 +219,28 @@ extension CodeGen {
                             case remote(url: String, revision: String)
                         }
 
-                        func packageDep(_ name: String) -> Package.Dependency {
+                        func LOG_package(name: String, path: String) -> Package.Dependency {
+                            // print("DEPENDENCY: .package(name: \\(name), path: \\(path))")
+                            return .package(name: name, path: path)
+                        }
+                        func LOG_package(url: String, revision: String) -> Package.Dependency {
+                            // print("DEPENDENCY: .package(url: \\(url), revision: \\(revision))")
+                            return .package(url: url, revision: revision)
+                        }
+
+                        func packageDep(_ name: String, bindings: Bool = false) -> Package.Dependency {
+                            let packageName = bindings ? "\\(name)-bindings" : name
+                            let subPath = bindings ? "/bindings/swift-interfaces/generated/\\(name)-bindings" : ""
                             switch env["FISHYJOES_DEPENDENCY_\\(name)"] {
                             case .none:
-                                return .package(name: name, path: "../../../../\\(name)")
+                                return LOG_package(name: packageName, path: "../../../../../\\(name)\\(subPath)")
                             case .some(let versionSpec):
                                 switch try! JSONDecoder().decode(Dependency.self, from: versionSpec.data(using: .utf8)!) {
-                                case .local(let path):
-                                    return .package(name: name, path: path)
+                                case .local(let packagePath):
+                                    return LOG_package(name: packageName, path: "\\(packagePath)\\(subPath)")
                                 case let .remote(url, revision):
-                                    return .package(url: url, revision: revision)
+                                    if bindings { fatalError("TODO") }
+                                    return LOG_package(url: url, revision: revision)
                                 }
                             }
                         }
@@ -230,13 +260,14 @@ extension CodeGen {
                                 ]
                             ),
                             dependencies: [
+                        \(bindingsPackageDeps)
                                 packageDep("\(config.module)"),
                                 packageDep("FishyJoes"),
                             ],
                             targets: [
                                 .target(
                                 name: "\(config.module)_NodeInterface",
-                                    dependencies: [
+                                    dependencies: [\(targetDeps("node", tabs: 4))
                                         .product(name: "\(config.module)", package: "\(config.module)"),
                                         .product(name: "FishyJoesNodeRuntime", package: "FishyJoes"),
                                     ],
@@ -256,7 +287,7 @@ extension CodeGen {
                                 ] : [
                                     .target(
                                         name: "\(config.module)_JavaInterface",
-                                        dependencies: [
+                                        dependencies: [\(targetDeps("java", tabs: 5))
                                             .product(name: "\(config.module)", package: "\(config.module)"),
                                             .product(name: "FishyJoesJavaRuntime", package: "FishyJoes"),
                                         ],
@@ -264,7 +295,7 @@ extension CodeGen {
                                     ),
                                     .target(
                                     name: "\(config.module)_IotaInterface",
-                                        dependencies: [
+                                    dependencies: [\(targetDeps("iota", tabs: 5))
                                             .product(name: "\(config.module)", package: "\(config.module)"),
                                             .product(name: "FishyJoesIotaRuntime", package: "FishyJoes"),
                                         ],
@@ -313,11 +344,11 @@ extension CodeGen {
                     "--sources", translateeSources,
                     "--templates", ".build/debug/FishyJoes_FishyJoesExecutionHelper.bundle/FishyJoes.swifttemplate",
                     "--args", "module=\(config.module)",
-                    "--args", "debugRepresentation=\(debug)",
+                    "--args", "debugRepresentation=\(dumpDebugRepresentation)",
                     "--args", "requiredModules=\"\(try! JSONEncoder().encode(fishyJoesModuleFiles).base64EncodedString())\"",
                     "--args", "fishyJoesExecutable=.build/debug/🐟☕️",
                     "--args", "stderrFifo=\(errorFifoPath)",
-                    "--output", "bindings/swift-interfaces/generated/Sources/"
+                    "--output", "\(swiftBindingsRoot)/Sources/"
                 ].compactMap { $0 } + config.excludeSources.flatMap { exclude in
                     var basePath = translateeSources
                     if basePath.last != "/" {
@@ -352,7 +383,7 @@ extension CodeGen {
                 return context
             } : { nil }
             let configuration = BuildConfiguration(
-                packagePath: "bindings/swift-interfaces/generated",
+                packagePath: swiftBindingsRoot,
                 scratchPath: "bindings/swift-interfaces/.build",
                 debug: debug,
                 fat: fat,
@@ -522,7 +553,7 @@ extension CodeGen {
 
                         // Install Javascript extensions for dependencies so they are loaded when the Wasm bundle is loaded, if provided
                         try cmd("cp", "\(runtimePath)/fishyjoes-runtime-common/Runtime.extensions.js", "\(outputDir)/Runtime.extensions.js").run()
-                        for (moduleName, modulePath) in dependencySourcePaths {
+                        for (moduleName, modulePath) in dependencyBindingsPaths {
                             let outPath = "\(outputDir)/\(moduleName).extensions.js"
                             let extensionPath = "\(modulePath)/ts/\(moduleName).extensions.js"
                             if !cmd("cp", extensionPath, outPath).runBool() {
