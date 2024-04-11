@@ -238,6 +238,20 @@ namespace Cricut.TestAPI.Tests {
                 }
             );
             Assert.Equal("36", i);
+
+            var j = await a.Exercise3(
+                async (fl, d, l) => {
+                    return await Async((fl / d) + (9 * l));
+                }
+            );
+            Assert.Equal("18.227272727272727", j);
+
+            var k = await a.Exercise4(
+                async (a, b, c, d) => {
+                    return await Async<string[]>([d, c, b, a]);
+                }
+            );
+            Assert.Equal("System.Collections.Generic.List`1[System.String]", k);
         }
     }
 
