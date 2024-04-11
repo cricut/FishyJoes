@@ -320,7 +320,6 @@ class CSharpProductClass: CSharpClass {
     }
 
     let constructor: Constructor
-    let isExternalWitness: Bool
 
     init(
         module: Module,
@@ -329,11 +328,9 @@ class CSharpProductClass: CSharpClass {
         constructor: Constructor,
         fields: [Variable],
         methods: [Method],
-        conformances: Set<String>,
-        isExternalWitness: Bool = false
+        conformances: Set<String>
     ) {
         self.constructor = constructor
-        self.isExternalWitness = isExternalWitness
         super.init(
             module: module,
             documentation: documentation,

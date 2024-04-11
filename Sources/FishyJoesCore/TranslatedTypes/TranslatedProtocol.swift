@@ -923,8 +923,7 @@ struct TranslatedProtocol: TranslatedType {
                 constructor: .reference,
                 fields: externalWitnessFields,
                 methods: externalWitnessMethods,
-                conformances: [sourceType.nonNamespacedName],
-                isExternalWitness: true
+                conformances: [sourceType.nonNamespacedName]
             )
         )
     }
@@ -965,8 +964,7 @@ struct TranslatedProtocol: TranslatedType {
                 constructor: .reference,
                 fields: externalWitnessFields,
                 methods: externalWitnessMethods,
-                conformances: [sourceType.nonNamespacedName],
-                isExternalWitness: true
+                conformances: [sourceType.nonNamespacedName]
             )
         )
     }
