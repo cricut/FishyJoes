@@ -163,7 +163,9 @@ namespace Cricut.TestAPI.Tests {
                     return string.Join(", ", strList);
                 },
                 Exercise5Fun: async (fn) => {
-                    return $"{ ( await fn("78", 6, 4.2, "12", async () => { return await Async(654); } ) )() }";
+                    var result = await fn("78", 6, 4.2, "12", async () => { return await Async(654); });
+                    var resultPrime = await result();
+                    return $"{ resultPrime }";
                 },
                 Exercise6Fun: async (fn) => {
                     return $"{ await fn("78", 6, 4.2, "12", async () => { return await Async(654); }, 98) }";
@@ -253,6 +255,32 @@ namespace Cricut.TestAPI.Tests {
                 }
             );
             Assert.Equal("jam, the, up, Pump", k);
+
+            // var l = await a.Exercise5(
+            //     async (a, b, c, d, e) => {
+            //         // return async () => {
+            //             // double aDbl;
+            //             // double.TryParse(a, out aDbl);
+            //             // double dDbl;
+            //             // double.TryParse(d, out dDbl);
+            //             // return await Async((nint)(aDbl + b + c + dDbl + await e()));
+            //             return await Async(e);
+            //         // };
+            //     }
+            // );
+            var l = await a.Exercise5(
+                async (a, b, c, d, e) => {
+                    var ePrime = await e();
+                    return () => {
+                        double aDbl;
+                        double.TryParse(a, out aDbl);
+                        double dDbl;
+                        double.TryParse(d, out dDbl);
+                        return Async((nint)(aDbl + b + c + dDbl + ePrime));
+                    };
+                }
+            );
+            Assert.Equal("754", l);
         }
     }
 
