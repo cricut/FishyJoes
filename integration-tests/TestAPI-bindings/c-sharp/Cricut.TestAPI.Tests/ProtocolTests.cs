@@ -291,6 +291,17 @@ namespace Cricut.TestAPI.Tests {
             );
             await n();
             Assert.Equal(3, o);
+
+            var p = await a.DefaultExercise6(
+                async (a, b, c, d, e, f) => {
+                    double aDbl;
+                    double.TryParse(a, out aDbl);
+                    double dDbl;
+                    double.TryParse(d, out dDbl);
+                    return (nint)(aDbl + b + c + dDbl + await e() + f);
+                }
+            );
+            Assert.Equal("962", p);
         }
     }
 
