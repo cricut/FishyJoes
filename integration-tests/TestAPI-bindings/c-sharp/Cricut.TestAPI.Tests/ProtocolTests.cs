@@ -176,19 +176,6 @@ namespace Cricut.TestAPI.Tests {
             );
         }
 
-        [Fact]
-        async Task TestAsyncForeignSideFunctions() {
-            var a = ProtocolTests.MakeAsyncForeignSideFunction();
-            await TestAsyncForeignSideFunctionsCore(a);
-        }
-
-        [Fact]
-        async Task TestAsyncForeignSideFunctionsWitness() {
-            var a = ProtocolTests.MakeAsyncForeignSideFunction();
-            var b = a.Witness();
-            await TestAsyncForeignSideFunctionsCore(b);
-        }
-
         async Task TestAsyncForeignSideFunctionsCore(TestAsyncFunctions a) {
             Assert.Equal(49, await a.Const42());
             Assert.Equal(4, await a.Iabs(-4));
@@ -314,6 +301,19 @@ namespace Cricut.TestAPI.Tests {
                 }
             );
             Assert.Equal("962", p);
+        }
+    
+        [Fact]
+        async Task TestAsyncForeignSideFunctions() {
+            var a = ProtocolTests.MakeAsyncForeignSideFunction();
+            await TestAsyncForeignSideFunctionsCore(a);
+        }
+
+        [Fact]
+        async Task TestAsyncForeignSideFunctionsWitness() {
+            var a = ProtocolTests.MakeAsyncForeignSideFunction();
+            var b = a.Witness();
+            await TestAsyncForeignSideFunctionsCore(b);
         }
     }
 
