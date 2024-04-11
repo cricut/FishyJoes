@@ -11,10 +11,8 @@ namespace Cricut.TestAPI.Tests {
             _TypeSetup._ensureLoaded();
         }
 
-        ~ProtocolTests() {}
-
         [Fact]
-        public void testProtocolImplementation() {
+        public void TestProtocolImplementation() {
             AProtocol a = new AProtocolImplementation(Foo: "Garply", Baz: false);
             Assert.Equal("Garply", a.Foo);
             Assert.False(a.Baz);
@@ -34,7 +32,7 @@ namespace Cricut.TestAPI.Tests {
         }
 
         [Fact]
-        public void testProtocolEnum() {
+        public void TestProtocolEnum() {
             var testProtocolEnum = new TestProtocolEnum.Qux();
             testProtocolEnum.Foo();
             Assert.True(testProtocolEnum.Bar());
@@ -45,7 +43,7 @@ namespace Cricut.TestAPI.Tests {
         }
 
         [Fact]
-        public void testProtocolStruct() {
+        public void TestProtocolStruct() {
             var testProtocolStruct = new TestProtocolStruct("Raft a river of lava-ah!");
             Assert.Equal("Raft a river of lava-ah!", testProtocolStruct.Corge);
             testProtocolStruct.Corge = "Spank a plankton too! (take that)";
@@ -61,7 +59,7 @@ namespace Cricut.TestAPI.Tests {
         }
 
         [Fact]
-        public void testProtocolClass() {
+        public void TestProtocolClassTest() {
             var testProtocolClass = TestProtocolClass.Init("Step inside it's a wilder ride!");
             Assert.Equal("Step inside it's a wilder ride!", testProtocolClass.Corge);
             Assert.Equal([42.0, -1.23456789, 3.14159265359], testProtocolClass.Frob);
@@ -89,7 +87,7 @@ namespace Cricut.TestAPI.Tests {
         }
 
         [Fact]
-        public void testAProtocolImpl() {
+        public void TestAProtocolImpl() {
             AProtocol a = new AProtocolCSharpImpl("Garply", false);
             Assert.Equal("Garply", a.Foo);
             Assert.True(a.Baz);
@@ -109,7 +107,7 @@ namespace Cricut.TestAPI.Tests {
         }
 
         [Fact]
-        public void testLeadingUnderscoreInNames() {
+        public void TestLeadingUnderscoreInNames() {
             var lups = new TestLeadingUnderscoredPropStruct("With great power comes great responsibility.");
             Assert.Equal("With great power comes great responsibility.", lups._leadingUnderscoreProp);
             // test for _leadingUnderscoreMethod is just that tests build and run, since currently leading underscore on method name means it's only visible on the Swift side, not the Foreign/Dart side. For C#, leading underscore ought not be a problem, but just a test for it just in case you know.
@@ -179,7 +177,7 @@ namespace Cricut.TestAPI.Tests {
         }
 
         [Fact]
-        async Task testAsyncForeignSideFunctions() {            
+        async Task TestAsyncForeignSideFunctions() {            
             TestAsyncFunctions a = ProtocolTests.MakeAsyncForeignSideFunction();
 
             Assert.Equal(49, await a.Const42());
