@@ -159,7 +159,8 @@ namespace Cricut.TestAPI.Tests {
                     return $"{ await fn(1.0f, 4.4, 2) }";
                 },
                 Exercise4Fun: async (fn) => {
-                    return $"{ await fn("Pump", "up", "the", "jam") }";
+                    var strList = await fn("Pump", "up", "the", "jam");
+                    return string.Join(", ", strList);
                 },
                 Exercise5Fun: async (fn) => {
                     return $"{ ( await fn("78", 6, 4.2, "12", async () => { return await Async(654); } ) )() }";
@@ -251,7 +252,7 @@ namespace Cricut.TestAPI.Tests {
                     return await Async<string[]>([d, c, b, a]);
                 }
             );
-            Assert.Equal("System.Collections.Generic.List`1[System.String]", k);
+            Assert.Equal("jam, the, up, Pump", k);
         }
     }
 
