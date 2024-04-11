@@ -182,6 +182,13 @@ namespace Cricut.TestAPI.Tests {
             await TestAsyncForeignSideFunctionsCore(a);
         }
 
+        [Fact]
+        async Task TestAsyncForeignSideFunctionsWitness() {
+            var a = ProtocolTests.MakeAsyncForeignSideFunction();
+            var b = a.Witness();
+            await TestAsyncForeignSideFunctionsCore(b);
+        }
+
         async Task TestAsyncForeignSideFunctionsCore(TestAsyncFunctions a) {
             Assert.Equal(49, await a.Const42());
             Assert.Equal(4, await a.Iabs(-4));
