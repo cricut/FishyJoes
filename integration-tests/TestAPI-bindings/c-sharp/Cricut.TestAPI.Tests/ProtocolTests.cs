@@ -256,18 +256,6 @@ namespace Cricut.TestAPI.Tests {
             );
             Assert.Equal("jam, the, up, Pump", k);
 
-            // var l = await a.Exercise5(
-            //     async (a, b, c, d, e) => {
-            //         // return async () => {
-            //             // double aDbl;
-            //             // double.TryParse(a, out aDbl);
-            //             // double dDbl;
-            //             // double.TryParse(d, out dDbl);
-            //             // return await Async((nint)(aDbl + b + c + dDbl + await e()));
-            //             return await Async(e);
-            //         // };
-            //     }
-            // );
             var l = await a.Exercise5(
                 async (a, b, c, d, e) => {
                     var ePrime = await e();
