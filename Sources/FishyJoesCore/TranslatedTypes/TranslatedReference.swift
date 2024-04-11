@@ -490,7 +490,7 @@ struct TranslatedReference: TranslatedType {
                 )
             )
         }
-        
+
         let (productFields, productMethods) = CSharpClass.separate(fieldsAndMethods: fieldsAndMethods)
 
         let product = CSharpProductClass(

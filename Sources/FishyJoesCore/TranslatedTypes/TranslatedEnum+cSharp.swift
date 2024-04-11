@@ -103,7 +103,7 @@ extension TranslatedEnum {
         let fieldsAndMethods =
         fields.compactMap { context.cSharp(field: $0, of: self, useNativeName: false) } +
         methods.compactMap { context.cSharp(method: $0, of: self) }
-        
+
         let (enumFields, enumMethods) = CSharpClass.separate(fieldsAndMethods: fieldsAndMethods)
 
         return CSharpEnumClass(

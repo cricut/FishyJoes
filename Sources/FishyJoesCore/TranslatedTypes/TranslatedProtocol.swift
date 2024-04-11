@@ -204,7 +204,7 @@ struct TranslatedProtocol: TranslatedType {
 
         return setupParams
     }
-    
+
     func cSharpSetupDelegates(in context: FishyJoesContext) -> [String] {
         var lines: [String] = []
         lines.append("delegate \(cSharpType.pInvokeCreatedName) _\(converterType.genericBaseName.mangledName)Constructor(")
@@ -236,7 +236,7 @@ struct TranslatedProtocol: TranslatedType {
     func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>] {
         let constructorType = "_\(converterType.genericBaseName.mangledName)Constructor"
         var foreignSetupParameters = [ForeignSetupParameter<String>]()
-        
+
         foreignSetupParameters.append(
             .value(
                 name: "constructor",
@@ -247,7 +247,7 @@ struct TranslatedProtocol: TranslatedType {
                 }
             }
         )
-        
+
         let fieldsParameters = fields.flatMap { field -> [ForeignSetupParameter] in
             let resolved = context.resolve(type: field.typeName.better)
             let commonName = "_\(converterType.genericBaseName.mangledName)_\(field.name)"
@@ -891,7 +891,7 @@ struct TranslatedProtocol: TranslatedType {
 
     func registerCSharpClass(context: FishyJoesContext) {
         let (protocolFields, protocolMethods) = CSharpClass.separate(
-            fieldsAndMethods: 
+            fieldsAndMethods:
                 fields.compactMap {
                     context.cSharp(field: $0, of: self, useNativeName: false)
                 } + methods.compactMap {
@@ -917,7 +917,7 @@ struct TranslatedProtocol: TranslatedType {
                 } + methods.filter { !$0.isDefaultImplementation }.compactMap {
                     context.cSharp(method: $0, of: self)
                 }
-        )        
+        )
         context.add(
             cSharpClass: CSharpProductClass(
                 module: context.module,
