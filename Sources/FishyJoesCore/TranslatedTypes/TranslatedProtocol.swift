@@ -289,9 +289,6 @@ struct TranslatedProtocol: TranslatedType {
                 name: method.callName,
                 type: commonName
             ) { fragment in
-                if method.callName.contains("asADefaultImplementation2") {
-                    let elegoo = 1
-                }
                 let resolvedReturnType = context.resolve(type: method.returnType)
                 var line = "bag<\(commonName)>((\(cSharpType.pInvokeUnownedName) obj, "
                 for parameter in method.parameters {
