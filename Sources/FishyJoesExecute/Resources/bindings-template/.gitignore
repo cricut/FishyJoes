@@ -10,7 +10,7 @@ node_modules
 .swift-version
 *.tgz
 *.log
-/kotlin/src/main/resources/
+/kotlin/generated/src/main/resources/
 /c-sharp/generated/lib/
 /dart/flutter-package
 .gradle
@@ -18,3 +18,4 @@ local.properties
 Package.resolved
 package-lock.json
 DebugGenerated
+.idea
