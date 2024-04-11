@@ -220,6 +220,9 @@ namespace Cricut.TestAPI.Tests {
                 int.MinValue
             );
             Assert.Equal(int.MinValue, f);
+
+            var exception = await Assert.ThrowsAsync<Exception>(async () => await a.WillThrow());
+            Assert.Equal("Spoon!", exception.Message);
         }
     }
 
