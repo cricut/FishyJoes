@@ -125,7 +125,7 @@ final class CSharpTranslator: Translator {
         )
     }
 
-    func cSharp(field: Variable, of type: TranslatedType, context: FishyJoesContext, useNativeName: Bool = false) -> CSharpClass.MethodOrVariable? {
+    func cSharp(field: Variable, of type: TranslatedType, context: FishyJoesContext, useNativeName: Bool = false, conformances: Set<String>) -> CSharpClass.MethodOrVariable? {
         let csName: String
         let mangledName: String
         var asMethod = false
@@ -133,9 +133,11 @@ final class CSharpTranslator: Translator {
         let isOverride = field.exportAnnotation?.isOverride ?? false
         var implementsProtocol = false
         for sourceryProtocol in type.implements {
-            let protocolFieldNames = sourceryProtocol.variables.map { $0.name }
-            if protocolFieldNames.contains(field.name) {
-                implementsProtocol = true
+            if conformances.contains(sourceryProtocol.name) {
+                let protocolFieldNames = sourceryProtocol.variables.map { $0.name }
+                if protocolFieldNames.contains(field.name) {
+                    implementsProtocol = true
+                }
             }
         }
 

@@ -890,7 +890,7 @@ struct TranslatedProtocol: TranslatedType {
         let (protocolFields, protocolMethods) = CSharpClass.separate(
             fieldsAndMethods:
                 fields.compactMap {
-                    context.cSharp(field: $0, of: self, useNativeName: false)
+                    context.cSharp(field: $0, of: self, useNativeName: false, conformances: conformances)
                 } + methods.compactMap {
                     context.cSharp(method: $0, of: self)
                 }
@@ -910,7 +910,7 @@ struct TranslatedProtocol: TranslatedType {
         let (externalWitnessFields, externalWitnessMethods) = CSharpClass.separate(
             fieldsAndMethods:
                 fields.compactMap {
-                    context.cSharp(field: $0, of: self, useNativeName: false)
+                    context.cSharp(field: $0, of: self, useNativeName: false, conformances: conformances)
                 } + methods.filter { !$0.isDefaultImplementation }.compactMap {
                     context.cSharp(method: $0, of: self)
                 }
