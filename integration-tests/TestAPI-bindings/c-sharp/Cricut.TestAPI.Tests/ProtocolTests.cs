@@ -223,6 +223,21 @@ namespace Cricut.TestAPI.Tests {
 
             var exception = await Assert.ThrowsAsync<Exception>(async () => await a.WillThrow());
             Assert.Equal("Spoon!", exception.Message);
+
+            var g = await a.Exercise0(e);
+            Assert.Equal("84", g);
+
+            var h = await a.Exercise1(b);
+            Assert.Equal("-105", h);
+
+            var i = await a.Exercise2(
+                (a, b) => {
+                    return async (z) => {
+                        return (await a(3)) + (await b(3)) + z;
+                    };
+                }
+            );
+            Assert.Equal("36", i);
         }
     }
 
