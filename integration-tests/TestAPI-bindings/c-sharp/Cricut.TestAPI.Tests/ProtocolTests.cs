@@ -183,11 +183,11 @@ namespace Cricut.TestAPI.Tests {
 
             var b = a.IntCompose(
                 async (x) => {
-                    await Task.Delay(100);
+                    await Task.Delay(1);
                     return x * 3;
                 },
                 async (y) => {
-                    await Task.Delay(100);
+                    await Task.Delay(1);
                     return y * 5;
                 }
             );
@@ -205,7 +205,7 @@ namespace Cricut.TestAPI.Tests {
                 double.MinValue,
                 "Captain Planet!",
                 async () => {
-                    await Task.Delay(100);
+                    await Task.Delay(1);
                     return 42;
                 }
             );
@@ -217,7 +217,7 @@ namespace Cricut.TestAPI.Tests {
                 3.14159265359,
                 "Beetleborgs",
                 async () => {
-                    await Task.Delay(100);
+                    await Task.Delay(1);
                     return 43;
                 },
                 int.MinValue
@@ -280,6 +280,17 @@ namespace Cricut.TestAPI.Tests {
                 }
             );
             Assert.Equal("852", m);
+
+            var o = 1;
+            var n = a.ThunkTwiceMaker(
+                async () => {
+                    await Task.Delay(1);
+                    o += 1;
+                    System.Diagnostics.Debug.WriteLine("Thunker in Paradise");
+                }
+            );
+            await n();
+            Assert.Equal(3, o);
         }
     }
 
