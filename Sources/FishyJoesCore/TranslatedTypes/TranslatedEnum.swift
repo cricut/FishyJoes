@@ -17,7 +17,6 @@ struct TranslatedEnum: TranslatedType {
     let fields: [Variable]
     let isInhabited: Bool
     let definingModule: Module
-    let implements: [Type]
     let conformances: Set<String>
 
     struct Case {
@@ -89,7 +88,6 @@ struct TranslatedEnum: TranslatedType {
         self.fields = type.variables.filter { $0.exportAnnotation != nil }
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
-        self.implements = Array(type.implements.values)
         self.conformances = exportAnnotation.conformances
     }
 

@@ -14,7 +14,6 @@ struct TranslatedProtocol: TranslatedType {
     let definingTSNamespace: String?
     let isInhabited: Bool
     var containedNamedTypes: [TranslatedType] { [self] }
-    let implements: [Type]
     let conformances: Set<String>
     let methods: [Method]
     let fields: [Variable]
@@ -45,7 +44,6 @@ struct TranslatedProtocol: TranslatedType {
         self.definingTSNamespace = context.module.name
         self.isInhabited = type.isInhabited
 
-        self.implements = Array(type.implements.values)
         self.conformances = exportAnnotation.conformances
 
         let methodsToConvert = type.methodsPreferringDefaultImpl()

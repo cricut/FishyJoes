@@ -14,7 +14,6 @@ protocol TranslatedType {
     var definingTSNamespace: String? { get }
     var isInhabited: Bool { get }
     var containedNamedTypes: [TranslatedType] { get }
-    var implements: [Type] { get }
     var conformances: Set<String> { get }
     func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>]
     func cSharpSetupDelegates(in context: FishyJoesContext) -> [String]
@@ -89,7 +88,6 @@ extension TranslatedType {
 
     var isInhabited: Bool { true }
 
-    var implements: [Type] { [] }
     var conformances: Set<String> { [] }
 }
 

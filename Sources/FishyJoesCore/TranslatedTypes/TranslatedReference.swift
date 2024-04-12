@@ -19,7 +19,6 @@ struct TranslatedReference: TranslatedType {
     let hashable: Bool
     let isInhabited: Bool
     let definingModule: Module
-    let implements: [Type]
     let conformances: Set<String>
 
     init(context: FishyJoesContext, type: Type) {
@@ -45,7 +44,6 @@ struct TranslatedReference: TranslatedType {
         self.hashable = type.hashable
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
-        self.implements = Array(type.implements.values)
         self.conformances = exportAnnotation.conformances
     }
 
