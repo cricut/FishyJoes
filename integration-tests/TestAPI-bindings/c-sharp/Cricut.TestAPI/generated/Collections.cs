@@ -291,14 +291,41 @@ namespace Cricut.TestAPI {
         /// <!-- FishyJoes.export(Collections.CollectionHolder) -->
         /// </summary>
         public record CollectionHolder {
+            public System.Collections.Generic.IList<bool> GetBoolArray() {
+                return BoolArray;
+            }
             public System.Collections.Generic.IList<bool> BoolArray { get; set; }
+            public System.Collections.Generic.ISet<bool> GetBoolSet() {
+                return BoolSet;
+            }
             public System.Collections.Generic.ISet<bool> BoolSet { get; set; }
+            public System.Collections.Generic.IDictionary<bool, bool> GetBoolDictionary() {
+                return BoolDictionary;
+            }
             public System.Collections.Generic.IDictionary<bool, bool> BoolDictionary { get; set; }
+            public System.Collections.Generic.IList<nint> GetIntegerArray() {
+                return IntegerArray;
+            }
             public System.Collections.Generic.IList<nint> IntegerArray { get; set; }
+            public System.Collections.Generic.ISet<nint> GetIntegerSet() {
+                return IntegerSet;
+            }
             public System.Collections.Generic.ISet<nint> IntegerSet { get; set; }
+            public System.Collections.Generic.IDictionary<nint, nint> GetIntegerDictionary() {
+                return IntegerDictionary;
+            }
             public System.Collections.Generic.IDictionary<nint, nint> IntegerDictionary { get; set; }
+            public System.Collections.Generic.IList<string> GetStringArray() {
+                return StringArray;
+            }
             public System.Collections.Generic.IList<string> StringArray { get; set; }
+            public System.Collections.Generic.ISet<string> GetStringSet() {
+                return StringSet;
+            }
             public System.Collections.Generic.ISet<string> StringSet { get; set; }
+            public System.Collections.Generic.IDictionary<string, string> GetStringDictionary() {
+                return StringDictionary;
+            }
             public System.Collections.Generic.IDictionary<string, string> StringDictionary { get; set; }
 
             public CollectionHolder(

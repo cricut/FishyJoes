@@ -211,13 +211,11 @@ struct TranslatedProtocol: TranslatedType {
         lines.append("    ConsumedRef ptr,")
         lines.append("    out CreatedRef exn")
         lines.append(");")
+        // All fields in protocols treated as methods with "Get" prefix because of C# tradition; and we can only do `get throws` for computed properties in Swift because there's no `set throws`.
         for field in fields {
             let resolved = context.resolve(type: field.typeName.better)
-            let commonName = "_\(converterType.genericBaseName.mangledName)_\(field.name)"
-            lines.append("delegate \(resolved.cSharpType.pInvokeCreatedName) \(commonName)Getter(\(cSharpType.pInvokeUnownedName) obj, out CreatedRef exn);")
-            if field.isMutable {
-                lines.append("delegate void \(commonName)Setter(\(cSharpType.pInvokeUnownedName) obj, \(resolved.cSharpType.pInvokeConsumedName) newValue, out CreatedRef exn);")
-            }
+            let commonName = "_\(converterType.genericBaseName.mangledName)_Get\(field.name)"
+            lines.append("delegate \(resolved.cSharpType.pInvokeCreatedName) \(commonName)(\(cSharpType.pInvokeUnownedName) obj, out CreatedRef exn);")
         }
         for method in methods {
             let resolvedReturnType = context.resolve(type: method.returnType)
@@ -248,18 +246,17 @@ struct TranslatedProtocol: TranslatedType {
             }
         )
 
-        let fieldsParameters = fields.flatMap { field -> [ForeignSetupParameter] in
+        let fieldsParameters = fields.map { field -> ForeignSetupParameter in
             let resolved = context.resolve(type: field.typeName.better)
-            let commonName = "_\(converterType.genericBaseName.mangledName)_\(field.name)"
-            let getType = "\(commonName)Getter"
-            let setType = "\(commonName)Setter"
-            return [
+            let commonName = "_\(converterType.genericBaseName.mangledName)_Get\(field.name)"
+            return
                 .value(
-                    name: "get_\(field.name)",
-                    type: getType
+                    name: "Get\(field.name)",
+                    type: commonName
                 ) { fragment in
-                    fragment.outputBlock("bag<\(getType)>((\(cSharpType.pInvokeUnownedName) obj, out CreatedRef exn) => Catching(out exn, () =>", closeWith: ")),") {
-                        let grab = "obj.Peek<\(cSharpType.name)>().\(CSharpClass.deforbidify(upperCaseFirst(field.name)))"
+                    // All fields in protocols are asMethod Get only
+                    fragment.outputBlock("bag<\(commonName)>((\(cSharpType.pInvokeUnownedName) obj, out CreatedRef exn) => Catching(out exn, () =>", closeWith: ")),") {
+                        let grab = "obj.Peek<\(cSharpType.name)>().Get\(CSharpClass.deforbidify(upperCaseFirst(field.name)))()"
                         if resolved.cSharpType.isObject {
                             fragment.output("new CreatedRef(\(grab))")
                         } else {
@@ -267,19 +264,6 @@ struct TranslatedProtocol: TranslatedType {
                         }
                     }
                 }
-            ] + (
-                field.isMutable ? [
-                    .value(
-                        name: "set_\(field.name)",
-                        type: setType
-                    ) { fragment in
-                        fragment.outputBlock("bag<\(setType)>((\(cSharpType.pInvokeUnownedName) obj, \(resolved.cSharpType.pInvokeConsumedName) newValue, out CreatedRef exn) => Catching(out exn, () => {", closeWith: "})),") {
-                            fragment.output("obj.Peek<\(cSharpType.name)>().\(CSharpClass.deforbidify(upperCaseFirst(field.name))) = ", newLineTerminated: false)
-                            fragment.output(resolved.cSharpType.isObject ? "newValue.Consume<\(resolved.cSharpType.name)>();" : "newValue;")
-                        }
-                    },
-                ] : []
-            )
         }
         foreignSetupParameters.append(contentsOf: fieldsParameters)
 

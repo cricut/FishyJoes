@@ -9,21 +9,69 @@ namespace Cricut.TestAPI {
     /// <!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct, conformances: [TestAsyncFunctions]) -->
     /// </summary>
     public record TestAsyncForeignSideFunctionsStruct: TestAsyncFunctions {
+        public System.Func<System.Threading.Tasks.Task<nint>> GetConst42() {
+            return Const42;
+        }
         public System.Func<System.Threading.Tasks.Task<nint>> Const42 { get; internal set; }
+        public System.Func<nint, System.Threading.Tasks.Task<nint>> GetIabs() {
+            return Iabs;
+        }
         public System.Func<nint, System.Threading.Tasks.Task<nint>> Iabs { get; internal set; }
+        public System.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>> GetIntCompose() {
+            return IntCompose;
+        }
         public System.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>> IntCompose { get; internal set; }
+        public System.Func<float, double, nint, System.Threading.Tasks.Task<double>> GetAdd3Things() {
+            return Add3Things;
+        }
         public System.Func<float, double, nint, System.Threading.Tasks.Task<double>> Add3Things { get; internal set; }
+        public System.Func<string, string, string, string, System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>> GetMakeList() {
+            return MakeList;
+        }
         public System.Func<string, string, string, string, System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>> MakeList { get; internal set; }
+        public System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>> GetFifthThing() {
+            return FifthThing;
+        }
         public System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>> FifthThing { get; internal set; }
+        public System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, nint, System.Threading.Tasks.Task<nint>> GetSix() {
+            return Six;
+        }
         public System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, nint, System.Threading.Tasks.Task<nint>> Six { get; internal set; }
+        public System.Func<System.Threading.Tasks.Task<nint>> GetWillThrow() {
+            return WillThrow;
+        }
         public System.Func<System.Threading.Tasks.Task<nint>> WillThrow { get; internal set; }
+        public System.Func<System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<string>> GetExercise0Fun() {
+            return Exercise0Fun;
+        }
         public System.Func<System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<string>> Exercise0Fun { get; internal set; }
+        public System.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<string>> GetExercise1Fun() {
+            return Exercise1Fun;
+        }
         public System.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<string>> Exercise1Fun { get; internal set; }
+        public System.Func<System.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>>, System.Threading.Tasks.Task<string>> GetExercise2Fun() {
+            return Exercise2Fun;
+        }
         public System.Func<System.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>>, System.Threading.Tasks.Task<string>> Exercise2Fun { get; internal set; }
+        public System.Func<System.Func<float, double, nint, System.Threading.Tasks.Task<double>>, System.Threading.Tasks.Task<string>> GetExercise3Fun() {
+            return Exercise3Fun;
+        }
         public System.Func<System.Func<float, double, nint, System.Threading.Tasks.Task<double>>, System.Threading.Tasks.Task<string>> Exercise3Fun { get; internal set; }
+        public System.Func<System.Func<string, string, string, string, System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>>, System.Threading.Tasks.Task<string>> GetExercise4Fun() {
+            return Exercise4Fun;
+        }
         public System.Func<System.Func<string, string, string, string, System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>>, System.Threading.Tasks.Task<string>> Exercise4Fun { get; internal set; }
+        public System.Func<System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>>, System.Threading.Tasks.Task<string>> GetExercise5Fun() {
+            return Exercise5Fun;
+        }
         public System.Func<System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>>, System.Threading.Tasks.Task<string>> Exercise5Fun { get; internal set; }
+        public System.Func<System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, nint, System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<string>> GetExercise6Fun() {
+            return Exercise6Fun;
+        }
         public System.Func<System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, nint, System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<string>> Exercise6Fun { get; internal set; }
+        public System.Func<System.Func<System.Threading.Tasks.Task>, System.Func<System.Threading.Tasks.Task>> GetThunkTwiceMakerFun() {
+            return ThunkTwiceMakerFun;
+        }
         public System.Func<System.Func<System.Threading.Tasks.Task>, System.Func<System.Threading.Tasks.Task>> ThunkTwiceMakerFun { get; internal set; }
 
         public TestAsyncForeignSideFunctionsStruct(

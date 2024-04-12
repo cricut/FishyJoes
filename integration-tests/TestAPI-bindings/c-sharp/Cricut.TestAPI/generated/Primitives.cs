@@ -1402,31 +1402,109 @@ namespace Cricut.TestAPI {
         /// <!-- FishyJoes.export(Primitives.PrimitiveHolder) -->
         /// </summary>
         public record PrimitiveHolder {
+            public bool GetB() {
+                return B;
+            }
             public bool B { get; set; }
+            public bool? GetBq() {
+                return Bq;
+            }
             public bool? Bq { get; set; }
+            public byte GetUi8() {
+                return Ui8;
+            }
             public byte Ui8 { get; set; }
+            public byte? GetUi8q() {
+                return Ui8q;
+            }
             public byte? Ui8q { get; set; }
+            public ushort GetUi16() {
+                return Ui16;
+            }
             public ushort Ui16 { get; set; }
+            public ushort? GetUi16q() {
+                return Ui16q;
+            }
             public ushort? Ui16q { get; set; }
+            public uint GetUi32() {
+                return Ui32;
+            }
             public uint Ui32 { get; set; }
+            public uint? GetUi32q() {
+                return Ui32q;
+            }
             public uint? Ui32q { get; set; }
+            public ulong GetUi64() {
+                return Ui64;
+            }
             public ulong Ui64 { get; set; }
+            public ulong? GetUi64q() {
+                return Ui64q;
+            }
             public ulong? Ui64q { get; set; }
+            public nuint GetUi() {
+                return Ui;
+            }
             public nuint Ui { get; set; }
+            public nuint? GetUiq() {
+                return Uiq;
+            }
             public nuint? Uiq { get; set; }
+            public sbyte GetI8() {
+                return I8;
+            }
             public sbyte I8 { get; set; }
+            public sbyte? GetI8q() {
+                return I8q;
+            }
             public sbyte? I8q { get; set; }
+            public short GetI16() {
+                return I16;
+            }
             public short I16 { get; set; }
+            public short? GetI16q() {
+                return I16q;
+            }
             public short? I16q { get; set; }
+            public int GetI32() {
+                return I32;
+            }
             public int I32 { get; set; }
+            public int? GetI32q() {
+                return I32q;
+            }
             public int? I32q { get; set; }
+            public long GetI64() {
+                return I64;
+            }
             public long I64 { get; set; }
+            public long? GetI64q() {
+                return I64q;
+            }
             public long? I64q { get; set; }
+            public nint GetI() {
+                return I;
+            }
             public nint I { get; set; }
+            public nint? GetIq() {
+                return Iq;
+            }
             public nint? Iq { get; set; }
+            public float GetF() {
+                return F;
+            }
             public float F { get; set; }
+            public float? GetFq() {
+                return Fq;
+            }
             public float? Fq { get; set; }
+            public double GetD() {
+                return D;
+            }
             public double D { get; set; }
+            public double? GetDq() {
+                return Dq;
+            }
             public double? Dq { get; set; }
 
             public PrimitiveHolder(

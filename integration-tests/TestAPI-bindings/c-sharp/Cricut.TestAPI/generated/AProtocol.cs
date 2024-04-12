@@ -9,8 +9,31 @@ namespace Cricut.TestAPI {
     /// <!-- FishyJoes.export(AProtocol) -->
     /// </summary>
     public interface AProtocol {
-        public string Foo { get;  }
-        public bool Baz { get;  }
+        /// <summary>
+        /// <!-- FishyJoes.export(foo) -->
+        /// </summary>
+        public string GetFoo() {
+            using var thisHandle = new GCRef(this);
+            return Check((out CreatedRef exn) =>
+                __iota_get_TestAPI_AProtocol_foo(Loader.env, thisHandle.ptr, out exn).Consume<string>()
+            );
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_AProtocol_foo(IntPtr envRef, UnownedRef self, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(baz) -->
+        /// </summary>
+        public bool GetBaz() {
+            using var thisHandle = new GCRef(this);
+            return Check((out CreatedRef exn) =>
+                __iota_get_TestAPI_AProtocol_baz(Loader.env, thisHandle.ptr, out exn)
+            );
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern bool __iota_get_TestAPI_AProtocol_baz(IntPtr envRef, UnownedRef self, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(bar) -->

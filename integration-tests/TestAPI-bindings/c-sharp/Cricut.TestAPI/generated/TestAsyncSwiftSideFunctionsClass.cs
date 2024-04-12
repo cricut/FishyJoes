@@ -14,15 +14,11 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(const42) -->
         /// </summary>
-        public System.Func<System.Threading.Tasks.Task<nint>> Const42 {
-            get {
-                using var thisHandle = new GCRef(this);
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_const42(Loader.env, thisHandle.ptr, out exn).Consume<System.Func<System.Threading.Tasks.Task<nint>>>()
-                );
-            }
-            set {
-            }
+        public System.Func<System.Threading.Tasks.Task<nint>> GetConst42() {
+            using var thisHandle = new GCRef(this);
+            return Check((out CreatedRef exn) =>
+                __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_const42(Loader.env, thisHandle.ptr, out exn).Consume<System.Func<System.Threading.Tasks.Task<nint>>>()
+            );
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -31,15 +27,11 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(iabs) -->
         /// </summary>
-        public System.Func<nint, System.Threading.Tasks.Task<nint>> Iabs {
-            get {
-                using var thisHandle = new GCRef(this);
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_iabs(Loader.env, thisHandle.ptr, out exn).Consume<System.Func<nint, System.Threading.Tasks.Task<nint>>>()
-                );
-            }
-            set {
-            }
+        public System.Func<nint, System.Threading.Tasks.Task<nint>> GetIabs() {
+            using var thisHandle = new GCRef(this);
+            return Check((out CreatedRef exn) =>
+                __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_iabs(Loader.env, thisHandle.ptr, out exn).Consume<System.Func<nint, System.Threading.Tasks.Task<nint>>>()
+            );
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -48,15 +40,11 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(intCompose) -->
         /// </summary>
-        public System.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>> IntCompose {
-            get {
-                using var thisHandle = new GCRef(this);
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_intCompose(Loader.env, thisHandle.ptr, out exn).Consume<System.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>>>()
-                );
-            }
-            set {
-            }
+        public System.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>> GetIntCompose() {
+            using var thisHandle = new GCRef(this);
+            return Check((out CreatedRef exn) =>
+                __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_intCompose(Loader.env, thisHandle.ptr, out exn).Consume<System.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>>>()
+            );
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -65,15 +53,11 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(add3Things) -->
         /// </summary>
-        public System.Func<float, double, nint, System.Threading.Tasks.Task<double>> Add3Things {
-            get {
-                using var thisHandle = new GCRef(this);
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_add3Things(Loader.env, thisHandle.ptr, out exn).Consume<System.Func<float, double, nint, System.Threading.Tasks.Task<double>>>()
-                );
-            }
-            set {
-            }
+        public System.Func<float, double, nint, System.Threading.Tasks.Task<double>> GetAdd3Things() {
+            using var thisHandle = new GCRef(this);
+            return Check((out CreatedRef exn) =>
+                __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_add3Things(Loader.env, thisHandle.ptr, out exn).Consume<System.Func<float, double, nint, System.Threading.Tasks.Task<double>>>()
+            );
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -82,15 +66,11 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(makeList) -->
         /// </summary>
-        public System.Func<string, string, string, string, System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>> MakeList {
-            get {
-                using var thisHandle = new GCRef(this);
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_makeList(Loader.env, thisHandle.ptr, out exn).Consume<System.Func<string, string, string, string, System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>>>()
-                );
-            }
-            set {
-            }
+        public System.Func<string, string, string, string, System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>> GetMakeList() {
+            using var thisHandle = new GCRef(this);
+            return Check((out CreatedRef exn) =>
+                __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_makeList(Loader.env, thisHandle.ptr, out exn).Consume<System.Func<string, string, string, string, System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>>>()
+            );
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -99,15 +79,11 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(fifthThing) -->
         /// </summary>
-        public System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>> FifthThing {
-            get {
-                using var thisHandle = new GCRef(this);
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_fifthThing(Loader.env, thisHandle.ptr, out exn).Consume<System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>>>()
-                );
-            }
-            set {
-            }
+        public System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>> GetFifthThing() {
+            using var thisHandle = new GCRef(this);
+            return Check((out CreatedRef exn) =>
+                __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_fifthThing(Loader.env, thisHandle.ptr, out exn).Consume<System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>>>()
+            );
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -116,15 +92,11 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(six) -->
         /// </summary>
-        public System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, nint, System.Threading.Tasks.Task<nint>> Six {
-            get {
-                using var thisHandle = new GCRef(this);
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_six(Loader.env, thisHandle.ptr, out exn).Consume<System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, nint, System.Threading.Tasks.Task<nint>>>()
-                );
-            }
-            set {
-            }
+        public System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, nint, System.Threading.Tasks.Task<nint>> GetSix() {
+            using var thisHandle = new GCRef(this);
+            return Check((out CreatedRef exn) =>
+                __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_six(Loader.env, thisHandle.ptr, out exn).Consume<System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, nint, System.Threading.Tasks.Task<nint>>>()
+            );
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -133,15 +105,11 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(willThrow) -->
         /// </summary>
-        public System.Func<System.Threading.Tasks.Task<nint>> WillThrow {
-            get {
-                using var thisHandle = new GCRef(this);
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_willThrow(Loader.env, thisHandle.ptr, out exn).Consume<System.Func<System.Threading.Tasks.Task<nint>>>()
-                );
-            }
-            set {
-            }
+        public System.Func<System.Threading.Tasks.Task<nint>> GetWillThrow() {
+            using var thisHandle = new GCRef(this);
+            return Check((out CreatedRef exn) =>
+                __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_willThrow(Loader.env, thisHandle.ptr, out exn).Consume<System.Func<System.Threading.Tasks.Task<nint>>>()
+            );
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]

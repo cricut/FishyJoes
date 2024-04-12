@@ -15,6 +15,9 @@ namespace Cricut.TestAPI {
         /// <!-- FishyJoes.export(Structs.MutableStruct) -->
         /// </summary>
         public record MutableStruct {
+            public nint GetI() {
+                return I;
+            }
             public nint I { get; set; }
 
             public MutableStruct(
@@ -200,7 +203,13 @@ namespace Cricut.TestAPI {
         /// <!-- FishyJoes.export(Structs.MemberwiseStruct) -->
         /// </summary>
         public record MemberwiseStruct {
+            public string GetImmutable() {
+                return Immutable;
+            }
             public string Immutable { get; internal set; }
+            public string GetMutable() {
+                return Mutable;
+            }
             public string Mutable { get; set; }
 
             public MemberwiseStruct(

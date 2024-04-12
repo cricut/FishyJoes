@@ -10,6 +10,9 @@ namespace Cricut.TestAPI {
     /// <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp]) -->
     /// </summary>
     public record TestLeadingUnderscoredPropStruct: TestLeadingUnderscoredProp {
+        public string Get_leadingUnderscoreProp() {
+            return _leadingUnderscoreProp;
+        }
         public string _leadingUnderscoreProp { get; set; }
 
         public TestLeadingUnderscoredPropStruct(

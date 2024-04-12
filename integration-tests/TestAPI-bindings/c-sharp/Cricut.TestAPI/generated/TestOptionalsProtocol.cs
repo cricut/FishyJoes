@@ -9,7 +9,18 @@ namespace Cricut.TestAPI {
     /// <!-- FishyJoes.export(TestOptionalsProtocol) -->
     /// </summary>
     public interface TestOptionalsProtocol {
-        public string? Flarp { get;  }
+        /// <summary>
+        /// <!-- FishyJoes.export(flarp) -->
+        /// </summary>
+        public string? GetFlarp() {
+            using var thisHandle = new GCRef(this);
+            return Check((out CreatedRef exn) =>
+                __iota_get_TestAPI_TestOptionalsProtocol_flarp(Loader.env, thisHandle.ptr, out exn).Consume<string?>()
+            );
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_TestOptionalsProtocol_flarp(IntPtr envRef, UnownedRef self, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(wombat) -->

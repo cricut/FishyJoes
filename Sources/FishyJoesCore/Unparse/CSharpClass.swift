@@ -29,12 +29,11 @@ class CSharpClass: NestedClass {
         let isOverride: Bool
         let isMutable: Bool
         let isPubliclyWritable: Bool
-        let asMethod: Bool
+        var asMethod: Bool
         let name: String
         let mangledName: String
         let type: CSType
         let deprecation: Deprecation?
-        let implementsProtocol: Bool
     }
 
     let module: Module
@@ -163,8 +162,7 @@ class CSharpClass: NestedClass {
                 fragment.outputBlock("get {") {
                     outputGetterBody()
                 }
-                // If field.implementsProtocol but field is not publicly writable we need to spit out an empty setter, because C# compels us!
-                if field.isPubliclyWritable || field.implementsProtocol {
+                if field.isPubliclyWritable {
                     fragment.outputBlock("set {") {
                         if field.isPubliclyWritable {
                             outputSetterBody()
@@ -362,6 +360,9 @@ class CSharpProductClass: CSharpClass {
                 fragment.output("internal \(unqualifiedName)(ConsumedRef reference): base(reference) {}")
             case .public(let fields):
                 for field in fields {
+                    fragment.outputBlock("public \(field.type.name) Get\(CSharpClass.deforbidify(field.name))() {") {
+                        fragment.output("return \(CSharpClass.deforbidify(field.name));")
+                    }
                     fragment.output("public \(field.type.name) \(CSharpClass.deforbidify(field.name)) { get; \(field.isPubliclyWritable ? "set;" : "internal set;") }")
                 }
                 fragment.blankLine()

@@ -9,7 +9,6 @@ namespace Cricut.TestAPI {
     /// <!-- FishyJoes.export(TestMethodsProtocol) -->
     /// </summary>
     public interface TestMethodsProtocol {
-
         /// <summary>
         /// <!-- FishyJoes.export(foo) -->
         /// </summary>
