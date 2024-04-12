@@ -59,60 +59,60 @@ namespace Cricut.TestAPI.Tests {
             Assert.Equal("thud: 42 | grault: [1.234, 45.235890198, 892.8]", testProtocolStruct.Xyzzy(42, new List<double>() { 1.234, 45.235890198, 892.80 }));
         }
 
-    //     [Fact]
-    //     public void TestProtocolClassTest() {
-    //         var testProtocolClass = TestProtocolClass.Init("Step inside it's a wilder ride!");
-    //         Assert.Equal("Step inside it's a wilder ride!", testProtocolClass.Corge);
-    //         Assert.Equal(new List<double>() { 42.0, -1.23456789, 3.14159265359 }, testProtocolClass.Frob);
+        [Fact]
+        public void TestProtocolClassTest() {
+            var testProtocolClass = TestProtocolClass.Init("Step inside it's a wilder ride!");
+            Assert.Equal("Step inside it's a wilder ride!", testProtocolClass.Corge);
+            Assert.Equal(new List<double>() { 42.0, -1.23456789, 3.14159265359 }, testProtocolClass.GetFrob());
 
-    //         Assert.Null(testProtocolClass.Flarp);
-    //         testProtocolClass.Flarp = "Excellent observation Kiki!";
-    //         Assert.Equal("Excellent observation Kiki!", testProtocolClass.Flarp);
+            Assert.Null(testProtocolClass.Flarp);
+            testProtocolClass.Flarp = "Excellent observation Kiki!";
+            Assert.Equal("Excellent observation Kiki!", testProtocolClass.Flarp);
 
-    //         Assert.Equal(42.909, testProtocolClass.Wombat(null));
-    //         Assert.Null(testProtocolClass.Wombat(57));
-    //         Assert.Equal(7890.2, testProtocolClass.Wombat(56));
+            Assert.Equal(42.909, testProtocolClass.Wombat(null));
+            Assert.Null(testProtocolClass.Wombat(57));
+            Assert.Equal(7890.2, testProtocolClass.Wombat(56));
 
-    //         Assert.Equal(23947889, testProtocolClass.Spqr(new AssociatedDataEnum.Thing(23947889)));
-    //         Assert.Equal(89708973, testProtocolClass.Spqr(new AssociatedDataEnum.Other("zxc", 89708973)));
-    //         Assert.Equal(45, testProtocolClass.Spqr(new AssociatedDataEnum.Bar("shme", new AssociatedDataEnum.NoValue())));
-    //         Assert.Equal(42, testProtocolClass.Spqr(new AssociatedDataEnum.NoValue()));
-    //         Assert.Equal(1, testProtocolClass.Spqr(new AssociatedDataEnum.SimpleEnum(new SimpleEnum.Blue())));
+            Assert.Equal(23947889, testProtocolClass.Spqr(new AssociatedDataEnum.Thing(23947889)));
+            Assert.Equal(89708973, testProtocolClass.Spqr(new AssociatedDataEnum.Other("zxc", 89708973)));
+            Assert.Equal(45, testProtocolClass.Spqr(new AssociatedDataEnum.Bar("shme", new AssociatedDataEnum.NoValue())));
+            Assert.Equal(42, testProtocolClass.Spqr(new AssociatedDataEnum.NoValue()));
+            Assert.Equal(1, testProtocolClass.Spqr(new AssociatedDataEnum.SimpleEnum(new SimpleEnum.Blue())));
 
-    //         testProtocolClass.Foo();
-    //         Assert.True(testProtocolClass.Bar());
-    //         testProtocolClass.Baz(true);
-    //         Assert.Equal("garplify Surfin' on a sine wave parguino", testProtocolClass.Garply("Surfin' on a sine wave"));
-    //         Assert.Equal("thud: 42 \\|/ grault: [1.234, 45.235890198, 892.8]", testProtocolClass.Xyzzy(42, new List<double>() { 1.234, 45.235890198, 892.80 }));
-    //         Assert.Equal(Tuple.Create<bool, nint, string>(true, 83, "Please let this be a normal field trip _-^= I knew I should've stayed home today"), testProtocolClass.Plugh(Tuple.Create(true, 92.47, (System.Collections.Generic.IList<string>) new string[] {"Please let this be a normal field trip", "I knew I should've stayed home today"})));
-    //     }
+            testProtocolClass.Foo();
+            Assert.True(testProtocolClass.Bar());
+            testProtocolClass.Baz(true);
+            Assert.Equal("garplify Surfin' on a sine wave parguino", testProtocolClass.Garply("Surfin' on a sine wave"));
+            Assert.Equal("thud: 42 \\|/ grault: [1.234, 45.235890198, 892.8]", testProtocolClass.Xyzzy(42, new List<double>() { 1.234, 45.235890198, 892.80 }));
+            Assert.Equal(Tuple.Create<bool, nint, string>(true, 83, "Please let this be a normal field trip _-^= I knew I should've stayed home today"), testProtocolClass.Plugh(Tuple.Create(true, 92.47, (System.Collections.Generic.IList<string>) new string[] {"Please let this be a normal field trip", "I knew I should've stayed home today"})));
+        }
 
-    //     [Fact]
-    //     public void TestAProtocolImpl() {
-    //         AProtocol a = new AProtocolCSharpImpl("Garply", false);
-    //         Assert.Equal("Garply", a.Foo);
-    //         Assert.True(a.Baz);
+        [Fact]
+        public void TestAProtocolImpl() {
+            AProtocol a = new AProtocolCSharpImpl("Garply", false);
+            Assert.Equal("Garply", a.Foo);
+            Assert.True(a.Baz);
 
-    //         var b = a.Bar(x: 2, y: 128);
-    //         Assert.Equal("256", b.Foo);
-    //         Assert.True(b.Baz);
+            var b = a.Bar(x: 2, y: 128);
+            Assert.Equal("256", b.Foo);
+            Assert.True(b.Baz);
 
-    //         Assert.Equal("bazzy -2889", a.HasADefaultImplementation(9, -102.1));
-    //         Assert.Equal("bazzy 2", a.HasADefaultImplementation(2, 0.345));
+            Assert.Equal("bazzy -2889", a.HasADefaultImplementation(9, -102.1));
+            Assert.Equal("bazzy 2", a.HasADefaultImplementation(2, 0.345));
 
-    //         Assert.Equal(3.7838466771424932E9, a.HasADefaultImplementation2("923.2185", true, 0.0898714));
-    //         Assert.Equal(1.9556754407899822E-5, a.HasADefaultImplementation2("923.2185", false, 0.0898714));
+            Assert.Equal(3.7838466771424932E9, a.HasADefaultImplementation2("923.2185", true, 0.0898714));
+            Assert.Equal(1.9556754407899822E-5, a.HasADefaultImplementation2("923.2185", false, 0.0898714));
 
-    //         Assert.Equal(0.9589049888649063, a.HasADefaultImplementation2("0.9870923", true, 1.123123));
-    //         Assert.Equal(1.686253813623996, a.HasADefaultImplementation2("0.9870923", false, 1.123123));
-    //     }
+            Assert.Equal(0.9589049888649063, a.HasADefaultImplementation2("0.9870923", true, 1.123123));
+            Assert.Equal(1.686253813623996, a.HasADefaultImplementation2("0.9870923", false, 1.123123));
+        }
 
-    //     [Fact]
-    //     public void TestLeadingUnderscoreInNames() {
-    //         var lups = new TestLeadingUnderscoredPropStruct("With great power comes great responsibility.");
-    //         Assert.Equal("With great power comes great responsibility.", lups._leadingUnderscoreProp);
-    //         // test for _leadingUnderscoreMethod is just that tests build and run, since currently leading underscore on method name means it's only visible on the Swift side, not the Foreign/Dart side. For C#, leading underscore ought not be a problem, but just a test for it just in case you know.
-    //     }
+        [Fact]
+        public void TestLeadingUnderscoreInNames() {
+            var lups = new TestLeadingUnderscoredPropStruct("With great power comes great responsibility.");
+            Assert.Equal("With great power comes great responsibility.", lups._leadingUnderscoreProp);
+            // test for _leadingUnderscoreMethod is just that tests build and run, since currently leading underscore on method name means it's only visible on the Swift side, not the Foreign/Dart side. For C#, leading underscore ought not be a problem, but just a test for it just in case you know.
+        }
 
     //     // Helper to avoid warnings about trivial async functions
     //     private static async Task<T> Async<T>(T result) {
