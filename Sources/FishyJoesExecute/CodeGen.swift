@@ -216,12 +216,20 @@ extension CodeGen {
 
                         enum Dependency: Codable {
                             case local(path: String)
-                            case remote(url: String, revision: String)
+                            case remote(url: String, refSpec: RefSpec)
+                            enum RefSpec: Codable {
+                                case branch(name: String)
+                                case revision(name: String)
+                            }
                         }
 
                         func LOG_package(name: String, path: String) -> Package.Dependency {
                             // print("DEPENDENCY: .package(name: \\(name), path: \\(path))")
                             return .package(name: name, path: path)
+                        }
+                        func LOG_package(url: String, branch: String) -> Package.Dependency {
+                            // print("DEPENDENCY: .package(url: \\(url), branch: \\(branch))")
+                            return .package(url: url, branch: branch)
                         }
                         func LOG_package(url: String, revision: String) -> Package.Dependency {
                             // print("DEPENDENCY: .package(url: \\(url), revision: \\(revision))")
@@ -238,7 +246,10 @@ extension CodeGen {
                                 switch try! JSONDecoder().decode(Dependency.self, from: versionSpec.data(using: .utf8)!) {
                                 case .local(let packagePath):
                                     return LOG_package(name: packageName, path: "\\(packagePath)\\(subPath)")
-                                case let .remote(url, revision):
+                                case let .remote(url, .branch(branch)):
+                                    if bindings { fatalError("TODO") }
+                                    return LOG_package(url: url, branch: branch)
+                                case let .remote(url, .revision(revision)):
                                     if bindings { fatalError("TODO") }
                                     return LOG_package(url: url, revision: revision)
                                 }
@@ -259,8 +270,7 @@ extension CodeGen {
                                     .library(name: "\(config.module)-iota", type: .dynamic, targets: ["\(config.module)_IotaInterface"]),
                                 ]
                             ),
-                            dependencies: [
-                        \(bindingsPackageDeps)
+                            dependencies: [\(bindingsPackageDeps)
                                 packageDep("\(config.module)"),
                                 packageDep("FishyJoes"),
                             ],
@@ -367,6 +377,16 @@ extension CodeGen {
                 swiftPackage: packageInfo
             )
             try packageInit.installTemplate(to: "bindings")
+            for workflow in try FileManager.default.contentsOfDirectory(atPath: ".github/workflows") {
+                if workflow.hasPrefix("GENERATED-") {
+                    try cmd("rm", ".github/workflows/\(workflow)").run()
+                }
+            }
+            for workflow in try FileManager.default.contentsOfDirectory(atPath: "bindings/workflows") {
+                if workflow.hasSuffix("kotlin.yaml") {
+                    try cmd("cp", "bindings/workflows/\(workflow)", ".github/workflows/GENERATED-\(workflow)").run()
+                }
+            }
         }
 
         // MARK: - Build Step
