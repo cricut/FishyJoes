@@ -318,137 +318,137 @@ namespace Cricut.TestAPI.Tests {
             await TestAsyncForeignSideFunctionsCore(b);
         }
 
-    //     async Task TestAsyncSwiftSideFunctionsCore(TestAsyncFunctions a) {
-    //         Assert.Equal(42, await a.Const42());
-    //         Assert.Equal(2398, await a.Iabs(-2398));
+        async Task TestAsyncSwiftSideFunctionsCore(TestAsyncFunctions a) {
+            Assert.Equal(42, await a.GetConst42()());
+            Assert.Equal(2398, await a.GetIabs()(-2398));
 
-    //         var b = a.IntCompose(
-    //             async (x) => {
-    //                 await Task.Delay(1);
-    //                 return x * 3;
-    //             },
-    //             async (y) => {
-    //                 await Task.Delay(1);
-    //                 return y * 5;
-    //             }
-    //         );
-    //         Assert.Equal(1380, await b(92));
+            var b = a.GetIntCompose()(
+                async (x) => {
+                    await Task.Delay(1);
+                    return x * 3;
+                },
+                async (y) => {
+                    await Task.Delay(1);
+                    return y * 5;
+                }
+            );
+            Assert.Equal(1380, await b(92));
 
-    //         var c = await a.Add3Things(3.14f, 3.14159, 128);
-    //         Assert.Equal(134.28159, c, 5);
+            var c = await a.GetAdd3Things()(3.14f, 3.14159, 128);
+            Assert.Equal(134.28159, c, 5);
 
-    //         var d = await a.MakeList("By", "your", "powers", "combined");
-    //         Assert.Equal(new List<string>() { "By", "your", "powers", "combined" }, d);
+            var d = await a.GetMakeList()("By", "your", "powers", "combined");
+            Assert.Equal(new List<string>() { "By", "your", "powers", "combined" }, d);
 
-    //         var e = await a.FifthThing(
-    //             "I, am",
-    //             int.MaxValue,
-    //             double.MinValue,
-    //             "Captain Planet!",
-    //             async () => {
-    //                 await Task.Delay(1);
-    //                 return 42;
-    //             }
-    //         );
-    //         Assert.Equal(42, await e());
+            var e = await a.GetFifthThing()(
+                "I, am",
+                int.MaxValue,
+                double.MinValue,
+                "Captain Planet!",
+                async () => {
+                    await Task.Delay(1);
+                    return 42;
+                }
+            );
+            Assert.Equal(42, await e());
 
-    //         var f = await a.Six(
-    //             "Big, bad",
-    //             24,
-    //             3.14159265359,
-    //             "Beetleborgs",
-    //             async () => {
-    //                 await Task.Delay(1);
-    //                 return 43;
-    //             },
-    //             int.MinValue
-    //         );
-    //         Assert.Equal(int.MinValue, f);
+            var f = await a.GetSix()(
+                "Big, bad",
+                24,
+                3.14159265359,
+                "Beetleborgs",
+                async () => {
+                    await Task.Delay(1);
+                    return 43;
+                },
+                int.MinValue
+            );
+            Assert.Equal(int.MinValue, f);
 
-    //         var exception = await Assert.ThrowsAsync<Exception>(async () => await a.WillThrow());
-    //         Assert.Equal("TheAsyncError()", exception.Message);
+            var exception = await Assert.ThrowsAsync<Exception>(async () => await a.GetWillThrow()());
+            Assert.Equal("TheAsyncError()", exception.Message);
 
-    //         var g = await a.Exercise0(e);
-    //         Assert.Equal("42", g);
+            var g = await a.Exercise0(e);
+            Assert.Equal("42", g);
 
-    //         var h = await a.Exercise1(b);
-    //         Assert.Equal("-45", h);
+            var h = await a.Exercise1(b);
+            Assert.Equal("-45", h);
 
-    //         var i = await a.Exercise2(
-    //             (a, b) => {
-    //                 return async (z) => {
-    //                     return (await a(3)) + (await b(3)) + z;
-    //                 };
-    //             }
-    //         );
-    //         Assert.Equal("21", i);
+            var i = await a.Exercise2(
+                (a, b) => {
+                    return async (z) => {
+                        return (await a(3)) + (await b(3)) + z;
+                    };
+                }
+            );
+            Assert.Equal("21", i);
 
-    //         var j = await a.Exercise3(
-    //             async (fl, d, l) => {
-    //                 return await Async((fl / d) + (9 * l));
-    //             }
-    //         );
-    //         Assert.Equal("18.227272727272727", j);
+            var j = await a.Exercise3(
+                async (fl, d, l) => {
+                    return await Async((fl / d) + (9 * l));
+                }
+            );
+            Assert.Equal("18.227272727272727", j);
 
-    //         var k = await a.Exercise4(
-    //             async (a, b, c, d) => {
-    //                 return await Async<List<string>>(new List<string>() { d, c, b, a });
-    //             }
-    //         );
-    //         Assert.Equal("[\"d\", \"c\", \"b\", \"a\"]", k);
+            var k = await a.Exercise4(
+                async (a, b, c, d) => {
+                    return await Async<List<string>>(new List<string>() { d, c, b, a });
+                }
+            );
+            Assert.Equal("[\"d\", \"c\", \"b\", \"a\"]", k);
 
-    //         var l = await a.Exercise5(
-    //             async (a, b, c, d, e) => {
-    //                 var ePrime = await e();
-    //                 return () => {
-    //                     return Async((nint)(b + c + ePrime));
-    //                 };
-    //             }
-    //         );
-    //         Assert.Equal("93", l);
+            var l = await a.Exercise5(
+                async (a, b, c, d, e) => {
+                    var ePrime = await e();
+                    return () => {
+                        return Async((nint)(b + c + ePrime));
+                    };
+                }
+            );
+            Assert.Equal("93", l);
 
-    //         var m = await a.Exercise6(                
-    //             async (a, b, c, d, e, f) => {
-    //                 return (nint)(b + c + await e() + f);
-    //             }
-    //         );
-    //         Assert.Equal("135", m);
+            var m = await a.Exercise6(                
+                async (a, b, c, d, e, f) => {
+                    return (nint)(b + c + await e() + f);
+                }
+            );
+            Assert.Equal("135", m);
 
-    //         var o = 3.14159265359;
-    //         var n = a.ThunkTwiceMaker(
-    //             async () => {
-    //                 await Task.Delay(1);
-    //                 o *= o;
-    //                 System.Diagnostics.Debug.WriteLine("Thunkmaster thex");
-    //             }
-    //         );
-    //         await n();
-    //         Assert.Equal(97.4090910340281, o);
+            var o = 3.14159265359;
+            var n = a.ThunkTwiceMaker(
+                async () => {
+                    await Task.Delay(1);
+                    o *= o;
+                    System.Diagnostics.Debug.WriteLine("Thunkmaster thex");
+                }
+            );
+            await n();
+            Assert.Equal(97.4090910340281, o);
 
-    //         var p = await a.DefaultExercise6(
-    //             async (a, b, c, d, e, f) => {
-    //                 double aDbl;
-    //                 double.TryParse(a, out aDbl);
-    //                 double dDbl;
-    //                 double.TryParse(d, out dDbl);
-    //                 return (nint)(aDbl + b + c + dDbl + await e() + f);
-    //             }
-    //         );
-    //         Assert.Equal("962", p);
-    //     }
+            var p = await a.DefaultExercise6(
+                async (a, b, c, d, e, f) => {
+                    double aDbl;
+                    double.TryParse(a, out aDbl);
+                    double dDbl;
+                    double.TryParse(d, out dDbl);
+                    return (nint)(aDbl + b + c + dDbl + await e() + f);
+                }
+            );
+            Assert.Equal("962", p);
+        }
     
-    //     [Fact]
-    //     async Task TestAsyncSwiftSideFunctions() {
-    //         var a = TestAsyncSwiftSideFunctionsClass.Init();
-    //         await TestAsyncSwiftSideFunctionsCore(a);
-    //     }
+        [Fact]
+        async Task TestAsyncSwiftSideFunctions() {
+            var a = TestAsyncSwiftSideFunctionsClass.Init();
+            await TestAsyncSwiftSideFunctionsCore(a);
+        }
 
-    //     [Fact]
-    //     async Task TestAsyncSwiftSideFunctionsWitness() {
-    //         var a = TestAsyncSwiftSideFunctionsClass.Init();
-    //         var b = a.Witness();
-    //         await TestAsyncSwiftSideFunctionsCore(b);
-    //     }
+        [Fact]
+        async Task TestAsyncSwiftSideFunctionsWitness() {
+            var a = TestAsyncSwiftSideFunctionsClass.Init();
+            var b = a.Witness();
+            await TestAsyncSwiftSideFunctionsCore(b);
+        }
     }
 
     public record AProtocolCSharpImpl: AProtocol {
