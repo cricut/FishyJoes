@@ -536,8 +536,8 @@ public class FishyJoesContext {
         cSharpTranslator.cSharp(method: method, of: type, context: self)
     }
 
-    func cSharp(field: Variable, of type: TranslatedType, useNativeName: Bool = false, conformances: Set<String>) -> CSharpClass.MethodOrVariable? {
-        cSharpTranslator.cSharp(field: field, of: type, context: self, useNativeName: useNativeName, conformances: conformances)
+    func cSharp(field: Variable, of type: TranslatedType, useNativeName: Bool = false) -> CSharpClass.MethodOrVariable? {
+        cSharpTranslator.cSharp(field: field, of: type, context: self, useNativeName: useNativeName)
     }
 
     func dart(method: Method, of type: TranslatedType) -> DartClass.MethodOrVariable? {

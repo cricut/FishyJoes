@@ -429,7 +429,7 @@ struct TranslatedReference: TranslatedType {
 
     func registerCSharpClass(in context: FishyJoesContext) {
         var fieldsAndMethods =
-        computedVariables.compactMap { context.cSharp(field: $0, of: self, useNativeName: false, conformances: conformances) } +
+        computedVariables.compactMap { context.cSharp(field: $0, of: self, useNativeName: false) } +
             methods.compactMap { context.cSharp(method: $0, of: self) }
 
         if equatable {

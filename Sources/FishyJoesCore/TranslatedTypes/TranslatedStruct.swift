@@ -558,7 +558,7 @@ struct TranslatedStruct: TranslatedType {
 
     func registerCSharpClass(context: FishyJoesContext) {
         let fieldsAndMethods =
-            computedVariables.compactMap { context.cSharp(field: $0, of: self, useNativeName: false, conformances: conformances) } +
+            computedVariables.compactMap { context.cSharp(field: $0, of: self, useNativeName: false) } +
             methods.compactMap { context.cSharp(method: $0, of: self) }
         let (productFields, productMethods) = CSharpClass.separate(fieldsAndMethods: fieldsAndMethods)
 
@@ -569,7 +569,7 @@ struct TranslatedStruct: TranslatedType {
                 name: cSharpType.name,
                 constructor: .`public`(
                     fields: storedVariables.compactMap {
-                        switch context.cSharp(field: $0, of: self, useNativeName: true, conformances: conformances) {
+                        switch context.cSharp(field: $0, of: self, useNativeName: true) {
                         case .method: fatalErr("Can't export a stored variable `\(self.sourceType.name).\($0.name)` as a method")
                         case .variable(let field): return field
                         case nil: return nil
