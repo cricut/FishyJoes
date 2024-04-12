@@ -32,32 +32,32 @@ namespace Cricut.TestAPI.Tests {
             Assert.Equal(1.686253813623996, a.HasADefaultImplementation2("0.9870923", false, 1.123123));
         }
 
-        // [Fact]
-        // public void TestProtocolEnum() {
-        //     var testProtocolEnum = new TestProtocolEnum.Qux();
-        //     testProtocolEnum.Foo();
-        //     Assert.True(testProtocolEnum.Bar());
-        //     testProtocolEnum.Baz(true);
-        //     Assert.Equal("garply Navigate a nostril! garpity garp", testProtocolEnum.Garply("Navigate a nostril!"));
-        //     Assert.Equal("thud: 42; grault: [1.234, 45.235890198, 892.8]", testProtocolEnum.Xyzzy(42, new List<double>() {1.234, 45.235890198, 892.80}));
-        //     Assert.Equal(Tuple.Create<bool, nint, string>(false, 3, "Take a left at your intestines -<*>- Take the second right past Mars"), testProtocolEnum.Plugh(Tuple.Create(true, 3.14159265359, (System.Collections.Generic.IList<string>) new string[] {"Take a left at your intestines", "Take the second right past Mars"})));
-        // }
+        [Fact]
+        public void TestProtocolEnum() {
+            var testProtocolEnum = new TestProtocolEnum.Qux();
+            testProtocolEnum.Foo();
+            Assert.True(testProtocolEnum.Bar());
+            testProtocolEnum.Baz(true);
+            Assert.Equal("garply Navigate a nostril! garpity garp", testProtocolEnum.Garply("Navigate a nostril!"));
+            Assert.Equal("thud: 42; grault: [1.234, 45.235890198, 892.8]", testProtocolEnum.Xyzzy(42, new List<double>() {1.234, 45.235890198, 892.80}));
+            Assert.Equal(Tuple.Create<bool, nint, string>(false, 3, "Take a left at your intestines -<*>- Take the second right past Mars"), testProtocolEnum.Plugh(Tuple.Create(true, 3.14159265359, (System.Collections.Generic.IList<string>) new string[] {"Take a left at your intestines", "Take the second right past Mars"})));
+        }
 
-    //     [Fact]
-    //     public void TestProtocolStruct() {
-    //         var testProtocolStruct = new TestProtocolStruct("Raft a river of lava-ah!");
-    //         Assert.Equal("Raft a river of lava-ah!", testProtocolStruct.Corge);
-    //         testProtocolStruct.Corge = "Spank a plankton too! (take that)";
-    //         Assert.Equal("Spank a plankton too! (take that)", testProtocolStruct.Corge);
-    //         Assert.Equal(new List<double>() { 3.14159265359, 42.0, -1.23456789 }, testProtocolStruct.Frob);
-    //         Assert.Equal(Tuple.Create<bool, nint, string>(true, 51, "Ride on the magic school bus *>-<* You might get baked into a pie"), testProtocolStruct.Plugh(Tuple.Create(true, 42.9, (System.Collections.Generic.IList<string>) new string[] {"Ride on the magic school bus", "You might get baked into a pie"})));
+        [Fact]
+        public void TestProtocolStruct() {
+            var testProtocolStruct = new TestProtocolStruct("Raft a river of lava-ah!");
+            Assert.Equal("Raft a river of lava-ah!", testProtocolStruct.Corge);
+            testProtocolStruct.Corge = "Spank a plankton too! (take that)";
+            Assert.Equal("Spank a plankton too! (take that)", testProtocolStruct.Corge);
+            Assert.Equal(new List<double>() { 3.14159265359, 42.0, -1.23456789 }, testProtocolStruct.GetFrob());
+            Assert.Equal(Tuple.Create<bool, nint, string>(true, 51, "Ride on the magic school bus *>-<* You might get baked into a pie"), testProtocolStruct.Plugh(Tuple.Create(true, 42.9, (System.Collections.Generic.IList<string>) new string[] {"Ride on the magic school bus", "You might get baked into a pie"})));
 
-    //         testProtocolStruct.Foo();
-    //         Assert.False(testProtocolStruct.Bar());
-    //         testProtocolStruct.Baz(true);
-    //         Assert.Equal("garp garpity An octopus in your neighborhood? garpee", testProtocolStruct.Garply("An octopus in your neighborhood?"));
-    //         Assert.Equal("thud: 42 | grault: [1.234, 45.235890198, 892.8]", testProtocolStruct.Xyzzy(42, new List<double>() { 1.234, 45.235890198, 892.80 }));
-    //     }
+            testProtocolStruct.Foo();
+            Assert.False(testProtocolStruct.Bar());
+            testProtocolStruct.Baz(true);
+            Assert.Equal("garp garpity An octopus in your neighborhood? garpee", testProtocolStruct.Garply("An octopus in your neighborhood?"));
+            Assert.Equal("thud: 42 | grault: [1.234, 45.235890198, 892.8]", testProtocolStruct.Xyzzy(42, new List<double>() { 1.234, 45.235890198, 892.80 }));
+        }
 
     //     [Fact]
     //     public void TestProtocolClassTest() {
