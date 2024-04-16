@@ -360,8 +360,11 @@ class CSharpProductClass: CSharpClass {
                 fragment.output("internal \(unqualifiedName)(ConsumedRef reference): base(reference) {}")
             case .public(let fields):
                 for field in fields {
-                    fragment.outputBlock("public \(field.type.name) Get\(CSharpClass.deforbidify(field.name))() {") {
-                        fragment.output("return \(CSharpClass.deforbidify(field.name));")
+                    // TODO: Check if field is part of a conformance or not
+                    if !conformances.isEmpty {
+                        fragment.outputBlock("public \(field.type.name) Get\(CSharpClass.deforbidify(field.name))() {") {
+                            fragment.output("return \(CSharpClass.deforbidify(field.name));")
+                        }
                     }
                     fragment.output("public \(field.type.name) \(CSharpClass.deforbidify(field.name)) { get; \(field.isPubliclyWritable ? "set;" : "internal set;") }")
                 }
