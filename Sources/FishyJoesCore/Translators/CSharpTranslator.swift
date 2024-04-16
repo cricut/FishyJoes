@@ -149,14 +149,11 @@ final class CSharpTranslator: Translator {
         let resolved = context.resolve(type: field.typeName.better)
 
         var isInProtocol = false
-    isInProtocolCheck:
-        if let implements = field.definedInType?.implements,
-           !implements.isEmpty {
+        if let implements = field.definedInType?.implements {
             for sourceryRuntimeType in implements.values {
                 if let sourceryProtocol = sourceryRuntimeType as? SourceryProtocol,
-                   sourceryProtocol.variables.map { $0.name }.contains(field.name) {
+                   sourceryProtocol.variables.map({ $0.name }).contains(field.name) {
                        isInProtocol = true
-                       break isInProtocolCheck
                    }
             }
         }
