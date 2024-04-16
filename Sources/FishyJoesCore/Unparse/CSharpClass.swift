@@ -29,22 +29,36 @@ class CSharpClass: NestedClass {
         let isOverride: Bool
         let isMutable: Bool
         let isPubliclyWritable: Bool
-        let asMethod: Bool
+        var asMethod: Bool
         let name: String
         let mangledName: String
         let type: CSType
         let deprecation: Deprecation?
+        let isInProtocol: Bool
     }
 
     let module: Module
     let documentation: [String]
     let name: String
     var innerClasses: [CSharpClass] = []
+    let fields: [Variable]
+    let methods: [Method]
+    let conformances: [String]
 
-    init(module: Module, documentation: [String], name: String) {
+    init(
+        module: Module,
+        documentation: [String],
+        name: String,
+        fields: [Variable],
+        methods: [Method],
+        conformances: Set<String>
+    ) {
         self.name = name
         self.documentation = documentation
         self.module = module
+        self.fields = fields
+        self.methods = methods
+        self.conformances = Array(conformances).sorted(by: <)
     }
 
     func output(to fragment: SourceFragment) {
@@ -151,7 +165,9 @@ class CSharpClass: NestedClass {
                 }
                 if field.isPubliclyWritable {
                     fragment.outputBlock("set {") {
-                        outputSetterBody()
+                        if field.isPubliclyWritable {
+                            outputSetterBody()
+                        }
                     }
                 }
             }
@@ -303,30 +319,25 @@ class CSharpProductClass: CSharpClass {
     }
 
     let constructor: Constructor
-    let fields: [Variable]
-    let methods: [Method]
 
     init(
         module: Module,
         documentation: [String],
         name: String,
         constructor: Constructor,
-        fieldsAndMethods: [MethodOrVariable]
+        fields: [Variable],
+        methods: [Method],
+        conformances: Set<String>
     ) {
         self.constructor = constructor
-        self.fields = fieldsAndMethods.compactMap {
-            guard case let .variable(field) = $0 else {
-                return nil
-            }
-            return field
-        }
-        self.methods = fieldsAndMethods.compactMap {
-            guard case let .method(method) = $0 else {
-                return nil
-            }
-            return method
-        }
-        super.init(module: module, documentation: documentation, name: name)
+        super.init(
+            module: module,
+            documentation: documentation,
+            name: name,
+            fields: fields,
+            methods: methods,
+            conformances: conformances
+        )
     }
 
     override func output(to fragment: SourceFragment) {
@@ -334,16 +345,27 @@ class CSharpProductClass: CSharpClass {
 
         switch constructor {
         case .reference:
-            fragment.output("public class \(unqualifiedName) : SwiftReference ", newLineTerminated: false)
+            fragment.output("public class \(unqualifiedName) : SwiftReference", newLineTerminated: false)
+            if !conformances.isEmpty {
+                fragment.output(", \(Array(conformances).sorted(by: < ).joined(separator: ", "))", newLineTerminated: false)
+            }
         case .public:
-            fragment.output("public record \(unqualifiedName) ", newLineTerminated: false)
+            fragment.output("public record \(unqualifiedName)", newLineTerminated: false)
+            if !conformances.isEmpty {
+                fragment.output(": \(Array(conformances).sorted(by: < ).joined(separator: ", "))", newLineTerminated: false)
+            }
         }
-        fragment.outputBlock("{") {
+        fragment.outputBlock(" {") {
             switch constructor {
             case .reference:
                 fragment.output("internal \(unqualifiedName)(ConsumedRef reference): base(reference) {}")
             case .public(let fields):
                 for field in fields {
+                    if field.isInProtocol {
+                        fragment.outputBlock("public \(field.type.name) Get\(CSharpClass.deforbidify(field.name))() {") {
+                            fragment.output("return \(CSharpClass.deforbidify(field.name));")
+                        }
+                    }
                     fragment.output("public \(field.type.name) \(CSharpClass.deforbidify(field.name)) { get; \(field.isPubliclyWritable ? "set;" : "internal set;") }")
                 }
                 fragment.blankLine()
@@ -374,8 +396,6 @@ class CSharpProductClass: CSharpClass {
 
 class CSharpEnumClass: CSharpClass {
     let cases: [Case]
-    let fields: [Variable]
-    let methods: [Method]
 
     struct Case {
         let documentation: [String]
@@ -388,22 +408,19 @@ class CSharpEnumClass: CSharpClass {
         documentation: [String],
         name: String,
         cases: [Case],
-        fieldsAndMethods: [MethodOrVariable]
+        fields: [Variable],
+        methods: [Method],
+        conformances: Set<String>
     ) {
         self.cases = cases
-        self.fields = fieldsAndMethods.compactMap {
-            guard case let .variable(field) = $0 else {
-                return nil
-            }
-            return field
-        }
-        self.methods = fieldsAndMethods.compactMap {
-            guard case let .method(method) = $0 else {
-                return nil
-            }
-            return method
-        }
-        super.init(module: module, documentation: documentation, name: name)
+        super.init(
+            module: module,
+            documentation: documentation,
+            name: name,
+            fields: fields,
+            methods: methods,
+            conformances: conformances
+        )
     }
 
     override func output(to fragment: SourceFragment) {
@@ -432,6 +449,24 @@ class CSharpEnumClass: CSharpClass {
 
             fragment.output("static \(unqualifiedName)() { _TypeSetup._ensureLoaded(); }")
         }
+    }
+}
+
+extension CSharpClass {
+    static func separate(fieldsAndMethods: [CSharpClass.MethodOrVariable]) -> ([CSharpClass.Variable], [CSharpClass.Method]) {
+        let fields: [Variable] = fieldsAndMethods.compactMap {
+            guard case let .variable(field) = $0 else {
+                return nil
+            }
+            return field
+        }
+        let methods: [Method] = fieldsAndMethods.compactMap {
+            guard case let .method(method) = $0 else {
+                return nil
+            }
+            return method
+        }
+        return (fields, methods)
     }
 }
 

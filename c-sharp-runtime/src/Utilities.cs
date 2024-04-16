@@ -25,12 +25,13 @@ namespace Cricut.FishyJoesRuntime {
             }
 
             lock(TrackedHandles) {
-                Console.WriteLine($"=== Begin live GC handles {TrackedHandles.Count} ===");
-                foreach (var ptr in TrackedHandles) {
+                LinkedList<IntPtr> TrackedHandlesClone = new LinkedList<IntPtr>(TrackedHandles);
+                Console.WriteLine($"=== Begin live GC handles {TrackedHandlesClone.Count} ===");
+                foreach (var ptr in TrackedHandlesClone) {
                     var handle = GCHandle.FromIntPtr(ptr);
                     Console.WriteLine($"{ptr}: {handle.Target?.GetType().ToString() ?? "<null>"} => {handle.Target?.ToString() ?? "<null>"}");
                 }
-                Console.WriteLine($"=== End live GC handles {TrackedHandles.Count} ===");
+                Console.WriteLine($"=== End live GC handles {TrackedHandlesClone.Count} ===");
             }
         }
 

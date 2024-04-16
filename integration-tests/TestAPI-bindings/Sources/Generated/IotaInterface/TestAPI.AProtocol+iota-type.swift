@@ -33,7 +33,7 @@ struct _IotaAProtocol: TestAPI.AProtocol {
     }
 
     public func bar(x: Int, y: Int) throws -> AProtocol {
-        try TestAPI_CommonInterface._AProtocolConverter.peekIota(
+        try TestAPI_CommonInterface._AProtocolConverter.consumeIota(
             try _iotaWitness.env.check { exn in
                 TestAPI_CommonInterface._AProtocolConverter._bar[_iotaWitness.env](
                     _iotaWitness.object,
@@ -47,7 +47,7 @@ struct _IotaAProtocol: TestAPI.AProtocol {
     }
 
     public func hasADefaultImplementation(x: Int, y: Double) throws -> String {
-        try Swift.String.peekIota(
+        try Swift.String.consumeIota(
             try _iotaWitness.env.check { exn in
                 TestAPI_CommonInterface._AProtocolConverter._hasADefaultImplementation[_iotaWitness.env](
                     _iotaWitness.object,
@@ -61,7 +61,7 @@ struct _IotaAProtocol: TestAPI.AProtocol {
     }
 
     public func hasADefaultImplementation2(_ a: String, b: Bool, _ c: Double) throws -> Double {
-        try Swift.Double.peekIota(
+        try Swift.Double.consumeIota(
             try _iotaWitness.env.check { exn in
                 TestAPI_CommonInterface._AProtocolConverter._hasADefaultImplementation2[_iotaWitness.env](
                     _iotaWitness.object,

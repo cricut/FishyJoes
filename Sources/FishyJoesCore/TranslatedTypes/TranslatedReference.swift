@@ -420,18 +420,14 @@ struct TranslatedReference: TranslatedType {
         }
 
         registerDartClass(in: context)
-
-        // TODO: Handle Protocols
-        if conformances.isEmpty {
-            registerCSharpClass(in: context)
-        }
+        registerCSharpClass(in: context)
 
         return fragment
     }
 
     func registerCSharpClass(in context: FishyJoesContext) {
         var fieldsAndMethods =
-            computedVariables.compactMap { context.cSharp(field: $0, of: self, useNativeName: false) } +
+        computedVariables.compactMap { context.cSharp(field: $0, of: self, useNativeName: false) } +
             methods.compactMap { context.cSharp(method: $0, of: self) }
 
         if equatable {
@@ -493,12 +489,16 @@ struct TranslatedReference: TranslatedType {
             )
         }
 
+        let (productFields, productMethods) = CSharpClass.separate(fieldsAndMethods: fieldsAndMethods)
+
         let product = CSharpProductClass(
             module: context.module,
             documentation: documentation,
             name: cSharpType.name,
             constructor: .reference,
-            fieldsAndMethods: fieldsAndMethods
+            fields: productFields,
+            methods: productMethods,
+            conformances: conformances
         )
         context.add(cSharpClass: product)
     }

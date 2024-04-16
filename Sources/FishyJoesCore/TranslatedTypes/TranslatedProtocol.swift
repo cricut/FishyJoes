@@ -203,6 +203,97 @@ struct TranslatedProtocol: TranslatedType {
         return setupParams
     }
 
+    func cSharpSetupDelegates(in context: FishyJoesContext) -> [String] {
+        var lines: [String] = []
+        lines.append("delegate \(cSharpType.pInvokeCreatedName) _\(converterType.genericBaseName.mangledName)Constructor(")
+        lines.append("    ConsumedRef ptr,")
+        lines.append("    out CreatedRef exn")
+        lines.append(");")
+        // All fields in protocols treated as methods with "Get" prefix because of C# tradition; and we can only do `get throws` for computed properties in Swift because there's no `set throws`.
+        for field in fields {
+            let resolved = context.resolve(type: field.typeName.better)
+            let commonName = "_\(converterType.genericBaseName.mangledName)_Get\(field.name)"
+            lines.append("delegate \(resolved.cSharpType.pInvokeCreatedName) \(commonName)(\(cSharpType.pInvokeUnownedName) obj, out CreatedRef exn);")
+        }
+        for method in methods {
+            let resolvedReturnType = context.resolve(type: method.returnType)
+            let commonName = "_\(converterType.genericBaseName.mangledName)_\(method.callName)"
+            var line = "delegate \(resolvedReturnType.cSharpType.pInvokeCreatedName) \(commonName)(\(cSharpType.pInvokeUnownedName) obj, "
+            for parameter in method.parameters {
+                let resolved = context.resolve(type: parameter.type)
+                line.append("\(resolved.cSharpType.name) \(parameter.name), ")
+            }
+            line.append("out CreatedRef exn);")
+            lines.append(line)
+        }
+        return lines
+    }
+
+    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>] {
+        let constructorType = "_\(converterType.genericBaseName.mangledName)Constructor"
+        var foreignSetupParameters = [ForeignSetupParameter<String>]()
+
+        foreignSetupParameters.append(
+            .value(
+                name: "constructor",
+                type: constructorType
+            ) { fragment in
+                fragment.outputBlock("bag<\(constructorType)>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {", closeWith: "})),") {
+                    fragment.output("return new CreatedRef(new \(cSharpType.package ?? context.module.name).ExternalWitness_\(sourceType.genericBaseName.name)(ptr));")
+                }
+            }
+        )
+
+        let fieldsParameters = fields.map { field -> ForeignSetupParameter in
+            let resolved = context.resolve(type: field.typeName.better)
+            let commonName = "_\(converterType.genericBaseName.mangledName)_Get\(field.name)"
+            return
+                .value(
+                    name: "Get\(field.name)",
+                    type: commonName
+                ) { fragment in
+                    // All fields in protocols are asMethod Get only
+                    fragment.outputBlock("bag<\(commonName)>((\(cSharpType.pInvokeUnownedName) obj, out CreatedRef exn) => Catching(out exn, () =>", closeWith: ")),") {
+                        let grab = "obj.Peek<\(cSharpType.name)>().Get\(CSharpClass.deforbidify(upperCaseFirst(field.name)))()"
+                        if resolved.cSharpType.isObject {
+                            fragment.output("new CreatedRef(\(grab))")
+                        } else {
+                            fragment.output("\(grab)")
+                        }
+                    }
+                }
+        }
+        foreignSetupParameters.append(contentsOf: fieldsParameters)
+
+        let methodsParameters = methods.map { method -> ForeignSetupParameter in
+            let commonName = "_\(converterType.genericBaseName.mangledName)_\(method.callName)"
+            return .value(
+                name: method.callName,
+                type: commonName
+            ) { fragment in
+                let resolvedReturnType = context.resolve(type: method.returnType)
+                var line = "bag<\(commonName)>((\(cSharpType.pInvokeUnownedName) obj, "
+                for parameter in method.parameters {
+                    let resolved = context.resolve(type: parameter.type)
+                    line.append("\(resolved.cSharpType.name) \(parameter.name), ")
+                }
+                line.append("out CreatedRef exn) => Catching(out exn, () => ")
+                fragment.outputBlock(line, closeWith: ")),") {
+                    let grab = "obj.Peek<\(cSharpType.name)>().\(CSharpClass.deforbidify(upperCaseFirst(method.callName)))(\(method.parameters.map { $0.name }.joined(separator: ", ")))"
+                    if resolvedReturnType.cSharpType.isObject {
+                        fragment.output("new CreatedRef(\(grab))")
+                    } else {
+                        fragment.output("\(grab)")
+                    }
+                    fragment.blankLine()
+                }
+            }
+        }
+        foreignSetupParameters.append(contentsOf: methodsParameters)
+
+        return foreignSetupParameters
+    }
+
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
         return [
             commonDefinitionFragment(in: context),
@@ -452,7 +543,7 @@ struct TranslatedProtocol: TranslatedType {
                     }
                 }
                 fragment.outputBlock("\(method.isStatic ? "static " : "")public func \(method.callName)(\(paramSigs.joined(separator: ", ")))\(returnSignature) {") {
-                    fragment.outputBlock("try \(resolvedReturn.converterType.name).peekIota(") {
+                    fragment.outputBlock("try \(resolvedReturn.converterType.name).consumeIota(") {
                         fragment.outputBlock("try _iotaWitness.env.check { exn in", closeWith: "},") {
                             fragment.outputBlock("\(converterType.name)._\(method.callName)[_iotaWitness.env](") {
                                 fragment.output("_iotaWitness.object,")
@@ -563,11 +654,7 @@ struct TranslatedProtocol: TranslatedType {
         }
 
         registerDartClass(context: context)
-
-        // TODO: Handle Protocols
-        if conformances.isEmpty {
-            registerCSharpClass(context: context)
-        }
+        registerCSharpClass(context: context)
 
         return fragment
     }
@@ -782,7 +869,45 @@ struct TranslatedProtocol: TranslatedType {
     }
 
     func registerCSharpClass(context: FishyJoesContext) {
-        // TODO: Implement me!
+        let (protocolFields, protocolMethods) = CSharpClass.separate(
+            fieldsAndMethods:
+                fields.compactMap {
+                    context.cSharp(field: $0, of: self, useNativeName: false)
+                } + methods.compactMap {
+                    context.cSharp(method: $0, of: self)
+                }
+        )
+
+        context.add(
+            cSharpClass: CSharpProtocolClass(
+                module: context.module,
+                documentation: documentation,
+                name: cSharpType.name,
+                fields: protocolFields,
+                methods: protocolMethods,
+                conformances: conformances
+            )
+        )
+
+        let (externalWitnessFields, externalWitnessMethods) = CSharpClass.separate(
+            fieldsAndMethods:
+                fields.compactMap {
+                    context.cSharp(field: $0, of: self, useNativeName: false)
+                } + methods.filter { !$0.isDefaultImplementation }.compactMap {
+                    context.cSharp(method: $0, of: self)
+                }
+        )
+        context.add(
+            cSharpClass: CSharpProductClass(
+                module: context.module,
+                documentation: documentation,
+                name: "\(cSharpType.package ?? "Cricut.\(context.module.name)").\(iotaExternalWitnessClassName)",
+                constructor: .reference,
+                fields: externalWitnessFields,
+                methods: externalWitnessMethods,
+                conformances: [sourceType.nonNamespacedName]
+            )
+        )
     }
 
     func registerDartClass(context: FishyJoesContext) {
@@ -813,17 +938,15 @@ struct TranslatedProtocol: TranslatedType {
                     context.dart(method: $0, of: self)
                 }
         )
-        let externalWitnessName = "ExternalWitness_\(sourceType.nonNamespacedName)"
         context.add(
             dartClass: DartProductClass(
                 module: context.module,
                 documentation: documentation,
-                name: "\(context.module.name).\(externalWitnessName)",
+                name: "\(context.module.name).\(iotaExternalWitnessClassName)",
                 constructor: .reference,
                 fields: externalWitnessFields,
                 methods: externalWitnessMethods,
-                conformances: [sourceType.nonNamespacedName],
-                isExternalWitness: true
+                conformances: [sourceType.nonNamespacedName]
             )
         )
     }

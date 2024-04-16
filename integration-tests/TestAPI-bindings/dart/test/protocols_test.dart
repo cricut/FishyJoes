@@ -200,7 +200,7 @@ void main() {
           iabs: (x) async { return x.abs(); },
           intCompose: (f, g) {
             return (x) async {
-              return f( await g(x));
+              return f( await g(x) );
             };
           },
           add3Things: (x, y, z) async {

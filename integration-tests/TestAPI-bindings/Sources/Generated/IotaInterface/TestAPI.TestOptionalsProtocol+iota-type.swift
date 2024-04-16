@@ -22,7 +22,7 @@ struct _IotaTestOptionalsProtocol: TestAPI.TestOptionalsProtocol {
     }
 
     public func wombat(zxc: Optional<Int>) throws -> Optional<Double> {
-        try OptionalConverter<Swift.Double>.peekIota(
+        try OptionalConverter<Swift.Double>.consumeIota(
             try _iotaWitness.env.check { exn in
                 TestAPI_CommonInterface._TestOptionalsProtocolConverter._wombat[_iotaWitness.env](
                     _iotaWitness.object,
@@ -35,7 +35,7 @@ struct _IotaTestOptionalsProtocol: TestAPI.TestOptionalsProtocol {
     }
 
     public func spqr(_ pippo: AssociatedDataEnum) throws -> Int {
-        try Swift.Int.peekIota(
+        try Swift.Int.consumeIota(
             try _iotaWitness.env.check { exn in
                 TestAPI_CommonInterface._TestOptionalsProtocolConverter._spqr[_iotaWitness.env](
                     _iotaWitness.object,

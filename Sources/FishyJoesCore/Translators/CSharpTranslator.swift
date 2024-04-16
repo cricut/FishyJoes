@@ -20,11 +20,6 @@ final class CSharpTranslator: Translator {
                 var initializerWriters: [() -> Void] = []
                 for type in generatedTypes {
                     let resolved = context.resolve(type: type)
-                    // TODO: Handle Protocols
-                    guard resolved.conformances.isEmpty,
-                          !(resolved is TranslatedProtocol) else {
-                        continue
-                    }
                     let setupParams = resolved.cSharpSetupParameters(in: context)
                     let setupDelegates = resolved.cSharpSetupDelegates(in: context)
 
@@ -152,6 +147,17 @@ final class CSharpTranslator: Translator {
             mangledName = exportAnnotation.name.mangled
         }
         let resolved = context.resolve(type: field.typeName.better)
+
+        var isInProtocol = false
+        if let implements = field.definedInType?.implements {
+            for sourceryRuntimeType in implements.values {
+                if let sourceryProtocol = sourceryRuntimeType as? SourceryProtocol,
+                   sourceryProtocol.variables.map({ $0.name }).contains(field.name) {
+                       isInProtocol = true
+                   }
+            }
+        }
+
         return .variable(
             CSharpClass.Variable(
                 documentation: field.documentation,
@@ -163,7 +169,8 @@ final class CSharpTranslator: Translator {
                 name: csName,
                 mangledName: "\(type.mangledName)_\(mangledName)",
                 type: resolved.cSharpType,
-                deprecation: field.deprecation
+                deprecation: field.deprecation,
+                isInProtocol: isInProtocol
             )
         )
     }
