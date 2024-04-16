@@ -41,37 +41,13 @@ namespace Cricut.TestAPI {
             return WillThrow;
         }
         public System.Func<System.Threading.Tasks.Task<nint>> WillThrow { get; internal set; }
-        public System.Func<System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<string>> GetExercise0Fun() {
-            return Exercise0Fun;
-        }
         public System.Func<System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<string>> Exercise0Fun { get; internal set; }
-        public System.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<string>> GetExercise1Fun() {
-            return Exercise1Fun;
-        }
         public System.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<string>> Exercise1Fun { get; internal set; }
-        public System.Func<System.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>>, System.Threading.Tasks.Task<string>> GetExercise2Fun() {
-            return Exercise2Fun;
-        }
         public System.Func<System.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>>, System.Threading.Tasks.Task<string>> Exercise2Fun { get; internal set; }
-        public System.Func<System.Func<float, double, nint, System.Threading.Tasks.Task<double>>, System.Threading.Tasks.Task<string>> GetExercise3Fun() {
-            return Exercise3Fun;
-        }
         public System.Func<System.Func<float, double, nint, System.Threading.Tasks.Task<double>>, System.Threading.Tasks.Task<string>> Exercise3Fun { get; internal set; }
-        public System.Func<System.Func<string, string, string, string, System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>>, System.Threading.Tasks.Task<string>> GetExercise4Fun() {
-            return Exercise4Fun;
-        }
         public System.Func<System.Func<string, string, string, string, System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>>, System.Threading.Tasks.Task<string>> Exercise4Fun { get; internal set; }
-        public System.Func<System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>>, System.Threading.Tasks.Task<string>> GetExercise5Fun() {
-            return Exercise5Fun;
-        }
         public System.Func<System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>>, System.Threading.Tasks.Task<string>> Exercise5Fun { get; internal set; }
-        public System.Func<System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, nint, System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<string>> GetExercise6Fun() {
-            return Exercise6Fun;
-        }
         public System.Func<System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, nint, System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<string>> Exercise6Fun { get; internal set; }
-        public System.Func<System.Func<System.Threading.Tasks.Task>, System.Func<System.Threading.Tasks.Task>> GetThunkTwiceMakerFun() {
-            return ThunkTwiceMakerFun;
-        }
         public System.Func<System.Func<System.Threading.Tasks.Task>, System.Func<System.Threading.Tasks.Task>> ThunkTwiceMakerFun { get; internal set; }
 
         public TestAsyncForeignSideFunctionsStruct(
