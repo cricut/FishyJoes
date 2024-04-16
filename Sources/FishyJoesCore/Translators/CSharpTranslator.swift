@@ -148,6 +148,12 @@ final class CSharpTranslator: Translator {
         }
         let resolved = context.resolve(type: field.typeName.better)
 
+        var isInProtocol = false
+        if let implements = field.definedInType?.implements,
+           !implements.isEmpty {
+            isInProtocol = true
+        }
+
         return .variable(
             CSharpClass.Variable(
                 documentation: field.documentation,
@@ -159,7 +165,8 @@ final class CSharpTranslator: Translator {
                 name: csName,
                 mangledName: "\(type.mangledName)_\(mangledName)",
                 type: resolved.cSharpType,
-                deprecation: field.deprecation
+                deprecation: field.deprecation,
+                isInProtocol: isInProtocol
             )
         )
     }
