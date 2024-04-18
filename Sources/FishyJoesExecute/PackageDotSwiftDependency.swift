@@ -18,9 +18,9 @@ extension PackageDotSwiftDependency.Dependency {
         case let .fileSystem(_, path):
             self = .local(path: path)
         case let .sourceControl(_, url, .branch(names)) where names.count == 1:
-            self = .remote(url: url.formatted(), .branch(name: names[0]))
+            self = .remote(url: url.absoluteString, .branch(name: names[0]))
         case let .sourceControl(_, url, .exact(versions)) where versions.count == 1:
-            self = .remote(url: url.formatted(), .revision(name: versions[0]))
+            self = .remote(url: url.absoluteString, .revision(name: versions[0]))
         default:
             fatalError("ill-formed dependency (expected local, branch, or exact):\n  \(spmDependency)")
         }
