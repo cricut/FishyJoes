@@ -1,7 +1,7 @@
 import Foundation
 
 enum PackageDotSwiftDependency {
-    // This enum should be kept in sync with the one in bindings/Package.swift
+    // This enum should be kept in sync with the one in the string in CodeGen.swift
     enum Dependency: Codable {
         case local(path: String)
         case remote(url: URL, _ refSpec: RefSpec)

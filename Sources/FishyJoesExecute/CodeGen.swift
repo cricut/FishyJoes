@@ -213,10 +213,11 @@ extension CodeGen {
 
                         let env = ProcessInfo.processInfo.environment
                         let wasmCompatibleOnly = env["WASM_ONLY"] == "1"
-
+                        \("" // This enum should be kept in sync with the one PackageDotSwiftDependency.swift
+                        )
                         enum Dependency: Codable {
                             case local(path: String)
-                            case remote(url: String, _ refSpec: RefSpec)
+                            case remote(url: URL, _ refSpec: RefSpec)
                             enum RefSpec: Codable {
                                 case branch(name: String)
                                 case revision(name: String)
