@@ -5,14 +5,13 @@
 cmake_minimum_required(VERSION 3.14)
 
 # Project-level configuration.
-set(PROJECT_NAME "__LOWERCASE_MODULE_NAME___flutter")
-project(${PROJECT_NAME} LANGUAGES CXX)
+set(PROJECT_NAME "fishyjoes_runtime")
+project(${PROJECT_NAME})
 
 # List of absolute paths to libraries that should be bundled with the plugin.
 # This list could contain prebuilt libraries, or libraries created by an
 # external build triggered from this build file.
-set(cricut___LOWERCASE_MODULE_NAME___bundled_libraries
-  ${CMAKE_CURRENT_SOURCE_DIR}/native/__MODULE_NAME__.dll
-  ${CMAKE_CURRENT_SOURCE_DIR}/native/__MODULE_NAME__-iota.dll
+set(fishyjoes_dart_bundled_libraries
+  ${CMAKE_CURRENT_SOURCE_DIR}/native/libFishyJoesIotaRuntime.so
   PARENT_SCOPE
 )
