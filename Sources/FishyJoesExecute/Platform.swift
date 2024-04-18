@@ -198,6 +198,7 @@ enum Platform: CustomStringConvertible, Hashable {
         if let scratchPath = scratchPath {
             args = ["--scratch-path", scratchPath] + args
         }
+        Log.info("addEnv = \(env)")
         return cmd(path, arguments: args, addEnv: env)
     }
 
