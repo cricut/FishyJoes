@@ -216,7 +216,7 @@ extension CodeGen {
 
                         enum Dependency: Codable {
                             case local(path: String)
-                            case remote(url: String, refSpec: RefSpec)
+                            case remote(url: String, _ refSpec: RefSpec)
                             enum RefSpec: Codable {
                                 case branch(name: String)
                                 case revision(name: String)
