@@ -12,12 +12,17 @@ struct _NodeTestLeadingUnderscoredProp: TestAPI.TestLeadingUnderscoredProp {
 
     var _leadingUnderscoreProp: String
 }
-extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: NodeMutator {
+
+extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
-        return _NodeTestLeadingUnderscoredProp(
-            _nodeWitness: try NodeReference(env: env, value: value),
-            _leadingUnderscoreProp: String()
-        )
+        do {
+            return try Box<SwiftType>.takeUnretained(value, env: env).value
+        } catch {
+            return _NodeTestLeadingUnderscoredProp(
+                _nodeWitness: try NodeReference(env: env, value: value),
+                _leadingUnderscoreProp: String()
+            )
+        }
     }
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
         let constructor = try NodeClass.constructor(for: "TestLeadingUnderscoredProp", env: env)
@@ -25,8 +30,6 @@ extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: NodeMuta
             try Swift.String.toNode(value._leadingUnderscoreProp, env: env),
         ]
         return try env.newInstance(constructor, args)
-    }
-    public static func mutateNode(_ value: SwiftType, this: NAPI.Value, env: NAPI.Env) throws {
     }
 
     @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")

@@ -20,12 +20,17 @@ struct _NodeTestOptionalsProtocol: TestAPI.TestOptionalsProtocol {
         spqrImpl!()
     }
 }
-extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: NodeMutator {
+
+extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
-        return _NodeTestOptionalsProtocol(
-            _nodeWitness: try NodeReference(env: env, value: value),
-            flarp: String()
-        )
+        do {
+            return try Box<SwiftType>.takeUnretained(value, env: env).value
+        } catch {
+            return _NodeTestOptionalsProtocol(
+                _nodeWitness: try NodeReference(env: env, value: value),
+                flarp: String()
+            )
+        }
     }
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
         let constructor = try NodeClass.constructor(for: "TestOptionalsProtocol", env: env)
@@ -33,8 +38,6 @@ extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: NodeMutator {
             try OptionalConverter<Swift.String>.toNode(value.flarp, env: env),
         ]
         return try env.newInstance(constructor, args)
-    }
-    public static func mutateNode(_ value: SwiftType, this: NAPI.Value, env: NAPI.Env) throws {
     }
 
     @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")

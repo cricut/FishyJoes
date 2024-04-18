@@ -35,19 +35,22 @@ struct _NodeTestMethodsProtocol: TestAPI.TestMethodsProtocol {
         plughImpl!()
     }
 }
-extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeMutator {
+
+extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
-        return _NodeTestMethodsProtocol(
-            _nodeWitness: try NodeReference(env: env, value: value)
-        )
+        do {
+            return try Box<SwiftType>.takeUnretained(value, env: env).value
+        } catch {
+            return _NodeTestMethodsProtocol(
+                _nodeWitness: try NodeReference(env: env, value: value)
+            )
+        }
     }
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
         let constructor = try NodeClass.constructor(for: "TestMethodsProtocol", env: env)
         let args: [NAPI.Value] = [
         ]
         return try env.newInstance(constructor, args)
-    }
-    public static func mutateNode(_ value: SwiftType, this: NAPI.Value, env: NAPI.Env) throws {
     }
 
     @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")

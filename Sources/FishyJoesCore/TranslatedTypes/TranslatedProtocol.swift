@@ -397,23 +397,30 @@ struct TranslatedProtocol: TranslatedType {
                 }
             }
         }
-        fragment.outputBlock("extension \(converterType.name): NodeMutator {") {
+        
+        fragment.blankLine()
+
+        fragment.outputBlock("extension \(converterType.name): NodeConverter {") {
             fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {") {
-                fragment.outputBlock("return _Node\(sourceType.nonNamespacedName)(") {
-                    fragment.output("_nodeWitness: try NodeReference(env: env, value: value)", newLineTerminated: false)
-                    if !fields.isEmpty {
-                        fragment.output(",")
-                    } else {
-                        fragment.output("")
-                    }
-                    // TODO: actually do this right when implementing Protocol support for Node
-                    if converterType.name == "TestAPI_CommonInterface._TestAsyncFunctionsConverter" {
-                        fragment.outputMap(fields, separator: ",") {
-                            "\($0.name): AsyncFunctions.\($0.name)"
+                fragment.outputBlock("do {", newLineTerminated: false) {
+                    fragment.output("return try Box<SwiftType>.takeUnretained(value, env: env).value")
+                }
+                fragment.outputBlock(" catch {") {
+                    fragment.outputBlock("return _Node\(sourceType.nonNamespacedName)(") {
+                        fragment.output("_nodeWitness: try NodeReference(env: env, value: value)", newLineTerminated: false)
+                        if !fields.isEmpty {
+                            fragment.output(",")
+                        } else {
+                            fragment.output("")
                         }
-                    } else {
-                        fragment.outputMap(fields, separator: ",") {
-                            "\($0.name): \($0.typeName.name.replacingOccurrences(of: "?", with: ""))()"
+                        if converterType.name == "TestAPI_CommonInterface._TestAsyncFunctionsConverter" {
+                            fragment.outputMap(fields, separator: ",") {
+                                "\($0.name): AsyncFunctions.\($0.name)"
+                            }
+                        } else {
+                            fragment.outputMap(fields, separator: ",") {
+                                "\($0.name): \($0.typeName.name.replacingOccurrences(of: "?", with: ""))()"
+                            }
                         }
                     }
                 }
@@ -430,15 +437,8 @@ struct TranslatedProtocol: TranslatedType {
                 fragment.output("return try env.newInstance(constructor, args)")
             }
 
-            fragment.outputBlock("public static func mutateNode(_ value: SwiftType, this: NAPI.Value, env: NAPI.Env) throws {") {
-                for field in fields {
-                    guard field.isMutable else { continue }
-                    let resolved = context.resolve(type: field.typeName.better)
-                    fragment.output("try env.setNamedProperty(this, \"\(field.name)\", \(resolved.converterType.name).toNode(value.\(field.name), env: env))")
-                }
-            }
-
             fragment.blankLine()
+
             fragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
             fragment.outputBlock("public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {") {
                 // fragment.output("print(\"setting up \(sourceType.name)\")")

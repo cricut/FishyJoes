@@ -59,19 +59,24 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
         witnessImpl!()
     }
 }
-extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeMutator {
+
+extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
-        return _NodeTestAsyncFunctions(
-            _nodeWitness: try NodeReference(env: env, value: value),
-            const42: AsyncFunctions.const42,
-            iabs: AsyncFunctions.iabs,
-            intCompose: AsyncFunctions.intCompose,
-            add3Things: AsyncFunctions.add3Things,
-            makeList: AsyncFunctions.makeList,
-            fifthThing: AsyncFunctions.fifthThing,
-            six: AsyncFunctions.six,
-            willThrow: AsyncFunctions.willThrow
-        )
+        do {
+            return try Box<SwiftType>.takeUnretained(value, env: env).value
+        } catch {
+            return _NodeTestAsyncFunctions(
+                _nodeWitness: try NodeReference(env: env, value: value),
+                const42: AsyncFunctions.const42,
+                iabs: AsyncFunctions.iabs,
+                intCompose: AsyncFunctions.intCompose,
+                add3Things: AsyncFunctions.add3Things,
+                makeList: AsyncFunctions.makeList,
+                fifthThing: AsyncFunctions.fifthThing,
+                six: AsyncFunctions.six,
+                willThrow: AsyncFunctions.willThrow
+            )
+        }
     }
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
         let constructor = try NodeClass.constructor(for: "TestAsyncFunctions", env: env)
@@ -86,8 +91,6 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeMutator {
             try AsyncFunction0Converter<Swift.Int>.toNode(value.willThrow, env: env),
         ]
         return try env.newInstance(constructor, args)
-    }
-    public static func mutateNode(_ value: SwiftType, this: NAPI.Value, env: NAPI.Env) throws {
     }
 
     @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")

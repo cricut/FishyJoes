@@ -25,13 +25,18 @@ struct _NodeAProtocol: TestAPI.AProtocol {
         hasADefaultImplementation2Impl!()
     }
 }
-extension TestAPI_CommonInterface._AProtocolConverter: NodeMutator {
+
+extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
-        return _NodeAProtocol(
-            _nodeWitness: try NodeReference(env: env, value: value),
-            foo: String(),
-            baz: Bool()
-        )
+        do {
+            return try Box<SwiftType>.takeUnretained(value, env: env).value
+        } catch {
+            return _NodeAProtocol(
+                _nodeWitness: try NodeReference(env: env, value: value),
+                foo: String(),
+                baz: Bool()
+            )
+        }
     }
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
         let constructor = try NodeClass.constructor(for: "AProtocol", env: env)
@@ -40,8 +45,6 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeMutator {
             try Swift.Bool.toNode(value.baz, env: env),
         ]
         return try env.newInstance(constructor, args)
-    }
-    public static func mutateNode(_ value: SwiftType, this: NAPI.Value, env: NAPI.Env) throws {
     }
 
     @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
