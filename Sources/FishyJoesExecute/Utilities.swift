@@ -165,6 +165,12 @@ func printAndFlush(_ items: Any..., separator: String = " ", terminator: String 
     fflush(stdout)
 }
 
+extension JSONEncoder {
+    func encodeToString<T: Encodable>(_ value: T) throws -> String {
+        String(data: try encode(value), encoding: .utf8)!
+    }
+}
+
 class PrettyJSONEncoder: JSONEncoder {
     override init() {
         super.init()

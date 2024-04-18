@@ -10,6 +10,7 @@ struct BuildConfiguration: Hashable {
     let fat: Bool
     let codeCoverage: Bool
     var baseDockerContext: Lazy<DockerContext?>
+    var extraEnvVars: [String: String]
 }
 
 enum Platform: CustomStringConvertible, Hashable {
@@ -144,7 +145,7 @@ enum Platform: CustomStringConvertible, Hashable {
         var env: [String: String] = [
             "SWIFT_PACKAGE_FORCE_DYNAMIC": "1",
             "FISHYJOES_TARGET_PLATFORM": "\(self)",
-        ]
+        ].merging(configuration.extraEnvVars) { $1 }
         var scratchPath = configuration.scratchPath
         switch self {
         case .wasm:

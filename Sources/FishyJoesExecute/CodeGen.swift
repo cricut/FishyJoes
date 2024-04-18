@@ -187,8 +187,8 @@ extension CodeGen {
                     .run()
             }
             let bindingsPackageDeps = config.requiredModules.map {
-                "        packageDep(\"\($0)\", bindings: true),"
-            }.joined(separator: "\n")
+                "\n        packageDep(\"\($0)-bindings\", bindings: true),"
+            }.joined()
 
             let packageCustomization = try cmd("cat", "bindings/swift-interfaces/Package.part.swift").runString()
             // Create Package.swift for the bindings package
@@ -237,20 +237,19 @@ extension CodeGen {
                         }
 
                         func packageDep(_ name: String, bindings: Bool = false) -> Package.Dependency {
-                            let packageName = bindings ? "\\(name)-bindings" : name
                             let subPath = bindings ? "/bindings/swift-interfaces/generated/\\(name)-bindings" : ""
                             switch env["FISHYJOES_DEPENDENCY_\\(name)"] {
                             case .none:
-                                return LOG_package(name: packageName, path: "../../../../../\\(name)\\(subPath)")
+                                return LOG_package(name: name, path: "../../../../../\\(name)\\(subPath)")
                             case .some(let versionSpec):
                                 switch try! JSONDecoder().decode(Dependency.self, from: versionSpec.data(using: .utf8)!) {
                                 case .local(let packagePath):
-                                    return LOG_package(name: packageName, path: "\\(packagePath)\\(subPath)")
+                                    return LOG_package(name: name, path: "\\(packagePath)")
                                 case let .remote(url, .branch(branch)):
-                                    if bindings { fatalError("TODO") }
+                                    if bindings { fatalError("not supported") }
                                     return LOG_package(url: url, branch: branch)
                                 case let .remote(url, .revision(revision)):
-                                    if bindings { fatalError("TODO") }
+                                    if bindings { fatalError("not supported") }
                                     return LOG_package(url: url, revision: revision)
                                 }
                             }
@@ -383,10 +382,32 @@ extension CodeGen {
                 }
             }
             for workflow in try FileManager.default.contentsOfDirectory(atPath: "bindings/workflows") {
-                if workflow.hasSuffix("kotlin.yaml") {
-                    try cmd("cp", "bindings/workflows/\(workflow)", ".github/workflows/GENERATED-\(workflow)").run()
+                if workflow.hasPrefix("GENERATED-"), workflow.hasSuffix(".yaml") {
+                    try cmd("cp", "bindings/workflows/\(workflow)", ".github/workflows/\(workflow)").run()
                 }
             }
+        }
+
+        var bindingsEnv: [String: String] = [:]
+        var injectedDependencies: [String: PackageDotSwiftDependency.Dependency] = [
+            "FishyJoes": .init(from: fishyJoesDependency)
+        ]
+
+        for moduleName in config.requiredModules {
+            let repoRoot: String
+            if case .fileSystem(_, let path) = packageInfo.dependencyMap[moduleName] {
+                repoRoot = path
+            } else {
+                repoRoot = "../../../../.build/checkouts/\(moduleName)"
+            }
+
+            injectedDependencies["\(moduleName)-bindings"] = .local(
+                path: "\(repoRoot)/bindings/swift-interfaces/generated/\(moduleName)-bindings"
+            )
+        }
+
+        for (module, dependency) in injectedDependencies {
+            bindingsEnv["FISHYJOES_DEPENDENCY_\(module)"] = try JSONEncoder().encodeToString(dependency)
         }
 
         // MARK: - Build Step
@@ -408,7 +429,8 @@ extension CodeGen {
                 debug: debug,
                 fat: fat,
                 codeCoverage: codeCoveragePath != nil,
-                baseDockerContext: Lazy(makeDockerContext())
+                baseDockerContext: Lazy(makeDockerContext()),
+                extraEnvVars: bindingsEnv
             )
 
             // Pre-fetch dependencies for docker... TODO: can this be improved?
