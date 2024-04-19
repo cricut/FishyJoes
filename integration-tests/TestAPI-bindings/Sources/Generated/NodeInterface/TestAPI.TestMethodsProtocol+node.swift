@@ -47,7 +47,7 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
         }
     }
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try NodeClass.constructor(for: "TestMethodsProtocol", env: env)
+        let constructor = try NodeClass.constructor(for: "ExternalWitness_TestMethodsProtocol", env: env)
         let args: [NAPI.Value] = [
         ]
         return try env.newInstance(constructor, args)
@@ -57,7 +57,7 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
-            name: "TestMethodsProtocol",
+            name: "ExternalWitness_TestMethodsProtocol",
             properties: [
                 "foo": (
                     .method { env, info in
@@ -144,7 +144,7 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
                 ),
             ],
             constructor: { env, info in
-                callbackBody(env, info, name: "TestMethodsProtocol_constructor", expectedArgumentCount: 0) { env in
+                callbackBody(env, info, name: "ExternalWitness_TestMethodsProtocol_constructor", expectedArgumentCount: 0) { env in
                     // TODO: typecheck?
                     let this = try env.this()
                     return this
@@ -154,7 +154,7 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
         try mergeDefinitionInto(
             env: env,
             module: module,
-            path: "TestMethodsProtocol",
+            path: "ExternalWitness_TestMethodsProtocol",
             nodeClass: nodeClass.constructor.value(env: env)
         )
     }

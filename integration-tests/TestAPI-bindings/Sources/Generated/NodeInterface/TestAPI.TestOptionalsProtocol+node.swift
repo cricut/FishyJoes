@@ -33,7 +33,7 @@ extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: NodeConverter
         }
     }
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try NodeClass.constructor(for: "TestOptionalsProtocol", env: env)
+        let constructor = try NodeClass.constructor(for: "ExternalWitness_TestOptionalsProtocol", env: env)
         let args: [NAPI.Value] = [
             try OptionalConverter<Swift.String>.toNode(value.flarp, env: env),
         ]
@@ -44,7 +44,7 @@ extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: NodeConverter
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
-            name: "TestOptionalsProtocol",
+            name: "ExternalWitness_TestOptionalsProtocol",
             properties: [
                 "wombat": (
                     .method { env, info in
@@ -87,7 +87,7 @@ extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: NodeConverter
                 ),
             ],
             constructor: { env, info in
-                callbackBody(env, info, name: "TestOptionalsProtocol_constructor", expectedArgumentCount: 1) { env in
+                callbackBody(env, info, name: "ExternalWitness_TestOptionalsProtocol_constructor", expectedArgumentCount: 1) { env in
                     // TODO: typecheck?
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "flarp", env.argument(at: 0))
@@ -98,7 +98,7 @@ extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: NodeConverter
         try mergeDefinitionInto(
             env: env,
             module: module,
-            path: "TestOptionalsProtocol",
+            path: "ExternalWitness_TestOptionalsProtocol",
             nodeClass: nodeClass.constructor.value(env: env)
         )
     }

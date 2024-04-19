@@ -39,7 +39,7 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
         }
     }
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try NodeClass.constructor(for: "AProtocol", env: env)
+        let constructor = try NodeClass.constructor(for: "ExternalWitness_AProtocol", env: env)
         let args: [NAPI.Value] = [
             try Swift.String.toNode(value.foo, env: env),
             try Swift.Bool.toNode(value.baz, env: env),
@@ -51,7 +51,7 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
-            name: "AProtocol",
+            name: "ExternalWitness_AProtocol",
             properties: [
                 "bar": (
                     .method { env, info in
@@ -123,7 +123,7 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
                 ),
             ],
             constructor: { env, info in
-                callbackBody(env, info, name: "AProtocol_constructor", expectedArgumentCount: 2) { env in
+                callbackBody(env, info, name: "ExternalWitness_AProtocol_constructor", expectedArgumentCount: 2) { env in
                     // TODO: typecheck?
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "foo", env.argument(at: 0))
@@ -135,7 +135,7 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
         try mergeDefinitionInto(
             env: env,
             module: module,
-            path: "AProtocol",
+            path: "ExternalWitness_AProtocol",
             nodeClass: nodeClass.constructor.value(env: env)
         )
     }

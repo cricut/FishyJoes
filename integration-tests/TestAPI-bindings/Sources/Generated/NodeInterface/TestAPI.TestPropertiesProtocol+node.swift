@@ -27,7 +27,7 @@ extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: NodeConverte
         }
     }
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try NodeClass.constructor(for: "TestPropertiesProtocol", env: env)
+        let constructor = try NodeClass.constructor(for: "ExternalWitness_TestPropertiesProtocol", env: env)
         let args: [NAPI.Value] = [
             try Swift.String.toNode(value.corge, env: env),
             try ArrayConverter<Swift.Double>.toNode(value.frob, env: env),
@@ -39,7 +39,7 @@ extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: NodeConverte
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
-            name: "TestPropertiesProtocol",
+            name: "ExternalWitness_TestPropertiesProtocol",
             properties: [
                 "corge": (
                     .accessor(
@@ -65,7 +65,7 @@ extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: NodeConverte
                 ),
             ],
             constructor: { env, info in
-                callbackBody(env, info, name: "TestPropertiesProtocol_constructor", expectedArgumentCount: 2) { env in
+                callbackBody(env, info, name: "ExternalWitness_TestPropertiesProtocol_constructor", expectedArgumentCount: 2) { env in
                     // TODO: typecheck?
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "corge", env.argument(at: 0))
@@ -77,7 +77,7 @@ extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: NodeConverte
         try mergeDefinitionInto(
             env: env,
             module: module,
-            path: "TestPropertiesProtocol",
+            path: "ExternalWitness_TestPropertiesProtocol",
             nodeClass: nodeClass.constructor.value(env: env)
         )
     }

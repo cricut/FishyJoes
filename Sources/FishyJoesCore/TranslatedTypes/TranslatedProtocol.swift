@@ -21,6 +21,7 @@ struct TranslatedProtocol: TranslatedType {
     let className: String
     let javaExternalWitnessClassName: String
     let iotaExternalWitnessClassName: String
+    let nodeExternalWitnessClassName: String
 
     init(context: FishyJoesContext, type: SourceryProtocol) {
         guard let exportAnnotation = type.exportAnnotation else {
@@ -55,6 +56,7 @@ struct TranslatedProtocol: TranslatedType {
         self.className = context.kotlinTranslator.javaClassName(kotlinName, in: context)
         self.javaExternalWitnessClassName = context.kotlinTranslator.javaClassName("_ExternalWitness_\(kotlinName)", in: context)
         self.iotaExternalWitnessClassName = "ExternalWitness_\(sourceType.nonNamespacedName)"
+        self.nodeExternalWitnessClassName = "ExternalWitness_\(nodeName)"
 
         enforceProtocolThrows()
         enforceNoProtocolSetters()
@@ -427,7 +429,7 @@ struct TranslatedProtocol: TranslatedType {
             }
 
             fragment.outputBlock("public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {") {
-                fragment.output("let constructor = try NodeClass.constructor(for: \"\(nodeName)\", env: env)")
+                fragment.output("let constructor = try NodeClass.constructor(for: \"\(nodeExternalWitnessClassName)\", env: env)")
                 fragment.outputBlock("let args: [NAPI.Value] = [") {
                     for field in fields {
                         let resolved = context.resolve(type: field.typeName.better)
@@ -445,7 +447,7 @@ struct TranslatedProtocol: TranslatedType {
 
                 fragment.outputBlock("let nodeClass = try NodeClass(") {
                     fragment.output("env: env,")
-                    fragment.output("name: \"\(nodeName)\",")
+                    fragment.output("name: \"\(nodeExternalWitnessClassName)\",")
                     fragment.outputBlock("properties: [", closeWith: "],") {
                         var hasProperties = false
                         hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment)
@@ -462,7 +464,7 @@ struct TranslatedProtocol: TranslatedType {
                         }
                     }
                     fragment.outputBlock("constructor: { env, info in", closeWith: "}") {
-                        fragment.outputBlock("callbackBody(env, info, name: \"\(nodeName)_constructor\", expectedArgumentCount: \(fields.count)) { env in", closeWith: "}") {
+                        fragment.outputBlock("callbackBody(env, info, name: \"\(nodeExternalWitnessClassName)_constructor\", expectedArgumentCount: \(fields.count)) { env in", closeWith: "}") {
                             fragment.output("// TODO: typecheck?")
                             fragment.output("let this = try env.this()")
                             for (index, field) in fields.enumerated() {
@@ -475,7 +477,7 @@ struct TranslatedProtocol: TranslatedType {
                 fragment.outputBlock("try mergeDefinitionInto(") {
                     fragment.output("env: env,")
                     fragment.output("module: module,")
-                    fragment.output("path: \"\(nodeName)\",")
+                    fragment.output("path: \"\(nodeExternalWitnessClassName)\",")
                     fragment.output("nodeClass: nodeClass.constructor.value(env: env)")
                 }
             }
@@ -495,7 +497,7 @@ struct TranslatedProtocol: TranslatedType {
 
         context.tsAnnotations.add(class:
             .init(
-                name: "ExternalWitness_\(nodeName)",
+                name: nodeExternalWitnessClassName,
                 constructor: .hidden,
                 fields: fields.compactMap {context.ts(field: $0, useNativeName: false) },
                 methods: methods.compactMap { context.ts(method: $0) }

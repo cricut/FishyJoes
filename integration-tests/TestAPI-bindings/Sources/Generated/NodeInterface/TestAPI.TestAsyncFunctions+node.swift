@@ -79,7 +79,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
         }
     }
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try NodeClass.constructor(for: "TestAsyncFunctions", env: env)
+        let constructor = try NodeClass.constructor(for: "ExternalWitness_TestAsyncFunctions", env: env)
         let args: [NAPI.Value] = [
             try AsyncFunction0Converter<Swift.Int>.toNode(value.const42, env: env),
             try AsyncFunction1Converter<Swift.Int, Swift.Int>.toNode(value.iabs, env: env),
@@ -97,7 +97,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
-            name: "TestAsyncFunctions",
+            name: "ExternalWitness_TestAsyncFunctions",
             properties: [
                 "exercise0": (
                     .method { env, info in
@@ -472,7 +472,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                 ),
             ],
             constructor: { env, info in
-                callbackBody(env, info, name: "TestAsyncFunctions_constructor", expectedArgumentCount: 8) { env in
+                callbackBody(env, info, name: "ExternalWitness_TestAsyncFunctions_constructor", expectedArgumentCount: 8) { env in
                     // TODO: typecheck?
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "const42", env.argument(at: 0))
@@ -490,7 +490,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
         try mergeDefinitionInto(
             env: env,
             module: module,
-            path: "TestAsyncFunctions",
+            path: "ExternalWitness_TestAsyncFunctions",
             nodeClass: nodeClass.constructor.value(env: env)
         )
     }

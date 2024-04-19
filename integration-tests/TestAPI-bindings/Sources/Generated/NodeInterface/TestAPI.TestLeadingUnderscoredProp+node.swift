@@ -25,7 +25,7 @@ extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: NodeConv
         }
     }
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try NodeClass.constructor(for: "TestLeadingUnderscoredProp", env: env)
+        let constructor = try NodeClass.constructor(for: "ExternalWitness_TestLeadingUnderscoredProp", env: env)
         let args: [NAPI.Value] = [
             try Swift.String.toNode(value._leadingUnderscoreProp, env: env),
         ]
@@ -36,7 +36,7 @@ extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: NodeConv
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
-            name: "TestLeadingUnderscoredProp",
+            name: "ExternalWitness_TestLeadingUnderscoredProp",
             properties: [
                 "_leadingUnderscoreProp": (
                     .accessor(
@@ -51,7 +51,7 @@ extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: NodeConv
                 ),
             ],
             constructor: { env, info in
-                callbackBody(env, info, name: "TestLeadingUnderscoredProp_constructor", expectedArgumentCount: 1) { env in
+                callbackBody(env, info, name: "ExternalWitness_TestLeadingUnderscoredProp_constructor", expectedArgumentCount: 1) { env in
                     // TODO: typecheck?
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "_leadingUnderscoreProp", env.argument(at: 0))
@@ -62,7 +62,7 @@ extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: NodeConv
         try mergeDefinitionInto(
             env: env,
             module: module,
-            path: "TestLeadingUnderscoredProp",
+            path: "ExternalWitness_TestLeadingUnderscoredProp",
             nodeClass: nodeClass.constructor.value(env: env)
         )
     }
