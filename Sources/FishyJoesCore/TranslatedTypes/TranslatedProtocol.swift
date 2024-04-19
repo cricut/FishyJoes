@@ -481,23 +481,15 @@ struct TranslatedProtocol: TranslatedType {
             }
         }
 
-        context.tsAnnotations.add(class:
-            .init(
-                documentation: documentation,
-                name: nodeName,
-                constructor: .visible(
-                    fields.map {
-                        (
-                            name: $0.name,
-                            type: context.resolve(type: $0.typeName.better).nodeType
-                        )
-                    }
-                ),
-                fields:
-                    fields.compactMap {context.ts(field: $0, useNativeName: false) },
-                methods: methods.compactMap { context.ts(method: $0) }
-            )
+        context.tsAnnotations.add(interface:
+                .init(
+                    name: nodeName,
+                    forNamespace: context.module.name,
+                    fields: fields.compactMap {context.ts(field: $0, useNativeName: false) },
+                    methods: methods.compactMap { context.ts(method: $0) }
+                )
         )
+
         fragment.blankLine()
         return fragment
     }
