@@ -492,6 +492,16 @@ struct TranslatedProtocol: TranslatedType {
         )
 
         fragment.blankLine()
+
+        context.tsAnnotations.add(class:
+            .init(
+                name: "ExternalWitness_\(nodeName)",
+                constructor: .hidden,
+                fields: fields.compactMap {context.ts(field: $0, useNativeName: false) },
+                methods: methods.compactMap { context.ts(method: $0) }
+            )
+        )
+
         return fragment
     }
 

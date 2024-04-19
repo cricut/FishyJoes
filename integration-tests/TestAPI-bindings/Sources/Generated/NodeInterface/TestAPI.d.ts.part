@@ -738,6 +738,255 @@ export declare namespace TestAPI {
         ): TestAPI.EmptyEnum;
     }
 
+    export class ExternalWitness_AProtocol {
+        private constructor()
+        private _inhibitStructuralTyping: any
+
+        /**
+         * <!-- FishyJoes.export(foo) -->
+         */
+        readonly foo: string;
+
+        /**
+         * <!-- FishyJoes.export(baz) -->
+         */
+        readonly baz: boolean;
+
+        /**
+         * <!-- FishyJoes.export(bar) -->
+         */
+        bar(
+            x: number,
+            y: number
+        ): TestAPI.AProtocol;
+
+        /**
+         * <!-- FishyJoes.export(hasADefaultImplementation) -->
+         */
+        hasADefaultImplementation(
+            x: number,
+            y: number
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(hasADefaultImplementation2) -->
+         */
+        hasADefaultImplementation2(
+            a: string,
+            b: boolean,
+            c: number
+        ): number;
+    }
+
+    export class ExternalWitness_TestAsyncFunctions {
+        private constructor()
+        private _inhibitStructuralTyping: any
+
+        /**
+         * <!-- FishyJoes.export(const42) -->
+         */
+        readonly const42: () => Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(iabs) -->
+         */
+        readonly iabs: (_0: number) => Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(intCompose) -->
+         */
+        readonly intCompose: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(add3Things) -->
+         */
+        readonly add3Things: (_0: number, _1: number, _2: number) => Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(makeList) -->
+         */
+        readonly makeList: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>;
+
+        /**
+         * <!-- FishyJoes.export(fifthThing) -->
+         */
+        readonly fifthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>;
+
+        /**
+         * <!-- FishyJoes.export(six) -->
+         */
+        readonly six: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(willThrow) -->
+         */
+        readonly willThrow: () => Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(exercise0) -->
+         */
+        exercise0(
+            fn: () => Promise<number>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(exercise1) -->
+         */
+        exercise1(
+            fn: (_0: number) => Promise<number>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(exercise2) -->
+         */
+        exercise2(
+            fn: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(exercise3) -->
+         */
+        exercise3(
+            fn: (_0: number, _1: number, _2: number) => Promise<number>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(exercise4) -->
+         */
+        exercise4(
+            fn: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(exercise5) -->
+         */
+        exercise5(
+            fn: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(exercise6) -->
+         */
+        exercise6(
+            fn: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(thunkTwiceMaker) -->
+         */
+        thunkTwiceMaker(
+            thunk: () => Promise<void>
+        ): () => Promise<void>;
+
+        /**
+         * <!-- FishyJoes.export(defaultExercise6) -->
+         */
+        defaultExercise6(
+            fn: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(witness) -->
+         */
+        witness(
+        ): TestAPI.TestAsyncFunctions;
+    }
+
+    export class ExternalWitness_TestLeadingUnderscoredProp {
+        private constructor()
+        private _inhibitStructuralTyping: any
+
+        /**
+         * <!-- FishyJoes.export(_leadingUnderscoreProp) -->
+         */
+        readonly _leadingUnderscoreProp: string;
+    }
+
+    export class ExternalWitness_TestMethodsProtocol {
+        private constructor()
+        private _inhibitStructuralTyping: any
+
+        /**
+         * <!-- FishyJoes.export(foo) -->
+         */
+        foo(
+        ): void;
+
+        /**
+         * <!-- FishyJoes.export(bar) -->
+         */
+        bar(
+        ): boolean;
+
+        /**
+         * <!-- FishyJoes.export(baz) -->
+         */
+        baz(
+            qux: boolean
+        ): void;
+
+        /**
+         * <!-- FishyJoes.export(garply) -->
+         */
+        garply(
+            _0: string
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(xyzzy) -->
+         */
+        xyzzy(
+            thud: number,
+            grault: number[]
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(plugh) -->
+         */
+        plugh(
+            fred: [boolean, number, string[]]
+        ): [boolean, number, string];
+    }
+
+    export class ExternalWitness_TestOptionalsProtocol {
+        private constructor()
+        private _inhibitStructuralTyping: any
+
+        /**
+         * <!-- FishyJoes.export(flarp) -->
+         */
+        readonly flarp?: string;
+
+        /**
+         * <!-- FishyJoes.export(wombat) -->
+         */
+        wombat(
+            zxc: Optional<number>
+        ): Optional<number>;
+
+        /**
+         * <!-- FishyJoes.export(spqr) -->
+         */
+        spqr(
+            pippo: TestAPI.AssociatedDataEnum
+        ): number;
+    }
+
+    export class ExternalWitness_TestPropertiesProtocol {
+        private constructor()
+        private _inhibitStructuralTyping: any
+
+        /**
+         * <!-- FishyJoes.export(corge) -->
+         */
+        readonly corge: string;
+
+        /**
+         * <!-- FishyJoes.export(frob) -->
+         */
+        readonly frob: number[];
+    }
+
     export type Functions = never;
     export namespace Functions {
         /**
