@@ -6,8 +6,14 @@ test('AProtocol', () => {
         false
     )
 
-    let b = TestAPI.AProtocolImplementation.create()
+    let d = a.bar(1, 2)
+    let e = d.foo
+    console.log(`e: ${ e }`)
 
-    console.log(`a: ${JSON.stringify(a)}`)
-    console.log(`b: ${JSON.stringify(b)}`)
+    // let b = TestAPI.AProtocolImplementation.create()
+
+    // // console.log(`a: ${JSON.stringify(a)}`)
+    // //console.log(`b: ${JSON.stringify(b)}`)
+    // let c = b.foo
+    // console.log(`b.foo: ${ b.foo }`)
 });
