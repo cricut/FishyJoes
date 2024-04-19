@@ -374,7 +374,6 @@ struct TranslatedEnum: TranslatedType {
             if !cases.isEmpty {
                 context.tsAnnotations.add(
                     interface: .init(
-                        documentation: [],
                         name: commonInterfaceName,
                         forNamespace: nodeName,
                         fields: fields.filter { !$0.isStatic }.compactMap { context.ts(field: $0, useNativeName: false) },

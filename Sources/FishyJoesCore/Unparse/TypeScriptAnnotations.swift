@@ -44,7 +44,7 @@ struct TypeScriptAnnotations: Codable {
         var methods: [Method]
 
         init(
-            documentation: [String],
+            documentation: [String] = [],
             name: String,
             forNamespace: String? = nil,
             fields: [Variable],
@@ -62,6 +62,7 @@ struct TypeScriptAnnotations: Codable {
         let documentation: [String]
         var name: String
         let extends: [String]
+        let implements: [String]
         let constructor: Constructor
         let fields: [Variable]
         let methods: [Method]
@@ -76,6 +77,7 @@ struct TypeScriptAnnotations: Codable {
             documentation: [String] = [],
             name: String,
             extends: [String] = [],
+            implements: [String] = [],
             constructor: Constructor,
             fields: [Variable],
             methods: [Method]
@@ -83,6 +85,7 @@ struct TypeScriptAnnotations: Codable {
             self.documentation = documentation
             self.name = name
             self.extends = extends
+            self.implements = implements
             self.constructor = constructor
             self.fields = fields
             self.methods = methods
