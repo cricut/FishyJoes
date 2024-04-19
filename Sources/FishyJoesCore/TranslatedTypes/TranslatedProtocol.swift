@@ -483,6 +483,7 @@ struct TranslatedProtocol: TranslatedType {
 
         context.tsAnnotations.add(interface:
                 .init(
+                    documentation: documentation,
                     name: nodeName,
                     forNamespace: context.module.name,
                     fields: fields.compactMap {context.ts(field: $0, useNativeName: false) },

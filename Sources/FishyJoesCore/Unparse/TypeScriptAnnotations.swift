@@ -37,17 +37,20 @@ struct TypeScriptAnnotations: Codable {
     }
 
     struct Interface: Codable {
+        let documentation: [String]
         var name: String
         var forNamespace: String?
         var fields: [Variable]
         var methods: [Method]
 
         init(
+            documentation: [String],
             name: String,
             forNamespace: String? = nil,
             fields: [Variable],
             methods: [Method]
         ) {
+            self.documentation = documentation
             self.name = name
             self.forNamespace = forNamespace
             self.fields = fields
@@ -370,6 +373,9 @@ extension TypeScriptAnnotations {
                             }
                         }
                     case .interface(let interface):
+                        if !interface.documentation.isEmpty {
+                            document(interface.documentation)
+                        }
                         fragment.outputBlock("interface \(interface.name) {") {
                             for field in interface.fields {
                                 output(field: field, inClass: true)
