@@ -9,6 +9,7 @@ struct SwiftPackage: Decodable {
         }
         enum Requirement {
             case branch(names: [String])
+            case revision(names: [String])
             case upToNextMajor(baseVersions: [String])
             case upToNextMinor(baseVersions: [String])
             case exact(versions: [String])
@@ -105,6 +106,7 @@ extension SwiftPackage.Dependency {
     var version: String? {
         switch self {
         case .sourceControl(_, _, .branch(names: let names)): return names.count != 1 ? nil : names.first
+        case .sourceControl(_, _, .revision(names: let names)): return names.count != 1 ? nil : names.first
         case .sourceControl(_, _, .upToNextMajor): return nil
         case .sourceControl(_, _, .upToNextMinor): return nil
         case .sourceControl(_, _, .range): return nil
@@ -116,7 +118,7 @@ extension SwiftPackage.Dependency {
 
 extension SwiftPackage.Dependency.Requirement: Decodable {
     enum CodingKeys: String, CodingKey {
-        case exact, branch, upToNextMajor, upToNextMinor, range
+        case exact, branch, revision, upToNextMajor, upToNextMinor, range
     }
 
     init(from decoder: Decoder) throws {
@@ -134,9 +136,16 @@ extension SwiftPackage.Dependency.Requirement: Decodable {
             let upperBound = range[0]["upperBound"]
         {
             self = .range(lowerBound: lowerBound, upperBound: upperBound)
-        } else {
-            let branchNames = try container.decode([String].self, forKey: .branch)
+        } else if let branchNames = try? container.decode([String].self, forKey: .branch) {
             self = .branch(names: branchNames)
+        } else if let revisionNames = try? container.decode([String].self, forKey: .revision) {
+            self = .revision(names: revisionNames)
+        } else {
+            let context = DecodingError.Context(
+                codingPath: decoder.codingPath,
+                debugDescription: "Couldn't parse requirement"
+            )
+            throw DecodingError.typeMismatch(Self.self, context)
         }
     }
 }

@@ -19,6 +19,8 @@ extension PackageDotSwiftDependency.Dependency {
             self = .local(path: path)
         case let .sourceControl(_, url, .branch(names)) where names.count == 1:
             self = .remote(url: url.absoluteString, .branch(name: names[0]))
+        case let .sourceControl(_, url, .revision(names)) where names.count == 1:
+            self = .remote(url: url.absoluteString, .revision(name: names[0]))
         case let .sourceControl(_, url, .exact(versions)) where versions.count == 1:
             self = .remote(url: url.absoluteString, .revision(name: versions[0]))
         default:
