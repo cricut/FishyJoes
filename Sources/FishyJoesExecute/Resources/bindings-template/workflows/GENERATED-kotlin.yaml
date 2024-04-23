@@ -20,6 +20,7 @@ env:
   GITHUB_USER: cricut-builduser
   GRADLE_OPTS: -Dorg.gradle.daemon=false
   JAVA_VERSION: 11
+  FISHYJOES: 1
 
 jobs:
   build-test-kotlin-mac:
