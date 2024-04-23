@@ -376,16 +376,16 @@ extension NAPI.Env {
     }
     public func getValueExternal(_ value: NAPI.Value) throws -> UnsafeMutableRawPointer? {
         var result: UnsafeMutableRawPointer?
-        do {
-            print("node describe value: \(try nodeDescribe(value, env: self))")
-        } catch {
-            if error is JSExceptionPending {
-                let jserr = try! getAndClearLastException()
-                print("ERROR: \(try? nodeDescribe(jserr, env: self))")
-                fatalError("Everythign broken now")
-            }
-            print("node describe value error: \(error)")
-        }
+//        do {
+//            print("node describe value: \(try nodeDescribe(value, env: self))")
+//        } catch {
+//            if error is JSExceptionPending {
+//                let jserr = try! getAndClearLastException()
+//                print("ERROR: \(try? nodeDescribe(jserr, env: self))")
+//                fatalError("Everythign broken now")
+//            }
+//            print("node describe value error: \(error)")
+//        }
         try check(napi_get_value_external(ptr, value.ptr, &result))
         return result
     }
