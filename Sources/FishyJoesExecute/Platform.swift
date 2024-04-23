@@ -192,8 +192,7 @@ enum Platform: CustomStringConvertible, Hashable {
             // This seems to be needed because of https://github.com/mono/mono/issues/21049
             args.append(contentsOf: ["-Xlinker", "-rpath", "-Xlinker", "@loader_path"])
             #elseif os(Linux)
-            path = "swift"
-            args = ["build"] + args
+            swiftBuild = ["swift", "build"]
             #endif
         }
         if let scratchPath = scratchPath {
