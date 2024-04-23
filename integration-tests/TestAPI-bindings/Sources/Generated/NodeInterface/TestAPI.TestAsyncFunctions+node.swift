@@ -79,18 +79,9 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
         }
     }
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try NodeClass.constructor(for: "ExternalWitness_TestAsyncFunctions", env: env)
-        let args: [NAPI.Value] = [
-            try AsyncFunction0Converter<Swift.Int>.toNode(value.const42, env: env),
-            try AsyncFunction1Converter<Swift.Int, Swift.Int>.toNode(value.iabs, env: env),
-            try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.toNode(value.intCompose, env: env),
-            try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.toNode(value.add3Things, env: env),
-            try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.toNode(value.makeList, env: env),
-            try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.toNode(value.fifthThing, env: env),
-            try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.toNode(value.six, env: env),
-            try AsyncFunction0Converter<Swift.Int>.toNode(value.willThrow, env: env),
-        ]
-        return try env.newInstance(constructor, args)
+        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestAsyncFunctions", env: env)
+        let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
+        return try env.newInstance(constructor, [arg])
     }
 
     @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
@@ -472,18 +463,8 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                 ),
             ],
             constructor: { env, info in
-                callbackBody(env, info, name: "ExternalWitness_TestAsyncFunctions_constructor", expectedArgumentCount: 8) { env in
-                    // TODO: typecheck?
-                    let this = try env.this()
-                    try env.env.setNamedProperty(this, "const42", env.argument(at: 0))
-                    try env.env.setNamedProperty(this, "iabs", env.argument(at: 1))
-                    try env.env.setNamedProperty(this, "intCompose", env.argument(at: 2))
-                    try env.env.setNamedProperty(this, "add3Things", env.argument(at: 3))
-                    try env.env.setNamedProperty(this, "makeList", env.argument(at: 4))
-                    try env.env.setNamedProperty(this, "fifthThing", env.argument(at: 5))
-                    try env.env.setNamedProperty(this, "six", env.argument(at: 6))
-                    try env.env.setNamedProperty(this, "willThrow", env.argument(at: 7))
-                    return this
+                callbackBody(env, info, name: "ExternalWitness_TestAsyncFunctions_constructor", expectedArgumentCount: 1) { env in
+                    try FishyJoesNodeRuntime.Box<TestAPI_CommonInterface._TestAsyncFunctionsConverter>.construct(env: env)
                 }
             }
         )

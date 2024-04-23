@@ -1,9 +1,13 @@
 import Foundation
 
 public final class NodeReference: @unchecked Sendable {
-    private var ref: NAPI.Ref
+    public let env: NAPI.Env
+    public let value: NAPI.Value
+    public var ref: NAPI.Ref
 
     public init(env: NAPI.Env, value: NAPI.Value) throws {
+        self.env = env
+        self.value = value
         self.ref = try env.createReference(value, 1)
     }
 

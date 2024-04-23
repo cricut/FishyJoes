@@ -25,6 +25,7 @@ internal class ProtocolTests {
         assertEquals("Garply", a.foo)
         assertEquals(false, a.baz)
         val b = a.bar(x = 2, y = 128)
+        val c = b.foo
 
         assertEquals("130", b.foo)
         assertEquals(true, b.baz)

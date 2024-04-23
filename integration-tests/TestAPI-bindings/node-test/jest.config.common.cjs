@@ -16,4 +16,5 @@ module.exports = {
     "node_modules",
   ],
   verbose: true,
+  setupFiles: ["./pre_test.js"]
 };

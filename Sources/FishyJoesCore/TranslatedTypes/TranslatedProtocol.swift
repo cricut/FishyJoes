@@ -429,14 +429,9 @@ struct TranslatedProtocol: TranslatedType {
             }
 
             fragment.outputBlock("public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {") {
-                fragment.output("let constructor = try NodeClass.constructor(for: \"\(nodeExternalWitnessClassName)\", env: env)")
-                fragment.outputBlock("let args: [NAPI.Value] = [") {
-                    for field in fields {
-                        let resolved = context.resolve(type: field.typeName.better)
-                        fragment.output("try \(resolved.converterType.name).toNode(value.\(field.name), env: env),")
-                    }
-                }
-                fragment.output("return try env.newInstance(constructor, args)")
+                fragment.output("let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: \"\(nodeExternalWitnessClassName)\", env: env)")
+                fragment.output("let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)")
+                fragment.output("return try env.newInstance(constructor, [arg])")
             }
 
             fragment.blankLine()
@@ -464,13 +459,8 @@ struct TranslatedProtocol: TranslatedType {
                         }
                     }
                     fragment.outputBlock("constructor: { env, info in", closeWith: "}") {
-                        fragment.outputBlock("callbackBody(env, info, name: \"\(nodeExternalWitnessClassName)_constructor\", expectedArgumentCount: \(fields.count)) { env in", closeWith: "}") {
-                            fragment.output("// TODO: typecheck?")
-                            fragment.output("let this = try env.this()")
-                            for (index, field) in fields.enumerated() {
-                                fragment.output("try env.env.setNamedProperty(this, \"\(field.name)\", env.argument(at: \(index)))")
-                            }
-                            fragment.output("return this")
+                        fragment.outputBlock("callbackBody(env, info, name: \"\(nodeExternalWitnessClassName)_constructor\", expectedArgumentCount: 1) { env in", closeWith: "}") {
+                            fragment.output("try FishyJoesNodeRuntime.Box<\(converterType.name)>.construct(env: env)")
                         }
                     }
                 }

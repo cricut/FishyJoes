@@ -33,11 +33,9 @@ extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: NodeConverter
         }
     }
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try NodeClass.constructor(for: "ExternalWitness_TestOptionalsProtocol", env: env)
-        let args: [NAPI.Value] = [
-            try OptionalConverter<Swift.String>.toNode(value.flarp, env: env),
-        ]
-        return try env.newInstance(constructor, args)
+        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestOptionalsProtocol", env: env)
+        let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
+        return try env.newInstance(constructor, [arg])
     }
 
     @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
@@ -88,10 +86,7 @@ extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: NodeConverter
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "ExternalWitness_TestOptionalsProtocol_constructor", expectedArgumentCount: 1) { env in
-                    // TODO: typecheck?
-                    let this = try env.this()
-                    try env.env.setNamedProperty(this, "flarp", env.argument(at: 0))
-                    return this
+                    try FishyJoesNodeRuntime.Box<TestAPI_CommonInterface._TestOptionalsProtocolConverter>.construct(env: env)
                 }
             }
         )

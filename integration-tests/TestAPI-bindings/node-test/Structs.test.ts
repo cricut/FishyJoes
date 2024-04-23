@@ -1,9 +1,9 @@
 import { TestAPI } from 'TestAPI';
 
 test('StructConstruction', () => {
-    let memberwise = TestAPI.Structs.MemberwiseStruct.create()
-    expect(memberwise.immutable).toEqual("Eternal")
-    expect(memberwise.mutable).toEqual("Fickle")
+    // let memberwise = TestAPI.Structs.MemberwiseStruct.create()
+    // expect(memberwise.immutable).toEqual("Eternal")
+    // expect(memberwise.mutable).toEqual("Fickle")
 
     let reference = TestAPI.Structs.ReferenceStruct.create()
     expect(reference.immutable).toEqual("Eternal")

@@ -19,7 +19,9 @@ public enum Structs {
         }
 
         /// <!-- FishyJoes.export(create) -->
-        public init() {}
+        public init() {
+            print("memberwise struct init!")
+        }
 
         /// <!-- FishyJoes.export(asyncGetMutable) -->
         public func asyncGetMutable() async -> String {
@@ -37,7 +39,9 @@ public enum Structs {
         public var mutable = "Fickle"
 
         /// <!-- FishyJoes.export(create) -->
-        public init() {}
+        public init() {
+            print("ReferenceStruct init called through FishyJoes.export(create)")
+        }
 
         /// <!-- FishyJoes.export(asyncGetMutable) -->
         public func asyncGetMutable() async -> String {

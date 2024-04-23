@@ -34,6 +34,20 @@ extension AProtocol {
     }
 }
 
+public struct ExternalWitness_AProtocol: AProtocol {
+    public var foo: String {
+        "happy day"
+    }
+    
+    public func bar(x: Int, y: Int) throws -> any AProtocol {
+        return AProtocolImplementation(foo: "oh deer", baz: true)
+    }
+    
+    public var baz: Bool { 
+        false
+    }
+}
+
 /// <!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->
 public struct AProtocolImplementation: AProtocol {
     public var foo: String
