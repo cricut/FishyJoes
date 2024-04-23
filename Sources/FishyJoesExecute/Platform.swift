@@ -141,7 +141,7 @@ enum Platform: CustomStringConvertible, Hashable {
         if configuration.codeCoverage {
             args.append(contentsOf: Platform.coverageFlags)
         }
-        let path: String
+        let swiftBuild: [String]
         var env: [String: String] = [
             "SWIFT_PACKAGE_FORCE_DYNAMIC": "1",
             "FISHYJOES_TARGET_PLATFORM": "\(self)",
@@ -149,7 +149,7 @@ enum Platform: CustomStringConvertible, Hashable {
         var scratchPath = configuration.scratchPath
         switch self {
         case .wasm:
-            path = "\(wasmToolchain)/usr/bin/swift-build"
+            swiftBuild = ["\(wasmToolchain)/usr/bin/swift-build"]
             args.append(contentsOf: ["--triple", "wasm32-unknown-wasi"])
             // custom build paths to avoid different versions of spm destroying each other's caches
             args.append(contentsOf: ["--build-path", "./.build/wasm-build"])
@@ -160,16 +160,15 @@ enum Platform: CustomStringConvertible, Hashable {
             env = ["WASM_ONLY": "1"]
         case .node, .kotlinSystem, .dart:
             #if os(macOS)
-            path = Platform.nativeMacSwiftBuild
+            swiftBuild = [Platform.nativeMacSwiftBuild]
             args.append(contentsOf: ["-Xlinker", "-rpath", "-Xlinker", "@loader_path"])
             #elseif os(Linux)
-            path = "swift"
-            args = ["build"] + args
+            swiftBuild = ["swift", "build"]
             #else
             fatalError("unknown host OS")
             #endif
         case let .kotlinAndroid(arch):
-            path = "swift-build"
+            swiftBuild = ["swift-build"]
             scratchPath = (scratchPath ?? ".build") + "/android-build"
             args.append(
                 contentsOf: [
@@ -187,7 +186,7 @@ enum Platform: CustomStringConvertible, Hashable {
 
         case .cSharp:
             #if os(macOS)
-            path = Platform.nativeMacSwiftBuild
+            swiftBuild = [Platform.nativeMacSwiftBuild]
             // This seems to be needed because of https://github.com/mono/mono/issues/21049
             args.append(contentsOf: ["-Xlinker", "-rpath", "-Xlinker", "@loader_path"])
             #elseif os(Linux)
@@ -198,7 +197,10 @@ enum Platform: CustomStringConvertible, Hashable {
         if let scratchPath = scratchPath {
             args = ["--scratch-path", scratchPath] + args
         }
-        Log.info("addEnv = \(env)")
+
+        let path = swiftBuild[0]
+        args = swiftBuild.dropFirst() + args
+        Log.info("swiftBuild addEnv = \(env)")
         return cmd(path, arguments: args, addEnv: env)
     }
 

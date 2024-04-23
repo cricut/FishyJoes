@@ -25,7 +25,7 @@ env:
 jobs:
   build-test-kotlin-mac:
     name: "macOS: Build and test kotlin bindings"
-    runs-on: macOS-12
+    runs-on: [macOS, self-hosted, ARM64]
 
     steps:
       - name: Checkout
@@ -64,7 +64,7 @@ jobs:
     name: "Ubuntu: Build and test kotlin bindings"
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cricut/android-swift-runtime:1.0.0
+      image: ghcr.io/cricut/android-swift-runtime:1.1.0
       credentials:
         username: cricut-builduser
         password: ${{ secrets.CRICUT_GPR_TOKEN }}
