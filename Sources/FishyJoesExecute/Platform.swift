@@ -118,13 +118,15 @@ enum Platform: CustomStringConvertible, Hashable {
             try swiftBuild(arguments: buildArguments + ["--triple", "arm64-apple-macosx"], configuration: configuration).run()
             try swiftBuild(arguments: buildArguments + ["--triple", "x86_64-apple-macosx"], configuration: configuration).run()
 
+            let scratchPath = configuration.scratchPath ?? ".build"
+
             for lib in libs {
                 let libName = "lib\(lib).dylib"
                 try cmd(
                     "lipo", "-create",
                     "-output", "\(buildDir(configuration))/\(libName)",
-                    ".build/arm64-apple-macosx/\(confName)/\(libName)",
-                    ".build/x86_64-apple-macosx/\(confName)/\(libName)"
+                    "\(scratchPath)/arm64-apple-macosx/\(confName)/\(libName)",
+                    "\(scratchPath)/x86_64-apple-macosx/\(confName)/\(libName)"
                 ).run()
             }
         } else {
