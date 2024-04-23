@@ -28,8 +28,11 @@ struct _NodeAProtocol: TestAPI.AProtocol {
 
 extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
+        guard let nonNilPointer = try env.unwrap(value) else {
+            throw JSException(message: "expected TestAPI.AProtocol, got nil")
+        }
         do {
-            return try Box<TestAPI.AProtocol>.takeUnretained(value, env: env).value
+            return try Box<TestAPI.AProtocol>.takeUnretainedOpaque(nonNilPointer).value
         } catch {
             return _NodeAProtocol(
                 _nodeWitness: try NodeReference(env: env, value: value),
