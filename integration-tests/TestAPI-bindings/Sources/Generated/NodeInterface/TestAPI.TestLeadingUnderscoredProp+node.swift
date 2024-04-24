@@ -17,7 +17,7 @@ extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: NodeConv
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         do {
             guard let nonNilPointer = try env.unwrap(value) else {
-                throw JSException(message: "expected TestAPI.TestLeadingUnderscoredProp, got nil"
+                throw JSException(message: "expected TestAPI.TestLeadingUnderscoredProp, got nil")
             }
             return try Box<TestAPI.TestLeadingUnderscoredProp>.takeUnretained(value, env: env).value
         } catch {

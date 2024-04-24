@@ -406,7 +406,7 @@ struct TranslatedProtocol: TranslatedType {
             fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {") {
                 fragment.outputBlock("do {", newLineTerminated: false) {
                     fragment.outputBlock("guard let nonNilPointer = try env.unwrap(value) else {") {
-                        fragment.output("throw JSException(message: \"expected \(sourceType.name), got nil\"")
+                        fragment.output("throw JSException(message: \"expected \(sourceType.name), got nil\")")
                     }
                     fragment.output("return try Box<\(sourceType.name)>.takeUnretained(value, env: env).value")
                 }

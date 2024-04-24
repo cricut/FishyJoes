@@ -18,7 +18,7 @@ extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: NodeConverte
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         do {
             guard let nonNilPointer = try env.unwrap(value) else {
-                throw JSException(message: "expected TestAPI.TestPropertiesProtocol, got nil"
+                throw JSException(message: "expected TestAPI.TestPropertiesProtocol, got nil")
             }
             return try Box<TestAPI.TestPropertiesProtocol>.takeUnretained(value, env: env).value
         } catch {
