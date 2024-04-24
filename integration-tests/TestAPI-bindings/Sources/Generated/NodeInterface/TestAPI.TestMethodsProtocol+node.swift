@@ -39,7 +39,10 @@ struct _NodeTestMethodsProtocol: TestAPI.TestMethodsProtocol {
 extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         do {
-            return try Box<SwiftType>.takeUnretained(value, env: env).value
+            guard let nonNilPointer = try env.unwrap(value) else {
+                throw JSException(message: "expected TestAPI.TestMethodsProtocol, got nil"
+            }
+            return try Box<TestAPI.TestMethodsProtocol>.takeUnretained(value, env: env).value
         } catch {
             return _NodeTestMethodsProtocol(
                 _nodeWitness: try NodeReference(env: env, value: value)
@@ -144,7 +147,7 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "ExternalWitness_TestMethodsProtocol_constructor", expectedArgumentCount: 1) { env in
-                    try FishyJoesNodeRuntime.Box<TestAPI_CommonInterface._TestMethodsProtocolConverter>.construct(env: env)
+                    try FishyJoesNodeRuntime.Box<TestAPI.TestMethodsProtocol>.construct(env: env)
                 }
             }
         )

@@ -16,7 +16,10 @@ struct _NodeTestLeadingUnderscoredProp: TestAPI.TestLeadingUnderscoredProp {
 extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         do {
-            return try Box<SwiftType>.takeUnretained(value, env: env).value
+            guard let nonNilPointer = try env.unwrap(value) else {
+                throw JSException(message: "expected TestAPI.TestLeadingUnderscoredProp, got nil"
+            }
+            return try Box<TestAPI.TestLeadingUnderscoredProp>.takeUnretained(value, env: env).value
         } catch {
             return _NodeTestLeadingUnderscoredProp(
                 _nodeWitness: try NodeReference(env: env, value: value),
@@ -50,7 +53,7 @@ extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: NodeConv
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "ExternalWitness_TestLeadingUnderscoredProp_constructor", expectedArgumentCount: 1) { env in
-                    try FishyJoesNodeRuntime.Box<TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter>.construct(env: env)
+                    try FishyJoesNodeRuntime.Box<TestAPI.TestLeadingUnderscoredProp>.construct(env: env)
                 }
             }
         )

@@ -24,7 +24,10 @@ struct _NodeTestOptionalsProtocol: TestAPI.TestOptionalsProtocol {
 extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         do {
-            return try Box<SwiftType>.takeUnretained(value, env: env).value
+            guard let nonNilPointer = try env.unwrap(value) else {
+                throw JSException(message: "expected TestAPI.TestOptionalsProtocol, got nil"
+            }
+            return try Box<TestAPI.TestOptionalsProtocol>.takeUnretained(value, env: env).value
         } catch {
             return _NodeTestOptionalsProtocol(
                 _nodeWitness: try NodeReference(env: env, value: value),
@@ -86,7 +89,7 @@ extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: NodeConverter
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "ExternalWitness_TestOptionalsProtocol_constructor", expectedArgumentCount: 1) { env in
-                    try FishyJoesNodeRuntime.Box<TestAPI_CommonInterface._TestOptionalsProtocolConverter>.construct(env: env)
+                    try FishyJoesNodeRuntime.Box<TestAPI.TestOptionalsProtocol>.construct(env: env)
                 }
             }
         )

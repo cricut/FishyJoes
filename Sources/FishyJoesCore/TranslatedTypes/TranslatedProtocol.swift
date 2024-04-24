@@ -405,7 +405,10 @@ struct TranslatedProtocol: TranslatedType {
         fragment.outputBlock("extension \(converterType.name): NodeConverter {") {
             fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {") {
                 fragment.outputBlock("do {", newLineTerminated: false) {
-                    fragment.output("return try Box<SwiftType>.takeUnretained(value, env: env).value")
+                    fragment.outputBlock("guard let nonNilPointer = try env.unwrap(value) else {") {
+                        fragment.output("throw JSException(message: \"expected \(sourceType.name), got nil\"")
+                    }
+                    fragment.output("return try Box<\(sourceType.name)>.takeUnretained(value, env: env).value")
                 }
                 fragment.outputBlock(" catch {") {
                     fragment.outputBlock("return _Node\(sourceType.nonNamespacedName)(") {
@@ -460,7 +463,7 @@ struct TranslatedProtocol: TranslatedType {
                     }
                     fragment.outputBlock("constructor: { env, info in", closeWith: "}") {
                         fragment.outputBlock("callbackBody(env, info, name: \"\(nodeExternalWitnessClassName)_constructor\", expectedArgumentCount: 1) { env in", closeWith: "}") {
-                            fragment.output("try FishyJoesNodeRuntime.Box<\(converterType.name)>.construct(env: env)")
+                            fragment.output("try FishyJoesNodeRuntime.Box<\(sourceType.name)>.construct(env: env)")
                         }
                     }
                 }

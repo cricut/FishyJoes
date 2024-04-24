@@ -63,7 +63,10 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
 extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         do {
-            return try Box<SwiftType>.takeUnretained(value, env: env).value
+            guard let nonNilPointer = try env.unwrap(value) else {
+                throw JSException(message: "expected TestAPI.TestAsyncFunctions, got nil"
+            }
+            return try Box<TestAPI.TestAsyncFunctions>.takeUnretained(value, env: env).value
         } catch {
             return _NodeTestAsyncFunctions(
                 _nodeWitness: try NodeReference(env: env, value: value),
@@ -464,7 +467,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "ExternalWitness_TestAsyncFunctions_constructor", expectedArgumentCount: 1) { env in
-                    try FishyJoesNodeRuntime.Box<TestAPI_CommonInterface._TestAsyncFunctionsConverter>.construct(env: env)
+                    try FishyJoesNodeRuntime.Box<TestAPI.TestAsyncFunctions>.construct(env: env)
                 }
             }
         )
