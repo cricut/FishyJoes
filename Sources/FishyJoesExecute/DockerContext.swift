@@ -4,7 +4,7 @@ import swsh
 struct DockerContext {
     var hostDockerBinary: String
 
-    var image = "ghcr.io/cricut/android-swift-runtime:1.0.0"
+    var image = "ghcr.io/cricut/android-swift-runtime:1.1.0"
     var platform = "linux/amd64"
     var mountMappings: [String: String]
     var startDirectory: String
@@ -41,6 +41,16 @@ struct DockerContext {
         mountMappings = [basePath: "/work"]
         // specifically use "/" instead of platform-dependent separator, because this is inside docker
         startDirectory = "/work/\(pathComponents.first!.joined(separator: "/"))"
+    }
+
+    func translateMounted(externalPath: String) -> String {
+        guard externalPath.hasPrefix("/") else { return externalPath }
+        for (externalMount, internalMount) in mountMappings {
+            if let suffix = externalPath.trimmingIfPrefixed("\(externalMount)/") {
+                return "\(internalMount)/\(suffix)"
+            }
+        }
+        fatalError("Couldn't find where path `\(externalPath)` mounts to inside docker container")
     }
 
     func cmd(_ executable: String, arguments: [String]) -> Command {

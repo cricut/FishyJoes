@@ -2,10 +2,10 @@ import Foundation
 
 enum PackageDotSwiftDependency {
     // This enum should be kept in sync with the one in the string in CodeGen.swift
-    enum Dependency: Codable {
+    enum Dependency: Hashable, Codable {
         case local(path: String)
         case remote(url: String, _ refSpec: RefSpec)
-        enum RefSpec: Codable {
+        enum RefSpec: Hashable, Codable {
             case branch(name: String)
             case revision(name: String)
         }

@@ -389,7 +389,6 @@ extension CodeGen {
             }
         }
 
-        var bindingsEnv: [String: String] = [:]
         var injectedDependencies: [String: PackageDotSwiftDependency.Dependency] = [
             "FishyJoes": .init(from: fishyJoesDependency)
         ]
@@ -405,10 +404,6 @@ extension CodeGen {
             injectedDependencies["\(moduleName)-bindings"] = .local(
                 path: "\(repoRoot)/bindings/swift-interfaces/generated/\(moduleName)-bindings"
             )
-        }
-
-        for (module, dependency) in injectedDependencies {
-            bindingsEnv["FISHYJOES_DEPENDENCY_\(module)"] = try JSONEncoder().encodeToString(dependency)
         }
 
         // MARK: - Build Step
@@ -431,7 +426,7 @@ extension CodeGen {
                 fat: fat,
                 codeCoverage: codeCoveragePath != nil,
                 baseDockerContext: Lazy(makeDockerContext()),
-                extraEnvVars: bindingsEnv
+                injectedSwiftDependencies: injectedDependencies
             )
 
             // Pre-fetch dependencies for docker... TODO: can this be improved?

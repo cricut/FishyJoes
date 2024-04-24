@@ -10,7 +10,7 @@ struct BuildConfiguration: Hashable {
     let fat: Bool
     let codeCoverage: Bool
     var baseDockerContext: Lazy<DockerContext?>
-    var extraEnvVars: [String: String]
+    var injectedSwiftDependencies: [String: PackageDotSwiftDependency.Dependency]
 }
 
 enum Platform: CustomStringConvertible, Hashable {
@@ -147,7 +147,24 @@ enum Platform: CustomStringConvertible, Hashable {
         var env: [String: String] = [
             "SWIFT_PACKAGE_FORCE_DYNAMIC": "1",
             "FISHYJOES_TARGET_PLATFORM": "\(self)",
-        ].merging(configuration.extraEnvVars) { $1 }
+        ]
+
+        func injectEnv(dockerContext: DockerContext? = nil) {
+            let encoder = JSONEncoder()
+            encoder.outputFormatting = [.withoutEscapingSlashes]
+
+            for (module, dependency) in configuration.injectedSwiftDependencies {
+                var dependency = dependency
+                switch dependency {
+                case .local(let path):
+                    // If we're running in docker, swiftpm's absolute paths need to be converted to docker's file system
+                    dependency = .local(path: dockerContext?.translateMounted(externalPath: path) ?? path)
+                default: ()
+                }
+                env["FISHYJOES_DEPENDENCY_\(module)"] = try! encoder.encodeToString(dependency)
+            }
+        }
+
         var scratchPath = configuration.scratchPath
         switch self {
         case .wasm:
@@ -183,7 +200,10 @@ enum Platform: CustomStringConvertible, Hashable {
                 Log.warn("WARNING: building for android without using a docker context (expecting to already be inside container)")
                 break
             }
+
+            injectEnv(dockerContext: dockerContext)
             dockerContext.env.merge(env) { $1 }
+            try! dockerContext.cmd("env", arguments: []).run()
             return dockerContext.cmd("swift-build", arguments: args)
 
         case .cSharp:
@@ -201,6 +221,7 @@ enum Platform: CustomStringConvertible, Hashable {
 
         let path = swiftBuild[0]
         args = swiftBuild.dropFirst() + args
+        injectEnv()
         Log.info("swiftBuild addEnv = \(env)")
         return cmd(path, arguments: args, addEnv: env)
     }

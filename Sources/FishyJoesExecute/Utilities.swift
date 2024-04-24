@@ -197,3 +197,26 @@ extension Optional {
         }
     }
 }
+
+extension Sequence {
+    // like filter, but returns filtered items in separate array
+    func partition(_ isIncluded: (Element) throws -> Bool) rethrows -> (included: [Element], excluded: [Element]) {
+        var included: [Element] = []
+        var excluded: [Element] = []
+        for item in self {
+            if try isIncluded(item) {
+                included.append(item)
+            } else {
+                excluded.append(item)
+            }
+        }
+        return (included, excluded)
+    }
+}
+
+extension String {
+    func trimmingIfPrefixed(_ prefix: any StringProtocol) -> Substring? {
+        guard hasPrefix(prefix) else { return nil }
+        return dropFirst(prefix.count)
+    }
+}
