@@ -12,6 +12,7 @@ struct TranslatedStruct: TranslatedType {
     let storedVariables: [Variable]
     let computedVariables: [Variable]
     let methods: [Method]
+    let defaultMethodsForNode: [Method]
     let documentation: [String]
     let jniType: JNIType
     let isInhabited: Bool
@@ -38,6 +39,16 @@ struct TranslatedStruct: TranslatedType {
             (type.computedVariables + type.staticVariables).filter { $0.exportAnnotation != nil }
 
         self.methods = type.methods.compactMap { Method($0) }.sorted(by: { $0.name < $1.name })
+
+        var nodeDefaultMethods = [Method]()
+        // Node objects needs default methods in order to conform to the interfaces it implements, though as an optional method that if the user does not implement, will use the defined default method constant.
+        if !type.implements.isEmpty {
+            let protocols = type.implements.values.compactMap { $0 as? SourceryProtocol }
+            protocols.forEach {
+                nodeDefaultMethods.append(contentsOf: $0.defaultMethods().compactMap { Method($0, protocolName: $0.name) })
+            }
+        }
+        self.defaultMethodsForNode = nodeDefaultMethods
         self.documentation = type.documentation
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
@@ -174,6 +185,7 @@ struct TranslatedStruct: TranslatedType {
             .init(
                 documentation: documentation,
                 name: nodeName,
+                implements: Array(conformances),
                 constructor: .visible(
                     storedVariables.map {
                         (
@@ -184,8 +196,10 @@ struct TranslatedStruct: TranslatedType {
                 ),
                 fields:
                     storedVariables.compactMap { context.ts(field: $0, useNativeName: true) } +
-                    computedVariables.compactMap {context.ts(field: $0, useNativeName: false) },
-                methods: methods.compactMap { context.ts(method: $0) }
+                    computedVariables.compactMap { context.ts(field: $0, useNativeName: false) },
+                methods:
+                    methods.compactMap { context.ts(method: $0) } +
+                    defaultMethodsForNode.compactMap { context.ts(method: $0) }
             )
         )
 

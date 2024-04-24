@@ -165,17 +165,17 @@ public class FishyJoesContext {
         }
 
         // Translate
-        var methodsToTranslateForTypeDict = [Type: (methods: [SourceryMethod], isProtocol: Bool)]()
+        var methodsToTranslateForTypeDict = [Type: (methods: [SourceryMethod], protocolName: String?)]()
         for type in templateContext.types.types {
             if let protocolType = type as? SourceryProtocol {
-                methodsToTranslateForTypeDict[type] = (methods: protocolType.methodsPreferringDefaultImpl(), isProtocol: true)
+                methodsToTranslateForTypeDict[type] = (methods: protocolType.methodsPreferringDefaultImpl(), protocolName: protocolType.name)
             } else {
-                methodsToTranslateForTypeDict[type] = (methods: type.rawMethods, isProtocol: false)
+                methodsToTranslateForTypeDict[type] = (methods: type.rawMethods, protocolName: nil)
             }
         }
 
-        for (type, (methods, isProtocol)) in methodsToTranslateForTypeDict {
-            let methods = methods.compactMap { Method($0, isProtocol: isProtocol) }
+        for (type, (methods, protocolName)) in methodsToTranslateForTypeDict {
+            let methods = methods.compactMap { Method($0) }
             for method in methods {
                 debugContext = "Translating method \(type.name).\(method.name)"
                 collectedFragments.append(contentsOf: kotlinTranslator.translate(method: method, context: self, typeName: type.localName))

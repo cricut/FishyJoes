@@ -247,6 +247,10 @@ extension SourceryProtocol {
         }
         return methodsPreferringImplemented
     }
+
+    func defaultMethods() -> [SourceryMethod] {
+        methodsPreferringDefaultImpl().filter { $0.isExtension }
+    }
 }
 
 extension SourceryMethod {

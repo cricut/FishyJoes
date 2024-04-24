@@ -49,8 +49,7 @@ struct TranslatedProtocol: TranslatedType {
 
         let methodsToConvert = type.methodsPreferringDefaultImpl()
 
-        self.methods = methodsToConvert.compactMap { Method($0, isProtocol: true) }
-
+        self.methods = methodsToConvert.compactMap { Method($0, protocolName: typeName) }
         self.fields = type.variables.filter { $0.exportAnnotation != nil }
         self.documentation = type.documentation
         self.className = context.kotlinTranslator.javaClassName(kotlinName, in: context)

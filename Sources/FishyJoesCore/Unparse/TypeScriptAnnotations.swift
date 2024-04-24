@@ -28,6 +28,7 @@ struct TypeScriptAnnotations: Codable {
         let name: String
         let parameters: [Parameter]
         let returnType: TSType
+        let hasDefaultImplementation: Bool
     }
 
     struct Typealias: Codable {
@@ -285,7 +286,7 @@ extension TypeScriptAnnotations {
             } else if method.isStatic {
                 fragment.output("static ", newLineTerminated: false)
             }
-            fragment.outputBlock("\(method.name)(", newLineTerminated: false) {
+            fragment.outputBlock("\(method.name)\(method.hasDefaultImplementation ? "?" : "")(", newLineTerminated: false) {
                 let requiredParams = method.parameters.filter { $0.defaultValue == nil }
                 let optionalParams = method.parameters.filter { $0.defaultValue != nil }
 
@@ -352,8 +353,11 @@ extension TypeScriptAnnotations {
                         }
 
                         document(tsClass.documentation)
-                        fragment.output("export ", newLineTerminated: false)
-                        fragment.outputBlock("class \(tsClass.name) {") {
+                        fragment.output("export class \(tsClass.name)", newLineTerminated: false)
+                        if !tsClass.implements.isEmpty {
+                            fragment.output(" implements \(tsClass.implements.joined(separator: ", "))", newLineTerminated: false)
+                        }
+                        fragment.outputBlock(" {") {
                             switch tsClass.constructor {
                             case .hidden:
                                 fragment.output("private constructor()")
@@ -364,7 +368,18 @@ extension TypeScriptAnnotations {
                                 fragment.output("private _inhibitStructuralTyping: any")
                                 fragment.blankLine()
                             case .visible(let parameters):
-                                fragment.output("constructor(\(parameters.map { "\($0.name): \($0.type)" }.joined(separator: ", ")))")
+                                fragment.output("constructor(\(parameters.map { "\($0.name): \($0.type)" }.joined(separator: ", ")))", newLineTerminated: false)
+                                let defaultMethods = tsClass.methods.filter { $0.hasDefaultImplementation }
+                                if !defaultMethods.isEmpty {
+                                    fragment.outputBlock(" {") {
+                                        defaultMethods.forEach {
+                                            // what interface pertains to this method eh?
+                                            fragment.output("this.\($0.name) = this.\($0.name) || Defaults.\($0.name)")
+                                        }
+                                    }
+                                } else {
+                                    fragment.blankLine()
+                                }
                                 fragment.blankLine()
                             }
 

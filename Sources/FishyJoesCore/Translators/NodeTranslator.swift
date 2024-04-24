@@ -408,7 +408,8 @@ struct NodeTranslator: Translator {
             isAsync: method.isAsync,
             name: exportAnnotation.name,
             parameters: parameters,
-            returnType: method.isAsync ? .promise(returnType) : returnType
+            returnType: method.isAsync ? .promise(returnType) : returnType,
+            hasDefaultImplementation: method.isDefaultImplementation
         )
     }
 
@@ -464,7 +465,8 @@ struct NodeTranslator: Translator {
                 isAsync: false,
                 name: "get\(name)",
                 parameters: parameters,
-                returnType: resolved.nodeType
+                returnType: resolved.nodeType,
+                hasDefaultImplementation: false
             )
         ] + (
             field.isPubliclyWritable ? [
@@ -481,7 +483,8 @@ struct NodeTranslator: Translator {
                             defaultValue: nil
                         )
                     ],
-                    returnType: .void
+                    returnType: .void,
+                    hasDefaultImplementation: false
                 )
             ] : []
         )

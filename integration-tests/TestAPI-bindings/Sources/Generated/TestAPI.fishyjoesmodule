@@ -2234,6 +2234,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(testCall) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "testCall",
@@ -2293,6 +2294,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(testCall) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "testCall",
@@ -2331,6 +2333,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(create) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "create",
@@ -2347,6 +2350,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(testCall) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "testCall",
@@ -2410,6 +2414,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(bar) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "bar",
@@ -2441,6 +2446,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(hasADefaultImplementation) -->"
                 ],
+                "hasDefaultImplementation" : true,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "hasADefaultImplementation",
@@ -2472,6 +2478,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(hasADefaultImplementation2) -->"
                 ],
+                "hasDefaultImplementation" : true,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "hasADefaultImplementation2",
@@ -2566,13 +2573,14 @@
               }
             ],
             "implements" : [
-
+              "AProtocol"
             ],
             "methods" : [
               {
                 "documentation" : [
                   "<!-- FishyJoes.export(bar) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "bar",
@@ -2597,6 +2605,78 @@
                 "returnType" : {
                   "named" : {
                     "_0" : "TestAPI.AProtocol"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(hasADefaultImplementation) -->"
+                ],
+                "hasDefaultImplementation" : true,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "hasADefaultImplementation",
+                "parameters" : [
+                  {
+                    "name" : "x",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "y",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(hasADefaultImplementation2) -->"
+                ],
+                "hasDefaultImplementation" : true,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "hasADefaultImplementation2",
+                "parameters" : [
+                  {
+                    "name" : "a",
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "b",
+                    "type" : {
+                      "named" : {
+                        "_0" : "boolean"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "c",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "number"
                   }
                 }
               }
@@ -2742,6 +2822,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(create) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "create",
@@ -2758,6 +2839,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(doublePlusGood) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "doublePlusGood",
@@ -2789,6 +2871,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(async42) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "async42",
@@ -2809,6 +2892,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(asyncYield) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "asyncYield",
@@ -2829,6 +2913,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(asyncSleep) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "asyncSleep",
@@ -2849,6 +2934,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(asyncVoid) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "asyncVoid",
@@ -2869,6 +2955,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(asyncDouble) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "asyncDouble",
@@ -2896,6 +2983,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(asyncMultipleArgs) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "asyncMultipleArgs",
@@ -2931,6 +3019,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(asyncThrowing) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "asyncThrowing",
@@ -2951,6 +3040,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(asyncCallbackFunc0) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "asyncCallbackFunc0",
@@ -2978,6 +3068,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(staticAsync42) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : true,
                 "name" : "staticAsync42",
@@ -2998,6 +3089,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(staticAsyncYield) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : true,
                 "name" : "staticAsyncYield",
@@ -3018,6 +3110,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(staticAsyncSleep) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : true,
                 "name" : "staticAsyncSleep",
@@ -3038,6 +3131,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(staticAsyncVoid) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : true,
                 "name" : "staticAsyncVoid",
@@ -3058,6 +3152,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(staticAsyncDouble) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : true,
                 "name" : "staticAsyncDouble",
@@ -3085,6 +3180,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(staticAsyncMultipleArgs) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : true,
                 "name" : "staticAsyncMultipleArgs",
@@ -3120,6 +3216,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(staticAsyncThrowing) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : true,
                 "name" : "staticAsyncThrowing",
@@ -3140,6 +3237,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(staticAsyncCallbackFunc0) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : true,
                 "name" : "staticAsyncCallbackFunc0",
@@ -3488,13 +3586,14 @@
               }
             ],
             "implements" : [
-
+              "TestAsyncFunctions"
             ],
             "methods" : [
               {
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise0) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "exercise0",
@@ -3522,6 +3621,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise1) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "exercise1",
@@ -3549,6 +3649,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise2) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "exercise2",
@@ -3576,6 +3677,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise3) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "exercise3",
@@ -3603,6 +3705,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise4) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "exercise4",
@@ -3630,6 +3733,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise5) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "exercise5",
@@ -3657,6 +3761,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise6) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "exercise6",
@@ -3684,6 +3789,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(thunkTwiceMaker) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "thunkTwiceMaker",
@@ -3707,6 +3813,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(witness) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "witness",
@@ -3716,6 +3823,34 @@
                 "returnType" : {
                   "named" : {
                     "_0" : "TestAPI.TestAsyncFunctions"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(defaultExercise6) -->"
+                ],
+                "hasDefaultImplementation" : true,
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "defaultExercise6",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
                   }
                 }
               }
@@ -3848,6 +3983,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise0) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "exercise0",
@@ -3875,6 +4011,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise1) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "exercise1",
@@ -3902,6 +4039,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise2) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "exercise2",
@@ -3929,6 +4067,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise3) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "exercise3",
@@ -3956,6 +4095,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise4) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "exercise4",
@@ -3983,6 +4123,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise5) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "exercise5",
@@ -4010,6 +4151,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise6) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "exercise6",
@@ -4037,6 +4179,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(thunkTwiceMaker) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "thunkTwiceMaker",
@@ -4060,6 +4203,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(defaultExercise6) -->"
                 ],
+                "hasDefaultImplementation" : true,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "defaultExercise6",
@@ -4087,6 +4231,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(witness) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "witness",
@@ -4228,6 +4373,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise0) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "exercise0",
@@ -4255,6 +4401,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise1) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "exercise1",
@@ -4282,6 +4429,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise2) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "exercise2",
@@ -4309,6 +4457,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise3) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "exercise3",
@@ -4336,6 +4485,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise4) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "exercise4",
@@ -4363,6 +4513,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise5) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "exercise5",
@@ -4390,6 +4541,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise6) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "exercise6",
@@ -4417,6 +4569,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(thunkTwiceMaker) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "thunkTwiceMaker",
@@ -4440,6 +4593,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(witness) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "witness",
@@ -4456,6 +4610,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(init) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "init",
@@ -4544,7 +4699,7 @@
               }
             ],
             "implements" : [
-
+              "TestLeadingUnderscoredProp"
             ],
             "methods" : [
 
@@ -4574,6 +4729,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(foo) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "foo",
@@ -4590,6 +4746,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(bar) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "bar",
@@ -4606,6 +4763,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(baz) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "baz",
@@ -4629,6 +4787,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(garply) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "garply",
@@ -4652,6 +4811,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(xyzzy) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "xyzzy",
@@ -4683,6 +4843,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(plugh) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "plugh",
@@ -4744,6 +4905,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(wombat) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "wombat",
@@ -4775,6 +4937,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(spqr) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "spqr",
@@ -4910,6 +5073,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(foo) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "foo",
@@ -4926,6 +5090,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(bar) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "bar",
@@ -4942,6 +5107,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(baz) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "baz",
@@ -4965,6 +5131,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(garply) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "garply",
@@ -4988,6 +5155,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(xyzzy) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "xyzzy",
@@ -5019,6 +5187,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(plugh) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "plugh",
@@ -5042,6 +5211,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(init) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "init",
@@ -5078,6 +5248,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(wombat) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "wombat",
@@ -5109,6 +5280,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(spqr) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "spqr",
@@ -5181,13 +5353,15 @@
               }
             ],
             "implements" : [
-
+              "TestMethodsProtocol",
+              "TestPropertiesProtocol"
             ],
             "methods" : [
               {
                 "documentation" : [
                   "<!-- FishyJoes.export(bar) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "bar",
@@ -5204,6 +5378,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(baz) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "baz",
@@ -5227,6 +5402,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(foo) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "foo",
@@ -5243,6 +5419,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(garply) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "garply",
@@ -5266,6 +5443,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(plugh) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "plugh",
@@ -5289,6 +5467,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(xyzzy) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "xyzzy",
@@ -5362,6 +5541,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(bar) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "bar",
@@ -5393,6 +5573,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(hasADefaultImplementation) -->"
                 ],
+                "hasDefaultImplementation" : true,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "hasADefaultImplementation",
@@ -5424,6 +5605,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(hasADefaultImplementation2) -->"
                 ],
+                "hasDefaultImplementation" : true,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "hasADefaultImplementation2",
@@ -5487,6 +5669,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(plus) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "plus",
@@ -5625,6 +5808,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise0) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "exercise0",
@@ -5652,6 +5836,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise1) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "exercise1",
@@ -5679,6 +5864,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise2) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "exercise2",
@@ -5706,6 +5892,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise3) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "exercise3",
@@ -5733,6 +5920,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise4) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "exercise4",
@@ -5760,6 +5948,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise5) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "exercise5",
@@ -5787,6 +5976,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise6) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "exercise6",
@@ -5814,6 +6004,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(thunkTwiceMaker) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "thunkTwiceMaker",
@@ -5837,6 +6028,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(defaultExercise6) -->"
                 ],
+                "hasDefaultImplementation" : true,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "defaultExercise6",
@@ -5864,6 +6056,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(witness) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "witness",
@@ -5917,6 +6110,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(foo) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "foo",
@@ -5933,6 +6127,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(bar) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "bar",
@@ -5949,6 +6144,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(baz) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "baz",
@@ -5972,6 +6168,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(garply) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "garply",
@@ -5995,6 +6192,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(xyzzy) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "xyzzy",
@@ -6026,6 +6224,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(plugh) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "plugh",
@@ -6077,6 +6276,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(wombat) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "wombat",
@@ -6108,6 +6308,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(spqr) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "spqr",
@@ -6224,6 +6425,7 @@
                     "documentation" : [
                       "<!-- FishyJoes.export(create) -->"
                     ],
+                    "hasDefaultImplementation" : false,
                     "isAsync" : false,
                     "isStatic" : true,
                     "name" : "create",
@@ -6255,6 +6457,7 @@
                     "documentation" : [
                       "<!-- FishyJoes.export(update) -->"
                     ],
+                    "hasDefaultImplementation" : false,
                     "isAsync" : true,
                     "isStatic" : false,
                     "name" : "update",
@@ -6283,6 +6486,7 @@
                     "documentation" : [
                       "<!-- FishyJoes.export(min) -->"
                     ],
+                    "hasDefaultImplementation" : false,
                     "isAsync" : true,
                     "isStatic" : false,
                     "name" : "min",
@@ -6712,6 +6916,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise0) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : true,
                 "name" : "exercise0",
@@ -6739,6 +6944,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise1) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : true,
                 "name" : "exercise1",
@@ -6766,6 +6972,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise2) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : true,
                 "name" : "exercise2",
@@ -6793,6 +7000,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise3) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : true,
                 "name" : "exercise3",
@@ -6820,6 +7028,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise4) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : true,
                 "name" : "exercise4",
@@ -6847,6 +7056,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise5) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : true,
                 "name" : "exercise5",
@@ -6874,6 +7084,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise6) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : true,
                 "name" : "exercise6",
@@ -6901,6 +7112,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(thunkTwiceMaker) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "thunkTwiceMaker",
@@ -7060,6 +7272,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echo) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echo",
@@ -7083,6 +7296,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(firstIndex) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "firstIndex",
@@ -7107,6 +7321,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(lastIndex) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "lastIndex",
@@ -7131,6 +7346,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(fullRange) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "fullRange",
@@ -7155,6 +7371,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(attributedCharacters) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "attributedCharacters",
@@ -7179,6 +7396,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(attributesPreferringDuplicatesNearerStart) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "attributesPreferringDuplicatesNearerStart",
@@ -7203,6 +7421,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(emptyAttributeRuns) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "emptyAttributeRuns",
@@ -7272,6 +7491,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoBytes) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoBytes",
@@ -7295,6 +7515,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoData) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoData",
@@ -7506,6 +7727,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUInt8Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUInt8Range",
@@ -7529,6 +7751,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUInt16Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUInt16Range",
@@ -7552,6 +7775,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUInt32Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUInt32Range",
@@ -7575,6 +7799,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUInt64Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUInt64Range",
@@ -7598,6 +7823,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUIntRange) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUIntRange",
@@ -7621,6 +7847,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoInt8Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoInt8Range",
@@ -7644,6 +7871,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoInt16Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoInt16Range",
@@ -7667,6 +7895,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoInt32Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoInt32Range",
@@ -7690,6 +7919,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoInt64Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoInt64Range",
@@ -7713,6 +7943,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoIntRange) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoIntRange",
@@ -7736,6 +7967,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoFloatRange) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoFloatRange",
@@ -7759,6 +7991,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoDoubleRange) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoDoubleRange",
@@ -7782,6 +8015,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoStringRange) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoStringRange",
@@ -8212,6 +8446,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoArrayOfInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoArrayOfInt",
@@ -8235,6 +8470,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoSetOfInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoSetOfInt",
@@ -8258,6 +8494,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoDictionaryOfIntToInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoDictionaryOfIntToInt",
@@ -8281,6 +8518,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoMaybeArrayOfMaybeInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoMaybeArrayOfMaybeInt",
@@ -8312,6 +8550,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoMaybeSetOfMaybeInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoMaybeSetOfMaybeInt",
@@ -8343,6 +8582,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoMaybeDictionaryOfIntToMaybeInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoMaybeDictionaryOfIntToMaybeInt",
@@ -8374,6 +8614,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(collectionMapper) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "collectionMapper",
@@ -8433,6 +8674,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoDefaults, compatibilityOrder: [z, y]) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoDefaults",
@@ -8517,6 +8759,7 @@
                   "<!-- FishyJoes.export(deprecatedMethod) -->",
                   "@deprecated don't use this"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "deprecatedMethod",
@@ -8553,6 +8796,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "notGoingToHappen",
@@ -8679,6 +8923,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise0) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "exercise0",
@@ -8702,6 +8947,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise1) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "exercise1",
@@ -8725,6 +8971,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise2) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "exercise2",
@@ -8748,6 +8995,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise3) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "exercise3",
@@ -8771,6 +9019,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise4) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "exercise4",
@@ -8794,6 +9043,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise5) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "exercise5",
@@ -8817,6 +9067,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise6) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "exercise6",
@@ -8840,6 +9091,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(willThrow) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "willThrow",
@@ -8856,6 +9108,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(thunkTwiceMaker) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "thunkTwiceMaker",
@@ -10417,6 +10670,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoBool) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoBool",
@@ -10440,6 +10694,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUInt8) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUInt8",
@@ -10463,6 +10718,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUInt16) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUInt16",
@@ -10486,6 +10742,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUInt32) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUInt32",
@@ -10509,6 +10766,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUInt64) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUInt64",
@@ -10532,6 +10790,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUInt",
@@ -10555,6 +10814,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoInt8) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoInt8",
@@ -10578,6 +10838,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoInt16) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoInt16",
@@ -10601,6 +10862,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoInt32) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoInt32",
@@ -10624,6 +10886,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoInt64) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoInt64",
@@ -10647,6 +10910,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoInt",
@@ -10670,6 +10934,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoFloat) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoFloat",
@@ -10693,6 +10958,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoDouble) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoDouble",
@@ -10716,6 +10982,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maybeEchoBool) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "maybeEchoBool",
@@ -10747,6 +11014,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maybeEchoUInt8) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "maybeEchoUInt8",
@@ -10778,6 +11046,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maybeEchoUInt16) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "maybeEchoUInt16",
@@ -10809,6 +11078,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maybeEchoUInt32) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "maybeEchoUInt32",
@@ -10840,6 +11110,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maybeEchoUInt64) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "maybeEchoUInt64",
@@ -10871,6 +11142,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maybeEchoUInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "maybeEchoUInt",
@@ -10902,6 +11174,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maybeEchoInt8) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "maybeEchoInt8",
@@ -10933,6 +11206,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maybeEchoInt16) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "maybeEchoInt16",
@@ -10964,6 +11238,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maybeEchoInt32) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "maybeEchoInt32",
@@ -10995,6 +11270,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maybeEchoInt64) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "maybeEchoInt64",
@@ -11026,6 +11302,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maybeEchoInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "maybeEchoInt",
@@ -11057,6 +11334,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maybeEchoFloat) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "maybeEchoFloat",
@@ -11088,6 +11366,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maybeEchoDouble) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "maybeEchoDouble",
@@ -11119,6 +11398,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(valueMapper) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "valueMapper",
@@ -11307,6 +11587,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUInt8Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUInt8Range",
@@ -11330,6 +11611,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUInt16Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUInt16Range",
@@ -11353,6 +11635,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUInt32Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUInt32Range",
@@ -11376,6 +11659,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUInt64Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUInt64Range",
@@ -11399,6 +11683,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUIntRange) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUIntRange",
@@ -11422,6 +11707,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoInt8Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoInt8Range",
@@ -11445,6 +11731,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoInt16Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoInt16Range",
@@ -11468,6 +11755,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoInt32Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoInt32Range",
@@ -11491,6 +11779,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoInt64Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoInt64Range",
@@ -11514,6 +11803,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoIntRange) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoIntRange",
@@ -11569,6 +11859,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(pickAColor) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "pickAColor",
@@ -11596,6 +11887,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(hexMethod) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "hexMethod",
@@ -11619,6 +11911,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(resetFavoriteColor) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "resetFavoriteColor",
@@ -11635,6 +11928,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(hex) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "getHex",
@@ -11781,6 +12075,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echo) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echo",
@@ -11874,6 +12169,7 @@
                     "documentation" : [
                       "<!-- FishyJoes.export(asyncGetMutable) -->"
                     ],
+                    "hasDefaultImplementation" : false,
                     "isAsync" : true,
                     "isStatic" : false,
                     "name" : "asyncGetMutable",
@@ -11894,6 +12190,7 @@
                     "documentation" : [
                       "<!-- FishyJoes.export(create) -->"
                     ],
+                    "hasDefaultImplementation" : false,
                     "isAsync" : false,
                     "isStatic" : true,
                     "name" : "create",
@@ -11953,6 +12250,7 @@
                     "documentation" : [
                       "<!-- FishyJoes.export(asyncGetI) -->"
                     ],
+                    "hasDefaultImplementation" : false,
                     "isAsync" : true,
                     "isStatic" : false,
                     "name" : "asyncGetI",
@@ -11973,6 +12271,7 @@
                     "documentation" : [
                       "<!-- FishyJoes.export(increment) -->"
                     ],
+                    "hasDefaultImplementation" : false,
                     "isAsync" : false,
                     "isStatic" : false,
                     "name" : "increment",
@@ -11989,6 +12288,7 @@
                     "documentation" : [
                       "<!-- FishyJoes.export(incrementAsync) -->"
                     ],
+                    "hasDefaultImplementation" : false,
                     "isAsync" : true,
                     "isStatic" : false,
                     "name" : "incrementAsync",
@@ -12009,6 +12309,7 @@
                     "documentation" : [
                       "<!-- FishyJoes.export(create) -->"
                     ],
+                    "hasDefaultImplementation" : false,
                     "isAsync" : false,
                     "isStatic" : true,
                     "name" : "create",
@@ -12072,6 +12373,7 @@
                     "documentation" : [
                       "<!-- FishyJoes.export(create) -->"
                     ],
+                    "hasDefaultImplementation" : false,
                     "isAsync" : false,
                     "isStatic" : true,
                     "name" : "create",
@@ -12088,6 +12390,7 @@
                     "documentation" : [
                       "<!-- FishyJoes.export(asyncGetMutable) -->"
                     ],
+                    "hasDefaultImplementation" : false,
                     "isAsync" : true,
                     "isStatic" : false,
                     "name" : "asyncGetMutable",
@@ -12140,6 +12443,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(foo) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "foo",
@@ -12163,6 +12467,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(bar) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "bar",
@@ -12186,6 +12491,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(baz) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "baz",
@@ -12217,6 +12523,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(garply) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "garply",
@@ -12248,6 +12555,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(xyzzy) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "xyzzy",
@@ -12287,6 +12595,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(plugh) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "plugh",
@@ -12402,6 +12711,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(checkTuples) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "checkTuples",
@@ -12477,6 +12787,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(testCall) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "testCall",
@@ -12558,6 +12869,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echo) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echo",
