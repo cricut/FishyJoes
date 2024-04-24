@@ -18,9 +18,9 @@ struct Method: Hashable {
     let isAsync: Bool
     let deprecation: Deprecation?
     var isExtension: Bool
-    let isProtocol: Bool
+    let protocolName: String?
     var isDefaultImplementation: Bool {
-        if isProtocol,
+        if protocolName != nil,
            isExtension {
             return true
         } else {
@@ -86,7 +86,7 @@ struct Method: Hashable {
         precondition(omitParameters.isEmpty, "Can't find parameters \(omitParameters) to omit")
         self.parameters = parameters
         self.isExtension = method.definedInType?.isExtension ?? false
-        self.isProtocol = protocolName != nil
+        self.protocolName = protocolName
     }
 }
 
