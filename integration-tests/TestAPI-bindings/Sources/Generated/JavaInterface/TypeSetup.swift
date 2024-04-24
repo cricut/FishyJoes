@@ -15,7 +15,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         fatalError("Couldn't obtain jvm environment")
     }
     let env = UnsafeMutablePointer<JNIEnv?>(OpaquePointer(envRaw))
-    return FishyJoesJavaRuntime.callbackBody(env!) { env in
+    let result = FishyJoesJavaRuntime.callbackBody(env!) { (env) -> jint? in
         let bag = CStringBag()
         // print("setting up Function1Converter<Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>, FutureConverter<Swift.String>>...")
         try Function1Converter<Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>, FutureConverter<Swift.String>>.javaSetup(env: env)
@@ -2550,4 +2550,5 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try FishyJoesCommonRuntime.VoidConverter.javaSetup(env: env)
         return JNI_VERSION_1_4
     }
+    return result ?? JNI_VERSION_1_4
 }

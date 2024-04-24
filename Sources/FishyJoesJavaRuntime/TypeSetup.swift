@@ -14,7 +14,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         fatalError("Couldn't obtain jvm environment")
     }
     let env = UnsafeMutablePointer<JNIEnv?>(OpaquePointer(envRaw))
-    return FishyJoesJavaRuntime.callbackBody(env!) { env in
+    let result = FishyJoesJavaRuntime.callbackBody(env!) { (env) -> jint? in
         try JavaError.javaSetup(env: env)
         try JavaFutureImpl.javaSetup(env: env)
 
@@ -54,4 +54,5 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try AttributedString.javaSetup(env: env)
         return JNI_VERSION_1_4
     }
+    return result ?? JNI_VERSION_1_4
 }
