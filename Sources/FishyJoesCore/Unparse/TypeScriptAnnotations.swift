@@ -29,6 +29,7 @@ struct TypeScriptAnnotations: Codable {
         let parameters: [Parameter]
         let returnType: TSType
         let hasDefaultImplementation: Bool
+        let protocolName: String?
     }
 
     struct Typealias: Codable {
