@@ -65,13 +65,9 @@ publishing {
     }
 }
 
-sourceSets {
-    main {
-        java.srcDir("src/main/kotlin")
-    }
-    test {
-        java.srcDir("../tests/kotlin")
-    }
+sourceSets.main {
+    java.srcDir("src/generated/kotlin")
+    resources.srcDir("src/generated/resources")
 }
 
 tasks.test {
@@ -86,18 +82,18 @@ tasks.test {
 
 tasks {
     compileKotlin {
-        kotlinOptions.jvmTarget = "17"
+        kotlinOptions.jvmTarget = "11"
     }
     compileTestKotlin {
-        kotlinOptions.jvmTarget = "17"
+        kotlinOptions.jvmTarget = "11"
     }
     compileJava {
-        sourceCompatibility = JavaVersion.VERSION_17.toString()
-        targetCompatibility = JavaVersion.VERSION_17.toString()
+        sourceCompatibility = JavaVersion.VERSION_11.toString()
+        targetCompatibility = JavaVersion.VERSION_11.toString()
     }
     compileTestJava {
-        sourceCompatibility = JavaVersion.VERSION_17.toString()
-        targetCompatibility = JavaVersion.VERSION_17.toString()
+        sourceCompatibility = JavaVersion.VERSION_11.toString()
+        targetCompatibility = JavaVersion.VERSION_11.toString()
     }
 }
 

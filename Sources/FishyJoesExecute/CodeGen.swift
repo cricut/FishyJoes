@@ -849,7 +849,7 @@ extension CodeGen {
                     // Use gradle to execute the test suite
                     try withDirectory("bindings/kotlin/generated") {
                         let tasks = ["cleanTest", "test"] + (codeCoveragePath == nil ? [] : ["jacocoTestReport"])
-                        try cmd("./gradlew", arguments: tasks, addEnv: env).run()
+                        try cmd("./gradlew", arguments: ["--warning-mode=all"] + tasks, addEnv: env).run()
                     }
                 case .kotlinAndroid:
                     // TODO: Execute Android tests from FishyJoes
