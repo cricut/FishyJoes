@@ -405,6 +405,20 @@ extension TypeScriptAnnotations {
                                 output(method: method, inClass: true)
                             }
                         }
+                        
+                        fragment.blankLine()
+                        
+                        fragment.outputBlock("const \(interface.name)Defaults = {") {
+                            fragment.outputMap(interface.methods, separator: ",") { method in
+                                if method.hasDefaultImplementation {
+                                    // somehow link this up to the mothership AProtocolConverter so it'll call the default method there
+                                    return "\(method.name): null"
+                                } else {
+                                    return "\(method.name): null"
+                                }
+                            }
+                        }
+
                     case .field(let field):
                         output(field: field, inClass: false)
                     case .method(let method):

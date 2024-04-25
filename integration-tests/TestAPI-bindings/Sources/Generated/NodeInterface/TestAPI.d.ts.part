@@ -39,6 +39,12 @@ export declare namespace TestAPI {
         ): number;
     }
 
+    const AProtocolDefaults = {
+        bar: null,
+        hasADefaultImplementation: null,
+        hasADefaultImplementation2: null
+    }
+
     /**
      * <!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->
      */
@@ -177,6 +183,10 @@ export declare namespace TestAPI {
         plus(
             other: TestAPI.AssociatedDataEnum
         ): TestAPI.AssociatedDataEnum;
+    }
+
+    const AssociatedDataEnum_CommonDefaults = {
+        plus: null
     }
 
     export type AsyncFunctions = never;
@@ -2431,6 +2441,19 @@ export declare namespace TestAPI {
         ): TestAPI.TestAsyncFunctions;
     }
 
+    const TestAsyncFunctionsDefaults = {
+        exercise0: null,
+        exercise1: null,
+        exercise2: null,
+        exercise3: null,
+        exercise4: null,
+        exercise5: null,
+        exercise6: null,
+        thunkTwiceMaker: null,
+        defaultExercise6: null,
+        witness: null
+    }
+
     /**
      * <!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass, conformances: [TestAsyncFunctions]) -->
      */
@@ -2557,6 +2580,9 @@ export declare namespace TestAPI {
         readonly _leadingUnderscoreProp: string;
     }
 
+    const TestLeadingUnderscoredPropDefaults = {
+    }
+
     /**
      * // <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp, TestLeadingUnderscoredMethod]) -->
      * <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp]) -->
@@ -2613,6 +2639,15 @@ export declare namespace TestAPI {
         ): [boolean, number, string];
     }
 
+    const TestMethodsProtocolDefaults = {
+        foo: null,
+        bar: null,
+        baz: null,
+        garply: null,
+        xyzzy: null,
+        plugh: null
+    }
+
     /**
      * <!-- FishyJoes.export(TestOptionalsProtocol) -->
      */
@@ -2637,6 +2672,11 @@ export declare namespace TestAPI {
         ): number;
     }
 
+    const TestOptionalsProtocolDefaults = {
+        wombat: null,
+        spqr: null
+    }
+
     /**
      * <!-- FishyJoes.export(TestPropertiesProtocol) -->
      */
@@ -2650,6 +2690,9 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(frob) -->
          */
         readonly frob: number[];
+    }
+
+    const TestPropertiesProtocolDefaults = {
     }
 
     /**
