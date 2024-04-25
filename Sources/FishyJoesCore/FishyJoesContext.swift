@@ -175,7 +175,7 @@ public class FishyJoesContext {
         }
 
         for (type, (methods, protocolName)) in methodsToTranslateForTypeDict {
-            let methods = methods.compactMap { Method($0) }
+            let methods = methods.compactMap { Method($0, protocolName: protocolName) }
             for method in methods {
                 debugContext = "Translating method \(type.name).\(method.name)"
                 collectedFragments.append(contentsOf: kotlinTranslator.translate(method: method, context: self, typeName: type.localName))
