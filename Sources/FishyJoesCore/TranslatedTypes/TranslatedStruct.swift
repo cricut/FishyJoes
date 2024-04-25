@@ -44,8 +44,8 @@ struct TranslatedStruct: TranslatedType {
         // Node objects needs default methods in order to conform to the interfaces it implements, though as an optional method that if the user does not implement, will use the defined default method constant.
         if !type.implements.isEmpty {
             let protocols = type.implements.values.compactMap { $0 as? SourceryProtocol }
-            protocols.forEach {
-                nodeDefaultMethods.append(contentsOf: $0.defaultMethods().compactMap { Method($0, protocolName: $0.name) })
+            for prot in protocols {
+                nodeDefaultMethods.append(contentsOf: prot.defaultMethods().compactMap { Method($0, protocolName: prot.name) })
             }
         }
         self.defaultMethodsForNode = nodeDefaultMethods

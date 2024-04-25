@@ -374,8 +374,10 @@ extension TypeScriptAnnotations {
                                 if !defaultMethods.isEmpty {
                                     fragment.outputBlock(" {") {
                                         defaultMethods.forEach {
-                                            // what interface pertains to this method eh?
-                                            fragment.output("this.\($0.name) = this.\($0.name) || Defaults.\($0.name)")
+                                            guard let protocolName = $0.protocolName else {
+                                                fatalError("protocolName required for default method in node for constructor.")
+                                            }
+                                            fragment.output("this.\($0.name) = this.\($0.name) || \(protocolName)Defaults.\($0.name)")
                                         }
                                     }
                                 } else {
