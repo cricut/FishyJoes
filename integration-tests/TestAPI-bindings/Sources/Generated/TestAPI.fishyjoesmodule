@@ -2436,6 +2436,7 @@
                     }
                   }
                 ],
+                "protocolName" : "AProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "TestAPI.AProtocol"
@@ -2468,6 +2469,7 @@
                     }
                   }
                 ],
+                "protocolName" : "AProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "string"
@@ -2508,6 +2510,7 @@
                     }
                   }
                 ],
+                "protocolName" : "AProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "number"
@@ -2634,6 +2637,7 @@
                     }
                   }
                 ],
+                "protocolName" : "AProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "string"
@@ -2674,6 +2678,7 @@
                     }
                   }
                 ],
+                "protocolName" : "AProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "number"
@@ -3844,6 +3849,7 @@
                     }
                   }
                 ],
+                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -3997,6 +4003,7 @@
                     }
                   }
                 ],
+                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -4025,6 +4032,7 @@
                     }
                   }
                 ],
+                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -4053,6 +4061,7 @@
                     }
                   }
                 ],
+                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -4081,6 +4090,7 @@
                     }
                   }
                 ],
+                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -4109,6 +4119,7 @@
                     }
                   }
                 ],
+                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -4137,6 +4148,7 @@
                     }
                   }
                 ],
+                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -4165,6 +4177,7 @@
                     }
                   }
                 ],
+                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -4193,6 +4206,7 @@
                     }
                   }
                 ],
+                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "named" : {
                     "_0" : "() => Promise<void>"
@@ -4217,6 +4231,7 @@
                     }
                   }
                 ],
+                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -4238,6 +4253,7 @@
                 "parameters" : [
 
                 ],
+                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "named" : {
                     "_0" : "TestAPI.TestAsyncFunctions"
@@ -4736,6 +4752,7 @@
                 "parameters" : [
 
                 ],
+                "protocolName" : "TestMethodsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "void"
@@ -4753,6 +4770,7 @@
                 "parameters" : [
 
                 ],
+                "protocolName" : "TestMethodsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "boolean"
@@ -4777,6 +4795,7 @@
                     }
                   }
                 ],
+                "protocolName" : "TestMethodsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "void"
@@ -4801,6 +4820,7 @@
                     }
                   }
                 ],
+                "protocolName" : "TestMethodsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "string"
@@ -4833,6 +4853,7 @@
                     }
                   }
                 ],
+                "protocolName" : "TestMethodsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "string"
@@ -4857,6 +4878,7 @@
                     }
                   }
                 ],
+                "protocolName" : "TestMethodsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "[boolean, number, string]"
@@ -4923,6 +4945,7 @@
                     }
                   }
                 ],
+                "protocolName" : "TestOptionalsProtocol",
                 "returnType" : {
                   "optional" : {
                     "_0" : {
@@ -4951,6 +4974,7 @@
                     }
                   }
                 ],
+                "protocolName" : "TestOptionalsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "number"
@@ -5563,6 +5587,7 @@
                     }
                   }
                 ],
+                "protocolName" : "AProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "TestAPI.AProtocol"
@@ -5595,6 +5620,7 @@
                     }
                   }
                 ],
+                "protocolName" : "AProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "string"
@@ -5635,6 +5661,7 @@
                     }
                   }
                 ],
+                "protocolName" : "AProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "number"
@@ -5822,6 +5849,7 @@
                     }
                   }
                 ],
+                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -5850,6 +5878,7 @@
                     }
                   }
                 ],
+                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -5878,6 +5907,7 @@
                     }
                   }
                 ],
+                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -5906,6 +5936,7 @@
                     }
                   }
                 ],
+                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -5934,6 +5965,7 @@
                     }
                   }
                 ],
+                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -5962,6 +5994,7 @@
                     }
                   }
                 ],
+                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -5990,6 +6023,7 @@
                     }
                   }
                 ],
+                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -6018,6 +6052,7 @@
                     }
                   }
                 ],
+                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "named" : {
                     "_0" : "() => Promise<void>"
@@ -6042,6 +6077,7 @@
                     }
                   }
                 ],
+                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -6063,6 +6099,7 @@
                 "parameters" : [
 
                 ],
+                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "named" : {
                     "_0" : "TestAPI.TestAsyncFunctions"
@@ -6117,6 +6154,7 @@
                 "parameters" : [
 
                 ],
+                "protocolName" : "TestMethodsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "void"
@@ -6134,6 +6172,7 @@
                 "parameters" : [
 
                 ],
+                "protocolName" : "TestMethodsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "boolean"
@@ -6158,6 +6197,7 @@
                     }
                   }
                 ],
+                "protocolName" : "TestMethodsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "void"
@@ -6182,6 +6222,7 @@
                     }
                   }
                 ],
+                "protocolName" : "TestMethodsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "string"
@@ -6214,6 +6255,7 @@
                     }
                   }
                 ],
+                "protocolName" : "TestMethodsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "string"
@@ -6238,6 +6280,7 @@
                     }
                   }
                 ],
+                "protocolName" : "TestMethodsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "[boolean, number, string]"
@@ -6294,6 +6337,7 @@
                     }
                   }
                 ],
+                "protocolName" : "TestOptionalsProtocol",
                 "returnType" : {
                   "optional" : {
                     "_0" : {
@@ -6322,6 +6366,7 @@
                     }
                   }
                 ],
+                "protocolName" : "TestOptionalsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "number"

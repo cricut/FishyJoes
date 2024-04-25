@@ -185,7 +185,7 @@ struct TranslatedStruct: TranslatedType {
             .init(
                 documentation: documentation,
                 name: nodeName,
-                implements: Array(conformances),
+                implements: Array(conformances).sorted(by: <),
                 constructor: .visible(
                     storedVariables.map {
                         (
