@@ -20,7 +20,7 @@ extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: NodeConverte
             guard let nonNilPointer = try env.unwrap(value) else {
                 throw JSException(message: "expected TestAPI.TestPropertiesProtocol, got nil")
             }
-            return try Box<TestAPI.TestPropertiesProtocol>.takeUnretained(value, env: env).value
+            return try Box<TestAPI.TestPropertiesProtocol>.takeUnretainedOpaque(nonNilPointer).value
         } catch {
             return _NodeTestPropertiesProtocol(
                 _nodeWitness: try NodeReference(env: env, value: value),

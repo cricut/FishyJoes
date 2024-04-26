@@ -370,19 +370,20 @@ extension TypeScriptAnnotations {
                                 fragment.blankLine()
                             case .visible(let parameters):
                                 fragment.output("constructor(\(parameters.map { "\($0.name): \($0.type)" }.joined(separator: ", ")))", newLineTerminated: false)
-                                let defaultMethods = tsClass.methods.filter { $0.hasDefaultImplementation }
-                                if !defaultMethods.isEmpty {
-                                    fragment.outputBlock(" {") {
-                                        defaultMethods.forEach {
-                                            guard let protocolName = $0.protocolName else {
-                                                fatalError("protocolName required for default method in node for constructor.")
-                                            }
-                                            fragment.output("this.\($0.name) = this.\($0.name) || \(protocolName)Defaults.\($0.name)")
-                                        }
-                                    }
-                                } else {
-                                    fragment.blankLine()
-                                }
+//                                let defaultMethods = tsClass.methods.filter { $0.hasDefaultImplementation }
+//                                if !defaultMethods.isEmpty {
+//                                    fragment.outputBlock(" {") {
+//                                        defaultMethods.forEach {
+//                                            guard let protocolName = $0.protocolName else {
+//                                                fatalError("protocolName required for default method in node for constructor.")
+//                                            }
+//                                            fragment.output("this.\($0.name) = this.\($0.name) || \(protocolName)Defaults.\($0.name)")
+//                                        }
+//                                    }
+//                                } else {
+//                                    fragment.blankLine()
+//                                }
+                                fragment.blankLine()
                                 fragment.blankLine()
                             }
 
@@ -408,16 +409,16 @@ extension TypeScriptAnnotations {
                         
                         fragment.blankLine()
                         
-                        fragment.outputBlock("const \(interface.name)Defaults = {") {
-                            fragment.outputMap(interface.methods, separator: ",") { method in
-                                if method.hasDefaultImplementation {
-                                    // somehow link this up to the mothership AProtocolConverter so it'll call the default method there
-                                    return "\(method.name): null"
-                                } else {
-                                    return "\(method.name): null"
-                                }
-                            }
-                        }
+//                        fragment.outputBlock("const \(interface.name)Defaults = {") {
+//                            fragment.outputMap(interface.methods, separator: ",") { method in
+//                                if method.hasDefaultImplementation {
+//                                    // somehow link this up to the mothership AProtocolConverter so it'll call the default method there
+//                                    return "\(method.name): null"
+//                                } else {
+//                                    return "\(method.name): null"
+//                                }
+//                            }
+//                        }
 
                     case .field(let field):
                         output(field: field, inClass: false)

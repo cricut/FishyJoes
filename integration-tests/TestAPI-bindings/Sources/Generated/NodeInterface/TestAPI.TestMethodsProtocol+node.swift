@@ -42,7 +42,7 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
             guard let nonNilPointer = try env.unwrap(value) else {
                 throw JSException(message: "expected TestAPI.TestMethodsProtocol, got nil")
             }
-            return try Box<TestAPI.TestMethodsProtocol>.takeUnretained(value, env: env).value
+            return try Box<TestAPI.TestMethodsProtocol>.takeUnretainedOpaque(nonNilPointer).value
         } catch {
             return _NodeTestMethodsProtocol(
                 _nodeWitness: try NodeReference(env: env, value: value)

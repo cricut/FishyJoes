@@ -66,7 +66,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
             guard let nonNilPointer = try env.unwrap(value) else {
                 throw JSException(message: "expected TestAPI.TestAsyncFunctions, got nil")
             }
-            return try Box<TestAPI.TestAsyncFunctions>.takeUnretained(value, env: env).value
+            return try Box<TestAPI.TestAsyncFunctions>.takeUnretainedOpaque(nonNilPointer).value
         } catch {
             return _NodeTestAsyncFunctions(
                 _nodeWitness: try NodeReference(env: env, value: value),

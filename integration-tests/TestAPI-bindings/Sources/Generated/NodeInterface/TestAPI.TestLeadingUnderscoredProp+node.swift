@@ -19,7 +19,7 @@ extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: NodeConv
             guard let nonNilPointer = try env.unwrap(value) else {
                 throw JSException(message: "expected TestAPI.TestLeadingUnderscoredProp, got nil")
             }
-            return try Box<TestAPI.TestLeadingUnderscoredProp>.takeUnretained(value, env: env).value
+            return try Box<TestAPI.TestLeadingUnderscoredProp>.takeUnretainedOpaque(nonNilPointer).value
         } catch {
             return _NodeTestLeadingUnderscoredProp(
                 _nodeWitness: try NodeReference(env: env, value: value),

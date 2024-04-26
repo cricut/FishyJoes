@@ -407,7 +407,7 @@ struct TranslatedProtocol: TranslatedType {
                     fragment.outputBlock("guard let nonNilPointer = try env.unwrap(value) else {") {
                         fragment.output("throw JSException(message: \"expected \(sourceType.name), got nil\")")
                     }
-                    fragment.output("return try Box<\(sourceType.name)>.takeUnretainedOpaque(nonNilPointer, env: env).value")
+                    fragment.output("return try Box<\(sourceType.name)>.takeUnretainedOpaque(nonNilPointer).value")
                 }
                 fragment.outputBlock(" catch {") {
                     fragment.outputBlock("return _Node\(sourceType.nonNamespacedName)(") {
