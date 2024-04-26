@@ -31,7 +31,7 @@ for platformStr in $androidsStupidPlatforms; do
         --destination $toolchainPath/usr/swiftpm-android-$arch.json
     installDir=$libdir/lib/$ndkArch
     mkdir -p $installDir/
-    cp .build/$arch-unknown-linux-android$androidAPIVersion/release/libFishyJoesJavaRuntime.so $installDir/
+    cp .build/android-build/$arch-unknown-linux-android$androidAPIVersion/$CONFIGURATION/libFishyJoesJavaRuntime.so $installDir/
 done
 
 cp /VERSIONS $libdir/FishyJoesAndroidVersions.txt
