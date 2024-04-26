@@ -19,14 +19,16 @@ struct DockerContext {
         hostDockerBinary = docker
 
         let paths = [ FileManager.default.currentDirectoryPath ] + paths
-        var pathComponents = paths.map { (($0 as NSString).standardizingPath as NSString).pathComponents }
+        var absolutePathComponents = paths
+            .map { (($0 as NSString).standardizingPath as NSString).pathComponents }
+            .filter { $0.first == "/" }
 
         // find longest common prefix
         var commonComponents: [String] = []
-        while let component = pathComponents.compactMap(\.first).first,
-              pathComponents.allSatisfy({ $0.first == component }) {
+        while let component = absolutePathComponents.compactMap(\.first).first,
+              absolutePathComponents.allSatisfy({ $0.first == component }) {
             commonComponents.append(component)
-            pathComponents = pathComponents.map { Array($0.dropFirst()) }
+            absolutePathComponents = absolutePathComponents.map { Array($0.dropFirst()) }
         }
         if commonComponents.isEmpty {
             print("No common path found! paths:")
@@ -40,7 +42,7 @@ struct DockerContext {
 
         mountMappings = [basePath: "/work"]
         // specifically use "/" instead of platform-dependent separator, because this is inside docker
-        startDirectory = "/work/\(pathComponents.first!.joined(separator: "/"))"
+        startDirectory = "/work/\(absolutePathComponents.first!.joined(separator: "/"))"
     }
 
     func translateMounted(externalPath: String) -> String {
