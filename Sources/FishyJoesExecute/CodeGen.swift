@@ -405,6 +405,7 @@ extension CodeGen {
                 path: "\(repoRoot)/bindings/swift-interfaces/generated/\(moduleName)-bindings"
             )
         }
+        injectedDependencies[config.module] = .local(path: "../../../..")
 
         // MARK: - Build Step
         if buildStep.contains(.build) {
