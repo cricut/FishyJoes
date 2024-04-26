@@ -10,7 +10,14 @@ import TestAPI_CommonInterface
 struct _NodeAProtocol: TestAPI.AProtocol {
     let _nodeWitness: NodeReference
 
-    var foo: String
+    var foo: String { get throws {
+        let env = _nodeWitness.env
+        let napiValue = try _nodeWitness.value(env: env)
+        let foo = try env.getNamedProperty(napiValue, "foo")
+//        let str = try env.callFunction(napiValue, hasADefImpl, [])
+        return try String.fromNode(foo, env: env)
+    }
+    }
     var baz: Bool
     var barImpl: (() -> AProtocol)?
     public func bar(x: Int, y: Int) throws -> AProtocol {
@@ -18,7 +25,26 @@ struct _NodeAProtocol: TestAPI.AProtocol {
     }
     var hasADefaultImplementationImpl: (() -> String)?
     public func hasADefaultImplementation(x: Int, y: Double) throws -> String {
-        hasADefaultImplementationImpl!()
+//        hasADefaultImplementationImpl!()
+        // I want to call the node/javascript side hasADefaultImplementation on ExternalWitness_AProtocol
+        // async code how to get environment
+        // TODO get the env the right way for async
+        // look at async functions
+        
+        // create a new ExternalWitness_AProtocol javascript object, with the Boxed _nodeWitness.value as the reference it stores from the constructor. It needs a swift pointer, a swift version of AProtocol
+        
+        // one for Swift object where it points to Javascript methods
+        // one that is a javascript object points to swift methods. external witness
+        
+        let env = _nodeWitness.env
+        let napiValue = try _nodeWitness.value(env: env)
+        let hasADefImpl = try env.getNamedProperty(napiValue, "hasADefaultImplementation")
+        let str = try env.callFunction(napiValue, hasADefImpl, [try Int.toNode(x, env: env), try Double.toNode(y, env: env)])
+        return try String.fromNode(str, env: env)
+        
+        // If I just want to from here call the thing: "hasADefaultImplementation": (
+//            .method { env, info in down below in this same file.
+        // can I do it?
     }
     var hasADefaultImplementation2Impl: (() -> Double)?
     public func hasADefaultImplementation2(_ a: String, b: Bool, _ c: Double) throws -> Double {
@@ -29,16 +55,22 @@ struct _NodeAProtocol: TestAPI.AProtocol {
 extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         do {
-            guard let nonNilPointer = try env.unwrap(value) else {
-                throw JSException(message: "expected TestAPI.AProtocol, got nil")
+            let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_AProtocol", env: env)
+            if try env.instanceof(value, constructor) {
+                guard let nonNilPointer = try env.unwrap(value) else {
+                    throw JSException(message: "expected TestAPI.AProtocol, got nil")
+                }
+                return try Box<TestAPI.AProtocol>.takeUnretainedOpaque(nonNilPointer).value
+            } else {
+                return _NodeAProtocol(
+                    _nodeWitness: try NodeReference(env: env, value: value),
+//                    foo: String(),
+                    baz: Bool()
+                )
             }
-            return try Box<TestAPI.AProtocol>.takeUnretainedOpaque(nonNilPointer).value
         } catch {
-            return _NodeAProtocol(
-                _nodeWitness: try NodeReference(env: env, value: value),
-                foo: String(),
-                baz: Bool()
-            )
+            print("error: \(error)")
+           throw error
         }
     }
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {

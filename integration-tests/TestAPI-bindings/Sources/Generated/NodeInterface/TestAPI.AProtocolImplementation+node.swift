@@ -58,8 +58,7 @@ extension TestAPI.AProtocolImplementation: NodeMutator {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
-                                // this calls toNode on AProtocol+node. Make an ExternalWitness with "this" inside it, then call hasADefaultImplementation on it so it'll call the right one.
-                                env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self).hasADefaultImplementation(
+                                env.this(converter: TestAPI.AProtocolImplementation.self).hasADefaultImplementation(
                                     x: try env.argument(at: 0, converter: Swift.Int.self),
                                     y: try env.argument(at: 1, converter: Swift.Double.self)
                                 ),
