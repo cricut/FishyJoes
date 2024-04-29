@@ -185,7 +185,8 @@ struct TranslatedEnum: TranslatedType {
                             methods: methods,
                             explicitThis: true,
                             context: context,
-                            fragment: fragment
+                            fragment: fragment,
+                            converterName: nil
                         )
                         hasProperties ||= context.nodeTranslator.outputProperties(
                             computedVariables: fields,
@@ -297,7 +298,8 @@ struct TranslatedEnum: TranslatedType {
                             hasProperties ||= context.nodeTranslator.outputProperties(
                                 methods: methods,
                                 context: context,
-                                fragment: fragment
+                                fragment: fragment,
+                                converterName: nil
                             )
                             hasProperties ||= context.nodeTranslator.outputProperties(
                                 computedVariables: fields,

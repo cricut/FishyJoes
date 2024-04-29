@@ -85,7 +85,7 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "bar", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try TestAPI_CommonInterface._AProtocolConverter.toNode(
-                                env.this(converter: TestAPI.AProtocol.self).bar(
+                                env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self).bar(
                                     x: try env.argument(at: 0, converter: Swift.Int.self),
                                     y: try env.argument(at: 1, converter: Swift.Int.self)
                                 ),
@@ -100,7 +100,7 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
-                                env.this(converter: TestAPI.AProtocol.self).hasADefaultImplementation(
+                                env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self).hasADefaultImplementation(
                                     x: try env.argument(at: 0, converter: Swift.Int.self),
                                     y: try env.argument(at: 1, converter: Swift.Double.self)
                                 ),
@@ -115,7 +115,7 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation2", expectedArgumentCount: 3, hasNamedOptions: false) { env in
                             let result = try Swift.Double.toNode(
-                                env.this(converter: TestAPI.AProtocol.self).hasADefaultImplementation2(
+                                env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self).hasADefaultImplementation2(
                                     try env.argument(at: 0, converter: Swift.String.self),
                                     b: try env.argument(at: 1, converter: Swift.Bool.self),
                                     try env.argument(at: 2, converter: Swift.Double.self)

@@ -86,7 +86,7 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "foo", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
-                                env.this(converter: TestAPI.TestMethodsProtocol.self).foo(
+                                env.this(converter: TestAPI_CommonInterface._TestMethodsProtocolConverter.self).foo(
                                 ),
                                 env: env.env
                             )
@@ -99,7 +99,7 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "bar", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.Bool.toNode(
-                                env.this(converter: TestAPI.TestMethodsProtocol.self).bar(
+                                env.this(converter: TestAPI_CommonInterface._TestMethodsProtocolConverter.self).bar(
                                 ),
                                 env: env.env
                             )
@@ -112,7 +112,7 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "baz", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
-                                env.this(converter: TestAPI.TestMethodsProtocol.self).baz(
+                                env.this(converter: TestAPI_CommonInterface._TestMethodsProtocolConverter.self).baz(
                                     qux: try env.argument(at: 0, converter: Swift.Bool.self)
                                 ),
                                 env: env.env
@@ -126,7 +126,7 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "garply", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
-                                env.this(converter: TestAPI.TestMethodsProtocol.self).garply(
+                                env.this(converter: TestAPI_CommonInterface._TestMethodsProtocolConverter.self).garply(
                                     try env.argument(at: 0, converter: Swift.String.self)
                                 ),
                                 env: env.env
@@ -140,7 +140,7 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "xyzzy", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
-                                env.this(converter: TestAPI.TestMethodsProtocol.self).xyzzy(
+                                env.this(converter: TestAPI_CommonInterface._TestMethodsProtocolConverter.self).xyzzy(
                                     thud: try env.argument(at: 0, converter: Swift.Int.self),
                                     grault: try env.argument(at: 1, converter: ArrayConverter<Swift.Double>.self)
                                 ),
@@ -155,7 +155,7 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "plugh", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.toNode(
-                                env.this(converter: TestAPI.TestMethodsProtocol.self).plugh(
+                                env.this(converter: TestAPI_CommonInterface._TestMethodsProtocolConverter.self).plugh(
                                     fred: try env.argument(at: 0, converter: Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>.self)
                                 ),
                                 env: env.env

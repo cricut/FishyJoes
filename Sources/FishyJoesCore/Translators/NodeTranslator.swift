@@ -79,7 +79,7 @@ struct NodeTranslator: Translator {
         }
     }
 
-    func output(method: Method, explicitThis: Bool, context: FishyJoesContext, fragment: SourceFragment, newLineTerminated: Bool = true) {
+    func output(method: Method, explicitThis: Bool, context: FishyJoesContext, fragment: SourceFragment, newLineTerminated: Bool = true, converterName: String? = nil) {
         let exportAnnotation = method.exportAnnotation
         let nodeName = exportAnnotation.name
 
@@ -90,7 +90,7 @@ struct NodeTranslator: Translator {
 
         if let selfType = method.definedIn {
             let resolved = context.resolve(type: selfType)
-            containingNamespace = resolved.converterType.name
+            containingNamespace = converterName ?? resolved.converterType.name
 
             if method.isStatic {
                 selfExpression = containingNamespace
@@ -228,14 +228,14 @@ struct NodeTranslator: Translator {
         }
     }
 
-    func outputProperties(methods: [Method], explicitThis: Bool = false, context: FishyJoesContext, fragment: SourceFragment) -> Bool {
+    func outputProperties(methods: [Method], explicitThis: Bool = false, context: FishyJoesContext, fragment: SourceFragment, converterName: String? = nil) -> Bool {
         for method in methods {
             let isStatic = explicitThis || method.isStatic
             let explicitThis = explicitThis && !method.isStatic
 
             fragment.outputBlock("\"\(method.exportAnnotation.name)\": (", closeWith: "),") {
                 fragment.output(".method ", newLineTerminated: false)
-                output(method: method, explicitThis: explicitThis, context: context, fragment: fragment, newLineTerminated: false)
+                output(method: method, explicitThis: explicitThis, context: context, fragment: fragment, newLineTerminated: false, converterName: converterName)
                 fragment.output(",")
                 fragment.output("isStatic: \(isStatic)")
             }

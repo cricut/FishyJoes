@@ -69,7 +69,7 @@ extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: NodeConverter
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "wombat", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Swift.Double>.toNode(
-                                env.this(converter: TestAPI.TestOptionalsProtocol.self).wombat(
+                                env.this(converter: TestAPI_CommonInterface._TestOptionalsProtocolConverter.self).wombat(
                                     zxc: try env.argument(at: 0, converter: OptionalConverter<Swift.Int>.self)
                                 ),
                                 env: env.env
@@ -83,7 +83,7 @@ extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: NodeConverter
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "spqr", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.Int.toNode(
-                                env.this(converter: TestAPI.TestOptionalsProtocol.self).spqr(
+                                env.this(converter: TestAPI_CommonInterface._TestOptionalsProtocolConverter.self).spqr(
                                     try env.argument(at: 0, converter: TestAPI.AssociatedDataEnum.self)
                                 ),
                                 env: env.env
