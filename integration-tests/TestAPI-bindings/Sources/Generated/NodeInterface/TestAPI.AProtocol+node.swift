@@ -15,7 +15,7 @@ struct _NodeAProtocol: TestAPI.AProtocol {
             let env = _nodeWitness.env
             let napiValue = try _nodeWitness.value(env: env)
             let foo = try env.getNamedProperty(napiValue, "foo")
-            return try String.fromNode(foo, env: env)
+            return try Swift.String.fromNode(foo, env: env)
         }
     }
     var baz: Bool {
@@ -23,7 +23,7 @@ struct _NodeAProtocol: TestAPI.AProtocol {
             let env = _nodeWitness.env
             let napiValue = try _nodeWitness.value(env: env)
             let baz = try env.getNamedProperty(napiValue, "baz")
-            return try Bool.fromNode(baz, env: env)
+            return try Swift.Bool.fromNode(baz, env: env)
         }
     }
     public func bar(x: Int, y: Int) throws -> AProtocol {
@@ -60,9 +60,7 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
                 return try Box<TestAPI.AProtocol>.takeUnretainedOpaque(nonNilPointer).value
             } else {
                 return _NodeAProtocol(
-                    _nodeWitness: try NodeReference(env: env, value: value),
-                    foo: String(),
-                    baz: Bool()
+                    _nodeWitness: try NodeReference(env: env, value: value)
                 )
             }
         } catch {

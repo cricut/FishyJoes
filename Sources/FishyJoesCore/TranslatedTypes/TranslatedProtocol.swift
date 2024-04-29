@@ -395,10 +395,12 @@ struct TranslatedProtocol: TranslatedType {
                             fragment.output("[\(toNodeParams.joined(separator: ", "))])")
 
                             if resVal != .void {
-                                fragment.output("return try \(resVal.name).fromNode(result, env: env)")
+                                let resolved = context.resolve(type: resVal)
+                                fragment.output("return try \(resolved.converterType.name).fromNode(result, env: env)")
                             }
                         } else {
-                            fragment.output("return try \(field.typeName.better.name).fromNode(\(field.name), env: env)")
+                            let resolved = context.resolve(type: field.typeName.better)
+                            fragment.output("return try \(resolved.converterType.name).fromNode(\(field.name), env: env)")
                         }
                     }
                 }
@@ -448,21 +450,7 @@ struct TranslatedProtocol: TranslatedType {
                     }
                     fragment.outputBlock(" else {") {
                         fragment.outputBlock("return _Node\(sourceType.nonNamespacedName)(") {
-                            fragment.output("_nodeWitness: try NodeReference(env: env, value: value)", newLineTerminated: false)
-                            if !fields.isEmpty {
-                                fragment.output(",")
-                            } else {
-                                fragment.output("")
-                            }
-                            if converterType.name == "TestAPI_CommonInterface._TestAsyncFunctionsConverter" {
-                                fragment.outputMap(fields, separator: ",") {
-                                    "\($0.name): AsyncFunctions.\($0.name)"
-                                }
-                            } else {
-                                fragment.outputMap(fields, separator: ",") {
-                                    "\($0.name): \($0.typeName.name.replacingOccurrences(of: "?", with: ""))()"
-                                }
-                            }
+                            fragment.output("_nodeWitness: try NodeReference(env: env, value: value)")
                         }
                     }
                 }

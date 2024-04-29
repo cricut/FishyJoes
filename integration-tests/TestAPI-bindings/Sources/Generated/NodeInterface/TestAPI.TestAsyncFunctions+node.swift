@@ -16,7 +16,7 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
             let napiValue = try _nodeWitness.value(env: env)
             let const42 = try env.getNamedProperty(napiValue, "const42")
             let result = try env.callFunction(napiValue, const42, [])
-            return try Int.fromNode(result, env: env)
+            return try Swift.Int.fromNode(result, env: env)
         }
     }
     var iabs: (Int) async throws -> Int {
@@ -25,7 +25,7 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
             let napiValue = try _nodeWitness.value(env: env)
             let iabs = try env.getNamedProperty(napiValue, "iabs")
             let result = try env.callFunction(napiValue, iabs, [try Swift.Int.toNode(Int, env: env)])
-            return try Int.fromNode(result, env: env)
+            return try Swift.Int.fromNode(result, env: env)
         }
     }
     var intCompose: (@escaping (Int) async throws -> Int, @escaping (Int) async throws -> Int) throws -> (Int) async throws -> Int {
@@ -34,7 +34,7 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
             let napiValue = try _nodeWitness.value(env: env)
             let intCompose = try env.getNamedProperty(napiValue, "intCompose")
             let result = try env.callFunction(napiValue, intCompose, [try AsyncFunction1Converter<Swift.Int, Swift.Int>.toNode((Int) async throws -> Int, env: env), try AsyncFunction1Converter<Swift.Int, Swift.Int>.toNode((Int) async throws -> Int, env: env)])
-            return try (Int) async throws -> Int.fromNode(result, env: env)
+            return try AsyncFunction1Converter<Swift.Int, Swift.Int>.fromNode(result, env: env)
         }
     }
     var add3Things: (Float, Double, Int) async throws -> Double {
@@ -43,7 +43,7 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
             let napiValue = try _nodeWitness.value(env: env)
             let add3Things = try env.getNamedProperty(napiValue, "add3Things")
             let result = try env.callFunction(napiValue, add3Things, [try Swift.Float.toNode(Float, env: env), try Swift.Double.toNode(Double, env: env), try Swift.Int.toNode(Int, env: env)])
-            return try Double.fromNode(result, env: env)
+            return try Swift.Double.fromNode(result, env: env)
         }
     }
     var makeList: (String, String, String, String) async throws -> Array<String> {
@@ -52,7 +52,7 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
             let napiValue = try _nodeWitness.value(env: env)
             let makeList = try env.getNamedProperty(napiValue, "makeList")
             let result = try env.callFunction(napiValue, makeList, [try Swift.String.toNode(String, env: env), try Swift.String.toNode(String, env: env), try Swift.String.toNode(String, env: env), try Swift.String.toNode(String, env: env)])
-            return try Array<String>.fromNode(result, env: env)
+            return try ArrayConverter<Swift.String>.fromNode(result, env: env)
         }
     }
     var fifthThing: (String, Int, Double, String, @escaping () async throws -> Int) async throws -> () async throws -> Int {
@@ -61,7 +61,7 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
             let napiValue = try _nodeWitness.value(env: env)
             let fifthThing = try env.getNamedProperty(napiValue, "fifthThing")
             let result = try env.callFunction(napiValue, fifthThing, [try Swift.String.toNode(String, env: env), try Swift.Int.toNode(Int, env: env), try Swift.Double.toNode(Double, env: env), try Swift.String.toNode(String, env: env), try AsyncFunction0Converter<Swift.Int>.toNode(() async throws -> Int, env: env)])
-            return try () async throws -> Int.fromNode(result, env: env)
+            return try AsyncFunction0Converter<Swift.Int>.fromNode(result, env: env)
         }
     }
     var six: (String, Int, Double, String, @escaping () async throws -> Int, Int) async throws -> Int {
@@ -70,7 +70,7 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
             let napiValue = try _nodeWitness.value(env: env)
             let six = try env.getNamedProperty(napiValue, "six")
             let result = try env.callFunction(napiValue, six, [try Swift.String.toNode(String, env: env), try Swift.Int.toNode(Int, env: env), try Swift.Double.toNode(Double, env: env), try Swift.String.toNode(String, env: env), try AsyncFunction0Converter<Swift.Int>.toNode(() async throws -> Int, env: env), try Swift.Int.toNode(Int, env: env)])
-            return try Int.fromNode(result, env: env)
+            return try Swift.Int.fromNode(result, env: env)
         }
     }
     var willThrow: () async throws -> Int {
@@ -79,7 +79,7 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
             let napiValue = try _nodeWitness.value(env: env)
             let willThrow = try env.getNamedProperty(napiValue, "willThrow")
             let result = try env.callFunction(napiValue, willThrow, [])
-            return try Int.fromNode(result, env: env)
+            return try Swift.Int.fromNode(result, env: env)
         }
     }
     public func exercise0(_ fn: @escaping () async throws -> Int) throws -> String {
@@ -165,15 +165,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                 return try Box<TestAPI.TestAsyncFunctions>.takeUnretainedOpaque(nonNilPointer).value
             } else {
                 return _NodeTestAsyncFunctions(
-                    _nodeWitness: try NodeReference(env: env, value: value),
-                    const42: AsyncFunctions.const42,
-                    iabs: AsyncFunctions.iabs,
-                    intCompose: AsyncFunctions.intCompose,
-                    add3Things: AsyncFunctions.add3Things,
-                    makeList: AsyncFunctions.makeList,
-                    fifthThing: AsyncFunctions.fifthThing,
-                    six: AsyncFunctions.six,
-                    willThrow: AsyncFunctions.willThrow
+                    _nodeWitness: try NodeReference(env: env, value: value)
                 )
             }
         } catch {

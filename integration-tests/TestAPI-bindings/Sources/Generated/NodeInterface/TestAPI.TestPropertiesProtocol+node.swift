@@ -15,7 +15,7 @@ struct _NodeTestPropertiesProtocol: TestAPI.TestPropertiesProtocol {
             let env = _nodeWitness.env
             let napiValue = try _nodeWitness.value(env: env)
             let corge = try env.getNamedProperty(napiValue, "corge")
-            return try String.fromNode(corge, env: env)
+            return try Swift.String.fromNode(corge, env: env)
         }
     }
     var frob: Array<Double> {
@@ -23,7 +23,7 @@ struct _NodeTestPropertiesProtocol: TestAPI.TestPropertiesProtocol {
             let env = _nodeWitness.env
             let napiValue = try _nodeWitness.value(env: env)
             let frob = try env.getNamedProperty(napiValue, "frob")
-            return try Array<Double>.fromNode(frob, env: env)
+            return try ArrayConverter<Swift.Double>.fromNode(frob, env: env)
         }
     }
 }
@@ -39,9 +39,7 @@ extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: NodeConverte
                 return try Box<TestAPI.TestPropertiesProtocol>.takeUnretainedOpaque(nonNilPointer).value
             } else {
                 return _NodeTestPropertiesProtocol(
-                    _nodeWitness: try NodeReference(env: env, value: value),
-                    corge: String(),
-                    frob: [Double]()
+                    _nodeWitness: try NodeReference(env: env, value: value)
                 )
             }
         } catch {

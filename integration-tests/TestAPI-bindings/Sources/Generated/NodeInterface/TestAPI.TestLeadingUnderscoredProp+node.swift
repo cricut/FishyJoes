@@ -15,7 +15,7 @@ struct _NodeTestLeadingUnderscoredProp: TestAPI.TestLeadingUnderscoredProp {
             let env = _nodeWitness.env
             let napiValue = try _nodeWitness.value(env: env)
             let _leadingUnderscoreProp = try env.getNamedProperty(napiValue, "_leadingUnderscoreProp")
-            return try String.fromNode(_leadingUnderscoreProp, env: env)
+            return try Swift.String.fromNode(_leadingUnderscoreProp, env: env)
         }
     }
 }
@@ -31,8 +31,7 @@ extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: NodeConv
                 return try Box<TestAPI.TestLeadingUnderscoredProp>.takeUnretainedOpaque(nonNilPointer).value
             } else {
                 return _NodeTestLeadingUnderscoredProp(
-                    _nodeWitness: try NodeReference(env: env, value: value),
-                    _leadingUnderscoreProp: String()
+                    _nodeWitness: try NodeReference(env: env, value: value)
                 )
             }
         } catch {

@@ -15,7 +15,7 @@ struct _NodeTestOptionalsProtocol: TestAPI.TestOptionalsProtocol {
             let env = _nodeWitness.env
             let napiValue = try _nodeWitness.value(env: env)
             let flarp = try env.getNamedProperty(napiValue, "flarp")
-            return try Optional<String>.fromNode(flarp, env: env)
+            return try OptionalConverter<Swift.String>.fromNode(flarp, env: env)
         }
     }
     public func wombat(zxc: Optional<Int>) throws -> Optional<Double> {
@@ -45,8 +45,7 @@ extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: NodeConverter
                 return try Box<TestAPI.TestOptionalsProtocol>.takeUnretainedOpaque(nonNilPointer).value
             } else {
                 return _NodeTestOptionalsProtocol(
-                    _nodeWitness: try NodeReference(env: env, value: value),
-                    flarp: String()
+                    _nodeWitness: try NodeReference(env: env, value: value)
                 )
             }
         } catch {
