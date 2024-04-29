@@ -10,52 +10,49 @@ import TestAPI_CommonInterface
 struct _NodeAProtocol: TestAPI.AProtocol {
     let _nodeWitness: NodeReference
 
-    var foo: String { get throws {
-        let env = _nodeWitness.env
-        let napiValue = try _nodeWitness.value(env: env)
-        let foo = try env.getNamedProperty(napiValue, "foo")
-//        let str = try env.callFunction(napiValue, hasADefImpl, [])
-        return try String.fromNode(foo, env: env)
+    var foo: String {
+        get throws {
+            let env = _nodeWitness.env
+            let napiValue = try _nodeWitness.value(env: env)
+            let foo = try env.getNamedProperty(napiValue, "foo")
+            return try String.fromNode(foo, env: env)
+        }
     }
+    var baz: Bool {
+        get throws {
+            let env = _nodeWitness.env
+            let napiValue = try _nodeWitness.value(env: env)
+            let baz = try env.getNamedProperty(napiValue, "baz")
+            return try Bool.fromNode(baz, env: env)
+        }
     }
-    var baz: Bool
-    var barImpl: (() -> AProtocol)?
     public func bar(x: Int, y: Int) throws -> AProtocol {
-        barImpl!()
-    }
-    var hasADefaultImplementationImpl: (() -> String)?
-    public func hasADefaultImplementation(x: Int, y: Double) throws -> String {
-//        hasADefaultImplementationImpl!()
-        // I want to call the node/javascript side hasADefaultImplementation on ExternalWitness_AProtocol
-        // async code how to get environment
-        // TODO get the env the right way for async
-        // look at async functions
-        
-        // create a new ExternalWitness_AProtocol javascript object, with the Boxed _nodeWitness.value as the reference it stores from the constructor. It needs a swift pointer, a swift version of AProtocol
-        
-        // one for Swift object where it points to Javascript methods
-        // one that is a javascript object points to swift methods. external witness
-        
         let env = _nodeWitness.env
         let napiValue = try _nodeWitness.value(env: env)
-        let hasADefImpl = try env.getNamedProperty(napiValue, "hasADefaultImplementation")
-        let str = try env.callFunction(napiValue, hasADefImpl, [try Int.toNode(x, env: env), try Double.toNode(y, env: env)])
-        return try String.fromNode(str, env: env)
-        
-        // If I just want to from here call the thing: "hasADefaultImplementation": (
-//            .method { env, info in down below in this same file.
-        // can I do it?
+        let bar = try env.getNamedProperty(napiValue, "bar")
+        let result = try env.callFunction(napiValue, bar, [try Swift.Int.toNode(x, env: env),try Swift.Int.toNode(y, env: env)])
+        return try TestAPI_CommonInterface._AProtocolConverter.fromNode(result, env: env)
     }
-    var hasADefaultImplementation2Impl: (() -> Double)?
+    public func hasADefaultImplementation(x: Int, y: Double) throws -> String {
+        let env = _nodeWitness.env
+        let napiValue = try _nodeWitness.value(env: env)
+        let hasADefaultImplementation = try env.getNamedProperty(napiValue, "hasADefaultImplementation")
+        let result = try env.callFunction(napiValue, hasADefaultImplementation, [try Swift.Int.toNode(x, env: env),try Swift.Double.toNode(y, env: env)])
+        return try Swift.String.fromNode(result, env: env)
+    }
     public func hasADefaultImplementation2(_ a: String, b: Bool, _ c: Double) throws -> Double {
-        hasADefaultImplementation2Impl!()
+        let env = _nodeWitness.env
+        let napiValue = try _nodeWitness.value(env: env)
+        let hasADefaultImplementation2 = try env.getNamedProperty(napiValue, "hasADefaultImplementation2")
+        let result = try env.callFunction(napiValue, hasADefaultImplementation2, [try Swift.String.toNode(a, env: env),try Swift.Bool.toNode(b, env: env),try Swift.Double.toNode(c, env: env)])
+        return try Swift.Double.fromNode(result, env: env)
     }
 }
 
 extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         do {
-            let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_AProtocol", env: env)
+            let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestAPI.AProtocol", env: env)
             if try env.instanceof(value, constructor) {
                 guard let nonNilPointer = try env.unwrap(value) else {
                     throw JSException(message: "expected TestAPI.AProtocol, got nil")
@@ -64,13 +61,12 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
             } else {
                 return _NodeAProtocol(
                     _nodeWitness: try NodeReference(env: env, value: value),
-//                    foo: String(),
+                    foo: String(),
                     baz: Bool()
                 )
             }
         } catch {
-            print("error: \(error)")
-           throw error
+            throw error
         }
     }
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
@@ -89,7 +85,7 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "bar", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try TestAPI_CommonInterface._AProtocolConverter.toNode(
-                                env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self).bar(
+                                env.this(converter: TestAPI.AProtocol.self).bar(
                                     x: try env.argument(at: 0, converter: Swift.Int.self),
                                     y: try env.argument(at: 1, converter: Swift.Int.self)
                                 ),
@@ -104,7 +100,7 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
-                                env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self).hasADefaultImplementation(
+                                env.this(converter: TestAPI.AProtocol.self).hasADefaultImplementation(
                                     x: try env.argument(at: 0, converter: Swift.Int.self),
                                     y: try env.argument(at: 1, converter: Swift.Double.self)
                                 ),
@@ -119,7 +115,7 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation2", expectedArgumentCount: 3, hasNamedOptions: false) { env in
                             let result = try Swift.Double.toNode(
-                                env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self).hasADefaultImplementation2(
+                                env.this(converter: TestAPI.AProtocol.self).hasADefaultImplementation2(
                                     try env.argument(at: 0, converter: Swift.String.self),
                                     b: try env.argument(at: 1, converter: Swift.Bool.self),
                                     try env.argument(at: 2, converter: Swift.Double.self)

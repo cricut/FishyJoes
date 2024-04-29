@@ -10,21 +10,33 @@ import TestAPI_CommonInterface
 struct _NodeTestLeadingUnderscoredProp: TestAPI.TestLeadingUnderscoredProp {
     let _nodeWitness: NodeReference
 
-    var _leadingUnderscoreProp: String
+    var _leadingUnderscoreProp: String {
+        get throws {
+            let env = _nodeWitness.env
+            let napiValue = try _nodeWitness.value(env: env)
+            let _leadingUnderscoreProp = try env.getNamedProperty(napiValue, "_leadingUnderscoreProp")
+            return try String.fromNode(_leadingUnderscoreProp, env: env)
+        }
+    }
 }
 
 extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         do {
-            guard let nonNilPointer = try env.unwrap(value) else {
-                throw JSException(message: "expected TestAPI.TestLeadingUnderscoredProp, got nil")
+            let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestAPI.TestLeadingUnderscoredProp", env: env)
+            if try env.instanceof(value, constructor) {
+                guard let nonNilPointer = try env.unwrap(value) else {
+                    throw JSException(message: "expected TestAPI.TestLeadingUnderscoredProp, got nil")
+                }
+                return try Box<TestAPI.TestLeadingUnderscoredProp>.takeUnretainedOpaque(nonNilPointer).value
+            } else {
+                return _NodeTestLeadingUnderscoredProp(
+                    _nodeWitness: try NodeReference(env: env, value: value),
+                    _leadingUnderscoreProp: String()
+                )
             }
-            return try Box<TestAPI.TestLeadingUnderscoredProp>.takeUnretainedOpaque(nonNilPointer).value
         } catch {
-            return _NodeTestLeadingUnderscoredProp(
-                _nodeWitness: try NodeReference(env: env, value: value),
-                _leadingUnderscoreProp: String()
-            )
+            throw error
         }
     }
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {

@@ -10,23 +10,42 @@ import TestAPI_CommonInterface
 struct _NodeTestPropertiesProtocol: TestAPI.TestPropertiesProtocol {
     let _nodeWitness: NodeReference
 
-    var corge: String
-    var frob: Array<Double>
+    var corge: String {
+        get throws {
+            let env = _nodeWitness.env
+            let napiValue = try _nodeWitness.value(env: env)
+            let corge = try env.getNamedProperty(napiValue, "corge")
+            return try String.fromNode(corge, env: env)
+        }
+    }
+    var frob: Array<Double> {
+        get throws {
+            let env = _nodeWitness.env
+            let napiValue = try _nodeWitness.value(env: env)
+            let frob = try env.getNamedProperty(napiValue, "frob")
+            return try Array<Double>.fromNode(frob, env: env)
+        }
+    }
 }
 
 extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         do {
-            guard let nonNilPointer = try env.unwrap(value) else {
-                throw JSException(message: "expected TestAPI.TestPropertiesProtocol, got nil")
+            let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestAPI.TestPropertiesProtocol", env: env)
+            if try env.instanceof(value, constructor) {
+                guard let nonNilPointer = try env.unwrap(value) else {
+                    throw JSException(message: "expected TestAPI.TestPropertiesProtocol, got nil")
+                }
+                return try Box<TestAPI.TestPropertiesProtocol>.takeUnretainedOpaque(nonNilPointer).value
+            } else {
+                return _NodeTestPropertiesProtocol(
+                    _nodeWitness: try NodeReference(env: env, value: value),
+                    corge: String(),
+                    frob: [Double]()
+                )
             }
-            return try Box<TestAPI.TestPropertiesProtocol>.takeUnretainedOpaque(nonNilPointer).value
         } catch {
-            return _NodeTestPropertiesProtocol(
-                _nodeWitness: try NodeReference(env: env, value: value),
-                corge: String(),
-                frob: [Double]()
-            )
+            throw error
         }
     }
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {

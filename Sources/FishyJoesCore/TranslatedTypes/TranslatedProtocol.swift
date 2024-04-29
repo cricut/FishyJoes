@@ -379,7 +379,33 @@ struct TranslatedProtocol: TranslatedType {
             fragment.blankLine()
 
             for field in fields {
-                fragment.output("var \(field.name): \(field.typeName.better.name)")
+                fragment.outputBlock("var \(field.name): \(field.typeName.better.name) {") {
+                    fragment.outputBlock("get throws {") {
+                        fragment.output("let env = _nodeWitness.env")
+                        fragment.output("let napiValue = try _nodeWitness.value(env: env)")
+                        fragment.output("let \(field.name) = try env.getNamedProperty(napiValue, \"\(field.name)\")")
+                        
+                        if field.name.contains("const42") {
+                            let elegoo = 1
+                        }
+
+                        if case let .function(params, resVal, isAsync, isThrowing) = field.typeName.better {
+                            fragment.output("let result = try env.callFunction(napiValue, \(field.name), ", newLineTerminated: false)
+                            var toNodeParams = [String]()
+                            for param in params {
+                                let resolved = context.resolve(type: param)
+                                toNodeParams.append("try \(resolved.converterType.name).toNode(\(param.name), env: env)")
+                            }
+                            fragment.output("[\(toNodeParams.joined(separator: ", "))])")
+
+                            if resVal != .void {
+                                fragment.output("return try \(resVal.name).fromNode(result, env: env)")
+                            }
+                        } else {
+                            fragment.output("return try \(field.typeName.better.name).fromNode(\(field.name), env: env)")
+                        }
+                    }
+                }
             }
             for method in methods {
                 var returnSignature = "\(method.isThrowing ? " throws" : "")"
@@ -387,14 +413,27 @@ struct TranslatedProtocol: TranslatedType {
                     returnSignature.append(" -> \(method.returnType.name)")
                 }
                 var paramSigs = [String]()
-                do {
-                    for param in method.parameters {
-                        paramSigs.append("\(param.labelAndName): \(param.type.escapingName)")
-                    }
+                for param in method.parameters {
+                    paramSigs.append("\(param.labelAndName): \(param.type.escapingName)")
                 }
-                fragment.output("var \(method.callName)Impl: (() -> \(method.returnType.name))?")
+
                 fragment.outputBlock("\(method.isStatic ? "static " : "")public func \(method.callName)(\(paramSigs.joined(separator: ", ")))\(returnSignature) {") {
-                    fragment.output("\(method.callName)Impl!()")
+                    fragment.output("let env = _nodeWitness.env")
+                    fragment.output("let napiValue = try _nodeWitness.value(env: env)")
+                    fragment.output("let \(method.callName) = try env.getNamedProperty(napiValue, \"\(method.callName)\")")
+                    fragment.output("let result = try env.callFunction(napiValue, \(method.callName), ", newLineTerminated: false)
+
+                    var toNodeParams = [String]()
+                    for param in method.parameters {
+                        let resolved = context.resolve(type: param.type)
+                        toNodeParams.append("try \(resolved.converterType.name).toNode(\(param.name), env: env)")
+                    }
+                    fragment.output("[\(toNodeParams.joined(separator: ","))])")
+
+                    if method.returnType != .void {
+                        let resolved = context.resolve(type: method.returnType)
+                        fragment.output("return try \(resolved.converterType.name).fromNode(result, env: env)")
+                    }
                 }
             }
         }
@@ -404,29 +443,35 @@ struct TranslatedProtocol: TranslatedType {
         fragment.outputBlock("extension \(converterType.name): NodeConverter {") {
             fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {") {
                 fragment.outputBlock("do {", newLineTerminated: false) {
-                    fragment.outputBlock("guard let nonNilPointer = try env.unwrap(value) else {") {
-                        fragment.output("throw JSException(message: \"expected \(sourceType.name), got nil\")")
+                    fragment.output("let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: \"ExternalWitness_\(sourceType.name)\", env: env)")
+                    fragment.outputBlock("if try env.instanceof(value, constructor) {", newLineTerminated: false) {
+                        fragment.outputBlock("guard let nonNilPointer = try env.unwrap(value) else {") {
+                            fragment.output("throw JSException(message: \"expected \(sourceType.name), got nil\")")
+                        }
+                        fragment.output("return try Box<\(sourceType.name)>.takeUnretainedOpaque(nonNilPointer).value")
                     }
-                    fragment.output("return try Box<\(sourceType.name)>.takeUnretainedOpaque(nonNilPointer).value")
+                    fragment.outputBlock(" else {") {
+                        fragment.outputBlock("return _Node\(sourceType.nonNamespacedName)(") {
+                            fragment.output("_nodeWitness: try NodeReference(env: env, value: value)", newLineTerminated: false)
+                            if !fields.isEmpty {
+                                fragment.output(",")
+                            } else {
+                                fragment.output("")
+                            }
+                            if converterType.name == "TestAPI_CommonInterface._TestAsyncFunctionsConverter" {
+                                fragment.outputMap(fields, separator: ",") {
+                                    "\($0.name): AsyncFunctions.\($0.name)"
+                                }
+                            } else {
+                                fragment.outputMap(fields, separator: ",") {
+                                    "\($0.name): \($0.typeName.name.replacingOccurrences(of: "?", with: ""))()"
+                                }
+                            }
+                        }
+                    }
                 }
                 fragment.outputBlock(" catch {") {
-                    fragment.outputBlock("return _Node\(sourceType.nonNamespacedName)(") {
-                        fragment.output("_nodeWitness: try NodeReference(env: env, value: value)", newLineTerminated: false)
-                        if !fields.isEmpty {
-                            fragment.output(",")
-                        } else {
-                            fragment.output("")
-                        }
-                        if converterType.name == "TestAPI_CommonInterface._TestAsyncFunctionsConverter" {
-                            fragment.outputMap(fields, separator: ",") {
-                                "\($0.name): AsyncFunctions.\($0.name)"
-                            }
-                        } else {
-                            fragment.outputMap(fields, separator: ",") {
-                                "\($0.name): \($0.typeName.name.replacingOccurrences(of: "?", with: ""))()"
-                            }
-                        }
-                    }
+                    fragment.output("throw error")
                 }
             }
 

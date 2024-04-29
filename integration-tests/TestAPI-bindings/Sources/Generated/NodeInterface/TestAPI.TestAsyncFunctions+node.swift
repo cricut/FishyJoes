@@ -10,75 +10,174 @@ import TestAPI_CommonInterface
 struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
     let _nodeWitness: NodeReference
 
-    var const42: () async throws -> Int
-    var iabs: (Int) async throws -> Int
-    var intCompose: (@escaping (Int) async throws -> Int, @escaping (Int) async throws -> Int) throws -> (Int) async throws -> Int
-    var add3Things: (Float, Double, Int) async throws -> Double
-    var makeList: (String, String, String, String) async throws -> Array<String>
-    var fifthThing: (String, Int, Double, String, @escaping () async throws -> Int) async throws -> () async throws -> Int
-    var six: (String, Int, Double, String, @escaping () async throws -> Int, Int) async throws -> Int
-    var willThrow: () async throws -> Int
-    var exercise0Impl: (() -> String)?
+    var const42: () async throws -> Int {
+        get throws {
+            let env = _nodeWitness.env
+            let napiValue = try _nodeWitness.value(env: env)
+            let const42 = try env.getNamedProperty(napiValue, "const42")
+            let result = try env.callFunction(napiValue, const42, [])
+            return try Int.fromNode(result, env: env)
+        }
+    }
+    var iabs: (Int) async throws -> Int {
+        get throws {
+            let env = _nodeWitness.env
+            let napiValue = try _nodeWitness.value(env: env)
+            let iabs = try env.getNamedProperty(napiValue, "iabs")
+            let result = try env.callFunction(napiValue, iabs, [try Swift.Int.toNode(Int, env: env)])
+            return try Int.fromNode(result, env: env)
+        }
+    }
+    var intCompose: (@escaping (Int) async throws -> Int, @escaping (Int) async throws -> Int) throws -> (Int) async throws -> Int {
+        get throws {
+            let env = _nodeWitness.env
+            let napiValue = try _nodeWitness.value(env: env)
+            let intCompose = try env.getNamedProperty(napiValue, "intCompose")
+            let result = try env.callFunction(napiValue, intCompose, [try AsyncFunction1Converter<Swift.Int, Swift.Int>.toNode((Int) async throws -> Int, env: env), try AsyncFunction1Converter<Swift.Int, Swift.Int>.toNode((Int) async throws -> Int, env: env)])
+            return try (Int) async throws -> Int.fromNode(result, env: env)
+        }
+    }
+    var add3Things: (Float, Double, Int) async throws -> Double {
+        get throws {
+            let env = _nodeWitness.env
+            let napiValue = try _nodeWitness.value(env: env)
+            let add3Things = try env.getNamedProperty(napiValue, "add3Things")
+            let result = try env.callFunction(napiValue, add3Things, [try Swift.Float.toNode(Float, env: env), try Swift.Double.toNode(Double, env: env), try Swift.Int.toNode(Int, env: env)])
+            return try Double.fromNode(result, env: env)
+        }
+    }
+    var makeList: (String, String, String, String) async throws -> Array<String> {
+        get throws {
+            let env = _nodeWitness.env
+            let napiValue = try _nodeWitness.value(env: env)
+            let makeList = try env.getNamedProperty(napiValue, "makeList")
+            let result = try env.callFunction(napiValue, makeList, [try Swift.String.toNode(String, env: env), try Swift.String.toNode(String, env: env), try Swift.String.toNode(String, env: env), try Swift.String.toNode(String, env: env)])
+            return try Array<String>.fromNode(result, env: env)
+        }
+    }
+    var fifthThing: (String, Int, Double, String, @escaping () async throws -> Int) async throws -> () async throws -> Int {
+        get throws {
+            let env = _nodeWitness.env
+            let napiValue = try _nodeWitness.value(env: env)
+            let fifthThing = try env.getNamedProperty(napiValue, "fifthThing")
+            let result = try env.callFunction(napiValue, fifthThing, [try Swift.String.toNode(String, env: env), try Swift.Int.toNode(Int, env: env), try Swift.Double.toNode(Double, env: env), try Swift.String.toNode(String, env: env), try AsyncFunction0Converter<Swift.Int>.toNode(() async throws -> Int, env: env)])
+            return try () async throws -> Int.fromNode(result, env: env)
+        }
+    }
+    var six: (String, Int, Double, String, @escaping () async throws -> Int, Int) async throws -> Int {
+        get throws {
+            let env = _nodeWitness.env
+            let napiValue = try _nodeWitness.value(env: env)
+            let six = try env.getNamedProperty(napiValue, "six")
+            let result = try env.callFunction(napiValue, six, [try Swift.String.toNode(String, env: env), try Swift.Int.toNode(Int, env: env), try Swift.Double.toNode(Double, env: env), try Swift.String.toNode(String, env: env), try AsyncFunction0Converter<Swift.Int>.toNode(() async throws -> Int, env: env), try Swift.Int.toNode(Int, env: env)])
+            return try Int.fromNode(result, env: env)
+        }
+    }
+    var willThrow: () async throws -> Int {
+        get throws {
+            let env = _nodeWitness.env
+            let napiValue = try _nodeWitness.value(env: env)
+            let willThrow = try env.getNamedProperty(napiValue, "willThrow")
+            let result = try env.callFunction(napiValue, willThrow, [])
+            return try Int.fromNode(result, env: env)
+        }
+    }
     public func exercise0(_ fn: @escaping () async throws -> Int) throws -> String {
-        exercise0Impl!()
+        let env = _nodeWitness.env
+        let napiValue = try _nodeWitness.value(env: env)
+        let exercise0 = try env.getNamedProperty(napiValue, "exercise0")
+        let result = try env.callFunction(napiValue, exercise0, [try AsyncFunction0Converter<Swift.Int>.toNode(fn, env: env)])
+        return try Swift.String.fromNode(result, env: env)
     }
-    var exercise1Impl: (() -> String)?
     public func exercise1(_ fn: @escaping (Int) async throws -> Int) throws -> String {
-        exercise1Impl!()
+        let env = _nodeWitness.env
+        let napiValue = try _nodeWitness.value(env: env)
+        let exercise1 = try env.getNamedProperty(napiValue, "exercise1")
+        let result = try env.callFunction(napiValue, exercise1, [try AsyncFunction1Converter<Swift.Int, Swift.Int>.toNode(fn, env: env)])
+        return try Swift.String.fromNode(result, env: env)
     }
-    var exercise2Impl: (() -> String)?
     public func exercise2(_ fn: @escaping (@escaping (Int) async throws -> Int, @escaping (Int) async throws -> Int) throws -> (Int) async throws -> Int) throws -> String {
-        exercise2Impl!()
+        let env = _nodeWitness.env
+        let napiValue = try _nodeWitness.value(env: env)
+        let exercise2 = try env.getNamedProperty(napiValue, "exercise2")
+        let result = try env.callFunction(napiValue, exercise2, [try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.toNode(fn, env: env)])
+        return try Swift.String.fromNode(result, env: env)
     }
-    var exercise3Impl: (() -> String)?
     public func exercise3(_ fn: @escaping (Float, Double, Int) async throws -> Double) throws -> String {
-        exercise3Impl!()
+        let env = _nodeWitness.env
+        let napiValue = try _nodeWitness.value(env: env)
+        let exercise3 = try env.getNamedProperty(napiValue, "exercise3")
+        let result = try env.callFunction(napiValue, exercise3, [try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.toNode(fn, env: env)])
+        return try Swift.String.fromNode(result, env: env)
     }
-    var exercise4Impl: (() -> String)?
     public func exercise4(_ fn: @escaping (String, String, String, String) async throws -> Array<String>) throws -> String {
-        exercise4Impl!()
+        let env = _nodeWitness.env
+        let napiValue = try _nodeWitness.value(env: env)
+        let exercise4 = try env.getNamedProperty(napiValue, "exercise4")
+        let result = try env.callFunction(napiValue, exercise4, [try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.toNode(fn, env: env)])
+        return try Swift.String.fromNode(result, env: env)
     }
-    var exercise5Impl: (() -> String)?
     public func exercise5(_ fn: @escaping (String, Int, Double, String, @escaping () async throws -> Int) async throws -> () async throws -> Int) throws -> String {
-        exercise5Impl!()
+        let env = _nodeWitness.env
+        let napiValue = try _nodeWitness.value(env: env)
+        let exercise5 = try env.getNamedProperty(napiValue, "exercise5")
+        let result = try env.callFunction(napiValue, exercise5, [try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.toNode(fn, env: env)])
+        return try Swift.String.fromNode(result, env: env)
     }
-    var exercise6Impl: (() -> String)?
     public func exercise6(_ fn: @escaping (String, Int, Double, String, @escaping () async throws -> Int, Int) async throws -> Int) throws -> String {
-        exercise6Impl!()
+        let env = _nodeWitness.env
+        let napiValue = try _nodeWitness.value(env: env)
+        let exercise6 = try env.getNamedProperty(napiValue, "exercise6")
+        let result = try env.callFunction(napiValue, exercise6, [try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.toNode(fn, env: env)])
+        return try Swift.String.fromNode(result, env: env)
     }
-    var thunkTwiceMakerImpl: (() -> () async throws -> Void)?
     public func thunkTwiceMaker(thunk: @escaping () async throws -> Void) throws -> () async throws -> Void {
-        thunkTwiceMakerImpl!()
+        let env = _nodeWitness.env
+        let napiValue = try _nodeWitness.value(env: env)
+        let thunkTwiceMaker = try env.getNamedProperty(napiValue, "thunkTwiceMaker")
+        let result = try env.callFunction(napiValue, thunkTwiceMaker, [try AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.toNode(thunk, env: env)])
+        return try AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.fromNode(result, env: env)
     }
-    var defaultExercise6Impl: (() -> String)?
     public func defaultExercise6(_ fn: @escaping (String, Int, Double, String, @escaping () async throws -> Int, Int) async throws -> Int) throws -> String {
-        defaultExercise6Impl!()
+        let env = _nodeWitness.env
+        let napiValue = try _nodeWitness.value(env: env)
+        let defaultExercise6 = try env.getNamedProperty(napiValue, "defaultExercise6")
+        let result = try env.callFunction(napiValue, defaultExercise6, [try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.toNode(fn, env: env)])
+        return try Swift.String.fromNode(result, env: env)
     }
-    var witnessImpl: (() -> TestAsyncFunctions)?
     public func witness() throws -> TestAsyncFunctions {
-        witnessImpl!()
+        let env = _nodeWitness.env
+        let napiValue = try _nodeWitness.value(env: env)
+        let witness = try env.getNamedProperty(napiValue, "witness")
+        let result = try env.callFunction(napiValue, witness, [])
+        return try TestAPI_CommonInterface._TestAsyncFunctionsConverter.fromNode(result, env: env)
     }
 }
 
 extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         do {
-            guard let nonNilPointer = try env.unwrap(value) else {
-                throw JSException(message: "expected TestAPI.TestAsyncFunctions, got nil")
+            let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestAPI.TestAsyncFunctions", env: env)
+            if try env.instanceof(value, constructor) {
+                guard let nonNilPointer = try env.unwrap(value) else {
+                    throw JSException(message: "expected TestAPI.TestAsyncFunctions, got nil")
+                }
+                return try Box<TestAPI.TestAsyncFunctions>.takeUnretainedOpaque(nonNilPointer).value
+            } else {
+                return _NodeTestAsyncFunctions(
+                    _nodeWitness: try NodeReference(env: env, value: value),
+                    const42: AsyncFunctions.const42,
+                    iabs: AsyncFunctions.iabs,
+                    intCompose: AsyncFunctions.intCompose,
+                    add3Things: AsyncFunctions.add3Things,
+                    makeList: AsyncFunctions.makeList,
+                    fifthThing: AsyncFunctions.fifthThing,
+                    six: AsyncFunctions.six,
+                    willThrow: AsyncFunctions.willThrow
+                )
             }
-            return try Box<TestAPI.TestAsyncFunctions>.takeUnretainedOpaque(nonNilPointer).value
         } catch {
-            return _NodeTestAsyncFunctions(
-                _nodeWitness: try NodeReference(env: env, value: value),
-                const42: AsyncFunctions.const42,
-                iabs: AsyncFunctions.iabs,
-                intCompose: AsyncFunctions.intCompose,
-                add3Things: AsyncFunctions.add3Things,
-                makeList: AsyncFunctions.makeList,
-                fifthThing: AsyncFunctions.fifthThing,
-                six: AsyncFunctions.six,
-                willThrow: AsyncFunctions.willThrow
-            )
+            throw error
         }
     }
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
@@ -98,7 +197,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise0", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction0Converter<Swift.Int>.self))
-                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self))
+                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.TestAsyncFunctions.self))
                             Task {
                                 do {
                                     let taskResult: String = try await swiftSelf.value.exercise0(
@@ -130,7 +229,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise1", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction1Converter<Swift.Int, Swift.Int>.self))
-                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self))
+                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.TestAsyncFunctions.self))
                             Task {
                                 do {
                                     let taskResult: String = try await swiftSelf.value.exercise1(
@@ -162,7 +261,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise2", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.self))
-                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self))
+                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.TestAsyncFunctions.self))
                             Task {
                                 do {
                                     let taskResult: String = try await swiftSelf.value.exercise2(
@@ -194,7 +293,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise3", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.self))
-                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self))
+                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.TestAsyncFunctions.self))
                             Task {
                                 do {
                                     let taskResult: String = try await swiftSelf.value.exercise3(
@@ -226,7 +325,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise4", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.self))
-                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self))
+                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.TestAsyncFunctions.self))
                             Task {
                                 do {
                                     let taskResult: String = try await swiftSelf.value.exercise4(
@@ -258,7 +357,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise5", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.self))
-                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self))
+                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.TestAsyncFunctions.self))
                             Task {
                                 do {
                                     let taskResult: String = try await swiftSelf.value.exercise5(
@@ -290,7 +389,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise6", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.self))
-                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self))
+                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.TestAsyncFunctions.self))
                             Task {
                                 do {
                                     let taskResult: String = try await swiftSelf.value.exercise6(
@@ -321,7 +420,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "thunkTwiceMaker", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.toNode(
-                                env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self).thunkTwiceMaker(
+                                env.this(converter: TestAPI.TestAsyncFunctions.self).thunkTwiceMaker(
                                     thunk: try env.argument(at: 0, converter: AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.self)
                                 ),
                                 env: env.env
@@ -336,7 +435,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "defaultExercise6", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.self))
-                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self))
+                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.TestAsyncFunctions.self))
                             Task {
                                 do {
                                     let taskResult: String = try await swiftSelf.value.defaultExercise6(
@@ -367,7 +466,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "witness", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try TestAPI_CommonInterface._TestAsyncFunctionsConverter.toNode(
-                                env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self).witness(
+                                env.this(converter: TestAPI.TestAsyncFunctions.self).witness(
                                 ),
                                 env: env.env
                             )

@@ -10,29 +10,47 @@ import TestAPI_CommonInterface
 struct _NodeTestOptionalsProtocol: TestAPI.TestOptionalsProtocol {
     let _nodeWitness: NodeReference
 
-    var flarp: Optional<String>
-    var wombatImpl: (() -> Optional<Double>)?
-    public func wombat(zxc: Optional<Int>) throws -> Optional<Double> {
-        wombatImpl!()
+    var flarp: Optional<String> {
+        get throws {
+            let env = _nodeWitness.env
+            let napiValue = try _nodeWitness.value(env: env)
+            let flarp = try env.getNamedProperty(napiValue, "flarp")
+            return try Optional<String>.fromNode(flarp, env: env)
+        }
     }
-    var spqrImpl: (() -> Int)?
+    public func wombat(zxc: Optional<Int>) throws -> Optional<Double> {
+        let env = _nodeWitness.env
+        let napiValue = try _nodeWitness.value(env: env)
+        let wombat = try env.getNamedProperty(napiValue, "wombat")
+        let result = try env.callFunction(napiValue, wombat, [try OptionalConverter<Swift.Int>.toNode(zxc, env: env)])
+        return try OptionalConverter<Swift.Double>.fromNode(result, env: env)
+    }
     public func spqr(_ pippo: AssociatedDataEnum) throws -> Int {
-        spqrImpl!()
+        let env = _nodeWitness.env
+        let napiValue = try _nodeWitness.value(env: env)
+        let spqr = try env.getNamedProperty(napiValue, "spqr")
+        let result = try env.callFunction(napiValue, spqr, [try TestAPI.AssociatedDataEnum.toNode(pippo, env: env)])
+        return try Swift.Int.fromNode(result, env: env)
     }
 }
 
 extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         do {
-            guard let nonNilPointer = try env.unwrap(value) else {
-                throw JSException(message: "expected TestAPI.TestOptionalsProtocol, got nil")
+            let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestAPI.TestOptionalsProtocol", env: env)
+            if try env.instanceof(value, constructor) {
+                guard let nonNilPointer = try env.unwrap(value) else {
+                    throw JSException(message: "expected TestAPI.TestOptionalsProtocol, got nil")
+                }
+                return try Box<TestAPI.TestOptionalsProtocol>.takeUnretainedOpaque(nonNilPointer).value
+            } else {
+                return _NodeTestOptionalsProtocol(
+                    _nodeWitness: try NodeReference(env: env, value: value),
+                    flarp: String()
+                )
             }
-            return try Box<TestAPI.TestOptionalsProtocol>.takeUnretainedOpaque(nonNilPointer).value
         } catch {
-            return _NodeTestOptionalsProtocol(
-                _nodeWitness: try NodeReference(env: env, value: value),
-                flarp: String()
-            )
+            throw error
         }
     }
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
@@ -51,7 +69,7 @@ extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: NodeConverter
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "wombat", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Swift.Double>.toNode(
-                                env.this(converter: TestAPI_CommonInterface._TestOptionalsProtocolConverter.self).wombat(
+                                env.this(converter: TestAPI.TestOptionalsProtocol.self).wombat(
                                     zxc: try env.argument(at: 0, converter: OptionalConverter<Swift.Int>.self)
                                 ),
                                 env: env.env
@@ -65,7 +83,7 @@ extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: NodeConverter
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "spqr", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.Int.toNode(
-                                env.this(converter: TestAPI_CommonInterface._TestOptionalsProtocolConverter.self).spqr(
+                                env.this(converter: TestAPI.TestOptionalsProtocol.self).spqr(
                                     try env.argument(at: 0, converter: TestAPI.AssociatedDataEnum.self)
                                 ),
                                 env: env.env

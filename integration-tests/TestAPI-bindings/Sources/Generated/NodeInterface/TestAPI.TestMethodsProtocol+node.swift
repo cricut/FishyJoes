@@ -10,43 +10,64 @@ import TestAPI_CommonInterface
 struct _NodeTestMethodsProtocol: TestAPI.TestMethodsProtocol {
     let _nodeWitness: NodeReference
 
-    var fooImpl: (() -> Void)?
     public func foo() throws {
-        fooImpl!()
+        let env = _nodeWitness.env
+        let napiValue = try _nodeWitness.value(env: env)
+        let foo = try env.getNamedProperty(napiValue, "foo")
+        let result = try env.callFunction(napiValue, foo, [])
     }
-    var barImpl: (() -> Bool)?
     public func bar() throws -> Bool {
-        barImpl!()
+        let env = _nodeWitness.env
+        let napiValue = try _nodeWitness.value(env: env)
+        let bar = try env.getNamedProperty(napiValue, "bar")
+        let result = try env.callFunction(napiValue, bar, [])
+        return try Swift.Bool.fromNode(result, env: env)
     }
-    var bazImpl: (() -> Void)?
     public func baz(qux: Bool) throws {
-        bazImpl!()
+        let env = _nodeWitness.env
+        let napiValue = try _nodeWitness.value(env: env)
+        let baz = try env.getNamedProperty(napiValue, "baz")
+        let result = try env.callFunction(napiValue, baz, [try Swift.Bool.toNode(qux, env: env)])
     }
-    var garplyImpl: (() -> String)?
     public func garply(_ _0: String) throws -> String {
-        garplyImpl!()
+        let env = _nodeWitness.env
+        let napiValue = try _nodeWitness.value(env: env)
+        let garply = try env.getNamedProperty(napiValue, "garply")
+        let result = try env.callFunction(napiValue, garply, [try Swift.String.toNode(_0, env: env)])
+        return try Swift.String.fromNode(result, env: env)
     }
-    var xyzzyImpl: (() -> String)?
     public func xyzzy(thud: Int, grault: Array<Double>) throws -> String {
-        xyzzyImpl!()
+        let env = _nodeWitness.env
+        let napiValue = try _nodeWitness.value(env: env)
+        let xyzzy = try env.getNamedProperty(napiValue, "xyzzy")
+        let result = try env.callFunction(napiValue, xyzzy, [try Swift.Int.toNode(thud, env: env),try ArrayConverter<Swift.Double>.toNode(grault, env: env)])
+        return try Swift.String.fromNode(result, env: env)
     }
-    var plughImpl: (() -> (Bool, Int, String))?
     public func plugh(fred: (Bool, Double, Array<String>)) throws -> (Bool, Int, String) {
-        plughImpl!()
+        let env = _nodeWitness.env
+        let napiValue = try _nodeWitness.value(env: env)
+        let plugh = try env.getNamedProperty(napiValue, "plugh")
+        let result = try env.callFunction(napiValue, plugh, [try Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>.toNode(fred, env: env)])
+        return try Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.fromNode(result, env: env)
     }
 }
 
 extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         do {
-            guard let nonNilPointer = try env.unwrap(value) else {
-                throw JSException(message: "expected TestAPI.TestMethodsProtocol, got nil")
+            let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestAPI.TestMethodsProtocol", env: env)
+            if try env.instanceof(value, constructor) {
+                guard let nonNilPointer = try env.unwrap(value) else {
+                    throw JSException(message: "expected TestAPI.TestMethodsProtocol, got nil")
+                }
+                return try Box<TestAPI.TestMethodsProtocol>.takeUnretainedOpaque(nonNilPointer).value
+            } else {
+                return _NodeTestMethodsProtocol(
+                    _nodeWitness: try NodeReference(env: env, value: value)
+                )
             }
-            return try Box<TestAPI.TestMethodsProtocol>.takeUnretainedOpaque(nonNilPointer).value
         } catch {
-            return _NodeTestMethodsProtocol(
-                _nodeWitness: try NodeReference(env: env, value: value)
-            )
+            throw error
         }
     }
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
@@ -65,7 +86,7 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "foo", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
-                                env.this(converter: TestAPI_CommonInterface._TestMethodsProtocolConverter.self).foo(
+                                env.this(converter: TestAPI.TestMethodsProtocol.self).foo(
                                 ),
                                 env: env.env
                             )
@@ -78,7 +99,7 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "bar", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.Bool.toNode(
-                                env.this(converter: TestAPI_CommonInterface._TestMethodsProtocolConverter.self).bar(
+                                env.this(converter: TestAPI.TestMethodsProtocol.self).bar(
                                 ),
                                 env: env.env
                             )
@@ -91,7 +112,7 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "baz", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
-                                env.this(converter: TestAPI_CommonInterface._TestMethodsProtocolConverter.self).baz(
+                                env.this(converter: TestAPI.TestMethodsProtocol.self).baz(
                                     qux: try env.argument(at: 0, converter: Swift.Bool.self)
                                 ),
                                 env: env.env
@@ -105,7 +126,7 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "garply", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
-                                env.this(converter: TestAPI_CommonInterface._TestMethodsProtocolConverter.self).garply(
+                                env.this(converter: TestAPI.TestMethodsProtocol.self).garply(
                                     try env.argument(at: 0, converter: Swift.String.self)
                                 ),
                                 env: env.env
@@ -119,7 +140,7 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "xyzzy", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
-                                env.this(converter: TestAPI_CommonInterface._TestMethodsProtocolConverter.self).xyzzy(
+                                env.this(converter: TestAPI.TestMethodsProtocol.self).xyzzy(
                                     thud: try env.argument(at: 0, converter: Swift.Int.self),
                                     grault: try env.argument(at: 1, converter: ArrayConverter<Swift.Double>.self)
                                 ),
@@ -134,7 +155,7 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "plugh", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.toNode(
-                                env.this(converter: TestAPI_CommonInterface._TestMethodsProtocolConverter.self).plugh(
+                                env.this(converter: TestAPI.TestMethodsProtocol.self).plugh(
                                     fred: try env.argument(at: 0, converter: Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>.self)
                                 ),
                                 env: env.env
