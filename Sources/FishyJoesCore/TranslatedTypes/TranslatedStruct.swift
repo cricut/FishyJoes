@@ -45,7 +45,12 @@ struct TranslatedStruct: TranslatedType {
         if !type.implements.isEmpty {
             let protocols = type.implements.values.compactMap { $0 as? SourceryProtocol }
             for prot in protocols {
-                nodeDefaultMethods.append(contentsOf: prot.defaultMethods().compactMap { Method($0, protocolName: prot.name) })
+                var defaultMethods = prot.defaultMethods()
+                // for Node, we need the definedInType of a method to be the implementation/source type, even if it's a default method that's really only defined in the protocol, because the converterType in the NodeTranslator needs it to be so.
+                for defMeth in defaultMethods {
+                    defMeth.definedInType = type
+                }
+                nodeDefaultMethods.append(contentsOf: defaultMethods.compactMap { Method($0, protocolName: prot.name) })
             }
         }
         self.defaultMethodsForNode = nodeDefaultMethods
