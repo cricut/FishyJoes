@@ -2,7 +2,7 @@ const { WASI } = require("@wasmer/wasi");
 const { WasmFs } = require("@wasmer/wasmfs");
 
 module.exports.init = async () => {
-  const { NAPI } = await import("../../../../../../../Sources/FishyJoesNodeRuntime/Templates/wasm-napi.js");
+  const { NAPI } = await import("../../../Sources/FishyJoesNodeRuntime/Templates/wasm-napi.js");
 
   let napi = new NAPI(WASI, WasmFs);
   const importObject = {
