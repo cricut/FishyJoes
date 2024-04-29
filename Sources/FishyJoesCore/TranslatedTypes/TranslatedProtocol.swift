@@ -384,10 +384,6 @@ struct TranslatedProtocol: TranslatedType {
                         fragment.output("let env = _nodeWitness.env")
                         fragment.output("let napiValue = try _nodeWitness.value(env: env)")
                         fragment.output("let \(field.name) = try env.getNamedProperty(napiValue, \"\(field.name)\")")
-                        
-                        if field.name.contains("const42") {
-                            let elegoo = 1
-                        }
 
                         if case let .function(params, resVal, isAsync, isThrowing) = field.typeName.better {
                             fragment.output("let result = try env.callFunction(napiValue, \(field.name), ", newLineTerminated: false)
