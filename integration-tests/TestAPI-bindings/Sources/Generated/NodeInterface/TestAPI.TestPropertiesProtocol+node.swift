@@ -18,7 +18,7 @@ extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: NodeMutator 
         return _NodeTestPropertiesProtocol(
             _nodeWitness: try NodeReference(env: env, value: value),
             corge: String(),
-            frob: [Double]()
+            frob: Array<Double>()
         )
     }
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {

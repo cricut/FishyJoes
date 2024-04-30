@@ -16,15 +16,15 @@ public struct AProtocol_sans_hasADefaultImplementation: TestAPI.AProtocol {
         self.wrapped = wrapped
     }
 
-    public var foo: String {
-        get throws {
-            try wrapped.foo
-        }
-    }
-
     public var baz: Bool {
         get throws {
             try wrapped.baz
+        }
+    }
+
+    public var foo: String {
+        get throws {
+            try wrapped.foo
         }
     }
 
@@ -44,15 +44,15 @@ public struct AProtocol_sans_hasADefaultImplementation2: TestAPI.AProtocol {
         self.wrapped = wrapped
     }
 
-    public var foo: String {
-        get throws {
-            try wrapped.foo
-        }
-    }
-
     public var baz: Bool {
         get throws {
             try wrapped.baz
+        }
+    }
+
+    public var foo: String {
+        get throws {
+            try wrapped.foo
         }
     }
 

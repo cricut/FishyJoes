@@ -125,7 +125,7 @@ final class CSharpTranslator: Translator {
         )
     }
 
-    func cSharp(field: Variable, of type: TranslatedType, context: FishyJoesContext, useNativeName: Bool = false) -> CSharpClass.MethodOrVariable? {
+    func cSharp(field: Field, of type: TranslatedType, context: FishyJoesContext, useNativeName: Bool = false) -> [CSharpClass.MethodOrVariable] {
         let csName: String
         let mangledName: String
         var asMethod = false
@@ -140,39 +140,58 @@ final class CSharpTranslator: Translator {
             mangledName = field.name.mangled
         } else {
             guard let exportAnnotation = field.exportAnnotation else {
-                return nil
+                return []
             }
             asMethod = exportAnnotation.kind == .asMethod || (field.isComputed && !isOverride)
             csName = upperCaseFirst(exportAnnotation.cSharpName)
             mangledName = exportAnnotation.name.mangled
         }
-        let resolved = context.resolve(type: field.typeName.better)
+        let resolved = context.resolve(type: field.type)
 
-        var isInProtocol = false
-        if let implements = field.definedInType?.implements {
-            for sourceryRuntimeType in implements.values {
-                if let sourceryProtocol = sourceryRuntimeType as? SourceryProtocol,
-                   sourceryProtocol.variables.map({ $0.name }).contains(field.name) {
-                       isInProtocol = true
-                   }
+        let isInProtocol = type.conformances.contains { conformance in
+            // TODO: Conformance should not be a string. This will not work cross-module
+            let betterConformance = BetterType.named(.init(name: conformance, module: nil))
+            guard let resolved = context.resolve(type: betterConformance) as? TranslatedProtocol else {
+                fatalErr("Couldn't resolve conformance `\(conformance)` as protocol")
             }
+            return resolved.fields.contains { $0.name == field.name }
         }
 
-        return .variable(
-            CSharpClass.Variable(
-                documentation: field.documentation,
-                isStatic: field.isStatic,
-                isOverride: isOverride,
-                isMutable: field.isMutable,
-                isPubliclyWritable: field.isPubliclyWritable,
-                asMethod: asMethod,
-                name: csName,
-                mangledName: "\(type.mangledName)_\(mangledName)",
-                type: resolved.cSharpType,
-                deprecation: field.deprecation,
-                isInProtocol: isInProtocol
+        var result = [
+            CSharpClass.MethodOrVariable.variable(
+                CSharpClass.Variable(
+                    documentation: field.documentation,
+                    isStatic: field.isStatic,
+                    isOverride: isOverride,
+                    isMutable: field.isMutable,
+                    isPubliclyWritable: field.isPubliclyWritable,
+                    asMethod: asMethod,
+                    name: csName,
+                    mangledName: "\(type.mangledName)_\(mangledName)",
+                    type: resolved.cSharpType,
+                    deprecation: field.deprecation
+                )
             )
-        )
+        ]
+
+        if isInProtocol {
+            result.append(
+                .method(
+                    CSharpClass.Method(
+                        documentation: field.documentation,
+                        isStatic: field.isStatic,
+                        isOverride: false,
+                        name: "Get\(csName)",
+                        mangledName: "\(type.mangledName)_\(mangledName)",
+                        parameters: [],
+                        returnType: resolved.cSharpType,
+                        deprecation: field.deprecation,
+                        body: ["return \(csName);"]
+                    )
+                )
+            )
+        }
+        return result
     }
 
     func defaultObjectMethods(for type: CSharpClass.CSType, members: [String]) -> [CSharpClass.Method] {

@@ -8,13 +8,13 @@ import java.lang.Exception
  */
 interface AProtocol {
     /**
-     * <!-- FishyJoes.export(foo) -->
-     */
-    val foo: kotlin.String
-    /**
      * <!-- FishyJoes.export(baz) -->
      */
     val baz: Boolean
+    /**
+     * <!-- FishyJoes.export(foo) -->
+     */
+    val foo: kotlin.String
     /**
      * <!-- FishyJoes.export(bar) -->
      */

@@ -10,12 +10,12 @@ import TestAPI_CommonInterface
 struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
     let _nodeWitness: NodeReference
 
+    var add3Things: (Float, Double, Int) async throws -> Double
     var const42: () async throws -> Int
+    var fifthThing: (String, Int, Double, String, @escaping () async throws -> Int) async throws -> () async throws -> Int
     var iabs: (Int) async throws -> Int
     var intCompose: (@escaping (Int) async throws -> Int, @escaping (Int) async throws -> Int) throws -> (Int) async throws -> Int
-    var add3Things: (Float, Double, Int) async throws -> Double
     var makeList: (String, String, String, String) async throws -> Array<String>
-    var fifthThing: (String, Int, Double, String, @escaping () async throws -> Int) async throws -> () async throws -> Int
     var six: (String, Int, Double, String, @escaping () async throws -> Int, Int) async throws -> Int
     var willThrow: () async throws -> Int
     var exercise0Impl: (() -> String)?
@@ -63,12 +63,12 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeMutator {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         return _NodeTestAsyncFunctions(
             _nodeWitness: try NodeReference(env: env, value: value),
+            add3Things: AsyncFunctions.add3Things,
             const42: AsyncFunctions.const42,
+            fifthThing: AsyncFunctions.fifthThing,
             iabs: AsyncFunctions.iabs,
             intCompose: AsyncFunctions.intCompose,
-            add3Things: AsyncFunctions.add3Things,
             makeList: AsyncFunctions.makeList,
-            fifthThing: AsyncFunctions.fifthThing,
             six: AsyncFunctions.six,
             willThrow: AsyncFunctions.willThrow
         )
@@ -76,12 +76,12 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeMutator {
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
         let constructor = try NodeClass.constructor(for: "TestAsyncFunctions", env: env)
         let args: [NAPI.Value] = [
+            try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.toNode(value.add3Things, env: env),
             try AsyncFunction0Converter<Swift.Int>.toNode(value.const42, env: env),
+            try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.toNode(value.fifthThing, env: env),
             try AsyncFunction1Converter<Swift.Int, Swift.Int>.toNode(value.iabs, env: env),
             try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.toNode(value.intCompose, env: env),
-            try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.toNode(value.add3Things, env: env),
             try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.toNode(value.makeList, env: env),
-            try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.toNode(value.fifthThing, env: env),
             try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.toNode(value.six, env: env),
             try AsyncFunction0Converter<Swift.Int>.toNode(value.willThrow, env: env),
         ]
@@ -379,11 +379,33 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeMutator {
                     },
                     isStatic: false
                 ),
+                "add3Things": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "add3Things", expectedArgumentCount: 0) { env in
+                                try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.toNode(env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self).add3Things, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: false
+                ),
                 "const42": (
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "const42", expectedArgumentCount: 0) { env in
                                 try AsyncFunction0Converter<Swift.Int>.toNode(env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self).const42, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: false
+                ),
+                "fifthThing": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "fifthThing", expectedArgumentCount: 0) { env in
+                                try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.toNode(env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self).fifthThing, env: env.env)
                             }
                         },
                         setter: nil
@@ -412,33 +434,11 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeMutator {
                     ),
                     isStatic: false
                 ),
-                "add3Things": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "add3Things", expectedArgumentCount: 0) { env in
-                                try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.toNode(env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self).add3Things, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: false
-                ),
                 "makeList": (
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "makeList", expectedArgumentCount: 0) { env in
                                 try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.toNode(env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self).makeList, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: false
-                ),
-                "fifthThing": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "fifthThing", expectedArgumentCount: 0) { env in
-                                try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.toNode(env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self).fifthThing, env: env.env)
                             }
                         },
                         setter: nil
@@ -472,12 +472,12 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeMutator {
                 callbackBody(env, info, name: "TestAsyncFunctions_constructor", expectedArgumentCount: 8) { env in
                     // TODO: typecheck?
                     let this = try env.this()
-                    try env.env.setNamedProperty(this, "const42", env.argument(at: 0))
-                    try env.env.setNamedProperty(this, "iabs", env.argument(at: 1))
-                    try env.env.setNamedProperty(this, "intCompose", env.argument(at: 2))
-                    try env.env.setNamedProperty(this, "add3Things", env.argument(at: 3))
-                    try env.env.setNamedProperty(this, "makeList", env.argument(at: 4))
-                    try env.env.setNamedProperty(this, "fifthThing", env.argument(at: 5))
+                    try env.env.setNamedProperty(this, "add3Things", env.argument(at: 0))
+                    try env.env.setNamedProperty(this, "const42", env.argument(at: 1))
+                    try env.env.setNamedProperty(this, "fifthThing", env.argument(at: 2))
+                    try env.env.setNamedProperty(this, "iabs", env.argument(at: 3))
+                    try env.env.setNamedProperty(this, "intCompose", env.argument(at: 4))
+                    try env.env.setNamedProperty(this, "makeList", env.argument(at: 5))
                     try env.env.setNamedProperty(this, "six", env.argument(at: 6))
                     try env.env.setNamedProperty(this, "willThrow", env.argument(at: 7))
                     return this

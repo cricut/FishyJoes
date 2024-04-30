@@ -75,6 +75,30 @@ namespace Cricut.TestAPI {
         private static extern CreatedRef __iota_get_TestAPI_TestProtocolClass_frob(IntPtr envRef, UnownedRef self, out CreatedRef exn);
 
         /// <summary>
+        /// <!-- FishyJoes.export(corge) -->
+        /// </summary>
+        public string GetCorge(
+        ) {
+            return Corge;
+        }
+
+        /// <summary>
+        /// <!-- FishyJoes.export(flarp) -->
+        /// </summary>
+        public string? GetFlarp(
+        ) {
+            return Flarp;
+        }
+
+        /// <summary>
+        /// <!-- FishyJoes.export(frob) -->
+        /// </summary>
+        public System.Collections.Generic.IList<double> GetFrob(
+        ) {
+            return Frob;
+        }
+
+        /// <summary>
         /// <!-- FishyJoes.export(foo) -->
         /// </summary>
         public void Foo(

@@ -24,7 +24,7 @@ extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: NodeMutator {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         return _NodeTestOptionalsProtocol(
             _nodeWitness: try NodeReference(env: env, value: value),
-            flarp: String()
+            flarp: Optional<String>()
         )
     }
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {

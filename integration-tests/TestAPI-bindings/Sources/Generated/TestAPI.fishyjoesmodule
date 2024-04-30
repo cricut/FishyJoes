@@ -2357,18 +2357,18 @@
             "constructor" : {
               "visible" : {
                 "names" : [
-                  "foo",
-                  "baz"
+                  "baz",
+                  "foo"
                 ],
                 "types" : [
                   {
                     "named" : {
-                      "_0" : "string"
+                      "_0" : "boolean"
                     }
                   },
                   {
                     "named" : {
-                      "_0" : "boolean"
+                      "_0" : "string"
                     }
                   }
                 ]
@@ -2383,19 +2383,6 @@
             "fields" : [
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(foo) -->"
-                ],
-                "isStatic" : false,
-                "name" : "foo",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "string"
-                  }
-                }
-              },
-              {
-                "documentation" : [
                   "<!-- FishyJoes.export(baz) -->"
                 ],
                 "isStatic" : false,
@@ -2404,6 +2391,19 @@
                 "type" : {
                   "named" : {
                     "_0" : "boolean"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(foo) -->"
+                ],
+                "isStatic" : false,
+                "name" : "foo",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
                   }
                 }
               }
@@ -3720,19 +3720,29 @@
             "constructor" : {
               "visible" : {
                 "names" : [
+                  "add3Things",
                   "const42",
+                  "fifthThing",
                   "iabs",
                   "intCompose",
-                  "add3Things",
                   "makeList",
-                  "fifthThing",
                   "six",
                   "willThrow"
                 ],
                 "types" : [
                   {
                     "named" : {
+                      "_0" : "(_0: number, _1: number, _2: number) => Promise<number>"
+                    }
+                  },
+                  {
+                    "named" : {
                       "_0" : "() => Promise<number>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>"
                     }
                   },
                   {
@@ -3747,17 +3757,7 @@
                   },
                   {
                     "named" : {
-                      "_0" : "(_0: number, _1: number, _2: number) => Promise<number>"
-                    }
-                  },
-                  {
-                    "named" : {
                       "_0" : "(_0: string, _1: string, _2: string, _3: string) => Promise<string[]>"
-                    }
-                  },
-                  {
-                    "named" : {
-                      "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>"
                     }
                   },
                   {
@@ -3782,6 +3782,19 @@
             "fields" : [
               {
                 "documentation" : [
+                  "<!-- FishyJoes.export(add3Things) -->"
+                ],
+                "isStatic" : false,
+                "name" : "add3Things",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: number, _1: number, _2: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
                   "<!-- FishyJoes.export(const42) -->"
                 ],
                 "isStatic" : false,
@@ -3790,6 +3803,19 @@
                 "type" : {
                   "named" : {
                     "_0" : "() => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(fifthThing) -->"
+                ],
+                "isStatic" : false,
+                "name" : "fifthThing",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>"
                   }
                 }
               },
@@ -3821,19 +3847,6 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(add3Things) -->"
-                ],
-                "isStatic" : false,
-                "name" : "add3Things",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "(_0: number, _1: number, _2: number) => Promise<number>"
-                  }
-                }
-              },
-              {
-                "documentation" : [
                   "<!-- FishyJoes.export(makeList) -->"
                 ],
                 "isStatic" : false,
@@ -3842,19 +3855,6 @@
                 "type" : {
                   "named" : {
                     "_0" : "(_0: string, _1: string, _2: string, _3: string) => Promise<string[]>"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(fifthThing) -->"
-                ],
-                "isStatic" : false,
-                "name" : "fifthThing",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>"
                   }
                 }
               },
@@ -5246,6 +5246,22 @@
             "methods" : [
               {
                 "documentation" : [
+                  "<!-- FishyJoes.export(foo) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "foo",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
+                  }
+                }
+              },
+              {
+                "documentation" : [
                   "<!-- FishyJoes.export(bar) -->"
                 ],
                 "isAsync" : false,
@@ -5285,22 +5301,6 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(foo) -->"
-                ],
-                "isAsync" : false,
-                "isStatic" : false,
-                "name" : "foo",
-                "parameters" : [
-
-                ],
-                "returnType" : {
-                  "named" : {
-                    "_0" : "void"
-                  }
-                }
-              },
-              {
-                "documentation" : [
                   "<!-- FishyJoes.export(garply) -->"
                 ],
                 "isAsync" : false,
@@ -5319,29 +5319,6 @@
                 "returnType" : {
                   "named" : {
                     "_0" : "string"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(plugh) -->"
-                ],
-                "isAsync" : false,
-                "isStatic" : false,
-                "name" : "plugh",
-                "parameters" : [
-                  {
-                    "name" : "fred",
-                    "type" : {
-                      "named" : {
-                        "_0" : "[boolean, number, string[]]"
-                      }
-                    }
-                  }
-                ],
-                "returnType" : {
-                  "named" : {
-                    "_0" : "[boolean, number, string]"
                   }
                 }
               },
@@ -5373,6 +5350,29 @@
                 "returnType" : {
                   "named" : {
                     "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(plugh) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "plugh",
+                "parameters" : [
+                  {
+                    "name" : "fred",
+                    "type" : {
+                      "named" : {
+                        "_0" : "[boolean, number, string[]]"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "[boolean, number, string]"
                   }
                 }
               }
@@ -5474,6 +5474,19 @@
                         "_0" : "string"
                       }
                     }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(extensionNonisolatedVarLabel) -->"
+                    ],
+                    "isStatic" : false,
+                    "name" : "extensionNonisolatedVarLabel",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
                   }
                 ],
                 "methods" : [
@@ -5553,6 +5566,42 @@
                             "_0" : "number"
                           }
                         }
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(extensionIsolatedGetLabel) -->"
+                    ],
+                    "isAsync" : true,
+                    "isStatic" : false,
+                    "name" : "extensionIsolatedGetLabel",
+                    "parameters" : [
+
+                    ],
+                    "returnType" : {
+                      "promise" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(extensionNonisolatedGetLabel) -->"
+                    ],
+                    "isAsync" : false,
+                    "isStatic" : false,
+                    "name" : "extensionNonisolatedGetLabel",
+                    "parameters" : [
+
+                    ],
+                    "returnType" : {
+                      "named" : {
+                        "_0" : "string"
                       }
                     }
                   }
@@ -11105,6 +11154,22 @@
                 "methods" : [
                   {
                     "documentation" : [
+                      "<!-- FishyJoes.export(create) -->"
+                    ],
+                    "isAsync" : false,
+                    "isStatic" : true,
+                    "name" : "create",
+                    "parameters" : [
+
+                    ],
+                    "returnType" : {
+                      "named" : {
+                        "_0" : "Structs.MemberwiseStruct"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
                       "<!-- FishyJoes.export(asyncGetMutable) -->"
                     ],
                     "isAsync" : true,
@@ -11120,22 +11185,6 @@
                             "_0" : "string"
                           }
                         }
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-                      "<!-- FishyJoes.export(create) -->"
-                    ],
-                    "isAsync" : false,
-                    "isStatic" : true,
-                    "name" : "create",
-                    "parameters" : [
-
-                    ],
-                    "returnType" : {
-                      "named" : {
-                        "_0" : "Structs.MemberwiseStruct"
                       }
                     }
                   }
@@ -11181,21 +11230,17 @@
                 "methods" : [
                   {
                     "documentation" : [
-                      "<!-- FishyJoes.export(asyncGetI) -->"
+                      "<!-- FishyJoes.export(create) -->"
                     ],
-                    "isAsync" : true,
-                    "isStatic" : false,
-                    "name" : "asyncGetI",
+                    "isAsync" : false,
+                    "isStatic" : true,
+                    "name" : "create",
                     "parameters" : [
 
                     ],
                     "returnType" : {
-                      "promise" : {
-                        "_0" : {
-                          "named" : {
-                            "_0" : "number"
-                          }
-                        }
+                      "named" : {
+                        "_0" : "Structs.MutableStruct"
                       }
                     }
                   },
@@ -11237,17 +11282,21 @@
                   },
                   {
                     "documentation" : [
-                      "<!-- FishyJoes.export(create) -->"
+                      "<!-- FishyJoes.export(asyncGetI) -->"
                     ],
-                    "isAsync" : false,
-                    "isStatic" : true,
-                    "name" : "create",
+                    "isAsync" : true,
+                    "isStatic" : false,
+                    "name" : "asyncGetI",
                     "parameters" : [
 
                     ],
                     "returnType" : {
-                      "named" : {
-                        "_0" : "Structs.MutableStruct"
+                      "promise" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "number"
+                          }
+                        }
                       }
                     }
                   }

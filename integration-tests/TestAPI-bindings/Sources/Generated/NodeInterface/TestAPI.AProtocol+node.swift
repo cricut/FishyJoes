@@ -10,8 +10,8 @@ import TestAPI_CommonInterface
 struct _NodeAProtocol: TestAPI.AProtocol {
     let _nodeWitness: NodeReference
 
-    var foo: String
     var baz: Bool
+    var foo: String
     var barImpl: (() -> AProtocol)?
     public func bar(x: Int, y: Int) throws -> AProtocol {
         barImpl!()
@@ -29,15 +29,15 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeMutator {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         return _NodeAProtocol(
             _nodeWitness: try NodeReference(env: env, value: value),
-            foo: String(),
-            baz: Bool()
+            baz: Bool(),
+            foo: String()
         )
     }
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
         let constructor = try NodeClass.constructor(for: "AProtocol", env: env)
         let args: [NAPI.Value] = [
-            try Swift.String.toNode(value.foo, env: env),
             try Swift.Bool.toNode(value.baz, env: env),
+            try Swift.String.toNode(value.foo, env: env),
         ]
         return try env.newInstance(constructor, args)
     }
@@ -96,17 +96,6 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeMutator {
                     },
                     isStatic: false
                 ),
-                "foo": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "foo", expectedArgumentCount: 0) { env in
-                                try Swift.String.toNode(env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self).foo, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: false
-                ),
                 "baz": (
                     .accessor(
                         getter: { env, info in
@@ -118,13 +107,24 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeMutator {
                     ),
                     isStatic: false
                 ),
+                "foo": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "foo", expectedArgumentCount: 0) { env in
+                                try Swift.String.toNode(env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self).foo, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: false
+                ),
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "AProtocol_constructor", expectedArgumentCount: 2) { env in
                     // TODO: typecheck?
                     let this = try env.this()
-                    try env.env.setNamedProperty(this, "foo", env.argument(at: 0))
-                    try env.env.setNamedProperty(this, "baz", env.argument(at: 1))
+                    try env.env.setNamedProperty(this, "baz", env.argument(at: 0))
+                    try env.env.setNamedProperty(this, "foo", env.argument(at: 1))
                     return this
                 }
             }

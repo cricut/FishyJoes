@@ -39,6 +39,19 @@ extension TestAPI.Structs.MemberwiseStruct: NodeMutator {
             env: env,
             name: "Structs.MemberwiseStruct",
             properties: [
+                "create": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try TestAPI.Structs.MemberwiseStruct.toNode(
+                                TestAPI.Structs.MemberwiseStruct(
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
                 "asyncGetMutable": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncGetMutable", expectedArgumentCount: 0, hasNamedOptions: false) { env in
@@ -68,19 +81,6 @@ extension TestAPI.Structs.MemberwiseStruct: NodeMutator {
                         }
                     },
                     isStatic: false
-                ),
-                "create": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0, hasNamedOptions: false) { env in
-                            let result = try TestAPI.Structs.MemberwiseStruct.toNode(
-                                TestAPI.Structs.MemberwiseStruct(
-                                ),
-                                env: env.env
-                            )
-                            return result
-                        }
-                    },
-                    isStatic: true
                 ),
                 "immutable": (.stored(mutable: true), isStatic: false),
                 "mutable": (.stored(mutable: true), isStatic: false),

@@ -70,21 +70,21 @@ class ExternalWitness_AProtocol extends SwiftReference implements TestAPI.AProto
     );
 
     @override
-    String toString() => 'ExternalWitness_AProtocol(foo: $foo, baz: $baz)';
+    String toString() => 'ExternalWitness_AProtocol(baz: $baz, foo: $foo)';
 
-    /// <!-- FishyJoes.export(foo) -->
-    String get foo =>
-        GCRef.using(this, (_thisHandle) =>
-            check((exn) =>
-                consumeCreatedRef<String>(f__iota_get_TestAPI_AProtocol_foo(Loader.shared.env, _thisHandle.ptr, exn))
-            )
-        )
-    ;
     /// <!-- FishyJoes.export(baz) -->
     bool get baz =>
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
                 f__iota_get_TestAPI_AProtocol_baz(Loader.shared.env, _thisHandle.ptr, exn)
+            )
+        )
+    ;
+    /// <!-- FishyJoes.export(foo) -->
+    String get foo =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                consumeCreatedRef<String>(f__iota_get_TestAPI_AProtocol_foo(Loader.shared.env, _thisHandle.ptr, exn))
             )
         )
     ;
