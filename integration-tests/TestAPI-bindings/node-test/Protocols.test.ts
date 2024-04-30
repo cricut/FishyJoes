@@ -31,3 +31,12 @@ test('testProtocolEnum', () => {
     expect(TestAPI.TestProtocolEnum.xyzzy("qux", 42, [1.234, 45.235890198, 892.80])).toEqual("thud: 42; grault: [1.234, 45.235890198, 892.8]");
     expect(TestAPI.TestProtocolEnum.plugh("qux", [true, 3.14159265359, ["Take a left at your intestines", "Take the second right past Mars"]])).toEqual([false, 3, "Take a left at your intestines -<*>- Take the second right past Mars"]);
 });
+
+test('testProtocolStruct', () => {
+    let testProtocolStruct = new TestAPI.TestProtocolStruct("Raft a river of lava-ah!");
+    expect(testProtocolStruct.corge).toEqual("Raft a river of lava-ah!");
+    testProtocolStruct.corge = "Spank a plankton too! (take that)";
+    expect(testProtocolStruct.corge).toEqual("Spank a plankton too! (take that)");
+    expect(testProtocolStruct.frob).toEqual([3.14159265359, 42.0, -1.23456789]);
+    expect(testProtocolStruct.plugh([true, 42.9, ["Ride on the magic school bus", "You might get baked into a pie"]])).toEqual([true, 51, "Ride on the magic school bus *>-<* You might get baked into a pie"]);
+});
