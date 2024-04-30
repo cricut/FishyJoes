@@ -57,7 +57,7 @@ extension TestAPI.AProtocolImplementation: NodeMutator {
                 "hasADefaultImplementation": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation", expectedArgumentCount: 2, hasNamedOptions: false) { env in
-                            let _wrappedSwiftSelf = try  TestAPI_CommonInterface.AProtocol_sans_hasADefaultImplementation(wrapped: env.this(converter: TestAPI.AProtocolImplementation.self))
+                            let _wrappedSwiftSelf = TestAPI_CommonInterface.AProtocol_sans_hasADefaultImplementation(wrapped: try env.this(converter: TestAPI.AProtocolImplementation.self))
                             let result = try Swift.String.toNode(
                                 _wrappedSwiftSelf.hasADefaultImplementation(
                                     x: try env.argument(at: 0, converter: Swift.Int.self),
@@ -73,7 +73,7 @@ extension TestAPI.AProtocolImplementation: NodeMutator {
                 "hasADefaultImplementation2": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation2", expectedArgumentCount: 3, hasNamedOptions: false) { env in
-                            let _wrappedSwiftSelf = try  TestAPI_CommonInterface.AProtocol_sans_hasADefaultImplementation2(wrapped: env.this(converter: TestAPI.AProtocolImplementation.self))
+                            let _wrappedSwiftSelf = TestAPI_CommonInterface.AProtocol_sans_hasADefaultImplementation2(wrapped: try env.this(converter: TestAPI.AProtocolImplementation.self))
                             let result = try Swift.Double.toNode(
                                 _wrappedSwiftSelf.hasADefaultImplementation2(
                                     try env.argument(at: 0, converter: Swift.String.self),

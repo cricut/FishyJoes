@@ -143,7 +143,7 @@ struct NodeTranslator: Translator {
                         selfExpression = "swiftSelf.value"
                     }
                     if method.isDefaultImplementation {
-                        fragment.output("let _wrappedSwiftSelf = \(method.isThrowing ? "try " : "")\(method.isAsync ? "await " : "")\(context.module.name)_CommonInterface.\(method.definedIn?.name ?? "")_sans_\(method.callName)(wrapped: \(selfExpression))")
+                        fragment.output("let _wrappedSwiftSelf = \(context.module.name)_CommonInterface.\(method.definedIn?.name ?? "")_sans_\(method.callName)(wrapped: try \(selfExpression))")
                         selfExpression = "_wrappedSwiftSelf"
                     }
 
@@ -198,7 +198,7 @@ struct NodeTranslator: Translator {
                     }
                     if method.isDefaultImplementation,
                        let definedInName = method.definedIn?.name {
-                        fragment.output("let _wrappedSwiftSelf = \(method.isThrowing ? "try " : "")\(method.isAsync ? "await " : "") \(context.module.name)_CommonInterface.\(method.definedIn?.name ?? "")_sans_\(method.callName)(wrapped: \(selfExpression))")
+                        fragment.output("let _wrappedSwiftSelf = \(context.module.name)_CommonInterface.\(method.definedIn?.name ?? "")_sans_\(method.callName)(wrapped: try \(selfExpression))")
                         selfExpression = "_wrappedSwiftSelf"
                     }
 
