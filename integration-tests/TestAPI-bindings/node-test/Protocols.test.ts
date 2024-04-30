@@ -46,3 +46,12 @@ test('testProtocolStruct', () => {
     expect(testProtocolStruct.garply("An octopus in your neighborhood?")).toEqual("garp garpity An octopus in your neighborhood? garpee");
     expect(testProtocolStruct.xyzzy(42, [1.234, 45.235890198, 892.80])).toEqual("thud: 42 | grault: [1.234, 45.235890198, 892.8]");
 });
+
+test('testProtocolClass', () => {
+    let testProtocolClass = TestAPI.TestProtocolClass.init("Step inside it's a wilder ride!");
+    expect(testProtocolClass.corge).toEqual("Step inside it's a wilder ride!");
+    expect(testProtocolClass.frob).toEqual([42.0, -1.23456789, 3.14159265359]);
+    expect(testProtocolClass.flarp).toEqual(undefined);
+    testProtocolClass.flarp = "Excellent observation Kiki!";
+    expect(testProtocolClass.flarp).toEqual("Excellent observation Kiki!");
+});
