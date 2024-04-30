@@ -31,7 +31,7 @@ struct _NodeTestPropertiesProtocol: TestAPI.TestPropertiesProtocol {
 extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         do {
-            let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestAPI.TestPropertiesProtocol", env: env)
+            let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestPropertiesProtocol", env: env)
             if try env.instanceof(value, constructor) {
                 guard let nonNilPointer = try env.unwrap(value) else {
                     throw JSException(message: "expected TestAPI.TestPropertiesProtocol, got nil")

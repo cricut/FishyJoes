@@ -52,7 +52,7 @@ struct _NodeAProtocol: TestAPI.AProtocol {
 extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         do {
-            let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestAPI.AProtocol", env: env)
+            let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_AProtocol", env: env)
             if try env.instanceof(value, constructor) {
                 guard let nonNilPointer = try env.unwrap(value) else {
                     throw JSException(message: "expected TestAPI.AProtocol, got nil")

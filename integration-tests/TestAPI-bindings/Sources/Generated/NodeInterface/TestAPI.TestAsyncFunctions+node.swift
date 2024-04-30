@@ -173,7 +173,7 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
 extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         do {
-            let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestAPI.TestAsyncFunctions", env: env)
+            let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestAsyncFunctions", env: env)
             if try env.instanceof(value, constructor) {
                 guard let nonNilPointer = try env.unwrap(value) else {
                     throw JSException(message: "expected TestAPI.TestAsyncFunctions, got nil")

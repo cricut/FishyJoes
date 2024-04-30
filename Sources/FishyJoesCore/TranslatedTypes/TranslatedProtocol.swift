@@ -443,7 +443,7 @@ struct TranslatedProtocol: TranslatedType {
         fragment.outputBlock("extension \(converterType.name): NodeConverter {") {
             fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {") {
                 fragment.outputBlock("do {", newLineTerminated: false) {
-                    fragment.output("let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: \"ExternalWitness_\(sourceType.name)\", env: env)")
+                    fragment.output("let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: \"\(nodeExternalWitnessClassName)\", env: env)")
                     fragment.outputBlock("if try env.instanceof(value, constructor) {", newLineTerminated: false) {
                         fragment.outputBlock("guard let nonNilPointer = try env.unwrap(value) else {") {
                             fragment.output("throw JSException(message: \"expected \(sourceType.name), got nil\")")
