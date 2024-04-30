@@ -1,6 +1,6 @@
 import { TestAPI } from 'TestAPI';
 
-test('AProtocol', () => {
+test('testProtocolImplementation', () => {
     let a = new TestAPI.AProtocolImplementation(
         "Garply",
         false
@@ -20,4 +20,13 @@ test('AProtocol', () => {
 
     expect(a.hasADefaultImplementation2?.("0.9870923", true, 1.123123)).toEqual(0.9589049888649063);
     expect(a.hasADefaultImplementation2?.("0.9870923", false, 1.123123)).toEqual(1.686253813623996);
+});
+
+
+test('testProtocolEnum', () => {
+    TestAPI.TestProtocolEnum.foo("qux");
+    expect(TestAPI.TestProtocolEnum.bar("qux")).toEqual(true);
+    TestAPI.TestProtocolEnum.baz("qux", true);
+    expect(TestAPI.TestProtocolEnum.garply("qux", "Navigate a nostril!")).toEqual("garply Navigate a nostril! garpity garp");
+    expect(TestAPI.TestProtocolEnum.xyzzy("qux", 42, [1.234, 45.235890198, 892.80])).toEqual("thud: 42; grault: [1.234, 45.235890198, 892.8]");
 });
