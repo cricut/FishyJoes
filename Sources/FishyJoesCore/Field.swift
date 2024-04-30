@@ -14,7 +14,7 @@ struct Field: Hashable {
     let isMutable: Bool
     let isPubliclyWritable: Bool
     let isThrowing: Bool
-    let isComputed:Bool
+    let isComputed: Bool
     var isOverride: Bool { exportAnnotation?.isOverride == true }
     let isAsync: Bool
     let deprecation: Deprecation?
