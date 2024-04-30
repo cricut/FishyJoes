@@ -396,7 +396,8 @@ struct TranslatedProtocol: TranslatedType {
 
                             if resVal != .void {
                                 let resolved = context.resolve(type: resVal)
-                                fragment.output("return try \(resolved.converterType.name).fromNode(result, env: env)")
+                                fragment.outputBlock("return {") { fragment.output("try \(resolved.converterType.name).fromNode(result, env: env)")
+                                }
                             }
                         } else {
                             let resolved = context.resolve(type: field.typeName.better)
