@@ -384,19 +384,24 @@ struct TranslatedProtocol: TranslatedType {
                         fragment.output("let env = _nodeWitness.env")
                         fragment.output("let napiValue = try _nodeWitness.value(env: env)")
                         fragment.output("let \(field.name) = try env.getNamedProperty(napiValue, \"\(field.name)\")")
+                        if sourceType.name.contains("TestAsyncFunctions"),
+                           field.name.contains("iabs") {
+                            let elegoo = 1
+                        }
 
                         if case let .function(params, resVal, isAsync, isThrowing) = field.typeName.better {
-                            fragment.output("let result = try env.callFunction(napiValue, \(field.name), ", newLineTerminated: false)
-                            var toNodeParams = [String]()
-                            for param in params {
-                                let resolved = context.resolve(type: param)
-                                toNodeParams.append("try \(resolved.converterType.name).toNode(\(param.name), env: env)")
-                            }
-                            fragment.output("[\(toNodeParams.joined(separator: ", "))])")
+                            fragment.outputBlock("return {") {
+                                fragment.output("let result = try env.callFunction(napiValue, \(field.name), ", newLineTerminated: false)
+                                var toNodeParams = [String]()
+                                for (paramIndex, param) in params.enumerated() {
+                                    let resolved = context.resolve(type: param)
+                                    toNodeParams.append("try \(resolved.converterType.name).toNode($\(paramIndex), env: env)")
+                                }
+                                fragment.output("[\(toNodeParams.joined(separator: ", "))])")
 
-                            if resVal != .void {
-                                let resolved = context.resolve(type: resVal)
-                                fragment.outputBlock("return {") { fragment.output("try \(resolved.converterType.name).fromNode(result, env: env)")
+                                if resVal != .void {
+                                    let resolved = context.resolve(type: resVal)
+                                    fragment.output("return try \(resolved.converterType.name).fromNode(result, env: env)")
                                 }
                             }
                         } else {
