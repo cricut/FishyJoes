@@ -39,4 +39,10 @@ test('testProtocolStruct', () => {
     expect(testProtocolStruct.corge).toEqual("Spank a plankton too! (take that)");
     expect(testProtocolStruct.frob).toEqual([3.14159265359, 42.0, -1.23456789]);
     expect(testProtocolStruct.plugh([true, 42.9, ["Ride on the magic school bus", "You might get baked into a pie"]])).toEqual([true, 51, "Ride on the magic school bus *>-<* You might get baked into a pie"]);
+
+    testProtocolStruct.foo();
+    expect(testProtocolStruct.bar()).toEqual(false);
+    testProtocolStruct.baz(true);
+    expect(testProtocolStruct.garply("An octopus in your neighborhood?")).toEqual("garp garpity An octopus in your neighborhood? garpee");
+    expect(testProtocolStruct.xyzzy(42, [1.234, 45.235890198, 892.80])).toEqual("thud: 42 | grault: [1.234, 45.235890198, 892.8]");
 });
