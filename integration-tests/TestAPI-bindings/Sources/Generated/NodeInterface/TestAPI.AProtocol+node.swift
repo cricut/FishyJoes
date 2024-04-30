@@ -97,8 +97,9 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
                 "hasADefaultImplementation": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation", expectedArgumentCount: 2, hasNamedOptions: false) { env in
+                            let _wrappedSwiftSelf = try  TestAPI_CommonInterface.AProtocol_sans_hasADefaultImplementation(wrapped: env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self))
                             let result = try Swift.String.toNode(
-                                env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self).hasADefaultImplementation(
+                                _wrappedSwiftSelf.hasADefaultImplementation(
                                     x: try env.argument(at: 0, converter: Swift.Int.self),
                                     y: try env.argument(at: 1, converter: Swift.Double.self)
                                 ),
@@ -112,8 +113,9 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
                 "hasADefaultImplementation2": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation2", expectedArgumentCount: 3, hasNamedOptions: false) { env in
+                            let _wrappedSwiftSelf = try  TestAPI_CommonInterface.AProtocol_sans_hasADefaultImplementation2(wrapped: env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self))
                             let result = try Swift.Double.toNode(
-                                env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self).hasADefaultImplementation2(
+                                _wrappedSwiftSelf.hasADefaultImplementation2(
                                     try env.argument(at: 0, converter: Swift.String.self),
                                     b: try env.argument(at: 1, converter: Swift.Bool.self),
                                     try env.argument(at: 2, converter: Swift.Double.self)

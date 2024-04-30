@@ -142,6 +142,10 @@ struct NodeTranslator: Translator {
                         fragment.output("let swiftSelf = UncheckedSendableBox(try env.this(converter: \(containingNamespace).self))")
                         selfExpression = "swiftSelf.value"
                     }
+                    if method.isDefaultImplementation {
+                        fragment.output("let _wrappedSwiftSelf = \(method.isThrowing ? "try " : "")\(method.isAsync ? "await " : "")\(context.module.name)_CommonInterface.\(method.definedIn?.name ?? "")_sans_\(method.callName)(wrapped: \(selfExpression))")
+                        selfExpression = "_wrappedSwiftSelf"
+                    }
 
                     func writeMutation() {
                         if method.isMutating {
@@ -191,6 +195,11 @@ struct NodeTranslator: Translator {
                     if method.isMutating {
                         fragment.output("var mutatingSelf = try \(selfExpression)")
                         selfExpression = "mutatingSelf"
+                    }
+                    if method.isDefaultImplementation,
+                       let definedInName = method.definedIn?.name {
+                        fragment.output("let _wrappedSwiftSelf = \(method.isThrowing ? "try " : "")\(method.isAsync ? "await " : "") \(context.module.name)_CommonInterface.\(method.definedIn?.name ?? "")_sans_\(method.callName)(wrapped: \(selfExpression))")
+                        selfExpression = "_wrappedSwiftSelf"
                     }
 
                     if exportAnnotation.noReturn {
