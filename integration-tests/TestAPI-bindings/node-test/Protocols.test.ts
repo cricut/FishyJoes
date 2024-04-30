@@ -29,4 +29,5 @@ test('testProtocolEnum', () => {
     TestAPI.TestProtocolEnum.baz("qux", true);
     expect(TestAPI.TestProtocolEnum.garply("qux", "Navigate a nostril!")).toEqual("garply Navigate a nostril! garpity garp");
     expect(TestAPI.TestProtocolEnum.xyzzy("qux", 42, [1.234, 45.235890198, 892.80])).toEqual("thud: 42; grault: [1.234, 45.235890198, 892.8]");
+    expect(TestAPI.TestProtocolEnum.plugh("qux", [true, 3.14159265359, ["Take a left at your intestines", "Take the second right past Mars"]])).toEqual([false, 3, "Take a left at your intestines -<*>- Take the second right past Mars"]);
 });
