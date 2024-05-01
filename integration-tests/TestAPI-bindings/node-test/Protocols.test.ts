@@ -368,3 +368,79 @@ test('testAsyncSwiftSideFunctionsWitness', async () => {
     let a = _a.witness()
     await testAsyncSwiftSideFunctionsCore(a);
 });
+
+class TestAsyncFunctionsImpl implements TestAPI.TestAsyncFunctions {
+    get const42(): () => Promise<number> {
+        return async () => { return 24; };
+    }
+    get iabs(): (_0: number) => Promise<number> {
+        return async (_0) => { return Math.abs(_0); }
+    };
+    get intCompose(): (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number> {
+        return (f, g) => {
+            return async (x: number) => {
+                return f(await g(x));
+            }
+        };
+    };
+    get add3Things(): (_0: number, _1: number, _2: number) => Promise<number> {
+        return async (x, y, z) => {
+            return x + y + z;
+        }
+    };
+    get makeList(): (_0: string, _1: string, _2: string, _3: string) => Promise<string[]> {
+        return async (a, b, c, d) => {
+            return [a, b, c, d];
+        }
+    };
+    get fifthThing(): (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>> {
+        return async (a, b, c, d, e) => {
+            return e;
+        }
+    };
+    get six(): (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number> {
+        return async (a, b, c, d, e, f) => {
+            return f;
+        }
+    };
+    get willThrow(): () => Promise<number> {
+        return async () => {
+            throw new Error("Spoon!");
+        }
+    };
+    async exercise0(fn: () => Promise<number>): Promise<string> {
+        return `${(await fn()) * 2}`;
+    }
+    async exercise1(fn: (_0: number) => Promise<number>): Promise<string> {
+        return `${await fn(-7)}`;
+    }
+    async exercise2(fn: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>): Promise<string> {
+        return `${await fn(async (a) => { return a + 1; }, async (b) => { return b * 3; })(23)}`;
+    }
+    async exercise3(fn: (_0: number, _1: number, _2: number) => Promise<number>): Promise<string> {
+        return `${await fn(1.0, 4.4, 2)}`;
+    }
+    async exercise4(fn: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>): Promise<string> {
+        return `${await fn("Pump", "up", "the", "jam")}`;
+    }
+    async exercise5(fn: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>): Promise<string> {
+        let y = await (await fn("78", 6, 4.2, "12", async () => { return 654; }))();
+        return `${y}`;
+    }
+    async exercise6(fn: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>): Promise<string> {
+        let y = await fn("78", 6, 4.2, "12", async () => { return 654; }, 98);
+        return `${y}`;
+    }
+    thunkTwiceMaker(thunk: () => Promise<void>): () => Promise<void> {
+        return async () => {
+            thunk();
+            thunk();
+        };
+    }
+    // defaultExercise6?(fn: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>): Promise<string> {
+    //     throw new Error('Method not implemented.');
+    // }
+    witness(): TestAPI.TestAsyncFunctions {
+        return new TestAsyncFunctionsImpl();
+    }    
+}
