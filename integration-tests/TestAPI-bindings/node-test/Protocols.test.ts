@@ -77,8 +77,8 @@ test('testLeadingUnderscoreInNames', () => {
     expect(lups._leadingUnderscoreProp).toEqual("With great power comes great responsibility.");
 });
 
-test('testAsyncForeignSideFunctionsCore', () => {
-    let a = new TestAPI.TestAsyncForeignSideFunctionsStruct(
+function makeAsyncForeignSideFunction() {
+    return new TestAPI.TestAsyncForeignSideFunctionsStruct(
         async () => { return 49; },
         async (_0) => { return Math.abs(_0); },
         (f, g) => {
@@ -130,6 +130,14 @@ test('testAsyncForeignSideFunctionsCore', () => {
                 thunk();
             };
         }
-    );
-    console.log(`a: ${a}`);
+    )
+}
+
+function testAsyncForeignSideFunctionsCore(a: TestAPI.TestAsyncFunctions) {
+    expect(a.const42()).resolves.toEqual(49);
+}
+
+test('testAsyncForeignSideFunctions', () => {
+    let a = makeAsyncForeignSideFunction();
+    testAsyncForeignSideFunctionsCore(a);
 });
