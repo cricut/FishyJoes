@@ -1,7 +1,7 @@
 package com.cricut.testapi
 
-import kotlinx.coroutines.*
 import java.lang.Exception
+import kotlinx.coroutines.*
 
 private class _ExternalWitness_AProtocol private constructor(_swiftReference: Long): AProtocol, com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference) {
     /**
