@@ -71,3 +71,8 @@ test('testProtocolClass', () => {
     expect(testProtocolClass.xyzzy(42, [1.234, 45.235890198, 892.80])).toEqual("thud: 42 \\|/ grault: [1.234, 45.235890198, 892.8]");
     expect(testProtocolClass.plugh([true, 92.47, ["Please let this be a normal field trip", "I knew I should've stayed home today"]])).toEqual([true, 83, "Please let this be a normal field trip _-^= I knew I should've stayed home today"]);
 });
+
+test('testLeadingUnderscoreInNames', () => {
+    let lups = new TestAPI.TestLeadingUnderscoredPropStruct("With great power comes great responsibility.");
+    expect(lups._leadingUnderscoreProp).toEqual("With great power comes great responsibility.");
+});
