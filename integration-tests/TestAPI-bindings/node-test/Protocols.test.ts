@@ -252,3 +252,119 @@ test('testAsyncForeignSideFunctionsWitness', async () => {
     let a = _a.witness()
     await testAsyncForeignSideFunctionsCore(a);
 });
+
+async function testAsyncSwiftSideFunctionsCore(a: TestAPI.TestAsyncFunctions) {
+    expect(a.const42()).resolves.toEqual(42);
+    expect(a.iabs(-2398)).resolves.toEqual(2398);
+    let b = a.intCompose(
+        async (x) => {
+            sleep(1);
+            return x * 3;
+        },
+        async (y) => {
+            sleep(1);
+            return y * 5;
+        }
+    );
+    expect(b(92)).resolves.toEqual(1380);
+    let d = a.makeList("By", "your", "powers", "combined");
+    expect(d).resolves.toEqual(["By", "your", "powers", "combined"]);
+    let e = await a.fifthThing(
+        "I, am",
+        Number.MAX_SAFE_INTEGER,
+        Number.MIN_VALUE,
+        "Captain Planet!",
+        async () => {
+            sleep(1);
+            return 42;
+        }
+    );
+    expect(await e()).toEqual(42);
+    let f = await a.six(
+        "Big, bad",
+        24,
+        3.14159265359,
+        "Beetleborgs",
+        async () => {
+            sleep(1);
+            return 43;
+        },
+        Number.MIN_SAFE_INTEGER
+    );
+    expect(f).toEqual(Number.MIN_SAFE_INTEGER);
+
+    expect(a.willThrow()).rejects.toThrowError("The operation couldn’t be completed. (TestAPI.AsyncFunctions.TheAsyncError error 1.)")
+
+    let g = await a.exercise0(e);
+    expect(g).toEqual("42");
+    let h = await a.exercise1(b);
+    expect(h).toEqual("-45");
+
+    let i = await a.exercise2(
+        (a, b) => {
+            return async (z) => {
+                return (await a(3)) + (await b(3)) + z;
+            }
+        }
+    );
+    expect(i).toEqual("21");
+
+    let j = await a.exercise3(
+        async (fl, d, l) => {
+            return (fl / d) + (9 * l);
+        }
+    );
+    expect(j).toEqual("18.227272727272727");
+
+    let k = await a.exercise4(
+        async (a, b, c, d) => {
+            return [d, c, b, a];
+        }
+    );
+    expect(k).toEqual("[\"d\", \"c\", \"b\", \"a\"]");
+
+    let l = await a.exercise5(
+        async (a, b, c, d, e) => {
+            return async () => {
+                return Math.floor(Number(b) + c + (await e()));
+            }
+        }
+    );
+    expect(l).toEqual("93");
+
+    let m = await a.exercise6(
+        async (a, b, c, d, e, f) => {
+            return Math.floor(Number(b) + c + (await e()) + f);
+        }
+    );
+    expect(m).toEqual("135");
+
+    let o = 3.14159265359;
+    let n = a.thunkTwiceMaker(
+        async () => {
+            o = o * o;
+            console.log("Thunkmaster thex");
+        }
+    );
+    await n();
+    sleep(1);
+    expect(o).toEqual(97.4090910340281);
+
+    let p = await a.defaultExercise6?.(
+        async (a, b, c, d, e, f) => {
+            return Math.floor(Number(a) + Number(b) + c + Number(d) + (await e()) + f);
+        }
+    );
+    expect(p).toEqual("962");
+}
+
+test('testAsyncSwiftSideFunctions', async () => {
+    let a = TestAPI.TestAsyncSwiftSideFunctionsClass.init();
+    await testAsyncSwiftSideFunctionsCore(a);
+});
+
+test('testAsyncSwiftSideFunctionsWitness', async () => {
+    let _a = TestAPI.TestAsyncSwiftSideFunctionsClass.init();
+    let a = _a.witness()
+    await testAsyncSwiftSideFunctionsCore(a);
+});
