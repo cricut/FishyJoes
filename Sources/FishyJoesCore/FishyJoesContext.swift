@@ -83,7 +83,7 @@ public class FishyJoesContext {
         for dependency in module.dependencies + [module.name] + additionalImports {
             addHeader(file: name, "import \(dependency)")
         }
-            // These need to be in order, so add them with higher priority
+        // These need to be in order, so add them with higher priority
         addHeader(
             file: name,
             priority: 2,
