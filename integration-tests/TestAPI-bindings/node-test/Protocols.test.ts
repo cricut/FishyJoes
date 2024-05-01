@@ -233,6 +233,13 @@ async function testAsyncForeignSideFunctionsCore(a: TestAPI.TestAsyncFunctions) 
     await n();
     sleep(1);
     expect(o).toEqual(3);
+
+    let p = await a.defaultExercise6?.(
+        async (a, b, c, d, e, f) => {
+            return Math.floor(Number(a) + Number(b) + c + Number(d) + (await e()) + f);
+        }
+    );
+    expect(p).toEqual("962");
 }
 
 test('testAsyncForeignSideFunctions', async () => {
