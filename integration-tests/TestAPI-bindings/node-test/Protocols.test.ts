@@ -141,3 +141,9 @@ test('testAsyncForeignSideFunctions', () => {
     let a = makeAsyncForeignSideFunction();
     testAsyncForeignSideFunctionsCore(a);
 });
+
+test('testAsyncForeignSideFunctions', () => {
+    let _a = makeAsyncForeignSideFunction();
+    let a = _a.witness()
+    testAsyncForeignSideFunctionsCore(a);
+});
