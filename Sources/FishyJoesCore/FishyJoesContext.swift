@@ -611,7 +611,7 @@ public class FishyJoesContext {
             self.contents = contents
         }
 
-        static func <(lhs: FileHeader, rhs: FileHeader) -> Bool {
+        static func < (lhs: FileHeader, rhs: FileHeader) -> Bool {
             (-lhs.priority, lhs.contents) < (-rhs.priority, rhs.contents)
         }
     }
