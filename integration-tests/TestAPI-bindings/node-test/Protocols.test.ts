@@ -135,6 +135,17 @@ function makeAsyncForeignSideFunction() {
 
 function testAsyncForeignSideFunctionsCore(a: TestAPI.TestAsyncFunctions) {
     expect(a.const42()).resolves.toEqual(49);
+    expect(a.iabs(-2398)).resolves.toEqual(2398);
+    let b = a.intCompose(
+        async (x) => {
+            return x * 3;
+        },
+        async (y) => {
+            return y * 5;
+        }
+    );
+    expect(b(92)).resolves.toEqual(1380);
+    let d = a.makeList("By", "your", "powers", "combined");
 }
 
 test('testAsyncForeignSideFunctions', () => {
@@ -142,7 +153,7 @@ test('testAsyncForeignSideFunctions', () => {
     testAsyncForeignSideFunctionsCore(a);
 });
 
-test('testAsyncForeignSideFunctions', () => {
+test('testAsyncForeignSideFunctionsWitness', () => {
     let _a = makeAsyncForeignSideFunction();
     let a = _a.witness()
     testAsyncForeignSideFunctionsCore(a);
