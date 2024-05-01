@@ -76,3 +76,60 @@ test('testLeadingUnderscoreInNames', () => {
     let lups = new TestAPI.TestLeadingUnderscoredPropStruct("With great power comes great responsibility.");
     expect(lups._leadingUnderscoreProp).toEqual("With great power comes great responsibility.");
 });
+
+test('testAsyncForeignSideFunctionsCore', () => {
+    let a = new TestAPI.TestAsyncForeignSideFunctionsStruct(
+        async () => { return 49; },
+        async (_0) => { return Math.abs(_0); },
+        (f, g) => {
+            return async (x: number) => {
+                return f(await g(x));
+            }
+        },
+        async (x, y, z) => {
+            return x + y + z;
+        },
+        async (a, b, c, d) => {
+            return [a, b, c, d];
+        },
+        async (a, b, c, d, e) => {
+            return e;
+        },
+        async (a, b, c, d, e, f) => {
+            return f;
+        },
+        async () => {
+            throw new Error("Spoon!");
+        },
+        async (fn) => {
+            return `${await fn() * 2}`;
+        },
+        async (fn) => {
+            return `${await fn(-7)}`;
+        },
+        async (fn) => {
+            return `${await fn(async (a) => { return a + 1; }, async (b) => { return b * 3; })(23)}`;
+        },
+        async (fn) => {
+            return `${await fn(1.0, 4.4, 3)}`;
+        },
+        async (fn) => {
+            return `${await fn("Pump", "up", "the", "jam")}`;
+        },
+        async (fn) => {
+            let y = await (await fn("78", 6, 4.2, "12", async () => { return 654; }))();
+            return `${y}`;
+        },
+        async (fn) => {
+            let y = await fn("78", 6, 4.2, "12", async () => { return 654; }, 98);
+            return `${y}`;
+        },
+        (thunk) => {
+            return async () => {
+                thunk();
+                thunk();
+            };
+        }
+    );
+    console.log(`a: ${a}`);
+});
