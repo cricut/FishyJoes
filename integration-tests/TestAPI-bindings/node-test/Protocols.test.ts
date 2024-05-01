@@ -111,7 +111,7 @@ function makeAsyncForeignSideFunction() {
             return `${await fn(async (a) => { return a + 1; }, async (b) => { return b * 3; })(23)}`;
         },
         async (fn) => {
-            return `${await fn(1.0, 4.4, 3)}`;
+            return `${await fn(1.0, 4.4, 2)}`;
         },
         async (fn) => {
             return `${await fn("Pump", "up", "the", "jam")}`;
@@ -153,7 +153,7 @@ async function testAsyncForeignSideFunctionsCore(a: TestAPI.TestAsyncFunctions) 
     expect(b(92)).resolves.toEqual(1380);
     let d = a.makeList("By", "your", "powers", "combined");
     expect(d).resolves.toEqual(["By", "your", "powers", "combined"]);
-    let e = a.fifthThing(
+    let e = await a.fifthThing(
         "I, am",
         Number.MAX_SAFE_INTEGER,
         Number.MIN_VALUE,
@@ -163,8 +163,8 @@ async function testAsyncForeignSideFunctionsCore(a: TestAPI.TestAsyncFunctions) 
             return 42;
         }
     );
-    expect(await (await e)()).toEqual(42);
-    let f = a.six(
+    expect(await e()).toEqual(42);
+    let f = await a.six(
         "Big, bad",
         24,
         3.14159265359,
@@ -175,9 +175,30 @@ async function testAsyncForeignSideFunctionsCore(a: TestAPI.TestAsyncFunctions) 
         },
         Number.MIN_SAFE_INTEGER
     );
-    expect(await f).toEqual(Number.MIN_SAFE_INTEGER);
+    expect(f).toEqual(Number.MIN_SAFE_INTEGER);
 
     expect(a.willThrow()).rejects.toThrowError("Spoon!")
+
+    let g = await a.exercise0(e);
+    expect(g).toEqual("84");
+    let h = await a.exercise1(b);
+    expect(h).toEqual("-105");
+
+    let i = await a.exercise2(
+        (a, b) => {
+            return async (z) => {
+                return (await a(3)) + (await b(3)) + z;
+            }
+        }
+    );
+    expect(i).toEqual("36");
+
+    let j = await a.exercise3(
+        async (fl, d, l) => {
+            return (fl / d) + (9 * l);
+        }
+    );
+    expect(j).toEqual("18.227272727272727");
 }
 
 test('testAsyncForeignSideFunctions', async () => {
