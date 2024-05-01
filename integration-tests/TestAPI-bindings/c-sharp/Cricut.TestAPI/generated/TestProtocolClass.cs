@@ -91,14 +91,6 @@ namespace Cricut.TestAPI {
         }
 
         /// <summary>
-        /// <!-- FishyJoes.export(frob) -->
-        /// </summary>
-        public System.Collections.Generic.IList<double> GetFrob(
-        ) {
-            return Frob;
-        }
-
-        /// <summary>
         /// <!-- FishyJoes.export(foo) -->
         /// </summary>
         public void Foo(

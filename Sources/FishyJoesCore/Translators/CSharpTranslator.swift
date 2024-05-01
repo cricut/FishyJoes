@@ -174,7 +174,7 @@ final class CSharpTranslator: Translator {
             )
         ]
 
-        if isInProtocol {
+        if isInProtocol && !asMethod {
             result.append(
                 .method(
                     CSharpClass.Method(
