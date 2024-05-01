@@ -4382,7 +4382,7 @@
               }
             ],
             "implements" : [
-
+              "TestAsyncFunctions"
             ],
             "methods" : [
               {
@@ -4636,6 +4636,35 @@
                 "returnType" : {
                   "named" : {
                     "_0" : "TestAPI.TestAsyncSwiftSideFunctionsClass"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(defaultExercise6) -->"
+                ],
+                "hasDefaultImplementation" : true,
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "defaultExercise6",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "TestAsyncFunctions",
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
                   }
                 }
               }
@@ -5090,7 +5119,9 @@
               }
             ],
             "implements" : [
-
+              "TestMethodsProtocol",
+              "TestOptionalsProtocol",
+              "TestPropertiesProtocol"
             ],
             "methods" : [
               {

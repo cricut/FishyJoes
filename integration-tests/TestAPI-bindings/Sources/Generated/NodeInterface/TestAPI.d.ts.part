@@ -2429,7 +2429,7 @@ export declare namespace TestAPI {
     /**
      * <!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass, conformances: [TestAsyncFunctions]) -->
      */
-    export class TestAsyncSwiftSideFunctionsClass {
+    export class TestAsyncSwiftSideFunctionsClass implements TestAsyncFunctions {
         private constructor()
         private _inhibitStructuralTyping: any
 
@@ -2540,6 +2540,13 @@ export declare namespace TestAPI {
          */
         static init(
         ): TestAPI.TestAsyncSwiftSideFunctionsClass;
+
+        /**
+         * <!-- FishyJoes.export(defaultExercise6) -->
+         */
+        defaultExercise6?(
+            fn: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>
+        ): Promise<string>;
     }
 
     /**
@@ -2650,7 +2657,7 @@ export declare namespace TestAPI {
     /**
      * <!-- FishyJoes.exportReference(TestProtocolClass, conformances: [TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol]) -->
      */
-    export class TestProtocolClass {
+    export class TestProtocolClass implements TestMethodsProtocol, TestOptionalsProtocol, TestPropertiesProtocol {
         private constructor()
         private _inhibitStructuralTyping: any
 

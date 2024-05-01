@@ -11,6 +11,7 @@ struct TranslatedReference: TranslatedType {
     let cSharpType: CSharpClass.CSType
     let dartType: DartClass.DartType
     let methods: [Method]
+    let defaultMethodsForNode: [Method]
     let computedVariables: [Variable]
     let documentation: [String]
     let className: String
@@ -36,6 +37,17 @@ struct TranslatedReference: TranslatedType {
         self.cSharpType = .named(package: context.module.cSharpNamespace, name: exportAnnotation.cSharpName)
         self.dartType = .named(package: context.module.dartNamespace, name: context.dartTranslator.fakeNamespace(exportAnnotation.name))
         self.methods = type.methods.compactMap { Method($0) }
+        
+        var nodeDefaultMethods = [Method]()
+        // Node objects needs default methods in order to conform to the interfaces it implements, though as an optional method that if the user does not implement, will use the defined default method constant.
+        if !type.implements.isEmpty {
+            let protocols = type.implements.values.compactMap { $0 as? SourceryProtocol }
+            for prot in protocols {
+                nodeDefaultMethods.append(contentsOf: prot.defaultMethods().compactMap { Method($0, protocolName: prot.name) })
+            }
+        }
+        self.defaultMethodsForNode = nodeDefaultMethods
+
         self.computedVariables = type.variables.filter { $0.exportAnnotation != nil }
         self.documentation = type.documentation
         self.className = context.kotlinTranslator.javaClassName(kotlinName, in: context)
@@ -134,6 +146,7 @@ struct TranslatedReference: TranslatedType {
                     fragment.outputBlock("properties: [", closeWith: "],") {
                         var hasProperties = false
                         hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment, converterName: nil)
+                        hasProperties ||= context.nodeTranslator.outputProperties(methods: defaultMethodsForNode, context: context, fragment: fragment, converterName: sourceType.name)
                         hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment)
                         if !hasProperties {
                             fragment.output(":")
@@ -158,9 +171,12 @@ struct TranslatedReference: TranslatedType {
             .init(
                 documentation: documentation,
                 name: nodeName,
+                implements: Array(conformances).sorted(by: <),
                 constructor: .hidden,
                 fields: computedVariables.compactMap { context.ts(field: $0) },
-                methods: methods.compactMap { context.ts(method: $0) }
+                methods: 
+                    methods.compactMap { context.ts(method: $0) } +
+                defaultMethodsForNode.compactMap { context.ts(method: $0) }
             )
         )
 

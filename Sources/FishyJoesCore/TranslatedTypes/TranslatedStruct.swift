@@ -49,6 +49,7 @@ struct TranslatedStruct: TranslatedType {
             }
         }
         self.defaultMethodsForNode = nodeDefaultMethods
+
         self.documentation = type.documentation
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
