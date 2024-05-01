@@ -371,7 +371,7 @@ test('testAsyncSwiftSideFunctionsWitness', async () => {
 
 class TestAsyncFunctionsImpl implements TestAPI.TestAsyncFunctions {
     get const42(): () => Promise<number> {
-        return async () => { return 24; };
+        return async () => { return 49; };
     }
     get iabs(): (_0: number) => Promise<number> {
         return async (_0) => { return Math.abs(_0); }
@@ -444,3 +444,14 @@ class TestAsyncFunctionsImpl implements TestAPI.TestAsyncFunctions {
         return new TestAsyncFunctionsImpl();
     }    
 }
+
+test('testAsyncFunctionsImpl', async () => {
+    let a = new TestAsyncFunctionsImpl();
+    await testAsyncForeignSideFunctionsCore(a);
+});
+
+test('testAsyncFunctionsImplWitness', async () => {
+    let _a = new TestAsyncFunctionsImpl();
+    let a = _a.witness()
+    await testAsyncForeignSideFunctionsCore(a);
+});
