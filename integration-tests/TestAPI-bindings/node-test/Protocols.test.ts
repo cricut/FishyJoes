@@ -63,4 +63,11 @@ test('testProtocolClass', () => {
     expect(testProtocolClass.spqr(new TestAPI.AssociatedDataEnum.Bar("shme", new TestAPI.AssociatedDataEnum.NoValue()))).toEqual(45);
     expect(testProtocolClass.spqr(new TestAPI.AssociatedDataEnum.NoValue())).toEqual(42);
     expect(testProtocolClass.spqr(new TestAPI.AssociatedDataEnum.SimpleEnum("blue"))).toEqual(1);
+
+    testProtocolClass.foo();
+    expect(testProtocolClass.bar()).toEqual(true);
+    testProtocolClass.baz(false);
+    expect(testProtocolClass.garply("Surfin' on a sine wave")).toEqual("garplify Surfin' on a sine wave parguino");
+    expect(testProtocolClass.xyzzy(42, [1.234, 45.235890198, 892.80])).toEqual("thud: 42 \\|/ grault: [1.234, 45.235890198, 892.8]");
+    expect(testProtocolClass.plugh([true, 92.47, ["Please let this be a normal field trip", "I knew I should've stayed home today"]])).toEqual([true, 83, "Please let this be a normal field trip _-^= I knew I should've stayed home today"]);
 });
