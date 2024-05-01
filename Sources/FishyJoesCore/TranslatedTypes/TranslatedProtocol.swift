@@ -61,50 +61,33 @@ struct TranslatedProtocol: TranslatedType {
     }
 
     func enforceProtocolThrows() {
-        let nonThrowingMethods = methods.filter { !$0.isThrowing }
-        guard nonThrowingMethods.isEmpty else {
-            var nameSpace = ""
-            if let ns = nonThrowingMethods.first?.definedIn?.name {
-                nameSpace = "\(ns)."
-            }
-            fatalError("☠️ Error on \(nameSpace)\(nonThrowingMethods.first?.name ?? "?"): All Protocol methods exported through FishyJoes must be throwing, it's the law 👮!")
+        if let method = methods.first(where: { !$0.isThrowing }) {
+            fatalError("☠️ Error on \(sourceType.name).\(method.name): All Protocol methods exported through FishyJoes must be throwing, it's the law 👮!")
         }
 
-        if let nonThrowingField = fields.first(where: { !$0.isThrowing }) {
-            let nameSpace = nonThrowingField.definedIn?.name ?? ""
-            fatalError("☠️ Error on \(nameSpace)\(nonThrowingField.name): All Protocol properties exported through FishyJoes must be throwing, it's the law 👮!")
+        if let field = fields.first(where: { !$0.isThrowing }) {
+            fatalError("☠️ Error on \(sourceType.name).\(field.name): All Protocol properties exported through FishyJoes must be throwing, it's the law 👮!")
         }
     }
 
     func enforceNoProtocolSetters() {
-        let setters = fields.filter { $0.isMutable }
-        guard setters.isEmpty else {
-            let nameSpace = setters.first?.definedIn?.name ?? ""
-            fatalError("☠️ Error on \(nameSpace)\(setters.first?.name ?? "?"): No setters allowed in protocols because the Swift language does not allow them to throw, it's the law 👮! Use a function instead.")
+        if let field = fields.first(where: { $0.isMutable }) {
+            fatalError("☠️ Error on \(sourceType.name).\(field.name): No setters allowed in protocols because the Swift language does not allow them to throw, it's the law 👮! Use a function instead.")
         }
     }
 
     func enforceNoProtocolStatics() {
-        let staticVars = fields.filter { $0.isStatic }
-        let staticFuncs = methods.filter { $0.isStatic }
-        guard staticVars.isEmpty else {
-            let nameSpace = staticVars.first?.definedIn?.name ?? ""
-            fatalError("☠️ Error on \(nameSpace)\(staticVars.first?.name ?? "?"): No static properties allowed in protocols because other languages do not generally support them, it's the law 👮!")
+        if let field = fields.first(where: { $0.isStatic }) {
+            fatalError("☠️ Error on \(sourceType.name).\(field.name): No static properties allowed in protocols because other languages do not generally support them, it's the law 👮!")
         }
-        guard staticFuncs.isEmpty else {
-            let nameSpace = staticFuncs.first?.definedIn?.name ?? ""
-            fatalError("☠️ Error on \(nameSpace)\(staticFuncs.first?.name ?? "?"): No static functions allowed in protocols because other languages do not generally support them, it's the law 👮!")
+        if let method = methods.first(where: { $0.isStatic }) {
+            fatalError("☠️ Error on \(sourceType.name).\(method.name): No static methods allowed in protocols because other languages do not generally support them, it's the law 👮!")
         }
     }
 
     func enforceNoProtocolMutatingFunctions() {
-        let mutatingFuncs = methods.filter { $0.isMutating }
-        guard mutatingFuncs.isEmpty else {
-            var nameSpace = ""
-            if let ns = mutatingFuncs.first?.definedIn?.name {
-                nameSpace = "\(ns)"
-            }
-            fatalError("☠️ Error on \(nameSpace)\(mutatingFuncs.first?.name ?? "?"): No mutating functions on protocols because there are some edge cases that we don't want to support, it's the law 👮!")
+        if let method = methods.first(where: { $0.isMutating }) {
+            fatalError("☠️ Error on \(sourceType).\(method.name): No mutating functions on protocols because there are some edge cases that we don't want to support, it's the law 👮!")
         }
     }
 
