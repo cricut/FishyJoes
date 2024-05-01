@@ -163,7 +163,7 @@ async function testAsyncForeignSideFunctionsCore(a: TestAPI.TestAsyncFunctions) 
             return 42;
         }
     );
-    expect(await e).resolves.toEqual(42);
+    expect(await (await e)()).toEqual(42);
     let f = a.six(
         "Big, bad",
         24,
@@ -175,16 +175,18 @@ async function testAsyncForeignSideFunctionsCore(a: TestAPI.TestAsyncFunctions) 
         },
         Number.MIN_SAFE_INTEGER
     );
-    expect(await f).resolves.toEqual(Number.MIN_SAFE_INTEGER);
+    expect(await f).toEqual(Number.MIN_SAFE_INTEGER);
+
+    expect(a.willThrow()).rejects.toThrowError("Spoon!")
 }
 
-test('testAsyncForeignSideFunctions', () => {
+test('testAsyncForeignSideFunctions', async () => {
     let a = makeAsyncForeignSideFunction();
-    testAsyncForeignSideFunctionsCore(a);
+    await testAsyncForeignSideFunctionsCore(a);
 });
 
-test('testAsyncForeignSideFunctionsWitness', () => {
+test('testAsyncForeignSideFunctionsWitness', async () => {
     let _a = makeAsyncForeignSideFunction();
     let a = _a.witness()
-    testAsyncForeignSideFunctionsCore(a);
+    await testAsyncForeignSideFunctionsCore(a);
 });
