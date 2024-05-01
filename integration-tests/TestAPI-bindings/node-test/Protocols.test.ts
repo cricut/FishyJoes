@@ -137,7 +137,7 @@ function sleep(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function testAsyncForeignSideFunctionsCore(a: TestAPI.TestAsyncFunctions) {
+async function testAsyncForeignSideFunctionsCore(a: TestAPI.TestAsyncFunctions) {
     expect(a.const42()).resolves.toEqual(49);
     expect(a.iabs(-2398)).resolves.toEqual(2398);
     let b = a.intCompose(
@@ -152,6 +152,30 @@ function testAsyncForeignSideFunctionsCore(a: TestAPI.TestAsyncFunctions) {
     );
     expect(b(92)).resolves.toEqual(1380);
     let d = a.makeList("By", "your", "powers", "combined");
+    expect(d).resolves.toEqual(["By", "your", "powers", "combined"]);
+    let e = a.fifthThing(
+        "I, am",
+        Number.MAX_SAFE_INTEGER,
+        Number.MIN_VALUE,
+        "Captain Planet!",
+        async () => {
+            sleep(1);
+            return 42;
+        }
+    );
+    expect(await e).resolves.toEqual(42);
+    let f = a.six(
+        "Big, bad",
+        24,
+        3.14159265359,
+        "Beetleborgs",
+        async () => {
+            sleep(1);
+            return 43;
+        },
+        Number.MIN_SAFE_INTEGER
+    );
+    expect(await f).resolves.toEqual(Number.MIN_SAFE_INTEGER);
 }
 
 test('testAsyncForeignSideFunctions', () => {
