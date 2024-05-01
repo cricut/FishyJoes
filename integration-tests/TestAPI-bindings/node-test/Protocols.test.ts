@@ -133,14 +133,20 @@ function makeAsyncForeignSideFunction() {
     )
 }
 
+function sleep(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 function testAsyncForeignSideFunctionsCore(a: TestAPI.TestAsyncFunctions) {
     expect(a.const42()).resolves.toEqual(49);
     expect(a.iabs(-2398)).resolves.toEqual(2398);
     let b = a.intCompose(
         async (x) => {
+            sleep(1);
             return x * 3;
         },
         async (y) => {
+            sleep(1);
             return y * 5;
         }
     );
