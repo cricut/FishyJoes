@@ -15,67 +15,16 @@ struct _NodeTestPropertiesProtocol: TestAPI.TestPropertiesProtocol {
 }
 extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: NodeMutator {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
-        return _NodeTestPropertiesProtocol(
-            _nodeWitness: try NodeReference(env: env, value: value),
-            corge: String(),
-            frob: Array<Double>()
-        )
+        fatalError("TODO: node protocol support")
     }
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try NodeClass.constructor(for: "TestPropertiesProtocol", env: env)
-        let args: [NAPI.Value] = [
-            try Swift.String.toNode(value.corge, env: env),
-            try ArrayConverter<Swift.Double>.toNode(value.frob, env: env),
-        ]
-        return try env.newInstance(constructor, args)
+        fatalError("TODO: node protocol support")
     }
     public static func mutateNode(_ value: SwiftType, this: NAPI.Value, env: NAPI.Env) throws {
+        fatalError("TODO: node protocol support")
     }
 
     @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-        let nodeClass = try NodeClass(
-            env: env,
-            name: "TestPropertiesProtocol",
-            properties: [
-                "corge": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "corge", expectedArgumentCount: 0) { env in
-                                try Swift.String.toNode(env.this(converter: TestAPI_CommonInterface._TestPropertiesProtocolConverter.self).corge, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: false
-                ),
-                "frob": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "frob", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<Swift.Double>.toNode(env.this(converter: TestAPI_CommonInterface._TestPropertiesProtocolConverter.self).frob, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: false
-                ),
-            ],
-            constructor: { env, info in
-                callbackBody(env, info, name: "TestPropertiesProtocol_constructor", expectedArgumentCount: 2) { env in
-                    // TODO: typecheck?
-                    let this = try env.this()
-                    try env.env.setNamedProperty(this, "corge", env.argument(at: 0))
-                    try env.env.setNamedProperty(this, "frob", env.argument(at: 1))
-                    return this
-                }
-            }
-        )
-        try mergeDefinitionInto(
-            env: env,
-            module: module,
-            path: "TestPropertiesProtocol",
-            nodeClass: nodeClass.constructor.value(env: env)
-        )
     }
 }

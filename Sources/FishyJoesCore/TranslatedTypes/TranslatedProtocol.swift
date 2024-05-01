@@ -384,105 +384,23 @@ struct TranslatedProtocol: TranslatedType {
         }
         fragment.outputBlock("extension \(converterType.name): NodeMutator {") {
             fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {") {
-                fragment.outputBlock("return _Node\(sourceType.nonNamespacedName)(") {
-                    fragment.output("_nodeWitness: try NodeReference(env: env, value: value)", newLineTerminated: false)
-                    if !fields.isEmpty {
-                        fragment.output(",")
-                    } else {
-                        fragment.output("")
-                    }
-                    // TODO: actually do this right when implementing Protocol support for Node
-                    if converterType.name == "TestAPI_CommonInterface._TestAsyncFunctionsConverter" {
-                        fragment.outputMap(fields, separator: ",") {
-                            "\($0.name): AsyncFunctions.\($0.name)"
-                        }
-                    } else {
-                        fragment.outputMap(fields, separator: ",") {
-                            "\($0.name): \($0.type.name.replacingOccurrences(of: "?", with: ""))()"
-                        }
-                    }
-                }
+                fragment.output("fatalError(\"TODO: node protocol support\")")
             }
 
             fragment.outputBlock("public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {") {
-                fragment.output("let constructor = try NodeClass.constructor(for: \"\(nodeName)\", env: env)")
-                fragment.outputBlock("let args: [NAPI.Value] = [") {
-                    for field in fields {
-                        let resolved = context.resolve(type: field.type)
-                        fragment.output("try \(resolved.converterType.name).toNode(value.\(field.name), env: env),")
-                    }
-                }
-                fragment.output("return try env.newInstance(constructor, args)")
+                fragment.output("fatalError(\"TODO: node protocol support\")")
             }
 
             fragment.outputBlock("public static func mutateNode(_ value: SwiftType, this: NAPI.Value, env: NAPI.Env) throws {") {
-                for field in fields {
-                    guard field.isMutable else { continue }
-                    let resolved = context.resolve(type: field.type)
-                    fragment.output("try env.setNamedProperty(this, \"\(field.name)\", \(resolved.converterType.name).toNode(value.\(field.name), env: env))")
-                }
+                fragment.output("fatalError(\"TODO: node protocol support\")")
             }
 
             fragment.blankLine()
             fragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
             fragment.outputBlock("public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {") {
-                // fragment.output("print(\"setting up \(sourceType.name)\")")
-
-                fragment.outputBlock("let nodeClass = try NodeClass(") {
-                    fragment.output("env: env,")
-                    fragment.output("name: \"\(nodeName)\",")
-                    fragment.outputBlock("properties: [", closeWith: "],") {
-                        var hasProperties = false
-                        hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment)
-                        hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: fields, context: context, fragment: fragment)
-//                        for field in fields {
-//                            // Limitation in wasm implementation of napi_create_class doesn't allow constructors to assign to non-mutable property.
-//                            // let mutable = field.isPubliclyWritable
-//                            let mutable = true
-//                            fragment.output("\"\(field.name)\": (.stored(mutable: \(mutable)), isStatic: \(field.isStatic)),")
-//                            hasProperties = true
-//                        }
-                        if !hasProperties {
-                            fragment.output(":")
-                        }
-                    }
-                    fragment.outputBlock("constructor: { env, info in", closeWith: "}") {
-                        fragment.outputBlock("callbackBody(env, info, name: \"\(nodeName)_constructor\", expectedArgumentCount: \(fields.count)) { env in", closeWith: "}") {
-                            fragment.output("// TODO: typecheck?")
-                            fragment.output("let this = try env.this()")
-                            for (index, field) in fields.enumerated() {
-                                fragment.output("try env.env.setNamedProperty(this, \"\(field.name)\", env.argument(at: \(index)))")
-                            }
-                            fragment.output("return this")
-                        }
-                    }
-                }
-                fragment.outputBlock("try mergeDefinitionInto(") {
-                    fragment.output("env: env,")
-                    fragment.output("module: module,")
-                    fragment.output("path: \"\(nodeName)\",")
-                    fragment.output("nodeClass: nodeClass.constructor.value(env: env)")
-                }
+                // TODO
             }
         }
-
-        context.tsAnnotations.add(class:
-            .init(
-                documentation: documentation,
-                name: nodeName,
-                constructor: .visible(
-                    fields.map {
-                        (
-                            name: $0.name,
-                            type: context.resolve(type: $0.type).nodeType
-                        )
-                    }
-                ),
-                fields: fields.compactMap { context.ts(field: $0, useNativeName: false) },
-                methods: methods.compactMap { context.ts(method: $0) }
-            )
-        )
-        fragment.blankLine()
         return fragment
     }
 
