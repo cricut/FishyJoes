@@ -222,6 +222,17 @@ async function testAsyncForeignSideFunctionsCore(a: TestAPI.TestAsyncFunctions) 
         }
     );
     expect(m).toEqual("852");
+
+    let o = 1;
+    let n = a.thunkTwiceMaker(
+        async () => {
+            o += 1;
+            console.log("Thunker in paradise");
+        }
+    );
+    await n();
+    sleep(1);
+    expect(o).toEqual(3);
 }
 
 test('testAsyncForeignSideFunctions', async () => {
