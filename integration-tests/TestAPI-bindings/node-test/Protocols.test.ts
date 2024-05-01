@@ -199,6 +199,29 @@ async function testAsyncForeignSideFunctionsCore(a: TestAPI.TestAsyncFunctions) 
         }
     );
     expect(j).toEqual("18.227272727272727");
+
+    let k = await a.exercise4(
+        async (a, b, c, d) => {
+            return [d, c, b, a];
+        }
+    );
+    expect(k).toEqual("jam,the,up,Pump");
+
+    let l = await a.exercise5(
+        async (a, b, c, d, e) => {
+            return async () => {
+                return Math.floor(Number(a) + Number(b) + c + Number(d) + (await e()));
+            }
+        }
+    );
+    expect(l).toEqual("754");
+
+    let m = await a.exercise6(
+        async (a, b, c, d, e, f) => {
+            return Math.floor(Number(a) + Number(b) + c + Number(d) + (await e()) + f);
+        }
+    );
+    expect(m).toEqual("852");
 }
 
 test('testAsyncForeignSideFunctions', async () => {
