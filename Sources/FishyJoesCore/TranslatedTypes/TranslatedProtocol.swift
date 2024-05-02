@@ -348,13 +348,13 @@ struct TranslatedProtocol: TranslatedType {
             fragment.blankLine()
 
             for field in fields {
-                fragment.outputBlock("var \(field.name): \(field.typeName.better.name) {") {
+                fragment.outputBlock("var \(field.name): \(field.type.name) {") {
                     fragment.outputBlock("get throws {") {
                         fragment.output("let env = _nodeWitness.env")
                         fragment.output("let napiValue = try _nodeWitness.value(env: env)")
                         fragment.output("let \(field.name) = try env.getNamedProperty(napiValue, \"\(field.name)\")")
 
-                        if case let .function(params, resVal, isAsync, isThrowing) = field.typeName.better {
+                        if case let .function(params, resVal, isAsync, isThrowing) = field.type {
                             fragment.outputBlock("return {") {
                                 fragment.output("let result = try env.callFunction(napiValue, \(field.name), ", newLineTerminated: false)
                                 var toNodeParams = [String]()
@@ -370,7 +370,7 @@ struct TranslatedProtocol: TranslatedType {
                                 }
                             }
                         } else {
-                            let resolved = context.resolve(type: field.typeName.better)
+                            let resolved = context.resolve(type: field.type)
                             fragment.output("return try \(resolved.converterType.name).fromNode(\(field.name), env: env)")
                         }
                     }
