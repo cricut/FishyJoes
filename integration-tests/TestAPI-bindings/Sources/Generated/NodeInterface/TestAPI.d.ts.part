@@ -60,7 +60,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(hasADefaultImplementation) -->
          */
-        hasADefaultImplementation(
+        hasADefaultImplementation?(
             x: number,
             y: number
         ): string;
@@ -68,7 +68,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(hasADefaultImplementation2) -->
          */
-        hasADefaultImplementation2(
+        hasADefaultImplementation2?(
             a: string,
             b: boolean,
             c: number
@@ -2324,7 +2324,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(defaultExercise6) -->
          */
-        defaultExercise6(
+        defaultExercise6?(
             fn: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>
         ): Promise<string>;
     }

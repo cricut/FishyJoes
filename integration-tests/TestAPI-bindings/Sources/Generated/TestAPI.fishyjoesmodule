@@ -2615,7 +2615,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(hasADefaultImplementation) -->"
                 ],
-                "hasDefaultImplementation" : false,
+                "hasDefaultImplementation" : true,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "hasADefaultImplementation",
@@ -2648,7 +2648,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(hasADefaultImplementation2) -->"
                 ],
-                "hasDefaultImplementation" : false,
+                "hasDefaultImplementation" : true,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "hasADefaultImplementation2",
@@ -3835,7 +3835,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(defaultExercise6) -->"
                 ],
-                "hasDefaultImplementation" : false,
+                "hasDefaultImplementation" : true,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "defaultExercise6",

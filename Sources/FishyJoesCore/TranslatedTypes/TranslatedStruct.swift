@@ -43,7 +43,7 @@ struct TranslatedStruct: TranslatedType {
         if !type.implements.isEmpty {
             let protocols = type.implements.values.compactMap { $0 as? SourceryProtocol }
             for prot in protocols {
-                nodeDefaultMethods.append(contentsOf: prot.defaultMethods().compactMap { Method($0, type: type, protocolName: prot.name) })
+                nodeDefaultMethods.append(contentsOf: prot.defaultMethods().compactMap { Method($0, type: prot, protocolName: prot.name) })
             }
         }
         self.defaultMethodsForNode = nodeDefaultMethods
