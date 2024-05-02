@@ -390,7 +390,7 @@ struct TranslatedProtocol: TranslatedType {
                     fragment.output("let env = _nodeWitness.env")
                     fragment.output("let napiValue = try _nodeWitness.value(env: env)")
                     fragment.output("let \(method.callName) = try env.getNamedProperty(napiValue, \"\(method.callName)\")")
-                    fragment.output("let result = try env.callFunction(napiValue, \(method.callName), ", newLineTerminated: false)
+                    fragment.output("\(method.returnType != .void ? "let result": "_") = try env.callFunction(napiValue, \(method.callName), ", newLineTerminated: false)
 
                     var toNodeParams = [String]()
                     for param in method.parameters {

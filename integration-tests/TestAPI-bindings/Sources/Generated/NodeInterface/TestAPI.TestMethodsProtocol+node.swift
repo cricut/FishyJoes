@@ -14,7 +14,7 @@ struct _NodeTestMethodsProtocol: TestAPI.TestMethodsProtocol {
         let env = _nodeWitness.env
         let napiValue = try _nodeWitness.value(env: env)
         let foo = try env.getNamedProperty(napiValue, "foo")
-        let result = try env.callFunction(napiValue, foo, [])
+        _ = try env.callFunction(napiValue, foo, [])
     }
     public func bar() throws -> Bool {
         let env = _nodeWitness.env
@@ -27,7 +27,7 @@ struct _NodeTestMethodsProtocol: TestAPI.TestMethodsProtocol {
         let env = _nodeWitness.env
         let napiValue = try _nodeWitness.value(env: env)
         let baz = try env.getNamedProperty(napiValue, "baz")
-        let result = try env.callFunction(napiValue, baz, [try Swift.Bool.toNode(qux, env: env)])
+        _ = try env.callFunction(napiValue, baz, [try Swift.Bool.toNode(qux, env: env)])
     }
     public func garply(_ _0: String) throws -> String {
         let env = _nodeWitness.env
