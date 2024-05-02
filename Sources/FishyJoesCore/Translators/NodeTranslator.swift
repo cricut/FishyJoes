@@ -80,6 +80,10 @@ struct NodeTranslator: Translator {
     }
 
     func output(method: Method, explicitThis: Bool, context: FishyJoesContext, fragment: SourceFragment, newLineTerminated: Bool = true, converterName: String? = nil) {
+        if method.name.contains("hasADefaultImplementation(") {
+            let elegoo = 1
+        }
+
         let exportAnnotation = method.exportAnnotation
         let nodeName = exportAnnotation.name
 
@@ -196,8 +200,7 @@ struct NodeTranslator: Translator {
                         fragment.output("var mutatingSelf = try \(selfExpression)")
                         selfExpression = "mutatingSelf"
                     }
-                    if method.isDefaultImplementation,
-                       let definedInName = method.definedIn?.name {
+                    if method.isDefaultImplementation {
                         fragment.output("let _wrappedSwiftSelf = \(context.module.name)_CommonInterface.\(method.definedIn?.name ?? "")_sans_\(method.callName)(wrapped: try \(selfExpression))")
                         selfExpression = "_wrappedSwiftSelf"
                     }
