@@ -208,7 +208,7 @@ final class DartTranslator: Translator {
         )
     }
 
-    func dart(field: Variable, of type: TranslatedType, context: FishyJoesContext, useNativeName: Bool = false) -> DartClass.MethodOrVariable? {
+    func dart(field: Field, of type: TranslatedType, context: FishyJoesContext, useNativeName: Bool = false) -> DartClass.MethodOrVariable? {
         let dartName: String
         var asMethod = false
 
@@ -224,7 +224,7 @@ final class DartTranslator: Translator {
             asMethod = exportAnnotation.kind == .asMethod
             dartName = exportAnnotation.name
         }
-        let resolved = context.resolve(type: field.typeName.better)
+        let resolved = context.resolve(type: field.type)
         return .variable(
             DartClass.Variable(
                 documentation: field.documentation,

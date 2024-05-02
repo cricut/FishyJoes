@@ -3,7 +3,7 @@ import Foundation
 import SourceryRuntime
 
 struct NodeTranslator: Translator {
-    func output(getter variable: Variable, explicitThis: Bool = false, context: FishyJoesContext, fragment: SourceFragment) {
+    func output(getter variable: Field, explicitThis: Bool = false, context: FishyJoesContext, fragment: SourceFragment) {
         guard let exportAnnotation = variable.exportAnnotation else {
             fatalErr("Variable not annotated for export: \(variable)")
         }
@@ -14,7 +14,7 @@ struct NodeTranslator: Translator {
 
         var argIndex = 0
 
-        if let selfType = variable.definedInTypeName?.better {
+        if let selfType = variable.definedIn {
             containingNamespace = context.resolve(type: selfType).converterType.name
 
             if variable.isStatic {
@@ -32,13 +32,13 @@ struct NodeTranslator: Translator {
 
         fragment.outputBlock("{ env, info in", closeWith: "}", newLineTerminated: false) {
             fragment.outputBlock("FishyJoesNodeRuntime.callbackBody(env, info, name: \"\(nodeName)\", expectedArgumentCount: \(argIndex)) { env in", closeWith: "}") {
-                let resolved = context.resolve(type: variable.typeName.better)
+                let resolved = context.resolve(type: variable.type)
                 fragment.output("try \(resolved.converterType.name).toNode(\(selfExpression).\(variable.name), env: env.env)")
             }
         }
     }
 
-    func output(setter variable: Variable, context: FishyJoesContext, fragment: SourceFragment) {
+    func output(setter variable: Field, context: FishyJoesContext, fragment: SourceFragment) {
         guard let exportAnnotation = variable.exportAnnotation else {
             fatalErr("Variable not annotated for export: \(variable)")
         }
@@ -51,7 +51,7 @@ struct NodeTranslator: Translator {
         let selfExpression: String
         let containingNamespace: String
 
-        if let selfType = variable.definedInTypeName?.better {
+        if let selfType = variable.definedIn {
             containingNamespace = context.resolve(type: selfType).sourceType.name
 
             if variable.isStatic {
@@ -66,7 +66,7 @@ struct NodeTranslator: Translator {
 
         fragment.outputBlock("{ env, info in", closeWith: "}", newLineTerminated: false) {
             fragment.outputBlock("FishyJoesNodeRuntime.callbackBody(env, info, name: \"\(nodeName)\", expectedArgumentCount: 1) { env in", closeWith: "}") {
-                let resolved = context.resolve(type: variable.typeName.better)
+                let resolved = context.resolve(type: variable.type)
                 if variable.isStatic {
                     fragment.output("\(selfExpression).\(variable.name) = try env.argument(at: 0, converter: \(resolved.converterType.name).self)")
                 } else {
@@ -242,7 +242,7 @@ struct NodeTranslator: Translator {
         return !methods.isEmpty
     }
 
-    func outputProperties(computedVariables: [Variable], explicitThis: Bool = false, context: FishyJoesContext, fragment: SourceFragment) -> Bool {
+    func outputProperties(computedVariables: [Field], explicitThis: Bool = false, context: FishyJoesContext, fragment: SourceFragment) -> Bool {
         var didOutput = false
         for variable in computedVariables {
             guard let exportAnnotation = variable.exportAnnotation else {
@@ -257,14 +257,6 @@ struct NodeTranslator: Translator {
                     fragment.output("isStatic: true")
                 }
                 assert(!variable.isMutable, "mutating enum variables not supported, which I think is the only way to get here")
-                // if variable.isMutable {
-                //     fragment.outputBlock("\"set\(upperCaseFirst(nodeName))\": (", closeWith: "),") {
-                //         fragment.output(".method ", newLineTerminated: false)
-                //         output(setter: variable, explicitThis: true, context: context, fragment: fragment)
-                //         fragment.output(",")
-                //         fragment.output("isStatic: true")
-                //     }
-                // }
             } else {
                 fragment.outputBlock("\"\(nodeName)\": (", closeWith: "),") {
                     fragment.outputBlock(".accessor(", closeWith: "),") {
@@ -412,7 +404,7 @@ struct NodeTranslator: Translator {
         )
     }
 
-    func ts(field: Variable, context: FishyJoesContext, useNativeName: Bool) -> TypeScriptAnnotations.Variable? {
+    func ts(field: Field, context: FishyJoesContext, useNativeName: Bool) -> TypeScriptAnnotations.Variable? {
         let name: String
         if useNativeName {
             guard field.exportAnnotation == nil else {
@@ -431,13 +423,13 @@ struct NodeTranslator: Translator {
             readOnly: !field.isPubliclyWritable,
             isStatic: field.isStatic,
             name: name,
-            type: context.resolve(type: field.typeName.better).nodeType
+            type: context.resolve(type: field.type).nodeType
         )
     }
 
-    func ts(fieldAsMethods field: Variable, explicitThis: Bool, context: FishyJoesContext) -> [TypeScriptAnnotations.Method] {
+    func ts(fieldAsMethods field: Field, explicitThis: Bool, context: FishyJoesContext) -> [TypeScriptAnnotations.Method] {
         guard let exportAnnotation = field.exportAnnotation,
-              let selfType = field.definedInTypeName?.better
+              let selfType = field.definedIn
         else {
             return []
         }
@@ -456,7 +448,7 @@ struct NodeTranslator: Translator {
             )
         ] : []
 
-        let resolved = context.resolve(type: field.typeName.better)
+        let resolved = context.resolve(type: field.type)
         return [
             TypeScriptAnnotations.Method(
                 documentation: field.documentation + (field.deprecation.map { ["@deprecated \($0.message)"] } ?? []),

@@ -111,6 +111,49 @@ extension TestAPI.Actors.TemperatureLogger: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
+                "extensionIsolatedGetLabel": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "extensionIsolatedGetLabel", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.Actors.TemperatureLogger.self))
+                            Task {
+                                do {
+                                    let taskResult: String = await swiftSelf.value.extensionIsolatedGetLabel(
+                                    )
+                                    try onMainThread { env in
+                                        let convertedTaskResult: NAPI.Value
+                                        do {
+                                            convertedTaskResult = try Swift.String.toNode(taskResult, env: env)
+                                        } catch {
+                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                            return
+                                        }
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
+                                    }
+                                } catch {
+                                    try onMainThread { env in
+                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                    }
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: false
+                ),
+                "extensionNonisolatedGetLabel": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "extensionNonisolatedGetLabel", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try Swift.String.toNode(
+                                env.this(converter: TestAPI.Actors.TemperatureLogger.self).extensionNonisolatedGetLabel(
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                ),
                 "label": (
                     .accessor(
                         getter: { env, info in
@@ -127,6 +170,17 @@ extension TestAPI.Actors.TemperatureLogger: FishyJoesNodeRuntime.NodeConverter {
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "backwardsLabel", expectedArgumentCount: 0) { env in
                                 try Swift.String.toNode(env.this(converter: TestAPI.Actors.TemperatureLogger.self).backwardsLabel, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: false
+                ),
+                "extensionNonisolatedVarLabel": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "extensionNonisolatedVarLabel", expectedArgumentCount: 0) { env in
+                                try Swift.String.toNode(env.this(converter: TestAPI.Actors.TemperatureLogger.self).extensionNonisolatedVarLabel, env: env.env)
                             }
                         },
                         setter: nil

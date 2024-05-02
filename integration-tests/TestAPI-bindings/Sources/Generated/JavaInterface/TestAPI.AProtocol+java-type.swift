@@ -10,20 +10,6 @@ import TestAPI_CommonInterface
 struct _JavaAProtocol: TestAPI.AProtocol {
     let _javaWitness: JavaReference
 
-    static var _fooGetMethodID: jmethodID?
-    public var foo: String {
-        get throws {
-            let env = try Env.acquireJVMThread(on: _javaWitness.vm)
-            defer {
-                try? Env.relinquishJVMThread(on: _javaWitness.vm)
-            }
-            return try Swift.String.fromJava(
-                env.CallObjectMethod(_javaWitness.object, Self._fooGetMethodID),
-                env: env
-            )
-        }
-    }
-
     static var _bazGetMethodID: jmethodID?
     public var baz: Bool {
         get throws {
@@ -33,6 +19,20 @@ struct _JavaAProtocol: TestAPI.AProtocol {
             }
             return try Swift.Bool.fromJava(
                 env.CallBooleanMethod(_javaWitness.object, Self._bazGetMethodID),
+                env: env
+            )
+        }
+    }
+
+    static var _fooGetMethodID: jmethodID?
+    public var foo: String {
+        get throws {
+            let env = try Env.acquireJVMThread(on: _javaWitness.vm)
+            defer {
+                try? Env.relinquishJVMThread(on: _javaWitness.vm)
+            }
+            return try Swift.String.fromJava(
+                env.CallObjectMethod(_javaWitness.object, Self._fooGetMethodID),
                 env: env
             )
         }
@@ -114,8 +114,8 @@ extension TestAPI_CommonInterface._AProtocolConverter: JavaConverter {
         javaClass = try env.globalRef(env.FindClass("com/cricut/testapi/AProtocol"))
         externalWitnessClass = try env.globalRef(env.FindClass("com/cricut/testapi/_ExternalWitness_AProtocol"))
         externalWitnessConstructor = try env.GetMethodID(externalWitnessClass, "<init>", "(J)V")
-        _JavaAProtocol._fooGetMethodID = try env.GetMethodID(javaClass, "getFoo", "()Ljava/lang/String;")
         _JavaAProtocol._bazGetMethodID = try env.GetMethodID(javaClass, "getBaz", "()Z")
+        _JavaAProtocol._fooGetMethodID = try env.GetMethodID(javaClass, "getFoo", "()Ljava/lang/String;")
         externalCompanionClass = try env.globalRef(env.FindClass("com/cricut/testapi/AProtocol$Companion"))
         _JavaAProtocol._barMethodID = try env.GetMethodID(javaClass, "bar", "(JJ)Lcom/cricut/testapi/AProtocol;")
         _JavaAProtocol._hasADefaultImplementationMethodID = try env.GetMethodID(javaClass, "hasADefaultImplementation", "(JD)Ljava/lang/String;")

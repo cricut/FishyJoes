@@ -183,17 +183,17 @@ public class FishyJoesContext {
         }
 
         // Translate
-        var methodsToTranslateForTypeDict = [Type: (methods: [SourceryMethod], isProtocol: Bool)]()
+        var methodsToTranslateForTypeDict = [Type: [SourceryMethod]]()
         for type in templateContext.types.types {
             if let protocolType = type as? SourceryProtocol {
-                methodsToTranslateForTypeDict[type] = (methods: protocolType.methodsPreferringDefaultImpl(), isProtocol: true)
+                methodsToTranslateForTypeDict[type] = protocolType.methodsPreferringDefaultImpl()
             } else {
-                methodsToTranslateForTypeDict[type] = (methods: type.rawMethods, isProtocol: false)
+                methodsToTranslateForTypeDict[type] = type.rawMethods
             }
         }
 
-        for (type, (methods, isProtocol)) in methodsToTranslateForTypeDict {
-            let methods = methods.compactMap { Method($0, isProtocol: isProtocol) }
+        for (type, methods) in methodsToTranslateForTypeDict {
+            let methods = methods.compactMap { Method($0, type: type) }
             for method in methods {
                 debugContext = "Translating method \(type.name).\(method.name)"
                 collectedFragments.append(contentsOf: kotlinTranslator.translate(method: method, context: self, typeName: type.localName))
@@ -210,7 +210,7 @@ public class FishyJoesContext {
             }
         }
         // Translate any top level functions
-        let topLevelFunctions = templateContext.functions.compactMap(Method.init)
+        let topLevelFunctions = templateContext.functions.compactMap { Method($0, type: nil) }
         guard topLevelFunctions.isEmpty else {
             fatalErr("Support for exporting top level functions has been removed for now")
         }
@@ -527,11 +527,11 @@ public class FishyJoesContext {
         nodeTranslator.ts(method: method, explicitThis: explicitThis, context: self)
     }
 
-    func ts(field: Variable, useNativeName: Bool = false) -> TypeScriptAnnotations.Variable? {
+    func ts(field: Field, useNativeName: Bool = false) -> TypeScriptAnnotations.Variable? {
         nodeTranslator.ts(field: field, context: self, useNativeName: useNativeName)
     }
 
-    func ts(fieldAsMethods field: Variable, explicitThis: Bool) -> [TypeScriptAnnotations.Method] {
+    func ts(fieldAsMethods field: Field, explicitThis: Bool) -> [TypeScriptAnnotations.Method] {
         nodeTranslator.ts(fieldAsMethods: field, explicitThis: explicitThis, context: self)
     }
 
@@ -539,7 +539,7 @@ public class FishyJoesContext {
         kotlinTranslator.kotlin(method: method, context: self)
     }
 
-    func kotlin(field: Variable, useNativeName: Bool = false) -> KotlinClass.MethodOrVariable? {
+    func kotlin(field: Field, useNativeName: Bool = false) -> KotlinClass.MethodOrVariable? {
         kotlinTranslator.kotlin(field: field, context: self, useNativeName: useNativeName)
     }
 
@@ -547,7 +547,7 @@ public class FishyJoesContext {
         cSharpTranslator.cSharp(method: method, of: type, context: self)
     }
 
-    func cSharp(field: Variable, of type: TranslatedType, useNativeName: Bool = false) -> CSharpClass.MethodOrVariable? {
+    func cSharp(field: Field, of type: TranslatedType, useNativeName: Bool = false) -> [CSharpClass.MethodOrVariable] {
         cSharpTranslator.cSharp(field: field, of: type, context: self, useNativeName: useNativeName)
     }
 
@@ -555,7 +555,7 @@ public class FishyJoesContext {
         dartTranslator.dart(method: method, of: type, context: self)
     }
 
-    func dart(field: Variable, of type: TranslatedType, useNativeName: Bool = false) -> DartClass.MethodOrVariable? {
+    func dart(field: Field, of type: TranslatedType, useNativeName: Bool = false) -> DartClass.MethodOrVariable? {
         dartTranslator.dart(field: field, of: type, context: self, useNativeName: useNativeName)
     }
 

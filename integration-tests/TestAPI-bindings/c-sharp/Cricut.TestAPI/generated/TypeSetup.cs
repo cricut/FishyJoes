@@ -308,8 +308,8 @@ namespace Cricut.TestAPI {
             ConsumedRef ptr,
             out CreatedRef exn
         );
-        delegate CreatedRef _TestAPI_CommonInterface__AProtocolConverter_Getfoo(UnownedRef obj, out CreatedRef exn);
         delegate bool _TestAPI_CommonInterface__AProtocolConverter_Getbaz(UnownedRef obj, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_CommonInterface__AProtocolConverter_Getfoo(UnownedRef obj, out CreatedRef exn);
         delegate CreatedRef _TestAPI_CommonInterface__AProtocolConverter_bar(UnownedRef obj, nint x, nint y, out CreatedRef exn);
         delegate CreatedRef _TestAPI_CommonInterface__AProtocolConverter_hasADefaultImplementation(UnownedRef obj, nint x, double y, out CreatedRef exn);
         delegate double _TestAPI_CommonInterface__AProtocolConverter_hasADefaultImplementation2(UnownedRef obj, string a, bool b, double c, out CreatedRef exn);
@@ -317,8 +317,8 @@ namespace Cricut.TestAPI {
         static extern void TestAPI_CommonInterface__AProtocolConverter_setup(
             IntPtr envRef,
             _TestAPI_CommonInterface__AProtocolConverterConstructor constructor,
-            _TestAPI_CommonInterface__AProtocolConverter_Getfoo Getfoo,
             _TestAPI_CommonInterface__AProtocolConverter_Getbaz Getbaz,
+            _TestAPI_CommonInterface__AProtocolConverter_Getfoo Getfoo,
             _TestAPI_CommonInterface__AProtocolConverter_bar bar,
             _TestAPI_CommonInterface__AProtocolConverter_hasADefaultImplementation hasADefaultImplementation,
             _TestAPI_CommonInterface__AProtocolConverter_hasADefaultImplementation2 hasADefaultImplementation2,
@@ -596,12 +596,12 @@ namespace Cricut.TestAPI {
             ConsumedRef ptr,
             out CreatedRef exn
         );
+        delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverter_Getadd3Things(UnownedRef obj, out CreatedRef exn);
         delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverter_Getconst42(UnownedRef obj, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverter_GetfifthThing(UnownedRef obj, out CreatedRef exn);
         delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverter_Getiabs(UnownedRef obj, out CreatedRef exn);
         delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverter_GetintCompose(UnownedRef obj, out CreatedRef exn);
-        delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverter_Getadd3Things(UnownedRef obj, out CreatedRef exn);
         delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverter_GetmakeList(UnownedRef obj, out CreatedRef exn);
-        delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverter_GetfifthThing(UnownedRef obj, out CreatedRef exn);
         delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverter_Getsix(UnownedRef obj, out CreatedRef exn);
         delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverter_GetwillThrow(UnownedRef obj, out CreatedRef exn);
         delegate CreatedRef _TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise0(UnownedRef obj, System.Func<System.Threading.Tasks.Task<nint>> fn, out CreatedRef exn);
@@ -618,12 +618,12 @@ namespace Cricut.TestAPI {
         static extern void TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup(
             IntPtr envRef,
             _TestAPI_CommonInterface__TestAsyncFunctionsConverterConstructor constructor,
+            _TestAPI_CommonInterface__TestAsyncFunctionsConverter_Getadd3Things Getadd3Things,
             _TestAPI_CommonInterface__TestAsyncFunctionsConverter_Getconst42 Getconst42,
+            _TestAPI_CommonInterface__TestAsyncFunctionsConverter_GetfifthThing GetfifthThing,
             _TestAPI_CommonInterface__TestAsyncFunctionsConverter_Getiabs Getiabs,
             _TestAPI_CommonInterface__TestAsyncFunctionsConverter_GetintCompose GetintCompose,
-            _TestAPI_CommonInterface__TestAsyncFunctionsConverter_Getadd3Things Getadd3Things,
             _TestAPI_CommonInterface__TestAsyncFunctionsConverter_GetmakeList GetmakeList,
-            _TestAPI_CommonInterface__TestAsyncFunctionsConverter_GetfifthThing GetfifthThing,
             _TestAPI_CommonInterface__TestAsyncFunctionsConverter_Getsix Getsix,
             _TestAPI_CommonInterface__TestAsyncFunctionsConverter_GetwillThrow GetwillThrow,
             _TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise0 exercise0,
@@ -2377,11 +2377,11 @@ namespace Cricut.TestAPI {
                     bag<_TestAPI_CommonInterface__AProtocolConverterConstructor>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
                         return new CreatedRef(new Cricut.TestAPI.ExternalWitness_AProtocol(ptr));
                     })),
-                    bag<_TestAPI_CommonInterface__AProtocolConverter_Getfoo>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
-                        new CreatedRef(obj.Peek<Cricut.TestAPI.AProtocol>().GetFoo())
-                    )),
                     bag<_TestAPI_CommonInterface__AProtocolConverter_Getbaz>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         obj.Peek<Cricut.TestAPI.AProtocol>().GetBaz()
+                    )),
+                    bag<_TestAPI_CommonInterface__AProtocolConverter_Getfoo>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.AProtocol>().GetFoo())
                     )),
                     bag<_TestAPI_CommonInterface__AProtocolConverter_bar>((UnownedRef obj, nint x, nint y, out CreatedRef exn) => Catching(out exn, () => 
                         new CreatedRef(obj.Peek<Cricut.TestAPI.AProtocol>().Bar(x, y))
@@ -2832,8 +2832,14 @@ namespace Cricut.TestAPI {
                     bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverterConstructor>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
                         return new CreatedRef(new Cricut.TestAPI.ExternalWitness_TestAsyncFunctions(ptr));
                     })),
+                    bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_Getadd3Things>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().GetAdd3Things())
+                    )),
                     bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_Getconst42>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().GetConst42())
+                    )),
+                    bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_GetfifthThing>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().GetFifthThing())
                     )),
                     bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_Getiabs>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().GetIabs())
@@ -2841,14 +2847,8 @@ namespace Cricut.TestAPI {
                     bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_GetintCompose>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().GetIntCompose())
                     )),
-                    bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_Getadd3Things>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
-                        new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().GetAdd3Things())
-                    )),
                     bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_GetmakeList>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().GetMakeList())
-                    )),
-                    bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_GetfifthThing>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
-                        new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().GetFifthThing())
                     )),
                     bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_Getsix>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().GetSix())
