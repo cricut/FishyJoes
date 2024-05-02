@@ -280,14 +280,14 @@ extension TypeScriptAnnotations {
             fragment.output(" */")
         }
 
-        func output(method: Method, inClass: Bool) {
+        func output(method: Method, inClass: Bool, optionalMethodsForDefaults: Bool = false) {
             document(method.documentation)
             if !inClass {
                 fragment.output("function ", newLineTerminated: false)
             } else if method.isStatic {
                 fragment.output("static ", newLineTerminated: false)
             }
-            fragment.outputBlock("\(method.name)\(method.hasDefaultImplementation ? "?" : "")(", newLineTerminated: false) {
+            fragment.outputBlock("\(method.name)\((method.hasDefaultImplementation && optionalMethodsForDefaults) ? "?" : "")(", newLineTerminated: false) {
                 let requiredParams = method.parameters.filter { $0.defaultValue == nil }
                 let optionalParams = method.parameters.filter { $0.defaultValue != nil }
 
@@ -406,19 +406,19 @@ extension TypeScriptAnnotations {
                                 output(method: method, inClass: true)
                             }
                         }
-                        
                         fragment.blankLine()
                         
-//                        fragment.outputBlock("const \(interface.name)Defaults = {") {
-//                            fragment.outputMap(interface.methods, separator: ",") { method in
-//                                if method.hasDefaultImplementation {
-//                                    // somehow link this up to the mothership AProtocolConverter so it'll call the default method there
-//                                    return "\(method.name): null"
-//                                } else {
-//                                    return "\(method.name): null"
-//                                }
-//                            }
-//                        }
+                        if interface.methods.contains(where: { $0.hasDefaultImplementation }) {
+                            fragment.outputBlock("interface \(interface.name)Core {") {
+                                for field in interface.fields {
+                                    output(field: field, inClass: true)
+                                }
+                                for method in interface.methods {
+                                    output(method: method, inClass: true, optionalMethodsForDefaults: true)
+                                }
+                            }
+                            fragment.blankLine()
+                        }
 
                     case .field(let field):
                         output(field: field, inClass: false)
