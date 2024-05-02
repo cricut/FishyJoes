@@ -18,15 +18,6 @@ data class TestProtocolStruct(
     private external fun __jni_get_frob(): kotlin.collections.List<Double>
 
     /**
-     * <!-- FishyJoes.export(foo) -->
-     */
-    override fun foo(
-    ): kotlin.Unit = __jni_foo()
-    @JvmName("__jni_foo")
-    private external fun __jni_foo(
-    ): kotlin.Unit
-
-    /**
      * <!-- FishyJoes.export(bar) -->
      */
     override fun bar(
@@ -47,6 +38,15 @@ data class TestProtocolStruct(
     ): kotlin.Unit
 
     /**
+     * <!-- FishyJoes.export(foo) -->
+     */
+    override fun foo(
+    ): kotlin.Unit = __jni_foo()
+    @JvmName("__jni_foo")
+    private external fun __jni_foo(
+    ): kotlin.Unit
+
+    /**
      * <!-- FishyJoes.export(garply) -->
      */
     override fun garply(
@@ -56,6 +56,17 @@ data class TestProtocolStruct(
     private external fun __jni_garply(
         str: kotlin.String
     ): kotlin.String
+
+    /**
+     * <!-- FishyJoes.export(plugh) -->
+     */
+    override fun plugh(
+        fred: kotlin.Triple<Boolean, Double, kotlin.collections.List<kotlin.String>>
+    ): kotlin.Triple<Boolean, Long, kotlin.String> = __jni_plugh(fred)
+    @JvmName("__jni_plugh")
+    private external fun __jni_plugh(
+        fred: kotlin.Triple<Boolean, Double, kotlin.collections.List<kotlin.String>>
+    ): kotlin.Triple<Boolean, Long, kotlin.String>
 
     /**
      * <!-- FishyJoes.export(xyzzy) -->
@@ -69,17 +80,6 @@ data class TestProtocolStruct(
         thud: Long,
         grault: kotlin.collections.List<Double>
     ): kotlin.String
-
-    /**
-     * <!-- FishyJoes.export(plugh) -->
-     */
-    override fun plugh(
-        fred: kotlin.Triple<Boolean, Double, kotlin.collections.List<kotlin.String>>
-    ): kotlin.Triple<Boolean, Long, kotlin.String> = __jni_plugh(fred)
-    @JvmName("__jni_plugh")
-    private external fun __jni_plugh(
-        fred: kotlin.Triple<Boolean, Double, kotlin.collections.List<kotlin.String>>
-    ): kotlin.Triple<Boolean, Long, kotlin.String>
 
     companion object {
         init { loadNativeLibs() }

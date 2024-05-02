@@ -10,20 +10,20 @@ import TestAPI_CommonInterface
 struct _NodeAProtocol: TestAPI.AProtocol {
     let _nodeWitness: NodeReference
 
-    var foo: String {
-        get throws {
-            let env = _nodeWitness.env
-            let napiValue = try _nodeWitness.value(env: env)
-            let foo = try env.getNamedProperty(napiValue, "foo")
-            return try Swift.String.fromNode(foo, env: env)
-        }
-    }
     var baz: Bool {
         get throws {
             let env = _nodeWitness.env
             let napiValue = try _nodeWitness.value(env: env)
             let baz = try env.getNamedProperty(napiValue, "baz")
             return try Swift.Bool.fromNode(baz, env: env)
+        }
+    }
+    var foo: String {
+        get throws {
+            let env = _nodeWitness.env
+            let napiValue = try _nodeWitness.value(env: env)
+            let foo = try env.getNamedProperty(napiValue, "foo")
+            return try Swift.String.fromNode(foo, env: env)
         }
     }
     public func bar(x: Int, y: Int) throws -> AProtocol {
@@ -127,22 +127,22 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
                     },
                     isStatic: false
                 ),
-                "foo": (
+                "baz": (
                     .accessor(
                         getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "foo", expectedArgumentCount: 0) { env in
-                                try Swift.String.toNode(env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self).foo, env: env.env)
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "baz", expectedArgumentCount: 0) { env in
+                                try Swift.Bool.toNode(env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self).baz, env: env.env)
                             }
                         },
                         setter: nil
                     ),
                     isStatic: false
                 ),
-                "baz": (
+                "foo": (
                     .accessor(
                         getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "baz", expectedArgumentCount: 0) { env in
-                                try Swift.Bool.toNode(env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self).baz, env: env.env)
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "foo", expectedArgumentCount: 0) { env in
+                                try Swift.String.toNode(env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self).foo, env: env.env)
                             }
                         },
                         setter: nil

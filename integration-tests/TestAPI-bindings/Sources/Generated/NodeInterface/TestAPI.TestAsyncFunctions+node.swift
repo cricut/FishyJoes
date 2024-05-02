@@ -10,6 +10,17 @@ import TestAPI_CommonInterface
 struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
     let _nodeWitness: NodeReference
 
+    var add3Things: (Float, Double, Int) async throws -> Double {
+        get throws {
+            let env = _nodeWitness.env
+            let napiValue = try _nodeWitness.value(env: env)
+            let add3Things = try env.getNamedProperty(napiValue, "add3Things")
+            return {
+                let result = try env.callFunction(napiValue, add3Things, [try Swift.Float.toNode($0, env: env), try Swift.Double.toNode($1, env: env), try Swift.Int.toNode($2, env: env)])
+                return try Swift.Double.fromNode(result, env: env)
+            }
+        }
+    }
     var const42: () async throws -> Int {
         get throws {
             let env = _nodeWitness.env
@@ -18,6 +29,17 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
             return {
                 let result = try env.callFunction(napiValue, const42, [])
                 return try Swift.Int.fromNode(result, env: env)
+            }
+        }
+    }
+    var fifthThing: (String, Int, Double, String, @escaping () async throws -> Int) async throws -> () async throws -> Int {
+        get throws {
+            let env = _nodeWitness.env
+            let napiValue = try _nodeWitness.value(env: env)
+            let fifthThing = try env.getNamedProperty(napiValue, "fifthThing")
+            return {
+                let result = try env.callFunction(napiValue, fifthThing, [try Swift.String.toNode($0, env: env), try Swift.Int.toNode($1, env: env), try Swift.Double.toNode($2, env: env), try Swift.String.toNode($3, env: env), try AsyncFunction0Converter<Swift.Int>.toNode($4, env: env)])
+                return try AsyncFunction0Converter<Swift.Int>.fromNode(result, env: env)
             }
         }
     }
@@ -43,17 +65,6 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
             }
         }
     }
-    var add3Things: (Float, Double, Int) async throws -> Double {
-        get throws {
-            let env = _nodeWitness.env
-            let napiValue = try _nodeWitness.value(env: env)
-            let add3Things = try env.getNamedProperty(napiValue, "add3Things")
-            return {
-                let result = try env.callFunction(napiValue, add3Things, [try Swift.Float.toNode($0, env: env), try Swift.Double.toNode($1, env: env), try Swift.Int.toNode($2, env: env)])
-                return try Swift.Double.fromNode(result, env: env)
-            }
-        }
-    }
     var makeList: (String, String, String, String) async throws -> Array<String> {
         get throws {
             let env = _nodeWitness.env
@@ -62,17 +73,6 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
             return {
                 let result = try env.callFunction(napiValue, makeList, [try Swift.String.toNode($0, env: env), try Swift.String.toNode($1, env: env), try Swift.String.toNode($2, env: env), try Swift.String.toNode($3, env: env)])
                 return try ArrayConverter<Swift.String>.fromNode(result, env: env)
-            }
-        }
-    }
-    var fifthThing: (String, Int, Double, String, @escaping () async throws -> Int) async throws -> () async throws -> Int {
-        get throws {
-            let env = _nodeWitness.env
-            let napiValue = try _nodeWitness.value(env: env)
-            let fifthThing = try env.getNamedProperty(napiValue, "fifthThing")
-            return {
-                let result = try env.callFunction(napiValue, fifthThing, [try Swift.String.toNode($0, env: env), try Swift.Int.toNode($1, env: env), try Swift.Double.toNode($2, env: env), try Swift.String.toNode($3, env: env), try AsyncFunction0Converter<Swift.Int>.toNode($4, env: env)])
-                return try AsyncFunction0Converter<Swift.Int>.fromNode(result, env: env)
             }
         }
     }
@@ -484,11 +484,33 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                     },
                     isStatic: false
                 ),
+                "add3Things": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "add3Things", expectedArgumentCount: 0) { env in
+                                try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.toNode(env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self).add3Things, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: false
+                ),
                 "const42": (
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "const42", expectedArgumentCount: 0) { env in
                                 try AsyncFunction0Converter<Swift.Int>.toNode(env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self).const42, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: false
+                ),
+                "fifthThing": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "fifthThing", expectedArgumentCount: 0) { env in
+                                try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.toNode(env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self).fifthThing, env: env.env)
                             }
                         },
                         setter: nil
@@ -517,33 +539,11 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "add3Things": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "add3Things", expectedArgumentCount: 0) { env in
-                                try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.toNode(env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self).add3Things, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: false
-                ),
                 "makeList": (
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "makeList", expectedArgumentCount: 0) { env in
                                 try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.toNode(env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self).makeList, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: false
-                ),
-                "fifthThing": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "fifthThing", expectedArgumentCount: 0) { env in
-                                try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.toNode(env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self).fifthThing, env: env.env)
                             }
                         },
                         setter: nil
