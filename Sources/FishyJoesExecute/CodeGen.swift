@@ -398,19 +398,22 @@ extension CodeGen {
         ]
 
         for moduleName in config.requiredModules {
-            let repoRoot: String
+            var repoRoot: String
             if case .fileSystem(_, let path) = packageInfo.dependencyMap[moduleName] {
                 repoRoot = path
             } else {
-                repoRoot = "../../../../.build/checkouts/\(moduleName)"
+                repoRoot = ".build/checkouts/\(moduleName)"
             }
+
+            // Sadly, this needs to be an absolute path because it may by used by several `Package.swift`s in different directories.
+            repoRoot = URL(fileURLWithPath: repoRoot).path
 
             injectedDependencies[moduleName] = .local(path: repoRoot)
             injectedDependencies["\(moduleName)-bindings"] = .local(
                 path: "\(repoRoot)/bindings/swift-interfaces/generated/\(moduleName)-bindings"
             )
         }
-        injectedDependencies[config.module] = .local(path: "../../../..")
+        injectedDependencies[config.module] = .local(path: URL(fileURLWithPath: ".").path)
 
         // MARK: - Build Step
         if buildStep.contains(.build) {
