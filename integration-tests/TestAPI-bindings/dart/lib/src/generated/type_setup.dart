@@ -204,8 +204,8 @@ typedef _TestAPI_AProtocolConstructor = CreatedRef Function(
     ffi.Pointer ref,
     OutCreatedRef exn
 );
-typedef _TestAPI_AProtocol_fooGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_AProtocol_bazGetter = ffi.Bool Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_AProtocol_fooGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_AProtocol_bar = CreatedRef Function(UnownedRef obj, ffi.IntPtr x, ffi.IntPtr y, OutCreatedRef exn);
 typedef _TestAPI_AProtocol_hasADefaultImplementation = CreatedRef Function(UnownedRef obj, ffi.IntPtr x, ffi.Double y, OutCreatedRef exn);
 typedef _TestAPI_AProtocol_hasADefaultImplementation2 = ffi.Double Function(UnownedRef obj, UnownedRef a, ffi.Bool b, ffi.Double c, OutCreatedRef exn);
@@ -325,12 +325,12 @@ typedef _TestAPI_TestAsyncFunctionsConstructor = CreatedRef Function(
     ffi.Pointer ref,
     OutCreatedRef exn
 );
+typedef _TestAPI_TestAsyncFunctions_add3ThingsGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestAsyncFunctions_const42Getter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestAsyncFunctions_fifthThingGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestAsyncFunctions_iabsGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestAsyncFunctions_intComposeGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
-typedef _TestAPI_TestAsyncFunctions_add3ThingsGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestAsyncFunctions_makeListGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
-typedef _TestAPI_TestAsyncFunctions_fifthThingGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestAsyncFunctions_sixGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestAsyncFunctions_willThrowGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestAsyncFunctions_exercise0 = CreatedRef Function(UnownedRef obj, UnownedRef fn, OutCreatedRef exn);
@@ -683,8 +683,8 @@ final ensureLoaded = (() {
         ffi.Void Function(
             Env env,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolConstructor>> constructor,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocol_fooGetter>> get_foo,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocol_bazGetter>> get_baz,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocol_fooGetter>> get_foo,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocol_bar>> bar,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocol_hasADefaultImplementation>> hasADefaultImplementation,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocol_hasADefaultImplementation2>> hasADefaultImplementation2,
@@ -693,8 +693,8 @@ final ensureLoaded = (() {
         void Function(
             Env env,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocolConstructor>> constructor,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocol_fooGetter>> get_foo,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocol_bazGetter>> get_baz,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocol_fooGetter>> get_foo,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocol_bar>> bar,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocol_hasADefaultImplementation>> hasADefaultImplementation,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_AProtocol_hasADefaultImplementation2>> hasADefaultImplementation2,
@@ -977,12 +977,12 @@ final ensureLoaded = (() {
         ffi.Void Function(
             Env env,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_add3ThingsGetter>> get_add3Things,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_const42Getter>> get_const42,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_fifthThingGetter>> get_fifthThing,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_iabsGetter>> get_iabs,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_intComposeGetter>> get_intCompose,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_add3ThingsGetter>> get_add3Things,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_makeListGetter>> get_makeList,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_fifthThingGetter>> get_fifthThing,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_sixGetter>> get_six,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_willThrowGetter>> get_willThrow,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_exercise0>> exercise0,
@@ -1000,12 +1000,12 @@ final ensureLoaded = (() {
         void Function(
             Env env,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctionsConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_add3ThingsGetter>> get_add3Things,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_const42Getter>> get_const42,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_fifthThingGetter>> get_fifthThing,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_iabsGetter>> get_iabs,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_intComposeGetter>> get_intCompose,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_add3ThingsGetter>> get_add3Things,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_makeListGetter>> get_makeList,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_fifthThingGetter>> get_fifthThing,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_sixGetter>> get_six,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_willThrowGetter>> get_willThrow,
             ffi.Pointer<ffi.NativeFunction<_TestAPI_TestAsyncFunctions_exercise0>> exercise0,
@@ -1301,6 +1301,30 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Actors_TemperatureLogger_create");
+    TestAPI.Actors_TemperatureLogger.f__iota_TestAPI_Actors_TemperatureLogger_extensionIsolatedGetLabel = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_Actors_TemperatureLogger_extensionIsolatedGetLabel");
+    TestAPI.Actors_TemperatureLogger.f__iota_TestAPI_Actors_TemperatureLogger_extensionNonisolatedGetLabel = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_Actors_TemperatureLogger_extensionNonisolatedGetLabel");
     TestAPI.Actors_TemperatureLogger.f__iota_TestAPI_Actors_TemperatureLogger_min = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -3627,6 +3651,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_Actors_TemperatureLogger_backwardsLabel");
+    TestAPI.Actors_TemperatureLogger.f__iota_get_TestAPI_Actors_TemperatureLogger_extensionNonisolatedVarLabel = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_Actors_TemperatureLogger_extensionNonisolatedVarLabel");
     TestAPI.Actors_TemperatureLogger.f__iota_get_TestAPI_Actors_TemperatureLogger_label = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -7551,8 +7587,8 @@ final ensureLoaded = (() {
             TestAPI_CommonInterface__AProtocolConverter_setup(
                 Loader.shared.env,
                 ffi.Pointer.fromFunction(TestAPI.ExternalWitness_AProtocol.ffi_new),
-                ffi.Pointer.fromFunction(TestAPI.AProtocol_FfiHooks.ffi_get_foo),
                 ffi.Pointer.fromFunction(TestAPI.AProtocol_FfiHooks.ffi_get_baz, false),
+                ffi.Pointer.fromFunction(TestAPI.AProtocol_FfiHooks.ffi_get_foo),
                 ffi.Pointer.fromFunction(TestAPI.AProtocol_FfiHooks.ffi_bar),
                 ffi.Pointer.fromFunction(TestAPI.AProtocol_DefaultImplementations.ffi_hasADefaultImplementation),
                 ffi.Pointer.fromFunction(TestAPI.AProtocol_DefaultImplementations.ffi_hasADefaultImplementation2, 0.0),
@@ -7798,12 +7834,12 @@ final ensureLoaded = (() {
             TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup(
                 Loader.shared.env,
                 ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestAsyncFunctions.ffi_new),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_get_add3Things),
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_get_const42),
+                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_get_fifthThing),
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_get_iabs),
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_get_intCompose),
-                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_get_add3Things),
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_get_makeList),
-                ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_get_fifthThing),
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_get_six),
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_get_willThrow),
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncFunctions_FfiHooks.ffi_exercise0),

@@ -10,6 +10,20 @@ import TestAPI_CommonInterface
 struct _JavaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
     let _javaWitness: JavaReference
 
+    static var _add3ThingsGetMethodID: jmethodID?
+    public var add3Things: (Float, Double, Int) async throws -> Double {
+        get throws {
+            let env = try Env.acquireJVMThread(on: _javaWitness.vm)
+            defer {
+                try? Env.relinquishJVMThread(on: _javaWitness.vm)
+            }
+            return try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.fromJava(
+                env.CallObjectMethod(_javaWitness.object, Self._add3ThingsGetMethodID),
+                env: env
+            )
+        }
+    }
+
     static var _const42GetMethodID: jmethodID?
     public var const42: () async throws -> Int {
         get throws {
@@ -19,6 +33,20 @@ struct _JavaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
             }
             return try AsyncFunction0Converter<Swift.Int>.fromJava(
                 env.CallObjectMethod(_javaWitness.object, Self._const42GetMethodID),
+                env: env
+            )
+        }
+    }
+
+    static var _fifthThingGetMethodID: jmethodID?
+    public var fifthThing: (String, Int, Double, String, @escaping () async throws -> Int) async throws -> () async throws -> Int {
+        get throws {
+            let env = try Env.acquireJVMThread(on: _javaWitness.vm)
+            defer {
+                try? Env.relinquishJVMThread(on: _javaWitness.vm)
+            }
+            return try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.fromJava(
+                env.CallObjectMethod(_javaWitness.object, Self._fifthThingGetMethodID),
                 env: env
             )
         }
@@ -52,20 +80,6 @@ struct _JavaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
         }
     }
 
-    static var _add3ThingsGetMethodID: jmethodID?
-    public var add3Things: (Float, Double, Int) async throws -> Double {
-        get throws {
-            let env = try Env.acquireJVMThread(on: _javaWitness.vm)
-            defer {
-                try? Env.relinquishJVMThread(on: _javaWitness.vm)
-            }
-            return try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.fromJava(
-                env.CallObjectMethod(_javaWitness.object, Self._add3ThingsGetMethodID),
-                env: env
-            )
-        }
-    }
-
     static var _makeListGetMethodID: jmethodID?
     public var makeList: (String, String, String, String) async throws -> Array<String> {
         get throws {
@@ -75,20 +89,6 @@ struct _JavaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
             }
             return try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.fromJava(
                 env.CallObjectMethod(_javaWitness.object, Self._makeListGetMethodID),
-                env: env
-            )
-        }
-    }
-
-    static var _fifthThingGetMethodID: jmethodID?
-    public var fifthThing: (String, Int, Double, String, @escaping () async throws -> Int) async throws -> () async throws -> Int {
-        get throws {
-            let env = try Env.acquireJVMThread(on: _javaWitness.vm)
-            defer {
-                try? Env.relinquishJVMThread(on: _javaWitness.vm)
-            }
-            return try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.fromJava(
-                env.CallObjectMethod(_javaWitness.object, Self._fifthThingGetMethodID),
                 env: env
             )
         }
@@ -305,12 +305,12 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: JavaConverter {
         javaClass = try env.globalRef(env.FindClass("com/cricut/testapi/TestAsyncFunctions"))
         externalWitnessClass = try env.globalRef(env.FindClass("com/cricut/testapi/_ExternalWitness_TestAsyncFunctions"))
         externalWitnessConstructor = try env.GetMethodID(externalWitnessClass, "<init>", "(J)V")
+        _JavaTestAsyncFunctions._add3ThingsGetMethodID = try env.GetMethodID(javaClass, "getAdd3Things", "()Lkotlin/jvm/functions/Function4;")
         _JavaTestAsyncFunctions._const42GetMethodID = try env.GetMethodID(javaClass, "getConst42", "()Lkotlin/jvm/functions/Function1;")
+        _JavaTestAsyncFunctions._fifthThingGetMethodID = try env.GetMethodID(javaClass, "getFifthThing", "()Lkotlin/jvm/functions/Function6;")
         _JavaTestAsyncFunctions._iabsGetMethodID = try env.GetMethodID(javaClass, "getIabs", "()Lkotlin/jvm/functions/Function2;")
         _JavaTestAsyncFunctions._intComposeGetMethodID = try env.GetMethodID(javaClass, "getIntCompose", "()Lkotlin/jvm/functions/Function2;")
-        _JavaTestAsyncFunctions._add3ThingsGetMethodID = try env.GetMethodID(javaClass, "getAdd3Things", "()Lkotlin/jvm/functions/Function4;")
         _JavaTestAsyncFunctions._makeListGetMethodID = try env.GetMethodID(javaClass, "getMakeList", "()Lkotlin/jvm/functions/Function5;")
-        _JavaTestAsyncFunctions._fifthThingGetMethodID = try env.GetMethodID(javaClass, "getFifthThing", "()Lkotlin/jvm/functions/Function6;")
         _JavaTestAsyncFunctions._sixGetMethodID = try env.GetMethodID(javaClass, "getSix", "()Lkotlin/jvm/functions/Function7;")
         _JavaTestAsyncFunctions._willThrowGetMethodID = try env.GetMethodID(javaClass, "getWillThrow", "()Lkotlin/jvm/functions/Function1;")
         externalCompanionClass = try env.globalRef(env.FindClass("com/cricut/testapi/TestAsyncFunctions$Companion"))

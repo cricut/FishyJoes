@@ -16,9 +16,21 @@ public struct TestAsyncFunctions_sans_defaultExercise6: TestAPI.TestAsyncFunctio
         self.wrapped = wrapped
     }
 
+    public var add3Things: (Float, Double, Int) async throws -> Double {
+        get throws {
+            try wrapped.add3Things
+        }
+    }
+
     public var const42: () async throws -> Int {
         get throws {
             try wrapped.const42
+        }
+    }
+
+    public var fifthThing: (String, Int, Double, String, @escaping () async throws -> Int) async throws -> () async throws -> Int {
+        get throws {
+            try wrapped.fifthThing
         }
     }
 
@@ -34,21 +46,9 @@ public struct TestAsyncFunctions_sans_defaultExercise6: TestAPI.TestAsyncFunctio
         }
     }
 
-    public var add3Things: (Float, Double, Int) async throws -> Double {
-        get throws {
-            try wrapped.add3Things
-        }
-    }
-
     public var makeList: (String, String, String, String) async throws -> Array<String> {
         get throws {
             try wrapped.makeList
-        }
-    }
-
-    public var fifthThing: (String, Int, Double, String, @escaping () async throws -> Int) async throws -> () async throws -> Int {
-        get throws {
-            try wrapped.fifthThing
         }
     }
 

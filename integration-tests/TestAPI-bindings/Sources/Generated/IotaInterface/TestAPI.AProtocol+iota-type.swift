@@ -10,22 +10,22 @@ import TestAPI_CommonInterface
 struct _IotaAProtocol: TestAPI.AProtocol {
     let _iotaWitness: IotaReference
 
-    public var foo: String {
+    public var baz: Bool {
         get throws {
-            try Swift.String.consumeIota(
+            try Swift.Bool.consumeIota(
                 try _iotaWitness.env.check { exn in
-                    TestAPI_CommonInterface._AProtocolConverter._fooGetter[_iotaWitness.env](_iotaWitness.object, exn)
+                    TestAPI_CommonInterface._AProtocolConverter._bazGetter[_iotaWitness.env](_iotaWitness.object, exn)
                 },
                 env: _iotaWitness.env
             )
         }
     }
 
-    public var baz: Bool {
+    public var foo: String {
         get throws {
-            try Swift.Bool.consumeIota(
+            try Swift.String.consumeIota(
                 try _iotaWitness.env.check { exn in
-                    TestAPI_CommonInterface._AProtocolConverter._bazGetter[_iotaWitness.env](_iotaWitness.object, exn)
+                    TestAPI_CommonInterface._AProtocolConverter._fooGetter[_iotaWitness.env](_iotaWitness.object, exn)
                 },
                 env: _iotaWitness.env
             )
@@ -80,8 +80,8 @@ struct _IotaAProtocol: TestAPI.AProtocol {
 public func TestAPI_CommonInterface__AProtocolConverter_setup(
     envRef: EnvRef,
     constructorMethod: @escaping TestAPI_CommonInterface._AProtocolConverter._ConstructorMethod,
-    _ fooGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
     _ bazGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Bool.CType,
+    _ fooGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
     _ bar: @escaping @convention(c) (
         foreignObject,
         Swift.Int.CType,
@@ -106,8 +106,8 @@ public func TestAPI_CommonInterface__AProtocolConverter_setup(
     let env = Env(envRef)
     if TestAPI_CommonInterface._AProtocolConverter._constructorMethod.isInitialized(env) { return }
     TestAPI_CommonInterface._AProtocolConverter._constructorMethod[env] = constructorMethod
-    TestAPI_CommonInterface._AProtocolConverter._fooGetter[env] = fooGetter
     TestAPI_CommonInterface._AProtocolConverter._bazGetter[env] = bazGetter
+    TestAPI_CommonInterface._AProtocolConverter._fooGetter[env] = fooGetter
     TestAPI_CommonInterface._AProtocolConverter._bar[env] = bar
     TestAPI_CommonInterface._AProtocolConverter._hasADefaultImplementation[env] = hasADefaultImplementation
     TestAPI_CommonInterface._AProtocolConverter._hasADefaultImplementation2[env] = hasADefaultImplementation2
@@ -120,8 +120,8 @@ extension TestAPI_CommonInterface._AProtocolConverter: IotaConverter {
         _ exn: foreignOutExn
     ) -> foreignObject
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
-    fileprivate static let _fooGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
     fileprivate static let _bazGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Bool.CType>()
+    fileprivate static let _fooGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
     fileprivate static let _bar = Env.CallbackMap<@convention(c) (
         foreignObject,
         Swift.Int.CType,

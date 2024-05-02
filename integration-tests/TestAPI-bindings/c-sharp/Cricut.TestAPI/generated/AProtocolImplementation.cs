@@ -9,13 +9,7 @@ namespace Cricut.TestAPI {
     /// <!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->
     /// </summary>
     public record AProtocolImplementation: AProtocol {
-        public string GetFoo() {
-            return Foo;
-        }
         public string Foo { get; set; }
-        public bool GetBaz() {
-            return Baz;
-        }
         public bool Baz { get; set; }
 
         public AProtocolImplementation(
@@ -45,6 +39,16 @@ namespace Cricut.TestAPI {
             nint y,
             out CreatedRef exn
         );
+
+        public string GetFoo(
+        ) {
+            return Foo;
+        }
+
+        public bool GetBaz(
+        ) {
+            return Baz;
+        }
 
         static AProtocolImplementation() { _TypeSetup._ensureLoaded(); }
     }

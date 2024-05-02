@@ -46,6 +46,19 @@ namespace Cricut.TestAPI {
             private static extern CreatedRef __iota_get_TestAPI_Actors_TemperatureLogger_backwardsLabel(IntPtr envRef, UnownedRef self, out CreatedRef exn);
 
             /// <summary>
+            /// <!-- FishyJoes.export(extensionNonisolatedVarLabel) -->
+            /// </summary>
+            public string GetExtensionNonisolatedVarLabel() {
+                using var thisHandle = new GCRef(this);
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Actors_TemperatureLogger_extensionNonisolatedVarLabel(Loader.env, thisHandle.ptr, out exn).Consume<string>()
+                );
+            }
+
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern CreatedRef __iota_get_TestAPI_Actors_TemperatureLogger_extensionNonisolatedVarLabel(IntPtr envRef, UnownedRef self, out CreatedRef exn);
+
+            /// <summary>
             /// <!-- FishyJoes.export(create) -->
             /// </summary>
             public static Cricut.TestAPI.Actors.TemperatureLogger Create(
@@ -93,6 +106,38 @@ namespace Cricut.TestAPI {
 
             [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __iota_TestAPI_Actors_TemperatureLogger_min(
+                IntPtr envRef,
+                UnownedRef self,
+                out CreatedRef exn
+            );
+
+            /// <summary>
+            /// <!-- FishyJoes.export(extensionIsolatedGetLabel) -->
+            /// </summary>
+            public System.Threading.Tasks.Task<string> ExtensionIsolatedGetLabel(
+            ) {
+                using var _thisHandle = new GCRef(this);
+                return Check((out CreatedRef _exn) => __iota_TestAPI_Actors_TemperatureLogger_extensionIsolatedGetLabel(Loader.env, _thisHandle.ptr, out _exn)).Consume<System.Threading.Tasks.Task<string>>();
+            }
+
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern CreatedRef __iota_TestAPI_Actors_TemperatureLogger_extensionIsolatedGetLabel(
+                IntPtr envRef,
+                UnownedRef self,
+                out CreatedRef exn
+            );
+
+            /// <summary>
+            /// <!-- FishyJoes.export(extensionNonisolatedGetLabel) -->
+            /// </summary>
+            public string ExtensionNonisolatedGetLabel(
+            ) {
+                using var _thisHandle = new GCRef(this);
+                return Check((out CreatedRef _exn) => __iota_TestAPI_Actors_TemperatureLogger_extensionNonisolatedGetLabel(Loader.env, _thisHandle.ptr, out _exn)).Consume<string>();
+            }
+
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern CreatedRef __iota_TestAPI_Actors_TemperatureLogger_extensionNonisolatedGetLabel(
                 IntPtr envRef,
                 UnownedRef self,
                 out CreatedRef exn

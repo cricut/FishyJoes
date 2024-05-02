@@ -12,21 +12,6 @@ namespace Cricut.TestAPI {
         internal ExternalWitness_AProtocol(ConsumedRef reference): base(reference) {}
 
         /// <summary>
-        /// <!-- FishyJoes.export(foo) -->
-        /// </summary>
-        public string Foo {
-            get {
-                using var thisHandle = new GCRef(this);
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_AProtocol_foo(Loader.env, thisHandle.ptr, out exn).Consume<string>()
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_AProtocol_foo(IntPtr envRef, UnownedRef self, out CreatedRef exn);
-
-        /// <summary>
         /// <!-- FishyJoes.export(baz) -->
         /// </summary>
         public bool Baz {
@@ -40,6 +25,21 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern bool __iota_get_TestAPI_AProtocol_baz(IntPtr envRef, UnownedRef self, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(foo) -->
+        /// </summary>
+        public string Foo {
+            get {
+                using var thisHandle = new GCRef(this);
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_AProtocol_foo(Loader.env, thisHandle.ptr, out exn).Consume<string>()
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_AProtocol_foo(IntPtr envRef, UnownedRef self, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(bar) -->

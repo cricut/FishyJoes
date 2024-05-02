@@ -16,7 +16,7 @@ struct TranslatedProtocol: TranslatedType {
     var containedNamedTypes: [TranslatedType] { [self] }
     let conformances: Set<String>
     let methods: [Method]
-    let fields: [Variable]
+    let fields: [Field]
     let documentation: [String]
     let className: String
     let javaExternalWitnessClassName: String
@@ -47,10 +47,9 @@ struct TranslatedProtocol: TranslatedType {
 
         self.conformances = exportAnnotation.conformances
 
-        let methodsToConvert = type.methodsPreferringDefaultImpl()
+        self.methods = type.methodsPreferringDefaultImpl().compactMap { Method($0, type: type, protocolName: typeName) }
+        self.fields = type.variablesPreferringDefaultImpl().compactMap { Field($0, type: type) }
 
-        self.methods = methodsToConvert.compactMap { Method($0, protocolName: typeName) }
-        self.fields = type.variables.filter { $0.exportAnnotation != nil }
         self.documentation = type.documentation
         self.className = context.kotlinTranslator.javaClassName(kotlinName, in: context)
         self.javaExternalWitnessClassName = context.kotlinTranslator.javaClassName("_ExternalWitness_\(kotlinName)", in: context)
@@ -64,63 +63,33 @@ struct TranslatedProtocol: TranslatedType {
     }
 
     func enforceProtocolThrows() {
-        let nonThrowingMethods = methods.filter { !$0.isThrowing }
-        guard nonThrowingMethods.isEmpty else {
-            var nameSpace = ""
-            if let ns = nonThrowingMethods.first?.definedIn?.name {
-                nameSpace = "\(ns)."
-            }
-            fatalError("☠️ Error on \(nameSpace)\(nonThrowingMethods.first?.name ?? "?"): All Protocol methods exported through FishyJoes must be throwing, it's the law 👮!")
+        if let method = methods.first(where: { !$0.isThrowing }) {
+            fatalError("☠️ Error on \(sourceType.name).\(method.name): All Protocol methods exported through FishyJoes must be throwing, it's the law 👮!")
         }
 
-        let nonThrowingGetters = fields.filter { !$0.`throws` && !$0.isMutable }
-        guard nonThrowingGetters.isEmpty else {
-            var nameSpace = ""
-            if let ns = nonThrowingGetters.first?.definedInTypeName?.name {
-                nameSpace = "\(ns)."
-            }
-            fatalError("☠️ Error on \(nameSpace)\(nonThrowingGetters.first?.name ?? "?"): All Protocol get only property getters exported through FishyJoes must be throwing, it's the law 👮!")
+        if let field = fields.first(where: { !$0.isThrowing }) {
+            fatalError("☠️ Error on \(sourceType.name).\(field.name): All Protocol properties exported through FishyJoes must be throwing, it's the law 👮!")
         }
     }
 
     func enforceNoProtocolSetters() {
-        let setters = fields.filter { $0.isMutable }
-        guard setters.isEmpty else {
-            var nameSpace = ""
-            if let ns = setters.first?.definedInTypeName?.name {
-                nameSpace = "\(ns)."
-            }
-            fatalError("☠️ Error on \(nameSpace)\(setters.first?.name ?? "?"): No setters allowed in protocols because the Swift language does not allow them to throw, it's the law 👮! Use a function instead.")
+        if let field = fields.first(where: { $0.isMutable }) {
+            fatalError("☠️ Error on \(sourceType.name).\(field.name): No setters allowed in protocols because the Swift language does not allow them to throw, it's the law 👮! Use a function instead.")
         }
     }
 
     func enforceNoProtocolStatics() {
-        let staticVars = fields.filter { $0.isStatic }
-        let staticFuncs = methods.filter { $0.isStatic }
-        guard staticVars.isEmpty else {
-            var nameSpace = ""
-            if let ns = staticVars.first?.definedInTypeName?.name {
-                nameSpace = "\(ns)."
-            }
-            fatalError("☠️ Error on \(nameSpace)\(staticVars.first?.name ?? "?"): No static properties allowed in protocols because other languages do not generally support them, it's the law 👮!")
+        if let field = fields.first(where: { $0.isStatic }) {
+            fatalError("☠️ Error on \(sourceType.name).\(field.name): No static properties allowed in protocols because other languages do not generally support them, it's the law 👮!")
         }
-        guard staticFuncs.isEmpty else {
-            var nameSpace = ""
-            if let ns = staticFuncs.first?.definedIn?.name {
-                nameSpace = "\(ns)"
-            }
-            fatalError("☠️ Error on \(nameSpace)\(staticFuncs.first?.name ?? "?"): No static functions allowed in protocols because other languages do not generally support them, it's the law 👮!")
+        if let method = methods.first(where: { $0.isStatic }) {
+            fatalError("☠️ Error on \(sourceType.name).\(method.name): No static methods allowed in protocols because other languages do not generally support them, it's the law 👮!")
         }
     }
 
     func enforceNoProtocolMutatingFunctions() {
-        let mutatingFuncs = methods.filter { $0.isMutating }
-        guard mutatingFuncs.isEmpty else {
-            var nameSpace = ""
-            if let ns = mutatingFuncs.first?.definedIn?.name {
-                nameSpace = "\(ns)"
-            }
-            fatalError("☠️ Error on \(nameSpace)\(mutatingFuncs.first?.name ?? "?"): No mutating functions on protocols because there are some edge cases that we don't want to support, it's the law 👮!")
+        if let method = methods.first(where: { $0.isMutating }) {
+            fatalError("☠️ Error on \(sourceType).\(method.name): No mutating functions on protocols because there are some edge cases that we don't want to support, it's the law 👮!")
         }
     }
 
@@ -131,7 +100,7 @@ struct TranslatedProtocol: TranslatedType {
         lines.append("    OutCreatedRef exn")
         lines.append(");")
         for field in fields {
-            let resolved = context.resolve(type: field.typeName.better)
+            let resolved = context.resolve(type: field.type)
             let commonName = "_\(sourceType.genericBaseName.mangledName)_\(field.name)"
             lines.append("typedef \(commonName)Getter = \(resolved.dartType.ffiCreatedTag) Function(\(dartType.ffiUnownedTag) obj, OutCreatedRef exn);")
             if field.isMutable {
@@ -167,7 +136,7 @@ struct TranslatedProtocol: TranslatedType {
         )
 
         for field in fields {
-            let resolved = context.resolve(type: field.typeName.better)
+            let resolved = context.resolve(type: field.type)
             let commonName = "_\(sourceType.genericBaseName.mangledName)_\(field.name)"
             let getType = "\(commonName)Getter"
 
@@ -212,7 +181,7 @@ struct TranslatedProtocol: TranslatedType {
         lines.append(");")
         // All fields in protocols treated as methods with "Get" prefix because of C# tradition; and we can only do `get throws` for computed properties in Swift because there's no `set throws`.
         for field in fields {
-            let resolved = context.resolve(type: field.typeName.better)
+            let resolved = context.resolve(type: field.type)
             let commonName = "_\(converterType.genericBaseName.mangledName)_Get\(field.name)"
             lines.append("delegate \(resolved.cSharpType.pInvokeCreatedName) \(commonName)(\(cSharpType.pInvokeUnownedName) obj, out CreatedRef exn);")
         }
@@ -246,7 +215,7 @@ struct TranslatedProtocol: TranslatedType {
         )
 
         let fieldsParameters = fields.map { field -> ForeignSetupParameter in
-            let resolved = context.resolve(type: field.typeName.better)
+            let resolved = context.resolve(type: field.type)
             let commonName = "_\(converterType.genericBaseName.mangledName)_Get\(field.name)"
             return
                 .value(
@@ -334,7 +303,7 @@ struct TranslatedProtocol: TranslatedType {
                 for variable in fields {
                     fragment.blankLine()
                     let name = variable.name
-                    let type = variable.typeName.better.name
+                    let type = variable.type.name
                     fragment.outputBlock("public var \(name): \(type) {") {
                         fragment.outputBlock("get throws {") {
                             fragment.output("try wrapped.\(name)")
@@ -542,10 +511,10 @@ struct TranslatedProtocol: TranslatedType {
             fragment.output("let _iotaWitness: IotaReference")
             for variable in fields {
                 fragment.output()
-                let resolvedVar = context.resolve(type: variable.typeName.better)
+                let resolvedVar = context.resolve(type: variable.type)
 
-                fragment.outputBlock("\(variable.isStatic ? "static " : "")public var \(variable.name): \(variable.typeName.better.name) {") {
-                    fragment.outputBlock("get\(variable.throws ? " throws" : "") {") {
+                fragment.outputBlock("\(variable.isStatic ? "static " : "")public var \(variable.name): \(variable.type.name) {") {
+                    fragment.outputBlock("get\(variable.isThrowing ? " throws" : "") {") {
                         fragment.outputBlock("try \(resolvedVar.converterType.name).consumeIota(") {
                             fragment.outputBlock("try _iotaWitness.env.check { exn in", closeWith: "},") {
                                 fragment.output("\(converterType.name)._\(variable.name)Getter[_iotaWitness.env](_iotaWitness.object, exn)")
@@ -595,7 +564,7 @@ struct TranslatedProtocol: TranslatedType {
             fragment.output("envRef: EnvRef,")
             fragment.output("constructorMethod: @escaping \(converterType.name)._ConstructorMethod,")
             for field in fields {
-                let resolved = context.resolve(type: field.typeName.better)
+                let resolved = context.resolve(type: field.type)
                 fragment.output("_ \(field.name)Getter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolved.converterType.name).CType,")
                 if field.isMutable {
                     fragment.output("_ \(field.name)Setter: @escaping @convention(c) (foreignObject, \(resolved.converterType.name).CType, _ exn: foreignOutExn) -> Void,")
@@ -639,7 +608,7 @@ struct TranslatedProtocol: TranslatedType {
             }
             fragment.output("fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()")
             for field in fields {
-                let resolved = context.resolve(type: field.typeName.better)
+                let resolved = context.resolve(type: field.type)
                 fragment.output("fileprivate static let _\(field.name)Getter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolved.converterType.name).CType>()")
                 if field.isMutable {
                     fragment.output("fileprivate static let _\(field.name)Setter = Env.CallbackMap<@convention(c) (foreignObject, \(resolved.converterType.name).CType, _ exn: foreignOutExn) -> Void>()")
@@ -707,8 +676,8 @@ struct TranslatedProtocol: TranslatedType {
             for variable in fields {
                 fragment.output()
                 let name = variable.name
-                let type = variable.typeName.better.name
-                let resolved = context.resolve(type: variable.typeName.better)
+                let type = variable.type.name
+                let resolved = context.resolve(type: variable.type)
                 let getID = "_\(name)GetMethodID"
                 let setID = variable.isMutable ? "_\(name)SetMethodID" : nil
                 methodIDs.append((idHandle: getID, name: "get_\(name)", signature: "()\(resolved.jniType.asSignature)"))
@@ -719,7 +688,7 @@ struct TranslatedProtocol: TranslatedType {
                     fragment.output("static var \(setID): jmethodID?")
                 }
                 fragment.outputBlock("\(variable.isStatic ? "static " : "")public var \(name): \(type) {") {
-                    fragment.outputBlock("get\(variable.throws ? " throws" : "") {") {
+                    fragment.outputBlock("get\(variable.isThrowing ? " throws" : "") {") {
                         let perhapsExclaim = variable.isMutable ? "!" : ""
                         fragment.output("let env = try\(perhapsExclaim) Env.acquireJVMThread(on: _javaWitness.vm)")
                         fragment.outputBlock("defer {") {
@@ -809,7 +778,7 @@ struct TranslatedProtocol: TranslatedType {
                 fragment.output("externalWitnessClass = try env.globalRef(env.FindClass(\"\(javaExternalWitnessClassName)\"))")
                 fragment.output("externalWitnessConstructor = try env.GetMethodID(externalWitnessClass, \"<init>\", \"(J)V\")")
                 for field in fields {
-                    let resolved = context.resolve(type: field.typeName.better)
+                    let resolved = context.resolve(type: field.type)
                     let jniSignature = resolved.jniType.asSignature
                     fragment.output("\(foreignProtocolType)._\(field.name)GetMethodID = try env.GetMethodID(javaClass, \"get\(upperCaseFirst(field.name))\", \"()\(jniSignature)\")")
                     if field.isMutable {
@@ -899,7 +868,7 @@ struct TranslatedProtocol: TranslatedType {
     func registerCSharpClass(context: FishyJoesContext) {
         let (protocolFields, protocolMethods) = CSharpClass.separate(
             fieldsAndMethods:
-                fields.compactMap {
+                fields.flatMap {
                     context.cSharp(field: $0, of: self, useNativeName: false)
                 } + methods.compactMap {
                     context.cSharp(method: $0, of: self)
@@ -919,7 +888,7 @@ struct TranslatedProtocol: TranslatedType {
 
         let (externalWitnessFields, externalWitnessMethods) = CSharpClass.separate(
             fieldsAndMethods:
-                fields.compactMap {
+                fields.flatMap {
                     context.cSharp(field: $0, of: self, useNativeName: false)
                 } + methods.filter { !$0.isDefaultImplementation }.compactMap {
                     context.cSharp(method: $0, of: self)

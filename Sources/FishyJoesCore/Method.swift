@@ -17,16 +17,8 @@ struct Method: Hashable {
     let isThrowing: Bool
     let isAsync: Bool
     let deprecation: Deprecation?
-    var isExtension: Bool
     let protocolName: String?
-    var isDefaultImplementation: Bool {
-        if protocolName != nil,
-           isExtension {
-            return true
-        } else {
-            return false
-        }
-    }
+    let isDefaultImplementation: Bool
 
     enum SourceKind: Hashable {
         case method, initializer
@@ -35,11 +27,11 @@ struct Method: Hashable {
     }
     let sourceKind: SourceKind
 
-    init?(_ method: SourceryMethod) {
-        self.init(method, protocolName: nil)
+    init?(_ method: SourceryMethod, type: Type?) {
+        self.init(method, type: type, protocolName: nil)
     }
 
-    init?(_ method: SourceryMethod, protocolName: String?) {
+    init?(_ method: SourceryMethod, type: Type?, protocolName: String?) {
         guard let exportAnnotation = method.exportAnnotation else { return nil }
         self.name = method.name
         self.callName = method.callName
@@ -54,7 +46,7 @@ struct Method: Hashable {
         self.isThrowing = method.throws || method.rethrows
         self.deprecation = method.deprecation
 
-        let isIsolated = method.definedInType is Actor && !method.isNonisolated && !method.isInitializer
+        let isIsolated = type is Actor && !method.isNonisolated && !method.isInitializer
         self.isAsync = isIsolated || method.isAsync
 
         var parameters: [SwiftFormal] = []
@@ -85,8 +77,8 @@ struct Method: Hashable {
 
         precondition(omitParameters.isEmpty, "Can't find parameters \(omitParameters) to omit")
         self.parameters = parameters
-        self.isExtension = method.definedInType?.isExtension ?? false
         self.protocolName = protocolName
+        self.isDefaultImplementation = method.definedInType?.isExtension == true && type is SourceryProtocol
     }
 }
 

@@ -120,12 +120,10 @@ class Structs_MutableStruct {
         i: i ?? this.i
     );
 
-    /// <!-- FishyJoes.export(asyncGetI) -->
-    Future<int> asyncGetI(
+    /// <!-- FishyJoes.export(create) -->
+    static TestAPI.Structs_MutableStruct create(
     ) =>
-        GCRef.using(this, (_thisHandle) =>
-            consumeCreatedRef<Future<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_MutableStruct_asyncGetI(Loader.shared.env, _thisHandle.ptr, _exn)))
-        )
+        consumeCreatedRef<TestAPI.Structs_MutableStruct>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_MutableStruct_create(Loader.shared.env, _exn)))
     ;
 
     /// <!-- FishyJoes.export(increment) -->
@@ -144,10 +142,12 @@ class Structs_MutableStruct {
         )
     ;
 
-    /// <!-- FishyJoes.export(create) -->
-    static TestAPI.Structs_MutableStruct create(
+    /// <!-- FishyJoes.export(asyncGetI) -->
+    Future<int> asyncGetI(
     ) =>
-        consumeCreatedRef<TestAPI.Structs_MutableStruct>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_MutableStruct_create(Loader.shared.env, _exn)))
+        GCRef.using(this, (_thisHandle) =>
+            consumeCreatedRef<Future<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_MutableStruct_asyncGetI(Loader.shared.env, _thisHandle.ptr, _exn)))
+        )
     ;
 
     static late CreatedRef Function(

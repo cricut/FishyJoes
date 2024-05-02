@@ -12,7 +12,7 @@ struct TranslatedReference: TranslatedType {
     let dartType: DartClass.DartType
     let methods: [Method]
     let defaultMethodsForNode: [Method]
-    let computedVariables: [Variable]
+    let computedVariables: [Field]
     let documentation: [String]
     let className: String
     let jniType: JNIType
@@ -36,19 +36,19 @@ struct TranslatedReference: TranslatedType {
         self.kotlinPackage = context.module.kotlinPackage
         self.cSharpType = .named(package: context.module.cSharpNamespace, name: exportAnnotation.cSharpName)
         self.dartType = .named(package: context.module.dartNamespace, name: context.dartTranslator.fakeNamespace(exportAnnotation.name))
-        self.methods = type.methods.compactMap { Method($0) }
-        
+        self.methods = type.methods.compactMap { Method($0, type: type) }
+
         var nodeDefaultMethods = [Method]()
         // Node objects needs default methods in order to conform to the interfaces it implements, though as an optional method that if the user does not implement, will use the defined default method constant.
         if !type.implements.isEmpty {
             let protocols = type.implements.values.compactMap { $0 as? SourceryProtocol }
             for prot in protocols {
-                nodeDefaultMethods.append(contentsOf: prot.defaultMethods().compactMap { Method($0, protocolName: prot.name) })
+                nodeDefaultMethods.append(contentsOf: prot.defaultMethods().compactMap { Method($0, type: type, protocolName: prot.name) })
             }
         }
         self.defaultMethodsForNode = nodeDefaultMethods
 
-        self.computedVariables = type.variables.filter { $0.exportAnnotation != nil }
+        self.computedVariables = type.variables.compactMap { Field($0, type: type) }
         self.documentation = type.documentation
         self.className = context.kotlinTranslator.javaClassName(kotlinName, in: context)
         self.jniType = .object(className)
@@ -443,7 +443,7 @@ struct TranslatedReference: TranslatedType {
 
     func registerCSharpClass(in context: FishyJoesContext) {
         var fieldsAndMethods =
-        computedVariables.compactMap { context.cSharp(field: $0, of: self, useNativeName: false) } +
+            computedVariables.flatMap { context.cSharp(field: $0, of: self, useNativeName: false) } +
             methods.compactMap { context.cSharp(method: $0, of: self) }
 
         if equatable {

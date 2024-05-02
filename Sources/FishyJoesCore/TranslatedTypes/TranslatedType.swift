@@ -251,6 +251,20 @@ extension SourceryProtocol {
     func defaultMethods() -> [SourceryMethod] {
         methodsPreferringDefaultImpl().filter { $0.isExtension }
     }
+
+    // Default implementation variables replace unimplemented variables for Protocols
+    func variablesPreferringDefaultImpl() -> [SourceryVariable] {
+        var varsByName = [String: [SourceryVariable]]()
+        for variable in rawVariables {
+            varsByName[variable.name, default: []].append(variable)
+        }
+        return varsByName.sorted {
+            $0.key < $1.key
+        }.compactMap {
+            let varDefs = $0.value
+            return varDefs.first { $0.definedInType?.isExtension == true } ?? varDefs.first
+        }
+    }
 }
 
 extension SourceryMethod {

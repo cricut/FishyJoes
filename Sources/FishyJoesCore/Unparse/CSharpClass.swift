@@ -34,7 +34,6 @@ class CSharpClass: NestedClass {
         let mangledName: String
         let type: CSType
         let deprecation: Deprecation?
-        let isInProtocol: Bool
     }
 
     let module: Module
@@ -361,11 +360,6 @@ class CSharpProductClass: CSharpClass {
                 fragment.output("internal \(unqualifiedName)(ConsumedRef reference): base(reference) {}")
             case .public(let fields):
                 for field in fields {
-                    if field.isInProtocol {
-                        fragment.outputBlock("public \(field.type.name) Get\(CSharpClass.deforbidify(field.name))() {") {
-                            fragment.output("return \(CSharpClass.deforbidify(field.name));")
-                        }
-                    }
                     fragment.output("public \(field.type.name) \(CSharpClass.deforbidify(field.name)) { get; \(field.isPubliclyWritable ? "set;" : "internal set;") }")
                 }
                 fragment.blankLine()

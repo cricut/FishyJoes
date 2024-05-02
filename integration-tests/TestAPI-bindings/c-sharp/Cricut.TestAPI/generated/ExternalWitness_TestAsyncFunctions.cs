@@ -12,6 +12,21 @@ namespace Cricut.TestAPI {
         internal ExternalWitness_TestAsyncFunctions(ConsumedRef reference): base(reference) {}
 
         /// <summary>
+        /// <!-- FishyJoes.export(add3Things) -->
+        /// </summary>
+        public System.Func<float, double, nint, System.Threading.Tasks.Task<double>> Add3Things {
+            get {
+                using var thisHandle = new GCRef(this);
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_TestAsyncFunctions_add3Things(Loader.env, thisHandle.ptr, out exn).Consume<System.Func<float, double, nint, System.Threading.Tasks.Task<double>>>()
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_TestAsyncFunctions_add3Things(IntPtr envRef, UnownedRef self, out CreatedRef exn);
+
+        /// <summary>
         /// <!-- FishyJoes.export(const42) -->
         /// </summary>
         public System.Func<System.Threading.Tasks.Task<nint>> Const42 {
@@ -25,6 +40,21 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_get_TestAPI_TestAsyncFunctions_const42(IntPtr envRef, UnownedRef self, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(fifthThing) -->
+        /// </summary>
+        public System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>> FifthThing {
+            get {
+                using var thisHandle = new GCRef(this);
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_TestAsyncFunctions_fifthThing(Loader.env, thisHandle.ptr, out exn).Consume<System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>>>()
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_TestAsyncFunctions_fifthThing(IntPtr envRef, UnownedRef self, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(iabs) -->
@@ -57,21 +87,6 @@ namespace Cricut.TestAPI {
         private static extern CreatedRef __iota_get_TestAPI_TestAsyncFunctions_intCompose(IntPtr envRef, UnownedRef self, out CreatedRef exn);
 
         /// <summary>
-        /// <!-- FishyJoes.export(add3Things) -->
-        /// </summary>
-        public System.Func<float, double, nint, System.Threading.Tasks.Task<double>> Add3Things {
-            get {
-                using var thisHandle = new GCRef(this);
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_TestAsyncFunctions_add3Things(Loader.env, thisHandle.ptr, out exn).Consume<System.Func<float, double, nint, System.Threading.Tasks.Task<double>>>()
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_TestAsyncFunctions_add3Things(IntPtr envRef, UnownedRef self, out CreatedRef exn);
-
-        /// <summary>
         /// <!-- FishyJoes.export(makeList) -->
         /// </summary>
         public System.Func<string, string, string, string, System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>> MakeList {
@@ -85,21 +100,6 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_get_TestAPI_TestAsyncFunctions_makeList(IntPtr envRef, UnownedRef self, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(fifthThing) -->
-        /// </summary>
-        public System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>> FifthThing {
-            get {
-                using var thisHandle = new GCRef(this);
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_TestAsyncFunctions_fifthThing(Loader.env, thisHandle.ptr, out exn).Consume<System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>>>()
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_TestAsyncFunctions_fifthThing(IntPtr envRef, UnownedRef self, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(six) -->
