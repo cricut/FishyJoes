@@ -84,25 +84,6 @@ enum Platform: CustomStringConvertible, Hashable {
         return false
     }
 
-    var dylibExt: String {
-        switch self {
-        case .wasm:
-            return "wasmlib" // not a real thing
-        case .kotlinAndroid:
-            return "so"
-        default:
-            #if os(macOS)
-            return "dylib"
-            #elseif os(Linux)
-            return "so"
-            #elseif os(Windows)
-            return "dll"
-            #else
-            fatalError("unknown host OS")
-            #endif
-        }
-    }
-
     func build(product: String? = nil, libs: [String] = [], configuration: BuildConfiguration) throws {
         var buildArguments: [String] = []
         if let product = product {

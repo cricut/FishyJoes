@@ -410,7 +410,7 @@ extension CodeGen {
 
             injectedDependencies[moduleName] = .local(path: repoRoot)
             injectedDependencies["\(moduleName)-bindings"] = .local(
-                path: "\(repoRoot)/bindings/swift-interfaces/generated/\(moduleName)-bindings"
+                path: "\(repoRoot)/\(swiftBindingsRoot)"
             )
         }
         injectedDependencies[config.module] = .local(path: URL(fileURLWithPath: ".").path)
@@ -430,7 +430,7 @@ extension CodeGen {
             } : { nil }
             let configuration = BuildConfiguration(
                 packagePath: swiftBindingsRoot,
-                scratchPath: "bindings/swift-interfaces/.build",
+                scratchPath: "\(swiftBindingsRoot)/.build",
                 debug: debug,
                 fat: fat,
                 codeCoverage: codeCoveragePath != nil,
@@ -480,11 +480,11 @@ extension CodeGen {
 
                 // Define a function to install library files to the output directory
                 func installLibrary(_ name: String, installName: String? = nil, sign: Bool = false) throws {
-                    let src = "\(try platform.buildDir(configuration))/lib\(name).\(platform.dylibExt)"
-                    let installName = installName ?? "lib\(name).\(platform.dylibExt)"
+                    let src = try platform.dylibPath(for: name, configuration: configuration)
+                    let installName = installName ?? platform.dylibName(for: name)
                     let dest = "\(outputDir)/\(installName)"
                     try cmd("cp", src, dest).run()
-                    if sign, platform.dylibExt == "dylib" {
+                    if sign, installName.hasSuffix(".dylib") {
                         try cmd("codesign", "-s", "-", dest).run()
                     }
                 }
@@ -516,7 +516,7 @@ extension CodeGen {
                             localPath: runtimePath,
                             definitionsPath: "\(runtimePath)/fishyjoes-runtime-common",
                             exports: ["Optional", "Runtime"],
-                            compiledLibName: "libFishyJoesNodeRuntime.\(platform.dylibExt)",
+                            compiledLibName: platform.dylibName(for: "FishyJoesNodeRuntime"),
                             nodeLibName: "Runtime.cjs.node",
                             npmPackageName: "fishyjoes-runtime-\(platform.nodeExecutionEnvironment)",
                             npmModuleVersion: fishyJoesDependency.version ??
@@ -534,7 +534,7 @@ extension CodeGen {
                             localPath: dependency.localPath,
                             definitionsPath: "\(dependency.localPath)/Sources/Generated/NodeInterface",
                             exports: [moduleName],
-                            compiledLibName: "lib\(moduleName)-node.\(platform.dylibExt)",
+                            compiledLibName: platform.dylibName(for: "\(moduleName)-node"),
                             nodeLibName: "\(moduleName).cjs.node",
                             npmPackageName: npmPackageName,
                             npmModuleVersion: dependency.version ??
@@ -617,7 +617,7 @@ extension CodeGen {
                             // For node to load a library correctly, the file must be ".cjs.node" and not a symlink
                             // But for the linker to find required libraries, they need their original names.
                             // So we symlink `libModule-node.dylib` -> `module.cjs.node`
-                            let compiledLibName = "lib\(dependency)-node.\(platform.dylibExt)"
+                            let compiledLibName = platform.libName(for: "\(dependency)-node")
                             let nodeLibName = "\(dependency).cjs.node"
                             try installLibrary("\(dependency)-node", installName: nodeLibName)
                             try installLibrary(dependency)
