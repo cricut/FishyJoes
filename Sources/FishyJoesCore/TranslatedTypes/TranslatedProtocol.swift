@@ -354,7 +354,7 @@ struct TranslatedProtocol: TranslatedType {
                         fragment.output("let napiValue = try _nodeWitness.value(env: env)")
                         fragment.output("let \(field.name) = try env.getNamedProperty(napiValue, \"\(field.name)\")")
 
-                        if case let .function(params, resVal, isAsync, isThrowing) = field.type {
+                        if case let .function(params, resVal, _, _) = field.type {
                             fragment.outputBlock("return {") {
                                 fragment.output("let result = try env.callFunction(napiValue, \(field.name), ", newLineTerminated: false)
                                 var toNodeParams = [String]()

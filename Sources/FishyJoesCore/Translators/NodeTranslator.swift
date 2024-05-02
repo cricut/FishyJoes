@@ -80,10 +80,6 @@ struct NodeTranslator: Translator {
     }
 
     func output(method: Method, explicitThis: Bool, context: FishyJoesContext, fragment: SourceFragment, newLineTerminated: Bool = true, converterName: String? = nil) {
-        if method.name.contains("hasADefaultImplementation(") {
-            let elegoo = 1
-        }
-
         let exportAnnotation = method.exportAnnotation
         let nodeName = exportAnnotation.name
 
