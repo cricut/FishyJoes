@@ -617,7 +617,7 @@ extension CodeGen {
                             // For node to load a library correctly, the file must be ".cjs.node" and not a symlink
                             // But for the linker to find required libraries, they need their original names.
                             // So we symlink `libModule-node.dylib` -> `module.cjs.node`
-                            let compiledLibName = platform.libName(for: "\(dependency)-node")
+                            let compiledLibName = platform.dylibName(for: "\(dependency)-node")
                             let nodeLibName = "\(dependency).cjs.node"
                             try installLibrary("\(dependency)-node", installName: nodeLibName)
                             try installLibrary(dependency)
