@@ -87,8 +87,8 @@ jobs:
     container:
       image: ghcr.io/cricut/android-swift-runtime:1.1.0
       credentials:
-        username: cricut-builduser
-        password: ${{ secrets.CRICUT_GPR_TOKEN }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
     env:
       LIB_DIR: node-runtime/fishyjoes-runtime-native-ubuntu
       WASM_LIB_DIR: node-runtime/fishyjoes-runtime-wasm
