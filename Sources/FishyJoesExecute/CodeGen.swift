@@ -39,6 +39,9 @@ public struct CodeGen: ParsableCommand {
     @Flag(name: .long, inversion: .prefixedNo, help: "Use docker")
     var useDocker = true
 
+    @Flag(name: .long, help: "Pass git credentials into docker container via file .secrets/git-credentials_auth")
+    var passGitAuthToDocker: Bool = false
+
     @Option(help: "Used for debugging fishy-joes code generation")
     var sourceryDumpPath: String?
 
@@ -73,6 +76,7 @@ public struct CodeGen: ParsableCommand {
         case dart
         case wasmOpt
         case useDocker
+        case passGitAuthToDocker
         case sourceryDumpPath
         case version
         case buildStep
@@ -401,6 +405,7 @@ extension CodeGen {
                 repoRoot = "../../../../.build/checkouts/\(moduleName)"
             }
 
+            injectedDependencies[moduleName] = .local(path: repoRoot)
             injectedDependencies["\(moduleName)-bindings"] = .local(
                 path: "\(repoRoot)/bindings/swift-interfaces/generated/\(moduleName)-bindings"
             )
@@ -411,8 +416,8 @@ extension CodeGen {
         if buildStep.contains(.build) {
             // Assemble a build configuration from passed arguments
             let localPathsNeeded = packageInfo.dependencyMap.entries.values.map(\.localPath)
-            let makeDockerContext = useDocker ? {
-                let context = DockerContext(withAvailablePaths: localPathsNeeded)
+            let makeDockerContext = useDocker ? { [passGitAuthToDocker] in
+                let context = DockerContext(withAvailablePaths: localPathsNeeded, passGitAuth: passGitAuthToDocker)
                 if let context = context {
                     Log.info("found docker binary: \(context.hostDockerBinary)")
                 } else {
@@ -429,15 +434,6 @@ extension CodeGen {
                 baseDockerContext: Lazy(makeDockerContext()),
                 injectedSwiftDependencies: injectedDependencies
             )
-
-            // Pre-fetch dependencies for docker... TODO: can this be improved?
-            if platforms.contains(where: { $0.needsDocker(configuration: configuration) }) {
-                try cmd(
-                    "swift", "build",
-                    "--scratch-path", "bindings/.build/android-build",
-                    "--product", "FishyJoesJavaRuntime"
-                ).run()
-            }
 
             // Build libraries for the requested platforms
             for platform in platforms {

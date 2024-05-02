@@ -5,7 +5,7 @@ let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2023-
 
 struct BuildConfiguration: Hashable {
     let packagePath: String?
-    let scratchPath: String?
+    let scratchPath: String
     let debug: Bool
     let fat: Bool
     let codeCoverage: Bool
@@ -118,15 +118,13 @@ enum Platform: CustomStringConvertible, Hashable {
             try swiftBuild(arguments: buildArguments + ["--triple", "arm64-apple-macosx"], configuration: configuration).run()
             try swiftBuild(arguments: buildArguments + ["--triple", "x86_64-apple-macosx"], configuration: configuration).run()
 
-            let scratchPath = configuration.scratchPath ?? ".build"
-
             for lib in libs {
                 let libName = "lib\(lib).dylib"
                 try cmd(
                     "lipo", "-create",
                     "-output", "\(buildDir(configuration))/\(libName)",
-                    "\(scratchPath)/arm64-apple-macosx/\(confName)/\(libName)",
-                    "\(scratchPath)/x86_64-apple-macosx/\(confName)/\(libName)"
+                    "\(configuration.scratchPath)/arm64-apple-macosx/\(confName)/\(libName)",
+                    "\(configuration.scratchPath)/x86_64-apple-macosx/\(confName)/\(libName)"
                 ).run()
             }
         } else {
@@ -148,22 +146,7 @@ enum Platform: CustomStringConvertible, Hashable {
             "SWIFT_PACKAGE_FORCE_DYNAMIC": "1",
             "FISHYJOES_TARGET_PLATFORM": "\(self)",
         ]
-
-        func injectEnv(dockerContext: DockerContext? = nil) {
-            let encoder = JSONEncoder()
-            encoder.outputFormatting = [.withoutEscapingSlashes]
-
-            for (module, dependency) in configuration.injectedSwiftDependencies {
-                var dependency = dependency
-                switch dependency {
-                case .local(let path):
-                    // If we're running in docker, swiftpm's absolute paths need to be converted to docker's file system
-                    dependency = .local(path: dockerContext?.translateMounted(externalPath: path) ?? path)
-                default: ()
-                }
-                env["FISHYJOES_DEPENDENCY_\(module)"] = try! encoder.encodeToString(dependency)
-            }
-        }
+        var dockerContext: DockerContext?
 
         var scratchPath = configuration.scratchPath
         switch self {
@@ -188,7 +171,7 @@ enum Platform: CustomStringConvertible, Hashable {
             #endif
         case let .kotlinAndroid(arch):
             swiftBuild = ["swift-build"]
-            scratchPath = (scratchPath ?? ".build") + "/android-build"
+            scratchPath = "\(scratchPath)/android-build"
             args.append(
                 contentsOf: [
                     "--destination", "\(arch.toolchainPath)/usr/swiftpm-android-\(arch).json",
@@ -196,16 +179,11 @@ enum Platform: CustomStringConvertible, Hashable {
             )
             env["ANDROID_COMPATIBLE_ONLY"] = "1"
 
-            guard var dockerContext = configuration.baseDockerContext.get() else {
+            dockerContext = configuration.baseDockerContext.get()
+            if dockerContext == nil {
                 Log.warn("WARNING: building for android without using a docker context (expecting to already be inside container)")
                 break
             }
-
-            injectEnv(dockerContext: dockerContext)
-            dockerContext.env.merge(env) { $1 }
-            try! dockerContext.cmd("env", arguments: []).run()
-            return dockerContext.cmd("swift-build", arguments: args)
-
         case .cSharp:
             #if os(macOS)
             swiftBuild = [Platform.nativeMacSwiftBuild]
@@ -215,15 +193,35 @@ enum Platform: CustomStringConvertible, Hashable {
             swiftBuild = ["swift", "build"]
             #endif
         }
-        if let scratchPath = scratchPath {
-            args = ["--scratch-path", scratchPath] + args
-        }
+        args = ["--scratch-path", scratchPath] + args
 
         let path = swiftBuild[0]
         args = swiftBuild.dropFirst() + args
-        injectEnv()
-        Log.info("swiftBuild addEnv = \(env)")
-        return cmd(path, arguments: args, addEnv: env)
+
+        // Inject swift package dependency environment variables
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.withoutEscapingSlashes]
+        for (module, dependency) in configuration.injectedSwiftDependencies {
+            var dependency = dependency
+            if let dockerContext = dockerContext {
+                switch dependency {
+                case .local(let path):
+                    // If we're running in docker, swiftpm's absolute paths need to be converted to docker's file system
+                    dependency = .local(path: dockerContext.translateMounted(externalPath: path))
+                default: ()
+                }
+            }
+            env["FISHYJOES_DEPENDENCY_\(module)"] = try! encoder.encodeToString(dependency)
+        }
+
+        if var dockerContext = dockerContext {
+            dockerContext.env.merge(env) { $1 }
+            try! dockerContext.cmd("env", arguments: []).run()
+            return dockerContext.cmd("swift-build", arguments: args)
+        } else {
+            Log.info("swiftBuild addEnv = \(env)")
+            return cmd(path, arguments: args, addEnv: env)
+        }
     }
 
     func swiftBuild(_ arguments: String..., configuration: BuildConfiguration) -> Command {
