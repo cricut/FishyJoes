@@ -191,7 +191,9 @@ public struct PackageInit: ParsableCommand {
             (swift: $0, groupId: "com.cricut.\($0)", artifactId: $0.lowercased())
         }
         let gradleDependencyLines = gradleDependencies.map {
-            "api(\"\($0.groupId):\($0.artifactId):\(swiftPackage?.dependencyMap[$0.swift]?.version ?? "local")\")"
+            let version = (swiftPackage?.dependencyMap[$0.swift]?.version ?? "local")
+                .replacingOccurrences(of: "/", with: "-")
+            return "api(\"\($0.groupId):\($0.artifactId):\(version)\")"
         }
         string = string.replacingOccurrences(
             of: "__GRADLE_DEPENDENCIES__",

@@ -234,4 +234,4 @@ jobs:
           echo "Detected Version is '$VERSION'"
           export VERSION
           ./gradlew updateVersion
-          ./gradlew build publish
+          ./gradlew assemble publish
