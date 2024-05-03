@@ -27,26 +27,43 @@ test('testCore', () => {
         baz: true,
         foo: "F005BA11",
         bar(x: number, y: number): TestAPI.AProtocol {
-            return TestAPI.AProtocol.fromCore(new TestCoreClass(`${this.foo}+${x+y}`, !this.baz));
+            return TestAPI.AProtocol.fromCore(new TestCoreClass(`${this.foo}+${x+y}`, x == 2));
         }
     };
 
     expect(coreObj.foo).toEqual("F005BA11")
     expect(coreObj.baz).toEqual(true)
     let obj = TestAPI.AProtocol.fromCore(coreObj);
+    expect(obj.foo).toEqual("F005BA11")
+    expect(obj.baz).toEqual(true)
+
     let barClass = obj.bar(78, 23);
     expect(barClass.foo).toEqual("F005BA11+101");
     expect(barClass.baz).toEqual(false);
 
-    //let c = TestAPI.AProtocol.fromCore(a);
-    // let b = new TestCore("Gitang", true);
-    // let c = TestAPI.AProtocol.fromCore(b);
-    // let z = c.bar(1, 2);
-    // let d = c.hasADefaultImplementation(3, 4);
-    // let e = c.hasADefaultImplementation2("Newton", false, 32);
-    // console.log(`e: ${JSON.stringify(e)}`);
-    // console.log(`c.foo: ${c.foo}`);
-    // console.log(`c.baz: ${c.baz}`);
+    expect(obj.hasADefaultImplementation(9, -102.1)).toEqual("F005BA11+-312 notBazzed");
+    expect(obj.hasADefaultImplementation(2, 0.345)).toEqual("bazzy F005BA11+3");
+
+    expect(obj.hasADefaultImplementation2("923.2185", true, 0.0898714)).toEqual(3.7838466771424932E9);
+    expect(obj.hasADefaultImplementation2("923.2185", false, 0.0898714)).toEqual(1.9556754407899822E-5);
+
+    expect(obj.hasADefaultImplementation2("0.9870923", true, 1.123123)).toEqual(0.9589049888649063);
+    expect(obj.hasADefaultImplementation2("0.9870923", false, 1.123123)).toEqual(1.686253813623996);
+
+    let testCoreClass = new TestCoreClass("Gitang", false);
+    let testClass = TestAPI.AProtocol.fromCore(testCoreClass);
+
+    expect(testClass.foo).toEqual("Gitang");
+    expect(testClass.baz).toEqual(false);
+    let testClassBar = testClass.bar(-50, 55);
+    expect(testClassBar.foo).toEqual("Garply");
+    expect(testClassBar.baz).toEqual(true);
+
+    expect(testClass.hasADefaultImplementation(9, -102.1)).toEqual("Garply notBazzed");
+    expect(testClass.hasADefaultImplementation(2974, (-2969 / 3.14159265359))).toEqual("bazzy Garply");
+
+    expect(testClass.hasADefaultImplementation2("923.2185", true, 0.0898714)).toEqual(928.226057);
+    expect(testClass.hasADefaultImplementation2("923.2185", false, 0.0898714)).toEqual(929.3260566);
 });
 
 class TestCoreClass implements TestAPI.AProtocolCore {
@@ -59,12 +76,12 @@ class TestCoreClass implements TestAPI.AProtocolCore {
     bar(x: number, y: number): TestAPI.AProtocol {
         return new TestAPI.AProtocolImplementation(
             "Garply",
-            false
+            (x + y) == 5
         );
     }
 
     hasADefaultImplementation2(a: string, b: boolean, c: number): number {
-        return c * 19;
+        return Number(a) + (b ? 3.3 : 4.4) + (c * 19);
     }
 }
 
