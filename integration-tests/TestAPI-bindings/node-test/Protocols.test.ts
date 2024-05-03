@@ -188,8 +188,8 @@ function makeAsyncForeignSideFunction() {
         },
         (thunk) => {
             return async () => {
-                thunk();
-                thunk();
+                await thunk();
+                await thunk();
             };
         }
     )
@@ -289,11 +289,10 @@ async function testAsyncForeignSideFunctionsCore(a: TestAPI.TestAsyncFunctions) 
     let n = a.thunkTwiceMaker(
         async () => {
             o += 1;
-            console.log("Thunker in paradise");
+            console.log(`Thunker in paradise o: ${o}`);
         }
     );
     await n();
-    sleep(100);
     expect(o).toEqual(3);
 
     let p = await a.defaultExercise6(
@@ -405,11 +404,10 @@ async function testAsyncSwiftSideFunctionsCore(a: TestAPI.TestAsyncFunctions) {
     let n = a.thunkTwiceMaker(
         async () => {
             o = o * o;
-            console.log("Thunkmaster thex");
+            console.log(`Thunkmaster thex o: ${o}`);
         }
     );
     await n();
-    sleep(1);
     expect(o).toEqual(97.4090910340281);
 
     let p = await a.defaultExercise6(
