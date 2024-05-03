@@ -397,7 +397,7 @@ struct TranslatedProtocol: TranslatedType {
                         let resolved = context.resolve(type: param.type)
                         toNodeParams.append("try \(resolved.converterType.name).toNode(\(param.name), env: env)")
                     }
-                    fragment.output("[\(toNodeParams.joined(separator: ","))])")
+                    fragment.output("[\(toNodeParams.joined(separator: ", "))])")
 
                     if method.returnType != .void {
                         let resolved = context.resolve(type: method.returnType)
