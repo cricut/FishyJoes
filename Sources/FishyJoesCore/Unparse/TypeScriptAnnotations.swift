@@ -280,7 +280,7 @@ extension TypeScriptAnnotations {
             fragment.output(" */")
         }
 
-        func output(method: Method, inClass: Bool, optionalMethodsForDefaults: Bool = false) {
+        func output(method: Method, inClass: Bool, optionalMethodsForDefaults: Bool = false, isCore: Bool = true) {
             document(method.documentation)
             if !inClass {
                 fragment.output("function ", newLineTerminated: false)
@@ -288,9 +288,6 @@ extension TypeScriptAnnotations {
                 fragment.output("static ", newLineTerminated: false)
             }
             fragment.outputBlock("\(method.name)\((method.hasDefaultImplementation && optionalMethodsForDefaults) ? "?" : "")(", newLineTerminated: false) {
-                let requiredParams = method.parameters.filter { $0.defaultValue == nil }
-                let optionalParams = method.parameters.filter { $0.defaultValue != nil }
-
                 var isFirst = true
                 func outputComma() {
                     if !isFirst {
@@ -298,6 +295,15 @@ extension TypeScriptAnnotations {
                     }
                     isFirst = false
                 }
+
+                if isCore,
+                   let protocolName = method.protocolName {
+                    outputComma()
+                    fragment.output("this: \(protocolName)", newLineTerminated: false)
+                }
+
+                let requiredParams = method.parameters.filter { $0.defaultValue == nil }
+                let optionalParams = method.parameters.filter { $0.defaultValue != nil }
 
                 for parameter in requiredParams {
                     outputComma()
@@ -414,7 +420,7 @@ extension TypeScriptAnnotations {
                                     output(field: field, inClass: true)
                                 }
                                 for method in interface.methods {
-                                    output(method: method, inClass: true, optionalMethodsForDefaults: true)
+                                    output(method: method, inClass: true, optionalMethodsForDefaults: true, isCore: true)
                                 }
                             }
                             fragment.blankLine()
