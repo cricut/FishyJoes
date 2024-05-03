@@ -20,6 +20,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(bar) -->
          */
         bar(
+            this: AProtocol,
             x: number,
             y: number
         ): TestAPI.AProtocol;
@@ -28,6 +29,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(hasADefaultImplementation) -->
          */
         hasADefaultImplementation(
+            this: AProtocol,
             x: number,
             y: number
         ): string;
@@ -36,6 +38,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(hasADefaultImplementation2) -->
          */
         hasADefaultImplementation2(
+            this: AProtocol,
             a: string,
             b: boolean,
             c: number
@@ -104,6 +107,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(hasADefaultImplementation) -->
          */
         hasADefaultImplementation(
+            this: AProtocol,
             x: number,
             y: number
         ): string;
@@ -112,6 +116,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(hasADefaultImplementation2) -->
          */
         hasADefaultImplementation2(
+            this: AProtocol,
             a: string,
             b: boolean,
             c: number
@@ -833,6 +838,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(bar) -->
          */
         bar(
+            this: AProtocol,
             x: number,
             y: number
         ): TestAPI.AProtocol;
@@ -841,6 +847,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(hasADefaultImplementation) -->
          */
         hasADefaultImplementation(
+            this: AProtocol,
             x: number,
             y: number
         ): string;
@@ -849,6 +856,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(hasADefaultImplementation2) -->
          */
         hasADefaultImplementation2(
+            this: AProtocol,
             a: string,
             b: boolean,
             c: number
@@ -903,6 +911,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(exercise0) -->
          */
         exercise0(
+            this: TestAsyncFunctions,
             fn: () => Promise<number>
         ): Promise<string>;
 
@@ -910,6 +919,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(exercise1) -->
          */
         exercise1(
+            this: TestAsyncFunctions,
             fn: (_0: number) => Promise<number>
         ): Promise<string>;
 
@@ -917,6 +927,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(exercise2) -->
          */
         exercise2(
+            this: TestAsyncFunctions,
             fn: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>
         ): Promise<string>;
 
@@ -924,6 +935,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(exercise3) -->
          */
         exercise3(
+            this: TestAsyncFunctions,
             fn: (_0: number, _1: number, _2: number) => Promise<number>
         ): Promise<string>;
 
@@ -931,6 +943,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(exercise4) -->
          */
         exercise4(
+            this: TestAsyncFunctions,
             fn: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>
         ): Promise<string>;
 
@@ -938,6 +951,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(exercise5) -->
          */
         exercise5(
+            this: TestAsyncFunctions,
             fn: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>
         ): Promise<string>;
 
@@ -945,6 +959,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(exercise6) -->
          */
         exercise6(
+            this: TestAsyncFunctions,
             fn: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>
         ): Promise<string>;
 
@@ -952,6 +967,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(thunkTwiceMaker) -->
          */
         thunkTwiceMaker(
+            this: TestAsyncFunctions,
             thunk: () => Promise<void>
         ): () => Promise<void>;
 
@@ -959,6 +975,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(defaultExercise6) -->
          */
         defaultExercise6(
+            this: TestAsyncFunctions,
             fn: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>
         ): Promise<string>;
 
@@ -966,6 +983,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(witness) -->
          */
         witness(
+            this: TestAsyncFunctions
         ): TestAPI.TestAsyncFunctions;
     }
 
@@ -987,18 +1005,21 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(foo) -->
          */
         foo(
+            this: TestMethodsProtocol
         ): void;
 
         /**
          * <!-- FishyJoes.export(bar) -->
          */
         bar(
+            this: TestMethodsProtocol
         ): boolean;
 
         /**
          * <!-- FishyJoes.export(baz) -->
          */
         baz(
+            this: TestMethodsProtocol,
             qux: boolean
         ): void;
 
@@ -1006,6 +1027,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(garply) -->
          */
         garply(
+            this: TestMethodsProtocol,
             _0: string
         ): string;
 
@@ -1013,6 +1035,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(xyzzy) -->
          */
         xyzzy(
+            this: TestMethodsProtocol,
             thud: number,
             grault: number[]
         ): string;
@@ -1021,6 +1044,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(plugh) -->
          */
         plugh(
+            this: TestMethodsProtocol,
             fred: [boolean, number, string[]]
         ): [boolean, number, string];
     }
@@ -1038,6 +1062,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(wombat) -->
          */
         wombat(
+            this: TestOptionalsProtocol,
             zxc: Optional<number>
         ): Optional<number>;
 
@@ -1045,6 +1070,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(spqr) -->
          */
         spqr(
+            this: TestOptionalsProtocol,
             pippo: TestAPI.AssociatedDataEnum
         ): number;
     }
@@ -2368,6 +2394,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(defaultExercise6) -->
          */
         defaultExercise6(
+            this: TestAsyncFunctions,
             fn: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>
         ): Promise<string>;
     }
@@ -2420,6 +2447,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(exercise0) -->
          */
         exercise0(
+            this: TestAsyncFunctions,
             fn: () => Promise<number>
         ): Promise<string>;
 
@@ -2427,6 +2455,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(exercise1) -->
          */
         exercise1(
+            this: TestAsyncFunctions,
             fn: (_0: number) => Promise<number>
         ): Promise<string>;
 
@@ -2434,6 +2463,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(exercise2) -->
          */
         exercise2(
+            this: TestAsyncFunctions,
             fn: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>
         ): Promise<string>;
 
@@ -2441,6 +2471,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(exercise3) -->
          */
         exercise3(
+            this: TestAsyncFunctions,
             fn: (_0: number, _1: number, _2: number) => Promise<number>
         ): Promise<string>;
 
@@ -2448,6 +2479,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(exercise4) -->
          */
         exercise4(
+            this: TestAsyncFunctions,
             fn: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>
         ): Promise<string>;
 
@@ -2455,6 +2487,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(exercise5) -->
          */
         exercise5(
+            this: TestAsyncFunctions,
             fn: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>
         ): Promise<string>;
 
@@ -2462,6 +2495,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(exercise6) -->
          */
         exercise6(
+            this: TestAsyncFunctions,
             fn: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>
         ): Promise<string>;
 
@@ -2469,6 +2503,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(thunkTwiceMaker) -->
          */
         thunkTwiceMaker(
+            this: TestAsyncFunctions,
             thunk: () => Promise<void>
         ): () => Promise<void>;
 
@@ -2476,6 +2511,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(defaultExercise6) -->
          */
         defaultExercise6(
+            this: TestAsyncFunctions,
             fn: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>
         ): Promise<string>;
 
@@ -2483,6 +2519,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(witness) -->
          */
         witness(
+            this: TestAsyncFunctions
         ): TestAPI.TestAsyncFunctions;
     }
 
@@ -2531,6 +2568,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(exercise0) -->
          */
         exercise0(
+            this: TestAsyncFunctions,
             fn: () => Promise<number>
         ): Promise<string>;
 
@@ -2538,6 +2576,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(exercise1) -->
          */
         exercise1(
+            this: TestAsyncFunctions,
             fn: (_0: number) => Promise<number>
         ): Promise<string>;
 
@@ -2545,6 +2584,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(exercise2) -->
          */
         exercise2(
+            this: TestAsyncFunctions,
             fn: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>
         ): Promise<string>;
 
@@ -2552,6 +2592,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(exercise3) -->
          */
         exercise3(
+            this: TestAsyncFunctions,
             fn: (_0: number, _1: number, _2: number) => Promise<number>
         ): Promise<string>;
 
@@ -2559,6 +2600,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(exercise4) -->
          */
         exercise4(
+            this: TestAsyncFunctions,
             fn: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>
         ): Promise<string>;
 
@@ -2566,6 +2608,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(exercise5) -->
          */
         exercise5(
+            this: TestAsyncFunctions,
             fn: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>
         ): Promise<string>;
 
@@ -2573,6 +2616,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(exercise6) -->
          */
         exercise6(
+            this: TestAsyncFunctions,
             fn: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>
         ): Promise<string>;
 
@@ -2580,6 +2624,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(thunkTwiceMaker) -->
          */
         thunkTwiceMaker(
+            this: TestAsyncFunctions,
             thunk: () => Promise<void>
         ): () => Promise<void>;
 
@@ -2587,6 +2632,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(defaultExercise6) -->
          */
         defaultExercise6?(
+            this: TestAsyncFunctions,
             fn: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>
         ): Promise<string>;
 
@@ -2594,6 +2640,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(witness) -->
          */
         witness(
+            this: TestAsyncFunctions
         ): TestAPI.TestAsyncFunctions;
     }
 
@@ -2716,6 +2763,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(defaultExercise6) -->
          */
         defaultExercise6(
+            this: TestAsyncFunctions,
             fn: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>
         ): Promise<string>;
     }
@@ -2748,18 +2796,21 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(foo) -->
          */
         foo(
+            this: TestMethodsProtocol
         ): void;
 
         /**
          * <!-- FishyJoes.export(bar) -->
          */
         bar(
+            this: TestMethodsProtocol
         ): boolean;
 
         /**
          * <!-- FishyJoes.export(baz) -->
          */
         baz(
+            this: TestMethodsProtocol,
             qux: boolean
         ): void;
 
@@ -2767,6 +2818,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(garply) -->
          */
         garply(
+            this: TestMethodsProtocol,
             _0: string
         ): string;
 
@@ -2774,6 +2826,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(xyzzy) -->
          */
         xyzzy(
+            this: TestMethodsProtocol,
             thud: number,
             grault: number[]
         ): string;
@@ -2782,6 +2835,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(plugh) -->
          */
         plugh(
+            this: TestMethodsProtocol,
             fred: [boolean, number, string[]]
         ): [boolean, number, string];
     }
@@ -2799,6 +2853,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(wombat) -->
          */
         wombat(
+            this: TestOptionalsProtocol,
             zxc: Optional<number>
         ): Optional<number>;
 
@@ -2806,6 +2861,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(spqr) -->
          */
         spqr(
+            this: TestOptionalsProtocol,
             pippo: TestAPI.AssociatedDataEnum
         ): number;
     }
