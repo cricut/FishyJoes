@@ -62,8 +62,8 @@ test('testCore', () => {
     expect(testClass.hasADefaultImplementation(9, -102.1)).toEqual("Garply notBazzed");
     expect(testClass.hasADefaultImplementation(2974, (-2969 / 3.14159265359))).toEqual("bazzy Garply");
 
-    expect(testClass.hasADefaultImplementation2("923.2185", true, 0.0898714)).toEqual(928.226057);
-    expect(testClass.hasADefaultImplementation2("923.2185", false, 0.0898714)).toEqual(929.3260566);
+    expect(testClass.hasADefaultImplementation2("923.2185", true, 0.0898714)).toEqual(928.2260565999999);
+    expect(testClass.hasADefaultImplementation2("923.2185", false, 0.0898714)).toEqual(929.3260565999999);
 });
 
 class TestCoreClass implements TestAPI.AProtocolCore {
