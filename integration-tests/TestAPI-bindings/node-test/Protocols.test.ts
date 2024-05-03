@@ -23,28 +23,33 @@ test('testProtocolImplementation', () => {
 });
 
 test('testCore', () => {
-    let a: TestAPI.AProtocolCore = {
-        baz: false,
+    let coreObj: TestAPI.AProtocolCore = {
+        baz: true,
         foo: "F005BA11",
         bar(x: number, y: number): TestAPI.AProtocol {
-            return this;
+            return TestAPI.AProtocol.fromCore(new TestCoreClass(`${this.foo}+${x+y}`, !this.baz));
         }
     };
-    console.log(`a.foo: ${a.foo}`);
-    console.log(`a.baz: ${a.baz}`);
+
+    expect(coreObj.foo).toEqual("F005BA11")
+    expect(coreObj.baz).toEqual(true)
+    let obj = TestAPI.AProtocol.fromCore(coreObj);
+    let barClass = obj.bar(78, 23);
+    expect(barClass.foo).toEqual("F005BA11+101");
+    expect(barClass.baz).toEqual(false);
 
     //let c = TestAPI.AProtocol.fromCore(a);
-    let b = new TestCore("Gitang", true);
-    let c = TestAPI.AProtocol.fromCore(b);
-    let z = c.bar(1, 2);
-    let d = c.hasADefaultImplementation(3, 4);
-    let e = c.hasADefaultImplementation2("Newton", false, 32);
-    console.log(`e: ${JSON.stringify(e)}`);
-    console.log(`c.foo: ${c.foo}`);
-    console.log(`c.baz: ${c.baz}`);
+    // let b = new TestCore("Gitang", true);
+    // let c = TestAPI.AProtocol.fromCore(b);
+    // let z = c.bar(1, 2);
+    // let d = c.hasADefaultImplementation(3, 4);
+    // let e = c.hasADefaultImplementation2("Newton", false, 32);
+    // console.log(`e: ${JSON.stringify(e)}`);
+    // console.log(`c.foo: ${c.foo}`);
+    // console.log(`c.baz: ${c.baz}`);
 });
 
-class TestCore implements TestAPI.AProtocolCore {
+class TestCoreClass implements TestAPI.AProtocolCore {
     constructor(foo: string, baz: boolean) {
         this.foo = foo;
         this.baz = baz;
