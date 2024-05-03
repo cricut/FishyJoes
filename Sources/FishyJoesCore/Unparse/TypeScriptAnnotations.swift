@@ -280,7 +280,7 @@ extension TypeScriptAnnotations {
             fragment.output(" */")
         }
 
-        func output(method: Method, inClass: Bool, optionalMethodsForDefaults: Bool = false, isCore: Bool = true) {
+        func output(method: Method, inClass: Bool, optionalMethodsForDefaults: Bool = false, isCore: Bool = false) {
             document(method.documentation)
             if !inClass {
                 fragment.output("function ", newLineTerminated: false)
