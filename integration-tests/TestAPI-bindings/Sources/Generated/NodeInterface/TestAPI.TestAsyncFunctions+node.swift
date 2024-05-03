@@ -196,6 +196,76 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
 
     @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        let fromCoreClass = try NodeClass(
+            env: env,
+            name: "TestAsyncFunctions",
+            properties: [
+                "fromCore": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "fromCore", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let coreArg = try env.argument(at: 0)
+
+                            let env = env.env
+                            let global = try env.getGlobal()
+                            let object = try env.getNamedProperty(global, "Object")
+                            let create = try env.getNamedProperty(object, "create")
+
+                            let createdCore = try env.callFunction(global, create, [coreArg])
+
+                            let defaultExercise6FunctionCallback: NAPI.Callback = { env, info in
+                                FishyJoesNodeRuntime.callbackBody(env, info, name: "defaultExercise6", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                                    let (deferred, promise) = try env.env.createPromise()
+                                    let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.self))
+                                    let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self))
+                                    let _wrappedSwiftSelf = TestAPI_CommonInterface.TestAsyncFunctions_sans_defaultExercise6(wrapped: try swiftSelf.value)
+                                    Task {
+                                        do {
+                                            let taskResult: String = try await _wrappedSwiftSelf.defaultExercise6(
+                                                arg0.value
+                                            )
+                                            try onMainThread { env in
+                                                let convertedTaskResult: NAPI.Value
+                                                do {
+                                                    convertedTaskResult = try Swift.String.toNode(taskResult, env: env)
+                                                } catch {
+                                                    try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                                    return
+                                                }
+                                                try env.resolveDeferred(deferred, convertedTaskResult)
+                                            }
+                                        } catch {
+                                            try onMainThread { env in
+                                                try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                            }
+                                        }
+                                    }
+                                    return promise
+                                }
+                            }
+                            let defaultExercise6Function = try env.createFunction(
+                                "defaultExercise6",
+                                defaultExercise6FunctionCallback,
+                                nil
+                            )
+                            try env.setNamedProperty(createdCore, "defaultExercise6", defaultExercise6Function)
+
+                            return createdCore
+                        }
+                    },
+                    isStatic: true
+                )
+            ],
+            constructor: { env, info in
+                fatalError("Constructor should not be called on fromCoreClass")
+            }
+        )
+        try mergeDefinitionInto(
+            env: env,
+            module: module,
+            path: "TestAsyncFunctions",
+            nodeClass: fromCoreClass.constructor.value(env: env)
+        )
+
         let nodeClass = try NodeClass(
             env: env,
             name: "ExternalWitness_TestAsyncFunctions",

@@ -25,7 +25,7 @@ test('testProtocolImplementation', () => {
 test('testCore', () => {
     let a: TestAPI.AProtocolCore = {
         baz: false,
-        foo: "",
+        foo: "F005BA11",
         bar(x: number, y: number): TestAPI.AProtocol {
             return this;
         }
@@ -33,11 +33,13 @@ test('testCore', () => {
     console.log(`a.foo: ${a.foo}`);
     console.log(`a.baz: ${a.baz}`);
 
-    // let c = TestAPI.AProtocol.fromCore(a);
+    //let c = TestAPI.AProtocol.fromCore(a);
     let b = new TestCore("Gitang", true);
     let c = TestAPI.AProtocol.fromCore(b);
     let z = c.bar(1, 2);
     let d = c.hasADefaultImplementation(3, 4);
+    let e = c.hasADefaultImplementation2("Newton", false, 32);
+    console.log(`e: ${JSON.stringify(e)}`);
     console.log(`c.foo: ${c.foo}`);
     console.log(`c.baz: ${c.baz}`);
 });
@@ -56,7 +58,7 @@ class TestCore implements TestAPI.AProtocolCore {
         );
     }
 
-    hasADefaultImplementation2?(a: string, b: boolean, c: number): number {
+    hasADefaultImplementation2(a: string, b: boolean, c: number): number {
         return c * 19;
     }
 }

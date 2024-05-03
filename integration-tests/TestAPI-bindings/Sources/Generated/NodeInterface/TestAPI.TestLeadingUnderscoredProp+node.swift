@@ -46,6 +46,39 @@ extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: NodeConv
 
     @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        let fromCoreClass = try NodeClass(
+            env: env,
+            name: "TestLeadingUnderscoredProp",
+            properties: [
+                "fromCore": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "fromCore", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let coreArg = try env.argument(at: 0)
+
+                            let env = env.env
+                            let global = try env.getGlobal()
+                            let object = try env.getNamedProperty(global, "Object")
+                            let create = try env.getNamedProperty(object, "create")
+
+                            let createdCore = try env.callFunction(global, create, [coreArg])
+
+                            return createdCore
+                        }
+                    },
+                    isStatic: true
+                )
+            ],
+            constructor: { env, info in
+                fatalError("Constructor should not be called on fromCoreClass")
+            }
+        )
+        try mergeDefinitionInto(
+            env: env,
+            module: module,
+            path: "TestLeadingUnderscoredProp",
+            nodeClass: fromCoreClass.constructor.value(env: env)
+        )
+
         let nodeClass = try NodeClass(
             env: env,
             name: "ExternalWitness_TestLeadingUnderscoredProp",
