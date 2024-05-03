@@ -247,7 +247,9 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                                 defaultExercise6FunctionCallback,
                                 nil
                             )
-                            try env.setNamedProperty(createdCore, "defaultExercise6", defaultExercise6Function)
+                            if !(try env.hasNamedProperty(createdCore, "defaultExercise6")) {
+                                try env.setNamedProperty(createdCore, "defaultExercise6", defaultExercise6Function)
+                            }
 
                             return createdCore
                         }

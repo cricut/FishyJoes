@@ -469,7 +469,9 @@ struct TranslatedProtocol: TranslatedType {
                                                 fragment.output("\(method.callName)FunctionCallback,")
                                                 fragment.output("nil")
                                             }
-                                            fragment.output("try env.setNamedProperty(createdCore, \"\(method.callName)\", \(method.callName)Function)")
+                                            fragment.outputBlock("if !(try env.hasNamedProperty(createdCore, \"\(method.callName)\")) {") {
+                                                fragment.output("try env.setNamedProperty(createdCore, \"\(method.callName)\", \(method.callName)Function)")
+                                            }
                                             fragment.blankLine()
                                         }
                                     }
