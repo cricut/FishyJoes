@@ -293,7 +293,7 @@ async function testAsyncForeignSideFunctionsCore(a: TestAPI.TestAsyncFunctions) 
         }
     );
     await n();
-    sleep(1);
+    sleep(10);
     expect(o).toEqual(3);
 
     let p = await a.defaultExercise6(
