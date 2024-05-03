@@ -33,7 +33,9 @@ test('testCore', () => {
     console.log(`a.foo: ${a.foo}`);
     console.log(`a.baz: ${a.baz}`);
 
-    let c = TestAPI.AProtocol.fromCore(a);
+    // let c = TestAPI.AProtocol.fromCore(a);
+    let b = new TestCore("Gitang", true);
+    let c = TestAPI.AProtocol.fromCore(b);
     let z = c.bar(1, 2);
     let d = c.hasADefaultImplementation(3, 4);
     console.log(`c.foo: ${c.foo}`);
