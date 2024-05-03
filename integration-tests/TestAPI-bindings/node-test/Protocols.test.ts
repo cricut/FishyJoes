@@ -23,11 +23,18 @@ test('testProtocolImplementation', () => {
 });
 
 test('testCore', () => {
-    let a = new TestCore("raisin", true);
+    let a: TestAPI.AProtocolCore = {
+        baz: false,
+        foo: "",
+        bar(x: number, y: number): TestAPI.AProtocol {
+            return this;
+        }
+    };
     console.log(`a.foo: ${a.foo}`);
     console.log(`a.baz: ${a.baz}`);
 
     let c = TestAPI.AProtocol.fromCore(a);
+    let z = c.bar(1, 2);
     let d = c.hasADefaultImplementation(3, 4);
     console.log(`c.foo: ${c.foo}`);
     console.log(`c.baz: ${c.baz}`);

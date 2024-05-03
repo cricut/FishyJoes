@@ -1,4 +1,7 @@
 export declare namespace TestAPI {
+    namespace AProtocol {
+        function fromCore(core: AProtocolCore): AProtocol
+    }
     /**
      * <!-- FishyJoes.export(AProtocol) -->
      */
@@ -54,6 +57,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(bar) -->
          */
         bar(
+            this: AProtocol,
             x: number,
             y: number
         ): TestAPI.AProtocol;
@@ -62,6 +66,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(hasADefaultImplementation) -->
          */
         hasADefaultImplementation?(
+            this: AProtocol,
             x: number,
             y: number
         ): string;
@@ -70,6 +75,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(hasADefaultImplementation2) -->
          */
         hasADefaultImplementation2?(
+            this: AProtocol,
             a: string,
             b: boolean,
             c: number
