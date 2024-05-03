@@ -22,6 +22,35 @@ test('testProtocolImplementation', () => {
     expect(a.hasADefaultImplementation2?.("0.9870923", false, 1.123123)).toEqual(1.686253813623996);
 });
 
+test('testCore', () => {
+    let a = new TestCore("raisin", true);
+    console.log(`a.foo: ${a.foo}`);
+    console.log(`a.baz: ${a.baz}`);
+
+    let c = TestAPI.AProtocol.fromCore(a);
+    let d = c.hasADefaultImplementation2("heep", true, 4);
+    console.log(`c.foo: ${c.foo}`);
+    console.log(`c.baz: ${c.baz}`);
+});
+
+class TestCore implements TestAPI.AProtocolCore {
+    constructor(foo: string, baz: boolean) {
+        this.foo = foo;
+        this.baz = baz;
+    }
+    baz: boolean;
+    foo: string;
+    bar(x: number, y: number): TestAPI.AProtocol {
+        return new TestAPI.AProtocolImplementation(
+            "Garply",
+            false
+        );
+    }
+
+    hasADefaultImplementation2?(a: string, b: boolean, c: number): number {
+        return c * 19;
+    }
+}
 
 test('testProtocolEnum', () => {
     TestAPI.TestProtocolEnum.foo("qux");
@@ -441,18 +470,14 @@ test('testAsyncSwiftSideFunctionsWitness', async () => {
 //     //     throw new Error('Method not implemented.');
 //     // }
 //     witness(): TestAPI.TestAsyncFunctions {
-//         return new TestAsyncFunctionsImpl();
+//         let a = new TestAsyncFunctionsImpl();
+//         return TestAPI.AProtocol.fromCore(a);
 //     }    
 // }
 
-// // const TestAsyncFunctionsDef = {
-// //     fromCore(core: TestAPI.TestAsyncFunctions): TestAsyncFunctionsDef {
-
-// //     }
-// // }
-
 // test('testAsyncFunctionsImpl', async () => {
 //     let a = new TestAsyncFunctionsImpl();
+//     let b = TestAPI.AProtocol.fromCore(a);
 //     await testAsyncForeignSideFunctionsCore(a);
 // });
 

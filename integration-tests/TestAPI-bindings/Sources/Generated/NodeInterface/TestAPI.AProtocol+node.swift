@@ -73,8 +73,43 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
         return try env.newInstance(constructor, [arg])
     }
 
+    class AProtocol {
+        public static func fromCore(_ core: TestAPI.AProtocol) -> TestAPI.AProtocol {
+            let coreCopy = core
+            return coreCopy
+        }
+    }
+
     @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        let fromCoreClass = try NodeClass(
+            env: env,
+            name: "AProtocol",
+            properties: [
+                "fromCore": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "fromCore", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try env.argument(at: 0)
+                            // how do I inject the default methods here? How do I make it call it?
+                            return result
+                        }
+                    },
+                    isStatic: true
+                )
+            ],
+            constructor: { env, info in
+                callbackBody(env, info, name: "AProtocol_constructor", expectedArgumentCount: 1) { env in
+                    try FishyJoesNodeRuntime.Box<TestAPI_CommonInterface._AProtocolConverter.AProtocol>.construct(env: env)
+                }
+            }
+        )
+        try mergeDefinitionInto(
+            env: env,
+            module: module,
+            path: "AProtocol",
+            nodeClass: fromCoreClass.constructor.value(env: env)
+        )
+        
         let nodeClass = try NodeClass(
             env: env,
             name: "ExternalWitness_AProtocol",
