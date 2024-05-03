@@ -481,7 +481,17 @@ struct TranslatedProtocol: TranslatedType {
                             fragment.output("isStatic: false")
                         }
                     }
+                    fragment.outputBlock("constructor: { env, info in", closeWith: "}") {
+                        fragment.output("fatalError(\"Constructor should not be called on fromCoreClass\")")
+                    }
                 }
+                fragment.outputBlock("try mergeDefinitionInto(") {
+                    fragment.output("env: env,")
+                    fragment.output("module: module,")
+                    fragment.output("path: \"\(sourceType.nonNamespacedName)\",")
+                    fragment.output("nodeClass: fromCoreClass.constructor.value(env: env)")
+                }
+                fragment.blankLine()
 
                 fragment.outputBlock("let nodeClass = try NodeClass(") {
                     fragment.output("env: env,")
