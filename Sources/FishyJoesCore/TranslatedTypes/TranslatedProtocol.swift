@@ -441,6 +441,40 @@ struct TranslatedProtocol: TranslatedType {
             fragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
             fragment.outputBlock("public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {") {
                 // fragment.output("print(\"setting up \(sourceType.name)\")")
+                
+                fragment.outputBlock("let fromCoreClass = try NodeClass(") {
+                    fragment.output("env: env,")
+                    fragment.output("name: \"\(sourceType.nonNamespacedName)\",")
+                    fragment.outputBlock("properties: [", closeWith: "],") {
+                        fragment.outputBlock("\"fromCore\": (") {
+                            fragment.outputBlock(".method { env, info in", closeWith: "}") {
+                                fragment.outputBlock("FishyJoesNodeRuntime.callbackBody(env, info, name: \"fromCore\", expectedArgumentCount: 1, hasNamedOptions: false) { env in", closeWith: "}") {
+                                    fragment.output("let coreArg = try env.argument(at: 0)")
+                                    fragment.blankLine()
+                                    fragment.output("let env = env.env")
+                                    fragment.output("let global = try env.getGlobal()")
+                                    fragment.output("let object = try env.getNamedProperty(global, \"Object\")")
+                                    fragment.output("let create = try env.getNamedProperty(object, \"create\")")
+                                    fragment.blankLine()
+                                    fragment.output("let createdCore = try env.callFunction(global, create, [coreArg])")
+                                    fragment.blankLine()
+                                    
+                                    let defaultMethods = methods.filter { $0.isDefaultImplementation }
+                                    var hasProperties = false
+                                    if !defaultMethods.isEmpty {
+                                        hasProperties ||= context.nodeTranslator.outputProperties(methods: defaultMethods, context: context, fragment: fragment, converterName: nil)
+                                    }
+                                    if !hasProperties {
+                                        fragment.output(":")
+                                    }
+                                    
+                                    fragment.blankLine()
+                                    fragment.output("return createdCore")
+                                }
+                            }
+                        }
+                    }
+                }
 
                 fragment.outputBlock("let nodeClass = try NodeClass(") {
                     fragment.output("env: env,")
