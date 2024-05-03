@@ -447,7 +447,7 @@ struct TranslatedProtocol: TranslatedType {
                     fragment.output("name: \"\(sourceType.nonNamespacedName)\",")
                     fragment.outputBlock("properties: [", closeWith: "],") {
                         fragment.outputBlock("\"fromCore\": (") {
-                            fragment.outputBlock(".method { env, info in", closeWith: "}") {
+                            fragment.outputBlock(".method { env, info in", closeWith: "},") {
                                 fragment.outputBlock("FishyJoesNodeRuntime.callbackBody(env, info, name: \"fromCore\", expectedArgumentCount: 1, hasNamedOptions: false) { env in", closeWith: "}") {
                                     fragment.output("let coreArg = try env.argument(at: 0)")
                                     fragment.blankLine()
@@ -460,11 +460,11 @@ struct TranslatedProtocol: TranslatedType {
                                     fragment.blankLine()
                                     
                                     let defaultMethods = methods.filter { $0.isDefaultImplementation }
-                                    var hasProperties = false
                                     if !defaultMethods.isEmpty {
-                                        hasProperties ||= context.nodeTranslator.outputProperties(methods: defaultMethods, context: context, fragment: fragment, converterName: nil)
-                                    }
-                                    if !hasProperties {
+                                        for method in defaultMethods {
+                                            context.nodeTranslator.output(method: method, explicitThis: false, context: context, fragment: fragment, newLineTerminated: false, converterName: nil)
+                                        }
+                                    } else {
                                         fragment.output(":")
                                     }
                                     
@@ -472,6 +472,7 @@ struct TranslatedProtocol: TranslatedType {
                                     fragment.output("return createdCore")
                                 }
                             }
+                            fragment.output("isStatic: false")
                         }
                     }
                 }
