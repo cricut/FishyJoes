@@ -478,7 +478,7 @@ struct TranslatedProtocol: TranslatedType {
                                     fragment.output("return createdCore")
                                 }
                             }
-                            fragment.output("isStatic: false")
+                            fragment.output("isStatic: true")
                         }
                     }
                     fragment.outputBlock("constructor: { env, info in", closeWith: "}") {

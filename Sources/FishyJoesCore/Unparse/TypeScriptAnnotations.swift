@@ -424,6 +424,11 @@ extension TypeScriptAnnotations {
                                 }
                             }
                             fragment.blankLine()
+                            
+                            fragment.outputBlock("namespace \(interface.name) {") {
+                                fragment.output("function fromCore(core: \(interface.name)Core): \(interface.name)")
+                            }
+                            fragment.blankLine()
                         }
 
                     case .field(let field):
