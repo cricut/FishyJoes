@@ -30,21 +30,21 @@ struct _NodeAProtocol: TestAPI.AProtocol {
         let env = _nodeWitness.env
         let napiValue = try _nodeWitness.value(env: env)
         let bar = try env.getNamedProperty(napiValue, "bar")
-        let result = try env.callFunction(napiValue, bar, [try Swift.Int.toNode(x, env: env),try Swift.Int.toNode(y, env: env)])
+        let result = try env.callFunction(napiValue, bar, [try Swift.Int.toNode(x, env: env), try Swift.Int.toNode(y, env: env)])
         return try TestAPI_CommonInterface._AProtocolConverter.fromNode(result, env: env)
     }
     public func hasADefaultImplementation(x: Int, y: Double) throws -> String {
         let env = _nodeWitness.env
         let napiValue = try _nodeWitness.value(env: env)
         let hasADefaultImplementation = try env.getNamedProperty(napiValue, "hasADefaultImplementation")
-        let result = try env.callFunction(napiValue, hasADefaultImplementation, [try Swift.Int.toNode(x, env: env),try Swift.Double.toNode(y, env: env)])
+        let result = try env.callFunction(napiValue, hasADefaultImplementation, [try Swift.Int.toNode(x, env: env), try Swift.Double.toNode(y, env: env)])
         return try Swift.String.fromNode(result, env: env)
     }
     public func hasADefaultImplementation2(_ a: String, b: Bool, _ c: Double) throws -> Double {
         let env = _nodeWitness.env
         let napiValue = try _nodeWitness.value(env: env)
         let hasADefaultImplementation2 = try env.getNamedProperty(napiValue, "hasADefaultImplementation2")
-        let result = try env.callFunction(napiValue, hasADefaultImplementation2, [try Swift.String.toNode(a, env: env),try Swift.Bool.toNode(b, env: env),try Swift.Double.toNode(c, env: env)])
+        let result = try env.callFunction(napiValue, hasADefaultImplementation2, [try Swift.String.toNode(a, env: env), try Swift.Bool.toNode(b, env: env), try Swift.Double.toNode(c, env: env)])
         return try Swift.Double.fromNode(result, env: env)
     }
 }

@@ -174,7 +174,7 @@ struct TranslatedReference: TranslatedType {
                 implements: Array(conformances).sorted(by: <),
                 constructor: .hidden,
                 fields: computedVariables.compactMap { context.ts(field: $0) },
-                methods: 
+                methods:
                     methods.compactMap { context.ts(method: $0) } +
                 defaultMethodsForNode.compactMap { context.ts(method: $0) }
             )

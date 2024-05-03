@@ -406,7 +406,7 @@ struct TranslatedProtocol: TranslatedType {
                 }
             }
         }
-        
+
         fragment.blankLine()
 
         fragment.outputBlock("extension \(converterType.name): NodeConverter {") {
@@ -441,7 +441,7 @@ struct TranslatedProtocol: TranslatedType {
             fragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
             fragment.outputBlock("public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {") {
                 // fragment.output("print(\"setting up \(sourceType.name)\")")
-                
+
                 fragment.outputBlock("let fromCoreClass = try NodeClass(") {
                     fragment.output("env: env,")
                     fragment.output("name: \"\(sourceType.nonNamespacedName)\",")
@@ -458,7 +458,7 @@ struct TranslatedProtocol: TranslatedType {
                                     fragment.blankLine()
                                     fragment.output("let createdCore = try env.callFunction(global, create, [coreArg])")
                                     fragment.blankLine()
-                                    
+
                                     let defaultMethods = methods.filter { $0.isDefaultImplementation }
                                     if !defaultMethods.isEmpty {
                                         for method in defaultMethods {

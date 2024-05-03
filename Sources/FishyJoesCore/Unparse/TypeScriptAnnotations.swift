@@ -413,7 +413,7 @@ extension TypeScriptAnnotations {
                             }
                         }
                         fragment.blankLine()
-                        
+
                         if interface.methods.contains(where: { $0.hasDefaultImplementation }) {
                             fragment.outputBlock("interface \(interface.name)Core {") {
                                 for field in interface.fields {
@@ -424,7 +424,7 @@ extension TypeScriptAnnotations {
                                 }
                             }
                             fragment.blankLine()
-                            
+
                             fragment.outputBlock("namespace \(interface.name) {") {
                                 fragment.output("function fromCore(core: \(interface.name)Core): \(interface.name)")
                             }

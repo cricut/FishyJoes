@@ -40,7 +40,7 @@ struct _NodeTestMethodsProtocol: TestAPI.TestMethodsProtocol {
         let env = _nodeWitness.env
         let napiValue = try _nodeWitness.value(env: env)
         let xyzzy = try env.getNamedProperty(napiValue, "xyzzy")
-        let result = try env.callFunction(napiValue, xyzzy, [try Swift.Int.toNode(thud, env: env),try ArrayConverter<Swift.Double>.toNode(grault, env: env)])
+        let result = try env.callFunction(napiValue, xyzzy, [try Swift.Int.toNode(thud, env: env), try ArrayConverter<Swift.Double>.toNode(grault, env: env)])
         return try Swift.String.fromNode(result, env: env)
     }
     public func plugh(fred: (Bool, Double, Array<String>)) throws -> (Bool, Int, String) {
