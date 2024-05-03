@@ -82,6 +82,57 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
 
     @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+//        let defaultsClass = try NodeClass(
+//            env: env,
+//            name: "AProtocolDefaults",
+//            properties: [
+//                "hasADefaultImplementation": (
+//                    .method { env, info in
+//                        FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation", expectedArgumentCount: 2, hasNamedOptions: false) { env in
+//                            let _wrappedSwiftSelf = TestAPI_CommonInterface.AProtocol_sans_hasADefaultImplementation(wrapped: try env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self))
+//                            let result = try Swift.String.toNode(
+//                                _wrappedSwiftSelf.hasADefaultImplementation(
+//                                    x: try env.argument(at: 0, converter: Swift.Int.self),
+//                                    y: try env.argument(at: 1, converter: Swift.Double.self)
+//                                ),
+//                                env: env.env
+//                            )
+//                            return result
+//                        }
+//                    },
+//                    isStatic: false
+//                ),
+//                "hasADefaultImplementation2": (
+//                    .method { env, info in
+//                        FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation2", expectedArgumentCount: 3, hasNamedOptions: false) { env in
+//                            let _wrappedSwiftSelf = TestAPI_CommonInterface.AProtocol_sans_hasADefaultImplementation2(wrapped: try env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self))
+//                            let result = try Swift.Double.toNode(
+//                                _wrappedSwiftSelf.hasADefaultImplementation2(
+//                                    try env.argument(at: 0, converter: Swift.String.self),
+//                                    b: try env.argument(at: 1, converter: Swift.Bool.self),
+//                                    try env.argument(at: 2, converter: Swift.Double.self)
+//                                ),
+//                                env: env.env
+//                            )
+//                            return result
+//                        }
+//                    },
+//                    isStatic: false
+//                )
+//            ],
+//            constructor: { env, info in
+//                callbackBody(env, info, name: "AProtocolDefaults_constructor", expectedArgumentCount: 1) { env in
+//                    try FishyJoesNodeRuntime.Box<TestAPI.AProtocol>.construct(env: env)
+//                }
+//            }
+//        )
+//        try mergeDefinitionInto(
+//            env: env,
+//            module: module,
+//            path: "AProtocolDefaults",
+//            nodeClass: defaultsClass.constructor.value(env: env)
+//        )
+
         let fromCoreClass = try NodeClass(
             env: env,
             name: "AProtocol",
@@ -89,9 +140,36 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
                 "fromCore": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "fromCore", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let result = try env.argument(at: 0)
-                            // how do I inject the default methods here? How do I make it call it?
-                            return result
+                            var result = try env.argument(at: 0)
+
+                            let env = env.env
+                            let global = try env.getGlobal()
+                            let object = try env.getNamedProperty(global, "Object")
+                            let assign = try env.getNamedProperty(object, "assign")
+
+                            var defaultsNodeClass = try env.createObject()
+                            let hasADefaultImplementationFunctionCallback: NAPI.Callback = { env, info in
+                                FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation", expectedArgumentCount: 2, hasNamedOptions: false) { env in
+                                    let _wrappedSwiftSelf = TestAPI_CommonInterface.AProtocol_sans_hasADefaultImplementation(wrapped: try env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self))
+                                    let result = try Swift.String.toNode(
+                                        _wrappedSwiftSelf.hasADefaultImplementation(
+                                            x: try env.argument(at: 0, converter: Swift.Int.self),
+                                            y: try env.argument(at: 1, converter: Swift.Double.self)
+                                        ),
+                                        env: env.env
+                                    )
+                                    return result
+                                }
+                            }
+                            let hasADefaultImplementationFunction = try env.createFunction(
+                                "hasADefaultImplementation",
+                                hasADefaultImplementationFunctionCallback,
+                                nil
+                            )
+                            try env.setNamedProperty(defaultsNodeClass, "hasADefaultImplementation", hasADefaultImplementationFunction)
+                            _ = try env.callFunction(global, assign, [defaultsNodeClass, result])
+
+                            return defaultsNodeClass
                         }
                     },
                     isStatic: true

@@ -28,7 +28,7 @@ test('testCore', () => {
     console.log(`a.baz: ${a.baz}`);
 
     let c = TestAPI.AProtocol.fromCore(a);
-    let d = c.hasADefaultImplementation2("heep", true, 4);
+    let d = c.hasADefaultImplementation(3, 4);
     console.log(`c.foo: ${c.foo}`);
     console.log(`c.baz: ${c.baz}`);
 });
