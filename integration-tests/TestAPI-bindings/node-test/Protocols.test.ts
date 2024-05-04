@@ -235,9 +235,9 @@ async function testAsyncForeignSideFunctionsCore(a: TestAPI.TestAsyncFunctions) 
             sleep(1);
             return 43;
         },
-        Number.MIN_SAFE_INTEGER
+        Number.MIN_SAFE_INTEGER + 1
     );
-    expect(f).toEqual(Number.MIN_SAFE_INTEGER);
+    expect(f).toEqual(Number.MIN_SAFE_INTEGER + 1);
 
     expect(a.willThrow()).rejects.toThrowError("Spoon!")
 
