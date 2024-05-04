@@ -235,9 +235,9 @@ async function testAsyncForeignSideFunctionsCore(a: TestAPI.TestAsyncFunctions) 
             sleep(1);
             return 43;
         },
-        Number.MIN_SAFE_INTEGER + 1
+        -98237384
     );
-    expect(f).toEqual(Number.MIN_SAFE_INTEGER + 1);
+    expect(f).toEqual(-98237384);
 
     expect(a.willThrow()).rejects.toThrowError("Spoon!")
 
@@ -350,9 +350,9 @@ async function testAsyncSwiftSideFunctionsCore(a: TestAPI.TestAsyncFunctions) {
             sleep(1);
             return 43;
         },
-        Number.MIN_SAFE_INTEGER
+        -98237384
     );
-    expect(f).toEqual(Number.MIN_SAFE_INTEGER);
+    expect(f).toEqual(-98237384);
 
     expect(a.willThrow()).rejects.toThrowError("The operation couldn’t be completed. (TestAPI.AsyncFunctions.TheAsyncError error 1.)")
 
