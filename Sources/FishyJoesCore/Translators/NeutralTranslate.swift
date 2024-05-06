@@ -38,9 +38,8 @@ final class NeutralTranslate: Translator {
 
     func output(variable: Field, context: FishyJoesContext, fragment: SourceFragment) {
         fragment.outputBlock("Variable {") {
-            if let annotation = variable.exportAnnotation {
-                fragment.output("Annotation: \(annotation)")
-            }
+            guard let annotation = variable.exportAnnotation else { return }
+            fragment.output("Annotation: \(annotation)")
             fragment.output("Name: \(variable.exportAnnotation?.name ?? "not exported")")
             fragment.output("Type: \(context.resolve(type: variable.type).neutralName)")
             fragment.output("Mutable: \(variable.isMutable)")
