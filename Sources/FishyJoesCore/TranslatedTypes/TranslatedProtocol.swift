@@ -352,7 +352,7 @@ struct TranslatedProtocol: TranslatedType {
                     fragment.outputBlock("get throws {") {
                         fragment.outputBlock("try syncOnMainThread { env in", closeWith: "}") {
                             fragment.output("let napiValue = try _nodeWitness.value(env: env)")
-                            fragment.output("let \(field.name) = try env.getNamedProperty(napiValue, \"\(field.name)\")")
+                            fragment.output("let \(field.name) = try env.getNamedProperty(napiValue, \"\(field.exportAnnotation?.name ?? field.name)\")")
                             
                             if case let .function(params, resVal, _, _) = field.type {
                                 fragment.outputBlock("return {") {
