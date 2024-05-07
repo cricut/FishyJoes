@@ -197,15 +197,13 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                     throw JSException(message: "expected TestAPI.TestAsyncFunctions, got nil")
                 }
                 return try Box<TestAPI.TestAsyncFunctions>.takeUnretainedOpaque(nonNilPointer).value
-            } else {
+            }
+             else {
                 return _NodeTestAsyncFunctions(
                     _nodeWitness: try NodeReference(env: env, value: value)
                 )
             }
-        } catch {
-            throw error
-        }
-    }
+        }}
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
         let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestAsyncFunctions", env: env)
         let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)

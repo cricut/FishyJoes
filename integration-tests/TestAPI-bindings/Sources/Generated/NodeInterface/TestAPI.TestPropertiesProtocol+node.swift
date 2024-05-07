@@ -39,15 +39,13 @@ extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: NodeConverte
                     throw JSException(message: "expected TestAPI.TestPropertiesProtocol, got nil")
                 }
                 return try Box<TestAPI.TestPropertiesProtocol>.takeUnretainedOpaque(nonNilPointer).value
-            } else {
+            }
+             else {
                 return _NodeTestPropertiesProtocol(
                     _nodeWitness: try NodeReference(env: env, value: value)
                 )
             }
-        } catch {
-            throw error
-        }
-    }
+        }}
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
         let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestPropertiesProtocol", env: env)
         let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)

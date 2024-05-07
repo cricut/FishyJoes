@@ -46,15 +46,13 @@ extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: NodeConverter
                     throw JSException(message: "expected TestAPI.TestOptionalsProtocol, got nil")
                 }
                 return try Box<TestAPI.TestOptionalsProtocol>.takeUnretainedOpaque(nonNilPointer).value
-            } else {
+            }
+             else {
                 return _NodeTestOptionalsProtocol(
                     _nodeWitness: try NodeReference(env: env, value: value)
                 )
             }
-        } catch {
-            throw error
-        }
-    }
+        }}
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
         let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestOptionalsProtocol", env: env)
         let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
