@@ -20,18 +20,20 @@ struct _NodeTestOptionalsProtocol: TestAPI.TestOptionalsProtocol {
         }
     }
     public func wombat(zxc: Optional<Int>) throws -> Optional<Double> {
-        let env = _nodeWitness.env
-        let napiValue = try _nodeWitness.value(env: env)
-        let wombat = try env.getNamedProperty(napiValue, "wombat")
-        let result = try env.callFunction(napiValue, wombat, [try OptionalConverter<Swift.Int>.toNode(zxc, env: env)])
-        return try OptionalConverter<Swift.Double>.fromNode(result, env: env)
+        try syncOnMainThread { env in
+            let napiValue = try _nodeWitness.value(env: env)
+            let wombat = try env.getNamedProperty(napiValue, "wombat")
+            let result = try env.callFunction(napiValue, wombat, [try OptionalConverter<Swift.Int>.toNode(zxc, env: env)])
+            return try OptionalConverter<Swift.Double>.fromNode(result, env: env)
+        }
     }
     public func spqr(_ pippo: AssociatedDataEnum) throws -> Int {
-        let env = _nodeWitness.env
-        let napiValue = try _nodeWitness.value(env: env)
-        let spqr = try env.getNamedProperty(napiValue, "spqr")
-        let result = try env.callFunction(napiValue, spqr, [try TestAPI.AssociatedDataEnum.toNode(pippo, env: env)])
-        return try Swift.Int.fromNode(result, env: env)
+        try syncOnMainThread { env in
+            let napiValue = try _nodeWitness.value(env: env)
+            let spqr = try env.getNamedProperty(napiValue, "spqr")
+            let result = try env.callFunction(napiValue, spqr, [try TestAPI.AssociatedDataEnum.toNode(pippo, env: env)])
+            return try Swift.Int.fromNode(result, env: env)
+        }
     }
 }
 

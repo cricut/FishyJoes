@@ -388,21 +388,22 @@ struct TranslatedProtocol: TranslatedType {
                 }
 
                 fragment.outputBlock("\(method.isStatic ? "static " : "")public func \(method.callName)(\(paramSigs.joined(separator: ", ")))\(returnSignature) {") {
-                    fragment.output("let env = _nodeWitness.env")
-                    fragment.output("let napiValue = try _nodeWitness.value(env: env)")
-                    fragment.output("let \(method.callName) = try env.getNamedProperty(napiValue, \"\(method.callName)\")")
-                    fragment.output("\(method.returnType != .void ? "let result": "_") = try env.callFunction(napiValue, \(method.callName), ", newLineTerminated: false)
-
-                    var toNodeParams = [String]()
-                    for param in method.parameters {
-                        let resolved = context.resolve(type: param.type)
-                        toNodeParams.append("try \(resolved.converterType.name).toNode(\(param.name), env: env)")
-                    }
-                    fragment.output("[\(toNodeParams.joined(separator: ", "))])")
-
-                    if method.returnType != .void {
-                        let resolved = context.resolve(type: method.returnType)
-                        fragment.output("return try \(resolved.converterType.name).fromNode(result, env: env)")
+                    fragment.outputBlock("try syncOnMainThread { env in", closeWith: "}") {
+                        fragment.output("let napiValue = try _nodeWitness.value(env: env)")
+                        fragment.output("let \(method.callName) = try env.getNamedProperty(napiValue, \"\(method.callName)\")")
+                        fragment.output("\(method.returnType != .void ? "let result": "_") = try env.callFunction(napiValue, \(method.callName), ", newLineTerminated: false)
+                        
+                        var toNodeParams = [String]()
+                        for param in method.parameters {
+                            let resolved = context.resolve(type: param.type)
+                            toNodeParams.append("try \(resolved.converterType.name).toNode(\(param.name), env: env)")
+                        }
+                        fragment.output("[\(toNodeParams.joined(separator: ", "))])")
+                        
+                        if method.returnType != .void {
+                            let resolved = context.resolve(type: method.returnType)
+                            fragment.output("return try \(resolved.converterType.name).fromNode(result, env: env)")
+                        }
                     }
                 }
             }

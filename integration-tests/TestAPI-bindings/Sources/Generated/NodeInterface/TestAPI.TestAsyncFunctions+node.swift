@@ -107,74 +107,84 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
         }
     }
     public func exercise0(_ fn: @escaping () async throws -> Int) throws -> String {
-        let env = _nodeWitness.env
-        let napiValue = try _nodeWitness.value(env: env)
-        let exercise0 = try env.getNamedProperty(napiValue, "exercise0")
-        let result = try env.callFunction(napiValue, exercise0, [try AsyncFunction0Converter<Swift.Int>.toNode(fn, env: env)])
-        return try Swift.String.fromNode(result, env: env)
+        try syncOnMainThread { env in
+            let napiValue = try _nodeWitness.value(env: env)
+            let exercise0 = try env.getNamedProperty(napiValue, "exercise0")
+            let result = try env.callFunction(napiValue, exercise0, [try AsyncFunction0Converter<Swift.Int>.toNode(fn, env: env)])
+            return try Swift.String.fromNode(result, env: env)
+        }
     }
     public func exercise1(_ fn: @escaping (Int) async throws -> Int) throws -> String {
-        let env = _nodeWitness.env
-        let napiValue = try _nodeWitness.value(env: env)
-        let exercise1 = try env.getNamedProperty(napiValue, "exercise1")
-        let result = try env.callFunction(napiValue, exercise1, [try AsyncFunction1Converter<Swift.Int, Swift.Int>.toNode(fn, env: env)])
-        return try Swift.String.fromNode(result, env: env)
+        try syncOnMainThread { env in
+            let napiValue = try _nodeWitness.value(env: env)
+            let exercise1 = try env.getNamedProperty(napiValue, "exercise1")
+            let result = try env.callFunction(napiValue, exercise1, [try AsyncFunction1Converter<Swift.Int, Swift.Int>.toNode(fn, env: env)])
+            return try Swift.String.fromNode(result, env: env)
+        }
     }
     public func exercise2(_ fn: @escaping (@escaping (Int) async throws -> Int, @escaping (Int) async throws -> Int) throws -> (Int) async throws -> Int) throws -> String {
-        let env = _nodeWitness.env
-        let napiValue = try _nodeWitness.value(env: env)
-        let exercise2 = try env.getNamedProperty(napiValue, "exercise2")
-        let result = try env.callFunction(napiValue, exercise2, [try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.toNode(fn, env: env)])
-        return try Swift.String.fromNode(result, env: env)
+        try syncOnMainThread { env in
+            let napiValue = try _nodeWitness.value(env: env)
+            let exercise2 = try env.getNamedProperty(napiValue, "exercise2")
+            let result = try env.callFunction(napiValue, exercise2, [try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.toNode(fn, env: env)])
+            return try Swift.String.fromNode(result, env: env)
+        }
     }
     public func exercise3(_ fn: @escaping (Float, Double, Int) async throws -> Double) throws -> String {
-        let env = _nodeWitness.env
-        let napiValue = try _nodeWitness.value(env: env)
-        let exercise3 = try env.getNamedProperty(napiValue, "exercise3")
-        let result = try env.callFunction(napiValue, exercise3, [try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.toNode(fn, env: env)])
-        return try Swift.String.fromNode(result, env: env)
+        try syncOnMainThread { env in
+            let napiValue = try _nodeWitness.value(env: env)
+            let exercise3 = try env.getNamedProperty(napiValue, "exercise3")
+            let result = try env.callFunction(napiValue, exercise3, [try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.toNode(fn, env: env)])
+            return try Swift.String.fromNode(result, env: env)
+        }
     }
     public func exercise4(_ fn: @escaping (String, String, String, String) async throws -> Array<String>) throws -> String {
-        let env = _nodeWitness.env
-        let napiValue = try _nodeWitness.value(env: env)
-        let exercise4 = try env.getNamedProperty(napiValue, "exercise4")
-        let result = try env.callFunction(napiValue, exercise4, [try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.toNode(fn, env: env)])
-        return try Swift.String.fromNode(result, env: env)
+        try syncOnMainThread { env in
+            let napiValue = try _nodeWitness.value(env: env)
+            let exercise4 = try env.getNamedProperty(napiValue, "exercise4")
+            let result = try env.callFunction(napiValue, exercise4, [try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.toNode(fn, env: env)])
+            return try Swift.String.fromNode(result, env: env)
+        }
     }
     public func exercise5(_ fn: @escaping (String, Int, Double, String, @escaping () async throws -> Int) async throws -> () async throws -> Int) throws -> String {
-        let env = _nodeWitness.env
-        let napiValue = try _nodeWitness.value(env: env)
-        let exercise5 = try env.getNamedProperty(napiValue, "exercise5")
-        let result = try env.callFunction(napiValue, exercise5, [try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.toNode(fn, env: env)])
-        return try Swift.String.fromNode(result, env: env)
+        try syncOnMainThread { env in
+            let napiValue = try _nodeWitness.value(env: env)
+            let exercise5 = try env.getNamedProperty(napiValue, "exercise5")
+            let result = try env.callFunction(napiValue, exercise5, [try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.toNode(fn, env: env)])
+            return try Swift.String.fromNode(result, env: env)
+        }
     }
     public func exercise6(_ fn: @escaping (String, Int, Double, String, @escaping () async throws -> Int, Int) async throws -> Int) throws -> String {
-        let env = _nodeWitness.env
-        let napiValue = try _nodeWitness.value(env: env)
-        let exercise6 = try env.getNamedProperty(napiValue, "exercise6")
-        let result = try env.callFunction(napiValue, exercise6, [try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.toNode(fn, env: env)])
-        return try Swift.String.fromNode(result, env: env)
+        try syncOnMainThread { env in
+            let napiValue = try _nodeWitness.value(env: env)
+            let exercise6 = try env.getNamedProperty(napiValue, "exercise6")
+            let result = try env.callFunction(napiValue, exercise6, [try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.toNode(fn, env: env)])
+            return try Swift.String.fromNode(result, env: env)
+        }
     }
     public func thunkTwiceMaker(thunk: @escaping () async throws -> Void) throws -> () async throws -> Void {
-        let env = _nodeWitness.env
-        let napiValue = try _nodeWitness.value(env: env)
-        let thunkTwiceMaker = try env.getNamedProperty(napiValue, "thunkTwiceMaker")
-        let result = try env.callFunction(napiValue, thunkTwiceMaker, [try AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.toNode(thunk, env: env)])
-        return try AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.fromNode(result, env: env)
+        try syncOnMainThread { env in
+            let napiValue = try _nodeWitness.value(env: env)
+            let thunkTwiceMaker = try env.getNamedProperty(napiValue, "thunkTwiceMaker")
+            let result = try env.callFunction(napiValue, thunkTwiceMaker, [try AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.toNode(thunk, env: env)])
+            return try AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.fromNode(result, env: env)
+        }
     }
     public func defaultExercise6(_ fn: @escaping (String, Int, Double, String, @escaping () async throws -> Int, Int) async throws -> Int) throws -> String {
-        let env = _nodeWitness.env
-        let napiValue = try _nodeWitness.value(env: env)
-        let defaultExercise6 = try env.getNamedProperty(napiValue, "defaultExercise6")
-        let result = try env.callFunction(napiValue, defaultExercise6, [try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.toNode(fn, env: env)])
-        return try Swift.String.fromNode(result, env: env)
+        try syncOnMainThread { env in
+            let napiValue = try _nodeWitness.value(env: env)
+            let defaultExercise6 = try env.getNamedProperty(napiValue, "defaultExercise6")
+            let result = try env.callFunction(napiValue, defaultExercise6, [try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.toNode(fn, env: env)])
+            return try Swift.String.fromNode(result, env: env)
+        }
     }
     public func witness() throws -> TestAsyncFunctions {
-        let env = _nodeWitness.env
-        let napiValue = try _nodeWitness.value(env: env)
-        let witness = try env.getNamedProperty(napiValue, "witness")
-        let result = try env.callFunction(napiValue, witness, [])
-        return try TestAPI_CommonInterface._TestAsyncFunctionsConverter.fromNode(result, env: env)
+        try syncOnMainThread { env in
+            let napiValue = try _nodeWitness.value(env: env)
+            let witness = try env.getNamedProperty(napiValue, "witness")
+            let result = try env.callFunction(napiValue, witness, [])
+            return try TestAPI_CommonInterface._TestAsyncFunctionsConverter.fromNode(result, env: env)
+        }
     }
 }
 

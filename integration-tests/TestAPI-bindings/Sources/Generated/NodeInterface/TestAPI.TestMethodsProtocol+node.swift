@@ -11,44 +11,50 @@ struct _NodeTestMethodsProtocol: TestAPI.TestMethodsProtocol {
     let _nodeWitness: NodeReference
 
     public func foo() throws {
-        let env = _nodeWitness.env
-        let napiValue = try _nodeWitness.value(env: env)
-        let foo = try env.getNamedProperty(napiValue, "foo")
-        _ = try env.callFunction(napiValue, foo, [])
+        try syncOnMainThread { env in
+            let napiValue = try _nodeWitness.value(env: env)
+            let foo = try env.getNamedProperty(napiValue, "foo")
+            _ = try env.callFunction(napiValue, foo, [])
+        }
     }
     public func bar() throws -> Bool {
-        let env = _nodeWitness.env
-        let napiValue = try _nodeWitness.value(env: env)
-        let bar = try env.getNamedProperty(napiValue, "bar")
-        let result = try env.callFunction(napiValue, bar, [])
-        return try Swift.Bool.fromNode(result, env: env)
+        try syncOnMainThread { env in
+            let napiValue = try _nodeWitness.value(env: env)
+            let bar = try env.getNamedProperty(napiValue, "bar")
+            let result = try env.callFunction(napiValue, bar, [])
+            return try Swift.Bool.fromNode(result, env: env)
+        }
     }
     public func baz(qux: Bool) throws {
-        let env = _nodeWitness.env
-        let napiValue = try _nodeWitness.value(env: env)
-        let baz = try env.getNamedProperty(napiValue, "baz")
-        _ = try env.callFunction(napiValue, baz, [try Swift.Bool.toNode(qux, env: env)])
+        try syncOnMainThread { env in
+            let napiValue = try _nodeWitness.value(env: env)
+            let baz = try env.getNamedProperty(napiValue, "baz")
+            _ = try env.callFunction(napiValue, baz, [try Swift.Bool.toNode(qux, env: env)])
+        }
     }
     public func garply(_ _0: String) throws -> String {
-        let env = _nodeWitness.env
-        let napiValue = try _nodeWitness.value(env: env)
-        let garply = try env.getNamedProperty(napiValue, "garply")
-        let result = try env.callFunction(napiValue, garply, [try Swift.String.toNode(_0, env: env)])
-        return try Swift.String.fromNode(result, env: env)
+        try syncOnMainThread { env in
+            let napiValue = try _nodeWitness.value(env: env)
+            let garply = try env.getNamedProperty(napiValue, "garply")
+            let result = try env.callFunction(napiValue, garply, [try Swift.String.toNode(_0, env: env)])
+            return try Swift.String.fromNode(result, env: env)
+        }
     }
     public func xyzzy(thud: Int, grault: Array<Double>) throws -> String {
-        let env = _nodeWitness.env
-        let napiValue = try _nodeWitness.value(env: env)
-        let xyzzy = try env.getNamedProperty(napiValue, "xyzzy")
-        let result = try env.callFunction(napiValue, xyzzy, [try Swift.Int.toNode(thud, env: env), try ArrayConverter<Swift.Double>.toNode(grault, env: env)])
-        return try Swift.String.fromNode(result, env: env)
+        try syncOnMainThread { env in
+            let napiValue = try _nodeWitness.value(env: env)
+            let xyzzy = try env.getNamedProperty(napiValue, "xyzzy")
+            let result = try env.callFunction(napiValue, xyzzy, [try Swift.Int.toNode(thud, env: env), try ArrayConverter<Swift.Double>.toNode(grault, env: env)])
+            return try Swift.String.fromNode(result, env: env)
+        }
     }
     public func plugh(fred: (Bool, Double, Array<String>)) throws -> (Bool, Int, String) {
-        let env = _nodeWitness.env
-        let napiValue = try _nodeWitness.value(env: env)
-        let plugh = try env.getNamedProperty(napiValue, "plugh")
-        let result = try env.callFunction(napiValue, plugh, [try Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>.toNode(fred, env: env)])
-        return try Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.fromNode(result, env: env)
+        try syncOnMainThread { env in
+            let napiValue = try _nodeWitness.value(env: env)
+            let plugh = try env.getNamedProperty(napiValue, "plugh")
+            let result = try env.callFunction(napiValue, plugh, [try Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>.toNode(fred, env: env)])
+            return try Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.fromNode(result, env: env)
+        }
     }
 }
 
