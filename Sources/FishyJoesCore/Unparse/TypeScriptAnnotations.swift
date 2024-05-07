@@ -388,9 +388,7 @@ extension TypeScriptAnnotations {
                             }
                         }
                     case .interface(let interface):
-                        if !interface.documentation.isEmpty {
-                            document(interface.documentation)
-                        }
+                        document(interface.documentation)
                         fragment.outputBlock("interface \(interface.name) {") {
                             for field in interface.fields {
                                 output(field: field, inClass: true)
