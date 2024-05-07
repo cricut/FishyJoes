@@ -12,10 +12,11 @@ struct _NodeTestOptionalsProtocol: TestAPI.TestOptionalsProtocol {
 
     var flarp: Optional<String> {
         get throws {
-            let env = _nodeWitness.env
-            let napiValue = try _nodeWitness.value(env: env)
-            let flarp = try env.getNamedProperty(napiValue, "flarp")
-            return try OptionalConverter<Swift.String>.fromNode(flarp, env: env)
+            try syncOnMainThread { env in
+                let napiValue = try _nodeWitness.value(env: env)
+                let flarp = try env.getNamedProperty(napiValue, "flarp")
+                return try OptionalConverter<Swift.String>.fromNode(flarp, env: env)
+            }
         }
     }
     public func wombat(zxc: Optional<Int>) throws -> Optional<Double> {

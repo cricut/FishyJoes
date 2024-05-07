@@ -12,10 +12,11 @@ struct _NodeTestLeadingUnderscoredProp: TestAPI.TestLeadingUnderscoredProp {
 
     var _leadingUnderscoreProp: String {
         get throws {
-            let env = _nodeWitness.env
-            let napiValue = try _nodeWitness.value(env: env)
-            let _leadingUnderscoreProp = try env.getNamedProperty(napiValue, "_leadingUnderscoreProp")
-            return try Swift.String.fromNode(_leadingUnderscoreProp, env: env)
+            try syncOnMainThread { env in
+                let napiValue = try _nodeWitness.value(env: env)
+                let _leadingUnderscoreProp = try env.getNamedProperty(napiValue, "_leadingUnderscoreProp")
+                return try Swift.String.fromNode(_leadingUnderscoreProp, env: env)
+            }
         }
     }
 }

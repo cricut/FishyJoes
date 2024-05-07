@@ -12,18 +12,20 @@ struct _NodeAProtocol: TestAPI.AProtocol {
 
     var baz: Bool {
         get throws {
-            let env = _nodeWitness.env
-            let napiValue = try _nodeWitness.value(env: env)
-            let baz = try env.getNamedProperty(napiValue, "baz")
-            return try Swift.Bool.fromNode(baz, env: env)
+            try syncOnMainThread { env in
+                let napiValue = try _nodeWitness.value(env: env)
+                let baz = try env.getNamedProperty(napiValue, "baz")
+                return try Swift.Bool.fromNode(baz, env: env)
+            }
         }
     }
     var foo: String {
         get throws {
-            let env = _nodeWitness.env
-            let napiValue = try _nodeWitness.value(env: env)
-            let foo = try env.getNamedProperty(napiValue, "foo")
-            return try Swift.String.fromNode(foo, env: env)
+            try syncOnMainThread { env in
+                let napiValue = try _nodeWitness.value(env: env)
+                let foo = try env.getNamedProperty(napiValue, "foo")
+                return try Swift.String.fromNode(foo, env: env)
+            }
         }
     }
     public func bar(x: Int, y: Int) throws -> AProtocol {

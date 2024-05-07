@@ -12,18 +12,20 @@ struct _NodeTestPropertiesProtocol: TestAPI.TestPropertiesProtocol {
 
     var corge: String {
         get throws {
-            let env = _nodeWitness.env
-            let napiValue = try _nodeWitness.value(env: env)
-            let corge = try env.getNamedProperty(napiValue, "corge")
-            return try Swift.String.fromNode(corge, env: env)
+            try syncOnMainThread { env in
+                let napiValue = try _nodeWitness.value(env: env)
+                let corge = try env.getNamedProperty(napiValue, "corge")
+                return try Swift.String.fromNode(corge, env: env)
+            }
         }
     }
     var frob: Array<Double> {
         get throws {
-            let env = _nodeWitness.env
-            let napiValue = try _nodeWitness.value(env: env)
-            let frob = try env.getNamedProperty(napiValue, "frob")
-            return try ArrayConverter<Swift.Double>.fromNode(frob, env: env)
+            try syncOnMainThread { env in
+                let napiValue = try _nodeWitness.value(env: env)
+                let frob = try env.getNamedProperty(napiValue, "frob")
+                return try ArrayConverter<Swift.Double>.fromNode(frob, env: env)
+            }
         }
     }
 }

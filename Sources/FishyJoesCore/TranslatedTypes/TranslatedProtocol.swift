@@ -350,28 +350,29 @@ struct TranslatedProtocol: TranslatedType {
             for field in fields {
                 fragment.outputBlock("var \(field.name): \(field.type.name) {") {
                     fragment.outputBlock("get throws {") {
-                        fragment.output("let env = _nodeWitness.env")
-                        fragment.output("let napiValue = try _nodeWitness.value(env: env)")
-                        fragment.output("let \(field.name) = try env.getNamedProperty(napiValue, \"\(field.name)\")")
-
-                        if case let .function(params, resVal, _, _) = field.type {
-                            fragment.outputBlock("return {") {
-                                fragment.output("let result = try env.callFunction(napiValue, \(field.name), ", newLineTerminated: false)
-                                var toNodeParams = [String]()
-                                for (paramIndex, param) in params.enumerated() {
-                                    let resolved = context.resolve(type: param)
-                                    toNodeParams.append("try \(resolved.converterType.name).toNode($\(paramIndex), env: env)")
+                        fragment.outputBlock("try syncOnMainThread { env in", closeWith: "}") {
+                            fragment.output("let napiValue = try _nodeWitness.value(env: env)")
+                            fragment.output("let \(field.name) = try env.getNamedProperty(napiValue, \"\(field.name)\")")
+                            
+                            if case let .function(params, resVal, _, _) = field.type {
+                                fragment.outputBlock("return {") {
+                                    fragment.output("let result = try env.callFunction(napiValue, \(field.name), ", newLineTerminated: false)
+                                    var toNodeParams = [String]()
+                                    for (paramIndex, param) in params.enumerated() {
+                                        let resolved = context.resolve(type: param)
+                                        toNodeParams.append("try \(resolved.converterType.name).toNode($\(paramIndex), env: env)")
+                                    }
+                                    fragment.output("[\(toNodeParams.joined(separator: ", "))])")
+                                    
+                                    if resVal != .void {
+                                        let resolved = context.resolve(type: resVal)
+                                        fragment.output("return try \(resolved.converterType.name).fromNode(result, env: env)")
+                                    }
                                 }
-                                fragment.output("[\(toNodeParams.joined(separator: ", "))])")
-
-                                if resVal != .void {
-                                    let resolved = context.resolve(type: resVal)
-                                    fragment.output("return try \(resolved.converterType.name).fromNode(result, env: env)")
-                                }
+                            } else {
+                                let resolved = context.resolve(type: field.type)
+                                fragment.output("return try \(resolved.converterType.name).fromNode(\(field.name), env: env)")
                             }
-                        } else {
-                            let resolved = context.resolve(type: field.type)
-                            fragment.output("return try \(resolved.converterType.name).fromNode(\(field.name), env: env)")
                         }
                     }
                 }
