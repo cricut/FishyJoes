@@ -30,8 +30,7 @@ extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: NodeConv
                     throw JSException(message: "expected TestAPI.TestLeadingUnderscoredProp, got nil")
                 }
                 return try Box<TestAPI.TestLeadingUnderscoredProp>.takeUnretainedOpaque(nonNilPointer).value
-            }
-             else {
+            } else {
                 return _NodeTestLeadingUnderscoredProp(
                     _nodeWitness: try NodeReference(env: env, value: value)
                 )

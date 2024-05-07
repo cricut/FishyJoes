@@ -353,7 +353,7 @@ struct TranslatedProtocol: TranslatedType {
                         fragment.outputBlock("try syncOnMainThread { env in", closeWith: "}") {
                             fragment.output("let napiValue = try _nodeWitness.value(env: env)")
                             fragment.output("let \(field.name) = try env.getNamedProperty(napiValue, \"\(field.exportAnnotation?.name ?? field.name)\")")
-                            
+
                             if case let .function(params, resVal, _, _) = field.type {
                                 fragment.outputBlock("return {") {
                                     fragment.output("let result = try env.callFunction(napiValue, \(field.name), ", newLineTerminated: false)
@@ -363,7 +363,7 @@ struct TranslatedProtocol: TranslatedType {
                                         toNodeParams.append("try \(resolved.converterType.name).toNode($\(paramIndex), env: env)")
                                     }
                                     fragment.output("[\(toNodeParams.joined(separator: ", "))])")
-                                    
+
                                     if resVal != .void {
                                         let resolved = context.resolve(type: resVal)
                                         fragment.output("return try \(resolved.converterType.name).fromNode(result, env: env)")
@@ -392,14 +392,14 @@ struct TranslatedProtocol: TranslatedType {
                         fragment.output("let napiValue = try _nodeWitness.value(env: env)")
                         fragment.output("let \(method.callName) = try env.getNamedProperty(napiValue, \"\(method.callName)\")")
                         fragment.output("\(method.returnType != .void ? "let result": "_") = try env.callFunction(napiValue, \(method.callName), ", newLineTerminated: false)
-                        
+
                         var toNodeParams = [String]()
                         for param in method.parameters {
                             let resolved = context.resolve(type: param.type)
                             toNodeParams.append("try \(resolved.converterType.name).toNode(\(param.name), env: env)")
                         }
                         fragment.output("[\(toNodeParams.joined(separator: ", "))])")
-                        
+
                         if method.returnType != .void {
                             let resolved = context.resolve(type: method.returnType)
                             fragment.output("return try \(resolved.converterType.name).fromNode(result, env: env)")
@@ -415,7 +415,7 @@ struct TranslatedProtocol: TranslatedType {
             fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {") {
                 fragment.outputBlock("do {", newLineTerminated: false) {
                     fragment.output("let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: \"\(nodeExternalWitnessClassName)\", env: env)")
-                    fragment.outputBlock("if try env.instanceof(value, constructor) {") {
+                    fragment.outputBlock("if try env.instanceof(value, constructor) {", newLineTerminated: false) {
                         fragment.outputBlock("guard let nonNilPointer = try env.unwrap(value) else {") {
                             fragment.output("throw JSException(message: \"expected \(sourceType.name), got nil\")")
                         }

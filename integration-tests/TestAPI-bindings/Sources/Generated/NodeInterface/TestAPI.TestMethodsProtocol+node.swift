@@ -67,8 +67,7 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
                     throw JSException(message: "expected TestAPI.TestMethodsProtocol, got nil")
                 }
                 return try Box<TestAPI.TestMethodsProtocol>.takeUnretainedOpaque(nonNilPointer).value
-            }
-             else {
+            } else {
                 return _NodeTestMethodsProtocol(
                     _nodeWitness: try NodeReference(env: env, value: value)
                 )

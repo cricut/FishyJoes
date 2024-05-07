@@ -197,8 +197,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                     throw JSException(message: "expected TestAPI.TestAsyncFunctions, got nil")
                 }
                 return try Box<TestAPI.TestAsyncFunctions>.takeUnretainedOpaque(nonNilPointer).value
-            }
-             else {
+            } else {
                 return _NodeTestAsyncFunctions(
                     _nodeWitness: try NodeReference(env: env, value: value)
                 )

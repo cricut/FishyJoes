@@ -46,8 +46,7 @@ extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: NodeConverter
                     throw JSException(message: "expected TestAPI.TestOptionalsProtocol, got nil")
                 }
                 return try Box<TestAPI.TestOptionalsProtocol>.takeUnretainedOpaque(nonNilPointer).value
-            }
-             else {
+            } else {
                 return _NodeTestOptionalsProtocol(
                     _nodeWitness: try NodeReference(env: env, value: value)
                 )

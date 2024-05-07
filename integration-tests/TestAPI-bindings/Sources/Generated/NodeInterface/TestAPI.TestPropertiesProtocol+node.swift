@@ -39,8 +39,7 @@ extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: NodeConverte
                     throw JSException(message: "expected TestAPI.TestPropertiesProtocol, got nil")
                 }
                 return try Box<TestAPI.TestPropertiesProtocol>.takeUnretainedOpaque(nonNilPointer).value
-            }
-             else {
+            } else {
                 return _NodeTestPropertiesProtocol(
                     _nodeWitness: try NodeReference(env: env, value: value)
                 )
