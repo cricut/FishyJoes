@@ -1,14 +1,14 @@
 import { TestAPI } from 'TestAPI';
 
 test('testProtocolImplementation', () => {
-    let a = new TestAPI.AProtocolImplementation(
+    const a = new TestAPI.AProtocolImplementation(
         "Garply",
         false
     );
     expect(a.foo).toEqual("Garply");
     expect(a.baz).toEqual(false);
 
-    let b = a.bar(2, 128);
+    const b = a.bar(2, 128);
     expect(b.foo).toEqual("130");
     expect(b.baz).toEqual(true)
 
@@ -23,7 +23,7 @@ test('testProtocolImplementation', () => {
 });
 
 test('testCore', () => {
-    let coreObj: TestAPI.AProtocolCore = {
+    const coreObj: TestAPI.AProtocolCore = {
         baz: true,
         foo: "F005BA11",
         bar(x: number, y: number): TestAPI.AProtocol {
@@ -33,11 +33,11 @@ test('testCore', () => {
 
     expect(coreObj.foo).toEqual("F005BA11")
     expect(coreObj.baz).toEqual(true)
-    let obj = TestAPI.AProtocol.fromCore(coreObj);
+    const obj = TestAPI.AProtocol.fromCore(coreObj);
     expect(obj.foo).toEqual("F005BA11")
     expect(obj.baz).toEqual(true)
 
-    let barClass = obj.bar(78, 23);
+    const barClass = obj.bar(78, 23);
     expect(barClass.foo).toEqual("F005BA11+101");
     expect(barClass.baz).toEqual(false);
 
@@ -50,12 +50,12 @@ test('testCore', () => {
     expect(obj.hasADefaultImplementation2("0.9870923", true, 1.123123)).toEqual(0.9589049888649063);
     expect(obj.hasADefaultImplementation2("0.9870923", false, 1.123123)).toEqual(1.686253813623996);
 
-    let testCoreClass = new TestCoreClass("Gitang", false);
-    let testClass = TestAPI.AProtocol.fromCore(testCoreClass);
+    const testCoreClass = new TestCoreClass("Gitang", false);
+    const testClass = TestAPI.AProtocol.fromCore(testCoreClass);
 
     expect(testClass.foo).toEqual("Gitang");
     expect(testClass.baz).toEqual(false);
-    let testClassBar = testClass.bar(-50, 55);
+    const testClassBar = testClass.bar(-50, 55);
     expect(testClassBar.foo).toEqual("Garply");
     expect(testClassBar.baz).toEqual(true);
 
@@ -95,7 +95,7 @@ test('testProtocolEnum', () => {
 });
 
 test('testProtocolStruct', () => {
-    let testProtocolStruct = new TestAPI.TestProtocolStruct("Raft a river of lava-ah!");
+    const testProtocolStruct = new TestAPI.TestProtocolStruct("Raft a river of lava-ah!");
     expect(testProtocolStruct.corge).toEqual("Raft a river of lava-ah!");
     testProtocolStruct.corge = "Spank a plankton too! (take that)";
     expect(testProtocolStruct.corge).toEqual("Spank a plankton too! (take that)");
@@ -110,7 +110,7 @@ test('testProtocolStruct', () => {
 });
 
 test('testProtocolClass', () => {
-    let testProtocolClass = TestAPI.TestProtocolClass.init("Step inside it's a wilder ride!");
+    const testProtocolClass = TestAPI.TestProtocolClass.init("Step inside it's a wilder ride!");
     expect(testProtocolClass.corge).toEqual("Step inside it's a wilder ride!");
     expect(testProtocolClass.frob).toEqual([42.0, -1.23456789, 3.14159265359]);
     expect(testProtocolClass.flarp).toEqual(undefined);
@@ -135,7 +135,7 @@ test('testProtocolClass', () => {
 });
 
 test('testLeadingUnderscoreInNames', () => {
-    let lups = new TestAPI.TestLeadingUnderscoredPropStruct("With great power comes great responsibility.");
+    const lups = new TestAPI.TestLeadingUnderscoredPropStruct("With great power comes great responsibility.");
     expect(lups._leadingUnderscoreProp).toEqual("With great power comes great responsibility.");
 });
 
@@ -179,11 +179,11 @@ function makeAsyncForeignSideFunction() {
             return `${await fn("Pump", "up", "the", "jam")}`;
         },
         async (fn) => {
-            let y = await (await fn("78", 6, 4.2, "12", async () => { return 654; }))();
+            const y = await (await fn("78", 6, 4.2, "12", async () => { return 654; }))();
             return `${y}`;
         },
         async (fn) => {
-            let y = await fn("78", 6, 4.2, "12", async () => { return 654; }, 98);
+            const y = await fn("78", 6, 4.2, "12", async () => { return 654; }, 98);
             return `${y}`;
         },
         (thunk) => {
@@ -202,7 +202,7 @@ function sleep(ms: number) {
 async function testAsyncForeignSideFunctionsCore(a: TestAPI.TestAsyncFunctions) {
     expect(a.const42()).resolves.toEqual(49);
     expect(a.iabs(-2398)).resolves.toEqual(2398);
-    let b = a.intCompose(
+    const b = a.intCompose(
         async (x) => {
             sleep(1);
             return x * 3;
@@ -213,9 +213,9 @@ async function testAsyncForeignSideFunctionsCore(a: TestAPI.TestAsyncFunctions) 
         }
     );
     expect(b(92)).resolves.toEqual(1380);
-    let d = a.makeList("By", "your", "powers", "combined");
+    const d = a.makeList("By", "your", "powers", "combined");
     expect(d).resolves.toEqual(["By", "your", "powers", "combined"]);
-    let e = await a.fifthThing(
+    const e = await a.fifthThing(
         "I, am",
         Number.MAX_SAFE_INTEGER,
         Number.MIN_VALUE,
@@ -226,7 +226,7 @@ async function testAsyncForeignSideFunctionsCore(a: TestAPI.TestAsyncFunctions) 
         }
     );
     expect(await e()).toEqual(42);
-    let f = await a.six(
+    const f = await a.six(
         "Big, bad",
         24,
         3.14159265359,
@@ -241,12 +241,12 @@ async function testAsyncForeignSideFunctionsCore(a: TestAPI.TestAsyncFunctions) 
 
     expect(a.willThrow()).rejects.toThrowError("Spoon!")
 
-    let g = await a.exercise0(e);
+    const g = await a.exercise0(e);
     expect(g).toEqual("84");
-    let h = await a.exercise1(b);
+    const h = await a.exercise1(b);
     expect(h).toEqual("-105");
 
-    let i = await a.exercise2(
+    const i = await a.exercise2(
         (a, b) => {
             return async (z) => {
                 return (await a(3)) + (await b(3)) + z;
@@ -255,21 +255,21 @@ async function testAsyncForeignSideFunctionsCore(a: TestAPI.TestAsyncFunctions) 
     );
     expect(i).toEqual("36");
 
-    let j = await a.exercise3(
+    const j = await a.exercise3(
         async (fl, d, l) => {
             return (fl / d) + (9 * l);
         }
     );
     expect(j).toEqual("18.227272727272727");
 
-    let k = await a.exercise4(
+    const k = await a.exercise4(
         async (a, b, c, d) => {
             return [d, c, b, a];
         }
     );
     expect(k).toEqual("jam,the,up,Pump");
 
-    let l = await a.exercise5(
+    const l = await a.exercise5(
         async (a, b, c, d, e) => {
             return async () => {
                 return Math.floor(Number(a) + Number(b) + c + Number(d) + (await e()));
@@ -278,7 +278,7 @@ async function testAsyncForeignSideFunctionsCore(a: TestAPI.TestAsyncFunctions) 
     );
     expect(l).toEqual("754");
 
-    let m = await a.exercise6(
+    const m = await a.exercise6(
         async (a, b, c, d, e, f) => {
             return Math.floor(Number(a) + Number(b) + c + Number(d) + (await e()) + f);
         }
@@ -286,7 +286,7 @@ async function testAsyncForeignSideFunctionsCore(a: TestAPI.TestAsyncFunctions) 
     expect(m).toEqual("852");
 
     let o = 1;
-    let n = a.thunkTwiceMaker(
+    const n = a.thunkTwiceMaker(
         async () => {
             o += 1;
             console.log(`Thunker in paradise o: ${o}`);
@@ -295,7 +295,7 @@ async function testAsyncForeignSideFunctionsCore(a: TestAPI.TestAsyncFunctions) 
     await n();
     expect(o).toEqual(3);
 
-    let p = await a.defaultExercise6(
+    const p = await a.defaultExercise6(
         async (a, b, c, d, e, f) => {
             return Math.floor(Number(a) + Number(b) + c + Number(d) + (await e()) + f);
         }
@@ -304,20 +304,20 @@ async function testAsyncForeignSideFunctionsCore(a: TestAPI.TestAsyncFunctions) 
 }
 
 test('testAsyncForeignSideFunctions', async () => {
-    let a = makeAsyncForeignSideFunction();
+    const a = makeAsyncForeignSideFunction();
     await testAsyncForeignSideFunctionsCore(a);
 });
 
 test('testAsyncForeignSideFunctionsWitness', async () => {
-    let _a = makeAsyncForeignSideFunction();
-    let a = _a.witness()
+    const _a = makeAsyncForeignSideFunction();
+    const a = _a.witness()
     await testAsyncForeignSideFunctionsCore(a);
 });
 
 async function testAsyncSwiftSideFunctionsCore(a: TestAPI.TestAsyncFunctions) {
     expect(a.const42()).resolves.toEqual(42);
     expect(a.iabs(-2398)).resolves.toEqual(2398);
-    let b = a.intCompose(
+    const b = a.intCompose(
         async (x) => {
             sleep(1);
             return x * 3;
@@ -328,9 +328,9 @@ async function testAsyncSwiftSideFunctionsCore(a: TestAPI.TestAsyncFunctions) {
         }
     );
     expect(b(92)).resolves.toEqual(1380);
-    let d = a.makeList("By", "your", "powers", "combined");
+    const d = a.makeList("By", "your", "powers", "combined");
     expect(d).resolves.toEqual(["By", "your", "powers", "combined"]);
-    let e = await a.fifthThing(
+    const e = await a.fifthThing(
         "I, am",
         Number.MAX_SAFE_INTEGER,
         Number.MIN_VALUE,
@@ -341,7 +341,7 @@ async function testAsyncSwiftSideFunctionsCore(a: TestAPI.TestAsyncFunctions) {
         }
     );
     expect(await e()).toEqual(42);
-    let f = await a.six(
+    const f = await a.six(
         "Big, bad",
         24,
         3.14159265359,
@@ -356,12 +356,12 @@ async function testAsyncSwiftSideFunctionsCore(a: TestAPI.TestAsyncFunctions) {
 
     expect(a.willThrow()).rejects.toThrowError("The operation couldn’t be completed. (TestAPI.AsyncFunctions.TheAsyncError error 1.)")
 
-    let g = await a.exercise0(e);
+    const g = await a.exercise0(e);
     expect(g).toEqual("42");
-    let h = await a.exercise1(b);
+    const h = await a.exercise1(b);
     expect(h).toEqual("-45");
 
-    let i = await a.exercise2(
+    const i = await a.exercise2(
         (a, b) => {
             return async (z) => {
                 return (await a(3)) + (await b(3)) + z;
@@ -370,21 +370,21 @@ async function testAsyncSwiftSideFunctionsCore(a: TestAPI.TestAsyncFunctions) {
     );
     expect(i).toEqual("21");
 
-    let j = await a.exercise3(
+    const j = await a.exercise3(
         async (fl, d, l) => {
             return (fl / d) + (9 * l);
         }
     );
     expect(j).toEqual("18.227272727272727");
 
-    let k = await a.exercise4(
+    const k = await a.exercise4(
         async (a, b, c, d) => {
             return [d, c, b, a];
         }
     );
     expect(k).toEqual("[\"d\", \"c\", \"b\", \"a\"]");
 
-    let l = await a.exercise5(
+    const l = await a.exercise5(
         async (a, b, c, d, e) => {
             return async () => {
                 return Math.floor(Number(b) + c + (await e()));
@@ -393,7 +393,7 @@ async function testAsyncSwiftSideFunctionsCore(a: TestAPI.TestAsyncFunctions) {
     );
     expect(l).toEqual("93");
 
-    let m = await a.exercise6(
+    const m = await a.exercise6(
         async (a, b, c, d, e, f) => {
             return Math.floor(Number(b) + c + (await e()) + f);
         }
@@ -401,7 +401,7 @@ async function testAsyncSwiftSideFunctionsCore(a: TestAPI.TestAsyncFunctions) {
     expect(m).toEqual("135");
 
     let o = 3.14159265359;
-    let n = a.thunkTwiceMaker(
+    const n = a.thunkTwiceMaker(
         async () => {
             o = o * o;
             console.log(`Thunkmaster thex o: ${o}`);
@@ -410,7 +410,7 @@ async function testAsyncSwiftSideFunctionsCore(a: TestAPI.TestAsyncFunctions) {
     await n();
     expect(o).toEqual(97.4090910340281);
 
-    let p = await a.defaultExercise6(
+    const p = await a.defaultExercise6(
         async (a, b, c, d, e, f) => {
             return Math.floor(Number(a) + Number(b) + c + Number(d) + (await e()) + f);
         }
@@ -419,13 +419,13 @@ async function testAsyncSwiftSideFunctionsCore(a: TestAPI.TestAsyncFunctions) {
 }
 
 test('testAsyncSwiftSideFunctions', async () => {
-    let a = TestAPI.TestAsyncSwiftSideFunctionsClass.init();
+    const a = TestAPI.TestAsyncSwiftSideFunctionsClass.init();
     await testAsyncSwiftSideFunctionsCore(a);
 });
 
 test('testAsyncSwiftSideFunctionsWitness', async () => {
-    let _a = TestAPI.TestAsyncSwiftSideFunctionsClass.init();
-    let a = _a.witness()
+    const _a = TestAPI.TestAsyncSwiftSideFunctionsClass.init();
+    const a = _a.witness()
     await testAsyncSwiftSideFunctionsCore(a);
 });
 
@@ -484,11 +484,11 @@ class TestAsyncFunctionsImpl implements TestAPI.TestAsyncFunctionsCore {
         return `${await fn("Pump", "up", "the", "jam")}`;
     }
     async exercise5(fn: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>): Promise<string> {
-        let y = await (await fn("78", 6, 4.2, "12", async () => { return 654; }))();
+        const y = await (await fn("78", 6, 4.2, "12", async () => { return 654; }))();
         return `${y}`;
     }
     async exercise6(fn: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>): Promise<string> {
-        let y = await fn("78", 6, 4.2, "12", async () => { return 654; }, 98);
+        const y = await fn("78", 6, 4.2, "12", async () => { return 654; }, 98);
         return `${y}`;
     }
     thunkTwiceMaker(thunk: () => Promise<void>): () => Promise<void> {
@@ -501,20 +501,20 @@ class TestAsyncFunctionsImpl implements TestAPI.TestAsyncFunctionsCore {
     //     throw new Error('Method not implemented.');
     // }
     witness(): TestAPI.TestAsyncFunctions {
-        let a = new TestAsyncFunctionsImpl();
+        const a = new TestAsyncFunctionsImpl();
         return TestAPI.TestAsyncFunctions.fromCore(a);
     }    
 }
 
 test('testAsyncFunctionsImpl', async () => {
-    let a = new TestAsyncFunctionsImpl();
-    let b = TestAPI.TestAsyncFunctions.fromCore(a);
+    const a = new TestAsyncFunctionsImpl();
+    const b = TestAPI.TestAsyncFunctions.fromCore(a);
     await testAsyncForeignSideFunctionsCore(b);
 });
 
 test('testAsyncFunctionsImplWitness', async () => {
-    let a = new TestAsyncFunctionsImpl();
-    let b = TestAPI.TestAsyncFunctions.fromCore(a);
-    let c = b.witness()
+    const a = new TestAsyncFunctionsImpl();
+    const b = TestAPI.TestAsyncFunctions.fromCore(a);
+    const c = b.witness()
     await testAsyncForeignSideFunctionsCore(c);
 });
