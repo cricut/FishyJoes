@@ -217,8 +217,8 @@ async function testAsyncForeignSideFunctionsCore(a: TestAPI.TestAsyncFunctions) 
     expect(d).resolves.toEqual(["By", "your", "powers", "combined"]);
     const e = await a.fifthThing(
         "I, am",
-        Number.MAX_SAFE_INTEGER,
-        Number.MIN_VALUE,
+        (2 ** 32) - 1,
+        -(2 ** 32),
         "Captain Planet!",
         async () => {
             sleep(1);
@@ -332,8 +332,8 @@ async function testAsyncSwiftSideFunctionsCore(a: TestAPI.TestAsyncFunctions) {
     expect(d).resolves.toEqual(["By", "your", "powers", "combined"]);
     const e = await a.fifthThing(
         "I, am",
-        Number.MAX_SAFE_INTEGER,
-        Number.MIN_VALUE,
+        (2 ** 32) - 1,
+        -(2 ** 32),
         "Captain Planet!",
         async () => {
             sleep(1);
