@@ -15,10 +15,7 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
             try syncOnMainThread { env in
                 let napiValue = try _nodeWitness.value(env: env)
                 let add3Things = try env.getNamedProperty(napiValue, "add3Things")
-                return {
-                    let result = try env.callFunction(napiValue, add3Things, [try Swift.Float.toNode($0, env: env), try Swift.Double.toNode($1, env: env), try Swift.Int.toNode($2, env: env)])
-                    return try Swift.Double.fromNode(result, env: env)
-                }
+                return try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.fromNode(add3Things, env: env)
             }
         }
     }
@@ -27,10 +24,7 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
             try syncOnMainThread { env in
                 let napiValue = try _nodeWitness.value(env: env)
                 let const42 = try env.getNamedProperty(napiValue, "const42")
-                return {
-                    let result = try env.callFunction(napiValue, const42, [])
-                    return try Swift.Int.fromNode(result, env: env)
-                }
+                return try AsyncFunction0Converter<Swift.Int>.fromNode(const42, env: env)
             }
         }
     }
@@ -39,10 +33,7 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
             try syncOnMainThread { env in
                 let napiValue = try _nodeWitness.value(env: env)
                 let fifthThing = try env.getNamedProperty(napiValue, "fifthThing")
-                return {
-                    let result = try env.callFunction(napiValue, fifthThing, [try Swift.String.toNode($0, env: env), try Swift.Int.toNode($1, env: env), try Swift.Double.toNode($2, env: env), try Swift.String.toNode($3, env: env), try AsyncFunction0Converter<Swift.Int>.toNode($4, env: env)])
-                    return try AsyncFunction0Converter<Swift.Int>.fromNode(result, env: env)
-                }
+                return try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.fromNode(fifthThing, env: env)
             }
         }
     }
@@ -51,10 +42,7 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
             try syncOnMainThread { env in
                 let napiValue = try _nodeWitness.value(env: env)
                 let iabs = try env.getNamedProperty(napiValue, "iabs")
-                return {
-                    let result = try env.callFunction(napiValue, iabs, [try Swift.Int.toNode($0, env: env)])
-                    return try Swift.Int.fromNode(result, env: env)
-                }
+                return try AsyncFunction1Converter<Swift.Int, Swift.Int>.fromNode(iabs, env: env)
             }
         }
     }
@@ -63,10 +51,7 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
             try syncOnMainThread { env in
                 let napiValue = try _nodeWitness.value(env: env)
                 let intCompose = try env.getNamedProperty(napiValue, "intCompose")
-                return {
-                    let result = try env.callFunction(napiValue, intCompose, [try AsyncFunction1Converter<Swift.Int, Swift.Int>.toNode($0, env: env), try AsyncFunction1Converter<Swift.Int, Swift.Int>.toNode($1, env: env)])
-                    return try AsyncFunction1Converter<Swift.Int, Swift.Int>.fromNode(result, env: env)
-                }
+                return try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.fromNode(intCompose, env: env)
             }
         }
     }
@@ -75,10 +60,7 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
             try syncOnMainThread { env in
                 let napiValue = try _nodeWitness.value(env: env)
                 let makeList = try env.getNamedProperty(napiValue, "makeList")
-                return {
-                    let result = try env.callFunction(napiValue, makeList, [try Swift.String.toNode($0, env: env), try Swift.String.toNode($1, env: env), try Swift.String.toNode($2, env: env), try Swift.String.toNode($3, env: env)])
-                    return try ArrayConverter<Swift.String>.fromNode(result, env: env)
-                }
+                return try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.fromNode(makeList, env: env)
             }
         }
     }
@@ -87,10 +69,7 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
             try syncOnMainThread { env in
                 let napiValue = try _nodeWitness.value(env: env)
                 let six = try env.getNamedProperty(napiValue, "six")
-                return {
-                    let result = try env.callFunction(napiValue, six, [try Swift.String.toNode($0, env: env), try Swift.Int.toNode($1, env: env), try Swift.Double.toNode($2, env: env), try Swift.String.toNode($3, env: env), try AsyncFunction0Converter<Swift.Int>.toNode($4, env: env), try Swift.Int.toNode($5, env: env)])
-                    return try Swift.Int.fromNode(result, env: env)
-                }
+                return try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.fromNode(six, env: env)
             }
         }
     }
@@ -99,10 +78,7 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
             try syncOnMainThread { env in
                 let napiValue = try _nodeWitness.value(env: env)
                 let willThrow = try env.getNamedProperty(napiValue, "willThrow")
-                return {
-                    let result = try env.callFunction(napiValue, willThrow, [])
-                    return try Swift.Int.fromNode(result, env: env)
-                }
+                return try AsyncFunction0Converter<Swift.Int>.fromNode(willThrow, env: env)
             }
         }
     }
