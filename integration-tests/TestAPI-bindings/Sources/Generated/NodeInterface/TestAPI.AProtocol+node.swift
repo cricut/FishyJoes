@@ -94,7 +94,7 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
                             let object = try env.getNamedProperty(global, "Object")
                             let create = try env.getNamedProperty(object, "create")
 
-                            let result = try env.callFunction(global, create, [coreArg])
+                            let result = try env.callFunction(object, create, [coreArg])
 
                             let hasADefaultImplementationFunctionCallback: NAPI.Callback = { env, info in
                                 FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation", expectedArgumentCount: 2, hasNamedOptions: false) { env in

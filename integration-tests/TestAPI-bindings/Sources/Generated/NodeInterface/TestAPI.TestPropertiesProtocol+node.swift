@@ -70,7 +70,7 @@ extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: NodeConverte
                             let object = try env.getNamedProperty(global, "Object")
                             let create = try env.getNamedProperty(object, "create")
 
-                            let result = try env.callFunction(global, create, [coreArg])
+                            let result = try env.callFunction(object, create, [coreArg])
 
                             return result
                         }

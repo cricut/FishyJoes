@@ -458,7 +458,7 @@ struct TranslatedProtocol: TranslatedType {
                                     fragment.output("let object = try env.getNamedProperty(global, \"Object\")")
                                     fragment.output("let create = try env.getNamedProperty(object, \"create\")")
                                     fragment.blankLine()
-                                    fragment.output("let result = try env.callFunction(global, create, [coreArg])")
+                                    fragment.output("let result = try env.callFunction(object, create, [coreArg])")
                                     fragment.blankLine()
 
                                     let defaultMethods = methods.filter { $0.isDefaultImplementation }
