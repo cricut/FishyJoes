@@ -33,6 +33,9 @@ public struct CodeGen: ParsableCommand {
     @Flag(name: .long, help: "Build library in debug mode")
     var debug = false
 
+    @Flag(name: .long, help: "dump intermediates in DebugRepresentation")
+    var dumpDebugRepresentation = false
+
     @Flag(name: .long, inversion: .prefixedNo, help: "Use docker")
     var useDocker = true
 
@@ -77,6 +80,7 @@ public struct CodeGen: ParsableCommand {
         case version
         case buildStep
         case debug
+        case dumpDebugRepresentation
         case fat
         case disableParallelism
     }
@@ -226,7 +230,7 @@ extension CodeGen {
                     "--sources", translateeSources,
                     "--templates", ".build\(ps)debug\(ps)FishyJoes_FishyJoesExecutionHelper.bundle\(ps)FishyJoes.swifttemplate",
                     "--args", "module=\(config.module)",
-                    "--args", "debugRepresentation=\(debug)",
+                    "--args", "debugRepresentation=\(dumpDebugRepresentation)",
                     "--args", "requiredModules=\"\(try! JSONEncoder().encode(fishyJoesModuleFiles).base64EncodedString())\"",
                     "--args", "fishyJoesExecutable=.build\(ps)debug\(ps)helper-fishy-joes-core",
                     "--args", "stderrFifo=\(errorFifoPath)",
