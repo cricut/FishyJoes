@@ -462,20 +462,18 @@ struct TranslatedProtocol: TranslatedType {
                                     fragment.blankLine()
 
                                     let defaultMethods = methods.filter { $0.isDefaultImplementation }
-                                    if !defaultMethods.isEmpty {
-                                        for method in defaultMethods {
-                                            fragment.output("let \(method.callName)FunctionCallback: NAPI.Callback = ", newLineTerminated: false)
-                                            context.nodeTranslator.output(method: method, explicitThis: false, context: context, fragment: fragment, newLineTerminated: true, converterName: nil)
-                                            fragment.outputBlock("let \(method.callName)Function = try env.createFunction(") {
-                                                fragment.output("\"\(method.callName)\",")
-                                                fragment.output("\(method.callName)FunctionCallback,")
-                                                fragment.output("nil")
-                                            }
-                                            fragment.outputBlock("if !(try env.hasNamedProperty(createdCore, \"\(method.callName)\")) {") {
-                                                fragment.output("try env.setNamedProperty(createdCore, \"\(method.callName)\", \(method.callName)Function)")
-                                            }
-                                            fragment.blankLine()
+                                    for method in defaultMethods {
+                                        fragment.output("let \(method.callName)FunctionCallback: NAPI.Callback = ", newLineTerminated: false)
+                                        context.nodeTranslator.output(method: method, explicitThis: false, context: context, fragment: fragment, newLineTerminated: true, converterName: nil)
+                                        fragment.outputBlock("let \(method.callName)Function = try env.createFunction(") {
+                                            fragment.output("\"\(method.callName)\",")
+                                            fragment.output("\(method.callName)FunctionCallback,")
+                                            fragment.output("nil")
                                         }
+                                        fragment.outputBlock("if !(try env.hasNamedProperty(createdCore, \"\(method.callName)\")) {") {
+                                            fragment.output("try env.setNamedProperty(createdCore, \"\(method.callName)\", \(method.callName)Function)")
+                                        }
+                                        fragment.blankLine()
                                     }
 
                                     fragment.blankLine()
