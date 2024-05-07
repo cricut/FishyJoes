@@ -228,7 +228,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                             let object = try env.getNamedProperty(global, "Object")
                             let create = try env.getNamedProperty(object, "create")
 
-                            let createdCore = try env.callFunction(global, create, [coreArg])
+                            let result = try env.callFunction(global, create, [coreArg])
 
                             let defaultExercise6FunctionCallback: NAPI.Callback = { env, info in
                                 FishyJoesNodeRuntime.callbackBody(env, info, name: "defaultExercise6", expectedArgumentCount: 1, hasNamedOptions: false) { env in
@@ -265,11 +265,11 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                                 defaultExercise6FunctionCallback,
                                 nil
                             )
-                            if !(try env.hasNamedProperty(createdCore, "defaultExercise6")) {
-                                try env.setNamedProperty(createdCore, "defaultExercise6", defaultExercise6Function)
+                            if !(try env.hasNamedProperty(result, "defaultExercise6")) {
+                                try env.setNamedProperty(result, "defaultExercise6", defaultExercise6Function)
                             }
 
-                            return createdCore
+                            return result
                         }
                     },
                     isStatic: true

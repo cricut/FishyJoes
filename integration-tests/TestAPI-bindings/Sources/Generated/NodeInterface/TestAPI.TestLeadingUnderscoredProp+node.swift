@@ -61,9 +61,9 @@ extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: NodeConv
                             let object = try env.getNamedProperty(global, "Object")
                             let create = try env.getNamedProperty(object, "create")
 
-                            let createdCore = try env.callFunction(global, create, [coreArg])
+                            let result = try env.callFunction(global, create, [coreArg])
 
-                            return createdCore
+                            return result
                         }
                     },
                     isStatic: true

@@ -458,7 +458,7 @@ struct TranslatedProtocol: TranslatedType {
                                     fragment.output("let object = try env.getNamedProperty(global, \"Object\")")
                                     fragment.output("let create = try env.getNamedProperty(object, \"create\")")
                                     fragment.blankLine()
-                                    fragment.output("let createdCore = try env.callFunction(global, create, [coreArg])")
+                                    fragment.output("let result = try env.callFunction(global, create, [coreArg])")
                                     fragment.blankLine()
 
                                     let defaultMethods = methods.filter { $0.isDefaultImplementation }
@@ -470,14 +470,14 @@ struct TranslatedProtocol: TranslatedType {
                                             fragment.output("\(method.callName)FunctionCallback,")
                                             fragment.output("nil")
                                         }
-                                        fragment.outputBlock("if !(try env.hasNamedProperty(createdCore, \"\(method.callName)\")) {") {
-                                            fragment.output("try env.setNamedProperty(createdCore, \"\(method.callName)\", \(method.callName)Function)")
+                                        fragment.outputBlock("if !(try env.hasNamedProperty(result, \"\(method.callName)\")) {") {
+                                            fragment.output("try env.setNamedProperty(result, \"\(method.callName)\", \(method.callName)Function)")
                                         }
                                         fragment.blankLine()
                                     }
 
                                     fragment.blankLine()
-                                    fragment.output("return createdCore")
+                                    fragment.output("return result")
                                 }
                             }
                             fragment.output("isStatic: true")

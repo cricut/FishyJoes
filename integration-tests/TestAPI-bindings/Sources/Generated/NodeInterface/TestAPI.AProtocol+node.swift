@@ -94,7 +94,7 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
                             let object = try env.getNamedProperty(global, "Object")
                             let create = try env.getNamedProperty(object, "create")
 
-                            let createdCore = try env.callFunction(global, create, [coreArg])
+                            let result = try env.callFunction(global, create, [coreArg])
 
                             let hasADefaultImplementationFunctionCallback: NAPI.Callback = { env, info in
                                 FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation", expectedArgumentCount: 2, hasNamedOptions: false) { env in
@@ -114,8 +114,8 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
                                 hasADefaultImplementationFunctionCallback,
                                 nil
                             )
-                            if !(try env.hasNamedProperty(createdCore, "hasADefaultImplementation")) {
-                                try env.setNamedProperty(createdCore, "hasADefaultImplementation", hasADefaultImplementationFunction)
+                            if !(try env.hasNamedProperty(result, "hasADefaultImplementation")) {
+                                try env.setNamedProperty(result, "hasADefaultImplementation", hasADefaultImplementationFunction)
                             }
 
                             let hasADefaultImplementation2FunctionCallback: NAPI.Callback = { env, info in
@@ -137,11 +137,11 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
                                 hasADefaultImplementation2FunctionCallback,
                                 nil
                             )
-                            if !(try env.hasNamedProperty(createdCore, "hasADefaultImplementation2")) {
-                                try env.setNamedProperty(createdCore, "hasADefaultImplementation2", hasADefaultImplementation2Function)
+                            if !(try env.hasNamedProperty(result, "hasADefaultImplementation2")) {
+                                try env.setNamedProperty(result, "hasADefaultImplementation2", hasADefaultImplementation2Function)
                             }
 
-                            return createdCore
+                            return result
                         }
                     },
                     isStatic: true
