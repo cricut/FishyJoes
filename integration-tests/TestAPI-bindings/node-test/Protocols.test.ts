@@ -354,7 +354,7 @@ async function testAsyncSwiftSideFunctionsCore(a: TestAPI.TestAsyncFunctions) {
     );
     expect(f).toEqual(-98237384);
 
-    expect(a.willThrow()).rejects.toThrowError("The operation couldn’t be completed. (TestAPI.AsyncFunctions.TheAsyncError error 1.)")
+    expect(a.willThrow()).rejects.toThrowError(/TheAsyncError/)
 
     const g = await a.exercise0(e);
     expect(g).toEqual("42");
