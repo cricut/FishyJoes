@@ -11,7 +11,7 @@ struct TranslatedReference: TranslatedType {
     let cSharpType: CSharpClass.CSType
     let dartType: DartClass.DartType
     let methods: [Method]
-    let defaultMethodsForNode: [Method]
+    let defaultMethodsForNodeTypeDefinition: [Method]
     let computedVariables: [Field]
     let documentation: [String]
     let className: String
@@ -46,7 +46,7 @@ struct TranslatedReference: TranslatedType {
                 nodeDefaultMethods.append(contentsOf: prot.defaultMethods().compactMap { Method($0, type: type, protocolName: prot.name) })
             }
         }
-        self.defaultMethodsForNode = nodeDefaultMethods
+        self.defaultMethodsForNodeTypeDefinition = nodeDefaultMethods
 
         self.computedVariables = type.variables.compactMap { Field($0, type: type) }
         self.documentation = type.documentation
@@ -146,7 +146,7 @@ struct TranslatedReference: TranslatedType {
                     fragment.outputBlock("properties: [", closeWith: "],") {
                         var hasProperties = false
                         hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment, converterName: nil)
-                        hasProperties ||= context.nodeTranslator.outputProperties(methods: defaultMethodsForNode, context: context, fragment: fragment, converterName: sourceType.name)
+                        hasProperties ||= context.nodeTranslator.outputProperties(methods: defaultMethodsForNodeTypeDefinition, context: context, fragment: fragment, converterName: sourceType.name)
                         hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment)
                         if !hasProperties {
                             fragment.output(":")
@@ -176,7 +176,7 @@ struct TranslatedReference: TranslatedType {
                 fields: computedVariables.compactMap { context.ts(field: $0) },
                 methods:
                     methods.compactMap { context.ts(method: $0) } +
-                defaultMethodsForNode.compactMap { context.ts(method: $0) }
+                defaultMethodsForNodeTypeDefinition.compactMap { context.ts(method: $0) }
             )
         )
 
