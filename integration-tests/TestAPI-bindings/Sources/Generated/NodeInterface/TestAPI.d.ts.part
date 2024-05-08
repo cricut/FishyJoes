@@ -1060,9 +1060,9 @@ export declare namespace TestAPI {
         readonly corge: string;
 
         /**
-         * <!-- FishyJoes.export(frob) -->
+         * <!-- FishyJoes.export(frobby) -->
          */
-        readonly frob: number[];
+        readonly frobby: number[];
     }
 
     export type Functions = never;
@@ -2835,9 +2835,9 @@ export declare namespace TestAPI {
         readonly corge: string;
 
         /**
-         * <!-- FishyJoes.export(frob) -->
+         * <!-- FishyJoes.export(frobby) -->
          */
-        readonly frob: number[];
+        readonly frobby: number[];
     }
 
     /**
@@ -2858,9 +2858,9 @@ export declare namespace TestAPI {
         flarp?: string;
 
         /**
-         * <!-- FishyJoes.export(frob) -->
+         * <!-- FishyJoes.export(frobby) -->
          */
-        readonly frob: number[];
+        readonly frobby: number[];
 
         /**
          * <!-- FishyJoes.export(foo) -->
@@ -2987,9 +2987,9 @@ export declare namespace TestAPI {
         corge: string;
 
         /**
-         * <!-- FishyJoes.export(frob) -->
+         * <!-- FishyJoes.export(frobby) -->
          */
-        readonly frob: number[];
+        readonly frobby: number[];
 
         /**
          * <!-- FishyJoes.export(bar) -->

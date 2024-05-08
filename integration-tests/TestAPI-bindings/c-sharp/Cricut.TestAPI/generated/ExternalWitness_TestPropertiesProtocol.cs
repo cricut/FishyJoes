@@ -27,19 +27,19 @@ namespace Cricut.TestAPI {
         private static extern CreatedRef __iota_get_TestAPI_TestPropertiesProtocol_corge(IntPtr envRef, UnownedRef self, out CreatedRef exn);
 
         /// <summary>
-        /// <!-- FishyJoes.export(frob) -->
+        /// <!-- FishyJoes.export(frobby) -->
         /// </summary>
-        public System.Collections.Generic.IList<double> Frob {
+        public System.Collections.Generic.IList<double> Frobby {
             get {
                 using var thisHandle = new GCRef(this);
                 return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_TestPropertiesProtocol_frob(Loader.env, thisHandle.ptr, out exn).Consume<System.Collections.Generic.IList<double>>()
+                    __iota_get_TestAPI_TestPropertiesProtocol_frobby(Loader.env, thisHandle.ptr, out exn).Consume<System.Collections.Generic.IList<double>>()
                 );
             }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_TestPropertiesProtocol_frob(IntPtr envRef, UnownedRef self, out CreatedRef exn);
+        private static extern CreatedRef __iota_get_TestAPI_TestPropertiesProtocol_frobby(IntPtr envRef, UnownedRef self, out CreatedRef exn);
 
         static ExternalWitness_TestPropertiesProtocol() { _TypeSetup._ensureLoaded(); }
     }

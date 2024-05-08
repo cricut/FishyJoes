@@ -23,7 +23,7 @@ struct _NodeTestPropertiesProtocol: TestAPI.TestPropertiesProtocol {
         get throws {
             try syncOnMainThread { env in
                 let napiValue = try _nodeWitness.value(env: env)
-                let frob = try env.getNamedProperty(napiValue, "frob")
+                let frob = try env.getNamedProperty(napiValue, "frobby")
                 return try ArrayConverter<Swift.Double>.fromNode(frob, env: env)
             }
         }
@@ -98,10 +98,10 @@ extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: NodeConverte
                     ),
                     isStatic: false
                 ),
-                "frob": (
+                "frobby": (
                     .accessor(
                         getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "frob", expectedArgumentCount: 0) { env in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "frobby", expectedArgumentCount: 0) { env in
                                 try ArrayConverter<Swift.Double>.toNode(env.this(converter: TestAPI_CommonInterface._TestPropertiesProtocolConverter.self).frob, env: env.env)
                             }
                         },

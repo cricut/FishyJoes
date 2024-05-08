@@ -5483,7 +5483,7 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_TestPropertiesProtocol_corge");
-    TestAPI.ExternalWitness_TestPropertiesProtocol.f__iota_get_TestAPI_TestPropertiesProtocol_frob = dylib.lookupFunction<
+    TestAPI.ExternalWitness_TestPropertiesProtocol.f__iota_get_TestAPI_TestPropertiesProtocol_frobby = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
             UnownedRef _this,
@@ -5494,7 +5494,7 @@ final ensureLoaded = (() {
             UnownedRef _this,
             OutCreatedRef _exn
         )
-    >("__iota_get_TestAPI_TestPropertiesProtocol_frob");
+    >("__iota_get_TestAPI_TestPropertiesProtocol_frobby");
     TestAPI.TestProtocolClass.f__iota_get_TestAPI_TestProtocolClass_corge = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -5519,7 +5519,7 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_TestProtocolClass_flarp");
-    TestAPI.TestProtocolClass.f__iota_get_TestAPI_TestProtocolClass_frob = dylib.lookupFunction<
+    TestAPI.TestProtocolClass.f__iota_get_TestAPI_TestProtocolClass_frobby = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
             UnownedRef _this,
@@ -5530,8 +5530,8 @@ final ensureLoaded = (() {
             UnownedRef _this,
             OutCreatedRef _exn
         )
-    >("__iota_get_TestAPI_TestProtocolClass_frob");
-    TestAPI.TestProtocolStruct.f__iota_get_TestAPI_TestProtocolStruct_frob = dylib.lookupFunction<
+    >("__iota_get_TestAPI_TestProtocolClass_frobby");
+    TestAPI.TestProtocolStruct.f__iota_get_TestAPI_TestProtocolStruct_frobby = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
             UnownedRef _this,
@@ -5542,7 +5542,7 @@ final ensureLoaded = (() {
             UnownedRef _this,
             OutCreatedRef _exn
         )
-    >("__iota_get_TestAPI_TestProtocolStruct_frob");
+    >("__iota_get_TestAPI_TestProtocolStruct_frobby");
     TestAPI.Tuples.f__iota_get_TestAPI_Tuples_tuple2 = dylib.lookupFunction<
         CreatedRef Function(
             Env env,

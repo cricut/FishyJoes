@@ -5041,10 +5041,10 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(frob) -->"
+                  "<!-- FishyJoes.export(frobby) -->"
                 ],
                 "isStatic" : false,
-                "name" : "frob",
+                "name" : "frobby",
                 "readOnly" : true,
                 "type" : {
                   "named" : {
@@ -5106,10 +5106,10 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(frob) -->"
+                  "<!-- FishyJoes.export(frobby) -->"
                 ],
                 "isStatic" : false,
-                "name" : "frob",
+                "name" : "frobby",
                 "readOnly" : true,
                 "type" : {
                   "named" : {
@@ -5395,10 +5395,10 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(frob) -->"
+                  "<!-- FishyJoes.export(frobby) -->"
                 ],
                 "isStatic" : false,
-                "name" : "frob",
+                "name" : "frobby",
                 "readOnly" : true,
                 "type" : {
                   "named" : {
@@ -6427,10 +6427,10 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(frob) -->"
+                  "<!-- FishyJoes.export(frobby) -->"
                 ],
                 "isStatic" : false,
-                "name" : "frob",
+                "name" : "frobby",
                 "readOnly" : true,
                 "type" : {
                   "named" : {

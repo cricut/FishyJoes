@@ -116,10 +116,10 @@ extension TestAPI.TestProtocolStruct: NodeMutator {
                     },
                     isStatic: false
                 ),
-                "frob": (
+                "frobby": (
                     .accessor(
                         getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "frob", expectedArgumentCount: 0) { env in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "frobby", expectedArgumentCount: 0) { env in
                                 try ArrayConverter<Swift.Double>.toNode(env.this(converter: TestAPI.TestProtocolStruct.self).frob, env: env.env)
                             }
                         },

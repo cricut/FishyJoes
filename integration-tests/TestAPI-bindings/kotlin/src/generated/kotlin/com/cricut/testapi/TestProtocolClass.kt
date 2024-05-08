@@ -30,12 +30,12 @@ class TestProtocolClass private constructor(_swiftReference: Long): TestMethodsP
     private external fun __jni_set_flarp(newValue: kotlin.String?)
 
     /**
-     * <!-- FishyJoes.export(frob) -->
+     * <!-- FishyJoes.export(frobby) -->
      */
-    override val frob: kotlin.collections.List<Double>
-      get() = __jni_get_frob()
-    @JvmName("__jni_get_frob")
-    private external fun __jni_get_frob(): kotlin.collections.List<Double>
+    override val frobby: kotlin.collections.List<Double>
+      get() = __jni_get_frobby()
+    @JvmName("__jni_get_frobby")
+    private external fun __jni_get_frobby(): kotlin.collections.List<Double>
 
     /**
      * <!-- FishyJoes.export(foo) -->

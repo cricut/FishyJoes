@@ -122,11 +122,11 @@ class TestProtocolStruct implements TestAPI.TestMethodsProtocol, TestAPI.TestPro
         corge: corge ?? this.corge
     );
 
-    /// <!-- FishyJoes.export(frob) -->
-    List<double> get frob =>
+    /// <!-- FishyJoes.export(frobby) -->
+    List<double> get frobby =>
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
-                consumeCreatedRef<List<double>>(f__iota_get_TestAPI_TestProtocolStruct_frob(Loader.shared.env, _thisHandle.ptr, exn))
+                consumeCreatedRef<List<double>>(f__iota_get_TestAPI_TestProtocolStruct_frobby(Loader.shared.env, _thisHandle.ptr, exn))
             )
         )
     ;
@@ -228,5 +228,5 @@ class TestProtocolStruct implements TestAPI.TestMethodsProtocol, TestAPI.TestPro
         Env env,
         UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_get_TestAPI_TestProtocolStruct_frob;
+    ) f__iota_get_TestAPI_TestProtocolStruct_frobby;
 }

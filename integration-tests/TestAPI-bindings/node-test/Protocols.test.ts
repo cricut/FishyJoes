@@ -99,7 +99,7 @@ test('testProtocolStruct', () => {
     expect(testProtocolStruct.corge).toEqual("Raft a river of lava-ah!");
     testProtocolStruct.corge = "Spank a plankton too! (take that)";
     expect(testProtocolStruct.corge).toEqual("Spank a plankton too! (take that)");
-    expect(testProtocolStruct.frob).toEqual([3.14159265359, 42.0, -1.23456789]);
+    expect(testProtocolStruct.frobby).toEqual([3.14159265359, 42.0, -1.23456789]);
     expect(testProtocolStruct.plugh([true, 42.9, ["Ride on the magic school bus", "You might get baked into a pie"]])).toEqual([true, 51, "Ride on the magic school bus *>-<* You might get baked into a pie"]);
 
     testProtocolStruct.foo();
@@ -112,7 +112,7 @@ test('testProtocolStruct', () => {
 test('testProtocolClass', () => {
     const testProtocolClass = TestAPI.TestProtocolClass.init("Step inside it's a wilder ride!");
     expect(testProtocolClass.corge).toEqual("Step inside it's a wilder ride!");
-    expect(testProtocolClass.frob).toEqual([42.0, -1.23456789, 3.14159265359]);
+    expect(testProtocolClass.frobby).toEqual([42.0, -1.23456789, 3.14159265359]);
     expect(testProtocolClass.flarp).toEqual(undefined);
     testProtocolClass.flarp = "Excellent observation Kiki!";
     expect(testProtocolClass.flarp).toEqual("Excellent observation Kiki!");
