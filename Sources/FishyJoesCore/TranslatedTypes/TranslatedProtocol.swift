@@ -224,7 +224,7 @@ struct TranslatedProtocol: TranslatedType {
                 ) { fragment in
                     // All fields in protocols are asMethod Get only
                     fragment.outputBlock("bag<\(commonName)>((\(cSharpType.pInvokeUnownedName) obj, out CreatedRef exn) => Catching(out exn, () =>", closeWith: ")),") {
-                        let grab = "obj.Peek<\(cSharpType.name)>().Get\(CSharpClass.deforbidify(upperCaseFirst(field.name)))()"
+                        let grab = "obj.Peek<\(cSharpType.name)>().Get\(CSharpClass.deforbidify(upperCaseFirst(field.exportAnnotation?.name ?? field.name)))()"
                         if resolved.cSharpType.isObject {
                             fragment.output("new CreatedRef(\(grab))")
                         } else {

@@ -2988,7 +2988,7 @@ namespace Cricut.TestAPI {
                         new CreatedRef(obj.Peek<Cricut.TestAPI.TestPropertiesProtocol>().GetCorge())
                     )),
                     bag<_TestAPI_CommonInterface__TestPropertiesProtocolConverter_Getfrob>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
-                        new CreatedRef(obj.Peek<Cricut.TestAPI.TestPropertiesProtocol>().GetFrob())
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.TestPropertiesProtocol>().GetFrobby())
                     )),
                     out exn
                 ));

@@ -49,7 +49,7 @@ namespace Cricut.TestAPI.Tests {
             Assert.Equal("Raft a river of lava-ah!", testProtocolStruct.Corge);
             testProtocolStruct.Corge = "Spank a plankton too! (take that)";
             Assert.Equal("Spank a plankton too! (take that)", testProtocolStruct.Corge);
-            Assert.Equal(new List<double>() { 3.14159265359, 42.0, -1.23456789 }, testProtocolStruct.GetFrob());
+            Assert.Equal(new List<double>() { 3.14159265359, 42.0, -1.23456789 }, testProtocolStruct.GetFrobby());
             Assert.Equal(Tuple.Create<bool, nint, string>(true, 51, "Ride on the magic school bus *>-<* You might get baked into a pie"), testProtocolStruct.Plugh(Tuple.Create(true, 42.9, (System.Collections.Generic.IList<string>) new string[] {"Ride on the magic school bus", "You might get baked into a pie"})));
 
             testProtocolStruct.Foo();
@@ -63,7 +63,7 @@ namespace Cricut.TestAPI.Tests {
         public void TestProtocolClassTest() {
             var testProtocolClass = TestProtocolClass.Init("Step inside it's a wilder ride!");
             Assert.Equal("Step inside it's a wilder ride!", testProtocolClass.Corge);
-            Assert.Equal(new List<double>() { 42.0, -1.23456789, 3.14159265359 }, testProtocolClass.GetFrob());
+            Assert.Equal(new List<double>() { 42.0, -1.23456789, 3.14159265359 }, testProtocolClass.GetFrobby());
 
             Assert.Null(testProtocolClass.Flarp);
             testProtocolClass.Flarp = "Excellent observation Kiki!";
