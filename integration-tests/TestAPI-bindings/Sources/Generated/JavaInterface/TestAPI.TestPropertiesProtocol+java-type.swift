@@ -63,7 +63,7 @@ extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: JavaConverte
         externalWitnessClass = try env.globalRef(env.FindClass("com/cricut/testapi/_ExternalWitness_TestPropertiesProtocol"))
         externalWitnessConstructor = try env.GetMethodID(externalWitnessClass, "<init>", "(J)V")
         _JavaTestPropertiesProtocol._corgeGetMethodID = try env.GetMethodID(javaClass, "getCorge", "()Ljava/lang/String;")
-        _JavaTestPropertiesProtocol._frobGetMethodID = try env.GetMethodID(javaClass, "getFrob", "()Ljava/util/List;")
+        _JavaTestPropertiesProtocol._frobGetMethodID = try env.GetMethodID(javaClass, "getFrobby", "()Ljava/util/List;")
         externalCompanionClass = try env.globalRef(env.FindClass("com/cricut/testapi/TestPropertiesProtocol$Companion"))
     }
 }

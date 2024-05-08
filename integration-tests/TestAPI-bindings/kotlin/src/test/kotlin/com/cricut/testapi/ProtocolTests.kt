@@ -25,7 +25,6 @@ internal class ProtocolTests {
         assertEquals("Garply", a.foo)
         assertEquals(false, a.baz)
         val b = a.bar(x = 2, y = 128)
-        val c = b.foo
 
         assertEquals("130", b.foo)
         assertEquals(true, b.baz)
@@ -71,7 +70,7 @@ internal class ProtocolTests {
     fun testProtocolStruct() {
         val a = TestProtocolStruct(corge = "Raft a river of lava-ah!")
         assertEquals("Raft a river of lava-ah!", a.corge)
-        assertEquals(arrayListOf(3.14159265359, 42.0, -1.23456789), a.frob)
+        assertEquals(arrayListOf(3.14159265359, 42.0, -1.23456789), a.frobby)
         assertEquals(
             kotlin.Triple<Boolean, Long, kotlin.String>(
                 true,
@@ -97,7 +96,7 @@ internal class ProtocolTests {
     fun testProtocolClass() {
         val a = TestProtocolClass.init(corge = "Step inside it's a wilder ride!")
         assertEquals("Step inside it's a wilder ride!", a.corge)
-        assertEquals(arrayListOf(42.0, -1.23456789, 3.14159265359), a.frob)
+        assertEquals(arrayListOf(42.0, -1.23456789, 3.14159265359), a.frobby)
         assertEquals(null, a.flarp)
         assertEquals(42.909, a.wombat(null))
         assertEquals(null, a.wombat(zxc = 57))
