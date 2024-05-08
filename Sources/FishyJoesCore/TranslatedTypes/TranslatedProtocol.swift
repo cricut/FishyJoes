@@ -423,54 +423,55 @@ struct TranslatedProtocol: TranslatedType {
             fragment.outputBlock("public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {") {
                 // fragment.output("print(\"setting up \(sourceType.name)\")")
 
-                fragment.outputBlock("let fromCoreClass = try NodeClass(") {
-                    fragment.output("env: env,")
-                    fragment.output("name: \"\(sourceType.nonNamespacedName)\",")
-                    fragment.outputBlock("properties: [", closeWith: "],") {
-                        fragment.outputBlock("\"fromCore\": (") {
-                            fragment.outputBlock(".method { env, info in", closeWith: "},") {
-                                fragment.outputBlock("FishyJoesNodeRuntime.callbackBody(env, info, name: \"fromCore\", expectedArgumentCount: 1, hasNamedOptions: false) { env in", closeWith: "}") {
-                                    fragment.output("let coreArg = try env.argument(at: 0)")
-                                    fragment.blankLine()
-                                    fragment.output("let env = env.env")
-                                    fragment.output("let global = try env.getGlobal()")
-                                    fragment.output("let object = try env.getNamedProperty(global, \"Object\")")
-                                    fragment.output("let create = try env.getNamedProperty(object, \"create\")")
-                                    fragment.blankLine()
-                                    fragment.output("let result = try env.callFunction(object, create, [coreArg])")
-                                    fragment.blankLine()
-
-                                    let defaultMethods = methods.filter { $0.isDefaultImplementation }
-                                    for method in defaultMethods {
-                                        fragment.output("let \(method.callName)FunctionCallback: NAPI.Callback = ", newLineTerminated: false)
-                                        context.nodeTranslator.output(method: method, explicitThis: false, context: context, fragment: fragment, newLineTerminated: true, converterName: nil)
-                                        fragment.outputBlock("let \(method.callName)Function = try env.createFunction(") {
-                                            fragment.output("\"\(method.callName)\",")
-                                            fragment.output("\(method.callName)FunctionCallback,")
-                                            fragment.output("nil")
-                                        }
-                                        fragment.outputBlock("if !(try env.hasNamedProperty(result, \"\(method.callName)\")) {") {
-                                            fragment.output("try env.setNamedProperty(result, \"\(method.callName)\", \(method.callName)Function)")
-                                        }
-                                        fragment.blankLine()
-                                    }
-
-                                    fragment.blankLine()
-                                    fragment.output("return result")
-                                }
-                            }
-                            fragment.output("isStatic: true")
-                        }
+                fragment.outputBlock("let coreObject = try env.createFunction(") {
+                    fragment.output("\"\(sourceType.nonNamespacedName)\",")
+                    fragment.outputBlock("{ env, info in", closeWith: "},") {
+                        fragment.output("fatalError(\"Constructor should not be called on \\\"\(sourceType.nonNamespacedName)\\\", only the \\\"fromCore\\\" static method ought to be called.\")")
                     }
-                    fragment.outputBlock("constructor: { env, info in", closeWith: "}") {
-                        fragment.output("fatalError(\"Constructor should not be called on fromCoreClass\")")
+                    fragment.output("nil")
+                }
+                
+                fragment.outputBlock("let fromCoreFunctionCallback: NAPI.Callback = { env, info in", closeWith: "}") {
+                    fragment.outputBlock("FishyJoesNodeRuntime.callbackBody(env, info, name: \"fromCore\", expectedArgumentCount: 1, hasNamedOptions: false) { env in", closeWith: "}") {
+                        fragment.output("let coreArg = try env.argument(at: 0)")
+                        fragment.blankLine()
+                        fragment.output("let env = env.env")
+                        fragment.output("let global = try env.getGlobal()")
+                        fragment.output("let object = try env.getNamedProperty(global, \"Object\")")
+                        fragment.output("let create = try env.getNamedProperty(object, \"create\")")
+                        fragment.blankLine()
+                        fragment.output("let result = try env.callFunction(object, create, [coreArg])")
+                        fragment.blankLine()
+
+                        let defaultMethods = methods.filter { $0.isDefaultImplementation }
+                        for method in defaultMethods {
+                            fragment.output("let \(method.callName)FunctionCallback: NAPI.Callback = ", newLineTerminated: false)
+                            context.nodeTranslator.output(method: method, explicitThis: false, context: context, fragment: fragment, newLineTerminated: true, converterName: nil)
+                            fragment.outputBlock("let \(method.callName)Function = try env.createFunction(") {
+                                fragment.output("\"\(method.callName)\",")
+                                fragment.output("\(method.callName)FunctionCallback,")
+                                fragment.output("nil")
+                            }
+                            fragment.outputBlock("if !(try env.hasNamedProperty(result, \"\(method.callName)\")) {") {
+                                fragment.output("try env.setNamedProperty(result, \"\(method.callName)\", \(method.callName)Function)")
+                            }
+                            fragment.blankLine()
+                        }
+
+                        fragment.blankLine()
+                        fragment.output("return result")
                     }
                 }
+                
+                fragment.output("let fromCoreFunction = try env.createFunction(\"fromCore\", fromCoreFunctionCallback, nil)")
+                fragment.output("try env.setNamedProperty(fromCoreFunction, \"static\", env.getBoolean(true))")
+                fragment.output("try env.setNamedProperty(coreObject, \"fromCore\", fromCoreFunction)")
+                
                 fragment.outputBlock("try mergeDefinitionInto(") {
                     fragment.output("env: env,")
                     fragment.output("module: module,")
                     fragment.output("path: \"\(sourceType.nonNamespacedName)\",")
-                    fragment.output("nodeClass: fromCoreClass.constructor.value(env: env)")
+                    fragment.output("nodeClass: coreObject")
                 }
                 fragment.blankLine()
 

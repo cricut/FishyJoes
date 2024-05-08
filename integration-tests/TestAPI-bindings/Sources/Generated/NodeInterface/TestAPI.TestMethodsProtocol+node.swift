@@ -81,37 +81,35 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
 
     @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-        let fromCoreClass = try NodeClass(
-            env: env,
-            name: "TestMethodsProtocol",
-            properties: [
-                "fromCore": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "fromCore", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let coreArg = try env.argument(at: 0)
-
-                            let env = env.env
-                            let global = try env.getGlobal()
-                            let object = try env.getNamedProperty(global, "Object")
-                            let create = try env.getNamedProperty(object, "create")
-
-                            let result = try env.callFunction(object, create, [coreArg])
-
-                            return result
-                        }
-                    },
-                    isStatic: true
-                )
-            ],
-            constructor: { env, info in
-                fatalError("Constructor should not be called on fromCoreClass")
-            }
+        let coreObject = try env.createFunction(
+            "TestMethodsProtocol",
+            { env, info in
+                fatalError("Constructor should not be called on \"TestMethodsProtocol\", only the \"fromCore\" static method ought to be called.")
+            },
+            nil
         )
+        let fromCoreFunctionCallback: NAPI.Callback = { env, info in
+            FishyJoesNodeRuntime.callbackBody(env, info, name: "fromCore", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                let coreArg = try env.argument(at: 0)
+
+                let env = env.env
+                let global = try env.getGlobal()
+                let object = try env.getNamedProperty(global, "Object")
+                let create = try env.getNamedProperty(object, "create")
+
+                let result = try env.callFunction(object, create, [coreArg])
+
+                return result
+            }
+        }
+        let fromCoreFunction = try env.createFunction("fromCore", fromCoreFunctionCallback, nil)
+        try env.setNamedProperty(fromCoreFunction, "static", env.getBoolean(true))
+        try env.setNamedProperty(coreObject, "fromCore", fromCoreFunction)
         try mergeDefinitionInto(
             env: env,
             module: module,
             path: "TestMethodsProtocol",
-            nodeClass: fromCoreClass.constructor.value(env: env)
+            nodeClass: coreObject
         )
 
         let nodeClass = try NodeClass(

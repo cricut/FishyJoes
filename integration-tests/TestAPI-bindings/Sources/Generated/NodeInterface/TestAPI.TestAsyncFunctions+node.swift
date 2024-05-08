@@ -187,76 +187,74 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
 
     @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-        let fromCoreClass = try NodeClass(
-            env: env,
-            name: "TestAsyncFunctions",
-            properties: [
-                "fromCore": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "fromCore", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let coreArg = try env.argument(at: 0)
+        let coreObject = try env.createFunction(
+            "TestAsyncFunctions",
+            { env, info in
+                fatalError("Constructor should not be called on \"TestAsyncFunctions\", only the \"fromCore\" static method ought to be called.")
+            },
+            nil
+        )
+        let fromCoreFunctionCallback: NAPI.Callback = { env, info in
+            FishyJoesNodeRuntime.callbackBody(env, info, name: "fromCore", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                let coreArg = try env.argument(at: 0)
 
-                            let env = env.env
-                            let global = try env.getGlobal()
-                            let object = try env.getNamedProperty(global, "Object")
-                            let create = try env.getNamedProperty(object, "create")
+                let env = env.env
+                let global = try env.getGlobal()
+                let object = try env.getNamedProperty(global, "Object")
+                let create = try env.getNamedProperty(object, "create")
 
-                            let result = try env.callFunction(object, create, [coreArg])
+                let result = try env.callFunction(object, create, [coreArg])
 
-                            let defaultExercise6FunctionCallback: NAPI.Callback = { env, info in
-                                FishyJoesNodeRuntime.callbackBody(env, info, name: "defaultExercise6", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                                    let (deferred, promise) = try env.env.createPromise()
-                                    let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.self))
-                                    let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self))
-                                    let _wrappedSwiftSelf = TestAPI_CommonInterface.TestAsyncFunctions_sans_defaultExercise6(wrapped: try swiftSelf.value)
-                                    Task {
-                                        do {
-                                            let taskResult: String = try await _wrappedSwiftSelf.defaultExercise6(
-                                                arg0.value
-                                            )
-                                            try onMainThread { env in
-                                                let convertedTaskResult: NAPI.Value
-                                                do {
-                                                    convertedTaskResult = try Swift.String.toNode(taskResult, env: env)
-                                                } catch {
-                                                    try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
-                                                    return
-                                                }
-                                                try env.resolveDeferred(deferred, convertedTaskResult)
-                                            }
-                                        } catch {
-                                            try onMainThread { env in
-                                                try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
-                                            }
-                                        }
+                let defaultExercise6FunctionCallback: NAPI.Callback = { env, info in
+                    FishyJoesNodeRuntime.callbackBody(env, info, name: "defaultExercise6", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                        let (deferred, promise) = try env.env.createPromise()
+                        let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.self))
+                        let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self))
+                        let _wrappedSwiftSelf = TestAPI_CommonInterface.TestAsyncFunctions_sans_defaultExercise6(wrapped: try swiftSelf.value)
+                        Task {
+                            do {
+                                let taskResult: String = try await _wrappedSwiftSelf.defaultExercise6(
+                                    arg0.value
+                                )
+                                try onMainThread { env in
+                                    let convertedTaskResult: NAPI.Value
+                                    do {
+                                        convertedTaskResult = try Swift.String.toNode(taskResult, env: env)
+                                    } catch {
+                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                        return
                                     }
-                                    return promise
+                                    try env.resolveDeferred(deferred, convertedTaskResult)
+                                }
+                            } catch {
+                                try onMainThread { env in
+                                    try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
                                 }
                             }
-                            let defaultExercise6Function = try env.createFunction(
-                                "defaultExercise6",
-                                defaultExercise6FunctionCallback,
-                                nil
-                            )
-                            if !(try env.hasNamedProperty(result, "defaultExercise6")) {
-                                try env.setNamedProperty(result, "defaultExercise6", defaultExercise6Function)
-                            }
-
-                            return result
                         }
-                    },
-                    isStatic: true
+                        return promise
+                    }
+                }
+                let defaultExercise6Function = try env.createFunction(
+                    "defaultExercise6",
+                    defaultExercise6FunctionCallback,
+                    nil
                 )
-            ],
-            constructor: { env, info in
-                fatalError("Constructor should not be called on fromCoreClass")
+                if !(try env.hasNamedProperty(result, "defaultExercise6")) {
+                    try env.setNamedProperty(result, "defaultExercise6", defaultExercise6Function)
+                }
+
+                return result
             }
-        )
+        }
+        let fromCoreFunction = try env.createFunction("fromCore", fromCoreFunctionCallback, nil)
+        try env.setNamedProperty(fromCoreFunction, "static", env.getBoolean(true))
+        try env.setNamedProperty(coreObject, "fromCore", fromCoreFunction)
         try mergeDefinitionInto(
             env: env,
             module: module,
             path: "TestAsyncFunctions",
-            nodeClass: fromCoreClass.constructor.value(env: env)
+            nodeClass: coreObject
         )
 
         let nodeClass = try NodeClass(
