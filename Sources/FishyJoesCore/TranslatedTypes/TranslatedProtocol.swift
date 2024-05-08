@@ -424,13 +424,13 @@ struct TranslatedProtocol: TranslatedType {
                 // fragment.output("print(\"setting up \(sourceType.name)\")")
 
                 fragment.outputBlock("let coreObject = try env.createFunction(") {
-                    fragment.output("\"\(sourceType.nonNamespacedName)\",")
+                    fragment.output("\"\(sourceType.nonNamespacedName)\", ", newLineTerminated: false)
                     fragment.outputBlock("{ env, info in", closeWith: "},") {
                         fragment.output("fatalError(\"Constructor should not be called on \\\"\(sourceType.nonNamespacedName)\\\", only the \\\"fromCore\\\" static method ought to be called.\")")
                     }
                     fragment.output("nil")
                 }
-                
+
                 fragment.outputBlock("let fromCoreFunctionCallback: NAPI.Callback = { env, info in", closeWith: "}") {
                     fragment.outputBlock("FishyJoesNodeRuntime.callbackBody(env, info, name: \"fromCore\", expectedArgumentCount: 1, hasNamedOptions: false) { env in", closeWith: "}") {
                         fragment.output("let coreArg = try env.argument(at: 0)")
@@ -462,11 +462,11 @@ struct TranslatedProtocol: TranslatedType {
                         fragment.output("return result")
                     }
                 }
-                
+
                 fragment.output("let fromCoreFunction = try env.createFunction(\"fromCore\", fromCoreFunctionCallback, nil)")
                 fragment.output("try env.setNamedProperty(fromCoreFunction, \"static\", env.getBoolean(true))")
                 fragment.output("try env.setNamedProperty(coreObject, \"fromCore\", fromCoreFunction)")
-                
+
                 fragment.outputBlock("try mergeDefinitionInto(") {
                     fragment.output("env: env,")
                     fragment.output("module: module,")

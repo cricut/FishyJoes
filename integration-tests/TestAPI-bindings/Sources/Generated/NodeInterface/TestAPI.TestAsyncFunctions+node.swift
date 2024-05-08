@@ -188,8 +188,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
     @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let coreObject = try env.createFunction(
-            "TestAsyncFunctions",
-            { env, info in
+            "TestAsyncFunctions", { env, info in
                 fatalError("Constructor should not be called on \"TestAsyncFunctions\", only the \"fromCore\" static method ought to be called.")
             },
             nil

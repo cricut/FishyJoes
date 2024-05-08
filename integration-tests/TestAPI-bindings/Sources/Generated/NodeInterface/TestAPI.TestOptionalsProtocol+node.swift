@@ -61,8 +61,7 @@ extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: NodeConverter
     @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let coreObject = try env.createFunction(
-            "TestOptionalsProtocol",
-            { env, info in
+            "TestOptionalsProtocol", { env, info in
                 fatalError("Constructor should not be called on \"TestOptionalsProtocol\", only the \"fromCore\" static method ought to be called.")
             },
             nil
