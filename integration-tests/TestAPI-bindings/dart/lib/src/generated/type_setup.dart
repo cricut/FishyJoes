@@ -7931,7 +7931,7 @@ final ensureLoaded = (() {
                 Loader.shared.env,
                 ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestPropertiesProtocol.ffi_new),
                 ffi.Pointer.fromFunction(TestAPI.TestPropertiesProtocol_FfiHooks.ffi_get_corge),
-                ffi.Pointer.fromFunction(TestAPI.TestPropertiesProtocol_FfiHooks.ffi_get_frob),
+                ffi.Pointer.fromFunction(TestAPI.TestPropertiesProtocol_FfiHooks.ffi_get_frobby),
                 exn
             );
         });
