@@ -1,5 +1,7 @@
 import { TestAPI } from 'TestAPI';
 
+const debugPrints = false;
+
 test('testProtocolImplementation', () => {
     const a = new TestAPI.AProtocolImplementation(
         "Garply",
@@ -290,7 +292,9 @@ async function testAsyncForeignSideFunctionsCore(a: TestAPI.TestAsyncFunctions) 
     const n = a.thunkTwiceMaker(
         async () => {
             o += 1;
-            console.log(`Thunker in paradise o: ${o}`);
+            if (debugPrints) {
+                console.log(`Thunker in paradise o: ${o}`);
+            }
         }
     );
     await n();
@@ -405,7 +409,9 @@ async function testAsyncSwiftSideFunctionsCore(a: TestAPI.TestAsyncFunctions) {
     const n = a.thunkTwiceMaker(
         async () => {
             o = o * o;
-            console.log(`Thunkmaster thex o: ${o}`);
+            if (debugPrints) {
+                console.log(`Thunkmaster thex o: ${o}`);
+            }
         }
     );
     await n();
