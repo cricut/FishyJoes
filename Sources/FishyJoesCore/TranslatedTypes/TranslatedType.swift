@@ -217,7 +217,7 @@ extension Type {
 extension SourceryProtocol {
     // Default implementation methods replace unimplemented methods for Protocols
     func methodsPreferringDefaultImpl() -> [SourceryMethod] {
-        SourceryMethod.methodsPreferring(preferDefaultImplementation: true, methods: rawMethods)
+        SourceryMethod.methodsPreferring(.defaultImplementation, methods: rawMethods)
     }
 
     func defaultMethods() -> [SourceryMethod] {
@@ -240,7 +240,11 @@ extension SourceryProtocol {
 }
 
 extension SourceryMethod {
-    static func methodsPreferring(preferDefaultImplementation: Bool, methods: [SourceryMethod]) -> [SourceryMethod] {
+    enum MethodTypePreference {
+        case defaultImplementation
+        case normal
+    }
+    static func methodsPreferring(_ preference: MethodTypePreference, methods: [SourceryMethod]) -> [SourceryMethod] {
         var preferredMethods = [SourceryMethod]()
         for method in methods {
             let mostlyEqualMethods = preferredMethods.filter {
@@ -250,7 +254,7 @@ extension SourceryMethod {
                 for mostlyEqualMethod in mostlyEqualMethods {
                     let isMostlyEqualMethodADefaultImplementation = mostlyEqualMethod.isExtension && (mostlyEqualMethod.definedInType is SourceryProtocol)
                     
-                    let useMostlyEqualMethod = preferDefaultImplementation ? isMostlyEqualMethodADefaultImplementation : !isMostlyEqualMethodADefaultImplementation
+                    let useMostlyEqualMethod = preference == .defaultImplementation ? isMostlyEqualMethodADefaultImplementation : !isMostlyEqualMethodADefaultImplementation
                     
                     if useMostlyEqualMethod {
                         guard let index = preferredMethods.firstIndex(of: method) else {
