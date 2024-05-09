@@ -86,11 +86,13 @@ public protocol TestOptionalsProtocol {
 
 /// <!-- FishyJoes.export(TestProtocolEnum, conformances: [TestMethodsProtocol]) -->
 public enum TestProtocolEnum: TestMethodsProtocol {
+    static let debugPrints = false
+
     case qux
 
     /// <!-- FishyJoes.export(foo) -->
     public func foo() throws {
-        print("foo!")
+        if Self.debugPrints { print("foo!") }
     }
     /// <!-- FishyJoes.export(bar) -->
     public func bar() throws -> Bool {
@@ -98,7 +100,7 @@ public enum TestProtocolEnum: TestMethodsProtocol {
     }
     /// <!-- FishyJoes.export(baz) -->
     public func baz(qux: Bool) throws {
-        print("baz(qux: \(qux))")
+        if Self.debugPrints { print("baz(qux: \(qux))") }
     }
     /// <!-- FishyJoes.export(garply) -->
     public func garply(_ str: String) throws -> String {
@@ -116,9 +118,11 @@ public enum TestProtocolEnum: TestMethodsProtocol {
 
 /// <!-- FishyJoes.export(TestProtocolStruct, conformances: [TestMethodsProtocol, TestPropertiesProtocol]) -->
 public struct TestProtocolStruct: TestMethodsProtocol, TestPropertiesProtocol {
+    static let debugPrints = false
+
     /// <!-- FishyJoes.export(foo) -->
     public func foo() throws {
-        print("!oof")
+        if Self.debugPrints { print("!oof") }
     }
     /// <!-- FishyJoes.export(bar) -->
     public func bar() throws -> Bool {
@@ -126,7 +130,7 @@ public struct TestProtocolStruct: TestMethodsProtocol, TestPropertiesProtocol {
     }
     /// <!-- FishyJoes.export(baz) -->
     public func baz(qux: Bool) throws {
-        print("baz(qux: !\(!qux))")
+        if Self.debugPrints { print("baz(qux: !\(!qux))") }
     }
     /// <!-- FishyJoes.export(garply) -->
     public func garply(_ str: String) throws -> String {
@@ -156,9 +160,11 @@ public struct TestProtocolStruct: TestMethodsProtocol, TestPropertiesProtocol {
 
 /// <!-- FishyJoes.exportReference(TestProtocolClass, conformances: [TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol]) -->
 public class TestProtocolClass: TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol {
+    static let debugPrints = false
+
     /// <!-- FishyJoes.export(foo) -->
     public func foo() throws {
-        print("!foo-oof!")
+        if Self.debugPrints { print("!foo-oof!") }
     }
     /// <!-- FishyJoes.export(bar) -->
     public func bar() throws -> Bool {
@@ -166,7 +172,7 @@ public class TestProtocolClass: TestMethodsProtocol, TestPropertiesProtocol, Tes
     }
     /// <!-- FishyJoes.export(baz) -->
     public func baz(qux: Bool) throws {
-        print("baz(qux: !!\(qux))")
+        if Self.debugPrints { print("baz(qux: !!\(qux))") }
     }
     /// <!-- FishyJoes.export(garply) -->
     public func garply(_ str: String) throws -> String {
