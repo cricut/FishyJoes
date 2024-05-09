@@ -217,7 +217,7 @@ extension Type {
 extension SourceryProtocol {
     // Default implementation methods replace unimplemented methods for Protocols
     func methodsPreferringDefaultImpl() -> [SourceryMethod] {
-        SourceryMethod.methodsPreferringDefaultImpl(rawMethods)
+        SourceryMethod.methodsPreferring(preferDefaultImplementation: true, methods: rawMethods)
     }
 
     func defaultMethods() -> [SourceryMethod] {
@@ -240,36 +240,36 @@ extension SourceryProtocol {
 }
 
 extension SourceryMethod {
-    static func methodsPreferringDefaultImpl(_ methods: [SourceryMethod]) -> [SourceryMethod] {
-        var methodsPreferringImplemented = [SourceryMethod]()
+    static func methodsPreferring(preferDefaultImplementation: Bool, methods: [SourceryMethod]) -> [SourceryMethod] {
+        var preferredMethods = [SourceryMethod]()
         for method in methods {
-            let mostlyEqualMethods = methodsPreferringImplemented.filter {
+            let mostlyEqualMethods = preferredMethods.filter {
                 return $0.isMostlyEqual(other: method)
             }
             if !mostlyEqualMethods.isEmpty {
-                for equalExcludingImplementedMethod in mostlyEqualMethods {
-                    let isDefaultImplementation = equalExcludingImplementedMethod.isExtension && (equalExcludingImplementedMethod.definedInType is SourceryProtocol)
+                for mostlyEqualMethod in mostlyEqualMethods {
+                    let isDefaultImplementation = mostlyEqualMethod.isExtension && (mostlyEqualMethod.definedInType is SourceryProtocol)
                     if isDefaultImplementation {
-                        guard let index = methodsPreferringImplemented.firstIndex(of: method) else {
+                        guard let index = preferredMethods.firstIndex(of: method) else {
                             assertionFailure("method should exist in methodsPreferringImplemented")
                             continue
                         }
-                        methodsPreferringImplemented.remove(at: index)
-                        methodsPreferringImplemented.insert(equalExcludingImplementedMethod, at: index)
+                        preferredMethods.remove(at: index)
+                        preferredMethods.insert(mostlyEqualMethod, at: index)
                     } else if method.isExtension {
-                        guard let index = methodsPreferringImplemented.firstIndex(of: equalExcludingImplementedMethod) else {
+                        guard let index = preferredMethods.firstIndex(of: mostlyEqualMethod) else {
                             assertionFailure("equalExcludingImplementedMethod should exist in methodsPreferringImplemented")
                             continue
                         }
-                        methodsPreferringImplemented.remove(at: index)
-                        methodsPreferringImplemented.insert(method, at: index)
+                        preferredMethods.remove(at: index)
+                        preferredMethods.insert(method, at: index)
                     }
                 }
             } else {
-                methodsPreferringImplemented.append(method)
+                preferredMethods.append(method)
             }
         }
-        return methodsPreferringImplemented
+        return preferredMethods
     }
 
     func isMostlyEqual(other: SourceryMethod) -> Bool {
