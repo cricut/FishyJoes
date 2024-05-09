@@ -248,17 +248,18 @@ extension SourceryMethod {
             }
             if !mostlyEqualMethods.isEmpty {
                 for mostlyEqualMethod in mostlyEqualMethods {
-                    let isDefaultImplementation = mostlyEqualMethod.isExtension && (mostlyEqualMethod.definedInType is SourceryProtocol)
-                    if isDefaultImplementation {
+                    let isMostlyEqualMethodADefaultImplementation = mostlyEqualMethod.isExtension && (mostlyEqualMethod.definedInType is SourceryProtocol)
+                    
+                    if isMostlyEqualMethodADefaultImplementation {
                         guard let index = preferredMethods.firstIndex(of: method) else {
-                            assertionFailure("method should exist in methodsPreferringImplemented")
+                            assertionFailure("method should exist in preferredMethods")
                             continue
                         }
                         preferredMethods.remove(at: index)
                         preferredMethods.insert(mostlyEqualMethod, at: index)
                     } else if method.isExtension {
                         guard let index = preferredMethods.firstIndex(of: mostlyEqualMethod) else {
-                            assertionFailure("equalExcludingImplementedMethod should exist in methodsPreferringImplemented")
+                            assertionFailure("mostlyEqualMethod should exist in preferredMethods")
                             continue
                         }
                         preferredMethods.remove(at: index)
