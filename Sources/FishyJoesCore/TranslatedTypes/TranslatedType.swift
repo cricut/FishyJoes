@@ -257,7 +257,7 @@ extension SourceryMethod {
                         }
                         preferredMethods.remove(at: index)
                         preferredMethods.insert(mostlyEqualMethod, at: index)
-                    } else if method.isExtension {
+                    } else {
                         guard let index = preferredMethods.firstIndex(of: mostlyEqualMethod) else {
                             assertionFailure("mostlyEqualMethod should exist in preferredMethods")
                             continue
