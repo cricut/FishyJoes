@@ -217,8 +217,32 @@ extension Type {
 extension SourceryProtocol {
     // Default implementation methods replace unimplemented methods for Protocols
     func methodsPreferringDefaultImpl() -> [SourceryMethod] {
+        SourceryMethod.methodsPreferringDefaultImpl(rawMethods)
+    }
+
+    func defaultMethods() -> [SourceryMethod] {
+        methodsPreferringDefaultImpl().filter { $0.isExtension }
+    }
+
+    // Default implementation variables replace unimplemented variables for Protocols
+    func variablesPreferringDefaultImpl() -> [SourceryVariable] {
+        var varsByName = [String: [SourceryVariable]]()
+        for variable in rawVariables {
+            varsByName[variable.name, default: []].append(variable)
+        }
+        return varsByName.sorted {
+            $0.key < $1.key
+        }.compactMap {
+            let varDefs = $0.value
+            return varDefs.first { $0.definedInType?.isExtension == true } ?? varDefs.first
+        }
+    }
+}
+
+extension SourceryMethod {
+    static func methodsPreferringDefaultImpl(_ methods: [SourceryMethod]) -> [SourceryMethod] {
         var methodsPreferringImplemented = [SourceryMethod]()
-        for method in rawMethods {
+        for method in methods {
             let mostlyEqualMethods = methodsPreferringImplemented.filter {
                 return $0.isMostlyEqual(other: method)
             }
@@ -248,26 +272,6 @@ extension SourceryProtocol {
         return methodsPreferringImplemented
     }
 
-    func defaultMethods() -> [SourceryMethod] {
-        methodsPreferringDefaultImpl().filter { $0.isExtension }
-    }
-
-    // Default implementation variables replace unimplemented variables for Protocols
-    func variablesPreferringDefaultImpl() -> [SourceryVariable] {
-        var varsByName = [String: [SourceryVariable]]()
-        for variable in rawVariables {
-            varsByName[variable.name, default: []].append(variable)
-        }
-        return varsByName.sorted {
-            $0.key < $1.key
-        }.compactMap {
-            let varDefs = $0.value
-            return varDefs.first { $0.definedInType?.isExtension == true } ?? varDefs.first
-        }
-    }
-}
-
-extension SourceryMethod {
     func isMostlyEqual(other: SourceryMethod) -> Bool {
         let paramsMostlyEqual = zip(parameters, other.parameters).filter {
             $0.isMostlyEqual(other: $1)
