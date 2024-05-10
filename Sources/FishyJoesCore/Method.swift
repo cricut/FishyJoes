@@ -160,6 +160,19 @@ extension Method {
         }
         return preferredMethods
     }
+
+    static func methods(type: Type) -> [Method] {
+        var defaultMethods = [Method]()
+        let protocols = type.implements.values.compactMap { $0 as? SourceryProtocol }
+        for prot in protocols {
+            defaultMethods.append(contentsOf: prot.defaultMethods().compactMap { Method($0, type: prot, protocolName: prot.name) })
+        }
+
+        let normalMethods = type.methods.compactMap { Method($0, type: type) }
+
+        let methods = Method.methodsPreferring(.defaultImplementation, methods: normalMethods + defaultMethods)
+        return methods
+    }
 }
 
 extension Method {
