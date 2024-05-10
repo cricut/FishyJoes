@@ -2169,16 +2169,16 @@ export declare namespace TestAPI {
             mutable: string;
 
             /**
-             * <!-- FishyJoes.export(asyncGetMutable) -->
-             */
-            asyncGetMutable(
-            ): Promise<string>;
-
-            /**
              * <!-- FishyJoes.export(create) -->
              */
             static create(
             ): Structs.MemberwiseStruct;
+
+            /**
+             * <!-- FishyJoes.export(asyncGetMutable) -->
+             */
+            asyncGetMutable(
+            ): Promise<string>;
         }
 
         /**
@@ -2190,10 +2190,10 @@ export declare namespace TestAPI {
             i: number;
 
             /**
-             * <!-- FishyJoes.export(asyncGetI) -->
+             * <!-- FishyJoes.export(create) -->
              */
-            asyncGetI(
-            ): Promise<number>;
+            static create(
+            ): Structs.MutableStruct;
 
             /**
              * <!-- FishyJoes.export(increment) -->
@@ -2208,10 +2208,10 @@ export declare namespace TestAPI {
             ): Promise<void>;
 
             /**
-             * <!-- FishyJoes.export(create) -->
+             * <!-- FishyJoes.export(asyncGetI) -->
              */
-            static create(
-            ): Structs.MutableStruct;
+            asyncGetI(
+            ): Promise<number>;
         }
 
         /**
@@ -2992,6 +2992,12 @@ export declare namespace TestAPI {
         readonly frobby: number[];
 
         /**
+         * <!-- FishyJoes.export(foo) -->
+         */
+        foo(
+        ): void;
+
+        /**
          * <!-- FishyJoes.export(bar) -->
          */
         bar(
@@ -3005,24 +3011,11 @@ export declare namespace TestAPI {
         ): void;
 
         /**
-         * <!-- FishyJoes.export(foo) -->
-         */
-        foo(
-        ): void;
-
-        /**
          * <!-- FishyJoes.export(garply) -->
          */
         garply(
             str: string
         ): string;
-
-        /**
-         * <!-- FishyJoes.export(plugh) -->
-         */
-        plugh(
-            fred: [boolean, number, string[]]
-        ): [boolean, number, string];
 
         /**
          * <!-- FishyJoes.export(xyzzy) -->
@@ -3031,6 +3024,13 @@ export declare namespace TestAPI {
             thud: number,
             grault: number[]
         ): string;
+
+        /**
+         * <!-- FishyJoes.export(plugh) -->
+         */
+        plugh(
+            fred: [boolean, number, string[]]
+        ): [boolean, number, string];
     }
 
     export type Tuples = never;

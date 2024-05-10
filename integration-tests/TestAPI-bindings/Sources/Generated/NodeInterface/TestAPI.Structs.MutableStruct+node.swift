@@ -33,35 +33,18 @@ extension TestAPI.Structs.MutableStruct: NodeMutator {
             env: env,
             name: "Structs.MutableStruct",
             properties: [
-                "asyncGetI": (
+                "create": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncGetI", expectedArgumentCount: 0, hasNamedOptions: false) { env in
-                            let (deferred, promise) = try env.env.createPromise()
-                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.Structs.MutableStruct.self))
-                            Task {
-                                do {
-                                    let taskResult: Int = await swiftSelf.value.asyncGetI(
-                                    )
-                                    try onMainThread { env in
-                                        let convertedTaskResult: NAPI.Value
-                                        do {
-                                            convertedTaskResult = try Swift.Int.toNode(taskResult, env: env)
-                                        } catch {
-                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
-                                            return
-                                        }
-                                        try env.resolveDeferred(deferred, convertedTaskResult)
-                                    }
-                                } catch {
-                                    try onMainThread { env in
-                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
-                                    }
-                                }
-                            }
-                            return promise
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try TestAPI.Structs.MutableStruct.toNode(
+                                TestAPI.Structs.MutableStruct(
+                                ),
+                                env: env.env
+                            )
+                            return result
                         }
                     },
-                    isStatic: false
+                    isStatic: true
                 ),
                 "increment": (
                     .method { env, info in
@@ -112,18 +95,35 @@ extension TestAPI.Structs.MutableStruct: NodeMutator {
                     },
                     isStatic: false
                 ),
-                "create": (
+                "asyncGetI": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0, hasNamedOptions: false) { env in
-                            let result = try TestAPI.Structs.MutableStruct.toNode(
-                                TestAPI.Structs.MutableStruct(
-                                ),
-                                env: env.env
-                            )
-                            return result
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncGetI", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.Structs.MutableStruct.self))
+                            Task {
+                                do {
+                                    let taskResult: Int = await swiftSelf.value.asyncGetI(
+                                    )
+                                    try onMainThread { env in
+                                        let convertedTaskResult: NAPI.Value
+                                        do {
+                                            convertedTaskResult = try Swift.Int.toNode(taskResult, env: env)
+                                        } catch {
+                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                            return
+                                        }
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
+                                    }
+                                } catch {
+                                    try onMainThread { env in
+                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                    }
+                                }
+                            }
+                            return promise
                         }
                     },
-                    isStatic: true
+                    isStatic: false
                 ),
                 "i": (.stored(mutable: true), isStatic: false),
             ],

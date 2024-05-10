@@ -4643,7 +4643,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(defaultExercise6) -->"
                 ],
-                "hasDefaultImplementation" : false,
+                "hasDefaultImplementation" : true,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "defaultExercise6",
@@ -5414,6 +5414,23 @@
             "methods" : [
               {
                 "documentation" : [
+                  "<!-- FishyJoes.export(foo) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "foo",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
+                  }
+                }
+              },
+              {
+                "documentation" : [
                   "<!-- FishyJoes.export(bar) -->"
                 ],
                 "hasDefaultImplementation" : false,
@@ -5455,23 +5472,6 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(foo) -->"
-                ],
-                "hasDefaultImplementation" : false,
-                "isAsync" : false,
-                "isStatic" : false,
-                "name" : "foo",
-                "parameters" : [
-
-                ],
-                "returnType" : {
-                  "named" : {
-                    "_0" : "void"
-                  }
-                }
-              },
-              {
-                "documentation" : [
                   "<!-- FishyJoes.export(garply) -->"
                 ],
                 "hasDefaultImplementation" : false,
@@ -5491,30 +5491,6 @@
                 "returnType" : {
                   "named" : {
                     "_0" : "string"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(plugh) -->"
-                ],
-                "hasDefaultImplementation" : false,
-                "isAsync" : false,
-                "isStatic" : false,
-                "name" : "plugh",
-                "parameters" : [
-                  {
-                    "name" : "fred",
-                    "type" : {
-                      "named" : {
-                        "_0" : "[boolean, number, string[]]"
-                      }
-                    }
-                  }
-                ],
-                "returnType" : {
-                  "named" : {
-                    "_0" : "[boolean, number, string]"
                   }
                 }
               },
@@ -5547,6 +5523,30 @@
                 "returnType" : {
                   "named" : {
                     "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(plugh) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "plugh",
+                "parameters" : [
+                  {
+                    "name" : "fred",
+                    "type" : {
+                      "named" : {
+                        "_0" : "[boolean, number, string[]]"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "[boolean, number, string]"
                   }
                 }
               }
@@ -12294,6 +12294,23 @@
                 "methods" : [
                   {
                     "documentation" : [
+                      "<!-- FishyJoes.export(create) -->"
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isAsync" : false,
+                    "isStatic" : true,
+                    "name" : "create",
+                    "parameters" : [
+
+                    ],
+                    "returnType" : {
+                      "named" : {
+                        "_0" : "Structs.MemberwiseStruct"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
                       "<!-- FishyJoes.export(asyncGetMutable) -->"
                     ],
                     "hasDefaultImplementation" : false,
@@ -12310,23 +12327,6 @@
                             "_0" : "string"
                           }
                         }
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-                      "<!-- FishyJoes.export(create) -->"
-                    ],
-                    "hasDefaultImplementation" : false,
-                    "isAsync" : false,
-                    "isStatic" : true,
-                    "name" : "create",
-                    "parameters" : [
-
-                    ],
-                    "returnType" : {
-                      "named" : {
-                        "_0" : "Structs.MemberwiseStruct"
                       }
                     }
                   }
@@ -12375,22 +12375,18 @@
                 "methods" : [
                   {
                     "documentation" : [
-                      "<!-- FishyJoes.export(asyncGetI) -->"
+                      "<!-- FishyJoes.export(create) -->"
                     ],
                     "hasDefaultImplementation" : false,
-                    "isAsync" : true,
-                    "isStatic" : false,
-                    "name" : "asyncGetI",
+                    "isAsync" : false,
+                    "isStatic" : true,
+                    "name" : "create",
                     "parameters" : [
 
                     ],
                     "returnType" : {
-                      "promise" : {
-                        "_0" : {
-                          "named" : {
-                            "_0" : "number"
-                          }
-                        }
+                      "named" : {
+                        "_0" : "Structs.MutableStruct"
                       }
                     }
                   },
@@ -12434,18 +12430,22 @@
                   },
                   {
                     "documentation" : [
-                      "<!-- FishyJoes.export(create) -->"
+                      "<!-- FishyJoes.export(asyncGetI) -->"
                     ],
                     "hasDefaultImplementation" : false,
-                    "isAsync" : false,
-                    "isStatic" : true,
-                    "name" : "create",
+                    "isAsync" : true,
+                    "isStatic" : false,
+                    "name" : "asyncGetI",
                     "parameters" : [
 
                     ],
                     "returnType" : {
-                      "named" : {
-                        "_0" : "Structs.MutableStruct"
+                      "promise" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "number"
+                          }
+                        }
                       }
                     }
                   }

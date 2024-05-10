@@ -12,7 +12,6 @@ struct TranslatedStruct: TranslatedType {
     let storedVariables: [Field]
     let computedVariables: [Field]
     let methods: [Method]
-    let defaultMethodsForNodeTypeDefinition: [Method]
     let documentation: [String]
     let jniType: JNIType
     let isInhabited: Bool
@@ -38,17 +37,7 @@ struct TranslatedStruct: TranslatedType {
         self.computedVariables =
             (type.computedVariables + type.staticVariables).compactMap { Field($0, type: type) }
 
-        var nodeDefaultMethods = [Method]()
-        // Node objects needs default methods in order to conform to the interfaces it implements, though as an optional method that if the user does not implement, will use the defined default method constant.
-        if !type.implements.isEmpty {
-            let protocols = type.implements.values.compactMap { $0 as? SourceryProtocol }
-            for prot in protocols {
-                nodeDefaultMethods.append(contentsOf: prot.defaultMethods().compactMap { Method($0, type: prot, protocolName: prot.name) })
-            }
-        }
-        self.defaultMethodsForNodeTypeDefinition = nodeDefaultMethods
-
-        self.methods = type.methods.compactMap { Method($0, type: type) }.sorted(by: { $0.name < $1.name })
+        self.methods = Method.methods(type: type)
         self.documentation = type.documentation
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
@@ -148,8 +137,10 @@ struct TranslatedStruct: TranslatedType {
                     fragment.output("name: \"\(nodeName)\",")
                     fragment.outputBlock("properties: [", closeWith: "],") {
                         var hasProperties = false
-                        hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment, converterName: nil)
-                        hasProperties ||= context.nodeTranslator.outputProperties(methods: defaultMethodsForNodeTypeDefinition, context: context, fragment: fragment, converterName: sourceType.name)
+                        let normalMethods = methods.filter { !$0.isDefaultImplementation }
+                        let defaultMethods = methods.filter { $0.isDefaultImplementation }
+                        hasProperties ||= context.nodeTranslator.outputProperties(methods: normalMethods, context: context, fragment: fragment, converterName: nil)
+                        hasProperties ||= context.nodeTranslator.outputProperties(methods: defaultMethods, context: context, fragment: fragment, converterName: sourceType.name)
                         hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment)
                         for storedVar in storedVariables {
                             // Limitation in wasm implementation of napi_create_class doesn't allow constructors to assign to non-mutable property.
@@ -197,9 +188,7 @@ struct TranslatedStruct: TranslatedType {
             fields:
                 storedVariables.compactMap { context.ts(field: $0, useNativeName: true) } +
             computedVariables.compactMap { context.ts(field: $0, useNativeName: false) },
-            methods:
-                methods.compactMap { context.ts(method: $0) } +
-            defaultMethodsForNodeTypeDefinition.compactMap { context.ts(method: $0) }
+            methods: methods.compactMap { context.ts(method: $0) }
         ))
 
         return fragment
