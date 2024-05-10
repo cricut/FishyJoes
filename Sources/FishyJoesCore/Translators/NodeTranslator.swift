@@ -79,7 +79,7 @@ struct NodeTranslator: Translator {
         }
     }
 
-    func output(method: Method, explicitThis: Bool, context: FishyJoesContext, fragment: SourceFragment, newLineTerminated: Bool = true, converterName: String? = nil) {
+    func output(method: Method, explicitThis: Bool, context: FishyJoesContext, fragment: SourceFragment, newLineTerminated: Bool = true, converterName: String? = nil, shouldWrapDefaultImpl: Bool = false) {
         let exportAnnotation = method.exportAnnotation
         let nodeName = exportAnnotation.name
 
@@ -142,7 +142,8 @@ struct NodeTranslator: Translator {
                         fragment.output("let swiftSelf = UncheckedSendableBox(try env.this(converter: \(containingNamespace).self))")
                         selfExpression = "swiftSelf.value"
                     }
-                    if method.isDefaultImplementation {
+                    if method.isDefaultImplementation,
+                       shouldWrapDefaultImpl {
                         fragment.output("let _wrappedSwiftSelf = \(context.module.name)_CommonInterface.\(method.definedIn?.name ?? "")_sans_\(method.callName)(wrapped: try \(selfExpression))")
                         selfExpression = "_wrappedSwiftSelf"
                     }
@@ -196,7 +197,8 @@ struct NodeTranslator: Translator {
                         fragment.output("var mutatingSelf = try \(selfExpression)")
                         selfExpression = "mutatingSelf"
                     }
-                    if method.isDefaultImplementation {
+                    if method.isDefaultImplementation,
+                       shouldWrapDefaultImpl {
                         fragment.output("let _wrappedSwiftSelf = \(context.module.name)_CommonInterface.\(method.definedIn?.name ?? "")_sans_\(method.callName)(wrapped: try \(selfExpression))")
                         selfExpression = "_wrappedSwiftSelf"
                     }
@@ -236,14 +238,14 @@ struct NodeTranslator: Translator {
         }
     }
 
-    func outputProperties(methods: [Method], explicitThis: Bool = false, context: FishyJoesContext, fragment: SourceFragment, converterName: String? = nil) -> Bool {
+    func outputProperties(methods: [Method], explicitThis: Bool = false, context: FishyJoesContext, fragment: SourceFragment, converterName: String? = nil, shouldWrapDefaultImpl: Bool = false) -> Bool {
         for method in methods {
             let isStatic = explicitThis || method.isStatic
             let explicitThis = explicitThis && !method.isStatic
 
             fragment.outputBlock("\"\(method.exportAnnotation.name)\": (", closeWith: "),") {
                 fragment.output(".method ", newLineTerminated: false)
-                output(method: method, explicitThis: explicitThis, context: context, fragment: fragment, newLineTerminated: false, converterName: converterName)
+                output(method: method, explicitThis: explicitThis, context: context, fragment: fragment, newLineTerminated: false, converterName: converterName, shouldWrapDefaultImpl: shouldWrapDefaultImpl)
                 fragment.output(",")
                 fragment.output("isStatic: \(isStatic)")
             }

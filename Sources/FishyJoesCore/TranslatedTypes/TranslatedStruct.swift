@@ -136,9 +136,10 @@ struct TranslatedStruct: TranslatedType {
                     fragment.output("env: env,")
                     fragment.output("name: \"\(nodeName)\",")
                     fragment.outputBlock("properties: [", closeWith: "],") {
-                        var hasProperties = false
                         let normalMethods = methods.filter { !$0.isDefaultImplementation }
                         let defaultMethods = methods.filter { $0.isDefaultImplementation }
+                        
+                        var hasProperties = false
                         hasProperties ||= context.nodeTranslator.outputProperties(methods: normalMethods, context: context, fragment: fragment, converterName: nil)
                         hasProperties ||= context.nodeTranslator.outputProperties(methods: defaultMethods, context: context, fragment: fragment, converterName: sourceType.name)
                         hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment)

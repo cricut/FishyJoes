@@ -57,9 +57,8 @@ extension TestAPI.AProtocolImplementation: NodeMutator {
                 "hasADefaultImplementation": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation", expectedArgumentCount: 2, hasNamedOptions: false) { env in
-                            let _wrappedSwiftSelf = TestAPI_CommonInterface.AProtocol_sans_hasADefaultImplementation(wrapped: try env.this(converter: TestAPI.AProtocolImplementation.self))
                             let result = try Swift.String.toNode(
-                                _wrappedSwiftSelf.hasADefaultImplementation(
+                                env.this(converter: TestAPI.AProtocolImplementation.self).hasADefaultImplementation(
                                     x: try env.argument(at: 0, converter: Swift.Int.self),
                                     y: try env.argument(at: 1, converter: Swift.Double.self)
                                 ),
@@ -73,9 +72,8 @@ extension TestAPI.AProtocolImplementation: NodeMutator {
                 "hasADefaultImplementation2": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation2", expectedArgumentCount: 3, hasNamedOptions: false) { env in
-                            let _wrappedSwiftSelf = TestAPI_CommonInterface.AProtocol_sans_hasADefaultImplementation2(wrapped: try env.this(converter: TestAPI.AProtocolImplementation.self))
                             let result = try Swift.Double.toNode(
-                                _wrappedSwiftSelf.hasADefaultImplementation2(
+                                env.this(converter: TestAPI.AProtocolImplementation.self).hasADefaultImplementation2(
                                     try env.argument(at: 0, converter: Swift.String.self),
                                     b: try env.argument(at: 1, converter: Swift.Bool.self),
                                     try env.argument(at: 2, converter: Swift.Double.self)

@@ -304,10 +304,9 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.self))
                             let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self))
-                            let _wrappedSwiftSelf = TestAPI_CommonInterface.TestAsyncFunctions_sans_defaultExercise6(wrapped: try swiftSelf.value)
                             Task {
                                 do {
-                                    let taskResult: String = try await _wrappedSwiftSelf.defaultExercise6(
+                                    let taskResult: String = try await swiftSelf.value.defaultExercise6(
                                         arg0.value
                                     )
                                     try onMainThread { env in
