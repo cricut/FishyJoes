@@ -122,6 +122,44 @@ extension Method {
         isAsync == other.isAsync &&
         deprecation == other.deprecation
     }
+    
+    enum MethodTypePreference {
+        case defaultImplementation
+        case normal
+    }
+    
+    static func methodsPreferring(_ preference: MethodTypePreference, methods: [Method]) -> [Method] {
+        var preferredMethods = [Method]()
+        for method in methods {
+            let mostlyEqualMethods = preferredMethods.filter {
+                return $0.isMostlyEqual(other: method)
+            }
+            if !mostlyEqualMethods.isEmpty {
+                for mostlyEqualMethod in mostlyEqualMethods {
+                    let useMostlyEqualMethod = preference == .defaultImplementation ? mostlyEqualMethod.isDefaultImplementation : !mostlyEqualMethod.isDefaultImplementation
+                    
+                    if useMostlyEqualMethod {
+                        guard let index = preferredMethods.firstIndex(of: method) else {
+                            assertionFailure("method should exist in preferredMethods")
+                            continue
+                        }
+                        preferredMethods.remove(at: index)
+                        preferredMethods.insert(mostlyEqualMethod, at: index)
+                    } else { // use method
+                        guard let index = preferredMethods.firstIndex(of: mostlyEqualMethod) else {
+                            assertionFailure("mostlyEqualMethod should exist in preferredMethods")
+                            continue
+                        }
+                        preferredMethods.remove(at: index)
+                        preferredMethods.insert(method, at: index)
+                    }
+                }
+            } else {
+                preferredMethods.append(method)
+            }
+        }
+        return preferredMethods
+    }
 }
 
 extension Method {
