@@ -318,19 +318,6 @@ extension SourceryMethod {
     var isExtension: Bool {
         definedInType?.isExtension ?? false
     }
-    
-    static func methods(type: Type) -> [SourceryMethod] {
-        var defaultMethods = [SourceryMethod]()
-        let protocols = type.implements.values.compactMap { $0 as? SourceryProtocol }
-        for prot in protocols {
-            defaultMethods.append(contentsOf: prot.defaultMethods())
-        }
-
-        let normalMethods = type.methods
-
-        let methods = SourceryMethod.methodsPreferring(.defaultImplementation, methods: normalMethods + defaultMethods)
-        return methods
-    }
 }
 
 extension MethodParameter {
