@@ -40,7 +40,7 @@ public struct CodeGen: ParsableCommand {
     var useDocker = true
 
     @Flag(name: .long, help: "Pass git credentials into docker container via file .secrets/git-credentials_auth")
-    var passGitAuthToDocker: Bool = false
+    var passGitAuthToDocker = false
 
     @Option(help: "Used for debugging fishy-joes code generation")
     var sourceryDumpPath: String?

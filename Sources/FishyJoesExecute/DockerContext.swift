@@ -96,7 +96,7 @@ struct DockerContext {
         let responseLines = try swsh.cmd("git", "credential", "fill")
             .input("host=\(host)\nprotocol=\(proto)")
             .runLines()
-        let responseMap = Dictionary<String, String>(
+        let responseMap = [String: String](
             uniqueKeysWithValues: responseLines.compactMap { line in
                 let parts = line.split(separator: "=").map(String.init)
                 guard parts.count == 2 else { return nil }

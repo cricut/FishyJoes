@@ -13,7 +13,7 @@ struct SortedSet<Element: Hashable> {
         return result
     }
 
-    mutating func formUnion<S>(_ other: S) where Element == S.Element, S : Sequence {
+    mutating func formUnion<S>(_ other: S) where Element == S.Element, S: Sequence {
         for element in other {
             insert(element)
         }
