@@ -353,9 +353,9 @@ final class KotlinTranslator: Translator {
         }
 
         let droppedMethods = Set(allMethods.keys).subtracting(usedMethods)
-//        guard droppedMethods.isEmpty else {
-//            fatalErr("methods for \(droppedMethods) were never set up! Probably a bug.")
-//        }
+        guard droppedMethods.isEmpty else {
+            fatalErr("methods for \(droppedMethods) were never set up! Probably a bug.")
+        }
 
         let module = context.module
         let repName = "\(module.name)LoaderRepresentative"
