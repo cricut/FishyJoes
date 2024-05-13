@@ -326,7 +326,8 @@ final class KotlinTranslator: Translator {
                                 }
                             }
                             typeSetupFragment.outputBlock("try env.RegisterNatives(", closeWith: ")") {
-                                if resolved is TranslatedProtocol {
+                                let doExternalWitness = resolved is TranslatedProtocol
+                                if doExternalWitness {
                                     typeSetupFragment.output("\(resolved.converterType.name).externalWitnessClass!", newLineTerminated: false)
                                 } else {
                                     typeSetupFragment.output("\(resolved.converterType.name).javaClass", newLineTerminated: false)
@@ -338,6 +339,16 @@ final class KotlinTranslator: Translator {
                                         typeSetupFragment.output("name: bag.add(\"\(methodInfo.javaName)\"),")
                                         typeSetupFragment.output("signature: bag.add(\"\(methodInfo.signature)\"),")
                                         typeSetupFragment.output("fnPtr: unsafeBitCast(\(methodInfo.cName), to: UnsafeMutableRawPointer.self)")
+                                    }
+                                }
+                                if !doExternalWitness {
+                                    for methodInfo in protocolDefaultMethodInfos {
+                                        typeSetupFragment.output(",")
+                                        typeSetupFragment.outputBlock("JNINativeMethod(", newLineTerminated: false) {
+                                            typeSetupFragment.output("name: bag.add(\"\(methodInfo.javaName)\"),")
+                                            typeSetupFragment.output("signature: bag.add(\"\(methodInfo.signature)\"),")
+                                            typeSetupFragment.output("fnPtr: unsafeBitCast(\(methodInfo.cName), to: UnsafeMutableRawPointer.self)")
+                                        }
                                     }
                                 }
                                 typeSetupFragment.output()
