@@ -481,6 +481,23 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
         )
     ;
 
+    /// <!-- FishyJoes.export(defaultExercise6) -->
+    Future<String> defaultExercise6(
+        Future<int> Function(String, int, double, String, Future<int> Function(), int) fn,
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            GCRef.using(fn, (_fnHandle) =>
+                consumeCreatedRef<Future<String>>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_defaultExercise6(Loader.shared.env, _thisHandle.ptr, _fnHandle.ptr, _exn)))
+            )
+        )
+    ;
+
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        UnownedRef fn,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_defaultExercise6;
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,

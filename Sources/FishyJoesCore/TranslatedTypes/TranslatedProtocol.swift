@@ -829,7 +829,7 @@ struct TranslatedProtocol: TranslatedType {
                 for asyncDefaultMethod in asyncDefaultMethods {
                     var jniSignature = asyncDefaultMethod.jniSignature(context: context)
                     jniSignature = "(L\(className);" + String(jniSignature.dropFirst())
-                    fragment.output("\(foreignProtocolType)._\(asyncDefaultMethod.callName)MethodID = try env.GetMethodID(externalCompanionClass, \"_deferred_\(asyncDefaultMethod.callName)\", \"\(jniSignature)\")")
+                    fragment.output("\(foreignProtocolType)._\(asyncDefaultMethod.callName)MethodID = try env.GetMethodID(externalCompanionClass, \"__jni__default_\(asyncDefaultMethod.callName)\", \"\(jniSignature)\")")
                 }
             }
         }

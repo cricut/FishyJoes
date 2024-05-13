@@ -1237,6 +1237,40 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_AProtocolImplementation_bar");
+    TestAPI.AProtocolImplementation.f__iota_TestAPI_AProtocolImplementation_hasADefaultImplementation = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            ffi.IntPtr x,
+            ffi.Double y,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            int x,
+            double y,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_AProtocolImplementation_hasADefaultImplementation");
+    TestAPI.AProtocolImplementation.f__iota_TestAPI_AProtocolImplementation_hasADefaultImplementation2 = dylib.lookupFunction<
+        ffi.Double Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef a,
+            ffi.Bool b,
+            ffi.Double c,
+            OutCreatedRef _exn
+        ),
+        double Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef a,
+            bool b,
+            double c,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_AProtocolImplementation_hasADefaultImplementation2");
     TestAPI.ExternalWitness_AProtocol.f__iota_TestAPI_AProtocol_bar = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -2789,6 +2823,20 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Structs_ReferenceStruct_equals");
+    TestAPI.TestAsyncForeignSideFunctionsStruct.f__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_defaultExercise6 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_defaultExercise6");
     TestAPI.TestAsyncForeignSideFunctionsStruct.f__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise0 = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -3051,6 +3099,20 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_TestAsyncFunctions_witness");
+    TestAPI.TestAsyncSwiftSideFunctionsClass.f__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_defaultExercise6 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_defaultExercise6");
     TestAPI.TestAsyncSwiftSideFunctionsClass.f__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise0 = dylib.lookupFunction<
         CreatedRef Function(
             Env env,

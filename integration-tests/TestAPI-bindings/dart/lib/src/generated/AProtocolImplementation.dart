@@ -155,6 +155,29 @@ class AProtocolImplementation implements TestAPI.AProtocol {
         )
     ;
 
+    /// <!-- FishyJoes.export(hasADefaultImplementation) -->
+    String hasADefaultImplementation(
+        int x,
+        double y,
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_AProtocolImplementation_hasADefaultImplementation(Loader.shared.env, _thisHandle.ptr, x, y, _exn)))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(hasADefaultImplementation2) -->
+    double hasADefaultImplementation2(
+        String a,
+        bool b,
+        double c,
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            GCRef.using(a, (_aHandle) =>
+                check((OutCreatedRef _exn) => f__iota_TestAPI_AProtocolImplementation_hasADefaultImplementation2(Loader.shared.env, _thisHandle.ptr, _aHandle.ptr, b, c, _exn))
+            )
+        )
+    ;
+
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,
@@ -162,4 +185,19 @@ class AProtocolImplementation implements TestAPI.AProtocol {
         int y,
         OutCreatedRef _exn
     ) f__iota_TestAPI_AProtocolImplementation_bar;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        int x,
+        double y,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_AProtocolImplementation_hasADefaultImplementation;
+    static late double Function(
+        Env env,
+        UnownedRef _this,
+        UnownedRef a,
+        bool b,
+        double c,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_AProtocolImplementation_hasADefaultImplementation2;
 }
