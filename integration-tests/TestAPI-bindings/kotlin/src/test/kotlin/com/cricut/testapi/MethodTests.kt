@@ -9,15 +9,6 @@ import java.lang.Exception
 
 @kotlinx.coroutines.ExperimentalCoroutinesApi
 internal class MethodTests {
-    companion object {
-        @BeforeAll
-        @JvmStatic
-        fun beforeAll() {
-            val procId = ProcessHandle.current().pid()
-            println("procId: $procId")
-            println()
-        }
-    }
     @Test
     fun testStaticMethods() {
         assertEquals(123, Methods.staticGet)

@@ -11,16 +11,6 @@ import kotlin.coroutines.resume
 import kotlin.time.Duration.Companion.seconds
 
 internal class AsyncFunctionTests {
-    companion object {
-        @BeforeAll
-        @JvmStatic
-        fun beforeAll() {
-            println(ProcessHandle.current().pid())
-            println()
-            // java.lang.Thread.sleep(15000)
-        }
-    }
-
     @Test
     fun testConst42() = runTest {
         assertEquals(42, AsyncFunctions.const42())

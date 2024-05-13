@@ -10,13 +10,15 @@ import kotlin.time.Duration.Companion.seconds
 @kotlinx.coroutines.ExperimentalCoroutinesApi
 internal class ProtocolTests {
     companion object {
+        const val DEBUG_PRINTS = false
         @BeforeAll
         @JvmStatic
         // To get procId for attaching lldb debugger to
         fun beforeAll() {
             val procId = ProcessHandle.current().pid()
-            println("procId: $procId")
-            println()
+            if (DEBUG_PRINTS) {
+                println("procId: $procId")
+            }
         }
     }
     @Test
@@ -186,7 +188,9 @@ internal class ProtocolTests {
         var o = 1
         val n = a.thunkTwiceMaker {
             o += 1
-            println("Thunker in paradise")
+            if (DEBUG_PRINTS) {
+                println("Thunker in paradise")
+            }
         }
         n()
         assertEquals(3, o)
@@ -339,7 +343,9 @@ internal class ProtocolTests {
         var o = 3.14159265359
         val n = a.thunkTwiceMaker {
             o = o * o
-            println("Thunkmaster thex")
+            if (DEBUG_PRINTS) {
+                println("Thunkmaster thex")
+            }
         }
         n()
         assertEquals(97.4090910340281, o)
@@ -400,7 +406,9 @@ internal class ProtocolTests {
         var o = 1
         val n = a.thunkTwiceMaker {
             o += 1
-            println("Days of Thunker!")
+            if (DEBUG_PRINTS) {
+                println("Days of Thunker!")
+            }
         }
         n()
         assertEquals(3, o)
