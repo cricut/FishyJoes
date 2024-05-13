@@ -575,12 +575,12 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
             ),
             JNINativeMethod(
                 name: bag.add("__jni__default_hasADefaultImplementation"),
-                signature: bag.add("(Lcom/cricut/testapi/AProtocol;JD)Ljava/lang/String;"),
+                signature: bag.add("(JD)Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(java_TestAPI_AProtocolImplementation__default_hasADefaultImplementation, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni__default_hasADefaultImplementation2"),
-                signature: bag.add("(Lcom/cricut/testapi/AProtocol;Ljava/lang/String;ZD)D"),
+                signature: bag.add("(Ljava/lang/String;ZD)D"),
                 fnPtr: unsafeBitCast(java_TestAPI_AProtocolImplementation__default_hasADefaultImplementation2, to: UnsafeMutableRawPointer.self)
             )
         )
@@ -2029,7 +2029,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
             ),
             JNINativeMethod(
                 name: bag.add("__jni__default_defaultExercise6"),
-                signature: bag.add("(Lcom/cricut/testapi/TestAsyncFunctions;Lkotlin/jvm/functions/Function7;)Lkotlinx/coroutines/Deferred;"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function7;)Lkotlinx/coroutines/Deferred;"),
                 fnPtr: unsafeBitCast(java_TestAPI_TestAsyncForeignSideFunctionsStruct__default_defaultExercise6, to: UnsafeMutableRawPointer.self)
             )
         )
@@ -2227,7 +2227,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
             ),
             JNINativeMethod(
                 name: bag.add("__jni__default_defaultExercise6"),
-                signature: bag.add("(Lcom/cricut/testapi/TestAsyncFunctions;Lkotlin/jvm/functions/Function7;)Lkotlinx/coroutines/Deferred;"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function7;)Lkotlinx/coroutines/Deferred;"),
                 fnPtr: unsafeBitCast(java_TestAPI_TestAsyncSwiftSideFunctionsClass__default_defaultExercise6, to: UnsafeMutableRawPointer.self)
             )
         )
