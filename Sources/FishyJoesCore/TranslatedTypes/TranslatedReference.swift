@@ -246,8 +246,8 @@ struct TranslatedReference: TranslatedType {
         }
 
         if equatable {
-            context.kotlinTranslator.allMethods[sourceType.name, default: []].append(
-                (
+            context.kotlinTranslator.allMethods[sourceType.name, default: []].insert(
+                .init(
                     javaName: "__jni_swiftEquals",
                     signature: "(\(jniType.asSignature)\(jniType.asSignature))Z",
                     cName: "\(sourceType.name)._javaEquals",
@@ -256,8 +256,8 @@ struct TranslatedReference: TranslatedType {
             )
         }
         if hashable {
-            context.kotlinTranslator.allMethods[sourceType.name, default: []].append(
-                (
+            context.kotlinTranslator.allMethods[sourceType.name, default: []].insert(
+                .init(
                     javaName: "__jni_hashCode",
                     signature: "()I",
                     cName: "\(sourceType.name)._javaHash",
