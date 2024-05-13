@@ -124,9 +124,10 @@ class KotlinClass: NestedClass {
         }
     }
 
-    func output(method: Method, to fragment: SourceFragment, external: Bool = true) {
+    func output(method: Method, to fragment: SourceFragment, external: Bool = true, isDefaultInCompanionObject: Bool = false) {
         document(method.documentation, fragment: fragment)
-        if !method.name.hasPrefix("_") {
+        if !method.name.hasPrefix("_"),
+           !isDefaultInCompanionObject {
             let compatibilityParameters = Set(method.compatibilityOrder)
             for compatibilityIndex in 0...method.compatibilityOrder.count {
                 let excludedCompatibilityParameters = Set(method.compatibilityOrder[compatibilityIndex...])
@@ -165,7 +166,8 @@ class KotlinClass: NestedClass {
                             arguments.append("\(parameter.name)\(parameter.type.toJVMType)")
                         }
                     }
-                    fragment.output(" = __jni_\(method.name)(\(arguments.joined(separator: ", ")))", newLineTerminated: false)
+                    let methodName = method.isDefaultImplementation ? "_default_" + method.name : method.name
+                    fragment.output(" = __jni_\(methodName)(\(arguments.joined(separator: ", ")))", newLineTerminated: false)
                     if method.isSuspend {
                         fragment.output(".await()")
                     } else {
@@ -177,11 +179,13 @@ class KotlinClass: NestedClass {
             }
         }
         if external, method.body == nil {
-            if method.isStatic {
+            if method.isStatic,
+               !isDefaultInCompanionObject {
                 fragment.output("@JvmStatic")
             }
-            fragment.output("@JvmName(\"__jni_\(method.name)\")")
-            fragment.outputBlock("private external fun __jni_\(method.name)(", newLineTerminated: false) {
+            let methodName = method.isDefaultImplementation ? "_default_" + method.name : method.name
+            fragment.output("@JvmName(\"__jni_\(methodName)\")")
+            fragment.outputBlock("private external fun __jni_\(methodName)(", newLineTerminated: false) {
                 var unnamedParamsCnt = 1
                 fragment.outputMap(method.parameters, separator: ",") { parameter in
                     var paramName = parameter.name

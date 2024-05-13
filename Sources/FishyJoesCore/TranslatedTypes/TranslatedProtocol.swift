@@ -841,18 +841,19 @@ struct TranslatedProtocol: TranslatedType {
                 } + methods.flatMap { method -> [KotlinClass.MethodOrVariable] in
                     guard let kotlinMethodOrVariable = context.kotlin(method: method) else { return [] }
 
-                    guard !method.isStatic, method.isDefaultImplementation, case .method(var kotlinMethod) = kotlinMethodOrVariable else {
+                    guard !method.isStatic,
+                            method.isDefaultImplementation,
+                          case .method(var kotlinMethod) = kotlinMethodOrVariable else {
                         return [kotlinMethodOrVariable]
                     }
 
                     var defaultMethod = kotlinMethod
-                    defaultMethod.name = "_default_\(defaultMethod.name)"
                     defaultMethod.parameters.insert((nil, "self", .named(package: nil, name: kotlinName), nil), at: 0)
                     defaultMethod.isStatic = true
 
                     var parameters = ["this"]
                     parameters.append(contentsOf: kotlinMethod.parameters.map(\.name))
-                    kotlinMethod.body = "__jni_\(defaultMethod.name)(\(parameters.joined(separator: ", ")))"
+                    kotlinMethod.body = "__jni__default_\(defaultMethod.name)(\(parameters.joined(separator: ", ")))"
 
                     return [.method(kotlinMethod), .method(defaultMethod)]
                 }
