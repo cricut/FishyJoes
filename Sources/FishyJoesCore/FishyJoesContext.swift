@@ -197,7 +197,7 @@ public class FishyJoesContext {
                 debugContext = "Translating method \(type.name).\(method.name)"
                 let betterType = BetterType(named: type, context: self)
                 collectedFragments.append(contentsOf: kotlinTranslator.translate(method: method, context: self, betterType: betterType))
-                collectedFragments.append(contentsOf: iotaTranslator.translate(method: method, context: self))
+                collectedFragments.append(contentsOf: iotaTranslator.translate(method: method, context: self, betterType: betterType))
             }
         }
 

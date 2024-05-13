@@ -9,27 +9,19 @@ final class IotaTranslator: Translator {
         "FishyJoes_\(context.module.name.mangled)_registerTypes"
     }
 
-    func translate(method: Method, context: FishyJoesContext) -> [SourceFragment] {
+    func translate(method: Method, context: FishyJoesContext, betterType: BetterType) -> [SourceFragment] {
         let exportAnnotation = method.exportAnnotation
 
         var selfExpression: String
-        let containingNamespace: String
-        let converterNamespace: String
 
-        if let selfType = method.definedIn {
-            let resolved = context.resolve(type: selfType)
-            containingNamespace = resolved.sourceType.name
-            converterNamespace = resolved.converterType.name
+        let resolved = context.resolve(type: betterType)
+        let containingNamespace = resolved.sourceType.name
+        let converterNamespace = resolved.converterType.name
 
-            if method.isStatic {
-                selfExpression = containingNamespace
-            } else {
-                selfExpression = "\(converterNamespace).peekIota(_iotaThis, env: env)"
-            }
+        if method.isStatic {
+            selfExpression = containingNamespace
         } else {
-            containingNamespace = context.module.name
-            converterNamespace = context.module.name
-            selfExpression = context.module.name
+            selfExpression = "\(converterNamespace).peekIota(_iotaThis, env: env)"
         }
 
         var formals = [(name: "envRef", type: "EnvRef")]
@@ -79,7 +71,8 @@ final class IotaTranslator: Translator {
                         fragment.output("let _swiftSelf = UncheckedSendableBox(try \(selfExpression))")
                         selfExpression = "_swiftSelf.value"
                     }
-                    if method.isDefaultImplementation {
+                    if resolved is TranslatedProtocol,
+                       method.isDefaultImplementation {
                         fragment.output("let _wrappedSwiftSelf = \(context.module.name)_CommonInterface.\(method.definedIn?.name ?? "")_sans_\(method.callName)(wrapped: _swiftSelf.value)")
                         selfExpression = "_wrappedSwiftSelf"
                     }
@@ -126,7 +119,8 @@ final class IotaTranslator: Translator {
 
                     mutateBlock {
                         let body = {
-                            if method.isDefaultImplementation,
+                            if resolved is TranslatedProtocol,
+                               method.isDefaultImplementation,
                                let definedInName = method.definedIn?.name {
                                 fragment.outputBlock("try \(definedInName)_sans_\(method.callName)(wrapped:", closeWith: ")") {
                                     fragment.output("try \(converterNamespace).peekIota(_iotaThis, env: env)")

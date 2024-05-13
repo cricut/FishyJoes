@@ -20,13 +20,10 @@ final class KotlinTranslator: Translator {
         let exportAnnotation = method.exportAnnotation
 
         var selfExpression: String
-        let containingNamespace: String
-        let converterNamespace: String
 
         let resolved = context.resolve(type: betterType)
-
-        containingNamespace = resolved.sourceType.name
-        converterNamespace = resolved.converterType.name
+        let containingNamespace = resolved.sourceType.name
+        let converterNamespace = resolved.converterType.name
 
         if method.isStatic {
             selfExpression = containingNamespace
