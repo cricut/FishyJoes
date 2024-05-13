@@ -41,7 +41,8 @@ final class KotlinTranslator: Translator {
         }
 
         var formals = [(name: "_javaEnv", type: "UnsafeMutablePointer<JNIEnv?>")]
-        if method.isDefaultImplementation {
+        if resolved is TranslatedProtocol,
+           method.isDefaultImplementation {
             formals.append((name: "_javaCompanionThis", type: "jobject"))
         }
         formals.append((name: "_javaThis", type: "jobject"))
