@@ -17,6 +17,7 @@ class KotlinClass: NestedClass {
         var isStatic: Bool
         var isSuspend: Bool
         var isOverride: Bool
+        var isDefaultImplementation: Bool
         var name: String
         var parameters: [(labelComment: String?, name: String, type: KType, defaultValue: String?)]
         var compatibilityOrder: [String]

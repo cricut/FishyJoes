@@ -16,7 +16,7 @@ class KotlinInterface: KotlinClass {
                     output(method: unstaticked, to: fragment)
                 }
                 for method in methods {
-                    if !method.name.hasPrefix("_default"),
+                    if !method.isDefaultImplementation,
                        method.isSuspend {
                         fragment.output("@JvmStatic")
                         fragment.outputBlock("fun _deferred_\(method.name)(", newLineTerminated: false) {

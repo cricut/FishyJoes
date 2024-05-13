@@ -278,6 +278,7 @@ struct TranslatedReference: TranslatedType {
                         isStatic: true,
                         isSuspend: false,
                         isOverride: false,
+                        isDefaultImplementation: false,
                         name: "swiftEquals",
                         parameters: [
                             (labelComment: nil, name: "lhs", type: kotlinType, defaultValue: nil),
@@ -297,6 +298,7 @@ struct TranslatedReference: TranslatedType {
                         isStatic: false,
                         isSuspend: false,
                         isOverride: true,
+                        isDefaultImplementation: false,
                         name: "equals",
                         parameters: [
                             (labelComment: nil, name: "other", type: .optional(.named(package: nil, name: "Any")), defaultValue: nil),
@@ -317,6 +319,7 @@ struct TranslatedReference: TranslatedType {
                         isStatic: false,
                         isSuspend: false,
                         isOverride: true,
+                        isDefaultImplementation: false,
                         name: "hashCode",
                         parameters: [],
                         compatibilityOrder: [],
