@@ -8,9 +8,11 @@ import 'package:tuple/tuple.dart' as tuple;
 import 'package:dart_numerics/dart_numerics.dart';
 import 'package:cricut_test_api/src/generated/TestAsyncFunctions.dart' as TestAPI;
 
+final debugPrint = false;
+
 void main() {
   setUp(() {
-      print('pid: $pid');
+      if (debugPrint) { print('pid: $pid'); }
       final _ = ensureLoaded;
   });
 
@@ -180,7 +182,7 @@ void main() {
         final n = a.thunkTwiceMaker(
           () async {
             o += 1;
-            print("Thunker in paradise");
+            if (debugPrint) { print("Thunker in paradise"); }
           }
         );
         await n();
@@ -360,7 +362,7 @@ void main() {
         final n = a.thunkTwiceMaker(
           () async {
             o = o * o;
-            print("Thunkmaster thex");
+            if (debugPrint) { print("Thunkmaster thex"); }
           }
         );
         await n();
