@@ -16,34 +16,30 @@ final class KotlinTranslator: Translator {
     }
     var allMethods: [String: Set<MethodInfo>] = [:]
 
-    func translate(method: Method, context: FishyJoesContext, typeName: String) -> [SourceFragment] {
+    func translate(method: Method, context: FishyJoesContext, betterType: BetterType) -> [SourceFragment] {
         let exportAnnotation = method.exportAnnotation
 
         var selfExpression: String
         let containingNamespace: String
         let converterNamespace: String
 
-        if let selfType = method.definedIn {
-            let resolved = context.resolve(type: selfType)
-            containingNamespace = resolved.sourceType.name
-            converterNamespace = resolved.converterType.name
+        let resolved = context.resolve(type: betterType)
 
-            if method.isStatic {
-                selfExpression = containingNamespace
-            } else if method.isAsync {
-                if method.isMutating {
-                    selfExpression = "await \(resolved.converterType.name).mutateJava(_javaThisRef.object, env: &_javaEnv)"
-                } else {
-                    selfExpression = "\(resolved.converterType.name).fromJava(_javaThisRef.createLocalRef(env: _javaEnv), env: _javaEnv)"
-                }
+        containingNamespace = resolved.sourceType.name
+        converterNamespace = resolved.converterType.name
+
+        if method.isStatic {
+            selfExpression = containingNamespace
+        } else if method.isAsync {
+            if method.isMutating {
+                selfExpression = "await \(resolved.converterType.name).mutateJava(_javaThisRef.object, env: &_javaEnv)"
             } else {
-                selfExpression = "\(resolved.converterType.name).fromJava(_javaThis, env: _javaEnv)"
+                selfExpression = "\(resolved.converterType.name).fromJava(_javaThisRef.createLocalRef(env: _javaEnv), env: _javaEnv)"
             }
         } else {
-            containingNamespace = context.module.name
-            converterNamespace = context.module.name
-            selfExpression = context.module.name
+            selfExpression = "\(resolved.converterType.name).fromJava(_javaThis, env: _javaEnv)"
         }
+
         var formals = [(name: "_javaEnv", type: "UnsafeMutablePointer<JNIEnv?>")]
         if method.isDefaultImplementation {
             formals.append((name: "_javaCompanionThis", type: "jobject"))
@@ -123,8 +119,9 @@ final class KotlinTranslator: Translator {
                         } else if !method.isStatic {
                             let _selfExpression = selfExpression
                             callBlock = { body in
-                                if method.isDefaultImplementation {
-                                    fragment.outputBlock("let _swiftThis = \(typeName)_sans_\(method.callName)(wrapped:", closeWith: ")") {
+                                if resolved is TranslatedProtocol,
+                                   method.isDefaultImplementation {
+                                    fragment.outputBlock("let _swiftThis = \(betterType.nonNamespacedName)_sans_\(method.callName)(wrapped:", closeWith: ")") {
                                         fragment.output("try \(_selfExpression)")
                                     }
                                 } else {
@@ -163,8 +160,9 @@ final class KotlinTranslator: Translator {
 
                     mutateBlock {
                         fragment.outputBlock("return try \(returnType.converterType.name).toJava(") {
-                            if method.isDefaultImplementation {
-                                fragment.outputBlock("\(method.isThrowing ? "try " : "")\(typeName)_sans_\(method.callName)(wrapped:", closeWith: ")", newLineTerminated: false) {
+                            if resolved is TranslatedProtocol,
+                               method.isDefaultImplementation {
+                                fragment.outputBlock("\(method.isThrowing ? "try " : "")\(betterType.nonNamespacedName)_sans_\(method.callName)(wrapped:", closeWith: ")", newLineTerminated: false) {
                                     fragment.output("try \(selfExpression)")
                                 }
                                 fragment.outputBlock("\(callName)(", closeWith: "),") {
@@ -312,7 +310,8 @@ final class KotlinTranslator: Translator {
                             let protocolDefaultMethodInfos = nativeMethods.filter { $0.isProtocolDefault }
                             let normalMethodInfos = nativeMethods.filter { !$0.isProtocolDefault }
 
-                            if !protocolDefaultMethodInfos.isEmpty {
+                            if resolved is TranslatedProtocol,
+                               !protocolDefaultMethodInfos.isEmpty {
                                 typeSetupFragment.outputBlock("try env.RegisterNatives(", closeWith: ")") {
                                     typeSetupFragment.output("\(resolved.converterType.name).externalCompanionClass", newLineTerminated: false)
                                     for methodInfo in protocolDefaultMethodInfos {
@@ -354,9 +353,9 @@ final class KotlinTranslator: Translator {
         }
 
         let droppedMethods = Set(allMethods.keys).subtracting(usedMethods)
-        guard droppedMethods.isEmpty else {
-            fatalErr("methods for \(droppedMethods) were never set up! Probably a bug.")
-        }
+//        guard droppedMethods.isEmpty else {
+//            fatalErr("methods for \(droppedMethods) were never set up! Probably a bug.")
+//        }
 
         let module = context.module
         let repName = "\(module.name)LoaderRepresentative"

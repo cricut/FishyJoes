@@ -195,7 +195,8 @@ public class FishyJoesContext {
         for (type, methods) in methodsToTranslateForTypeDict {
             for method in methods {
                 debugContext = "Translating method \(type.name).\(method.name)"
-                collectedFragments.append(contentsOf: kotlinTranslator.translate(method: method, context: self, typeName: type.localName))
+                let betterType = BetterType(named: type, context: self)
+                collectedFragments.append(contentsOf: kotlinTranslator.translate(method: method, context: self, betterType: betterType))
                 collectedFragments.append(contentsOf: iotaTranslator.translate(method: method, context: self))
             }
         }
