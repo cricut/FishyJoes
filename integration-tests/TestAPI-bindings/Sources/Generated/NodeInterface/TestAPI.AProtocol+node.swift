@@ -44,12 +44,12 @@ struct _NodeAProtocol: TestAPI.AProtocol {
             return try Swift.String.fromNode(result, env: env)
         }
     }
-    public func hasADefaultImplementation2(_ a: String, b: Bool, _ c: Double) throws -> Double {
+    public func hasADefaultImplementation2(_ a: String, b: Bool, _ c: String) throws -> String {
         try syncOnMainThread { env in
             let napiValue = try _nodeWitness.value(env: env)
             let hasADefaultImplementation2 = try env.getNamedProperty(napiValue, "hasADefaultImplementation2")
-            let result = try env.callFunction(napiValue, hasADefaultImplementation2, [try Swift.String.toNode(a, env: env), try Swift.Bool.toNode(b, env: env), try Swift.Double.toNode(c, env: env)])
-            return try Swift.Double.fromNode(result, env: env)
+            let result = try env.callFunction(napiValue, hasADefaultImplementation2, [try Swift.String.toNode(a, env: env), try Swift.Bool.toNode(b, env: env), try Swift.String.toNode(c, env: env)])
+            return try Swift.String.fromNode(result, env: env)
         }
     }
 }
@@ -114,11 +114,11 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
                 let hasADefaultImplementation2FunctionCallback: NAPI.Callback = { env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation2", expectedArgumentCount: 3, hasNamedOptions: false) { env in
                         let _wrappedSwiftSelf = TestAPI_CommonInterface.AProtocol_sans_hasADefaultImplementation2(wrapped: try env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self))
-                        let result = try Swift.Double.toNode(
+                        let result = try Swift.String.toNode(
                             _wrappedSwiftSelf.hasADefaultImplementation2(
                                 try env.argument(at: 0, converter: Swift.String.self),
                                 b: try env.argument(at: 1, converter: Swift.Bool.self),
-                                try env.argument(at: 2, converter: Swift.Double.self)
+                                try env.argument(at: 2, converter: Swift.String.self)
                             ),
                             env: env.env
                         )
@@ -186,11 +186,11 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation2", expectedArgumentCount: 3, hasNamedOptions: false) { env in
                             let _wrappedSwiftSelf = TestAPI_CommonInterface.AProtocol_sans_hasADefaultImplementation2(wrapped: try env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self))
-                            let result = try Swift.Double.toNode(
+                            let result = try Swift.String.toNode(
                                 _wrappedSwiftSelf.hasADefaultImplementation2(
                                     try env.argument(at: 0, converter: Swift.String.self),
                                     b: try env.argument(at: 1, converter: Swift.Bool.self),
-                                    try env.argument(at: 2, converter: Swift.Double.self)
+                                    try env.argument(at: 2, converter: Swift.String.self)
                                 ),
                                 env: env.env
                             )

@@ -35,8 +35,8 @@ export declare namespace TestAPI {
         hasADefaultImplementation2(
             a: string,
             b: boolean,
-            c: number
-        ): number;
+            c: string
+        ): string;
     }
 
     interface AProtocolCore {
@@ -75,8 +75,8 @@ export declare namespace TestAPI {
             this: AProtocol,
             a: string,
             b: boolean,
-            c: number
-        ): number;
+            c: string
+        ): string;
     }
 
     namespace AProtocol {
@@ -115,8 +115,8 @@ export declare namespace TestAPI {
         hasADefaultImplementation2(
             a: string,
             b: boolean,
-            c: number
-        ): number;
+            c: string
+        ): string;
     }
 
     export type Actors = never;
@@ -852,8 +852,8 @@ export declare namespace TestAPI {
         hasADefaultImplementation2(
             a: string,
             b: boolean,
-            c: number
-        ): number;
+            c: string
+        ): string;
     }
 
     export class ExternalWitness_TestAsyncFunctions {

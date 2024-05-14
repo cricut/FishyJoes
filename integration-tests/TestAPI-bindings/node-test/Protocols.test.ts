@@ -1,6 +1,6 @@
 import { TestAPI } from 'TestAPI';
 
-const debugPrints = false;
+const debugPrints = true;
 
 test('testProtocolImplementation', () => {
     const a = new TestAPI.AProtocolImplementation(
@@ -17,12 +17,11 @@ test('testProtocolImplementation', () => {
     expect(a.hasADefaultImplementation(9, -102.1)).toEqual("-312 notBazzed");
     expect(a.hasADefaultImplementation(2, 0.345)).toEqual("bazzy 3");
 
-    // Windows Swift bug returns 0 instead of correct value, which is nonsensical. Andrew Cobb gave me permission to comment this out for now
-    // expect(a.hasADefaultImplementation2("8", true, 0.0898714)).toEqual(826.0011614434572);
-    //expect(a.hasADefaultImplementation2("8", false, 0.0898714)).toEqual(1.9556754407899822E-5);
+    expect(a.hasADefaultImplementation2("8", true, "0.0898714")).toEqual("826.0011614434572");
+    expect(a.hasADefaultImplementation2("8", false, "0.0898714")).toEqual("1.9556754407899822e-05");
 
-    expect(a.hasADefaultImplementation2("0.9870923", true, 1.123123)).toEqual(0.9589049888649063);
-    expect(a.hasADefaultImplementation2("0.9870923", false, 1.123123)).toEqual(1.686253813623996);
+    expect(a.hasADefaultImplementation2("0.9870923", true, "1.123123")).toEqual("0.9589049888649063");
+    expect(a.hasADefaultImplementation2("0.9870923", false, "1.123123")).toEqual("1.686253813623996");
 });
 
 test('testCore', () => {
@@ -47,11 +46,11 @@ test('testCore', () => {
     expect(obj.hasADefaultImplementation(9, -102.1)).toEqual("F005BA11+-312 notBazzed");
     expect(obj.hasADefaultImplementation(2, 0.345)).toEqual("bazzy F005BA11+3");
 
-    expect(obj.hasADefaultImplementation2("923.2185", true, 0.0898714)).toEqual(3.7838466771424932E9);
-    expect(obj.hasADefaultImplementation2("923.2185", false, 0.0898714)).toEqual(1.9556754407899822E-5);
+    expect(obj.hasADefaultImplementation2("923.2185", true, "0.0898714")).toEqual("3783846677.1424932");
+    expect(obj.hasADefaultImplementation2("923.2185", false, "0.0898714")).toEqual("1.9556754407899822e-05");
 
-    expect(obj.hasADefaultImplementation2("0.9870923", true, 1.123123)).toEqual(0.9589049888649063);
-    expect(obj.hasADefaultImplementation2("0.9870923", false, 1.123123)).toEqual(1.686253813623996);
+    expect(obj.hasADefaultImplementation2("0.9870923", true, "1.123123")).toEqual("0.9589049888649063");
+    expect(obj.hasADefaultImplementation2("0.9870923", false, "1.123123")).toEqual("1.686253813623996");
 
     const testCoreClass = new TestCoreClass("Gitang", false);
     const testClass = TestAPI.AProtocol.fromCore(testCoreClass);
@@ -65,8 +64,8 @@ test('testCore', () => {
     expect(testClass.hasADefaultImplementation(9, -102.1)).toEqual("Garply notBazzed");
     expect(testClass.hasADefaultImplementation(2974, (-2969 / 3.14159265359))).toEqual("bazzy Garply");
 
-    expect(testClass.hasADefaultImplementation2("923.2185", true, 0.0898714)).toEqual(928.2260565999999);
-    expect(testClass.hasADefaultImplementation2("923.2185", false, 0.0898714)).toEqual(929.3260565999999);
+    expect(testClass.hasADefaultImplementation2("923.2185", true, "0.0898714")).toEqual("928.2260565999999");
+    expect(testClass.hasADefaultImplementation2("923.2185", false, "0.0898714")).toEqual("929.3260565999999");
 });
 
 class TestCoreClass implements TestAPI.AProtocolCore {
@@ -83,8 +82,8 @@ class TestCoreClass implements TestAPI.AProtocolCore {
         );
     }
 
-    hasADefaultImplementation2(a: string, b: boolean, c: number): number {
-        return Number(a) + (b ? 3.3 : 4.4) + (c * 19);
+    hasADefaultImplementation2(a: string, b: boolean, c: string): string {
+        return (Number(a) + (b ? 3.3 : 4.4) + (parseFloat(c) * 19)).toString();
     }
 }
 

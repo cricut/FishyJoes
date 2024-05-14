@@ -208,7 +208,7 @@ typedef _TestAPI_AProtocol_bazGetter = ffi.Bool Function(UnownedRef obj, OutCrea
 typedef _TestAPI_AProtocol_fooGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_AProtocol_bar = CreatedRef Function(UnownedRef obj, ffi.IntPtr x, ffi.IntPtr y, OutCreatedRef exn);
 typedef _TestAPI_AProtocol_hasADefaultImplementation = CreatedRef Function(UnownedRef obj, ffi.IntPtr x, ffi.Double y, OutCreatedRef exn);
-typedef _TestAPI_AProtocol_hasADefaultImplementation2 = ffi.Double Function(UnownedRef obj, UnownedRef a, ffi.Bool b, ffi.Double c, OutCreatedRef exn);
+typedef _TestAPI_AProtocol_hasADefaultImplementation2 = CreatedRef Function(UnownedRef obj, UnownedRef a, ffi.Bool b, UnownedRef c, OutCreatedRef exn);
 typedef _TestAPI_AProtocolImplementationConstructor = CreatedRef Function(
     ConsumedRef foo,
     ffi.Bool baz,
@@ -1254,20 +1254,20 @@ final ensureLoaded = (() {
         )
     >("__iota_TestAPI_AProtocolImplementation_hasADefaultImplementation");
     TestAPI.AProtocolImplementation.f__iota_TestAPI_AProtocolImplementation_hasADefaultImplementation2 = dylib.lookupFunction<
-        ffi.Double Function(
+        CreatedRef Function(
             Env env,
             UnownedRef _this,
             UnownedRef a,
             ffi.Bool b,
-            ffi.Double c,
+            UnownedRef c,
             OutCreatedRef _exn
         ),
-        double Function(
+        CreatedRef Function(
             Env env,
             UnownedRef _this,
             UnownedRef a,
             bool b,
-            double c,
+            UnownedRef c,
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_AProtocolImplementation_hasADefaultImplementation2");
@@ -1304,20 +1304,20 @@ final ensureLoaded = (() {
         )
     >("__iota_TestAPI_AProtocol_hasADefaultImplementation");
     TestAPI.AProtocol_DefaultImplementations.f__iota_TestAPI_AProtocol_hasADefaultImplementation2 = dylib.lookupFunction<
-        ffi.Double Function(
+        CreatedRef Function(
             Env env,
             UnownedRef _this,
             UnownedRef a,
             ffi.Bool b,
-            ffi.Double c,
+            UnownedRef c,
             OutCreatedRef _exn
         ),
-        double Function(
+        CreatedRef Function(
             Env env,
             UnownedRef _this,
             UnownedRef a,
             bool b,
-            double c,
+            UnownedRef c,
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_AProtocol_hasADefaultImplementation2");
@@ -7653,7 +7653,7 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.AProtocol_FfiHooks.ffi_get_foo),
                 ffi.Pointer.fromFunction(TestAPI.AProtocol_FfiHooks.ffi_bar),
                 ffi.Pointer.fromFunction(TestAPI.AProtocol_DefaultImplementations.ffi_hasADefaultImplementation),
-                ffi.Pointer.fromFunction(TestAPI.AProtocol_DefaultImplementations.ffi_hasADefaultImplementation2, 0.0),
+                ffi.Pointer.fromFunction(TestAPI.AProtocol_DefaultImplementations.ffi_hasADefaultImplementation2),
                 exn
             );
         });

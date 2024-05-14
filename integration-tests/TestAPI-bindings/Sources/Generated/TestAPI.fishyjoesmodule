@@ -2505,7 +2505,7 @@
                     "name" : "c",
                     "type" : {
                       "named" : {
-                        "_0" : "number"
+                        "_0" : "string"
                       }
                     }
                   }
@@ -2513,7 +2513,7 @@
                 "protocolName" : "AProtocol",
                 "returnType" : {
                   "named" : {
-                    "_0" : "number"
+                    "_0" : "string"
                   }
                 }
               }
@@ -2673,7 +2673,7 @@
                     "name" : "c",
                     "type" : {
                       "named" : {
-                        "_0" : "number"
+                        "_0" : "string"
                       }
                     }
                   }
@@ -2681,7 +2681,7 @@
                 "protocolName" : "AProtocol",
                 "returnType" : {
                   "named" : {
-                    "_0" : "number"
+                    "_0" : "string"
                   }
                 }
               }
@@ -5687,7 +5687,7 @@
                     "name" : "c",
                     "type" : {
                       "named" : {
-                        "_0" : "number"
+                        "_0" : "string"
                       }
                     }
                   }
@@ -5695,7 +5695,7 @@
                 "protocolName" : "AProtocol",
                 "returnType" : {
                   "named" : {
-                    "_0" : "number"
+                    "_0" : "string"
                   }
                 }
               }

@@ -25,11 +25,11 @@ namespace Cricut.TestAPI.Tests {
             Assert.Equal("-312 notBazzed", a.HasADefaultImplementation(9, -102.1));
             Assert.Equal("bazzy 3", a.HasADefaultImplementation(2, 0.345));
 
-            Assert.Equal(3.7838466771424932E9, a.HasADefaultImplementation2("923.2185", true, 0.0898714));
-            Assert.Equal(1.9556754407899822E-5, a.HasADefaultImplementation2("923.2185", false, 0.0898714));
+            Assert.Equal("3783846677.1424932", a.HasADefaultImplementation2("923.2185", true, "0.0898714"));
+            Assert.Equal("1.9556754407899822e-05", a.HasADefaultImplementation2("923.2185", false, "0.0898714"));
 
-            Assert.Equal(0.9589049888649063, a.HasADefaultImplementation2("0.9870923", true, 1.123123));
-            Assert.Equal(1.686253813623996, a.HasADefaultImplementation2("0.9870923", false, 1.123123));
+            Assert.Equal("0.9589049888649063", a.HasADefaultImplementation2("0.9870923", true, "1.123123"));
+            Assert.Equal("1.686253813623996", a.HasADefaultImplementation2("0.9870923", false, "1.123123"));
         }
 
         [Fact]
@@ -100,11 +100,11 @@ namespace Cricut.TestAPI.Tests {
             Assert.Equal("bazzy -2889", a.HasADefaultImplementation(9, -102.1));
             Assert.Equal("bazzy 2", a.HasADefaultImplementation(2, 0.345));
 
-            Assert.Equal(3.7838466771424932E9, a.HasADefaultImplementation2("923.2185", true, 0.0898714));
-            Assert.Equal(1.9556754407899822E-5, a.HasADefaultImplementation2("923.2185", false, 0.0898714));
+            Assert.Equal("3783846677.1424932", a.HasADefaultImplementation2("923.2185", true, "0.0898714"));
+            Assert.Equal("1.9556754407899822e-05", a.HasADefaultImplementation2("923.2185", false, "0.0898714"));
 
-            Assert.Equal(0.9589049888649063, a.HasADefaultImplementation2("0.9870923", true, 1.123123));
-            Assert.Equal(1.686253813623996, a.HasADefaultImplementation2("0.9870923", false, 1.123123));
+            Assert.Equal("0.9589049888649063", a.HasADefaultImplementation2("0.9870923", true, "1.123123"));
+            Assert.Equal("1.686253813623996", a.HasADefaultImplementation2("0.9870923", false, "1.123123"));
         }
 
         [Fact]

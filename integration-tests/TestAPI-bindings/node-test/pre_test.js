@@ -1,4 +1,4 @@
-const debugPrints = false
+const debugPrints = true
 
 if (debugPrints) { console.log('pid: ' + process.pid) }
 

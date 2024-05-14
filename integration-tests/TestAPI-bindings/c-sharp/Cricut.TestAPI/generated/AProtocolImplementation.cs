@@ -63,23 +63,24 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(hasADefaultImplementation2) -->
         /// </summary>
-        public double HasADefaultImplementation2(
+        public string HasADefaultImplementation2(
             string a,
             bool b,
-            double c
+            string c
         ) {
             using var _thisHandle = new GCRef(this);
             using var _aHandle = new GCRef(a);
-            return Check((out CreatedRef _exn) => __iota_TestAPI_AProtocolImplementation_hasADefaultImplementation2(Loader.env, _thisHandle.ptr, _aHandle.ptr, b, c, out _exn));
+            using var _cHandle = new GCRef(c);
+            return Check((out CreatedRef _exn) => __iota_TestAPI_AProtocolImplementation_hasADefaultImplementation2(Loader.env, _thisHandle.ptr, _aHandle.ptr, b, _cHandle.ptr, out _exn)).Consume<string>();
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern double __iota_TestAPI_AProtocolImplementation_hasADefaultImplementation2(
+        private static extern CreatedRef __iota_TestAPI_AProtocolImplementation_hasADefaultImplementation2(
             IntPtr envRef,
             UnownedRef self,
             UnownedRef a,
             bool b,
-            double c,
+            UnownedRef c,
             out CreatedRef exn
         );
 
