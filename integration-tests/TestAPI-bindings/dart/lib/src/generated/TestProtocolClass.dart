@@ -109,10 +109,10 @@ class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsPro
         ;
     }
     /// <!-- FishyJoes.export(frobby) -->
-    List<double> get frobby =>
+    List<int> get frobby =>
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
-                consumeCreatedRef<List<double>>(f__iota_get_TestAPI_TestProtocolClass_frobby(Loader.shared.env, _thisHandle.ptr, exn))
+                consumeCreatedRef<List<int>>(f__iota_get_TestAPI_TestProtocolClass_frobby(Loader.shared.env, _thisHandle.ptr, exn))
             )
         )
     ;

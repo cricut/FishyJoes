@@ -197,8 +197,8 @@ let java_set_TestAPI_TestProtocolClass_flarp: @convention(c) (
 let java_get_TestAPI_TestProtocolClass_frobby: @convention(c) (
     UnsafeMutablePointer<JNIEnv?>,
     jobject
-) -> ArrayConverter<Swift.Double>.CType = { _javaEnv, _javaThis in
+) -> ArrayConverter<Swift.Int>.CType = { _javaEnv, _javaThis in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-        try ArrayConverter<Swift.Double>.toJava(TestAPI.TestProtocolClass.fromJava(_javaThis, env: _javaEnv).frob, env: _javaEnv)
+        try ArrayConverter<Swift.Int>.toJava(TestAPI.TestProtocolClass.fromJava(_javaThis, env: _javaEnv).frob, env: _javaEnv)
     }
 }
