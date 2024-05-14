@@ -81,10 +81,10 @@ class ExternalWitness_TestPropertiesProtocol extends SwiftReference implements T
         )
     ;
     /// <!-- FishyJoes.export(frobby) -->
-    List<double> get frobby =>
+    List<int> get frobby =>
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
-                consumeCreatedRef<List<double>>(f__iota_get_TestAPI_TestPropertiesProtocol_frobby(Loader.shared.env, _thisHandle.ptr, exn))
+                consumeCreatedRef<List<int>>(f__iota_get_TestAPI_TestPropertiesProtocol_frobby(Loader.shared.env, _thisHandle.ptr, exn))
             )
         )
     ;

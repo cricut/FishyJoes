@@ -198,7 +198,7 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "frobby", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<Swift.Double>.toNode(env.this(converter: TestAPI.TestProtocolClass.self).frob, env: env.env)
+                                try ArrayConverter<Swift.Int>.toNode(env.this(converter: TestAPI.TestProtocolClass.self).frob, env: env.env)
                             }
                         },
                         setter: nil

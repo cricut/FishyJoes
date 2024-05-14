@@ -20,10 +20,10 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(frobby) -->
         /// </summary>
-        public System.Collections.Generic.IList<double> GetFrobby() {
+        public System.Collections.Generic.IList<nint> GetFrobby() {
             using var thisHandle = new GCRef(this);
             return Check((out CreatedRef exn) =>
-                __iota_get_TestAPI_TestProtocolStruct_frobby(Loader.env, thisHandle.ptr, out exn).Consume<System.Collections.Generic.IList<double>>()
+                __iota_get_TestAPI_TestProtocolStruct_frobby(Loader.env, thisHandle.ptr, out exn).Consume<System.Collections.Generic.IList<nint>>()
             );
         }
 

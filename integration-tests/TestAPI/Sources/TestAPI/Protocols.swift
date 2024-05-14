@@ -72,7 +72,7 @@ public protocol TestPropertiesProtocol {
     /// <!-- FishyJoes.export(corge) -->
     var corge: String { get throws }
     /// <!-- FishyJoes.export(frobby) -->
-    var frob: [Double] { get throws }
+    var frob: [Int] { get throws }
 }
 
 /// <!-- FishyJoes.export(TestDefaultComputedProperties) -->
@@ -175,9 +175,9 @@ public struct TestProtocolStruct: TestMethodsProtocol, TestPropertiesProtocol {
         self.corge = corge
     }
     /// <!-- FishyJoes.export(frobby) -->
-    public var frob: [Double] {
+    public var frob: [Int] {
         get throws {
-            [3.14159265359, 42.0, -1.23456789]
+            [3, 42, -1]
         }
     }
 }
@@ -223,9 +223,9 @@ public class TestProtocolClass: TestMethodsProtocol, TestPropertiesProtocol, Tes
     }
 
     /// <!-- FishyJoes.export(frobby) -->
-    public var frob: [Double] {
+    public var frob: [Int] {
         get throws {
-            [42.0, -1.23456789, 3.14159265359]
+            [42, -1, 3]
         }
     }
 

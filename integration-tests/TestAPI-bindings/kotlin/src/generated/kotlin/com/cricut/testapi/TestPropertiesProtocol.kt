@@ -14,7 +14,7 @@ interface TestPropertiesProtocol {
     /**
      * <!-- FishyJoes.export(frobby) -->
      */
-    val frobby: kotlin.collections.List<Double>
+    val frobby: kotlin.collections.List<Long>
 
     companion object {
         init {

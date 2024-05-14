@@ -62,7 +62,7 @@ abstract class TestPropertiesProtocol {
     String get corge;
 
     /// <!-- FishyJoes.export(frobby) -->
-    List<double> get frobby;
+    List<int> get frobby;
 }
 
 extension TestPropertiesProtocol_DefaultImplementations on TestPropertiesProtocol {

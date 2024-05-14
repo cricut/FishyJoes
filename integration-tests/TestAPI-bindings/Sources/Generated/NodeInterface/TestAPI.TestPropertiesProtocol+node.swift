@@ -19,12 +19,12 @@ struct _NodeTestPropertiesProtocol: TestAPI.TestPropertiesProtocol {
             }
         }
     }
-    var frob: Array<Double> {
+    var frob: Array<Int> {
         get throws {
             try syncOnMainThread { env in
                 let napiValue = try _nodeWitness.value(env: env)
                 let frob = try env.getNamedProperty(napiValue, "frobby")
-                return try ArrayConverter<Swift.Double>.fromNode(frob, env: env)
+                return try ArrayConverter<Swift.Int>.fromNode(frob, env: env)
             }
         }
     }
@@ -97,7 +97,7 @@ extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: NodeConverte
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "frobby", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<Swift.Double>.toNode(env.this(converter: TestAPI_CommonInterface._TestPropertiesProtocolConverter.self).frob, env: env.env)
+                                try ArrayConverter<Swift.Int>.toNode(env.this(converter: TestAPI_CommonInterface._TestPropertiesProtocolConverter.self).frob, env: env.env)
                             }
                         },
                         setter: nil

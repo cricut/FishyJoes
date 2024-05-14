@@ -123,10 +123,10 @@ class TestProtocolStruct implements TestAPI.TestMethodsProtocol, TestAPI.TestPro
     );
 
     /// <!-- FishyJoes.export(frobby) -->
-    List<double> get frobby =>
+    List<int> get frobby =>
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
-                consumeCreatedRef<List<double>>(f__iota_get_TestAPI_TestProtocolStruct_frobby(Loader.shared.env, _thisHandle.ptr, exn))
+                consumeCreatedRef<List<int>>(f__iota_get_TestAPI_TestProtocolStruct_frobby(Loader.shared.env, _thisHandle.ptr, exn))
             )
         )
     ;

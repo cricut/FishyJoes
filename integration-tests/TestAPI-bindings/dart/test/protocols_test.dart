@@ -51,7 +51,7 @@ void main() {
         expect(testProtocolStruct.corge, equals("Raft a river of lava-ah!"));
         testProtocolStruct.corge = "Spank a plankton too! (take that)";
         expect(testProtocolStruct.corge, equals("Spank a plankton too! (take that)"));
-        expect(testProtocolStruct.frobby, equals([3.14159265359, 42.0, -1.23456789]));
+        expect(testProtocolStruct.frobby, equals([3, 42, -1]));
         expect(testProtocolStruct.plugh(tuple.Tuple3<bool, double, List<String>>(true, 42.9, ["Ride on the magic school bus", "You might get baked into a pie"])), equals(tuple.Tuple3<bool, int, String>(true, 51, "Ride on the magic school bus *>-<* You might get baked into a pie")));
 
         testProtocolStruct.foo();
@@ -64,7 +64,7 @@ void main() {
       test('testProtocolClass', () {
         final testProtocolClass = TestProtocolClass.init("Step inside it's a wilder ride!");
         expect(testProtocolClass.corge, equals("Step inside it's a wilder ride!"));
-        expect(testProtocolClass.frobby, equals([42.0, -1.23456789, 3.14159265359]));
+        expect(testProtocolClass.frobby, equals([42, -1, 3]));
 
         expect(testProtocolClass.flarp, equals(null));
         testProtocolClass.flarp = "Excellent observation Kiki!";

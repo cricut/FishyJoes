@@ -72,7 +72,10 @@ internal class ProtocolTests {
     fun testProtocolStruct() {
         val a = TestProtocolStruct(corge = "Raft a river of lava-ah!")
         assertEquals("Raft a river of lava-ah!", a.corge)
-        assertEquals(arrayListOf(3.14159265359, 42.0, -1.23456789), a.frobby)
+        val expectedA = listOf(3L, 42L, -1L);
+        a.frobby.forEachIndexed { i, v ->
+            assertEquals(expectedA[i], v)
+        }
         assertEquals(
             kotlin.Triple<Boolean, Long, kotlin.String>(
                 true,
@@ -98,7 +101,10 @@ internal class ProtocolTests {
     fun testProtocolClass() {
         val a = TestProtocolClass.init(corge = "Step inside it's a wilder ride!")
         assertEquals("Step inside it's a wilder ride!", a.corge)
-        assertEquals(arrayListOf(42.0, -1.23456789, 3.14159265359), a.frobby)
+        val expectedA = listOf(42L, -1L, 3L);
+        a.frobby.forEachIndexed { i, v ->
+            assertEquals(expectedA[i], v)
+        }
         assertEquals(null, a.flarp)
         assertEquals(42.909, a.wombat(null))
         assertEquals(null, a.wombat(zxc = 57))

@@ -26,9 +26,9 @@ public func __iota_get_TestAPI_TestPropertiesProtocol_frobby(
     envRef: EnvRef,
     _iotaThis: foreignObject,
     _exn: foreignOutExn
-) -> ArrayConverter<Swift.Double>.CType {
+) -> ArrayConverter<Swift.Int>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
-        try ArrayConverter<Swift.Double>.toIota(TestAPI_CommonInterface._TestPropertiesProtocolConverter.peekIota(_iotaThis, env: env).frob, env: env)
+        try ArrayConverter<Swift.Int>.toIota(TestAPI_CommonInterface._TestPropertiesProtocolConverter.peekIota(_iotaThis, env: env).frob, env: env)
     }
 }

@@ -25,13 +25,13 @@ struct _JavaTestPropertiesProtocol: TestAPI.TestPropertiesProtocol {
     }
 
     static var _frobGetMethodID: jmethodID?
-    public var frob: Array<Double> {
+    public var frob: Array<Int> {
         get throws {
             let env = try Env.acquireJVMThread(on: _javaWitness.vm)
             defer {
                 try? Env.relinquishJVMThread(on: _javaWitness.vm)
             }
-            return try ArrayConverter<Swift.Double>.fromJava(
+            return try ArrayConverter<Swift.Int>.fromJava(
                 env.CallObjectMethod(_javaWitness.object, Self._frobGetMethodID),
                 env: env
             )

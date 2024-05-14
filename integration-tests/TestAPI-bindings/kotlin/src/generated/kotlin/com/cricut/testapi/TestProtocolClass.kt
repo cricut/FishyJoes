@@ -32,10 +32,10 @@ class TestProtocolClass private constructor(_swiftReference: Long): TestMethodsP
     /**
      * <!-- FishyJoes.export(frobby) -->
      */
-    override val frobby: kotlin.collections.List<Double>
+    override val frobby: kotlin.collections.List<Long>
       get() = __jni_get_frobby()
     @JvmName("__jni_get_frobby")
-    private external fun __jni_get_frobby(): kotlin.collections.List<Double>
+    private external fun __jni_get_frobby(): kotlin.collections.List<Long>
 
     /**
      * <!-- FishyJoes.export(foo) -->
