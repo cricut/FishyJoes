@@ -122,12 +122,12 @@ extension Method {
         isAsync == other.isAsync &&
         deprecation == other.deprecation
     }
-    
+
     enum MethodTypePreference {
         case defaultImplementation
         case normal
     }
-    
+
     static func methodsPreferring(_ preference: MethodTypePreference, methods: [Method]) -> [Method] {
         var preferredMethods = [Method]()
         for method in methods {
@@ -137,7 +137,7 @@ extension Method {
             if !mostlyEqualMethods.isEmpty {
                 for mostlyEqualMethod in mostlyEqualMethods {
                     let useMostlyEqualMethod = preference == .defaultImplementation ? mostlyEqualMethod.isDefaultImplementation : !mostlyEqualMethod.isDefaultImplementation
-                    
+
                     if useMostlyEqualMethod {
                         guard let index = preferredMethods.firstIndex(of: method) else {
                             assertionFailure("method should exist in preferredMethods")
