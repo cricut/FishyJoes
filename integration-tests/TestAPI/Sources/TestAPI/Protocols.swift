@@ -75,6 +75,25 @@ public protocol TestPropertiesProtocol {
     var frob: [Double] { get throws }
 }
 
+/// <!-- FishyJoes.export(TestDefaultComputedProperties) -->
+public protocol TestDefaultComputedProperties {
+    /// <!-- FishyJoes.export(noot) -->
+    var noot: Int { get throws }
+    /// <!-- FishyJoes.export(plutonic) -->
+    var pluto: String { get throws }
+}
+
+extension TestDefaultComputedProperties {
+    /// <!-- FishyJoes.export(noot) -->
+    public var noot: Int {
+        2983
+    }
+    /// <!-- FishyJoes.export(plutonic) -->
+    public var pluto: String {
+        "Newton Gimmick"
+    }
+}
+
 /// <!-- FishyJoes.export(TestOptionalsProtocol) -->
 public protocol TestOptionalsProtocol {
     /// <!-- FishyJoes.export(flarp) -->
@@ -83,6 +102,10 @@ public protocol TestOptionalsProtocol {
     func wombat(zxc: Int?) throws -> Double?
     /// <!-- FishyJoes.export(spqr) -->
     func spqr(_ pippo: AssociatedDataEnum) throws -> Int
+}
+
+/// <!-- FishyJoes.export(TestDefaultComputedPropertiesEnum, conformances: [TestDefaultComputedProperties]) -->
+public enum TestDefaultComputedPropertiesEnum: TestDefaultComputedProperties {
 }
 
 /// <!-- FishyJoes.export(TestProtocolEnum, conformances: [TestMethodsProtocol]) -->
