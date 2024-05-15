@@ -570,8 +570,8 @@ extension CodeGen {
 
                     // Splat in the module's own definitions
                     let moduleDefinitionsPath = "Sources\(ps)Generated\(ps)NodeInterface\(ps)\(nodeModule.name).d.ts.part"
-                    let moduleDefintions = try String(contentsOfFile: moduleDefinitionsPath)
-                    definitions.append(contentsOf: moduleDefintions.split(separator: "\n").map(String.init))
+                    let moduleDefinitions = try String(contentsOfFile: moduleDefinitionsPath)
+                    definitions.append(contentsOf: moduleDefinitions.split(separator: "\n").map(String.init))
                     definitions.append("")
 
                     // Splat in the module's extension definitions

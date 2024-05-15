@@ -73,18 +73,18 @@ struct _JavaAProtocol: TestAPI.AProtocol {
     }
 
     static var _hasADefaultImplementation2MethodID: jmethodID?
-    public func hasADefaultImplementation2(_ a: String, b: Bool, _ c: Double) throws -> Double {
+    public func hasADefaultImplementation2(_ a: String, b: Bool, _ c: String) throws -> String {
         let env = try Env.acquireJVMThread(on: _javaWitness.vm)
         defer {
             try? Env.relinquishJVMThread(on: _javaWitness.vm)
         }
-        return try Swift.Double.fromJava(
-            env.CallDoubleMethod(
+        return try Swift.String.fromJava(
+            env.CallObjectMethod(
                 _javaWitness.object,
                 Self._hasADefaultImplementation2MethodID,
                 jvalue(try Swift.String.toJava(a, env: env)),
                 jvalue(try Swift.Bool.toJava(b, env: env)),
-                jvalue(try Swift.Double.toJava(c, env: env))
+                jvalue(try Swift.String.toJava(c, env: env))
             ),
             env: env
         )
@@ -119,6 +119,6 @@ extension TestAPI_CommonInterface._AProtocolConverter: JavaConverter {
         externalCompanionClass = try env.globalRef(env.FindClass("com/cricut/testapi/AProtocol$Companion"))
         _JavaAProtocol._barMethodID = try env.GetMethodID(javaClass, "bar", "(JJ)Lcom/cricut/testapi/AProtocol;")
         _JavaAProtocol._hasADefaultImplementationMethodID = try env.GetMethodID(javaClass, "hasADefaultImplementation", "(JD)Ljava/lang/String;")
-        _JavaAProtocol._hasADefaultImplementation2MethodID = try env.GetMethodID(javaClass, "hasADefaultImplementation2", "(Ljava/lang/String;ZD)D")
+        _JavaAProtocol._hasADefaultImplementation2MethodID = try env.GetMethodID(javaClass, "hasADefaultImplementation2", "(Ljava/lang/String;ZLjava/lang/String;)Ljava/lang/String;")
     }
 }

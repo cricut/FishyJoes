@@ -37,8 +37,8 @@ interface AProtocol {
     fun hasADefaultImplementation2(
         a: kotlin.String,
         b: Boolean,
-        c: Double
-    ): Double = __jni__default_hasADefaultImplementation2(this, a, b, c)
+        c: kotlin.String
+    ): kotlin.String = __jni__default_hasADefaultImplementation2(this, a, b, c)
 
     companion object {
         /**
@@ -59,8 +59,8 @@ interface AProtocol {
             self: AProtocol,
             a: kotlin.String,
             b: Boolean,
-            c: Double
-        ): Double
+            c: kotlin.String
+        ): kotlin.String
 
         init {
             loadNativeLibs()

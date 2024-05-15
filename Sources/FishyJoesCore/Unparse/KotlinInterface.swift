@@ -9,14 +9,9 @@ class KotlinInterface: KotlinClass {
 
             fragment.outputBlock("companion object {") {
                 fields.filter { $0.isStatic }.forEach { output(field: $0, to: fragment) }
-                methods.filter { $0.isStatic }.forEach {
-                    // Hack to suppress JvmStatic annotations for protocols
-                    var unstaticked = $0
-                    unstaticked.isStatic = false
-                    output(method: unstaticked, to: fragment)
-                }
+                methods.filter { $0.isStatic }.forEach { output(method: $0, to: fragment, isDefaultInCompanionObject: true) }
                 for method in methods {
-                    if !method.name.hasPrefix("_default"),
+                    if !method.isDefaultImplementation,
                        method.isSuspend {
                         fragment.output("@JvmStatic")
                         fragment.outputBlock("fun _deferred_\(method.name)(", newLineTerminated: false) {

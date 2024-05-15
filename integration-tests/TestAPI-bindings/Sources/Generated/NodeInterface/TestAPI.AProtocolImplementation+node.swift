@@ -54,6 +54,37 @@ extension TestAPI.AProtocolImplementation: NodeMutator {
                     },
                     isStatic: false
                 ),
+                "hasADefaultImplementation": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation", expectedArgumentCount: 2, hasNamedOptions: false) { env in
+                            let result = try Swift.String.toNode(
+                                env.this(converter: TestAPI.AProtocolImplementation.self).hasADefaultImplementation(
+                                    x: try env.argument(at: 0, converter: Swift.Int.self),
+                                    y: try env.argument(at: 1, converter: Swift.Double.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                ),
+                "hasADefaultImplementation2": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation2", expectedArgumentCount: 3, hasNamedOptions: false) { env in
+                            let result = try Swift.String.toNode(
+                                env.this(converter: TestAPI.AProtocolImplementation.self).hasADefaultImplementation2(
+                                    try env.argument(at: 0, converter: Swift.String.self),
+                                    b: try env.argument(at: 1, converter: Swift.Bool.self),
+                                    try env.argument(at: 2, converter: Swift.String.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                ),
                 "foo": (.stored(mutable: true), isStatic: false),
                 "baz": (.stored(mutable: true), isStatic: false),
             ],

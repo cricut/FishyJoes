@@ -61,8 +61,8 @@ abstract class TestPropertiesProtocol {
     /// <!-- FishyJoes.export(corge) -->
     String get corge;
 
-    /// <!-- FishyJoes.export(frob) -->
-    List<double> get frob;
+    /// <!-- FishyJoes.export(frobby) -->
+    List<int> get frobby;
 }
 
 extension TestPropertiesProtocol_DefaultImplementations on TestPropertiesProtocol {
@@ -78,12 +78,12 @@ extension TestPropertiesProtocol_FfiHooks on TestPropertiesProtocol {
         )
     );
 
-    static CreatedRef ffi_get_frob(
+    static CreatedRef ffi_get_frobby(
         UnownedRef obj,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
-            peekRef<TestPropertiesProtocol>(obj).frob
+            peekRef<TestPropertiesProtocol>(obj).frobby
         )
     );
 }

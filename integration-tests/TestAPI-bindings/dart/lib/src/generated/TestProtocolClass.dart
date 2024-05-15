@@ -70,7 +70,7 @@ class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsPro
     );
 
     @override
-    String toString() => 'TestProtocolClass(corge: $corge, flarp: $flarp, frob: $frob)';
+    String toString() => 'TestProtocolClass(corge: $corge, flarp: $flarp, frobby: $frobby)';
 
     /// <!-- FishyJoes.export(corge) -->
     String get corge =>
@@ -108,11 +108,11 @@ class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsPro
         )
         ;
     }
-    /// <!-- FishyJoes.export(frob) -->
-    List<double> get frob =>
+    /// <!-- FishyJoes.export(frobby) -->
+    List<int> get frobby =>
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
-                consumeCreatedRef<List<double>>(f__iota_get_TestAPI_TestProtocolClass_frob(Loader.shared.env, _thisHandle.ptr, exn))
+                consumeCreatedRef<List<int>>(f__iota_get_TestAPI_TestProtocolClass_frobby(Loader.shared.env, _thisHandle.ptr, exn))
             )
         )
     ;
@@ -278,7 +278,7 @@ class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsPro
         Env env,
         UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_get_TestAPI_TestProtocolClass_frob;
+    ) f__iota_get_TestAPI_TestProtocolClass_frobby;
     static late void Function(
         Env env,
         UnownedRef _this,

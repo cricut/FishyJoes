@@ -1,8 +1,92 @@
 export declare namespace TestAPI {
     /**
+     * <!-- FishyJoes.export(AProtocol) -->
+     */
+    interface AProtocol {
+        /**
+         * <!-- FishyJoes.export(baz) -->
+         */
+        readonly baz: boolean;
+
+        /**
+         * <!-- FishyJoes.export(foo) -->
+         */
+        readonly foo: string;
+
+        /**
+         * <!-- FishyJoes.export(bar) -->
+         */
+        bar(
+            x: number,
+            y: number
+        ): TestAPI.AProtocol;
+
+        /**
+         * <!-- FishyJoes.export(hasADefaultImplementation) -->
+         */
+        hasADefaultImplementation(
+            x: number,
+            y: number
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(hasADefaultImplementation2) -->
+         */
+        hasADefaultImplementation2(
+            a: string,
+            b: boolean,
+            c: string
+        ): string;
+    }
+
+    interface AProtocolCore {
+        /**
+         * <!-- FishyJoes.export(baz) -->
+         */
+        readonly baz: boolean;
+
+        /**
+         * <!-- FishyJoes.export(foo) -->
+         */
+        readonly foo: string;
+
+        /**
+         * <!-- FishyJoes.export(bar) -->
+         */
+        bar(
+            this: AProtocol,
+            x: number,
+            y: number
+        ): TestAPI.AProtocol;
+
+        /**
+         * <!-- FishyJoes.export(hasADefaultImplementation) -->
+         */
+        hasADefaultImplementation?(
+            this: AProtocol,
+            x: number,
+            y: number
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(hasADefaultImplementation2) -->
+         */
+        hasADefaultImplementation2?(
+            this: AProtocol,
+            a: string,
+            b: boolean,
+            c: string
+        ): string;
+    }
+
+    namespace AProtocol {
+        function fromCore(core: AProtocolCore): AProtocol
+    }
+
+    /**
      * <!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->
      */
-    export class AProtocolImplementation {
+    export class AProtocolImplementation implements AProtocol {
         constructor(foo: string, baz: boolean)
 
         foo: string;
@@ -16,6 +100,23 @@ export declare namespace TestAPI {
             x: number,
             y: number
         ): TestAPI.AProtocol;
+
+        /**
+         * <!-- FishyJoes.export(hasADefaultImplementation) -->
+         */
+        hasADefaultImplementation(
+            x: number,
+            y: number
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(hasADefaultImplementation2) -->
+         */
+        hasADefaultImplementation2(
+            a: string,
+            b: boolean,
+            c: string
+        ): string;
     }
 
     export type Actors = never;
@@ -713,6 +814,255 @@ export declare namespace TestAPI {
          */
         function notGoingToHappen(
         ): TestAPI.EmptyEnum;
+    }
+
+    export class ExternalWitness_AProtocol {
+        private constructor()
+        private _inhibitStructuralTyping: any
+
+        /**
+         * <!-- FishyJoes.export(baz) -->
+         */
+        readonly baz: boolean;
+
+        /**
+         * <!-- FishyJoes.export(foo) -->
+         */
+        readonly foo: string;
+
+        /**
+         * <!-- FishyJoes.export(bar) -->
+         */
+        bar(
+            x: number,
+            y: number
+        ): TestAPI.AProtocol;
+
+        /**
+         * <!-- FishyJoes.export(hasADefaultImplementation) -->
+         */
+        hasADefaultImplementation(
+            x: number,
+            y: number
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(hasADefaultImplementation2) -->
+         */
+        hasADefaultImplementation2(
+            a: string,
+            b: boolean,
+            c: string
+        ): string;
+    }
+
+    export class ExternalWitness_TestAsyncFunctions {
+        private constructor()
+        private _inhibitStructuralTyping: any
+
+        /**
+         * <!-- FishyJoes.export(add3Things) -->
+         */
+        readonly add3Things: (_0: number, _1: number, _2: number) => Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(const42) -->
+         */
+        readonly const42: () => Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(fifthThing) -->
+         */
+        readonly fifthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>;
+
+        /**
+         * <!-- FishyJoes.export(iabs) -->
+         */
+        readonly iabs: (_0: number) => Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(intCompose) -->
+         */
+        readonly intCompose: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(makeList) -->
+         */
+        readonly makeList: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>;
+
+        /**
+         * <!-- FishyJoes.export(six) -->
+         */
+        readonly six: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(willThrow) -->
+         */
+        readonly willThrow: () => Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(exercise0) -->
+         */
+        exercise0(
+            fn: () => Promise<number>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(exercise1) -->
+         */
+        exercise1(
+            fn: (_0: number) => Promise<number>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(exercise2) -->
+         */
+        exercise2(
+            fn: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(exercise3) -->
+         */
+        exercise3(
+            fn: (_0: number, _1: number, _2: number) => Promise<number>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(exercise4) -->
+         */
+        exercise4(
+            fn: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(exercise5) -->
+         */
+        exercise5(
+            fn: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(exercise6) -->
+         */
+        exercise6(
+            fn: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(thunkTwiceMaker) -->
+         */
+        thunkTwiceMaker(
+            thunk: () => Promise<void>
+        ): () => Promise<void>;
+
+        /**
+         * <!-- FishyJoes.export(defaultExercise6) -->
+         */
+        defaultExercise6(
+            fn: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(witness) -->
+         */
+        witness(
+        ): TestAPI.TestAsyncFunctions;
+    }
+
+    export class ExternalWitness_TestLeadingUnderscoredProp {
+        private constructor()
+        private _inhibitStructuralTyping: any
+
+        /**
+         * <!-- FishyJoes.export(_leadingUnderscoreProp) -->
+         */
+        readonly _leadingUnderscoreProp: string;
+    }
+
+    export class ExternalWitness_TestMethodsProtocol {
+        private constructor()
+        private _inhibitStructuralTyping: any
+
+        /**
+         * <!-- FishyJoes.export(foo) -->
+         */
+        foo(
+        ): void;
+
+        /**
+         * <!-- FishyJoes.export(bar) -->
+         */
+        bar(
+        ): boolean;
+
+        /**
+         * <!-- FishyJoes.export(baz) -->
+         */
+        baz(
+            qux: boolean
+        ): void;
+
+        /**
+         * <!-- FishyJoes.export(garply) -->
+         */
+        garply(
+            _0: string
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(xyzzy) -->
+         */
+        xyzzy(
+            thud: number,
+            grault: number[]
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(plugh) -->
+         */
+        plugh(
+            fred: [boolean, number, string[]]
+        ): [boolean, number, string];
+    }
+
+    export class ExternalWitness_TestOptionalsProtocol {
+        private constructor()
+        private _inhibitStructuralTyping: any
+
+        /**
+         * <!-- FishyJoes.export(flarp) -->
+         */
+        readonly flarp?: string;
+
+        /**
+         * <!-- FishyJoes.export(wombat) -->
+         */
+        wombat(
+            zxc: Optional<number>
+        ): Optional<number>;
+
+        /**
+         * <!-- FishyJoes.export(spqr) -->
+         */
+        spqr(
+            pippo: TestAPI.AssociatedDataEnum
+        ): number;
+    }
+
+    export class ExternalWitness_TestPropertiesProtocol {
+        private constructor()
+        private _inhibitStructuralTyping: any
+
+        /**
+         * <!-- FishyJoes.export(corge) -->
+         */
+        readonly corge: string;
+
+        /**
+         * <!-- FishyJoes.export(frobby) -->
+         */
+        readonly frobby: number[];
     }
 
     export type Functions = never;
@@ -1918,7 +2268,7 @@ export declare namespace TestAPI {
     /**
      * <!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct, conformances: [TestAsyncFunctions]) -->
      */
-    export class TestAsyncForeignSideFunctionsStruct {
+    export class TestAsyncForeignSideFunctionsStruct implements TestAsyncFunctions {
         constructor(const42: () => Promise<number>, iabs: (_0: number) => Promise<number>, intCompose: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>, add3Things: (_0: number, _1: number, _2: number) => Promise<number>, makeList: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>, fifthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>, six: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>, willThrow: () => Promise<number>, exercise0Fun: (_0: () => Promise<number>) => Promise<string>, exercise1Fun: (_0: (_0: number) => Promise<number>) => Promise<string>, exercise2Fun: (_0: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>) => Promise<string>, exercise3Fun: (_0: (_0: number, _1: number, _2: number) => Promise<number>) => Promise<string>, exercise4Fun: (_0: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>) => Promise<string>, exercise5Fun: (_0: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>) => Promise<string>, exercise6Fun: (_0: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>) => Promise<string>, thunkTwiceMakerFun: (_0: () => Promise<void>) => () => Promise<void>)
 
         readonly const42: () => Promise<number>;
@@ -2014,12 +2364,258 @@ export declare namespace TestAPI {
          */
         witness(
         ): TestAPI.TestAsyncFunctions;
+
+        /**
+         * <!-- FishyJoes.export(defaultExercise6) -->
+         */
+        defaultExercise6(
+            fn: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>
+        ): Promise<string>;
+    }
+
+    /**
+     * <!-- FishyJoes.export(TestAsyncFunctions) -->
+     */
+    interface TestAsyncFunctions {
+        /**
+         * <!-- FishyJoes.export(add3Things) -->
+         */
+        readonly add3Things: (_0: number, _1: number, _2: number) => Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(const42) -->
+         */
+        readonly const42: () => Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(fifthThing) -->
+         */
+        readonly fifthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>;
+
+        /**
+         * <!-- FishyJoes.export(iabs) -->
+         */
+        readonly iabs: (_0: number) => Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(intCompose) -->
+         */
+        readonly intCompose: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(makeList) -->
+         */
+        readonly makeList: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>;
+
+        /**
+         * <!-- FishyJoes.export(six) -->
+         */
+        readonly six: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(willThrow) -->
+         */
+        readonly willThrow: () => Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(exercise0) -->
+         */
+        exercise0(
+            fn: () => Promise<number>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(exercise1) -->
+         */
+        exercise1(
+            fn: (_0: number) => Promise<number>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(exercise2) -->
+         */
+        exercise2(
+            fn: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(exercise3) -->
+         */
+        exercise3(
+            fn: (_0: number, _1: number, _2: number) => Promise<number>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(exercise4) -->
+         */
+        exercise4(
+            fn: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(exercise5) -->
+         */
+        exercise5(
+            fn: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(exercise6) -->
+         */
+        exercise6(
+            fn: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(thunkTwiceMaker) -->
+         */
+        thunkTwiceMaker(
+            thunk: () => Promise<void>
+        ): () => Promise<void>;
+
+        /**
+         * <!-- FishyJoes.export(defaultExercise6) -->
+         */
+        defaultExercise6(
+            fn: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(witness) -->
+         */
+        witness(
+        ): TestAPI.TestAsyncFunctions;
+    }
+
+    interface TestAsyncFunctionsCore {
+        /**
+         * <!-- FishyJoes.export(add3Things) -->
+         */
+        readonly add3Things: (_0: number, _1: number, _2: number) => Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(const42) -->
+         */
+        readonly const42: () => Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(fifthThing) -->
+         */
+        readonly fifthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>;
+
+        /**
+         * <!-- FishyJoes.export(iabs) -->
+         */
+        readonly iabs: (_0: number) => Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(intCompose) -->
+         */
+        readonly intCompose: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(makeList) -->
+         */
+        readonly makeList: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>;
+
+        /**
+         * <!-- FishyJoes.export(six) -->
+         */
+        readonly six: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(willThrow) -->
+         */
+        readonly willThrow: () => Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(exercise0) -->
+         */
+        exercise0(
+            this: TestAsyncFunctions,
+            fn: () => Promise<number>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(exercise1) -->
+         */
+        exercise1(
+            this: TestAsyncFunctions,
+            fn: (_0: number) => Promise<number>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(exercise2) -->
+         */
+        exercise2(
+            this: TestAsyncFunctions,
+            fn: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(exercise3) -->
+         */
+        exercise3(
+            this: TestAsyncFunctions,
+            fn: (_0: number, _1: number, _2: number) => Promise<number>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(exercise4) -->
+         */
+        exercise4(
+            this: TestAsyncFunctions,
+            fn: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(exercise5) -->
+         */
+        exercise5(
+            this: TestAsyncFunctions,
+            fn: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(exercise6) -->
+         */
+        exercise6(
+            this: TestAsyncFunctions,
+            fn: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(thunkTwiceMaker) -->
+         */
+        thunkTwiceMaker(
+            this: TestAsyncFunctions,
+            thunk: () => Promise<void>
+        ): () => Promise<void>;
+
+        /**
+         * <!-- FishyJoes.export(defaultExercise6) -->
+         */
+        defaultExercise6?(
+            this: TestAsyncFunctions,
+            fn: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(witness) -->
+         */
+        witness(
+            this: TestAsyncFunctions
+        ): TestAPI.TestAsyncFunctions;
+    }
+
+    namespace TestAsyncFunctions {
+        function fromCore(core: TestAsyncFunctionsCore): TestAsyncFunctions
     }
 
     /**
      * <!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass, conformances: [TestAsyncFunctions]) -->
      */
-    export class TestAsyncSwiftSideFunctionsClass {
+    export class TestAsyncSwiftSideFunctionsClass implements TestAsyncFunctions {
         private constructor()
         private _inhibitStructuralTyping: any
 
@@ -2130,22 +2726,124 @@ export declare namespace TestAPI {
          */
         static init(
         ): TestAPI.TestAsyncSwiftSideFunctionsClass;
+
+        /**
+         * <!-- FishyJoes.export(defaultExercise6) -->
+         */
+        defaultExercise6(
+            fn: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>
+        ): Promise<string>;
+    }
+
+    /**
+     * <!-- FishyJoes.export(TestLeadingUnderscoredProp) -->
+     */
+    interface TestLeadingUnderscoredProp {
+        /**
+         * <!-- FishyJoes.export(_leadingUnderscoreProp) -->
+         */
+        readonly _leadingUnderscoreProp: string;
     }
 
     /**
      * // <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp, TestLeadingUnderscoredMethod]) -->
      * <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp]) -->
      */
-    export class TestLeadingUnderscoredPropStruct {
+    export class TestLeadingUnderscoredPropStruct implements TestLeadingUnderscoredProp {
         constructor(_leadingUnderscoreProp: string)
 
         _leadingUnderscoreProp: string;
     }
 
     /**
+     * <!-- FishyJoes.export(TestMethodsProtocol) -->
+     */
+    interface TestMethodsProtocol {
+        /**
+         * <!-- FishyJoes.export(foo) -->
+         */
+        foo(
+        ): void;
+
+        /**
+         * <!-- FishyJoes.export(bar) -->
+         */
+        bar(
+        ): boolean;
+
+        /**
+         * <!-- FishyJoes.export(baz) -->
+         */
+        baz(
+            qux: boolean
+        ): void;
+
+        /**
+         * <!-- FishyJoes.export(garply) -->
+         */
+        garply(
+            _0: string
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(xyzzy) -->
+         */
+        xyzzy(
+            thud: number,
+            grault: number[]
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(plugh) -->
+         */
+        plugh(
+            fred: [boolean, number, string[]]
+        ): [boolean, number, string];
+    }
+
+    /**
+     * <!-- FishyJoes.export(TestOptionalsProtocol) -->
+     */
+    interface TestOptionalsProtocol {
+        /**
+         * <!-- FishyJoes.export(flarp) -->
+         */
+        readonly flarp?: string;
+
+        /**
+         * <!-- FishyJoes.export(wombat) -->
+         */
+        wombat(
+            zxc: Optional<number>
+        ): Optional<number>;
+
+        /**
+         * <!-- FishyJoes.export(spqr) -->
+         */
+        spqr(
+            pippo: TestAPI.AssociatedDataEnum
+        ): number;
+    }
+
+    /**
+     * <!-- FishyJoes.export(TestPropertiesProtocol) -->
+     */
+    interface TestPropertiesProtocol {
+        /**
+         * <!-- FishyJoes.export(corge) -->
+         */
+        readonly corge: string;
+
+        /**
+         * <!-- FishyJoes.export(frobby) -->
+         */
+        readonly frobby: number[];
+    }
+
+    /**
      * <!-- FishyJoes.exportReference(TestProtocolClass, conformances: [TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol]) -->
      */
-    export class TestProtocolClass {
+    export class TestProtocolClass implements TestMethodsProtocol, TestOptionalsProtocol, TestPropertiesProtocol {
         private constructor()
         private _inhibitStructuralTyping: any
 
@@ -2160,9 +2858,9 @@ export declare namespace TestAPI {
         flarp?: string;
 
         /**
-         * <!-- FishyJoes.export(frob) -->
+         * <!-- FishyJoes.export(frobby) -->
          */
-        readonly frob: number[];
+        readonly frobby: number[];
 
         /**
          * <!-- FishyJoes.export(foo) -->
@@ -2283,15 +2981,15 @@ export declare namespace TestAPI {
     /**
      * <!-- FishyJoes.export(TestProtocolStruct, conformances: [TestMethodsProtocol, TestPropertiesProtocol]) -->
      */
-    export class TestProtocolStruct {
+    export class TestProtocolStruct implements TestMethodsProtocol, TestPropertiesProtocol {
         constructor(corge: string)
 
         corge: string;
 
         /**
-         * <!-- FishyJoes.export(frob) -->
+         * <!-- FishyJoes.export(frobby) -->
          */
-        readonly frob: number[];
+        readonly frobby: number[];
 
         /**
          * <!-- FishyJoes.export(foo) -->

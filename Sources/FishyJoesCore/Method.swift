@@ -17,6 +17,7 @@ struct Method: Hashable {
     let isThrowing: Bool
     let isAsync: Bool
     let deprecation: Deprecation?
+    let protocolName: String?
     let isDefaultImplementation: Bool
 
     enum SourceKind: Hashable {
@@ -27,6 +28,10 @@ struct Method: Hashable {
     let sourceKind: SourceKind
 
     init?(_ method: SourceryMethod, type: Type?) {
+        self.init(method, type: type, protocolName: nil)
+    }
+
+    init?(_ method: SourceryMethod, type: Type?, protocolName: String?) {
         guard let exportAnnotation = method.exportAnnotation else { return nil }
         self.name = method.name
         self.callName = method.callName
@@ -72,6 +77,7 @@ struct Method: Hashable {
 
         precondition(omitParameters.isEmpty, "Can't find parameters \(omitParameters) to omit")
         self.parameters = parameters
+        self.protocolName = protocolName
         self.isDefaultImplementation = method.definedInType?.isExtension == true && type is SourceryProtocol
     }
 }
@@ -115,6 +121,57 @@ extension Method {
         isThrowing == other.isThrowing &&
         isAsync == other.isAsync &&
         deprecation == other.deprecation
+    }
+
+    enum MethodTypePreference {
+        case defaultImplementation
+        case normal
+    }
+
+    static func methodsPreferring(_ preference: MethodTypePreference, methods: [Method]) -> [Method] {
+        var preferredMethods = [Method]()
+        for method in methods {
+            let mostlyEqualMethods = preferredMethods.filter {
+                return $0.isMostlyEqual(other: method)
+            }
+            if !mostlyEqualMethods.isEmpty {
+                for mostlyEqualMethod in mostlyEqualMethods {
+                    let useMostlyEqualMethod = preference == .defaultImplementation ? mostlyEqualMethod.isDefaultImplementation : !mostlyEqualMethod.isDefaultImplementation
+
+                    if useMostlyEqualMethod {
+                        guard let index = preferredMethods.firstIndex(of: method) else {
+                            assertionFailure("method should exist in preferredMethods")
+                            continue
+                        }
+                        preferredMethods.remove(at: index)
+                        preferredMethods.insert(mostlyEqualMethod, at: index)
+                    } else { // use method
+                        guard let index = preferredMethods.firstIndex(of: mostlyEqualMethod) else {
+                            assertionFailure("mostlyEqualMethod should exist in preferredMethods")
+                            continue
+                        }
+                        preferredMethods.remove(at: index)
+                        preferredMethods.insert(method, at: index)
+                    }
+                }
+            } else {
+                preferredMethods.append(method)
+            }
+        }
+        return preferredMethods
+    }
+
+    static func methods(type: Type) -> [Method] {
+        var defaultMethods = [Method]()
+        let protocols = type.implements.values.compactMap { $0 as? SourceryProtocol }
+        for prot in protocols {
+            defaultMethods.append(contentsOf: prot.defaultMethods().compactMap { Method($0, type: prot, protocolName: prot.name) })
+        }
+
+        let normalMethods = type.methods.compactMap { Method($0, type: type) }
+
+        let methods = Method.methodsPreferring(.normal, methods: normalMethods + defaultMethods)
+        return methods
     }
 }
 

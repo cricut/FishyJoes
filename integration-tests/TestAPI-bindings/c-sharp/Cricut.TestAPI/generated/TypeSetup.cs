@@ -312,7 +312,7 @@ namespace Cricut.TestAPI {
         delegate CreatedRef _TestAPI_CommonInterface__AProtocolConverter_Getfoo(UnownedRef obj, out CreatedRef exn);
         delegate CreatedRef _TestAPI_CommonInterface__AProtocolConverter_bar(UnownedRef obj, nint x, nint y, out CreatedRef exn);
         delegate CreatedRef _TestAPI_CommonInterface__AProtocolConverter_hasADefaultImplementation(UnownedRef obj, nint x, double y, out CreatedRef exn);
-        delegate double _TestAPI_CommonInterface__AProtocolConverter_hasADefaultImplementation2(UnownedRef obj, string a, bool b, double c, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_CommonInterface__AProtocolConverter_hasADefaultImplementation2(UnownedRef obj, string a, bool b, string c, out CreatedRef exn);
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_CommonInterface__AProtocolConverter_setup(
             IntPtr envRef,
@@ -2389,8 +2389,8 @@ namespace Cricut.TestAPI {
                     bag<_TestAPI_CommonInterface__AProtocolConverter_hasADefaultImplementation>((UnownedRef obj, nint x, double y, out CreatedRef exn) => Catching(out exn, () => 
                         new CreatedRef(obj.Peek<Cricut.TestAPI.AProtocol>().HasADefaultImplementation(x, y))
                     )),
-                    bag<_TestAPI_CommonInterface__AProtocolConverter_hasADefaultImplementation2>((UnownedRef obj, string a, bool b, double c, out CreatedRef exn) => Catching(out exn, () => 
-                        obj.Peek<Cricut.TestAPI.AProtocol>().HasADefaultImplementation2(a, b, c)
+                    bag<_TestAPI_CommonInterface__AProtocolConverter_hasADefaultImplementation2>((UnownedRef obj, string a, bool b, string c, out CreatedRef exn) => Catching(out exn, () => 
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.AProtocol>().HasADefaultImplementation2(a, b, c))
                     )),
                     out exn
                 ));
@@ -2988,7 +2988,7 @@ namespace Cricut.TestAPI {
                         new CreatedRef(obj.Peek<Cricut.TestAPI.TestPropertiesProtocol>().GetCorge())
                     )),
                     bag<_TestAPI_CommonInterface__TestPropertiesProtocolConverter_Getfrob>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
-                        new CreatedRef(obj.Peek<Cricut.TestAPI.TestPropertiesProtocol>().GetFrob())
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.TestPropertiesProtocol>().GetFrobby())
                     )),
                     out exn
                 ));

@@ -35,7 +35,7 @@ struct TranslatedReference: TranslatedType {
         self.kotlinPackage = context.module.kotlinPackage
         self.cSharpType = .named(package: context.module.cSharpNamespace, name: exportAnnotation.cSharpName)
         self.dartType = .named(package: context.module.dartNamespace, name: context.dartTranslator.fakeNamespace(exportAnnotation.name))
-        self.methods = type.methods.compactMap { Method($0, type: type) }
+        self.methods = Method.methods(type: type)
         self.computedVariables = type.variables.compactMap { Field($0, type: type) }
         self.documentation = type.documentation
         self.className = context.kotlinTranslator.javaClassName(kotlinName, in: context)
@@ -132,8 +132,12 @@ struct TranslatedReference: TranslatedType {
                     fragment.output("env: env,")
                     fragment.output("name: \"\(nodeName)\",")
                     fragment.outputBlock("properties: [", closeWith: "],") {
+                        let normalMethods = methods.filter { !$0.isDefaultImplementation }
+                        let defaultMethods = methods.filter { $0.isDefaultImplementation }
+
                         var hasProperties = false
-                        hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment)
+                        hasProperties ||= context.nodeTranslator.outputProperties(methods: normalMethods, context: context, fragment: fragment, converterName: nil)
+                        hasProperties ||= context.nodeTranslator.outputProperties(methods: defaultMethods, context: context, fragment: fragment, converterName: sourceType.name)
                         hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment)
                         if !hasProperties {
                             fragment.output(":")
@@ -158,6 +162,7 @@ struct TranslatedReference: TranslatedType {
             .init(
                 documentation: documentation,
                 name: nodeName,
+                implements: Array(conformances).sorted(by: <),
                 constructor: .hidden,
                 fields: computedVariables.compactMap { context.ts(field: $0) },
                 methods: methods.compactMap { context.ts(method: $0) }
@@ -241,8 +246,8 @@ struct TranslatedReference: TranslatedType {
         }
 
         if equatable {
-            context.kotlinTranslator.allMethods[sourceType.name, default: []].append(
-                (
+            context.kotlinTranslator.allMethods[sourceType.name, default: []].insert(
+                .init(
                     javaName: "__jni_swiftEquals",
                     signature: "(\(jniType.asSignature)\(jniType.asSignature))Z",
                     cName: "\(sourceType.name)._javaEquals",
@@ -251,8 +256,8 @@ struct TranslatedReference: TranslatedType {
             )
         }
         if hashable {
-            context.kotlinTranslator.allMethods[sourceType.name, default: []].append(
-                (
+            context.kotlinTranslator.allMethods[sourceType.name, default: []].insert(
+                .init(
                     javaName: "__jni_hashCode",
                     signature: "()I",
                     cName: "\(sourceType.name)._javaHash",
@@ -273,6 +278,7 @@ struct TranslatedReference: TranslatedType {
                         isStatic: true,
                         isSuspend: false,
                         isOverride: false,
+                        isDefaultImplementation: false,
                         name: "swiftEquals",
                         parameters: [
                             (labelComment: nil, name: "lhs", type: kotlinType, defaultValue: nil),
@@ -292,6 +298,7 @@ struct TranslatedReference: TranslatedType {
                         isStatic: false,
                         isSuspend: false,
                         isOverride: true,
+                        isDefaultImplementation: false,
                         name: "equals",
                         parameters: [
                             (labelComment: nil, name: "other", type: .optional(.named(package: nil, name: "Any")), defaultValue: nil),
@@ -312,6 +319,7 @@ struct TranslatedReference: TranslatedType {
                         isStatic: false,
                         isSuspend: false,
                         isOverride: true,
+                        isDefaultImplementation: false,
                         name: "hashCode",
                         parameters: [],
                         compatibilityOrder: [],

@@ -79,7 +79,7 @@ struct NodeTranslator: Translator {
         }
     }
 
-    func output(method: Method, explicitThis: Bool, context: FishyJoesContext, fragment: SourceFragment, newLineTerminated: Bool = true) {
+    func output(method: Method, explicitThis: Bool, context: FishyJoesContext, fragment: SourceFragment, newLineTerminated: Bool = true, converterName: String? = nil, shouldWrapDefaultImpl: Bool = false) {
         let exportAnnotation = method.exportAnnotation
         let nodeName = exportAnnotation.name
 
@@ -89,7 +89,8 @@ struct NodeTranslator: Translator {
         var argIndex = 0
 
         if let selfType = method.definedIn {
-            containingNamespace = context.resolve(type: selfType).converterType.name
+            let resolved = context.resolve(type: selfType)
+            containingNamespace = converterName ?? resolved.converterType.name
 
             if method.isStatic {
                 selfExpression = containingNamespace
@@ -141,6 +142,11 @@ struct NodeTranslator: Translator {
                         fragment.output("let swiftSelf = UncheckedSendableBox(try env.this(converter: \(containingNamespace).self))")
                         selfExpression = "swiftSelf.value"
                     }
+                    if method.isDefaultImplementation,
+                       shouldWrapDefaultImpl {
+                        fragment.output("let _wrappedSwiftSelf = \(context.module.name)_CommonInterface.\(method.definedIn?.name ?? "")_sans_\(method.callName)(wrapped: try \(selfExpression))")
+                        selfExpression = "_wrappedSwiftSelf"
+                    }
 
                     func writeMutation() {
                         if method.isMutating {
@@ -191,6 +197,11 @@ struct NodeTranslator: Translator {
                         fragment.output("var mutatingSelf = try \(selfExpression)")
                         selfExpression = "mutatingSelf"
                     }
+                    if method.isDefaultImplementation,
+                       shouldWrapDefaultImpl {
+                        fragment.output("let _wrappedSwiftSelf = \(context.module.name)_CommonInterface.\(method.definedIn?.name ?? "")_sans_\(method.callName)(wrapped: try \(selfExpression))")
+                        selfExpression = "_wrappedSwiftSelf"
+                    }
 
                     if exportAnnotation.noReturn {
                         fragment.output("try ", newLineTerminated: false)
@@ -227,14 +238,14 @@ struct NodeTranslator: Translator {
         }
     }
 
-    func outputProperties(methods: [Method], explicitThis: Bool = false, context: FishyJoesContext, fragment: SourceFragment) -> Bool {
+    func outputProperties(methods: [Method], explicitThis: Bool = false, context: FishyJoesContext, fragment: SourceFragment, converterName: String? = nil, shouldWrapDefaultImpl: Bool = false) -> Bool {
         for method in methods {
             let isStatic = explicitThis || method.isStatic
             let explicitThis = explicitThis && !method.isStatic
 
             fragment.outputBlock("\"\(method.exportAnnotation.name)\": (", closeWith: "),") {
                 fragment.output(".method ", newLineTerminated: false)
-                output(method: method, explicitThis: explicitThis, context: context, fragment: fragment, newLineTerminated: false)
+                output(method: method, explicitThis: explicitThis, context: context, fragment: fragment, newLineTerminated: false, converterName: converterName, shouldWrapDefaultImpl: shouldWrapDefaultImpl)
                 fragment.output(",")
                 fragment.output("isStatic: \(isStatic)")
             }
@@ -400,7 +411,9 @@ struct NodeTranslator: Translator {
             isAsync: method.isAsync,
             name: exportAnnotation.name,
             parameters: parameters,
-            returnType: method.isAsync ? .promise(returnType) : returnType
+            returnType: method.isAsync ? .promise(returnType) : returnType,
+            hasDefaultImplementation: method.isDefaultImplementation,
+            protocolName: method.protocolName
         )
     }
 
@@ -456,7 +469,9 @@ struct NodeTranslator: Translator {
                 isAsync: false,
                 name: "get\(name)",
                 parameters: parameters,
-                returnType: resolved.nodeType
+                returnType: resolved.nodeType,
+                hasDefaultImplementation: false,
+                protocolName: nil
             )
         ] + (
             field.isPubliclyWritable ? [
@@ -473,7 +488,9 @@ struct NodeTranslator: Translator {
                             defaultValue: nil
                         )
                     ],
-                    returnType: .void
+                    returnType: .void,
+                    hasDefaultImplementation: false,
+                    protocolName: nil
                 )
             ] : []
         )

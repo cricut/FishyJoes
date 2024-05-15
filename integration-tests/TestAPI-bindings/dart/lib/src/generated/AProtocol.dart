@@ -93,31 +93,35 @@ extension AProtocol_DefaultImplementations on AProtocol {
         )
     );
 
-    double hasADefaultImplementation2(
+    String hasADefaultImplementation2(
         String a,
         bool b,
-        double c
+        String c
     ) =>
         GCRef.using(this, (_thisHandle) =>
             GCRef.using(a, (_aHandle) =>
-                check((OutCreatedRef _exn) => f__iota_TestAPI_AProtocol_hasADefaultImplementation2(Loader.shared.env, _thisHandle.ptr, _aHandle.ptr, b, c, _exn))
+                GCRef.using(c, (_cHandle) =>
+                    consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_AProtocol_hasADefaultImplementation2(Loader.shared.env, _thisHandle.ptr, _aHandle.ptr, b, _cHandle.ptr, _exn)))
+                )
             )
         )
     ;
 
-    static double ffi_hasADefaultImplementation2(
+    static CreatedRef ffi_hasADefaultImplementation2(
         UnownedRef obj,
         UnownedRef a,
         bool b,
-        double c,
+        UnownedRef c,
         OutCreatedRef exn
-    ) => catching(exn, () =>
-        peekRef<AProtocol>(obj).hasADefaultImplementation2(
-            peekRef<String>(a),
-            b,
-            c
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<AProtocol>(obj).hasADefaultImplementation2(
+                peekRef<String>(a),
+                b,
+                peekRef<String>(c)
+            )
         )
-    ) ?? 0.0;
+    );
 
     static late CreatedRef Function(
         Env env,
@@ -126,12 +130,12 @@ extension AProtocol_DefaultImplementations on AProtocol {
         double y,
         OutCreatedRef _exn
     ) f__iota_TestAPI_AProtocol_hasADefaultImplementation;
-    static late double Function(
+    static late CreatedRef Function(
         Env env,
         UnownedRef _this,
         UnownedRef a,
         bool b,
-        double c,
+        UnownedRef c,
         OutCreatedRef _exn
     ) f__iota_TestAPI_AProtocol_hasADefaultImplementation2;
 }

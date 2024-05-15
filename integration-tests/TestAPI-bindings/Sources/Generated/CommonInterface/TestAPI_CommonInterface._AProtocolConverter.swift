@@ -32,7 +32,7 @@ public struct AProtocol_sans_hasADefaultImplementation: TestAPI.AProtocol {
         try wrapped.bar(x: x, y: y)
     }
 
-    public func hasADefaultImplementation2(_ a: String, b: Bool, _ c: Double) throws -> Double {
+    public func hasADefaultImplementation2(_ a: String, b: Bool, _ c: String) throws -> String {
         try wrapped.hasADefaultImplementation2(a, b: b, c)
     }
 }

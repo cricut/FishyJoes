@@ -12,9 +12,9 @@ interface TestPropertiesProtocol {
      */
     val corge: kotlin.String
     /**
-     * <!-- FishyJoes.export(frob) -->
+     * <!-- FishyJoes.export(frobby) -->
      */
-    val frob: kotlin.collections.List<Double>
+    val frobby: kotlin.collections.List<Long>
 
     companion object {
         init {

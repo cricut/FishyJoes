@@ -25,11 +25,11 @@ namespace Cricut.TestAPI.Tests {
             Assert.Equal("-312 notBazzed", a.HasADefaultImplementation(9, -102.1));
             Assert.Equal("bazzy 3", a.HasADefaultImplementation(2, 0.345));
 
-            Assert.Equal(3.7838466771424932E9, a.HasADefaultImplementation2("923.2185", true, 0.0898714));
-            Assert.Equal(1.9556754407899822E-5, a.HasADefaultImplementation2("923.2185", false, 0.0898714));
+            Assert.Equal("3783846677.1424932", a.HasADefaultImplementation2("923.2185", true, "0.0898714"));
+            Assert.Equal("1.9556754407899822e-05", a.HasADefaultImplementation2("923.2185", false, "0.0898714"));
 
-            Assert.Equal(0.9589049888649063, a.HasADefaultImplementation2("0.9870923", true, 1.123123));
-            Assert.Equal(1.686253813623996, a.HasADefaultImplementation2("0.9870923", false, 1.123123));
+            Assert.Equal("0.9589049888649063", a.HasADefaultImplementation2("0.9870923", true, "1.123123"));
+            Assert.Equal("1.686253813623996", a.HasADefaultImplementation2("0.9870923", false, "1.123123"));
         }
 
         [Fact]
@@ -49,7 +49,7 @@ namespace Cricut.TestAPI.Tests {
             Assert.Equal("Raft a river of lava-ah!", testProtocolStruct.Corge);
             testProtocolStruct.Corge = "Spank a plankton too! (take that)";
             Assert.Equal("Spank a plankton too! (take that)", testProtocolStruct.Corge);
-            Assert.Equal(new List<double>() { 3.14159265359, 42.0, -1.23456789 }, testProtocolStruct.GetFrob());
+            Assert.Equal(new List<nint>() { 3, 42, -1 }, testProtocolStruct.GetFrobby());
             Assert.Equal(Tuple.Create<bool, nint, string>(true, 51, "Ride on the magic school bus *>-<* You might get baked into a pie"), testProtocolStruct.Plugh(Tuple.Create(true, 42.9, (System.Collections.Generic.IList<string>) new string[] {"Ride on the magic school bus", "You might get baked into a pie"})));
 
             testProtocolStruct.Foo();
@@ -63,7 +63,7 @@ namespace Cricut.TestAPI.Tests {
         public void TestProtocolClassTest() {
             var testProtocolClass = TestProtocolClass.Init("Step inside it's a wilder ride!");
             Assert.Equal("Step inside it's a wilder ride!", testProtocolClass.Corge);
-            Assert.Equal(new List<double>() { 42.0, -1.23456789, 3.14159265359 }, testProtocolClass.GetFrob());
+            Assert.Equal(new List<nint>() { 42, -1, 3 }, testProtocolClass.GetFrobby());
 
             Assert.Null(testProtocolClass.Flarp);
             testProtocolClass.Flarp = "Excellent observation Kiki!";
@@ -100,11 +100,11 @@ namespace Cricut.TestAPI.Tests {
             Assert.Equal("bazzy -2889", a.HasADefaultImplementation(9, -102.1));
             Assert.Equal("bazzy 2", a.HasADefaultImplementation(2, 0.345));
 
-            Assert.Equal(3.7838466771424932E9, a.HasADefaultImplementation2("923.2185", true, 0.0898714));
-            Assert.Equal(1.9556754407899822E-5, a.HasADefaultImplementation2("923.2185", false, 0.0898714));
+            Assert.Equal("3783846677.1424932", a.HasADefaultImplementation2("923.2185", true, "0.0898714"));
+            Assert.Equal("1.9556754407899822e-05", a.HasADefaultImplementation2("923.2185", false, "0.0898714"));
 
-            Assert.Equal(0.9589049888649063, a.HasADefaultImplementation2("0.9870923", true, 1.123123));
-            Assert.Equal(1.686253813623996, a.HasADefaultImplementation2("0.9870923", false, 1.123123));
+            Assert.Equal("0.9589049888649063", a.HasADefaultImplementation2("0.9870923", true, "1.123123"));
+            Assert.Equal("1.686253813623996", a.HasADefaultImplementation2("0.9870923", false, "1.123123"));
         }
 
         [Fact]

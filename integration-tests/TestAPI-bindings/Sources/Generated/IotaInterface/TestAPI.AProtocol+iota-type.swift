@@ -60,14 +60,14 @@ struct _IotaAProtocol: TestAPI.AProtocol {
         )
     }
 
-    public func hasADefaultImplementation2(_ a: String, b: Bool, _ c: Double) throws -> Double {
-        try Swift.Double.consumeIota(
+    public func hasADefaultImplementation2(_ a: String, b: Bool, _ c: String) throws -> String {
+        try Swift.String.consumeIota(
             try _iotaWitness.env.check { exn in
                 TestAPI_CommonInterface._AProtocolConverter._hasADefaultImplementation2[_iotaWitness.env](
                     _iotaWitness.object,
                     try Swift.String.toIota(a, env: _iotaWitness.env),
                     try Swift.Bool.toIota(b, env: _iotaWitness.env),
-                    try Swift.Double.toIota(c, env: _iotaWitness.env),
+                    try Swift.String.toIota(c, env: _iotaWitness.env),
                     exn
                 )
             },
@@ -98,9 +98,9 @@ public func TestAPI_CommonInterface__AProtocolConverter_setup(
         foreignObject,
         Swift.String.CType,
         Swift.Bool.CType,
-        Swift.Double.CType,
+        Swift.String.CType,
         _ exn: foreignOutExn
-    ) -> Swift.Double.CType,
+    ) -> Swift.String.CType,
     _ exn: foreignOutExn
 ) {
     let env = Env(envRef)
@@ -138,9 +138,9 @@ extension TestAPI_CommonInterface._AProtocolConverter: IotaConverter {
         foreignObject,
         Swift.String.CType,
         Swift.Bool.CType,
-        Swift.Double.CType,
+        Swift.String.CType,
         _ exn: foreignOutExn
-    ) -> Swift.Double.CType>()
+    ) -> Swift.String.CType>()
 
     public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
         do {

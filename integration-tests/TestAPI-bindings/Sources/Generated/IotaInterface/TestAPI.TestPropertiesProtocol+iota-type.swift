@@ -21,9 +21,9 @@ struct _IotaTestPropertiesProtocol: TestAPI.TestPropertiesProtocol {
         }
     }
 
-    public var frob: Array<Double> {
+    public var frob: Array<Int> {
         get throws {
-            try ArrayConverter<Swift.Double>.consumeIota(
+            try ArrayConverter<Swift.Int>.consumeIota(
                 try _iotaWitness.env.check { exn in
                     TestAPI_CommonInterface._TestPropertiesProtocolConverter._frobGetter[_iotaWitness.env](_iotaWitness.object, exn)
                 },
@@ -38,7 +38,7 @@ public func TestAPI_CommonInterface__TestPropertiesProtocolConverter_setup(
     envRef: EnvRef,
     constructorMethod: @escaping TestAPI_CommonInterface._TestPropertiesProtocolConverter._ConstructorMethod,
     _ corgeGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
-    _ frobGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> ArrayConverter<Swift.Double>.CType,
+    _ frobGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> ArrayConverter<Swift.Int>.CType,
     _ exn: foreignOutExn
 ) {
     let env = Env(envRef)
@@ -56,7 +56,7 @@ extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: IotaConverte
     ) -> foreignObject
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
     fileprivate static let _corgeGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
-    fileprivate static let _frobGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> ArrayConverter<Swift.Double>.CType>()
+    fileprivate static let _frobGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> ArrayConverter<Swift.Int>.CType>()
 
     public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
         do {

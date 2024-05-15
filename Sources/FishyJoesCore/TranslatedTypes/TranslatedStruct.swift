@@ -37,7 +37,7 @@ struct TranslatedStruct: TranslatedType {
         self.computedVariables =
             (type.computedVariables + type.staticVariables).compactMap { Field($0, type: type) }
 
-        self.methods = type.methods.compactMap { Method($0, type: type) }
+        self.methods = Method.methods(type: type)
         self.documentation = type.documentation
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
@@ -136,8 +136,12 @@ struct TranslatedStruct: TranslatedType {
                     fragment.output("env: env,")
                     fragment.output("name: \"\(nodeName)\",")
                     fragment.outputBlock("properties: [", closeWith: "],") {
+                        let normalMethods = methods.filter { !$0.isDefaultImplementation }
+                        let defaultMethods = methods.filter { $0.isDefaultImplementation }
+
                         var hasProperties = false
-                        hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment)
+                        hasProperties ||= context.nodeTranslator.outputProperties(methods: normalMethods, context: context, fragment: fragment, converterName: nil)
+                        hasProperties ||= context.nodeTranslator.outputProperties(methods: defaultMethods, context: context, fragment: fragment, converterName: sourceType.name)
                         hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment)
                         for storedVar in storedVariables {
                             // Limitation in wasm implementation of napi_create_class doesn't allow constructors to assign to non-mutable property.
@@ -170,24 +174,23 @@ struct TranslatedStruct: TranslatedType {
             }
         }
 
-        context.tsAnnotations.add(class:
-            .init(
-                documentation: documentation,
-                name: nodeName,
-                constructor: .visible(
-                    storedVariables.map {
-                        (
-                            name: $0.name,
-                            type: context.resolve(type: $0.type).nodeType
-                        )
-                    }
-                ),
-                fields:
-                    storedVariables.compactMap { context.ts(field: $0, useNativeName: true) } +
-                    computedVariables.compactMap {context.ts(field: $0, useNativeName: false) },
-                methods: methods.compactMap { context.ts(method: $0) }
-            )
-        )
+        context.tsAnnotations.add(class: .init(
+            documentation: documentation,
+            name: nodeName,
+            implements: Array(conformances).sorted(by: <),
+            constructor: .visible(
+                storedVariables.map {
+                    (
+                        name: $0.name,
+                        type: context.resolve(type: $0.type).nodeType
+                    )
+                }
+            ),
+            fields:
+                storedVariables.compactMap { context.ts(field: $0, useNativeName: true) } +
+            computedVariables.compactMap { context.ts(field: $0, useNativeName: false) },
+            methods: methods.compactMap { context.ts(method: $0) }
+        ))
 
         return fragment
     }

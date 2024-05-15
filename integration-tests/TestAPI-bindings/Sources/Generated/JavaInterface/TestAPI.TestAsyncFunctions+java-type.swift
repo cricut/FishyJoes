@@ -323,6 +323,6 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: JavaConverter {
         _JavaTestAsyncFunctions._exercise4MethodID = try env.GetMethodID(externalCompanionClass, "_deferred_exercise4", "(Lcom/cricut/testapi/TestAsyncFunctions;Lkotlin/jvm/functions/Function5;)Lkotlinx/coroutines/Deferred;")
         _JavaTestAsyncFunctions._exercise5MethodID = try env.GetMethodID(externalCompanionClass, "_deferred_exercise5", "(Lcom/cricut/testapi/TestAsyncFunctions;Lkotlin/jvm/functions/Function6;)Lkotlinx/coroutines/Deferred;")
         _JavaTestAsyncFunctions._exercise6MethodID = try env.GetMethodID(externalCompanionClass, "_deferred_exercise6", "(Lcom/cricut/testapi/TestAsyncFunctions;Lkotlin/jvm/functions/Function7;)Lkotlinx/coroutines/Deferred;")
-        _JavaTestAsyncFunctions._defaultExercise6MethodID = try env.GetMethodID(externalCompanionClass, "_deferred_defaultExercise6", "(Lcom/cricut/testapi/TestAsyncFunctions;Lkotlin/jvm/functions/Function7;)Lkotlinx/coroutines/Deferred;")
+        _JavaTestAsyncFunctions._defaultExercise6MethodID = try env.GetMethodID(externalCompanionClass, "__jni__default_defaultExercise6", "(Lcom/cricut/testapi/TestAsyncFunctions;Lkotlin/jvm/functions/Function7;)Lkotlinx/coroutines/Deferred;")
     }
 }

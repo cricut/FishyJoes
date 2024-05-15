@@ -8,9 +8,11 @@ import 'package:tuple/tuple.dart' as tuple;
 import 'package:dart_numerics/dart_numerics.dart';
 import 'package:cricut_test_api/src/generated/TestAsyncFunctions.dart' as TestAPI;
 
+final debugPrint = false;
+
 void main() {
   setUp(() {
-      print('pid: $pid');
+      if (debugPrint) { print('pid: $pid'); }
       final _ = ensureLoaded;
   });
 
@@ -27,11 +29,11 @@ void main() {
         expect(a.hasADefaultImplementation(9, -102.1), equals("-312 notBazzed"));
         expect(a.hasADefaultImplementation(2, 0.345), equals("bazzy 3"));
 
-        expect(a.hasADefaultImplementation2("923.2185", true, 0.0898714), equals(3.7838466771424932E9));
-        expect(a.hasADefaultImplementation2("923.2185", false, 0.0898714), equals(1.9556754407899822E-5));
+        expect(a.hasADefaultImplementation2("923.2185", true, "0.0898714"), equals("3783846677.1424932"));
+        expect(a.hasADefaultImplementation2("923.2185", false, "0.0898714"), equals("1.9556754407899822e-05"));
 
-        expect(a.hasADefaultImplementation2("0.9870923", true, 1.123123), equals(0.9589049888649063));
-        expect(a.hasADefaultImplementation2("0.9870923", false, 1.123123), equals(1.686253813623996));
+        expect(a.hasADefaultImplementation2("0.9870923", true, "1.123123"), equals("0.9589049888649063"));
+        expect(a.hasADefaultImplementation2("0.9870923", false, "1.123123"), equals("1.686253813623996"));
       });
 
       test('testProtocolEnum', () {
@@ -49,7 +51,7 @@ void main() {
         expect(testProtocolStruct.corge, equals("Raft a river of lava-ah!"));
         testProtocolStruct.corge = "Spank a plankton too! (take that)";
         expect(testProtocolStruct.corge, equals("Spank a plankton too! (take that)"));
-        expect(testProtocolStruct.frob, equals([3.14159265359, 42.0, -1.23456789]));
+        expect(testProtocolStruct.frobby, equals([3, 42, -1]));
         expect(testProtocolStruct.plugh(tuple.Tuple3<bool, double, List<String>>(true, 42.9, ["Ride on the magic school bus", "You might get baked into a pie"])), equals(tuple.Tuple3<bool, int, String>(true, 51, "Ride on the magic school bus *>-<* You might get baked into a pie")));
 
         testProtocolStruct.foo();
@@ -62,7 +64,7 @@ void main() {
       test('testProtocolClass', () {
         final testProtocolClass = TestProtocolClass.init("Step inside it's a wilder ride!");
         expect(testProtocolClass.corge, equals("Step inside it's a wilder ride!"));
-        expect(testProtocolClass.frob, equals([42.0, -1.23456789, 3.14159265359]));
+        expect(testProtocolClass.frobby, equals([42, -1, 3]));
 
         expect(testProtocolClass.flarp, equals(null));
         testProtocolClass.flarp = "Excellent observation Kiki!";
@@ -180,7 +182,7 @@ void main() {
         final n = a.thunkTwiceMaker(
           () async {
             o += 1;
-            print("Thunker in paradise");
+            if (debugPrint) { print("Thunker in paradise"); }
           }
         );
         await n();
@@ -360,7 +362,7 @@ void main() {
         final n = a.thunkTwiceMaker(
           () async {
             o = o * o;
-            print("Thunkmaster thex");
+            if (debugPrint) { print("Thunkmaster thex"); }
           }
         );
         await n();

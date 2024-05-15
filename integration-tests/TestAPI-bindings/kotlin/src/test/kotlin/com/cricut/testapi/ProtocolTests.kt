@@ -10,13 +10,15 @@ import kotlin.time.Duration.Companion.seconds
 @kotlinx.coroutines.ExperimentalCoroutinesApi
 internal class ProtocolTests {
     companion object {
+        const val DEBUG_PRINTS = false
         @BeforeAll
         @JvmStatic
         // To get procId for attaching lldb debugger to
         fun beforeAll() {
             val procId = ProcessHandle.current().pid()
-            println("procId: $procId")
-            println()
+            if (DEBUG_PRINTS) {
+                println("procId: $procId")
+            }
         }
     }
     @Test
@@ -35,11 +37,11 @@ internal class ProtocolTests {
         assertEquals("4123431 notBazzed", b.hasADefaultImplementation(x = 1238746, y = 918223.898349))
         assertEquals("bazzy 2", b.hasADefaultImplementation(x = 2, y = 0.128768794))
 
-        assertEquals(3.7838466771424932E9, a.hasADefaultImplementation2(a = "923.2185", b = true, c = 0.0898714))
-        assertEquals(1.9556754407899822E-5, a.hasADefaultImplementation2(a = "923.2185", b = false, c = 0.0898714))
+        assertEquals("3783846677.1424932", a.hasADefaultImplementation2(a = "923.2185", b = true, c = "0.0898714"))
+        assertEquals("1.9556754407899822e-05", a.hasADefaultImplementation2(a = "923.2185", b = false, c = "0.0898714"))
 
-        assertEquals(0.9589049888649063, b.hasADefaultImplementation2(a = "0.9870923", b = true, c = 1.123123))
-        assertEquals(1.686253813623996, b.hasADefaultImplementation2(a = "0.9870923", b = false, c = 1.123123))
+        assertEquals("0.9589049888649063", b.hasADefaultImplementation2(a = "0.9870923", b = true, c = "1.123123"))
+        assertEquals("1.686253813623996", b.hasADefaultImplementation2(a = "0.9870923", b = false, c = "1.123123"))
     }
 
     @Test
@@ -70,7 +72,10 @@ internal class ProtocolTests {
     fun testProtocolStruct() {
         val a = TestProtocolStruct(corge = "Raft a river of lava-ah!")
         assertEquals("Raft a river of lava-ah!", a.corge)
-        assertEquals(arrayListOf(3.14159265359, 42.0, -1.23456789), a.frob)
+        val expectedA = listOf(3L, 42L, -1L);
+        a.frobby.forEachIndexed { i, v ->
+            assertEquals(expectedA[i], v)
+        }
         assertEquals(
             kotlin.Triple<Boolean, Long, kotlin.String>(
                 true,
@@ -96,7 +101,10 @@ internal class ProtocolTests {
     fun testProtocolClass() {
         val a = TestProtocolClass.init(corge = "Step inside it's a wilder ride!")
         assertEquals("Step inside it's a wilder ride!", a.corge)
-        assertEquals(arrayListOf(42.0, -1.23456789, 3.14159265359), a.frob)
+        val expectedA = listOf(42L, -1L, 3L);
+        a.frobby.forEachIndexed { i, v ->
+            assertEquals(expectedA[i], v)
+        }
         assertEquals(null, a.flarp)
         assertEquals(42.909, a.wombat(null))
         assertEquals(null, a.wombat(zxc = 57))
@@ -141,8 +149,8 @@ internal class ProtocolTests {
         assertEquals(false, a.baz)
         val b = a.hasADefaultImplementation(x = 2389, y = 17.23)
         assertEquals("bazzy 52558 / 27 = 1946", b)
-        val c = a.hasADefaultImplementation2(a = "With the Frizz? No way!", b = false, c = 8923.8293)
-        assertEquals(-3.14159265359, c)
+        val c = a.hasADefaultImplementation2(a = "With the Frizz? No way!", b = false, c = "8923.8293")
+        assertEquals("-3.14159265359", c)
     }
 
     fun testAsyncForeignSideFunctionsCore(a: TestAsyncFunctions) =  runTest(timeout = 1000000.seconds) {
@@ -186,7 +194,9 @@ internal class ProtocolTests {
         var o = 1
         val n = a.thunkTwiceMaker {
             o += 1
-            println("Thunker in paradise")
+            if (DEBUG_PRINTS) {
+                println("Thunker in paradise")
+            }
         }
         n()
         assertEquals(3, o)
@@ -339,7 +349,9 @@ internal class ProtocolTests {
         var o = 3.14159265359
         val n = a.thunkTwiceMaker {
             o = o * o
-            println("Thunkmaster thex")
+            if (DEBUG_PRINTS) {
+                println("Thunkmaster thex")
+            }
         }
         n()
         assertEquals(97.4090910340281, o)
@@ -400,7 +412,9 @@ internal class ProtocolTests {
         var o = 1
         val n = a.thunkTwiceMaker {
             o += 1
-            println("Days of Thunker!")
+            if (DEBUG_PRINTS) {
+                println("Days of Thunker!")
+            }
         }
         n()
         assertEquals(3, o)
@@ -441,10 +455,10 @@ internal class ProtocolTests {
             return super.hasADefaultImplementation(x_prime, y_prime)
         }
 
-        override fun hasADefaultImplementation2(a: String, b: Boolean, c: Double): Double {
+        override fun hasADefaultImplementation2(a: String, b: Boolean, c: String): String {
             val a_prime = "wibbledy wobbledy $a woo"
             val b_prime = !b
-            val c_prime = c * 7.23890
+            val c_prime = (c.toDouble() * 7.23890).toString()
             return super.hasADefaultImplementation2(a_prime, b_prime, c_prime)
         }
     }

@@ -21,6 +21,7 @@ struct TranslatedProtocol: TranslatedType {
     let className: String
     let javaExternalWitnessClassName: String
     let iotaExternalWitnessClassName: String
+    let nodeExternalWitnessClassName: String
 
     init(context: FishyJoesContext, type: SourceryProtocol) {
         guard let exportAnnotation = type.exportAnnotation else {
@@ -46,13 +47,14 @@ struct TranslatedProtocol: TranslatedType {
 
         self.conformances = exportAnnotation.conformances
 
-        self.methods = type.methodsPreferringDefaultImpl().compactMap { Method($0, type: type) }
+        self.methods = type.methodsPreferringDefaultImpl().compactMap { Method($0, type: type, protocolName: typeName) }
         self.fields = type.variablesPreferringDefaultImpl().compactMap { Field($0, type: type) }
 
         self.documentation = type.documentation
         self.className = context.kotlinTranslator.javaClassName(kotlinName, in: context)
         self.javaExternalWitnessClassName = context.kotlinTranslator.javaClassName("_ExternalWitness_\(kotlinName)", in: context)
         self.iotaExternalWitnessClassName = "ExternalWitness_\(sourceType.nonNamespacedName)"
+        self.nodeExternalWitnessClassName = "ExternalWitness_\(nodeName)"
 
         enforceProtocolThrows()
         enforceNoProtocolSetters()
@@ -144,7 +146,7 @@ struct TranslatedProtocol: TranslatedType {
                     type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(getType)>>")
                 ) { fragment in
                     let defaultValue = resolved.dartType.defaultReturnValue.map { ", \($0)" } ?? ""
-                    fragment.output("ffi.Pointer.fromFunction(\(sourceType.name)_FfiHooks.ffi_get_\(field.name)\(defaultValue)),")
+                    fragment.output("ffi.Pointer.fromFunction(\(sourceType.name)_FfiHooks.ffi_get_\(field.exportAnnotation?.name ?? field.name)\(defaultValue)),")
                 }
             )
         }
@@ -222,7 +224,7 @@ struct TranslatedProtocol: TranslatedType {
                 ) { fragment in
                     // All fields in protocols are asMethod Get only
                     fragment.outputBlock("bag<\(commonName)>((\(cSharpType.pInvokeUnownedName) obj, out CreatedRef exn) => Catching(out exn, () =>", closeWith: ")),") {
-                        let grab = "obj.Peek<\(cSharpType.name)>().Get\(CSharpClass.deforbidify(upperCaseFirst(field.name)))()"
+                        let grab = "obj.Peek<\(cSharpType.name)>().Get\(CSharpClass.deforbidify(upperCaseFirst(field.exportAnnotation?.name ?? field.name)))()"
                         if resolved.cSharpType.isObject {
                             fragment.output("new CreatedRef(\(grab))")
                         } else {
@@ -346,7 +348,16 @@ struct TranslatedProtocol: TranslatedType {
             fragment.blankLine()
 
             for field in fields {
-                fragment.output("var \(field.name): \(field.type.name)")
+                fragment.outputBlock("var \(field.name): \(field.type.name) {") {
+                    fragment.outputBlock("get throws {") {
+                        fragment.outputBlock("try syncOnMainThread { env in", closeWith: "}") {
+                            fragment.output("let napiValue = try _nodeWitness.value(env: env)")
+                            fragment.output("let \(field.name) = try env.getNamedProperty(napiValue, \"\(field.exportAnnotation?.name ?? field.name)\")")
+                            let resolved = context.resolve(type: field.type)
+                            fragment.output("return try \(resolved.converterType.name).fromNode(\(field.name), env: env)")
+                        }
+                    }
+                }
             }
             for method in methods {
                 var returnSignature = "\(method.isThrowing ? " throws" : "")"
@@ -354,36 +365,164 @@ struct TranslatedProtocol: TranslatedType {
                     returnSignature.append(" -> \(method.returnType.name)")
                 }
                 var paramSigs = [String]()
-                do {
-                    for param in method.parameters {
-                        paramSigs.append("\(param.labelAndName): \(param.type.escapingName)")
-                    }
+                for param in method.parameters {
+                    paramSigs.append("\(param.labelAndName): \(param.type.escapingName)")
                 }
-                fragment.output("var \(method.callName)Impl: (() -> \(method.returnType.name))?")
+
                 fragment.outputBlock("\(method.isStatic ? "static " : "")public func \(method.callName)(\(paramSigs.joined(separator: ", ")))\(returnSignature) {") {
-                    fragment.output("\(method.callName)Impl!()")
+                    fragment.outputBlock("try syncOnMainThread { env in", closeWith: "}") {
+                        fragment.output("let napiValue = try _nodeWitness.value(env: env)")
+                        fragment.output("let \(method.callName) = try env.getNamedProperty(napiValue, \"\(method.callName)\")")
+                        fragment.output("\(method.returnType != .void ? "let result": "_") = try env.callFunction(napiValue, \(method.callName), ", newLineTerminated: false)
+
+                        var toNodeParams = [String]()
+                        for param in method.parameters {
+                            let resolved = context.resolve(type: param.type)
+                            toNodeParams.append("try \(resolved.converterType.name).toNode(\(param.name), env: env)")
+                        }
+                        fragment.output("[\(toNodeParams.joined(separator: ", "))])")
+
+                        if method.returnType != .void {
+                            let resolved = context.resolve(type: method.returnType)
+                            fragment.output("return try \(resolved.converterType.name).fromNode(result, env: env)")
+                        }
+                    }
                 }
             }
         }
-        fragment.outputBlock("extension \(converterType.name): NodeMutator {") {
+
+        fragment.blankLine()
+
+        fragment.outputBlock("extension \(converterType.name): NodeConverter {") {
             fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {") {
-                fragment.output("fatalError(\"TODO: node protocol support\")")
+                fragment.outputBlock("do {", newLineTerminated: false) {
+                    fragment.output("let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: \"\(nodeExternalWitnessClassName)\", env: env)")
+                    fragment.outputBlock("if try env.instanceof(value, constructor) {", newLineTerminated: false) {
+                        fragment.outputBlock("guard let nonNilPointer = try env.unwrap(value) else {") {
+                            fragment.output("throw JSException(message: \"expected \(sourceType.name), got nil\")")
+                        }
+                        fragment.output("return try Box<\(sourceType.name)>.takeUnretainedOpaque(nonNilPointer).value")
+                    }
+                    fragment.outputBlock(" else {") {
+                        fragment.outputBlock("return _Node\(sourceType.nonNamespacedName)(") {
+                            fragment.output("_nodeWitness: try NodeReference(env: env, value: value)")
+                        }
+                    }
+                }
             }
 
             fragment.outputBlock("public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {") {
-                fragment.output("fatalError(\"TODO: node protocol support\")")
-            }
-
-            fragment.outputBlock("public static func mutateNode(_ value: SwiftType, this: NAPI.Value, env: NAPI.Env) throws {") {
-                fragment.output("fatalError(\"TODO: node protocol support\")")
+                fragment.output("let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: \"\(nodeExternalWitnessClassName)\", env: env)")
+                fragment.output("let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)")
+                fragment.output("return try env.newInstance(constructor, [arg])")
             }
 
             fragment.blankLine()
+
             fragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
             fragment.outputBlock("public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {") {
-                // TODO
+                // fragment.output("print(\"setting up \(sourceType.name)\")")
+
+                fragment.output("let coreObject = try env.createObject()")
+
+                fragment.outputBlock("let fromCoreFunctionCallback: NAPI.Callback = { env, info in", closeWith: "}") {
+                    fragment.outputBlock("FishyJoesNodeRuntime.callbackBody(env, info, name: \"fromCore\", expectedArgumentCount: 1, hasNamedOptions: false) { env in", closeWith: "}") {
+                        fragment.output("let coreArg = try env.argument(at: 0)")
+                        fragment.blankLine()
+                        fragment.output("let env = env.env")
+                        fragment.output("let global = try env.getGlobal()")
+                        fragment.output("let object = try env.getNamedProperty(global, \"Object\")")
+                        fragment.output("let create = try env.getNamedProperty(object, \"create\")")
+                        fragment.blankLine()
+                        fragment.output("let result = try env.callFunction(object, create, [coreArg])")
+                        fragment.blankLine()
+
+                        let defaultMethods = methods.filter { $0.isDefaultImplementation }
+                        for method in defaultMethods {
+                            fragment.output("let \(method.callName)FunctionCallback: NAPI.Callback = ", newLineTerminated: false)
+                            context.nodeTranslator.output(method: method, explicitThis: false, context: context, fragment: fragment, newLineTerminated: true, converterName: nil, shouldWrapDefaultImpl: true)
+                            fragment.outputBlock("let \(method.callName)Function = try env.createFunction(") {
+                                fragment.output("\"\(method.callName)\",")
+                                fragment.output("\(method.callName)FunctionCallback,")
+                                fragment.output("nil")
+                            }
+                            fragment.outputBlock("if !(try env.hasNamedProperty(result, \"\(method.callName)\")) {") {
+                                fragment.output("try env.setNamedProperty(result, \"\(method.callName)\", \(method.callName)Function)")
+                            }
+                            fragment.blankLine()
+                        }
+
+                        fragment.blankLine()
+                        fragment.output("return result")
+                    }
+                }
+
+                fragment.output("let fromCoreFunction = try env.createFunction(\"fromCore\", fromCoreFunctionCallback, nil)")
+                fragment.output("try env.setNamedProperty(fromCoreFunction, \"static\", env.getBoolean(true))")
+                fragment.output("try env.setNamedProperty(coreObject, \"fromCore\", fromCoreFunction)")
+
+                fragment.outputBlock("try mergeDefinitionInto(") {
+                    fragment.output("env: env,")
+                    fragment.output("module: module,")
+                    fragment.output("path: \"\(sourceType.nonNamespacedName)\",")
+                    fragment.output("nodeClass: coreObject")
+                }
+                fragment.blankLine()
+
+                fragment.outputBlock("let nodeClass = try NodeClass(") {
+                    fragment.output("env: env,")
+                    fragment.output("name: \"\(nodeExternalWitnessClassName)\",")
+                    fragment.outputBlock("properties: [", closeWith: "],") {
+                        var hasProperties = false
+                        hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment, converterName: nil, shouldWrapDefaultImpl: true)
+                        hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: fields, context: context, fragment: fragment)
+//                        for field in fields {
+//                            // Limitation in wasm implementation of napi_create_class doesn't allow constructors to assign to non-mutable property.
+//                            // let mutable = field.isPubliclyWritable
+//                            let mutable = true
+//                            fragment.output("\"\(field.name)\": (.stored(mutable: \(mutable)), isStatic: \(field.isStatic)),")
+//                            hasProperties = true
+//                        }
+                        if !hasProperties {
+                            fragment.output(":")
+                        }
+                    }
+                    fragment.outputBlock("constructor: { env, info in", closeWith: "}") {
+                        fragment.outputBlock("callbackBody(env, info, name: \"\(nodeExternalWitnessClassName)_constructor\", expectedArgumentCount: 1) { env in", closeWith: "}") {
+                            fragment.output("try FishyJoesNodeRuntime.Box<\(sourceType.name)>.construct(env: env)")
+                        }
+                    }
+                }
+                fragment.outputBlock("try mergeDefinitionInto(") {
+                    fragment.output("env: env,")
+                    fragment.output("module: module,")
+                    fragment.output("path: \"\(nodeExternalWitnessClassName)\",")
+                    fragment.output("nodeClass: nodeClass.constructor.value(env: env)")
+                }
             }
         }
+
+        context.tsAnnotations.add(interface:
+                .init(
+                    documentation: documentation,
+                    name: nodeName,
+                    forNamespace: context.module.name,
+                    fields: fields.compactMap {context.ts(field: $0, useNativeName: false) },
+                    methods: methods.compactMap { context.ts(method: $0) }
+                )
+        )
+
+        fragment.blankLine()
+
+        context.tsAnnotations.add(class:
+            .init(
+                name: nodeExternalWitnessClassName,
+                constructor: .hidden,
+                fields: fields.compactMap {context.ts(field: $0, useNativeName: false) },
+                methods: methods.compactMap { context.ts(method: $0) }
+            )
+        )
+
         return fragment
     }
 
@@ -668,9 +807,9 @@ struct TranslatedProtocol: TranslatedType {
                 for field in fields {
                     let resolved = context.resolve(type: field.type)
                     let jniSignature = resolved.jniType.asSignature
-                    fragment.output("\(foreignProtocolType)._\(field.name)GetMethodID = try env.GetMethodID(javaClass, \"get\(upperCaseFirst(field.name))\", \"()\(jniSignature)\")")
+                    fragment.output("\(foreignProtocolType)._\(field.name)GetMethodID = try env.GetMethodID(javaClass, \"get\(upperCaseFirst(field.exportAnnotation?.name ?? field.name))\", \"()\(jniSignature)\")")
                     if field.isMutable {
-                        fragment.output("\(foreignProtocolType)._\(field.name)SetMethodID = try env.GetMethodID(javaClass, \"set\(upperCaseFirst(field.name))\", \"(\(jniSignature))V\")")
+                        fragment.output("\(foreignProtocolType)._\(field.name)SetMethodID = try env.GetMethodID(javaClass, \"set\(upperCaseFirst(field.exportAnnotation?.name ?? field.name))\", \"(\(jniSignature))V\")")
                     }
                 }
                 fragment.output("externalCompanionClass = try env.globalRef(env.FindClass(\"\(className)$Companion\"))")
@@ -690,7 +829,7 @@ struct TranslatedProtocol: TranslatedType {
                 for asyncDefaultMethod in asyncDefaultMethods {
                     var jniSignature = asyncDefaultMethod.jniSignature(context: context)
                     jniSignature = "(L\(className);" + String(jniSignature.dropFirst())
-                    fragment.output("\(foreignProtocolType)._\(asyncDefaultMethod.callName)MethodID = try env.GetMethodID(externalCompanionClass, \"_deferred_\(asyncDefaultMethod.callName)\", \"\(jniSignature)\")")
+                    fragment.output("\(foreignProtocolType)._\(asyncDefaultMethod.callName)MethodID = try env.GetMethodID(externalCompanionClass, \"__jni__default_\(asyncDefaultMethod.callName)\", \"\(jniSignature)\")")
                 }
             }
         }
@@ -702,18 +841,19 @@ struct TranslatedProtocol: TranslatedType {
                 } + methods.flatMap { method -> [KotlinClass.MethodOrVariable] in
                     guard let kotlinMethodOrVariable = context.kotlin(method: method) else { return [] }
 
-                    guard !method.isStatic, method.isDefaultImplementation, case .method(var kotlinMethod) = kotlinMethodOrVariable else {
+                    guard !method.isStatic,
+                            method.isDefaultImplementation,
+                          case .method(var kotlinMethod) = kotlinMethodOrVariable else {
                         return [kotlinMethodOrVariable]
                     }
 
                     var defaultMethod = kotlinMethod
-                    defaultMethod.name = "_default_\(defaultMethod.name)"
                     defaultMethod.parameters.insert((nil, "self", .named(package: nil, name: kotlinName), nil), at: 0)
                     defaultMethod.isStatic = true
 
                     var parameters = ["this"]
                     parameters.append(contentsOf: kotlinMethod.parameters.map(\.name))
-                    kotlinMethod.body = "__jni_\(defaultMethod.name)(\(parameters.joined(separator: ", ")))"
+                    kotlinMethod.body = "__jni__default_\(defaultMethod.name)(\(parameters.joined(separator: ", ")))"
 
                     return [.method(kotlinMethod), .method(defaultMethod)]
                 }

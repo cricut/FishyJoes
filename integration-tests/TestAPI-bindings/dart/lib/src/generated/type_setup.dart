@@ -208,7 +208,7 @@ typedef _TestAPI_AProtocol_bazGetter = ffi.Bool Function(UnownedRef obj, OutCrea
 typedef _TestAPI_AProtocol_fooGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_AProtocol_bar = CreatedRef Function(UnownedRef obj, ffi.IntPtr x, ffi.IntPtr y, OutCreatedRef exn);
 typedef _TestAPI_AProtocol_hasADefaultImplementation = CreatedRef Function(UnownedRef obj, ffi.IntPtr x, ffi.Double y, OutCreatedRef exn);
-typedef _TestAPI_AProtocol_hasADefaultImplementation2 = ffi.Double Function(UnownedRef obj, UnownedRef a, ffi.Bool b, ffi.Double c, OutCreatedRef exn);
+typedef _TestAPI_AProtocol_hasADefaultImplementation2 = CreatedRef Function(UnownedRef obj, UnownedRef a, ffi.Bool b, UnownedRef c, OutCreatedRef exn);
 typedef _TestAPI_AProtocolImplementationConstructor = CreatedRef Function(
     ConsumedRef foo,
     ffi.Bool baz,
@@ -1237,6 +1237,40 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_AProtocolImplementation_bar");
+    TestAPI.AProtocolImplementation.f__iota_TestAPI_AProtocolImplementation_hasADefaultImplementation = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            ffi.IntPtr x,
+            ffi.Double y,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            int x,
+            double y,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_AProtocolImplementation_hasADefaultImplementation");
+    TestAPI.AProtocolImplementation.f__iota_TestAPI_AProtocolImplementation_hasADefaultImplementation2 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef a,
+            ffi.Bool b,
+            UnownedRef c,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef a,
+            bool b,
+            UnownedRef c,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_AProtocolImplementation_hasADefaultImplementation2");
     TestAPI.ExternalWitness_AProtocol.f__iota_TestAPI_AProtocol_bar = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -1270,20 +1304,20 @@ final ensureLoaded = (() {
         )
     >("__iota_TestAPI_AProtocol_hasADefaultImplementation");
     TestAPI.AProtocol_DefaultImplementations.f__iota_TestAPI_AProtocol_hasADefaultImplementation2 = dylib.lookupFunction<
-        ffi.Double Function(
+        CreatedRef Function(
             Env env,
             UnownedRef _this,
             UnownedRef a,
             ffi.Bool b,
-            ffi.Double c,
+            UnownedRef c,
             OutCreatedRef _exn
         ),
-        double Function(
+        CreatedRef Function(
             Env env,
             UnownedRef _this,
             UnownedRef a,
             bool b,
-            double c,
+            UnownedRef c,
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_AProtocol_hasADefaultImplementation2");
@@ -2789,6 +2823,20 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Structs_ReferenceStruct_equals");
+    TestAPI.TestAsyncForeignSideFunctionsStruct.f__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_defaultExercise6 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_defaultExercise6");
     TestAPI.TestAsyncForeignSideFunctionsStruct.f__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise0 = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -3051,6 +3099,20 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_TestAsyncFunctions_witness");
+    TestAPI.TestAsyncSwiftSideFunctionsClass.f__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_defaultExercise6 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_defaultExercise6");
     TestAPI.TestAsyncSwiftSideFunctionsClass.f__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise0 = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -5483,7 +5545,7 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_TestPropertiesProtocol_corge");
-    TestAPI.ExternalWitness_TestPropertiesProtocol.f__iota_get_TestAPI_TestPropertiesProtocol_frob = dylib.lookupFunction<
+    TestAPI.ExternalWitness_TestPropertiesProtocol.f__iota_get_TestAPI_TestPropertiesProtocol_frobby = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
             UnownedRef _this,
@@ -5494,7 +5556,7 @@ final ensureLoaded = (() {
             UnownedRef _this,
             OutCreatedRef _exn
         )
-    >("__iota_get_TestAPI_TestPropertiesProtocol_frob");
+    >("__iota_get_TestAPI_TestPropertiesProtocol_frobby");
     TestAPI.TestProtocolClass.f__iota_get_TestAPI_TestProtocolClass_corge = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -5519,7 +5581,7 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_TestProtocolClass_flarp");
-    TestAPI.TestProtocolClass.f__iota_get_TestAPI_TestProtocolClass_frob = dylib.lookupFunction<
+    TestAPI.TestProtocolClass.f__iota_get_TestAPI_TestProtocolClass_frobby = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
             UnownedRef _this,
@@ -5530,8 +5592,8 @@ final ensureLoaded = (() {
             UnownedRef _this,
             OutCreatedRef _exn
         )
-    >("__iota_get_TestAPI_TestProtocolClass_frob");
-    TestAPI.TestProtocolStruct.f__iota_get_TestAPI_TestProtocolStruct_frob = dylib.lookupFunction<
+    >("__iota_get_TestAPI_TestProtocolClass_frobby");
+    TestAPI.TestProtocolStruct.f__iota_get_TestAPI_TestProtocolStruct_frobby = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
             UnownedRef _this,
@@ -5542,7 +5604,7 @@ final ensureLoaded = (() {
             UnownedRef _this,
             OutCreatedRef _exn
         )
-    >("__iota_get_TestAPI_TestProtocolStruct_frob");
+    >("__iota_get_TestAPI_TestProtocolStruct_frobby");
     TestAPI.Tuples.f__iota_get_TestAPI_Tuples_tuple2 = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -7591,7 +7653,7 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.AProtocol_FfiHooks.ffi_get_foo),
                 ffi.Pointer.fromFunction(TestAPI.AProtocol_FfiHooks.ffi_bar),
                 ffi.Pointer.fromFunction(TestAPI.AProtocol_DefaultImplementations.ffi_hasADefaultImplementation),
-                ffi.Pointer.fromFunction(TestAPI.AProtocol_DefaultImplementations.ffi_hasADefaultImplementation2, 0.0),
+                ffi.Pointer.fromFunction(TestAPI.AProtocol_DefaultImplementations.ffi_hasADefaultImplementation2),
                 exn
             );
         });
@@ -7931,7 +7993,7 @@ final ensureLoaded = (() {
                 Loader.shared.env,
                 ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestPropertiesProtocol.ffi_new),
                 ffi.Pointer.fromFunction(TestAPI.TestPropertiesProtocol_FfiHooks.ffi_get_corge),
-                ffi.Pointer.fromFunction(TestAPI.TestPropertiesProtocol_FfiHooks.ffi_get_frob),
+                ffi.Pointer.fromFunction(TestAPI.TestPropertiesProtocol_FfiHooks.ffi_get_frobby),
                 exn
             );
         });
