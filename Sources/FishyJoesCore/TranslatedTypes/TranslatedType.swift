@@ -344,24 +344,32 @@ extension SourceryVariable {
     static func variablesPreferring(_ preference: VariableTypePreference, variables: [SourceryVariable]) -> [SourceryVariable] {
         var preferredVariables = [SourceryVariable]()
         for variable in variables {
-            let equalVariables = preferredVariables.filter {
-                return $0 == variable
             }
-            if !equalVariables.isEmpty {
-                for equalVariable in equalVariables {
-                    let isEqualVariableADefaultImplementation = equalVariable.isComputed && (equalVariable.definedInType is SourceryProtocol)
-                    let useEqualVariable = preference == .defaultImplementation ? isEqualVariableADefaultImplementation : !isEqualVariableADefaultImplementation
+            let mostlyEqualVariables = preferredVariables.filter {
+                return $0.isMostlyEqual(other: variable)
+            }
+            if !mostlyEqualVariables.isEmpty {
+                for mostlyEqualVariable in mostlyEqualVariables {
+                    let isMostlyEqualVariableADefaultImplementation: Bool
+                    if mostlyEqualVariable.definedInType is SourceryProtocol,
+                       mostlyEqualVariable.definedInType?.isExtension == true {
+                        isMostlyEqualVariableADefaultImplementation = true
+                    } else {
+                        isMostlyEqualVariableADefaultImplementation = false
+                    }
+
+                    let useMostlyEqualVariable = preference == .defaultImplementation ? isMostlyEqualVariableADefaultImplementation : !isMostlyEqualVariableADefaultImplementation
                     
-                    if useEqualVariable {
+                    if useMostlyEqualVariable {
                         guard let index = preferredVariables.firstIndex(of: variable) else {
                             assertionFailure("variable should exist in preferredVariables")
                             continue
                         }
                         preferredVariables.remove(at: index)
-                        preferredVariables.insert(equalVariable, at: index)
+                        preferredVariables.insert(mostlyEqualVariable, at: index)
                     } else { // use variable
-                        guard let index = preferredVariables.firstIndex(of: equalVariable) else {
-                            assertionFailure("equalVariable should exist in preferredVariables")
+                        guard let index = preferredVariables.firstIndex(of: mostlyEqualVariable) else {
+                            assertionFailure("mostlyEqualVariable should exist in preferredVariables")
                             continue
                         }
                         preferredVariables.remove(at: index)
@@ -386,5 +394,48 @@ extension SourceryVariable {
         
         let variables = SourceryVariable.variablesPreferring(.normal, variables: normalVariables + defaultVariables)
         return variables
+    }
+    
+    func isMostlyEqual(other: SourceryVariable) -> Bool {
+        let nameMatches = name == other.name
+        let typeNameMatches = typeName == other.typeName
+        let typeMatches = type == other.type
+        // isComputed differ
+        let isAsyncMatches = isAsync == other.isAsync
+        let throwsMatches = `throws` == other.`throws`
+        let isStaticMatches = isStatic == other.isStatic
+        let readAccessMatches = readAccess == other.readAccess
+        let writeAccessMatches = writeAccess == other.writeAccess
+        let accessLevelMatches = accessLevel == other.accessLevel
+        let isMutableMatches = isMutable == other.isMutable
+        let defaultValueMatches = defaultValue == other.defaultValue
+        let annotationsMatches = annotations == other.annotations
+        let documentationMatches = documentation == other.documentation
+        let attributesMatches = attributes == other.attributes
+        // modifiers differ
+        let isFinalMatches = isFinal == other.isFinal
+        let isLazyMatches = isLazy == other.isLazy
+        let definedInTypeNameMatches = definedInTypeName == other.definedInTypeName
+        let actualDefinedInTypeName = actualDefinedInTypeName == other.actualDefinedInTypeName
+        // definedInType can differ (isExtension property in particular)
+
+        return nameMatches &&
+        typeNameMatches &&
+        typeMatches &&
+        isAsyncMatches &&
+        throwsMatches &&
+        isStaticMatches &&
+        readAccessMatches &&
+        writeAccessMatches &&
+        accessLevelMatches &&
+        isMutableMatches &&
+        defaultValueMatches &&
+        annotationsMatches &&
+        documentationMatches &&
+        attributesMatches &&
+        isFinalMatches &&
+        isLazyMatches &&
+        definedInTypeNameMatches &&
+        actualDefinedInTypeName
     }
 }
