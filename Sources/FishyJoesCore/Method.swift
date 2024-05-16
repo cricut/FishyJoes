@@ -170,7 +170,7 @@ extension Method {
 
         let normalMethods = type.methods.compactMap { Method($0, type: type) }
 
-        let methods = Method.methodsPreferring(.defaultImplementation, methods: normalMethods + defaultMethods)
+        let methods = Method.methodsPreferring(.normal, methods: normalMethods + defaultMethods)
         return methods
     }
 }
