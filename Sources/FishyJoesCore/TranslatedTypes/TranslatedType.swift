@@ -234,7 +234,7 @@ extension SourceryProtocol {
             $0.key < $1.key
         }.compactMap {
             let varDefs = $0.value
-            return varDefs.first { $0.definedInType?.isExtension == true } ?? varDefs.first
+            return varDefs.first { $0.definedInType?.isExtension == true && $0.isComputed } ?? varDefs.first
         }
     }
 }
