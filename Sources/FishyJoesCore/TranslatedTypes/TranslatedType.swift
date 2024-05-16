@@ -230,7 +230,7 @@ extension SourceryProtocol {
     }
     
     func defaultVariables() -> [SourceryVariable] {
-        variablesPreferringDefaultImpl().filter { $0.isComputed }
+        variablesPreferringDefaultImpl().filter { $0.definedInType?.isExtension == true }
     }
 }
 
