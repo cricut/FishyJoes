@@ -86,11 +86,15 @@ public protocol TestDefaultComputedProperties {
 extension TestDefaultComputedProperties {
     /// <!-- FishyJoes.export(noot) -->
     public var noot: Int {
-        2983
+        get throws {
+            2983
+        }
     }
     /// <!-- FishyJoes.export(plutonic) -->
     public var pluto: String {
-        "Newton Gimmick"
+        get throws {
+            "Newton Gimmick"
+        }
     }
 }
 
