@@ -226,16 +226,11 @@ extension SourceryProtocol {
 
     // Default implementation variables replace unimplemented variables for Protocols
     func variablesPreferringDefaultImpl() -> [SourceryVariable] {
-        var varsByName = [String: [SourceryVariable]]()
-        for variable in rawVariables {
-            varsByName[variable.name, default: []].append(variable)
-        }
-        return varsByName.sorted {
-            $0.key < $1.key
-        }.compactMap {
-            let varDefs = $0.value
-            return varDefs.first { $0.definedInType?.isExtension == true && $0.isComputed } ?? varDefs.first
-        }
+        SourceryVariable.variablesPreferring(.defaultImplementation, variables: rawVariables)
+    }
+    
+    func defaultVariables() -> [SourceryVariable] {
+        variablesPreferringDefaultImpl().filter { $0.isComputed }
     }
 }
 
@@ -337,5 +332,59 @@ extension MethodParameter {
         typeAttributesMatches &&
         defaultValueMatches &&
         annotationsMatches
+    }
+}
+
+extension SourceryVariable {
+    enum VariableTypePreference {
+        case defaultImplementation
+        case normal
+    }
+
+    static func variablesPreferring(_ preference: VariableTypePreference, variables: [SourceryVariable]) -> [SourceryVariable] {
+        var preferredVariables = [SourceryVariable]()
+        for variable in variables {
+            let equalVariables = preferredVariables.filter {
+                return $0 == variable
+            }
+            if !equalVariables.isEmpty {
+                for equalVariable in equalVariables {
+                    let isEqualVariableADefaultImplementation = equalVariable.isComputed && (equalVariable.definedInType is SourceryProtocol)
+                    let useEqualVariable = preference == .defaultImplementation ? isEqualVariableADefaultImplementation : !isEqualVariableADefaultImplementation
+                    
+                    if useEqualVariable {
+                        guard let index = preferredVariables.firstIndex(of: variable) else {
+                            assertionFailure("variable should exist in preferredVariables")
+                            continue
+                        }
+                        preferredVariables.remove(at: index)
+                        preferredVariables.insert(equalVariable, at: index)
+                    } else { // use variable
+                        guard let index = preferredVariables.firstIndex(of: equalVariable) else {
+                            assertionFailure("equalVariable should exist in preferredVariables")
+                            continue
+                        }
+                        preferredVariables.remove(at: index)
+                        preferredVariables.insert(variable, at: index)
+                    }
+                }
+            } else {
+                preferredVariables.append(variable)
+            }
+        }
+        return preferredVariables
+    }
+
+    static func variables(type: Type) -> [SourceryVariable] {
+        var defaultVariables = [SourceryVariable]()
+        let protocols = type.implements.values.compactMap { $0 as? SourceryProtocol }
+        for prot in protocols {
+            defaultVariables.append(contentsOf: prot.defaultVariables())
+        }
+        
+        let normalVariables = type.variables
+        
+        let variables = SourceryVariable.variablesPreferring(.normal, variables: normalVariables + defaultVariables)
+        return variables
     }
 }

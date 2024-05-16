@@ -200,9 +200,18 @@ public class FishyJoesContext {
                 collectedFragments.append(contentsOf: iotaTranslator.translate(method: method, context: self, betterType: betterType))
             }
         }
-
+        
+        var variablesToTranslateForTypeDict = [Type: [SourceryVariable]]()
         for type in templateContext.types.types {
-            for variable in type.rawVariables {
+            if let sourceryProtocolType = type as? SourceryProtocol {
+                variablesToTranslateForTypeDict[type] = sourceryProtocolType.variablesPreferringDefaultImpl()
+            } else {
+                variablesToTranslateForTypeDict[type] = SourceryVariable.variables(type: type)
+            }
+        }
+
+        for (type, variables) in variablesToTranslateForTypeDict {
+            for variable in variables {
                 debugContext = "Translating variable \(type.name).\(variable.name)"
                 guard variable.exportAnnotation != nil else { continue }
                 collectedFragments.append(contentsOf: kotlinTranslator.translate(variable: variable, context: self))
