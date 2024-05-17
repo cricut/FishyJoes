@@ -42,10 +42,10 @@ struct TranslatedStruct: TranslatedType {
         self.definingModule = context.module
         self.conformances = exportAnnotation.conformances
         
-        enforceStructMustHaveProperties()
+        enforceMustHaveProperties()
     }
     
-    func enforceStructMustHaveProperties() {
+    func enforceMustHaveProperties() {
         // https://kotlinlang.org/docs/data-classes.html
         // * The primary constructor must have at least one parameter.
         if storedVariables.isEmpty { // or method contains initializer
