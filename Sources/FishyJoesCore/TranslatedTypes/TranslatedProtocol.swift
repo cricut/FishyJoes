@@ -836,8 +836,29 @@ struct TranslatedProtocol: TranslatedType {
 
         let (interfaceFields, interfaceMethods) = KotlinClass.separate(
             fieldsAndMethods:
-                fields.compactMap {
-                    context.kotlin(field: $0, useNativeName: false)
+                fields.flatMap { field -> [KotlinClass.MethodOrVariable] in
+                    guard let kotlinMethodOrVariable = context.kotlin(field: field, useNativeName: false) else { return [] }
+                    
+                    guard !field.isStatic,
+                          field.isDefaultImplementation,
+                          case .variable(var kotlinVariable) = kotlinMethodOrVariable else {
+                        return [kotlinMethodOrVariable]
+                    }
+
+                    var defaultMethodForVariable = KotlinClass.Method(
+                        documentation: [],
+                        isStatic: true, 
+                        isSuspend: false,
+                        isOverride: false,
+                        isDefaultImplementation: true, 
+                        name: kotlinVariable.name,
+                        parameters: [(nil, name: "self", type: .named(package: nil, name: kotlinName), nil)],
+                        compatibilityOrder: [],
+                        returnType: kotlinVariable.type
+                    )
+                    kotlinVariable.body = "__jni__default_\(defaultMethodForVariable.name)(this)"
+
+                    return [.variable(kotlinVariable), .method(defaultMethodForVariable)]
                 } + methods.flatMap { method -> [KotlinClass.MethodOrVariable] in
                     guard let kotlinMethodOrVariable = context.kotlin(method: method) else { return [] }
 
