@@ -46,9 +46,10 @@ struct TranslatedStruct: TranslatedType {
     }
     
     func enforceStructMustHaveProperties() {
-        let methodsContainsInitializer = methods.contains { $0.sourceKind == .initializer }
-        if storedVariables.isEmpty && !methodsContainsInitializer { // or method contains initializer
-            fatalError("☠️ Error on \(sourceType.name): Exported structs must have at least one stored property or contain an exported public initializer, it's the law 👮!")
+        // https://kotlinlang.org/docs/data-classes.html
+        // * The primary constructor must have at least one parameter.
+        if storedVariables.isEmpty { // or method contains initializer
+            fatalError("☠️ Error on \(sourceType.name): Exported structs must have at least one stored property, it's the law 👮!")
         }
     }
 
