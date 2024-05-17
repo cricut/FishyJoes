@@ -36,6 +36,7 @@ class KotlinClass: NestedClass {
         var name: String
         var type: KType
         var deprecation: Deprecation?
+        var body: String?
     }
 
     let module: Module
@@ -102,6 +103,10 @@ class KotlinClass: NestedClass {
             fragment.output("@Deprecated(\"\(deprecation.quotedMessage)\")")
         }
         fragment.output("\(field.isOverride ? "override " : "")\(field.isPubliclyWritable ? "var" : "val") \(field.name): \(field.type.kotlinType)")
+        if let body = field.body {
+            fragment.output(body)
+        }
+
         if external {
             fragment.output("  get() = __jni_get_\(field.name)()\(field.type.toKotlinType)")
             if field.isPubliclyWritable {

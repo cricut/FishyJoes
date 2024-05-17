@@ -537,4 +537,17 @@ internal class ProtocolTests {
             return TestAsyncFunctionsImpl()
         }
     }
+
+    @Test
+    fun testDefaultComputedPropertiesImpl() = runTest(timeout = 1000000.seconds) {
+        val a = TestDefaultComputedPropertiesImpl()
+        val b = a.noot
+        println("b $b")
+        val c = a.plutonic
+        val d = c
+    }
+    class TestDefaultComputedPropertiesImpl : TestDefaultComputedProperties {
+        override val noot: Long
+            get() = 42
+    }
 }
