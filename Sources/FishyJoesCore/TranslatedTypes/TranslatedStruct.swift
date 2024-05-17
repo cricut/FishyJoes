@@ -42,6 +42,15 @@ struct TranslatedStruct: TranslatedType {
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
         self.conformances = exportAnnotation.conformances
+        
+        enforceStructMustHaveProperties()
+    }
+    
+    func enforceStructMustHaveProperties() {
+        let methodsContainsInitializer = methods.contains { $0.sourceKind == .initializer }
+        if storedVariables.isEmpty && !methodsContainsInitializer { // or method contains initializer
+            fatalError("☠️ Error on \(sourceType.name): Exported structs must have at least one stored property or contain an exported public initializer, it's the law 👮!")
+        }
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
