@@ -506,6 +506,7 @@ final class KotlinTranslator: Translator {
                     isOverride: field.isOverride,
                     isMutable: field.isMutable,
                     isPubliclyWritable: field.isPubliclyWritable,
+                    isDefaultImplementation: field.isDefaultImplementation,
                     name: ktName,
                     type: resolved.kotlinType,
                     deprecation: field.deprecation

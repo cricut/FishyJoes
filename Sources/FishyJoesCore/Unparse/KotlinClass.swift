@@ -32,6 +32,7 @@ class KotlinClass: NestedClass {
         var isOverride: Bool
         var isMutable: Bool
         var isPubliclyWritable: Bool
+        var isDefaultImplementation: Bool
         var name: String
         var type: KType
         var deprecation: Deprecation?
