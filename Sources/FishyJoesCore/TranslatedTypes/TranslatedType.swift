@@ -344,7 +344,6 @@ extension SourceryVariable {
     static func variablesPreferring(_ preference: VariableTypePreference, variables: [SourceryVariable]) -> [SourceryVariable] {
         var preferredVariables = [SourceryVariable]()
         for variable in variables {
-            }
             let mostlyEqualVariables = preferredVariables.filter {
                 return $0.isMostlyEqual(other: variable)
             }
@@ -380,7 +379,7 @@ extension SourceryVariable {
                 preferredVariables.append(variable)
             }
         }
-        return preferredVariables
+        return preferredVariables.sorted(by: { $0.name < $1.name })
     }
 
     static func variables(type: Type) -> [SourceryVariable] {
