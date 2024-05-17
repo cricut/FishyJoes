@@ -33,8 +33,7 @@ struct Field: Hashable {
         self.isPubliclyWritable =
             variable.isMutable && variable.accessLevel.write == .public
         self.isComputed = variable.isComputed
-        self.isDefaultImplementation =
-            type is SourceryProtocol && variable.definedInType?.isExtension == true
+        self.isDefaultImplementation = variable.definedInType?.isExtension == true
 
         let isIsolated = type is Actor && !variable.isNonisolated
         self.isAsync = isIsolated || variable.isAsync
