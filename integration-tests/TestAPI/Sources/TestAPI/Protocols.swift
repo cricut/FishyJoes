@@ -108,8 +108,10 @@ public protocol TestOptionalsProtocol {
     func spqr(_ pippo: AssociatedDataEnum) throws -> Int
 }
 
-/// <!-- FishyJoes.export(TestDefaultComputedPropertiesEnum, conformances: [TestDefaultComputedProperties]) -->
-public enum TestDefaultComputedPropertiesEnum: TestDefaultComputedProperties {
+/// <!-- FishyJoes.export(TestDefaultComputedPropertiesStruct, conformances: [TestDefaultComputedProperties]) -->
+public struct TestDefaultComputedPropertiesStruct: TestDefaultComputedProperties {
+    /// <!-- FishyJoes.export(init) -->
+    public init() { }
 }
 
 /// <!-- FishyJoes.export(TestProtocolEnum, conformances: [TestMethodsProtocol]) -->
