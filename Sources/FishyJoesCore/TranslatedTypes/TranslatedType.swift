@@ -336,6 +336,10 @@ extension MethodParameter {
 }
 
 extension SourceryVariable {
+    var isDefaultImplementation: Bool {
+        definedInType?.isExtension == true
+    }
+
     enum VariableTypePreference {
         case defaultImplementation
         case normal
@@ -349,15 +353,7 @@ extension SourceryVariable {
             }
             if !mostlyEqualVariables.isEmpty {
                 for mostlyEqualVariable in mostlyEqualVariables {
-                    let isMostlyEqualVariableADefaultImplementation: Bool
-                    if mostlyEqualVariable.definedInType is SourceryProtocol,
-                       mostlyEqualVariable.definedInType?.isExtension == true {
-                        isMostlyEqualVariableADefaultImplementation = true
-                    } else {
-                        isMostlyEqualVariableADefaultImplementation = false
-                    }
-
-                    let useMostlyEqualVariable = preference == .defaultImplementation ? isMostlyEqualVariableADefaultImplementation : !isMostlyEqualVariableADefaultImplementation
+                    let useMostlyEqualVariable = preference == .defaultImplementation ? mostlyEqualVariable.isDefaultImplementation : !mostlyEqualVariable.isDefaultImplementation
                     
                     if useMostlyEqualVariable {
                         guard let index = preferredVariables.firstIndex(of: variable) else {
