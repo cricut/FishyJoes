@@ -189,7 +189,7 @@ final class KotlinTranslator: Translator {
         return [fragment]
     }
 
-    func translate(variable: Variable, context: FishyJoesContext) -> [SourceFragment] {
+    func translate(variable: Variable, context: FishyJoesContext, betterType: BetterType) -> [SourceFragment] {
         guard let exportAnnotation = variable.exportAnnotation else {
             return []
         }
@@ -198,20 +198,15 @@ final class KotlinTranslator: Translator {
         let jvmSetName = "__jni_set_\(kotlinName)"
 
         let selfExpression: String
-        let sourceTypeName: String
 
-        if let selfType = variable.definedInTypeName?.better {
-            let resolved = context.resolve(type: selfType)
-            sourceTypeName = resolved.sourceType.name
+        let sourceResolved = context.resolve(type: betterType)
+        let sourceTypeName = sourceResolved.sourceType.name
+        let converterTypeName = sourceResolved.converterType.name
 
-            if variable.isStatic {
-                selfExpression = resolved.sourceType.name
-            } else {
-                selfExpression = "\(resolved.converterType.name).fromJava(_javaThis, env: _javaEnv)"
-            }
+        if variable.isStatic {
+            selfExpression = sourceResolved.sourceType.name
         } else {
-            selfExpression = context.module.name
-            sourceTypeName = context.module.name
+            selfExpression = "\(sourceResolved.converterType.name).fromJava(_javaThis, env: _javaEnv)"
         }
 
         let cGetName = "java_get_\(sourceTypeName)_\(exportAnnotation.name)".replacingOccurrences(of: ".", with: "_")

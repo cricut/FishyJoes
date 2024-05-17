@@ -214,7 +214,8 @@ public class FishyJoesContext {
             for variable in variables {
                 debugContext = "Translating variable \(type.name).\(variable.name)"
                 guard variable.exportAnnotation != nil else { continue }
-                collectedFragments.append(contentsOf: kotlinTranslator.translate(variable: variable, context: self))
+                let betterType = BetterType(named: type, context: self)
+                collectedFragments.append(contentsOf: kotlinTranslator.translate(variable: variable, context: self, betterType: betterType))
                 collectedFragments.append(contentsOf: iotaTranslator.translate(variable: variable, context: self))
             }
         }
