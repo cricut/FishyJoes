@@ -197,7 +197,7 @@ final class KotlinTranslator: Translator {
         let jvmGetName = "__jni_\(exportAnnotation.kind == .asMethod ? "" : "get_")\(kotlinName)"
         let jvmSetName = "__jni_set_\(kotlinName)"
 
-        let selfExpression: String
+        var selfExpression: String
 
         let sourceResolved = context.resolve(type: betterType)
         let sourceTypeName = sourceResolved.sourceType.name
@@ -207,6 +207,10 @@ final class KotlinTranslator: Translator {
             selfExpression = sourceResolved.sourceType.name
         } else {
             selfExpression = "\(sourceResolved.converterType.name).fromJava(_javaThis, env: _javaEnv)"
+        }
+        
+        if variable.isDefaultImplementation {
+            selfExpression = "try \(context.module.name)_CommonInterface.\(sourceResolved.sourceType.nonNamespacedName)_sans_\(variable.name)(wrapped: \(selfExpression))"
         }
 
         let cGetName = "java_get_\(sourceTypeName)_\(exportAnnotation.name)".replacingOccurrences(of: ".", with: "_")
