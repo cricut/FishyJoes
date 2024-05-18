@@ -306,6 +306,9 @@ struct TranslatedProtocol: TranslatedType {
                 }
 
                 for variable in fields {
+                    guard variable.name != defaultMethod.name else {
+                        continue
+                    }
                     fragment.blankLine()
                     let name = variable.name
                     let type = variable.type.name
