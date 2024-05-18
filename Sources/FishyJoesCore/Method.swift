@@ -27,40 +27,6 @@ struct Method: Hashable {
     }
     let sourceKind: SourceKind
 
-    init(
-        name: String,
-        callName: String,
-        exportAnnotation: ExportAnnotation,
-        parameters: [SwiftFormal],
-        returnType: BetterType,
-        documentation: [String],
-        definedIn: BetterType?,
-        isStatic: Bool,
-        isMutating: Bool,
-        isThrowing: Bool,
-        isAsync: Bool,
-        deprecation: Deprecation?,
-        protocolName: String?,
-        isDefaultImplementation: Bool,
-        sourceKind: SourceKind
-    ) {
-        self.name = name
-        self.callName = callName
-        self.exportAnnotation = exportAnnotation
-        self.parameters = parameters
-        self.returnType = returnType
-        self.documentation = documentation
-        self.definedIn = definedIn
-        self.isStatic = isStatic
-        self.isMutating = isMutating
-        self.isThrowing = isThrowing
-        self.isAsync = isAsync
-        self.deprecation = deprecation
-        self.protocolName = protocolName
-        self.isDefaultImplementation = isDefaultImplementation
-        self.sourceKind = sourceKind
-    }
-
     init?(_ method: SourceryMethod, type: Type?) {
         self.init(method, type: type, protocolName: nil)
     }

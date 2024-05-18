@@ -284,17 +284,56 @@ struct TranslatedProtocol: TranslatedType {
 
         fragment.blankLine()
 
+        let defaultFields = fields.filter { $0.isDefaultImplementation }
         let defaultMethods = methods.filter { $0.isDefaultImplementation }
-        let defaultMethodsForFields = Field.defaultMethodsForFields(fields)
-        if sourceType.name.contains("TestDefaultComputedProperties") {
-            let elegoo = 1
-        }
-        generateSansForDefaultMethods(fragment: fragment, defaultMethods: defaultMethods + defaultMethodsForFields)
+        generateSansForDefaultMethods(fragment: fragment, defaultFields: defaultFields, defaultMethods: defaultMethods)
 
         return fragment
     }
 
-    func generateSansForDefaultMethods(fragment: SourceFragment, defaultMethods: [Method]) {
+    func generateSansForDefaultMethods(fragment: SourceFragment, defaultFields: [Field], defaultMethods: [Method]) {
+        for defaultField in defaultFields {
+            fragment.outputBlock("public struct \(sourceType.nonNamespacedName)_sans_\(defaultField.name): \(sourceType.name) {", closeWith: "}") {
+                fragment.output("public let wrapped: \(sourceType.name)")
+
+                fragment.blankLine()
+
+                fragment.outputBlock("public init(wrapped: \(sourceType.name)) {") {
+                    fragment.output("self.wrapped = wrapped")
+                }
+
+                for field in fields {
+                    guard field.name != defaultField.name else {
+                        continue
+                    }
+                    fragment.blankLine()
+                    let name = field.name
+                    let type = field.type.name
+                    fragment.outputBlock("public var \(name): \(type) {") {
+                        fragment.outputBlock("get throws {") {
+                            fragment.output("try wrapped.\(name)")
+                        }
+                    }
+                }
+                for method in methods {
+                    fragment.output()
+                    let returnSignature = "\(method.isAsync ? " async": "")\(method.isThrowing ? " throws" : "") -> \(method.returnType.name)"
+                    fragment.outputBlock("public func \(method.name)\(returnSignature) {", closeWith: "}") {
+                        var methodParamsStr = [String]()
+                        for param in method.parameters {
+                            if let paramLabel = param.label {
+                                methodParamsStr.append("\(paramLabel): \(param.name)")
+                            } else {
+                                methodParamsStr.append("\(param.name)")
+                            }
+                        }
+                        fragment.output("\(method.isThrowing ? "try " : "")\(method.isAsync ? "await ": "")wrapped.\(method.callName)(\(methodParamsStr.joined(separator: ", ")))")
+                    }
+                }
+            }
+            fragment.output()
+        }
+
         for defaultMethod in defaultMethods {
             fragment.outputBlock("public struct \(sourceType.nonNamespacedName)_sans_\(defaultMethod.callName): \(sourceType.name) {", closeWith: "}") {
                 fragment.output("public let wrapped: \(sourceType.name)")
@@ -305,13 +344,10 @@ struct TranslatedProtocol: TranslatedType {
                     fragment.output("self.wrapped = wrapped")
                 }
 
-                for variable in fields {
-                    guard variable.name != defaultMethod.name else {
-                        continue
-                    }
+                for field in fields {
                     fragment.blankLine()
-                    let name = variable.name
-                    let type = variable.type.name
+                    let name = field.name
+                    let type = field.type.name
                     fragment.outputBlock("public var \(name): \(type) {") {
                         fragment.outputBlock("get throws {") {
                             fragment.output("try wrapped.\(name)")
