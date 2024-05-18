@@ -284,7 +284,12 @@ struct TranslatedProtocol: TranslatedType {
 
         fragment.blankLine()
 
-        generateSansForDefaultMethods(fragment: fragment, defaultMethods: methods.filter { $0.isDefaultImplementation })
+        let defaultMethods = methods.filter { $0.isDefaultImplementation }
+        let defaultMethodsForFields = Field.defaultMethodsForFields(fields)
+        if sourceType.name.contains("TestDefaultComputedProperties") {
+            let elegoo = 1
+        }
+        generateSansForDefaultMethods(fragment: fragment, defaultMethods: defaultMethods + defaultMethodsForFields)
 
         return fragment
     }
