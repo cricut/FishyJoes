@@ -224,10 +224,13 @@ final class KotlinTranslator: Translator {
         let cType = "\(converterName).CType"
 
         // Getter
-        let formals = [
-            (name: "_javaEnv", type: "UnsafeMutablePointer<JNIEnv?>"),
-            (name: "_javaThis", type: "jobject"),
+        var formals = [
+            (name: "_javaEnv", type: "UnsafeMutablePointer<JNIEnv?>")
         ]
+        if variable.isDefaultImplementation {
+            formals.append((name: "_javaCompanionThis", type: "jobject"))
+        }
+        formals.append((name: "_javaThis", type: "jobject"))
 
         let className = javaClassName(sourceResolved.kotlinName, in: context)
         allMethods[sourceTypeName, default: []].insert(MethodInfo(javaName: jvmGetName, signature: "(\(variable.isDefaultImplementation ? "L\(className);" : "" ))" + jniSignature, cName: cGetName, isProtocolDefault: variable.isDefaultImplementation))
