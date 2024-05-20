@@ -208,9 +208,9 @@ final class KotlinTranslator: Translator {
         let jvmSetName = "__jni_set_\(kotlinName)"
 
         if variable.sourceryVariable.isStatic {
-            selfExpression = sourceResolved.sourceType.name
+            selfExpression = sourceTypeName
         } else {
-            selfExpression = "\(sourceResolved.converterType.name).fromJava(_javaThis, env: _javaEnv)"
+            selfExpression = "\(converterTypeName).fromJava(_javaThis, env: _javaEnv)"
         }
         
         if shouldWrap {
