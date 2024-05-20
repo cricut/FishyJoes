@@ -5,7 +5,7 @@ import XCTest
 class NAPITests: XCTestCase {
     lazy var testDirectory = "Tests/NAPITests/node-tests/js-native-api"
     lazy var wasmToolchainPath = ProcessInfo.processInfo.environment["SWIFT_WASM_TOOLCHAIN"] ??
-        "/Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2024-03-27-a.xctoolchain"
+        "/Library/Developer/Toolchains/swift-wasm-5.10-SNAPSHOT-2024-04-26-a.xctoolchain"
     lazy var wasiSDKPath = ProcessInfo.processInfo.environment["WASI_SDK"] ?? "\(wasmToolchainPath)/usr/share/wasi-sysroot"
     lazy var CC = "\(wasmToolchainPath)/usr/bin/clang"
     lazy var LD = "\(wasmToolchainPath)/usr/bin/swiftc"
