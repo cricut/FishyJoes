@@ -111,9 +111,14 @@ public protocol TestOptionalsProtocol {
 /// <!-- FishyJoes.export(TestDefaultComputedPropertiesStruct, conformances: [TestDefaultComputedProperties]) -->
 public struct TestDefaultComputedPropertiesStruct: TestDefaultComputedProperties {
     public var spam: Bool
+    public var noot: Int
 
-    public init(spam: Bool) {
+    public init(
+        spam: Bool,
+        noot: Int
+    ) {
         self.spam = spam
+        self.noot = noot
     }
 }
 

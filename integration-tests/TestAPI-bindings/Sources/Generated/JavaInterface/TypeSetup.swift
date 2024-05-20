@@ -376,6 +376,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_get_TestAPI_Actors_TemperatureLogger_backwardsLabel, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_get_extensionNonisolatedVarLabel"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Actors_TemperatureLogger_extensionNonisolatedVarLabel, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_get_label"),
                 signature: bag.add("()Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_Actors_TemperatureLogger_label, to: UnsafeMutableRawPointer.self)
@@ -389,11 +394,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_update"),
                 signature: bag.add("(J)Lkotlinx/coroutines/Deferred;"),
                 fnPtr: unsafeBitCast(java_TestAPI_Actors_TemperatureLogger_update, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_extensionNonisolatedVarLabel"),
-                signature: bag.add("(Lcom/cricut/testapi/Actors$TemperatureLogger;)Ljava/lang/String;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Actors_TemperatureLogger_extensionNonisolatedVarLabel, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.Collections.CollectionHolder...")
@@ -2236,12 +2236,12 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try env.RegisterNatives(
             TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter.externalCompanionClass,
             JNINativeMethod(
-                name: bag.add("__jni_get_noot"),
+                name: bag.add("__jni__default_noot"),
                 signature: bag.add("(Lcom/cricut/testapi/TestDefaultComputedProperties;)J"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_TestDefaultComputedProperties_noot, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_plutonic"),
+                name: bag.add("__jni__default_plutonic"),
                 signature: bag.add("(Lcom/cricut/testapi/TestDefaultComputedProperties;)Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_TestDefaultComputedProperties_plutonic, to: UnsafeMutableRawPointer.self)
             )
@@ -2254,13 +2254,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try env.RegisterNatives(
             TestAPI.TestDefaultComputedPropertiesStruct.javaClass,
             JNINativeMethod(
-                name: bag.add("__jni_get_noot"),
-                signature: bag.add("(Lcom/cricut/testapi/TestDefaultComputedPropertiesStruct;)J"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_TestDefaultComputedPropertiesStruct_noot, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
                 name: bag.add("__jni_get_plutonic"),
-                signature: bag.add("(Lcom/cricut/testapi/TestDefaultComputedPropertiesStruct;)Ljava/lang/String;"),
+                signature: bag.add("()Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_TestDefaultComputedPropertiesStruct_plutonic, to: UnsafeMutableRawPointer.self)
             )
         )

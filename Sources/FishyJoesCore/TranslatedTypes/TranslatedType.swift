@@ -190,7 +190,7 @@ enum ForeignSetupParameter<Typ> {
 }
 
 extension Type {
-    // Used both for effeciency and to break cycles
+    // Used both for efficiency and to break cycles
     fileprivate static var inhabitedCache: [Type: Bool] = [:]
     var isInhabited: Bool {
         if let inhabited = Type.inhabitedCache[self] { return inhabited }
@@ -225,12 +225,12 @@ extension SourceryProtocol {
     }
 
     // Default implementation variables replace unimplemented variables for Protocols
-    func variablesPreferringDefaultImpl() -> [SourceryVariable] {
-        SourceryVariable.variablesPreferring(.defaultImplementation, variables: rawVariables)
+    func variablesPreferringDefaultImpl() -> [SourceryVariablePlus] {
+        SourceryVariablePlus.variablesPreferring(.defaultImplementation, variables: rawVariables.map { SourceryVariablePlus(sourceryVariable: $0, isDefinedInProtocol: true) })
     }
     
-    func defaultVariables() -> [SourceryVariable] {
-        variablesPreferringDefaultImpl().filter { $0.definedInType?.isExtension == true }
+    func defaultVariables() -> [SourceryVariablePlus] {
+        variablesPreferringDefaultImpl().filter { $0.isDefinedInProtocol && $0.sourceryVariable.definedInType?.isExtension == true }
     }
 }
 
@@ -336,17 +336,75 @@ extension MethodParameter {
 }
 
 extension SourceryVariable {
-    var isDefaultImplementation: Bool {
-        definedInType?.isExtension == true
-    }
+    func isMostlyEqual(other: SourceryVariable) -> Bool {
+        let nameMatches = name == other.name
+        let typeNameMatches = typeName == other.typeName
+        let typeMatches = type == other.type
+        // isComputed may differ
+        let isAsyncMatches = isAsync == other.isAsync
+        // throws may differ
+        let isStaticMatches = isStatic == other.isStatic
+        let readAccessMatches = readAccess == other.readAccess
+        // writeAccess may differ
+        // accessLevel may differ
+        // isMutable may differ
+        let defaultValueMatches = defaultValue == other.defaultValue
+        let annotationsMatches = annotations == other.annotations
+        // documentation may differ
+        let attributesMatches = attributes == other.attributes
+        // modifiers may differ
+        let isFinalMatches = isFinal == other.isFinal
+        let isLazyMatches = isLazy == other.isLazy
+        // definedInTypeName may differ
+        // actualDefinedInTypeName may differ
+        // definedInType can differ (isExtension property in particular)
 
+        return nameMatches &&
+        typeNameMatches &&
+        typeMatches &&
+        isAsyncMatches &&
+        isStaticMatches &&
+        readAccessMatches &&
+        defaultValueMatches &&
+        annotationsMatches &&
+        attributesMatches &&
+        isFinalMatches &&
+        isLazyMatches
+    }
+}
+
+// Necessary because definedInType is not always SourceryProtocol when it ought to be, but is sometimes instead just a SourceryRuntime.Type.
+struct SourceryVariablePlus: Equatable {
+    public let sourceryVariable: SourceryVariable
+    public let isDefinedInProtocol: Bool
+
+    public init(
+        sourceryVariable: SourceryVariable,
+        isDefinedInProtocol: Bool
+    ) {
+        self.sourceryVariable = sourceryVariable
+        self.isDefinedInProtocol = isDefinedInProtocol
+    }
+    
+    var isDefaultImplementation: Bool {
+        return isDefinedInProtocol && sourceryVariable.definedInType?.isExtension == true
+    }
+    
+    func isMostlyEqual(other: SourceryVariablePlus) -> Bool {
+        sourceryVariable.isMostlyEqual(other: other.sourceryVariable)
+    }
+    
     enum VariableTypePreference {
         case defaultImplementation
         case normal
     }
+    
+    static func == (lhs: SourceryVariablePlus, rhs: SourceryVariablePlus) -> Bool {
+        lhs.isMostlyEqual(other: rhs)
+    }
 
-    static func variablesPreferring(_ preference: VariableTypePreference, variables: [SourceryVariable]) -> [SourceryVariable] {
-        var preferredVariables = [SourceryVariable]()
+    static func variablesPreferring(_ preference: VariableTypePreference, variables: [SourceryVariablePlus]) -> [SourceryVariablePlus] {
+        var preferredVariables = [SourceryVariablePlus]()
         for variable in variables {
             let mostlyEqualVariables = preferredVariables.filter {
                 return $0.isMostlyEqual(other: variable)
@@ -375,62 +433,21 @@ extension SourceryVariable {
                 preferredVariables.append(variable)
             }
         }
-        return preferredVariables.sorted(by: { $0.name < $1.name })
+        return preferredVariables.sorted(by: { $0.sourceryVariable.name < $1.sourceryVariable.name })
     }
 
-    static func variables(type: Type) -> [SourceryVariable] {
-        var defaultVariables = [SourceryVariable]()
+    static func variables(type: Type) -> [SourceryVariablePlus] {
+        var defaultVariables = [SourceryVariablePlus]()
         let protocols = type.implements.values.compactMap { $0 as? SourceryProtocol }
         for prot in protocols {
             defaultVariables.append(contentsOf: prot.defaultVariables())
         }
-        
-        let normalVariables = type.variables
-        
-        let variables = SourceryVariable.variablesPreferring(.normal, variables: normalVariables + defaultVariables)
-        return variables
-    }
-    
-    func isMostlyEqual(other: SourceryVariable) -> Bool {
-        let nameMatches = name == other.name
-        let typeNameMatches = typeName == other.typeName
-        let typeMatches = type == other.type
-        // isComputed differ
-        let isAsyncMatches = isAsync == other.isAsync
-        let throwsMatches = `throws` == other.`throws`
-        let isStaticMatches = isStatic == other.isStatic
-        let readAccessMatches = readAccess == other.readAccess
-        let writeAccessMatches = writeAccess == other.writeAccess
-        let accessLevelMatches = accessLevel == other.accessLevel
-        let isMutableMatches = isMutable == other.isMutable
-        let defaultValueMatches = defaultValue == other.defaultValue
-        let annotationsMatches = annotations == other.annotations
-        let documentationMatches = documentation == other.documentation
-        let attributesMatches = attributes == other.attributes
-        // modifiers differ
-        let isFinalMatches = isFinal == other.isFinal
-        let isLazyMatches = isLazy == other.isLazy
-        let definedInTypeNameMatches = definedInTypeName == other.definedInTypeName
-        let actualDefinedInTypeName = actualDefinedInTypeName == other.actualDefinedInTypeName
-        // definedInType can differ (isExtension property in particular)
 
-        return nameMatches &&
-        typeNameMatches &&
-        typeMatches &&
-        isAsyncMatches &&
-        throwsMatches &&
-        isStaticMatches &&
-        readAccessMatches &&
-        writeAccessMatches &&
-        accessLevelMatches &&
-        isMutableMatches &&
-        defaultValueMatches &&
-        annotationsMatches &&
-        documentationMatches &&
-        attributesMatches &&
-        isFinalMatches &&
-        isLazyMatches &&
-        definedInTypeNameMatches &&
-        actualDefinedInTypeName
+        let normalVariables = type.variables.map { SourceryVariablePlus(sourceryVariable: $0, isDefinedInProtocol: type is SourceryProtocol) }
+        if type.name.contains("TestDefaultComputedPropertiesStruct") {
+            let elegoo = 1
+        }
+        let variables = SourceryVariablePlus.variablesPreferring(.normal, variables: normalVariables + defaultVariables)
+        return variables
     }
 }

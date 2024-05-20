@@ -36,7 +36,7 @@ struct TranslatedReference: TranslatedType {
         self.cSharpType = .named(package: context.module.cSharpNamespace, name: exportAnnotation.cSharpName)
         self.dartType = .named(package: context.module.dartNamespace, name: context.dartTranslator.fakeNamespace(exportAnnotation.name))
         self.methods = Method.methods(type: type)
-        self.computedVariables = SourceryVariable.variables(type: type).compactMap { Field($0, type: type) }
+        self.computedVariables = SourceryVariablePlus.variables(type: type).compactMap { Field($0.sourceryVariable, type: type) }
         self.documentation = type.documentation
         self.className = context.kotlinTranslator.javaClassName(kotlinName, in: context)
         self.jniType = .object(className)

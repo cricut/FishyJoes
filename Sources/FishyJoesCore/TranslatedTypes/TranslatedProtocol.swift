@@ -48,7 +48,7 @@ struct TranslatedProtocol: TranslatedType {
         self.conformances = exportAnnotation.conformances
 
         self.methods = type.methodsPreferringDefaultImpl().compactMap { Method($0, type: type, protocolName: typeName) }
-        self.fields = type.variablesPreferringDefaultImpl().compactMap { Field($0, type: type) }
+        self.fields = type.variablesPreferringDefaultImpl().compactMap { Field($0.sourceryVariable, type: type) }
 
         self.documentation = type.documentation
         self.className = context.kotlinTranslator.javaClassName(kotlinName, in: context)

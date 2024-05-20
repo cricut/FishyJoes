@@ -201,22 +201,26 @@ public class FishyJoesContext {
             }
         }
         
-        var variablesToTranslateForTypeDict = [Type: [SourceryVariable]]()
+        var variablesToTranslateForTypeDict = [Type: [SourceryVariablePlus]]()
         for type in templateContext.types.types {
             if let sourceryProtocolType = type as? SourceryProtocol {
                 variablesToTranslateForTypeDict[type] = sourceryProtocolType.variablesPreferringDefaultImpl()
             } else {
-                variablesToTranslateForTypeDict[type] = SourceryVariable.variables(type: type)
+                variablesToTranslateForTypeDict[type] = SourceryVariablePlus.variables(type: type)
             }
         }
 
         for (type, variables) in variablesToTranslateForTypeDict {
             for variable in variables {
-                debugContext = "Translating variable \(type.name).\(variable.name)"
-                guard variable.exportAnnotation != nil else { continue }
+                if type.name.contains("TestDefaultComputedPropertiesStruct"),
+                   variable.sourceryVariable.name.contains("noot") {
+                    let elegoo = 1
+                }
+                debugContext = "Translating variable \(type.name).\(variable.sourceryVariable.name)"
+                guard variable.sourceryVariable.exportAnnotation != nil else { continue }
                 let betterType = BetterType(named: type, context: self)
-                collectedFragments.append(contentsOf: kotlinTranslator.translate(variable: variable, context: self, betterType: betterType))
-                collectedFragments.append(contentsOf: iotaTranslator.translate(variable: variable, context: self))
+                collectedFragments.append(contentsOf: kotlinTranslator.translate(variable: variable, context: self, type: type))
+                collectedFragments.append(contentsOf: iotaTranslator.translate(variable: variable.sourceryVariable, context: self))
             }
         }
         // Translate any top level functions
