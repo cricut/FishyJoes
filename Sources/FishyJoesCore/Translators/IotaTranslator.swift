@@ -194,8 +194,8 @@ final class IotaTranslator: Translator {
             additionalImports: ["Foundation", "FishyJoesIotaRuntime", "\(context.module.name)_CommonInterface"]
         )
 
-        let resolved = context.resolve(type: variable.sourceryVariable.typeName.better)
-        let cType = "\(resolved.converterType.name).CType"
+        let resolvedVariable = context.resolve(type: variable.sourceryVariable.typeName.better)
+        let cType = "\(resolvedVariable.converterType.name).CType"
 
         // Getter
         var formals = [(name: "envRef", type: "EnvRef")]
@@ -217,7 +217,7 @@ final class IotaTranslator: Translator {
         fragment.outputBlock(" -> \(cType) {") {
             fragment.output("let env = Env(envRef)")
             fragment.outputBlock("return env.catching(to: _exn) {") {
-                fragment.output("try \(converterTypeName).toIota(\(selfExpression).\(variable.sourceryVariable.name), env: env)")
+                fragment.output("try \(resolvedVariable.converterType.name).toIota(\(selfExpression).\(variable.sourceryVariable.name), env: env)")
             }
         }
 
@@ -245,8 +245,8 @@ final class IotaTranslator: Translator {
                     if variable.sourceryVariable.isStatic {
                         fragment.output("\(selfExpression).\(variable.sourceryVariable.name) = try \(converterTypeName).peekIota(newValue, env: env)")
                     } else {
-                        fragment.outputBlock("try \(converterTypeName).withMutatingIota(_iotaThis, env: env) { value in", closeWith: "}") {
-                            fragment.output("value.\(variable.sourceryVariable.name) = try \(converterTypeName).peekIota(newValue, env: env)")
+                        fragment.outputBlock("try \(resolvedVariable.converterType.name).withMutatingIota(_iotaThis, env: env) { value in", closeWith: "}") {
+                            fragment.output("value.\(variable.sourceryVariable.name) = try \(resolvedVariable.converterType.name).peekIota(newValue, env: env)")
                         }
                     }
                 }
