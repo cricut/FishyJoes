@@ -557,4 +557,12 @@ internal class ProtocolTests {
         override val plutonic: String
             get() = "Teddy Ruxpin"
     }
+
+    @Test
+    fun testDefaultComputedPropertiesStruct() = runTest(timeout = 1000000.seconds) {
+        val a = TestDefaultComputedPropertiesStruct(spam = true, noot = 98172)
+        assertEquals("Newton Gimmick", a.plutonic)
+        assertEquals(true, a.spam)
+        assertEquals(98172, a.noot)
+    }
 }
