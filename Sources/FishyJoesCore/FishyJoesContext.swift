@@ -220,7 +220,7 @@ public class FishyJoesContext {
                 guard variable.sourceryVariable.exportAnnotation != nil else { continue }
                 let betterType = BetterType(named: type, context: self)
                 collectedFragments.append(contentsOf: kotlinTranslator.translate(variable: variable, context: self, type: type))
-                collectedFragments.append(contentsOf: iotaTranslator.translate(variable: variable.sourceryVariable, context: self))
+                collectedFragments.append(contentsOf: iotaTranslator.translate(variable: variable, context: self, type: type))
             }
         }
         // Translate any top level functions
