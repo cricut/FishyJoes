@@ -215,15 +215,6 @@ sealed class Collections {
 
         companion object {
             /**
-             * <!-- FishyJoes.export(staticProperty) -->
-             */
-            val staticProperty: kotlin.collections.List<Long?>
-              get() = __jni_get_staticProperty()
-            @JvmStatic
-            @JvmName("__jni_get_staticProperty")
-            private external fun __jni_get_staticProperty(): kotlin.collections.List<Long?>
-
-            /**
              * <!-- FishyJoes.export(staticMutableProperty) -->
              */
             var staticMutableProperty: kotlin.collections.List<Long?>
@@ -235,6 +226,15 @@ sealed class Collections {
             @JvmStatic
             @JvmName("__jni_set_staticMutableProperty")
             private external fun __jni_set_staticMutableProperty(newValue: kotlin.collections.List<Long?>)
+
+            /**
+             * <!-- FishyJoes.export(staticProperty) -->
+             */
+            val staticProperty: kotlin.collections.List<Long?>
+              get() = __jni_get_staticProperty()
+            @JvmStatic
+            @JvmName("__jni_get_staticProperty")
+            private external fun __jni_get_staticProperty(): kotlin.collections.List<Long?>
 
             init { loadNativeLibs() }
         }

@@ -976,15 +976,6 @@ sealed class Primitives {
 
         companion object {
             /**
-             * <!-- FishyJoes.export(staticProperty) -->
-             */
-            val staticProperty: kotlin.collections.List<UByte?>
-              get() = __jni_get_staticProperty()
-            @JvmStatic
-            @JvmName("__jni_get_staticProperty")
-            private external fun __jni_get_staticProperty(): kotlin.collections.List<UByte?>
-
-            /**
              * <!-- FishyJoes.export(staticMutableProperty) -->
              */
             var staticMutableProperty: kotlin.collections.List<UByte?>
@@ -996,6 +987,15 @@ sealed class Primitives {
             @JvmStatic
             @JvmName("__jni_set_staticMutableProperty")
             private external fun __jni_set_staticMutableProperty(newValue: kotlin.collections.List<UByte?>)
+
+            /**
+             * <!-- FishyJoes.export(staticProperty) -->
+             */
+            val staticProperty: kotlin.collections.List<UByte?>
+              get() = __jni_get_staticProperty()
+            @JvmStatic
+            @JvmName("__jni_get_staticProperty")
+            private external fun __jni_get_staticProperty(): kotlin.collections.List<UByte?>
 
             init { loadNativeLibs() }
         }
