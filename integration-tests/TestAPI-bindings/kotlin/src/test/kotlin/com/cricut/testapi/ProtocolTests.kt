@@ -540,14 +540,21 @@ internal class ProtocolTests {
 
     @Test
     fun testDefaultComputedPropertiesImpl() = runTest(timeout = 1000000.seconds) {
-        val a = TestDefaultComputedPropertiesImpl()
-        val b = a.noot
-        println("b $b")
-        val c = a.plutonic
-        val d = c
+        val a = TestDefaultComputedPropertiesImplOverrideNoot()
+        assertEquals(424242, a.noot)
+        assertEquals("Newton Gimmick", a.plutonic)
+
+        val b = TestDefaultComputedPropertiesImplOverridePlutonic()
+        assertEquals(2983, b.noot)
+        assertEquals("Teddy Ruxpin", b.plutonic)
     }
-    class TestDefaultComputedPropertiesImpl : TestDefaultComputedProperties {
+    class TestDefaultComputedPropertiesImplOverrideNoot : TestDefaultComputedProperties {
         override val noot: Long
-            get() = 42
+            get() = 424242
+    }
+
+    class TestDefaultComputedPropertiesImplOverridePlutonic : TestDefaultComputedProperties {
+        override val plutonic: String
+            get() = "Teddy Ruxpin"
     }
 }
