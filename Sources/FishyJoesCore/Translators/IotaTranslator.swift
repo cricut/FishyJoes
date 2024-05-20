@@ -195,7 +195,7 @@ final class IotaTranslator: Translator {
         )
 
         let resolved = context.resolve(type: variable.sourceryVariable.typeName.better)
-        let cType = "\(converterTypeName).CType"
+        let cType = "\(resolved.converterType.name).CType"
 
         // Getter
         var formals = [(name: "envRef", type: "EnvRef")]
