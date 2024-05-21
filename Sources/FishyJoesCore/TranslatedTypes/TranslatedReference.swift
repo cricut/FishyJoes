@@ -573,7 +573,8 @@ struct TranslatedReference: TranslatedType {
                         name: "hashCode",
                         mangledName: "\(sourceType.name.mangled)_hash",
                         type: .primitive("int", ffiName: "Int"),
-                        deprecation: nil
+                        deprecation: nil,
+                        isDefaultImplementation: false
                     )
                 )
             )

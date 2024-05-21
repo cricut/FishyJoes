@@ -235,7 +235,8 @@ final class DartTranslator: Translator {
                 name: dartName,
                 mangledName: "\(type.mangledName)_\(dartName.mangled)",
                 type: resolved.dartType,
-                deprecation: field.deprecation
+                deprecation: field.deprecation,
+                isDefaultImplementation: field.isDefaultImplementation
             )
         )
     }

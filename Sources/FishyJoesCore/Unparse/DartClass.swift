@@ -44,6 +44,7 @@ class DartClass {
         let mangledName: String
         let type: DartType
         let deprecation: Deprecation?
+        let isDefaultImplementation: Bool
 
         var hiddenStorage: Bool {
             isMutable && !isPubliclyWritable
@@ -125,7 +126,8 @@ class DartClass {
         for field in fields {
             let baseArgs = field.isStatic ? [] : [thisArg]
 
-            result["__iota_get_\(field.mangledName)"] = (args: baseArgs, return: field.type, isDefaultImplementation: false)
+            let resultName = field.isDefaultImplementation ? "__iota__default_\(field.mangledName)" : "__iota_get_\(field.mangledName)"
+            result[resultName] = (args: baseArgs, return: field.type, isDefaultImplementation: field.isDefaultImplementation)
             if field.isPubliclyWritable {
                 result["__iota_set_\(field.mangledName)"] = (args: baseArgs + [(field.name, field.type)], return: .void, isDefaultImplementation: false)
             }
@@ -173,10 +175,11 @@ class DartClass {
         func outputGetterBody() {
             wrap {
                 fragment.outputBlock("check((exn) =>", closeWith: ")") {
+                    let fieldFuncName = field.isDefaultImplementation ? "f__iota__default_\(field.mangledName)" : "f__iota_get_\(field.mangledName)"
                     if field.type.isObject {
-                        fragment.output("consumeCreatedRef<\(field.type.name(in: self))>(f__iota_get_\(field.mangledName)(Loader.shared.env, \(selfArg)exn))")
+                        fragment.output("consumeCreatedRef<\(field.type.name(in: self))>(\(fieldFuncName)(Loader.shared.env, \(selfArg)exn))")
                     } else {
-                        fragment.output("f__iota_get_\(field.mangledName)(Loader.shared.env, \(selfArg)exn)")
+                        fragment.output("\(fieldFuncName)(Loader.shared.env, \(selfArg)exn)")
                     }
                 }
             }
