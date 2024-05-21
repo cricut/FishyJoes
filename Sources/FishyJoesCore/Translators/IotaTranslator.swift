@@ -186,7 +186,7 @@ final class IotaTranslator: Translator {
         }
 
         let iotaName = exportAnnotation.name
-        let iotaGetName = shouldWrap ? "__iota__default_\(sourceTypeName)_\(iotaName)".mangled : "__iota_get_\(sourceTypeName)_\(iotaName)".mangled
+        let iotaGetName = variable.isDefaultImplementation ? "__iota__default_\(sourceTypeName)_\(iotaName)".mangled : "__iota_get_\(sourceTypeName)_\(iotaName)".mangled
         let iotaSetName = "__iota_set_\(sourceTypeName)_\(iotaName)".mangled
 
         let fragment = context.swiftFragment(
