@@ -444,9 +444,6 @@ struct SourceryVariablePlus: Equatable {
         }
 
         let normalVariables = type.variables.map { SourceryVariablePlus(sourceryVariable: $0, isDefinedInProtocol: type is SourceryProtocol) }
-        if type.name.contains("TestDefaultComputedPropertiesStruct") {
-            let elegoo = 1
-        }
         let variables = SourceryVariablePlus.variablesPreferring(.normal, variables: normalVariables + defaultVariables)
         return variables
     }
