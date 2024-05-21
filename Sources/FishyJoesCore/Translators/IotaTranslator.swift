@@ -243,9 +243,9 @@ final class IotaTranslator: Translator {
                 fragment.output("let env = Env(envRef)")
                 fragment.outputBlock("env.catching(to: _exn) {") {
                     if variable.sourceryVariable.isStatic {
-                        fragment.output("\(selfExpression).\(variable.sourceryVariable.name) = try \(converterTypeName).peekIota(newValue, env: env)")
+                        fragment.output("\(selfExpression).\(variable.sourceryVariable.name) = try \(resolvedVariable.converterType.name).peekIota(newValue, env: env)")
                     } else {
-                        fragment.outputBlock("try \(resolvedVariable.converterType.name).withMutatingIota(_iotaThis, env: env) { value in", closeWith: "}") {
+                        fragment.outputBlock("try \(converterTypeName).withMutatingIota(_iotaThis, env: env) { value in", closeWith: "}") {
                             fragment.output("value.\(variable.sourceryVariable.name) = try \(resolvedVariable.converterType.name).peekIota(newValue, env: env)")
                         }
                     }
