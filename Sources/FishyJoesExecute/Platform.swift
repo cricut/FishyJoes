@@ -2,9 +2,9 @@ import Foundation
 import swsh
 
 #if os(macOS)
-let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2024-03-27-a.xctoolchain"
+let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.10-SNAPSHOT-2024-04-26-a.xctoolchain"
 #elseif os(Linux)
-let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2024-03-27-a.xctoolchain"
+let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.10-SNAPSHOT-2024-04-26-a.xctoolchain"
 #else
 let wasmToolchain: String = { fatalError("wasm compilation is currently only supported on mac and linux") }()
 #endif

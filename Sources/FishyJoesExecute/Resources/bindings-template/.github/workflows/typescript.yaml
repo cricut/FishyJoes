@@ -18,7 +18,7 @@ concurrency:
 env:
   NODE_AUTH_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
   NODE_VERSION: "16.x"
-  SWIFT_WASM_VERSION: "5.9-SNAPSHOT-2024-03-27-a"
+  SWIFT_WASM_VERSION: "5.10-SNAPSHOT-2024-04-26-a"
 
 jobs:
   build-test-pack-ts-mac:
@@ -88,7 +88,7 @@ jobs:
     name: "Ubuntu: Build and test typescript bindings"
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cricut/android-swift-runtime:1.1.0
+      image: ghcr.io/cricut/android-swift-runtime:1.2.0-alpha0
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
@@ -183,8 +183,8 @@ jobs:
 
       - uses: compnerd/gha-setup-swift@main
         with:
-          branch: swift-5.9.1-release
-          tag: 5.9.1-RELEASE
+          branch: swift-5.10.0-release
+          tag: 5.10.0-RELEASE
 
       - name: Pre-resolve Required SwiftPM Packages & Fetch FishyJoes Scripts
         continue-on-error: true

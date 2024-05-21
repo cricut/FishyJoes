@@ -27,21 +27,21 @@ extension SwiftPackage.Dependency: Decodable {
         // Swift 5.5
         case scm, local
 
-        // Swift 5.6 -> 5.9
+        // Swift 5.6 -> 5.10
         case sourceControl, fileSystem
     }
 
-    // Swift 5.5 -> 5.9
+    // Swift 5.5 -> 5.10
     private enum SourceControlCodingKeys: String, CodingKey {
         case identity, location, requirement
     }
 
-    // Swift 5.5 -> 5.9
+    // Swift 5.5 -> 5.10
     private enum FileSystemCodingKeys: String, CodingKey {
         case identity, path, nameForTargetDependencyResolutionOnly
     }
 
-    // Swift 5.6 -> 5.9
+    // Swift 5.6 -> 5.10
     private enum LocationCodingKeys: String, CodingKey {
         case remote
     }
@@ -50,7 +50,7 @@ extension SwiftPackage.Dependency: Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         if var sourceControlListContainer = try? container.nestedUnkeyedContainer(forKey: .sourceControl) {
-            // Swift 5.6 -> 5.9
+            // Swift 5.6 -> 5.10
             let sourceControlContainer = try sourceControlListContainer.nestedContainer(keyedBy: SourceControlCodingKeys.self)
             let identity = try sourceControlContainer.decode(String.self, forKey: .identity)
 
@@ -68,7 +68,7 @@ extension SwiftPackage.Dependency: Decodable {
             let requirement = try sourceControlContainer.decode(Requirement.self, forKey: .requirement)
             self = .sourceControl(identity: identity, location: location, requirement: requirement)
         } else {
-            // Swift 5.6 -> 5.9 ("local" key name changed to "fileSystem" in 5.6)
+            // Swift 5.6 -> 5.10 ("local" key name changed to "fileSystem" in 5.6)
             var fileSystemListContainer = try (try? container.nestedUnkeyedContainer(forKey: .local)) ?? container.nestedUnkeyedContainer(forKey: .fileSystem)
             let fileSystemContainer = try fileSystemListContainer.nestedContainer(keyedBy: FileSystemCodingKeys.self)
             // nameForTargetDependencyResolutionOnly appears to show up when filesystem name doesn't match package name
