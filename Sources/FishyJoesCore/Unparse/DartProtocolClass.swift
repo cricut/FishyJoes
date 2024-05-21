@@ -128,7 +128,8 @@ class DartProtocolClass: DartClass {
                     }
                     paramStrings.append("_exn")
 
-                    let body = "check((OutCreatedRef _exn) => f__iota_\(method.mangledName)(Loader.shared.env, \(paramStrings.joined(separator: ", "))))"
+                    let methodName = method.isDefaultImplementation ? "f__iota__default_\(method.mangledName)" : "f__iota_\(method.mangledName)"
+                    let body = "check((OutCreatedRef _exn) => \(methodName)(Loader.shared.env, \(paramStrings.joined(separator: ", "))))"
                     wrap {
                         if method.returnType.isObject {
                             fragment.output("consumeCreatedRef<\(method.returnType.name(in: self))>(\(body))")
@@ -214,7 +215,7 @@ class DartProtocolClass: DartClass {
             // They will be handled by the ExternalWitness for that Protocol
             // except for default Implementations!
             if method.isDefaultImplementation {
-                result["__iota_\(method.mangledName)"] = (args: params, return: method.returnType, isDefaultImplementation: true)
+                result["__iota__default_\(method.mangledName)"] = (args: params, return: method.returnType, isDefaultImplementation: true)
             }
         }
 
