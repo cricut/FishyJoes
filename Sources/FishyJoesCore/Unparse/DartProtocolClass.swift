@@ -183,7 +183,7 @@ class DartProtocolClass: DartClass {
                 fragment.blankLine()
             }
             fragment.blankLine()
-            outputNativeMethodDeclarations(to: fragment)
+            outputNativeMethodDeclarations(methods: nativeMethods, fragment: fragment)
         }
 
         fragment.blankLine()

@@ -143,14 +143,14 @@ class DartClass {
                 params.append((DartClass.deforbidify(param.name), param.type))
             }
 
-            result["__iota_\(method.mangledName)"] = (args: params, return: method.returnType, isDefaultImplementation: (self is DartProtocolClass))
+            result["__iota_\(method.mangledName)"] = (args: params, return: method.returnType, isDefaultImplementation: method.isDefaultImplementation)
         }
 
         return result
     }
 
-    func outputNativeMethodDeclarations(to fragment: SourceFragment) {
-        for (name, (args, returnType, _)) in nativeMethods.sorted(by: { $0.key < $1.key}) {
+    func outputNativeMethodDeclarations(methods: [String: (args: [(String, DartType)], return: DartType, isDefaultImplementation: Bool)], fragment: SourceFragment) {
+        for (name, (args, returnType, _)) in methods.sorted(by: { $0.key < $1.key}) {
             fragment.outputBlock("static late \(returnType.ffiCreatedName) Function(", closeWith: ") f\(name);") {
                 fragment.output("Env env,")
                 for (argName, argType) in args {
