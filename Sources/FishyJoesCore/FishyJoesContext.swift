@@ -212,10 +212,6 @@ public class FishyJoesContext {
 
         for (type, variables) in variablesToTranslateForTypeDict {
             for variable in variables {
-                if type.name.contains("TestDefaultComputedPropertiesStruct"),
-                   variable.sourceryVariable.name.contains("noot") {
-                    let elegoo = 1
-                }
                 debugContext = "Translating variable \(type.name).\(variable.sourceryVariable.name)"
                 guard variable.sourceryVariable.exportAnnotation != nil else { continue }
                 let betterType = BetterType(named: type, context: self)
