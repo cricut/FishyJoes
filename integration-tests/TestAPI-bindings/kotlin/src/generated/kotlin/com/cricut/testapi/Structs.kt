@@ -1,7 +1,7 @@
 package com.cricut.testapi
 
-import kotlinx.coroutines.*
 import java.lang.Exception
+import kotlinx.coroutines.*
 
 /**
  * <!-- FishyJoes.export(Structs) -->
@@ -18,8 +18,7 @@ sealed class Structs {
      */
     data class MutableStruct(
         var i: Long
-    )
-     {
+    ) {
         /**
          * <!-- FishyJoes.export(increment) -->
          */
@@ -65,7 +64,7 @@ sealed class Structs {
     /**
      * <!-- FishyJoes.exportReference(Structs.ReferenceStruct) -->
      */
-    class ReferenceStruct private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference) {
+    class ReferenceStruct private constructor(_swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference) {
         /**
          * <!-- FishyJoes.export(immutable) -->
          */
@@ -138,8 +137,7 @@ sealed class Structs {
     data class MemberwiseStruct(
         val immutable: kotlin.String,
         var mutable: kotlin.String
-    )
-     {
+    ) {
         /**
          * <!-- FishyJoes.export(asyncGetMutable) -->
          */

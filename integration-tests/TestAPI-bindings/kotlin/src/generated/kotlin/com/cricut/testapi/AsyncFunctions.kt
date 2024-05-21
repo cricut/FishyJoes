@@ -1,7 +1,7 @@
 package com.cricut.testapi
 
-import kotlinx.coroutines.*
 import java.lang.Exception
+import kotlinx.coroutines.*
 
 /**
  * <!-- FishyJoes.export(AsyncFunctions) -->
@@ -165,6 +165,18 @@ sealed class AsyncFunctions {
         private external fun __jni_exercise6(
             fn: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)
         ): kotlinx.coroutines.Deferred<kotlin.String>
+
+        /**
+         * <!-- FishyJoes.export(thunkTwiceMaker) -->
+         */
+        fun thunkTwiceMaker(
+            thunk: (suspend () -> kotlin.Unit)
+        ): (suspend () -> kotlin.Unit) = __jni_thunkTwiceMaker(thunk)
+        @JvmStatic
+        @JvmName("__jni_thunkTwiceMaker")
+        private external fun __jni_thunkTwiceMaker(
+            thunk: (suspend () -> kotlin.Unit)
+        ): (suspend () -> kotlin.Unit)
 
         init { loadNativeLibs() }
     }

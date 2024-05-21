@@ -18,7 +18,7 @@ concurrency:
 jobs:
   integration-tests-mac:
     name: "macOS: Integration tests"
-    runs-on: macOS-12
+    runs-on: [macOS, self-hosted, ARM64]
     env:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
@@ -44,6 +44,11 @@ jobs:
           node-version: '16.x'
           registry-url: 'https://npm.pkg.github.com/'
           scope: '@cricut'
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '6'
 
       - uses: dart-lang/setup-dart@v1
 
@@ -76,7 +81,6 @@ jobs:
           set -euxo pipefail
 
           cd integration-tests/TestAPI-bindings
-
           swift run -- fishy-joes --nodejs build test
 
       - name: Build FishyJoesIotaRuntime
@@ -127,8 +131,7 @@ jobs:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
-      SWIFT_WASM_URL: |-
-        https://github.com/swiftwasm/swift/releases/download/swift-wasm-5.9-SNAPSHOT-2023-08-06-a/swift-wasm-5.9-SNAPSHOT-2023-08-06-a-ubuntu20.04_x86_64.tar.gz
+
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -170,9 +173,9 @@ jobs:
           # Sadly, Ubuntu LTS doesn't have an up-to-date binaryen, so use a wasm version instead
           npm -g install binaryen@111.0.0
 
-          curl -Lo swift-wasm.tgz $SWIFT_WASM_URL
-          sudo mkdir -p /Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2023-08-06-a.xctoolchain
-          sudo tar -xf swift-wasm.tgz -C /Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2023-08-06-a.xctoolchain --strip-components 1
+          curl -Lo swift-wasm.tgz https://github.com/swiftwasm/swift/releases/download/swift-wasm-5.9-SNAPSHOT-2024-03-27-a/swift-wasm-5.9-SNAPSHOT-2024-03-27-a-ubuntu20.04_x86_64.tar.gz
+          sudo mkdir -p /Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2024-03-27-a.xctoolchain
+          sudo tar -xf swift-wasm.tgz -C /Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2024-03-27-a.xctoolchain --strip-components 1
 
       - name: Build FishyJoesNodeRuntime
         shell: zsh {0}
@@ -187,10 +190,6 @@ jobs:
           set -euxo pipefail
 
           cd integration-tests/TestAPI-bindings
-          swift run -- fishy-joes --nodejs --wasm build test
-
-          npm install
-
           swift run -- fishy-joes --nodejs --wasm build test
 
       - name: Build FishyJoesIotaRuntime
@@ -231,8 +230,8 @@ jobs:
       - name: Build android FishyJoesJavaRuntime
         uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185
         with:
-          username: cricut-builduser
-          password:  ${{ secrets.CRICUT_GPR_TOKEN }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
           registry: ghcr.io
           image: ghcr.io/cricut/android-swift-runtime:1.1.0
           options: -v ${{ github.workspace }}:/work -w /work
@@ -262,6 +261,124 @@ jobs:
         with:
           name: maven-local
           path: ~/.m2/repository
+
+  integration-tests-windows:
+    name: "Windows: Integration tests"
+    runs-on: windows-2019
+    env:
+      GRADLE_OPTS: -Dorg.gradle.daemon=false
+      GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
+      GITHUB_USER: cricut-builduser
+      SWIFT: ${{ github.workspace }}\scripts\swift-shim.ps1
+      SWIFT_PACKAGE_RESOLVE: 0
+      EXTRA_LIBPATH: '.build\lib'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup git credentials
+        uses: de-vri-es/setup-git-credentials@v2
+        with:
+          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
+
+      - uses: compnerd/gha-setup-swift@main
+        with:
+          branch: swift-5.9.1-release
+          tag: 5.9.1-RELEASE
+
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: zulu
+          java-version: 11
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          registry-url: 'https://npm.pkg.github.com/'
+          scope: '@cricut'
+
+      - uses: dart-lang/setup-dart@v1
+
+      - name: Pre-resolve Required SwiftPM Packages
+        continue-on-error: true
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'SilentlyContinue'
+
+          swift package resolve
+          swift package resolve
+          swift package resolve
+
+          cd integration-tests/TestAPI-bindings
+          swift package resolve
+          swift package resolve
+          swift package resolve
+
+          cd ../../node-runtime/register-module-shim
+          swift package resolve
+          swift package resolve
+          swift package resolve
+
+      - name: Build FishyJoesNodeRuntime
+        shell: bash
+        run: |
+          set -euxo pipefail
+
+          ./scripts/compile-node-runtime.sh
+
+      - name: Test TypeScript from npm via fishy-joes
+        shell: bash
+        run: |
+          set -euxo pipefail
+
+          cd integration-tests/TestAPI-bindings
+          "$SWIFT" run -- fishy-joes --nodejs build test
+
+      - name: Build FishyJoesIotaRuntime
+        shell: bash
+        run: |
+          set -euxo pipefail
+
+          ./scripts/compile-iota-runtime.sh
+
+      - name: Test C♯ from dotnet via fishy-joes
+        shell: bash
+        run: |
+          set -euxo pipefail
+
+          cd integration-tests/TestAPI-bindings
+          "$SWIFT" run -- fishy-joes --c-sharp build test
+
+      - name: Test Dart from dart via fishy-joes
+        shell: bash
+        run: |
+          set -euxo pipefail
+
+          cd integration-tests/TestAPI-bindings
+
+          # Add dart DLLs to path
+          # Someone who understands windows better than I do is welcome to fix this in a better way
+          PATH="$PWD/dart/windows/native:$PATH"
+
+          "$SWIFT" run -- fishy-joes --dart build test
+
+      - name: Build FishyJoesJavaRuntime
+        shell: bash
+        run: |
+          set -euxo pipefail
+
+          ./scripts/compile-kotlin-native-runtime.sh
+          (cd kotlin-runtime && ./gradlew publishToMavenLocal)
+
+      - name: Test kotlin from gradle via fishy-joes
+        shell: bash
+        run: |
+          set -euxo pipefail
+
+          cd integration-tests/TestAPI-bindings
+          $SWIFT run -- fishy-joes --kotlin-fast build test
 
   integration-tests-android:
     name: "Android: Integration Tests"

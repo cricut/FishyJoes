@@ -1,7 +1,7 @@
 package com.cricut.testapi
 
-import kotlinx.coroutines.*
 import java.lang.Exception
+import kotlinx.coroutines.*
 
 /**
  * <!-- FishyJoes.export(Functions) -->
@@ -166,6 +166,18 @@ sealed class Functions {
         @JvmName("__jni_willThrow")
         private external fun __jni_willThrow(
         ): kotlin.String
+
+        /**
+         * <!-- FishyJoes.export(thunkTwiceMaker) -->
+         */
+        fun thunkTwiceMaker(
+            thunk: (() -> kotlin.Unit)
+        ): (() -> kotlin.Unit) = __jni_thunkTwiceMaker(thunk)
+        @JvmStatic
+        @JvmName("__jni_thunkTwiceMaker")
+        private external fun __jni_thunkTwiceMaker(
+            thunk: (() -> kotlin.Unit)
+        ): (() -> kotlin.Unit)
 
         init { loadNativeLibs() }
     }

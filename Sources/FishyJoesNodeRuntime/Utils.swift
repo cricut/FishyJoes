@@ -20,6 +20,11 @@ public struct MalformedURLError: Error {
 // Node has already recorded an exception. Let it propigate.
 public struct JSExceptionPending: Error {}
 
+func debug(file: StaticString = #file, line: UInt = #line, _ msgs: Any? ...) {
+    let message = "\(file):\(line): " + msgs.map { "\($0 ?? "<null>")" }.joined(separator: " ") + "\n" + "\n"
+    _ = message.withCString { fputs($0, stderr) }
+}
+
 public func callbackBody(
     _ env: napi_env!,
     _ info: napi_callback_info!,
@@ -47,7 +52,7 @@ public func rethrowToNode(env: NAPI.Env, _ body: () throws -> NAPI.Value?) -> na
         // let js deal with the exception
         return nil
     } catch let e {
-        print("Caught swift error \(e). Re-throwing to node.")
+        debug("Caught swift error \(e). Re-throwing to node.")
         try? env.throw(String.toNode(e.localizedDescription, env: env))
         return nil
     }
@@ -104,7 +109,7 @@ public func asyncRethrowToNode(env: NAPI.Env, _ body: @escaping () async throws 
                     // is this right?
                     try env.rejectDeferred(deferred, env.getUndefined())
                 } catch let e {
-                    print("Caught swift error \(e). Re-throwing to node.")
+                    debug("Caught swift error \(e). Re-throwing to node.")
                     try? env.rejectDeferred(deferred, String.toNode(e.localizedDescription, env: env))
                 }
             }
@@ -169,6 +174,17 @@ public func nodeError(_ error: Error, env: NAPI.Env) throws -> NAPI.Value {
 
 public func nodeIsUndefiend(_ value: NAPI.Value, env: NAPI.Env) throws -> Bool {
     return try env.typeof(value) == napi_undefined
+}
+
+public func nodeIterate(_ iterator: NAPI.Value, env: NAPI.Env, _ body: (NAPI.Value) throws -> Void) throws {
+    let nextMethod = try env.getNamedProperty(iterator, "next")
+    while true {
+        let result = try env.callFunction(iterator, nextMethod, [])
+        guard try !env.getValueBool(env.getNamedProperty(result, "done")) else {
+            return
+        }
+        try body(env.getNamedProperty(result, "value"))
+    }
 }
 
 private enum JSMainThread {

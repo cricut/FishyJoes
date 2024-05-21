@@ -4,6 +4,214 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI_CommonInterface",
+            "name" : "_AProtocolConverter",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "AProtocol",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "AProtocol",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/AProtocol"
+        }
+      },
+      "kotlinName" : "AProtocol",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=AProtocol>>",
+      "nodeName" : "TestAPI.AProtocol",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "AProtocol",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "AProtocolImplementation",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "AProtocolImplementation",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "AProtocolImplementation",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/AProtocolImplementation"
+        }
+      },
+      "kotlinName" : "AProtocolImplementation",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=AProtocolImplementation>>",
+      "nodeName" : "TestAPI.AProtocolImplementation",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "AProtocolImplementation",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Actors",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "Actors",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Actors",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Actors"
+        }
+      },
+      "kotlinName" : "Actors",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Actors>>",
+      "nodeName" : "TestAPI.Actors",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Actors",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TemperatureLogger",
+            "namespace" : [
+              "Actors"
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "Actors.TemperatureLogger",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Actors_TemperatureLogger",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Actors$TemperatureLogger"
+        }
+      },
+      "kotlinName" : "Actors.TemperatureLogger",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=Actors.TemperatureLogger>>",
+      "nodeName" : "TestAPI.Actors.TemperatureLogger",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TemperatureLogger",
+            "namespace" : [
+              "Actors"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
             "module" : "TestAPI",
             "name" : "AssociatedDataEnum",
             "namespace" : [
@@ -1253,6 +1461,578 @@
         "named" : {
           "_0" : {
             "module" : "TestAPI",
+            "name" : "TestAsyncForeignSideFunctionsStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestAsyncForeignSideFunctionsStruct",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestAsyncForeignSideFunctionsStruct",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestAsyncForeignSideFunctionsStruct"
+        }
+      },
+      "kotlinName" : "TestAsyncForeignSideFunctionsStruct",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestAsyncForeignSideFunctionsStruct>>",
+      "nodeName" : "TestAPI.TestAsyncForeignSideFunctionsStruct",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestAsyncForeignSideFunctionsStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI_CommonInterface",
+            "name" : "_TestAsyncFunctionsConverter",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestAsyncFunctions",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestAsyncFunctions",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestAsyncFunctions"
+        }
+      },
+      "kotlinName" : "TestAsyncFunctions",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestAsyncFunctions>>",
+      "nodeName" : "TestAPI.TestAsyncFunctions",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestAsyncFunctions",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestAsyncSwiftSideFunctionsClass",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestAsyncSwiftSideFunctionsClass",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestAsyncSwiftSideFunctionsClass",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestAsyncSwiftSideFunctionsClass"
+        }
+      },
+      "kotlinName" : "TestAsyncSwiftSideFunctionsClass",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=TestAsyncSwiftSideFunctionsClass>>",
+      "nodeName" : "TestAPI.TestAsyncSwiftSideFunctionsClass",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestAsyncSwiftSideFunctionsClass",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI_CommonInterface",
+            "name" : "_TestLeadingUnderscoredPropConverter",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestLeadingUnderscoredProp",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestLeadingUnderscoredProp",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestLeadingUnderscoredProp"
+        }
+      },
+      "kotlinName" : "TestLeadingUnderscoredProp",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestLeadingUnderscoredProp>>",
+      "nodeName" : "TestAPI.TestLeadingUnderscoredProp",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestLeadingUnderscoredProp",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestLeadingUnderscoredPropStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestLeadingUnderscoredPropStruct",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestLeadingUnderscoredPropStruct",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestLeadingUnderscoredPropStruct"
+        }
+      },
+      "kotlinName" : "TestLeadingUnderscoredPropStruct",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestLeadingUnderscoredPropStruct>>",
+      "nodeName" : "TestAPI.TestLeadingUnderscoredPropStruct",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestLeadingUnderscoredPropStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI_CommonInterface",
+            "name" : "_TestMethodsProtocolConverter",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestMethodsProtocol",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestMethodsProtocol",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestMethodsProtocol"
+        }
+      },
+      "kotlinName" : "TestMethodsProtocol",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestMethodsProtocol>>",
+      "nodeName" : "TestAPI.TestMethodsProtocol",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestMethodsProtocol",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI_CommonInterface",
+            "name" : "_TestOptionalsProtocolConverter",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestOptionalsProtocol",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestOptionalsProtocol",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestOptionalsProtocol"
+        }
+      },
+      "kotlinName" : "TestOptionalsProtocol",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestOptionalsProtocol>>",
+      "nodeName" : "TestAPI.TestOptionalsProtocol",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestOptionalsProtocol",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI_CommonInterface",
+            "name" : "_TestPropertiesProtocolConverter",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestPropertiesProtocol",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestPropertiesProtocol",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestPropertiesProtocol"
+        }
+      },
+      "kotlinName" : "TestPropertiesProtocol",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestPropertiesProtocol>>",
+      "nodeName" : "TestAPI.TestPropertiesProtocol",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestPropertiesProtocol",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestProtocolClass",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestProtocolClass",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestProtocolClass",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestProtocolClass"
+        }
+      },
+      "kotlinName" : "TestProtocolClass",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=TestProtocolClass>>",
+      "nodeName" : "TestAPI.TestProtocolClass",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestProtocolClass",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestProtocolEnum",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestProtocolEnum",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestProtocolEnum",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestProtocolEnum"
+        }
+      },
+      "kotlinName" : "TestProtocolEnum",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=TestProtocolEnum>>",
+      "nodeName" : "TestAPI.TestProtocolEnum",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestProtocolEnum",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestProtocolStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestProtocolStruct",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestProtocolStruct",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestProtocolStruct"
+        }
+      },
+      "kotlinName" : "TestProtocolStruct",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestProtocolStruct>>",
+      "nodeName" : "TestAPI.TestProtocolStruct",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestProtocolStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
             "name" : "Tuples",
             "namespace" : [
 
@@ -1446,11 +2226,15 @@
                 }
               }
             ],
+            "implements" : [
+
+            ],
             "methods" : [
               {
                 "documentation" : [
                   "<!-- FishyJoes.export(testCall) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "testCall",
@@ -1502,11 +2286,15 @@
                 }
               }
             ],
+            "implements" : [
+
+            ],
             "methods" : [
               {
                 "documentation" : [
                   "<!-- FishyJoes.export(testCall) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "testCall",
@@ -1537,11 +2325,15 @@
             "fields" : [
 
             ],
+            "implements" : [
+
+            ],
             "methods" : [
               {
                 "documentation" : [
                   "<!-- FishyJoes.export(create) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "create",
@@ -1558,6 +2350,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(testCall) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "testCall",
@@ -1572,6 +2365,328 @@
               }
             ],
             "name" : "Structs_PuttingTypesIntoQuestionablePlaces"
+          },
+          {
+            "constructor" : {
+              "hidden" : {
+
+              }
+            },
+            "documentation" : [
+
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(baz) -->"
+                ],
+                "isStatic" : false,
+                "name" : "baz",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "boolean"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(foo) -->"
+                ],
+                "isStatic" : false,
+                "name" : "foo",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              }
+            ],
+            "implements" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(bar) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "bar",
+                "parameters" : [
+                  {
+                    "name" : "x",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "y",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "AProtocol",
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.AProtocol"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(hasADefaultImplementation) -->"
+                ],
+                "hasDefaultImplementation" : true,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "hasADefaultImplementation",
+                "parameters" : [
+                  {
+                    "name" : "x",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "y",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "AProtocol",
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(hasADefaultImplementation2) -->"
+                ],
+                "hasDefaultImplementation" : true,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "hasADefaultImplementation2",
+                "parameters" : [
+                  {
+                    "name" : "a",
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "b",
+                    "type" : {
+                      "named" : {
+                        "_0" : "boolean"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "c",
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "AProtocol",
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              }
+            ],
+            "name" : "ExternalWitness_AProtocol"
+          },
+          {
+            "constructor" : {
+              "visible" : {
+                "names" : [
+                  "foo",
+                  "baz"
+                ],
+                "types" : [
+                  {
+                    "named" : {
+                      "_0" : "string"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "boolean"
+                    }
+                  }
+                ]
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "foo",
+                "readOnly" : false,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "baz",
+                "readOnly" : false,
+                "type" : {
+                  "named" : {
+                    "_0" : "boolean"
+                  }
+                }
+              }
+            ],
+            "implements" : [
+              "AProtocol"
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(bar) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "bar",
+                "parameters" : [
+                  {
+                    "name" : "x",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "y",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.AProtocol"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(hasADefaultImplementation) -->"
+                ],
+                "hasDefaultImplementation" : true,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "hasADefaultImplementation",
+                "parameters" : [
+                  {
+                    "name" : "x",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "y",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "AProtocol",
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(hasADefaultImplementation2) -->"
+                ],
+                "hasDefaultImplementation" : true,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "hasADefaultImplementation2",
+                "parameters" : [
+                  {
+                    "name" : "a",
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "b",
+                    "type" : {
+                      "named" : {
+                        "_0" : "boolean"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "c",
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "AProtocol",
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              }
+            ],
+            "name" : "AProtocolImplementation"
           },
           {
             "constructor" : {
@@ -1653,6 +2768,19 @@
               },
               {
                 "documentation" : [
+                  "<!-- FishyJoes.export(garply) -->"
+                ],
+                "isStatic" : false,
+                "name" : "garply",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
                   "<!-- FishyJoes.exportAsMethod(instanceGetMethod) -->"
                 ],
                 "isStatic" : false,
@@ -1691,11 +2819,15 @@
                 }
               }
             ],
+            "implements" : [
+
+            ],
             "methods" : [
               {
                 "documentation" : [
                   "<!-- FishyJoes.export(create) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "create",
@@ -1710,8 +2842,41 @@
               },
               {
                 "documentation" : [
+                  "<!-- FishyJoes.export(doublePlusGood) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "doublePlusGood",
+                "parameters" : [
+                  {
+                    "name" : "a",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "b",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
                   "<!-- FishyJoes.export(async42) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "async42",
@@ -1732,6 +2897,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(asyncYield) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "asyncYield",
@@ -1752,6 +2918,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(asyncSleep) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "asyncSleep",
@@ -1772,6 +2939,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(asyncVoid) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "asyncVoid",
@@ -1792,6 +2960,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(asyncDouble) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "asyncDouble",
@@ -1819,6 +2988,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(asyncMultipleArgs) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "asyncMultipleArgs",
@@ -1854,6 +3024,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(asyncThrowing) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "asyncThrowing",
@@ -1874,6 +3045,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(asyncCallbackFunc0) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "asyncCallbackFunc0",
@@ -1901,6 +3073,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(staticAsync42) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : true,
                 "name" : "staticAsync42",
@@ -1921,6 +3094,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(staticAsyncYield) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : true,
                 "name" : "staticAsyncYield",
@@ -1941,6 +3115,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(staticAsyncSleep) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : true,
                 "name" : "staticAsyncSleep",
@@ -1961,6 +3136,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(staticAsyncVoid) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : true,
                 "name" : "staticAsyncVoid",
@@ -1981,6 +3157,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(staticAsyncDouble) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : true,
                 "name" : "staticAsyncDouble",
@@ -2008,6 +3185,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(staticAsyncMultipleArgs) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : true,
                 "name" : "staticAsyncMultipleArgs",
@@ -2043,6 +3221,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(staticAsyncThrowing) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : true,
                 "name" : "staticAsyncThrowing",
@@ -2063,6 +3242,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(staticAsyncCallbackFunc0) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : true,
                 "name" : "staticAsyncCallbackFunc0",
@@ -2088,6 +3268,2290 @@
               }
             ],
             "name" : "Methods"
+          },
+          {
+            "constructor" : {
+              "visible" : {
+                "names" : [
+                  "const42",
+                  "iabs",
+                  "intCompose",
+                  "add3Things",
+                  "makeList",
+                  "fifthThing",
+                  "six",
+                  "willThrow",
+                  "exercise0Fun",
+                  "exercise1Fun",
+                  "exercise2Fun",
+                  "exercise3Fun",
+                  "exercise4Fun",
+                  "exercise5Fun",
+                  "exercise6Fun",
+                  "thunkTwiceMakerFun"
+                ],
+                "types" : [
+                  {
+                    "named" : {
+                      "_0" : "() => Promise<number>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: number) => Promise<number>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: number, _1: number, _2: number) => Promise<number>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: string, _1: string, _2: string, _3: string) => Promise<string[]>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "() => Promise<number>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: () => Promise<number>) => Promise<string>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: (_0: number) => Promise<number>) => Promise<string>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>) => Promise<string>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: (_0: number, _1: number, _2: number) => Promise<number>) => Promise<string>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>) => Promise<string>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>) => Promise<string>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>) => Promise<string>"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "(_0: () => Promise<void>) => () => Promise<void>"
+                    }
+                  }
+                ]
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct, conformances: [TestAsyncFunctions]) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "const42",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "() => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "iabs",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "intCompose",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "add3Things",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: number, _1: number, _2: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "makeList",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: string, _1: string, _2: string, _3: string) => Promise<string[]>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "fifthThing",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "six",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "willThrow",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "() => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "exercise0Fun",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: () => Promise<number>) => Promise<string>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "exercise1Fun",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: (_0: number) => Promise<number>) => Promise<string>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "exercise2Fun",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>) => Promise<string>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "exercise3Fun",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: (_0: number, _1: number, _2: number) => Promise<number>) => Promise<string>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "exercise4Fun",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>) => Promise<string>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "exercise5Fun",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>) => Promise<string>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "exercise6Fun",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>) => Promise<string>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "thunkTwiceMakerFun",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: () => Promise<void>) => () => Promise<void>"
+                  }
+                }
+              }
+            ],
+            "implements" : [
+              "TestAsyncFunctions"
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise0) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise0",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "() => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise1) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise1",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise2) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise2",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise3) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise3",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: number, _1: number, _2: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise4) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise4",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: string, _1: string, _2: string, _3: string) => Promise<string[]>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise5) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise5",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise6) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise6",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(thunkTwiceMaker) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "thunkTwiceMaker",
+                "parameters" : [
+                  {
+                    "name" : "thunk",
+                    "type" : {
+                      "named" : {
+                        "_0" : "() => Promise<void>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "() => Promise<void>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(witness) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "witness",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.TestAsyncFunctions"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(defaultExercise6) -->"
+                ],
+                "hasDefaultImplementation" : true,
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "defaultExercise6",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "TestAsyncFunctions",
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "name" : "TestAsyncForeignSideFunctionsStruct"
+          },
+          {
+            "constructor" : {
+              "hidden" : {
+
+              }
+            },
+            "documentation" : [
+
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(add3Things) -->"
+                ],
+                "isStatic" : false,
+                "name" : "add3Things",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: number, _1: number, _2: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(const42) -->"
+                ],
+                "isStatic" : false,
+                "name" : "const42",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "() => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(fifthThing) -->"
+                ],
+                "isStatic" : false,
+                "name" : "fifthThing",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(iabs) -->"
+                ],
+                "isStatic" : false,
+                "name" : "iabs",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(intCompose) -->"
+                ],
+                "isStatic" : false,
+                "name" : "intCompose",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(makeList) -->"
+                ],
+                "isStatic" : false,
+                "name" : "makeList",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: string, _1: string, _2: string, _3: string) => Promise<string[]>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(six) -->"
+                ],
+                "isStatic" : false,
+                "name" : "six",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(willThrow) -->"
+                ],
+                "isStatic" : false,
+                "name" : "willThrow",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "() => Promise<number>"
+                  }
+                }
+              }
+            ],
+            "implements" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise0) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise0",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "() => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "TestAsyncFunctions",
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise1) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise1",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "TestAsyncFunctions",
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise2) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise2",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "TestAsyncFunctions",
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise3) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise3",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: number, _1: number, _2: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "TestAsyncFunctions",
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise4) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise4",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: string, _1: string, _2: string, _3: string) => Promise<string[]>"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "TestAsyncFunctions",
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise5) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise5",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "TestAsyncFunctions",
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise6) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise6",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "TestAsyncFunctions",
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(thunkTwiceMaker) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "thunkTwiceMaker",
+                "parameters" : [
+                  {
+                    "name" : "thunk",
+                    "type" : {
+                      "named" : {
+                        "_0" : "() => Promise<void>"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "TestAsyncFunctions",
+                "returnType" : {
+                  "named" : {
+                    "_0" : "() => Promise<void>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(defaultExercise6) -->"
+                ],
+                "hasDefaultImplementation" : true,
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "defaultExercise6",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "TestAsyncFunctions",
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(witness) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "witness",
+                "parameters" : [
+
+                ],
+                "protocolName" : "TestAsyncFunctions",
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.TestAsyncFunctions"
+                  }
+                }
+              }
+            ],
+            "name" : "ExternalWitness_TestAsyncFunctions"
+          },
+          {
+            "constructor" : {
+              "hidden" : {
+
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass, conformances: [TestAsyncFunctions]) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(const42) -->"
+                ],
+                "isStatic" : false,
+                "name" : "const42",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "() => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(iabs) -->"
+                ],
+                "isStatic" : false,
+                "name" : "iabs",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(intCompose) -->"
+                ],
+                "isStatic" : false,
+                "name" : "intCompose",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(add3Things) -->"
+                ],
+                "isStatic" : false,
+                "name" : "add3Things",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: number, _1: number, _2: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(makeList) -->"
+                ],
+                "isStatic" : false,
+                "name" : "makeList",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: string, _1: string, _2: string, _3: string) => Promise<string[]>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(fifthThing) -->"
+                ],
+                "isStatic" : false,
+                "name" : "fifthThing",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(six) -->"
+                ],
+                "isStatic" : false,
+                "name" : "six",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(willThrow) -->"
+                ],
+                "isStatic" : false,
+                "name" : "willThrow",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "() => Promise<number>"
+                  }
+                }
+              }
+            ],
+            "implements" : [
+              "TestAsyncFunctions"
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise0) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise0",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "() => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise1) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise1",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise2) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise2",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise3) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise3",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: number, _1: number, _2: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise4) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise4",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: string, _1: string, _2: string, _3: string) => Promise<string[]>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise5) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise5",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise6) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise6",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(thunkTwiceMaker) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "thunkTwiceMaker",
+                "parameters" : [
+                  {
+                    "name" : "thunk",
+                    "type" : {
+                      "named" : {
+                        "_0" : "() => Promise<void>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "() => Promise<void>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(witness) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "witness",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.TestAsyncFunctions"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(init) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "init",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.TestAsyncSwiftSideFunctionsClass"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(defaultExercise6) -->"
+                ],
+                "hasDefaultImplementation" : true,
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "defaultExercise6",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "TestAsyncFunctions",
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "name" : "TestAsyncSwiftSideFunctionsClass"
+          },
+          {
+            "constructor" : {
+              "hidden" : {
+
+              }
+            },
+            "documentation" : [
+
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(_leadingUnderscoreProp) -->"
+                ],
+                "isStatic" : false,
+                "name" : "_leadingUnderscoreProp",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              }
+            ],
+            "implements" : [
+
+            ],
+            "methods" : [
+
+            ],
+            "name" : "ExternalWitness_TestLeadingUnderscoredProp"
+          },
+          {
+            "constructor" : {
+              "visible" : {
+                "names" : [
+                  "_leadingUnderscoreProp"
+                ],
+                "types" : [
+                  {
+                    "named" : {
+                      "_0" : "string"
+                    }
+                  }
+                ]
+              }
+            },
+            "documentation" : [
+              "// <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp, TestLeadingUnderscoredMethod]) -->",
+              "<!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp]) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "_leadingUnderscoreProp",
+                "readOnly" : false,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              }
+            ],
+            "implements" : [
+              "TestLeadingUnderscoredProp"
+            ],
+            "methods" : [
+
+            ],
+            "name" : "TestLeadingUnderscoredPropStruct"
+          },
+          {
+            "constructor" : {
+              "hidden" : {
+
+              }
+            },
+            "documentation" : [
+
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+
+            ],
+            "implements" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(foo) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "foo",
+                "parameters" : [
+
+                ],
+                "protocolName" : "TestMethodsProtocol",
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(bar) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "bar",
+                "parameters" : [
+
+                ],
+                "protocolName" : "TestMethodsProtocol",
+                "returnType" : {
+                  "named" : {
+                    "_0" : "boolean"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(baz) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "baz",
+                "parameters" : [
+                  {
+                    "name" : "qux",
+                    "type" : {
+                      "named" : {
+                        "_0" : "boolean"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "TestMethodsProtocol",
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(garply) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "garply",
+                "parameters" : [
+                  {
+                    "name" : "_0",
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "TestMethodsProtocol",
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(xyzzy) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "xyzzy",
+                "parameters" : [
+                  {
+                    "name" : "thud",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "grault",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number[]"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "TestMethodsProtocol",
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(plugh) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "plugh",
+                "parameters" : [
+                  {
+                    "name" : "fred",
+                    "type" : {
+                      "named" : {
+                        "_0" : "[boolean, number, string[]]"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "TestMethodsProtocol",
+                "returnType" : {
+                  "named" : {
+                    "_0" : "[boolean, number, string]"
+                  }
+                }
+              }
+            ],
+            "name" : "ExternalWitness_TestMethodsProtocol"
+          },
+          {
+            "constructor" : {
+              "hidden" : {
+
+              }
+            },
+            "documentation" : [
+
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(flarp) -->"
+                ],
+                "isStatic" : false,
+                "name" : "flarp",
+                "readOnly" : true,
+                "type" : {
+                  "optional" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "implements" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(wombat) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "wombat",
+                "parameters" : [
+                  {
+                    "name" : "zxc",
+                    "type" : {
+                      "optional" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "TestOptionalsProtocol",
+                "returnType" : {
+                  "optional" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(spqr) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "spqr",
+                "parameters" : [
+                  {
+                    "name" : "pippo",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.AssociatedDataEnum"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "TestOptionalsProtocol",
+                "returnType" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
+            ],
+            "name" : "ExternalWitness_TestOptionalsProtocol"
+          },
+          {
+            "constructor" : {
+              "hidden" : {
+
+              }
+            },
+            "documentation" : [
+
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(corge) -->"
+                ],
+                "isStatic" : false,
+                "name" : "corge",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(frobby) -->"
+                ],
+                "isStatic" : false,
+                "name" : "frobby",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number[]"
+                  }
+                }
+              }
+            ],
+            "implements" : [
+
+            ],
+            "methods" : [
+
+            ],
+            "name" : "ExternalWitness_TestPropertiesProtocol"
+          },
+          {
+            "constructor" : {
+              "hidden" : {
+
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.exportReference(TestProtocolClass, conformances: [TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol]) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(corge) -->"
+                ],
+                "isStatic" : false,
+                "name" : "corge",
+                "readOnly" : false,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(flarp) -->"
+                ],
+                "isStatic" : false,
+                "name" : "flarp",
+                "readOnly" : false,
+                "type" : {
+                  "optional" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(frobby) -->"
+                ],
+                "isStatic" : false,
+                "name" : "frobby",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number[]"
+                  }
+                }
+              }
+            ],
+            "implements" : [
+              "TestMethodsProtocol",
+              "TestOptionalsProtocol",
+              "TestPropertiesProtocol"
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(foo) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "foo",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(bar) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "bar",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "boolean"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(baz) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "baz",
+                "parameters" : [
+                  {
+                    "name" : "qux",
+                    "type" : {
+                      "named" : {
+                        "_0" : "boolean"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(garply) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "garply",
+                "parameters" : [
+                  {
+                    "name" : "str",
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(xyzzy) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "xyzzy",
+                "parameters" : [
+                  {
+                    "name" : "thud",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "grault",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number[]"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(plugh) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "plugh",
+                "parameters" : [
+                  {
+                    "name" : "fred",
+                    "type" : {
+                      "named" : {
+                        "_0" : "[boolean, number, string[]]"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "[boolean, number, string]"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(init) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "init",
+                "parameters" : [
+                  {
+                    "name" : "corge",
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "defaultValue" : "nil",
+                    "name" : "flarp",
+                    "type" : {
+                      "optional" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.TestProtocolClass"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(wombat) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "wombat",
+                "parameters" : [
+                  {
+                    "name" : "zxc",
+                    "type" : {
+                      "optional" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "optional" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(spqr) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "spqr",
+                "parameters" : [
+                  {
+                    "name" : "pippo",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.AssociatedDataEnum"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
+            ],
+            "name" : "TestProtocolClass"
+          },
+          {
+            "constructor" : {
+              "visible" : {
+                "names" : [
+                  "corge"
+                ],
+                "types" : [
+                  {
+                    "named" : {
+                      "_0" : "string"
+                    }
+                  }
+                ]
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.export(TestProtocolStruct, conformances: [TestMethodsProtocol, TestPropertiesProtocol]) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "corge",
+                "readOnly" : false,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(frobby) -->"
+                ],
+                "isStatic" : false,
+                "name" : "frobby",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number[]"
+                  }
+                }
+              }
+            ],
+            "implements" : [
+              "TestMethodsProtocol",
+              "TestPropertiesProtocol"
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(foo) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "foo",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(bar) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "bar",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "boolean"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(baz) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "baz",
+                "parameters" : [
+                  {
+                    "name" : "qux",
+                    "type" : {
+                      "named" : {
+                        "_0" : "boolean"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(garply) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "garply",
+                "parameters" : [
+                  {
+                    "name" : "str",
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(xyzzy) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "xyzzy",
+                "parameters" : [
+                  {
+                    "name" : "thud",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "grault",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number[]"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(plugh) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "plugh",
+                "parameters" : [
+                  {
+                    "name" : "fred",
+                    "type" : {
+                      "named" : {
+                        "_0" : "[boolean, number, string[]]"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "[boolean, number, string]"
+                  }
+                }
+              }
+            ],
+            "name" : "TestProtocolStruct"
           }
         ],
         "fields" : [
@@ -2095,6 +5559,153 @@
         ],
         "interfaces" : [
           {
+            "documentation" : [
+              "<!-- FishyJoes.export(AProtocol) -->"
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(baz) -->"
+                ],
+                "isStatic" : false,
+                "name" : "baz",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "boolean"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(foo) -->"
+                ],
+                "isStatic" : false,
+                "name" : "foo",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              }
+            ],
+            "forNamespace" : "TestAPI",
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(bar) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "bar",
+                "parameters" : [
+                  {
+                    "name" : "x",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "y",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "AProtocol",
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.AProtocol"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(hasADefaultImplementation) -->"
+                ],
+                "hasDefaultImplementation" : true,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "hasADefaultImplementation",
+                "parameters" : [
+                  {
+                    "name" : "x",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "y",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "AProtocol",
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(hasADefaultImplementation2) -->"
+                ],
+                "hasDefaultImplementation" : true,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "hasADefaultImplementation2",
+                "parameters" : [
+                  {
+                    "name" : "a",
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "b",
+                    "type" : {
+                      "named" : {
+                        "_0" : "boolean"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "c",
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "AProtocol",
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              }
+            ],
+            "name" : "AProtocol"
+          },
+          {
+            "documentation" : [
+
+            ],
             "fields" : [
               {
                 "documentation" : [
@@ -2116,6 +5727,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(plus) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "plus",
@@ -2137,6 +5749,701 @@
               }
             ],
             "name" : "AssociatedDataEnum_Common"
+          },
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(TestAsyncFunctions) -->"
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(add3Things) -->"
+                ],
+                "isStatic" : false,
+                "name" : "add3Things",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: number, _1: number, _2: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(const42) -->"
+                ],
+                "isStatic" : false,
+                "name" : "const42",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "() => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(fifthThing) -->"
+                ],
+                "isStatic" : false,
+                "name" : "fifthThing",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(iabs) -->"
+                ],
+                "isStatic" : false,
+                "name" : "iabs",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(intCompose) -->"
+                ],
+                "isStatic" : false,
+                "name" : "intCompose",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(makeList) -->"
+                ],
+                "isStatic" : false,
+                "name" : "makeList",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: string, _1: string, _2: string, _3: string) => Promise<string[]>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(six) -->"
+                ],
+                "isStatic" : false,
+                "name" : "six",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(willThrow) -->"
+                ],
+                "isStatic" : false,
+                "name" : "willThrow",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "() => Promise<number>"
+                  }
+                }
+              }
+            ],
+            "forNamespace" : "TestAPI",
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise0) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise0",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "() => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "TestAsyncFunctions",
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise1) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise1",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "TestAsyncFunctions",
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise2) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise2",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "TestAsyncFunctions",
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise3) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise3",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: number, _1: number, _2: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "TestAsyncFunctions",
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise4) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise4",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: string, _1: string, _2: string, _3: string) => Promise<string[]>"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "TestAsyncFunctions",
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise5) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise5",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "TestAsyncFunctions",
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise6) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "exercise6",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "TestAsyncFunctions",
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(thunkTwiceMaker) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "thunkTwiceMaker",
+                "parameters" : [
+                  {
+                    "name" : "thunk",
+                    "type" : {
+                      "named" : {
+                        "_0" : "() => Promise<void>"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "TestAsyncFunctions",
+                "returnType" : {
+                  "named" : {
+                    "_0" : "() => Promise<void>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(defaultExercise6) -->"
+                ],
+                "hasDefaultImplementation" : true,
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "defaultExercise6",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "TestAsyncFunctions",
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(witness) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "witness",
+                "parameters" : [
+
+                ],
+                "protocolName" : "TestAsyncFunctions",
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.TestAsyncFunctions"
+                  }
+                }
+              }
+            ],
+            "name" : "TestAsyncFunctions"
+          },
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(TestLeadingUnderscoredProp) -->"
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(_leadingUnderscoreProp) -->"
+                ],
+                "isStatic" : false,
+                "name" : "_leadingUnderscoreProp",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              }
+            ],
+            "forNamespace" : "TestAPI",
+            "methods" : [
+
+            ],
+            "name" : "TestLeadingUnderscoredProp"
+          },
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(TestMethodsProtocol) -->"
+            ],
+            "fields" : [
+
+            ],
+            "forNamespace" : "TestAPI",
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(foo) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "foo",
+                "parameters" : [
+
+                ],
+                "protocolName" : "TestMethodsProtocol",
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(bar) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "bar",
+                "parameters" : [
+
+                ],
+                "protocolName" : "TestMethodsProtocol",
+                "returnType" : {
+                  "named" : {
+                    "_0" : "boolean"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(baz) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "baz",
+                "parameters" : [
+                  {
+                    "name" : "qux",
+                    "type" : {
+                      "named" : {
+                        "_0" : "boolean"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "TestMethodsProtocol",
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(garply) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "garply",
+                "parameters" : [
+                  {
+                    "name" : "_0",
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "TestMethodsProtocol",
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(xyzzy) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "xyzzy",
+                "parameters" : [
+                  {
+                    "name" : "thud",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "grault",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number[]"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "TestMethodsProtocol",
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(plugh) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "plugh",
+                "parameters" : [
+                  {
+                    "name" : "fred",
+                    "type" : {
+                      "named" : {
+                        "_0" : "[boolean, number, string[]]"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "TestMethodsProtocol",
+                "returnType" : {
+                  "named" : {
+                    "_0" : "[boolean, number, string]"
+                  }
+                }
+              }
+            ],
+            "name" : "TestMethodsProtocol"
+          },
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(TestOptionalsProtocol) -->"
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(flarp) -->"
+                ],
+                "isStatic" : false,
+                "name" : "flarp",
+                "readOnly" : true,
+                "type" : {
+                  "optional" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "forNamespace" : "TestAPI",
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(wombat) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "wombat",
+                "parameters" : [
+                  {
+                    "name" : "zxc",
+                    "type" : {
+                      "optional" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "TestOptionalsProtocol",
+                "returnType" : {
+                  "optional" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(spqr) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "spqr",
+                "parameters" : [
+                  {
+                    "name" : "pippo",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.AssociatedDataEnum"
+                      }
+                    }
+                  }
+                ],
+                "protocolName" : "TestOptionalsProtocol",
+                "returnType" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
+            ],
+            "name" : "TestOptionalsProtocol"
+          },
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(TestPropertiesProtocol) -->"
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(corge) -->"
+                ],
+                "isStatic" : false,
+                "name" : "corge",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(frobby) -->"
+                ],
+                "isStatic" : false,
+                "name" : "frobby",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number[]"
+                  }
+                }
+              }
+            ],
+            "forNamespace" : "TestAPI",
+            "methods" : [
+
+            ],
+            "name" : "TestPropertiesProtocol"
           }
         ],
         "methods" : [
@@ -2144,6 +6451,206 @@
         ],
         "name" : "TestAPI",
         "namespaces" : {
+          "Actors" : {
+            "classes" : [
+              {
+                "constructor" : {
+                  "hidden" : {
+
+                  }
+                },
+                "documentation" : [
+                  "<!-- FishyJoes.export(Actors.TemperatureLogger) -->"
+                ],
+                "extends" : [
+
+                ],
+                "fields" : [
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(label) -->"
+                    ],
+                    "isStatic" : false,
+                    "name" : "label",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(backwardsLabel) -->"
+                    ],
+                    "isStatic" : false,
+                    "name" : "backwardsLabel",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(extensionNonisolatedVarLabel) -->"
+                    ],
+                    "isStatic" : false,
+                    "name" : "extensionNonisolatedVarLabel",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                ],
+                "implements" : [
+
+                ],
+                "methods" : [
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(create) -->"
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isAsync" : false,
+                    "isStatic" : true,
+                    "name" : "create",
+                    "parameters" : [
+                      {
+                        "name" : "label",
+                        "type" : {
+                          "named" : {
+                            "_0" : "string"
+                          }
+                        }
+                      },
+                      {
+                        "name" : "measurement",
+                        "type" : {
+                          "named" : {
+                            "_0" : "number"
+                          }
+                        }
+                      }
+                    ],
+                    "returnType" : {
+                      "named" : {
+                        "_0" : "TestAPI.Actors.TemperatureLogger"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(update) -->"
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isAsync" : true,
+                    "isStatic" : false,
+                    "name" : "update",
+                    "parameters" : [
+                      {
+                        "label" : "with",
+                        "name" : "measurement",
+                        "type" : {
+                          "named" : {
+                            "_0" : "number"
+                          }
+                        }
+                      }
+                    ],
+                    "returnType" : {
+                      "promise" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "void"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(min) -->"
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isAsync" : true,
+                    "isStatic" : false,
+                    "name" : "min",
+                    "parameters" : [
+
+                    ],
+                    "returnType" : {
+                      "promise" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "number"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(extensionIsolatedGetLabel) -->"
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isAsync" : true,
+                    "isStatic" : false,
+                    "name" : "extensionIsolatedGetLabel",
+                    "parameters" : [
+
+                    ],
+                    "returnType" : {
+                      "promise" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(extensionNonisolatedGetLabel) -->"
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isAsync" : false,
+                    "isStatic" : false,
+                    "name" : "extensionNonisolatedGetLabel",
+                    "parameters" : [
+
+                    ],
+                    "returnType" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                ],
+                "name" : "TemperatureLogger"
+              }
+            ],
+            "fields" : [
+
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+
+            ],
+            "name" : "Actors",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
+          },
           "AssociatedDataEnum" : {
             "classes" : [
               {
@@ -2181,6 +6688,9 @@
                       }
                     }
                   }
+                ],
+                "implements" : [
+
                 ],
                 "methods" : [
 
@@ -2242,6 +6752,9 @@
                     }
                   }
                 ],
+                "implements" : [
+
+                ],
                 "methods" : [
 
                 ],
@@ -2302,6 +6815,9 @@
                     }
                   }
                 ],
+                "implements" : [
+
+                ],
                 "methods" : [
 
                 ],
@@ -2325,6 +6841,9 @@
                   "AssociatedDataEnum_Common"
                 ],
                 "fields" : [
+
+                ],
+                "implements" : [
 
                 ],
                 "methods" : [
@@ -2367,6 +6886,9 @@
                       }
                     }
                   }
+                ],
+                "implements" : [
+
                 ],
                 "methods" : [
 
@@ -2521,6 +7043,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise0) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : true,
                 "name" : "exercise0",
@@ -2548,6 +7071,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise1) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : true,
                 "name" : "exercise1",
@@ -2575,6 +7099,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise2) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : true,
                 "name" : "exercise2",
@@ -2602,6 +7127,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise3) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : true,
                 "name" : "exercise3",
@@ -2629,6 +7155,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise4) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : true,
                 "name" : "exercise4",
@@ -2656,6 +7183,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise5) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : true,
                 "name" : "exercise5",
@@ -2683,6 +7211,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise6) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : true,
                 "name" : "exercise6",
@@ -2703,6 +7232,30 @@
                         "_0" : "string"
                       }
                     }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(thunkTwiceMaker) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "thunkTwiceMaker",
+                "parameters" : [
+                  {
+                    "name" : "thunk",
+                    "type" : {
+                      "named" : {
+                        "_0" : "() => Promise<void>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "() => Promise<void>"
                   }
                 }
               }
@@ -2846,6 +7399,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echo) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echo",
@@ -2869,6 +7423,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(firstIndex) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "firstIndex",
@@ -2893,6 +7448,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(lastIndex) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "lastIndex",
@@ -2917,6 +7473,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(fullRange) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "fullRange",
@@ -2941,6 +7498,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(attributedCharacters) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "attributedCharacters",
@@ -2965,6 +7523,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(attributesPreferringDuplicatesNearerStart) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "attributesPreferringDuplicatesNearerStart",
@@ -2989,6 +7548,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(emptyAttributeRuns) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "emptyAttributeRuns",
@@ -3058,6 +7618,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoBytes) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoBytes",
@@ -3081,6 +7642,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoData) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoData",
@@ -3292,6 +7854,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUInt8Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUInt8Range",
@@ -3315,6 +7878,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUInt16Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUInt16Range",
@@ -3338,6 +7902,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUInt32Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUInt32Range",
@@ -3361,6 +7926,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUInt64Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUInt64Range",
@@ -3384,6 +7950,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUIntRange) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUIntRange",
@@ -3407,6 +7974,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoInt8Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoInt8Range",
@@ -3430,6 +7998,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoInt16Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoInt16Range",
@@ -3453,6 +8022,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoInt32Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoInt32Range",
@@ -3476,6 +8046,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoInt64Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoInt64Range",
@@ -3499,6 +8070,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoIntRange) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoIntRange",
@@ -3522,6 +8094,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoFloatRange) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoFloatRange",
@@ -3545,6 +8118,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoDoubleRange) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoDoubleRange",
@@ -3568,6 +8142,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoStringRange) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoStringRange",
@@ -3812,6 +8387,9 @@
                     }
                   }
                 ],
+                "implements" : [
+
+                ],
                 "methods" : [
 
                 ],
@@ -3995,6 +8573,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoArrayOfInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoArrayOfInt",
@@ -4018,6 +8597,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoSetOfInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoSetOfInt",
@@ -4041,6 +8621,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoDictionaryOfIntToInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoDictionaryOfIntToInt",
@@ -4064,6 +8645,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoMaybeArrayOfMaybeInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoMaybeArrayOfMaybeInt",
@@ -4095,6 +8677,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoMaybeSetOfMaybeInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoMaybeSetOfMaybeInt",
@@ -4126,6 +8709,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoMaybeDictionaryOfIntToMaybeInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoMaybeDictionaryOfIntToMaybeInt",
@@ -4157,6 +8741,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(collectionMapper) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "collectionMapper",
@@ -4216,6 +8801,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoDefaults, compatibilityOrder: [z, y]) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoDefaults",
@@ -4300,6 +8886,7 @@
                   "<!-- FishyJoes.export(deprecatedMethod) -->",
                   "@deprecated don't use this"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "deprecatedMethod",
@@ -4336,6 +8923,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "notGoingToHappen",
@@ -4462,6 +9050,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise0) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "exercise0",
@@ -4485,6 +9074,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise1) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "exercise1",
@@ -4508,6 +9098,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise2) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "exercise2",
@@ -4531,6 +9122,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise3) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "exercise3",
@@ -4554,6 +9146,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise4) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "exercise4",
@@ -4577,6 +9170,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise5) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "exercise5",
@@ -4600,6 +9194,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise6) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "exercise6",
@@ -4623,6 +9218,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(willThrow) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "willThrow",
@@ -4632,6 +9228,30 @@
                 "returnType" : {
                   "named" : {
                     "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(thunkTwiceMaker) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "thunkTwiceMaker",
+                "parameters" : [
+                  {
+                    "name" : "thunk",
+                    "type" : {
+                      "named" : {
+                        "_0" : "() => void"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "() => void"
                   }
                 }
               }
@@ -5286,6 +9906,9 @@
                       }
                     }
                   }
+                ],
+                "implements" : [
+
                 ],
                 "methods" : [
 
@@ -6174,6 +10797,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoBool) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoBool",
@@ -6197,6 +10821,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUInt8) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUInt8",
@@ -6220,6 +10845,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUInt16) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUInt16",
@@ -6243,6 +10869,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUInt32) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUInt32",
@@ -6266,6 +10893,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUInt64) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUInt64",
@@ -6289,6 +10917,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUInt",
@@ -6312,6 +10941,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoInt8) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoInt8",
@@ -6335,6 +10965,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoInt16) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoInt16",
@@ -6358,6 +10989,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoInt32) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoInt32",
@@ -6381,6 +11013,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoInt64) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoInt64",
@@ -6404,6 +11037,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoInt",
@@ -6427,6 +11061,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoFloat) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoFloat",
@@ -6450,6 +11085,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoDouble) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoDouble",
@@ -6473,6 +11109,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maybeEchoBool) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "maybeEchoBool",
@@ -6504,6 +11141,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maybeEchoUInt8) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "maybeEchoUInt8",
@@ -6535,6 +11173,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maybeEchoUInt16) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "maybeEchoUInt16",
@@ -6566,6 +11205,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maybeEchoUInt32) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "maybeEchoUInt32",
@@ -6597,6 +11237,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maybeEchoUInt64) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "maybeEchoUInt64",
@@ -6628,6 +11269,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maybeEchoUInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "maybeEchoUInt",
@@ -6659,6 +11301,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maybeEchoInt8) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "maybeEchoInt8",
@@ -6690,6 +11333,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maybeEchoInt16) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "maybeEchoInt16",
@@ -6721,6 +11365,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maybeEchoInt32) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "maybeEchoInt32",
@@ -6752,6 +11397,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maybeEchoInt64) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "maybeEchoInt64",
@@ -6783,6 +11429,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maybeEchoInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "maybeEchoInt",
@@ -6814,6 +11461,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maybeEchoFloat) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "maybeEchoFloat",
@@ -6845,6 +11493,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maybeEchoDouble) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "maybeEchoDouble",
@@ -6876,6 +11525,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(valueMapper) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "valueMapper",
@@ -7064,6 +11714,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUInt8Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUInt8Range",
@@ -7087,6 +11738,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUInt16Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUInt16Range",
@@ -7110,6 +11762,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUInt32Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUInt32Range",
@@ -7133,6 +11786,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUInt64Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUInt64Range",
@@ -7156,6 +11810,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUIntRange) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUIntRange",
@@ -7179,6 +11834,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoInt8Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoInt8Range",
@@ -7202,6 +11858,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoInt16Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoInt16Range",
@@ -7225,6 +11882,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoInt32Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoInt32Range",
@@ -7248,6 +11906,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoInt64Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoInt64Range",
@@ -7271,6 +11930,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoIntRange) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoIntRange",
@@ -7326,6 +11986,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(pickAColor) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "pickAColor",
@@ -7353,6 +12014,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(hexMethod) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "hexMethod",
@@ -7376,6 +12038,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(resetFavoriteColor) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "resetFavoriteColor",
@@ -7392,6 +12055,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(hex) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "getHex",
@@ -7538,6 +12202,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echo) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echo",
@@ -7623,11 +12288,15 @@
                     }
                   }
                 ],
+                "implements" : [
+
+                ],
                 "methods" : [
                   {
                     "documentation" : [
                       "<!-- FishyJoes.export(create) -->"
                     ],
+                    "hasDefaultImplementation" : false,
                     "isAsync" : false,
                     "isStatic" : true,
                     "name" : "create",
@@ -7644,6 +12313,7 @@
                     "documentation" : [
                       "<!-- FishyJoes.export(asyncGetMutable) -->"
                     ],
+                    "hasDefaultImplementation" : false,
                     "isAsync" : true,
                     "isStatic" : false,
                     "name" : "asyncGetMutable",
@@ -7699,11 +12369,15 @@
                     }
                   }
                 ],
+                "implements" : [
+
+                ],
                 "methods" : [
                   {
                     "documentation" : [
                       "<!-- FishyJoes.export(create) -->"
                     ],
+                    "hasDefaultImplementation" : false,
                     "isAsync" : false,
                     "isStatic" : true,
                     "name" : "create",
@@ -7720,6 +12394,7 @@
                     "documentation" : [
                       "<!-- FishyJoes.export(increment) -->"
                     ],
+                    "hasDefaultImplementation" : false,
                     "isAsync" : false,
                     "isStatic" : false,
                     "name" : "increment",
@@ -7736,6 +12411,7 @@
                     "documentation" : [
                       "<!-- FishyJoes.export(incrementAsync) -->"
                     ],
+                    "hasDefaultImplementation" : false,
                     "isAsync" : true,
                     "isStatic" : false,
                     "name" : "incrementAsync",
@@ -7756,6 +12432,7 @@
                     "documentation" : [
                       "<!-- FishyJoes.export(asyncGetI) -->"
                     ],
+                    "hasDefaultImplementation" : false,
                     "isAsync" : true,
                     "isStatic" : false,
                     "name" : "asyncGetI",
@@ -7815,11 +12492,15 @@
                     }
                   }
                 ],
+                "implements" : [
+
+                ],
                 "methods" : [
                   {
                     "documentation" : [
                       "<!-- FishyJoes.export(create) -->"
                     ],
+                    "hasDefaultImplementation" : false,
                     "isAsync" : false,
                     "isStatic" : true,
                     "name" : "create",
@@ -7836,6 +12517,7 @@
                     "documentation" : [
                       "<!-- FishyJoes.export(asyncGetMutable) -->"
                     ],
+                    "hasDefaultImplementation" : false,
                     "isAsync" : true,
                     "isStatic" : false,
                     "name" : "asyncGetMutable",
@@ -7866,6 +12548,210 @@
 
             ],
             "name" : "Structs",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
+          },
+          "TestProtocolEnum" : {
+            "classes" : [
+
+            ],
+            "fields" : [
+
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(foo) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "foo",
+                "parameters" : [
+                  {
+                    "name" : "self",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.TestProtocolEnum"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(bar) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "bar",
+                "parameters" : [
+                  {
+                    "name" : "self",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.TestProtocolEnum"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "boolean"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(baz) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "baz",
+                "parameters" : [
+                  {
+                    "name" : "self",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.TestProtocolEnum"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "qux",
+                    "type" : {
+                      "named" : {
+                        "_0" : "boolean"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(garply) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "garply",
+                "parameters" : [
+                  {
+                    "name" : "self",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.TestProtocolEnum"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "str",
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(xyzzy) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "xyzzy",
+                "parameters" : [
+                  {
+                    "name" : "self",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.TestProtocolEnum"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "thud",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "grault",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number[]"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(plugh) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "plugh",
+                "parameters" : [
+                  {
+                    "name" : "self",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.TestProtocolEnum"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "fred",
+                    "type" : {
+                      "named" : {
+                        "_0" : "[boolean, number, string[]]"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "[boolean, number, string]"
+                  }
+                }
+              }
+            ],
+            "name" : "TestProtocolEnum",
             "namespaces" : {
 
             },
@@ -7952,6 +12838,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(checkTuples) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "checkTuples",
@@ -8027,6 +12914,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(testCall) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "testCall",
@@ -8108,6 +12996,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echo) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echo",
@@ -8151,6 +13040,19 @@
                       "_0" : "thing"
                     }
                   }
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(Actors) -->"
+            ],
+            "name" : "Actors",
+            "value" : {
+              "union" : {
+                "_0" : [
+
                 ]
               }
             }
@@ -8384,6 +13286,23 @@
               "union" : {
                 "_0" : [
 
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(TestProtocolEnum, conformances: [TestMethodsProtocol]) -->"
+            ],
+            "name" : "TestProtocolEnum",
+            "value" : {
+              "union" : {
+                "_0" : [
+                  {
+                    "exactString" : {
+                      "_0" : "qux"
+                    }
+                  }
                 ]
               }
             }

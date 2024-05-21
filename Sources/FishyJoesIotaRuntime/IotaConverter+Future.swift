@@ -103,7 +103,7 @@ extension FutureConverter: IotaConverter where OutputConverter: IotaConverter {
         let sinkContextBox = Box<IotaSwiftFuture.SinkContext> { result, env in
             let convertedResult = result.flatMap { value in
                 Result {
-                    try OutputConverter.peekIota(object: value, env: env)
+                    try OutputConverter.consumeIota(object: value, env: env)
                 }
             }
             promise.handle(convertedResult)

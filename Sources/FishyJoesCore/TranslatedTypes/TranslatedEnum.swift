@@ -14,9 +14,10 @@ struct TranslatedEnum: TranslatedType {
     let cases: [Case]
     let documentation: [String]
     let methods: [Method]
-    let fields: [Variable]
+    let fields: [Field]
     let isInhabited: Bool
     let definingModule: Module
+    let conformances: Set<String>
 
     struct Case {
         let documentation: [String]
@@ -83,10 +84,11 @@ struct TranslatedEnum: TranslatedType {
         }
         self.jniType = .object(context.kotlinTranslator.javaClassName(nodeName, in: context))
         self.documentation = type.documentation
-        self.methods = type.methods.compactMap { Method($0) }
-        self.fields = type.variables.filter { $0.exportAnnotation != nil }
+        self.methods = Method.methods(type: type)
+        self.fields = type.variables.compactMap { Field($0, type: type) }
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
+        self.conformances = exportAnnotation.conformances
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
@@ -146,11 +148,16 @@ struct TranslatedEnum: TranslatedType {
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
             "NodeInterface/\(sourceType.name)+node.swift",
-            additionalImports: ["Foundation", "FishyJoesNodeRuntime"]
+            additionalImports: [
+                "Foundation",
+                "FishyJoesNodeRuntime",
+                "\(context.module.name)_CommonInterface"
+            ]
         )
         if cases.allSatisfy({ $0.associatedValues.isEmpty }), !cases.isEmpty {
             // Simple enum, export as strings
             fragment.outputBlock("extension \(sourceType.name): FishyJoesNodeRuntime.NodeConverter {") {
+                fragment.output("public typealias SwiftType = Self")
                 fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {") {
                     fragment.output("switch try String.fromNode(value, env: env) {")
                     for enumCase in cases {
@@ -173,12 +180,23 @@ struct TranslatedEnum: TranslatedType {
                 fragment.outputBlock("public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {") {
                     fragment.output("let object = try env.createObject()")
                     fragment.outputBlock("let props = try NodeClass.descriptorsFor(properties: [", closeWith: "], env: env)") {
+                        let normalMethods = methods.filter { !$0.isDefaultImplementation }
+                        let defaultMethods = methods.filter { $0.isDefaultImplementation }
+
                         var hasProperties = false
                         hasProperties ||= context.nodeTranslator.outputProperties(
-                            methods: methods,
+                            methods: normalMethods,
                             explicitThis: true,
                             context: context,
-                            fragment: fragment
+                            fragment: fragment,
+                            converterName: nil
+                        )
+                        hasProperties ||= context.nodeTranslator.outputProperties(
+                            methods: defaultMethods,
+                            explicitThis: true,
+                            context: context,
+                            fragment: fragment,
+                            converterName: sourceType.name
                         )
                         hasProperties ||= context.nodeTranslator.outputProperties(
                             computedVariables: fields,
@@ -221,6 +239,7 @@ struct TranslatedEnum: TranslatedType {
             )
         } else {
             fragment.outputBlock("extension \(sourceType.name): FishyJoesNodeRuntime.NodeConverter {") {
+                fragment.output("public typealias SwiftType = Self")
                 fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {") {
                     for enumCase in cases {
                         let className = "\(nodeName).\(upperCaseFirst(enumCase.name))"
@@ -289,7 +308,8 @@ struct TranslatedEnum: TranslatedType {
                             hasProperties ||= context.nodeTranslator.outputProperties(
                                 methods: methods,
                                 context: context,
-                                fragment: fragment
+                                fragment: fragment,
+                                converterName: nil
                             )
                             hasProperties ||= context.nodeTranslator.outputProperties(
                                 computedVariables: fields,
@@ -419,7 +439,7 @@ struct TranslatedEnum: TranslatedType {
 
     func jniDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "JavaInterface/\(sourceType.name)+java.swift",
+            "JavaInterface/\(sourceType.name)+java-type.swift",
             additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
         )
         let className = context.kotlinTranslator.javaClassName(nodeName, in: context)
@@ -521,6 +541,15 @@ struct TranslatedEnum: TranslatedType {
             }
         }
 
+        let (fields, methods) = KotlinClass.separate(
+            fieldsAndMethods:
+                fields.compactMap {
+                    context.kotlin(field: $0, useNativeName: false)
+                } + methods.compactMap {
+                    context.kotlin(method: $0)
+                }
+        )
+
         context.add(
             kotlinClass: KotlinEnumClass(
                 module: context.module,
@@ -540,10 +569,9 @@ struct TranslatedEnum: TranslatedType {
                         )
                     }
                 },
-                fieldsAndMethods:
-                    fields.compactMap { context.kotlin(field: $0, useNativeName: false) } +
-                    methods.compactMap { context.kotlin(method: $0) }
-            )
+                fields: fields,
+                methods: methods
+            ).conforming(to: conformances, context: context)
         )
 
         return fragment

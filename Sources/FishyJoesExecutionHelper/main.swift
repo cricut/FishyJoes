@@ -22,7 +22,11 @@ enum DeprecatedNSKeyedUnarchiver: UndeprecatedNSKeyedUnarchiver {
     }
 }
 guard let context = (DeprecatedNSKeyedUnarchiver.self as UndeprecatedNSKeyedUnarchiver.Type).unarchiveObject(withFile: inputPath) as? TemplateContext else {
-    fatalError("Something went wrong with executing fishyjoes from sourcery")
+    fatalError("inputPath: \(inputPath) CommandLine.arguments: \(CommandLine.arguments) Something went wrong with executing fishyjoes from sourcery")
 }
 
-print(FishyJoesContext(context: context).translateAll())
+var stderrFifoStr: String?
+if CommandLine.arguments.count >= 4 {
+    stderrFifoStr = CommandLine.arguments[3] as String
+}
+print(FishyJoesContext(context: context, stderrFifo: stderrFifoStr ).translateAll())

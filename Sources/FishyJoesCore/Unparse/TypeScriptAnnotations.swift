@@ -28,6 +28,8 @@ struct TypeScriptAnnotations: Codable {
         let name: String
         let parameters: [Parameter]
         let returnType: TSType
+        let hasDefaultImplementation: Bool
+        let protocolName: String?
     }
 
     struct Typealias: Codable {
@@ -37,17 +39,20 @@ struct TypeScriptAnnotations: Codable {
     }
 
     struct Interface: Codable {
+        let documentation: [String]
         var name: String
         var forNamespace: String?
         var fields: [Variable]
         var methods: [Method]
 
         init(
+            documentation: [String] = [],
             name: String,
             forNamespace: String? = nil,
             fields: [Variable],
             methods: [Method]
         ) {
+            self.documentation = documentation
             self.name = name
             self.forNamespace = forNamespace
             self.fields = fields
@@ -59,6 +64,7 @@ struct TypeScriptAnnotations: Codable {
         let documentation: [String]
         var name: String
         let extends: [String]
+        let implements: [String]
         let constructor: Constructor
         let fields: [Variable]
         let methods: [Method]
@@ -73,6 +79,7 @@ struct TypeScriptAnnotations: Codable {
             documentation: [String] = [],
             name: String,
             extends: [String] = [],
+            implements: [String] = [],
             constructor: Constructor,
             fields: [Variable],
             methods: [Method]
@@ -80,6 +87,7 @@ struct TypeScriptAnnotations: Codable {
             self.documentation = documentation
             self.name = name
             self.extends = extends
+            self.implements = implements
             self.constructor = constructor
             self.fields = fields
             self.methods = methods
@@ -272,17 +280,14 @@ extension TypeScriptAnnotations {
             fragment.output(" */")
         }
 
-        func output(method: Method, inClass: Bool) {
+        func output(method: Method, inClass: Bool, optionalMethodsForDefaults: Bool = false, isCore: Bool = false) {
             document(method.documentation)
             if !inClass {
                 fragment.output("function ", newLineTerminated: false)
             } else if method.isStatic {
                 fragment.output("static ", newLineTerminated: false)
             }
-            fragment.outputBlock("\(method.name)(", newLineTerminated: false) {
-                let requiredParams = method.parameters.filter { $0.defaultValue == nil }
-                let optionalParams = method.parameters.filter { $0.defaultValue != nil }
-
+            fragment.outputBlock("\(method.name)\((method.hasDefaultImplementation && optionalMethodsForDefaults) ? "?" : "")(", newLineTerminated: false) {
                 var isFirst = true
                 func outputComma() {
                     if !isFirst {
@@ -290,6 +295,15 @@ extension TypeScriptAnnotations {
                     }
                     isFirst = false
                 }
+
+                if isCore,
+                   let protocolName = method.protocolName {
+                    outputComma()
+                    fragment.output("this: \(protocolName)", newLineTerminated: false)
+                }
+
+                let requiredParams = method.parameters.filter { $0.defaultValue == nil }
+                let optionalParams = method.parameters.filter { $0.defaultValue != nil }
 
                 for parameter in requiredParams {
                     outputComma()
@@ -346,8 +360,11 @@ extension TypeScriptAnnotations {
                         }
 
                         document(tsClass.documentation)
-                        fragment.output("export ", newLineTerminated: false)
-                        fragment.outputBlock("class \(tsClass.name) {") {
+                        fragment.output("export class \(tsClass.name)", newLineTerminated: false)
+                        if !tsClass.implements.isEmpty {
+                            fragment.output(" implements \(tsClass.implements.joined(separator: ", "))", newLineTerminated: false)
+                        }
+                        fragment.outputBlock(" {") {
                             switch tsClass.constructor {
                             case .hidden:
                                 fragment.output("private constructor()")
@@ -358,7 +375,8 @@ extension TypeScriptAnnotations {
                                 fragment.output("private _inhibitStructuralTyping: any")
                                 fragment.blankLine()
                             case .visible(let parameters):
-                                fragment.output("constructor(\(parameters.map { "\($0.name): \($0.type)" }.joined(separator: ", ")))")
+                                fragment.output("constructor(\(parameters.map { "\($0.name): \($0.type)" }.joined(separator: ", ")))", newLineTerminated: false)
+                                fragment.blankLine()
                                 fragment.blankLine()
                             }
 
@@ -370,6 +388,7 @@ extension TypeScriptAnnotations {
                             }
                         }
                     case .interface(let interface):
+                        document(interface.documentation)
                         fragment.outputBlock("interface \(interface.name) {") {
                             for field in interface.fields {
                                 output(field: field, inClass: true)
@@ -378,6 +397,25 @@ extension TypeScriptAnnotations {
                                 output(method: method, inClass: true)
                             }
                         }
+                        fragment.blankLine()
+
+                        if interface.methods.contains(where: { $0.hasDefaultImplementation }) {
+                            fragment.outputBlock("interface \(interface.name)Core {") {
+                                for field in interface.fields {
+                                    output(field: field, inClass: true)
+                                }
+                                for method in interface.methods {
+                                    output(method: method, inClass: true, optionalMethodsForDefaults: true, isCore: true)
+                                }
+                            }
+                            fragment.blankLine()
+
+                            fragment.outputBlock("namespace \(interface.name) {") {
+                                fragment.output("function fromCore(core: \(interface.name)Core): \(interface.name)")
+                            }
+                            fragment.blankLine()
+                        }
+
                     case .field(let field):
                         output(field: field, inClass: false)
                     case .method(let method):

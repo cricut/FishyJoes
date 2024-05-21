@@ -1,7 +1,7 @@
 package com.cricut.testapi
 
-import kotlinx.coroutines.*
 import java.lang.Exception
+import kotlinx.coroutines.*
 
 /**
  * <!-- FishyJoes.export(Primitives) -->
@@ -972,8 +972,7 @@ sealed class Primitives {
         var fq: Float?,
         var d: Double,
         var dq: Double?
-    )
-     {
+    ) {
 
         companion object {
             /**

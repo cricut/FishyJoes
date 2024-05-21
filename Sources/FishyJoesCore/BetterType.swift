@@ -13,7 +13,7 @@ indirect enum BetterType: Codable, Hashable {
     case named(Name)
     case tuple([TupleElement])
     case void
-    case function([BetterType], BetterType, isAsync: Bool)
+    case function([BetterType], BetterType, isAsync: Bool, isThrowing: Bool)
     case generic(base: Name, args: [BetterType])
     case selfType
 
@@ -79,7 +79,12 @@ extension TypeName {
         } else if let dictionary = name.dictionary {
             better = .dictionary(dictionary.keyTypeName.better, dictionary.valueTypeName.better)
         } else if let closure = name.closure {
-            better = .function(closure.parameters.map(\.typeName.better), closure.returnTypeName.better, isAsync: closure.isAsync)
+            better = .function(
+                closure.parameters.map(\.typeName.better),
+                closure.returnTypeName.better,
+                isAsync: closure.isAsync,
+                isThrowing: closure.throws
+            )
         } else if name.unwrappedTypeName == "Self" {
             better = .selfType
         } else if let generic = name.generic {
@@ -136,8 +141,8 @@ extension BetterType {
         // (Looking at you, UnicodeScalar.Script)
         let parts = type.globalName.split(separator: ".").map(String.init)
         let defaultModule = context.module.name
-        // UnicodeScalar is not actually a FishyJoes type, so we need extra special logic here
-        if parts.first == "UnicodeScalar" {
+        // Unicode & UnicodeScalar are not actually a FishyJoes type, so we need extra special logic here
+        if parts.first == "Unicode" || parts.first == "UnicodeScalar" {
             self = .named(.swift(parts.joined(separator: ".")))
         } else if parts.first == "Swift" {
             self = .named(.swift(parts.dropFirst().joined(separator: ".")))
@@ -182,12 +187,43 @@ extension BetterType {
             }.joined(separator: ", ") + ")"
         case .void:
             return "Void"
-        case .function(let args, let ret, let isAsync):
-            return "(\(args.map(\.name).joined(separator: ", ")))\(isAsync ? " async" : "") -> \(ret.name)"
+        case let .function(args, ret, isAsync, isThrowing):
+            return "(\(args.map(\.escapingName).joined(separator: ", ")))\(isAsync ? " async" : "")\(isThrowing ? " throws" : "") -> \(ret.name)"
         case .generic(let base, let args):
             return "\(base.name)<\(args.map(\.name).joined(separator: ", "))>"
         case .selfType:
             return "Self"
+        }
+    }
+
+    var nonNamespacedName: String {
+        switch self {
+        case let .named(name):
+            return name.name
+        default:
+            return name
+        }
+    }
+
+    var escapingName: String {
+        switch self {
+        case .function:
+            return "@escaping \(name)"
+        default:
+            return name
+        }
+    }
+
+    var module: String? {
+        switch self {
+        case let .named(name):
+            return name.module
+        case .void:
+            return "Swift"
+        case let .generic(base: base, args: _):
+            return base.module
+        default:
+            return nil
         }
     }
 

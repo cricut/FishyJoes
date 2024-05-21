@@ -3,7 +3,7 @@ import Foundation
 import SourceryRuntime
 
 struct NodeTranslator: Translator {
-    func output(getter variable: Variable, explicitThis: Bool = false, context: FishyJoesContext, fragment: SourceFragment) {
+    func output(getter variable: Field, explicitThis: Bool = false, context: FishyJoesContext, fragment: SourceFragment) {
         guard let exportAnnotation = variable.exportAnnotation else {
             fatalErr("Variable not annotated for export: \(variable)")
         }
@@ -14,8 +14,8 @@ struct NodeTranslator: Translator {
 
         var argIndex = 0
 
-        if let selfType = variable.definedInTypeName?.better {
-            containingNamespace = context.resolve(type: selfType).sourceType.name
+        if let selfType = variable.definedIn {
+            containingNamespace = context.resolve(type: selfType).converterType.name
 
             if variable.isStatic {
                 selfExpression = containingNamespace
@@ -32,13 +32,13 @@ struct NodeTranslator: Translator {
 
         fragment.outputBlock("{ env, info in", closeWith: "}", newLineTerminated: false) {
             fragment.outputBlock("FishyJoesNodeRuntime.callbackBody(env, info, name: \"\(nodeName)\", expectedArgumentCount: \(argIndex)) { env in", closeWith: "}") {
-                let resolved = context.resolve(type: variable.typeName.better)
+                let resolved = context.resolve(type: variable.type)
                 fragment.output("try \(resolved.converterType.name).toNode(\(selfExpression).\(variable.name), env: env.env)")
             }
         }
     }
 
-    func output(setter variable: Variable, context: FishyJoesContext, fragment: SourceFragment) {
+    func output(setter variable: Field, context: FishyJoesContext, fragment: SourceFragment) {
         guard let exportAnnotation = variable.exportAnnotation else {
             fatalErr("Variable not annotated for export: \(variable)")
         }
@@ -51,7 +51,7 @@ struct NodeTranslator: Translator {
         let selfExpression: String
         let containingNamespace: String
 
-        if let selfType = variable.definedInTypeName?.better {
+        if let selfType = variable.definedIn {
             containingNamespace = context.resolve(type: selfType).sourceType.name
 
             if variable.isStatic {
@@ -66,7 +66,7 @@ struct NodeTranslator: Translator {
 
         fragment.outputBlock("{ env, info in", closeWith: "}", newLineTerminated: false) {
             fragment.outputBlock("FishyJoesNodeRuntime.callbackBody(env, info, name: \"\(nodeName)\", expectedArgumentCount: 1) { env in", closeWith: "}") {
-                let resolved = context.resolve(type: variable.typeName.better)
+                let resolved = context.resolve(type: variable.type)
                 if variable.isStatic {
                     fragment.output("\(selfExpression).\(variable.name) = try env.argument(at: 0, converter: \(resolved.converterType.name).self)")
                 } else {
@@ -79,7 +79,7 @@ struct NodeTranslator: Translator {
         }
     }
 
-    func output(method: Method, explicitThis: Bool, context: FishyJoesContext, fragment: SourceFragment, newLineTerminated: Bool = true) {
+    func output(method: Method, explicitThis: Bool, context: FishyJoesContext, fragment: SourceFragment, newLineTerminated: Bool = true, converterName: String? = nil, shouldWrapDefaultImpl: Bool = false) {
         let exportAnnotation = method.exportAnnotation
         let nodeName = exportAnnotation.name
 
@@ -89,7 +89,8 @@ struct NodeTranslator: Translator {
         var argIndex = 0
 
         if let selfType = method.definedIn {
-            containingNamespace = context.resolve(type: selfType).sourceType.name
+            let resolved = context.resolve(type: selfType)
+            containingNamespace = converterName ?? resolved.converterType.name
 
             if method.isStatic {
                 selfExpression = containingNamespace
@@ -141,6 +142,11 @@ struct NodeTranslator: Translator {
                         fragment.output("let swiftSelf = UncheckedSendableBox(try env.this(converter: \(containingNamespace).self))")
                         selfExpression = "swiftSelf.value"
                     }
+                    if method.isDefaultImplementation,
+                       shouldWrapDefaultImpl {
+                        fragment.output("let _wrappedSwiftSelf = \(context.module.name)_CommonInterface.\(method.definedIn?.name ?? "")_sans_\(method.callName)(wrapped: try \(selfExpression))")
+                        selfExpression = "_wrappedSwiftSelf"
+                    }
 
                     func writeMutation() {
                         if method.isMutating {
@@ -191,6 +197,11 @@ struct NodeTranslator: Translator {
                         fragment.output("var mutatingSelf = try \(selfExpression)")
                         selfExpression = "mutatingSelf"
                     }
+                    if method.isDefaultImplementation,
+                       shouldWrapDefaultImpl {
+                        fragment.output("let _wrappedSwiftSelf = \(context.module.name)_CommonInterface.\(method.definedIn?.name ?? "")_sans_\(method.callName)(wrapped: try \(selfExpression))")
+                        selfExpression = "_wrappedSwiftSelf"
+                    }
 
                     if exportAnnotation.noReturn {
                         fragment.output("try ", newLineTerminated: false)
@@ -227,14 +238,14 @@ struct NodeTranslator: Translator {
         }
     }
 
-    func outputProperties(methods: [Method], explicitThis: Bool = false, context: FishyJoesContext, fragment: SourceFragment) -> Bool {
+    func outputProperties(methods: [Method], explicitThis: Bool = false, context: FishyJoesContext, fragment: SourceFragment, converterName: String? = nil, shouldWrapDefaultImpl: Bool = false) -> Bool {
         for method in methods {
             let isStatic = explicitThis || method.isStatic
             let explicitThis = explicitThis && !method.isStatic
 
             fragment.outputBlock("\"\(method.exportAnnotation.name)\": (", closeWith: "),") {
                 fragment.output(".method ", newLineTerminated: false)
-                output(method: method, explicitThis: explicitThis, context: context, fragment: fragment, newLineTerminated: false)
+                output(method: method, explicitThis: explicitThis, context: context, fragment: fragment, newLineTerminated: false, converterName: converterName, shouldWrapDefaultImpl: shouldWrapDefaultImpl)
                 fragment.output(",")
                 fragment.output("isStatic: \(isStatic)")
             }
@@ -242,7 +253,7 @@ struct NodeTranslator: Translator {
         return !methods.isEmpty
     }
 
-    func outputProperties(computedVariables: [Variable], explicitThis: Bool = false, context: FishyJoesContext, fragment: SourceFragment) -> Bool {
+    func outputProperties(computedVariables: [Field], explicitThis: Bool = false, context: FishyJoesContext, fragment: SourceFragment) -> Bool {
         var didOutput = false
         for variable in computedVariables {
             guard let exportAnnotation = variable.exportAnnotation else {
@@ -257,14 +268,6 @@ struct NodeTranslator: Translator {
                     fragment.output("isStatic: true")
                 }
                 assert(!variable.isMutable, "mutating enum variables not supported, which I think is the only way to get here")
-                // if variable.isMutable {
-                //     fragment.outputBlock("\"set\(upperCaseFirst(nodeName))\": (", closeWith: "),") {
-                //         fragment.output(".method ", newLineTerminated: false)
-                //         output(setter: variable, explicitThis: true, context: context, fragment: fragment)
-                //         fragment.output(",")
-                //         fragment.output("isStatic: true")
-                //     }
-                // }
             } else {
                 fragment.outputBlock("\"\(nodeName)\": (", closeWith: "),") {
                     fragment.outputBlock(".accessor(", closeWith: "),") {
@@ -285,34 +288,16 @@ struct NodeTranslator: Translator {
     func setupFragments(context: FishyJoesContext, generatedTypes: [BetterType]) -> [SourceFragment] {
         let nodeTypeListFragment = context.swiftFragment(
             "NodeInterface/TypeSetup.swift",
-            additionalImports: ["Foundation", "FishyJoesNodeRuntime", "NodeAPI"]
+            additionalImports: ["Foundation", "FishyJoesNodeRuntime", "NodeAPI", "\(context.module.name)_CommonInterface"]
         )
-
-        // This function is defined under 2 names: the standard "napi_register_module_v1", and a unique, module-qualified name.
-        // To conform to the interface defined by NAPI, the standard name is needed.
-        // To statically link 2 or more FishyJoes modules together (WASM currently does this) the unique name is needed.
-        // Then, the standard name must be redefined to call each of the unique names of the linked modules.
-        nodeTypeListFragment.output("#if !os(WASI)")
         nodeTypeListFragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
-        nodeTypeListFragment.output("@_cdecl(\"napi_register_module_v1\")")
-        nodeTypeListFragment.outputBlock("public func napi_register_module_v1(env: napi_env, exports: napi_value) -> napi_value? {") {
-            nodeTypeListFragment.output("let env = NAPI.Env(ptr: env)")
-            nodeTypeListFragment.output("let exports = NAPI.Value(ptr: exports)")
-            nodeTypeListFragment.outputBlock("return FishyJoesNodeRuntime.rethrowToNode(env: env) {") {
-                nodeTypeListFragment.output("try registerModule\(context.module)(env: env, exports: exports)")
-            }
-        }
-        nodeTypeListFragment.output("#endif")
-        nodeTypeListFragment.blankLine()
-
-        nodeTypeListFragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
-        nodeTypeListFragment.outputBlock("public func registerModule\(context.module)(env: NAPI.Env, exports: NAPI.Value) throws -> NAPI.Value {") {
+        nodeTypeListFragment.outputBlock("public func registerModule\(context.module.name)(env: NAPI.Env, exports: NAPI.Value) throws -> NAPI.Value {") {
             nodeTypeListFragment.output("#if os(WASI)")
             nodeTypeListFragment.output("try JavaScriptEventLoop.installGlobalExecutor(env: env)")
             nodeTypeListFragment.output("#endif")
             nodeTypeListFragment.output("try setupOnMainThreadEntryPoint(env: env)")
             nodeTypeListFragment.output("let module = try env.createObject()")
-            nodeTypeListFragment.output("try env.setNamedProperty(exports, \"\(context.module)\", module)")
+            nodeTypeListFragment.output("try env.setNamedProperty(exports, \"\(context.module.name)\", module)")
             nodeTypeListFragment.output("try env.setNamedProperty(exports, \"default\", module)")
             nodeTypeListFragment.blankLine()
             for type in generatedTypes {
@@ -321,6 +306,16 @@ struct NodeTranslator: Translator {
             }
             nodeTypeListFragment.output("return exports")
         }
+        nodeTypeListFragment.blankLine()
+        nodeTypeListFragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
+        nodeTypeListFragment.output("@_cdecl(\"registerModule\(context.module.name)\")")
+        nodeTypeListFragment.outputBlock("public func cRegisterModule\(context.module.name)(env: napi_env, exports: napi_value) -> napi_value? {") {
+            nodeTypeListFragment.output("let env = NAPI.Env(ptr: env)")
+            nodeTypeListFragment.output("let exports = NAPI.Value(ptr: exports)")
+            nodeTypeListFragment.outputBlock("return FishyJoesNodeRuntime.rethrowToNode(env: env) {") {
+                nodeTypeListFragment.output("try registerModule\(context.module.name)(env: env, exports: exports)")
+            }
+        }
 
         let exportFragment = context.swiftFragment("NodeInterface/@_exported.swift")
         exportFragment.output("@_exported import \(context.module.name)")
@@ -328,7 +323,39 @@ struct NodeTranslator: Translator {
             exportFragment.output("@_exported import \(dependency)_NodeInterface")
         }
 
-        return [nodeTypeListFragment, exportFragment]
+        let nodeNativeShimFragment = SourceFragment(sourceryDestination: "file:NodeNativeShim/NAPIRegisterModule.c")
+        nodeNativeShimFragment.output("#include <node_api.h>")
+        nodeNativeShimFragment.blankLine()
+        nodeNativeShimFragment.output("extern napi_value registerModule\(context.module.name)(napi_env env, napi_value exports);")
+        nodeNativeShimFragment.blankLine()
+        nodeNativeShimFragment.output("#pragma comment(linker, \"/export:napi_register_module_v1\")")
+        nodeNativeShimFragment.outputBlock("napi_value napi_register_module_v1(napi_env env, napi_value exports) {") {
+            nodeNativeShimFragment.output("return registerModule\(context.module.name)(env, exports);")
+        }
+
+        let wasmShimFragment = context.swiftFragment(
+            "WasmMainShim/NAPIRegisterModule.swift",
+            additionalImports: ["FishyJoesNodeRuntime", "NodeAPI", "\(context.module.name)_NodeInterface"] + context.module.dependencies.map { "\($0)_NodeInterface" }
+        )
+        wasmShimFragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
+        wasmShimFragment.output("@_cdecl(\"napi_register_module_v1\")")
+        wasmShimFragment.outputBlock("public func napi_register_module_v1(env: napi_env, exports: napi_value) -> napi_value? {") {
+            wasmShimFragment.output("let env = NAPI.Env(ptr: env)")
+            wasmShimFragment.output("var exports = NAPI.Value(ptr: exports)")
+            wasmShimFragment.outputBlock("return FishyJoesNodeRuntime.rethrowToNode(env: env) {") {
+                wasmShimFragment.output("exports = try registerModuleRuntime(env: env, exports: exports)")
+                for dependency in context.module.dependencies {
+                    wasmShimFragment.output("exports = try registerModule\(dependency)(env: env, exports: exports)")
+                }
+                wasmShimFragment.output("exports = try registerModule\(context.module.name)(env: env, exports: exports)")
+                wasmShimFragment.output("return exports")
+            }
+        }
+
+        let wasmShimMainFragment = SourceFragment(sourceryDestination: "file:WasmMainShim/main.swift")
+        wasmShimMainFragment.output("// Executable main requires no statements, as module registration is done by napi.init() calling napi_register_module_v1()")
+
+        return [nodeTypeListFragment, exportFragment, nodeNativeShimFragment, wasmShimFragment, wasmShimMainFragment]
     }
 
     func ts(method: Method, explicitThis: Bool, context: FishyJoesContext) -> TypeScriptAnnotations.Method? {
@@ -384,11 +411,13 @@ struct NodeTranslator: Translator {
             isAsync: method.isAsync,
             name: exportAnnotation.name,
             parameters: parameters,
-            returnType: method.isAsync ? .promise(returnType) : returnType
+            returnType: method.isAsync ? .promise(returnType) : returnType,
+            hasDefaultImplementation: method.isDefaultImplementation,
+            protocolName: method.protocolName
         )
     }
 
-    func ts(field: Variable, context: FishyJoesContext, useNativeName: Bool) -> TypeScriptAnnotations.Variable? {
+    func ts(field: Field, context: FishyJoesContext, useNativeName: Bool) -> TypeScriptAnnotations.Variable? {
         let name: String
         if useNativeName {
             guard field.exportAnnotation == nil else {
@@ -407,13 +436,13 @@ struct NodeTranslator: Translator {
             readOnly: !field.isPubliclyWritable,
             isStatic: field.isStatic,
             name: name,
-            type: context.resolve(type: field.typeName.better).nodeType
+            type: context.resolve(type: field.type).nodeType
         )
     }
 
-    func ts(fieldAsMethods field: Variable, explicitThis: Bool, context: FishyJoesContext) -> [TypeScriptAnnotations.Method] {
+    func ts(fieldAsMethods field: Field, explicitThis: Bool, context: FishyJoesContext) -> [TypeScriptAnnotations.Method] {
         guard let exportAnnotation = field.exportAnnotation,
-              let selfType = field.definedInTypeName?.better
+              let selfType = field.definedIn
         else {
             return []
         }
@@ -432,7 +461,7 @@ struct NodeTranslator: Translator {
             )
         ] : []
 
-        let resolved = context.resolve(type: field.typeName.better)
+        let resolved = context.resolve(type: field.type)
         return [
             TypeScriptAnnotations.Method(
                 documentation: field.documentation + (field.deprecation.map { ["@deprecated \($0.message)"] } ?? []),
@@ -440,7 +469,9 @@ struct NodeTranslator: Translator {
                 isAsync: false,
                 name: "get\(name)",
                 parameters: parameters,
-                returnType: resolved.nodeType
+                returnType: resolved.nodeType,
+                hasDefaultImplementation: false,
+                protocolName: nil
             )
         ] + (
             field.isPubliclyWritable ? [
@@ -457,7 +488,9 @@ struct NodeTranslator: Translator {
                             defaultValue: nil
                         )
                     ],
-                    returnType: .void
+                    returnType: .void,
+                    hasDefaultImplementation: false,
+                    protocolName: nil
                 )
             ] : []
         )

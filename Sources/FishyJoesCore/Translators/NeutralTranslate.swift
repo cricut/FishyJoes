@@ -36,16 +36,15 @@ final class NeutralTranslate: Translator {
         }
     }
 
-    func output(variable: Variable, context: FishyJoesContext, fragment: SourceFragment) {
+    func output(variable: Field, context: FishyJoesContext, fragment: SourceFragment) {
         fragment.outputBlock("Variable {") {
-            if let annotation = variable.exportAnnotation {
-                fragment.output("Annotation: \(annotation)")
-            }
+            guard let annotation = variable.exportAnnotation else { return }
+            fragment.output("Annotation: \(annotation)")
             fragment.output("Name: \(variable.exportAnnotation?.name ?? "not exported")")
-            fragment.output("Type: \(context.resolve(type: variable.typeName.better).neutralName)")
+            fragment.output("Type: \(context.resolve(type: variable.type).neutralName)")
             fragment.output("Mutable: \(variable.isMutable)")
             fragment.output("PubliclyWritable: \(variable.isPubliclyWritable)")
-            if let containingType = variable.definedInTypeName?.better {
+            if let containingType = variable.definedIn {
                 fragment.output("Defined in: \(containingType.name)")
             } else {
                 fragment.output("Does not belong to a type")

@@ -235,9 +235,9 @@ extension NAPI.Env {
         try check(napi_create_symbol(ptr, description.ptr, &result.ptr))
         return result
     }
-    // public func nodeApiSymbolFor(_ utf8description: String?, length: Int) throws -> NAPI.Value {
+    // public func symbolFor(_ description: String) throws -> NAPI.Value {
     //     var result = NAPI.Value()
-    //     try check(node_api_symbol_for(ptr, utf8description, length, &result.ptr))
+    //     try check(node_api_symbol_for(ptr, description, description.utf8.count, &result.ptr))
     //     return result
     // }
     public func createTypedarray(_ type: napi_typedarray_type, length: Int, _ arraybuffer: NAPI.Value, byteOffset: Int) throws -> NAPI.Value {
@@ -302,19 +302,19 @@ extension NAPI.Env {
         return result
     }
 
-    // Currently unused. If needed, will need a wasm implementation
-    // public func getArraybufferInfo(_ arraybuffer: NAPI.Value) throws -> (data: UnsafeMutableRawPointer?, byteLength: Int) {
-    //     var data: UnsafeMutableRawPointer?
-    //     var byteLength: Int = 0
-    //     try check(napi_get_arraybuffer_info(ptr, arraybuffer.ptr, &data, &byteLength))
-    //     return (data, byteLength)
-    // }
-    // public func getBufferInfo(_ value: NAPI.Value) throws -> (data: UnsafeMutableRawPointer?, length: Int) {
-    //     var data: UnsafeMutableRawPointer?
-    //     var length: Int = 0
-    //     try check(napi_get_buffer_info(ptr, value.ptr, &data, &length))
-    //     return (data, length)
-    // }
+    public func getArraybufferInfo(_ arraybuffer: NAPI.Value) throws -> (data: UnsafeMutableRawPointer?, byteLength: Int) {
+        var data: UnsafeMutableRawPointer?
+        var byteLength: Int = 0
+        try check(napi_get_arraybuffer_info(ptr, arraybuffer.ptr, &data, &byteLength))
+        return (data, byteLength)
+    }
+    public func getBufferInfo(_ value: NAPI.Value) throws -> (data: UnsafeMutableRawPointer?, length: Int) {
+        var data: UnsafeMutableRawPointer?
+        var length: Int = 0
+        try check(napi_get_buffer_info(ptr, value.ptr, &data, &length))
+        return (data, length)
+    }
+
     public func getPrototype(_ object: NAPI.Value) throws -> NAPI.Value {
         var result = NAPI.Value()
         try check(napi_get_prototype(ptr, object.ptr, &result.ptr))

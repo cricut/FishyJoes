@@ -136,6 +136,7 @@ public struct PackageInit: ParsableCommand {
         var string = input
         string = string.replacingOccurrences(of: "__MODULE_NAME__", with: config.module)
         string = string.replacingOccurrences(of: "__LOWERCASE_MODULE_NAME__", with: config.module.lowercased())
+        string = string.replacingOccurrences(of: "__LOWERCASE_FIRST_MODULE_NAME__", with: (config.module.first?.lowercased() ?? "") + config.module.dropFirst())
 
         if let publishRepository = config.publishRepository {
             string = string.replacingOccurrences(of: "__BINDINGS_REPO__", with: publishRepository)
@@ -223,7 +224,7 @@ public struct PackageInit: ParsableCommand {
         )
 
         let excludeSources = try Interactive.prompt(
-            "File or directory paths to exlude from generation, space separated. Default []:",
+            "File or directory paths to exclude from generation, space separated. Default []:",
             allowEmpty: true
         )
 

@@ -6,18 +6,7 @@ import FishyJoesNodeRuntime
 import Foundation
 import NodeAPI
 import TestAPI
-
-#if !os(WASI)
-@available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
-@_cdecl("napi_register_module_v1")
-public func napi_register_module_v1(env: napi_env, exports: napi_value) -> napi_value? {
-    let env = NAPI.Env(ptr: env)
-    let exports = NAPI.Value(ptr: exports)
-    return FishyJoesNodeRuntime.rethrowToNode(env: env) {
-        try registerModuleTestAPI(env: env, exports: exports)
-    }
-}
-#endif
+import TestAPI_CommonInterface
 
 @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
 public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> NAPI.Value {
@@ -29,10 +18,25 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try env.setNamedProperty(exports, "TestAPI", module)
     try env.setNamedProperty(exports, "default", module)
 
+    try Function1Converter<Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>, FutureConverter<Swift.String>>.nodeSetup(env: env, module: module)
+    try AsyncFunction1Converter<Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>, Swift.String>.nodeSetup(env: env, module: module)
+    try Function1Converter<AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>, FutureConverter<Swift.String>>.nodeSetup(env: env, module: module)
     try Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>.nodeSetup(env: env, module: module)
     try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.nodeSetup(env: env, module: module)
+    try Function1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, FutureConverter<Swift.String>>.nodeSetup(env: env, module: module)
+    try Function1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, FutureConverter<Swift.String>>.nodeSetup(env: env, module: module)
+    try Function1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, FutureConverter<Swift.String>>.nodeSetup(env: env, module: module)
+    try Function1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, FutureConverter<Swift.String>>.nodeSetup(env: env, module: module)
+    try AsyncFunction1Converter<AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>, Swift.String>.nodeSetup(env: env, module: module)
     try Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>.nodeSetup(env: env, module: module)
     try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.nodeSetup(env: env, module: module)
+    try AsyncFunction1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, Swift.String>.nodeSetup(env: env, module: module)
+    try AsyncFunction1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, Swift.String>.nodeSetup(env: env, module: module)
+    try AsyncFunction1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, Swift.String>.nodeSetup(env: env, module: module)
+    try AsyncFunction1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, Swift.String>.nodeSetup(env: env, module: module)
+    try Function1Converter<AsyncFunction0Converter<Swift.Int>, FutureConverter<Swift.String>>.nodeSetup(env: env, module: module)
+    try AsyncFunction1Converter<AsyncFunction0Converter<Swift.Int>, Swift.String>.nodeSetup(env: env, module: module)
+    try Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>.nodeSetup(env: env, module: module)
     try Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>.nodeSetup(env: env, module: module)
     try Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>.nodeSetup(env: env, module: module)
     try Function1Converter<OptionalConverter<Swift.UInt8>, OptionalConverter<Swift.UInt8>>.nodeSetup(env: env, module: module)
@@ -58,23 +62,30 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.nodeSetup(env: env, module: module)
     try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.nodeSetup(env: env, module: module)
     try Function0Converter<FutureConverter<Swift.Int>>.nodeSetup(env: env, module: module)
+    try Function0Converter<FutureConverter<FishyJoesCommonRuntime.VoidConverter>>.nodeSetup(env: env, module: module)
     try Function0Converter<Swift.Int>.nodeSetup(env: env, module: module)
     try Function0Converter<Swift.Int>.nodeSetup(env: env, module: module)
     try AsyncFunction0Converter<Swift.Int>.nodeSetup(env: env, module: module)
+    try Function0Converter<FishyJoesCommonRuntime.VoidConverter>.nodeSetup(env: env, module: module)
+    try AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.nodeSetup(env: env, module: module)
     try FutureConverter<Function1Converter<Swift.Int, Swift.Int>>.nodeSetup(env: env, module: module)
     try FutureConverter<AsyncFunction1Converter<Swift.Int, Swift.Int>>.nodeSetup(env: env, module: module)
     try FutureConverter<Function0Converter<Swift.Int>>.nodeSetup(env: env, module: module)
     try FutureConverter<AsyncFunction0Converter<Swift.Int>>.nodeSetup(env: env, module: module)
+    try FutureConverter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>.nodeSetup(env: env, module: module)
     try FutureConverter<FutureConverter<AsyncFunction0Converter<Swift.Int>>>.nodeSetup(env: env, module: module)
     try FutureConverter<FutureConverter<ArrayConverter<Swift.String>>>.nodeSetup(env: env, module: module)
     try FutureConverter<FutureConverter<Swift.Double>>.nodeSetup(env: env, module: module)
     try FutureConverter<FutureConverter<Swift.Int>>.nodeSetup(env: env, module: module)
+    try FutureConverter<FutureConverter<Swift.String>>.nodeSetup(env: env, module: module)
+    try FutureConverter<FutureConverter<FishyJoesCommonRuntime.VoidConverter>>.nodeSetup(env: env, module: module)
     try FutureConverter<ArrayConverter<Swift.String>>.nodeSetup(env: env, module: module)
     try FutureConverter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>.nodeSetup(env: env, module: module)
     try FutureConverter<OptionalConverter<Swift.UInt8>>.nodeSetup(env: env, module: module)
     try FutureConverter<Swift.Double>.nodeSetup(env: env, module: module)
     try FutureConverter<Swift.Int>.nodeSetup(env: env, module: module)
     try FutureConverter<Swift.String>.nodeSetup(env: env, module: module)
+    try FutureConverter<Swift.UInt>.nodeSetup(env: env, module: module)
     try FutureConverter<FishyJoesCommonRuntime.VoidConverter>.nodeSetup(env: env, module: module)
     try ArrayConverter<OptionalConverter<Swift.Bool>>.nodeSetup(env: env, module: module)
     try ArrayConverter<OptionalConverter<Swift.Double>>.nodeSetup(env: env, module: module)
@@ -125,6 +136,7 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try OptionalConverter<Swift.Int64>.nodeSetup(env: env, module: module)
     try OptionalConverter<Swift.Int8>.nodeSetup(env: env, module: module)
     try OptionalConverter<TestAPI.SimpleEnum>.nodeSetup(env: env, module: module)
+    try OptionalConverter<Swift.String>.nodeSetup(env: env, module: module)
     try OptionalConverter<Swift.UInt>.nodeSetup(env: env, module: module)
     try OptionalConverter<Swift.UInt16>.nodeSetup(env: env, module: module)
     try OptionalConverter<Swift.UInt32>.nodeSetup(env: env, module: module)
@@ -161,12 +173,16 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces.nodeSetup(env: env, module: module)
     try Swift.String.PuttingTypesIntoQuestionablePlaces.nodeSetup(env: env, module: module)
     try Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces.nodeSetup(env: env, module: module)
+    try TestAPI.Actors.TemperatureLogger.nodeSetup(env: env, module: module)
     try TestAPI.Collections.CollectionHolder.nodeSetup(env: env, module: module)
     try TestAPI.Primitives.PrimitiveHolder.nodeSetup(env: env, module: module)
     try TestAPI.Structs.MemberwiseStruct.nodeSetup(env: env, module: module)
     try TestAPI.Structs.MutableStruct.nodeSetup(env: env, module: module)
     try TestAPI.Structs.PuttingTypesIntoQuestionablePlaces.nodeSetup(env: env, module: module)
     try TestAPI.Structs.ReferenceStruct.nodeSetup(env: env, module: module)
+    try TestAPI_CommonInterface._AProtocolConverter.nodeSetup(env: env, module: module)
+    try TestAPI.AProtocolImplementation.nodeSetup(env: env, module: module)
+    try TestAPI.Actors.nodeSetup(env: env, module: module)
     try TestAPI.AssociatedDataEnum.nodeSetup(env: env, module: module)
     try TestAPI.AsyncFunctions.nodeSetup(env: env, module: module)
     try TestAPI.AttributedStrings.nodeSetup(env: env, module: module)
@@ -183,6 +199,17 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try TestAPI.SimpleEnum.nodeSetup(env: env, module: module)
     try TestAPI.Strings.nodeSetup(env: env, module: module)
     try TestAPI.Structs.nodeSetup(env: env, module: module)
+    try TestAPI.TestAsyncForeignSideFunctionsStruct.nodeSetup(env: env, module: module)
+    try TestAPI_CommonInterface._TestAsyncFunctionsConverter.nodeSetup(env: env, module: module)
+    try TestAPI.TestAsyncSwiftSideFunctionsClass.nodeSetup(env: env, module: module)
+    try TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter.nodeSetup(env: env, module: module)
+    try TestAPI.TestLeadingUnderscoredPropStruct.nodeSetup(env: env, module: module)
+    try TestAPI_CommonInterface._TestMethodsProtocolConverter.nodeSetup(env: env, module: module)
+    try TestAPI_CommonInterface._TestOptionalsProtocolConverter.nodeSetup(env: env, module: module)
+    try TestAPI_CommonInterface._TestPropertiesProtocolConverter.nodeSetup(env: env, module: module)
+    try TestAPI.TestProtocolClass.nodeSetup(env: env, module: module)
+    try TestAPI.TestProtocolEnum.nodeSetup(env: env, module: module)
+    try TestAPI.TestProtocolStruct.nodeSetup(env: env, module: module)
     try TestAPI.Tuples.nodeSetup(env: env, module: module)
     try TestAPI.URLs.nodeSetup(env: env, module: module)
     try Foundation.AttributedString.Runs.Run.nodeSetup(env: env, module: module)
@@ -206,6 +233,8 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try Swift.UInt64.nodeSetup(env: env, module: module)
     try Swift.UInt8.nodeSetup(env: env, module: module)
     try Foundation.URL.nodeSetup(env: env, module: module)
+    try Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>.nodeSetup(env: env, module: module)
+    try Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.nodeSetup(env: env, module: module)
     try Tuple2Converter<Swift.Int, Swift.String>.nodeSetup(env: env, module: module)
     try Tuple4Converter<Swift.Int8, Swift.Int16, Swift.Int32, Swift.Int64>.nodeSetup(env: env, module: module)
     try Tuple3Converter<Swift.String, Swift.Double, Swift.String>.nodeSetup(env: env, module: module)
@@ -214,4 +243,14 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>.nodeSetup(env: env, module: module)
     try FishyJoesCommonRuntime.VoidConverter.nodeSetup(env: env, module: module)
     return exports
+}
+
+@available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
+@_cdecl("registerModuleTestAPI")
+public func cRegisterModuleTestAPI(env: napi_env, exports: napi_value) -> napi_value? {
+    let env = NAPI.Env(ptr: env)
+    let exports = NAPI.Value(ptr: exports)
+    return FishyJoesNodeRuntime.rethrowToNode(env: env) {
+        try registerModuleTestAPI(env: env, exports: exports)
+    }
 }

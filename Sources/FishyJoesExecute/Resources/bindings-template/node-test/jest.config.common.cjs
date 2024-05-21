@@ -16,4 +16,7 @@ module.exports = {
     "node_modules",
   ],
   verbose: true,
+  detectOpenHandles: true,
+  forceExit: true,
+  watchman: false,
 };

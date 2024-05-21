@@ -1,7 +1,7 @@
 package com.cricut.testapi
 
-import kotlinx.coroutines.*
 import java.lang.Exception
+import kotlinx.coroutines.*
 
 /**
  * <!-- FishyJoes.export(Collections) -->
@@ -211,8 +211,7 @@ sealed class Collections {
         var stringArray: kotlin.collections.List<kotlin.String>,
         var stringSet: kotlin.collections.Set<kotlin.String>,
         var stringDictionary: kotlin.collections.Map<kotlin.String, kotlin.String>
-    )
-     {
+    ) {
 
         companion object {
             /**

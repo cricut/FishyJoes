@@ -7,7 +7,12 @@ public class FishyJoesContext {
     let requiredModulePaths: [String]
     let templateContext: TemplateContext
     var typeCache: [BetterType: TranslatedTypeOrAlias] = [:]
-    var fileHeaders: [String: SortedSet<String>] = [:]
+
+    var fileHeaders: [String: Set<FileHeader>] = [:]
+    func addHeader(file: String, priority: Int = 0, _ contents: String) {
+        fileHeaders[file, default: []].insert(FileHeader(contents, priority: priority))
+    }
+
     var debugContext = ""
 
     let dumpDebugRepresentation: Bool
@@ -44,7 +49,7 @@ public class FishyJoesContext {
         let message: String
     }
 
-    public init(context: TemplateContext) {
+    public init(context: TemplateContext, stderrFifo: String? = nil) {
         let argument = context.argument
         guard let module = argument["module"] as? String else {
             fatalErr("must provide module name as `module` argument to sourcery")
@@ -66,7 +71,7 @@ public class FishyJoesContext {
             defaultNamespace: module
         )
         self.dumpDebugRepresentation = argument["debugRepresentation"] as? String == "true"
-        if let stderrFifo = argument["stderrFifo"] as? String {
+        if let stderrFifo = stderrFifo {
             // Re-open the real stderr, and bypass sourcery
             let errDescriptor = try! FileDescriptor.open(stderrFifo, .writeOnly)
             precondition(dup2(errDescriptor.rawValue, 2) >= 0)
@@ -75,72 +80,71 @@ public class FishyJoesContext {
     }
 
     func swiftFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
-        let fileName = "\(name)"
-        var headerLines = (module.dependencies + [module.name] + additionalImports).map { "import \($0)" }
-        headerLines.append(
-            // These need to be in order, so add them as 1 "line"
-            """
-            // swiftlint:disable:next blanket_disable_command superfluous_disable_command
-            // swiftlint:disable unused_closure_parameter syntactic_sugar attributes
-            """
+        for dependency in module.dependencies + [module.name] + additionalImports {
+            addHeader(file: name, "import \(dependency)")
+        }
+        // These need to be in order, so add them with higher priority
+        addHeader(
+            file: name,
+            priority: 2,
+            "// swiftlint:disable:next blanket_disable_command superfluous_disable_command"
         )
-        fileHeaders[fileName, default: []].formUnion(headerLines)
-        return SourceFragment(sourceryDestination: "file:\(fileName)")
+        addHeader(
+            file: name,
+            priority: 1,
+            "// swiftlint:disable unused_closure_parameter syntactic_sugar attributes"
+        )
+        return SourceFragment(sourceryDestination: "file:\(name)")
     }
 
     func kotlinFragment(_ name: String) -> SourceFragment {
         let fileName = "../../../../kotlin/generated/src/main/kotlin/com/cricut/\(module.name.lowercased())/\(name)"
-        fileHeaders[fileName, default: []].formUnion(
-            [
-                "package \(module.kotlinPackage)",
-                "import com.cricut.fishyjoes.runtime.LibraryLoader",
-                "import com.cricut.fishyjoes.runtime.FishyJoesRuntimeRepresentative",
-            ] + module.dependencies.map { dependency in
-                "import com.cricut.\(dependency.lowercased()).\(dependency)LoaderRepresentative"
-            }
-        )
+        // Package must go before imports, use higher priority
+        addHeader(file: fileName, priority: 1, "package \(module.kotlinPackage)\n")
+        addHeader(file: fileName, "import kotlinx.coroutines.*")
+        addHeader(file: fileName, "import java.lang.Exception")
+        for dependency in module.dependencies {
+            addHeader(file: fileName, "import com.cricut.\(dependency.lowercased()).*")
+        }
         return SourceFragment(sourceryDestination: "file:\(fileName)")
     }
 
     func cSharpFragment(_ name: String) -> SourceFragment {
         let fileName = "../../../../c-sharp/generated/Cricut.\(module.name)/\(name)"
-        fileHeaders[fileName, default: []].formUnion(
-            [
-                "using System;",
-                "using System.Runtime.InteropServices;",
-                "using System.Collections.Generic;",
-                "using Cricut.FishyJoesRuntime;",
-                "using static Cricut.FishyJoesRuntime.Utilities;",
-            ] + module.dependencies.map { dependency in
-                "using Cricut.\(dependency);"
-            }
-        )
+        addHeader(file: fileName, "using System;")
+        addHeader(file: fileName, "using System.Runtime.InteropServices;")
+        addHeader(file: fileName, "using System.Collections.Generic;")
+        addHeader(file: fileName, "using Cricut.FishyJoesRuntime;")
+        addHeader(file: fileName, "using static Cricut.FishyJoesRuntime.Utilities;")
+        for dependency in module.dependencies {
+            addHeader(file: fileName, "using Cricut.\(dependency);")
+        }
         return SourceFragment(sourceryDestination: "file:\(fileName)")
     }
 
     func dartFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
         let fileName = "../../../../dart/generated/lib/src/\(name)"
-        fileHeaders[fileName, default: []].formUnion(
-            [
-                "import 'dart:ffi' as ffi;",
-                "import 'package:ffi/ffi.dart' as ffi;",
-                "import 'dart:typed_data' as typed_data;",
-                "import 'package:tuple/tuple.dart' as tuple;",
-                "import 'package:collection/collection.dart';",
-                "import 'package:fishyjoes_dart/runtime.dart' as FishyJoesRuntime;",
-                "import 'package:fishyjoes_dart/runtime.dart';",
-                "import 'package:fishyjoes_dart/utilities.dart' as utils;",
-            ] + module.dependencies.flatMap { dependency in
-                [
-                    "import 'package:cricut_\(dependency.lowercased())/\(dependency.lowercased()).dart' as \(dependency);",
-                    "import 'package:cricut_\(dependency.lowercased())/\(dependency.lowercased()).dart';",
-                ]
-            } + dartClasses.flatMap { cls in
-                [
-                    "import './\(cls.unqualifiedName).dart' as \(module);",
-                ]
-            } + additionalImports
-        )
+
+        addHeader(file: fileName, "import 'dart:ffi' as ffi;")
+        addHeader(file: fileName, "import 'package:ffi/ffi.dart' as ffi;")
+        addHeader(file: fileName, "import 'dart:typed_data' as typed_data;")
+        addHeader(file: fileName, "import 'package:tuple/tuple.dart' as tuple;")
+        addHeader(file: fileName, "import 'package:collection/collection.dart';")
+        addHeader(file: fileName, "import 'package:fishyjoes_dart/runtime.dart' as FishyJoesRuntime;")
+        addHeader(file: fileName, "import 'package:fishyjoes_dart/runtime.dart';")
+        addHeader(file: fileName, "import 'package:fishyjoes_dart/utilities.dart' as utils;")
+
+        for dependency in module.dependencies {
+            addHeader(file: fileName, "import 'package:cricut_\(dependency.lowercased())/\(dependency.lowercased()).dart' as \(dependency);")
+            addHeader(file: fileName, "import 'package:cricut_\(dependency.lowercased())/\(dependency.lowercased()).dart';")
+        }
+        for cls in dartClasses {
+            addHeader(file: fileName, "import './\(cls.unqualifiedName).dart' as \(module);")
+        }
+        for additionalImport in additionalImports {
+            addHeader(file: fileName, additionalImport)
+        }
+
         return SourceFragment(sourceryDestination: "file:\(fileName)")
     }
 
@@ -166,7 +170,7 @@ public class FishyJoesContext {
 
         // Collect type information before starting translation
         // This collects the named types possible for use later in resolve().
-        let translatedTypes = templateContext.types.all.compactMap { type -> TranslatedType? in
+        let translatedTypes = templateContext.types.types.compactMap { type -> TranslatedType? in
             debugContext = "Translating type \(type.name)"
             return translate(typeDefinition: type)
         }
@@ -179,17 +183,25 @@ public class FishyJoesContext {
         }
 
         // Translate
-        var seenMethods: Set<Method> = []
-        for type in templateContext.types.all + templateContext.types.extensions {
-            for method in type.rawMethods.compactMap(Method.init) {
-                if seenMethods.contains(method) {
-                    continue
-                }
-                debugContext = "Translating method \(type.name).\(method.name)"
-                seenMethods.insert(method)
-                collectedFragments.append(contentsOf: kotlinTranslator.translate(method: method, context: self))
-                collectedFragments.append(contentsOf: iotaTranslator.translate(method: method, context: self))
+        var methodsToTranslateForTypeDict = [Type: [Method]]()
+        for type in templateContext.types.types {
+            if let sourceryProtocolType = type as? SourceryProtocol {
+                methodsToTranslateForTypeDict[type] = sourceryProtocolType.methodsPreferringDefaultImpl().compactMap { Method($0, type: type, protocolName: type.name) }
+            } else {
+                methodsToTranslateForTypeDict[type] = Method.methods(type: type)
             }
+        }
+
+        for (type, methods) in methodsToTranslateForTypeDict {
+            for method in methods {
+                debugContext = "Translating method \(type.name).\(method.name)"
+                let betterType = BetterType(named: type, context: self)
+                collectedFragments.append(contentsOf: kotlinTranslator.translate(method: method, context: self, betterType: betterType))
+                collectedFragments.append(contentsOf: iotaTranslator.translate(method: method, context: self, betterType: betterType))
+            }
+        }
+
+        for type in templateContext.types.types {
             for variable in type.rawVariables {
                 debugContext = "Translating variable \(type.name).\(variable.name)"
                 guard variable.exportAnnotation != nil else { continue }
@@ -198,7 +210,8 @@ public class FishyJoesContext {
             }
         }
         // Translate any top level functions
-        for _ in templateContext.functions.compactMap(Method.init) {
+        let topLevelFunctions = templateContext.functions.compactMap { Method($0, type: nil) }
+        guard topLevelFunctions.isEmpty else {
             fatalErr("Support for exporting top level functions has been removed for now")
         }
 
@@ -233,13 +246,20 @@ public class FishyJoesContext {
         // process all the fragments so that inner classes are inside outer classes
         collectedFragments.append(
             contentsOf: processInnerClasses(
-                rootClass: KotlinClass(module: module, documentation: [], name: "__root__"),
+                rootClass: KotlinClass(
+                    module: module,
+                    documentation: [],
+                    name: "__root__",
+                    fields: [],
+                    methods: [],
+                    conformances: []
+                ),
                 in: &kotlinClasses
             )
         )
         collectedFragments.append(
             contentsOf: processInnerClasses(
-                rootClass: CSharpClass(module: module, documentation: [], name: "__root__"),
+                rootClass: CSharpClass(module: module, documentation: [], name: "__root__", fields: [], methods: [], conformances: []),
                 in: &cSharpClasses,
                 ignorePrefix: "\(module.cSharpNamespace)."
             )
@@ -261,8 +281,8 @@ public class FishyJoesContext {
 
         let headerFragments = fileHeaders.keys.map { fileName -> SourceFragment in
             let fragment = SourceFragment(sourceryDestination: "file:\(fileName)")
-            for headerLine in fileHeaders[fileName, default: []] {
-                fragment.output(headerLine)
+            for headerLine in fileHeaders[fileName, default: []].sorted() {
+                fragment.output(headerLine.contents)
             }
             return fragment
         }
@@ -270,7 +290,7 @@ public class FishyJoesContext {
         return (headerFragments + collectedFragments).map(\.contents).joined()
     }
 
-    /// Process a set of classes to nest their innner classes properly for generation.
+    /// Process a set of classes to nest their inner classes properly for generation.
     ///
     /// - Important: The provided `rootClass` is assumed to transfer all ownership to this function.
     ///     It should genrally not be used elsewhere as it will be heavily mutated.
@@ -279,7 +299,7 @@ public class FishyJoesContext {
     /// - Parameters:
     ///   - rootClass: The root to put all nested classes inside.
     ///   - classes: The classes to process.
-    ///   - seperator: The separator in the name to split on for namespaces.
+    ///   - separator: The separator in the name to split on for namespaces.
     /// - Returns: The resulting fragments with their inner classes properly processed.
     func processInnerClasses<C: NestedClass>(
         rootClass: @autoclosure () -> C,
@@ -324,6 +344,12 @@ public class FishyJoesContext {
             return TranslatedStruct(context: self, type: type)
         } else if let type = type as? Enum {
             return TranslatedEnum(context: self, type: type)
+        } else if let type = type as? SourceryProtocol {
+            return TranslatedProtocol(context: self, type: type)
+        } else if let type = type as? Actor {
+            return TranslatedReference(context: self, type: type)
+        } else if let type = type as? Class {
+            return TranslatedReference(context: self, type: type)
         } else {
             fatalErr("TODO: annotation on unknown kind \"\(type.kind)\" on type `\(type.globalName)`")
         }
@@ -370,7 +396,7 @@ public class FishyJoesContext {
             "Int16": (c: "int16_t", ts: "number", jni: JNIType.short, cSharp: "short", dart: "int", dartFFI: "Int16"),
             "Int32": (c: "int32_t", ts: "number", jni: JNIType.int, cSharp: "int", dart: "int", dartFFI: "Int32"),
             "Int64": (c: "int64_t", ts: "bigint", jni: JNIType.long, cSharp: "long", dart: "int", dartFFI: "Int64"),
-            "Int": (c: "int", ts: "number", jni: JNIType.long, cSharp: "nint", dart: "int", dartFFI: "Int"),
+            "Int": (c: "int", ts: "number", jni: JNIType.long, cSharp: "nint", dart: "int", dartFFI: "IntPtr"),
             "Float": (c: "float", ts: "number", jni: JNIType.float, cSharp: "float", dart: "double", dartFFI: "Float"),
             "Double": (c: "double", ts: "number", jni: JNIType.double, cSharp: "double", dart: "double", dartFFI: "Double"),
         ]
@@ -380,7 +406,7 @@ public class FishyJoesContext {
             "UInt16": (c: "uint16_t", ts: "number", jni: JNIType.short, cSharp: "ushort", dart: "int", dartFFI: "Uint16"),
             "UInt32": (c: "uint32_t", ts: "number", jni: JNIType.int, cSharp: "uint", dart: "int", dartFFI: "Uint32"),
             "UInt64": (c: "uint64_t", ts: "bigint", jni: JNIType.long, cSharp: "ulong", dart: "int", dartFFI: "Uint64"),
-            "UInt": (c: "uint64_t", ts: "number", jni: JNIType.long, cSharp: "nuint", dart: "int", dartFFI: "UnsignedInt" /* Seriously, dart? */),
+            "UInt": (c: "uint64_t", ts: "number", jni: JNIType.long, cSharp: "nuint", dart: "int", dartFFI: "UintPtr"),
         ]
 
         var dontCache = false
@@ -472,8 +498,8 @@ public class FishyJoesContext {
                             """
                     )
                 }
-            case .function(let parameters, let returnType, let isAsync):
-                return try TranslatedFunction(parameters: parameters.map(recur), returnType: recur(returnType), isAsync: isAsync)
+            case let .function(parameters, returnType, isAsync, isThrowing):
+                return try TranslatedFunction(parameters: parameters.map(recur), returnType: recur(returnType), isAsync: isAsync, isThrowing: isThrowing)
             default:
                 throw ResolveError(
                     message: """
@@ -501,11 +527,11 @@ public class FishyJoesContext {
         nodeTranslator.ts(method: method, explicitThis: explicitThis, context: self)
     }
 
-    func ts(field: Variable, useNativeName: Bool = false) -> TypeScriptAnnotations.Variable? {
+    func ts(field: Field, useNativeName: Bool = false) -> TypeScriptAnnotations.Variable? {
         nodeTranslator.ts(field: field, context: self, useNativeName: useNativeName)
     }
 
-    func ts(fieldAsMethods field: Variable, explicitThis: Bool) -> [TypeScriptAnnotations.Method] {
+    func ts(fieldAsMethods field: Field, explicitThis: Bool) -> [TypeScriptAnnotations.Method] {
         nodeTranslator.ts(fieldAsMethods: field, explicitThis: explicitThis, context: self)
     }
 
@@ -513,7 +539,7 @@ public class FishyJoesContext {
         kotlinTranslator.kotlin(method: method, context: self)
     }
 
-    func kotlin(field: Variable, useNativeName: Bool = false) -> KotlinClass.MethodOrVariable? {
+    func kotlin(field: Field, useNativeName: Bool = false) -> KotlinClass.MethodOrVariable? {
         kotlinTranslator.kotlin(field: field, context: self, useNativeName: useNativeName)
     }
 
@@ -521,7 +547,7 @@ public class FishyJoesContext {
         cSharpTranslator.cSharp(method: method, of: type, context: self)
     }
 
-    func cSharp(field: Variable, of type: TranslatedType, useNativeName: Bool = false) -> CSharpClass.MethodOrVariable? {
+    func cSharp(field: Field, of type: TranslatedType, useNativeName: Bool = false) -> [CSharpClass.MethodOrVariable] {
         cSharpTranslator.cSharp(field: field, of: type, context: self, useNativeName: useNativeName)
     }
 
@@ -529,7 +555,7 @@ public class FishyJoesContext {
         dartTranslator.dart(method: method, of: type, context: self)
     }
 
-    func dart(field: Variable, of type: TranslatedType, useNativeName: Bool = false) -> DartClass.MethodOrVariable? {
+    func dart(field: Field, of type: TranslatedType, useNativeName: Bool = false) -> DartClass.MethodOrVariable? {
         dartTranslator.dart(field: field, of: type, context: self, useNativeName: useNativeName)
     }
 
@@ -557,13 +583,15 @@ public class FishyJoesContext {
 
     func add(dartClass: DartClass) {
         dartClasses.append(dartClass)
-        for (name, (args, returnType)) in dartClass.nativeMethods {
+
+        for (name, (args, returnType, isDefaultImplementation)) in dartClass.nativeMethods {
             dartTranslator.nativeMethods.append(
                 .init(
                     name: name,
                     definingDartClass: dartClass.name,
                     args: args,
-                    returnType: returnType
+                    returnType: returnType,
+                    isDefaultImplementation: isDefaultImplementation
                 )
             )
         }
@@ -571,5 +599,20 @@ public class FishyJoesContext {
 
     func add(cSharpClass: CSharpClass) {
         cSharpClasses.append(cSharpClass)
+    }
+
+    struct FileHeader: Hashable, Comparable {
+        let contents: String
+        // higher priorities are placed nearer the top of the file
+        let priority: Int
+
+        init(_ contents: String, priority: Int = 0) {
+            self.priority = priority
+            self.contents = contents
+        }
+
+        static func < (lhs: FileHeader, rhs: FileHeader) -> Bool {
+            (-lhs.priority, lhs.contents) < (-rhs.priority, rhs.contents)
+        }
     }
 }

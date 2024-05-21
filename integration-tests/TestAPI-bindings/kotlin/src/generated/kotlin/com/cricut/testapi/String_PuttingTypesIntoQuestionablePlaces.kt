@@ -1,15 +1,14 @@
 package com.cricut.testapi
 
-import kotlinx.coroutines.*
 import java.lang.Exception
+import kotlinx.coroutines.*
 
 /**
  * <!-- FishyJoes.export(String_PuttingTypesIntoQuestionablePlaces) -->
  */
 data class String_PuttingTypesIntoQuestionablePlaces(
     val x: kotlin.String
-)
- {
+) {
     /**
      * <!-- FishyJoes.export(testCall) -->
      */

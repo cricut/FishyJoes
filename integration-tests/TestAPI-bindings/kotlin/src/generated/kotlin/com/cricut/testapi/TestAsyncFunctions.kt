@@ -1,0 +1,167 @@
+package com.cricut.testapi
+
+import java.lang.Exception
+import kotlinx.coroutines.*
+
+/**
+ * <!-- FishyJoes.export(TestAsyncFunctions) -->
+ */
+interface TestAsyncFunctions {
+    /**
+     * <!-- FishyJoes.export(add3Things) -->
+     */
+    val add3Things: (suspend (Float, Double, Long) -> Double)
+    /**
+     * <!-- FishyJoes.export(const42) -->
+     */
+    val const42: (suspend () -> Long)
+    /**
+     * <!-- FishyJoes.export(fifthThing) -->
+     */
+    val fifthThing: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long)) -> (suspend () -> Long))
+    /**
+     * <!-- FishyJoes.export(iabs) -->
+     */
+    val iabs: (suspend (Long) -> Long)
+    /**
+     * <!-- FishyJoes.export(intCompose) -->
+     */
+    val intCompose: (((suspend (Long) -> Long), (suspend (Long) -> Long)) -> (suspend (Long) -> Long))
+    /**
+     * <!-- FishyJoes.export(makeList) -->
+     */
+    val makeList: (suspend (kotlin.String, kotlin.String, kotlin.String, kotlin.String) -> kotlin.collections.List<kotlin.String>)
+    /**
+     * <!-- FishyJoes.export(six) -->
+     */
+    val six: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)
+    /**
+     * <!-- FishyJoes.export(willThrow) -->
+     */
+    val willThrow: (suspend () -> Long)
+    /**
+     * <!-- FishyJoes.export(exercise0) -->
+     */
+    suspend fun exercise0(
+        fn: (suspend () -> Long)
+    ): kotlin.String
+
+    /**
+     * <!-- FishyJoes.export(exercise1) -->
+     */
+    suspend fun exercise1(
+        fn: (suspend (Long) -> Long)
+    ): kotlin.String
+
+    /**
+     * <!-- FishyJoes.export(exercise2) -->
+     */
+    suspend fun exercise2(
+        fn: (((suspend (Long) -> Long), (suspend (Long) -> Long)) -> (suspend (Long) -> Long))
+    ): kotlin.String
+
+    /**
+     * <!-- FishyJoes.export(exercise3) -->
+     */
+    suspend fun exercise3(
+        fn: (suspend (Float, Double, Long) -> Double)
+    ): kotlin.String
+
+    /**
+     * <!-- FishyJoes.export(exercise4) -->
+     */
+    suspend fun exercise4(
+        fn: (suspend (kotlin.String, kotlin.String, kotlin.String, kotlin.String) -> kotlin.collections.List<kotlin.String>)
+    ): kotlin.String
+
+    /**
+     * <!-- FishyJoes.export(exercise5) -->
+     */
+    suspend fun exercise5(
+        fn: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long)) -> (suspend () -> Long))
+    ): kotlin.String
+
+    /**
+     * <!-- FishyJoes.export(exercise6) -->
+     */
+    suspend fun exercise6(
+        fn: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)
+    ): kotlin.String
+
+    /**
+     * <!-- FishyJoes.export(thunkTwiceMaker) -->
+     */
+    fun thunkTwiceMaker(
+        thunk: (suspend () -> kotlin.Unit)
+    ): (suspend () -> kotlin.Unit)
+
+    /**
+     * <!-- FishyJoes.export(defaultExercise6) -->
+     */
+    suspend fun defaultExercise6(
+        fn: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)
+    ): kotlin.String = __jni__default_defaultExercise6(this, fn).await()
+
+    /**
+     * <!-- FishyJoes.export(witness) -->
+     */
+    fun witness(
+    ): com.cricut.testapi.TestAsyncFunctions
+
+    companion object {
+        /**
+         * <!-- FishyJoes.export(defaultExercise6) -->
+         */
+        @JvmName("__jni__default_defaultExercise6")
+        private external fun __jni__default_defaultExercise6(
+            self: TestAsyncFunctions,
+            fn: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)
+        ): kotlinx.coroutines.Deferred<kotlin.String>
+
+        @JvmStatic
+        fun _deferred_exercise0(
+            self: TestAsyncFunctions,
+            fn: (suspend () -> Long)
+        ): Deferred<kotlin.String> = CoroutineScope(Dispatchers.Default).async { self.exercise0(fn) }
+
+        @JvmStatic
+        fun _deferred_exercise1(
+            self: TestAsyncFunctions,
+            fn: (suspend (Long) -> Long)
+        ): Deferred<kotlin.String> = CoroutineScope(Dispatchers.Default).async { self.exercise1(fn) }
+
+        @JvmStatic
+        fun _deferred_exercise2(
+            self: TestAsyncFunctions,
+            fn: (((suspend (Long) -> Long), (suspend (Long) -> Long)) -> (suspend (Long) -> Long))
+        ): Deferred<kotlin.String> = CoroutineScope(Dispatchers.Default).async { self.exercise2(fn) }
+
+        @JvmStatic
+        fun _deferred_exercise3(
+            self: TestAsyncFunctions,
+            fn: (suspend (Float, Double, Long) -> Double)
+        ): Deferred<kotlin.String> = CoroutineScope(Dispatchers.Default).async { self.exercise3(fn) }
+
+        @JvmStatic
+        fun _deferred_exercise4(
+            self: TestAsyncFunctions,
+            fn: (suspend (kotlin.String, kotlin.String, kotlin.String, kotlin.String) -> kotlin.collections.List<kotlin.String>)
+        ): Deferred<kotlin.String> = CoroutineScope(Dispatchers.Default).async { self.exercise4(fn) }
+
+        @JvmStatic
+        fun _deferred_exercise5(
+            self: TestAsyncFunctions,
+            fn: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long)) -> (suspend () -> Long))
+        ): Deferred<kotlin.String> = CoroutineScope(Dispatchers.Default).async { self.exercise5(fn) }
+
+        @JvmStatic
+        fun _deferred_exercise6(
+            self: TestAsyncFunctions,
+            fn: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)
+        ): Deferred<kotlin.String> = CoroutineScope(Dispatchers.Default).async { self.exercise6(fn) }
+
+        init {
+            loadNativeLibs()
+        }
+    }
+}

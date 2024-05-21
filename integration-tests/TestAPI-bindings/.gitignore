@@ -1,5 +1,5 @@
 .DS_Store
-/.build
+.build
 /Packages
 /*.xcodeproj
 xcuserdata/
@@ -7,6 +7,7 @@ DerivedData/
 .swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
 /output
 node_modules
+Sources/Generated/NodeNativeShim/Package.swift
 .swift-version
 *.tgz
 *.log

@@ -31,6 +31,16 @@ public struct Methods {
     /// <!-- FishyJoes.export(instanceGet) -->
     public var instanceGet: Int { 1234 }
 
+    /// <!-- FishyJoes.export(garply) -->
+    public var garply: Int { 42901 }
+
+    public var wibble: Int { 10924 }
+
+    /// <!-- FishyJoes.export(doublePlusGood) -->
+    public func doublePlusGood(a: Int, b: Double) -> Int {
+        2 * (a + Int(round(b)))
+    }
+
     /// <!-- FishyJoes.exportAsMethod(instanceGetMethod) -->
     public let instanceGetMethod: Int = 2345
 
@@ -60,9 +70,9 @@ public struct Methods {
     }
 
     /// <!-- FishyJoes.export(asyncSleep) -->
-    public func asyncSleep() async throws -> Int {
+    public func asyncSleep() async throws -> UInt {
         try await Task.sleep(nanoseconds: 100)
-        return await async42()
+        return await UInt(async42())
     }
 
     /// <!-- FishyJoes.export(asyncVoid) -->
@@ -101,9 +111,9 @@ public struct Methods {
     }
 
     /// <!-- FishyJoes.export(staticAsyncSleep) -->
-    public static func staticAsyncSleep() async throws -> Int {
+    public static func staticAsyncSleep() async throws -> UInt {
         try await Task.sleep(nanoseconds: 100)
-        return await staticAsync42()
+        return await UInt(staticAsync42())
     }
 
     /// <!-- FishyJoes.export(staticAsyncVoid) -->

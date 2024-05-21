@@ -310,6 +310,28 @@ namespace Cricut.FishyJoesRuntime {
             }
         }
 
+        public static void FishyJoesCommonRuntime_AsyncFunction0Converter_setup(IntPtr envRef, out CreatedRef exn) {
+            exn = CreatedRef.Null;
+        }
+        public static void FishyJoesCommonRuntime_AsyncFunction1Converter_setup(IntPtr envRef, out CreatedRef exn) {
+            exn = CreatedRef.Null;
+        }
+        public static void FishyJoesCommonRuntime_AsyncFunction2Converter_setup(IntPtr envRef, out CreatedRef exn) {
+            exn = CreatedRef.Null;
+        }
+        public static void FishyJoesCommonRuntime_AsyncFunction3Converter_setup(IntPtr envRef, out CreatedRef exn) {
+            exn = CreatedRef.Null;
+        }
+        public static void FishyJoesCommonRuntime_AsyncFunction4Converter_setup(IntPtr envRef, out CreatedRef exn) {
+            exn = CreatedRef.Null;
+        }
+        public static void FishyJoesCommonRuntime_AsyncFunction5Converter_setup(IntPtr envRef, out CreatedRef exn) {
+            exn = CreatedRef.Null;
+        }
+        public static void FishyJoesCommonRuntime_AsyncFunction6Converter_setup(IntPtr envRef, out CreatedRef exn) {
+            exn = CreatedRef.Null;
+        }
+
         delegate CreatedRef Constructor(IntPtr context, ConsumedRef reference, out CreatedRef exn);
         unsafe delegate CreatedRef InvokeMethod(IntPtr context, UnownedRef fn, ConsumedRef* arguments, out CreatedRef exn);
 

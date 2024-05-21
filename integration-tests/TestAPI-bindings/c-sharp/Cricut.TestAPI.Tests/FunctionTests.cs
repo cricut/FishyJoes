@@ -41,7 +41,7 @@ namespace Cricut.TestAPI.Tests {
             Assert.Equal("8", Functions.Exercise0(() => 8));
             Assert.Equal("3", Functions.Exercise1(x => -x));
             Assert.Equal("25", Functions.Exercise2((f, g) => x => f(g(x))));
-            Assert.Equal("7.4", Functions.Exercise3((a, b, c) => a + b + c ));
+            Assert.Equal("7.4", Functions.Exercise3((a, b, c) => a + b + c));
             Assert.Equal("[\"a\", \"b\", \"c\", \"d\"]", Functions.Exercise4((a, b, c, d) => new string[] { a, b, c, d }));
             Assert.Equal("83", Functions.Exercise5((_, _, _, _, f) => f));
             Assert.Equal("42", Functions.Exercise6((_, _, _, _, _, i) => i));
@@ -50,6 +50,14 @@ namespace Cricut.TestAPI.Tests {
         [Fact]
         void testSwiftThrows() {
             Assert.Throws<Exception>(() => Functions.WillThrow());
+        }
+
+        [Fact]
+        void TestThunkMaker() {
+            var timesCalled = 0;
+            var thunk = Functions.ThunkTwiceMaker(() => { timesCalled++; });
+            thunk();
+            Assert.Equal(2, timesCalled);
         }
     }
 }

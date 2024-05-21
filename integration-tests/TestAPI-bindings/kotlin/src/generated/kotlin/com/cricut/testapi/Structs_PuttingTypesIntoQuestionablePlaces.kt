@@ -1,12 +1,12 @@
 package com.cricut.testapi
 
-import kotlinx.coroutines.*
 import java.lang.Exception
+import kotlinx.coroutines.*
 
 /**
  * <!-- FishyJoes.exportReference(Structs_PuttingTypesIntoQuestionablePlaces) -->
  */
-class Structs_PuttingTypesIntoQuestionablePlaces private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference) {
+class Structs_PuttingTypesIntoQuestionablePlaces private constructor(_swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference) {
     /**
      * <!-- FishyJoes.export(testCall) -->
      */

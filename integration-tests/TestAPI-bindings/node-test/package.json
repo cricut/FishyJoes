@@ -7,8 +7,11 @@
     "test": "npm run test-wasm",
     "test-wasm": "node --no-experimental-fetch --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.wasm.cjs",
     "test-native-macos": "node --force-node-api-uncaught-exceptions-policy --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.native-macos.cjs",
+    "test-native-macos-lldb": "lldb -- node --force-node-api-uncaught-exceptions-policy --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.native-macos.cjs",
     "test-native-ubuntu": "node --force-node-api-uncaught-exceptions-policy --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.native-ubuntu.cjs",
+    "test-native-ubuntu-lldb": "lldb -- node --force-node-api-uncaught-exceptions-policy --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.native-ubuntu.cjs",
     "test-native-windows": "node --force-node-api-uncaught-exceptions-policy --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.native-windows.cjs",
+    "test-native-windows-lldb": "lldb -- node --force-node-api-uncaught-exceptions-policy --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.native-windows.cjs",
     "clear-cache": "node node_modules/jest/bin/jest.js --clear-cache"
   },
   "devDependencies": {
@@ -22,16 +25,14 @@
     "@cricut/fishyjoes-runtime-native-windows": "file:../../../node-runtime/fishyjoes-runtime-native-windows",
     "@cricut/fishyjoes-runtime-native-macos": "file:../../../node-runtime/fishyjoes-runtime-native-macos",
     "@cricut/fishyjoes-runtime-native-ubuntu": "file:../../../node-runtime/fishyjoes-runtime-native-ubuntu",
-    "@cricut/testapi-native-windows": "file:../output/node-native-windows",
     "@cricut/testapi-native-macos": "file:../output/node-native-macos",
     "@cricut/testapi-native-ubuntu": "file:../output/node-native-ubuntu",
     "@cricut/testapi-wasm": "file:../output/wasm"
   },
   "dependencies": {
+    "@cricut/testapi-native-windows": "file:../output/node-native-windows",
     "@wasmer/wasi": "^0.12.0",
     "@wasmer/wasmfs": "^0.12.0",
-    "buffer": "^5.7.1",
-    "process": "^0.11.10",
-    "util": "^0.11.1"
+    "buffer": "^5.7.1"
   }
 }

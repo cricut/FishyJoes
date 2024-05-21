@@ -5,8 +5,10 @@
 import FishyJoesNodeRuntime
 import Foundation
 import TestAPI
+import TestAPI_CommonInterface
 
 extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
+    public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         fatalError("invalid enum for TestAPI.Functions")
     }
@@ -124,6 +126,20 @@ extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "willThrow", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 TestAPI.Functions.willThrow(
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
+                "thunkTwiceMaker": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "thunkTwiceMaker", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try Function0Converter<FishyJoesCommonRuntime.VoidConverter>.toNode(
+                                TestAPI.Functions.thunkTwiceMaker(
+                                    thunk: try env.argument(at: 0, converter: Function0Converter<FishyJoesCommonRuntime.VoidConverter>.self)
                                 ),
                                 env: env.env
                             )

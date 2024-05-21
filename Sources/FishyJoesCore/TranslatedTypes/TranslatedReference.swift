@@ -11,7 +11,7 @@ struct TranslatedReference: TranslatedType {
     let cSharpType: CSharpClass.CSType
     let dartType: DartClass.DartType
     let methods: [Method]
-    let computedVariables: [Variable]
+    let computedVariables: [Field]
     let documentation: [String]
     let className: String
     let jniType: JNIType
@@ -19,6 +19,7 @@ struct TranslatedReference: TranslatedType {
     let hashable: Bool
     let isInhabited: Bool
     let definingModule: Module
+    let conformances: Set<String>
 
     init(context: FishyJoesContext, type: Type) {
         guard let exportAnnotation = type.exportAnnotation else {
@@ -34,8 +35,8 @@ struct TranslatedReference: TranslatedType {
         self.kotlinPackage = context.module.kotlinPackage
         self.cSharpType = .named(package: context.module.cSharpNamespace, name: exportAnnotation.cSharpName)
         self.dartType = .named(package: context.module.dartNamespace, name: context.dartTranslator.fakeNamespace(exportAnnotation.name))
-        self.methods = type.methods.compactMap { Method($0) }
-        self.computedVariables = type.variables.filter { $0.exportAnnotation != nil }
+        self.methods = Method.methods(type: type)
+        self.computedVariables = type.variables.compactMap { Field($0, type: type) }
         self.documentation = type.documentation
         self.className = context.kotlinTranslator.javaClassName(kotlinName, in: context)
         self.jniType = .object(className)
@@ -43,6 +44,7 @@ struct TranslatedReference: TranslatedType {
         self.hashable = type.hashable
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
+        self.conformances = exportAnnotation.conformances
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
@@ -84,7 +86,11 @@ struct TranslatedReference: TranslatedType {
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
             "NodeInterface/\(sourceType.name)+node.swift",
-            additionalImports: ["Foundation", "FishyJoesNodeRuntime"]
+            additionalImports: [
+                "Foundation",
+                "FishyJoesNodeRuntime",
+                "\(context.module.name)_CommonInterface"
+            ]
         )
         fragment.outputBlock("extension \(sourceType.name): FishyJoesNodeRuntime.NodeConverter {") {
             fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> \(sourceType.name) {") {
@@ -126,8 +132,12 @@ struct TranslatedReference: TranslatedType {
                     fragment.output("env: env,")
                     fragment.output("name: \"\(nodeName)\",")
                     fragment.outputBlock("properties: [", closeWith: "],") {
+                        let normalMethods = methods.filter { !$0.isDefaultImplementation }
+                        let defaultMethods = methods.filter { $0.isDefaultImplementation }
+
                         var hasProperties = false
-                        hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment)
+                        hasProperties ||= context.nodeTranslator.outputProperties(methods: normalMethods, context: context, fragment: fragment, converterName: nil)
+                        hasProperties ||= context.nodeTranslator.outputProperties(methods: defaultMethods, context: context, fragment: fragment, converterName: sourceType.name)
                         hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment)
                         if !hasProperties {
                             fragment.output(":")
@@ -152,6 +162,7 @@ struct TranslatedReference: TranslatedType {
             .init(
                 documentation: documentation,
                 name: nodeName,
+                implements: Array(conformances).sorted(by: <),
                 constructor: .hidden,
                 fields: computedVariables.compactMap { context.ts(field: $0) },
                 methods: methods.compactMap { context.ts(method: $0) }
@@ -163,7 +174,7 @@ struct TranslatedReference: TranslatedType {
 
     func jniDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "JavaInterface/\(sourceType.name)+java.swift",
+            "JavaInterface/\(sourceType.name)+java-type.swift",
             additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
         )
         fragment.outputBlock("extension \(sourceType.name): JavaMutator {") {
@@ -183,6 +194,10 @@ struct TranslatedReference: TranslatedType {
                 }
             }
 
+            fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout \(sourceType.name), inout Env) async throws -> R) async throws -> R {") {
+                fragment.output("try await body(&Box<\(sourceType.name)>.fromJava(this, env: env).value, &env)")
+            }
+
             fragment.outputBlock("public static func javaSetup(env: Env) throws {") {
                 fragment.output("guard javaClass == nil else { return }")
                 fragment.output("try AnyBox.javaSetup(env: env)")
@@ -192,10 +207,6 @@ struct TranslatedReference: TranslatedType {
 
             fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout \(sourceType.name)) throws -> R) throws -> R {") {
                 fragment.output("try body(&Box<\(sourceType.name)>.fromJava(this, env: env).value)")
-            }
-
-            fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout \(sourceType.name), inout Env) async throws -> R) async throws -> R {") {
-                fragment.output("try await body(&Box<\(sourceType.name)>.fromJava(this, env: env).value, &env)")
             }
 
             if equatable != hashable {
@@ -235,20 +246,22 @@ struct TranslatedReference: TranslatedType {
         }
 
         if equatable {
-            context.kotlinTranslator.allMethods[sourceType.name, default: []].append(
-                (
+            context.kotlinTranslator.allMethods[sourceType.name, default: []].insert(
+                .init(
                     javaName: "__jni_swiftEquals",
                     signature: "(\(jniType.asSignature)\(jniType.asSignature))Z",
-                    cName: "\(sourceType.name)._javaEquals"
+                    cName: "\(sourceType.name)._javaEquals",
+                    isProtocolDefault: false
                 )
             )
         }
         if hashable {
-            context.kotlinTranslator.allMethods[sourceType.name, default: []].append(
-                (
+            context.kotlinTranslator.allMethods[sourceType.name, default: []].insert(
+                .init(
                     javaName: "__jni_hashCode",
                     signature: "()I",
-                    cName: "\(sourceType.name)._javaHash"
+                    cName: "\(sourceType.name)._javaHash",
+                    isProtocolDefault: false
                 )
             )
         }
@@ -265,6 +278,7 @@ struct TranslatedReference: TranslatedType {
                         isStatic: true,
                         isSuspend: false,
                         isOverride: false,
+                        isDefaultImplementation: false,
                         name: "swiftEquals",
                         parameters: [
                             (labelComment: nil, name: "lhs", type: kotlinType, defaultValue: nil),
@@ -284,6 +298,7 @@ struct TranslatedReference: TranslatedType {
                         isStatic: false,
                         isSuspend: false,
                         isOverride: true,
+                        isDefaultImplementation: false,
                         name: "equals",
                         parameters: [
                             (labelComment: nil, name: "other", type: .optional(.named(package: nil, name: "Any")), defaultValue: nil),
@@ -304,6 +319,7 @@ struct TranslatedReference: TranslatedType {
                         isStatic: false,
                         isSuspend: false,
                         isOverride: true,
+                        isDefaultImplementation: false,
                         name: "hashCode",
                         parameters: [],
                         compatibilityOrder: [],
@@ -315,13 +331,16 @@ struct TranslatedReference: TranslatedType {
             )
         }
 
+        let (fields, methods) = KotlinClass.separate(fieldsAndMethods: fieldsAndMethods)
         let product = KotlinProductClass(
             module: context.module,
             documentation: documentation,
             name: kotlinName,
             constructor: .reference,
-            fieldsAndMethods: fieldsAndMethods
-        )
+            fields: fields,
+            methods: methods,
+            conformances: ["com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference)"]
+        ).conforming(to: conformances, context: context)
         context.add(kotlinClass: product)
 
         return fragment
@@ -408,15 +427,15 @@ struct TranslatedReference: TranslatedType {
             }
         }
 
-        registerCSharpClass(in: context)
         registerDartClass(in: context)
+        registerCSharpClass(in: context)
 
         return fragment
     }
 
     func registerCSharpClass(in context: FishyJoesContext) {
         var fieldsAndMethods =
-            computedVariables.compactMap { context.cSharp(field: $0, of: self, useNativeName: false) } +
+            computedVariables.flatMap { context.cSharp(field: $0, of: self, useNativeName: false) } +
             methods.compactMap { context.cSharp(method: $0, of: self) }
 
         if equatable {
@@ -478,20 +497,28 @@ struct TranslatedReference: TranslatedType {
             )
         }
 
+        let (productFields, productMethods) = CSharpClass.separate(fieldsAndMethods: fieldsAndMethods)
+
         let product = CSharpProductClass(
             module: context.module,
             documentation: documentation,
             name: cSharpType.name,
             constructor: .reference,
-            fieldsAndMethods: fieldsAndMethods
+            fields: productFields,
+            methods: productMethods,
+            conformances: conformances
         )
         context.add(cSharpClass: product)
     }
 
     func registerDartClass(in context: FishyJoesContext) {
         var fieldsAndMethods =
-            computedVariables.compactMap { context.dart(field: $0, of: self, useNativeName: false) } +
-            methods.compactMap { context.dart(method: $0, of: self) }
+        computedVariables.compactMap {
+            context.dart(field: $0, of: self, useNativeName: false)
+        } +
+        methods.compactMap {
+            context.dart(method: $0, of: self)
+        }
 
         if equatable {
             fieldsAndMethods.append(
@@ -510,7 +537,8 @@ struct TranslatedReference: TranslatedType {
                             "GCRef.using(this, (thisHandle) =>",
                             "    GCRef.using(other as \(dartType.name()), (otherHandle) =>",
                             "        check((exn) => f__iota_\(sourceType.name.mangled)_equals(Loader.shared.env, thisHandle.ptr, otherHandle.ptr, exn))))",
-                        ]
+                        ],
+                        isDefaultImplementation: false
                     )
                 )
             )
@@ -527,7 +555,8 @@ struct TranslatedReference: TranslatedType {
                         ],
                         returnType: .primitive("bool", ffiName: "Bool"),
                         deprecation: nil,
-                        body: nil
+                        body: nil,
+                        isDefaultImplementation: false
                     )
                 )
             )
@@ -550,12 +579,15 @@ struct TranslatedReference: TranslatedType {
             )
         }
 
+        let (fields, methods) = DartClass.separate(fieldsAndMethods: fieldsAndMethods)
         let dartProduct = DartProductClass(
             module: context.module,
             documentation: documentation,
             name: dartType.name(),
             constructor: .reference,
-            fieldsAndMethods: fieldsAndMethods
+            fields: fields,
+            methods: methods,
+            conformances: conformances
         )
         context.add(dartClass: dartProduct)
     }

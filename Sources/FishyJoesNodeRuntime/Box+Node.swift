@@ -21,6 +21,7 @@ extension Box {
 }
 
 extension AnyBox {
+    public static var nodeClass: NodeClass?
     static let boxFinalize: NAPI.Finalize = { _, data, hint in
         if let hint = hint {
             let s = String(cString: hint.assumingMemoryBound(to: CChar.self))

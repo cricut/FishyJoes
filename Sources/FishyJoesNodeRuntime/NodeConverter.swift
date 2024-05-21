@@ -1,4 +1,5 @@
 import Foundation
+import NodeAPI
 
 // MARK: - NodeJS Type Conversion Protocols
 
@@ -194,47 +195,111 @@ extension String: NodeConverter {
 
 // MARK: - Data Type Conversion
 
+// Implementing the NAPI arraybuffer functions in wasm would be very difficult, since they assume storage is in wasm memory. Use alternate hooks instead
 extension Data: NodeConverter {
+    static var moduleReference: NodeReference?
+
+    fileprivate static func typedArrayElementSize(for arrayType: napi_typedarray_type) -> Int? {
+        switch arrayType {
+        case napi_int8_array, napi_uint8_array, napi_uint8_clamped_array:
+            return 1
+        case napi_int16_array, napi_uint16_array:
+            return 2
+        case napi_int32_array, napi_uint32_array, napi_float32_array:
+            return 4
+        case napi_float64_array, napi_bigint64_array, napi_biguint64_array:
+            return 8
+        default:
+            return nil
+        }
+    }
+
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Data {
-        let global = try env.getGlobal()
-
-        // Get the number of bytes in the ArrayBuffer
-        let byteLength = try env.getNamedProperty(value, "byteLength")
-
-        // Get a byte-oriented view of the ArrayBuffer with UInt8Array
-        let uInt8ArrayConstructor = try env.getNamedProperty(global, "Uint8Array")
-        let uInt8View = try env.newInstance(uInt8ArrayConstructor, [value])
-
-        // Create a Data to store the memory from the ArrayBuffer
-        let count = try Int.fromNode(byteLength, env: env)
-        var data = Data(count: count)
-
-        // Copy the bytes from the UInt8Array to the Data
-        for index in 0..<count {
-            data[index] = try UInt8.fromNode(try env.getElement(uInt8View, UInt32(index)), env: env)
+        let dataPtr: UnsafeMutableRawPointer?
+        let length: Int
+        if try env.isArraybuffer(value) {
+            (dataPtr, length) = try env.getArraybufferInfo(value)
+        } else if
+            try env.isTypedarray(value),
+            case let info = try env.getTypedarrayInfo(value),
+            let elementSize = typedArrayElementSize(for: info.type)
+        {
+            length = info.length * elementSize
+            dataPtr = info.data
+        } else {
+            throw JSException(message: "expected ArrayBuffer (or TypedArray, or Buffer, if you must) but got: \(try nodeDescribe(value, env: env))")
         }
 
+        if length == 0 {
+            return Data()
+        }
+
+        #if os(WASI)
+        // Limitations in the design of NAPI mean that we can't rely on dataPtr here.
+        // Use an external helper instead to get the bytes.
+        guard let module = try moduleReference?.value(env: env),
+              case let fromWasi = try env.getNamedProperty(env.getNamedProperty(module, "_DataNodeConverter"), "fromWasi"),
+              try env.typeof(fromWasi) == NodeAPI.napi_function
+        else {
+            // These should be implemented in Runtime.extensions.js
+            throw JSException(message: "Internal error: Expected Runtime._DataNodeConverter.fromWasi to be a function")
+        }
+        let undefined = try env.getUndefined()
+        // fromWasi should be js function of type (Arraybuffer, ssize_t, void *) throws -> void
+        // the memory will be both allocated and freed by the caller
+        var data = Data(count: length)
+        let jsLength = try Int.toNode(length, env: env)
+        try data.withUnsafeMutableBytes { buffer in
+            let jsBuffer = try UInt.toNode(UInt(bitPattern: buffer.baseAddress), env: env)
+            _ = try env.callFunction(undefined, fromWasi, [value, jsLength, jsBuffer])
+        }
         return data
+        #else
+        if let dataPtr = dataPtr {
+            return Data(bytes: dataPtr, count: length)
+        } else {
+            throw JSException(message: "napi_get_arraybuffer_info unexpectedly returned NULL")
+        }
+        #endif
     }
 
     public static func toNode(_ value: Data, env: NAPI.Env) throws -> NAPI.Value {
-        let global = try env.getGlobal()
-
-        // Create an ArrayBuffer of the same size as the Data
-        let arrayBufferConstructor = try env.getNamedProperty(global, "ArrayBuffer")
-        let byteCount = try Int.toNode(value.count, env: env)
-        let arrayBuffer = try env.newInstance(arrayBufferConstructor, [byteCount])
-
-        // Get a byte-oriented view of the ArrayBuffer with UInt8Array
-        let uInt8ArrayConstructor = try env.getNamedProperty(global, "Uint8Array")
-        let uInt8View = try env.newInstance(uInt8ArrayConstructor, [arrayBuffer])
-
-        // Copy the bytes from the Data to the UInt8Array
-        for (index, byte) in value.enumerated() {
-            try env.setElement(uInt8View, UInt32(index), UInt8.toNode(byte, env: env))
+        #if os(WASI)
+        guard let module = try moduleReference?.value(env: env),
+              case let toWasi = try env.getNamedProperty(env.getNamedProperty(module, "_DataNodeConverter"), "toWasi"),
+              try env.typeof(toWasi) == NodeAPI.napi_function
+        else {
+            // These should be implemented in Runtime.extensions.js
+            throw JSException(message: "Internal error: Expected Runtime._DataNodeConverter.toWasi to be a function")
         }
-
+        let undefined = try env.getUndefined()
+        return try value.withUnsafeBytes { buffer in
+            let nodeLength = try Int.toNode(value.count, env: env)
+            let nodePointer = try UInt.toNode(UInt(bitPattern: buffer.baseAddress), env: env)
+            // toWasi should be js function of type (ssize_t, void *) -> Arraybuffer
+            // memory is copied without ownership change
+            return try env.callFunction(undefined, toWasi, [nodeLength, nodePointer])
+        }
+        #else
+        let length = value.count
+        let (data, arrayBuffer) = try env.createArraybuffer(length)
+        guard length > 0 else {
+            return arrayBuffer
+        }
+        guard let data = data else {
+            throw JSException(message: "napi_create_arraybuffer unexpectedly returned NULL")
+        }
+        data.withMemoryRebound(to: UInt8.self, capacity: length) { ptr in
+            value.copyBytes(to: ptr, count: length)
+        }
         return arrayBuffer
+        #endif
+    }
+
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        if moduleReference == nil {
+            moduleReference = try NodeReference(env: env, value: module)
+        }
     }
 }
 
@@ -282,17 +347,9 @@ extension ArrayConverter: NodeConverter where ElementConverter: NodeConverter {
 extension DictionaryConverter: NodeConverter where KeyConverter: NodeConverter, ValueConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         let iterator = try env.callFunction(value, env.getNamedProperty(value, "entries"), [])
-        let nextFun = try env.getNamedProperty(iterator, "next")
-        func next() throws -> NAPI.Value? {
-            let result = try env.callFunction(iterator, nextFun, [])
-            guard try !env.getValueBool(env.getNamedProperty(result, "done")) else {
-                return nil
-            }
-            return try env.getNamedProperty(result, "value")
-        }
 
         var result: SwiftType = [:]
-        while let entry = try next() {
+        try nodeIterate(iterator, env: env) { entry in
             let key = try KeyConverter.fromNode(env.getElement(entry, 0), env: env)
             let value = try ValueConverter.fromNode(env.getElement(entry, 1), env: env)
             result[key] = value
@@ -321,7 +378,13 @@ extension DictionaryConverter: NodeConverter where KeyConverter: NodeConverter, 
 
 extension SetConverter: NodeConverter where ElementConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
-        throw JSException(message: "TODO: implement Swift.Set.static func fromNode(_:env:)")
+        let iterator = try env.callFunction(value, env.getNamedProperty(value, "values"), [])
+
+        var result = SwiftType()
+        try nodeIterate(iterator, env: env) { entry in
+            result.insert(try ElementConverter.fromNode(entry, env: env))
+        }
+        return result
     }
 
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {

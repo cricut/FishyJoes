@@ -1,13 +1,14 @@
 // swift-tools-version:5.6
 
-import PackageDescription
 import Foundation
+import PackageDescription
 
 let env = ProcessInfo.processInfo.environment
 let disableGeneration = env["DISABLE_GENERATION"] == "1"
 let wasmCompatibleOnly = env["WASM_ONLY"] == "1"
 let androidCompatibleOnly = env["ANDROID_COMPATIBLE_ONLY"] == "1"
 let javaHome = env["JAVA_HOME_11_X64"] ?? env["JAVA_HOME"]
+let extraLibPath = env["EXTRA_LIBPATH"]?.split(separator: ";") ?? []
 
 func generationEnabled<T>(_ things: @autoclosure () -> [T]) -> [T] {
     #if os(macOS)
@@ -16,13 +17,14 @@ func generationEnabled<T>(_ things: @autoclosure () -> [T]) -> [T] {
     return []
     #endif
 }
-typealias P = Product
-typealias D = Package.Dependency
-typealias T = Target
 
 func wasmIncompatible<T>(_ things: @autoclosure () -> [T]) -> [T] {
     wasmCompatibleOnly ? [] : things()
 }
+
+typealias P = Product
+typealias D = Package.Dependency
+typealias T = Target
 
 let package = Package(
     name: "FishyJoes",
@@ -39,20 +41,25 @@ let package = Package(
             P.library(name: "FishyJoesIotaRuntime", type: .dynamic, targets: ["FishyJoesIotaRuntime"]),
             P.library(name: "JavaRuntimeTestHarness", type: .dynamic, targets: ["JavaRuntimeTestHarness"]),
         ]
-    ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] : [
+    ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] :
+        [
             P.executable(name: "fishy-joes", targets: ["FishyJoesExecuteMain"]),
         ]
     ) + generationEnabled(
         [
-            P.executable(name: "🐟☕️", targets: ["FishyJoesExecutionHelper"]),
+            P.executable(name: "helper-fishy-joes-core", targets: ["FishyJoesExecutionHelper"]),
         ]
     ),
     dependencies: generationEnabled(
         [
             D.package(
                 url: "https://github.com/krzysztofzablocki/Sourcery", branch: "2.1.7"
-//                 path: "../Sourcery"
             ),
+        ]
+    ) + wasmIncompatible(
+        [
+            D.package(url: "https://github.com/mstokercricut/swsh", exact: "5.0.0-alpha0"),
+            D.package(url: "https://github.com/apple/swift-argument-parser", from: "1.2.2"),
         ]
     ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] : [
         D.package(url: "https://github.com/jpsim/Yams", .upToNextMinor(from: "5.0.3")),
@@ -60,9 +67,9 @@ let package = Package(
         D.package(url: "https://github.com/apple/swift-argument-parser", from: "1.2.2"),
     ]),
     targets: [
-        T.systemLibrary(name: "NodeAPI"),
-        T.systemLibrary(name: "JNI"),
         T.target(name: "FishyJoesCommonRuntime"),
+        // Kotlin / Java
+        T.systemLibrary(name: "JNI"),
         T.target(
             name: "FishyJoesJavaRuntime",
             dependencies: [
@@ -76,10 +83,26 @@ let package = Package(
                 .target(name: "FishyJoesJavaRuntime"),
             ]
         ),
+        // C# / Dart
         T.target(
             name: "FishyJoesIotaRuntime",
             dependencies: [
                 .target(name: "FishyJoesCommonRuntime"),
+            ]
+        ),
+        // TypeScript Node.js / Wasm
+        T.target(
+            name: "NodeAPI",
+            linkerSettings: [
+                // On Windows, node.lib must be in the library path list when building FishyJoes, the runtime, or bindings libraries
+                // Use the EXTRA_LIBPATH environment variable to cause "swift build" to add paths to the library path list when envoked
+                // When invoked via "fishy-joes build", node.lib will be downloaded and put in an accessible directory as part of the build process
+                .linkedLibrary("node.lib", .when(platforms: [.windows])),
+                .linkedLibrary("delayimp.lib", .when(platforms: [.windows])),
+                .unsafeFlags(
+                    extraLibPath.flatMap { ["-Xlinker", "/LIBPATH:\($0)"] },
+                    .when(platforms: [.windows])
+                )
             ]
         ),
         T.target(
@@ -88,8 +111,8 @@ let package = Package(
                 .target(name: "NodeAPI"),
                 .target(name: "FishyJoesCommonRuntime"),
             ],
-            resources: [
-                .copy("js"),
+            exclude: [
+                "Templates",
             ],
             linkerSettings: [
                 .unsafeFlags(
@@ -246,7 +269,7 @@ let package = Package(
                 ),
                 .unsafeFlags(
                     [
-                        "-Xlinker", "/force:unresolved",
+                        "-Xlinker", "/DELAYLOAD:node.exe",
                     ],
                     .when(platforms: [.windows])
                 ),

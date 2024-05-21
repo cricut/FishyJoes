@@ -95,12 +95,12 @@ extension SwiftPackage.Dependency {
     var url: URL {
         switch self {
         case .sourceControl(_, let url, _): return url
-        case .fileSystem(_, let path): return URL(string: path)!
+        case .fileSystem(_, let path): return URL(fileURLWithPath: path)
         }
     }
 
     var localPath: String {
-        return url.scheme == nil ? url.path : ".build/checkouts/\(url.lastPathComponent)"
+        return url.scheme == "file" || url.scheme == nil ? url.path : ".build/checkouts/\(url.lastPathComponent)"
     }
 
     var version: String? {

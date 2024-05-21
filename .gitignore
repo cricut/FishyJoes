@@ -1,5 +1,5 @@
 .DS_Store
-/.build
+.build
 /Packages
 /*.xcodeproj
 xcuserdata/
@@ -27,3 +27,4 @@ package-lock.json
 *.dylib
 *.cjs.node
 .idea
+*.swift.orig

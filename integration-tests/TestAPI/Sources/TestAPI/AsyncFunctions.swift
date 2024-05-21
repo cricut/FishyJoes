@@ -73,4 +73,13 @@ public enum AsyncFunctions {
     public static func exercise6(_ fn: AFun6) async rethrows -> String {
         try await "\(fn("hi", 6, 4.2, "bye", { 83 }, 42))"
     }
+
+    // void -> void functions are an edge case in C#
+    /// <!-- FishyJoes.export(thunkTwiceMaker) -->
+    public static func thunkTwiceMaker(thunk: @escaping () async throws -> Void) -> () async throws -> Void {
+        {
+            try await thunk()
+            try await thunk()
+        }
+    }
 }

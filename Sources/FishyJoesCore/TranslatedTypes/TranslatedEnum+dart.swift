@@ -5,7 +5,7 @@ extension TranslatedEnum {
             lines.append("typedef \(dartType.name().mangled)_new_\(enumCase.name.mangled) = \(dartType.ffiCreatedTag) Function(")
             for value in enumCase.associatedValues {
                 let resolved = context.resolve(type: value.type)
-                lines.append("    \(resolved.dartType.ffiConsumedTag) \(value.bindingName),")
+                lines.append("    \(resolved.dartType.ffiConsumedTag) \(DartClass.deforbidify(value.bindingName)),")
             }
             lines.append("    OutCreatedRef _exn")
             lines.append(");")
@@ -48,7 +48,15 @@ extension TranslatedEnum {
     }
 
     func dartClass(context: FishyJoesContext) -> DartEnumClass {
-        DartEnumClass(
+        let (fields, methods) = DartClass.separate(
+            fieldsAndMethods:
+                fields.compactMap {
+                    context.dart(field: $0, of: self, useNativeName: false)
+                } + methods.compactMap {
+                    context.dart(method: $0, of: self)
+                }
+        )
+        return DartEnumClass(
             module: context.module,
             documentation: documentation,
             name: dartType.name(),
@@ -62,9 +70,9 @@ extension TranslatedEnum {
                     }
                 )
             },
-            fieldsAndMethods:
-                fields.compactMap { context.dart(field: $0, of: self, useNativeName: false) } +
-                methods.compactMap { context.dart(method: $0, of: self) }
+            fields: fields,
+            methods: methods,
+            conformances: conformances
         )
     }
 }

@@ -1,5 +1,0 @@
-module NodeAPI [system] {
-    header "node_api_wrapper.h"
-    header "async_swift.h"
-    export *
-}

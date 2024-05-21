@@ -14,6 +14,5 @@ project(${PROJECT_NAME} LANGUAGES CXX)
 set(cricut___LOWERCASE_MODULE_NAME___bundled_libraries
   ${CMAKE_CURRENT_SOURCE_DIR}/native/__MODULE_NAME__.dll
   ${CMAKE_CURRENT_SOURCE_DIR}/native/__MODULE_NAME__-iota.dll
-  ${CMAKE_CURRENT_SOURCE_DIR}/native/FishyJoesIotaRuntime.dll
   PARENT_SCOPE
 )
