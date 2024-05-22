@@ -65,7 +65,7 @@ jobs:
     name: "Ubuntu: Build and test C# bindings"
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cricut/android-swift-runtime:1.2.0-alpha4
+      image: ghcr.io/cricut/android-swift-runtime:1.2.0-alpha5
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
