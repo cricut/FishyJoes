@@ -58,44 +58,64 @@ import 'package:fishyjoes_dart/runtime.dart';
 import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:tuple/tuple.dart' as tuple;
 
-// ignore_for_file: unused_import
-// ignore_for_file: non_constant_identifier_names
-// ignore_for_file: no_leading_underscores_for_local_identifiers
-// ignore_for_file: library_prefixes
-// ignore_for_file: file_names
-// ignore_for_file: annotate_overrides
+/// <!-- FishyJoes.export(TestDefaultComputedProperties) -->
+abstract class TestDefaultComputedProperties {
 
-/// <!-- FishyJoes.exportReference(Structs_PuttingTypesIntoQuestionablePlaces) -->
-class Structs_PuttingTypesIntoQuestionablePlaces extends SwiftReference {
-    Structs_PuttingTypesIntoQuestionablePlaces(ffi.Pointer reference): super(reference) {}
-    static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
-        createRef(Structs_PuttingTypesIntoQuestionablePlaces(ref))
-    );
+    /// <!-- FishyJoes.export(noot) -->
+    int get noot;
 
-    @override
-    String toString() => 'Structs_PuttingTypesIntoQuestionablePlaces()';
+    /// <!-- FishyJoes.export(plutonic) -->
+    String get plutonic;
+}
 
-    /// <!-- FishyJoes.export(create) -->
-    static TestAPI.Structs_PuttingTypesIntoQuestionablePlaces create(
-    ) =>
-        consumeCreatedRef<TestAPI.Structs_PuttingTypesIntoQuestionablePlaces>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_create(Loader.shared.env, _exn)))
-    ;
+extension TestDefaultComputedProperties_DefaultImplementations on TestDefaultComputedProperties {
 
-    /// <!-- FishyJoes.export(testCall) -->
-    int testCall(
-    ) =>
+    /// <!-- FishyJoes.export(noot) -->
+    /// <!-- FishyJoes.export(noot) -->
+    int get noot =>
         GCRef.using(this, (_thisHandle) =>
-            check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_testCall(Loader.shared.env, _thisHandle.ptr, _exn))
+            check((exn) =>
+                f__iota__default_TestAPI_TestDefaultComputedProperties_noot(Loader.shared.env, _thisHandle.ptr, exn)
+            )
         )
     ;
 
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__iota_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_create;
+    /// <!-- FishyJoes.export(plutonic) -->
+    /// <!-- FishyJoes.export(plutonic) -->
+    String get plutonic =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                consumeCreatedRef<String>(f__iota__default_TestAPI_TestDefaultComputedProperties_plutonic(Loader.shared.env, _thisHandle.ptr, exn))
+            )
+        )
+    ;
+
     static late int Function(
         Env env,
         UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_testCall;
+    ) f__iota__default_TestAPI_TestDefaultComputedProperties_noot;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota__default_TestAPI_TestDefaultComputedProperties_plutonic;
+}
+
+extension TestDefaultComputedProperties_FfiHooks on TestDefaultComputedProperties {
+    static int ffi_get_noot(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<TestDefaultComputedProperties>(obj).noot
+    ) ?? 0;
+
+    static CreatedRef ffi_get_plutonic(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestDefaultComputedProperties>(obj).plutonic
+        )
+    );
 }

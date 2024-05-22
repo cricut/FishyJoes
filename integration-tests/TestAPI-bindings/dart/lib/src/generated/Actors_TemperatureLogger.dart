@@ -15,6 +15,7 @@ import './Deprecations.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
 import './ExternalWitness_AProtocol.dart' as TestAPI;
 import './ExternalWitness_TestAsyncFunctions.dart' as TestAPI;
+import './ExternalWitness_TestDefaultComputedProperties.dart' as TestAPI;
 import './ExternalWitness_TestLeadingUnderscoredProp.dart' as TestAPI;
 import './ExternalWitness_TestMethodsProtocol.dart' as TestAPI;
 import './ExternalWitness_TestOptionalsProtocol.dart' as TestAPI;
@@ -35,6 +36,8 @@ import './Structs_ReferenceStruct.dart' as TestAPI;
 import './TestAsyncForeignSideFunctionsStruct.dart' as TestAPI;
 import './TestAsyncFunctions.dart' as TestAPI;
 import './TestAsyncSwiftSideFunctionsClass.dart' as TestAPI;
+import './TestDefaultComputedProperties.dart' as TestAPI;
+import './TestDefaultComputedPropertiesStruct.dart' as TestAPI;
 import './TestLeadingUnderscoredProp.dart' as TestAPI;
 import './TestLeadingUnderscoredPropStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
@@ -70,16 +73,8 @@ class Actors_TemperatureLogger extends SwiftReference {
     );
 
     @override
-    String toString() => 'Actors_TemperatureLogger(label: $label, backwardsLabel: $backwardsLabel, extensionNonisolatedVarLabel: $extensionNonisolatedVarLabel)';
+    String toString() => 'Actors_TemperatureLogger(backwardsLabel: $backwardsLabel, extensionNonisolatedVarLabel: $extensionNonisolatedVarLabel, label: $label)';
 
-    /// <!-- FishyJoes.export(label) -->
-    String get label =>
-        GCRef.using(this, (_thisHandle) =>
-            check((exn) =>
-                consumeCreatedRef<String>(f__iota_get_TestAPI_Actors_TemperatureLogger_label(Loader.shared.env, _thisHandle.ptr, exn))
-            )
-        )
-    ;
     /// <!-- FishyJoes.export(backwardsLabel) -->
     String get backwardsLabel =>
         GCRef.using(this, (_thisHandle) =>
@@ -93,6 +88,14 @@ class Actors_TemperatureLogger extends SwiftReference {
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
                 consumeCreatedRef<String>(f__iota_get_TestAPI_Actors_TemperatureLogger_extensionNonisolatedVarLabel(Loader.shared.env, _thisHandle.ptr, exn))
+            )
+        )
+    ;
+    /// <!-- FishyJoes.export(label) -->
+    String get label =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                consumeCreatedRef<String>(f__iota_get_TestAPI_Actors_TemperatureLogger_label(Loader.shared.env, _thisHandle.ptr, exn))
             )
         )
     ;

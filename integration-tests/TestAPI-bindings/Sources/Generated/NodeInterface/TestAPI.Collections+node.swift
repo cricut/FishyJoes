@@ -122,6 +122,17 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
+                "arrayOfBigTuples": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "arrayOfBigTuples", expectedArgumentCount: 0) { env in
+                                try ArrayConverter<Tuple4Converter<Swift.Int8, Swift.Int16, Swift.Int32, Swift.Int64>>.toNode(TestAPI.Collections.arrayOfBigTuples, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
                 "arrayOfInt": (
                     .accessor(
                         getter: { env, info in
@@ -133,11 +144,11 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "setOfInt": (
+                "defaultCollectionHolder": (
                     .accessor(
                         getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "setOfInt", expectedArgumentCount: 0) { env in
-                                try SetConverter<Swift.Int>.toNode(TestAPI.Collections.setOfInt, env: env.env)
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "defaultCollectionHolder", expectedArgumentCount: 0) { env in
+                                try TestAPI.Collections.CollectionHolder.toNode(TestAPI.Collections.defaultCollectionHolder, env: env.env)
                             }
                         },
                         setter: nil
@@ -155,44 +166,11 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "arrayOfBigTuples": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "arrayOfBigTuples", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<Tuple4Converter<Swift.Int8, Swift.Int16, Swift.Int32, Swift.Int64>>.toNode(TestAPI.Collections.arrayOfBigTuples, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: true
-                ),
                 "maybeArrayOfInt": (
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeArrayOfInt", expectedArgumentCount: 0) { env in
                                 try OptionalConverter<ArrayConverter<Swift.Int>>.toNode(TestAPI.Collections.maybeArrayOfInt, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: true
-                ),
-                "maybeSetOfInt": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeSetOfInt", expectedArgumentCount: 0) { env in
-                                try OptionalConverter<SetConverter<Swift.Int>>.toNode(TestAPI.Collections.maybeSetOfInt, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: true
-                ),
-                "maybeDictionaryOfIntToInt": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeDictionaryOfIntToInt", expectedArgumentCount: 0) { env in
-                                try OptionalConverter<DictionaryConverter<Swift.Int, Swift.Int>>.toNode(TestAPI.Collections.maybeDictionaryOfIntToInt, env: env.env)
                             }
                         },
                         setter: nil
@@ -210,11 +188,11 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "maybeSetOfMaybeInt": (
+                "maybeDictionaryOfIntToInt": (
                     .accessor(
                         getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeSetOfMaybeInt", expectedArgumentCount: 0) { env in
-                                try OptionalConverter<SetConverter<OptionalConverter<Swift.Int>>>.toNode(TestAPI.Collections.maybeSetOfMaybeInt, env: env.env)
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeDictionaryOfIntToInt", expectedArgumentCount: 0) { env in
+                                try OptionalConverter<DictionaryConverter<Swift.Int, Swift.Int>>.toNode(TestAPI.Collections.maybeDictionaryOfIntToInt, env: env.env)
                             }
                         },
                         setter: nil
@@ -232,11 +210,33 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "defaultCollectionHolder": (
+                "maybeSetOfInt": (
                     .accessor(
                         getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "defaultCollectionHolder", expectedArgumentCount: 0) { env in
-                                try TestAPI.Collections.CollectionHolder.toNode(TestAPI.Collections.defaultCollectionHolder, env: env.env)
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeSetOfInt", expectedArgumentCount: 0) { env in
+                                try OptionalConverter<SetConverter<Swift.Int>>.toNode(TestAPI.Collections.maybeSetOfInt, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                "maybeSetOfMaybeInt": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeSetOfMaybeInt", expectedArgumentCount: 0) { env in
+                                try OptionalConverter<SetConverter<OptionalConverter<Swift.Int>>>.toNode(TestAPI.Collections.maybeSetOfMaybeInt, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                "setOfInt": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "setOfInt", expectedArgumentCount: 0) { env in
+                                try SetConverter<Swift.Int>.toNode(TestAPI.Collections.setOfInt, env: env.env)
                             }
                         },
                         setter: nil

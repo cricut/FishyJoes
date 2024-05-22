@@ -126,9 +126,6 @@ class DartClass {
         for field in fields {
             let baseArgs = field.isStatic ? [] : [thisArg]
 
-            if field.name.contains("extensionNonisolatedVar") {
-                let elegoo = 1
-            }
             let resultName = field.isDefaultImplementation ? "__iota__default_\(field.mangledName)" : "__iota_get_\(field.mangledName)"
             result[resultName] = (args: baseArgs, return: field.type, isDefaultImplementation: field.isDefaultImplementation, isProtocol: false)
             if field.isPubliclyWritable {

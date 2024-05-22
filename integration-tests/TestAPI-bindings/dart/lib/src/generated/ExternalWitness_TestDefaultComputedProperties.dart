@@ -65,108 +65,41 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
-/// <!-- FishyJoes.export(TestMethodsProtocol) -->
-class ExternalWitness_TestMethodsProtocol extends SwiftReference implements TestAPI.TestMethodsProtocol {
-    ExternalWitness_TestMethodsProtocol(ffi.Pointer reference): super(reference) {}
+/// <!-- FishyJoes.export(TestDefaultComputedProperties) -->
+class ExternalWitness_TestDefaultComputedProperties extends SwiftReference implements TestAPI.TestDefaultComputedProperties {
+    ExternalWitness_TestDefaultComputedProperties(ffi.Pointer reference): super(reference) {}
     static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
-        createRef(ExternalWitness_TestMethodsProtocol(ref))
+        createRef(ExternalWitness_TestDefaultComputedProperties(ref))
     );
 
     @override
-    String toString() => 'ExternalWitness_TestMethodsProtocol()';
+    String toString() => 'ExternalWitness_TestDefaultComputedProperties(noot: $noot, plutonic: $plutonic)';
 
-    /// <!-- FishyJoes.export(foo) -->
-    void foo(
-    ) =>
+    /// <!-- FishyJoes.export(noot) -->
+    int get noot =>
         GCRef.using(this, (_thisHandle) =>
-            check((OutCreatedRef _exn) => f__iota_TestAPI_TestMethodsProtocol_foo(Loader.shared.env, _thisHandle.ptr, _exn))
+            check((exn) =>
+                f__iota__default_TestAPI_TestDefaultComputedProperties_noot(Loader.shared.env, _thisHandle.ptr, exn)
+            )
         )
     ;
-
-    /// <!-- FishyJoes.export(bar) -->
-    bool bar(
-    ) =>
+    /// <!-- FishyJoes.export(plutonic) -->
+    String get plutonic =>
         GCRef.using(this, (_thisHandle) =>
-            check((OutCreatedRef _exn) => f__iota_TestAPI_TestMethodsProtocol_bar(Loader.shared.env, _thisHandle.ptr, _exn))
-        )
-    ;
-
-    /// <!-- FishyJoes.export(baz) -->
-    void baz(
-        bool qux,
-    ) =>
-        GCRef.using(this, (_thisHandle) =>
-            check((OutCreatedRef _exn) => f__iota_TestAPI_TestMethodsProtocol_baz(Loader.shared.env, _thisHandle.ptr, qux, _exn))
-        )
-    ;
-
-    /// <!-- FishyJoes.export(garply) -->
-    String garply(
-        String m_0,
-    ) =>
-        GCRef.using(this, (_thisHandle) =>
-            GCRef.using(m_0, (__0Handle) =>
-                consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestMethodsProtocol_garply(Loader.shared.env, _thisHandle.ptr, __0Handle.ptr, _exn)))
+            check((exn) =>
+                consumeCreatedRef<String>(f__iota__default_TestAPI_TestDefaultComputedProperties_plutonic(Loader.shared.env, _thisHandle.ptr, exn))
             )
         )
     ;
 
-    /// <!-- FishyJoes.export(xyzzy) -->
-    String xyzzy(
-        int thud,
-        List<double> grault,
-    ) =>
-        GCRef.using(this, (_thisHandle) =>
-            GCRef.using(grault, (_graultHandle) =>
-                consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestMethodsProtocol_xyzzy(Loader.shared.env, _thisHandle.ptr, thud, _graultHandle.ptr, _exn)))
-            )
-        )
-    ;
-
-    /// <!-- FishyJoes.export(plugh) -->
-    tuple.Tuple3<bool, int, String> plugh(
-        tuple.Tuple3<bool, double, List<String>> fred,
-    ) =>
-        GCRef.using(this, (_thisHandle) =>
-            GCRef.using(fred, (_fredHandle) =>
-                consumeCreatedRef<tuple.Tuple3<bool, int, String>>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestMethodsProtocol_plugh(Loader.shared.env, _thisHandle.ptr, _fredHandle.ptr, _exn)))
-            )
-        )
-    ;
-
-    static late bool Function(
+    static late int Function(
         Env env,
         UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_TestMethodsProtocol_bar;
-    static late void Function(
-        Env env,
-        UnownedRef _this,
-        bool qux,
-        OutCreatedRef _exn
-    ) f__iota_TestAPI_TestMethodsProtocol_baz;
-    static late void Function(
-        Env env,
-        UnownedRef _this,
-        OutCreatedRef _exn
-    ) f__iota_TestAPI_TestMethodsProtocol_foo;
+    ) f__iota__default_TestAPI_TestDefaultComputedProperties_noot;
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,
-        UnownedRef m_0,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_TestMethodsProtocol_garply;
-    static late CreatedRef Function(
-        Env env,
-        UnownedRef _this,
-        UnownedRef fred,
-        OutCreatedRef _exn
-    ) f__iota_TestAPI_TestMethodsProtocol_plugh;
-    static late CreatedRef Function(
-        Env env,
-        UnownedRef _this,
-        int thud,
-        UnownedRef grault,
-        OutCreatedRef _exn
-    ) f__iota_TestAPI_TestMethodsProtocol_xyzzy;
+    ) f__iota__default_TestAPI_TestDefaultComputedProperties_plutonic;
 }

@@ -15,6 +15,7 @@ import './Deprecations.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
 import './ExternalWitness_AProtocol.dart' as TestAPI;
 import './ExternalWitness_TestAsyncFunctions.dart' as TestAPI;
+import './ExternalWitness_TestDefaultComputedProperties.dart' as TestAPI;
 import './ExternalWitness_TestLeadingUnderscoredProp.dart' as TestAPI;
 import './ExternalWitness_TestMethodsProtocol.dart' as TestAPI;
 import './ExternalWitness_TestOptionalsProtocol.dart' as TestAPI;
@@ -35,6 +36,8 @@ import './Structs_ReferenceStruct.dart' as TestAPI;
 import './TestAsyncForeignSideFunctionsStruct.dart' as TestAPI;
 import './TestAsyncFunctions.dart' as TestAPI;
 import './TestAsyncSwiftSideFunctionsClass.dart' as TestAPI;
+import './TestDefaultComputedProperties.dart' as TestAPI;
+import './TestDefaultComputedPropertiesStruct.dart' as TestAPI;
 import './TestLeadingUnderscoredProp.dart' as TestAPI;
 import './TestLeadingUnderscoredPropStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
@@ -70,10 +73,22 @@ class AsyncFunctions {
         throw UnsupportedError('This class is supposed to be uninhabited');
     });
 
+    /// <!-- FishyJoes.export(add3Things) -->
+    static Future<double> Function(double, double, int) get add3Things =>
+        check((exn) =>
+            consumeCreatedRef<Future<double> Function(double, double, int)>(f__iota_get_TestAPI_AsyncFunctions_add3Things(Loader.shared.env, exn))
+        )
+    ;
     /// <!-- FishyJoes.export(const42) -->
     static Future<int> Function() get const42 =>
         check((exn) =>
             consumeCreatedRef<Future<int> Function()>(f__iota_get_TestAPI_AsyncFunctions_const42(Loader.shared.env, exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(fifthThing) -->
+    static Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function()) get fifthThing =>
+        check((exn) =>
+            consumeCreatedRef<Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function())>(f__iota_get_TestAPI_AsyncFunctions_fifthThing(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(abs) -->
@@ -88,22 +103,10 @@ class AsyncFunctions {
             consumeCreatedRef<Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int))>(f__iota_get_TestAPI_AsyncFunctions_intCompose(Loader.shared.env, exn))
         )
     ;
-    /// <!-- FishyJoes.export(add3Things) -->
-    static Future<double> Function(double, double, int) get add3Things =>
-        check((exn) =>
-            consumeCreatedRef<Future<double> Function(double, double, int)>(f__iota_get_TestAPI_AsyncFunctions_add3Things(Loader.shared.env, exn))
-        )
-    ;
     /// <!-- FishyJoes.export(makeList) -->
     static Future<List<String>> Function(String, String, String, String) get makeList =>
         check((exn) =>
             consumeCreatedRef<Future<List<String>> Function(String, String, String, String)>(f__iota_get_TestAPI_AsyncFunctions_makeList(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(fifthThing) -->
-    static Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function()) get fifthThing =>
-        check((exn) =>
-            consumeCreatedRef<Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function())>(f__iota_get_TestAPI_AsyncFunctions_fifthThing(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(sixthThing) -->

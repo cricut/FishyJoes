@@ -121,33 +121,11 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "simple": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "simple", expectedArgumentCount: 0) { env in
-                                try Foundation.AttributedString.toNode(TestAPI.AttributedStrings.simple, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: true
-                ),
                 "accent": (
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "accent", expectedArgumentCount: 0) { env in
                                 try Foundation.AttributedString.toNode(TestAPI.AttributedStrings.accent, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: true
-                ),
-                "script": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "script", expectedArgumentCount: 0) { env in
-                                try Foundation.AttributedString.toNode(TestAPI.AttributedStrings.script, env: env.env)
                             }
                         },
                         setter: nil
@@ -214,6 +192,28 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "polyglot", expectedArgumentCount: 0) { env in
                                 try Foundation.AttributedString.toNode(TestAPI.AttributedStrings.polyglot, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                "script": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "script", expectedArgumentCount: 0) { env in
+                                try Foundation.AttributedString.toNode(TestAPI.AttributedStrings.script, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                "simple": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "simple", expectedArgumentCount: 0) { env in
+                                try Foundation.AttributedString.toNode(TestAPI.AttributedStrings.simple, env: env.env)
                             }
                         },
                         setter: nil

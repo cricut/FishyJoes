@@ -15,6 +15,7 @@ import './Deprecations.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
 import './ExternalWitness_AProtocol.dart' as TestAPI;
 import './ExternalWitness_TestAsyncFunctions.dart' as TestAPI;
+import './ExternalWitness_TestDefaultComputedProperties.dart' as TestAPI;
 import './ExternalWitness_TestLeadingUnderscoredProp.dart' as TestAPI;
 import './ExternalWitness_TestMethodsProtocol.dart' as TestAPI;
 import './ExternalWitness_TestOptionalsProtocol.dart' as TestAPI;
@@ -35,6 +36,8 @@ import './Structs_ReferenceStruct.dart' as TestAPI;
 import './TestAsyncForeignSideFunctionsStruct.dart' as TestAPI;
 import './TestAsyncFunctions.dart' as TestAPI;
 import './TestAsyncSwiftSideFunctionsClass.dart' as TestAPI;
+import './TestDefaultComputedProperties.dart' as TestAPI;
+import './TestDefaultComputedPropertiesStruct.dart' as TestAPI;
 import './TestLeadingUnderscoredProp.dart' as TestAPI;
 import './TestLeadingUnderscoredPropStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
@@ -70,10 +73,10 @@ class URLs {
         throw UnsupportedError('This class is supposed to be uninhabited');
     });
 
-    /// <!-- FishyJoes.export(simple) -->
-    static Uri get simple =>
+    /// <!-- FishyJoes.export(localFile) -->
+    static Uri get localFile =>
         check((exn) =>
-            consumeCreatedRef<Uri>(f__iota_get_TestAPI_URLs_simple(Loader.shared.env, exn))
+            consumeCreatedRef<Uri>(f__iota_get_TestAPI_URLs_localFile(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(remoteFile) -->
@@ -82,10 +85,10 @@ class URLs {
             consumeCreatedRef<Uri>(f__iota_get_TestAPI_URLs_remoteFile(Loader.shared.env, exn))
         )
     ;
-    /// <!-- FishyJoes.export(localFile) -->
-    static Uri get localFile =>
+    /// <!-- FishyJoes.export(simple) -->
+    static Uri get simple =>
         check((exn) =>
-            consumeCreatedRef<Uri>(f__iota_get_TestAPI_URLs_localFile(Loader.shared.env, exn))
+            consumeCreatedRef<Uri>(f__iota_get_TestAPI_URLs_simple(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(echo) -->

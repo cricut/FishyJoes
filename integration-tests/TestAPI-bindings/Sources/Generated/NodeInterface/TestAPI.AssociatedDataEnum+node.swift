@@ -110,17 +110,6 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "staticThing": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticThing", expectedArgumentCount: 0) { env in
-                                try TestAPI.AssociatedDataEnum.toNode(TestAPI.AssociatedDataEnum.staticThing, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: true
-                ),
                 "intValue": (
                     .accessor(
                         getter: { env, info in
@@ -131,6 +120,17 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
                         setter: nil
                     ),
                     isStatic: false
+                ),
+                "staticThing": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticThing", expectedArgumentCount: 0) { env in
+                                try TestAPI.AssociatedDataEnum.toNode(TestAPI.AssociatedDataEnum.staticThing, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
                 ),
             ],
             constructor: { env, info in

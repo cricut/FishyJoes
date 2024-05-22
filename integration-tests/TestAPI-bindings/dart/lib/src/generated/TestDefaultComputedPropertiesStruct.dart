@@ -65,108 +65,99 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
-/// <!-- FishyJoes.export(TestMethodsProtocol) -->
-class ExternalWitness_TestMethodsProtocol extends SwiftReference implements TestAPI.TestMethodsProtocol {
-    ExternalWitness_TestMethodsProtocol(ffi.Pointer reference): super(reference) {}
-    static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
-        createRef(ExternalWitness_TestMethodsProtocol(ref))
+/// <!-- FishyJoes.export(TestDefaultComputedPropertiesStruct, conformances: [TestDefaultComputedProperties]) -->
+class TestDefaultComputedPropertiesStruct implements TestAPI.TestDefaultComputedProperties {
+    bool spam;
+    int noot;
+
+    TestDefaultComputedPropertiesStruct({
+        required bool spam,
+        required int noot
+    }):
+        this.spam = spam,
+        this.noot = noot;
+
+    static CreatedRef ffi_constructor(
+        bool spam,
+        int noot,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(TestDefaultComputedPropertiesStruct(
+            spam: spam,
+            noot: noot,
+        ))
     );
+    @override
+    String toString() => 'TestDefaultComputedPropertiesStruct(spam: $spam, noot: $noot)';
+
+    static bool ffi_get_spam(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<TestDefaultComputedPropertiesStruct>(obj).spam
+    ) ?? false;
+    static void ffi_set_spam(
+        UnownedRef obj,
+        bool newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        peekRef<TestDefaultComputedPropertiesStruct>(obj).spam = newValue;
+    });
+
+    static int ffi_get_noot(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<TestDefaultComputedPropertiesStruct>(obj).noot
+    ) ?? 0;
+    static void ffi_set_noot(
+        UnownedRef obj,
+        int newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        peekRef<TestDefaultComputedPropertiesStruct>(obj).noot = newValue;
+    });
 
     @override
-    String toString() => 'ExternalWitness_TestMethodsProtocol()';
+    bool operator ==(Object other) {
+        return identical(other, this) ||
+        (
+            other.runtimeType == runtimeType &&
+            other is TestDefaultComputedPropertiesStruct &&
+            (
+                const DeepCollectionEquality().equals(other.spam, spam) &&
+                const DeepCollectionEquality().equals(other.noot, noot)
+            )
+        );
+    }
 
-    /// <!-- FishyJoes.export(foo) -->
-    void foo(
-    ) =>
-        GCRef.using(this, (_thisHandle) =>
-            check((OutCreatedRef _exn) => f__iota_TestAPI_TestMethodsProtocol_foo(Loader.shared.env, _thisHandle.ptr, _exn))
-        )
-    ;
+    @override
+    int get hashCode => Object.hash(
+        runtimeType,
+        const DeepCollectionEquality().hash(spam), 
+        const DeepCollectionEquality().hash(noot)
+    );
 
-    /// <!-- FishyJoes.export(bar) -->
-    bool bar(
-    ) =>
-        GCRef.using(this, (_thisHandle) =>
-            check((OutCreatedRef _exn) => f__iota_TestAPI_TestMethodsProtocol_bar(Loader.shared.env, _thisHandle.ptr, _exn))
-        )
-    ;
+    TestDefaultComputedPropertiesStruct copyWith({
+        bool? spam,
+        int? noot
+    }) => TestDefaultComputedPropertiesStruct(
+        spam: spam ?? this.spam,
+        noot: noot ?? this.noot
+    );
 
-    /// <!-- FishyJoes.export(baz) -->
-    void baz(
-        bool qux,
-    ) =>
+    /// <!-- FishyJoes.export(plutonic) -->
+    String get plutonic =>
         GCRef.using(this, (_thisHandle) =>
-            check((OutCreatedRef _exn) => f__iota_TestAPI_TestMethodsProtocol_baz(Loader.shared.env, _thisHandle.ptr, qux, _exn))
-        )
-    ;
-
-    /// <!-- FishyJoes.export(garply) -->
-    String garply(
-        String m_0,
-    ) =>
-        GCRef.using(this, (_thisHandle) =>
-            GCRef.using(m_0, (__0Handle) =>
-                consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestMethodsProtocol_garply(Loader.shared.env, _thisHandle.ptr, __0Handle.ptr, _exn)))
+            check((exn) =>
+                consumeCreatedRef<String>(f__iota__default_TestAPI_TestDefaultComputedPropertiesStruct_plutonic(Loader.shared.env, _thisHandle.ptr, exn))
             )
         )
     ;
 
-    /// <!-- FishyJoes.export(xyzzy) -->
-    String xyzzy(
-        int thud,
-        List<double> grault,
-    ) =>
-        GCRef.using(this, (_thisHandle) =>
-            GCRef.using(grault, (_graultHandle) =>
-                consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestMethodsProtocol_xyzzy(Loader.shared.env, _thisHandle.ptr, thud, _graultHandle.ptr, _exn)))
-            )
-        )
-    ;
-
-    /// <!-- FishyJoes.export(plugh) -->
-    tuple.Tuple3<bool, int, String> plugh(
-        tuple.Tuple3<bool, double, List<String>> fred,
-    ) =>
-        GCRef.using(this, (_thisHandle) =>
-            GCRef.using(fred, (_fredHandle) =>
-                consumeCreatedRef<tuple.Tuple3<bool, int, String>>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestMethodsProtocol_plugh(Loader.shared.env, _thisHandle.ptr, _fredHandle.ptr, _exn)))
-            )
-        )
-    ;
-
-    static late bool Function(
-        Env env,
-        UnownedRef _this,
-        OutCreatedRef _exn
-    ) f__iota_TestAPI_TestMethodsProtocol_bar;
-    static late void Function(
-        Env env,
-        UnownedRef _this,
-        bool qux,
-        OutCreatedRef _exn
-    ) f__iota_TestAPI_TestMethodsProtocol_baz;
-    static late void Function(
-        Env env,
-        UnownedRef _this,
-        OutCreatedRef _exn
-    ) f__iota_TestAPI_TestMethodsProtocol_foo;
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,
-        UnownedRef m_0,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_TestMethodsProtocol_garply;
-    static late CreatedRef Function(
-        Env env,
-        UnownedRef _this,
-        UnownedRef fred,
-        OutCreatedRef _exn
-    ) f__iota_TestAPI_TestMethodsProtocol_plugh;
-    static late CreatedRef Function(
-        Env env,
-        UnownedRef _this,
-        int thud,
-        UnownedRef grault,
-        OutCreatedRef _exn
-    ) f__iota_TestAPI_TestMethodsProtocol_xyzzy;
+    ) f__iota__default_TestAPI_TestDefaultComputedPropertiesStruct_plutonic;
 }

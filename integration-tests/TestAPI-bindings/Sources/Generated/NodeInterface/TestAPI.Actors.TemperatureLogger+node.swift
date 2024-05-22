@@ -154,17 +154,6 @@ extension TestAPI.Actors.TemperatureLogger: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "label": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "label", expectedArgumentCount: 0) { env in
-                                try Swift.String.toNode(env.this(converter: TestAPI.Actors.TemperatureLogger.self).label, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: false
-                ),
                 "backwardsLabel": (
                     .accessor(
                         getter: { env, info in
@@ -181,6 +170,17 @@ extension TestAPI.Actors.TemperatureLogger: FishyJoesNodeRuntime.NodeConverter {
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "extensionNonisolatedVarLabel", expectedArgumentCount: 0) { env in
                                 try Swift.String.toNode(env.this(converter: TestAPI.Actors.TemperatureLogger.self).extensionNonisolatedVarLabel, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: false
+                ),
+                "label": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "label", expectedArgumentCount: 0) { env in
+                                try Swift.String.toNode(env.this(converter: TestAPI.Actors.TemperatureLogger.self).label, env: env.env)
                             }
                         },
                         setter: nil
