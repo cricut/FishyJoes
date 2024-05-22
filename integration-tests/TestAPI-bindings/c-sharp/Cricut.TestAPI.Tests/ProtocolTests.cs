@@ -460,10 +460,13 @@ namespace Cricut.TestAPI.Tests {
 
         [Fact]
         public void TestTestDefaultComputedPropertiesImpl() {
-            // AProtocol a = new AProtocolCSharpImpl("Garply", false);
             TestDefaultComputedProperties a = new TestDefaultComputedPropertiesOverrideNoot();
             Assert.Equal(424242, a.GetNoot());
             Assert.Equal("Newton Gimmick", a.GetPlutonic());
+
+            TestDefaultComputedProperties b = new TestDefaultComputedPropertiesOverridePlutonic();
+            Assert.Equal(2983, b.GetNoot());
+            Assert.Equal("Teddy Ruxpin", b.GetPlutonic());
         }
     }
 
@@ -471,6 +474,13 @@ namespace Cricut.TestAPI.Tests {
         public nint GetNoot(
         ) {
             return 424242;
+        }
+    }
+
+    public record TestDefaultComputedPropertiesOverridePlutonic: TestDefaultComputedProperties {
+        public string GetPlutonic(
+        ) {
+            return "Teddy Ruxpin";
         }
     }
 
