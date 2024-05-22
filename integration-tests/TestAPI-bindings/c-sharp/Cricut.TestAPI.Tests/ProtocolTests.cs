@@ -457,6 +457,21 @@ namespace Cricut.TestAPI.Tests {
             Assert.True(a.Spam);
             Assert.Equal(98172, a.Noot);
         }
+
+        [Fact]
+        public void TestTestDefaultComputedPropertiesImpl() {
+            // AProtocol a = new AProtocolCSharpImpl("Garply", false);
+            TestDefaultComputedProperties a = new TestDefaultComputedPropertiesOverrideNoot();
+            Assert.Equal(424242, a.GetNoot());
+            Assert.Equal("Newton Gimmick", a.GetPlutonic());
+        }
+    }
+
+    public record TestDefaultComputedPropertiesOverrideNoot: TestDefaultComputedProperties {
+        public nint GetNoot(
+        ) {
+            return 424242;
+        }
     }
 
     public record AProtocolCSharpImpl: AProtocol {
