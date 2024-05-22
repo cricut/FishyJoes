@@ -77,7 +77,7 @@ extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: NodeConv
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "_leadingUnderscoreProp", expectedArgumentCount: 0) { env in
-                                try Swift.String.toNode(env.this(converter: TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter.self)._leadingUnderscoreProp, env: env.env)
+                                return try Swift.String.toNode(env.this(converter: TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter.self)._leadingUnderscoreProp, env: env.env)
                             }
                         },
                         setter: nil

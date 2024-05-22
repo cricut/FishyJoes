@@ -148,10 +148,15 @@ struct TranslatedStruct: TranslatedType {
                         let normalMethods = methods.filter { !$0.isDefaultImplementation }
                         let defaultMethods = methods.filter { $0.isDefaultImplementation }
 
+                        let normalProperties = computedVariables.filter { !$0.isDefaultImplementation }
+                        let defaultProperties = computedVariables.filter { $0.isDefaultImplementation }
+
                         var hasProperties = false
                         hasProperties ||= context.nodeTranslator.outputProperties(methods: normalMethods, context: context, fragment: fragment, converterName: nil)
                         hasProperties ||= context.nodeTranslator.outputProperties(methods: defaultMethods, context: context, fragment: fragment, converterName: sourceType.name)
-                        hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment)
+                        hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: normalProperties, context: context, fragment: fragment, converterName: nil)
+                        hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: defaultProperties, context: context, fragment: fragment, converterName: sourceType.name)
+
                         for storedVar in storedVariables {
                             // Limitation in wasm implementation of napi_create_class doesn't allow constructors to assign to non-mutable property.
                             // let mutable = storedVar.isPubliclyWritable

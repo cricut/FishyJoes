@@ -114,7 +114,7 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "intValue", expectedArgumentCount: 0) { env in
-                                try Swift.Int.toNode(env.this(converter: TestAPI.AssociatedDataEnum.self).intValue, env: env.env)
+                                return try Swift.Int.toNode(env.this(converter: TestAPI.AssociatedDataEnum.self).intValue, env: env.env)
                             }
                         },
                         setter: nil
@@ -125,7 +125,7 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "staticThing", expectedArgumentCount: 0) { env in
-                                try TestAPI.AssociatedDataEnum.toNode(TestAPI.AssociatedDataEnum.staticThing, env: env.env)
+                                return try TestAPI.AssociatedDataEnum.toNode(TestAPI.AssociatedDataEnum.staticThing, env: env.env)
                             }
                         },
                         setter: nil

@@ -43,7 +43,7 @@ extension TestAPI.TestDefaultComputedPropertiesStruct: NodeMutator {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "plutonic", expectedArgumentCount: 0) { env in
-                                try Swift.String.toNode(env.this(converter: TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter.self).pluto, env: env.env)
+                                return try Swift.String.toNode(env.this(converter: TestAPI.TestDefaultComputedPropertiesStruct.self).pluto, env: env.env)
                             }
                         },
                         setter: nil

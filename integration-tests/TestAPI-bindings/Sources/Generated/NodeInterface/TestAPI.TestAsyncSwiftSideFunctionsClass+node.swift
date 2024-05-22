@@ -334,7 +334,7 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "add3Things", expectedArgumentCount: 0) { env in
-                                try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.toNode(env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self).add3Things, env: env.env)
+                                return try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.toNode(env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self).add3Things, env: env.env)
                             }
                         },
                         setter: nil
@@ -345,7 +345,7 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "const42", expectedArgumentCount: 0) { env in
-                                try AsyncFunction0Converter<Swift.Int>.toNode(env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self).const42, env: env.env)
+                                return try AsyncFunction0Converter<Swift.Int>.toNode(env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self).const42, env: env.env)
                             }
                         },
                         setter: nil
@@ -356,7 +356,7 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "fifthThing", expectedArgumentCount: 0) { env in
-                                try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.toNode(env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self).fifthThing, env: env.env)
+                                return try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.toNode(env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self).fifthThing, env: env.env)
                             }
                         },
                         setter: nil
@@ -367,7 +367,7 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "iabs", expectedArgumentCount: 0) { env in
-                                try AsyncFunction1Converter<Swift.Int, Swift.Int>.toNode(env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self).iabs, env: env.env)
+                                return try AsyncFunction1Converter<Swift.Int, Swift.Int>.toNode(env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self).iabs, env: env.env)
                             }
                         },
                         setter: nil
@@ -378,7 +378,7 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "intCompose", expectedArgumentCount: 0) { env in
-                                try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.toNode(env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self).intCompose, env: env.env)
+                                return try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.toNode(env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self).intCompose, env: env.env)
                             }
                         },
                         setter: nil
@@ -389,7 +389,7 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "makeList", expectedArgumentCount: 0) { env in
-                                try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.toNode(env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self).makeList, env: env.env)
+                                return try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.toNode(env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self).makeList, env: env.env)
                             }
                         },
                         setter: nil
@@ -400,7 +400,7 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "six", expectedArgumentCount: 0) { env in
-                                try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.toNode(env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self).six, env: env.env)
+                                return try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.toNode(env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self).six, env: env.env)
                             }
                         },
                         setter: nil
@@ -411,7 +411,7 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "willThrow", expectedArgumentCount: 0) { env in
-                                try AsyncFunction0Converter<Swift.Int>.toNode(env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self).willThrow, env: env.env)
+                                return try AsyncFunction0Converter<Swift.Int>.toNode(env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self).willThrow, env: env.env)
                             }
                         },
                         setter: nil

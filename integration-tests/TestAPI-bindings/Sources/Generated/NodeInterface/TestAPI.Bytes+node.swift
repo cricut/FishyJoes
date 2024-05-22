@@ -55,7 +55,7 @@ extension TestAPI.Bytes: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "bytes", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<Swift.UInt8>.toNode(TestAPI.Bytes.bytes, env: env.env)
+                                return try ArrayConverter<Swift.UInt8>.toNode(TestAPI.Bytes.bytes, env: env.env)
                             }
                         },
                         setter: nil
@@ -66,7 +66,7 @@ extension TestAPI.Bytes: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "data", expectedArgumentCount: 0) { env in
-                                try Foundation.Data.toNode(TestAPI.Bytes.data, env: env.env)
+                                return try Foundation.Data.toNode(TestAPI.Bytes.data, env: env.env)
                             }
                         },
                         setter: nil

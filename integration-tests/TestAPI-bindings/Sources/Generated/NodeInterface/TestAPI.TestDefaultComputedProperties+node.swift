@@ -86,7 +86,8 @@ extension TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter: NodeC
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "noot", expectedArgumentCount: 0) { env in
-                                try Swift.Int.toNode(env.this(converter: TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter.self).noot, env: env.env)
+                                let _wrappedSwiftSelf = TestAPI_CommonInterface.TestDefaultComputedProperties_sans_noot(wrapped: try env.this(converter: TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter.self))
+                                return try Swift.Int.toNode(_wrappedSwiftSelf.noot, env: env.env)
                             }
                         },
                         setter: nil
@@ -97,7 +98,8 @@ extension TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter: NodeC
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "plutonic", expectedArgumentCount: 0) { env in
-                                try Swift.String.toNode(env.this(converter: TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter.self).pluto, env: env.env)
+                                let _wrappedSwiftSelf = TestAPI_CommonInterface.TestDefaultComputedProperties_sans_pluto(wrapped: try env.this(converter: TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter.self))
+                                return try Swift.String.toNode(_wrappedSwiftSelf.pluto, env: env.env)
                             }
                         },
                         setter: nil

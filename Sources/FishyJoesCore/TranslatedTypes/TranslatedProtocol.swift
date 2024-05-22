@@ -524,7 +524,7 @@ struct TranslatedProtocol: TranslatedType {
                     fragment.outputBlock("properties: [", closeWith: "],") {
                         var hasProperties = false
                         hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment, converterName: nil, shouldWrapDefaultImpl: true)
-                        hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: fields, context: context, fragment: fragment)
+                        hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: fields, context: context, fragment: fragment, converterName: nil, shouldWrapDefaultImpl: true)
 //                        for field in fields {
 //                            // Limitation in wasm implementation of napi_create_class doesn't allow constructors to assign to non-mutable property.
 //                            // let mutable = field.isPubliclyWritable

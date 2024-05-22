@@ -406,7 +406,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "bitCountInt", expectedArgumentCount: 0) { env in
-                                try Swift.Int.toNode(TestAPI.Primitives.bitCountInt, env: env.env)
+                                return try Swift.Int.toNode(TestAPI.Primitives.bitCountInt, env: env.env)
                             }
                         },
                         setter: nil
@@ -417,7 +417,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "bitCountUInt", expectedArgumentCount: 0) { env in
-                                try Swift.Int.toNode(TestAPI.Primitives.bitCountUInt, env: env.env)
+                                return try Swift.Int.toNode(TestAPI.Primitives.bitCountUInt, env: env.env)
                             }
                         },
                         setter: nil
@@ -428,7 +428,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "defaultPrimitiveHolder", expectedArgumentCount: 0) { env in
-                                try TestAPI.Primitives.PrimitiveHolder.toNode(TestAPI.Primitives.defaultPrimitiveHolder, env: env.env)
+                                return try TestAPI.Primitives.PrimitiveHolder.toNode(TestAPI.Primitives.defaultPrimitiveHolder, env: env.env)
                             }
                         },
                         setter: nil
@@ -439,7 +439,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "falseBool", expectedArgumentCount: 0) { env in
-                                try Swift.Bool.toNode(TestAPI.Primitives.falseBool, env: env.env)
+                                return try Swift.Bool.toNode(TestAPI.Primitives.falseBool, env: env.env)
                             }
                         },
                         setter: nil
@@ -450,7 +450,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyBool", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<Swift.Bool>.toNode(TestAPI.Primitives.manyBool, env: env.env)
+                                return try ArrayConverter<Swift.Bool>.toNode(TestAPI.Primitives.manyBool, env: env.env)
                             }
                         },
                         setter: nil
@@ -461,7 +461,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyDouble", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<Swift.Double>.toNode(TestAPI.Primitives.manyDouble, env: env.env)
+                                return try ArrayConverter<Swift.Double>.toNode(TestAPI.Primitives.manyDouble, env: env.env)
                             }
                         },
                         setter: nil
@@ -472,7 +472,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyFloat", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<Swift.Float>.toNode(TestAPI.Primitives.manyFloat, env: env.env)
+                                return try ArrayConverter<Swift.Float>.toNode(TestAPI.Primitives.manyFloat, env: env.env)
                             }
                         },
                         setter: nil
@@ -483,7 +483,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyInt", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<Swift.Int>.toNode(TestAPI.Primitives.manyInt, env: env.env)
+                                return try ArrayConverter<Swift.Int>.toNode(TestAPI.Primitives.manyInt, env: env.env)
                             }
                         },
                         setter: nil
@@ -494,7 +494,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyInt16", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<Swift.Int16>.toNode(TestAPI.Primitives.manyInt16, env: env.env)
+                                return try ArrayConverter<Swift.Int16>.toNode(TestAPI.Primitives.manyInt16, env: env.env)
                             }
                         },
                         setter: nil
@@ -505,7 +505,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyInt32", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<Swift.Int32>.toNode(TestAPI.Primitives.manyInt32, env: env.env)
+                                return try ArrayConverter<Swift.Int32>.toNode(TestAPI.Primitives.manyInt32, env: env.env)
                             }
                         },
                         setter: nil
@@ -516,7 +516,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyInt64", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<Swift.Int64>.toNode(TestAPI.Primitives.manyInt64, env: env.env)
+                                return try ArrayConverter<Swift.Int64>.toNode(TestAPI.Primitives.manyInt64, env: env.env)
                             }
                         },
                         setter: nil
@@ -527,7 +527,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyInt8", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<Swift.Int8>.toNode(TestAPI.Primitives.manyInt8, env: env.env)
+                                return try ArrayConverter<Swift.Int8>.toNode(TestAPI.Primitives.manyInt8, env: env.env)
                             }
                         },
                         setter: nil
@@ -538,7 +538,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeBool", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<OptionalConverter<Swift.Bool>>.toNode(TestAPI.Primitives.manyMaybeBool, env: env.env)
+                                return try ArrayConverter<OptionalConverter<Swift.Bool>>.toNode(TestAPI.Primitives.manyMaybeBool, env: env.env)
                             }
                         },
                         setter: nil
@@ -549,7 +549,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeDouble", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<OptionalConverter<Swift.Double>>.toNode(TestAPI.Primitives.manyMaybeDouble, env: env.env)
+                                return try ArrayConverter<OptionalConverter<Swift.Double>>.toNode(TestAPI.Primitives.manyMaybeDouble, env: env.env)
                             }
                         },
                         setter: nil
@@ -560,7 +560,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeFloat", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<OptionalConverter<Swift.Float>>.toNode(TestAPI.Primitives.manyMaybeFloat, env: env.env)
+                                return try ArrayConverter<OptionalConverter<Swift.Float>>.toNode(TestAPI.Primitives.manyMaybeFloat, env: env.env)
                             }
                         },
                         setter: nil
@@ -571,7 +571,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeInt", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<OptionalConverter<Swift.Int>>.toNode(TestAPI.Primitives.manyMaybeInt, env: env.env)
+                                return try ArrayConverter<OptionalConverter<Swift.Int>>.toNode(TestAPI.Primitives.manyMaybeInt, env: env.env)
                             }
                         },
                         setter: nil
@@ -582,7 +582,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeInt16", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<OptionalConverter<Swift.Int16>>.toNode(TestAPI.Primitives.manyMaybeInt16, env: env.env)
+                                return try ArrayConverter<OptionalConverter<Swift.Int16>>.toNode(TestAPI.Primitives.manyMaybeInt16, env: env.env)
                             }
                         },
                         setter: nil
@@ -593,7 +593,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeInt32", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<OptionalConverter<Swift.Int32>>.toNode(TestAPI.Primitives.manyMaybeInt32, env: env.env)
+                                return try ArrayConverter<OptionalConverter<Swift.Int32>>.toNode(TestAPI.Primitives.manyMaybeInt32, env: env.env)
                             }
                         },
                         setter: nil
@@ -604,7 +604,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeInt64", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<OptionalConverter<Swift.Int64>>.toNode(TestAPI.Primitives.manyMaybeInt64, env: env.env)
+                                return try ArrayConverter<OptionalConverter<Swift.Int64>>.toNode(TestAPI.Primitives.manyMaybeInt64, env: env.env)
                             }
                         },
                         setter: nil
@@ -615,7 +615,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeInt8", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<OptionalConverter<Swift.Int8>>.toNode(TestAPI.Primitives.manyMaybeInt8, env: env.env)
+                                return try ArrayConverter<OptionalConverter<Swift.Int8>>.toNode(TestAPI.Primitives.manyMaybeInt8, env: env.env)
                             }
                         },
                         setter: nil
@@ -626,7 +626,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeUInt", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<OptionalConverter<Swift.UInt>>.toNode(TestAPI.Primitives.manyMaybeUInt, env: env.env)
+                                return try ArrayConverter<OptionalConverter<Swift.UInt>>.toNode(TestAPI.Primitives.manyMaybeUInt, env: env.env)
                             }
                         },
                         setter: nil
@@ -637,7 +637,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeUInt16", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<OptionalConverter<Swift.UInt16>>.toNode(TestAPI.Primitives.manyMaybeUInt16, env: env.env)
+                                return try ArrayConverter<OptionalConverter<Swift.UInt16>>.toNode(TestAPI.Primitives.manyMaybeUInt16, env: env.env)
                             }
                         },
                         setter: nil
@@ -648,7 +648,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeUInt32", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<OptionalConverter<Swift.UInt32>>.toNode(TestAPI.Primitives.manyMaybeUInt32, env: env.env)
+                                return try ArrayConverter<OptionalConverter<Swift.UInt32>>.toNode(TestAPI.Primitives.manyMaybeUInt32, env: env.env)
                             }
                         },
                         setter: nil
@@ -659,7 +659,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeUInt64", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<OptionalConverter<Swift.UInt64>>.toNode(TestAPI.Primitives.manyMaybeUInt64, env: env.env)
+                                return try ArrayConverter<OptionalConverter<Swift.UInt64>>.toNode(TestAPI.Primitives.manyMaybeUInt64, env: env.env)
                             }
                         },
                         setter: nil
@@ -670,7 +670,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeUInt8", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<OptionalConverter<Swift.UInt8>>.toNode(TestAPI.Primitives.manyMaybeUInt8, env: env.env)
+                                return try ArrayConverter<OptionalConverter<Swift.UInt8>>.toNode(TestAPI.Primitives.manyMaybeUInt8, env: env.env)
                             }
                         },
                         setter: nil
@@ -681,7 +681,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyUInt", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<Swift.UInt>.toNode(TestAPI.Primitives.manyUInt, env: env.env)
+                                return try ArrayConverter<Swift.UInt>.toNode(TestAPI.Primitives.manyUInt, env: env.env)
                             }
                         },
                         setter: nil
@@ -692,7 +692,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyUInt16", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<Swift.UInt16>.toNode(TestAPI.Primitives.manyUInt16, env: env.env)
+                                return try ArrayConverter<Swift.UInt16>.toNode(TestAPI.Primitives.manyUInt16, env: env.env)
                             }
                         },
                         setter: nil
@@ -703,7 +703,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyUInt32", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<Swift.UInt32>.toNode(TestAPI.Primitives.manyUInt32, env: env.env)
+                                return try ArrayConverter<Swift.UInt32>.toNode(TestAPI.Primitives.manyUInt32, env: env.env)
                             }
                         },
                         setter: nil
@@ -714,7 +714,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyUInt64", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<Swift.UInt64>.toNode(TestAPI.Primitives.manyUInt64, env: env.env)
+                                return try ArrayConverter<Swift.UInt64>.toNode(TestAPI.Primitives.manyUInt64, env: env.env)
                             }
                         },
                         setter: nil
@@ -725,7 +725,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyUInt8", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<Swift.UInt8>.toNode(TestAPI.Primitives.manyUInt8, env: env.env)
+                                return try ArrayConverter<Swift.UInt8>.toNode(TestAPI.Primitives.manyUInt8, env: env.env)
                             }
                         },
                         setter: nil
@@ -736,7 +736,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maxDouble", expectedArgumentCount: 0) { env in
-                                try Swift.Double.toNode(TestAPI.Primitives.maxDouble, env: env.env)
+                                return try Swift.Double.toNode(TestAPI.Primitives.maxDouble, env: env.env)
                             }
                         },
                         setter: nil
@@ -747,7 +747,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maxFloat", expectedArgumentCount: 0) { env in
-                                try Swift.Float.toNode(TestAPI.Primitives.maxFloat, env: env.env)
+                                return try Swift.Float.toNode(TestAPI.Primitives.maxFloat, env: env.env)
                             }
                         },
                         setter: nil
@@ -758,7 +758,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maxInt", expectedArgumentCount: 0) { env in
-                                try Swift.Int.toNode(TestAPI.Primitives.maxInt, env: env.env)
+                                return try Swift.Int.toNode(TestAPI.Primitives.maxInt, env: env.env)
                             }
                         },
                         setter: nil
@@ -769,7 +769,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maxInt16", expectedArgumentCount: 0) { env in
-                                try Swift.Int16.toNode(TestAPI.Primitives.maxInt16, env: env.env)
+                                return try Swift.Int16.toNode(TestAPI.Primitives.maxInt16, env: env.env)
                             }
                         },
                         setter: nil
@@ -780,7 +780,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maxInt32", expectedArgumentCount: 0) { env in
-                                try Swift.Int32.toNode(TestAPI.Primitives.maxInt32, env: env.env)
+                                return try Swift.Int32.toNode(TestAPI.Primitives.maxInt32, env: env.env)
                             }
                         },
                         setter: nil
@@ -791,7 +791,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maxInt64", expectedArgumentCount: 0) { env in
-                                try Swift.Int64.toNode(TestAPI.Primitives.maxInt64, env: env.env)
+                                return try Swift.Int64.toNode(TestAPI.Primitives.maxInt64, env: env.env)
                             }
                         },
                         setter: nil
@@ -802,7 +802,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maxInt8", expectedArgumentCount: 0) { env in
-                                try Swift.Int8.toNode(TestAPI.Primitives.maxInt8, env: env.env)
+                                return try Swift.Int8.toNode(TestAPI.Primitives.maxInt8, env: env.env)
                             }
                         },
                         setter: nil
@@ -813,7 +813,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maxUInt", expectedArgumentCount: 0) { env in
-                                try Swift.UInt.toNode(TestAPI.Primitives.maxUInt, env: env.env)
+                                return try Swift.UInt.toNode(TestAPI.Primitives.maxUInt, env: env.env)
                             }
                         },
                         setter: nil
@@ -824,7 +824,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maxUInt16", expectedArgumentCount: 0) { env in
-                                try Swift.UInt16.toNode(TestAPI.Primitives.maxUInt16, env: env.env)
+                                return try Swift.UInt16.toNode(TestAPI.Primitives.maxUInt16, env: env.env)
                             }
                         },
                         setter: nil
@@ -835,7 +835,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maxUInt32", expectedArgumentCount: 0) { env in
-                                try Swift.UInt32.toNode(TestAPI.Primitives.maxUInt32, env: env.env)
+                                return try Swift.UInt32.toNode(TestAPI.Primitives.maxUInt32, env: env.env)
                             }
                         },
                         setter: nil
@@ -846,7 +846,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maxUInt64", expectedArgumentCount: 0) { env in
-                                try Swift.UInt64.toNode(TestAPI.Primitives.maxUInt64, env: env.env)
+                                return try Swift.UInt64.toNode(TestAPI.Primitives.maxUInt64, env: env.env)
                             }
                         },
                         setter: nil
@@ -857,7 +857,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maxUInt8", expectedArgumentCount: 0) { env in
-                                try Swift.UInt8.toNode(TestAPI.Primitives.maxUInt8, env: env.env)
+                                return try Swift.UInt8.toNode(TestAPI.Primitives.maxUInt8, env: env.env)
                             }
                         },
                         setter: nil
@@ -868,7 +868,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "minDouble", expectedArgumentCount: 0) { env in
-                                try Swift.Double.toNode(TestAPI.Primitives.minDouble, env: env.env)
+                                return try Swift.Double.toNode(TestAPI.Primitives.minDouble, env: env.env)
                             }
                         },
                         setter: nil
@@ -879,7 +879,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "minFloat", expectedArgumentCount: 0) { env in
-                                try Swift.Float.toNode(TestAPI.Primitives.minFloat, env: env.env)
+                                return try Swift.Float.toNode(TestAPI.Primitives.minFloat, env: env.env)
                             }
                         },
                         setter: nil
@@ -890,7 +890,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "minInt", expectedArgumentCount: 0) { env in
-                                try Swift.Int.toNode(TestAPI.Primitives.minInt, env: env.env)
+                                return try Swift.Int.toNode(TestAPI.Primitives.minInt, env: env.env)
                             }
                         },
                         setter: nil
@@ -901,7 +901,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "minInt16", expectedArgumentCount: 0) { env in
-                                try Swift.Int16.toNode(TestAPI.Primitives.minInt16, env: env.env)
+                                return try Swift.Int16.toNode(TestAPI.Primitives.minInt16, env: env.env)
                             }
                         },
                         setter: nil
@@ -912,7 +912,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "minInt32", expectedArgumentCount: 0) { env in
-                                try Swift.Int32.toNode(TestAPI.Primitives.minInt32, env: env.env)
+                                return try Swift.Int32.toNode(TestAPI.Primitives.minInt32, env: env.env)
                             }
                         },
                         setter: nil
@@ -923,7 +923,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "minInt64", expectedArgumentCount: 0) { env in
-                                try Swift.Int64.toNode(TestAPI.Primitives.minInt64, env: env.env)
+                                return try Swift.Int64.toNode(TestAPI.Primitives.minInt64, env: env.env)
                             }
                         },
                         setter: nil
@@ -934,7 +934,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "minInt8", expectedArgumentCount: 0) { env in
-                                try Swift.Int8.toNode(TestAPI.Primitives.minInt8, env: env.env)
+                                return try Swift.Int8.toNode(TestAPI.Primitives.minInt8, env: env.env)
                             }
                         },
                         setter: nil
@@ -945,7 +945,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "minUInt", expectedArgumentCount: 0) { env in
-                                try Swift.UInt.toNode(TestAPI.Primitives.minUInt, env: env.env)
+                                return try Swift.UInt.toNode(TestAPI.Primitives.minUInt, env: env.env)
                             }
                         },
                         setter: nil
@@ -956,7 +956,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "minUInt16", expectedArgumentCount: 0) { env in
-                                try Swift.UInt16.toNode(TestAPI.Primitives.minUInt16, env: env.env)
+                                return try Swift.UInt16.toNode(TestAPI.Primitives.minUInt16, env: env.env)
                             }
                         },
                         setter: nil
@@ -967,7 +967,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "minUInt32", expectedArgumentCount: 0) { env in
-                                try Swift.UInt32.toNode(TestAPI.Primitives.minUInt32, env: env.env)
+                                return try Swift.UInt32.toNode(TestAPI.Primitives.minUInt32, env: env.env)
                             }
                         },
                         setter: nil
@@ -978,7 +978,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "minUInt64", expectedArgumentCount: 0) { env in
-                                try Swift.UInt64.toNode(TestAPI.Primitives.minUInt64, env: env.env)
+                                return try Swift.UInt64.toNode(TestAPI.Primitives.minUInt64, env: env.env)
                             }
                         },
                         setter: nil
@@ -989,7 +989,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "minUInt8", expectedArgumentCount: 0) { env in
-                                try Swift.UInt8.toNode(TestAPI.Primitives.minUInt8, env: env.env)
+                                return try Swift.UInt8.toNode(TestAPI.Primitives.minUInt8, env: env.env)
                             }
                         },
                         setter: nil
@@ -1000,7 +1000,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "trueBool", expectedArgumentCount: 0) { env in
-                                try Swift.Bool.toNode(TestAPI.Primitives.trueBool, env: env.env)
+                                return try Swift.Bool.toNode(TestAPI.Primitives.trueBool, env: env.env)
                             }
                         },
                         setter: nil
@@ -1011,7 +1011,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "zeroDouble", expectedArgumentCount: 0) { env in
-                                try Swift.Double.toNode(TestAPI.Primitives.zeroDouble, env: env.env)
+                                return try Swift.Double.toNode(TestAPI.Primitives.zeroDouble, env: env.env)
                             }
                         },
                         setter: nil
@@ -1022,7 +1022,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "zeroFloat", expectedArgumentCount: 0) { env in
-                                try Swift.Float.toNode(TestAPI.Primitives.zeroFloat, env: env.env)
+                                return try Swift.Float.toNode(TestAPI.Primitives.zeroFloat, env: env.env)
                             }
                         },
                         setter: nil
@@ -1033,7 +1033,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "zeroInt", expectedArgumentCount: 0) { env in
-                                try Swift.Int.toNode(TestAPI.Primitives.zeroInt, env: env.env)
+                                return try Swift.Int.toNode(TestAPI.Primitives.zeroInt, env: env.env)
                             }
                         },
                         setter: nil
@@ -1044,7 +1044,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "zeroInt16", expectedArgumentCount: 0) { env in
-                                try Swift.Int16.toNode(TestAPI.Primitives.zeroInt16, env: env.env)
+                                return try Swift.Int16.toNode(TestAPI.Primitives.zeroInt16, env: env.env)
                             }
                         },
                         setter: nil
@@ -1055,7 +1055,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "zeroInt32", expectedArgumentCount: 0) { env in
-                                try Swift.Int32.toNode(TestAPI.Primitives.zeroInt32, env: env.env)
+                                return try Swift.Int32.toNode(TestAPI.Primitives.zeroInt32, env: env.env)
                             }
                         },
                         setter: nil
@@ -1066,7 +1066,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "zeroInt64", expectedArgumentCount: 0) { env in
-                                try Swift.Int64.toNode(TestAPI.Primitives.zeroInt64, env: env.env)
+                                return try Swift.Int64.toNode(TestAPI.Primitives.zeroInt64, env: env.env)
                             }
                         },
                         setter: nil
@@ -1077,7 +1077,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "zeroInt8", expectedArgumentCount: 0) { env in
-                                try Swift.Int8.toNode(TestAPI.Primitives.zeroInt8, env: env.env)
+                                return try Swift.Int8.toNode(TestAPI.Primitives.zeroInt8, env: env.env)
                             }
                         },
                         setter: nil
@@ -1088,7 +1088,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "zeroUInt", expectedArgumentCount: 0) { env in
-                                try Swift.UInt.toNode(TestAPI.Primitives.zeroUInt, env: env.env)
+                                return try Swift.UInt.toNode(TestAPI.Primitives.zeroUInt, env: env.env)
                             }
                         },
                         setter: nil
@@ -1099,7 +1099,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "zeroUInt16", expectedArgumentCount: 0) { env in
-                                try Swift.UInt16.toNode(TestAPI.Primitives.zeroUInt16, env: env.env)
+                                return try Swift.UInt16.toNode(TestAPI.Primitives.zeroUInt16, env: env.env)
                             }
                         },
                         setter: nil
@@ -1110,7 +1110,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "zeroUInt32", expectedArgumentCount: 0) { env in
-                                try Swift.UInt32.toNode(TestAPI.Primitives.zeroUInt32, env: env.env)
+                                return try Swift.UInt32.toNode(TestAPI.Primitives.zeroUInt32, env: env.env)
                             }
                         },
                         setter: nil
@@ -1121,7 +1121,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "zeroUInt64", expectedArgumentCount: 0) { env in
-                                try Swift.UInt64.toNode(TestAPI.Primitives.zeroUInt64, env: env.env)
+                                return try Swift.UInt64.toNode(TestAPI.Primitives.zeroUInt64, env: env.env)
                             }
                         },
                         setter: nil
@@ -1132,7 +1132,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "zeroUInt8", expectedArgumentCount: 0) { env in
-                                try Swift.UInt8.toNode(TestAPI.Primitives.zeroUInt8, env: env.env)
+                                return try Swift.UInt8.toNode(TestAPI.Primitives.zeroUInt8, env: env.env)
                             }
                         },
                         setter: nil

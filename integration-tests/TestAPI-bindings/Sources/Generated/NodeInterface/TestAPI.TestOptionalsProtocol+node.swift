@@ -121,7 +121,7 @@ extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: NodeConverter
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "flarp", expectedArgumentCount: 0) { env in
-                                try OptionalConverter<Swift.String>.toNode(env.this(converter: TestAPI_CommonInterface._TestOptionalsProtocolConverter.self).flarp, env: env.env)
+                                return try OptionalConverter<Swift.String>.toNode(env.this(converter: TestAPI_CommonInterface._TestOptionalsProtocolConverter.self).flarp, env: env.env)
                             }
                         },
                         setter: nil

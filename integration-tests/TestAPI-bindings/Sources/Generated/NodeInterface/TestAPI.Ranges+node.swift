@@ -167,7 +167,7 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "int16Range", expectedArgumentCount: 0) { env in
-                                try RangeConverter<Swift.Int16>.toNode(TestAPI.Ranges.int16Range, env: env.env)
+                                return try RangeConverter<Swift.Int16>.toNode(TestAPI.Ranges.int16Range, env: env.env)
                             }
                         },
                         setter: nil
@@ -178,7 +178,7 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "int32Range", expectedArgumentCount: 0) { env in
-                                try RangeConverter<Swift.Int32>.toNode(TestAPI.Ranges.int32Range, env: env.env)
+                                return try RangeConverter<Swift.Int32>.toNode(TestAPI.Ranges.int32Range, env: env.env)
                             }
                         },
                         setter: nil
@@ -189,7 +189,7 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "int64Range", expectedArgumentCount: 0) { env in
-                                try RangeConverter<Swift.Int64>.toNode(TestAPI.Ranges.int64Range, env: env.env)
+                                return try RangeConverter<Swift.Int64>.toNode(TestAPI.Ranges.int64Range, env: env.env)
                             }
                         },
                         setter: nil
@@ -200,7 +200,7 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "int8Range", expectedArgumentCount: 0) { env in
-                                try RangeConverter<Swift.Int8>.toNode(TestAPI.Ranges.int8Range, env: env.env)
+                                return try RangeConverter<Swift.Int8>.toNode(TestAPI.Ranges.int8Range, env: env.env)
                             }
                         },
                         setter: nil
@@ -211,7 +211,7 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "intRange", expectedArgumentCount: 0) { env in
-                                try RangeConverter<Swift.Int>.toNode(TestAPI.Ranges.intRange, env: env.env)
+                                return try RangeConverter<Swift.Int>.toNode(TestAPI.Ranges.intRange, env: env.env)
                             }
                         },
                         setter: nil
@@ -222,7 +222,7 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "uInt16Range", expectedArgumentCount: 0) { env in
-                                try RangeConverter<Swift.UInt16>.toNode(TestAPI.Ranges.uInt16Range, env: env.env)
+                                return try RangeConverter<Swift.UInt16>.toNode(TestAPI.Ranges.uInt16Range, env: env.env)
                             }
                         },
                         setter: nil
@@ -233,7 +233,7 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "uInt32Range", expectedArgumentCount: 0) { env in
-                                try RangeConverter<Swift.UInt32>.toNode(TestAPI.Ranges.uInt32Range, env: env.env)
+                                return try RangeConverter<Swift.UInt32>.toNode(TestAPI.Ranges.uInt32Range, env: env.env)
                             }
                         },
                         setter: nil
@@ -244,7 +244,7 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "uInt64Range", expectedArgumentCount: 0) { env in
-                                try RangeConverter<Swift.UInt64>.toNode(TestAPI.Ranges.uInt64Range, env: env.env)
+                                return try RangeConverter<Swift.UInt64>.toNode(TestAPI.Ranges.uInt64Range, env: env.env)
                             }
                         },
                         setter: nil
@@ -255,7 +255,7 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "uInt8Range", expectedArgumentCount: 0) { env in
-                                try RangeConverter<Swift.UInt8>.toNode(TestAPI.Ranges.uInt8Range, env: env.env)
+                                return try RangeConverter<Swift.UInt8>.toNode(TestAPI.Ranges.uInt8Range, env: env.env)
                             }
                         },
                         setter: nil
@@ -266,7 +266,7 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "uIntRange", expectedArgumentCount: 0) { env in
-                                try RangeConverter<Swift.UInt>.toNode(TestAPI.Ranges.uIntRange, env: env.env)
+                                return try RangeConverter<Swift.UInt>.toNode(TestAPI.Ranges.uIntRange, env: env.env)
                             }
                         },
                         setter: nil
