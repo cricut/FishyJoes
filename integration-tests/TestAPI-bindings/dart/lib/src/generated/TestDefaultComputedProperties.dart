@@ -60,12 +60,6 @@ import 'package:tuple/tuple.dart' as tuple;
 
 /// <!-- FishyJoes.export(TestDefaultComputedProperties) -->
 abstract class TestDefaultComputedProperties {
-
-    /// <!-- FishyJoes.export(noot) -->
-    int get noot;
-
-    /// <!-- FishyJoes.export(plutonic) -->
-    String get plutonic;
 }
 
 extension TestDefaultComputedProperties_DefaultImplementations on TestDefaultComputedProperties {

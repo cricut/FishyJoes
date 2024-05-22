@@ -41,7 +41,7 @@ class DartProtocolClass: DartClass {
                 fragment.blankLine()
             }
 
-            for field in fields {
+            for field in normalFields {
                 // Dart does not support static property inheritance like Swift does.
                 guard !field.isStatic else {
                     fragment.output("// \(field.name) static fields on protocols not supported in Dart.")
