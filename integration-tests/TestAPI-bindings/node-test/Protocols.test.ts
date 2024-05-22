@@ -2,6 +2,16 @@ import { TestAPI } from 'TestAPI';
 
 const debugPrints = true;
 
+test('testDefaultComputedPropertiesStruct', () => {
+    const a = new TestAPI.TestDefaultComputedPropertiesStruct(
+        true,
+        98172
+    );
+    expect(a.spam).toEqual(true);
+    expect(a.noot).toEqual(98172);
+    expect(a.plutonic).toEqual("Newton Gimmick");
+});
+
 test('testProtocolImplementation', () => {
     const a = new TestAPI.AProtocolImplementation(
         "Garply",
