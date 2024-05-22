@@ -183,17 +183,6 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
             env: env,
             name: "Primitives.PrimitiveHolder",
             properties: [
-                "staticProperty": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticProperty", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<OptionalConverter<Swift.UInt8>>.toNode(TestAPI.Primitives.PrimitiveHolder.staticProperty, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: true
-                ),
                 "staticMutableProperty": (
                     .accessor(
                         getter: { env, info in
@@ -207,6 +196,17 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
                                 return nil
                             }
                         }),
+                    isStatic: true
+                ),
+                "staticProperty": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticProperty", expectedArgumentCount: 0) { env in
+                                try ArrayConverter<OptionalConverter<Swift.UInt8>>.toNode(TestAPI.Primitives.PrimitiveHolder.staticProperty, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
                     isStatic: true
                 ),
                 "b": (.stored(mutable: true), isStatic: false),

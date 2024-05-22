@@ -330,11 +330,33 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                     },
                     isStatic: false
                 ),
+                "add3Things": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "add3Things", expectedArgumentCount: 0) { env in
+                                try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.toNode(env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self).add3Things, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: false
+                ),
                 "const42": (
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "const42", expectedArgumentCount: 0) { env in
                                 try AsyncFunction0Converter<Swift.Int>.toNode(env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self).const42, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: false
+                ),
+                "fifthThing": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "fifthThing", expectedArgumentCount: 0) { env in
+                                try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.toNode(env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self).fifthThing, env: env.env)
                             }
                         },
                         setter: nil
@@ -363,33 +385,11 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                     ),
                     isStatic: false
                 ),
-                "add3Things": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "add3Things", expectedArgumentCount: 0) { env in
-                                try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.toNode(env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self).add3Things, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: false
-                ),
                 "makeList": (
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "makeList", expectedArgumentCount: 0) { env in
                                 try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.toNode(env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self).makeList, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: false
-                ),
-                "fifthThing": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "fifthThing", expectedArgumentCount: 0) { env in
-                                try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.toNode(env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self).fifthThing, env: env.env)
                             }
                         },
                         setter: nil
