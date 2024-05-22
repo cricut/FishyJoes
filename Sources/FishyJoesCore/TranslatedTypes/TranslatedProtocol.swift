@@ -712,7 +712,6 @@ struct TranslatedProtocol: TranslatedType {
 
             fragment.outputBlock("public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {") {
                 fragment.outputBlock("try env.check { exn in", closeWith: "}") {
-                    fragment.output("// here's where we should make a new witness with witness constructor")
                     fragment.outputBlock("_constructorMethod[env](") {
                         fragment.output("Box(value).retainedOpaque(),")
                         fragment.output("exn")
