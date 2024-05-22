@@ -449,6 +449,14 @@ namespace Cricut.TestAPI.Tests {
             var b = a.Witness();
             await TestAsyncSwiftSideFunctionsCore(b);
         }
+
+        [Fact]
+        public void TestTestDefaultComputedPropertiesStruct() {
+            var a = new TestDefaultComputedPropertiesStruct(true, 98172);
+            Assert.Equal("Newton Gimmick", a.GetPlutonic());
+            Assert.True(a.Spam);
+            Assert.Equal(98172, a.Noot);
+        }
     }
 
     public record AProtocolCSharpImpl: AProtocol {
