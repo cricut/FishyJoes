@@ -888,7 +888,7 @@ struct TranslatedProtocol: TranslatedType {
                         return [kotlinMethodOrVariable]
                     }
 
-                    var defaultMethodForVariable = KotlinClass.Method(
+                    let defaultMethodForVariable = KotlinClass.Method(
                         documentation: [],
                         isStatic: true, 
                         isSuspend: false,
