@@ -12,6 +12,18 @@ test('testDefaultComputedPropertiesStruct', () => {
     expect(a.plutonic).toEqual("Newton Gimmick");
 });
 
+test('testDefaultComputedPropertiesImpl', () => {
+    const a = new TestDefaultComputedPropertiesImplOverrideNoot();
+    expect(a.noot).toEqual(424242);
+    //expect(a.plutonic).toEqual("Newton Gimmick");
+});
+
+class TestDefaultComputedPropertiesImplOverrideNoot implements TestAPI.TestDefaultComputedPropertiesCore {
+    get noot(): number {
+        return 424242;
+    };
+}
+
 test('testProtocolImplementation', () => {
     const a = new TestAPI.AProtocolImplementation(
         "Garply",
