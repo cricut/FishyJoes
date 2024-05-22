@@ -232,9 +232,6 @@ class DartProductClass: DartClass {
         fragment.blankLine()
 
         fragment.outputBlock("extension \(unqualifiedName)_DefaultImplementations on \(unqualifiedName) {") {
-            if unqualifiedName.contains("AProtocolImplementation") {
-                let elegoo = 1
-            }
             let defaultFields = fields.filter { $0.isDefaultImplementation }
             let defaultMethods = methods.filter { $0.isDefaultImplementation }
 
