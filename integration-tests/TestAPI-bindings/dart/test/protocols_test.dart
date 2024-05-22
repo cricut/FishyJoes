@@ -387,6 +387,16 @@ void main() {
         await testAsyncSwiftSideFunctionsCore(b);
       });
 
+      test('testDefaultComputedPropertiesImpl', () async {
+        final a = TestDefaultComputedPropertiesImplOverrideNoot();
+        expect(a.plutonic, equals("Newton Gimmick"));
+        expect(a.noot, equals(230723));
+
+        final b = TestDefaultComputedPropertiesImplOverridePlutonic();
+        expect(b.plutonic, equals("Teddy Ruxpin"));
+        expect(b.noot, equals(2983));
+      });
+
       test('testDefaultComputedPropertiesStruct', () async {
         final a = TestDefaultComputedPropertiesStruct(spam: true, noot: 98172);
         expect(a.plutonic, equals("Newton Gimmick"));
@@ -394,6 +404,14 @@ void main() {
         expect(a.noot, equals(98172));
       });
   });
+}
+
+class TestDefaultComputedPropertiesImplOverrideNoot implements TestDefaultComputedProperties {
+  int get noot => 230723;
+}
+
+class TestDefaultComputedPropertiesImplOverridePlutonic implements TestDefaultComputedProperties {
+  String get plutonic => "Teddy Ruxpin";
 }
 
 class TestAsyncFunctionsImpl implements TestAPI.TestAsyncFunctions {
