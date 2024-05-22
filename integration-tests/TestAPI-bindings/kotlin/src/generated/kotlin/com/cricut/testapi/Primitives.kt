@@ -11,346 +11,13 @@ sealed class Primitives {
 
     companion object {
         /**
-         * <!-- FishyJoes.export(falseBool) -->
+         * <!-- FishyJoes.export(bitCountInt) -->
          */
-        val falseBool: Boolean
-          get() = __jni_get_falseBool()
+        val bitCountInt: Long
+          get() = __jni_get_bitCountInt()
         @JvmStatic
-        @JvmName("__jni_get_falseBool")
-        private external fun __jni_get_falseBool(): Boolean
-
-        /**
-         * <!-- FishyJoes.export(trueBool) -->
-         */
-        val trueBool: Boolean
-          get() = __jni_get_trueBool()
-        @JvmStatic
-        @JvmName("__jni_get_trueBool")
-        private external fun __jni_get_trueBool(): Boolean
-
-        /**
-         * <!-- FishyJoes.export(zeroUInt8) -->
-         */
-        val zeroUInt8: UByte
-          get() = __jni_get_zeroUInt8().toUByte()
-        @JvmStatic
-        @JvmName("__jni_get_zeroUInt8")
-        private external fun __jni_get_zeroUInt8(): Byte
-
-        /**
-         * <!-- FishyJoes.export(minUInt8) -->
-         */
-        val minUInt8: UByte
-          get() = __jni_get_minUInt8().toUByte()
-        @JvmStatic
-        @JvmName("__jni_get_minUInt8")
-        private external fun __jni_get_minUInt8(): Byte
-
-        /**
-         * <!-- FishyJoes.export(maxUInt8) -->
-         */
-        val maxUInt8: UByte
-          get() = __jni_get_maxUInt8().toUByte()
-        @JvmStatic
-        @JvmName("__jni_get_maxUInt8")
-        private external fun __jni_get_maxUInt8(): Byte
-
-        /**
-         * <!-- FishyJoes.export(zeroUInt16) -->
-         */
-        val zeroUInt16: UShort
-          get() = __jni_get_zeroUInt16().toUShort()
-        @JvmStatic
-        @JvmName("__jni_get_zeroUInt16")
-        private external fun __jni_get_zeroUInt16(): Short
-
-        /**
-         * <!-- FishyJoes.export(minUInt16) -->
-         */
-        val minUInt16: UShort
-          get() = __jni_get_minUInt16().toUShort()
-        @JvmStatic
-        @JvmName("__jni_get_minUInt16")
-        private external fun __jni_get_minUInt16(): Short
-
-        /**
-         * <!-- FishyJoes.export(maxUInt16) -->
-         */
-        val maxUInt16: UShort
-          get() = __jni_get_maxUInt16().toUShort()
-        @JvmStatic
-        @JvmName("__jni_get_maxUInt16")
-        private external fun __jni_get_maxUInt16(): Short
-
-        /**
-         * <!-- FishyJoes.export(zeroUInt32) -->
-         */
-        val zeroUInt32: UInt
-          get() = __jni_get_zeroUInt32().toUInt()
-        @JvmStatic
-        @JvmName("__jni_get_zeroUInt32")
-        private external fun __jni_get_zeroUInt32(): Int
-
-        /**
-         * <!-- FishyJoes.export(minUInt32) -->
-         */
-        val minUInt32: UInt
-          get() = __jni_get_minUInt32().toUInt()
-        @JvmStatic
-        @JvmName("__jni_get_minUInt32")
-        private external fun __jni_get_minUInt32(): Int
-
-        /**
-         * <!-- FishyJoes.export(maxUInt32) -->
-         */
-        val maxUInt32: UInt
-          get() = __jni_get_maxUInt32().toUInt()
-        @JvmStatic
-        @JvmName("__jni_get_maxUInt32")
-        private external fun __jni_get_maxUInt32(): Int
-
-        /**
-         * <!-- FishyJoes.export(zeroUInt64) -->
-         */
-        val zeroUInt64: ULong
-          get() = __jni_get_zeroUInt64().toULong()
-        @JvmStatic
-        @JvmName("__jni_get_zeroUInt64")
-        private external fun __jni_get_zeroUInt64(): Long
-
-        /**
-         * <!-- FishyJoes.export(minUInt64) -->
-         */
-        val minUInt64: ULong
-          get() = __jni_get_minUInt64().toULong()
-        @JvmStatic
-        @JvmName("__jni_get_minUInt64")
-        private external fun __jni_get_minUInt64(): Long
-
-        /**
-         * <!-- FishyJoes.export(maxUInt64) -->
-         */
-        val maxUInt64: ULong
-          get() = __jni_get_maxUInt64().toULong()
-        @JvmStatic
-        @JvmName("__jni_get_maxUInt64")
-        private external fun __jni_get_maxUInt64(): Long
-
-        /**
-         * <!-- FishyJoes.export(zeroUInt) -->
-         */
-        val zeroUInt: ULong
-          get() = __jni_get_zeroUInt().toULong()
-        @JvmStatic
-        @JvmName("__jni_get_zeroUInt")
-        private external fun __jni_get_zeroUInt(): Long
-
-        /**
-         * <!-- FishyJoes.export(minUInt) -->
-         */
-        val minUInt: ULong
-          get() = __jni_get_minUInt().toULong()
-        @JvmStatic
-        @JvmName("__jni_get_minUInt")
-        private external fun __jni_get_minUInt(): Long
-
-        /**
-         * <!-- FishyJoes.export(maxUInt) -->
-         */
-        val maxUInt: ULong
-          get() = __jni_get_maxUInt().toULong()
-        @JvmStatic
-        @JvmName("__jni_get_maxUInt")
-        private external fun __jni_get_maxUInt(): Long
-
-        /**
-         * <!-- FishyJoes.export(zeroInt8) -->
-         */
-        val zeroInt8: Byte
-          get() = __jni_get_zeroInt8()
-        @JvmStatic
-        @JvmName("__jni_get_zeroInt8")
-        private external fun __jni_get_zeroInt8(): Byte
-
-        /**
-         * <!-- FishyJoes.export(minInt8) -->
-         */
-        val minInt8: Byte
-          get() = __jni_get_minInt8()
-        @JvmStatic
-        @JvmName("__jni_get_minInt8")
-        private external fun __jni_get_minInt8(): Byte
-
-        /**
-         * <!-- FishyJoes.export(maxInt8) -->
-         */
-        val maxInt8: Byte
-          get() = __jni_get_maxInt8()
-        @JvmStatic
-        @JvmName("__jni_get_maxInt8")
-        private external fun __jni_get_maxInt8(): Byte
-
-        /**
-         * <!-- FishyJoes.export(zeroInt16) -->
-         */
-        val zeroInt16: Short
-          get() = __jni_get_zeroInt16()
-        @JvmStatic
-        @JvmName("__jni_get_zeroInt16")
-        private external fun __jni_get_zeroInt16(): Short
-
-        /**
-         * <!-- FishyJoes.export(minInt16) -->
-         */
-        val minInt16: Short
-          get() = __jni_get_minInt16()
-        @JvmStatic
-        @JvmName("__jni_get_minInt16")
-        private external fun __jni_get_minInt16(): Short
-
-        /**
-         * <!-- FishyJoes.export(maxInt16) -->
-         */
-        val maxInt16: Short
-          get() = __jni_get_maxInt16()
-        @JvmStatic
-        @JvmName("__jni_get_maxInt16")
-        private external fun __jni_get_maxInt16(): Short
-
-        /**
-         * <!-- FishyJoes.export(zeroInt32) -->
-         */
-        val zeroInt32: Int
-          get() = __jni_get_zeroInt32()
-        @JvmStatic
-        @JvmName("__jni_get_zeroInt32")
-        private external fun __jni_get_zeroInt32(): Int
-
-        /**
-         * <!-- FishyJoes.export(minInt32) -->
-         */
-        val minInt32: Int
-          get() = __jni_get_minInt32()
-        @JvmStatic
-        @JvmName("__jni_get_minInt32")
-        private external fun __jni_get_minInt32(): Int
-
-        /**
-         * <!-- FishyJoes.export(maxInt32) -->
-         */
-        val maxInt32: Int
-          get() = __jni_get_maxInt32()
-        @JvmStatic
-        @JvmName("__jni_get_maxInt32")
-        private external fun __jni_get_maxInt32(): Int
-
-        /**
-         * <!-- FishyJoes.export(zeroInt64) -->
-         */
-        val zeroInt64: Long
-          get() = __jni_get_zeroInt64()
-        @JvmStatic
-        @JvmName("__jni_get_zeroInt64")
-        private external fun __jni_get_zeroInt64(): Long
-
-        /**
-         * <!-- FishyJoes.export(minInt64) -->
-         */
-        val minInt64: Long
-          get() = __jni_get_minInt64()
-        @JvmStatic
-        @JvmName("__jni_get_minInt64")
-        private external fun __jni_get_minInt64(): Long
-
-        /**
-         * <!-- FishyJoes.export(maxInt64) -->
-         */
-        val maxInt64: Long
-          get() = __jni_get_maxInt64()
-        @JvmStatic
-        @JvmName("__jni_get_maxInt64")
-        private external fun __jni_get_maxInt64(): Long
-
-        /**
-         * <!-- FishyJoes.export(zeroInt) -->
-         */
-        val zeroInt: Long
-          get() = __jni_get_zeroInt()
-        @JvmStatic
-        @JvmName("__jni_get_zeroInt")
-        private external fun __jni_get_zeroInt(): Long
-
-        /**
-         * <!-- FishyJoes.export(minInt) -->
-         */
-        val minInt: Long
-          get() = __jni_get_minInt()
-        @JvmStatic
-        @JvmName("__jni_get_minInt")
-        private external fun __jni_get_minInt(): Long
-
-        /**
-         * <!-- FishyJoes.export(maxInt) -->
-         */
-        val maxInt: Long
-          get() = __jni_get_maxInt()
-        @JvmStatic
-        @JvmName("__jni_get_maxInt")
-        private external fun __jni_get_maxInt(): Long
-
-        /**
-         * <!-- FishyJoes.export(zeroFloat) -->
-         */
-        val zeroFloat: Float
-          get() = __jni_get_zeroFloat()
-        @JvmStatic
-        @JvmName("__jni_get_zeroFloat")
-        private external fun __jni_get_zeroFloat(): Float
-
-        /**
-         * <!-- FishyJoes.export(minFloat) -->
-         */
-        val minFloat: Float
-          get() = __jni_get_minFloat()
-        @JvmStatic
-        @JvmName("__jni_get_minFloat")
-        private external fun __jni_get_minFloat(): Float
-
-        /**
-         * <!-- FishyJoes.export(maxFloat) -->
-         */
-        val maxFloat: Float
-          get() = __jni_get_maxFloat()
-        @JvmStatic
-        @JvmName("__jni_get_maxFloat")
-        private external fun __jni_get_maxFloat(): Float
-
-        /**
-         * <!-- FishyJoes.export(zeroDouble) -->
-         */
-        val zeroDouble: Double
-          get() = __jni_get_zeroDouble()
-        @JvmStatic
-        @JvmName("__jni_get_zeroDouble")
-        private external fun __jni_get_zeroDouble(): Double
-
-        /**
-         * <!-- FishyJoes.export(minDouble) -->
-         */
-        val minDouble: Double
-          get() = __jni_get_minDouble()
-        @JvmStatic
-        @JvmName("__jni_get_minDouble")
-        private external fun __jni_get_minDouble(): Double
-
-        /**
-         * <!-- FishyJoes.export(maxDouble) -->
-         */
-        val maxDouble: Double
-          get() = __jni_get_maxDouble()
-        @JvmStatic
-        @JvmName("__jni_get_maxDouble")
-        private external fun __jni_get_maxDouble(): Double
+        @JvmName("__jni_get_bitCountInt")
+        private external fun __jni_get_bitCountInt(): Long
 
         /**
          * <!-- FishyJoes.export(bitCountUInt) -->
@@ -362,13 +29,22 @@ sealed class Primitives {
         private external fun __jni_get_bitCountUInt(): Long
 
         /**
-         * <!-- FishyJoes.export(bitCountInt) -->
+         * <!-- FishyJoes.export(defaultPrimitiveHolder) -->
          */
-        val bitCountInt: Long
-          get() = __jni_get_bitCountInt()
+        val defaultPrimitiveHolder: com.cricut.testapi.Primitives.PrimitiveHolder
+          get() = __jni_get_defaultPrimitiveHolder()
         @JvmStatic
-        @JvmName("__jni_get_bitCountInt")
-        private external fun __jni_get_bitCountInt(): Long
+        @JvmName("__jni_get_defaultPrimitiveHolder")
+        private external fun __jni_get_defaultPrimitiveHolder(): com.cricut.testapi.Primitives.PrimitiveHolder
+
+        /**
+         * <!-- FishyJoes.export(falseBool) -->
+         */
+        val falseBool: Boolean
+          get() = __jni_get_falseBool()
+        @JvmStatic
+        @JvmName("__jni_get_falseBool")
+        private external fun __jni_get_falseBool(): Boolean
 
         /**
          * <!-- FishyJoes.export(manyBool) -->
@@ -380,58 +56,31 @@ sealed class Primitives {
         private external fun __jni_get_manyBool(): kotlin.collections.List<Boolean>
 
         /**
-         * <!-- FishyJoes.export(manyUInt8) -->
+         * <!-- FishyJoes.export(manyDouble) -->
          */
-        val manyUInt8: kotlin.collections.List<UByte>
-          get() = __jni_get_manyUInt8()
+        val manyDouble: kotlin.collections.List<Double>
+          get() = __jni_get_manyDouble()
         @JvmStatic
-        @JvmName("__jni_get_manyUInt8")
-        private external fun __jni_get_manyUInt8(): kotlin.collections.List<UByte>
+        @JvmName("__jni_get_manyDouble")
+        private external fun __jni_get_manyDouble(): kotlin.collections.List<Double>
 
         /**
-         * <!-- FishyJoes.export(manyUInt16) -->
+         * <!-- FishyJoes.export(manyFloat) -->
          */
-        val manyUInt16: kotlin.collections.List<UShort>
-          get() = __jni_get_manyUInt16()
+        val manyFloat: kotlin.collections.List<Float>
+          get() = __jni_get_manyFloat()
         @JvmStatic
-        @JvmName("__jni_get_manyUInt16")
-        private external fun __jni_get_manyUInt16(): kotlin.collections.List<UShort>
+        @JvmName("__jni_get_manyFloat")
+        private external fun __jni_get_manyFloat(): kotlin.collections.List<Float>
 
         /**
-         * <!-- FishyJoes.export(manyUInt32) -->
+         * <!-- FishyJoes.export(manyInt) -->
          */
-        val manyUInt32: kotlin.collections.List<UInt>
-          get() = __jni_get_manyUInt32()
+        val manyInt: kotlin.collections.List<Long>
+          get() = __jni_get_manyInt()
         @JvmStatic
-        @JvmName("__jni_get_manyUInt32")
-        private external fun __jni_get_manyUInt32(): kotlin.collections.List<UInt>
-
-        /**
-         * <!-- FishyJoes.export(manyUInt64) -->
-         */
-        val manyUInt64: kotlin.collections.List<ULong>
-          get() = __jni_get_manyUInt64()
-        @JvmStatic
-        @JvmName("__jni_get_manyUInt64")
-        private external fun __jni_get_manyUInt64(): kotlin.collections.List<ULong>
-
-        /**
-         * <!-- FishyJoes.export(manyUInt) -->
-         */
-        val manyUInt: kotlin.collections.List<ULong>
-          get() = __jni_get_manyUInt()
-        @JvmStatic
-        @JvmName("__jni_get_manyUInt")
-        private external fun __jni_get_manyUInt(): kotlin.collections.List<ULong>
-
-        /**
-         * <!-- FishyJoes.export(manyInt8) -->
-         */
-        val manyInt8: kotlin.collections.List<Byte>
-          get() = __jni_get_manyInt8()
-        @JvmStatic
-        @JvmName("__jni_get_manyInt8")
-        private external fun __jni_get_manyInt8(): kotlin.collections.List<Byte>
+        @JvmName("__jni_get_manyInt")
+        private external fun __jni_get_manyInt(): kotlin.collections.List<Long>
 
         /**
          * <!-- FishyJoes.export(manyInt16) -->
@@ -461,31 +110,13 @@ sealed class Primitives {
         private external fun __jni_get_manyInt64(): kotlin.collections.List<Long>
 
         /**
-         * <!-- FishyJoes.export(manyInt) -->
+         * <!-- FishyJoes.export(manyInt8) -->
          */
-        val manyInt: kotlin.collections.List<Long>
-          get() = __jni_get_manyInt()
+        val manyInt8: kotlin.collections.List<Byte>
+          get() = __jni_get_manyInt8()
         @JvmStatic
-        @JvmName("__jni_get_manyInt")
-        private external fun __jni_get_manyInt(): kotlin.collections.List<Long>
-
-        /**
-         * <!-- FishyJoes.export(manyFloat) -->
-         */
-        val manyFloat: kotlin.collections.List<Float>
-          get() = __jni_get_manyFloat()
-        @JvmStatic
-        @JvmName("__jni_get_manyFloat")
-        private external fun __jni_get_manyFloat(): kotlin.collections.List<Float>
-
-        /**
-         * <!-- FishyJoes.export(manyDouble) -->
-         */
-        val manyDouble: kotlin.collections.List<Double>
-          get() = __jni_get_manyDouble()
-        @JvmStatic
-        @JvmName("__jni_get_manyDouble")
-        private external fun __jni_get_manyDouble(): kotlin.collections.List<Double>
+        @JvmName("__jni_get_manyInt8")
+        private external fun __jni_get_manyInt8(): kotlin.collections.List<Byte>
 
         /**
          * <!-- FishyJoes.export(manyMaybeBool) -->
@@ -497,58 +128,31 @@ sealed class Primitives {
         private external fun __jni_get_manyMaybeBool(): kotlin.collections.List<Boolean?>
 
         /**
-         * <!-- FishyJoes.export(manyMaybeUInt8) -->
+         * <!-- FishyJoes.export(manyMaybeDouble) -->
          */
-        val manyMaybeUInt8: kotlin.collections.List<UByte?>
-          get() = __jni_get_manyMaybeUInt8()
+        val manyMaybeDouble: kotlin.collections.List<Double?>
+          get() = __jni_get_manyMaybeDouble()
         @JvmStatic
-        @JvmName("__jni_get_manyMaybeUInt8")
-        private external fun __jni_get_manyMaybeUInt8(): kotlin.collections.List<UByte?>
+        @JvmName("__jni_get_manyMaybeDouble")
+        private external fun __jni_get_manyMaybeDouble(): kotlin.collections.List<Double?>
 
         /**
-         * <!-- FishyJoes.export(manyMaybeUInt16) -->
+         * <!-- FishyJoes.export(manyMaybeFloat) -->
          */
-        val manyMaybeUInt16: kotlin.collections.List<UShort?>
-          get() = __jni_get_manyMaybeUInt16()
+        val manyMaybeFloat: kotlin.collections.List<Float?>
+          get() = __jni_get_manyMaybeFloat()
         @JvmStatic
-        @JvmName("__jni_get_manyMaybeUInt16")
-        private external fun __jni_get_manyMaybeUInt16(): kotlin.collections.List<UShort?>
+        @JvmName("__jni_get_manyMaybeFloat")
+        private external fun __jni_get_manyMaybeFloat(): kotlin.collections.List<Float?>
 
         /**
-         * <!-- FishyJoes.export(manyMaybeUInt32) -->
+         * <!-- FishyJoes.export(manyMaybeInt) -->
          */
-        val manyMaybeUInt32: kotlin.collections.List<UInt?>
-          get() = __jni_get_manyMaybeUInt32()
+        val manyMaybeInt: kotlin.collections.List<Long?>
+          get() = __jni_get_manyMaybeInt()
         @JvmStatic
-        @JvmName("__jni_get_manyMaybeUInt32")
-        private external fun __jni_get_manyMaybeUInt32(): kotlin.collections.List<UInt?>
-
-        /**
-         * <!-- FishyJoes.export(manyMaybeUInt64) -->
-         */
-        val manyMaybeUInt64: kotlin.collections.List<ULong?>
-          get() = __jni_get_manyMaybeUInt64()
-        @JvmStatic
-        @JvmName("__jni_get_manyMaybeUInt64")
-        private external fun __jni_get_manyMaybeUInt64(): kotlin.collections.List<ULong?>
-
-        /**
-         * <!-- FishyJoes.export(manyMaybeUInt) -->
-         */
-        val manyMaybeUInt: kotlin.collections.List<ULong?>
-          get() = __jni_get_manyMaybeUInt()
-        @JvmStatic
-        @JvmName("__jni_get_manyMaybeUInt")
-        private external fun __jni_get_manyMaybeUInt(): kotlin.collections.List<ULong?>
-
-        /**
-         * <!-- FishyJoes.export(manyMaybeInt8) -->
-         */
-        val manyMaybeInt8: kotlin.collections.List<Byte?>
-          get() = __jni_get_manyMaybeInt8()
-        @JvmStatic
-        @JvmName("__jni_get_manyMaybeInt8")
-        private external fun __jni_get_manyMaybeInt8(): kotlin.collections.List<Byte?>
+        @JvmName("__jni_get_manyMaybeInt")
+        private external fun __jni_get_manyMaybeInt(): kotlin.collections.List<Long?>
 
         /**
          * <!-- FishyJoes.export(manyMaybeInt16) -->
@@ -578,40 +182,436 @@ sealed class Primitives {
         private external fun __jni_get_manyMaybeInt64(): kotlin.collections.List<Long?>
 
         /**
-         * <!-- FishyJoes.export(manyMaybeInt) -->
+         * <!-- FishyJoes.export(manyMaybeInt8) -->
          */
-        val manyMaybeInt: kotlin.collections.List<Long?>
-          get() = __jni_get_manyMaybeInt()
+        val manyMaybeInt8: kotlin.collections.List<Byte?>
+          get() = __jni_get_manyMaybeInt8()
         @JvmStatic
-        @JvmName("__jni_get_manyMaybeInt")
-        private external fun __jni_get_manyMaybeInt(): kotlin.collections.List<Long?>
+        @JvmName("__jni_get_manyMaybeInt8")
+        private external fun __jni_get_manyMaybeInt8(): kotlin.collections.List<Byte?>
 
         /**
-         * <!-- FishyJoes.export(manyMaybeFloat) -->
+         * <!-- FishyJoes.export(manyMaybeUInt) -->
          */
-        val manyMaybeFloat: kotlin.collections.List<Float?>
-          get() = __jni_get_manyMaybeFloat()
+        val manyMaybeUInt: kotlin.collections.List<ULong?>
+          get() = __jni_get_manyMaybeUInt()
         @JvmStatic
-        @JvmName("__jni_get_manyMaybeFloat")
-        private external fun __jni_get_manyMaybeFloat(): kotlin.collections.List<Float?>
+        @JvmName("__jni_get_manyMaybeUInt")
+        private external fun __jni_get_manyMaybeUInt(): kotlin.collections.List<ULong?>
 
         /**
-         * <!-- FishyJoes.export(manyMaybeDouble) -->
+         * <!-- FishyJoes.export(manyMaybeUInt16) -->
          */
-        val manyMaybeDouble: kotlin.collections.List<Double?>
-          get() = __jni_get_manyMaybeDouble()
+        val manyMaybeUInt16: kotlin.collections.List<UShort?>
+          get() = __jni_get_manyMaybeUInt16()
         @JvmStatic
-        @JvmName("__jni_get_manyMaybeDouble")
-        private external fun __jni_get_manyMaybeDouble(): kotlin.collections.List<Double?>
+        @JvmName("__jni_get_manyMaybeUInt16")
+        private external fun __jni_get_manyMaybeUInt16(): kotlin.collections.List<UShort?>
 
         /**
-         * <!-- FishyJoes.export(defaultPrimitiveHolder) -->
+         * <!-- FishyJoes.export(manyMaybeUInt32) -->
          */
-        val defaultPrimitiveHolder: com.cricut.testapi.Primitives.PrimitiveHolder
-          get() = __jni_get_defaultPrimitiveHolder()
+        val manyMaybeUInt32: kotlin.collections.List<UInt?>
+          get() = __jni_get_manyMaybeUInt32()
         @JvmStatic
-        @JvmName("__jni_get_defaultPrimitiveHolder")
-        private external fun __jni_get_defaultPrimitiveHolder(): com.cricut.testapi.Primitives.PrimitiveHolder
+        @JvmName("__jni_get_manyMaybeUInt32")
+        private external fun __jni_get_manyMaybeUInt32(): kotlin.collections.List<UInt?>
+
+        /**
+         * <!-- FishyJoes.export(manyMaybeUInt64) -->
+         */
+        val manyMaybeUInt64: kotlin.collections.List<ULong?>
+          get() = __jni_get_manyMaybeUInt64()
+        @JvmStatic
+        @JvmName("__jni_get_manyMaybeUInt64")
+        private external fun __jni_get_manyMaybeUInt64(): kotlin.collections.List<ULong?>
+
+        /**
+         * <!-- FishyJoes.export(manyMaybeUInt8) -->
+         */
+        val manyMaybeUInt8: kotlin.collections.List<UByte?>
+          get() = __jni_get_manyMaybeUInt8()
+        @JvmStatic
+        @JvmName("__jni_get_manyMaybeUInt8")
+        private external fun __jni_get_manyMaybeUInt8(): kotlin.collections.List<UByte?>
+
+        /**
+         * <!-- FishyJoes.export(manyUInt) -->
+         */
+        val manyUInt: kotlin.collections.List<ULong>
+          get() = __jni_get_manyUInt()
+        @JvmStatic
+        @JvmName("__jni_get_manyUInt")
+        private external fun __jni_get_manyUInt(): kotlin.collections.List<ULong>
+
+        /**
+         * <!-- FishyJoes.export(manyUInt16) -->
+         */
+        val manyUInt16: kotlin.collections.List<UShort>
+          get() = __jni_get_manyUInt16()
+        @JvmStatic
+        @JvmName("__jni_get_manyUInt16")
+        private external fun __jni_get_manyUInt16(): kotlin.collections.List<UShort>
+
+        /**
+         * <!-- FishyJoes.export(manyUInt32) -->
+         */
+        val manyUInt32: kotlin.collections.List<UInt>
+          get() = __jni_get_manyUInt32()
+        @JvmStatic
+        @JvmName("__jni_get_manyUInt32")
+        private external fun __jni_get_manyUInt32(): kotlin.collections.List<UInt>
+
+        /**
+         * <!-- FishyJoes.export(manyUInt64) -->
+         */
+        val manyUInt64: kotlin.collections.List<ULong>
+          get() = __jni_get_manyUInt64()
+        @JvmStatic
+        @JvmName("__jni_get_manyUInt64")
+        private external fun __jni_get_manyUInt64(): kotlin.collections.List<ULong>
+
+        /**
+         * <!-- FishyJoes.export(manyUInt8) -->
+         */
+        val manyUInt8: kotlin.collections.List<UByte>
+          get() = __jni_get_manyUInt8()
+        @JvmStatic
+        @JvmName("__jni_get_manyUInt8")
+        private external fun __jni_get_manyUInt8(): kotlin.collections.List<UByte>
+
+        /**
+         * <!-- FishyJoes.export(maxDouble) -->
+         */
+        val maxDouble: Double
+          get() = __jni_get_maxDouble()
+        @JvmStatic
+        @JvmName("__jni_get_maxDouble")
+        private external fun __jni_get_maxDouble(): Double
+
+        /**
+         * <!-- FishyJoes.export(maxFloat) -->
+         */
+        val maxFloat: Float
+          get() = __jni_get_maxFloat()
+        @JvmStatic
+        @JvmName("__jni_get_maxFloat")
+        private external fun __jni_get_maxFloat(): Float
+
+        /**
+         * <!-- FishyJoes.export(maxInt) -->
+         */
+        val maxInt: Long
+          get() = __jni_get_maxInt()
+        @JvmStatic
+        @JvmName("__jni_get_maxInt")
+        private external fun __jni_get_maxInt(): Long
+
+        /**
+         * <!-- FishyJoes.export(maxInt16) -->
+         */
+        val maxInt16: Short
+          get() = __jni_get_maxInt16()
+        @JvmStatic
+        @JvmName("__jni_get_maxInt16")
+        private external fun __jni_get_maxInt16(): Short
+
+        /**
+         * <!-- FishyJoes.export(maxInt32) -->
+         */
+        val maxInt32: Int
+          get() = __jni_get_maxInt32()
+        @JvmStatic
+        @JvmName("__jni_get_maxInt32")
+        private external fun __jni_get_maxInt32(): Int
+
+        /**
+         * <!-- FishyJoes.export(maxInt64) -->
+         */
+        val maxInt64: Long
+          get() = __jni_get_maxInt64()
+        @JvmStatic
+        @JvmName("__jni_get_maxInt64")
+        private external fun __jni_get_maxInt64(): Long
+
+        /**
+         * <!-- FishyJoes.export(maxInt8) -->
+         */
+        val maxInt8: Byte
+          get() = __jni_get_maxInt8()
+        @JvmStatic
+        @JvmName("__jni_get_maxInt8")
+        private external fun __jni_get_maxInt8(): Byte
+
+        /**
+         * <!-- FishyJoes.export(maxUInt) -->
+         */
+        val maxUInt: ULong
+          get() = __jni_get_maxUInt().toULong()
+        @JvmStatic
+        @JvmName("__jni_get_maxUInt")
+        private external fun __jni_get_maxUInt(): Long
+
+        /**
+         * <!-- FishyJoes.export(maxUInt16) -->
+         */
+        val maxUInt16: UShort
+          get() = __jni_get_maxUInt16().toUShort()
+        @JvmStatic
+        @JvmName("__jni_get_maxUInt16")
+        private external fun __jni_get_maxUInt16(): Short
+
+        /**
+         * <!-- FishyJoes.export(maxUInt32) -->
+         */
+        val maxUInt32: UInt
+          get() = __jni_get_maxUInt32().toUInt()
+        @JvmStatic
+        @JvmName("__jni_get_maxUInt32")
+        private external fun __jni_get_maxUInt32(): Int
+
+        /**
+         * <!-- FishyJoes.export(maxUInt64) -->
+         */
+        val maxUInt64: ULong
+          get() = __jni_get_maxUInt64().toULong()
+        @JvmStatic
+        @JvmName("__jni_get_maxUInt64")
+        private external fun __jni_get_maxUInt64(): Long
+
+        /**
+         * <!-- FishyJoes.export(maxUInt8) -->
+         */
+        val maxUInt8: UByte
+          get() = __jni_get_maxUInt8().toUByte()
+        @JvmStatic
+        @JvmName("__jni_get_maxUInt8")
+        private external fun __jni_get_maxUInt8(): Byte
+
+        /**
+         * <!-- FishyJoes.export(minDouble) -->
+         */
+        val minDouble: Double
+          get() = __jni_get_minDouble()
+        @JvmStatic
+        @JvmName("__jni_get_minDouble")
+        private external fun __jni_get_minDouble(): Double
+
+        /**
+         * <!-- FishyJoes.export(minFloat) -->
+         */
+        val minFloat: Float
+          get() = __jni_get_minFloat()
+        @JvmStatic
+        @JvmName("__jni_get_minFloat")
+        private external fun __jni_get_minFloat(): Float
+
+        /**
+         * <!-- FishyJoes.export(minInt) -->
+         */
+        val minInt: Long
+          get() = __jni_get_minInt()
+        @JvmStatic
+        @JvmName("__jni_get_minInt")
+        private external fun __jni_get_minInt(): Long
+
+        /**
+         * <!-- FishyJoes.export(minInt16) -->
+         */
+        val minInt16: Short
+          get() = __jni_get_minInt16()
+        @JvmStatic
+        @JvmName("__jni_get_minInt16")
+        private external fun __jni_get_minInt16(): Short
+
+        /**
+         * <!-- FishyJoes.export(minInt32) -->
+         */
+        val minInt32: Int
+          get() = __jni_get_minInt32()
+        @JvmStatic
+        @JvmName("__jni_get_minInt32")
+        private external fun __jni_get_minInt32(): Int
+
+        /**
+         * <!-- FishyJoes.export(minInt64) -->
+         */
+        val minInt64: Long
+          get() = __jni_get_minInt64()
+        @JvmStatic
+        @JvmName("__jni_get_minInt64")
+        private external fun __jni_get_minInt64(): Long
+
+        /**
+         * <!-- FishyJoes.export(minInt8) -->
+         */
+        val minInt8: Byte
+          get() = __jni_get_minInt8()
+        @JvmStatic
+        @JvmName("__jni_get_minInt8")
+        private external fun __jni_get_minInt8(): Byte
+
+        /**
+         * <!-- FishyJoes.export(minUInt) -->
+         */
+        val minUInt: ULong
+          get() = __jni_get_minUInt().toULong()
+        @JvmStatic
+        @JvmName("__jni_get_minUInt")
+        private external fun __jni_get_minUInt(): Long
+
+        /**
+         * <!-- FishyJoes.export(minUInt16) -->
+         */
+        val minUInt16: UShort
+          get() = __jni_get_minUInt16().toUShort()
+        @JvmStatic
+        @JvmName("__jni_get_minUInt16")
+        private external fun __jni_get_minUInt16(): Short
+
+        /**
+         * <!-- FishyJoes.export(minUInt32) -->
+         */
+        val minUInt32: UInt
+          get() = __jni_get_minUInt32().toUInt()
+        @JvmStatic
+        @JvmName("__jni_get_minUInt32")
+        private external fun __jni_get_minUInt32(): Int
+
+        /**
+         * <!-- FishyJoes.export(minUInt64) -->
+         */
+        val minUInt64: ULong
+          get() = __jni_get_minUInt64().toULong()
+        @JvmStatic
+        @JvmName("__jni_get_minUInt64")
+        private external fun __jni_get_minUInt64(): Long
+
+        /**
+         * <!-- FishyJoes.export(minUInt8) -->
+         */
+        val minUInt8: UByte
+          get() = __jni_get_minUInt8().toUByte()
+        @JvmStatic
+        @JvmName("__jni_get_minUInt8")
+        private external fun __jni_get_minUInt8(): Byte
+
+        /**
+         * <!-- FishyJoes.export(trueBool) -->
+         */
+        val trueBool: Boolean
+          get() = __jni_get_trueBool()
+        @JvmStatic
+        @JvmName("__jni_get_trueBool")
+        private external fun __jni_get_trueBool(): Boolean
+
+        /**
+         * <!-- FishyJoes.export(zeroDouble) -->
+         */
+        val zeroDouble: Double
+          get() = __jni_get_zeroDouble()
+        @JvmStatic
+        @JvmName("__jni_get_zeroDouble")
+        private external fun __jni_get_zeroDouble(): Double
+
+        /**
+         * <!-- FishyJoes.export(zeroFloat) -->
+         */
+        val zeroFloat: Float
+          get() = __jni_get_zeroFloat()
+        @JvmStatic
+        @JvmName("__jni_get_zeroFloat")
+        private external fun __jni_get_zeroFloat(): Float
+
+        /**
+         * <!-- FishyJoes.export(zeroInt) -->
+         */
+        val zeroInt: Long
+          get() = __jni_get_zeroInt()
+        @JvmStatic
+        @JvmName("__jni_get_zeroInt")
+        private external fun __jni_get_zeroInt(): Long
+
+        /**
+         * <!-- FishyJoes.export(zeroInt16) -->
+         */
+        val zeroInt16: Short
+          get() = __jni_get_zeroInt16()
+        @JvmStatic
+        @JvmName("__jni_get_zeroInt16")
+        private external fun __jni_get_zeroInt16(): Short
+
+        /**
+         * <!-- FishyJoes.export(zeroInt32) -->
+         */
+        val zeroInt32: Int
+          get() = __jni_get_zeroInt32()
+        @JvmStatic
+        @JvmName("__jni_get_zeroInt32")
+        private external fun __jni_get_zeroInt32(): Int
+
+        /**
+         * <!-- FishyJoes.export(zeroInt64) -->
+         */
+        val zeroInt64: Long
+          get() = __jni_get_zeroInt64()
+        @JvmStatic
+        @JvmName("__jni_get_zeroInt64")
+        private external fun __jni_get_zeroInt64(): Long
+
+        /**
+         * <!-- FishyJoes.export(zeroInt8) -->
+         */
+        val zeroInt8: Byte
+          get() = __jni_get_zeroInt8()
+        @JvmStatic
+        @JvmName("__jni_get_zeroInt8")
+        private external fun __jni_get_zeroInt8(): Byte
+
+        /**
+         * <!-- FishyJoes.export(zeroUInt) -->
+         */
+        val zeroUInt: ULong
+          get() = __jni_get_zeroUInt().toULong()
+        @JvmStatic
+        @JvmName("__jni_get_zeroUInt")
+        private external fun __jni_get_zeroUInt(): Long
+
+        /**
+         * <!-- FishyJoes.export(zeroUInt16) -->
+         */
+        val zeroUInt16: UShort
+          get() = __jni_get_zeroUInt16().toUShort()
+        @JvmStatic
+        @JvmName("__jni_get_zeroUInt16")
+        private external fun __jni_get_zeroUInt16(): Short
+
+        /**
+         * <!-- FishyJoes.export(zeroUInt32) -->
+         */
+        val zeroUInt32: UInt
+          get() = __jni_get_zeroUInt32().toUInt()
+        @JvmStatic
+        @JvmName("__jni_get_zeroUInt32")
+        private external fun __jni_get_zeroUInt32(): Int
+
+        /**
+         * <!-- FishyJoes.export(zeroUInt64) -->
+         */
+        val zeroUInt64: ULong
+          get() = __jni_get_zeroUInt64().toULong()
+        @JvmStatic
+        @JvmName("__jni_get_zeroUInt64")
+        private external fun __jni_get_zeroUInt64(): Long
+
+        /**
+         * <!-- FishyJoes.export(zeroUInt8) -->
+         */
+        val zeroUInt8: UByte
+          get() = __jni_get_zeroUInt8().toUByte()
+        @JvmStatic
+        @JvmName("__jni_get_zeroUInt8")
+        private external fun __jni_get_zeroUInt8(): Byte
 
         /**
          * <!-- FishyJoes.export(echoBool) -->
