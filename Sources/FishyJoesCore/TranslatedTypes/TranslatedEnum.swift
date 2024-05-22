@@ -85,7 +85,7 @@ struct TranslatedEnum: TranslatedType {
         self.jniType = .object(context.kotlinTranslator.javaClassName(nodeName, in: context))
         self.documentation = type.documentation
         self.methods = Method.methods(type: type)
-        self.fields = type.variables.compactMap { Field($0, type: type) }
+        self.fields = SourceryVariablePlus.variables(type: type).compactMap { Field($0.sourceryVariable, type: type, isDefaultImplementation: $0.isDefaultImplementation) }
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
         self.conformances = exportAnnotation.conformances

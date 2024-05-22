@@ -20,7 +20,7 @@ struct Field: Hashable {
     let deprecation: Deprecation?
     let isDefaultImplementation: Bool
 
-    init?(_ variable: SourceryVariable, type: Type?) {
+    init?(_ variable: SourceryVariable, type: Type?, isDefaultImplementation: Bool) {
         self.name = variable.name
         self.exportAnnotation = variable.exportAnnotation
         self.type = variable.typeName.better
@@ -33,7 +33,7 @@ struct Field: Hashable {
         self.isPubliclyWritable =
             variable.isMutable && variable.accessLevel.write == .public
         self.isComputed = variable.isComputed
-        self.isDefaultImplementation = variable.definedInType?.isExtension == true
+        self.isDefaultImplementation = isDefaultImplementation
 
         let isIsolated = type is Actor && !variable.isNonisolated
         self.isAsync = isIsolated || variable.isAsync
