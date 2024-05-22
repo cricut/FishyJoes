@@ -148,7 +148,7 @@ jobs:
 
       - uses: compnerd/gha-setup-swift@main
         with:
-          branch: swift-5.10.0-release
+          branch: swift-5.10-release
           tag: 5.10-RELEASE
 
       - name: Pre-resolve Required SwiftPM Packages & Fetch FishyJoes Scripts
