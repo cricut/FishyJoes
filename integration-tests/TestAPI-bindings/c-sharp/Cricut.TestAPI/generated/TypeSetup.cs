@@ -646,6 +646,41 @@ namespace Cricut.TestAPI {
             out CreatedRef _exn
         );
 
+        delegate CreatedRef _TestAPI_CommonInterface__TestDefaultComputedPropertiesConverterConstructor(
+            ConsumedRef ptr,
+            out CreatedRef exn
+        );
+        delegate nint _TestAPI_CommonInterface__TestDefaultComputedPropertiesConverter_Getnoot(UnownedRef obj, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_CommonInterface__TestDefaultComputedPropertiesConverter_Getpluto(UnownedRef obj, out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_CommonInterface__TestDefaultComputedPropertiesConverter_setup(
+            IntPtr envRef,
+            _TestAPI_CommonInterface__TestDefaultComputedPropertiesConverterConstructor constructor,
+            _TestAPI_CommonInterface__TestDefaultComputedPropertiesConverter_Getnoot Getnoot,
+            _TestAPI_CommonInterface__TestDefaultComputedPropertiesConverter_Getpluto Getpluto,
+            out CreatedRef _exn
+        );
+
+        delegate CreatedRef _TestAPI_TestDefaultComputedPropertiesStructConstructor(
+            bool spam,
+            nint noot,
+            out CreatedRef exn
+        );
+        delegate bool _TestAPI_TestDefaultComputedPropertiesStruct_spamGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_TestDefaultComputedPropertiesStruct_spamSetter(UnownedRef obj, bool newValue, out CreatedRef exn);
+        delegate nint _TestAPI_TestDefaultComputedPropertiesStruct_nootGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_TestDefaultComputedPropertiesStruct_nootSetter(UnownedRef obj, nint newValue, out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_TestDefaultComputedPropertiesStruct_setup(
+            IntPtr envRef,
+            _TestAPI_TestDefaultComputedPropertiesStructConstructor constructor,
+            _TestAPI_TestDefaultComputedPropertiesStruct_spamGetter get_spam,
+            _TestAPI_TestDefaultComputedPropertiesStruct_spamSetter set_spam,
+            _TestAPI_TestDefaultComputedPropertiesStruct_nootGetter get_noot,
+            _TestAPI_TestDefaultComputedPropertiesStruct_nootSetter set_noot,
+            out CreatedRef _exn
+        );
+
         delegate CreatedRef _TestAPI_CommonInterface__TestLeadingUnderscoredPropConverterConstructor(
             ConsumedRef ptr,
             out CreatedRef exn
@@ -2895,6 +2930,47 @@ namespace Cricut.TestAPI {
                     Loader.env,
                     bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
                         return new CreatedRef(new Cricut.TestAPI.TestAsyncSwiftSideFunctionsClass(ptr));
+                    })),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter", () => {
+                Console.WriteLine("setting up TestAPI.TestDefaultComputedProperties...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_CommonInterface__TestDefaultComputedPropertiesConverter_setup(
+                    Loader.env,
+                    bag<_TestAPI_CommonInterface__TestDefaultComputedPropertiesConverterConstructor>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.ExternalWitness_TestDefaultComputedProperties(ptr));
+                    })),
+                    bag<_TestAPI_CommonInterface__TestDefaultComputedPropertiesConverter_Getnoot>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.TestDefaultComputedProperties>().GetNoot()
+                    )),
+                    bag<_TestAPI_CommonInterface__TestDefaultComputedPropertiesConverter_Getpluto>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.TestDefaultComputedProperties>().GetPlutonic())
+                    )),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.TestDefaultComputedPropertiesStruct", () => {
+                Console.WriteLine("setting up TestAPI.TestDefaultComputedPropertiesStruct...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_TestDefaultComputedPropertiesStruct_setup(
+                    Loader.env,
+                    bag<_TestAPI_TestDefaultComputedPropertiesStructConstructor>((bool spam, nint noot, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.TestDefaultComputedPropertiesStruct(
+                            spam,
+                            noot
+                        ));
+                    })),
+                    bag<_TestAPI_TestDefaultComputedPropertiesStruct_spamGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.TestDefaultComputedPropertiesStruct>().Spam
+                    )),
+                    bag<_TestAPI_TestDefaultComputedPropertiesStruct_spamSetter>((UnownedRef obj, bool newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.TestDefaultComputedPropertiesStruct>().Spam = newValue;
+                    })),
+                    bag<_TestAPI_TestDefaultComputedPropertiesStruct_nootGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.TestDefaultComputedPropertiesStruct>().Noot
+                    )),
+                    bag<_TestAPI_TestDefaultComputedPropertiesStruct_nootSetter>((UnownedRef obj, nint newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.TestDefaultComputedPropertiesStruct>().Noot = newValue;
                     })),
                     out exn
                 ));
