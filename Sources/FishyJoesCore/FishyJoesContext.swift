@@ -601,8 +601,7 @@ public class FishyJoesContext {
                     definingDartClass: dartClass.name,
                     args: args,
                     returnType: returnType,
-                    isDefaultImplementation: isDefaultImplementation,
-                    isProtocol: isProtocol
+                    doDefaultImplementationsSuffix: isDefaultImplementation && isProtocol
                 )
             )
         }
