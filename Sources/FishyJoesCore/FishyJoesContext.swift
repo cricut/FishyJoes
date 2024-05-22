@@ -594,14 +594,15 @@ public class FishyJoesContext {
     func add(dartClass: DartClass) {
         dartClasses.append(dartClass)
 
-        for (name, (args, returnType, isDefaultImplementation)) in dartClass.nativeMethods {
+        for (name, (args, returnType, isDefaultImplementation, isProtocol)) in dartClass.nativeMethods {
             dartTranslator.nativeMethods.append(
                 .init(
                     name: name,
                     definingDartClass: dartClass.name,
                     args: args,
                     returnType: returnType,
-                    isDefaultImplementation: isDefaultImplementation
+                    isDefaultImplementation: isDefaultImplementation,
+                    isProtocol: isProtocol
                 )
             )
         }

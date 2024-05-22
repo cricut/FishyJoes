@@ -228,21 +228,5 @@ class DartProductClass: DartClass {
             fragment.blankLine()
             outputNativeMethodDeclarations(methods: nativeMethods, fragment: fragment)
         }
-
-        fragment.blankLine()
-
-        fragment.outputBlock("extension \(unqualifiedName)_DefaultImplementations on \(unqualifiedName) {") {
-            let defaultFields = fields.filter { $0.isDefaultImplementation }
-            let defaultMethods = methods.filter { $0.isDefaultImplementation }
-
-            defaultFields.forEach { output(field: $0, to: fragment) }
-            defaultMethods.forEach { output(method: $0, to: fragment) }
-            fragment.blankLine()
-            let defaultNativeMethods = nativeMethods.filter { (_, value) in
-                let (_, _, isDefaultImplementation) = value
-                return isDefaultImplementation
-            }
-            outputNativeMethodDeclarations(methods: defaultNativeMethods, fragment: fragment)
-        }
     }
 }

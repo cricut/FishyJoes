@@ -118,18 +118,21 @@ class DartClass {
         String(name.split(separator: ".").last!)
     }
 
-    var nativeMethods: [String: (args: [(String, DartType)], return: DartType, isDefaultImplementation: Bool)] {
-        var result: [String: (args: [(String, DartType)], return: DartType, isDefaultImplementation: Bool)] = [:]
+    var nativeMethods: [String: (args: [(String, DartType)], return: DartType, isDefaultImplementation: Bool, isProtocol: Bool)] {
+        var result: [String: (args: [(String, DartType)], return: DartType, isDefaultImplementation: Bool, isProtocol: Bool)] = [:]
 
         let thisArg = ("_this", DartType.named(package: module.dartNamespace, name: name))
 
         for field in fields {
             let baseArgs = field.isStatic ? [] : [thisArg]
 
+            if field.name.contains("extensionNonisolatedVar") {
+                let elegoo = 1
+            }
             let resultName = field.isDefaultImplementation ? "__iota__default_\(field.mangledName)" : "__iota_get_\(field.mangledName)"
-            result[resultName] = (args: baseArgs, return: field.type, isDefaultImplementation: field.isDefaultImplementation)
+            result[resultName] = (args: baseArgs, return: field.type, isDefaultImplementation: field.isDefaultImplementation, isProtocol: false)
             if field.isPubliclyWritable {
-                result["__iota_set_\(field.mangledName)"] = (args: baseArgs + [(field.name, field.type)], return: .void, isDefaultImplementation: false)
+                result["__iota_set_\(field.mangledName)"] = (args: baseArgs + [(field.name, field.type)], return: .void, isDefaultImplementation: false, isProtocol: false)
             }
         }
 
@@ -143,14 +146,14 @@ class DartClass {
                 params.append((DartClass.deforbidify(param.name), param.type))
             }
 
-            result["__iota_\(method.mangledName)"] = (args: params, return: method.returnType, isDefaultImplementation: method.isDefaultImplementation)
+            result["__iota_\(method.mangledName)"] = (args: params, return: method.returnType, isDefaultImplementation: method.isDefaultImplementation, isProtocol: false)
         }
 
         return result
     }
 
-    func outputNativeMethodDeclarations(methods: [String: (args: [(String, DartType)], return: DartType, isDefaultImplementation: Bool)], fragment: SourceFragment) {
-        for (name, (args, returnType, _)) in methods.sorted(by: { $0.key < $1.key}) {
+    func outputNativeMethodDeclarations(methods: [String: (args: [(String, DartType)], return: DartType, isDefaultImplementation: Bool, isProtocol: Bool)], fragment: SourceFragment) {
+        for (name, (args, returnType, _, _)) in methods.sorted(by: { $0.key < $1.key}) {
             fragment.outputBlock("static late \(returnType.ffiCreatedName) Function(", closeWith: ") f\(name);") {
                 fragment.output("Env env,")
                 for (argName, argType) in args {

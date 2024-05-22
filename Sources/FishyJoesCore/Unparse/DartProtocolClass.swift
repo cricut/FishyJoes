@@ -195,8 +195,8 @@ class DartProtocolClass: DartClass {
         }
     }
 
-    override var nativeMethods: [String: (args: [(String, DartType)], return: DartType, isDefaultImplementation: Bool)] {
-        var result: [String: (args: [(String, DartType)], return: DartType, isDefaultImplementation: Bool)] = [:]
+    override var nativeMethods: [String: (args: [(String, DartType)], return: DartType, isDefaultImplementation: Bool, isProtocol: Bool)] {
+        var result: [String: (args: [(String, DartType)], return: DartType, isDefaultImplementation: Bool, isProtocol: Bool)] = [:]
 
         let thisArg = ("_this", DartType.named(package: module.dartNamespace, name: name))
 
@@ -215,7 +215,7 @@ class DartProtocolClass: DartClass {
             // They will be handled by the ExternalWitness for that Protocol
             // except for default Implementations!
             if method.isDefaultImplementation {
-                result["__iota_\(method.mangledName)"] = (args: params, return: method.returnType, isDefaultImplementation: true)
+                result["__iota_\(method.mangledName)"] = (args: params, return: method.returnType, isDefaultImplementation: true, isProtocol: true)
             }
         }
 
