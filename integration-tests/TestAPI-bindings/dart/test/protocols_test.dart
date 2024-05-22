@@ -386,6 +386,13 @@ void main() {
         final b = a.witness();
         await testAsyncSwiftSideFunctionsCore(b);
       });
+
+      test('testDefaultComputedPropertiesStruct', () async {
+        final a = TestDefaultComputedPropertiesStruct(spam: true, noot: 98172);
+        expect(a.plutonic, equals("Newton Gimmick"));
+        expect(a.spam, equals(true));
+        expect(a.noot, equals(98172));
+      });
   });
 }
 
