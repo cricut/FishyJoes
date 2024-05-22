@@ -2320,6 +2320,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "x",
                 "readOnly" : true,
@@ -2380,6 +2381,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "x",
                 "readOnly" : true,
@@ -2487,6 +2489,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(baz) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "baz",
                 "readOnly" : true,
@@ -2500,6 +2503,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(foo) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "foo",
                 "readOnly" : true,
@@ -2656,6 +2660,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "foo",
                 "readOnly" : false,
@@ -2669,6 +2674,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "baz",
                 "readOnly" : false,
@@ -2809,6 +2815,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(garply) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "garply",
                 "readOnly" : true,
@@ -2822,6 +2829,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(instanceGet) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "instanceGet",
                 "readOnly" : true,
@@ -2835,6 +2843,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.exportAsMethod(instanceGetMethod) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "instanceGetMethod",
                 "readOnly" : true,
@@ -2848,6 +2857,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(instanceModifiable) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "instanceModifiable",
                 "readOnly" : false,
@@ -2861,6 +2871,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(instanceStored) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "instanceStored",
                 "readOnly" : false,
@@ -2874,6 +2885,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(staticGet) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "staticGet",
                 "readOnly" : true,
@@ -2887,6 +2899,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.exportAsMethod(staticGetMethod) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "staticGetMethod",
                 "readOnly" : true,
@@ -2900,6 +2913,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(staticModifiable) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "staticModifiable",
                 "readOnly" : false,
@@ -2913,6 +2927,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(staticStored) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "staticStored",
                 "readOnly" : false,
@@ -3489,6 +3504,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "const42",
                 "readOnly" : true,
@@ -3502,6 +3518,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "iabs",
                 "readOnly" : true,
@@ -3515,6 +3532,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "intCompose",
                 "readOnly" : true,
@@ -3528,6 +3546,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "add3Things",
                 "readOnly" : true,
@@ -3541,6 +3560,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "makeList",
                 "readOnly" : true,
@@ -3554,6 +3574,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "fifthThing",
                 "readOnly" : true,
@@ -3567,6 +3588,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "six",
                 "readOnly" : true,
@@ -3580,6 +3602,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "willThrow",
                 "readOnly" : true,
@@ -3593,6 +3616,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "exercise0Fun",
                 "readOnly" : true,
@@ -3606,6 +3630,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "exercise1Fun",
                 "readOnly" : true,
@@ -3619,6 +3644,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "exercise2Fun",
                 "readOnly" : true,
@@ -3632,6 +3658,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "exercise3Fun",
                 "readOnly" : true,
@@ -3645,6 +3672,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "exercise4Fun",
                 "readOnly" : true,
@@ -3658,6 +3686,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "exercise5Fun",
                 "readOnly" : true,
@@ -3671,6 +3700,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "exercise6Fun",
                 "readOnly" : true,
@@ -3684,6 +3714,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "thunkTwiceMakerFun",
                 "readOnly" : true,
@@ -3984,6 +4015,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(add3Things) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "add3Things",
                 "readOnly" : true,
@@ -3997,6 +4029,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(const42) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "const42",
                 "readOnly" : true,
@@ -4010,6 +4043,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(fifthThing) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "fifthThing",
                 "readOnly" : true,
@@ -4023,6 +4057,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(iabs) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "iabs",
                 "readOnly" : true,
@@ -4036,6 +4071,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(intCompose) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "intCompose",
                 "readOnly" : true,
@@ -4049,6 +4085,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(makeList) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "makeList",
                 "readOnly" : true,
@@ -4062,6 +4099,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(six) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "six",
                 "readOnly" : true,
@@ -4075,6 +4113,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(willThrow) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "willThrow",
                 "readOnly" : true,
@@ -4384,6 +4423,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(add3Things) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "add3Things",
                 "readOnly" : true,
@@ -4397,6 +4437,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(const42) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "const42",
                 "readOnly" : true,
@@ -4410,6 +4451,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(fifthThing) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "fifthThing",
                 "readOnly" : true,
@@ -4423,6 +4465,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(iabs) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "iabs",
                 "readOnly" : true,
@@ -4436,6 +4479,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(intCompose) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "intCompose",
                 "readOnly" : true,
@@ -4449,6 +4493,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(makeList) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "makeList",
                 "readOnly" : true,
@@ -4462,6 +4507,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(six) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "six",
                 "readOnly" : true,
@@ -4475,6 +4521,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(willThrow) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "willThrow",
                 "readOnly" : true,
@@ -4792,6 +4839,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(noot) -->"
                 ],
+                "hasDefaultImplementation" : true,
                 "isStatic" : false,
                 "name" : "noot",
                 "readOnly" : true,
@@ -4805,6 +4853,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(plutonic) -->"
                 ],
+                "hasDefaultImplementation" : true,
                 "isStatic" : false,
                 "name" : "plutonic",
                 "readOnly" : true,
@@ -4855,6 +4904,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "spam",
                 "readOnly" : false,
@@ -4868,6 +4918,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "noot",
                 "readOnly" : false,
@@ -4881,6 +4932,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(plutonic) -->"
                 ],
+                "hasDefaultImplementation" : true,
                 "isStatic" : false,
                 "name" : "plutonic",
                 "readOnly" : true,
@@ -4916,6 +4968,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(_leadingUnderscoreProp) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "_leadingUnderscoreProp",
                 "readOnly" : true,
@@ -4961,6 +5014,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "_leadingUnderscoreProp",
                 "readOnly" : false,
@@ -5162,6 +5216,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(flarp) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "flarp",
                 "readOnly" : true,
@@ -5258,6 +5313,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(corge) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "corge",
                 "readOnly" : true,
@@ -5271,6 +5327,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(frobby) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "frobby",
                 "readOnly" : true,
@@ -5306,6 +5363,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(corge) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "corge",
                 "readOnly" : false,
@@ -5319,6 +5377,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(flarp) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "flarp",
                 "readOnly" : false,
@@ -5336,6 +5395,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(frobby) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "frobby",
                 "readOnly" : true,
@@ -5612,6 +5672,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "corge",
                 "readOnly" : false,
@@ -5625,6 +5686,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(frobby) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "frobby",
                 "readOnly" : true,
@@ -5795,6 +5857,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(baz) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "baz",
                 "readOnly" : true,
@@ -5808,6 +5871,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(foo) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "foo",
                 "readOnly" : true,
@@ -5939,6 +6003,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(intValue) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "intValue",
                 "readOnly" : true,
@@ -5987,6 +6052,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(add3Things) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "add3Things",
                 "readOnly" : true,
@@ -6000,6 +6066,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(const42) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "const42",
                 "readOnly" : true,
@@ -6013,6 +6080,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(fifthThing) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "fifthThing",
                 "readOnly" : true,
@@ -6026,6 +6094,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(iabs) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "iabs",
                 "readOnly" : true,
@@ -6039,6 +6108,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(intCompose) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "intCompose",
                 "readOnly" : true,
@@ -6052,6 +6122,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(makeList) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "makeList",
                 "readOnly" : true,
@@ -6065,6 +6136,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(six) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "six",
                 "readOnly" : true,
@@ -6078,6 +6150,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(willThrow) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "willThrow",
                 "readOnly" : true,
@@ -6377,6 +6450,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(noot) -->"
                 ],
+                "hasDefaultImplementation" : true,
                 "isStatic" : false,
                 "name" : "noot",
                 "readOnly" : true,
@@ -6390,6 +6464,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(plutonic) -->"
                 ],
+                "hasDefaultImplementation" : true,
                 "isStatic" : false,
                 "name" : "plutonic",
                 "readOnly" : true,
@@ -6415,6 +6490,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(_leadingUnderscoreProp) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "_leadingUnderscoreProp",
                 "readOnly" : true,
@@ -6596,6 +6672,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(flarp) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "flarp",
                 "readOnly" : true,
@@ -6682,6 +6759,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(corge) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "corge",
                 "readOnly" : true,
@@ -6695,6 +6773,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(frobby) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "frobby",
                 "readOnly" : true,
@@ -6736,6 +6815,7 @@
                     "documentation" : [
                       "<!-- FishyJoes.export(backwardsLabel) -->"
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "backwardsLabel",
                     "readOnly" : true,
@@ -6749,6 +6829,7 @@
                     "documentation" : [
                       "<!-- FishyJoes.export(extensionNonisolatedVarLabel) -->"
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "extensionNonisolatedVarLabel",
                     "readOnly" : true,
@@ -6762,6 +6843,7 @@
                     "documentation" : [
                       "<!-- FishyJoes.export(label) -->"
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "label",
                     "readOnly" : true,
@@ -6945,6 +7027,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "value",
                     "readOnly" : true,
@@ -6995,6 +7078,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "unnamed",
                     "readOnly" : true,
@@ -7008,6 +7092,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "_1",
                     "readOnly" : true,
@@ -7058,6 +7143,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "named",
                     "readOnly" : true,
@@ -7071,6 +7157,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "_1",
                     "readOnly" : true,
@@ -7143,6 +7230,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "value",
                     "readOnly" : true,
@@ -7167,6 +7255,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(staticThing) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "staticThing",
                 "readOnly" : true,
@@ -7200,6 +7289,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(add3Things) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "add3Things",
                 "readOnly" : true,
@@ -7213,6 +7303,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(const42) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "const42",
                 "readOnly" : true,
@@ -7226,6 +7317,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(fifthThing) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "fifthThing",
                 "readOnly" : true,
@@ -7239,6 +7331,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(abs) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "abs",
                 "readOnly" : true,
@@ -7252,6 +7345,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(intCompose) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "intCompose",
                 "readOnly" : true,
@@ -7265,6 +7359,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(makeList) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "makeList",
                 "readOnly" : true,
@@ -7278,6 +7373,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(sixthThing) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "sixthThing",
                 "readOnly" : true,
@@ -7291,6 +7387,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(willThrow) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "willThrow",
                 "readOnly" : true,
@@ -7543,6 +7640,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(accent) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "accent",
                 "readOnly" : true,
@@ -7556,6 +7654,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(chinese) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "chinese",
                 "readOnly" : true,
@@ -7569,6 +7668,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(chineseBMP) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "chineseBMP",
                 "readOnly" : true,
@@ -7582,6 +7682,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(chineseSIP) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "chineseSIP",
                 "readOnly" : true,
@@ -7595,6 +7696,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(emoji) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "emoji",
                 "readOnly" : true,
@@ -7608,6 +7710,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(emojiMulti) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "emojiMulti",
                 "readOnly" : true,
@@ -7621,6 +7724,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(polyglot) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "polyglot",
                 "readOnly" : true,
@@ -7634,6 +7738,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(script) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "script",
                 "readOnly" : true,
@@ -7647,6 +7752,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(simple) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "simple",
                 "readOnly" : true,
@@ -7853,6 +7959,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(bytes, cSharp: TheBytes) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "bytes",
                 "readOnly" : true,
@@ -7866,6 +7973,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(data) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "data",
                 "readOnly" : true,
@@ -7946,6 +8054,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(doubleRange) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "doubleRange",
                 "readOnly" : true,
@@ -7959,6 +8068,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(floatRange) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "floatRange",
                 "readOnly" : true,
@@ -7972,6 +8082,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(int16Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "int16Range",
                 "readOnly" : true,
@@ -7985,6 +8096,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(int32Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "int32Range",
                 "readOnly" : true,
@@ -7998,6 +8110,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(int64Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "int64Range",
                 "readOnly" : true,
@@ -8011,6 +8124,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(int8Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "int8Range",
                 "readOnly" : true,
@@ -8024,6 +8138,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(intRange) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "intRange",
                 "readOnly" : true,
@@ -8037,6 +8152,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(stringRange) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "stringRange",
                 "readOnly" : true,
@@ -8050,6 +8166,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(uInt16Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "uInt16Range",
                 "readOnly" : true,
@@ -8063,6 +8180,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(uInt32Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "uInt32Range",
                 "readOnly" : true,
@@ -8076,6 +8194,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(uInt64Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "uInt64Range",
                 "readOnly" : true,
@@ -8089,6 +8208,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(uInt8Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "uInt8Range",
                 "readOnly" : true,
@@ -8102,6 +8222,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(uIntRange) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "uIntRange",
                 "readOnly" : true,
@@ -8513,6 +8634,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "boolArray",
                     "readOnly" : false,
@@ -8526,6 +8648,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "boolSet",
                     "readOnly" : false,
@@ -8539,6 +8662,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "boolDictionary",
                     "readOnly" : false,
@@ -8552,6 +8676,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "integerArray",
                     "readOnly" : false,
@@ -8565,6 +8690,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "integerSet",
                     "readOnly" : false,
@@ -8578,6 +8704,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "integerDictionary",
                     "readOnly" : false,
@@ -8591,6 +8718,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "stringArray",
                     "readOnly" : false,
@@ -8604,6 +8732,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "stringSet",
                     "readOnly" : false,
@@ -8617,6 +8746,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "stringDictionary",
                     "readOnly" : false,
@@ -8630,6 +8760,7 @@
                     "documentation" : [
                       "<!-- FishyJoes.export(staticMutableProperty) -->"
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : true,
                     "name" : "staticMutableProperty",
                     "readOnly" : false,
@@ -8643,6 +8774,7 @@
                     "documentation" : [
                       "<!-- FishyJoes.export(staticProperty) -->"
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : true,
                     "name" : "staticProperty",
                     "readOnly" : true,
@@ -8667,6 +8799,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(arrayOfBigTuples) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "arrayOfBigTuples",
                 "readOnly" : true,
@@ -8680,6 +8813,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(arrayOfInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "arrayOfInt",
                 "readOnly" : true,
@@ -8693,6 +8827,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(defaultCollectionHolder) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "defaultCollectionHolder",
                 "readOnly" : true,
@@ -8706,6 +8841,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(dictionaryOfIntToInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "dictionaryOfIntToInt",
                 "readOnly" : true,
@@ -8719,6 +8855,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maybeArrayOfInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "maybeArrayOfInt",
                 "readOnly" : true,
@@ -8736,6 +8873,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maybeArrayOfMaybeInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "maybeArrayOfMaybeInt",
                 "readOnly" : true,
@@ -8753,6 +8891,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maybeDictionaryOfIntToInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "maybeDictionaryOfIntToInt",
                 "readOnly" : true,
@@ -8770,6 +8909,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maybeDictionaryOfIntToMaybeInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "maybeDictionaryOfIntToMaybeInt",
                 "readOnly" : true,
@@ -8787,6 +8927,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maybeSetOfInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "maybeSetOfInt",
                 "readOnly" : true,
@@ -8804,6 +8945,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maybeSetOfMaybeInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "maybeSetOfMaybeInt",
                 "readOnly" : true,
@@ -8821,6 +8963,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(setOfInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "setOfInt",
                 "readOnly" : true,
@@ -9133,6 +9276,7 @@
                   "<!-- FishyJoes.export(deprecatedVariable) -->",
                   "@deprecated replace with `deprecatedMethod` ( <-- swift name, sorry )"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "deprecatedVariable",
                 "readOnly" : true,
@@ -9220,6 +9364,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(add3Things) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "add3Things",
                 "readOnly" : true,
@@ -9233,6 +9378,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(const42) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "const42",
                 "readOnly" : true,
@@ -9246,6 +9392,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(fifthThing) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "fifthThing",
                 "readOnly" : true,
@@ -9259,6 +9406,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(abs) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "abs",
                 "readOnly" : true,
@@ -9272,6 +9420,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(intCompose) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "intCompose",
                 "readOnly" : true,
@@ -9285,6 +9434,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(makeList) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "makeList",
                 "readOnly" : true,
@@ -9298,6 +9448,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(sixthThing) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "sixthThing",
                 "readOnly" : true,
@@ -9760,6 +9911,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "b",
                     "readOnly" : false,
@@ -9773,6 +9925,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "bq",
                     "readOnly" : false,
@@ -9790,6 +9943,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "ui8",
                     "readOnly" : false,
@@ -9803,6 +9957,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "ui8q",
                     "readOnly" : false,
@@ -9820,6 +9975,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "ui16",
                     "readOnly" : false,
@@ -9833,6 +9989,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "ui16q",
                     "readOnly" : false,
@@ -9850,6 +10007,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "ui32",
                     "readOnly" : false,
@@ -9863,6 +10021,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "ui32q",
                     "readOnly" : false,
@@ -9880,6 +10039,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "ui64",
                     "readOnly" : false,
@@ -9893,6 +10053,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "ui64q",
                     "readOnly" : false,
@@ -9910,6 +10071,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "ui",
                     "readOnly" : false,
@@ -9923,6 +10085,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "uiq",
                     "readOnly" : false,
@@ -9940,6 +10103,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "i8",
                     "readOnly" : false,
@@ -9953,6 +10117,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "i8q",
                     "readOnly" : false,
@@ -9970,6 +10135,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "i16",
                     "readOnly" : false,
@@ -9983,6 +10149,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "i16q",
                     "readOnly" : false,
@@ -10000,6 +10167,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "i32",
                     "readOnly" : false,
@@ -10013,6 +10181,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "i32q",
                     "readOnly" : false,
@@ -10030,6 +10199,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "i64",
                     "readOnly" : false,
@@ -10043,6 +10213,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "i64q",
                     "readOnly" : false,
@@ -10060,6 +10231,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "i",
                     "readOnly" : false,
@@ -10073,6 +10245,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "iq",
                     "readOnly" : false,
@@ -10090,6 +10263,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "f",
                     "readOnly" : false,
@@ -10103,6 +10277,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "fq",
                     "readOnly" : false,
@@ -10120,6 +10295,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "d",
                     "readOnly" : false,
@@ -10133,6 +10309,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "dq",
                     "readOnly" : false,
@@ -10150,6 +10327,7 @@
                     "documentation" : [
                       "<!-- FishyJoes.export(staticMutableProperty) -->"
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : true,
                     "name" : "staticMutableProperty",
                     "readOnly" : false,
@@ -10163,6 +10341,7 @@
                     "documentation" : [
                       "<!-- FishyJoes.export(staticProperty) -->"
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : true,
                     "name" : "staticProperty",
                     "readOnly" : true,
@@ -10187,6 +10366,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(bitCountInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "bitCountInt",
                 "readOnly" : true,
@@ -10200,6 +10380,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(bitCountUInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "bitCountUInt",
                 "readOnly" : true,
@@ -10213,6 +10394,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(defaultPrimitiveHolder) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "defaultPrimitiveHolder",
                 "readOnly" : true,
@@ -10226,6 +10408,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(falseBool) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "falseBool",
                 "readOnly" : true,
@@ -10239,6 +10422,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(manyBool) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "manyBool",
                 "readOnly" : true,
@@ -10252,6 +10436,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(manyDouble) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "manyDouble",
                 "readOnly" : true,
@@ -10265,6 +10450,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(manyFloat) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "manyFloat",
                 "readOnly" : true,
@@ -10278,6 +10464,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(manyInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "manyInt",
                 "readOnly" : true,
@@ -10291,6 +10478,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(manyInt16) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "manyInt16",
                 "readOnly" : true,
@@ -10304,6 +10492,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(manyInt32) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "manyInt32",
                 "readOnly" : true,
@@ -10317,6 +10506,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(manyInt64) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "manyInt64",
                 "readOnly" : true,
@@ -10330,6 +10520,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(manyInt8) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "manyInt8",
                 "readOnly" : true,
@@ -10343,6 +10534,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(manyMaybeBool) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "manyMaybeBool",
                 "readOnly" : true,
@@ -10356,6 +10548,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(manyMaybeDouble) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "manyMaybeDouble",
                 "readOnly" : true,
@@ -10369,6 +10562,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(manyMaybeFloat) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "manyMaybeFloat",
                 "readOnly" : true,
@@ -10382,6 +10576,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(manyMaybeInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "manyMaybeInt",
                 "readOnly" : true,
@@ -10395,6 +10590,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(manyMaybeInt16) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "manyMaybeInt16",
                 "readOnly" : true,
@@ -10408,6 +10604,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(manyMaybeInt32) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "manyMaybeInt32",
                 "readOnly" : true,
@@ -10421,6 +10618,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(manyMaybeInt64) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "manyMaybeInt64",
                 "readOnly" : true,
@@ -10434,6 +10632,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(manyMaybeInt8) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "manyMaybeInt8",
                 "readOnly" : true,
@@ -10447,6 +10646,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(manyMaybeUInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "manyMaybeUInt",
                 "readOnly" : true,
@@ -10460,6 +10660,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(manyMaybeUInt16) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "manyMaybeUInt16",
                 "readOnly" : true,
@@ -10473,6 +10674,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(manyMaybeUInt32) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "manyMaybeUInt32",
                 "readOnly" : true,
@@ -10486,6 +10688,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(manyMaybeUInt64) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "manyMaybeUInt64",
                 "readOnly" : true,
@@ -10499,6 +10702,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(manyMaybeUInt8) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "manyMaybeUInt8",
                 "readOnly" : true,
@@ -10512,6 +10716,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(manyUInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "manyUInt",
                 "readOnly" : true,
@@ -10525,6 +10730,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(manyUInt16) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "manyUInt16",
                 "readOnly" : true,
@@ -10538,6 +10744,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(manyUInt32) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "manyUInt32",
                 "readOnly" : true,
@@ -10551,6 +10758,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(manyUInt64) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "manyUInt64",
                 "readOnly" : true,
@@ -10564,6 +10772,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(manyUInt8) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "manyUInt8",
                 "readOnly" : true,
@@ -10577,6 +10786,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maxDouble) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "maxDouble",
                 "readOnly" : true,
@@ -10590,6 +10800,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maxFloat) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "maxFloat",
                 "readOnly" : true,
@@ -10603,6 +10814,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maxInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "maxInt",
                 "readOnly" : true,
@@ -10616,6 +10828,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maxInt16) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "maxInt16",
                 "readOnly" : true,
@@ -10629,6 +10842,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maxInt32) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "maxInt32",
                 "readOnly" : true,
@@ -10642,6 +10856,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maxInt64) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "maxInt64",
                 "readOnly" : true,
@@ -10655,6 +10870,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maxInt8) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "maxInt8",
                 "readOnly" : true,
@@ -10668,6 +10884,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maxUInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "maxUInt",
                 "readOnly" : true,
@@ -10681,6 +10898,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maxUInt16) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "maxUInt16",
                 "readOnly" : true,
@@ -10694,6 +10912,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maxUInt32) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "maxUInt32",
                 "readOnly" : true,
@@ -10707,6 +10926,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maxUInt64) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "maxUInt64",
                 "readOnly" : true,
@@ -10720,6 +10940,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maxUInt8) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "maxUInt8",
                 "readOnly" : true,
@@ -10733,6 +10954,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(minDouble) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "minDouble",
                 "readOnly" : true,
@@ -10746,6 +10968,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(minFloat) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "minFloat",
                 "readOnly" : true,
@@ -10759,6 +10982,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(minInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "minInt",
                 "readOnly" : true,
@@ -10772,6 +10996,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(minInt16) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "minInt16",
                 "readOnly" : true,
@@ -10785,6 +11010,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(minInt32) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "minInt32",
                 "readOnly" : true,
@@ -10798,6 +11024,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(minInt64) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "minInt64",
                 "readOnly" : true,
@@ -10811,6 +11038,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(minInt8) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "minInt8",
                 "readOnly" : true,
@@ -10824,6 +11052,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(minUInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "minUInt",
                 "readOnly" : true,
@@ -10837,6 +11066,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(minUInt16) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "minUInt16",
                 "readOnly" : true,
@@ -10850,6 +11080,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(minUInt32) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "minUInt32",
                 "readOnly" : true,
@@ -10863,6 +11094,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(minUInt64) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "minUInt64",
                 "readOnly" : true,
@@ -10876,6 +11108,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(minUInt8) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "minUInt8",
                 "readOnly" : true,
@@ -10889,6 +11122,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(trueBool) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "trueBool",
                 "readOnly" : true,
@@ -10902,6 +11136,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(zeroDouble) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "zeroDouble",
                 "readOnly" : true,
@@ -10915,6 +11150,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(zeroFloat) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "zeroFloat",
                 "readOnly" : true,
@@ -10928,6 +11164,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(zeroInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "zeroInt",
                 "readOnly" : true,
@@ -10941,6 +11178,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(zeroInt16) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "zeroInt16",
                 "readOnly" : true,
@@ -10954,6 +11192,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(zeroInt32) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "zeroInt32",
                 "readOnly" : true,
@@ -10967,6 +11206,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(zeroInt64) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "zeroInt64",
                 "readOnly" : true,
@@ -10980,6 +11220,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(zeroInt8) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "zeroInt8",
                 "readOnly" : true,
@@ -10993,6 +11234,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(zeroUInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "zeroUInt",
                 "readOnly" : true,
@@ -11006,6 +11248,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(zeroUInt16) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "zeroUInt16",
                 "readOnly" : true,
@@ -11019,6 +11262,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(zeroUInt32) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "zeroUInt32",
                 "readOnly" : true,
@@ -11032,6 +11276,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(zeroUInt64) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "zeroUInt64",
                 "readOnly" : true,
@@ -11045,6 +11290,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(zeroUInt8) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "zeroUInt8",
                 "readOnly" : true,
@@ -11845,6 +12091,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(int16Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "int16Range",
                 "readOnly" : true,
@@ -11858,6 +12105,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(int32Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "int32Range",
                 "readOnly" : true,
@@ -11871,6 +12119,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(int64Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "int64Range",
                 "readOnly" : true,
@@ -11884,6 +12133,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(int8Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "int8Range",
                 "readOnly" : true,
@@ -11897,6 +12147,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(intRange) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "intRange",
                 "readOnly" : true,
@@ -11910,6 +12161,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(uInt16Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "uInt16Range",
                 "readOnly" : true,
@@ -11923,6 +12175,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(uInt32Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "uInt32Range",
                 "readOnly" : true,
@@ -11936,6 +12189,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(uInt64Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "uInt64Range",
                 "readOnly" : true,
@@ -11949,6 +12203,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(uInt8Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "uInt8Range",
                 "readOnly" : true,
@@ -11962,6 +12217,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(uIntRange) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "uIntRange",
                 "readOnly" : true,
@@ -12234,6 +12490,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(favoriteColor) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "favoriteColor",
                 "readOnly" : false,
@@ -12359,6 +12616,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(accent) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "accent",
                 "readOnly" : true,
@@ -12372,6 +12630,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(chinese) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "chinese",
                 "readOnly" : true,
@@ -12385,6 +12644,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(chineseBMP) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "chineseBMP",
                 "readOnly" : true,
@@ -12398,6 +12658,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(chineseSIP) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "chineseSIP",
                 "readOnly" : true,
@@ -12411,6 +12672,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(emoji) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "emoji",
                 "readOnly" : true,
@@ -12424,6 +12686,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(emojiMulti) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "emojiMulti",
                 "readOnly" : true,
@@ -12437,6 +12700,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(script) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "script",
                 "readOnly" : true,
@@ -12450,6 +12714,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(simple) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "simple",
                 "readOnly" : true,
@@ -12531,6 +12796,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "immutable",
                     "readOnly" : true,
@@ -12544,6 +12810,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "mutable",
                     "readOnly" : false,
@@ -12625,6 +12892,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "i",
                     "readOnly" : false,
@@ -12735,6 +13003,7 @@
                     "documentation" : [
                       "<!-- FishyJoes.export(immutable) -->"
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "immutable",
                     "readOnly" : true,
@@ -12748,6 +13017,7 @@
                     "documentation" : [
                       "<!-- FishyJoes.export(mutable) -->"
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "mutable",
                     "readOnly" : false,
@@ -13034,6 +13304,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(tuple2) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "tuple2",
                 "readOnly" : true,
@@ -13047,6 +13318,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(tuple3) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "tuple3",
                 "readOnly" : true,
@@ -13060,6 +13332,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(tuple4) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "tuple4",
                 "readOnly" : true,
@@ -13073,6 +13346,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(tuple5) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "tuple5",
                 "readOnly" : true,
@@ -13086,6 +13360,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(tuple6) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "tuple6",
                 "readOnly" : true,
@@ -13218,6 +13493,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(localFile) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "localFile",
                 "readOnly" : true,
@@ -13231,6 +13507,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(remoteFile) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "remoteFile",
                 "readOnly" : true,
@@ -13244,6 +13521,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(simple) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "simple",
                 "readOnly" : true,

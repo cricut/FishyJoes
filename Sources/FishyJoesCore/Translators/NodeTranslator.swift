@@ -436,7 +436,8 @@ struct NodeTranslator: Translator {
             readOnly: !field.isPubliclyWritable,
             isStatic: field.isStatic,
             name: name,
-            type: context.resolve(type: field.type).nodeType
+            type: context.resolve(type: field.type).nodeType,
+            hasDefaultImplementation: field.isDefaultImplementation
         )
     }
 

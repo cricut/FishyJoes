@@ -2765,6 +2765,22 @@ export declare namespace TestAPI {
         readonly plutonic: string;
     }
 
+    interface TestDefaultComputedPropertiesCore {
+        /**
+         * <!-- FishyJoes.export(noot) -->
+         */
+        readonly noot: number?;
+
+        /**
+         * <!-- FishyJoes.export(plutonic) -->
+         */
+        readonly plutonic: string?;
+    }
+
+    namespace TestDefaultComputedProperties {
+        function fromCore(core: TestDefaultComputedPropertiesCore): TestDefaultComputedProperties
+    }
+
     /**
      * <!-- FishyJoes.export(TestDefaultComputedPropertiesStruct, conformances: [TestDefaultComputedProperties]) -->
      */

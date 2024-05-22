@@ -422,7 +422,8 @@ struct TranslatedEnum: TranslatedType {
                                 readOnly: true,
                                 isStatic: false,
                                 name: value.bindingName,
-                                type: context.resolve(type: value.type).nodeType
+                                type: context.resolve(type: value.type).nodeType,
+                                hasDefaultImplementation: false
                             )
                         },
                         methods: []

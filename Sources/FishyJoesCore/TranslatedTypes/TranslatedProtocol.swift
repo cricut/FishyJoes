@@ -481,6 +481,11 @@ struct TranslatedProtocol: TranslatedType {
                         fragment.output("let result = try env.callFunction(object, create, [coreArg])")
                         fragment.blankLine()
 
+                        let defaultFields = fields.filter { $0.isDefaultImplementation }
+                        for field in defaultFields {
+                            // handle default fields here
+                        }
+                        
                         let defaultMethods = methods.filter { $0.isDefaultImplementation }
                         for method in defaultMethods {
                             fragment.output("let \(method.callName)FunctionCallback: NAPI.Callback = ", newLineTerminated: false)

@@ -13,6 +13,7 @@ struct TypeScriptAnnotations: Codable {
         let isStatic: Bool
         let name: String
         let type: TSType
+        let hasDefaultImplementation: Bool
     }
 
     struct Method: Codable {
@@ -280,14 +281,14 @@ extension TypeScriptAnnotations {
             fragment.output(" */")
         }
 
-        func output(method: Method, inClass: Bool, optionalMethodsForDefaults: Bool = false, isCore: Bool = false) {
+        func output(method: Method, inClass: Bool, optionalForDefaults: Bool = false, isCore: Bool = false) {
             document(method.documentation)
             if !inClass {
                 fragment.output("function ", newLineTerminated: false)
             } else if method.isStatic {
                 fragment.output("static ", newLineTerminated: false)
             }
-            fragment.outputBlock("\(method.name)\((method.hasDefaultImplementation && optionalMethodsForDefaults) ? "?" : "")(", newLineTerminated: false) {
+            fragment.outputBlock("\(method.name)\((method.hasDefaultImplementation && optionalForDefaults) ? "?" : "")(", newLineTerminated: false) {
                 var isFirst = true
                 func outputComma() {
                     if !isFirst {
@@ -326,8 +327,12 @@ extension TypeScriptAnnotations {
             fragment.blankLine()
         }
 
-        func output(field: Variable, inClass: Bool) {
+        func output(field: Variable, inClass: Bool, optionalForDefaults: Bool = false, isCore: Bool = false) {
             document(field.documentation)
+            if field.name.contains("noot") {
+                let elegoo = 1
+            }
+            let optionalOptionalMark = (field.hasDefaultImplementation && optionalForDefaults) ? "?" : ""
             if inClass {
                 if field.isStatic {
                     fragment.output("static ", newLineTerminated: false)
@@ -335,10 +340,10 @@ extension TypeScriptAnnotations {
                 if field.readOnly {
                     fragment.output("readonly ", newLineTerminated: false)
                 }
-                fragment.output("\(field.name)\(field.type.annotation);")
+                fragment.output("\(field.name)\(field.type.annotation)\(optionalOptionalMark);")
                 fragment.blankLine()
             } else {
-                fragment.output("\(field.readOnly ? "const" : "let") \(field.name): \(field.type);")
+                fragment.output("\(field.readOnly ? "const" : "let") \(field.name): \(field.type)\(optionalOptionalMark);")
                 fragment.blankLine()
             }
         }
@@ -399,13 +404,14 @@ extension TypeScriptAnnotations {
                         }
                         fragment.blankLine()
 
-                        if interface.methods.contains(where: { $0.hasDefaultImplementation }) {
+                        if interface.methods.contains(where: { $0.hasDefaultImplementation }) ||
+                            interface.fields.contains(where: { $0.hasDefaultImplementation }) {
                             fragment.outputBlock("interface \(interface.name)Core {") {
                                 for field in interface.fields {
-                                    output(field: field, inClass: true)
+                                    output(field: field, inClass: true, optionalForDefaults: true, isCore: true)
                                 }
                                 for method in interface.methods {
-                                    output(method: method, inClass: true, optionalMethodsForDefaults: true, isCore: true)
+                                    output(method: method, inClass: true, optionalForDefaults: true, isCore: true)
                                 }
                             }
                             fragment.blankLine()
