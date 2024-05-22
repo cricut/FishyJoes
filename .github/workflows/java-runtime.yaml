@@ -68,7 +68,7 @@ jobs:
     name: "Ubuntu: Build and test kotlin runtime"
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cricut/android-swift-runtime:1.2.0-alpha3
+      image: ghcr.io/cricut/android-swift-runtime:1.2.0-alpha4
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
