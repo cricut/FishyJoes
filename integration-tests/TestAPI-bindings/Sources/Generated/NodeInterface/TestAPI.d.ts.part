@@ -2769,12 +2769,12 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(noot) -->
          */
-        readonly noot: number?;
+        readonly noot?: number;
 
         /**
          * <!-- FishyJoes.export(plutonic) -->
          */
-        readonly plutonic: string?;
+        readonly plutonic?: string;
     }
 
     namespace TestDefaultComputedProperties {

@@ -340,10 +340,10 @@ extension TypeScriptAnnotations {
                 if field.readOnly {
                     fragment.output("readonly ", newLineTerminated: false)
                 }
-                fragment.output("\(field.name)\(field.type.annotation)\(optionalOptionalMark);")
+                fragment.output("\(field.name)\(optionalOptionalMark)\(field.type.annotation);")
                 fragment.blankLine()
             } else {
-                fragment.output("\(field.readOnly ? "const" : "let") \(field.name): \(field.type)\(optionalOptionalMark);")
+                fragment.output("\(field.readOnly ? "const" : "let") \(field.name)\(optionalOptionalMark): \(field.type);")
                 fragment.blankLine()
             }
         }
