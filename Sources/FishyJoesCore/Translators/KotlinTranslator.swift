@@ -200,9 +200,9 @@ final class KotlinTranslator: Translator {
         let sourceResolved = context.resolve(type: betterType)
         let sourceTypeName = sourceResolved.sourceType.name
         let converterTypeName = sourceResolved.converterType.name
-        
+
         let shouldWrap = type is SourceryProtocol && variable.isDefaultImplementation
-        
+
         let kotlinName = exportAnnotation.name
         let jvmGetName = shouldWrap ? "__jni__default_\(kotlinName)" : "__jni_\(exportAnnotation.kind == .asMethod ? "" : "get_")\(kotlinName)"
         let jvmSetName = "__jni_set_\(kotlinName)"
@@ -212,7 +212,7 @@ final class KotlinTranslator: Translator {
         } else {
             selfExpression = "\(converterTypeName).fromJava(_javaThis, env: _javaEnv)"
         }
-        
+
         if shouldWrap {
             selfExpression = "try \(context.module.name)_CommonInterface.\(sourceResolved.sourceType.nonNamespacedName)_sans_\(variable.sourceryVariable.name)(wrapped: \(selfExpression))"
         }

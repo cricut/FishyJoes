@@ -200,7 +200,7 @@ public class FishyJoesContext {
                 collectedFragments.append(contentsOf: iotaTranslator.translate(method: method, context: self, betterType: betterType))
             }
         }
-        
+
         var variablesToTranslateForTypeDict = [Type: [SourceryVariablePlus]]()
         for type in templateContext.types.types {
             if let sourceryProtocolType = type as? SourceryProtocol {

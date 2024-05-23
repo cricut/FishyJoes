@@ -162,17 +162,17 @@ final class IotaTranslator: Translator {
         return [fragment]
     }
 
-    func translate(variable: SourceryVariablePlus, context: FishyJoesContext, type: Type) -> [SourceFragment]  {
+    func translate(variable: SourceryVariablePlus, context: FishyJoesContext, type: Type) -> [SourceFragment] {
         guard let exportAnnotation = variable.sourceryVariable.exportAnnotation else {
             return []
         }
         var selfExpression: String
-        
+
         let betterType = BetterType(named: type, context: context)
         let sourceResolved = context.resolve(type: betterType)
         let sourceTypeName = sourceResolved.sourceType.name
         let converterTypeName = sourceResolved.converterType.name
-        
+
         let shouldWrap = type is SourceryProtocol && variable.isDefaultImplementation
 
         if variable.sourceryVariable.isStatic {

@@ -228,7 +228,7 @@ extension SourceryProtocol {
     func variablesPreferringDefaultImpl() -> [SourceryVariablePlus] {
         SourceryVariablePlus.variablesPreferring(.defaultImplementation, variables: rawVariables.map { SourceryVariablePlus(sourceryVariable: $0, isDefinedInProtocol: true) })
     }
-    
+
     func defaultVariables() -> [SourceryVariablePlus] {
         variablesPreferringDefaultImpl().filter { $0.isDefinedInProtocol && $0.sourceryVariable.definedInType?.isExtension == true }
     }
@@ -385,20 +385,20 @@ struct SourceryVariablePlus: Equatable {
         self.sourceryVariable = sourceryVariable
         self.isDefinedInProtocol = isDefinedInProtocol
     }
-    
+
     var isDefaultImplementation: Bool {
         return isDefinedInProtocol && sourceryVariable.definedInType?.isExtension == true
     }
-    
+
     func isMostlyEqual(other: SourceryVariablePlus) -> Bool {
         sourceryVariable.isMostlyEqual(other: other.sourceryVariable)
     }
-    
+
     enum VariableTypePreference {
         case defaultImplementation
         case normal
     }
-    
+
     static func == (lhs: SourceryVariablePlus, rhs: SourceryVariablePlus) -> Bool {
         lhs.isMostlyEqual(other: rhs)
     }
@@ -412,7 +412,7 @@ struct SourceryVariablePlus: Equatable {
             if !mostlyEqualVariables.isEmpty {
                 for mostlyEqualVariable in mostlyEqualVariables {
                     let useMostlyEqualVariable = preference == .defaultImplementation ? mostlyEqualVariable.isDefaultImplementation : !mostlyEqualVariable.isDefaultImplementation
-                    
+
                     if useMostlyEqualVariable {
                         guard let index = preferredVariables.firstIndex(of: variable) else {
                             assertionFailure("variable should exist in preferredVariables")

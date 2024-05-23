@@ -41,10 +41,10 @@ struct TranslatedStruct: TranslatedType {
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
         self.conformances = exportAnnotation.conformances
-        
+
         enforceMustHaveProperties()
     }
-    
+
     func enforceMustHaveProperties() {
         // https://kotlinlang.org/docs/data-classes.html
         // * The primary constructor must have at least one parameter.

@@ -487,9 +487,9 @@ struct TranslatedProtocol: TranslatedType {
                             let fieldName = field.exportAnnotation?.name ?? field.name
                             fragment.output("let \(fieldName)GetterCallback: NAPI.Callback = ", newLineTerminated: false)
                             context.nodeTranslator.output(getter: field, explicitThis: false, context: context, fragment: fragment, converterName: converterType.name, shouldWrapDefaultImpl: true)
-                            
+
                             fragment.blankLine()
-                            
+
                             fragment.output("let \(fieldName)NodeName = try String.toNode(\"\(fieldName)\", env: env)")
                             fragment.outputBlock("let \(fieldName)PropertyDesc = napi_property_descriptor(") {
                                 fragment.output("utf8name: nil,")
@@ -509,7 +509,7 @@ struct TranslatedProtocol: TranslatedType {
                             }
                             fragment.blankLine()
                         }
-                        
+
                         let defaultMethods = methods.filter { $0.isDefaultImplementation }
                         for method in defaultMethods {
                             fragment.output("let \(method.callName)FunctionCallback: NAPI.Callback = ", newLineTerminated: false)
@@ -910,7 +910,7 @@ struct TranslatedProtocol: TranslatedType {
             fieldsAndMethods:
                 fields.flatMap { field -> [KotlinClass.MethodOrVariable] in
                     guard let kotlinMethodOrVariable = context.kotlin(field: field, useNativeName: false) else { return [] }
-                    
+
                     guard !field.isStatic,
                           field.isDefaultImplementation,
                           case .variable(var kotlinVariable) = kotlinMethodOrVariable else {
@@ -919,10 +919,10 @@ struct TranslatedProtocol: TranslatedType {
 
                     let defaultMethodForVariable = KotlinClass.Method(
                         documentation: [],
-                        isStatic: true, 
+                        isStatic: true,
                         isSuspend: false,
                         isOverride: false,
-                        isDefaultImplementation: true, 
+                        isDefaultImplementation: true,
                         name: kotlinVariable.name,
                         parameters: [(nil, name: "self", type: .named(package: nil, name: kotlinName), nil)],
                         compatibilityOrder: [],

@@ -235,14 +235,14 @@ class DartProtocolClass: DartClass {
             // We still need it default implementations in order to accomodate foreign side user defined types that conform to the protocol.
             if method.isDefaultImplementation {
                 if method.body != nil { continue }
-                
+
                 var params = method.isStatic ? [] : [thisArg]
-                
+
                 // Keep the parameters in original order here, because the swift-side expects them in that order
                 for param in method.parameters {
                     params.append((param.name, param.type))
                 }
-                
+
                 result["__iota_\(method.mangledName)"] = (args: params, return: method.returnType, isDefaultImplementation: true, isProtocol: true)
             }
         }
