@@ -329,9 +329,7 @@ extension TypeScriptAnnotations {
 
         func output(field: Variable, inClass: Bool, optionalForDefaults: Bool = false, isCore: Bool = false) {
             document(field.documentation)
-            if field.name.contains("noot") {
-                let elegoo = 1
-            }
+
             let optionalOptionalMark = (field.hasDefaultImplementation && optionalForDefaults) ? "?" : ""
             if inClass {
                 if field.isStatic {

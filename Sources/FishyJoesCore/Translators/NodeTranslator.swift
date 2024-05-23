@@ -14,9 +14,6 @@ struct NodeTranslator: Translator {
 
         var argIndex = 0
 
-        if containingNamespace.contains("DefaultComputedProperties") {
-            let elegoo = 1
-        }
         if variable.isStatic {
             selfExpression = containingNamespace
         } else if explicitThis {
