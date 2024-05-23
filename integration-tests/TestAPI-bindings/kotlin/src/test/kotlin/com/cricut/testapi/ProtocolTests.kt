@@ -565,4 +565,20 @@ internal class ProtocolTests {
         assertEquals(true, a.spam)
         assertEquals(98172, a.noot)
     }
+
+    @Test
+    fun testDefaultComputedPropertiesReference() = runTest(timeout = 1000000.seconds) {
+        val a = TestDefaultComputedPropertiesReference.init(spam = true, noot = 98172)
+        assertEquals("Newton Gimmick", a.plutonic)
+        assertEquals(true, a.spam)
+        assertEquals(98172, a.noot)
+    }
+
+    @Test
+    fun testDefaultComputedPropertiesEnum() = runTest(timeout = 1000000.seconds) {
+        val a = TestDefaultComputedPropertiesEnum.Qux
+        assertEquals("Newton Gimmick", a.plutonic)
+        assertEquals(true, a.spam)
+        assertEquals(72930, a.noot)
+    }
 }
