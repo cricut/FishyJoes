@@ -53,7 +53,7 @@ struct TranslatedProtocol: TranslatedType {
         self.documentation = type.documentation
         self.className = context.kotlinTranslator.javaClassName(kotlinName, in: context)
         self.javaExternalWitnessClassName = context.kotlinTranslator.javaClassName("_ExternalWitness_\(kotlinName)", in: context)
-        self.iotaExternalWitnessClassName = "ExternalWitness_\(sourceType.nonNamespacedName)"
+        self.iotaExternalWitnessClassName = "ExternalWitness_\(typeName)"
         self.nodeExternalWitnessClassName = "ExternalWitness_\(nodeName)"
 
         enforceProtocolThrows()
