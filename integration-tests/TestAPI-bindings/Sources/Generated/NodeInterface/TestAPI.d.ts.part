@@ -2781,6 +2781,30 @@ export declare namespace TestAPI {
         function fromCore(core: TestDefaultComputedPropertiesCore): TestDefaultComputedProperties
     }
 
+    export type TestDefaultComputedPropertiesEnum = "qux";
+    export namespace TestDefaultComputedPropertiesEnum {
+        /**
+         * <!-- FishyJoes.export(noot) -->
+         */
+        function getNoot(
+            self: TestAPI.TestDefaultComputedPropertiesEnum
+        ): number;
+
+        /**
+         * <!-- FishyJoes.export(plutonic) -->
+         */
+        function getPlutonic(
+            self: TestAPI.TestDefaultComputedProperties
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(spam) -->
+         */
+        function getSpam(
+            self: TestAPI.TestDefaultComputedPropertiesEnum
+        ): boolean;
+    }
+
     /**
      * <!-- FishyJoes.exportReference(TestDefaultComputedPropertiesReference, conformances: [TestDefaultComputedProperties]) -->
      */

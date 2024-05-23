@@ -48,6 +48,12 @@ test('testDefaultComputedPropertiesClass', () => {
     expect(a.plutonic).toEqual("Newton Gimmick");
 });
 
+test('testDefaultComputedPropertiesEnum', () => {
+    expect(TestAPI.TestDefaultComputedPropertiesEnum.getSpam("qux")).toEqual(true);
+    expect(TestAPI.TestDefaultComputedPropertiesEnum.getNoot("qux")).toEqual(72930);
+    expect(TestAPI.TestDefaultComputedPropertiesEnum.getPlutonic("qux" as unknown as TestAPI.TestDefaultComputedProperties)).toEqual("Newton Gimmick");
+});
+
 test('testProtocolImplementation', () => {
     const a = new TestAPI.AProtocolImplementation(
         "Garply",

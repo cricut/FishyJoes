@@ -139,6 +139,20 @@ public struct TestDefaultComputedPropertiesClass: TestDefaultComputedProperties 
     }
 }
 
+/// <!-- FishyJoes.export(TestDefaultComputedPropertiesEnum, conformances: [TestDefaultComputedProperties]) -->
+public enum TestDefaultComputedPropertiesEnum: TestDefaultComputedProperties {
+    case qux
+
+    /// <!-- FishyJoes.export(spam) -->
+    public var spam: Bool {
+        true
+    }
+    /// <!-- FishyJoes.export(noot) -->
+    public var noot: Int {
+        72930
+    }
+}
+
 /// <!-- FishyJoes.export(TestProtocolEnum, conformances: [TestMethodsProtocol]) -->
 public enum TestProtocolEnum: TestMethodsProtocol {
     static let debugPrints = false
