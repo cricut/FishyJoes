@@ -286,12 +286,12 @@ struct TranslatedProtocol: TranslatedType {
 
         let defaultFields = fields.filter { $0.isDefaultImplementation }
         let defaultMethods = methods.filter { $0.isDefaultImplementation }
-        generateSansForDefaultMethods(fragment: fragment, defaultFields: defaultFields, defaultMethods: defaultMethods)
+        generateSansForDefaultImplementations(fragment: fragment, defaultFields: defaultFields, defaultMethods: defaultMethods)
 
         return fragment
     }
 
-    func generateSansForDefaultMethods(fragment: SourceFragment, defaultFields: [Field], defaultMethods: [Method]) {
+    func generateSansForDefaultImplementations(fragment: SourceFragment, defaultFields: [Field], defaultMethods: [Method]) {
         for defaultField in defaultFields {
             fragment.outputBlock("public struct \(sourceType.nonNamespacedName)_sans_\(defaultField.name): \(sourceType.name) {", closeWith: "}") {
                 fragment.output("public let wrapped: \(sourceType.name)")
