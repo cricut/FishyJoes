@@ -48,7 +48,7 @@ struct TranslatedStruct: TranslatedType {
     func enforceMustHaveProperties() {
         // https://kotlinlang.org/docs/data-classes.html
         // * The primary constructor must have at least one parameter.
-        if storedVariables.isEmpty { // or method contains initializer
+        if storedVariables.isEmpty {
             fatalError("☠️ Error on \(sourceType.name): Exported structs must have at least one stored property, it's the law 👮!")
         }
     }
