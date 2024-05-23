@@ -59,7 +59,7 @@ jobs:
     name: "Ubuntu: Build and test dart bindings"
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cricut/android-swift-runtime:1.2.0-alpha5
+      image: ghcr.io/cricut/android-swift-runtime:1.2.0-alpha6
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
