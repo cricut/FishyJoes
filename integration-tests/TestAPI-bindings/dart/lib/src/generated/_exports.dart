@@ -34,6 +34,8 @@ export './ExternalWitness_TestAsyncFunctions.dart';
 export './TestAsyncSwiftSideFunctionsClass.dart';
 export './TestDefaultComputedProperties.dart';
 export './ExternalWitness_TestDefaultComputedProperties.dart';
+export './TestDefaultComputedPropertiesReference.dart';
+export './TestDefaultComputedPropertiesEnum.dart';
 export './TestDefaultComputedPropertiesStruct.dart';
 export './TestLeadingUnderscoredProp.dart';
 export './ExternalWitness_TestLeadingUnderscoredProp.dart';

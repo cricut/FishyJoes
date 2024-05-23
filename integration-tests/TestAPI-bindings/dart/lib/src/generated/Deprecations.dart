@@ -37,6 +37,8 @@ import './TestAsyncForeignSideFunctionsStruct.dart' as TestAPI;
 import './TestAsyncFunctions.dart' as TestAPI;
 import './TestAsyncSwiftSideFunctionsClass.dart' as TestAPI;
 import './TestDefaultComputedProperties.dart' as TestAPI;
+import './TestDefaultComputedPropertiesEnum.dart' as TestAPI;
+import './TestDefaultComputedPropertiesReference.dart' as TestAPI;
 import './TestDefaultComputedPropertiesStruct.dart' as TestAPI;
 import './TestLeadingUnderscoredProp.dart' as TestAPI;
 import './TestLeadingUnderscoredPropStruct.dart' as TestAPI;

@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:core';
+import 'dart:js_util';
 import 'dart:math';
 import 'package:cricut_test_api/cricut_test_api.dart';
 import 'package:cricut_test_api/src/generated/TestAsyncSwiftSideFunctionsClass.dart';
@@ -402,6 +403,20 @@ void main() {
         expect(a.plutonic, equals("Newton Gimmick"));
         expect(a.spam, equals(true));
         expect(a.noot, equals(98172));
+      });
+
+      test('testDefaultComputedPropertiesReference', () {
+        final a = TestDefaultComputedPropertiesReference.init(false, 678753);
+        expect(a.plutonic, equals("Newton Gimmick"));
+        expect(a.spam, equals(false));
+        expect(a.noot, equals(678753));
+      });
+
+      test('testDefaultComputedPropertiesEnum', () {
+        final a = TestDefaultComputedPropertiesEnum.qux();
+        expect(a.plutonic, equals("Newton Gimmick"));
+        expect(a.spam, equals(true));
+        expect(a.noot, equals(72930));
       });
   });
 }

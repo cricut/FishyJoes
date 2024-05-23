@@ -60,52 +60,101 @@ import 'package:fishyjoes_dart/runtime.dart';
 import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:tuple/tuple.dart' as tuple;
 
-/// <!-- FishyJoes.export(TestOptionalsProtocol) -->
-abstract class TestOptionalsProtocol {
-    double? wombat(
-        int? zxc
-    );
+// ignore_for_file: unused_import
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: no_leading_underscores_for_local_identifiers
+// ignore_for_file: library_prefixes
+// ignore_for_file: file_names
+// ignore_for_file: annotate_overrides
 
-    int spqr(
-        TestAPI.AssociatedDataEnum pippo
-    );
+/// <!-- FishyJoes.export(TestDefaultComputedPropertiesEnum, conformances: [TestDefaultComputedProperties]) -->
+sealed class TestDefaultComputedPropertiesEnum implements TestAPI.TestDefaultComputedProperties {
+    const factory TestDefaultComputedPropertiesEnum.qux(
+    ) = TestDefaultComputedPropertiesEnum_Qux;
 
-    /// <!-- FishyJoes.export(flarp) -->
-    String? get flarp;
-}
+    const TestDefaultComputedPropertiesEnum();
 
-extension TestOptionalsProtocol_DefaultImplementations on TestOptionalsProtocol {
-}
+    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
+        final peekedObj = peekRef<TestDefaultComputedPropertiesEnum>(obj);
+        if (peekedObj is TestDefaultComputedPropertiesEnum_Qux) { return 0; }
+        else { throw UnsupportedError('Unknown TestDefaultComputedPropertiesEnum subclass'); }
+    });
 
-extension TestOptionalsProtocol_FfiHooks on TestOptionalsProtocol {
-    static CreatedRef ffi_get_flarp(
-        UnownedRef obj,
+    static CreatedRef newQux(
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<TestOptionalsProtocol>(obj).flarp
-        )
+        createRef(TestDefaultComputedPropertiesEnum_Qux(
+        ))
     );
 
-    static CreatedRef ffi_wombat(
+    static void extractQux(
         UnownedRef obj,
-        UnownedRef zxc,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<TestOptionalsProtocol>(obj).wombat(
-                peekRef(zxc)
+    ) {
+        catching(exn, () {
+            final _self = peekRef<TestDefaultComputedPropertiesEnum_Qux>(obj);
+        });
+    }
+
+    /// <!-- FishyJoes.export(noot) -->
+    int get noot =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                f__iota_get_TestAPI_TestDefaultComputedPropertiesEnum_noot(Loader.shared.env, _thisHandle.ptr, exn)
             )
         )
-    );
-
-    static int ffi_spqr(
-        UnownedRef obj,
-        UnownedRef pippo,
-        OutCreatedRef exn
-    ) => catching(exn, () =>
-        peekRef<TestOptionalsProtocol>(obj).spqr(
-            peekRef(pippo)
+    ;
+    /// <!-- FishyJoes.export(plutonic) -->
+    String get plutonic =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                consumeCreatedRef<String>(f__iota__default_TestAPI_TestDefaultComputedPropertiesEnum_plutonic(Loader.shared.env, _thisHandle.ptr, exn))
+            )
         )
-    ) ?? 0;
+    ;
+    /// <!-- FishyJoes.export(spam) -->
+    bool get spam =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                f__iota_get_TestAPI_TestDefaultComputedPropertiesEnum_spam(Loader.shared.env, _thisHandle.ptr, exn)
+            )
+        )
+    ;
+
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota__default_TestAPI_TestDefaultComputedPropertiesEnum_plutonic;
+    static late int Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_get_TestAPI_TestDefaultComputedPropertiesEnum_noot;
+    static late bool Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_get_TestAPI_TestDefaultComputedPropertiesEnum_spam;
+}
+
+class TestDefaultComputedPropertiesEnum_Qux extends TestDefaultComputedPropertiesEnum {
+    const TestDefaultComputedPropertiesEnum_Qux();
+
+    @override
+    bool operator ==(Object other) {
+        return identical(other, this) ||
+        (
+            other.runtimeType == runtimeType &&
+            other is TestDefaultComputedPropertiesEnum_Qux
+        );
+    }
+
+    @override
+    int get hashCode => runtimeType.hashCode;
+
+    @override
+    String toString() => 'TestDefaultComputedPropertiesEnum.qux()';
+
+    TestDefaultComputedPropertiesEnum_Qux copyWith() => TestDefaultComputedPropertiesEnum_Qux();
 }
