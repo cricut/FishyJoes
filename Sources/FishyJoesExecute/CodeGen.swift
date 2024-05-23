@@ -808,11 +808,11 @@ extension CodeGen {
 
                             set -ex
                             if [[ "$npm_package_version" == "0.0.1" ]]; then
-                            # We are installed as a file local package
-                            package_directory="node_modules/@cricut"
+                                # We are installed as a file local package
+                                package_directory="node_modules/@cricut"
                             else
-                            # We are installed as a published package
-                            package_directory=".."
+                                # We are installed as a published package
+                                package_directory=".."
                             fi
 
 
@@ -836,18 +836,18 @@ extension CodeGen {
                     if platform.platform == "node-native-windows" {
                         // When on Windows, LoadLibrary() needs file-relative native libraries, so add a post-install script to the package to copy dependency DLLs
                         var postinstall = """
-                        @ECHO ON
-                        IF %npm_package_version%==0.0.1 (SET package_directory=node_modules\\@cricut) ELSE (SET package_directory=..)
+                            @ECHO ON
+                            IF %npm_package_version%==0.0.1 (SET package_directory=node_modules\\@cricut) ELSE (SET package_directory=..)
 
-                        """
+                            """
 
                         for dependency in nodeDependencies {
                             let nativeLibFilename = platform.dylibName(for: dependency.nativeLibName)
                             // TODO: Should copy?!? How to establish this link with only one file?
                             postinstall += """
-                            COPY "%package_directory%\\\(dependency.npmPackageName)\\\(nativeLibFilename)" "\(nativeLibFilename)"
+                                COPY "%package_directory%\\\(dependency.npmPackageName)\\\(nativeLibFilename)" "\(nativeLibFilename)"
 
-                            """
+                                """
                         }
 
                         try cmd("cat")
