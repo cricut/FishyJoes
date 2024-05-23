@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'dart:core';
-import 'dart:js_util';
+// import 'dart:js_util';
 import 'dart:math';
 import 'package:cricut_test_api/cricut_test_api.dart';
 import 'package:cricut_test_api/src/generated/TestAsyncSwiftSideFunctionsClass.dart';
