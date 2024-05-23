@@ -3,31 +3,27 @@ import Foundation
 import SourceryRuntime
 
 struct NodeTranslator: Translator {
-    func output(getter variable: Field, explicitThis: Bool = false, context: FishyJoesContext, fragment: SourceFragment, converterName: String? = nil, shouldWrapDefaultImpl: Bool = false) {
+    func output(getter variable: Field, explicitThis: Bool = false, context: FishyJoesContext, fragment: SourceFragment, converterName: String, shouldWrapDefaultImpl: Bool = false) {
         guard let exportAnnotation = variable.exportAnnotation else {
             fatalErr("Variable not annotated for export: \(variable)")
         }
         let nodeName = exportAnnotation.name
 
         var selfExpression: String
-        let containingNamespace: String
+        let containingNamespace = converterName
 
         var argIndex = 0
 
-        if let selfType = variable.definedIn {
-            containingNamespace = converterName ?? context.resolve(type: selfType).converterType.name
-
-            if variable.isStatic {
-                selfExpression = containingNamespace
-            } else if explicitThis {
-                selfExpression = "env.argument(at: 0, converter: \(containingNamespace).self)"
-                argIndex += 1
-            } else {
-                selfExpression = "env.this(converter: \(containingNamespace).self)"
-            }
+        if containingNamespace.contains("DefaultComputedProperties") {
+            let elegoo = 1
+        }
+        if variable.isStatic {
+            selfExpression = containingNamespace
+        } else if explicitThis {
+            selfExpression = "env.argument(at: 0, converter: \(containingNamespace).self)"
+            argIndex += 1
         } else {
-            containingNamespace = context.module.name
-            selfExpression = context.module.name
+            selfExpression = "env.this(converter: \(containingNamespace).self)"
         }
 
         fragment.outputBlock("{ env, info in", closeWith: "}", newLineTerminated: false) {
@@ -43,7 +39,7 @@ struct NodeTranslator: Translator {
         }
     }
 
-    func output(setter variable: Field, context: FishyJoesContext, fragment: SourceFragment, converterName: String? = nil, shouldWrapDefaultImpl: Bool = false) {
+    func output(setter variable: Field, context: FishyJoesContext, fragment: SourceFragment, converterName: String, shouldWrapDefaultImpl: Bool = false) {
         guard let exportAnnotation = variable.exportAnnotation else {
             fatalErr("Variable not annotated for export: \(variable)")
         }
@@ -54,19 +50,12 @@ struct NodeTranslator: Translator {
         let nodeName = exportAnnotation.name
 
         let selfExpression: String
-        let containingNamespace: String
+        let containingNamespace = converterName
 
-        if let selfType = variable.definedIn {
-            containingNamespace = converterName ?? context.resolve(type: selfType).sourceType.name
-
-            if variable.isStatic {
-                selfExpression = containingNamespace
-            } else {
-                selfExpression = "env.this(converter: \(containingNamespace).self)"
-            }
+        if variable.isStatic {
+            selfExpression = containingNamespace
         } else {
-            containingNamespace = context.module.name
-            selfExpression = context.module.name
+            selfExpression = "env.this(converter: \(containingNamespace).self)"
         }
 
         fragment.outputBlock("{ env, info in", closeWith: "}", newLineTerminated: false) {
@@ -84,30 +73,22 @@ struct NodeTranslator: Translator {
         }
     }
 
-    func output(method: Method, explicitThis: Bool, context: FishyJoesContext, fragment: SourceFragment, newLineTerminated: Bool = true, converterName: String? = nil, shouldWrapDefaultImpl: Bool = false) {
+    func output(method: Method, explicitThis: Bool, context: FishyJoesContext, fragment: SourceFragment, newLineTerminated: Bool = true, converterName: String, shouldWrapDefaultImpl: Bool = false) {
         let exportAnnotation = method.exportAnnotation
         let nodeName = exportAnnotation.name
 
         var selfExpression: String
-        let containingNamespace: String
+        let containingNamespace = converterName
 
         var argIndex = 0
 
-        if let selfType = method.definedIn {
-            let resolved = context.resolve(type: selfType)
-            containingNamespace = converterName ?? resolved.converterType.name
-
-            if method.isStatic {
-                selfExpression = containingNamespace
-            } else if explicitThis {
-                selfExpression = "env.argument(at: 0, converter: \(containingNamespace).self)"
-                argIndex += 1
-            } else {
-                selfExpression = "env.this(converter: \(containingNamespace).self)"
-            }
+        if method.isStatic {
+            selfExpression = containingNamespace
+        } else if explicitThis {
+            selfExpression = "env.argument(at: 0, converter: \(containingNamespace).self)"
+            argIndex += 1
         } else {
-            containingNamespace = context.module.name
-            selfExpression = context.module.name
+            selfExpression = "env.this(converter: \(containingNamespace).self)"
         }
 
         let returnType = context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides)
@@ -243,7 +224,7 @@ struct NodeTranslator: Translator {
         }
     }
 
-    func outputProperties(methods: [Method], explicitThis: Bool = false, context: FishyJoesContext, fragment: SourceFragment, converterName: String? = nil, shouldWrapDefaultImpl: Bool = false) -> Bool {
+    func outputProperties(methods: [Method], explicitThis: Bool = false, context: FishyJoesContext, fragment: SourceFragment, converterName: String, shouldWrapDefaultImpl: Bool = false) -> Bool {
         for method in methods {
             let isStatic = explicitThis || method.isStatic
             let explicitThis = explicitThis && !method.isStatic
@@ -258,7 +239,7 @@ struct NodeTranslator: Translator {
         return !methods.isEmpty
     }
 
-    func outputProperties(computedVariables: [Field], explicitThis: Bool = false, context: FishyJoesContext, fragment: SourceFragment, converterName: String? = nil, shouldWrapDefaultImpl: Bool = false) -> Bool {
+    func outputProperties(computedVariables: [Field], explicitThis: Bool = false, context: FishyJoesContext, fragment: SourceFragment, converterName: String, shouldWrapDefaultImpl: Bool = false) -> Bool {
         var didOutput = false
         for variable in computedVariables {
             guard let exportAnnotation = variable.exportAnnotation else {

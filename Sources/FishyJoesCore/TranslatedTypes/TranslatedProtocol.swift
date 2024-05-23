@@ -486,7 +486,7 @@ struct TranslatedProtocol: TranslatedType {
                         for field in defaultFields {
                             let fieldName = field.exportAnnotation?.name ?? field.name
                             fragment.output("let \(fieldName)GetterCallback: NAPI.Callback = ", newLineTerminated: false)
-                            context.nodeTranslator.output(getter: field, explicitThis: false, context: context, fragment: fragment, converterName: nil, shouldWrapDefaultImpl: true)
+                            context.nodeTranslator.output(getter: field, explicitThis: false, context: context, fragment: fragment, converterName: converterType.name, shouldWrapDefaultImpl: true)
                             
                             fragment.blankLine()
                             
@@ -513,7 +513,7 @@ struct TranslatedProtocol: TranslatedType {
                         let defaultMethods = methods.filter { $0.isDefaultImplementation }
                         for method in defaultMethods {
                             fragment.output("let \(method.callName)FunctionCallback: NAPI.Callback = ", newLineTerminated: false)
-                            context.nodeTranslator.output(method: method, explicitThis: false, context: context, fragment: fragment, newLineTerminated: true, converterName: nil, shouldWrapDefaultImpl: true)
+                            context.nodeTranslator.output(method: method, explicitThis: false, context: context, fragment: fragment, newLineTerminated: true, converterName: converterType.name, shouldWrapDefaultImpl: true)
                             fragment.outputBlock("let \(method.callName)Function = try env.createFunction(") {
                                 fragment.output("\"\(method.callName)\",")
                                 fragment.output("\(method.callName)FunctionCallback,")
@@ -547,8 +547,8 @@ struct TranslatedProtocol: TranslatedType {
                     fragment.output("name: \"\(nodeExternalWitnessClassName)\",")
                     fragment.outputBlock("properties: [", closeWith: "],") {
                         var hasProperties = false
-                        hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment, converterName: nil, shouldWrapDefaultImpl: true)
-                        hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: fields, context: context, fragment: fragment, converterName: nil, shouldWrapDefaultImpl: true)
+                        hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment, converterName: converterType.name, shouldWrapDefaultImpl: true)
+                        hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: fields, context: context, fragment: fragment, converterName: converterType.name, shouldWrapDefaultImpl: true)
 //                        for field in fields {
 //                            // Limitation in wasm implementation of napi_create_class doesn't allow constructors to assign to non-mutable property.
 //                            // let mutable = field.isPubliclyWritable

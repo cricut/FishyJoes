@@ -189,20 +189,21 @@ struct TranslatedEnum: TranslatedType {
                             explicitThis: true,
                             context: context,
                             fragment: fragment,
-                            converterName: nil
+                            converterName: converterType.name
                         )
                         hasProperties ||= context.nodeTranslator.outputProperties(
                             methods: defaultMethods,
                             explicitThis: true,
                             context: context,
                             fragment: fragment,
-                            converterName: sourceType.name
+                            converterName: converterType.name
                         )
                         hasProperties ||= context.nodeTranslator.outputProperties(
                             computedVariables: fields,
                             explicitThis: true,
                             context: context,
-                            fragment: fragment
+                            fragment: fragment,
+                            converterName: converterType.name
                         )
                         if !hasProperties {
                             fragment.output(":")
@@ -309,12 +310,13 @@ struct TranslatedEnum: TranslatedType {
                                 methods: methods,
                                 context: context,
                                 fragment: fragment,
-                                converterName: nil
+                                converterName: converterType.name
                             )
                             hasProperties ||= context.nodeTranslator.outputProperties(
                                 computedVariables: fields,
                                 context: context,
-                                fragment: fragment
+                                fragment: fragment,
+                                converterName: converterType.name
                             )
                             if !hasProperties {
                                 fragment.output(":")
