@@ -468,6 +468,22 @@ namespace Cricut.TestAPI.Tests {
             Assert.Equal(2983, b.GetNoot());
             Assert.Equal("Teddy Ruxpin", b.GetPlutonic());
         }
+
+        [Fact]
+        public void TestTestDefaultComputedPropertiesReference() {
+            var a = TestDefaultComputedPropertiesReference.Init(false, 123346);
+            Assert.Equal("Newton Gimmick", a.GetPlutonic());
+            Assert.False(a.Spam);
+            Assert.Equal(123346, a.Noot);
+        }
+
+                [Fact]
+        public void TestTestDefaultComputedPropertiesEnum() {
+            var a = new TestDefaultComputedPropertiesEnum.Qux();
+            Assert.Equal("Newton Gimmick", a.GetPlutonic());
+            Assert.True(a.GetSpam());
+            Assert.Equal(72930, a.GetNoot());
+        }
     }
 
     public record TestDefaultComputedPropertiesOverrideNoot: TestDefaultComputedProperties {

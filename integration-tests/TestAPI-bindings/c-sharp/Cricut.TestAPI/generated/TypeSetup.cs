@@ -661,6 +661,29 @@ namespace Cricut.TestAPI {
             out CreatedRef _exn
         );
 
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_TestDefaultComputedPropertiesClass_setup(
+            IntPtr envRef,
+            SwiftReference.ConstructorDelegate constructorMethod,
+            out CreatedRef _exn
+        );
+
+        delegate CreatedRef Cricut_TestAPI_TestDefaultComputedPropertiesEnum_new_qux(
+            out CreatedRef _exn
+        );
+        unsafe delegate void Cricut_TestAPI_TestDefaultComputedPropertiesEnum_extract_qux(
+            UnownedRef obj,
+            out CreatedRef _exn
+        );
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_TestDefaultComputedPropertiesEnum_setup(
+            IntPtr envRef,
+            FishyJoesRuntime.EnumDiscriminator discriminator,
+            Cricut_TestAPI_TestDefaultComputedPropertiesEnum_new_qux qux_constructor,
+            Cricut_TestAPI_TestDefaultComputedPropertiesEnum_extract_qux qux_extractor,
+            out CreatedRef _exn
+        );
+
         delegate CreatedRef _TestAPI_TestDefaultComputedPropertiesStructConstructor(
             bool spam,
             nint noot,
@@ -2947,6 +2970,49 @@ namespace Cricut.TestAPI {
                     bag<_TestAPI_CommonInterface__TestDefaultComputedPropertiesConverter_Getpluto>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.TestDefaultComputedProperties>().GetPlutonic())
                     )),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.TestDefaultComputedPropertiesClass", () => {
+                Console.WriteLine("setting up TestAPI.TestDefaultComputedPropertiesClass...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_TestDefaultComputedPropertiesClass_setup(
+                    Loader.env,
+                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.TestDefaultComputedPropertiesReference(ptr));
+                    })),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.TestDefaultComputedPropertiesEnum", () => {
+                Console.WriteLine("setting up TestAPI.TestDefaultComputedPropertiesEnum...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_TestDefaultComputedPropertiesEnum_setup(
+                    Loader.env,
+                    bag<FishyJoesRuntime.EnumDiscriminator>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
+                        var enumeration = obj.Peek<Cricut.TestAPI.TestDefaultComputedPropertiesEnum>();
+                        if (enumeration is Cricut.TestAPI.TestDefaultComputedPropertiesEnum.Qux) { return (nint)0; }
+                        throw new Exception($"Found unexpected subclass of Cricut.TestAPI.TestDefaultComputedPropertiesEnum: {enumeration}");
+                    })),
+                    bag<Cricut_TestAPI_TestDefaultComputedPropertiesEnum_new_qux>(
+                        (
+                            out CreatedRef exn
+                        ) => Catching(out exn, () => 
+                            new CreatedRef(new Cricut.TestAPI.TestDefaultComputedPropertiesEnum.Qux(
+                            ))
+                        )
+                    ),
+                    bag<Cricut_TestAPI_TestDefaultComputedPropertiesEnum_extract_qux>(
+                        (
+                            UnownedRef obj,
+                            out CreatedRef exn
+                        ) => {
+                            try {
+                                var enumeration = obj.Peek<Cricut.TestAPI.TestDefaultComputedPropertiesEnum.Qux>();
+                                exn = CreatedRef.Null;
+                            } catch (Exception e) {
+                                exn = new CreatedRef(e);
+                            }
+                        }
+                    ),
                     out exn
                 ));
             });
