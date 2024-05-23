@@ -14,8 +14,10 @@ test('testDefaultComputedPropertiesStruct', () => {
 
 test('testDefaultComputedPropertiesImpl', () => {
     const a = new TestDefaultComputedPropertiesImplOverrideNoot();
-    expect(a.noot).toEqual(424242);
-    //expect(a.plutonic).toEqual("Newton Gimmick");
+    const b = TestAPI.TestDefaultComputedProperties.fromCore(a);
+
+    expect(b.noot).toEqual(424242);
+    expect(b.plutonic).toEqual("Newton Gimmick");
 });
 
 class TestDefaultComputedPropertiesImplOverrideNoot implements TestAPI.TestDefaultComputedPropertiesCore {
