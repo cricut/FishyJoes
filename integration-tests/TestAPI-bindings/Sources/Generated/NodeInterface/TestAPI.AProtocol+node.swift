@@ -4,6 +4,7 @@
 // swiftlint:disable unused_closure_parameter syntactic_sugar attributes
 import FishyJoesNodeRuntime
 import Foundation
+import NodeAPI
 import TestAPI
 import TestAPI_CommonInterface
 

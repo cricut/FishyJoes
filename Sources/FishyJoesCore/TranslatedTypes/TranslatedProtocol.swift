@@ -383,7 +383,8 @@ struct TranslatedProtocol: TranslatedType {
             additionalImports: [
                 "Foundation",
                 "FishyJoesNodeRuntime",
-                "\(context.module.name)_CommonInterface"
+                "\(context.module.name)_CommonInterface",
+                "NodeAPI"
             ]
         )
 
@@ -483,7 +484,30 @@ struct TranslatedProtocol: TranslatedType {
 
                         let defaultFields = fields.filter { $0.isDefaultImplementation }
                         for field in defaultFields {
-                            // handle default fields here
+                            let fieldName = field.exportAnnotation?.name ?? field.name
+                            fragment.output("let \(fieldName)GetterCallback: NAPI.Callback = ", newLineTerminated: false)
+                            context.nodeTranslator.output(getter: field, explicitThis: false, context: context, fragment: fragment, converterName: nil, shouldWrapDefaultImpl: true)
+                            
+                            fragment.blankLine()
+                            
+                            fragment.output("let \(fieldName)NodeName = try String.toNode(\"\(fieldName)\", env: env)")
+                            fragment.outputBlock("let \(fieldName)PropertyDesc = napi_property_descriptor(") {
+                                fragment.output("utf8name: nil,")
+                                fragment.output("name: \(fieldName)NodeName.ptr,")
+                                fragment.output("method: nil,")
+                                fragment.output("getter: \(fieldName)GetterCallback,")
+                                fragment.output("setter: nil,")
+                                fragment.output("value: nil,")
+                                fragment.output("attributes: napi_default,")
+                                fragment.output("data: nil")
+                            }
+
+                            fragment.blankLine()
+
+                            fragment.outputBlock("if !(try env.hasNamedProperty(result, \"\(fieldName)\")) {") {
+                                fragment.output("try env.defineProperties(result, properties: [\(fieldName)PropertyDesc])")
+                            }
+                            fragment.blankLine()
                         }
                         
                         let defaultMethods = methods.filter { $0.isDefaultImplementation }

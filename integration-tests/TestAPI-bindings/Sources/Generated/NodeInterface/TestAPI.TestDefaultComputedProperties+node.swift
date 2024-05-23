@@ -4,6 +4,7 @@
 // swiftlint:disable unused_closure_parameter syntactic_sugar attributes
 import FishyJoesNodeRuntime
 import Foundation
+import NodeAPI
 import TestAPI
 import TestAPI_CommonInterface
 
@@ -64,6 +65,50 @@ extension TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter: NodeC
                 let create = try env.getNamedProperty(object, "create")
 
                 let result = try env.callFunction(object, create, [coreArg])
+
+                let nootGetterCallback: NAPI.Callback = { env, info in
+                    FishyJoesNodeRuntime.callbackBody(env, info, name: "noot", expectedArgumentCount: 0) { env in
+                        let _wrappedSwiftSelf = TestAPI_CommonInterface.TestDefaultComputedProperties_sans_noot(wrapped: try env.this(converter: TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter.self))
+                        return try Swift.Int.toNode(_wrappedSwiftSelf.noot, env: env.env)
+                    }
+                }
+                let nootNodeName = try String.toNode("noot", env: env)
+                let nootPropertyDesc = napi_property_descriptor(
+                    utf8name: nil,
+                    name: nootNodeName.ptr,
+                    method: nil,
+                    getter: nootGetterCallback,
+                    setter: nil,
+                    value: nil,
+                    attributes: napi_default,
+                    data: nil
+                )
+
+                if !(try env.hasNamedProperty(result, "noot")) {
+                    try env.defineProperties(result, properties: [nootPropertyDesc])
+                }
+
+                let plutonicGetterCallback: NAPI.Callback = { env, info in
+                    FishyJoesNodeRuntime.callbackBody(env, info, name: "plutonic", expectedArgumentCount: 0) { env in
+                        let _wrappedSwiftSelf = TestAPI_CommonInterface.TestDefaultComputedProperties_sans_pluto(wrapped: try env.this(converter: TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter.self))
+                        return try Swift.String.toNode(_wrappedSwiftSelf.pluto, env: env.env)
+                    }
+                }
+                let plutonicNodeName = try String.toNode("plutonic", env: env)
+                let plutonicPropertyDesc = napi_property_descriptor(
+                    utf8name: nil,
+                    name: plutonicNodeName.ptr,
+                    method: nil,
+                    getter: plutonicGetterCallback,
+                    setter: nil,
+                    value: nil,
+                    attributes: napi_default,
+                    data: nil
+                )
+
+                if !(try env.hasNamedProperty(result, "plutonic")) {
+                    try env.defineProperties(result, properties: [plutonicPropertyDesc])
+                }
 
                 return result
             }
