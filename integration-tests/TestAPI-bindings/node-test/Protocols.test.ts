@@ -18,11 +18,23 @@ test('testDefaultComputedPropertiesImpl', () => {
 
     expect(b.noot).toEqual(424242);
     expect(b.plutonic).toEqual("Newton Gimmick");
+
+    const c = new TestDefaultComputedPropertiesImplOverridePlutonic();
+    const d = TestAPI.TestDefaultComputedProperties.fromCore(c);
+
+    expect(d.noot).toEqual(2983);
+    expect(d.plutonic).toEqual("Teddy Ruxpin");
 });
 
 class TestDefaultComputedPropertiesImplOverrideNoot implements TestAPI.TestDefaultComputedPropertiesCore {
     get noot(): number {
         return 424242;
+    };
+}
+
+class TestDefaultComputedPropertiesImplOverridePlutonic implements TestAPI.TestDefaultComputedPropertiesCore {
+    get plutonic(): string {
+        return "Teddy Ruxpin";
     };
 }
 
