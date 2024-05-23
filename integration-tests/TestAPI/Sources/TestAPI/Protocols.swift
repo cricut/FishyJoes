@@ -122,6 +122,23 @@ public struct TestDefaultComputedPropertiesStruct: TestDefaultComputedProperties
     }
 }
 
+/// <!-- FishyJoes.exportReference(TestDefaultComputedPropertiesReference, conformances: [TestDefaultComputedProperties]) -->
+public struct TestDefaultComputedPropertiesClass: TestDefaultComputedProperties {
+    /// <!-- FishyJoes.export(spam) -->
+    public var spam: Bool
+    /// <!-- FishyJoes.export(noot) -->
+    public var noot: Int
+
+    /// <!-- FishyJoes.export(init) -->
+    public init(
+        spam: Bool,
+        noot: Int
+    ) {
+        self.spam = spam
+        self.noot = noot
+    }
+}
+
 /// <!-- FishyJoes.export(TestProtocolEnum, conformances: [TestMethodsProtocol]) -->
 public enum TestProtocolEnum: TestMethodsProtocol {
     static let debugPrints = false

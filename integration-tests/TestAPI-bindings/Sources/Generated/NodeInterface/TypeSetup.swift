@@ -203,6 +203,7 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try TestAPI_CommonInterface._TestAsyncFunctionsConverter.nodeSetup(env: env, module: module)
     try TestAPI.TestAsyncSwiftSideFunctionsClass.nodeSetup(env: env, module: module)
     try TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter.nodeSetup(env: env, module: module)
+    try TestAPI.TestDefaultComputedPropertiesClass.nodeSetup(env: env, module: module)
     try TestAPI.TestDefaultComputedPropertiesStruct.nodeSetup(env: env, module: module)
     try TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter.nodeSetup(env: env, module: module)
     try TestAPI.TestLeadingUnderscoredPropStruct.nodeSetup(env: env, module: module)

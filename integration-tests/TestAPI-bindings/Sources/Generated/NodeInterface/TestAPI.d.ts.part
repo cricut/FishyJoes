@@ -2782,6 +2782,37 @@ export declare namespace TestAPI {
     }
 
     /**
+     * <!-- FishyJoes.exportReference(TestDefaultComputedPropertiesReference, conformances: [TestDefaultComputedProperties]) -->
+     */
+    export class TestDefaultComputedPropertiesReference implements TestDefaultComputedProperties {
+        private constructor()
+        private _inhibitStructuralTyping: any
+
+        /**
+         * <!-- FishyJoes.export(noot) -->
+         */
+        noot: number;
+
+        /**
+         * <!-- FishyJoes.export(plutonic) -->
+         */
+        readonly plutonic: string;
+
+        /**
+         * <!-- FishyJoes.export(spam) -->
+         */
+        spam: boolean;
+
+        /**
+         * <!-- FishyJoes.export(init) -->
+         */
+        static init(
+            spam: boolean,
+            noot: number
+        ): TestAPI.TestDefaultComputedPropertiesReference;
+    }
+
+    /**
      * <!-- FishyJoes.export(TestDefaultComputedPropertiesStruct, conformances: [TestDefaultComputedProperties]) -->
      */
     export class TestDefaultComputedPropertiesStruct implements TestDefaultComputedProperties {

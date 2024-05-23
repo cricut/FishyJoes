@@ -38,6 +38,16 @@ class TestDefaultComputedPropertiesImplOverridePlutonic implements TestAPI.TestD
     };
 }
 
+test('testDefaultComputedPropertiesClass', () => {
+    const a = TestAPI.TestDefaultComputedPropertiesReference.init(
+        true,
+        98172
+    );
+    expect(a.spam).toEqual(true);
+    expect(a.noot).toEqual(98172);
+    expect(a.plutonic).toEqual("Newton Gimmick");
+});
+
 test('testProtocolImplementation', () => {
     const a = new TestAPI.AProtocolImplementation(
         "Garply",

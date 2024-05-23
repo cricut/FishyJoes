@@ -1669,6 +1669,58 @@
         "named" : {
           "_0" : {
             "module" : "TestAPI",
+            "name" : "TestDefaultComputedPropertiesClass",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestDefaultComputedPropertiesReference",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestDefaultComputedPropertiesReference",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestDefaultComputedPropertiesReference"
+        }
+      },
+      "kotlinName" : "TestDefaultComputedPropertiesReference",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=TestDefaultComputedPropertiesReference>>",
+      "nodeName" : "TestAPI.TestDefaultComputedPropertiesReference",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestDefaultComputedPropertiesClass",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
             "name" : "TestDefaultComputedPropertiesStruct",
             "namespace" : [
 
@@ -4871,6 +4923,101 @@
 
             ],
             "name" : "ExternalWitness_TestDefaultComputedProperties"
+          },
+          {
+            "constructor" : {
+              "hidden" : {
+
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.exportReference(TestDefaultComputedPropertiesReference, conformances: [TestDefaultComputedProperties]) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(noot) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : false,
+                "name" : "noot",
+                "readOnly" : false,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(plutonic) -->"
+                ],
+                "hasDefaultImplementation" : true,
+                "isStatic" : false,
+                "name" : "plutonic",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(spam) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : false,
+                "name" : "spam",
+                "readOnly" : false,
+                "type" : {
+                  "named" : {
+                    "_0" : "boolean"
+                  }
+                }
+              }
+            ],
+            "implements" : [
+              "TestDefaultComputedProperties"
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(init) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "init",
+                "parameters" : [
+                  {
+                    "name" : "spam",
+                    "type" : {
+                      "named" : {
+                        "_0" : "boolean"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "noot",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.TestDefaultComputedPropertiesReference"
+                  }
+                }
+              }
+            ],
+            "name" : "TestDefaultComputedPropertiesReference"
           },
           {
             "constructor" : {
