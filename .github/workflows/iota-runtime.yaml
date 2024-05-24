@@ -159,7 +159,8 @@ jobs:
           set -euxo pipefail
 
           mkdir -p "$LIB_DIR"
-          cp -R "/c/Program Files/Swift/runtime-development/usr/bin/"*.dll "$LIB_DIR"
+          SWIFT_RUNTIME_DIR=`realpath "$SDKROOT/../../../.." | sed s#Platforms#Runtimes#g`
+          cp -R "$SWIFT_RUNTIME_DIR/usr/bin/"*.dll "$LIB_DIR"
 
       - name: Upload library
         uses: actions/upload-artifact@v3
