@@ -19,7 +19,7 @@ class DartProductClass: DartClass {
         constructor: Constructor,
         fields: [Variable],
         methods: [Method],
-        conformances: Set<String>,
+        conformances: Set<BetterType>,
         isExternalWitness: Bool = false
     ) {
         self.constructor = constructor

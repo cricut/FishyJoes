@@ -86,7 +86,7 @@ export declare namespace TestAPI {
     /**
      * <!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->
      */
-    export class AProtocolImplementation implements AProtocol {
+    export class AProtocolImplementation implements TestAPI.AProtocol {
         constructor(foo: string, baz: boolean)
 
         foo: string;
@@ -2268,7 +2268,7 @@ export declare namespace TestAPI {
     /**
      * <!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct, conformances: [TestAsyncFunctions]) -->
      */
-    export class TestAsyncForeignSideFunctionsStruct implements TestAsyncFunctions {
+    export class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions {
         constructor(const42: () => Promise<number>, iabs: (_0: number) => Promise<number>, intCompose: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>, add3Things: (_0: number, _1: number, _2: number) => Promise<number>, makeList: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>, fifthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>, six: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>, willThrow: () => Promise<number>, exercise0Fun: (_0: () => Promise<number>) => Promise<string>, exercise1Fun: (_0: (_0: number) => Promise<number>) => Promise<string>, exercise2Fun: (_0: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>) => Promise<string>, exercise3Fun: (_0: (_0: number, _1: number, _2: number) => Promise<number>) => Promise<string>, exercise4Fun: (_0: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>) => Promise<string>, exercise5Fun: (_0: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>) => Promise<string>, exercise6Fun: (_0: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>) => Promise<string>, thunkTwiceMakerFun: (_0: () => Promise<void>) => () => Promise<void>)
 
         readonly const42: () => Promise<number>;
@@ -2615,7 +2615,7 @@ export declare namespace TestAPI {
     /**
      * <!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass, conformances: [TestAsyncFunctions]) -->
      */
-    export class TestAsyncSwiftSideFunctionsClass implements TestAsyncFunctions {
+    export class TestAsyncSwiftSideFunctionsClass implements TestAPI.TestAsyncFunctions {
         private constructor()
         private _inhibitStructuralTyping: any
 
@@ -2749,7 +2749,7 @@ export declare namespace TestAPI {
      * // <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp, TestLeadingUnderscoredMethod]) -->
      * <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp]) -->
      */
-    export class TestLeadingUnderscoredPropStruct implements TestLeadingUnderscoredProp {
+    export class TestLeadingUnderscoredPropStruct implements TestAPI.TestLeadingUnderscoredProp {
         constructor(_leadingUnderscoreProp: string)
 
         _leadingUnderscoreProp: string;
@@ -2843,7 +2843,7 @@ export declare namespace TestAPI {
     /**
      * <!-- FishyJoes.exportReference(TestProtocolClass, conformances: [TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol]) -->
      */
-    export class TestProtocolClass implements TestMethodsProtocol, TestOptionalsProtocol, TestPropertiesProtocol {
+    export class TestProtocolClass implements TestAPI.TestMethodsProtocol, TestAPI.TestOptionalsProtocol, TestAPI.TestPropertiesProtocol {
         private constructor()
         private _inhibitStructuralTyping: any
 
@@ -2981,7 +2981,7 @@ export declare namespace TestAPI {
     /**
      * <!-- FishyJoes.export(TestProtocolStruct, conformances: [TestMethodsProtocol, TestPropertiesProtocol]) -->
      */
-    export class TestProtocolStruct implements TestMethodsProtocol, TestPropertiesProtocol {
+    export class TestProtocolStruct implements TestAPI.TestMethodsProtocol, TestAPI.TestPropertiesProtocol {
         constructor(corge: string)
 
         corge: string;

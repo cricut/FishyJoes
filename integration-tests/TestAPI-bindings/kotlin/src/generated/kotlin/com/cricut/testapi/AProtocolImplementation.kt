@@ -9,7 +9,7 @@ import kotlinx.coroutines.*
 data class AProtocolImplementation(
     override var foo: kotlin.String,
     override var baz: Boolean
-): AProtocol {
+): TestAPI.AProtocol {
     /**
      * <!-- FishyJoes.export(bar) -->
      */

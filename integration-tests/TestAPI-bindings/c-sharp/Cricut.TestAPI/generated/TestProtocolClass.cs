@@ -8,7 +8,7 @@ namespace Cricut.TestAPI {
     /// <summary>
     /// <!-- FishyJoes.exportReference(TestProtocolClass, conformances: [TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol]) -->
     /// </summary>
-    public class TestProtocolClass : SwiftReference, TestMethodsProtocol, TestOptionalsProtocol, TestPropertiesProtocol {
+    public class TestProtocolClass : SwiftReference, TestAPI.TestMethodsProtocol, TestAPI.TestOptionalsProtocol, TestAPI.TestPropertiesProtocol {
         internal TestProtocolClass(ConsumedRef reference): base(reference) {}
 
         /// <summary>

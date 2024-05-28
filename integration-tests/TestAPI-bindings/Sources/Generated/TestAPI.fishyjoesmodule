@@ -2576,7 +2576,7 @@
               }
             ],
             "implements" : [
-              "AProtocol"
+              "TestAPI.AProtocol"
             ],
             "methods" : [
               {
@@ -3591,7 +3591,7 @@
               }
             ],
             "implements" : [
-              "TestAsyncFunctions"
+              "TestAPI.TestAsyncFunctions"
             ],
             "methods" : [
               {
@@ -4382,7 +4382,7 @@
               }
             ],
             "implements" : [
-              "TestAsyncFunctions"
+              "TestAPI.TestAsyncFunctions"
             ],
             "methods" : [
               {
@@ -4744,7 +4744,7 @@
               }
             ],
             "implements" : [
-              "TestLeadingUnderscoredProp"
+              "TestAPI.TestLeadingUnderscoredProp"
             ],
             "methods" : [
 
@@ -5119,9 +5119,9 @@
               }
             ],
             "implements" : [
-              "TestMethodsProtocol",
-              "TestOptionalsProtocol",
-              "TestPropertiesProtocol"
+              "TestAPI.TestMethodsProtocol",
+              "TestAPI.TestOptionalsProtocol",
+              "TestAPI.TestPropertiesProtocol"
             ],
             "methods" : [
               {
@@ -5408,8 +5408,8 @@
               }
             ],
             "implements" : [
-              "TestMethodsProtocol",
-              "TestPropertiesProtocol"
+              "TestAPI.TestMethodsProtocol",
+              "TestAPI.TestPropertiesProtocol"
             ],
             "methods" : [
               {

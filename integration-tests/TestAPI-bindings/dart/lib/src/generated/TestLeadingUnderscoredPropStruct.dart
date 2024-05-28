@@ -64,7 +64,7 @@ import 'package:tuple/tuple.dart' as tuple;
 
 /// // <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp, TestLeadingUnderscoredMethod]) -->
 /// <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp]) -->
-class TestLeadingUnderscoredPropStruct implements TestAPI.TestLeadingUnderscoredProp {
+class TestLeadingUnderscoredPropStruct implements TestAPI.named(FishyJoesCore.BetterType.Name(module: Optional("TestAPI"), namespace: [], name: "TestLeadingUnderscoredProp")) {
     String m_leadingUnderscoreProp;
 
     TestLeadingUnderscoredPropStruct({

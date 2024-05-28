@@ -42,7 +42,7 @@ class CSharpClass: NestedClass {
     var innerClasses: [CSharpClass] = []
     let fields: [Variable]
     let methods: [Method]
-    let conformances: [String]
+    let conformances: Set<BetterType>
 
     init(
         module: Module,
@@ -50,14 +50,14 @@ class CSharpClass: NestedClass {
         name: String,
         fields: [Variable],
         methods: [Method],
-        conformances: Set<String>
+        conformances: Set<BetterType>
     ) {
         self.name = name
         self.documentation = documentation
         self.module = module
         self.fields = fields
         self.methods = methods
-        self.conformances = Array(conformances).sorted(by: <)
+        self.conformances = conformances
     }
 
     func output(to fragment: SourceFragment) {
@@ -326,7 +326,7 @@ class CSharpProductClass: CSharpClass {
         constructor: Constructor,
         fields: [Variable],
         methods: [Method],
-        conformances: Set<String>
+        conformances: Set<BetterType>
     ) {
         self.constructor = constructor
         super.init(
@@ -346,12 +346,12 @@ class CSharpProductClass: CSharpClass {
         case .reference:
             fragment.output("public class \(unqualifiedName) : SwiftReference", newLineTerminated: false)
             if !conformances.isEmpty {
-                fragment.output(", \(Array(conformances).sorted(by: < ).joined(separator: ", "))", newLineTerminated: false)
+                fragment.output(", \(Array(conformances.map { $0.name }).sorted(by: < ).joined(separator: ", "))", newLineTerminated: false)
             }
         case .public:
             fragment.output("public record \(unqualifiedName)", newLineTerminated: false)
             if !conformances.isEmpty {
-                fragment.output(": \(Array(conformances).sorted(by: < ).joined(separator: ", "))", newLineTerminated: false)
+                fragment.output(": \(Array(conformances.map { $0.name }).sorted(by: < ).joined(separator: ", "))", newLineTerminated: false)
             }
         }
         fragment.outputBlock(" {") {
@@ -404,7 +404,7 @@ class CSharpEnumClass: CSharpClass {
         cases: [Case],
         fields: [Variable],
         methods: [Method],
-        conformances: Set<String>
+        conformances: Set<BetterType>
     ) {
         self.cases = cases
         super.init(

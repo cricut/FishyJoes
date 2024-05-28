@@ -8,7 +8,7 @@ namespace Cricut.TestAPI {
     /// <summary>
     /// <!-- FishyJoes.export(TestProtocolStruct, conformances: [TestMethodsProtocol, TestPropertiesProtocol]) -->
     /// </summary>
-    public record TestProtocolStruct: TestMethodsProtocol, TestPropertiesProtocol {
+    public record TestProtocolStruct: TestAPI.TestMethodsProtocol, TestAPI.TestPropertiesProtocol {
         public string Corge { get; set; }
 
         public TestProtocolStruct(

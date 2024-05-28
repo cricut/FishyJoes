@@ -19,7 +19,7 @@ struct TranslatedReference: TranslatedType {
     let hashable: Bool
     let isInhabited: Bool
     let definingModule: Module
-    let conformances: Set<String>
+    let conformances: Set<BetterType>
 
     init(context: FishyJoesContext, type: Type) {
         guard let exportAnnotation = type.exportAnnotation else {
@@ -44,7 +44,9 @@ struct TranslatedReference: TranslatedType {
         self.hashable = type.hashable
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
-        self.conformances = exportAnnotation.conformances
+        self.conformances = Set(type.implements.compactMap {
+            .init(named: $0.value, context: context)
+        })
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
@@ -162,7 +164,7 @@ struct TranslatedReference: TranslatedType {
             .init(
                 documentation: documentation,
                 name: nodeName,
-                implements: Array(conformances).sorted(by: <),
+                implements: conformances.map { $0.name }.sorted(by: <),
                 constructor: .hidden,
                 fields: computedVariables.compactMap { context.ts(field: $0) },
                 methods: methods.compactMap { context.ts(method: $0) }
@@ -339,7 +341,7 @@ struct TranslatedReference: TranslatedType {
             constructor: .reference,
             fields: fields,
             methods: methods,
-            conformances: ["com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference)"]
+            conformances: [BetterType.named(.init(name: "SwiftReference(_swiftReference)", module: "com.cricut.fishyjoes.runtime"))]
         ).conforming(to: conformances, context: context)
         context.add(kotlinClass: product)
 

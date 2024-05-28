@@ -14,7 +14,7 @@ struct TranslatedProtocol: TranslatedType {
     let definingTSNamespace: String?
     let isInhabited: Bool
     var containedNamedTypes: [TranslatedType] { [self] }
-    let conformances: Set<String>
+    let conformances: Set<BetterType>
     let methods: [Method]
     let fields: [Field]
     let documentation: [String]
@@ -45,7 +45,9 @@ struct TranslatedProtocol: TranslatedType {
         self.definingTSNamespace = context.module.name
         self.isInhabited = type.isInhabited
 
-        self.conformances = exportAnnotation.conformances
+        self.conformances = Set(type.implements.compactMap {
+            .init(named: $0.value, context: context)
+        })
 
         self.methods = type.methodsPreferringDefaultImpl().compactMap { Method($0, type: type, protocolName: typeName) }
         self.fields = type.variablesPreferringDefaultImpl().compactMap { Field($0, type: type) }
@@ -886,8 +888,8 @@ struct TranslatedProtocol: TranslatedType {
                 constructor: .reference,
                 fields: externalWitnessFields,
                 methods: externalWitnessMethods,
-                conformances: ["com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference)"]
-            ).conforming(to: [sourceType.name], context: context)
+                conformances: [BetterType.named(.init(name: "SwiftReference(_swiftReference)", module: "com.cricut.fishyjoes.runtime"))]
+            ).conforming(to: [sourceType], context: context)
         )
 
         return [fragment]
@@ -930,7 +932,7 @@ struct TranslatedProtocol: TranslatedType {
                 constructor: .reference,
                 fields: externalWitnessFields,
                 methods: externalWitnessMethods,
-                conformances: [sourceType.nonNamespacedName]
+                conformances: [sourceType]
             )
         )
     }
@@ -971,7 +973,7 @@ struct TranslatedProtocol: TranslatedType {
                 constructor: .reference,
                 fields: externalWitnessFields,
                 methods: externalWitnessMethods,
-                conformances: [sourceType.nonNamespacedName]
+                conformances: [sourceType]
             )
         )
     }

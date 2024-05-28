@@ -17,7 +17,7 @@ struct TranslatedEnum: TranslatedType {
     let fields: [Field]
     let isInhabited: Bool
     let definingModule: Module
-    let conformances: Set<String>
+    let conformances: Set<BetterType>
 
     struct Case {
         let documentation: [String]
@@ -88,7 +88,9 @@ struct TranslatedEnum: TranslatedType {
         self.fields = type.variables.compactMap { Field($0, type: type) }
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
-        self.conformances = exportAnnotation.conformances
+        self.conformances = Set(type.implements.compactMap {
+            .init(named: $0.value, context: context)
+        })
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {

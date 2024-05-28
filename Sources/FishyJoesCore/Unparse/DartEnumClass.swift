@@ -14,7 +14,7 @@ class DartEnumClass: DartClass {
         cases: [Case],
         fields: [Variable],
         methods: [Method],
-        conformances: Set<String>
+        conformances: Set<BetterType>
     ) {
         self.cases = cases
         super.init(

@@ -13,7 +13,7 @@ class KotlinEnumClass: KotlinClass {
         cases: [Case],
         fields: [Variable],
         methods: [Method],
-        conformances: Set<String> = []
+        conformances: Set<BetterType> = []
     ) {
         self.cases = cases
         super.init(
@@ -31,7 +31,7 @@ class KotlinEnumClass: KotlinClass {
         fragment.output("@OptIn(ExperimentalCoroutinesApi::class)")
         fragment.output("sealed class \(unqualifiedName)", newLineTerminated: false)
         if !conformances.isEmpty {
-            fragment.output(": \(Array(conformances).sorted(by: < ).joined(separator: ", "))", newLineTerminated: false)
+            fragment.output(": \(Array(conformances.map { $0.name }).sorted(by: < ).joined(separator: ", "))", newLineTerminated: false)
         }
         fragment.outputBlock(" {") {
             for enumCase in cases {

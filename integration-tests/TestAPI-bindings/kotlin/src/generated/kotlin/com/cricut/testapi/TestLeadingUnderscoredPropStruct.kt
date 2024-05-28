@@ -9,7 +9,7 @@ import kotlinx.coroutines.*
  */
 data class TestLeadingUnderscoredPropStruct(
     override var _leadingUnderscoreProp: kotlin.String
-): TestLeadingUnderscoredProp {
+): TestAPI.TestLeadingUnderscoredProp {
 
     companion object {
         init { loadNativeLibs() }

@@ -8,7 +8,7 @@ import kotlinx.coroutines.*
  */
 data class TestProtocolStruct(
     override var corge: kotlin.String
-): TestMethodsProtocol, TestPropertiesProtocol {
+): TestAPI.TestMethodsProtocol, TestAPI.TestPropertiesProtocol {
     /**
      * <!-- FishyJoes.export(frobby) -->
      */

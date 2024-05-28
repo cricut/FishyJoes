@@ -16,7 +16,7 @@ struct TranslatedStruct: TranslatedType {
     let jniType: JNIType
     let isInhabited: Bool
     let definingModule: Module
-    let conformances: Set<String>
+    let conformances: Set<BetterType>
 
     init(context: FishyJoesContext, type: Type) {
         guard let exportAnnotation = type.exportAnnotation else {
@@ -41,7 +41,9 @@ struct TranslatedStruct: TranslatedType {
         self.documentation = type.documentation
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
-        self.conformances = exportAnnotation.conformances
+        self.conformances = Set(type.implements.compactMap {
+            .init(named: $0.value, context: context)
+        })
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
@@ -177,7 +179,7 @@ struct TranslatedStruct: TranslatedType {
         context.tsAnnotations.add(class: .init(
             documentation: documentation,
             name: nodeName,
-            implements: Array(conformances).sorted(by: <),
+            implements: Array(conformances.map { $0.name }).sorted(by: <),
             constructor: .visible(
                 storedVariables.map {
                     (

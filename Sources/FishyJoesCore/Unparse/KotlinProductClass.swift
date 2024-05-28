@@ -20,7 +20,7 @@ class KotlinProductClass: KotlinClass {
         constructor: Constructor,
         fields: [Variable],
         methods: [Method],
-        conformances: Set<String> = []
+        conformances: Set<BetterType> = []
     ) {
         self.isPrivate = isPrivate
         self.constructor = constructor
@@ -61,7 +61,7 @@ class KotlinProductClass: KotlinClass {
             }
         }
         if !conformances.isEmpty {
-            fragment.output(": \(Array(conformances).sorted(by: < ).joined(separator: ", "))", newLineTerminated: false)
+            fragment.output(": \(conformances.map { $0.name }.sorted(by: <).joined(separator: ", "))", newLineTerminated: false)
         }
         fragment.outputBlock(" {") {
             fields.filter { !$0.isStatic }.forEach { output(field: $0, to: fragment) }

@@ -3,7 +3,7 @@ package com.cricut.testapi
 import java.lang.Exception
 import kotlinx.coroutines.*
 
-private class _ExternalWitness_TestAsyncFunctions private constructor(_swiftReference: Long): TestAsyncFunctions, com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference) {
+private class _ExternalWitness_TestAsyncFunctions private constructor(_swiftReference: Long): TestAPI.TestAsyncFunctions, com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference) {
     /**
      * <!-- FishyJoes.export(add3Things) -->
      */

@@ -61,7 +61,7 @@ class DartClass {
     let setupTypes: SetupTypes?
     let fields: [Variable]
     let methods: [Method]
-    let conformances: [String]
+    let conformances: [BetterType]
 
     init(
         module: Module,
@@ -70,7 +70,7 @@ class DartClass {
         setupTypes: SetupTypes? = nil,
         fields: [Variable],
         methods: [Method],
-        conformances: Set<String>
+        conformances: Set<BetterType>
     ) {
         self.name = name
         self.documentation = documentation
@@ -78,7 +78,7 @@ class DartClass {
         self.setupTypes = setupTypes
         self.fields = fields
         self.methods = methods
-        self.conformances = Array(conformances).sorted(by: <)
+        self.conformances = Array(conformances).sorted(by: { $0.name < $1.name })
     }
 
     func commonIgnoreSpecificWarnings(fragment: SourceFragment) {
