@@ -82,7 +82,7 @@ jobs:
 
           ./scripts/compile-iota-runtime.sh
 
-      - name: Copy swift runtime SOs
+      - name: Collect libFishyJoesIotaRuntime and its dependencies
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -102,7 +102,7 @@ jobs:
           cp -dv /usr/lib/x86_64-linux-gnu/libicudata.so* $LIB_DIR
           cp -dv /usr/lib/x86_64-linux-gnu/libxml2.so* $LIB_DIR
 
-      - name: Patch system swift runtime SOs to use relative libraries
+      - name: Patch libraries to use relative dependencies
         shell: zsh {0}
         run: |
           cd $LIB_DIR
@@ -153,7 +153,7 @@ jobs:
 
           ./scripts/compile-iota-runtime.sh
 
-      - name: Copy swift runtime DLLs
+      - name: Collect libFishyJoesIotaRuntime and its dependencies
         shell: bash
         run: |
           set -euxo pipefail
@@ -161,6 +161,9 @@ jobs:
           mkdir -p "$LIB_DIR"
           SWIFT_RUNTIME_DIR="$(realpath "$SDKROOT/../../../.." | sed s#Platforms#Runtimes#g)"
           cp -R "$SWIFT_RUNTIME_DIR/usr/bin/"*.dll "$LIB_DIR"
+
+          binPath="$(swift build --configuration release --show-bin-path)"
+          cp -R "$binPath/FishyJoesIotaRuntime.dll" "$LIB_DIR"
 
       - name: Upload library
         uses: actions/upload-artifact@v3
