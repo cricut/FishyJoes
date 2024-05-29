@@ -204,13 +204,7 @@ public class FishyJoesContext {
 
         var fieldsToTranslateForTypeDict = [Type: [Field]]()
         for type in templateContext.types.types {
-            if let sourceryProtocolType = type as? SourceryProtocol {
-                fieldsToTranslateForTypeDict[type] = sourceryProtocolType.variablesPreferringDefaultImpl().compactMap {
-                    Field($0.sourceryVariable, type: type, isDefaultImplementation: $0.isDefaultImplementation)
-                }
-            } else {
-                fieldsToTranslateForTypeDict[type] = Field.fields(type: type)
-            }
+            fieldsToTranslateForTypeDict[type] = Field.fields(type: type)
         }
 
         for (type, fields) in fieldsToTranslateForTypeDict {
