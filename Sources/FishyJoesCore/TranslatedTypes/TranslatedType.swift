@@ -310,19 +310,19 @@ struct SourceryMethodPlus: Equatable {
         self.sourceryMethod = sourceryMethod
         self.isDefinedInProtocol = isDefinedInProtocol
     }
-    
+
     var isDefaultImplementation: Bool {
         return isDefinedInProtocol && sourceryMethod.definedInType?.isExtension == true
     }
-    
+
     func isMostlyEqual(other: SourceryMethodPlus) -> Bool {
         sourceryMethod.isMostlyEqual(other: other.sourceryMethod)
     }
-    
+
     static func == (lhs: SourceryMethodPlus, rhs: SourceryMethodPlus) -> Bool {
         lhs.isMostlyEqual(other: rhs)
     }
-    
+
     enum MethodTypePreference {
         case defaultImplementation
         case normal
@@ -423,7 +423,7 @@ struct SourceryVariablePlus: Equatable {
     static func == (lhs: SourceryVariablePlus, rhs: SourceryVariablePlus) -> Bool {
         lhs.isMostlyEqual(other: rhs)
     }
-    
+
     enum VariableTypePreference {
         case defaultImplementation
         case normal
