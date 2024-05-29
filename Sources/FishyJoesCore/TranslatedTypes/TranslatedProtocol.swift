@@ -324,7 +324,7 @@ struct TranslatedProtocol: TranslatedType {
                         }
                     }
                 }
-                
+
                 for method in methods {
                     if let defaultMethod = defaultMethod {
                         guard method.name != defaultMethod.name else {
