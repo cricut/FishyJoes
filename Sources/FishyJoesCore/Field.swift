@@ -121,11 +121,7 @@ extension Field {
 
         let isDefinedInProtocol = type is SourceryProtocol
         let normalFields = type.variables.compactMap {
-            if $0.definedInType?.isExtension == true {
-                return Field($0, type: type, isDefaultImplementation: type is SourceryProtocol)
-            } else {
-                return nil
-            }
+            Field($0, type: type, isDefaultImplementation: type is SourceryProtocol)
         }
 
         let fields = Field.fieldsPreferring(.normal, fields: normalFields + defaultFields)
