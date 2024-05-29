@@ -182,6 +182,7 @@ public class FishyJoesContext {
             moduleDefinedTypes.append(translatedType.asExternal)
         }
 
+        // Make methodsPreferringDefaultImpl return a Method
         // Translate
         var methodsToTranslateForTypeDict = [Type: [Method]]()
         for type in templateContext.types.types {
@@ -201,22 +202,24 @@ public class FishyJoesContext {
             }
         }
 
-        var variablesToTranslateForTypeDict = [Type: [SourceryVariablePlus]]()
+        var fieldsToTranslateForTypeDict = [Type: [Field]]()
         for type in templateContext.types.types {
             if let sourceryProtocolType = type as? SourceryProtocol {
-                variablesToTranslateForTypeDict[type] = sourceryProtocolType.variablesPreferringDefaultImpl()
+                fieldsToTranslateForTypeDict[type] = sourceryProtocolType.variablesPreferringDefaultImpl().compactMap {
+                    Field($0.sourceryVariable, type: type, isDefaultImplementation: $0.isDefaultImplementation)
+                }
             } else {
-                variablesToTranslateForTypeDict[type] = SourceryVariablePlus.variables(type: type)
+                fieldsToTranslateForTypeDict[type] = SourceryVariablePlus.variables(type: type)
             }
         }
 
-        for (type, variables) in variablesToTranslateForTypeDict {
-            for variable in variables {
-                debugContext = "Translating variable \(type.name).\(variable.sourceryVariable.name)"
-                guard variable.sourceryVariable.exportAnnotation != nil else { continue }
+        for (type, fields) in fieldsToTranslateForTypeDict {
+            for field in fields {
+                debugContext = "Translating variable \(type.name).\(field.name)"
+                guard field.exportAnnotation != nil else { continue }
 
-                collectedFragments.append(contentsOf: kotlinTranslator.translate(variable: variable, context: self, type: type))
-                collectedFragments.append(contentsOf: iotaTranslator.translate(variable: variable, context: self, type: type))
+                collectedFragments.append(contentsOf: kotlinTranslator.translate(field: field, context: self, type: type))
+                collectedFragments.append(contentsOf: iotaTranslator.translate(field: field, context: self, type: type))
             }
         }
         // Translate any top level functions

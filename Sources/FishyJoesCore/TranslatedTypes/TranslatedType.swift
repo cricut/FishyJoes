@@ -473,7 +473,7 @@ struct SourceryVariablePlus: Equatable {
         return preferredVariables.sorted(by: { $0.sourceryVariable.name < $1.sourceryVariable.name })
     }
 
-    static func variables(type: Type) -> [SourceryVariablePlus] {
+    static func variables(type: Type) -> [Field] {
         var defaultVariables = [SourceryVariablePlus]()
         let protocols = type.implements.values.compactMap { $0 as? SourceryProtocol }
         for prot in protocols {
@@ -482,6 +482,9 @@ struct SourceryVariablePlus: Equatable {
 
         let normalVariables = type.variables.map { SourceryVariablePlus(sourceryVariable: $0, isDefinedInProtocol: type is SourceryProtocol) }
         let variables = SourceryVariablePlus.variablesPreferring(.normal, variables: normalVariables + defaultVariables)
-        return variables
+        let fields = variables.compactMap {
+            Field($0.sourceryVariable, type: type, isDefaultImplementation: $0.isDefaultImplementation)
+        }
+        return fields
     }
 }

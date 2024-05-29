@@ -34,7 +34,7 @@ struct TranslatedStruct: TranslatedType {
         self.jniType = .object(context.kotlinTranslator.javaClassName(nodeName, in: context))
 
         self.storedVariables = type.storedVariables.compactMap { Field($0, type: type, isDefaultImplementation: false) }
-        self.computedVariables = SourceryVariablePlus.variables(type: type).compactMap { Field($0.sourceryVariable, type: type, isDefaultImplementation: $0.isDefaultImplementation) }
+        self.computedVariables = SourceryVariablePlus.variables(type: type)
 
         self.methods = Method.methods(type: type)
         self.documentation = type.documentation
