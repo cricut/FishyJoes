@@ -31,7 +31,12 @@ class KotlinEnumClass: KotlinClass {
         fragment.output("@OptIn(ExperimentalCoroutinesApi::class)")
         fragment.output("sealed class \(unqualifiedName)", newLineTerminated: false)
         if !conformances.isEmpty {
-            fragment.output(": \(Array(conformances.map { $0.name }).sorted(by: < ).joined(separator: ", "))", newLineTerminated: false)
+            let conformancesList = conformances.map { betterType in
+                let conformancePrefix = betterType.module != nil ? "com.cricut.\(betterType.module!.lowercased())." : ""
+                return "\(conformancePrefix)\(betterType.nonNamespacedName)"
+            }.sorted(by: <).joined(separator: ", ")
+
+            fragment.output(": \(conformancesList)", newLineTerminated: false)
         }
         fragment.outputBlock(" {") {
             for enumCase in cases {

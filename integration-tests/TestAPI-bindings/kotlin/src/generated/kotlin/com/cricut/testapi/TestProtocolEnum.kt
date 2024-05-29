@@ -7,7 +7,7 @@ import kotlinx.coroutines.*
  * <!-- FishyJoes.export(TestProtocolEnum, conformances: [TestMethodsProtocol]) -->
  */
 @OptIn(ExperimentalCoroutinesApi::class)
-sealed class TestProtocolEnum: TestAPI.TestMethodsProtocol {
+sealed class TestProtocolEnum: com.cricut.testapi.TestMethodsProtocol {
     object Qux : TestProtocolEnum()
     /**
      * <!-- FishyJoes.export(foo) -->
