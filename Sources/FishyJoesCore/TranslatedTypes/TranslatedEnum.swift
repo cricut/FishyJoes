@@ -180,19 +180,9 @@ struct TranslatedEnum: TranslatedType {
                 fragment.outputBlock("public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {") {
                     fragment.output("let object = try env.createObject()")
                     fragment.outputBlock("let props = try NodeClass.descriptorsFor(properties: [", closeWith: "], env: env)") {
-                        let normalMethods = methods.filter { !$0.isDefaultImplementation }
-                        let defaultMethods = methods.filter { $0.isDefaultImplementation }
-
                         var hasProperties = false
                         hasProperties ||= context.nodeTranslator.outputProperties(
-                            methods: normalMethods,
-                            explicitThis: true,
-                            context: context,
-                            fragment: fragment,
-                            converterName: converterType.name
-                        )
-                        hasProperties ||= context.nodeTranslator.outputProperties(
-                            methods: defaultMethods,
+                            methods: methods,
                             explicitThis: true,
                             context: context,
                             fragment: fragment,
