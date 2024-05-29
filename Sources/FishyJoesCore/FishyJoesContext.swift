@@ -97,12 +97,13 @@ public class FishyJoesContext {
         return SourceFragment(sourceryDestination: "file:\(name)")
     }
 
-    func kotlinFragment(_ name: String) -> SourceFragment {
+    func kotlinFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
         let fileName = "../../../../kotlin/generated/src/main/kotlin/com/cricut/\(module.name.lowercased())/\(name)"
         // Package must go before imports, use higher priority
         addHeader(file: fileName, priority: 1, "package \(module.kotlinPackage)\n")
         addHeader(file: fileName, "import kotlinx.coroutines.*")
         addHeader(file: fileName, "import java.lang.Exception")
+        addHeader(file: fileName, "import com.cricut.fishyjoes.runtime.*")
         for dependency in module.dependencies {
             addHeader(file: fileName, "import com.cricut.\(dependency.lowercased()).*")
         }

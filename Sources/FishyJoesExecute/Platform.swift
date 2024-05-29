@@ -488,7 +488,22 @@ enum Platform: CustomStringConvertible, Hashable {
     }
 
     func dylibName(for lib: String) -> String {
-        return "\(dylibPrefix)\(lib).\(dylibExt)"
+        switch self {
+        case .wasm:
+            fatalError("dynamic linking is currently unsupported in wasm")
+        case .kotlinAndroid:
+            return "lib\(lib).so"
+        case .node, .kotlinSystem, .cSharp, .dart:
+            #if os(macOS)
+            return "lib\(lib).dylib"
+            #elseif os(Linux)
+            return "lib\(lib).so"
+            #elseif os(Windows)
+            return "\(lib).dll"
+            #else
+            fatalError("unknown host OS")
+            #endif
+        }
     }
 
     func dylibPath(for lib: String, configuration: BuildConfiguration) throws -> String {

@@ -176,7 +176,7 @@ extension CodeGen {
             }
 
             // Create / clean directories used by Sourcery to generate Swift and foreign language code files for the translated foreign languages
-            let generatedSwiftTargets = ["DummyMain", "IotaInterface", "NodeInterface", "JavaInterface"]
+            let generatedSwiftTargets = ["DummyMain", "IotaInterface", "NodeInterface", "JavaInterface", "CommonInterface"]
             let sourceLocations = generatedSwiftTargets.map {
                 "\(swiftBindingsRoot)/Sources/\($0)"
             } + [
@@ -307,17 +307,11 @@ extension CodeGen {
                                     .executableTarget(
                                         name: "\(config.module)_WasmMainShim",
                                         dependencies: [
-                                        .target(name: \(config.module)_NodeInterface"),
+                                            .target(name: "\(config.module)_NodeInterface"),
                                         ],
                                         path: "Sources/WasmMainShim",
                                         swiftSettings: [
                                             .unsafeFlags(["-warn-concurrency"])
-                                        ]
-                                    ),
-
-                                        name: "DummyMain",
-                                        dependencies: [
-                                            "_NodeInterface",
                                         ]
                                     ),
                                 ] : [
@@ -457,10 +451,10 @@ extension CodeGen {
                 scratchPath: "\(swiftBindingsRoot)/.build",
                 debug: debug,
                 fat: fat,
-                codeCoverage: codeCoveragePath != nil,
+                codeCoveragePath: codeCoveragePath,
                 baseDockerContext: Lazy(makeDockerContext()),
-                injectedSwiftDependencies: injectedDependencies,
-                disableParallelism: disableParallelism
+                disableParallelism: disableParallelism,
+                injectedSwiftDependencies: injectedDependencies
             )
 
             // When building a node native target on Windows, node.lib must be downloaded and put in the LIBPATH in order to build the NodeAPI dependency
@@ -555,7 +549,7 @@ extension CodeGen {
                     }
 
                     struct NodeModule {
-                        let moduleName: String
+                        let name: String
                         let localPath: String
                         let definitionsPath: String
                         let extensionsPath: String
@@ -570,9 +564,9 @@ extension CodeGen {
                     }
 
                     // Collect the information about the module and its dependencies that will be needed to build node modules
-                    let nodeModules = [
+                    let nodeDependencies = [
                         NodeModule(
-                            moduleName: "Runtime",
+                            name: "Runtime",
                             localPath: runtimePath,
                             definitionsPath: "\(runtimePath)/fishyjoes-runtime-common",
                             extensionsPath: "\(runtimePath)/fishyjoes-runtime-common",
@@ -588,7 +582,6 @@ extension CodeGen {
                                 "file:\(fishyJoesDependency.localPath)/node-runtime/fishyjoes-runtime-\(platform.nodeExecutionEnvironment)"
                         )
                     ] + config.requiredModules.map { moduleName in
-                        let npmPackageName = "\(moduleName.lowercased())-\(platform.nodeExecutionEnvironment)"
                         let bindingsModuleName = "\(moduleName)-bindings"
                         guard let dependency = packageInfo.dependencyMap[bindingsModuleName] else {
                             fatalError("Could not locate dependency \(bindingsModuleName) in Package.swift")
@@ -608,9 +601,9 @@ extension CodeGen {
                             npmModuleVersion: dependency.version ??
                                 // If dependency is file-local, use a file-local dependency too
                                 "file:\(dependency.localPath)/output/\(platform.platform)"
-                        ))
+                        )
                     }
-                    nodeModules.append((
+                    let nodeModule = NodeModule(
                         name: config.module,
                         localPath: "Sources/Generated/NodeInterface",
                         definitionsPath: "Sources/Generated/NodeInterface",
@@ -623,9 +616,8 @@ extension CodeGen {
                         nodeShimCJSName: "\(config.module).cjs.node",
                         npmPackageName: "\(config.module)-\(platform.nodeExecutionEnvironment)",
                         npmModuleVersion: "file:output/\(platform.platform)"
-                    ))
-                    let nodeDependencies = nodeModules.dropLast()
-                    let nodeModule = nodeModules.last!
+                    )
+                    let nodeModules = nodeDependencies + [nodeModule]
 
                     // Install the module and its dependencies, then assemble the Javascript files required to load them
                     if platform == .wasm {
