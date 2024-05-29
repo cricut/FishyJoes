@@ -48,9 +48,9 @@ extension Field {
         // documentation may differ
         // definedIn may differ
         let isStaticMatches = isStatic == other.isStatic
-        let isMutableMatches = isMutable == other.isMutable
-        let isPubliclyWritableMatches = isPubliclyWritable == other.isPubliclyWritable
-        let isThrowingMatches = isThrowing == other.isThrowing
+        // isMutable may differ
+        // isPubliclyWritable may differ
+        // isThrowing may differ
         // isComputed may differ
         // isOverride may differ
         let isAsyncMatches = isAsync == other.isAsync
@@ -60,9 +60,6 @@ extension Field {
         return nameMatches &&
         typeMatches &&
         isStaticMatches &&
-        isMutableMatches &&
-        isPubliclyWritableMatches &&
-        isThrowingMatches &&
         isAsyncMatches
     }
     
@@ -83,14 +80,14 @@ extension Field {
 
                     if useMostlyEqualField {
                         guard let index = preferredFields.firstIndex(of: field) else {
-                            assertionFailure("field should exist in preferredFields")
+                            // field is not already in preferredFields, therefore no need to replace it with mostlyEqualField. To get here, mostlyEqualField must already be part of preferredFields.
                             continue
                         }
                         preferredFields.remove(at: index)
                         preferredFields.insert(mostlyEqualField, at: index)
                     } else { // use field
                         guard let index = preferredFields.firstIndex(of: mostlyEqualField) else {
-                            assertionFailure("mostlyEqualField should exist in preferredFields")
+                            // mostlyEqualField is not already in preferredFields, therefore no need to replace it with mostlyEqualField. To get here, field must already be part of preferredFields.
                             continue
                         }
                         preferredFields.remove(at: index)
