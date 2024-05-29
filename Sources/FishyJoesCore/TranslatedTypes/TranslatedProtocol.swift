@@ -909,7 +909,7 @@ struct TranslatedProtocol: TranslatedType {
                         compatibilityOrder: [],
                         returnType: kotlinVariable.type
                     )
-                    kotlinVariable.body = "\tget() = __jni__default_\(defaultMethodForVariable.name)(this)"
+                    kotlinVariable.body = "    get() = __jni__default_\(defaultMethodForVariable.name)(this)"
 
                     return [.variable(kotlinVariable), .method(defaultMethodForVariable)]
                 } + methods.flatMap { method -> [KotlinClass.MethodOrVariable] in

@@ -11,12 +11,12 @@ interface TestDefaultComputedProperties {
      * <!-- FishyJoes.export(noot) -->
      */
     val noot: Long
-    	get() = __jni__default_noot(this)
+        get() = __jni__default_noot(this)
     /**
      * <!-- FishyJoes.export(plutonic) -->
      */
     val plutonic: kotlin.String
-    	get() = __jni__default_plutonic(this)
+        get() = __jni__default_plutonic(this)
 
     companion object {
         @JvmName("__jni__default_noot")
