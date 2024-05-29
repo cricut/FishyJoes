@@ -238,23 +238,45 @@ extension SourceryProtocol {
 
 extension SourceryMethod {
     func isMostlyEqual(other: SourceryMethod) -> Bool {
+        // name can differ
+        // Method name including arguments names, i.e. `foo(bar:)` must match
+        let selectorNameMatches = selectorName == other.selectorName
+        // shortName can differ
+        // callName can differ
         let paramsMostlyEqual = zip(parameters, other.parameters).filter {
             $0.isMostlyEqual(other: $1)
         }.count == parameters.count
-        let selectorNameMatches = selectorName == other.selectorName
         let parametersCountMatches = parameters.count == other.parameters.count
         let returnTypeNameMatches = returnTypeName == other.returnTypeName
+        // actualReturnTypeName can differ (because is computed based on returnTypeName and we already check returnTypeName)
         let returnTypeMatches = returnType == other.returnType
+        // isOptionalReturnType can differ (because is computed based on returnTypeName and we already check returnTypeName)
+        // isImplicitlyUnwrappedOptionalReturnType can differ (because is computed based on returnTypeName and we already check returnTypeName)
+        // unwrappedReturnTypeName can differ (because is computed based on returnTypeName and we already check returnTypeName)
         let isAsyncMatches = isAsync == other.isAsync
         let throwsMatches = `throws` == other.`throws`
         let rethrowsMatches = `rethrows` == other.`rethrows`
         let accessLevelMatches = accessLevel == other.accessLevel
         let isStaticMatches = isStatic == other.isStatic
-        let isClassMatches = isClass == other.isClass
+        // isClass can differ
+        // isInitializer can differ
+        // isDeinitializer can differ
         let isFailableInitializerMatches = isFailableInitializer == other.isFailableInitializer
-        let documentationMatches = documentation == other.documentation
-        let annotationsMatches = annotations == other.annotations
-        let attributesMatches = attributes == other.attributes
+        // isConvenienceInitializer can differ
+        // isRequired can differ
+        // isFinal can differ
+        // isMutating can differ
+        // isGeneric can differ
+        // isOptional can differ
+        // isNonisolated can differ
+        // annotations can differ
+        // documentation can differ
+        // definedInTypeName can differ
+        // actualDefinedInTypeName can differ
+        // definedInType can differ
+        // attributes can differ
+        // modifiers can differ
+        // __parserData can differ
 
         return selectorNameMatches &&
         paramsMostlyEqual &&
@@ -266,11 +288,7 @@ extension SourceryMethod {
         rethrowsMatches &&
         accessLevelMatches &&
         isStaticMatches &&
-        isClassMatches &&
-        isFailableInitializerMatches &&
-        documentationMatches &&
-        annotationsMatches &&
-        attributesMatches
+        isFailableInitializerMatches
     }
 
     var isExtension: Bool {
@@ -280,21 +298,19 @@ extension SourceryMethod {
 
 extension MethodParameter {
     func isMostlyEqual(other: MethodParameter) -> Bool {
+        // argument label is external and must match
         let argumentLabelMatches = argumentLabel == other.argumentLabel
+        // name (method parameter; internal) can differ
         let typeNameMatches = typeName == other.typeName
-        let inoutMatches = `inout` == other.`inout`
-        let isVariadicMatches = isVariadic == other.isVariadic
-        let typeAttributesMatches = typeAttributes == other.typeAttributes
-        let defaultValueMatches = defaultValue == other.defaultValue
-        let annotationsMatches = annotations == other.annotations
+        // inout can differ
+        // isVariadic can differ
+        // type can differ
+        // typeAttributes can differ
+        // defaultValue can differ
+        // annotations can differ
 
         return argumentLabelMatches &&
-        typeNameMatches &&
-        inoutMatches &&
-        isVariadicMatches &&
-        typeAttributesMatches &&
-        defaultValueMatches &&
-        annotationsMatches
+        typeNameMatches
     }
 }
 
@@ -374,28 +390,23 @@ extension SourceryVariable {
         // writeAccess may differ
         // accessLevel may differ
         // isMutable may differ
-        let defaultValueMatches = defaultValue == other.defaultValue
-        let annotationsMatches = annotations == other.annotations
+        // defaultValue may differ
+        // annotations may differ
         // documentation may differ
-        let attributesMatches = attributes == other.attributes
+        // attributes may differ
         // modifiers may differ
-        let isFinalMatches = isFinal == other.isFinal
-        let isLazyMatches = isLazy == other.isLazy
+        // isFinal may differ
+        // isLazy may differ
         // definedInTypeName may differ
         // actualDefinedInTypeName may differ
         // definedInType can differ (isExtension property in particular)
-
+        
         return nameMatches &&
         typeNameMatches &&
         typeMatches &&
         isAsyncMatches &&
         isStaticMatches &&
-        readAccessMatches &&
-        defaultValueMatches &&
-        annotationsMatches &&
-        attributesMatches &&
-        isFinalMatches &&
-        isLazyMatches
+        readAccessMatches
     }
 }
 
