@@ -209,7 +209,7 @@ public class FishyJoesContext {
                     Field($0.sourceryVariable, type: type, isDefaultImplementation: $0.isDefaultImplementation)
                 }
             } else {
-                fieldsToTranslateForTypeDict[type] = SourceryVariablePlus.variables(type: type)
+                fieldsToTranslateForTypeDict[type] = Field.fields(type: type)
             }
         }
 
