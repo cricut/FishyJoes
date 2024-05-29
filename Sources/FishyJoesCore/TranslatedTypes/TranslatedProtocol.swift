@@ -47,7 +47,7 @@ struct TranslatedProtocol: TranslatedType {
 
         self.conformances = exportAnnotation.conformances
 
-        self.methods = type.methodsPreferringDefaultImpl().compactMap { Method($0, type: type, protocolName: typeName) }
+        self.methods = type.methodsPreferringDefaultImpl().compactMap { Method($0.sourceryMethod, type: type, isDefaultImplementation: $0.isDefaultImplementation, protocolName: typeName) }
         self.fields = type.variablesPreferringDefaultImpl().compactMap { Field($0.sourceryVariable, type: type, isDefaultImplementation: $0.isDefaultImplementation) }
 
         self.documentation = type.documentation

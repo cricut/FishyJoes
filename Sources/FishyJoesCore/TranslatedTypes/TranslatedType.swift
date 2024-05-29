@@ -216,12 +216,14 @@ extension Type {
 
 extension SourceryProtocol {
     // Default implementation methods replace unimplemented methods for Protocols
-    func methodsPreferringDefaultImpl() -> [SourceryMethod] {
-        SourceryMethod.methodsPreferring(.defaultImplementation, methods: rawMethods)
+    func methodsPreferringDefaultImpl() -> [SourceryMethodPlus] {
+        SourceryMethodPlus.methodsPreferring(.defaultImplementation, methods: rawMethods.map {
+            SourceryMethodPlus(sourceryMethod: $0, isDefinedInProtocol: true)
+        })
     }
 
-    func defaultMethods() -> [SourceryMethod] {
-        methodsPreferringDefaultImpl().filter { $0.isExtension }
+    func defaultMethods() -> [SourceryMethodPlus] {
+        methodsPreferringDefaultImpl().filter { $0.isDefaultImplementation }
     }
 
     // Default implementation variables replace unimplemented variables for Protocols
@@ -230,50 +232,11 @@ extension SourceryProtocol {
     }
 
     func defaultVariables() -> [SourceryVariablePlus] {
-        variablesPreferringDefaultImpl().filter { $0.isDefinedInProtocol && $0.sourceryVariable.definedInType?.isExtension == true }
+        variablesPreferringDefaultImpl().filter { $0.isDefaultImplementation }
     }
 }
 
 extension SourceryMethod {
-    enum MethodTypePreference {
-        case defaultImplementation
-        case normal
-    }
-    static func methodsPreferring(_ preference: MethodTypePreference, methods: [SourceryMethod]) -> [SourceryMethod] {
-        var preferredMethods = [SourceryMethod]()
-        for method in methods {
-            let mostlyEqualMethods = preferredMethods.filter {
-                return $0.isMostlyEqual(other: method)
-            }
-            if !mostlyEqualMethods.isEmpty {
-                for mostlyEqualMethod in mostlyEqualMethods {
-                    let isMostlyEqualMethodADefaultImplementation = mostlyEqualMethod.isExtension && (mostlyEqualMethod.definedInType is SourceryProtocol)
-
-                    let useMostlyEqualMethod = preference == .defaultImplementation ? isMostlyEqualMethodADefaultImplementation : !isMostlyEqualMethodADefaultImplementation
-
-                    if useMostlyEqualMethod {
-                        guard let index = preferredMethods.firstIndex(of: method) else {
-                            assertionFailure("method should exist in preferredMethods")
-                            continue
-                        }
-                        preferredMethods.remove(at: index)
-                        preferredMethods.insert(mostlyEqualMethod, at: index)
-                    } else { // use method
-                        guard let index = preferredMethods.firstIndex(of: mostlyEqualMethod) else {
-                            assertionFailure("mostlyEqualMethod should exist in preferredMethods")
-                            continue
-                        }
-                        preferredMethods.remove(at: index)
-                        preferredMethods.insert(method, at: index)
-                    }
-                }
-            } else {
-                preferredMethods.append(method)
-            }
-        }
-        return preferredMethods
-    }
-
     func isMostlyEqual(other: SourceryMethod) -> Bool {
         let paramsMostlyEqual = zip(parameters, other.parameters).filter {
             $0.isMostlyEqual(other: $1)
@@ -332,6 +295,69 @@ extension MethodParameter {
         typeAttributesMatches &&
         defaultValueMatches &&
         annotationsMatches
+    }
+}
+
+// Necessary because definedInType is not always SourceryProtocol when it ought to be, but is sometimes instead just a SourceryRuntime.Type.
+struct SourceryMethodPlus: Equatable {
+    public let sourceryMethod: SourceryMethod
+    public let isDefinedInProtocol: Bool
+
+    public init(
+        sourceryMethod: SourceryMethod,
+        isDefinedInProtocol: Bool
+    ) {
+        self.sourceryMethod = sourceryMethod
+        self.isDefinedInProtocol = isDefinedInProtocol
+    }
+    
+    var isDefaultImplementation: Bool {
+        return isDefinedInProtocol && sourceryMethod.definedInType?.isExtension == true
+    }
+    
+    func isMostlyEqual(other: SourceryMethodPlus) -> Bool {
+        sourceryMethod.isMostlyEqual(other: other.sourceryMethod)
+    }
+    
+    static func == (lhs: SourceryMethodPlus, rhs: SourceryMethodPlus) -> Bool {
+        lhs.isMostlyEqual(other: rhs)
+    }
+    
+    enum MethodTypePreference {
+        case defaultImplementation
+        case normal
+    }
+    static func methodsPreferring(_ preference: MethodTypePreference, methods: [SourceryMethodPlus]) -> [SourceryMethodPlus] {
+        var preferredMethods = [SourceryMethodPlus]()
+        for method in methods {
+            let mostlyEqualMethods = preferredMethods.filter {
+                return $0.isMostlyEqual(other: method)
+            }
+            if !mostlyEqualMethods.isEmpty {
+                for mostlyEqualMethod in mostlyEqualMethods {
+                    let useMostlyEqualMethod = preference == .defaultImplementation ? mostlyEqualMethod.isDefaultImplementation : !mostlyEqualMethod.isDefaultImplementation
+
+                    if useMostlyEqualMethod {
+                        guard let index = preferredMethods.firstIndex(of: method) else {
+                            assertionFailure("method should exist in preferredMethods")
+                            continue
+                        }
+                        preferredMethods.remove(at: index)
+                        preferredMethods.insert(mostlyEqualMethod, at: index)
+                    } else { // use method
+                        guard let index = preferredMethods.firstIndex(of: mostlyEqualMethod) else {
+                            assertionFailure("mostlyEqualMethod should exist in preferredMethods")
+                            continue
+                        }
+                        preferredMethods.remove(at: index)
+                        preferredMethods.insert(method, at: index)
+                    }
+                }
+            } else {
+                preferredMethods.append(method)
+            }
+        }
+        return preferredMethods
     }
 }
 
@@ -394,13 +420,13 @@ struct SourceryVariablePlus: Equatable {
         sourceryVariable.isMostlyEqual(other: other.sourceryVariable)
     }
 
+    static func == (lhs: SourceryVariablePlus, rhs: SourceryVariablePlus) -> Bool {
+        lhs.isMostlyEqual(other: rhs)
+    }
+    
     enum VariableTypePreference {
         case defaultImplementation
         case normal
-    }
-
-    static func == (lhs: SourceryVariablePlus, rhs: SourceryVariablePlus) -> Bool {
-        lhs.isMostlyEqual(other: rhs)
     }
 
     static func variablesPreferring(_ preference: VariableTypePreference, variables: [SourceryVariablePlus]) -> [SourceryVariablePlus] {

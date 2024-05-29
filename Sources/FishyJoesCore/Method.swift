@@ -27,11 +27,7 @@ struct Method: Hashable {
     }
     let sourceKind: SourceKind
 
-    init?(_ method: SourceryMethod, type: Type?) {
-        self.init(method, type: type, protocolName: nil)
-    }
-
-    init?(_ method: SourceryMethod, type: Type?, protocolName: String?) {
+    init?(_ method: SourceryMethod, type: Type?, isDefaultImplementation: Bool, protocolName: String?) {
         guard let exportAnnotation = method.exportAnnotation else { return nil }
         self.name = method.name
         self.callName = method.callName
@@ -78,7 +74,7 @@ struct Method: Hashable {
         precondition(omitParameters.isEmpty, "Can't find parameters \(omitParameters) to omit")
         self.parameters = parameters
         self.protocolName = protocolName
-        self.isDefaultImplementation = method.definedInType?.isExtension == true && type is SourceryProtocol
+        self.isDefaultImplementation = isDefaultImplementation
     }
 }
 
@@ -165,10 +161,16 @@ extension Method {
         var defaultMethods = [Method]()
         let protocols = type.implements.values.compactMap { $0 as? SourceryProtocol }
         for prot in protocols {
-            defaultMethods.append(contentsOf: prot.defaultMethods().compactMap { Method($0, type: prot, protocolName: prot.name) })
+            defaultMethods.append(contentsOf: prot.defaultMethods().compactMap { Method($0.sourceryMethod, type: prot, isDefaultImplementation: $0.isDefaultImplementation, protocolName: prot.name) })
         }
 
-        let normalMethods = type.methods.compactMap { Method($0, type: type) }
+        let isDefinedInProtocol = type is SourceryProtocol
+        let protocolName = isDefinedInProtocol ? type.name : nil
+        let normalMethods = type.methods.map {
+            SourceryMethodPlus(sourceryMethod: $0, isDefinedInProtocol: isDefinedInProtocol)
+        }.compactMap {
+            Method($0.sourceryMethod, type: type, isDefaultImplementation: $0.isDefaultImplementation, protocolName: protocolName)
+        }
 
         let methods = Method.methodsPreferring(.normal, methods: normalMethods + defaultMethods)
         return methods

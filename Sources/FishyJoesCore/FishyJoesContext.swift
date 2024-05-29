@@ -186,7 +186,7 @@ public class FishyJoesContext {
         var methodsToTranslateForTypeDict = [Type: [Method]]()
         for type in templateContext.types.types {
             if let sourceryProtocolType = type as? SourceryProtocol {
-                methodsToTranslateForTypeDict[type] = sourceryProtocolType.methodsPreferringDefaultImpl().compactMap { Method($0, type: type, protocolName: type.name) }
+                methodsToTranslateForTypeDict[type] = sourceryProtocolType.methodsPreferringDefaultImpl().compactMap { Method($0.sourceryMethod, type: type, isDefaultImplementation: $0.isDefaultImplementation, protocolName: type.name) }
             } else {
                 methodsToTranslateForTypeDict[type] = Method.methods(type: type)
             }
@@ -220,7 +220,7 @@ public class FishyJoesContext {
             }
         }
         // Translate any top level functions
-        let topLevelFunctions = templateContext.functions.compactMap { Method($0, type: nil) }
+        let topLevelFunctions = templateContext.functions.compactMap { Method($0, type: nil, isDefaultImplementation: false, protocolName: nil) }
         guard topLevelFunctions.isEmpty else {
             fatalErr("Support for exporting top level functions has been removed for now")
         }
