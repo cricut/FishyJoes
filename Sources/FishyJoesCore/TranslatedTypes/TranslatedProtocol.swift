@@ -292,8 +292,15 @@ struct TranslatedProtocol: TranslatedType {
     }
 
     func generateSansForDefaultImplementations(fragment: SourceFragment, defaultFields: [Field], defaultMethods: [Method]) {
-        for defaultField in defaultFields {
-            fragment.outputBlock("public struct \(sourceType.nonNamespacedName)_sans_\(defaultField.name): \(sourceType.name) {", closeWith: "}") {
+        func outputSansFor(defaultField: Field? = nil, defaultMethod: Method? = nil) {
+            guard defaultField != nil && defaultMethod == nil ||
+                    defaultField == nil && defaultMethod != nil else {
+                fatalErr("Exactly one of defaultField or defaultMethod must be non nil, the other must be nil")
+            }
+            guard let name = (defaultField?.name ?? defaultMethod?.callName) else {
+                fatalErr("Need a name")
+            }
+            fragment.outputBlock("public struct \(sourceType.nonNamespacedName)_sans_\(name): \(sourceType.name) {", closeWith: "}") {
                 fragment.output("public let wrapped: \(sourceType.name)")
 
                 fragment.blankLine()
@@ -303,8 +310,10 @@ struct TranslatedProtocol: TranslatedType {
                 }
 
                 for field in fields {
-                    guard field.name != defaultField.name else {
-                        continue
+                    if let defaultField = defaultField {
+                        guard field.name != defaultField.name else {
+                            continue
+                        }
                     }
                     fragment.blankLine()
                     let name = field.name
@@ -315,8 +324,14 @@ struct TranslatedProtocol: TranslatedType {
                         }
                     }
                 }
+                
                 for method in methods {
-                    fragment.output()
+                    if let defaultMethod = defaultMethod {
+                        guard method.name != defaultMethod.name else {
+                            continue
+                        }
+                    }
+                    fragment.blankLine()
                     let returnSignature = "\(method.isAsync ? " async": "")\(method.isThrowing ? " throws" : "") -> \(method.returnType.name)"
                     fragment.outputBlock("public func \(method.name)\(returnSignature) {", closeWith: "}") {
                         var methodParamsStr = [String]()
@@ -331,49 +346,15 @@ struct TranslatedProtocol: TranslatedType {
                     }
                 }
             }
-            fragment.output()
+        }
+        for defaultField in defaultFields {
+            outputSansFor(defaultField: defaultField)
+            fragment.blankLine()
         }
 
         for defaultMethod in defaultMethods {
-            fragment.outputBlock("public struct \(sourceType.nonNamespacedName)_sans_\(defaultMethod.callName): \(sourceType.name) {", closeWith: "}") {
-                fragment.output("public let wrapped: \(sourceType.name)")
-
-                fragment.blankLine()
-
-                fragment.outputBlock("public init(wrapped: \(sourceType.name)) {") {
-                    fragment.output("self.wrapped = wrapped")
-                }
-
-                for field in fields {
-                    fragment.blankLine()
-                    let name = field.name
-                    let type = field.type.name
-                    fragment.outputBlock("public var \(name): \(type) {") {
-                        fragment.outputBlock("get throws {") {
-                            fragment.output("try wrapped.\(name)")
-                        }
-                    }
-                }
-                for method in methods {
-                    guard method.name != defaultMethod.name else {
-                        continue
-                    }
-                    fragment.output()
-                    let returnSignature = "\(method.isAsync ? " async": "")\(method.isThrowing ? " throws" : "") -> \(method.returnType.name)"
-                    fragment.outputBlock("public func \(method.name)\(returnSignature) {", closeWith: "}") {
-                        var methodParamsStr = [String]()
-                        for param in method.parameters {
-                            if let paramLabel = param.label {
-                                methodParamsStr.append("\(paramLabel): \(param.name)")
-                            } else {
-                                methodParamsStr.append("\(param.name)")
-                            }
-                        }
-                        fragment.output("\(method.isThrowing ? "try " : "")\(method.isAsync ? "await ": "")wrapped.\(method.callName)(\(methodParamsStr.joined(separator: ", ")))")
-                    }
-                }
-            }
-            fragment.output()
+            outputSansFor(defaultMethod: defaultMethod)
+            fragment.blankLine()
         }
     }
 
