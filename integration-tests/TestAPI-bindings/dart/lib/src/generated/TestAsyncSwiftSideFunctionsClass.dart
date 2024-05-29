@@ -63,7 +63,7 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: annotate_overrides
 
 /// <!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass, conformances: [TestAsyncFunctions]) -->
-class TestAsyncSwiftSideFunctionsClass extends SwiftReference implements TestAPI.named(FishyJoesCore.BetterType.Name(module: Optional("TestAPI"), namespace: [], name: "TestAsyncFunctions")) {
+class TestAsyncSwiftSideFunctionsClass extends SwiftReference implements TestAPI.TestAsyncFunctions {
     TestAsyncSwiftSideFunctionsClass(ffi.Pointer reference): super(reference) {}
     static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
         createRef(TestAsyncSwiftSideFunctionsClass(ref))

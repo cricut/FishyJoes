@@ -63,7 +63,7 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: annotate_overrides
 
 /// <!-- FishyJoes.export(TestProtocolEnum, conformances: [TestMethodsProtocol]) -->
-sealed class TestProtocolEnum implements TestAPI.named(FishyJoesCore.BetterType.Name(module: Optional("TestAPI"), namespace: [], name: "TestMethodsProtocol")) {
+sealed class TestProtocolEnum implements TestAPI.TestMethodsProtocol {
     const factory TestProtocolEnum.qux(
     ) = TestProtocolEnum_Qux;
 

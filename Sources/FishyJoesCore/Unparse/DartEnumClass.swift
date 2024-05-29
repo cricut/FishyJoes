@@ -31,7 +31,7 @@ class DartEnumClass: DartClass {
         var conformancesPart = ""
         if !conformances.isEmpty {
             conformancesPart.append(" implements ")
-            conformancesPart.append(conformances.map { "\(module).\($0)" }.joined(separator: ", "))
+            conformancesPart.append(conformances.map { "\(module).\($0.nonNamespacedName)" }.joined(separator: ", "))
         }
         commonIgnoreSpecificWarnings(fragment: fragment)
 
