@@ -6,7 +6,7 @@ import kotlinx.coroutines.*
 /**
  * <!-- FishyJoes.exportReference(TestProtocolClass, conformances: [TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol]) -->
  */
-class TestProtocolClass private constructor(_swiftReference: Long): TestAPI.TestMethodsProtocol, TestAPI.TestOptionalsProtocol, TestAPI.TestPropertiesProtocol, com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference) {
+class TestProtocolClass private constructor(_swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference), com.cricut.testapi.TestMethodsProtocol, com.cricut.testapi.TestOptionalsProtocol, com.cricut.testapi.TestPropertiesProtocol {
     /**
      * <!-- FishyJoes.export(corge) -->
      */

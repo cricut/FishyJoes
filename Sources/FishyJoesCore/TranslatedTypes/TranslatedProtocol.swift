@@ -888,7 +888,7 @@ struct TranslatedProtocol: TranslatedType {
                 constructor: .reference,
                 fields: externalWitnessFields,
                 methods: externalWitnessMethods,
-                conformances: [BetterType.named(.init(name: "SwiftReference(_swiftReference)", module: "com.cricut.fishyjoes.runtime"))]
+                conformances: [BetterType.named(.init(name: "SwiftReference(_swiftReference)", module: "fishyjoes.runtime"))]
             ).conforming(to: [sourceType], context: context)
         )
 

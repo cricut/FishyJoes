@@ -6,7 +6,7 @@ import kotlinx.coroutines.*
 /**
  * <!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass, conformances: [TestAsyncFunctions]) -->
  */
-class TestAsyncSwiftSideFunctionsClass private constructor(_swiftReference: Long): TestAPI.TestAsyncFunctions, com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference) {
+class TestAsyncSwiftSideFunctionsClass private constructor(_swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference), com.cricut.testapi.TestAsyncFunctions {
     /**
      * <!-- FishyJoes.export(const42) -->
      */

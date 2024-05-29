@@ -9,7 +9,7 @@ import kotlinx.coroutines.*
  */
 data class TestLeadingUnderscoredPropStruct(
     override var _leadingUnderscoreProp: kotlin.String
-): TestAPI.TestLeadingUnderscoredProp {
+): com.cricut.testapi.TestLeadingUnderscoredProp {
 
     companion object {
         init { loadNativeLibs() }

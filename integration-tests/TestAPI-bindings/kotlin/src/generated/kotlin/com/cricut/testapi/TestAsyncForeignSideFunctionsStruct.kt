@@ -23,7 +23,7 @@ data class TestAsyncForeignSideFunctionsStruct(
     val exercise5Fun: (suspend ((suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long)) -> (suspend () -> Long))) -> kotlin.String),
     val exercise6Fun: (suspend ((suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)) -> kotlin.String),
     val thunkTwiceMakerFun: (((suspend () -> kotlin.Unit)) -> (suspend () -> kotlin.Unit))
-): TestAPI.TestAsyncFunctions {
+): com.cricut.testapi.TestAsyncFunctions {
     /**
      * <!-- FishyJoes.export(exercise0) -->
      */

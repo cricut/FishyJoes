@@ -3,7 +3,7 @@ package com.cricut.testapi
 import java.lang.Exception
 import kotlinx.coroutines.*
 
-private class _ExternalWitness_TestMethodsProtocol private constructor(_swiftReference: Long): TestAPI.TestMethodsProtocol, com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference) {
+private class _ExternalWitness_TestMethodsProtocol private constructor(_swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference), com.cricut.testapi.TestMethodsProtocol {
     /**
      * <!-- FishyJoes.export(foo) -->
      */

@@ -61,7 +61,12 @@ class KotlinProductClass: KotlinClass {
             }
         }
         if !conformances.isEmpty {
-            fragment.output(": \(conformances.map { $0.name }.sorted(by: <).joined(separator: ", "))", newLineTerminated: false)
+            let conformancesList = conformances.map { betterType in
+                let conformancePrefix = betterType.module != nil ? "com.cricut.\(betterType.module!.lowercased())." : ""
+                return "\(conformancePrefix)\(betterType.nonNamespacedName)"
+            }.sorted(by: <).joined(separator: ", ")
+
+            fragment.output(": \(conformancesList)", newLineTerminated: false)
         }
         fragment.outputBlock(" {") {
             fields.filter { !$0.isStatic }.forEach { output(field: $0, to: fragment) }
