@@ -148,7 +148,7 @@ extension Method {
                     var useMostlyEqualMethod = preference == .defaultImplementation ? mostlyEqualMethod.isDefaultImplementation : !mostlyEqualMethod.isDefaultImplementation
 
                     if method.isDefaultImplementation && mostlyEqualMethod.isDefaultImplementation {
-                        // Needed to handle case where we have two mostly equal methods but one of them has argument labels but no parameter names and the other does have parameter names; in this case we want to favor the method with the parameter names, which will necessarily have a longer name because it includes the argument labels and the parameter names.
+                        // Needed to handle case where we have two mostly equal methods but one of them has explicit argument labels the other does not; in this case we want to favor the method with the explicit argument labels, which will necessarily have a longer name because it includes the both the argument labels and the parameter names.
                         // https://docs.swift.org/swift-book/documentation/the-swift-programming-language/functions#Function-Argument-Labels-and-Parameter-Names
                         // "Each function parameter has both an argument label and a parameter name. The argument label is used when calling the function; each argument is written in the function call with its argument label before it. The parameter name is used in the implementation of the function. By default, parameters use their parameter name as their argument label."
                         useMostlyEqualMethod = method.name.count < mostlyEqualMethod.name.count
