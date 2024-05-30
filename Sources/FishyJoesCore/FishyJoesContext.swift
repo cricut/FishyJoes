@@ -212,7 +212,7 @@ public class FishyJoesContext {
             }
         }
         // Translate any top level functions
-        let topLevelFunctions = templateContext.functions.compactMap { Method($0, type: nil, isDefaultImplementation: false, protocolName: nil) }
+        let topLevelFunctions = templateContext.functions.compactMap { Method($0, type: nil, protocolName: nil) }
         guard topLevelFunctions.isEmpty else {
             fatalErr("Support for exporting top level functions has been removed for now")
         }

@@ -27,7 +27,7 @@ struct Method: Hashable {
     }
     let sourceKind: SourceKind
 
-    init?(_ method: SourceryMethod, type: Type?, isDefaultImplementation: Bool, protocolName: String?) {
+    init?(_ method: SourceryMethod, type: Type?, protocolName: String?) {
         guard let exportAnnotation = method.exportAnnotation else { return nil }
         self.name = method.name
         self.callName = method.callName
@@ -74,7 +74,7 @@ struct Method: Hashable {
         precondition(omitParameters.isEmpty, "Can't find parameters \(omitParameters) to omit")
         self.parameters = parameters
         self.protocolName = protocolName
-        self.isDefaultImplementation = isDefaultImplementation
+        self.isDefaultImplementation = (type is SourceryProtocol) && (method.definedInType?.isExtension == true)
     }
 }
 
@@ -183,7 +183,7 @@ extension Method {
         for prot in protocols {
             let protDefaultMethods = prot.rawMethods.compactMap {
                 if $0.definedInType?.isExtension == true {
-                    return Method($0, type: prot, isDefaultImplementation: true, protocolName: prot.name)
+                    return Method($0, type: prot, protocolName: prot.name)
                 } else {
                     return nil
                 }
@@ -192,12 +192,10 @@ extension Method {
             defaultMethods.append(contentsOf: protDefaultMethods)
         }
 
-        // Needed because type.method.definedIn may not be a SourceryProtocol even when it ought to be, but type will be a SourceryProtocol so we can use that instead.
         let isDefinedInProtocol = type is SourceryProtocol
         let protocolName = isDefinedInProtocol ? type.name : nil
         let normalMethods = type.rawMethods.compactMap {
-            let isDefaultImplementation = isDefinedInProtocol && ($0.definedInType?.isExtension == true)
-            return Method($0, type: type, isDefaultImplementation: isDefaultImplementation, protocolName: protocolName)
+            return Method($0, type: type, protocolName: protocolName)
         }
 
         let methods = Method.methodsPreferring(isDefinedInProtocol ? .defaultImplementation : .normal, methods: normalMethods + defaultMethods)
