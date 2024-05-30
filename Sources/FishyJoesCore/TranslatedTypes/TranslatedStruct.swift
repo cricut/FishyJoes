@@ -182,10 +182,13 @@ struct TranslatedStruct: TranslatedType {
             }
         }
 
+        let nodeConformances = conformances.map {
+            context.resolve(type: $0).sourceType
+        }
         context.tsAnnotations.add(class: .init(
             documentation: documentation,
             name: nodeName,
-            implements: Array(conformances.map { $0.name }).sorted(by: <),
+            implements: nodeConformances.map { $0.name }.sorted(by: <),
             constructor: .visible(
                 storedVariables.map {
                     (

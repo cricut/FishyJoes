@@ -80,7 +80,7 @@ struct TypeScriptAnnotations: Codable {
             documentation: [String] = [],
             name: String,
             extends: [String] = [],
-            implements: [String] = [],
+            implements: [String],
             constructor: Constructor,
             fields: [Variable],
             methods: [Method]

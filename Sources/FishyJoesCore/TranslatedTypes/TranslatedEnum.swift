@@ -396,6 +396,9 @@ struct TranslatedEnum: TranslatedType {
                 )
             )
 
+            let nodeConformances = Set(conformances.map {
+                context.resolve(type: $0).sourceType
+            })
             var tsCases: [TypeScriptAnnotations.TSType] = []
             for enumCase in cases {
                 let className = "\(nodeName).\(upperCaseFirst(enumCase.name))"
@@ -405,6 +408,7 @@ struct TranslatedEnum: TranslatedType {
                         documentation: enumCase.documentation,
                         name: className,
                         extends: [commonInterfaceName],
+                        implements: nodeConformances.map { $0.name }.sorted(by: <),
                         constructor: .visible(
                             enumCase.associatedValues.map { value in
                                 (value.bindingName, context.resolve(type: value.type).nodeType)

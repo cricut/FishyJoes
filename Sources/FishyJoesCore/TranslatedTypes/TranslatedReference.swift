@@ -156,11 +156,14 @@ struct TranslatedReference: TranslatedType {
             }
         }
 
+        let nodeConformances = conformances.map {
+            context.resolve(type: $0).sourceType
+        }
         context.tsAnnotations.add(class:
             .init(
                 documentation: documentation,
                 name: nodeName,
-                implements: conformances.map { $0.name }.sorted(by: <),
+                implements: nodeConformances.map { $0.name }.sorted(by: <),
                 constructor: .hidden,
                 fields: computedVariables.compactMap { context.ts(field: $0) },
                 methods: methods.compactMap { context.ts(method: $0) }
@@ -591,7 +594,9 @@ struct TranslatedReference: TranslatedType {
             constructor: .reference,
             fields: fields,
             methods: methods,
-            conformances: conformances
+            conformances: Set(conformances.map {
+                context.resolve(type: $0).sourceType
+            })
         )
         context.add(dartClass: dartProduct)
     }

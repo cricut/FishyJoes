@@ -570,11 +570,15 @@ struct TranslatedProtocol: TranslatedType {
 
         fragment.blankLine()
 
+        let nodeConformances = Set(conformances.map {
+            context.resolve(type: $0).sourceType
+        })
         context.tsAnnotations.add(class:
             .init(
                 name: nodeExternalWitnessClassName,
+                implements: nodeConformances.map { $0.name }.sorted(by: <),
                 constructor: .hidden,
-                fields: fields.compactMap {context.ts(field: $0, useNativeName: false) },
+                fields: fields.compactMap { context.ts(field: $0, useNativeName: false) },
                 methods: methods.compactMap { context.ts(method: $0) }
             )
         )
