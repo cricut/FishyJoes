@@ -341,7 +341,7 @@ struct TranslatedReference: TranslatedType {
             constructor: .reference,
             fields: fields,
             methods: methods,
-            conformances: [BetterType.named(.init(name: "SwiftReference(_swiftReference)", module: "fishyjoes.runtime"))]
+            conformances: [KotlinClass.KType.named(package: "fishyjoes.runtime", name: "SwiftReference(_swiftReference)")]
         ).conforming(to: conformances, context: context)
         context.add(kotlinClass: product)
 

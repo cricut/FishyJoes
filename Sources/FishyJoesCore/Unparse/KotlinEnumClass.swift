@@ -13,7 +13,7 @@ class KotlinEnumClass: KotlinClass {
         cases: [Case],
         fields: [Variable],
         methods: [Method],
-        conformances: Set<BetterType> = []
+        conformances: Set<KType> = []
     ) {
         self.cases = cases
         super.init(
@@ -31,9 +31,12 @@ class KotlinEnumClass: KotlinClass {
         fragment.output("@OptIn(ExperimentalCoroutinesApi::class)")
         fragment.output("sealed class \(unqualifiedName)", newLineTerminated: false)
         if !conformances.isEmpty {
-            let conformancesList = conformances.map { betterType in
-                let conformancePrefix = betterType.module != nil ? "com.cricut.\(betterType.module!.lowercased())." : ""
-                return "\(conformancePrefix)\(betterType.nonNamespacedName)"
+            let conformancesList = conformances.map { kType in
+                guard case let .named(package, name) = kType else {
+                    fatalErr("kType must be .name case")
+                }
+                let conformancePrefix = package != nil ? "com.cricut.\(package!.lowercased())." : ""
+                return "\(conformancePrefix)\(name)"
             }.sorted(by: <).joined(separator: ", ")
 
             fragment.output(": \(conformancesList)", newLineTerminated: false)

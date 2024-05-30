@@ -43,7 +43,7 @@ class KotlinClass: NestedClass {
     var innerClasses: [KotlinClass] = []
     var fields: [Variable]
     var methods: [Method]
-    var conformances: Set<BetterType> = []
+    var conformances: Set<KType> = []
 
     init(
         module: Module,
@@ -51,7 +51,7 @@ class KotlinClass: NestedClass {
         name: String,
         fields: [Variable],
         methods: [Method],
-        conformances: Set<BetterType>
+        conformances: Set<KType>
     ) {
         self.name = name
         self.documentation = documentation
