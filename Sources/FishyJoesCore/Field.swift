@@ -119,7 +119,7 @@ extension Field {
         // Needed because type.variable.definedIn may not be a SourceryProtocol even when it ought to be, but type will be a SourceryProtocol so we can use that instead.
         let isDefinedInProtocol = type is SourceryProtocol
         let normalFields = type.rawVariables.compactMap {
-            let isDefaultImplementation = isDefinedInProtocol && $0.definedInType?.isExtension == true
+            let isDefaultImplementation = isDefinedInProtocol && ($0.definedInType?.isExtension == true)
             return Field($0, type: type, isDefaultImplementation: isDefaultImplementation)
         }
 
