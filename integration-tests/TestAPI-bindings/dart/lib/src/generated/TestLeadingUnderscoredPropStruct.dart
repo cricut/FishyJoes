@@ -62,8 +62,8 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
-/// // <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp, TestLeadingUnderscoredMethod]) -->
-/// <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp]) -->
+/// // <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct) -->
+/// <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct) -->
 class TestLeadingUnderscoredPropStruct implements TestAPI.TestLeadingUnderscoredProp {
     String m_leadingUnderscoreProp;
 

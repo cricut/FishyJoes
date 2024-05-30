@@ -4,7 +4,7 @@ import java.lang.Exception
 import kotlinx.coroutines.*
 
 /**
- * <!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass, conformances: [TestAsyncFunctions]) -->
+ * <!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass) -->
  */
 class TestAsyncSwiftSideFunctionsClass private constructor(_swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference), com.cricut.testapi.TestAsyncFunctions {
     /**

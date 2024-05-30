@@ -2542,7 +2542,7 @@
               }
             },
             "documentation" : [
-              "<!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->"
+              "<!-- FishyJoes.export(AProtocolImplementation) -->"
             ],
             "extends" : [
 
@@ -3375,7 +3375,7 @@
               }
             },
             "documentation" : [
-              "<!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct, conformances: [TestAsyncFunctions]) -->"
+              "<!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct) -->"
             ],
             "extends" : [
 
@@ -4270,7 +4270,7 @@
               }
             },
             "documentation" : [
-              "<!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass, conformances: [TestAsyncFunctions]) -->"
+              "<!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass) -->"
             ],
             "extends" : [
 
@@ -4722,8 +4722,8 @@
               }
             },
             "documentation" : [
-              "// <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp, TestLeadingUnderscoredMethod]) -->",
-              "<!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp]) -->"
+              "// <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct) -->",
+              "<!-- FishyJoes.export(TestLeadingUnderscoredPropStruct) -->"
             ],
             "extends" : [
 
@@ -5068,7 +5068,7 @@
               }
             },
             "documentation" : [
-              "<!-- FishyJoes.exportReference(TestProtocolClass, conformances: [TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol]) -->"
+              "<!-- FishyJoes.exportReference(TestProtocolClass) -->"
             ],
             "extends" : [
 
@@ -5374,7 +5374,7 @@
               }
             },
             "documentation" : [
-              "<!-- FishyJoes.export(TestProtocolStruct, conformances: [TestMethodsProtocol, TestPropertiesProtocol]) -->"
+              "<!-- FishyJoes.export(TestProtocolStruct) -->"
             ],
             "extends" : [
 
@@ -13292,7 +13292,7 @@
           },
           {
             "documentation" : [
-              "<!-- FishyJoes.export(TestProtocolEnum, conformances: [TestMethodsProtocol]) -->"
+              "<!-- FishyJoes.export(TestProtocolEnum) -->"
             ],
             "name" : "TestProtocolEnum",
             "value" : {

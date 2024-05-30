@@ -6,7 +6,7 @@ using static Cricut.FishyJoesRuntime.Utilities;
 
 namespace Cricut.TestAPI {
     /// <summary>
-    /// <!-- FishyJoes.exportReference(TestProtocolClass, conformances: [TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol]) -->
+    /// <!-- FishyJoes.exportReference(TestProtocolClass) -->
     /// </summary>
     public class TestProtocolClass : SwiftReference, TestAPI.TestMethodsProtocol, TestAPI.TestOptionalsProtocol, TestAPI.TestPropertiesProtocol {
         internal TestProtocolClass(ConsumedRef reference): base(reference) {}

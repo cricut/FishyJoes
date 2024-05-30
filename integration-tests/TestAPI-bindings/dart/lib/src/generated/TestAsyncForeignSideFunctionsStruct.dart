@@ -62,7 +62,7 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
-/// <!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct, conformances: [TestAsyncFunctions]) -->
+/// <!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct) -->
 class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions {
     final Future<int> Function() const42;
     final Future<int> Function(int) iabs;

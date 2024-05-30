@@ -62,7 +62,7 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
-/// <!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->
+/// <!-- FishyJoes.export(AProtocolImplementation) -->
 class AProtocolImplementation implements TestAPI.AProtocol {
     String foo;
     bool baz;

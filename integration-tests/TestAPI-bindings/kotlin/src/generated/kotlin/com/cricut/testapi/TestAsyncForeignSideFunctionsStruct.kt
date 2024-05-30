@@ -4,7 +4,7 @@ import java.lang.Exception
 import kotlinx.coroutines.*
 
 /**
- * <!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct, conformances: [TestAsyncFunctions]) -->
+ * <!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct) -->
  */
 data class TestAsyncForeignSideFunctionsStruct(
     override val const42: (suspend () -> Long),
