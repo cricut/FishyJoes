@@ -500,6 +500,10 @@ struct TranslatedReference: TranslatedType {
         }
 
         let (productFields, productMethods) = CSharpClass.separate(fieldsAndMethods: fieldsAndMethods)
+        
+        let csTypeConformances = conformances.map {
+            CSharpClass.CSType.named(package: $0.module, name: $0.nonNamespacedName)
+        }
 
         let product = CSharpProductClass(
             module: context.module,
@@ -508,7 +512,7 @@ struct TranslatedReference: TranslatedType {
             constructor: .reference,
             fields: productFields,
             methods: productMethods,
-            conformances: conformances
+            conformances: Set(csTypeConformances)
         )
         context.add(cSharpClass: product)
     }

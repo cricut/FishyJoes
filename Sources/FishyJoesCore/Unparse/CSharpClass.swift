@@ -1,5 +1,5 @@
 class CSharpClass: NestedClass {
-    indirect enum CSType: Equatable, Codable {
+    indirect enum CSType: Hashable, Codable {
         case void
         case primitive(String)
         case named(package: String?, name: String)
@@ -42,7 +42,7 @@ class CSharpClass: NestedClass {
     var innerClasses: [CSharpClass] = []
     let fields: [Variable]
     let methods: [Method]
-    let conformances: Set<BetterType>
+    let conformances: Set<CSType>
 
     init(
         module: Module,
@@ -50,7 +50,7 @@ class CSharpClass: NestedClass {
         name: String,
         fields: [Variable],
         methods: [Method],
-        conformances: Set<BetterType>
+        conformances: Set<CSType>
     ) {
         self.name = name
         self.documentation = documentation
@@ -326,7 +326,7 @@ class CSharpProductClass: CSharpClass {
         constructor: Constructor,
         fields: [Variable],
         methods: [Method],
-        conformances: Set<BetterType>
+        conformances: Set<CSType>
     ) {
         self.constructor = constructor
         super.init(
@@ -404,7 +404,7 @@ class CSharpEnumClass: CSharpClass {
         cases: [Case],
         fields: [Variable],
         methods: [Method],
-        conformances: Set<BetterType>
+        conformances: Set<CSType>
     ) {
         self.cases = cases
         super.init(

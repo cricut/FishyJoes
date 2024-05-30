@@ -908,6 +908,10 @@ struct TranslatedProtocol: TranslatedType {
                 }
         )
 
+        let csTypeConformances = conformances.map {
+            CSharpClass.CSType.named(package: $0.module, name: $0.nonNamespacedName)
+        }
+
         context.add(
             cSharpClass: CSharpProtocolClass(
                 module: context.module,
@@ -915,7 +919,7 @@ struct TranslatedProtocol: TranslatedType {
                 name: cSharpType.name,
                 fields: protocolFields,
                 methods: protocolMethods,
-                conformances: conformances
+                conformances: Set(csTypeConformances)
             )
         )
 
@@ -927,6 +931,7 @@ struct TranslatedProtocol: TranslatedType {
                     context.cSharp(method: $0, of: self)
                 }
         )
+
         context.add(
             cSharpClass: CSharpProductClass(
                 module: context.module,
@@ -935,7 +940,7 @@ struct TranslatedProtocol: TranslatedType {
                 constructor: .reference,
                 fields: externalWitnessFields,
                 methods: externalWitnessMethods,
-                conformances: [sourceType]
+                conformances: [CSharpClass.CSType.named(package: sourceType.module, name: sourceType.nonNamespacedName)]
             )
         )
     }
