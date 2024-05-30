@@ -1030,6 +1030,7 @@ struct TranslatedProtocol: TranslatedType {
                     context.dart(method: $0, of: self)
                 }
         )
+
         context.add(
             dartClass: DartProtocolClass(
                 module: context.module,
@@ -1037,7 +1038,9 @@ struct TranslatedProtocol: TranslatedType {
                 name: dartType.name(),
                 fields: protocolFields,
                 methods: protocolMethods,
-                conformances: conformances
+                conformances: Set(conformances.map {
+                    context.resolve(type: $0).sourceType
+                })
             )
         )
 
