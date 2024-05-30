@@ -8,7 +8,7 @@ namespace Cricut.TestAPI {
     /// <summary>
     /// <!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass) -->
     /// </summary>
-    public class TestAsyncSwiftSideFunctionsClass : SwiftReference, TestAPI.TestAsyncFunctions {
+    public class TestAsyncSwiftSideFunctionsClass : SwiftReference, Cricut.TestAPI.TestAsyncFunctions {
         internal TestAsyncSwiftSideFunctionsClass(ConsumedRef reference): base(reference) {}
 
         /// <summary>

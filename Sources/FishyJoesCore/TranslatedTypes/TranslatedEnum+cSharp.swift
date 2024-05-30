@@ -108,11 +108,6 @@ extension TranslatedEnum {
 
         let (enumFields, enumMethods) = CSharpClass.separate(fieldsAndMethods: fieldsAndMethods)
 
-        let csTypeConformances = conformances.map {
-            let resolved = context.resolve(type: $0)
-            return CSharpClass.CSType.named(package: resolved.sourceType.module, name: resolved.sourceType.nonNamespacedName)
-        }
-
         return CSharpEnumClass(
             module: context.module,
             documentation: documentation,
@@ -129,7 +124,7 @@ extension TranslatedEnum {
             },
             fields: enumFields,
             methods: enumMethods,
-            conformances: Set(csTypeConformances)
+            conformances: Set(conformances.map { context.resolve(type: $0).cSharpType })
         )
     }
 }

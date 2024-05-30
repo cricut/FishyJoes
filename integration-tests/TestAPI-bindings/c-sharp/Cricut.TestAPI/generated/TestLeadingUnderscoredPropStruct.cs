@@ -9,7 +9,7 @@ namespace Cricut.TestAPI {
     /// <para>// &lt;!-- FishyJoes.export(TestLeadingUnderscoredPropStruct) --&gt;</para>
     /// <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct) -->
     /// </summary>
-    public record TestLeadingUnderscoredPropStruct: TestAPI.TestLeadingUnderscoredProp {
+    public record TestLeadingUnderscoredPropStruct: Cricut.TestAPI.TestLeadingUnderscoredProp {
         public string _leadingUnderscoreProp { get; set; }
 
         public TestLeadingUnderscoredPropStruct(

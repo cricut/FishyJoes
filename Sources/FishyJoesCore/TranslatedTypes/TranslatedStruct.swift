@@ -591,11 +591,6 @@ struct TranslatedStruct: TranslatedType {
 
         let (productFields, productMethods) = CSharpClass.separate(fieldsAndMethods: fieldsAndMethods)
 
-        let csTypeConformances = conformances.map {
-            let resolved = context.resolve(type: $0)
-            return CSharpClass.CSType.named(package: resolved.sourceType.module, name: resolved.sourceType.nonNamespacedName)
-        }
-
         context.add(
             cSharpClass: CSharpProductClass(
                 module: context.module,
@@ -604,7 +599,7 @@ struct TranslatedStruct: TranslatedType {
                 constructor: .`public`(fields: storedFields),
                 fields: productFields,
                 methods: productMethods,
-                conformances: Set(csTypeConformances)
+                conformances: Set(conformances.map { context.resolve(type: $0).cSharpType })
             )
         )
     }

@@ -8,7 +8,7 @@ namespace Cricut.TestAPI {
     /// <summary>
     /// <!-- FishyJoes.export(TestDefaultComputedPropertiesStruct) -->
     /// </summary>
-    public record TestDefaultComputedPropertiesStruct: TestAPI.TestDefaultComputedProperties {
+    public record TestDefaultComputedPropertiesStruct: Cricut.TestAPI.TestDefaultComputedProperties {
         public bool Spam { get; set; }
         public nint Noot { get; set; }
 

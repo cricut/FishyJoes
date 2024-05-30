@@ -8,7 +8,7 @@ namespace Cricut.TestAPI {
     /// <summary>
     /// <!-- FishyJoes.exportReference(TestDefaultComputedPropertiesReference) -->
     /// </summary>
-    public class TestDefaultComputedPropertiesReference : SwiftReference, TestAPI.TestDefaultComputedProperties {
+    public class TestDefaultComputedPropertiesReference : SwiftReference, Cricut.TestAPI.TestDefaultComputedProperties {
         internal TestDefaultComputedPropertiesReference(ConsumedRef reference): base(reference) {}
 
         /// <summary>
