@@ -67,7 +67,7 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
-/// <!-- FishyJoes.export(TestDefaultComputedPropertiesStruct, conformances: [TestDefaultComputedProperties]) -->
+/// <!-- FishyJoes.export(TestDefaultComputedPropertiesStruct) -->
 class TestDefaultComputedPropertiesStruct implements TestAPI.TestDefaultComputedProperties {
     bool spam;
     int noot;

@@ -108,7 +108,7 @@ public protocol TestOptionalsProtocol {
     func spqr(_ pippo: AssociatedDataEnum) throws -> Int
 }
 
-/// <!-- FishyJoes.export(TestDefaultComputedPropertiesStruct, conformances: [TestDefaultComputedProperties]) -->
+/// <!-- FishyJoes.export(TestDefaultComputedPropertiesStruct) -->
 public struct TestDefaultComputedPropertiesStruct: TestDefaultComputedProperties {
     public var spam: Bool
     public var noot: Int
@@ -122,7 +122,7 @@ public struct TestDefaultComputedPropertiesStruct: TestDefaultComputedProperties
     }
 }
 
-/// <!-- FishyJoes.exportReference(TestDefaultComputedPropertiesReference, conformances: [TestDefaultComputedProperties]) -->
+/// <!-- FishyJoes.exportReference(TestDefaultComputedPropertiesReference) -->
 public struct TestDefaultComputedPropertiesClass: TestDefaultComputedProperties {
     /// <!-- FishyJoes.export(spam) -->
     public var spam: Bool
@@ -139,7 +139,7 @@ public struct TestDefaultComputedPropertiesClass: TestDefaultComputedProperties 
     }
 }
 
-/// <!-- FishyJoes.export(TestDefaultComputedPropertiesEnum, conformances: [TestDefaultComputedProperties]) -->
+/// <!-- FishyJoes.export(TestDefaultComputedPropertiesEnum) -->
 public enum TestDefaultComputedPropertiesEnum: TestDefaultComputedProperties {
     case qux
 
@@ -153,7 +153,7 @@ public enum TestDefaultComputedPropertiesEnum: TestDefaultComputedProperties {
     }
 }
 
-/// <!-- FishyJoes.export(TestProtocolEnum, conformances: [TestMethodsProtocol]) -->
+/// <!-- FishyJoes.export(TestProtocolEnum) -->
 public enum TestProtocolEnum: TestMethodsProtocol {
     static let debugPrints = false
 

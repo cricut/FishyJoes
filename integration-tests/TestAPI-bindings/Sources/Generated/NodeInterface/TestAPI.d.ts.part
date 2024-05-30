@@ -2806,9 +2806,9 @@ export declare namespace TestAPI {
     }
 
     /**
-     * <!-- FishyJoes.exportReference(TestDefaultComputedPropertiesReference, conformances: [TestDefaultComputedProperties]) -->
+     * <!-- FishyJoes.exportReference(TestDefaultComputedPropertiesReference) -->
      */
-    export class TestDefaultComputedPropertiesReference implements TestDefaultComputedProperties {
+    export class TestDefaultComputedPropertiesReference implements TestAPI.TestDefaultComputedProperties {
         private constructor()
         private _inhibitStructuralTyping: any
 
@@ -2837,9 +2837,9 @@ export declare namespace TestAPI {
     }
 
     /**
-     * <!-- FishyJoes.export(TestDefaultComputedPropertiesStruct, conformances: [TestDefaultComputedProperties]) -->
+     * <!-- FishyJoes.export(TestDefaultComputedPropertiesStruct) -->
      */
-    export class TestDefaultComputedPropertiesStruct implements TestDefaultComputedProperties {
+    export class TestDefaultComputedPropertiesStruct implements TestAPI.TestDefaultComputedProperties {
         constructor(spam: boolean, noot: number)
 
         spam: boolean;
