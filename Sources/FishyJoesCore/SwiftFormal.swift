@@ -26,3 +26,13 @@ extension SwiftFormal {
         return paramStr
     }
 }
+
+extension SwiftFormal {
+    func isMostlyEqual(other: SwiftFormal) -> Bool {
+        let labelMatches = label == other.label
+        let typeMatches = type == other.type
+        
+        return labelMatches &&
+        typeMatches
+    }
+}

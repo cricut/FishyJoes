@@ -182,15 +182,10 @@ public class FishyJoesContext {
             moduleDefinedTypes.append(translatedType.asExternal)
         }
 
-        // Make methodsPreferringDefaultImpl return a Method
         // Translate
         var methodsToTranslateForTypeDict = [Type: [Method]]()
         for type in templateContext.types.types {
-            if let sourceryProtocolType = type as? SourceryProtocol {
-                methodsToTranslateForTypeDict[type] = sourceryProtocolType.methodsPreferringDefaultImpl().compactMap { Method($0.sourceryMethod, type: type, isDefaultImplementation: $0.isDefaultImplementation, protocolName: type.name) }
-            } else {
-                methodsToTranslateForTypeDict[type] = Method.methods(type: type)
-            }
+            methodsToTranslateForTypeDict[type] = Method.methods(type: type)
         }
 
         for (type, methods) in methodsToTranslateForTypeDict {

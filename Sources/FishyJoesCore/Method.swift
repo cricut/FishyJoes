@@ -105,18 +105,31 @@ extension Method {
 
 extension Method {
     func isMostlyEqual(other: Method) -> Bool {
-        name == other.name &&
-        callName == other.callName &&
-        exportAnnotation == other.exportAnnotation &&
-        parameters == other.parameters &&
-        returnType == other.returnType &&
-        documentation == other.documentation &&
-        definedIn == other.definedIn &&
-        isStatic == other.isStatic &&
-        isMutating == other.isMutating &&
-        isThrowing == other.isThrowing &&
-        isAsync == other.isAsync &&
-        deprecation == other.deprecation
+        // name may differ
+        let callNameMatches = callName == other.callName
+        // exportAnnotations may differ
+
+        var parametersMatches = parameters.count == other.parameters.count
+        zip(parameters, other.parameters).forEach {
+            parametersMatches = parametersMatches && $0.isMostlyEqual(other: $1)
+        }
+
+        let returnTypeMatches = returnType == other.returnType
+        // documentation may differ
+        // definedIn may differ
+        let isStaticMatches = isStatic == other.isStatic
+        let isMutatingMatches = isMutating == other.isMutating
+        let isThrowingMatches = isThrowing == other.isThrowing
+        let isAsyncMatches = isAsync == other.isAsync
+        // deprecation may differ
+        
+        return callNameMatches &&
+        parametersMatches &&
+        returnTypeMatches &&
+        isStaticMatches &&
+        isMutatingMatches &&
+        isThrowingMatches &&
+        isAsyncMatches
     }
 
     enum MethodTypePreference {
@@ -132,18 +145,25 @@ extension Method {
             }
             if !mostlyEqualMethods.isEmpty {
                 for mostlyEqualMethod in mostlyEqualMethods {
-                    let useMostlyEqualMethod = preference == .defaultImplementation ? mostlyEqualMethod.isDefaultImplementation : !mostlyEqualMethod.isDefaultImplementation
+                    var useMostlyEqualMethod = preference == .defaultImplementation ? mostlyEqualMethod.isDefaultImplementation : !mostlyEqualMethod.isDefaultImplementation
+
+                    if method.isDefaultImplementation && mostlyEqualMethod.isDefaultImplementation {
+                        // Needed to handle case where we have two mostly equal methods but one of them has argument labels but no parameter names and the other does have parameter names; in this case we want to favor the method with the parameter names, which will necessarily have a longer name because it includes the argument labels and the parameter names.
+                        // https://docs.swift.org/swift-book/documentation/the-swift-programming-language/functions#Function-Argument-Labels-and-Parameter-Names
+                        // "Each function parameter has both an argument label and a parameter name. The argument label is used when calling the function; each argument is written in the function call with its argument label before it. The parameter name is used in the implementation of the function. By default, parameters use their parameter name as their argument label."
+                        useMostlyEqualMethod = method.name.count < mostlyEqualMethod.name.count
+                    }
 
                     if useMostlyEqualMethod {
                         guard let index = preferredMethods.firstIndex(of: method) else {
-                            assertionFailure("method should exist in preferredMethods")
+                            // method is not already in preferredMethods, therefore no need to replace it with mostlyEqualMethod. To get here, mostlyEqualMethod must already be part of preferredMethods.
                             continue
                         }
                         preferredMethods.remove(at: index)
                         preferredMethods.insert(mostlyEqualMethod, at: index)
                     } else { // use method
                         guard let index = preferredMethods.firstIndex(of: mostlyEqualMethod) else {
-                            assertionFailure("mostlyEqualMethod should exist in preferredMethods")
+                            // mostlyEqualMethod is not already in preferredMethods, therefore no need to replace it with mostlyEqualMethod. To get here, method must already be part of preferredMethods.
                             continue
                         }
                         preferredMethods.remove(at: index)
@@ -161,19 +181,27 @@ extension Method {
         var defaultMethods = [Method]()
         let protocols = type.implements.values.compactMap { $0 as? SourceryProtocol }
         for prot in protocols {
-            defaultMethods.append(contentsOf: prot.defaultMethods().compactMap { Method($0.sourceryMethod, type: prot, isDefaultImplementation: $0.isDefaultImplementation, protocolName: prot.name) })
+            let protDefaultMethods = prot.rawMethods.compactMap {
+                if $0.definedInType?.isExtension == true {
+                    return Method($0, type: prot, isDefaultImplementation: true, protocolName: prot.name)
+                } else {
+                    return nil
+                }
+            }
+
+            defaultMethods.append(contentsOf: protDefaultMethods)
         }
 
+        // Needed because type.method.definedIn may not be a SourceryProtocol even when it ought to be, but type will be a SourceryProtocol so we can use that instead.
         let isDefinedInProtocol = type is SourceryProtocol
         let protocolName = isDefinedInProtocol ? type.name : nil
-        let normalMethods = type.methods.map {
-            SourceryMethodPlus(sourceryMethod: $0, isDefinedInProtocol: isDefinedInProtocol)
-        }.compactMap {
-            Method($0.sourceryMethod, type: type, isDefaultImplementation: $0.isDefaultImplementation, protocolName: protocolName)
+        let normalMethods = type.rawMethods.compactMap {
+            let isDefaultImplementation = isDefinedInProtocol && ($0.definedInType?.isExtension == true)
+            return Method($0, type: type, isDefaultImplementation: isDefaultImplementation, protocolName: protocolName)
         }
 
-        let methods = Method.methodsPreferring(.normal, methods: normalMethods + defaultMethods)
-        return methods
+        let methods = Method.methodsPreferring(isDefinedInProtocol ? .defaultImplementation : .normal, methods: normalMethods + defaultMethods)
+        return methods//.sorted(by: { $0.name < $1.name })
     }
 }
 
