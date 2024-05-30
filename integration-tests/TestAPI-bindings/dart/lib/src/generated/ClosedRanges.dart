@@ -15,6 +15,7 @@ import './Deprecations.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
 import './ExternalWitness_AProtocol.dart' as TestAPI;
 import './ExternalWitness_TestAsyncFunctions.dart' as TestAPI;
+import './ExternalWitness_TestDefaultComputedProperties.dart' as TestAPI;
 import './ExternalWitness_TestLeadingUnderscoredProp.dart' as TestAPI;
 import './ExternalWitness_TestMethodsProtocol.dart' as TestAPI;
 import './ExternalWitness_TestOptionalsProtocol.dart' as TestAPI;
@@ -35,6 +36,10 @@ import './Structs_ReferenceStruct.dart' as TestAPI;
 import './TestAsyncForeignSideFunctionsStruct.dart' as TestAPI;
 import './TestAsyncFunctions.dart' as TestAPI;
 import './TestAsyncSwiftSideFunctionsClass.dart' as TestAPI;
+import './TestDefaultComputedProperties.dart' as TestAPI;
+import './TestDefaultComputedPropertiesEnum.dart' as TestAPI;
+import './TestDefaultComputedPropertiesReference.dart' as TestAPI;
+import './TestDefaultComputedPropertiesStruct.dart' as TestAPI;
 import './TestLeadingUnderscoredProp.dart' as TestAPI;
 import './TestLeadingUnderscoredPropStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
@@ -70,40 +75,16 @@ class ClosedRanges {
         throw UnsupportedError('This class is supposed to be uninhabited');
     });
 
-    /// <!-- FishyJoes.export(uInt8Range) -->
-    static FishyJoesRuntime.SwiftClosedRange<int> get uInt8Range =>
+    /// <!-- FishyJoes.export(doubleRange) -->
+    static FishyJoesRuntime.SwiftClosedRange<double> get doubleRange =>
         check((exn) =>
-            consumeCreatedRef<FishyJoesRuntime.SwiftClosedRange<int>>(f__iota_get_TestAPI_ClosedRanges_uInt8Range(Loader.shared.env, exn))
+            consumeCreatedRef<FishyJoesRuntime.SwiftClosedRange<double>>(f__iota_get_TestAPI_ClosedRanges_doubleRange(Loader.shared.env, exn))
         )
     ;
-    /// <!-- FishyJoes.export(uInt16Range) -->
-    static FishyJoesRuntime.SwiftClosedRange<int> get uInt16Range =>
+    /// <!-- FishyJoes.export(floatRange) -->
+    static FishyJoesRuntime.SwiftClosedRange<double> get floatRange =>
         check((exn) =>
-            consumeCreatedRef<FishyJoesRuntime.SwiftClosedRange<int>>(f__iota_get_TestAPI_ClosedRanges_uInt16Range(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(uInt32Range) -->
-    static FishyJoesRuntime.SwiftClosedRange<int> get uInt32Range =>
-        check((exn) =>
-            consumeCreatedRef<FishyJoesRuntime.SwiftClosedRange<int>>(f__iota_get_TestAPI_ClosedRanges_uInt32Range(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(uInt64Range) -->
-    static FishyJoesRuntime.SwiftClosedRange<int> get uInt64Range =>
-        check((exn) =>
-            consumeCreatedRef<FishyJoesRuntime.SwiftClosedRange<int>>(f__iota_get_TestAPI_ClosedRanges_uInt64Range(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(uIntRange) -->
-    static FishyJoesRuntime.SwiftClosedRange<int> get uIntRange =>
-        check((exn) =>
-            consumeCreatedRef<FishyJoesRuntime.SwiftClosedRange<int>>(f__iota_get_TestAPI_ClosedRanges_uIntRange(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(int8Range) -->
-    static FishyJoesRuntime.SwiftClosedRange<int> get int8Range =>
-        check((exn) =>
-            consumeCreatedRef<FishyJoesRuntime.SwiftClosedRange<int>>(f__iota_get_TestAPI_ClosedRanges_int8Range(Loader.shared.env, exn))
+            consumeCreatedRef<FishyJoesRuntime.SwiftClosedRange<double>>(f__iota_get_TestAPI_ClosedRanges_floatRange(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(int16Range) -->
@@ -124,28 +105,52 @@ class ClosedRanges {
             consumeCreatedRef<FishyJoesRuntime.SwiftClosedRange<int>>(f__iota_get_TestAPI_ClosedRanges_int64Range(Loader.shared.env, exn))
         )
     ;
+    /// <!-- FishyJoes.export(int8Range) -->
+    static FishyJoesRuntime.SwiftClosedRange<int> get int8Range =>
+        check((exn) =>
+            consumeCreatedRef<FishyJoesRuntime.SwiftClosedRange<int>>(f__iota_get_TestAPI_ClosedRanges_int8Range(Loader.shared.env, exn))
+        )
+    ;
     /// <!-- FishyJoes.export(intRange) -->
     static FishyJoesRuntime.SwiftClosedRange<int> get intRange =>
         check((exn) =>
             consumeCreatedRef<FishyJoesRuntime.SwiftClosedRange<int>>(f__iota_get_TestAPI_ClosedRanges_intRange(Loader.shared.env, exn))
         )
     ;
-    /// <!-- FishyJoes.export(floatRange) -->
-    static FishyJoesRuntime.SwiftClosedRange<double> get floatRange =>
-        check((exn) =>
-            consumeCreatedRef<FishyJoesRuntime.SwiftClosedRange<double>>(f__iota_get_TestAPI_ClosedRanges_floatRange(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(doubleRange) -->
-    static FishyJoesRuntime.SwiftClosedRange<double> get doubleRange =>
-        check((exn) =>
-            consumeCreatedRef<FishyJoesRuntime.SwiftClosedRange<double>>(f__iota_get_TestAPI_ClosedRanges_doubleRange(Loader.shared.env, exn))
-        )
-    ;
     /// <!-- FishyJoes.export(stringRange) -->
     static FishyJoesRuntime.SwiftClosedRange<String> get stringRange =>
         check((exn) =>
             consumeCreatedRef<FishyJoesRuntime.SwiftClosedRange<String>>(f__iota_get_TestAPI_ClosedRanges_stringRange(Loader.shared.env, exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(uInt16Range) -->
+    static FishyJoesRuntime.SwiftClosedRange<int> get uInt16Range =>
+        check((exn) =>
+            consumeCreatedRef<FishyJoesRuntime.SwiftClosedRange<int>>(f__iota_get_TestAPI_ClosedRanges_uInt16Range(Loader.shared.env, exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(uInt32Range) -->
+    static FishyJoesRuntime.SwiftClosedRange<int> get uInt32Range =>
+        check((exn) =>
+            consumeCreatedRef<FishyJoesRuntime.SwiftClosedRange<int>>(f__iota_get_TestAPI_ClosedRanges_uInt32Range(Loader.shared.env, exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(uInt64Range) -->
+    static FishyJoesRuntime.SwiftClosedRange<int> get uInt64Range =>
+        check((exn) =>
+            consumeCreatedRef<FishyJoesRuntime.SwiftClosedRange<int>>(f__iota_get_TestAPI_ClosedRanges_uInt64Range(Loader.shared.env, exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(uInt8Range) -->
+    static FishyJoesRuntime.SwiftClosedRange<int> get uInt8Range =>
+        check((exn) =>
+            consumeCreatedRef<FishyJoesRuntime.SwiftClosedRange<int>>(f__iota_get_TestAPI_ClosedRanges_uInt8Range(Loader.shared.env, exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(uIntRange) -->
+    static FishyJoesRuntime.SwiftClosedRange<int> get uIntRange =>
+        check((exn) =>
+            consumeCreatedRef<FishyJoesRuntime.SwiftClosedRange<int>>(f__iota_get_TestAPI_ClosedRanges_uIntRange(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(echoUInt8Range) -->

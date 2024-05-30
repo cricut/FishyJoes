@@ -75,6 +75,29 @@ public protocol TestPropertiesProtocol {
     var frob: [Int] { get throws }
 }
 
+/// <!-- FishyJoes.export(TestDefaultComputedProperties) -->
+public protocol TestDefaultComputedProperties {
+    /// <!-- FishyJoes.export(noot) -->
+    var noot: Int { get throws }
+    /// <!-- FishyJoes.export(plutonic) -->
+    var pluto: String { get throws }
+}
+
+extension TestDefaultComputedProperties {
+    /// <!-- FishyJoes.export(noot) -->
+    public var noot: Int {
+        get throws {
+            2983
+        }
+    }
+    /// <!-- FishyJoes.export(plutonic) -->
+    public var pluto: String {
+        get throws {
+            "Newton Gimmick"
+        }
+    }
+}
+
 /// <!-- FishyJoes.export(TestOptionalsProtocol) -->
 public protocol TestOptionalsProtocol {
     /// <!-- FishyJoes.export(flarp) -->
@@ -83,6 +106,51 @@ public protocol TestOptionalsProtocol {
     func wombat(zxc: Int?) throws -> Double?
     /// <!-- FishyJoes.export(spqr) -->
     func spqr(_ pippo: AssociatedDataEnum) throws -> Int
+}
+
+/// <!-- FishyJoes.export(TestDefaultComputedPropertiesStruct, conformances: [TestDefaultComputedProperties]) -->
+public struct TestDefaultComputedPropertiesStruct: TestDefaultComputedProperties {
+    public var spam: Bool
+    public var noot: Int
+
+    public init(
+        spam: Bool,
+        noot: Int
+    ) {
+        self.spam = spam
+        self.noot = noot
+    }
+}
+
+/// <!-- FishyJoes.exportReference(TestDefaultComputedPropertiesReference, conformances: [TestDefaultComputedProperties]) -->
+public struct TestDefaultComputedPropertiesClass: TestDefaultComputedProperties {
+    /// <!-- FishyJoes.export(spam) -->
+    public var spam: Bool
+    /// <!-- FishyJoes.export(noot) -->
+    public var noot: Int
+
+    /// <!-- FishyJoes.export(init) -->
+    public init(
+        spam: Bool,
+        noot: Int
+    ) {
+        self.spam = spam
+        self.noot = noot
+    }
+}
+
+/// <!-- FishyJoes.export(TestDefaultComputedPropertiesEnum, conformances: [TestDefaultComputedProperties]) -->
+public enum TestDefaultComputedPropertiesEnum: TestDefaultComputedProperties {
+    case qux
+
+    /// <!-- FishyJoes.export(spam) -->
+    public var spam: Bool {
+        true
+    }
+    /// <!-- FishyJoes.export(noot) -->
+    public var noot: Int {
+        72930
+    }
 }
 
 /// <!-- FishyJoes.export(TestProtocolEnum, conformances: [TestMethodsProtocol]) -->

@@ -449,6 +449,55 @@ namespace Cricut.TestAPI.Tests {
             var b = a.Witness();
             await TestAsyncSwiftSideFunctionsCore(b);
         }
+
+        [Fact]
+        public void TestTestDefaultComputedPropertiesStruct() {
+            var a = new TestDefaultComputedPropertiesStruct(true, 98172);
+            Assert.Equal("Newton Gimmick", a.GetPlutonic());
+            Assert.True(a.Spam);
+            Assert.Equal(98172, a.Noot);
+        }
+
+        [Fact]
+        public void TestTestDefaultComputedPropertiesImpl() {
+            TestDefaultComputedProperties a = new TestDefaultComputedPropertiesOverrideNoot();
+            Assert.Equal(424242, a.GetNoot());
+            Assert.Equal("Newton Gimmick", a.GetPlutonic());
+
+            TestDefaultComputedProperties b = new TestDefaultComputedPropertiesOverridePlutonic();
+            Assert.Equal(2983, b.GetNoot());
+            Assert.Equal("Teddy Ruxpin", b.GetPlutonic());
+        }
+
+        [Fact]
+        public void TestTestDefaultComputedPropertiesReference() {
+            var a = TestDefaultComputedPropertiesReference.Init(false, 123346);
+            Assert.Equal("Newton Gimmick", a.GetPlutonic());
+            Assert.False(a.Spam);
+            Assert.Equal(123346, a.Noot);
+        }
+
+                [Fact]
+        public void TestTestDefaultComputedPropertiesEnum() {
+            var a = new TestDefaultComputedPropertiesEnum.Qux();
+            Assert.Equal("Newton Gimmick", a.GetPlutonic());
+            Assert.True(a.GetSpam());
+            Assert.Equal(72930, a.GetNoot());
+        }
+    }
+
+    public record TestDefaultComputedPropertiesOverrideNoot: TestDefaultComputedProperties {
+        public nint GetNoot(
+        ) {
+            return 424242;
+        }
+    }
+
+    public record TestDefaultComputedPropertiesOverridePlutonic: TestDefaultComputedProperties {
+        public string GetPlutonic(
+        ) {
+            return "Teddy Ruxpin";
+        }
     }
 
     public record AProtocolCSharpImpl: AProtocol {

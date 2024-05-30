@@ -164,7 +164,7 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "corge", expectedArgumentCount: 0) { env in
-                                try Swift.String.toNode(env.this(converter: TestAPI.TestProtocolClass.self).corge, env: env.env)
+                                return try Swift.String.toNode(env.this(converter: TestAPI.TestProtocolClass.self).corge, env: env.env)
                             }
                         },
                         setter: { env, info in
@@ -181,7 +181,7 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "flarp", expectedArgumentCount: 0) { env in
-                                try OptionalConverter<Swift.String>.toNode(env.this(converter: TestAPI.TestProtocolClass.self).flarp, env: env.env)
+                                return try OptionalConverter<Swift.String>.toNode(env.this(converter: TestAPI.TestProtocolClass.self).flarp, env: env.env)
                             }
                         },
                         setter: { env, info in
@@ -198,7 +198,7 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "frobby", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<Swift.Int>.toNode(env.this(converter: TestAPI.TestProtocolClass.self).frob, env: env.env)
+                                return try ArrayConverter<Swift.Int>.toNode(env.this(converter: TestAPI.TestProtocolClass.self).frob, env: env.env)
                             }
                         },
                         setter: nil

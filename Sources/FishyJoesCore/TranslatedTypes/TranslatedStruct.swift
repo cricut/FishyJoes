@@ -34,14 +34,23 @@ struct TranslatedStruct: TranslatedType {
         self.jniType = .object(context.kotlinTranslator.javaClassName(nodeName, in: context))
 
         self.storedVariables = type.storedVariables.compactMap { Field($0, type: type) }
-        self.computedVariables =
-            (type.computedVariables + type.staticVariables).compactMap { Field($0, type: type) }
+        self.computedVariables = Field.fields(type: type)
 
         self.methods = Method.methods(type: type)
         self.documentation = type.documentation
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
         self.conformances = exportAnnotation.conformances
+
+        enforceMustHaveProperties()
+    }
+
+    func enforceMustHaveProperties() {
+        // https://kotlinlang.org/docs/data-classes.html
+        // * The primary constructor must have at least one parameter.
+        if storedVariables.isEmpty {
+            fatalError("☠️ Error on \(sourceType.name): Exported structs must have at least one stored property, it's the law 👮!")
+        }
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
@@ -136,13 +145,10 @@ struct TranslatedStruct: TranslatedType {
                     fragment.output("env: env,")
                     fragment.output("name: \"\(nodeName)\",")
                     fragment.outputBlock("properties: [", closeWith: "],") {
-                        let normalMethods = methods.filter { !$0.isDefaultImplementation }
-                        let defaultMethods = methods.filter { $0.isDefaultImplementation }
-
                         var hasProperties = false
-                        hasProperties ||= context.nodeTranslator.outputProperties(methods: normalMethods, context: context, fragment: fragment, converterName: nil)
-                        hasProperties ||= context.nodeTranslator.outputProperties(methods: defaultMethods, context: context, fragment: fragment, converterName: sourceType.name)
-                        hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment)
+                        hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment, converterName: converterType.name)
+                        hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment, converterName: converterType.name)
+
                         for storedVar in storedVariables {
                             // Limitation in wasm implementation of napi_create_class doesn't allow constructors to assign to non-mutable property.
                             // let mutable = storedVar.isPubliclyWritable

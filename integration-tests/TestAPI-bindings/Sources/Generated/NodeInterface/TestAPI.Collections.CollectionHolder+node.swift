@@ -81,22 +81,11 @@ extension TestAPI.Collections.CollectionHolder: NodeMutator {
             env: env,
             name: "Collections.CollectionHolder",
             properties: [
-                "staticProperty": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticProperty", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<OptionalConverter<Swift.Int>>.toNode(TestAPI.Collections.CollectionHolder.staticProperty, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: true
-                ),
                 "staticMutableProperty": (
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "staticMutableProperty", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<OptionalConverter<Swift.Int>>.toNode(TestAPI.Collections.CollectionHolder.staticMutableProperty, env: env.env)
+                                return try ArrayConverter<OptionalConverter<Swift.Int>>.toNode(TestAPI.Collections.CollectionHolder.staticMutableProperty, env: env.env)
                             }
                         },
                         setter: { env, info in
@@ -105,6 +94,17 @@ extension TestAPI.Collections.CollectionHolder: NodeMutator {
                                 return nil
                             }
                         }),
+                    isStatic: true
+                ),
+                "staticProperty": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticProperty", expectedArgumentCount: 0) { env in
+                                return try ArrayConverter<OptionalConverter<Swift.Int>>.toNode(TestAPI.Collections.CollectionHolder.staticProperty, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
                     isStatic: true
                 ),
                 "boolArray": (.stored(mutable: true), isStatic: false),

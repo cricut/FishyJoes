@@ -33,10 +33,95 @@ struct Field: Hashable {
         self.isPubliclyWritable =
             variable.isMutable && variable.accessLevel.write == .public
         self.isComputed = variable.isComputed
-        self.isDefaultImplementation =
-            type is SourceryProtocol && variable.definedInType?.isExtension == true
+        self.isDefaultImplementation = (type is SourceryProtocol) && (variable.definedInType?.isExtension == true)
 
         let isIsolated = type is Actor && !variable.isNonisolated
         self.isAsync = isIsolated || variable.isAsync
+    }
+}
+
+extension Field {
+    func isMostlyEqual(other: Field) -> Bool {
+        let nameMatches = name == other.name
+        // exportAnnotation may differ
+        let typeMatches = type == other.type
+        // documentation may differ
+        // definedIn may differ
+        let isStaticMatches = isStatic == other.isStatic
+        // isMutable may differ
+        // isPubliclyWritable may differ
+        // isThrowing may differ
+        // isComputed may differ
+        // isOverride may differ
+        let isAsyncMatches = isAsync == other.isAsync
+        // deprecation may differ
+        // isDefaultImplementation may differ
+
+        return nameMatches &&
+        typeMatches &&
+        isStaticMatches &&
+        isAsyncMatches
+    }
+
+    enum FieldTypePreference {
+        case defaultImplementation
+        case normal
+    }
+
+    static func fieldsPreferring(_ preference: FieldTypePreference, fields: [Field]) -> [Field] {
+        var preferredFields = [Field]()
+        for field in fields {
+            let mostlyEqualFields = preferredFields.filter {
+                return $0.isMostlyEqual(other: field)
+            }
+            if !mostlyEqualFields.isEmpty {
+                for mostlyEqualField in mostlyEqualFields {
+                    let useMostlyEqualField = preference == .defaultImplementation ? mostlyEqualField.isDefaultImplementation : !mostlyEqualField.isDefaultImplementation
+
+                    if useMostlyEqualField {
+                        guard let index = preferredFields.firstIndex(of: field) else {
+                            // field is not already in preferredFields, therefore no need to replace it with mostlyEqualField. To get here, mostlyEqualField must already be part of preferredFields.
+                            continue
+                        }
+                        preferredFields.remove(at: index)
+                        preferredFields.insert(mostlyEqualField, at: index)
+                    } else { // use field
+                        guard let index = preferredFields.firstIndex(of: mostlyEqualField) else {
+                            // mostlyEqualField is not already in preferredFields, therefore no need to replace it with mostlyEqualField. To get here, field must already be part of preferredFields.
+                            continue
+                        }
+                        preferredFields.remove(at: index)
+                        preferredFields.insert(field, at: index)
+                    }
+                }
+            } else {
+                preferredFields.append(field)
+            }
+        }
+        return preferredFields
+    }
+
+    static func fields(type: Type) -> [Field] {
+        var defaultFields = [Field]()
+        let protocols = type.implements.values.compactMap { $0 as? SourceryProtocol }
+        for prot in protocols {
+            let protDefaultFields = prot.rawVariables.compactMap {
+                if $0.definedInType?.isExtension == true {
+                    return Field($0, type: prot)
+                } else {
+                    return nil
+                }
+            }
+
+            defaultFields.append(contentsOf: protDefaultFields)
+        }
+
+        let normalFields = type.rawVariables.compactMap {
+            return Field($0, type: type)
+        }
+
+        let isDefinedInProtocol = type is SourceryProtocol
+        let fields = Field.fieldsPreferring(isDefinedInProtocol ? .defaultImplementation : .normal, fields: normalFields + defaultFields)
+        return fields.sorted(by: { $0.name < $1.name })
     }
 }

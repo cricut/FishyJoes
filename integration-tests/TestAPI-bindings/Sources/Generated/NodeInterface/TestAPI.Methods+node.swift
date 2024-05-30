@@ -550,74 +550,22 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "staticGet": (
+                "garply": (
                     .accessor(
                         getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticGet", expectedArgumentCount: 0) { env in
-                                try Swift.Int.toNode(TestAPI.Methods.staticGet, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: true
-                ),
-                "staticGetMethod": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticGetMethod", expectedArgumentCount: 0) { env in
-                                try Swift.Int.toNode(TestAPI.Methods.staticGetMethod, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: true
-                ),
-                "staticModifiable": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticModifiable", expectedArgumentCount: 0) { env in
-                                try Swift.Int.toNode(TestAPI.Methods.staticModifiable, env: env.env)
-                            }
-                        },
-                        setter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticModifiable", expectedArgumentCount: 1) { env in
-                                TestAPI.Methods.staticModifiable = try env.argument(at: 0, converter: Swift.Int.self)
-                                return nil
-                            }
-                        }),
-                    isStatic: true
-                ),
-                "staticStored": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticStored", expectedArgumentCount: 0) { env in
-                                try Swift.Int.toNode(TestAPI.Methods.staticStored, env: env.env)
-                            }
-                        },
-                        setter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticStored", expectedArgumentCount: 1) { env in
-                                TestAPI.Methods.staticStored = try env.argument(at: 0, converter: Swift.Int.self)
-                                return nil
-                            }
-                        }),
-                    isStatic: true
-                ),
-                "instanceGet": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "instanceGet", expectedArgumentCount: 0) { env in
-                                try Swift.Int.toNode(env.this(converter: TestAPI.Methods.self).instanceGet, env: env.env)
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "garply", expectedArgumentCount: 0) { env in
+                                return try Swift.Int.toNode(env.this(converter: TestAPI.Methods.self).garply, env: env.env)
                             }
                         },
                         setter: nil
                     ),
                     isStatic: false
                 ),
-                "garply": (
+                "instanceGet": (
                     .accessor(
                         getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "garply", expectedArgumentCount: 0) { env in
-                                try Swift.Int.toNode(env.this(converter: TestAPI.Methods.self).garply, env: env.env)
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "instanceGet", expectedArgumentCount: 0) { env in
+                                return try Swift.Int.toNode(env.this(converter: TestAPI.Methods.self).instanceGet, env: env.env)
                             }
                         },
                         setter: nil
@@ -628,7 +576,7 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "instanceGetMethod", expectedArgumentCount: 0) { env in
-                                try Swift.Int.toNode(env.this(converter: TestAPI.Methods.self).instanceGetMethod, env: env.env)
+                                return try Swift.Int.toNode(env.this(converter: TestAPI.Methods.self).instanceGetMethod, env: env.env)
                             }
                         },
                         setter: nil
@@ -639,7 +587,7 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "instanceModifiable", expectedArgumentCount: 0) { env in
-                                try Swift.Int.toNode(env.this(converter: TestAPI.Methods.self).instanceModifiable, env: env.env)
+                                return try Swift.Int.toNode(env.this(converter: TestAPI.Methods.self).instanceModifiable, env: env.env)
                             }
                         },
                         setter: { env, info in
@@ -656,7 +604,7 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "instanceStored", expectedArgumentCount: 0) { env in
-                                try Swift.Int.toNode(env.this(converter: TestAPI.Methods.self).instanceStored, env: env.env)
+                                return try Swift.Int.toNode(env.this(converter: TestAPI.Methods.self).instanceStored, env: env.env)
                             }
                         },
                         setter: { env, info in
@@ -668,6 +616,58 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                             }
                         }),
                     isStatic: false
+                ),
+                "staticGet": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticGet", expectedArgumentCount: 0) { env in
+                                return try Swift.Int.toNode(TestAPI.Methods.staticGet, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                "staticGetMethod": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticGetMethod", expectedArgumentCount: 0) { env in
+                                return try Swift.Int.toNode(TestAPI.Methods.staticGetMethod, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                "staticModifiable": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticModifiable", expectedArgumentCount: 0) { env in
+                                return try Swift.Int.toNode(TestAPI.Methods.staticModifiable, env: env.env)
+                            }
+                        },
+                        setter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticModifiable", expectedArgumentCount: 1) { env in
+                                TestAPI.Methods.staticModifiable = try env.argument(at: 0, converter: Swift.Int.self)
+                                return nil
+                            }
+                        }),
+                    isStatic: true
+                ),
+                "staticStored": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticStored", expectedArgumentCount: 0) { env in
+                                return try Swift.Int.toNode(TestAPI.Methods.staticStored, env: env.env)
+                            }
+                        },
+                        setter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticStored", expectedArgumentCount: 1) { env in
+                                TestAPI.Methods.staticStored = try env.argument(at: 0, converter: Swift.Int.self)
+                                return nil
+                            }
+                        }),
+                    isStatic: true
                 ),
             ],
             constructor: { env, info in

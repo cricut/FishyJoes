@@ -132,7 +132,7 @@ class DartEnumClass: DartClass {
 
             fragment.blankLine()
 
-            outputNativeMethodDeclarations(to: fragment)
+            outputNativeMethodDeclarations(methods: nativeMethods, fragment: fragment)
 
             fragment.blankLine()
         }

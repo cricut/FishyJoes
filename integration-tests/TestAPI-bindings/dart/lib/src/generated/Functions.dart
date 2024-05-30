@@ -15,6 +15,7 @@ import './Deprecations.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
 import './ExternalWitness_AProtocol.dart' as TestAPI;
 import './ExternalWitness_TestAsyncFunctions.dart' as TestAPI;
+import './ExternalWitness_TestDefaultComputedProperties.dart' as TestAPI;
 import './ExternalWitness_TestLeadingUnderscoredProp.dart' as TestAPI;
 import './ExternalWitness_TestMethodsProtocol.dart' as TestAPI;
 import './ExternalWitness_TestOptionalsProtocol.dart' as TestAPI;
@@ -35,6 +36,10 @@ import './Structs_ReferenceStruct.dart' as TestAPI;
 import './TestAsyncForeignSideFunctionsStruct.dart' as TestAPI;
 import './TestAsyncFunctions.dart' as TestAPI;
 import './TestAsyncSwiftSideFunctionsClass.dart' as TestAPI;
+import './TestDefaultComputedProperties.dart' as TestAPI;
+import './TestDefaultComputedPropertiesEnum.dart' as TestAPI;
+import './TestDefaultComputedPropertiesReference.dart' as TestAPI;
+import './TestDefaultComputedPropertiesStruct.dart' as TestAPI;
 import './TestLeadingUnderscoredProp.dart' as TestAPI;
 import './TestLeadingUnderscoredPropStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
@@ -70,10 +75,22 @@ class Functions {
         throw UnsupportedError('This class is supposed to be uninhabited');
     });
 
+    /// <!-- FishyJoes.export(add3Things) -->
+    static double Function(double, double, int) get add3Things =>
+        check((exn) =>
+            consumeCreatedRef<double Function(double, double, int)>(f__iota_get_TestAPI_Functions_add3Things(Loader.shared.env, exn))
+        )
+    ;
     /// <!-- FishyJoes.export(const42) -->
     static int Function() get const42 =>
         check((exn) =>
             consumeCreatedRef<int Function()>(f__iota_get_TestAPI_Functions_const42(Loader.shared.env, exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(fifthThing) -->
+    static int Function() Function(String, int, double, String, int Function()) get fifthThing =>
+        check((exn) =>
+            consumeCreatedRef<int Function() Function(String, int, double, String, int Function())>(f__iota_get_TestAPI_Functions_fifthThing(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(abs) -->
@@ -88,22 +105,10 @@ class Functions {
             consumeCreatedRef<int Function(int) Function(int Function(int), int Function(int))>(f__iota_get_TestAPI_Functions_intCompose(Loader.shared.env, exn))
         )
     ;
-    /// <!-- FishyJoes.export(add3Things) -->
-    static double Function(double, double, int) get add3Things =>
-        check((exn) =>
-            consumeCreatedRef<double Function(double, double, int)>(f__iota_get_TestAPI_Functions_add3Things(Loader.shared.env, exn))
-        )
-    ;
     /// <!-- FishyJoes.export(makeList) -->
     static List<String> Function(String, String, String, String) get makeList =>
         check((exn) =>
             consumeCreatedRef<List<String> Function(String, String, String, String)>(f__iota_get_TestAPI_Functions_makeList(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(fifthThing) -->
-    static int Function() Function(String, int, double, String, int Function()) get fifthThing =>
-        check((exn) =>
-            consumeCreatedRef<int Function() Function(String, int, double, String, int Function())>(f__iota_get_TestAPI_Functions_fifthThing(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(sixthThing) -->

@@ -36,7 +36,7 @@ struct TranslatedReference: TranslatedType {
         self.cSharpType = .named(package: context.module.cSharpNamespace, name: exportAnnotation.cSharpName)
         self.dartType = .named(package: context.module.dartNamespace, name: context.dartTranslator.fakeNamespace(exportAnnotation.name))
         self.methods = Method.methods(type: type)
-        self.computedVariables = type.variables.compactMap { Field($0, type: type) }
+        self.computedVariables = Field.fields(type: type)
         self.documentation = type.documentation
         self.className = context.kotlinTranslator.javaClassName(kotlinName, in: context)
         self.jniType = .object(className)
@@ -132,13 +132,9 @@ struct TranslatedReference: TranslatedType {
                     fragment.output("env: env,")
                     fragment.output("name: \"\(nodeName)\",")
                     fragment.outputBlock("properties: [", closeWith: "],") {
-                        let normalMethods = methods.filter { !$0.isDefaultImplementation }
-                        let defaultMethods = methods.filter { $0.isDefaultImplementation }
-
                         var hasProperties = false
-                        hasProperties ||= context.nodeTranslator.outputProperties(methods: normalMethods, context: context, fragment: fragment, converterName: nil)
-                        hasProperties ||= context.nodeTranslator.outputProperties(methods: defaultMethods, context: context, fragment: fragment, converterName: sourceType.name)
-                        hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment)
+                        hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment, converterName: converterType.name)
+                        hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment, converterName: converterType.name)
                         if !hasProperties {
                             fragment.output(":")
                         }
@@ -573,7 +569,8 @@ struct TranslatedReference: TranslatedType {
                         name: "hashCode",
                         mangledName: "\(sourceType.name.mangled)_hash",
                         type: .primitive("int", ffiName: "Int"),
-                        deprecation: nil
+                        deprecation: nil,
+                        isDefaultImplementation: false
                     )
                 )
             )

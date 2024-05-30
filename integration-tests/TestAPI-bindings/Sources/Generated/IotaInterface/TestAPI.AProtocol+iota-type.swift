@@ -154,7 +154,6 @@ extension TestAPI_CommonInterface._AProtocolConverter: IotaConverter {
 
     public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {
         try env.check { exn in
-            // here's where we should make a new witness with witness constructor
             _constructorMethod[env](
                 Box(value).retainedOpaque(),
                 exn

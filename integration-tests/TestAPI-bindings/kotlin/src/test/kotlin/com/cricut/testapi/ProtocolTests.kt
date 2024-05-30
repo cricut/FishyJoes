@@ -537,4 +537,48 @@ internal class ProtocolTests {
             return TestAsyncFunctionsImpl()
         }
     }
+
+    @Test
+    fun testDefaultComputedPropertiesImpl() = runTest(timeout = 1000000.seconds) {
+        val a = TestDefaultComputedPropertiesImplOverrideNoot()
+        assertEquals(424242, a.noot)
+        assertEquals("Newton Gimmick", a.plutonic)
+
+        val b = TestDefaultComputedPropertiesImplOverridePlutonic()
+        assertEquals(2983, b.noot)
+        assertEquals("Teddy Ruxpin", b.plutonic)
+    }
+    class TestDefaultComputedPropertiesImplOverrideNoot : TestDefaultComputedProperties {
+        override val noot: Long
+            get() = 424242
+    }
+
+    class TestDefaultComputedPropertiesImplOverridePlutonic : TestDefaultComputedProperties {
+        override val plutonic: String
+            get() = "Teddy Ruxpin"
+    }
+
+    @Test
+    fun testDefaultComputedPropertiesStruct() = runTest(timeout = 1000000.seconds) {
+        val a = TestDefaultComputedPropertiesStruct(spam = true, noot = 98172)
+        assertEquals("Newton Gimmick", a.plutonic)
+        assertEquals(true, a.spam)
+        assertEquals(98172, a.noot)
+    }
+
+    @Test
+    fun testDefaultComputedPropertiesReference() = runTest(timeout = 1000000.seconds) {
+        val a = TestDefaultComputedPropertiesReference.init(spam = true, noot = 98172)
+        assertEquals("Newton Gimmick", a.plutonic)
+        assertEquals(true, a.spam)
+        assertEquals(98172, a.noot)
+    }
+
+    @Test
+    fun testDefaultComputedPropertiesEnum() = runTest(timeout = 1000000.seconds) {
+        val a = TestDefaultComputedPropertiesEnum.Qux
+        assertEquals("Newton Gimmick", a.plutonic)
+        assertEquals(true, a.spam)
+        assertEquals(72930, a.noot)
+    }
 }

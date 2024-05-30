@@ -2,6 +2,58 @@ import { TestAPI } from 'TestAPI';
 
 const debugPrints = true;
 
+test('testDefaultComputedPropertiesStruct', () => {
+    const a = new TestAPI.TestDefaultComputedPropertiesStruct(
+        true,
+        98172
+    );
+    expect(a.spam).toEqual(true);
+    expect(a.noot).toEqual(98172);
+    expect(a.plutonic).toEqual("Newton Gimmick");
+});
+
+test('testDefaultComputedPropertiesImpl', () => {
+    const a = new TestDefaultComputedPropertiesImplOverrideNoot();
+    const b = TestAPI.TestDefaultComputedProperties.fromCore(a);
+
+    expect(b.noot).toEqual(424242);
+    expect(b.plutonic).toEqual("Newton Gimmick");
+
+    const c = new TestDefaultComputedPropertiesImplOverridePlutonic();
+    const d = TestAPI.TestDefaultComputedProperties.fromCore(c);
+
+    expect(d.noot).toEqual(2983);
+    expect(d.plutonic).toEqual("Teddy Ruxpin");
+});
+
+class TestDefaultComputedPropertiesImplOverrideNoot implements TestAPI.TestDefaultComputedPropertiesCore {
+    get noot(): number {
+        return 424242;
+    };
+}
+
+class TestDefaultComputedPropertiesImplOverridePlutonic implements TestAPI.TestDefaultComputedPropertiesCore {
+    get plutonic(): string {
+        return "Teddy Ruxpin";
+    };
+}
+
+test('testDefaultComputedPropertiesClass', () => {
+    const a = TestAPI.TestDefaultComputedPropertiesReference.init(
+        true,
+        98172
+    );
+    expect(a.spam).toEqual(true);
+    expect(a.noot).toEqual(98172);
+    expect(a.plutonic).toEqual("Newton Gimmick");
+});
+
+test('testDefaultComputedPropertiesEnum', () => {
+    expect(TestAPI.TestDefaultComputedPropertiesEnum.getSpam("qux")).toEqual(true);
+    expect(TestAPI.TestDefaultComputedPropertiesEnum.getNoot("qux")).toEqual(72930);
+    expect(TestAPI.TestDefaultComputedPropertiesEnum.getPlutonic("qux" as unknown as TestAPI.TestDefaultComputedProperties)).toEqual("Newton Gimmick");
+});
+
 test('testProtocolImplementation', () => {
     const a = new TestAPI.AProtocolImplementation(
         "Garply",

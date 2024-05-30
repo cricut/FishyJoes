@@ -8,12 +8,28 @@ import kotlinx.coroutines.*
  */
 class TestAsyncSwiftSideFunctionsClass private constructor(_swiftReference: Long): TestAsyncFunctions, com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference) {
     /**
+     * <!-- FishyJoes.export(add3Things) -->
+     */
+    override val add3Things: (suspend (Float, Double, Long) -> Double)
+      get() = __jni_get_add3Things()
+    @JvmName("__jni_get_add3Things")
+    private external fun __jni_get_add3Things(): (suspend (Float, Double, Long) -> Double)
+
+    /**
      * <!-- FishyJoes.export(const42) -->
      */
     override val const42: (suspend () -> Long)
       get() = __jni_get_const42()
     @JvmName("__jni_get_const42")
     private external fun __jni_get_const42(): (suspend () -> Long)
+
+    /**
+     * <!-- FishyJoes.export(fifthThing) -->
+     */
+    override val fifthThing: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long)) -> (suspend () -> Long))
+      get() = __jni_get_fifthThing()
+    @JvmName("__jni_get_fifthThing")
+    private external fun __jni_get_fifthThing(): (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long)) -> (suspend () -> Long))
 
     /**
      * <!-- FishyJoes.export(iabs) -->
@@ -32,28 +48,12 @@ class TestAsyncSwiftSideFunctionsClass private constructor(_swiftReference: Long
     private external fun __jni_get_intCompose(): (((suspend (Long) -> Long), (suspend (Long) -> Long)) -> (suspend (Long) -> Long))
 
     /**
-     * <!-- FishyJoes.export(add3Things) -->
-     */
-    override val add3Things: (suspend (Float, Double, Long) -> Double)
-      get() = __jni_get_add3Things()
-    @JvmName("__jni_get_add3Things")
-    private external fun __jni_get_add3Things(): (suspend (Float, Double, Long) -> Double)
-
-    /**
      * <!-- FishyJoes.export(makeList) -->
      */
     override val makeList: (suspend (kotlin.String, kotlin.String, kotlin.String, kotlin.String) -> kotlin.collections.List<kotlin.String>)
       get() = __jni_get_makeList()
     @JvmName("__jni_get_makeList")
     private external fun __jni_get_makeList(): (suspend (kotlin.String, kotlin.String, kotlin.String, kotlin.String) -> kotlin.collections.List<kotlin.String>)
-
-    /**
-     * <!-- FishyJoes.export(fifthThing) -->
-     */
-    override val fifthThing: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long)) -> (suspend () -> Long))
-      get() = __jni_get_fifthThing()
-    @JvmName("__jni_get_fifthThing")
-    private external fun __jni_get_fifthThing(): (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long)) -> (suspend () -> Long))
 
     /**
      * <!-- FishyJoes.export(six) -->

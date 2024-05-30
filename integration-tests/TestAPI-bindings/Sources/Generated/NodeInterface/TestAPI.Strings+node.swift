@@ -37,33 +37,11 @@ extension TestAPI.Strings: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "simple": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "simple", expectedArgumentCount: 0) { env in
-                                try Swift.String.toNode(TestAPI.Strings.simple, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: true
-                ),
                 "accent": (
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "accent", expectedArgumentCount: 0) { env in
-                                try Swift.String.toNode(TestAPI.Strings.accent, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: true
-                ),
-                "script": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "script", expectedArgumentCount: 0) { env in
-                                try Swift.String.toNode(TestAPI.Strings.script, env: env.env)
+                                return try Swift.String.toNode(TestAPI.Strings.accent, env: env.env)
                             }
                         },
                         setter: nil
@@ -74,7 +52,7 @@ extension TestAPI.Strings: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "chinese", expectedArgumentCount: 0) { env in
-                                try Swift.String.toNode(TestAPI.Strings.chinese, env: env.env)
+                                return try Swift.String.toNode(TestAPI.Strings.chinese, env: env.env)
                             }
                         },
                         setter: nil
@@ -85,7 +63,7 @@ extension TestAPI.Strings: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "chineseBMP", expectedArgumentCount: 0) { env in
-                                try Swift.String.toNode(TestAPI.Strings.chineseBMP, env: env.env)
+                                return try Swift.String.toNode(TestAPI.Strings.chineseBMP, env: env.env)
                             }
                         },
                         setter: nil
@@ -96,7 +74,7 @@ extension TestAPI.Strings: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "chineseSIP", expectedArgumentCount: 0) { env in
-                                try Swift.String.toNode(TestAPI.Strings.chineseSIP, env: env.env)
+                                return try Swift.String.toNode(TestAPI.Strings.chineseSIP, env: env.env)
                             }
                         },
                         setter: nil
@@ -107,7 +85,7 @@ extension TestAPI.Strings: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "emoji", expectedArgumentCount: 0) { env in
-                                try Swift.String.toNode(TestAPI.Strings.emoji, env: env.env)
+                                return try Swift.String.toNode(TestAPI.Strings.emoji, env: env.env)
                             }
                         },
                         setter: nil
@@ -118,7 +96,29 @@ extension TestAPI.Strings: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "emojiMulti", expectedArgumentCount: 0) { env in
-                                try Swift.String.toNode(TestAPI.Strings.emojiMulti, env: env.env)
+                                return try Swift.String.toNode(TestAPI.Strings.emojiMulti, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                "script": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "script", expectedArgumentCount: 0) { env in
+                                return try Swift.String.toNode(TestAPI.Strings.script, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                "simple": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "simple", expectedArgumentCount: 0) { env in
+                                return try Swift.String.toNode(TestAPI.Strings.simple, env: env.env)
                             }
                         },
                         setter: nil
