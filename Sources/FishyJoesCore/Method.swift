@@ -122,7 +122,7 @@ extension Method {
         let isThrowingMatches = isThrowing == other.isThrowing
         let isAsyncMatches = isAsync == other.isAsync
         // deprecation may differ
-        
+
         return callNameMatches &&
         parametersMatches &&
         returnTypeMatches &&
@@ -201,7 +201,7 @@ extension Method {
         }
 
         let methods = Method.methodsPreferring(isDefinedInProtocol ? .defaultImplementation : .normal, methods: normalMethods + defaultMethods)
-        return methods//.sorted(by: { $0.name < $1.name })
+        return methods// .sorted(by: { $0.name < $1.name })
     }
 }
 

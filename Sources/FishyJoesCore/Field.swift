@@ -62,12 +62,12 @@ extension Field {
         isStaticMatches &&
         isAsyncMatches
     }
-    
+
     enum FieldTypePreference {
         case defaultImplementation
         case normal
     }
-    
+
     static func fieldsPreferring(_ preference: FieldTypePreference, fields: [Field]) -> [Field] {
         var preferredFields = [Field]()
         for field in fields {
