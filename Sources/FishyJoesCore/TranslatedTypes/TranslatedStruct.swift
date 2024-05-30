@@ -632,7 +632,9 @@ struct TranslatedStruct: TranslatedType {
                 ),
                 fields: fields,
                 methods: methods,
-                conformances: conformances
+                conformances: Set(conformances.map {
+                    context.resolve(type: $0).sourceType
+                })
             )
         )
     }
