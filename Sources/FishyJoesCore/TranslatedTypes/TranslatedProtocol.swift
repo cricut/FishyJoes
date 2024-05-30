@@ -939,10 +939,6 @@ struct TranslatedProtocol: TranslatedType {
                 }
         )
 
-        let kTypeConformances = conformances.map {
-            let resolved = context.resolve(type: $0)
-            return KotlinClass.KType.named(package: resolved.sourceType.module?.lowercased(), name: resolved.sourceType.nonNamespacedName)
-        }
         context.add(
             kotlinClass: KotlinInterface(
                 module: context.module,
@@ -950,7 +946,7 @@ struct TranslatedProtocol: TranslatedType {
                 name: kotlinName,
                 fields: interfaceFields,
                 methods: interfaceMethods,
-                conformances: Set(kTypeConformances)
+                conformances: Set(conformances.map { context.resolve(type: $0).kotlinType })
             ).conforming(to: conformances, context: context)
         )
 
@@ -970,7 +966,7 @@ struct TranslatedProtocol: TranslatedType {
                 constructor: .reference,
                 fields: externalWitnessFields,
                 methods: externalWitnessMethods,
-                conformances: [KotlinClass.KType.named(package: "fishyjoes.runtime", name: "SwiftReference(_swiftReference)")]
+                conformances: [KotlinClass.KType.named(package: "com.cricut.fishyjoes.runtime", name: "SwiftReference(_swiftReference)")]
             ).conforming(to: [sourceType], context: context)
         )
 

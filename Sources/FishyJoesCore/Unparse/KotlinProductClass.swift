@@ -65,8 +65,7 @@ class KotlinProductClass: KotlinClass {
                 guard case let .named(package, name) = kType else {
                     fatalErr("kType must be .name case")
                 }
-                let conformancePrefix = package != nil ? "com.cricut.\(package!.lowercased())." : ""
-                return "\(conformancePrefix)\(name)"
+                return "\(package ?? "").\(name)"
             }.sorted(by: <).joined(separator: ", ")
 
             fragment.output(": \(conformancesList)", newLineTerminated: false)
