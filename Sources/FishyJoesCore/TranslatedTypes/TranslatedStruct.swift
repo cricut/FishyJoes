@@ -33,7 +33,7 @@ struct TranslatedStruct: TranslatedType {
         self.dartType = .named(package: context.module.dartNamespace, name: context.dartTranslator.fakeNamespace(exportAnnotation.name))
         self.jniType = .object(context.kotlinTranslator.javaClassName(nodeName, in: context))
 
-        self.storedVariables = type.storedVariables.compactMap { Field($0, type: type, isDefaultImplementation: false) }
+        self.storedVariables = type.storedVariables.compactMap { Field($0, type: type) }
         self.computedVariables = Field.fields(type: type)
 
         self.methods = Method.methods(type: type)

@@ -20,7 +20,7 @@ struct Field: Hashable {
     let deprecation: Deprecation?
     let isDefaultImplementation: Bool
 
-    init?(_ variable: SourceryVariable, type: Type?, isDefaultImplementation: Bool) {
+    init?(_ variable: SourceryVariable, type: Type?) {
         self.name = variable.name
         self.exportAnnotation = variable.exportAnnotation
         self.type = variable.typeName.better
@@ -33,7 +33,7 @@ struct Field: Hashable {
         self.isPubliclyWritable =
             variable.isMutable && variable.accessLevel.write == .public
         self.isComputed = variable.isComputed
-        self.isDefaultImplementation = isDefaultImplementation
+        self.isDefaultImplementation = (type is SourceryProtocol) && (variable.definedInType?.isExtension == true)
 
         let isIsolated = type is Actor && !variable.isNonisolated
         self.isAsync = isIsolated || variable.isAsync
@@ -107,7 +107,7 @@ extension Field {
         for prot in protocols {
             let protDefaultFields = prot.rawVariables.compactMap {
                 if $0.definedInType?.isExtension == true {
-                    return Field($0, type: prot, isDefaultImplementation: true)
+                    return Field($0, type: prot)
                 } else {
                     return nil
                 }
@@ -116,13 +116,11 @@ extension Field {
             defaultFields.append(contentsOf: protDefaultFields)
         }
 
-        // Needed because type.variable.definedIn may not be a SourceryProtocol even when it ought to be, but type will be a SourceryProtocol so we can use that instead.
-        let isDefinedInProtocol = type is SourceryProtocol
         let normalFields = type.rawVariables.compactMap {
-            let isDefaultImplementation = isDefinedInProtocol && ($0.definedInType?.isExtension == true)
-            return Field($0, type: type, isDefaultImplementation: isDefaultImplementation)
+            return Field($0, type: type)
         }
 
+        let isDefinedInProtocol = type is SourceryProtocol
         let fields = Field.fieldsPreferring(isDefinedInProtocol ? .defaultImplementation : .normal, fields: normalFields + defaultFields)
         return fields.sorted(by: { $0.name < $1.name })
     }
