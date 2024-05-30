@@ -12,20 +12,6 @@ namespace Cricut.TestAPI {
         private AttributedStrings() {}
 
         /// <summary>
-        /// <!-- FishyJoes.export(simple) -->
-        /// </summary>
-        public static Cricut.FishyJoesRuntime.AttributedString Simple {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_AttributedStrings_simple(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString>()
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_AttributedStrings_simple(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
         /// <!-- FishyJoes.export(accent) -->
         /// </summary>
         public static Cricut.FishyJoesRuntime.AttributedString Accent {
@@ -38,20 +24,6 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_get_TestAPI_AttributedStrings_accent(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(script) -->
-        /// </summary>
-        public static Cricut.FishyJoesRuntime.AttributedString Script {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_AttributedStrings_script(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString>()
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_AttributedStrings_script(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(chinese) -->
@@ -136,6 +108,34 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_get_TestAPI_AttributedStrings_polyglot(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(script) -->
+        /// </summary>
+        public static Cricut.FishyJoesRuntime.AttributedString Script {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_AttributedStrings_script(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString>()
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_AttributedStrings_script(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(simple) -->
+        /// </summary>
+        public static Cricut.FishyJoesRuntime.AttributedString Simple {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_AttributedStrings_simple(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString>()
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_AttributedStrings_simple(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(echo) -->

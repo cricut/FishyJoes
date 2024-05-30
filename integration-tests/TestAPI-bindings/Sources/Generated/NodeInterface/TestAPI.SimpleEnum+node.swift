@@ -70,19 +70,11 @@ extension TestAPI.SimpleEnum: FishyJoesNodeRuntime.NodeConverter {
                 },
                 isStatic: true
             ),
-            "getHex": (
-                .method { env, info in
-                    FishyJoesNodeRuntime.callbackBody(env, info, name: "hex", expectedArgumentCount: 1) { env in
-                        try Swift.Int.toNode(env.argument(at: 0, converter: TestAPI.SimpleEnum.self).hex, env: env.env)
-                    }
-                },
-                isStatic: true
-            ),
             "favoriteColor": (
                 .accessor(
                     getter: { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "favoriteColor", expectedArgumentCount: 0) { env in
-                            try TestAPI.SimpleEnum.toNode(TestAPI.SimpleEnum.favoriteColor, env: env.env)
+                            return try TestAPI.SimpleEnum.toNode(TestAPI.SimpleEnum.favoriteColor, env: env.env)
                         }
                     },
                     setter: { env, info in
@@ -91,6 +83,14 @@ extension TestAPI.SimpleEnum: FishyJoesNodeRuntime.NodeConverter {
                             return nil
                         }
                     }),
+                isStatic: true
+            ),
+            "getHex": (
+                .method { env, info in
+                    FishyJoesNodeRuntime.callbackBody(env, info, name: "hex", expectedArgumentCount: 1) { env in
+                        return try Swift.Int.toNode(env.argument(at: 0, converter: TestAPI.SimpleEnum.self).hex, env: env.env)
+                    }
+                },
                 isStatic: true
             ),
         ], env: env)

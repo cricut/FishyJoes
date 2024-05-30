@@ -167,7 +167,8 @@ final class CSharpTranslator: Translator {
                     name: csName,
                     mangledName: "\(type.mangledName)_\(mangledName)",
                     type: resolved.cSharpType,
-                    deprecation: field.deprecation
+                    deprecation: field.deprecation,
+                    isDefaultImplementation: field.isDefaultImplementation
                 )
             )
         ]

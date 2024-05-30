@@ -15,6 +15,7 @@ import './Deprecations.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
 import './ExternalWitness_AProtocol.dart' as TestAPI;
 import './ExternalWitness_TestAsyncFunctions.dart' as TestAPI;
+import './ExternalWitness_TestDefaultComputedProperties.dart' as TestAPI;
 import './ExternalWitness_TestLeadingUnderscoredProp.dart' as TestAPI;
 import './ExternalWitness_TestMethodsProtocol.dart' as TestAPI;
 import './ExternalWitness_TestOptionalsProtocol.dart' as TestAPI;
@@ -35,6 +36,10 @@ import './Structs_ReferenceStruct.dart' as TestAPI;
 import './TestAsyncForeignSideFunctionsStruct.dart' as TestAPI;
 import './TestAsyncFunctions.dart' as TestAPI;
 import './TestAsyncSwiftSideFunctionsClass.dart' as TestAPI;
+import './TestDefaultComputedProperties.dart' as TestAPI;
+import './TestDefaultComputedPropertiesEnum.dart' as TestAPI;
+import './TestDefaultComputedPropertiesReference.dart' as TestAPI;
+import './TestDefaultComputedPropertiesStruct.dart' as TestAPI;
 import './TestLeadingUnderscoredProp.dart' as TestAPI;
 import './TestLeadingUnderscoredPropStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
@@ -343,6 +348,28 @@ typedef _TestAPI_TestAsyncFunctions_exercise6 = CreatedRef Function(UnownedRef o
 typedef _TestAPI_TestAsyncFunctions_thunkTwiceMaker = CreatedRef Function(UnownedRef obj, UnownedRef thunk, OutCreatedRef exn);
 typedef _TestAPI_TestAsyncFunctions_defaultExercise6 = CreatedRef Function(UnownedRef obj, UnownedRef fn, OutCreatedRef exn);
 typedef _TestAPI_TestAsyncFunctions_witness = CreatedRef Function(UnownedRef obj,  OutCreatedRef exn);
+typedef _TestAPI_TestDefaultComputedPropertiesConstructor = CreatedRef Function(
+    ffi.Pointer ref,
+    OutCreatedRef exn
+);
+typedef _TestAPI_TestDefaultComputedProperties_nootGetter = ffi.IntPtr Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestDefaultComputedProperties_plutoGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef TestAPI_TestDefaultComputedPropertiesEnum_new_qux = CreatedRef Function(
+    OutCreatedRef _exn
+);
+typedef TestAPI_TestDefaultComputedPropertiesEnum_extract_qux = ffi.Void Function(
+    UnownedRef obj,
+    OutCreatedRef _exn
+);
+typedef _TestAPI_TestDefaultComputedPropertiesStructConstructor = CreatedRef Function(
+    ffi.Bool spam,
+    ffi.IntPtr noot,
+    OutCreatedRef exn
+);
+typedef _TestAPI_TestDefaultComputedPropertiesStruct_spamGetter = ffi.Bool Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestDefaultComputedPropertiesStruct_spamSetter = ffi.Void Function(UnownedRef obj, ffi.Bool newValue, OutCreatedRef exn);
+typedef _TestAPI_TestDefaultComputedPropertiesStruct_nootGetter = ffi.IntPtr Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestDefaultComputedPropertiesStruct_nootSetter = ffi.Void Function(UnownedRef obj, ffi.IntPtr newValue, OutCreatedRef exn);
 typedef _TestAPI_TestLeadingUnderscoredPropConstructor = CreatedRef Function(
     ffi.Pointer ref,
     OutCreatedRef exn
@@ -1033,6 +1060,70 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_TestAsyncSwiftSideFunctionsClass_setup');
+    final TestAPI_CommonInterface__TestDefaultComputedPropertiesConverter_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDefaultComputedPropertiesConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDefaultComputedProperties_nootGetter>> get_noot,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDefaultComputedProperties_plutoGetter>> get_pluto,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDefaultComputedPropertiesConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDefaultComputedProperties_nootGetter>> get_noot,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDefaultComputedProperties_plutoGetter>> get_pluto,
+            OutCreatedRef exn
+        )
+    >('TestAPI_CommonInterface__TestDefaultComputedPropertiesConverter_setup');
+    final TestAPI_TestDefaultComputedPropertiesClass_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
+            OutCreatedRef exn
+        )
+    >('TestAPI_TestDefaultComputedPropertiesClass_setup');
+    final TestAPI_TestDefaultComputedPropertiesEnum_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<EnumDiscriminatorTag>> discriminator,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_TestDefaultComputedPropertiesEnum_new_qux>> qux_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_TestDefaultComputedPropertiesEnum_extract_qux>> qux_extractor,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<EnumDiscriminatorTag>> discriminator,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_TestDefaultComputedPropertiesEnum_new_qux>> qux_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_TestDefaultComputedPropertiesEnum_extract_qux>> qux_extractor,
+            OutCreatedRef exn
+        )
+    >('TestAPI_TestDefaultComputedPropertiesEnum_setup');
+    final TestAPI_TestDefaultComputedPropertiesStruct_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDefaultComputedPropertiesStructConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDefaultComputedPropertiesStruct_spamGetter>> get_spam,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDefaultComputedPropertiesStruct_spamSetter>> set_spam,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDefaultComputedPropertiesStruct_nootGetter>> get_noot,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDefaultComputedPropertiesStruct_nootSetter>> set_noot,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDefaultComputedPropertiesStructConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDefaultComputedPropertiesStruct_spamGetter>> get_spam,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDefaultComputedPropertiesStruct_spamSetter>> set_spam,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDefaultComputedPropertiesStruct_nootGetter>> get_noot,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDefaultComputedPropertiesStruct_nootSetter>> set_noot,
+            OutCreatedRef exn
+        )
+    >('TestAPI_TestDefaultComputedPropertiesStruct_setup');
     final TestAPI_CommonInterface__TestLeadingUnderscoredPropConverter_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -3247,6 +3338,20 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_witness");
+    TestAPI.TestDefaultComputedPropertiesReference.f__iota_TestAPI_TestDefaultComputedPropertiesClass_init = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            ffi.Bool spam,
+            ffi.IntPtr noot,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            bool spam,
+            int noot,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestDefaultComputedPropertiesClass_init");
     TestAPI.ExternalWitness_TestMethodsProtocol.f__iota_TestAPI_TestMethodsProtocol_bar = dylib.lookupFunction<
         ffi.Bool Function(
             Env env,
@@ -3677,6 +3782,90 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_URLs_echo");
+    TestAPI.TestDefaultComputedPropertiesReference.f__iota__default_TestAPI_TestDefaultComputedPropertiesClass_plutonic = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota__default_TestAPI_TestDefaultComputedPropertiesClass_plutonic");
+    TestAPI.TestDefaultComputedPropertiesEnum.f__iota__default_TestAPI_TestDefaultComputedPropertiesEnum_plutonic = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota__default_TestAPI_TestDefaultComputedPropertiesEnum_plutonic");
+    TestAPI.TestDefaultComputedPropertiesStruct.f__iota__default_TestAPI_TestDefaultComputedPropertiesStruct_plutonic = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota__default_TestAPI_TestDefaultComputedPropertiesStruct_plutonic");
+    TestAPI.TestDefaultComputedProperties_DefaultImplementations.f__iota__default_TestAPI_TestDefaultComputedProperties_noot = dylib.lookupFunction<
+        ffi.IntPtr Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota__default_TestAPI_TestDefaultComputedProperties_noot");
+    TestAPI.ExternalWitness_TestDefaultComputedProperties.f__iota__default_TestAPI_TestDefaultComputedProperties_noot = dylib.lookupFunction<
+        ffi.IntPtr Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota__default_TestAPI_TestDefaultComputedProperties_noot");
+    TestAPI.TestDefaultComputedProperties_DefaultImplementations.f__iota__default_TestAPI_TestDefaultComputedProperties_plutonic = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota__default_TestAPI_TestDefaultComputedProperties_plutonic");
+    TestAPI.ExternalWitness_TestDefaultComputedProperties.f__iota__default_TestAPI_TestDefaultComputedProperties_plutonic = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota__default_TestAPI_TestDefaultComputedProperties_plutonic");
     TestAPI.ExternalWitness_AProtocol.f__iota_get_TestAPI_AProtocol_baz = dylib.lookupFunction<
         ffi.Bool Function(
             Env env,
@@ -5509,6 +5698,54 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_willThrow");
+    TestAPI.TestDefaultComputedPropertiesReference.f__iota_get_TestAPI_TestDefaultComputedPropertiesClass_noot = dylib.lookupFunction<
+        ffi.IntPtr Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestDefaultComputedPropertiesClass_noot");
+    TestAPI.TestDefaultComputedPropertiesReference.f__iota_get_TestAPI_TestDefaultComputedPropertiesClass_spam = dylib.lookupFunction<
+        ffi.Bool Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        bool Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestDefaultComputedPropertiesClass_spam");
+    TestAPI.TestDefaultComputedPropertiesEnum.f__iota_get_TestAPI_TestDefaultComputedPropertiesEnum_noot = dylib.lookupFunction<
+        ffi.IntPtr Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestDefaultComputedPropertiesEnum_noot");
+    TestAPI.TestDefaultComputedPropertiesEnum.f__iota_get_TestAPI_TestDefaultComputedPropertiesEnum_spam = dylib.lookupFunction<
+        ffi.Bool Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        bool Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestDefaultComputedPropertiesEnum_spam");
     TestAPI.ExternalWitness_TestLeadingUnderscoredProp.f__iota_get_TestAPI_TestLeadingUnderscoredProp__leadingUnderscoreProp = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -5787,6 +6024,34 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_set_TestAPI_Structs_ReferenceStruct_mutable");
+    TestAPI.TestDefaultComputedPropertiesReference.f__iota_set_TestAPI_TestDefaultComputedPropertiesClass_noot = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            UnownedRef _this,
+            ffi.IntPtr noot,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            UnownedRef _this,
+            int noot,
+            OutCreatedRef _exn
+        )
+    >("__iota_set_TestAPI_TestDefaultComputedPropertiesClass_noot");
+    TestAPI.TestDefaultComputedPropertiesReference.f__iota_set_TestAPI_TestDefaultComputedPropertiesClass_spam = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            UnownedRef _this,
+            ffi.Bool spam,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            UnownedRef _this,
+            bool spam,
+            OutCreatedRef _exn
+        )
+    >("__iota_set_TestAPI_TestDefaultComputedPropertiesClass_spam");
     TestAPI.TestProtocolClass.f__iota_set_TestAPI_TestProtocolClass_corge = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -7925,6 +8190,58 @@ final ensureLoaded = (() {
             TestAPI_TestAsyncSwiftSideFunctionsClass_setup(
                 Loader.shared.env,
                 ffi.Pointer.fromFunction(TestAPI.TestAsyncSwiftSideFunctionsClass.ffi_new),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter", () {
+        // print("setting up TestAPI.TestDefaultComputedProperties (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_CommonInterface__TestDefaultComputedPropertiesConverter_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestDefaultComputedProperties.ffi_new),
+                ffi.Pointer.fromFunction(TestAPI.TestDefaultComputedProperties_FfiHooks.ffi_get_noot, 0),
+                ffi.Pointer.fromFunction(TestAPI.TestDefaultComputedProperties_FfiHooks.ffi_get_plutonic),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.TestDefaultComputedPropertiesClass", () {
+        // print("setting up TestAPI.TestDefaultComputedPropertiesClass (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_TestDefaultComputedPropertiesClass_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.TestDefaultComputedPropertiesReference.ffi_new),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.TestDefaultComputedPropertiesEnum", () {
+        // print("setting up TestAPI.TestDefaultComputedPropertiesEnum (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_TestDefaultComputedPropertiesEnum_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.TestDefaultComputedPropertiesEnum.enumDiscriminator, 0),
+                ffi.Pointer.fromFunction(TestAPI.TestDefaultComputedPropertiesEnum.newQux),
+                ffi.Pointer.fromFunction(TestAPI.TestDefaultComputedPropertiesEnum.extractQux),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.TestDefaultComputedPropertiesStruct", () {
+        // print("setting up TestAPI.TestDefaultComputedPropertiesStruct (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_TestDefaultComputedPropertiesStruct_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.TestDefaultComputedPropertiesStruct.ffi_constructor),
+                ffi.Pointer.fromFunction(TestAPI.TestDefaultComputedPropertiesStruct.ffi_get_spam, false),
+                ffi.Pointer.fromFunction(TestAPI.TestDefaultComputedPropertiesStruct.ffi_set_spam),
+                ffi.Pointer.fromFunction(TestAPI.TestDefaultComputedPropertiesStruct.ffi_get_noot, 0),
+                ffi.Pointer.fromFunction(TestAPI.TestDefaultComputedPropertiesStruct.ffi_set_noot),
                 exn
             );
         });

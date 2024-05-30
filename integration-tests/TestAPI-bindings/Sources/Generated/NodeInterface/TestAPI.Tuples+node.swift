@@ -45,7 +45,7 @@ extension TestAPI.Tuples: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "tuple2", expectedArgumentCount: 0) { env in
-                                try Tuple2Converter<Swift.Int, Swift.String>.toNode(TestAPI.Tuples.tuple2, env: env.env)
+                                return try Tuple2Converter<Swift.Int, Swift.String>.toNode(TestAPI.Tuples.tuple2, env: env.env)
                             }
                         },
                         setter: nil
@@ -56,7 +56,7 @@ extension TestAPI.Tuples: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "tuple3", expectedArgumentCount: 0) { env in
-                                try Tuple3Converter<Swift.String, Swift.Double, Swift.String>.toNode(TestAPI.Tuples.tuple3, env: env.env)
+                                return try Tuple3Converter<Swift.String, Swift.Double, Swift.String>.toNode(TestAPI.Tuples.tuple3, env: env.env)
                             }
                         },
                         setter: nil
@@ -67,7 +67,7 @@ extension TestAPI.Tuples: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "tuple4", expectedArgumentCount: 0) { env in
-                                try Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>.toNode(TestAPI.Tuples.tuple4, env: env.env)
+                                return try Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>.toNode(TestAPI.Tuples.tuple4, env: env.env)
                             }
                         },
                         setter: nil
@@ -78,7 +78,7 @@ extension TestAPI.Tuples: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "tuple5", expectedArgumentCount: 0) { env in
-                                try Tuple5Converter<Swift.String, Swift.UInt8, Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Tuple2Converter<Swift.Int, Swift.String>>.toNode(TestAPI.Tuples.tuple5, env: env.env)
+                                return try Tuple5Converter<Swift.String, Swift.UInt8, Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Tuple2Converter<Swift.Int, Swift.String>>.toNode(TestAPI.Tuples.tuple5, env: env.env)
                             }
                         },
                         setter: nil
@@ -89,7 +89,7 @@ extension TestAPI.Tuples: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "tuple6", expectedArgumentCount: 0) { env in
-                                try Tuple6Converter<Swift.String, Swift.Int, Swift.Double, Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>, Tuple5Converter<Swift.String, Swift.UInt8, Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Tuple2Converter<Swift.Int, Swift.String>>, Swift.Bool>.toNode(TestAPI.Tuples.tuple6, env: env.env)
+                                return try Tuple6Converter<Swift.String, Swift.Int, Swift.Double, Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>, Tuple5Converter<Swift.String, Swift.UInt8, Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Tuple2Converter<Swift.Int, Swift.String>>, Swift.Bool>.toNode(TestAPI.Tuples.tuple6, env: env.env)
                             }
                         },
                         setter: nil

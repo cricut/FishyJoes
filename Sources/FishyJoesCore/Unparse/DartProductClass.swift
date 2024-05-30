@@ -225,9 +225,8 @@ class DartProductClass: DartClass {
 
             fields.forEach { output(field: $0, to: fragment) }
             methods.forEach { output(method: $0, to: fragment) }
-
             fragment.blankLine()
-            outputNativeMethodDeclarations(to: fragment)
+            outputNativeMethodDeclarations(methods: nativeMethods, fragment: fragment)
         }
     }
 }

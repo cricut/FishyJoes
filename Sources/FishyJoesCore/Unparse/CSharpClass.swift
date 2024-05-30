@@ -34,6 +34,7 @@ class CSharpClass: NestedClass {
         let mangledName: String
         let type: CSType
         let deprecation: Deprecation?
+        let isDefaultImplementation: Bool
     }
 
     let module: Module
@@ -106,6 +107,7 @@ class CSharpClass: NestedClass {
         document(field.documentation, fragment: fragment)
         let selfFormal = field.isStatic ? "" : "\(CSType.object.pInvokeUnownedName) self, "
         let selfArg = field.isStatic ? "" : "thisHandle.ptr, "
+        let getterName = field.isDefaultImplementation ? "__iota__default_\(field.mangledName)" : "__iota_get_\(field.mangledName)"
 
         func outputGetterBody() {
             if !field.isStatic {
@@ -113,9 +115,9 @@ class CSharpClass: NestedClass {
             }
             fragment.outputBlock("return Check((out CreatedRef exn) =>", closeWith: ");") {
                 if field.type.isObject {
-                    fragment.output("__iota_get_\(field.mangledName)(Loader.env, \(selfArg)out exn).Consume<\(field.type.name)>()")
+                    fragment.output("\(getterName)(Loader.env, \(selfArg)out exn).Consume<\(field.type.name)>()")
                 } else {
-                    fragment.output("__iota_get_\(field.mangledName)(Loader.env, \(selfArg)out exn)")
+                    fragment.output("\(getterName)(Loader.env, \(selfArg)out exn)")
                 }
             }
         }
@@ -174,7 +176,7 @@ class CSharpClass: NestedClass {
 
         fragment.blankLine()
         fragment.output(module.dllImportMark)
-        fragment.output("private static extern \(field.type.pInvokeCreatedName) __iota_get_\(field.mangledName)(IntPtr envRef, \(selfFormal)out CreatedRef exn);")
+        fragment.output("private static extern \(field.type.pInvokeCreatedName) \(getterName)(IntPtr envRef, \(selfFormal)out CreatedRef exn);")
         if field.isPubliclyWritable {
             fragment.blankLine()
             fragment.output(module.dllImportMark)

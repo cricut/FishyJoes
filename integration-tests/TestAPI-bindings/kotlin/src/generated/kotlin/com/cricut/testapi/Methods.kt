@@ -8,20 +8,20 @@ import kotlinx.coroutines.*
  */
 class Methods private constructor(_swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference) {
     /**
-     * <!-- FishyJoes.export(instanceGet) -->
-     */
-    val instanceGet: Long
-      get() = __jni_get_instanceGet()
-    @JvmName("__jni_get_instanceGet")
-    private external fun __jni_get_instanceGet(): Long
-
-    /**
      * <!-- FishyJoes.export(garply) -->
      */
     val garply: Long
       get() = __jni_get_garply()
     @JvmName("__jni_get_garply")
     private external fun __jni_get_garply(): Long
+
+    /**
+     * <!-- FishyJoes.export(instanceGet) -->
+     */
+    val instanceGet: Long
+      get() = __jni_get_instanceGet()
+    @JvmName("__jni_get_instanceGet")
+    private external fun __jni_get_instanceGet(): Long
 
     /**
      * <!-- FishyJoes.export(instanceModifiable) -->

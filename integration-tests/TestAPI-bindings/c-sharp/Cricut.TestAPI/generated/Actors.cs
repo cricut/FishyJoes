@@ -18,21 +18,6 @@ namespace Cricut.TestAPI {
             internal TemperatureLogger(ConsumedRef reference): base(reference) {}
 
             /// <summary>
-            /// <!-- FishyJoes.export(label) -->
-            /// </summary>
-            public string Label {
-                get {
-                    using var thisHandle = new GCRef(this);
-                    return Check((out CreatedRef exn) =>
-                        __iota_get_TestAPI_Actors_TemperatureLogger_label(Loader.env, thisHandle.ptr, out exn).Consume<string>()
-                    );
-                }
-            }
-
-            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern CreatedRef __iota_get_TestAPI_Actors_TemperatureLogger_label(IntPtr envRef, UnownedRef self, out CreatedRef exn);
-
-            /// <summary>
             /// <!-- FishyJoes.export(backwardsLabel) -->
             /// </summary>
             public string GetBackwardsLabel() {
@@ -57,6 +42,21 @@ namespace Cricut.TestAPI {
 
             [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __iota_get_TestAPI_Actors_TemperatureLogger_extensionNonisolatedVarLabel(IntPtr envRef, UnownedRef self, out CreatedRef exn);
+
+            /// <summary>
+            /// <!-- FishyJoes.export(label) -->
+            /// </summary>
+            public string Label {
+                get {
+                    using var thisHandle = new GCRef(this);
+                    return Check((out CreatedRef exn) =>
+                        __iota_get_TestAPI_Actors_TemperatureLogger_label(Loader.env, thisHandle.ptr, out exn).Consume<string>()
+                    );
+                }
+            }
+
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern CreatedRef __iota_get_TestAPI_Actors_TemperatureLogger_label(IntPtr envRef, UnownedRef self, out CreatedRef exn);
 
             /// <summary>
             /// <!-- FishyJoes.export(create) -->

@@ -40,7 +40,7 @@ extension TestAPI.Deprecations: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "deprecatedVariable", expectedArgumentCount: 0) { env in
-                                try Swift.Int.toNode(TestAPI.Deprecations.deprecatedVariable, env: env.env)
+                                return try Swift.Int.toNode(TestAPI.Deprecations.deprecatedVariable, env: env.env)
                             }
                         },
                         setter: nil

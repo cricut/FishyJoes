@@ -4,6 +4,7 @@
 // swiftlint:disable unused_closure_parameter syntactic_sugar attributes
 import FishyJoesNodeRuntime
 import Foundation
+import NodeAPI
 import TestAPI
 import TestAPI_CommonInterface
 
@@ -86,7 +87,7 @@ extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: NodeConverte
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "corge", expectedArgumentCount: 0) { env in
-                                try Swift.String.toNode(env.this(converter: TestAPI_CommonInterface._TestPropertiesProtocolConverter.self).corge, env: env.env)
+                                return try Swift.String.toNode(env.this(converter: TestAPI_CommonInterface._TestPropertiesProtocolConverter.self).corge, env: env.env)
                             }
                         },
                         setter: nil
@@ -97,7 +98,7 @@ extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: NodeConverte
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "frobby", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<Swift.Int>.toNode(env.this(converter: TestAPI_CommonInterface._TestPropertiesProtocolConverter.self).frob, env: env.env)
+                                return try ArrayConverter<Swift.Int>.toNode(env.this(converter: TestAPI_CommonInterface._TestPropertiesProtocolConverter.self).frob, env: env.env)
                             }
                         },
                         setter: nil

@@ -85,7 +85,7 @@ struct TranslatedEnum: TranslatedType {
         self.jniType = .object(context.kotlinTranslator.javaClassName(nodeName, in: context))
         self.documentation = type.documentation
         self.methods = Method.methods(type: type)
-        self.fields = type.variables.compactMap { Field($0, type: type) }
+        self.fields = Field.fields(type: type)
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
         self.conformances = Set(type.implements.compactMap {
@@ -182,29 +182,20 @@ struct TranslatedEnum: TranslatedType {
                 fragment.outputBlock("public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {") {
                     fragment.output("let object = try env.createObject()")
                     fragment.outputBlock("let props = try NodeClass.descriptorsFor(properties: [", closeWith: "], env: env)") {
-                        let normalMethods = methods.filter { !$0.isDefaultImplementation }
-                        let defaultMethods = methods.filter { $0.isDefaultImplementation }
-
                         var hasProperties = false
                         hasProperties ||= context.nodeTranslator.outputProperties(
-                            methods: normalMethods,
+                            methods: methods,
                             explicitThis: true,
                             context: context,
                             fragment: fragment,
-                            converterName: nil
-                        )
-                        hasProperties ||= context.nodeTranslator.outputProperties(
-                            methods: defaultMethods,
-                            explicitThis: true,
-                            context: context,
-                            fragment: fragment,
-                            converterName: sourceType.name
+                            converterName: converterType.name
                         )
                         hasProperties ||= context.nodeTranslator.outputProperties(
                             computedVariables: fields,
                             explicitThis: true,
                             context: context,
-                            fragment: fragment
+                            fragment: fragment,
+                            converterName: converterType.name
                         )
                         if !hasProperties {
                             fragment.output(":")
@@ -311,12 +302,13 @@ struct TranslatedEnum: TranslatedType {
                                 methods: methods,
                                 context: context,
                                 fragment: fragment,
-                                converterName: nil
+                                converterName: converterType.name
                             )
                             hasProperties ||= context.nodeTranslator.outputProperties(
                                 computedVariables: fields,
                                 context: context,
-                                fragment: fragment
+                                fragment: fragment,
+                                converterName: converterType.name
                             )
                             if !hasProperties {
                                 fragment.output(":")
@@ -424,7 +416,8 @@ struct TranslatedEnum: TranslatedType {
                                 readOnly: true,
                                 isStatic: false,
                                 name: value.bindingName,
-                                type: context.resolve(type: value.type).nodeType
+                                type: context.resolve(type: value.type).nodeType,
+                                hasDefaultImplementation: false
                             )
                         },
                         methods: []

@@ -12,536 +12,18 @@ namespace Cricut.TestAPI {
         private Primitives() {}
 
         /// <summary>
-        /// <!-- FishyJoes.export(falseBool) -->
+        /// <!-- FishyJoes.export(bitCountInt) -->
         /// </summary>
-        public static bool FalseBool {
+        public static nint BitCountInt {
             get {
                 return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_falseBool(Loader.env, out exn)
+                    __iota_get_TestAPI_Primitives_bitCountInt(Loader.env, out exn)
                 );
             }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern bool __iota_get_TestAPI_Primitives_falseBool(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(trueBool) -->
-        /// </summary>
-        public static bool TrueBool {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_trueBool(Loader.env, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern bool __iota_get_TestAPI_Primitives_trueBool(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(zeroUInt8) -->
-        /// </summary>
-        public static byte ZeroUInt8 {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_zeroUInt8(Loader.env, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern byte __iota_get_TestAPI_Primitives_zeroUInt8(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(minUInt8) -->
-        /// </summary>
-        public static byte MinUInt8 {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_minUInt8(Loader.env, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern byte __iota_get_TestAPI_Primitives_minUInt8(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(maxUInt8) -->
-        /// </summary>
-        public static byte MaxUInt8 {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_maxUInt8(Loader.env, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern byte __iota_get_TestAPI_Primitives_maxUInt8(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(zeroUInt16) -->
-        /// </summary>
-        public static ushort ZeroUInt16 {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_zeroUInt16(Loader.env, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern ushort __iota_get_TestAPI_Primitives_zeroUInt16(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(minUInt16) -->
-        /// </summary>
-        public static ushort MinUInt16 {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_minUInt16(Loader.env, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern ushort __iota_get_TestAPI_Primitives_minUInt16(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(maxUInt16) -->
-        /// </summary>
-        public static ushort MaxUInt16 {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_maxUInt16(Loader.env, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern ushort __iota_get_TestAPI_Primitives_maxUInt16(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(zeroUInt32) -->
-        /// </summary>
-        public static uint ZeroUInt32 {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_zeroUInt32(Loader.env, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern uint __iota_get_TestAPI_Primitives_zeroUInt32(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(minUInt32) -->
-        /// </summary>
-        public static uint MinUInt32 {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_minUInt32(Loader.env, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern uint __iota_get_TestAPI_Primitives_minUInt32(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(maxUInt32) -->
-        /// </summary>
-        public static uint MaxUInt32 {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_maxUInt32(Loader.env, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern uint __iota_get_TestAPI_Primitives_maxUInt32(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(zeroUInt64) -->
-        /// </summary>
-        public static ulong ZeroUInt64 {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_zeroUInt64(Loader.env, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern ulong __iota_get_TestAPI_Primitives_zeroUInt64(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(minUInt64) -->
-        /// </summary>
-        public static ulong MinUInt64 {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_minUInt64(Loader.env, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern ulong __iota_get_TestAPI_Primitives_minUInt64(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(maxUInt64) -->
-        /// </summary>
-        public static ulong MaxUInt64 {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_maxUInt64(Loader.env, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern ulong __iota_get_TestAPI_Primitives_maxUInt64(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(zeroUInt) -->
-        /// </summary>
-        public static nuint ZeroUInt {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_zeroUInt(Loader.env, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nuint __iota_get_TestAPI_Primitives_zeroUInt(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(minUInt) -->
-        /// </summary>
-        public static nuint MinUInt {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_minUInt(Loader.env, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nuint __iota_get_TestAPI_Primitives_minUInt(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(maxUInt) -->
-        /// </summary>
-        public static nuint MaxUInt {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_maxUInt(Loader.env, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nuint __iota_get_TestAPI_Primitives_maxUInt(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(zeroInt8) -->
-        /// </summary>
-        public static sbyte ZeroInt8 {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_zeroInt8(Loader.env, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern sbyte __iota_get_TestAPI_Primitives_zeroInt8(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(minInt8) -->
-        /// </summary>
-        public static sbyte MinInt8 {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_minInt8(Loader.env, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern sbyte __iota_get_TestAPI_Primitives_minInt8(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(maxInt8) -->
-        /// </summary>
-        public static sbyte MaxInt8 {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_maxInt8(Loader.env, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern sbyte __iota_get_TestAPI_Primitives_maxInt8(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(zeroInt16) -->
-        /// </summary>
-        public static short ZeroInt16 {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_zeroInt16(Loader.env, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern short __iota_get_TestAPI_Primitives_zeroInt16(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(minInt16) -->
-        /// </summary>
-        public static short MinInt16 {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_minInt16(Loader.env, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern short __iota_get_TestAPI_Primitives_minInt16(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(maxInt16) -->
-        /// </summary>
-        public static short MaxInt16 {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_maxInt16(Loader.env, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern short __iota_get_TestAPI_Primitives_maxInt16(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(zeroInt32) -->
-        /// </summary>
-        public static int ZeroInt32 {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_zeroInt32(Loader.env, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern int __iota_get_TestAPI_Primitives_zeroInt32(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(minInt32) -->
-        /// </summary>
-        public static int MinInt32 {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_minInt32(Loader.env, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern int __iota_get_TestAPI_Primitives_minInt32(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(maxInt32) -->
-        /// </summary>
-        public static int MaxInt32 {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_maxInt32(Loader.env, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern int __iota_get_TestAPI_Primitives_maxInt32(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(zeroInt64) -->
-        /// </summary>
-        public static long ZeroInt64 {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_zeroInt64(Loader.env, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern long __iota_get_TestAPI_Primitives_zeroInt64(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(minInt64) -->
-        /// </summary>
-        public static long MinInt64 {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_minInt64(Loader.env, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern long __iota_get_TestAPI_Primitives_minInt64(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(maxInt64) -->
-        /// </summary>
-        public static long MaxInt64 {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_maxInt64(Loader.env, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern long __iota_get_TestAPI_Primitives_maxInt64(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(zeroInt) -->
-        /// </summary>
-        public static nint ZeroInt {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_zeroInt(Loader.env, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __iota_get_TestAPI_Primitives_zeroInt(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(minInt) -->
-        /// </summary>
-        public static nint MinInt {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_minInt(Loader.env, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __iota_get_TestAPI_Primitives_minInt(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(maxInt) -->
-        /// </summary>
-        public static nint MaxInt {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_maxInt(Loader.env, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __iota_get_TestAPI_Primitives_maxInt(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(zeroFloat) -->
-        /// </summary>
-        public static float ZeroFloat {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_zeroFloat(Loader.env, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern float __iota_get_TestAPI_Primitives_zeroFloat(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(minFloat) -->
-        /// </summary>
-        public static float MinFloat {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_minFloat(Loader.env, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern float __iota_get_TestAPI_Primitives_minFloat(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(maxFloat) -->
-        /// </summary>
-        public static float MaxFloat {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_maxFloat(Loader.env, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern float __iota_get_TestAPI_Primitives_maxFloat(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(zeroDouble) -->
-        /// </summary>
-        public static double ZeroDouble {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_zeroDouble(Loader.env, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern double __iota_get_TestAPI_Primitives_zeroDouble(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(minDouble) -->
-        /// </summary>
-        public static double MinDouble {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_minDouble(Loader.env, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern double __iota_get_TestAPI_Primitives_minDouble(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(maxDouble) -->
-        /// </summary>
-        public static double MaxDouble {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_maxDouble(Loader.env, out exn)
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern double __iota_get_TestAPI_Primitives_maxDouble(IntPtr envRef, out CreatedRef exn);
+        private static extern nint __iota_get_TestAPI_Primitives_bitCountInt(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(bitCountUInt) -->
@@ -558,18 +40,32 @@ namespace Cricut.TestAPI {
         private static extern nint __iota_get_TestAPI_Primitives_bitCountUInt(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
-        /// <!-- FishyJoes.export(bitCountInt) -->
+        /// <!-- FishyJoes.export(defaultPrimitiveHolder) -->
         /// </summary>
-        public static nint BitCountInt {
+        public static Cricut.TestAPI.Primitives.PrimitiveHolder DefaultPrimitiveHolder {
             get {
                 return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_bitCountInt(Loader.env, out exn)
+                    __iota_get_TestAPI_Primitives_defaultPrimitiveHolder(Loader.env, out exn).Consume<Cricut.TestAPI.Primitives.PrimitiveHolder>()
                 );
             }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __iota_get_TestAPI_Primitives_bitCountInt(IntPtr envRef, out CreatedRef exn);
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_defaultPrimitiveHolder(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(falseBool) -->
+        /// </summary>
+        public static bool FalseBool {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_falseBool(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern bool __iota_get_TestAPI_Primitives_falseBool(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(manyBool) -->
@@ -586,88 +82,46 @@ namespace Cricut.TestAPI {
         private static extern CreatedRef __iota_get_TestAPI_Primitives_manyBool(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
-        /// <!-- FishyJoes.export(manyUInt8) -->
+        /// <!-- FishyJoes.export(manyDouble) -->
         /// </summary>
-        public static System.Collections.Generic.IList<byte> ManyUInt8 {
+        public static System.Collections.Generic.IList<double> ManyDouble {
             get {
                 return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_manyUInt8(Loader.env, out exn).Consume<System.Collections.Generic.IList<byte>>()
+                    __iota_get_TestAPI_Primitives_manyDouble(Loader.env, out exn).Consume<System.Collections.Generic.IList<double>>()
                 );
             }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyUInt8(IntPtr envRef, out CreatedRef exn);
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyDouble(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
-        /// <!-- FishyJoes.export(manyUInt16) -->
+        /// <!-- FishyJoes.export(manyFloat) -->
         /// </summary>
-        public static System.Collections.Generic.IList<ushort> ManyUInt16 {
+        public static System.Collections.Generic.IList<float> ManyFloat {
             get {
                 return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_manyUInt16(Loader.env, out exn).Consume<System.Collections.Generic.IList<ushort>>()
+                    __iota_get_TestAPI_Primitives_manyFloat(Loader.env, out exn).Consume<System.Collections.Generic.IList<float>>()
                 );
             }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyUInt16(IntPtr envRef, out CreatedRef exn);
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyFloat(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
-        /// <!-- FishyJoes.export(manyUInt32) -->
+        /// <!-- FishyJoes.export(manyInt) -->
         /// </summary>
-        public static System.Collections.Generic.IList<uint> ManyUInt32 {
+        public static System.Collections.Generic.IList<nint> ManyInt {
             get {
                 return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_manyUInt32(Loader.env, out exn).Consume<System.Collections.Generic.IList<uint>>()
+                    __iota_get_TestAPI_Primitives_manyInt(Loader.env, out exn).Consume<System.Collections.Generic.IList<nint>>()
                 );
             }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyUInt32(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(manyUInt64) -->
-        /// </summary>
-        public static System.Collections.Generic.IList<ulong> ManyUInt64 {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_manyUInt64(Loader.env, out exn).Consume<System.Collections.Generic.IList<ulong>>()
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyUInt64(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(manyUInt) -->
-        /// </summary>
-        public static System.Collections.Generic.IList<nuint> ManyUInt {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_manyUInt(Loader.env, out exn).Consume<System.Collections.Generic.IList<nuint>>()
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyUInt(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(manyInt8) -->
-        /// </summary>
-        public static System.Collections.Generic.IList<sbyte> ManyInt8 {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_manyInt8(Loader.env, out exn).Consume<System.Collections.Generic.IList<sbyte>>()
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyInt8(IntPtr envRef, out CreatedRef exn);
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyInt(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(manyInt16) -->
@@ -712,46 +166,18 @@ namespace Cricut.TestAPI {
         private static extern CreatedRef __iota_get_TestAPI_Primitives_manyInt64(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
-        /// <!-- FishyJoes.export(manyInt) -->
+        /// <!-- FishyJoes.export(manyInt8) -->
         /// </summary>
-        public static System.Collections.Generic.IList<nint> ManyInt {
+        public static System.Collections.Generic.IList<sbyte> ManyInt8 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_manyInt(Loader.env, out exn).Consume<System.Collections.Generic.IList<nint>>()
+                    __iota_get_TestAPI_Primitives_manyInt8(Loader.env, out exn).Consume<System.Collections.Generic.IList<sbyte>>()
                 );
             }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyInt(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(manyFloat) -->
-        /// </summary>
-        public static System.Collections.Generic.IList<float> ManyFloat {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_manyFloat(Loader.env, out exn).Consume<System.Collections.Generic.IList<float>>()
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyFloat(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(manyDouble) -->
-        /// </summary>
-        public static System.Collections.Generic.IList<double> ManyDouble {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_manyDouble(Loader.env, out exn).Consume<System.Collections.Generic.IList<double>>()
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyDouble(IntPtr envRef, out CreatedRef exn);
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyInt8(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(manyMaybeBool) -->
@@ -768,88 +194,46 @@ namespace Cricut.TestAPI {
         private static extern CreatedRef __iota_get_TestAPI_Primitives_manyMaybeBool(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
-        /// <!-- FishyJoes.export(manyMaybeUInt8) -->
+        /// <!-- FishyJoes.export(manyMaybeDouble) -->
         /// </summary>
-        public static System.Collections.Generic.IList<byte?> ManyMaybeUInt8 {
+        public static System.Collections.Generic.IList<double?> ManyMaybeDouble {
             get {
                 return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_manyMaybeUInt8(Loader.env, out exn).Consume<System.Collections.Generic.IList<byte?>>()
+                    __iota_get_TestAPI_Primitives_manyMaybeDouble(Loader.env, out exn).Consume<System.Collections.Generic.IList<double?>>()
                 );
             }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyMaybeUInt8(IntPtr envRef, out CreatedRef exn);
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyMaybeDouble(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
-        /// <!-- FishyJoes.export(manyMaybeUInt16) -->
+        /// <!-- FishyJoes.export(manyMaybeFloat) -->
         /// </summary>
-        public static System.Collections.Generic.IList<ushort?> ManyMaybeUInt16 {
+        public static System.Collections.Generic.IList<float?> ManyMaybeFloat {
             get {
                 return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_manyMaybeUInt16(Loader.env, out exn).Consume<System.Collections.Generic.IList<ushort?>>()
+                    __iota_get_TestAPI_Primitives_manyMaybeFloat(Loader.env, out exn).Consume<System.Collections.Generic.IList<float?>>()
                 );
             }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyMaybeUInt16(IntPtr envRef, out CreatedRef exn);
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyMaybeFloat(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
-        /// <!-- FishyJoes.export(manyMaybeUInt32) -->
+        /// <!-- FishyJoes.export(manyMaybeInt) -->
         /// </summary>
-        public static System.Collections.Generic.IList<uint?> ManyMaybeUInt32 {
+        public static System.Collections.Generic.IList<nint?> ManyMaybeInt {
             get {
                 return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_manyMaybeUInt32(Loader.env, out exn).Consume<System.Collections.Generic.IList<uint?>>()
+                    __iota_get_TestAPI_Primitives_manyMaybeInt(Loader.env, out exn).Consume<System.Collections.Generic.IList<nint?>>()
                 );
             }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyMaybeUInt32(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(manyMaybeUInt64) -->
-        /// </summary>
-        public static System.Collections.Generic.IList<ulong?> ManyMaybeUInt64 {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_manyMaybeUInt64(Loader.env, out exn).Consume<System.Collections.Generic.IList<ulong?>>()
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyMaybeUInt64(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(manyMaybeUInt) -->
-        /// </summary>
-        public static System.Collections.Generic.IList<nuint?> ManyMaybeUInt {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_manyMaybeUInt(Loader.env, out exn).Consume<System.Collections.Generic.IList<nuint?>>()
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyMaybeUInt(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(manyMaybeInt8) -->
-        /// </summary>
-        public static System.Collections.Generic.IList<sbyte?> ManyMaybeInt8 {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_manyMaybeInt8(Loader.env, out exn).Consume<System.Collections.Generic.IList<sbyte?>>()
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyMaybeInt8(IntPtr envRef, out CreatedRef exn);
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyMaybeInt(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(manyMaybeInt16) -->
@@ -894,60 +278,676 @@ namespace Cricut.TestAPI {
         private static extern CreatedRef __iota_get_TestAPI_Primitives_manyMaybeInt64(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
-        /// <!-- FishyJoes.export(manyMaybeInt) -->
+        /// <!-- FishyJoes.export(manyMaybeInt8) -->
         /// </summary>
-        public static System.Collections.Generic.IList<nint?> ManyMaybeInt {
+        public static System.Collections.Generic.IList<sbyte?> ManyMaybeInt8 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_manyMaybeInt(Loader.env, out exn).Consume<System.Collections.Generic.IList<nint?>>()
+                    __iota_get_TestAPI_Primitives_manyMaybeInt8(Loader.env, out exn).Consume<System.Collections.Generic.IList<sbyte?>>()
                 );
             }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyMaybeInt(IntPtr envRef, out CreatedRef exn);
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyMaybeInt8(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
-        /// <!-- FishyJoes.export(manyMaybeFloat) -->
+        /// <!-- FishyJoes.export(manyMaybeUInt) -->
         /// </summary>
-        public static System.Collections.Generic.IList<float?> ManyMaybeFloat {
+        public static System.Collections.Generic.IList<nuint?> ManyMaybeUInt {
             get {
                 return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_manyMaybeFloat(Loader.env, out exn).Consume<System.Collections.Generic.IList<float?>>()
+                    __iota_get_TestAPI_Primitives_manyMaybeUInt(Loader.env, out exn).Consume<System.Collections.Generic.IList<nuint?>>()
                 );
             }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyMaybeFloat(IntPtr envRef, out CreatedRef exn);
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyMaybeUInt(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
-        /// <!-- FishyJoes.export(manyMaybeDouble) -->
+        /// <!-- FishyJoes.export(manyMaybeUInt16) -->
         /// </summary>
-        public static System.Collections.Generic.IList<double?> ManyMaybeDouble {
+        public static System.Collections.Generic.IList<ushort?> ManyMaybeUInt16 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_manyMaybeDouble(Loader.env, out exn).Consume<System.Collections.Generic.IList<double?>>()
+                    __iota_get_TestAPI_Primitives_manyMaybeUInt16(Loader.env, out exn).Consume<System.Collections.Generic.IList<ushort?>>()
                 );
             }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyMaybeDouble(IntPtr envRef, out CreatedRef exn);
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyMaybeUInt16(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
-        /// <!-- FishyJoes.export(defaultPrimitiveHolder) -->
+        /// <!-- FishyJoes.export(manyMaybeUInt32) -->
         /// </summary>
-        public static Cricut.TestAPI.Primitives.PrimitiveHolder DefaultPrimitiveHolder {
+        public static System.Collections.Generic.IList<uint?> ManyMaybeUInt32 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Primitives_defaultPrimitiveHolder(Loader.env, out exn).Consume<Cricut.TestAPI.Primitives.PrimitiveHolder>()
+                    __iota_get_TestAPI_Primitives_manyMaybeUInt32(Loader.env, out exn).Consume<System.Collections.Generic.IList<uint?>>()
                 );
             }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_Primitives_defaultPrimitiveHolder(IntPtr envRef, out CreatedRef exn);
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyMaybeUInt32(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(manyMaybeUInt64) -->
+        /// </summary>
+        public static System.Collections.Generic.IList<ulong?> ManyMaybeUInt64 {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_manyMaybeUInt64(Loader.env, out exn).Consume<System.Collections.Generic.IList<ulong?>>()
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyMaybeUInt64(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(manyMaybeUInt8) -->
+        /// </summary>
+        public static System.Collections.Generic.IList<byte?> ManyMaybeUInt8 {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_manyMaybeUInt8(Loader.env, out exn).Consume<System.Collections.Generic.IList<byte?>>()
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyMaybeUInt8(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(manyUInt) -->
+        /// </summary>
+        public static System.Collections.Generic.IList<nuint> ManyUInt {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_manyUInt(Loader.env, out exn).Consume<System.Collections.Generic.IList<nuint>>()
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyUInt(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(manyUInt16) -->
+        /// </summary>
+        public static System.Collections.Generic.IList<ushort> ManyUInt16 {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_manyUInt16(Loader.env, out exn).Consume<System.Collections.Generic.IList<ushort>>()
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyUInt16(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(manyUInt32) -->
+        /// </summary>
+        public static System.Collections.Generic.IList<uint> ManyUInt32 {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_manyUInt32(Loader.env, out exn).Consume<System.Collections.Generic.IList<uint>>()
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyUInt32(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(manyUInt64) -->
+        /// </summary>
+        public static System.Collections.Generic.IList<ulong> ManyUInt64 {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_manyUInt64(Loader.env, out exn).Consume<System.Collections.Generic.IList<ulong>>()
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyUInt64(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(manyUInt8) -->
+        /// </summary>
+        public static System.Collections.Generic.IList<byte> ManyUInt8 {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_manyUInt8(Loader.env, out exn).Consume<System.Collections.Generic.IList<byte>>()
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyUInt8(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(maxDouble) -->
+        /// </summary>
+        public static double MaxDouble {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_maxDouble(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern double __iota_get_TestAPI_Primitives_maxDouble(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(maxFloat) -->
+        /// </summary>
+        public static float MaxFloat {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_maxFloat(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern float __iota_get_TestAPI_Primitives_maxFloat(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(maxInt) -->
+        /// </summary>
+        public static nint MaxInt {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_maxInt(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __iota_get_TestAPI_Primitives_maxInt(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(maxInt16) -->
+        /// </summary>
+        public static short MaxInt16 {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_maxInt16(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern short __iota_get_TestAPI_Primitives_maxInt16(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(maxInt32) -->
+        /// </summary>
+        public static int MaxInt32 {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_maxInt32(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern int __iota_get_TestAPI_Primitives_maxInt32(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(maxInt64) -->
+        /// </summary>
+        public static long MaxInt64 {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_maxInt64(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern long __iota_get_TestAPI_Primitives_maxInt64(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(maxInt8) -->
+        /// </summary>
+        public static sbyte MaxInt8 {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_maxInt8(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern sbyte __iota_get_TestAPI_Primitives_maxInt8(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(maxUInt) -->
+        /// </summary>
+        public static nuint MaxUInt {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_maxUInt(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nuint __iota_get_TestAPI_Primitives_maxUInt(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(maxUInt16) -->
+        /// </summary>
+        public static ushort MaxUInt16 {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_maxUInt16(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern ushort __iota_get_TestAPI_Primitives_maxUInt16(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(maxUInt32) -->
+        /// </summary>
+        public static uint MaxUInt32 {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_maxUInt32(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern uint __iota_get_TestAPI_Primitives_maxUInt32(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(maxUInt64) -->
+        /// </summary>
+        public static ulong MaxUInt64 {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_maxUInt64(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern ulong __iota_get_TestAPI_Primitives_maxUInt64(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(maxUInt8) -->
+        /// </summary>
+        public static byte MaxUInt8 {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_maxUInt8(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern byte __iota_get_TestAPI_Primitives_maxUInt8(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(minDouble) -->
+        /// </summary>
+        public static double MinDouble {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_minDouble(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern double __iota_get_TestAPI_Primitives_minDouble(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(minFloat) -->
+        /// </summary>
+        public static float MinFloat {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_minFloat(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern float __iota_get_TestAPI_Primitives_minFloat(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(minInt) -->
+        /// </summary>
+        public static nint MinInt {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_minInt(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __iota_get_TestAPI_Primitives_minInt(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(minInt16) -->
+        /// </summary>
+        public static short MinInt16 {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_minInt16(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern short __iota_get_TestAPI_Primitives_minInt16(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(minInt32) -->
+        /// </summary>
+        public static int MinInt32 {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_minInt32(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern int __iota_get_TestAPI_Primitives_minInt32(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(minInt64) -->
+        /// </summary>
+        public static long MinInt64 {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_minInt64(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern long __iota_get_TestAPI_Primitives_minInt64(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(minInt8) -->
+        /// </summary>
+        public static sbyte MinInt8 {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_minInt8(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern sbyte __iota_get_TestAPI_Primitives_minInt8(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(minUInt) -->
+        /// </summary>
+        public static nuint MinUInt {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_minUInt(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nuint __iota_get_TestAPI_Primitives_minUInt(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(minUInt16) -->
+        /// </summary>
+        public static ushort MinUInt16 {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_minUInt16(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern ushort __iota_get_TestAPI_Primitives_minUInt16(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(minUInt32) -->
+        /// </summary>
+        public static uint MinUInt32 {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_minUInt32(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern uint __iota_get_TestAPI_Primitives_minUInt32(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(minUInt64) -->
+        /// </summary>
+        public static ulong MinUInt64 {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_minUInt64(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern ulong __iota_get_TestAPI_Primitives_minUInt64(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(minUInt8) -->
+        /// </summary>
+        public static byte MinUInt8 {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_minUInt8(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern byte __iota_get_TestAPI_Primitives_minUInt8(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(trueBool) -->
+        /// </summary>
+        public static bool TrueBool {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_trueBool(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern bool __iota_get_TestAPI_Primitives_trueBool(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(zeroDouble) -->
+        /// </summary>
+        public static double ZeroDouble {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_zeroDouble(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern double __iota_get_TestAPI_Primitives_zeroDouble(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(zeroFloat) -->
+        /// </summary>
+        public static float ZeroFloat {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_zeroFloat(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern float __iota_get_TestAPI_Primitives_zeroFloat(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(zeroInt) -->
+        /// </summary>
+        public static nint ZeroInt {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_zeroInt(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __iota_get_TestAPI_Primitives_zeroInt(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(zeroInt16) -->
+        /// </summary>
+        public static short ZeroInt16 {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_zeroInt16(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern short __iota_get_TestAPI_Primitives_zeroInt16(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(zeroInt32) -->
+        /// </summary>
+        public static int ZeroInt32 {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_zeroInt32(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern int __iota_get_TestAPI_Primitives_zeroInt32(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(zeroInt64) -->
+        /// </summary>
+        public static long ZeroInt64 {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_zeroInt64(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern long __iota_get_TestAPI_Primitives_zeroInt64(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(zeroInt8) -->
+        /// </summary>
+        public static sbyte ZeroInt8 {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_zeroInt8(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern sbyte __iota_get_TestAPI_Primitives_zeroInt8(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(zeroUInt) -->
+        /// </summary>
+        public static nuint ZeroUInt {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_zeroUInt(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nuint __iota_get_TestAPI_Primitives_zeroUInt(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(zeroUInt16) -->
+        /// </summary>
+        public static ushort ZeroUInt16 {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_zeroUInt16(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern ushort __iota_get_TestAPI_Primitives_zeroUInt16(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(zeroUInt32) -->
+        /// </summary>
+        public static uint ZeroUInt32 {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_zeroUInt32(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern uint __iota_get_TestAPI_Primitives_zeroUInt32(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(zeroUInt64) -->
+        /// </summary>
+        public static ulong ZeroUInt64 {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_zeroUInt64(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern ulong __iota_get_TestAPI_Primitives_zeroUInt64(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(zeroUInt8) -->
+        /// </summary>
+        public static byte ZeroUInt8 {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Primitives_zeroUInt8(Loader.env, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern byte __iota_get_TestAPI_Primitives_zeroUInt8(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(echoBool) -->
@@ -1486,20 +1486,6 @@ namespace Cricut.TestAPI {
             }
 
             /// <summary>
-            /// <!-- FishyJoes.export(staticProperty) -->
-            /// </summary>
-            public static System.Collections.Generic.IList<byte?> StaticProperty {
-                get {
-                    return Check((out CreatedRef exn) =>
-                        __iota_get_TestAPI_Primitives_PrimitiveHolder_staticProperty(Loader.env, out exn).Consume<System.Collections.Generic.IList<byte?>>()
-                    );
-                }
-            }
-
-            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern CreatedRef __iota_get_TestAPI_Primitives_PrimitiveHolder_staticProperty(IntPtr envRef, out CreatedRef exn);
-
-            /// <summary>
             /// <!-- FishyJoes.export(staticMutableProperty) -->
             /// </summary>
             public static System.Collections.Generic.IList<byte?> StaticMutableProperty {
@@ -1521,6 +1507,20 @@ namespace Cricut.TestAPI {
 
             [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern void __iota_set_TestAPI_Primitives_PrimitiveHolder_staticMutableProperty(IntPtr envRef, UnownedRef value, out CreatedRef exn);
+
+            /// <summary>
+            /// <!-- FishyJoes.export(staticProperty) -->
+            /// </summary>
+            public static System.Collections.Generic.IList<byte?> StaticProperty {
+                get {
+                    return Check((out CreatedRef exn) =>
+                        __iota_get_TestAPI_Primitives_PrimitiveHolder_staticProperty(Loader.env, out exn).Consume<System.Collections.Generic.IList<byte?>>()
+                    );
+                }
+            }
+
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern CreatedRef __iota_get_TestAPI_Primitives_PrimitiveHolder_staticProperty(IntPtr envRef, out CreatedRef exn);
 
             static PrimitiveHolder() { _TypeSetup._ensureLoaded(); }
         }

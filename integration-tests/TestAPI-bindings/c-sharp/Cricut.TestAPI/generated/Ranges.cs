@@ -12,18 +12,74 @@ namespace Cricut.TestAPI {
         private Ranges() {}
 
         /// <summary>
-        /// <!-- FishyJoes.export(uInt8Range) -->
+        /// <!-- FishyJoes.export(int16Range) -->
         /// </summary>
-        public static Cricut.FishyJoesRuntime.SwiftRange<byte> UInt8Range {
+        public static Cricut.FishyJoesRuntime.SwiftRange<short> Int16Range {
             get {
                 return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Ranges_uInt8Range(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.SwiftRange<byte>>()
+                    __iota_get_TestAPI_Ranges_int16Range(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.SwiftRange<short>>()
                 );
             }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_Ranges_uInt8Range(IntPtr envRef, out CreatedRef exn);
+        private static extern CreatedRef __iota_get_TestAPI_Ranges_int16Range(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(int32Range) -->
+        /// </summary>
+        public static Cricut.FishyJoesRuntime.SwiftRange<int> Int32Range {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Ranges_int32Range(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.SwiftRange<int>>()
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Ranges_int32Range(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(int64Range) -->
+        /// </summary>
+        public static Cricut.FishyJoesRuntime.SwiftRange<long> Int64Range {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Ranges_int64Range(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.SwiftRange<long>>()
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Ranges_int64Range(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(int8Range) -->
+        /// </summary>
+        public static Cricut.FishyJoesRuntime.SwiftRange<sbyte> Int8Range {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Ranges_int8Range(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.SwiftRange<sbyte>>()
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Ranges_int8Range(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(intRange) -->
+        /// </summary>
+        public static Cricut.FishyJoesRuntime.SwiftRange<nint> IntRange {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Ranges_intRange(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.SwiftRange<nint>>()
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Ranges_intRange(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(uInt16Range) -->
@@ -68,6 +124,20 @@ namespace Cricut.TestAPI {
         private static extern CreatedRef __iota_get_TestAPI_Ranges_uInt64Range(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
+        /// <!-- FishyJoes.export(uInt8Range) -->
+        /// </summary>
+        public static Cricut.FishyJoesRuntime.SwiftRange<byte> UInt8Range {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Ranges_uInt8Range(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.SwiftRange<byte>>()
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Ranges_uInt8Range(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
         /// <!-- FishyJoes.export(uIntRange) -->
         /// </summary>
         public static Cricut.FishyJoesRuntime.SwiftRange<nuint> UIntRange {
@@ -80,76 +150,6 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_get_TestAPI_Ranges_uIntRange(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(int8Range) -->
-        /// </summary>
-        public static Cricut.FishyJoesRuntime.SwiftRange<sbyte> Int8Range {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Ranges_int8Range(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.SwiftRange<sbyte>>()
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_Ranges_int8Range(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(int16Range) -->
-        /// </summary>
-        public static Cricut.FishyJoesRuntime.SwiftRange<short> Int16Range {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Ranges_int16Range(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.SwiftRange<short>>()
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_Ranges_int16Range(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(int32Range) -->
-        /// </summary>
-        public static Cricut.FishyJoesRuntime.SwiftRange<int> Int32Range {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Ranges_int32Range(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.SwiftRange<int>>()
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_Ranges_int32Range(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(int64Range) -->
-        /// </summary>
-        public static Cricut.FishyJoesRuntime.SwiftRange<long> Int64Range {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Ranges_int64Range(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.SwiftRange<long>>()
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_Ranges_int64Range(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(intRange) -->
-        /// </summary>
-        public static Cricut.FishyJoesRuntime.SwiftRange<nint> IntRange {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Ranges_intRange(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.SwiftRange<nint>>()
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_Ranges_intRange(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(echoUInt8Range) -->

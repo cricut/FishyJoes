@@ -15,6 +15,7 @@ import './Deprecations.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
 import './ExternalWitness_AProtocol.dart' as TestAPI;
 import './ExternalWitness_TestAsyncFunctions.dart' as TestAPI;
+import './ExternalWitness_TestDefaultComputedProperties.dart' as TestAPI;
 import './ExternalWitness_TestLeadingUnderscoredProp.dart' as TestAPI;
 import './ExternalWitness_TestMethodsProtocol.dart' as TestAPI;
 import './ExternalWitness_TestOptionalsProtocol.dart' as TestAPI;
@@ -35,6 +36,10 @@ import './Structs_ReferenceStruct.dart' as TestAPI;
 import './TestAsyncForeignSideFunctionsStruct.dart' as TestAPI;
 import './TestAsyncFunctions.dart' as TestAPI;
 import './TestAsyncSwiftSideFunctionsClass.dart' as TestAPI;
+import './TestDefaultComputedProperties.dart' as TestAPI;
+import './TestDefaultComputedPropertiesEnum.dart' as TestAPI;
+import './TestDefaultComputedPropertiesReference.dart' as TestAPI;
+import './TestDefaultComputedPropertiesStruct.dart' as TestAPI;
 import './TestLeadingUnderscoredProp.dart' as TestAPI;
 import './TestLeadingUnderscoredPropStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
@@ -70,22 +75,10 @@ class Strings {
         throw UnsupportedError('This class is supposed to be uninhabited');
     });
 
-    /// <!-- FishyJoes.export(simple) -->
-    static String get simple =>
-        check((exn) =>
-            consumeCreatedRef<String>(f__iota_get_TestAPI_Strings_simple(Loader.shared.env, exn))
-        )
-    ;
     /// <!-- FishyJoes.export(accent) -->
     static String get accent =>
         check((exn) =>
             consumeCreatedRef<String>(f__iota_get_TestAPI_Strings_accent(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(script) -->
-    static String get script =>
-        check((exn) =>
-            consumeCreatedRef<String>(f__iota_get_TestAPI_Strings_script(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(chinese) -->
@@ -116,6 +109,18 @@ class Strings {
     static String get emojiMulti =>
         check((exn) =>
             consumeCreatedRef<String>(f__iota_get_TestAPI_Strings_emojiMulti(Loader.shared.env, exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(script) -->
+    static String get script =>
+        check((exn) =>
+            consumeCreatedRef<String>(f__iota_get_TestAPI_Strings_script(Loader.shared.env, exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(simple) -->
+    static String get simple =>
+        check((exn) =>
+            consumeCreatedRef<String>(f__iota_get_TestAPI_Strings_simple(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(echo) -->

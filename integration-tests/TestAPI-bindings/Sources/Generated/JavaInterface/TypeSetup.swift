@@ -2231,6 +2231,89 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_TestAPI_TestAsyncSwiftSideFunctionsClass__default_defaultExercise6, to: UnsafeMutableRawPointer.self)
             )
         )
+        // print("setting up TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter...")
+        try TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter.externalCompanionClass,
+            JNINativeMethod(
+                name: bag.add("__jni__default_noot"),
+                signature: bag.add("(Lcom/cricut/testapi/TestDefaultComputedProperties;)J"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestDefaultComputedProperties_noot, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni__default_plutonic"),
+                signature: bag.add("(Lcom/cricut/testapi/TestDefaultComputedProperties;)Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestDefaultComputedProperties_plutonic, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        try env.RegisterNatives(
+            TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter.externalWitnessClass!
+        )
+        // print("setting up TestAPI.TestDefaultComputedPropertiesClass...")
+        try TestAPI.TestDefaultComputedPropertiesClass.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI.TestDefaultComputedPropertiesClass.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_get_noot"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestDefaultComputedPropertiesClass_noot, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_plutonic"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestDefaultComputedPropertiesClass_plutonic, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_spam"),
+                signature: bag.add("()Z"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestDefaultComputedPropertiesClass_spam, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_init"),
+                signature: bag.add("(ZJ)Lcom/cricut/testapi/TestDefaultComputedPropertiesReference;"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestDefaultComputedPropertiesClass_init, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_set_noot"),
+                signature: bag.add("(J)V"),
+                fnPtr: unsafeBitCast(java_set_TestAPI_TestDefaultComputedPropertiesClass_noot, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_set_spam"),
+                signature: bag.add("(Z)V"),
+                fnPtr: unsafeBitCast(java_set_TestAPI_TestDefaultComputedPropertiesClass_spam, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        // print("setting up TestAPI.TestDefaultComputedPropertiesEnum...")
+        try TestAPI.TestDefaultComputedPropertiesEnum.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI.TestDefaultComputedPropertiesEnum.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_get_noot"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestDefaultComputedPropertiesEnum_noot, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_plutonic"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestDefaultComputedPropertiesEnum_plutonic, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_spam"),
+                signature: bag.add("()Z"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestDefaultComputedPropertiesEnum_spam, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        // print("setting up TestAPI.TestDefaultComputedPropertiesStruct...")
+        try TestAPI.TestDefaultComputedPropertiesStruct.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI.TestDefaultComputedPropertiesStruct.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_get_plutonic"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestDefaultComputedPropertiesStruct_plutonic, to: UnsafeMutableRawPointer.self)
+            )
+        )
         // print("setting up TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter...")
         try TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter.javaSetup(env: env)
         try env.RegisterNatives(
