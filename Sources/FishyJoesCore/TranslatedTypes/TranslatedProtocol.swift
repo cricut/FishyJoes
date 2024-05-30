@@ -862,7 +862,8 @@ struct TranslatedProtocol: TranslatedType {
         )
 
         let kTypeConformances = conformances.map {
-            KotlinClass.KType.named(package: $0.module?.lowercased(), name: $0.nonNamespacedName)
+            let resolved = context.resolve(type: $0)
+            return KotlinClass.KType.named(package: resolved.sourceType.module?.lowercased(), name: resolved.sourceType.nonNamespacedName)
         }
         context.add(
             kotlinClass: KotlinInterface(
@@ -909,7 +910,8 @@ struct TranslatedProtocol: TranslatedType {
         )
 
         let csTypeConformances = conformances.map {
-            CSharpClass.CSType.named(package: $0.module, name: $0.nonNamespacedName)
+            let resolved = context.resolve(type: $0)
+            return CSharpClass.CSType.named(package: resolved.sourceType.module, name: resolved.sourceType.nonNamespacedName)
         }
 
         context.add(

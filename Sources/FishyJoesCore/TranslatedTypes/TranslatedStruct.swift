@@ -583,7 +583,8 @@ struct TranslatedStruct: TranslatedType {
         let (productFields, productMethods) = CSharpClass.separate(fieldsAndMethods: fieldsAndMethods)
 
         let csTypeConformances = conformances.map {
-            CSharpClass.CSType.named(package: $0.module, name: $0.nonNamespacedName)
+            let resolved = context.resolve(type: $0)
+            return CSharpClass.CSType.named(package: resolved.sourceType.module, name: resolved.sourceType.nonNamespacedName)
         }
 
         context.add(

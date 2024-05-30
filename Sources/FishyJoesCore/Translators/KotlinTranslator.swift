@@ -582,7 +582,7 @@ final class KotlinTranslator: Translator {
     func conform(_ kotlinClass: KotlinClass, to protoBetterType: BetterType, context: FishyJoesContext) {
         let resolved = context.resolve(type: protoBetterType)
 
-        let protoKType = KotlinClass.KType.named(package: protoBetterType.module, name: protoBetterType.nonNamespacedName)
+        let protoKType = KotlinClass.KType.named(package: resolved.sourceType.module?.lowercased(), name: resolved.sourceType.nonNamespacedName)
         kotlinClass.conformances.insert(protoKType)
 
         if let proto = resolved as? TranslatedProtocol {
