@@ -891,7 +891,7 @@ struct TranslatedProtocol: TranslatedType {
                 constructor: .reference,
                 fields: externalWitnessFields,
                 methods: externalWitnessMethods,
-                conformances: [KotlinClass.KType.named(package: "fishyjoes.runtime", name: "SwiftReference(_swiftReference)")]//[BetterType.named(.init(name: "SwiftReference(_swiftReference)", module: "fishyjoes.runtime"))]
+                conformances: [KotlinClass.KType.named(package: "fishyjoes.runtime", name: "SwiftReference(_swiftReference)")]
             ).conforming(to: [sourceType], context: context)
         )
 
