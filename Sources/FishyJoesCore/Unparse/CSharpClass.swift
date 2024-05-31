@@ -278,7 +278,7 @@ extension CSharpClass.CSType: CustomStringConvertible {
         case let .optional(wrapped): return "\(wrapped.name)?"
         }
     }
-    
+
     var unqualifiedName: String {
         switch self {
         case .void: return "void"

@@ -1012,7 +1012,7 @@ struct TranslatedProtocol: TranslatedType {
                 fields: externalWitnessFields,
                 methods: externalWitnessMethods,
                 conformances: [context.resolve(type: sourceType).cSharpType]
-                //[CSharpClass.CSType.named(package: sourceType.module, name: sourceType.nonNamespacedName)]
+                // [CSharpClass.CSType.named(package: sourceType.module, name: sourceType.nonNamespacedName)]
             )
         )
     }

@@ -554,7 +554,7 @@ public protocol TestDifferingExportNameProtocol {
 /// <!-- FishyJoes.export(TestDifferingExportNameStruct) -->
 public struct TestDifferingExportNameStruct: TestDifferingExportNameProtocol {
     public var tata: Int
-    
+
     public init(tata: Int) {
         self.tata = tata
     }

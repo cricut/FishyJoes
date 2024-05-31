@@ -590,7 +590,7 @@ struct TranslatedStruct: TranslatedType {
         }
 
         let (productFields, productMethods) = CSharpClass.separate(fieldsAndMethods: fieldsAndMethods)
-        
+
         context.add(
             cSharpClass: CSharpProductClass(
                 module: context.module,
