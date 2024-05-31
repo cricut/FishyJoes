@@ -97,6 +97,14 @@ class Structs_EmptyStruct {
 
     Structs_EmptyStruct copyWith() => Structs_EmptyStruct();
 
+    /// <!-- FishyJoes.export(tutu) -->
+    int get tutu =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                f__iota_get_TestAPI_Structs_EmptyStruct_tutu(Loader.shared.env, _thisHandle.ptr, exn)
+            )
+        )
+    ;
     /// <!-- FishyJoes.export(aap) -->
     String aap(
     ) =>
@@ -110,4 +118,9 @@ class Structs_EmptyStruct {
         UnownedRef _this,
         OutCreatedRef _exn
     ) f__iota_TestAPI_Structs_EmptyStruct_aap;
+    static late int Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_get_TestAPI_Structs_EmptyStruct_tutu;
 }

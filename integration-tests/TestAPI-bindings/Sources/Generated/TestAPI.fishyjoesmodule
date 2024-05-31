@@ -13063,7 +13063,20 @@
 
                 ],
                 "fields" : [
-
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(tutu) -->"
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "tutu",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
                 ],
                 "implements" : [
 

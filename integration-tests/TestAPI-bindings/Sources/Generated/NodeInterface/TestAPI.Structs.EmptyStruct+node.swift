@@ -40,6 +40,17 @@ extension TestAPI.Structs.EmptyStruct: NodeMutator {
                     },
                     isStatic: false
                 ),
+                "tutu": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "tutu", expectedArgumentCount: 0) { env in
+                                return try Swift.Int.toNode(env.this(converter: TestAPI.Structs.EmptyStruct.self).tutu, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: false
+                ),
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "Structs.EmptyStruct_constructor", expectedArgumentCount: 0) { env in

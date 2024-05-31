@@ -5518,6 +5518,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_Strings_simple");
+    TestAPI.Structs_EmptyStruct.f__iota_get_TestAPI_Structs_EmptyStruct_tutu = dylib.lookupFunction<
+        ffi.IntPtr Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_Structs_EmptyStruct_tutu");
     TestAPI.Structs_ReferenceStruct.f__iota_get_TestAPI_Structs_ReferenceStruct_hash = dylib.lookupFunction<
         ffi.Int Function(
             Env env,

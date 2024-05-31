@@ -444,6 +444,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_aap"),
                 signature: bag.add("()Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(java_TestAPI_Structs_EmptyStruct_aap, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_tutu"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Structs_EmptyStruct_tutu, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.Structs.MemberwiseStruct...")

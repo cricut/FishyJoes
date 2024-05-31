@@ -19,6 +19,14 @@ sealed class Structs {
     data class EmptyStruct(
     ) {
         /**
+         * <!-- FishyJoes.export(tutu) -->
+         */
+        val tutu: Long
+          get() = __jni_get_tutu()
+        @JvmName("__jni_get_tutu")
+        private external fun __jni_get_tutu(): Long
+
+        /**
          * <!-- FishyJoes.export(aap) -->
          */
         fun aap(

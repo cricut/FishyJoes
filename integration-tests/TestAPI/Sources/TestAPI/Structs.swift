@@ -11,6 +11,12 @@ public enum Structs {
     public struct EmptyStruct {
         // no properties!
         public init() {}
+
+        /// <!-- FishyJoes.export(tutu) -->
+        public var tutu: Int {
+            35671
+        }
+
         /// <!-- FishyJoes.export(aap) -->
         public func aap() -> String {
             "The Netherlands"

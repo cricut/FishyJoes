@@ -21,6 +21,19 @@ namespace Cricut.TestAPI {
             }
 
             /// <summary>
+            /// <!-- FishyJoes.export(tutu) -->
+            /// </summary>
+            public nint GetTutu() {
+                using var thisHandle = new GCRef(this);
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Structs_EmptyStruct_tutu(Loader.env, thisHandle.ptr, out exn)
+                );
+            }
+
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern nint __iota_get_TestAPI_Structs_EmptyStruct_tutu(IntPtr envRef, UnownedRef self, out CreatedRef exn);
+
+            /// <summary>
             /// <!-- FishyJoes.export(aap) -->
             /// </summary>
             public string Aap(

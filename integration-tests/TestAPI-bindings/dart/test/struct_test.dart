@@ -10,6 +10,7 @@ void main() {
 
   group('StructTests', () {
       test('testConstruction', () {
+        expect(Structs_EmptyStruct().tutu, equals(35671));
         expect(Structs_EmptyStruct().aap(), equals("The Netherlands"));
       });
 

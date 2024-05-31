@@ -2191,6 +2191,11 @@ export declare namespace TestAPI {
             constructor()
 
             /**
+             * <!-- FishyJoes.export(tutu) -->
+             */
+            readonly tutu: number;
+
+            /**
              * <!-- FishyJoes.export(aap) -->
              */
             aap(
