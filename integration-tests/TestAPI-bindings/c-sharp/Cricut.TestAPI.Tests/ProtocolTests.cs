@@ -477,7 +477,7 @@ namespace Cricut.TestAPI.Tests {
             Assert.Equal(123346, a.Noot);
         }
 
-                [Fact]
+        [Fact]
         public void TestTestDefaultComputedPropertiesEnum() {
             var a = new TestDefaultComputedPropertiesEnum.Qux();
             Assert.Equal("Newton Gimmick", a.GetPlutonic());
