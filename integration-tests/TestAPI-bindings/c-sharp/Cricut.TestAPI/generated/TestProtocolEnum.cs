@@ -6,7 +6,7 @@ using static Cricut.FishyJoesRuntime.Utilities;
 
 namespace Cricut.TestAPI {
     /// <summary>
-    /// <!-- FishyJoes.export(TestProtocolEnum) -->
+    /// <!-- FishyJoes.export(TestProtocolEnum, conformances: [TestMethodsProtocol]) -->
     /// </summary>
     public record TestProtocolEnum {
         private TestProtocolEnum() {}

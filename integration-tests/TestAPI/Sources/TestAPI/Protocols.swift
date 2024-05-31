@@ -35,7 +35,7 @@ extension AProtocol {
     }
 }
 
-/// <!-- FishyJoes.export(AProtocolImplementation) -->
+/// <!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->
 public struct AProtocolImplementation: AProtocol {
     public var foo: String
     public var baz: Bool
@@ -108,7 +108,7 @@ public protocol TestOptionalsProtocol {
     func spqr(_ pippo: AssociatedDataEnum) throws -> Int
 }
 
-/// <!-- FishyJoes.export(TestDefaultComputedPropertiesStruct) -->
+/// <!-- FishyJoes.export(TestDefaultComputedPropertiesStruct, conformances: [TestDefaultComputedProperties]) -->
 public struct TestDefaultComputedPropertiesStruct: TestDefaultComputedProperties {
     public var spam: Bool
     public var noot: Int
@@ -122,7 +122,7 @@ public struct TestDefaultComputedPropertiesStruct: TestDefaultComputedProperties
     }
 }
 
-/// <!-- FishyJoes.exportReference(TestDefaultComputedPropertiesReference) -->
+/// <!-- FishyJoes.exportReference(TestDefaultComputedPropertiesReference, conformances: [TestDefaultComputedProperties]) -->
 public struct TestDefaultComputedPropertiesClass: TestDefaultComputedProperties {
     /// <!-- FishyJoes.export(spam) -->
     public var spam: Bool
@@ -139,7 +139,7 @@ public struct TestDefaultComputedPropertiesClass: TestDefaultComputedProperties 
     }
 }
 
-/// <!-- FishyJoes.export(TestDefaultComputedPropertiesEnum) -->
+/// <!-- FishyJoes.export(TestDefaultComputedPropertiesEnum, conformances: [TestDefaultComputedProperties]) -->
 public enum TestDefaultComputedPropertiesEnum: TestDefaultComputedProperties {
     case qux
 
@@ -153,7 +153,7 @@ public enum TestDefaultComputedPropertiesEnum: TestDefaultComputedProperties {
     }
 }
 
-/// <!-- FishyJoes.export(TestProtocolEnum) -->
+/// <!-- FishyJoes.export(TestProtocolEnum, conformances: [TestMethodsProtocol]) -->
 public enum TestProtocolEnum: TestMethodsProtocol {
     static let debugPrints = false
 
@@ -185,7 +185,7 @@ public enum TestProtocolEnum: TestMethodsProtocol {
     }
 }
 
-/// <!-- FishyJoes.export(TestProtocolStruct) -->
+/// <!-- FishyJoes.export(TestProtocolStruct, conformances: [TestMethodsProtocol, TestPropertiesProtocol]) -->
 public struct TestProtocolStruct: TestMethodsProtocol, TestPropertiesProtocol {
     static let debugPrints = false
 
@@ -227,7 +227,7 @@ public struct TestProtocolStruct: TestMethodsProtocol, TestPropertiesProtocol {
     }
 }
 
-/// <!-- FishyJoes.exportReference(TestProtocolClass) -->
+/// <!-- FishyJoes.exportReference(TestProtocolClass, conformances: [TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol]) -->
 public class TestProtocolClass: TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol {
     static let debugPrints = false
 
@@ -300,15 +300,15 @@ public protocol TestLeadingUnderscoredProp {
 }
 
 // TODO: make this work for Kotlin
-///// <!-- FishyJoes.export(TestLeadingUnderscoredMethod) -->
+// /// <!-- FishyJoes.export(TestLeadingUnderscoredMethod) -->
 // public protocol TestLeadingUnderscoredMethod {
 //    /// <!-- FishyJoes.export(_leadingUnderscoreMethod) -->
 //    func _leadingUnderscoreMethod() throws -> String
 // }
 
-///// <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct) -->
+// /// <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp, TestLeadingUnderscoredMethod]) -->
 // public struct TestLeadingUnderscoredPropStruct: TestLeadingUnderscoredProp, TestLeadingUnderscoredMethod {
-/// <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct) -->
+/// <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp]) -->
 public struct TestLeadingUnderscoredPropStruct: TestLeadingUnderscoredProp {
     public var _leadingUnderscoreProp: String
 
@@ -316,7 +316,7 @@ public struct TestLeadingUnderscoredPropStruct: TestLeadingUnderscoredProp {
         self._leadingUnderscoreProp = _leadingUnderscoreProp
     }
 
-    // TODO: make this work for Kotlin
+// TODO: make this work for Kotlin
 //    /// <!-- FishyJoes.export(_leadingUnderscoreMethod) -->
 //    public func _leadingUnderscoreMethod() throws -> String {
 //        "Captain Planet, he's our hero; Gonna take pollution down to zero."
@@ -370,7 +370,7 @@ extension TestAsyncFunctions {
     }
 }
 
-/// <!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct) -->
+/// <!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct, conformances: [TestAsyncFunctions]) -->
 public struct TestAsyncForeignSideFunctionsStruct: TestAsyncFunctions {
     public let const42: AsyncFunctions.AFun0
     public let iabs: AsyncFunctions.AFun1
@@ -480,7 +480,7 @@ public struct TestAsyncForeignSideFunctionsStruct: TestAsyncFunctions {
     }
 }
 
-/// <!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass) -->
+/// <!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass, conformances: [TestAsyncFunctions]) -->
 public class TestAsyncSwiftSideFunctionsClass: TestAsyncFunctions {
     /// <!-- FishyJoes.export(const42) -->
     public var const42: AsyncFunctions.AFun0 { AsyncFunctions.const42 }

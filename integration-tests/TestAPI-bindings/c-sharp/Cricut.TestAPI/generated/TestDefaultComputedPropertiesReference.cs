@@ -6,7 +6,7 @@ using static Cricut.FishyJoesRuntime.Utilities;
 
 namespace Cricut.TestAPI {
     /// <summary>
-    /// <!-- FishyJoes.exportReference(TestDefaultComputedPropertiesReference) -->
+    /// <!-- FishyJoes.exportReference(TestDefaultComputedPropertiesReference, conformances: [TestDefaultComputedProperties]) -->
     /// </summary>
     public class TestDefaultComputedPropertiesReference : SwiftReference, Cricut.TestAPI.TestDefaultComputedProperties {
         internal TestDefaultComputedPropertiesReference(ConsumedRef reference): base(reference) {}

@@ -4,7 +4,7 @@ import java.lang.Exception
 import kotlinx.coroutines.*
 
 /**
- * <!-- FishyJoes.exportReference(TestDefaultComputedPropertiesReference) -->
+ * <!-- FishyJoes.exportReference(TestDefaultComputedPropertiesReference, conformances: [TestDefaultComputedProperties]) -->
  */
 class TestDefaultComputedPropertiesReference private constructor(_swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference), com.cricut.testapi.TestDefaultComputedProperties {
     /**

@@ -6,7 +6,7 @@ using static Cricut.FishyJoesRuntime.Utilities;
 
 namespace Cricut.TestAPI {
     /// <summary>
-    /// <!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass) -->
+    /// <!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass, conformances: [TestAsyncFunctions]) -->
     /// </summary>
     public class TestAsyncSwiftSideFunctionsClass : SwiftReference, Cricut.TestAPI.TestAsyncFunctions {
         internal TestAsyncSwiftSideFunctionsClass(ConsumedRef reference): base(reference) {}

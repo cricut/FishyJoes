@@ -44,8 +44,8 @@ struct TranslatedReference: TranslatedType {
         self.hashable = type.hashable
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
-        self.conformances = Set(type.implements.compactMap {
-            .init(named: $0.value, context: context)
+        self.conformances = Set(exportAnnotation.conformances.compactMap {
+            BetterType.named(.init(name: $0, module: context.module.name))
         })
     }
 

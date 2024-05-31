@@ -4,8 +4,7 @@ import java.lang.Exception
 import kotlinx.coroutines.*
 
 /**
- * // <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct) -->
- * <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct) -->
+ * <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp]) -->
  */
 data class TestLeadingUnderscoredPropStruct(
     override var _leadingUnderscoreProp: kotlin.String

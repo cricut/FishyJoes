@@ -6,7 +6,7 @@ using static Cricut.FishyJoesRuntime.Utilities;
 
 namespace Cricut.TestAPI {
     /// <summary>
-    /// <!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct) -->
+    /// <!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct, conformances: [TestAsyncFunctions]) -->
     /// </summary>
     public record TestAsyncForeignSideFunctionsStruct: Cricut.TestAPI.TestAsyncFunctions {
         public System.Func<System.Threading.Tasks.Task<nint>> Const42 { get; internal set; }

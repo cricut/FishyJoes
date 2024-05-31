@@ -2754,7 +2754,7 @@
               }
             },
             "documentation" : [
-              "<!-- FishyJoes.export(AProtocolImplementation) -->"
+              "<!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->"
             ],
             "extends" : [
 
@@ -3598,7 +3598,7 @@
               }
             },
             "documentation" : [
-              "<!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct) -->"
+              "<!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct, conformances: [TestAsyncFunctions]) -->"
             ],
             "extends" : [
 
@@ -4517,7 +4517,7 @@
               }
             },
             "documentation" : [
-              "<!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass) -->"
+              "<!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass, conformances: [TestAsyncFunctions]) -->"
             ],
             "extends" : [
 
@@ -4983,7 +4983,7 @@
               }
             },
             "documentation" : [
-              "<!-- FishyJoes.exportReference(TestDefaultComputedPropertiesReference) -->"
+              "<!-- FishyJoes.exportReference(TestDefaultComputedPropertiesReference, conformances: [TestDefaultComputedProperties]) -->"
             ],
             "extends" : [
 
@@ -5093,7 +5093,7 @@
               }
             },
             "documentation" : [
-              "<!-- FishyJoes.export(TestDefaultComputedPropertiesStruct) -->"
+              "<!-- FishyJoes.export(TestDefaultComputedPropertiesStruct, conformances: [TestDefaultComputedProperties]) -->"
             ],
             "extends" : [
 
@@ -5202,8 +5202,7 @@
               }
             },
             "documentation" : [
-              "// <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct) -->",
-              "<!-- FishyJoes.export(TestLeadingUnderscoredPropStruct) -->"
+              "<!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp]) -->"
             ],
             "extends" : [
 
@@ -5552,7 +5551,7 @@
               }
             },
             "documentation" : [
-              "<!-- FishyJoes.exportReference(TestProtocolClass) -->"
+              "<!-- FishyJoes.exportReference(TestProtocolClass, conformances: [TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol]) -->"
             ],
             "extends" : [
 
@@ -5861,7 +5860,7 @@
               }
             },
             "documentation" : [
-              "<!-- FishyJoes.export(TestProtocolStruct) -->"
+              "<!-- FishyJoes.export(TestProtocolStruct, conformances: [TestMethodsProtocol, TestPropertiesProtocol]) -->"
             ],
             "extends" : [
 
@@ -14127,7 +14126,7 @@
           },
           {
             "documentation" : [
-              "<!-- FishyJoes.export(TestDefaultComputedPropertiesEnum) -->"
+              "<!-- FishyJoes.export(TestDefaultComputedPropertiesEnum, conformances: [TestDefaultComputedProperties]) -->"
             ],
             "name" : "TestDefaultComputedPropertiesEnum",
             "value" : {
@@ -14144,7 +14143,7 @@
           },
           {
             "documentation" : [
-              "<!-- FishyJoes.export(TestProtocolEnum) -->"
+              "<!-- FishyJoes.export(TestProtocolEnum, conformances: [TestMethodsProtocol]) -->"
             ],
             "name" : "TestProtocolEnum",
             "value" : {

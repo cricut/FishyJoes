@@ -4,7 +4,7 @@ import java.lang.Exception
 import kotlinx.coroutines.*
 
 /**
- * <!-- FishyJoes.export(TestDefaultComputedPropertiesEnum) -->
+ * <!-- FishyJoes.export(TestDefaultComputedPropertiesEnum, conformances: [TestDefaultComputedProperties]) -->
  */
 @OptIn(ExperimentalCoroutinesApi::class)
 sealed class TestDefaultComputedPropertiesEnum: com.cricut.testapi.TestDefaultComputedProperties {

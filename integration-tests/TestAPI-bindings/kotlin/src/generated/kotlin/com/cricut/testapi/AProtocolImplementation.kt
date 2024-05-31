@@ -4,7 +4,7 @@ import java.lang.Exception
 import kotlinx.coroutines.*
 
 /**
- * <!-- FishyJoes.export(AProtocolImplementation) -->
+ * <!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->
  */
 data class AProtocolImplementation(
     override var foo: kotlin.String,

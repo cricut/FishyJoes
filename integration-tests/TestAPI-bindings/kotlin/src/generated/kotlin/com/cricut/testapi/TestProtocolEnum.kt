@@ -4,7 +4,7 @@ import java.lang.Exception
 import kotlinx.coroutines.*
 
 /**
- * <!-- FishyJoes.export(TestProtocolEnum) -->
+ * <!-- FishyJoes.export(TestProtocolEnum, conformances: [TestMethodsProtocol]) -->
  */
 @OptIn(ExperimentalCoroutinesApi::class)
 sealed class TestProtocolEnum: com.cricut.testapi.TestMethodsProtocol {

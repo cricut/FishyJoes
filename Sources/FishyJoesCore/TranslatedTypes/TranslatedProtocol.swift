@@ -45,8 +45,8 @@ struct TranslatedProtocol: TranslatedType {
         self.definingTSNamespace = context.module.name
         self.isInhabited = type.isInhabited
 
-        self.conformances = Set(type.implements.compactMap {
-            .init(named: $0.value, context: context)
+        self.conformances = Set(exportAnnotation.conformances.compactMap {
+            BetterType.named(.init(name: $0, module: context.module.name))
         })
 
         self.methods = Method.methods(type: type)

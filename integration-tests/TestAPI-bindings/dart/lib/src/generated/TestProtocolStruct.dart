@@ -67,7 +67,7 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
-/// <!-- FishyJoes.export(TestProtocolStruct) -->
+/// <!-- FishyJoes.export(TestProtocolStruct, conformances: [TestMethodsProtocol, TestPropertiesProtocol]) -->
 class TestProtocolStruct implements TestAPI.TestMethodsProtocol, TestAPI.TestPropertiesProtocol {
     String corge;
 

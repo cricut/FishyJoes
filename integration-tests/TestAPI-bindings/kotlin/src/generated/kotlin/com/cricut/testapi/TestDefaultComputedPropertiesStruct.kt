@@ -4,7 +4,7 @@ import java.lang.Exception
 import kotlinx.coroutines.*
 
 /**
- * <!-- FishyJoes.export(TestDefaultComputedPropertiesStruct) -->
+ * <!-- FishyJoes.export(TestDefaultComputedPropertiesStruct, conformances: [TestDefaultComputedProperties]) -->
  */
 data class TestDefaultComputedPropertiesStruct(
     var spam: Boolean,
