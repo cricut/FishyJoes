@@ -14,6 +14,25 @@ sealed class Structs {
     }
 
     /**
+     * <!-- FishyJoes.export(Structs.EmptyStruct) -->
+     */
+    data class EmptyStruct(
+    ) {
+        /**
+         * <!-- FishyJoes.export(aap) -->
+         */
+        fun aap(
+        ): kotlin.String = __jni_aap()
+        @JvmName("__jni_aap")
+        private external fun __jni_aap(
+        ): kotlin.String
+
+        companion object {
+            init { loadNativeLibs() }
+        }
+    }
+
+    /**
      * <!-- FishyJoes.export(Structs.MutableStruct) -->
      */
     data class MutableStruct(

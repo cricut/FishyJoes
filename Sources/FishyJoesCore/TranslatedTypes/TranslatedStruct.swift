@@ -42,7 +42,7 @@ struct TranslatedStruct: TranslatedType {
         self.definingModule = context.module
         self.conformances = exportAnnotation.conformances
 
-        enforceMustHaveProperties()
+        //enforceMustHaveProperties()
     }
 
     func enforceMustHaveProperties() {

@@ -4,6 +4,7 @@ export './UnicodeScalar_PuttingTypesIntoQuestionablePlaces.dart';
 export './Actors_TemperatureLogger.dart';
 export './Collections_CollectionHolder.dart';
 export './Primitives_PrimitiveHolder.dart';
+export './Structs_EmptyStruct.dart';
 export './Structs_MemberwiseStruct.dart';
 export './Structs_MutableStruct.dart';
 export './Structs_PuttingTypesIntoQuestionablePlaces.dart';

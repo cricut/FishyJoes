@@ -436,6 +436,16 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_set_TestAPI_Primitives_PrimitiveHolder_staticMutableProperty, to: UnsafeMutableRawPointer.self)
             )
         )
+        // print("setting up TestAPI.Structs.EmptyStruct...")
+        try TestAPI.Structs.EmptyStruct.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI.Structs.EmptyStruct.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_aap"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Structs_EmptyStruct_aap, to: UnsafeMutableRawPointer.self)
+            )
+        )
         // print("setting up TestAPI.Structs.MemberwiseStruct...")
         try TestAPI.Structs.MemberwiseStruct.javaSetup(env: env)
         try env.RegisterNatives(

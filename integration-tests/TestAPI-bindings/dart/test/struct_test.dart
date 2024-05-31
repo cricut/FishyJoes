@@ -10,6 +10,10 @@ void main() {
 
   group('StructTests', () {
       test('testConstruction', () {
+        expect(Structs_EmptyStruct().aap(), equals("The Netherlands"));
+      });
+
+      test('testConstruction', () {
           final memberwise = Structs_MemberwiseStruct.create();
           expect(memberwise.immutable, equals("Eternal"));
           expect(memberwise.mutable, equals("Fickle"));

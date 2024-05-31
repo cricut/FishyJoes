@@ -68,34 +68,46 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
-/// <!-- FishyJoes.export(DefaultArguments) -->
-class DefaultArguments {
-    DefaultArguments._();
+/// <!-- FishyJoes.export(Structs.EmptyStruct) -->
+class Structs_EmptyStruct {
 
-    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
-        throw UnsupportedError('This class is supposed to be uninhabited');
-    });
+    Structs_EmptyStruct(
+    );
 
-    /// <!-- FishyJoes.export(echoDefaults, compatibilityOrder: [z, y]) -->
-    static String echoDefaults(
-        int? x,
-        {
-            int? y = null,
-            double /* theLabelForZ */ z = 3.14,
-        }
+    static CreatedRef ffi_constructor(
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(Structs_EmptyStruct(
+        ))
+    );
+    @override
+    String toString() => 'Structs_EmptyStruct()';
+
+    @override
+    bool operator ==(Object other) {
+        return identical(other, this) ||
+        (
+            other.runtimeType == runtimeType &&
+            other is Structs_EmptyStruct
+        );
+    }
+
+    @override
+    int get hashCode => runtimeType.hashCode;
+
+    Structs_EmptyStruct copyWith() => Structs_EmptyStruct();
+
+    /// <!-- FishyJoes.export(aap) -->
+    String aap(
     ) =>
-        GCRef.using(y, (_yHandle) =>
-            GCRef.using(x, (_xHandle) =>
-                consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_DefaultArguments_echoDefaults(Loader.shared.env, _yHandle.ptr, _xHandle.ptr, z, _exn)))
-            )
+        GCRef.using(this, (_thisHandle) =>
+            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_EmptyStruct_aap(Loader.shared.env, _thisHandle.ptr, _exn)))
         )
     ;
 
     static late CreatedRef Function(
         Env env,
-        UnownedRef y,
-        UnownedRef x,
-        double z,
+        UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_DefaultArguments_echoDefaults;
+    ) f__iota_TestAPI_Structs_EmptyStruct_aap;
 }

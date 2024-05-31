@@ -7,6 +7,16 @@
 
 /// <!-- FishyJoes.export(Structs) -->
 public enum Structs {
+    /// <!-- FishyJoes.export(Structs.EmptyStruct) -->
+    public struct EmptyStruct {
+        // no properties!
+        public init() {}
+        /// <!-- FishyJoes.export(aap) -->
+        public func aap() -> String {
+            "The Netherlands"
+        }
+    }
+
     /// <!-- FishyJoes.export(Structs.MemberwiseStruct) -->
     public struct MemberwiseStruct: Hashable {
         public private(set) var immutable = "Eternal"

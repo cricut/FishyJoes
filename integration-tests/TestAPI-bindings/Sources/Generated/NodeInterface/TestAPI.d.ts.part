@@ -2185,6 +2185,19 @@ export declare namespace TestAPI {
     export type Structs = never;
     export namespace Structs {
         /**
+         * <!-- FishyJoes.export(Structs.EmptyStruct) -->
+         */
+        export class EmptyStruct {
+            constructor()
+
+            /**
+             * <!-- FishyJoes.export(aap) -->
+             */
+            aap(
+            ): string;
+        }
+
+        /**
          * <!-- FishyJoes.export(Structs.MemberwiseStruct) -->
          */
         export class MemberwiseStruct {
