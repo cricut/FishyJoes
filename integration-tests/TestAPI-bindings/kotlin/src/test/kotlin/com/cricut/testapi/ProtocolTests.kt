@@ -441,7 +441,7 @@ internal class ProtocolTests {
 
     @Test
     fun testDifferingExportNameStruct() = runTest(timeout = 1000000.seconds) {
-        val a = TestDifferingExportNameStruct(tata: 8923);
+        val a = TestDifferingExportNameStruct(tata = 8923)
         assertEquals(8923, a.tata);
     }
 
