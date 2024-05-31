@@ -70,7 +70,7 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
-/// <!-- FishyJoes.export(TestDifferingExportNameStruct, conformances: [TestDifferingExportNameProtocolDiffy]) -->
+/// <!-- FishyJoes.export(TestDifferingExportNameStruct) -->
 class TestDifferingExportNameStruct implements TestAPI.TestDifferingExportNameProtocolDiffy {
     int tata;
 

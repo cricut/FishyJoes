@@ -6,7 +6,7 @@ using static Cricut.FishyJoesRuntime.Utilities;
 
 namespace Cricut.TestAPI {
     /// <summary>
-    /// <!-- FishyJoes.export(TestProtocolStruct, conformances: [TestMethodsProtocol, TestPropertiesProtocol]) -->
+    /// <!-- FishyJoes.export(TestProtocolStruct) -->
     /// </summary>
     public record TestProtocolStruct: Cricut.TestAPI.TestMethodsProtocol, Cricut.TestAPI.TestPropertiesProtocol {
         public string Corge { get; set; }

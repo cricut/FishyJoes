@@ -6,7 +6,7 @@ using static Cricut.FishyJoesRuntime.Utilities;
 
 namespace Cricut.TestAPI {
     /// <summary>
-    /// <!-- FishyJoes.export(TestDifferingExportNameStruct, conformances: [TestDifferingExportNameProtocolDiffy]) -->
+    /// <!-- FishyJoes.export(TestDifferingExportNameStruct) -->
     /// </summary>
     public record TestDifferingExportNameStruct: Cricut.TestAPI.TestDifferingExportNameProtocolDiffy {
         public nint Tata { get; set; }

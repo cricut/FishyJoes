@@ -4,7 +4,7 @@ import java.lang.Exception
 import kotlinx.coroutines.*
 
 /**
- * <!-- FishyJoes.export(TestProtocolStruct, conformances: [TestMethodsProtocol, TestPropertiesProtocol]) -->
+ * <!-- FishyJoes.export(TestProtocolStruct) -->
  */
 data class TestProtocolStruct(
     override var corge: kotlin.String

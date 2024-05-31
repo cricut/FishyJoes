@@ -4,7 +4,7 @@ import java.lang.Exception
 import kotlinx.coroutines.*
 
 /**
- * <!-- FishyJoes.export(TestDifferingExportNameStruct, conformances: [TestDifferingExportNameProtocolDiffy]) -->
+ * <!-- FishyJoes.export(TestDifferingExportNameStruct) -->
  */
 data class TestDifferingExportNameStruct(
     override var tata: Long

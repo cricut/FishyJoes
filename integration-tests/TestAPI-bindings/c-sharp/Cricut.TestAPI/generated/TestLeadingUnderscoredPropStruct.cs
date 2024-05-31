@@ -6,7 +6,7 @@ using static Cricut.FishyJoesRuntime.Utilities;
 
 namespace Cricut.TestAPI {
     /// <summary>
-    /// <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp]) -->
+    /// <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct) -->
     /// </summary>
     public record TestLeadingUnderscoredPropStruct: Cricut.TestAPI.TestLeadingUnderscoredProp {
         public string _leadingUnderscoreProp { get; set; }

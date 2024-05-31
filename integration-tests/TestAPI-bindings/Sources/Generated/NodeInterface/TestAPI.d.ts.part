@@ -84,7 +84,7 @@ export declare namespace TestAPI {
     }
 
     /**
-     * <!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->
+     * <!-- FishyJoes.export(AProtocolImplementation) -->
      */
     export class AProtocolImplementation implements TestAPI.AProtocol {
         constructor(foo: string, baz: boolean)
@@ -2291,7 +2291,7 @@ export declare namespace TestAPI {
     }
 
     /**
-     * <!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct, conformances: [TestAsyncFunctions]) -->
+     * <!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct) -->
      */
     export class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions {
         constructor(const42: () => Promise<number>, iabs: (_0: number) => Promise<number>, intCompose: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>, add3Things: (_0: number, _1: number, _2: number) => Promise<number>, makeList: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>, fifthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>, six: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>, willThrow: () => Promise<number>, exercise0Fun: (_0: () => Promise<number>) => Promise<string>, exercise1Fun: (_0: (_0: number) => Promise<number>) => Promise<string>, exercise2Fun: (_0: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>) => Promise<string>, exercise3Fun: (_0: (_0: number, _1: number, _2: number) => Promise<number>) => Promise<string>, exercise4Fun: (_0: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>) => Promise<string>, exercise5Fun: (_0: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>) => Promise<string>, exercise6Fun: (_0: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>) => Promise<string>, thunkTwiceMakerFun: (_0: () => Promise<void>) => () => Promise<void>)
@@ -2638,7 +2638,7 @@ export declare namespace TestAPI {
     }
 
     /**
-     * <!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass, conformances: [TestAsyncFunctions]) -->
+     * <!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass) -->
      */
     export class TestAsyncSwiftSideFunctionsClass implements TestAPI.TestAsyncFunctions {
         private constructor()
@@ -2816,7 +2816,7 @@ export declare namespace TestAPI {
     }
 
     /**
-     * <!-- FishyJoes.exportReference(TestDefaultComputedPropertiesReference, conformances: [TestDefaultComputedProperties]) -->
+     * <!-- FishyJoes.exportReference(TestDefaultComputedPropertiesReference) -->
      */
     export class TestDefaultComputedPropertiesReference implements TestAPI.TestDefaultComputedProperties {
         private constructor()
@@ -2847,7 +2847,7 @@ export declare namespace TestAPI {
     }
 
     /**
-     * <!-- FishyJoes.export(TestDefaultComputedPropertiesStruct, conformances: [TestDefaultComputedProperties]) -->
+     * <!-- FishyJoes.export(TestDefaultComputedPropertiesStruct) -->
      */
     export class TestDefaultComputedPropertiesStruct implements TestAPI.TestDefaultComputedProperties {
         constructor(spam: boolean, noot: number)
@@ -2873,9 +2873,9 @@ export declare namespace TestAPI {
     }
 
     /**
-     * <!-- FishyJoes.export(TestDifferingExportNameStruct, conformances: [TestDifferingExportNameProtocolDiffy]) -->
+     * <!-- FishyJoes.export(TestDifferingExportNameStruct) -->
      */
-    export class TestDifferingExportNameStruct implements TestAPI.TestDifferingExportNameProtocol {
+    export class TestDifferingExportNameStruct implements TestAPI.TestDifferingExportNameProtocolDiffy {
         constructor(tata: number)
 
         tata: number;
@@ -2892,7 +2892,7 @@ export declare namespace TestAPI {
     }
 
     /**
-     * <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp]) -->
+     * <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct) -->
      */
     export class TestLeadingUnderscoredPropStruct implements TestAPI.TestLeadingUnderscoredProp {
         constructor(_leadingUnderscoreProp: string)
@@ -2986,7 +2986,7 @@ export declare namespace TestAPI {
     }
 
     /**
-     * <!-- FishyJoes.exportReference(TestProtocolClass, conformances: [TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol]) -->
+     * <!-- FishyJoes.exportReference(TestProtocolClass) -->
      */
     export class TestProtocolClass implements TestAPI.TestMethodsProtocol, TestAPI.TestOptionalsProtocol, TestAPI.TestPropertiesProtocol {
         private constructor()
@@ -3124,7 +3124,7 @@ export declare namespace TestAPI {
     }
 
     /**
-     * <!-- FishyJoes.export(TestProtocolStruct, conformances: [TestMethodsProtocol, TestPropertiesProtocol]) -->
+     * <!-- FishyJoes.export(TestProtocolStruct) -->
      */
     export class TestProtocolStruct implements TestAPI.TestMethodsProtocol, TestAPI.TestPropertiesProtocol {
         constructor(corge: string)

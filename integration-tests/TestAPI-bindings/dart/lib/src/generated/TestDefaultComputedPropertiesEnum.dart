@@ -70,7 +70,7 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
-/// <!-- FishyJoes.export(TestDefaultComputedPropertiesEnum, conformances: [TestDefaultComputedProperties]) -->
+/// <!-- FishyJoes.export(TestDefaultComputedPropertiesEnum) -->
 sealed class TestDefaultComputedPropertiesEnum implements TestAPI.TestDefaultComputedProperties {
     const factory TestDefaultComputedPropertiesEnum.qux(
     ) = TestDefaultComputedPropertiesEnum_Qux;
