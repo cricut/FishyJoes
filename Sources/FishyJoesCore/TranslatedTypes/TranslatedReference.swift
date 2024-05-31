@@ -156,14 +156,14 @@ struct TranslatedReference: TranslatedType {
             }
         }
 
-        let nodeConformances = conformances.map {
-            context.resolve(type: $0).sourceType
-        }
+        let nodeConformances = Set(conformances.map {
+            context.resolve(type: $0).nodeType
+        })
         context.tsAnnotations.add(class:
             .init(
                 documentation: documentation,
                 name: nodeName,
-                implements: nodeConformances.map { $0.name }.sorted(by: <),
+                implements: nodeConformances,
                 constructor: .hidden,
                 fields: computedVariables.compactMap { context.ts(field: $0) },
                 methods: methods.compactMap { context.ts(method: $0) }
