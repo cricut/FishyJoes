@@ -182,9 +182,9 @@ struct TranslatedStruct: TranslatedType {
             }
         }
 
-        let nodeConformances = conformances.map {
-            context.resolve(type: $0).dartType
-        }
+        let nodeConformances = Set(conformances.map {
+            context.resolve(type: $0).nodeType
+        })
         context.tsAnnotations.add(class: .init(
             documentation: documentation,
             name: nodeName,
