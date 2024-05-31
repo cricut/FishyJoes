@@ -8,6 +8,19 @@ public enum EmptyEnum: Hashable {
     }
 
     private struct NotImportantError: Error {}
+    
+    /// <!-- FishyJoes.export(spam) -->
+    public static var spam: Bool {
+        true
+    }
+    /// <!-- FishyJoes.export(noot) -->
+    public static var noot: Int {
+        54546
+    }
+    /// <!-- FishyJoes.export(mies)>
+    public static func mies() throws -> Int {
+        62645
+    }
 }
 
 /// <!-- FishyJoes.export(SimpleEnum) -->
