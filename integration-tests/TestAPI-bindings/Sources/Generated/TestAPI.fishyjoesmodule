@@ -13084,6 +13084,23 @@
                 "methods" : [
                   {
                     "documentation" : [
+                      "<!-- FishyJoes.export(create) -->"
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isAsync" : false,
+                    "isStatic" : true,
+                    "name" : "create",
+                    "parameters" : [
+
+                    ],
+                    "returnType" : {
+                      "named" : {
+                        "_0" : "Structs.EmptyStruct"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
                       "<!-- FishyJoes.export(aap) -->"
                     ],
                     "hasDefaultImplementation" : false,

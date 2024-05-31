@@ -10,6 +10,8 @@ public enum Structs {
     /// <!-- FishyJoes.export(Structs.EmptyStruct) -->
     public struct EmptyStruct {
         // no properties!
+
+        /// <!-- FishyJoes.export(create) -->
         public init() {}
 
         /// <!-- FishyJoes.export(tutu) -->

@@ -446,6 +446,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_TestAPI_Structs_EmptyStruct_aap, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_create"),
+                signature: bag.add("()Lcom/cricut/testapi/Structs$EmptyStruct;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Structs_EmptyStruct_create, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_get_tutu"),
                 signature: bag.add("()J"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_Structs_EmptyStruct_tutu, to: UnsafeMutableRawPointer.self)

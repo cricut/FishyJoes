@@ -34,6 +34,20 @@ namespace Cricut.TestAPI {
             private static extern nint __iota_get_TestAPI_Structs_EmptyStruct_tutu(IntPtr envRef, UnownedRef self, out CreatedRef exn);
 
             /// <summary>
+            /// <!-- FishyJoes.export(create) -->
+            /// </summary>
+            public static Cricut.TestAPI.Structs.EmptyStruct Create(
+            ) {
+                return Check((out CreatedRef _exn) => __iota_TestAPI_Structs_EmptyStruct_create(Loader.env, out _exn)).Consume<Cricut.TestAPI.Structs.EmptyStruct>();
+            }
+
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern CreatedRef __iota_TestAPI_Structs_EmptyStruct_create(
+                IntPtr envRef,
+                out CreatedRef exn
+            );
+
+            /// <summary>
             /// <!-- FishyJoes.export(aap) -->
             /// </summary>
             public string Aap(

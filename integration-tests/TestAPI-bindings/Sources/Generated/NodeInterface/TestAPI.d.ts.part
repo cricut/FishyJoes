@@ -2196,6 +2196,12 @@ export declare namespace TestAPI {
             readonly tutu: number;
 
             /**
+             * <!-- FishyJoes.export(create) -->
+             */
+            static create(
+            ): Structs.EmptyStruct;
+
+            /**
              * <!-- FishyJoes.export(aap) -->
              */
             aap(

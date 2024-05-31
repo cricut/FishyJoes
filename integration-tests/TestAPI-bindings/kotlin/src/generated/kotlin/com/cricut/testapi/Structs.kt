@@ -36,6 +36,16 @@ sealed class Structs {
         ): kotlin.String
 
         companion object {
+            /**
+             * <!-- FishyJoes.export(create) -->
+             */
+            fun create(
+            ): com.cricut.testapi.Structs.EmptyStruct = __jni_create()
+            @JvmStatic
+            @JvmName("__jni_create")
+            private external fun __jni_create(
+            ): com.cricut.testapi.Structs.EmptyStruct
+
             init { loadNativeLibs() }
         }
     }

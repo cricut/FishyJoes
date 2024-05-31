@@ -4,6 +4,13 @@ using Xunit;
 namespace Cricut.TestAPI.Tests {
     public class StructTests {
         [Fact]
+        void testEmptyStruct() {
+            var a = Structs.EmptyStruct.Create();
+            Assert.Equal(35671, a.GetTutu());
+            Assert.Equal("The Netherlands", a.Aap());
+        }
+
+        [Fact]
         void testConstruction() {
             var memberwise = Structs.MemberwiseStruct.Create();
             Assert.Equal("Eternal", memberwise.Immutable);

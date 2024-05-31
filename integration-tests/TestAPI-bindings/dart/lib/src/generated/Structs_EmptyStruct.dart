@@ -105,6 +105,12 @@ class Structs_EmptyStruct {
             )
         )
     ;
+    /// <!-- FishyJoes.export(create) -->
+    static TestAPI.Structs_EmptyStruct create(
+    ) =>
+        consumeCreatedRef<TestAPI.Structs_EmptyStruct>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_EmptyStruct_create(Loader.shared.env, _exn)))
+    ;
+
     /// <!-- FishyJoes.export(aap) -->
     String aap(
     ) =>
@@ -118,6 +124,10 @@ class Structs_EmptyStruct {
         UnownedRef _this,
         OutCreatedRef _exn
     ) f__iota_TestAPI_Structs_EmptyStruct_aap;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_Structs_EmptyStruct_create;
     static late int Function(
         Env env,
         UnownedRef _this,

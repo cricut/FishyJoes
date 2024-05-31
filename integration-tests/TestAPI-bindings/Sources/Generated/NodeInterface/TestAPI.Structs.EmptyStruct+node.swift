@@ -27,6 +27,19 @@ extension TestAPI.Structs.EmptyStruct: NodeMutator {
             env: env,
             name: "Structs.EmptyStruct",
             properties: [
+                "create": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try TestAPI.Structs.EmptyStruct.toNode(
+                                TestAPI.Structs.EmptyStruct(
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
                 "aap": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "aap", expectedArgumentCount: 0, hasNamedOptions: false) { env in
