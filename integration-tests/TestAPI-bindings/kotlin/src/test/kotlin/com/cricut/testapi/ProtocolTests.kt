@@ -439,6 +439,12 @@ internal class ProtocolTests {
         testAsyncFunctionsImplCore(a)
     }
 
+    @Test
+    fun testDifferingExportNameStruct() = runTest(timeout = 1000000.seconds) {
+        val a = TestDifferingExportNameStruct(tata: 8923);
+        assertEquals(8923, a.tata);
+    }
+
     data class ProtocolKotlinImpl(
         override var foo: kotlin.String,
         override val baz: Boolean
