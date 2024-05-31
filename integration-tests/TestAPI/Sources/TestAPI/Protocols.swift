@@ -153,6 +153,18 @@ public enum TestDefaultComputedPropertiesEnum: TestDefaultComputedProperties {
     }
 }
 
+/// <!-- FishyJoes.export(TestDefaultComputedPropertiesEmptyEnum, conformances: [TestDefaultComputedProperties]) -->
+public enum TestDefaultComputedPropertiesEmptyEnum: TestDefaultComputedProperties {
+    /// <!-- FishyJoes.export(spam) -->
+    public var spam: Bool {
+        true
+    }
+    /// <!-- FishyJoes.export(noot) -->
+    public var noot: Int {
+        72930
+    }
+}
+
 /// <!-- FishyJoes.export(TestProtocolEnum, conformances: [TestMethodsProtocol]) -->
 public enum TestProtocolEnum: TestMethodsProtocol {
     static let debugPrints = false
