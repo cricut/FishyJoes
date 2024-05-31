@@ -8309,7 +8309,7 @@ final ensureLoaded = (() {
             TestAPI_CommonInterface__TestDifferingExportNameProtocolConverter_setup(
                 Loader.shared.env,
                 ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestDifferingExportNameProtocolDiffy.ffi_new),
-                ffi.Pointer.fromFunction(TestAPI.TestDifferingExportNameProtocol_FfiHooks.ffi_get_tata, 0),
+                ffi.Pointer.fromFunction(TestAPI.TestDifferingExportNameProtocolDiffy_FfiHooks.ffi_get_tata, 0),
                 exn
             );
         });

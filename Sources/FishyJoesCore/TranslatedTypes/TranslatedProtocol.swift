@@ -148,7 +148,11 @@ struct TranslatedProtocol: TranslatedType {
                     type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(getType)>>")
                 ) { fragment in
                     let defaultValue = resolved.dartType.defaultReturnValue.map { ", \($0)" } ?? ""
-                    fragment.output("ffi.Pointer.fromFunction(\(sourceType.name)_FfiHooks.ffi_get_\(field.exportAnnotation?.name ?? field.name)\(defaultValue)),")
+                    if field.name.contains("tata") {
+                        let elegoo = 1
+                    }
+
+                    fragment.output("ffi.Pointer.fromFunction(\(dartType.name())_FfiHooks.ffi_get_\(field.exportAnnotation?.name ?? field.name)\(defaultValue)),")
                 }
             )
         }
@@ -164,9 +168,9 @@ struct TranslatedProtocol: TranslatedType {
                 ) { fragment in
                     let defaultValue = resolvedReturn.dartType.defaultReturnValue.map { ", \($0)" } ?? ""
                     if method.isDefaultImplementation {
-                        fragment.output("ffi.Pointer.fromFunction(\(sourceType.name)_DefaultImplementations.ffi_\(method.callName)\(resolvedReturn.dartType.defaultReturnValue.map { ", \($0)" } ?? "")),")
+                        fragment.output("ffi.Pointer.fromFunction(\(dartType.name())_DefaultImplementations.ffi_\(method.callName)\(resolvedReturn.dartType.defaultReturnValue.map { ", \($0)" } ?? "")),")
                     } else {
-                        fragment.output("ffi.Pointer.fromFunction(\(sourceType.name)_FfiHooks.ffi_\(method.callName)\(defaultValue)),")
+                        fragment.output("ffi.Pointer.fromFunction(\(dartType.name())_FfiHooks.ffi_\(method.callName)\(defaultValue)),")
                     }
                 }
             )
@@ -1056,7 +1060,7 @@ struct TranslatedProtocol: TranslatedType {
                 constructor: .reference,
                 fields: externalWitnessFields,
                 methods: externalWitnessMethods,
-                conformances: [sourceType]
+                conformances: [dartType]
             )
         )
     }

@@ -2,7 +2,7 @@
 ///
 /// The purpose of DartClass is to be a pretty printer. Logic that could be extracted elsewhere perhaps should be
 class DartClass {
-    enum DartType: Equatable, Codable {
+    enum DartType: Hashable, Codable {
         case void
         case utf16Pointer
         case primitive(String, ffiName: String)
@@ -62,7 +62,7 @@ class DartClass {
     let setupTypes: SetupTypes?
     let fields: [Variable]
     let methods: [Method]
-    let conformances: [BetterType]
+    let conformances: [DartType]
 
     init(
         module: Module,
@@ -71,7 +71,7 @@ class DartClass {
         setupTypes: SetupTypes? = nil,
         fields: [Variable],
         methods: [Method],
-        conformances: Set<BetterType>
+        conformances: Set<DartType>
     ) {
         self.name = name
         self.documentation = documentation
@@ -79,7 +79,7 @@ class DartClass {
         self.setupTypes = setupTypes
         self.fields = fields
         self.methods = methods
-        self.conformances = Array(conformances).sorted(by: { $0.name < $1.name })
+        self.conformances = Array(conformances).sorted(by: { $0.name() < $1.name() })
     }
 
     func commonIgnoreSpecificWarnings(fragment: SourceFragment) {

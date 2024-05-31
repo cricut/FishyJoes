@@ -14,7 +14,7 @@ class DartEnumClass: DartClass {
         cases: [Case],
         fields: [Variable],
         methods: [Method],
-        conformances: Set<BetterType>
+        conformances: Set<DartType>
     ) {
         self.cases = cases
         super.init(
@@ -31,7 +31,7 @@ class DartEnumClass: DartClass {
         var conformancesPart = ""
         if !conformances.isEmpty {
             conformancesPart.append(" implements ")
-            conformancesPart.append(conformances.map { "\(module).\($0.nonNamespacedName)" }.joined(separator: ", "))
+            conformancesPart.append(conformances.map { $0.name(in: self) }.joined(separator: ", "))
         }
         commonIgnoreSpecificWarnings(fragment: fragment)
 

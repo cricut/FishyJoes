@@ -19,7 +19,7 @@ class DartProductClass: DartClass {
         constructor: Constructor,
         fields: [Variable],
         methods: [Method],
-        conformances: Set<BetterType>,
+        conformances: Set<DartType>,
         isExternalWitness: Bool = false
     ) {
         self.constructor = constructor
@@ -47,7 +47,7 @@ class DartProductClass: DartClass {
         var conformancesPart = ""
         if !conformances.isEmpty {
             conformancesPart.append(" implements ")
-            conformancesPart.append(conformances.map { "\(module).\($0.nonNamespacedName)" }.joined(separator: ", "))
+            conformancesPart.append(conformances.map { $0.name(in: self) }.joined(separator: ", "))
         }
 
         commonIgnoreSpecificWarnings(fragment: fragment)

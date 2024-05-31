@@ -71,7 +71,7 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: annotate_overrides
 
 /// <!-- FishyJoes.export(TestDifferingExportNameProtocolDiffy) -->
-class ExternalWitness_TestDifferingExportNameProtocolDiffy extends SwiftReference implements TestAPI.TestDifferingExportNameProtocol {
+class ExternalWitness_TestDifferingExportNameProtocolDiffy extends SwiftReference implements TestAPI.TestDifferingExportNameProtocolDiffy {
     ExternalWitness_TestDifferingExportNameProtocolDiffy(ffi.Pointer reference): super(reference) {}
     static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
         createRef(ExternalWitness_TestDifferingExportNameProtocolDiffy(ref))

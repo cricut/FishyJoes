@@ -590,7 +590,7 @@ struct TranslatedReference: TranslatedType {
             fields: fields,
             methods: methods,
             conformances: Set(conformances.map {
-                context.resolve(type: $0).sourceType
+                context.resolve(type: $0).dartType
             })
         )
         context.add(dartClass: dartProduct)
