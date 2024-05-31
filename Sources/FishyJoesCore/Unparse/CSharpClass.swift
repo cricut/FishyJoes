@@ -278,6 +278,15 @@ extension CSharpClass.CSType: CustomStringConvertible {
         case let .optional(wrapped): return "\(wrapped.name)?"
         }
     }
+    
+    var unqualifiedName: String {
+        switch self {
+        case .void: return "void"
+        case let .named(_, name): return name
+        case let .primitive(name): return name
+        case let .optional(wrapped): return "\(wrapped.name)?"
+        }
+    }
 
     var pInvokeConsumedName: String {
         isObject ? "ConsumedRef" : name

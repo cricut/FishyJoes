@@ -8,7 +8,7 @@ namespace Cricut.TestAPI {
     /// <summary>
     /// <!-- FishyJoes.export(TestLeadingUnderscoredProp) -->
     /// </summary>
-    public class ExternalWitness_TestLeadingUnderscoredProp : SwiftReference, TestAPI.TestLeadingUnderscoredProp {
+    public class ExternalWitness_TestLeadingUnderscoredProp : SwiftReference, Cricut.TestAPI.TestLeadingUnderscoredProp {
         internal ExternalWitness_TestLeadingUnderscoredProp(ConsumedRef reference): base(reference) {}
 
         /// <summary>

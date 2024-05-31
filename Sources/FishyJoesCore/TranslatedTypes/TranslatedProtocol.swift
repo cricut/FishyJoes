@@ -45,8 +45,8 @@ struct TranslatedProtocol: TranslatedType {
         self.definingTSNamespace = context.module.name
         self.isInhabited = type.isInhabited
 
-        self.conformances = Set(exportAnnotation.conformances.compactMap {
-            BetterType.named(.init(name: $0, module: context.module.name))
+        self.conformances = Set(type.implements.compactMap {
+            .init(named: $0.value, context: context)
         })
 
         self.methods = Method.methods(type: type)
@@ -211,7 +211,7 @@ struct TranslatedProtocol: TranslatedType {
                 type: constructorType
             ) { fragment in
                 fragment.outputBlock("bag<\(constructorType)>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {", closeWith: "})),") {
-                    fragment.output("return new CreatedRef(new \(cSharpType.package ?? context.module.name).ExternalWitness_\(sourceType.genericBaseName.name)(ptr));")
+                    fragment.output("return new CreatedRef(new \(cSharpType.package ?? context.module.name).ExternalWitness_\(cSharpType.unqualifiedName)(ptr));")
                 }
             }
         )
@@ -1011,7 +1011,8 @@ struct TranslatedProtocol: TranslatedType {
                 constructor: .reference,
                 fields: externalWitnessFields,
                 methods: externalWitnessMethods,
-                conformances: [CSharpClass.CSType.named(package: sourceType.module, name: sourceType.nonNamespacedName)]
+                conformances: [context.resolve(type: sourceType).cSharpType]
+                //[CSharpClass.CSType.named(package: sourceType.module, name: sourceType.nonNamespacedName)]
             )
         )
     }
@@ -1034,7 +1035,7 @@ struct TranslatedProtocol: TranslatedType {
                 fields: protocolFields,
                 methods: protocolMethods,
                 conformances: Set(conformances.map {
-                    context.resolve(type: $0).sourceType
+                    context.resolve(type: $0).dartType
                 })
             )
         )

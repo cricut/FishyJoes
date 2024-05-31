@@ -544,3 +544,18 @@ public class TestAsyncSwiftSideFunctionsClass: TestAsyncFunctions {
     /// <!-- FishyJoes.export(init) -->
     public init() {}
 }
+
+/// <!-- FishyJoes.export(TestDifferingExportNameProtocolDiffy) -->
+public protocol TestDifferingExportNameProtocol {
+    /// <!-- FishyJoes.export(tata) -->
+    var tata: Int { get throws }
+}
+
+/// <!-- FishyJoes.export(TestDifferingExportNameStruct, conformances: [TestDifferingExportNameProtocolDiffy]) -->
+public struct TestDifferingExportNameStruct: TestDifferingExportNameProtocol {
+    public var tata: Int
+    
+    public init(tata: Int) {
+        self.tata = tata
+    }
+}

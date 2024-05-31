@@ -40,8 +40,8 @@ struct TranslatedStruct: TranslatedType {
         self.documentation = type.documentation
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
-        self.conformances = Set(exportAnnotation.conformances.compactMap {
-            BetterType.named(.init(name: $0, module: context.module.name))
+        self.conformances = Set(type.implements.compactMap {
+            .init(named: $0.value, context: context)
         })
 
         enforceMustHaveProperties()
@@ -590,7 +590,7 @@ struct TranslatedStruct: TranslatedType {
         }
 
         let (productFields, productMethods) = CSharpClass.separate(fieldsAndMethods: fieldsAndMethods)
-
+        
         context.add(
             cSharpClass: CSharpProductClass(
                 module: context.module,
