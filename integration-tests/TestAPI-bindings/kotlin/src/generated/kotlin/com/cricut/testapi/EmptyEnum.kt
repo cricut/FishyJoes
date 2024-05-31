@@ -20,15 +20,6 @@ sealed class EmptyEnum {
         private external fun __jni_get_noot(): Long
 
         /**
-         * <!-- FishyJoes.export(spam) -->
-         */
-        val spam: Boolean
-          get() = __jni_get_spam()
-        @JvmStatic
-        @JvmName("__jni_get_spam")
-        private external fun __jni_get_spam(): Boolean
-
-        /**
          * <!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->
          */
         fun notGoingToHappen(

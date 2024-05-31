@@ -81,12 +81,6 @@ class EmptyEnum {
             f__iota_get_TestAPI_EmptyEnum_noot(Loader.shared.env, exn)
         )
     ;
-    /// <!-- FishyJoes.export(spam) -->
-    static bool get spam =>
-        check((exn) =>
-            f__iota_get_TestAPI_EmptyEnum_spam(Loader.shared.env, exn)
-        )
-    ;
     /// <!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->
     static TestAPI.EmptyEnum notGoingToHappen(
     ) =>
@@ -111,8 +105,4 @@ class EmptyEnum {
         Env env,
         OutCreatedRef _exn
     ) f__iota_get_TestAPI_EmptyEnum_noot;
-    static late bool Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__iota_get_TestAPI_EmptyEnum_spam;
 }

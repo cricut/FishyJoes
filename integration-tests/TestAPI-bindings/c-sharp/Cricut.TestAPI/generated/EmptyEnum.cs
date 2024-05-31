@@ -24,18 +24,6 @@ namespace Cricut.TestAPI {
         private static extern nint __iota_get_TestAPI_EmptyEnum_noot(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
-        /// <!-- FishyJoes.export(spam) -->
-        /// </summary>
-        public static bool GetSpam() {
-            return Check((out CreatedRef exn) =>
-                __iota_get_TestAPI_EmptyEnum_spam(Loader.env, out exn)
-            );
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern bool __iota_get_TestAPI_EmptyEnum_spam(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
         /// <!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->
         /// </summary>
         public static Cricut.TestAPI.EmptyEnum NotGoingToHappen(

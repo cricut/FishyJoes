@@ -1066,11 +1066,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_get_TestAPI_EmptyEnum_noot, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_spam"),
-                signature: bag.add("()Z"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_EmptyEnum_spam, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
                 name: bag.add("__jni_mies"),
                 signature: bag.add("()J"),
                 fnPtr: unsafeBitCast(java_TestAPI_EmptyEnum_mies, to: UnsafeMutableRawPointer.self)

@@ -58,17 +58,6 @@ extension TestAPI.EmptyEnum: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "spam": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "spam", expectedArgumentCount: 0) { env in
-                                return try Swift.Bool.toNode(TestAPI.EmptyEnum.spam, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: true
-                ),
             ],
             constructor: { env, info in
                 FishyJoesNodeRuntime.callbackBody(

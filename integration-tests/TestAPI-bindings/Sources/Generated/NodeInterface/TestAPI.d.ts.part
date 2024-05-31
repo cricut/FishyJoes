@@ -825,11 +825,6 @@ export declare namespace TestAPI {
          */
         function notGoingToHappen(
         ): TestAPI.EmptyEnum;
-
-        /**
-         * <!-- FishyJoes.export(spam) -->
-         */
-        const spam: boolean;
     }
 
     export class ExternalWitness_AProtocol {

@@ -4428,16 +4428,6 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_EmptyEnum_noot");
-    TestAPI.EmptyEnum.f__iota_get_TestAPI_EmptyEnum_spam = dylib.lookupFunction<
-        ffi.Bool Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        bool Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__iota_get_TestAPI_EmptyEnum_spam");
     TestAPI.Functions.f__iota_get_TestAPI_Functions_abs = dylib.lookupFunction<
         CreatedRef Function(
             Env env,

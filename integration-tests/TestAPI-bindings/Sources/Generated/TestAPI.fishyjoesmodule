@@ -9535,20 +9535,6 @@
                     "_0" : "number"
                   }
                 }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(spam) -->"
-                ],
-                "hasDefaultImplementation" : false,
-                "isStatic" : true,
-                "name" : "spam",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "boolean"
-                  }
-                }
               }
             ],
             "interfaces" : [

@@ -13,7 +13,6 @@ class EnumTests {
             }
         }
 
-        assertEquals(true, EmptyEnum.spam)
         assertEquals(54546, EmptyEnum.noot)
         assertEquals(62645, EmptyEnum.mies())
     }
