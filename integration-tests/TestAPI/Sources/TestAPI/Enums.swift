@@ -17,7 +17,7 @@ public enum EmptyEnum: Hashable {
     public static var noot: Int {
         54546
     }
-    /// <!-- FishyJoes.export(mies)>
+    /// <!-- FishyJoes.export(mies) -->
     public static func mies() throws -> Int {
         62645
     }

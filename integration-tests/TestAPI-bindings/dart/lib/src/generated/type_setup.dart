@@ -1962,6 +1962,16 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Deprecations_deprecatedMethod");
+    TestAPI.EmptyEnum.f__iota_TestAPI_EmptyEnum_mies = dylib.lookupFunction<
+        ffi.IntPtr Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_EmptyEnum_mies");
     TestAPI.EmptyEnum.f__iota_TestAPI_EmptyEnum_notGoingToHappen = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -4408,6 +4418,26 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_Deprecations_deprecatedVariable");
+    TestAPI.EmptyEnum.f__iota_get_TestAPI_EmptyEnum_noot = dylib.lookupFunction<
+        ffi.IntPtr Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_EmptyEnum_noot");
+    TestAPI.EmptyEnum.f__iota_get_TestAPI_EmptyEnum_spam = dylib.lookupFunction<
+        ffi.Bool Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        bool Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_EmptyEnum_spam");
     TestAPI.Functions.f__iota_get_TestAPI_Functions_abs = dylib.lookupFunction<
         CreatedRef Function(
             Env env,

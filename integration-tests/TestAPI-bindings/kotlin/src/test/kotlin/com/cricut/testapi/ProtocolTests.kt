@@ -10,7 +10,7 @@ import kotlin.time.Duration.Companion.seconds
 @kotlinx.coroutines.ExperimentalCoroutinesApi
 internal class ProtocolTests {
     companion object {
-        const val DEBUG_PRINTS = false
+        const val DEBUG_PRINTS = true
         @BeforeAll
         @JvmStatic
         // To get procId for attaching lldb debugger to

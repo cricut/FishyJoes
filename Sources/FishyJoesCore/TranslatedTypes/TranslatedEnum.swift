@@ -84,6 +84,11 @@ struct TranslatedEnum: TranslatedType {
         }
         self.jniType = .object(context.kotlinTranslator.javaClassName(nodeName, in: context))
         self.documentation = type.documentation
+        
+        if sourceType.name.contains("EmptyEnum") {
+            let elegoo = 1
+        }
+
         self.methods = Method.methods(type: type)
         self.fields = Field.fields(type: type)
         self.isInhabited = type.isInhabited

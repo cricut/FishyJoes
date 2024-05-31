@@ -810,10 +810,26 @@ export declare namespace TestAPI {
     export type EmptyEnum = never;
     export namespace EmptyEnum {
         /**
+         * <!-- FishyJoes.export(mies) -->
+         */
+        function mies(
+        ): number;
+
+        /**
+         * <!-- FishyJoes.export(noot) -->
+         */
+        const noot: number;
+
+        /**
          * <!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->
          */
         function notGoingToHappen(
         ): TestAPI.EmptyEnum;
+
+        /**
+         * <!-- FishyJoes.export(spam) -->
+         */
+        const spam: boolean;
     }
 
     export class ExternalWitness_AProtocol {
