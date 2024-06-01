@@ -576,3 +576,15 @@ test('testAsyncFunctionsImplWitness', async () => {
     const c = b.witness()
     await testAsyncForeignSideFunctionsCore(c);
 });
+
+test('testAsyncFunctionsImplWitness', async () => {
+    const a = new TestAsyncFunctionsImpl();
+    const b = TestAPI.TestAsyncFunctions.fromCore(a);
+    const c = b.witness()
+    await testAsyncForeignSideFunctionsCore(c);
+});
+
+test('testDifferingExportNameStruct', async () => {
+    const a = new TestAPI.TestDifferingExportNameStruct(1248);
+    expect(a.tata).toEqual(1248);
+});

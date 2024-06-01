@@ -1,5 +1,5 @@
 struct TypeScriptAnnotations: Codable {
-    enum TSType: Codable {
+    enum TSType: Hashable, Codable {
         case named(String)
         indirect case optional(TSType)
         case union([TSType])
@@ -65,7 +65,7 @@ struct TypeScriptAnnotations: Codable {
         let documentation: [String]
         var name: String
         let extends: [String]
-        let implements: [String]
+        let implements: [TSType]
         let constructor: Constructor
         let fields: [Variable]
         let methods: [Method]
@@ -80,7 +80,7 @@ struct TypeScriptAnnotations: Codable {
             documentation: [String] = [],
             name: String,
             extends: [String] = [],
-            implements: [String] = [],
+            implements: Set<TSType>,
             constructor: Constructor,
             fields: [Variable],
             methods: [Method]
@@ -88,7 +88,7 @@ struct TypeScriptAnnotations: Codable {
             self.documentation = documentation
             self.name = name
             self.extends = extends
-            self.implements = implements
+            self.implements = implements.sorted(by: { $0.description < $1.description })
             self.constructor = constructor
             self.fields = fields
             self.methods = methods
@@ -365,7 +365,7 @@ extension TypeScriptAnnotations {
                         document(tsClass.documentation)
                         fragment.output("export class \(tsClass.name)", newLineTerminated: false)
                         if !tsClass.implements.isEmpty {
-                            fragment.output(" implements \(tsClass.implements.joined(separator: ", "))", newLineTerminated: false)
+                            fragment.output(" implements \(tsClass.implements.map { $0.description }.joined(separator: ", "))", newLineTerminated: false)
                         }
                         fragment.outputBlock(" {") {
                             switch tsClass.constructor {

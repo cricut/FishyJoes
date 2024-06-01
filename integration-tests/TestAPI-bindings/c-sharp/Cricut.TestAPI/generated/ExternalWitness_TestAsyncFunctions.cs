@@ -8,7 +8,7 @@ namespace Cricut.TestAPI {
     /// <summary>
     /// <!-- FishyJoes.export(TestAsyncFunctions) -->
     /// </summary>
-    public class ExternalWitness_TestAsyncFunctions : SwiftReference, TestAsyncFunctions {
+    public class ExternalWitness_TestAsyncFunctions : SwiftReference, Cricut.TestAPI.TestAsyncFunctions {
         internal ExternalWitness_TestAsyncFunctions(ConsumedRef reference): base(reference) {}
 
         /// <summary>

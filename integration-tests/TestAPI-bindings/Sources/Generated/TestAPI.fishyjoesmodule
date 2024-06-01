@@ -1825,6 +1825,110 @@
         "named" : {
           "_0" : {
             "module" : "TestAPI_CommonInterface",
+            "name" : "_TestDifferingExportNameProtocolConverter",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestDifferingExportNameProtocolDiffy",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestDifferingExportNameProtocolDiffy",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestDifferingExportNameProtocolDiffy"
+        }
+      },
+      "kotlinName" : "TestDifferingExportNameProtocolDiffy",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestDifferingExportNameProtocolDiffy>>",
+      "nodeName" : "TestAPI.TestDifferingExportNameProtocolDiffy",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestDifferingExportNameProtocol",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestDifferingExportNameStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestDifferingExportNameStruct",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestDifferingExportNameStruct",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestDifferingExportNameStruct"
+        }
+      },
+      "kotlinName" : "TestDifferingExportNameStruct",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestDifferingExportNameStruct>>",
+      "nodeName" : "TestAPI.TestDifferingExportNameStruct",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestDifferingExportNameStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI_CommonInterface",
             "name" : "_TestLeadingUnderscoredPropConverter",
             "namespace" : [
 
@@ -2754,7 +2858,7 @@
               }
             },
             "documentation" : [
-              "<!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->"
+              "<!-- FishyJoes.export(AProtocolImplementation) -->"
             ],
             "extends" : [
 
@@ -2790,7 +2894,11 @@
               }
             ],
             "implements" : [
-              "AProtocol"
+              {
+                "named" : {
+                  "_0" : "TestAPI.AProtocol"
+                }
+              }
             ],
             "methods" : [
               {
@@ -3598,7 +3706,7 @@
               }
             },
             "documentation" : [
-              "<!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct, conformances: [TestAsyncFunctions]) -->"
+              "<!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct) -->"
             ],
             "extends" : [
 
@@ -3830,7 +3938,11 @@
               }
             ],
             "implements" : [
-              "TestAsyncFunctions"
+              {
+                "named" : {
+                  "_0" : "TestAPI.TestAsyncFunctions"
+                }
+              }
             ],
             "methods" : [
               {
@@ -4517,7 +4629,7 @@
               }
             },
             "documentation" : [
-              "<!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass, conformances: [TestAsyncFunctions]) -->"
+              "<!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass) -->"
             ],
             "extends" : [
 
@@ -4637,7 +4749,11 @@
               }
             ],
             "implements" : [
-              "TestAsyncFunctions"
+              {
+                "named" : {
+                  "_0" : "TestAPI.TestAsyncFunctions"
+                }
+              }
             ],
             "methods" : [
               {
@@ -4983,7 +5099,7 @@
               }
             },
             "documentation" : [
-              "<!-- FishyJoes.exportReference(TestDefaultComputedPropertiesReference, conformances: [TestDefaultComputedProperties]) -->"
+              "<!-- FishyJoes.exportReference(TestDefaultComputedPropertiesReference) -->"
             ],
             "extends" : [
 
@@ -5033,7 +5149,11 @@
               }
             ],
             "implements" : [
-              "TestDefaultComputedProperties"
+              {
+                "named" : {
+                  "_0" : "TestAPI.TestDefaultComputedProperties"
+                }
+              }
             ],
             "methods" : [
               {
@@ -5093,7 +5213,7 @@
               }
             },
             "documentation" : [
-              "<!-- FishyJoes.export(TestDefaultComputedPropertiesStruct, conformances: [TestDefaultComputedProperties]) -->"
+              "<!-- FishyJoes.export(TestDefaultComputedPropertiesStruct) -->"
             ],
             "extends" : [
 
@@ -5143,12 +5263,101 @@
               }
             ],
             "implements" : [
-              "TestDefaultComputedProperties"
+              {
+                "named" : {
+                  "_0" : "TestAPI.TestDefaultComputedProperties"
+                }
+              }
             ],
             "methods" : [
 
             ],
             "name" : "TestDefaultComputedPropertiesStruct"
+          },
+          {
+            "constructor" : {
+              "hidden" : {
+
+              }
+            },
+            "documentation" : [
+
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(tata) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : false,
+                "name" : "tata",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
+            ],
+            "implements" : [
+
+            ],
+            "methods" : [
+
+            ],
+            "name" : "ExternalWitness_TestDifferingExportNameProtocolDiffy"
+          },
+          {
+            "constructor" : {
+              "visible" : {
+                "names" : [
+                  "tata"
+                ],
+                "types" : [
+                  {
+                    "named" : {
+                      "_0" : "number"
+                    }
+                  }
+                ]
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.export(TestDifferingExportNameStruct) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : false,
+                "name" : "tata",
+                "readOnly" : false,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
+            ],
+            "implements" : [
+              {
+                "named" : {
+                  "_0" : "TestAPI.TestDifferingExportNameProtocolDiffy"
+                }
+              }
+            ],
+            "methods" : [
+
+            ],
+            "name" : "TestDifferingExportNameStruct"
           },
           {
             "constructor" : {
@@ -5202,8 +5411,7 @@
               }
             },
             "documentation" : [
-              "// <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp, TestLeadingUnderscoredMethod]) -->",
-              "<!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp]) -->"
+              "<!-- FishyJoes.export(TestLeadingUnderscoredPropStruct) -->"
             ],
             "extends" : [
 
@@ -5225,7 +5433,11 @@
               }
             ],
             "implements" : [
-              "TestLeadingUnderscoredProp"
+              {
+                "named" : {
+                  "_0" : "TestAPI.TestLeadingUnderscoredProp"
+                }
+              }
             ],
             "methods" : [
 
@@ -5552,7 +5764,7 @@
               }
             },
             "documentation" : [
-              "<!-- FishyJoes.exportReference(TestProtocolClass, conformances: [TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol]) -->"
+              "<!-- FishyJoes.exportReference(TestProtocolClass) -->"
             ],
             "extends" : [
 
@@ -5606,9 +5818,21 @@
               }
             ],
             "implements" : [
-              "TestMethodsProtocol",
-              "TestOptionalsProtocol",
-              "TestPropertiesProtocol"
+              {
+                "named" : {
+                  "_0" : "TestAPI.TestMethodsProtocol"
+                }
+              },
+              {
+                "named" : {
+                  "_0" : "TestAPI.TestOptionalsProtocol"
+                }
+              },
+              {
+                "named" : {
+                  "_0" : "TestAPI.TestPropertiesProtocol"
+                }
+              }
             ],
             "methods" : [
               {
@@ -5861,7 +6085,7 @@
               }
             },
             "documentation" : [
-              "<!-- FishyJoes.export(TestProtocolStruct, conformances: [TestMethodsProtocol, TestPropertiesProtocol]) -->"
+              "<!-- FishyJoes.export(TestProtocolStruct) -->"
             ],
             "extends" : [
 
@@ -5897,8 +6121,16 @@
               }
             ],
             "implements" : [
-              "TestMethodsProtocol",
-              "TestPropertiesProtocol"
+              {
+                "named" : {
+                  "_0" : "TestAPI.TestMethodsProtocol"
+                }
+              },
+              {
+                "named" : {
+                  "_0" : "TestAPI.TestPropertiesProtocol"
+                }
+              }
             ],
             "methods" : [
               {
@@ -6679,6 +6911,32 @@
 
             ],
             "name" : "TestDefaultComputedProperties"
+          },
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(TestDifferingExportNameProtocolDiffy) -->"
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(tata) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : false,
+                "name" : "tata",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
+            ],
+            "forNamespace" : "TestAPI",
+            "methods" : [
+
+            ],
+            "name" : "TestDifferingExportNameProtocolDiffy"
           },
           {
             "documentation" : [
@@ -14127,7 +14385,7 @@
           },
           {
             "documentation" : [
-              "<!-- FishyJoes.export(TestDefaultComputedPropertiesEnum, conformances: [TestDefaultComputedProperties]) -->"
+              "<!-- FishyJoes.export(TestDefaultComputedPropertiesEnum) -->"
             ],
             "name" : "TestDefaultComputedPropertiesEnum",
             "value" : {
@@ -14144,7 +14402,7 @@
           },
           {
             "documentation" : [
-              "<!-- FishyJoes.export(TestProtocolEnum, conformances: [TestMethodsProtocol]) -->"
+              "<!-- FishyJoes.export(TestProtocolEnum) -->"
             ],
             "name" : "TestProtocolEnum",
             "value" : {

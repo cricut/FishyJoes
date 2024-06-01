@@ -6,7 +6,7 @@ using static Cricut.FishyJoesRuntime.Utilities;
 
 namespace Cricut.TestAPI {
     /// <summary>
-    /// <!-- FishyJoes.export(TestDefaultComputedPropertiesEnum, conformances: [TestDefaultComputedProperties]) -->
+    /// <!-- FishyJoes.export(TestDefaultComputedPropertiesEnum) -->
     /// </summary>
     public record TestDefaultComputedPropertiesEnum {
         private TestDefaultComputedPropertiesEnum() {}

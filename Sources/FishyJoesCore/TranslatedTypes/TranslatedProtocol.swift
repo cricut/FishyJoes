@@ -14,7 +14,7 @@ struct TranslatedProtocol: TranslatedType {
     let definingTSNamespace: String?
     let isInhabited: Bool
     var containedNamedTypes: [TranslatedType] { [self] }
-    let conformances: Set<String>
+    let conformances: Set<BetterType>
     let methods: [Method]
     let fields: [Field]
     let documentation: [String]
@@ -45,7 +45,9 @@ struct TranslatedProtocol: TranslatedType {
         self.definingTSNamespace = context.module.name
         self.isInhabited = type.isInhabited
 
-        self.conformances = exportAnnotation.conformances
+        self.conformances = Set(type.implements.compactMap {
+            .init(named: $0.value, context: context)
+        })
 
         self.methods = Method.methods(type: type)
         self.fields = Field.fields(type: type)
@@ -146,7 +148,7 @@ struct TranslatedProtocol: TranslatedType {
                     type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(getType)>>")
                 ) { fragment in
                     let defaultValue = resolved.dartType.defaultReturnValue.map { ", \($0)" } ?? ""
-                    fragment.output("ffi.Pointer.fromFunction(\(sourceType.name)_FfiHooks.ffi_get_\(field.exportAnnotation?.name ?? field.name)\(defaultValue)),")
+                    fragment.output("ffi.Pointer.fromFunction(\(dartType.name())_FfiHooks.ffi_get_\(field.exportAnnotation?.name ?? field.name)\(defaultValue)),")
                 }
             )
         }
@@ -162,9 +164,9 @@ struct TranslatedProtocol: TranslatedType {
                 ) { fragment in
                     let defaultValue = resolvedReturn.dartType.defaultReturnValue.map { ", \($0)" } ?? ""
                     if method.isDefaultImplementation {
-                        fragment.output("ffi.Pointer.fromFunction(\(sourceType.name)_DefaultImplementations.ffi_\(method.callName)\(resolvedReturn.dartType.defaultReturnValue.map { ", \($0)" } ?? "")),")
+                        fragment.output("ffi.Pointer.fromFunction(\(dartType.name())_DefaultImplementations.ffi_\(method.callName)\(resolvedReturn.dartType.defaultReturnValue.map { ", \($0)" } ?? "")),")
                     } else {
-                        fragment.output("ffi.Pointer.fromFunction(\(sourceType.name)_FfiHooks.ffi_\(method.callName)\(defaultValue)),")
+                        fragment.output("ffi.Pointer.fromFunction(\(dartType.name())_FfiHooks.ffi_\(method.callName)\(defaultValue)),")
                     }
                 }
             )
@@ -209,7 +211,7 @@ struct TranslatedProtocol: TranslatedType {
                 type: constructorType
             ) { fragment in
                 fragment.outputBlock("bag<\(constructorType)>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {", closeWith: "})),") {
-                    fragment.output("return new CreatedRef(new \(cSharpType.package ?? context.module.name).ExternalWitness_\(sourceType.genericBaseName.name)(ptr));")
+                    fragment.output("return new CreatedRef(new \(cSharpType.package ?? context.module.name).ExternalWitness_\(cSharpType.unqualifiedName)(ptr));")
                 }
             }
         )
@@ -568,11 +570,15 @@ struct TranslatedProtocol: TranslatedType {
 
         fragment.blankLine()
 
+        let nodeConformances = Set(conformances.map {
+            context.resolve(type: $0).nodeType
+        })
         context.tsAnnotations.add(class:
             .init(
                 name: nodeExternalWitnessClassName,
+                implements: nodeConformances,
                 constructor: .hidden,
-                fields: fields.compactMap {context.ts(field: $0, useNativeName: false) },
+                fields: fields.compactMap { context.ts(field: $0, useNativeName: false) },
                 methods: methods.compactMap { context.ts(method: $0) }
             )
         )
@@ -940,7 +946,7 @@ struct TranslatedProtocol: TranslatedType {
                 name: kotlinName,
                 fields: interfaceFields,
                 methods: interfaceMethods,
-                conformances: conformances
+                conformances: Set(conformances.map { context.resolve(type: $0).kotlinType })
             ).conforming(to: conformances, context: context)
         )
 
@@ -960,8 +966,8 @@ struct TranslatedProtocol: TranslatedType {
                 constructor: .reference,
                 fields: externalWitnessFields,
                 methods: externalWitnessMethods,
-                conformances: ["com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference)"]
-            ).conforming(to: [sourceType.name], context: context)
+                conformances: [KotlinClass.KType.named(package: "com.cricut.fishyjoes.runtime", name: "SwiftReference(_swiftReference)")]
+            ).conforming(to: [sourceType], context: context)
         )
 
         return [fragment]
@@ -984,7 +990,7 @@ struct TranslatedProtocol: TranslatedType {
                 name: cSharpType.name,
                 fields: protocolFields,
                 methods: protocolMethods,
-                conformances: conformances
+                conformances: Set(conformances.map { context.resolve(type: $0).cSharpType })
             )
         )
 
@@ -996,6 +1002,7 @@ struct TranslatedProtocol: TranslatedType {
                     context.cSharp(method: $0, of: self)
                 }
         )
+
         context.add(
             cSharpClass: CSharpProductClass(
                 module: context.module,
@@ -1004,7 +1011,8 @@ struct TranslatedProtocol: TranslatedType {
                 constructor: .reference,
                 fields: externalWitnessFields,
                 methods: externalWitnessMethods,
-                conformances: [sourceType.nonNamespacedName]
+                conformances: [context.resolve(type: sourceType).cSharpType]
+                // [CSharpClass.CSType.named(package: sourceType.module, name: sourceType.nonNamespacedName)]
             )
         )
     }
@@ -1018,6 +1026,7 @@ struct TranslatedProtocol: TranslatedType {
                     context.dart(method: $0, of: self)
                 }
         )
+
         context.add(
             dartClass: DartProtocolClass(
                 module: context.module,
@@ -1025,7 +1034,9 @@ struct TranslatedProtocol: TranslatedType {
                 name: dartType.name(),
                 fields: protocolFields,
                 methods: protocolMethods,
-                conformances: conformances
+                conformances: Set(conformances.map {
+                    context.resolve(type: $0).dartType
+                })
             )
         )
 
@@ -1045,7 +1056,7 @@ struct TranslatedProtocol: TranslatedType {
                 constructor: .reference,
                 fields: externalWitnessFields,
                 methods: externalWitnessMethods,
-                conformances: [sourceType.nonNamespacedName]
+                conformances: [dartType]
             )
         )
     }

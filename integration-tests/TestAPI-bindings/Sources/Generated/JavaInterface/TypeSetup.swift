@@ -2314,6 +2314,18 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_get_TestAPI_TestDefaultComputedPropertiesStruct_plutonic, to: UnsafeMutableRawPointer.self)
             )
         )
+        // print("setting up TestAPI_CommonInterface._TestDifferingExportNameProtocolConverter...")
+        try TestAPI_CommonInterface._TestDifferingExportNameProtocolConverter.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI_CommonInterface._TestDifferingExportNameProtocolConverter.externalWitnessClass!,
+            JNINativeMethod(
+                name: bag.add("__jni_get_tata"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestDifferingExportNameProtocol_tata, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        // print("setting up TestAPI.TestDifferingExportNameStruct...")
+        try TestAPI.TestDifferingExportNameStruct.javaSetup(env: env)
         // print("setting up TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter...")
         try TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter.javaSetup(env: env)
         try env.RegisterNatives(

@@ -16,7 +16,7 @@ struct TranslatedStruct: TranslatedType {
     let jniType: JNIType
     let isInhabited: Bool
     let definingModule: Module
-    let conformances: Set<String>
+    let conformances: Set<BetterType>
 
     init(context: FishyJoesContext, type: Type) {
         guard let exportAnnotation = type.exportAnnotation else {
@@ -40,7 +40,9 @@ struct TranslatedStruct: TranslatedType {
         self.documentation = type.documentation
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
-        self.conformances = exportAnnotation.conformances
+        self.conformances = Set(type.implements.compactMap {
+            .init(named: $0.value, context: context)
+        })
 
         enforceMustHaveProperties()
     }
@@ -180,10 +182,13 @@ struct TranslatedStruct: TranslatedType {
             }
         }
 
+        let nodeConformances = Set(conformances.map {
+            context.resolve(type: $0).nodeType
+        })
         context.tsAnnotations.add(class: .init(
             documentation: documentation,
             name: nodeName,
-            implements: Array(conformances).sorted(by: <),
+            implements: nodeConformances,
             constructor: .visible(
                 storedVariables.map {
                     (
@@ -594,7 +599,7 @@ struct TranslatedStruct: TranslatedType {
                 constructor: .`public`(fields: storedFields),
                 fields: productFields,
                 methods: productMethods,
-                conformances: conformances
+                conformances: Set(conformances.map { context.resolve(type: $0).cSharpType })
             )
         )
     }
@@ -625,7 +630,9 @@ struct TranslatedStruct: TranslatedType {
                 ),
                 fields: fields,
                 methods: methods,
-                conformances: conformances
+                conformances: Set(conformances.map {
+                    context.resolve(type: $0).dartType
+                })
             )
         )
     }

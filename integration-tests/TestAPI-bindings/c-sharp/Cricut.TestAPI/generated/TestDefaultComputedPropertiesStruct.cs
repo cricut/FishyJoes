@@ -6,9 +6,9 @@ using static Cricut.FishyJoesRuntime.Utilities;
 
 namespace Cricut.TestAPI {
     /// <summary>
-    /// <!-- FishyJoes.export(TestDefaultComputedPropertiesStruct, conformances: [TestDefaultComputedProperties]) -->
+    /// <!-- FishyJoes.export(TestDefaultComputedPropertiesStruct) -->
     /// </summary>
-    public record TestDefaultComputedPropertiesStruct: TestDefaultComputedProperties {
+    public record TestDefaultComputedPropertiesStruct: Cricut.TestAPI.TestDefaultComputedProperties {
         public bool Spam { get; set; }
         public nint Noot { get; set; }
 
