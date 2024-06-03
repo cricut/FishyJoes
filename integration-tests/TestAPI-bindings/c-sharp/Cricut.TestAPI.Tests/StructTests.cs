@@ -5,10 +5,19 @@ namespace Cricut.TestAPI.Tests {
     public class StructTests {
         [Fact]
         void testEmptyStruct() {
-            var a = EmptyStruct.Create();
-            Assert.Equal(35671, a.GetTutu());
-            Assert.Equal("Toodles! ta ta for now...", a.GetTatiana());
-            Assert.Equal("The Netherlands", a.Aap());
+            var emptyStruct1 = EmptyStruct.Create();
+            Assert.Equal(35671, emptyStruct1.GetTutu());
+            Assert.Equal("Toodles! ta ta for now...", emptyStruct1.GetTatiana());
+            Assert.Equal("The Netherlands", emptyStruct1.Aap());
+
+            var emptyStruct2 = EmptyStruct.Create();
+            Assert.Equal(35671, emptyStruct2.GetTutu());
+            Assert.Equal("Toodles! ta ta for now...", emptyStruct2.GetTatiana());
+            Assert.Equal("The Netherlands", emptyStruct2.Aap());
+
+            Assert.Equal(emptyStruct1, emptyStruct2);
+            Assert.Equal(emptyStruct1.GetHashCode(), emptyStruct2.GetHashCode());
+            Assert.Equal(emptyStruct1.ToString(), emptyStruct2.ToString());
         }
 
         [Fact]
