@@ -5,19 +5,29 @@ namespace Cricut.TestAPI.Tests {
     public class StructTests {
         [Fact]
         void testEmptyStruct() {
-            var emptyStruct1 = EmptyStruct.Create();
-            Assert.Equal(35671, emptyStruct1.GetTutu());
-            Assert.Equal("Toodles! ta ta for now...", emptyStruct1.GetTatiana());
-            Assert.Equal("The Netherlands", emptyStruct1.Aap());
+            var a1 = EmptyStruct.Create();
+            Assert.Equal(35671, a1.GetTutu());
+            Assert.Equal("Toodles! ta ta for now...", a1.GetTatiana());
+            Assert.Equal("The Netherlands", a1.Aap());
 
-            var emptyStruct2 = EmptyStruct.Create();
-            Assert.Equal(35671, emptyStruct2.GetTutu());
-            Assert.Equal("Toodles! ta ta for now...", emptyStruct2.GetTatiana());
-            Assert.Equal("The Netherlands", emptyStruct2.Aap());
+            var a2 = EmptyStruct.Create();
+            Assert.Equal(35671, a2.GetTutu());
+            Assert.Equal("Toodles! ta ta for now...", a2.GetTatiana());
+            Assert.Equal("The Netherlands", a2.Aap());
 
-            Assert.Equal(emptyStruct1, emptyStruct2);
-            Assert.Equal(emptyStruct1.GetHashCode(), emptyStruct2.GetHashCode());
-            Assert.Equal(emptyStruct1.ToString(), emptyStruct2.ToString());
+            Assert.Equal(a1, a2);
+            Assert.Equal(a1.GetHashCode(), a2.GetHashCode());
+            Assert.Equal(a1.ToString(), a2.ToString());
+
+            var b1 = EmptyStruct2.Create();
+            Assert.Equal(12897, b1.GetTutu());
+            Assert.Equal("Arrivederci", b1.GetTatiana());
+            Assert.Equal("The Netherlands2", b1.Aap());
+            Assert.Equal("Cambridge University (England)2", b1.Zxccxz());
+
+            Assert.Equal("EmptyStruct2 { }", b1.ToString());
+
+            Assert.NotEqual(a1.GetHashCode(), b1.GetHashCode());
         }
 
         [Fact]
