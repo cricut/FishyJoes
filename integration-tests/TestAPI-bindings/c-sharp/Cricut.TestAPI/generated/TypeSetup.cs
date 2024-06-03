@@ -255,16 +255,6 @@ namespace Cricut.TestAPI {
             out CreatedRef _exn
         );
 
-        delegate CreatedRef _TestAPI_Structs_EmptyStructConstructor(
-            out CreatedRef exn
-        );
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void TestAPI_Structs_EmptyStruct_setup(
-            IntPtr envRef,
-            _TestAPI_Structs_EmptyStructConstructor constructor,
-            out CreatedRef _exn
-        );
-
         delegate CreatedRef _TestAPI_Structs_MemberwiseStructConstructor(
             ConsumedRef immutable,
             ConsumedRef mutable,
@@ -470,6 +460,16 @@ namespace Cricut.TestAPI {
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_EmptyEnum_setup(
             IntPtr envRef,
+            out CreatedRef _exn
+        );
+
+        delegate CreatedRef _TestAPI_EmptyStructConstructor(
+            out CreatedRef exn
+        );
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_EmptyStruct_setup(
+            IntPtr envRef,
+            _TestAPI_EmptyStructConstructor constructor,
             out CreatedRef _exn
         );
 
@@ -2403,17 +2403,6 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
-            Once("setup_TestAPI.Structs.EmptyStruct", () => {
-                Console.WriteLine("setting up TestAPI.Structs.EmptyStruct...");
-                Utilities.Check((out CreatedRef exn) => TestAPI_Structs_EmptyStruct_setup(
-                    Loader.env,
-                    bag<_TestAPI_Structs_EmptyStructConstructor>((out CreatedRef exn) => Catching(out exn, () => {
-                        return new CreatedRef(new Cricut.TestAPI.Structs.EmptyStruct(
-                        ));
-                    })),
-                    out exn
-                ));
-            });
             Once("setup_TestAPI.Structs.MemberwiseStruct", () => {
                 Console.WriteLine("setting up TestAPI.Structs.MemberwiseStruct...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Structs_MemberwiseStruct_setup(
@@ -2732,6 +2721,17 @@ namespace Cricut.TestAPI {
                 Console.WriteLine("setting up TestAPI.EmptyEnum...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_EmptyEnum_setup(
                     Loader.env,
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.EmptyStruct", () => {
+                Console.WriteLine("setting up TestAPI.EmptyStruct...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_EmptyStruct_setup(
+                    Loader.env,
+                    bag<_TestAPI_EmptyStructConstructor>((out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.EmptyStruct(
+                        ));
+                    })),
                     out exn
                 ));
             });

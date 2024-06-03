@@ -12,61 +12,6 @@ namespace Cricut.TestAPI {
         private Structs() {}
 
         /// <summary>
-        /// <!-- FishyJoes.export(Structs.EmptyStruct) -->
-        /// </summary>
-        public record EmptyStruct {
-
-            public EmptyStruct(
-            ) {
-            }
-
-            /// <summary>
-            /// <!-- FishyJoes.export(tutu) -->
-            /// </summary>
-            public nint GetTutu() {
-                using var thisHandle = new GCRef(this);
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Structs_EmptyStruct_tutu(Loader.env, thisHandle.ptr, out exn)
-                );
-            }
-
-            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern nint __iota_get_TestAPI_Structs_EmptyStruct_tutu(IntPtr envRef, UnownedRef self, out CreatedRef exn);
-
-            /// <summary>
-            /// <!-- FishyJoes.export(create) -->
-            /// </summary>
-            public static Cricut.TestAPI.Structs.EmptyStruct Create(
-            ) {
-                return Check((out CreatedRef _exn) => __iota_TestAPI_Structs_EmptyStruct_create(Loader.env, out _exn)).Consume<Cricut.TestAPI.Structs.EmptyStruct>();
-            }
-
-            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern CreatedRef __iota_TestAPI_Structs_EmptyStruct_create(
-                IntPtr envRef,
-                out CreatedRef exn
-            );
-
-            /// <summary>
-            /// <!-- FishyJoes.export(aap) -->
-            /// </summary>
-            public string Aap(
-            ) {
-                using var _thisHandle = new GCRef(this);
-                return Check((out CreatedRef _exn) => __iota_TestAPI_Structs_EmptyStruct_aap(Loader.env, _thisHandle.ptr, out _exn)).Consume<string>();
-            }
-
-            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern CreatedRef __iota_TestAPI_Structs_EmptyStruct_aap(
-                IntPtr envRef,
-                UnownedRef self,
-                out CreatedRef exn
-            );
-
-            static EmptyStruct() { _TypeSetup._ensureLoaded(); }
-        }
-
-        /// <summary>
         /// <!-- FishyJoes.export(Structs.MutableStruct) -->
         /// </summary>
         public record MutableStruct {

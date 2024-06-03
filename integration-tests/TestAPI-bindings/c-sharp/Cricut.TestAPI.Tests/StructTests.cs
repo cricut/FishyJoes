@@ -5,8 +5,9 @@ namespace Cricut.TestAPI.Tests {
     public class StructTests {
         [Fact]
         void testEmptyStruct() {
-            var a = Structs.EmptyStruct.Create();
+            var a = EmptyStruct.Create();
             Assert.Equal(35671, a.GetTutu());
+            Assert.Equal("Toodles! ta ta for now...", a.GetTatiana());
             Assert.Equal("The Netherlands", a.Aap());
         }
 
