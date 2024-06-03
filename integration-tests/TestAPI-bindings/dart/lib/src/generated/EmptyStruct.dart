@@ -13,9 +13,11 @@ import './Collections_CollectionHolder.dart' as TestAPI;
 import './DefaultArguments.dart' as TestAPI;
 import './Deprecations.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
+import './EmptyStruct.dart' as TestAPI;
 import './ExternalWitness_AProtocol.dart' as TestAPI;
 import './ExternalWitness_TestAsyncFunctions.dart' as TestAPI;
 import './ExternalWitness_TestDefaultComputedProperties.dart' as TestAPI;
+import './ExternalWitness_TestDifferingExportNameProtocolDiffy.dart' as TestAPI;
 import './ExternalWitness_TestLeadingUnderscoredProp.dart' as TestAPI;
 import './ExternalWitness_TestMethodsProtocol.dart' as TestAPI;
 import './ExternalWitness_TestOptionalsProtocol.dart' as TestAPI;
@@ -29,7 +31,6 @@ import './SimpleEnum.dart' as TestAPI;
 import './String_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Strings.dart' as TestAPI;
 import './Structs.dart' as TestAPI;
-import './Structs_EmptyStruct.dart' as TestAPI;
 import './Structs_MemberwiseStruct.dart' as TestAPI;
 import './Structs_MutableStruct.dart' as TestAPI;
 import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
@@ -41,6 +42,8 @@ import './TestDefaultComputedProperties.dart' as TestAPI;
 import './TestDefaultComputedPropertiesEnum.dart' as TestAPI;
 import './TestDefaultComputedPropertiesReference.dart' as TestAPI;
 import './TestDefaultComputedPropertiesStruct.dart' as TestAPI;
+import './TestDifferingExportNameProtocolDiffy.dart' as TestAPI;
+import './TestDifferingExportNameStruct.dart' as TestAPI;
 import './TestLeadingUnderscoredProp.dart' as TestAPI;
 import './TestLeadingUnderscoredPropStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
@@ -68,54 +71,62 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
-/// <!-- FishyJoes.export(Structs.EmptyStruct) -->
-class Structs_EmptyStruct {
+/// <!-- FishyJoes.export(EmptyStruct) -->
+class EmptyStruct {
 
-    Structs_EmptyStruct(
+    EmptyStruct(
     );
 
     static CreatedRef ffi_constructor(
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
-        createRef(Structs_EmptyStruct(
+        createRef(EmptyStruct(
         ))
     );
     @override
-    String toString() => 'Structs_EmptyStruct()';
+    String toString() => 'EmptyStruct()';
 
     @override
     bool operator ==(Object other) {
         return identical(other, this) ||
         (
             other.runtimeType == runtimeType &&
-            other is Structs_EmptyStruct
+            other is EmptyStruct
         );
     }
 
     @override
     int get hashCode => runtimeType.hashCode;
 
-    Structs_EmptyStruct copyWith() => Structs_EmptyStruct();
+    EmptyStruct copyWith() => EmptyStruct();
 
+    /// <!-- FishyJoes.export(tatiana) -->
+    String get tatiana =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                consumeCreatedRef<String>(f__iota_get_TestAPI_EmptyStruct_tatiana(Loader.shared.env, _thisHandle.ptr, exn))
+            )
+        )
+    ;
     /// <!-- FishyJoes.export(tutu) -->
     int get tutu =>
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
-                f__iota_get_TestAPI_Structs_EmptyStruct_tutu(Loader.shared.env, _thisHandle.ptr, exn)
+                f__iota_get_TestAPI_EmptyStruct_tutu(Loader.shared.env, _thisHandle.ptr, exn)
             )
         )
     ;
     /// <!-- FishyJoes.export(create) -->
-    static TestAPI.Structs_EmptyStruct create(
+    static TestAPI.EmptyStruct create(
     ) =>
-        consumeCreatedRef<TestAPI.Structs_EmptyStruct>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_EmptyStruct_create(Loader.shared.env, _exn)))
+        consumeCreatedRef<TestAPI.EmptyStruct>(check((OutCreatedRef _exn) => f__iota_TestAPI_EmptyStruct_create(Loader.shared.env, _exn)))
     ;
 
     /// <!-- FishyJoes.export(aap) -->
     String aap(
     ) =>
         GCRef.using(this, (_thisHandle) =>
-            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_EmptyStruct_aap(Loader.shared.env, _thisHandle.ptr, _exn)))
+            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_EmptyStruct_aap(Loader.shared.env, _thisHandle.ptr, _exn)))
         )
     ;
 
@@ -123,14 +134,19 @@ class Structs_EmptyStruct {
         Env env,
         UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_Structs_EmptyStruct_aap;
+    ) f__iota_TestAPI_EmptyStruct_aap;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_Structs_EmptyStruct_create;
+    ) f__iota_TestAPI_EmptyStruct_create;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_get_TestAPI_EmptyStruct_tatiana;
     static late int Function(
         Env env,
         UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_get_TestAPI_Structs_EmptyStruct_tutu;
+    ) f__iota_get_TestAPI_EmptyStruct_tutu;
 }
