@@ -86,6 +86,11 @@ public struct EmptyStruct {
     public var tutu: Int {
         35671
     }
+    
+    /// <!-- FishyJoes.export(tatiana) -->
+    public var tata: String {
+        "Toodles! ta ta for now..."
+    }
 
     /// <!-- FishyJoes.export(aap) -->
     public func aap() -> String {

@@ -91,18 +91,28 @@ class KotlinProductClass: KotlinClass {
                     fragment.outputBlock("if (other !is EmptyStruct) {") {
                         fragment.output("return false")
                     }
-                    let storedVariablesChecks = fields.map {
+                    let fieldsChecks = fields.map {
                         "this.\($0.name) == other.\($0.name)"
                     }
-                    fragment.output("return \(storedVariablesChecks.joined(separator: "&&\n"))")
+                    fragment.output("return ", newLineTerminated: false)
+                    fragment.indent {
+                        fragment.outputMap(fieldsChecks, separator: " &&") {
+                            $0
+                        }
+                    }
                 }
                 fragment.blankLine()
 
-                fragment.outputBlock("override fun hashCode(): Int {") {
-                    let storedVariablesHashCodes = fields.map {
+                fragment.outputBlock("override fun hashCode(): kotlin.Int {") {
+                    let fieldsHashCodes = fields.map {
                         "(\($0.name).hashCode())"
                     }
-                    fragment.output("return \(storedVariablesHashCodes.joined(separator: ".xor"))")
+                    fragment.output("return \(fieldsHashCodes.joined(separator: ".xor"))")
+                }
+                fragment.blankLine()
+                
+                fragment.outputBlock("override fun toString(): kotlin.String {") {
+                    fragment.output("return \"${\(unqualifiedName)::class.java.simpleName}(\(fields.map { "\($0.name) = ${\($0.name)}" }.joined(separator: ", ")))\"")
                 }
                 fragment.blankLine()
             }
