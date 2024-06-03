@@ -20,14 +20,17 @@ internal class StructTests {
     fun testEmptyStruct() {
         val emptyStruct1 = EmptyStruct.create()
         assertEquals(emptyStruct1.tutu, 35671)
+        assertEquals(emptyStruct1.tatiana, "Toodles! ta ta for now...")
         assertEquals(emptyStruct1.aap(), "The Netherlands")
 
         val emptyStruct2 = EmptyStruct.create()
         assertEquals(emptyStruct2.tutu, 35671)
+        assertEquals(emptyStruct2.tatiana, "Toodles! ta ta for now...")
         assertEquals(emptyStruct2.aap(), "The Netherlands")
 
         val emptyStruct3 = emptyStruct2.copy()
         assertEquals(emptyStruct3.tutu, 35671)
+        assertEquals(emptyStruct3.tatiana, "Toodles! ta ta for now...")
         assertEquals(emptyStruct3.aap(), "The Netherlands")
 
         assertEquals(emptyStruct1, emptyStruct2)

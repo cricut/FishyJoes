@@ -6,18 +6,18 @@ import FishyJoesIotaRuntime
 import Foundation
 import TestAPI
 
-@_cdecl("TestAPI_Structs_EmptyStruct_setup")
-public func TestAPI_Structs_EmptyStruct_setup(
+@_cdecl("TestAPI_EmptyStruct_setup")
+public func TestAPI_EmptyStruct_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping TestAPI.Structs.EmptyStruct._ConstructorMethod,
+    constructorMethod: @escaping TestAPI.EmptyStruct._ConstructorMethod,
     _ exn: foreignOutExn
 ) {
     let env = Env(envRef)
-    if TestAPI.Structs.EmptyStruct._constructorMethod.isInitialized(env) { return }
-    TestAPI.Structs.EmptyStruct._constructorMethod[env] = constructorMethod
+    if TestAPI.EmptyStruct._constructorMethod.isInitialized(env) { return }
+    TestAPI.EmptyStruct._constructorMethod[env] = constructorMethod
 }
 
-extension TestAPI.Structs.EmptyStruct: IotaMutator {
+extension TestAPI.EmptyStruct: IotaMutator {
     public typealias _ConstructorMethod = @convention(c) (
         _ exn: foreignOutExn
     ) -> foreignObject

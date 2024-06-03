@@ -4,14 +4,15 @@ import 'dart:io';
 
 void main() {
   setUp(() {
-      print('pid: $pid');
+      // Uncomment to get process id for attaching xcode debugger to to debug on the Swift side
+      // print('pid: $pid');
       final _ = ensureLoaded;
   });
 
   group('StructTests', () {
       test('testConstruction', () {
-        expect(Structs_EmptyStruct().tutu, equals(35671));
-        expect(Structs_EmptyStruct().aap(), equals("The Netherlands"));
+        expect(EmptyStruct().tutu, equals(35671));
+        expect(EmptyStruct().aap(), equals("The Netherlands"));
       });
 
       test('testConstruction', () {
