@@ -827,6 +827,35 @@ export declare namespace TestAPI {
         ): TestAPI.EmptyEnum;
     }
 
+    /**
+     * <!-- FishyJoes.export(EmptyStruct) -->
+     */
+    export class EmptyStruct {
+        constructor()
+
+        /**
+         * <!-- FishyJoes.export(tatiana) -->
+         */
+        readonly tatiana: string;
+
+        /**
+         * <!-- FishyJoes.export(tutu) -->
+         */
+        readonly tutu: number;
+
+        /**
+         * <!-- FishyJoes.export(create) -->
+         */
+        static create(
+        ): EmptyStruct;
+
+        /**
+         * <!-- FishyJoes.export(aap) -->
+         */
+        aap(
+        ): string;
+    }
+
     export class ExternalWitness_AProtocol {
         private constructor()
         private _inhibitStructuralTyping: any
@@ -2194,30 +2223,6 @@ export declare namespace TestAPI {
 
     export type Structs = never;
     export namespace Structs {
-        /**
-         * <!-- FishyJoes.export(Structs.EmptyStruct) -->
-         */
-        export class EmptyStruct {
-            constructor()
-
-            /**
-             * <!-- FishyJoes.export(tutu) -->
-             */
-            readonly tutu: number;
-
-            /**
-             * <!-- FishyJoes.export(create) -->
-             */
-            static create(
-            ): Structs.EmptyStruct;
-
-            /**
-             * <!-- FishyJoes.export(aap) -->
-             */
-            aap(
-            ): string;
-        }
-
         /**
          * <!-- FishyJoes.export(Structs.MemberwiseStruct) -->
          */

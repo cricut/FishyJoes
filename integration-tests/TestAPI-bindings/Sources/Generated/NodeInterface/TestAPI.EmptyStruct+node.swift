@@ -7,14 +7,14 @@ import Foundation
 import TestAPI
 import TestAPI_CommonInterface
 
-extension TestAPI.Structs.EmptyStruct: NodeMutator {
+extension TestAPI.EmptyStruct: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(
         )
     }
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try NodeClass.constructor(for: "Structs.EmptyStruct", env: env)
+        let constructor = try NodeClass.constructor(for: "EmptyStruct", env: env)
         let args: [NAPI.Value] = [
         ]
         return try env.newInstance(constructor, args)
@@ -25,13 +25,13 @@ extension TestAPI.Structs.EmptyStruct: NodeMutator {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
-            name: "Structs.EmptyStruct",
+            name: "EmptyStruct",
             properties: [
                 "create": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0, hasNamedOptions: false) { env in
-                            let result = try TestAPI.Structs.EmptyStruct.toNode(
-                                TestAPI.Structs.EmptyStruct(
+                            let result = try TestAPI.EmptyStruct.toNode(
+                                TestAPI.EmptyStruct(
                                 ),
                                 env: env.env
                             )
@@ -44,7 +44,7 @@ extension TestAPI.Structs.EmptyStruct: NodeMutator {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "aap", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
-                                env.this(converter: TestAPI.Structs.EmptyStruct.self).aap(
+                                env.this(converter: TestAPI.EmptyStruct.self).aap(
                                 ),
                                 env: env.env
                             )
@@ -53,11 +53,22 @@ extension TestAPI.Structs.EmptyStruct: NodeMutator {
                     },
                     isStatic: false
                 ),
+                "tatiana": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "tatiana", expectedArgumentCount: 0) { env in
+                                return try Swift.String.toNode(env.this(converter: TestAPI.EmptyStruct.self).tata, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: false
+                ),
                 "tutu": (
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "tutu", expectedArgumentCount: 0) { env in
-                                return try Swift.Int.toNode(env.this(converter: TestAPI.Structs.EmptyStruct.self).tutu, env: env.env)
+                                return try Swift.Int.toNode(env.this(converter: TestAPI.EmptyStruct.self).tutu, env: env.env)
                             }
                         },
                         setter: nil
@@ -66,7 +77,7 @@ extension TestAPI.Structs.EmptyStruct: NodeMutator {
                 ),
             ],
             constructor: { env, info in
-                callbackBody(env, info, name: "Structs.EmptyStruct_constructor", expectedArgumentCount: 0) { env in
+                callbackBody(env, info, name: "EmptyStruct_constructor", expectedArgumentCount: 0) { env in
                     // TODO: typecheck?
                     let this = try env.this()
                     return this
@@ -76,7 +87,7 @@ extension TestAPI.Structs.EmptyStruct: NodeMutator {
         try mergeDefinitionInto(
             env: env,
             module: module,
-            path: "Structs.EmptyStruct",
+            path: "EmptyStruct",
             nodeClass: nodeClass.constructor.value(env: env)
         )
     }

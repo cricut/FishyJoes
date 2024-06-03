@@ -732,6 +732,58 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
+            "name" : "EmptyStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "EmptyStruct",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "EmptyStruct",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/EmptyStruct"
+        }
+      },
+      "kotlinName" : "EmptyStruct",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=EmptyStruct>>",
+      "nodeName" : "TestAPI.EmptyStruct",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "EmptyStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
             "module" : "Foundation",
             "name" : "PuttingTypesIntoQuestionablePlaces",
             "namespace" : [
@@ -1191,58 +1243,6 @@
             "name" : "Structs",
             "namespace" : [
 
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "EmptyStruct",
-            "namespace" : [
-              "Structs"
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "Structs.EmptyStruct",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "Structs_EmptyStruct",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/Structs$EmptyStruct"
-        }
-      },
-      "kotlinName" : "Structs.EmptyStruct",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=Structs.EmptyStruct>>",
-      "nodeName" : "TestAPI.Structs.EmptyStruct",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "EmptyStruct",
-            "namespace" : [
-              "Structs"
             ]
           }
         }
@@ -3061,6 +3061,94 @@
               }
             ],
             "name" : "AProtocolImplementation"
+          },
+          {
+            "constructor" : {
+              "visible" : {
+                "names" : [
+
+                ],
+                "types" : [
+
+                ]
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.export(EmptyStruct) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(tatiana) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : false,
+                "name" : "tatiana",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(tutu) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : false,
+                "name" : "tutu",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
+            ],
+            "implements" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(create) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "create",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "EmptyStruct"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(aap) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "aap",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              }
+            ],
+            "name" : "EmptyStruct"
           },
           {
             "constructor" : {
@@ -13303,80 +13391,6 @@
           },
           "Structs" : {
             "classes" : [
-              {
-                "constructor" : {
-                  "visible" : {
-                    "names" : [
-
-                    ],
-                    "types" : [
-
-                    ]
-                  }
-                },
-                "documentation" : [
-                  "<!-- FishyJoes.export(Structs.EmptyStruct) -->"
-                ],
-                "extends" : [
-
-                ],
-                "fields" : [
-                  {
-                    "documentation" : [
-                      "<!-- FishyJoes.export(tutu) -->"
-                    ],
-                    "hasDefaultImplementation" : false,
-                    "isStatic" : false,
-                    "name" : "tutu",
-                    "readOnly" : true,
-                    "type" : {
-                      "named" : {
-                        "_0" : "number"
-                      }
-                    }
-                  }
-                ],
-                "implements" : [
-
-                ],
-                "methods" : [
-                  {
-                    "documentation" : [
-                      "<!-- FishyJoes.export(create) -->"
-                    ],
-                    "hasDefaultImplementation" : false,
-                    "isAsync" : false,
-                    "isStatic" : true,
-                    "name" : "create",
-                    "parameters" : [
-
-                    ],
-                    "returnType" : {
-                      "named" : {
-                        "_0" : "Structs.EmptyStruct"
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-                      "<!-- FishyJoes.export(aap) -->"
-                    ],
-                    "hasDefaultImplementation" : false,
-                    "isAsync" : false,
-                    "isStatic" : false,
-                    "name" : "aap",
-                    "parameters" : [
-
-                    ],
-                    "returnType" : {
-                      "named" : {
-                        "_0" : "string"
-                      }
-                    }
-                  }
-                ],
-                "name" : "EmptyStruct"
-              },
               {
                 "constructor" : {
                   "visible" : {
