@@ -10,9 +10,20 @@ void main() {
   });
 
   group('StructTests', () {
-      test('testConstruction', () {
-        expect(EmptyStruct().tutu, equals(35671));
-        expect(EmptyStruct().aap(), equals("The Netherlands"));
+      test('testEmptyStruct', () {
+        final emptyStruct1 = EmptyStruct.create();
+        expect(emptyStruct1.tutu, equals(35671));
+        expect(emptyStruct1.tatiana, equals("Toodles! ta ta for now..."));
+        expect(emptyStruct1.aap(), equals("The Netherlands"));
+
+        final emptyStruct2 = EmptyStruct.create();
+        expect(emptyStruct2.tutu, equals(35671));
+        expect(emptyStruct2.tatiana, equals("Toodles! ta ta for now..."));
+        expect(emptyStruct2.aap(), equals("The Netherlands"));
+
+        expect(emptyStruct1, equals(emptyStruct2));
+        expect(emptyStruct1.hashCode, equals(emptyStruct2.hashCode));
+        expect(emptyStruct1.toString(), equals(emptyStruct2.toString()));
       });
 
       test('testConstruction', () {
