@@ -714,6 +714,34 @@ namespace Cricut.TestAPI {
             out CreatedRef _exn
         );
 
+        delegate CreatedRef _TestAPI_CommonInterface__TestDifferingExportNameProtocolConverterConstructor(
+            ConsumedRef ptr,
+            out CreatedRef exn
+        );
+        delegate nint _TestAPI_CommonInterface__TestDifferingExportNameProtocolConverter_Gettata(UnownedRef obj, out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_CommonInterface__TestDifferingExportNameProtocolConverter_setup(
+            IntPtr envRef,
+            _TestAPI_CommonInterface__TestDifferingExportNameProtocolConverterConstructor constructor,
+            _TestAPI_CommonInterface__TestDifferingExportNameProtocolConverter_Gettata Gettata,
+            out CreatedRef _exn
+        );
+
+        delegate CreatedRef _TestAPI_TestDifferingExportNameStructConstructor(
+            nint tata,
+            out CreatedRef exn
+        );
+        delegate nint _TestAPI_TestDifferingExportNameStruct_tataGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_TestDifferingExportNameStruct_tataSetter(UnownedRef obj, nint newValue, out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_TestDifferingExportNameStruct_setup(
+            IntPtr envRef,
+            _TestAPI_TestDifferingExportNameStructConstructor constructor,
+            _TestAPI_TestDifferingExportNameStruct_tataGetter get_tata,
+            _TestAPI_TestDifferingExportNameStruct_tataSetter set_tata,
+            out CreatedRef _exn
+        );
+
         delegate CreatedRef _TestAPI_CommonInterface__TestLeadingUnderscoredPropConverterConstructor(
             ConsumedRef ptr,
             out CreatedRef exn
@@ -3058,6 +3086,37 @@ namespace Cricut.TestAPI {
                     )),
                     bag<_TestAPI_TestDefaultComputedPropertiesStruct_nootSetter>((UnownedRef obj, nint newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.TestDefaultComputedPropertiesStruct>().Noot = newValue;
+                    })),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI_CommonInterface._TestDifferingExportNameProtocolConverter", () => {
+                Console.WriteLine("setting up TestAPI.TestDifferingExportNameProtocol...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_CommonInterface__TestDifferingExportNameProtocolConverter_setup(
+                    Loader.env,
+                    bag<_TestAPI_CommonInterface__TestDifferingExportNameProtocolConverterConstructor>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.ExternalWitness_TestDifferingExportNameProtocolDiffy(ptr));
+                    })),
+                    bag<_TestAPI_CommonInterface__TestDifferingExportNameProtocolConverter_Gettata>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.TestDifferingExportNameProtocolDiffy>().GetTata()
+                    )),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.TestDifferingExportNameStruct", () => {
+                Console.WriteLine("setting up TestAPI.TestDifferingExportNameStruct...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_TestDifferingExportNameStruct_setup(
+                    Loader.env,
+                    bag<_TestAPI_TestDifferingExportNameStructConstructor>((nint tata, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.TestDifferingExportNameStruct(
+                            tata
+                        ));
+                    })),
+                    bag<_TestAPI_TestDifferingExportNameStruct_tataGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.TestDifferingExportNameStruct>().Tata
+                    )),
+                    bag<_TestAPI_TestDifferingExportNameStruct_tataSetter>((UnownedRef obj, nint newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.TestDifferingExportNameStruct>().Tata = newValue;
                     })),
                     out exn
                 ));

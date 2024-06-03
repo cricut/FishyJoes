@@ -14,7 +14,7 @@ protocol TranslatedType {
     var definingTSNamespace: String? { get }
     var isInhabited: Bool { get }
     var containedNamedTypes: [TranslatedType] { get }
-    var conformances: Set<String> { get }
+    var conformances: Set<BetterType> { get }
     func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>]
     func cSharpSetupDelegates(in context: FishyJoesContext) -> [String]
     func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>]
@@ -88,7 +88,7 @@ extension TranslatedType {
 
     var isInhabited: Bool { true }
 
-    var conformances: Set<String> { [] }
+    var conformances: Set<BetterType> { [] }
 }
 
 indirect enum JNIType: Codable, Hashable {

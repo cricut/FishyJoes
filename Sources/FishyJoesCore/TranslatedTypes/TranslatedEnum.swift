@@ -17,7 +17,7 @@ struct TranslatedEnum: TranslatedType {
     let fields: [Field]
     let isInhabited: Bool
     let definingModule: Module
-    let conformances: Set<String>
+    let conformances: Set<BetterType>
 
     struct Case {
         let documentation: [String]
@@ -93,7 +93,9 @@ struct TranslatedEnum: TranslatedType {
         self.fields = Field.fields(type: type)
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
-        self.conformances = exportAnnotation.conformances
+        self.conformances = Set(type.implements.compactMap {
+            .init(named: $0.value, context: context)
+        })
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
@@ -399,6 +401,9 @@ struct TranslatedEnum: TranslatedType {
                 )
             )
 
+            let nodeConformances = Set(conformances.map {
+                context.resolve(type: $0).nodeType
+            })
             var tsCases: [TypeScriptAnnotations.TSType] = []
             for enumCase in cases {
                 let className = "\(nodeName).\(upperCaseFirst(enumCase.name))"
@@ -408,6 +413,7 @@ struct TranslatedEnum: TranslatedType {
                         documentation: enumCase.documentation,
                         name: className,
                         extends: [commonInterfaceName],
+                        implements: nodeConformances,
                         constructor: .visible(
                             enumCase.associatedValues.map { value in
                                 (value.bindingName, context.resolve(type: value.type).nodeType)

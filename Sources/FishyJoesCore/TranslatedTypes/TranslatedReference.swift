@@ -19,7 +19,7 @@ struct TranslatedReference: TranslatedType {
     let hashable: Bool
     let isInhabited: Bool
     let definingModule: Module
-    let conformances: Set<String>
+    let conformances: Set<BetterType>
 
     init(context: FishyJoesContext, type: Type) {
         guard let exportAnnotation = type.exportAnnotation else {
@@ -44,7 +44,9 @@ struct TranslatedReference: TranslatedType {
         self.hashable = type.hashable
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
-        self.conformances = exportAnnotation.conformances
+        self.conformances = Set(type.implements.compactMap {
+            .init(named: $0.value, context: context)
+        })
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
@@ -154,11 +156,14 @@ struct TranslatedReference: TranslatedType {
             }
         }
 
+        let nodeConformances = Set(conformances.map {
+            context.resolve(type: $0).nodeType
+        })
         context.tsAnnotations.add(class:
             .init(
                 documentation: documentation,
                 name: nodeName,
-                implements: Array(conformances).sorted(by: <),
+                implements: nodeConformances,
                 constructor: .hidden,
                 fields: computedVariables.compactMap { context.ts(field: $0) },
                 methods: methods.compactMap { context.ts(method: $0) }
@@ -335,7 +340,7 @@ struct TranslatedReference: TranslatedType {
             constructor: .reference,
             fields: fields,
             methods: methods,
-            conformances: ["com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference)"]
+            conformances: [KotlinClass.KType.named(package: "com.cricut.fishyjoes.runtime", name: "SwiftReference(_swiftReference)")]
         ).conforming(to: conformances, context: context)
         context.add(kotlinClass: product)
 
@@ -502,7 +507,7 @@ struct TranslatedReference: TranslatedType {
             constructor: .reference,
             fields: productFields,
             methods: productMethods,
-            conformances: conformances
+            conformances: Set(conformances.map { context.resolve(type: $0).cSharpType })
         )
         context.add(cSharpClass: product)
     }
@@ -584,7 +589,9 @@ struct TranslatedReference: TranslatedType {
             constructor: .reference,
             fields: fields,
             methods: methods,
-            conformances: conformances
+            conformances: Set(conformances.map {
+                context.resolve(type: $0).dartType
+            })
         )
         context.add(dartClass: dartProduct)
     }

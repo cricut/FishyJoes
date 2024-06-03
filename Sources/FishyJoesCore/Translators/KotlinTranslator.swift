@@ -587,10 +587,9 @@ final class KotlinTranslator: Translator {
         }
     }
 
-    func conform(_ kotlinClass: KotlinClass, to protoName: String, context: FishyJoesContext) {
-        let resolved = context.resolve(type: .named(.init(name: protoName, module: nil)))
-
-        kotlinClass.conformances.insert(resolved.kotlinName)
+    func conform(_ kotlinClass: KotlinClass, to protoBetterType: BetterType, context: FishyJoesContext) {
+        let resolved = context.resolve(type: protoBetterType)
+        kotlinClass.conformances.insert(resolved.kotlinType)
 
         if let proto = resolved as? TranslatedProtocol {
             let protoDefs = Set(
@@ -637,7 +636,7 @@ final class KotlinTranslator: Translator {
 }
 
 extension KotlinClass {
-    func conforming(to protocols: Set<String>, context: FishyJoesContext) -> KotlinClass {
+    func conforming(to protocols: Set<BetterType>, context: FishyJoesContext) -> KotlinClass {
         protocols.reduce(into: self) { kClass, proto in
             context.kotlinTranslator.conform(kClass, to: proto, context: context)
         }

@@ -16,6 +16,7 @@ import './EmptyEnum.dart' as TestAPI;
 import './ExternalWitness_AProtocol.dart' as TestAPI;
 import './ExternalWitness_TestAsyncFunctions.dart' as TestAPI;
 import './ExternalWitness_TestDefaultComputedProperties.dart' as TestAPI;
+import './ExternalWitness_TestDifferingExportNameProtocolDiffy.dart' as TestAPI;
 import './ExternalWitness_TestLeadingUnderscoredProp.dart' as TestAPI;
 import './ExternalWitness_TestMethodsProtocol.dart' as TestAPI;
 import './ExternalWitness_TestOptionalsProtocol.dart' as TestAPI;
@@ -41,6 +42,8 @@ import './TestDefaultComputedProperties.dart' as TestAPI;
 import './TestDefaultComputedPropertiesEnum.dart' as TestAPI;
 import './TestDefaultComputedPropertiesReference.dart' as TestAPI;
 import './TestDefaultComputedPropertiesStruct.dart' as TestAPI;
+import './TestDifferingExportNameProtocolDiffy.dart' as TestAPI;
+import './TestDifferingExportNameStruct.dart' as TestAPI;
 import './TestLeadingUnderscoredProp.dart' as TestAPI;
 import './TestLeadingUnderscoredPropStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
@@ -374,6 +377,17 @@ typedef _TestAPI_TestDefaultComputedPropertiesStruct_spamGetter = ffi.Bool Funct
 typedef _TestAPI_TestDefaultComputedPropertiesStruct_spamSetter = ffi.Void Function(UnownedRef obj, ffi.Bool newValue, OutCreatedRef exn);
 typedef _TestAPI_TestDefaultComputedPropertiesStruct_nootGetter = ffi.IntPtr Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestDefaultComputedPropertiesStruct_nootSetter = ffi.Void Function(UnownedRef obj, ffi.IntPtr newValue, OutCreatedRef exn);
+typedef _TestAPI_TestDifferingExportNameProtocolConstructor = CreatedRef Function(
+    ffi.Pointer ref,
+    OutCreatedRef exn
+);
+typedef _TestAPI_TestDifferingExportNameProtocol_tataGetter = ffi.IntPtr Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestDifferingExportNameStructConstructor = CreatedRef Function(
+    ffi.IntPtr tata,
+    OutCreatedRef exn
+);
+typedef _TestAPI_TestDifferingExportNameStruct_tataGetter = ffi.IntPtr Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestDifferingExportNameStruct_tataSetter = ffi.Void Function(UnownedRef obj, ffi.IntPtr newValue, OutCreatedRef exn);
 typedef _TestAPI_TestLeadingUnderscoredPropConstructor = CreatedRef Function(
     ffi.Pointer ref,
     OutCreatedRef exn
@@ -1140,6 +1154,36 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_TestDefaultComputedPropertiesStruct_setup');
+    final TestAPI_CommonInterface__TestDifferingExportNameProtocolConverter_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDifferingExportNameProtocolConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDifferingExportNameProtocol_tataGetter>> get_tata,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDifferingExportNameProtocolConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDifferingExportNameProtocol_tataGetter>> get_tata,
+            OutCreatedRef exn
+        )
+    >('TestAPI_CommonInterface__TestDifferingExportNameProtocolConverter_setup');
+    final TestAPI_TestDifferingExportNameStruct_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDifferingExportNameStructConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDifferingExportNameStruct_tataGetter>> get_tata,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDifferingExportNameStruct_tataSetter>> set_tata,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDifferingExportNameStructConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDifferingExportNameStruct_tataGetter>> get_tata,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDifferingExportNameStruct_tataSetter>> set_tata,
+            OutCreatedRef exn
+        )
+    >('TestAPI_TestDifferingExportNameStruct_setup');
     final TestAPI_CommonInterface__TestLeadingUnderscoredPropConverter_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -5816,6 +5860,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_TestDefaultComputedPropertiesEnum_spam");
+    TestAPI.ExternalWitness_TestDifferingExportNameProtocolDiffy.f__iota_get_TestAPI_TestDifferingExportNameProtocol_tata = dylib.lookupFunction<
+        ffi.IntPtr Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestDifferingExportNameProtocol_tata");
     TestAPI.ExternalWitness_TestLeadingUnderscoredProp.f__iota_get_TestAPI_TestLeadingUnderscoredProp__leadingUnderscoreProp = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -8323,6 +8379,31 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.TestDefaultComputedPropertiesStruct.ffi_set_spam),
                 ffi.Pointer.fromFunction(TestAPI.TestDefaultComputedPropertiesStruct.ffi_get_noot, 0),
                 ffi.Pointer.fromFunction(TestAPI.TestDefaultComputedPropertiesStruct.ffi_set_noot),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI_CommonInterface._TestDifferingExportNameProtocolConverter", () {
+        // print("setting up TestAPI.TestDifferingExportNameProtocol (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_CommonInterface__TestDifferingExportNameProtocolConverter_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestDifferingExportNameProtocolDiffy.ffi_new),
+                ffi.Pointer.fromFunction(TestAPI.TestDifferingExportNameProtocolDiffy_FfiHooks.ffi_get_tata, 0),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.TestDifferingExportNameStruct", () {
+        // print("setting up TestAPI.TestDifferingExportNameStruct (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_TestDifferingExportNameStruct_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.TestDifferingExportNameStruct.ffi_constructor),
+                ffi.Pointer.fromFunction(TestAPI.TestDifferingExportNameStruct.ffi_get_tata, 0),
+                ffi.Pointer.fromFunction(TestAPI.TestDifferingExportNameStruct.ffi_set_tata),
                 exn
             );
         });

@@ -418,6 +418,11 @@ void main() {
         expect(a.spam, equals(true));
         expect(a.noot, equals(72930));
       });
+
+      test('testDifferingExportNameStruct', () {
+        final a = TestDifferingExportNameStruct(tata: 8923);
+        expect(a.tata, equals(8923));
+      });
   });
 }
 

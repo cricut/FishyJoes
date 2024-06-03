@@ -8,7 +8,7 @@ namespace Cricut.TestAPI {
     /// <summary>
     /// <!-- FishyJoes.export(AProtocol) -->
     /// </summary>
-    public class ExternalWitness_AProtocol : SwiftReference, AProtocol {
+    public class ExternalWitness_AProtocol : SwiftReference, Cricut.TestAPI.AProtocol {
         internal ExternalWitness_AProtocol(ConsumedRef reference): base(reference) {}
 
         /// <summary>
