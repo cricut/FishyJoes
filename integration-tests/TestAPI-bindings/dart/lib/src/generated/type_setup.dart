@@ -26,6 +26,8 @@ import './Methods.dart' as TestAPI;
 import './Primitives.dart' as TestAPI;
 import './Primitives_PrimitiveHolder.dart' as TestAPI;
 import './Ranges.dart' as TestAPI;
+import './Results.dart' as TestAPI;
+import './Results_Error.dart' as TestAPI;
 import './SimpleEnum.dart' as TestAPI;
 import './String_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Strings.dart' as TestAPI;
@@ -193,6 +195,11 @@ typedef _TestAPI_Primitives_PrimitiveHolder_dGetter = ffi.Double Function(Unowne
 typedef _TestAPI_Primitives_PrimitiveHolder_dSetter = ffi.Void Function(UnownedRef obj, ffi.Double newValue, OutCreatedRef exn);
 typedef _TestAPI_Primitives_PrimitiveHolder_dqGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_Primitives_PrimitiveHolder_dqSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _TestAPI_Results_ErrorConstructor = CreatedRef Function(
+    ConsumedRef message,
+    OutCreatedRef exn
+);
+typedef _TestAPI_Results_Error_messageGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_Structs_MemberwiseStructConstructor = CreatedRef Function(
     ConsumedRef immutable,
     ConsumedRef mutable,
@@ -660,6 +667,20 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_Primitives_PrimitiveHolder_setup');
+    final TestAPI_Results_Error_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Results_ErrorConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Results_Error_messageGetter>> get_message,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Results_ErrorConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Results_Error_messageGetter>> get_message,
+            OutCreatedRef exn
+        )
+    >('TestAPI_Results_Error_setup');
     final TestAPI_Structs_MemberwiseStruct_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -926,6 +947,16 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_Ranges_setup');
+    final TestAPI_Results_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            OutCreatedRef exn
+        )
+    >('TestAPI_Results_setup');
     final TestAPI_SimpleEnum_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -2786,6 +2817,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Ranges_echoUIntRange");
+    TestAPI.Results.f__iota_TestAPI_Results_processResult = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            ffi.TODO result,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            TODO result,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_Results_processResult");
     TestAPI.SimpleEnum.f__iota_TestAPI_SimpleEnum_hexMethod = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -5412,6 +5455,26 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_Ranges_uIntRange");
+    TestAPI.Results.f__iota_get_TestAPI_Results_aFailure = dylib.lookupFunction<
+        ffi.TODO Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        TODO Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_Results_aFailure");
+    TestAPI.Results.f__iota_get_TestAPI_Results_aSuccess = dylib.lookupFunction<
+        ffi.TODO Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        TODO Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_Results_aSuccess");
     TestAPI.SimpleEnum.f__iota_get_TestAPI_SimpleEnum_favoriteColor = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -7730,6 +7793,26 @@ final ensureLoaded = (() {
         });
     });
 
+    Loader.shared.once("setup_ResultConverter<Swift.Int, TestAPI.Results.Error>", () {
+        // print("setting up Result<Int, Results.Error> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_ResultConverter_setup(
+                Loader.shared.env,
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_ResultConverter<Swift.String, TestAPI.Results.Error>", () {
+        // print("setting up Result<String, Results.Error> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_ResultConverter_setup(
+                Loader.shared.env,
+                exn
+            );
+        });
+    });
+
     Loader.shared.once("setup_SetConverter<OptionalConverter<Swift.Int>>", () {
         // print("setting up Set<Optional<Int>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
@@ -7909,6 +7992,18 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_d),
                 ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_dq),
                 ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_dq),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.Results.Error", () {
+        // print("setting up TestAPI.Results.Error (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_Results_Error_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.Results_Error.ffi_constructor),
+                ffi.Pointer.fromFunction(TestAPI.Results_Error.ffi_get_message),
                 exn
             );
         });
@@ -8141,6 +8236,16 @@ final ensureLoaded = (() {
         // print("setting up TestAPI.Ranges (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             TestAPI_Ranges_setup(
+                Loader.shared.env,
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.Results", () {
+        // print("setting up TestAPI.Results (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_Results_setup(
                 Loader.shared.env,
                 exn
             );

@@ -8,7 +8,7 @@ struct TranslatedResult: TranslatedType {
     let containedNamedTypes: [TranslatedType]
     let cSharpType: CSharpClass.CSType = .primitive("TODO")
     let dartType: DartClass.DartType = .primitive("TODO", ffiName: "TODO")
-    let jniType = JNIType.object("com/cricut/fishyjoes/runtime/TypedArray")
+    let jniType = JNIType.object("com/cricut/fishyjoes/runtime/TypedResult")
     let definingModule = Module.runtime
 
     init(success: TranslatedType, failure: TranslatedType) {

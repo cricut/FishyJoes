@@ -6,10 +6,19 @@ import com.cricut.fishyjoes.runtime.AttributedString
 import com.cricut.fishyjoes.runtime.AttributedSubstring
 import com.cricut.fishyjoes.runtime.SwiftRange
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import java.net.URL
 
 internal class AttributedStringTests {
+    companion object {
+        @JvmStatic
+        @BeforeAll
+        fun beforeAttachDebugger() {
+            // Utilities.attachXcodeToCurrentProcess()
+        }
+    }
+
     @Test
     fun testStringValues() {
         val en = AttributeContainerFoundationAttributes().apply { languageIdentifier = "en" }.asContainer()

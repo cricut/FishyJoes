@@ -1045,6 +1045,110 @@
         "named" : {
           "_0" : {
             "module" : "TestAPI",
+            "name" : "Results",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "Results",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Results",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Results"
+        }
+      },
+      "kotlinName" : "Results",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Results>>",
+      "nodeName" : "TestAPI.Results",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Results",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Error",
+            "namespace" : [
+              "Results"
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "Results.Error",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Results_Error",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Results$Error"
+        }
+      },
+      "kotlinName" : "Results.Error",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=Results.Error>>",
+      "nodeName" : "TestAPI.Results.Error",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Error",
+            "namespace" : [
+              "Results"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
             "name" : "SimpleEnum",
             "namespace" : [
 
@@ -12938,6 +13042,121 @@
 
             ]
           },
+          "Results" : {
+            "classes" : [
+              {
+                "constructor" : {
+                  "visible" : {
+                    "names" : [
+                      "message"
+                    ],
+                    "types" : [
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      }
+                    ]
+                  }
+                },
+                "documentation" : [
+                  "<!-- FishyJoes.export(Results.Error) -->"
+                ],
+                "extends" : [
+
+                ],
+                "fields" : [
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "message",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                ],
+                "implements" : [
+
+                ],
+                "methods" : [
+
+                ],
+                "name" : "Error"
+              }
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(aFailure) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "aFailure",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "TODO"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(aSuccess) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "aSuccess",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "TODO"
+                  }
+                }
+              }
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(processResult) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "processResult",
+                "parameters" : [
+                  {
+                    "name" : "result",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TODO"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              }
+            ],
+            "name" : "Results",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
+          },
           "SimpleEnum" : {
             "classes" : [
 
@@ -14322,6 +14541,19 @@
               "<!-- FishyJoes.export(Ranges) -->"
             ],
             "name" : "Ranges",
+            "value" : {
+              "union" : {
+                "_0" : [
+
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(Results) -->"
+            ],
+            "name" : "Results",
             "value" : {
               "union" : {
                 "_0" : [
