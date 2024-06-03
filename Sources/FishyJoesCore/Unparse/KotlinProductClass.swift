@@ -112,7 +112,7 @@ class KotlinProductClass: KotlinClass {
                 fragment.blankLine()
                 
                 fragment.outputBlock("override fun toString(): kotlin.String {") {
-                    fragment.output("return \"${\(unqualifiedName)::class.java.simpleName}(\(fields.map { "\($0.name) = ${\($0.name)}" }.joined(separator: ", ")))\"")
+                    fragment.output("return \"\(unqualifiedName)(\(fields.map { "\($0.name) = ${\($0.name)}" }.joined(separator: ", ")))\"")
                 }
                 fragment.blankLine()
             }

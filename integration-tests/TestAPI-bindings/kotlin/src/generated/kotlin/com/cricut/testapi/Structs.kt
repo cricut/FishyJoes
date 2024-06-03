@@ -14,43 +14,6 @@ sealed class Structs {
     }
 
     /**
-     * <!-- FishyJoes.export(Structs.EmptyStruct) -->
-     */
-    class EmptyStruct private constructor(
-    ) {
-        /**
-         * <!-- FishyJoes.export(tutu) -->
-         */
-        val tutu: Long
-          get() = __jni_get_tutu()
-        @JvmName("__jni_get_tutu")
-        private external fun __jni_get_tutu(): Long
-
-        /**
-         * <!-- FishyJoes.export(aap) -->
-         */
-        fun aap(
-        ): kotlin.String = __jni_aap()
-        @JvmName("__jni_aap")
-        private external fun __jni_aap(
-        ): kotlin.String
-
-        companion object {
-            /**
-             * <!-- FishyJoes.export(create) -->
-             */
-            fun create(
-            ): com.cricut.testapi.Structs.EmptyStruct = __jni_create()
-            @JvmStatic
-            @JvmName("__jni_create")
-            private external fun __jni_create(
-            ): com.cricut.testapi.Structs.EmptyStruct
-
-            init { loadNativeLibs() }
-        }
-    }
-
-    /**
      * <!-- FishyJoes.export(Structs.MutableStruct) -->
      */
     data class MutableStruct(
