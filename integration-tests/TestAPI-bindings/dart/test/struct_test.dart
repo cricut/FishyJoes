@@ -11,19 +11,30 @@ void main() {
 
   group('StructTests', () {
       test('testEmptyStruct', () {
-        final emptyStruct1 = EmptyStruct.create();
-        expect(emptyStruct1.tutu, equals(35671));
-        expect(emptyStruct1.tatiana, equals("Toodles! ta ta for now..."));
-        expect(emptyStruct1.aap(), equals("The Netherlands"));
+        final a1 = EmptyStruct.create();
+        expect(a1.tutu, equals(35671));
+        expect(a1.tatiana, equals("Toodles! ta ta for now..."));
+        expect(a1.aap(), equals("The Netherlands"));
 
-        final emptyStruct2 = EmptyStruct.create();
-        expect(emptyStruct2.tutu, equals(35671));
-        expect(emptyStruct2.tatiana, equals("Toodles! ta ta for now..."));
-        expect(emptyStruct2.aap(), equals("The Netherlands"));
+        final a2 = EmptyStruct.create();
+        expect(a2.tutu, equals(35671));
+        expect(a2.tatiana, equals("Toodles! ta ta for now..."));
+        expect(a2.aap(), equals("The Netherlands"));
 
-        expect(emptyStruct1, equals(emptyStruct2));
-        expect(emptyStruct1.hashCode, equals(emptyStruct2.hashCode));
-        expect(emptyStruct1.toString(), equals(emptyStruct2.toString()));
+        expect(a1, equals(a2));
+        expect(a1.hashCode, equals(a2.hashCode));
+        expect(a1.toString(), equals(a2.toString()));
+        expect(a1.toString(), equals("EmptyStruct()"));
+
+        final b1 = EmptyStruct2.create();
+        expect(b1.tutu, equals(12897));
+        expect(b1.tatiana, equals("Arrivederci"));
+        expect(b1.aap(), equals("The Netherlands2"));
+        expect(b1.zxccxz(), equals("Cambridge University (England)2"));
+
+        expect(a1, isNot(equals(b1)));
+        expect(a1.hashCode, isNot(equals(b1)));
+        expect(a1.toString(), isNot(equals(b1.toString())));
       });
 
       test('testConstruction', () {
