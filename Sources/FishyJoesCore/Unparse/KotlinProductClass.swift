@@ -115,6 +115,9 @@ class KotlinProductClass: KotlinClass {
                     fragment.output("return \"\(unqualifiedName)(\(fields.map { "\($0.name) = ${\($0.name)}" }.joined(separator: ", ")))\"")
                 }
                 fragment.blankLine()
+                
+                fragment.output("fun copy() = \(unqualifiedName)()")
+                fragment.blankLine()
             }
             
             fragment.blankLine()

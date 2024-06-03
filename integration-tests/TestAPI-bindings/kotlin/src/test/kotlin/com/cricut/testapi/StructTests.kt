@@ -26,16 +26,17 @@ internal class StructTests {
         assertEquals(emptyStruct2.tutu, 35671)
         assertEquals(emptyStruct2.aap(), "The Netherlands")
 
+        val emptyStruct3 = emptyStruct2.copy()
+        assertEquals(emptyStruct3.tutu, 35671)
+        assertEquals(emptyStruct3.aap(), "The Netherlands")
+
         assertEquals(emptyStruct1, emptyStruct2)
         assertEquals(emptyStruct1.hashCode(), emptyStruct2.hashCode())
 
+        assertEquals(emptyStruct2, emptyStruct3)
+        assertEquals(emptyStruct2.hashCode(), emptyStruct3.hashCode())
+        
         assertEquals(emptyStruct1.toString(), "EmptyStruct(tatiana = Toodles! ta ta for now..., tutu = 35671)")
-        println("EmptyStruct name ${emptyStruct1.toString()}")
-
-//        class EmptyStructSubclass: Structs.EmptyStruct (
-//        ) {
-//            override tutu
-//        }
     }
 
     @Test

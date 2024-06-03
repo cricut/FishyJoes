@@ -52,6 +52,8 @@ class EmptyStruct private constructor(
         return "EmptyStruct(tatiana = ${tatiana}, tutu = ${tutu})"
     }
 
+    fun copy() = EmptyStruct()
+
     companion object {
         /**
          * <!-- FishyJoes.export(create) -->
