@@ -65,119 +65,102 @@ import 'package:fishyjoes_dart/runtime.dart';
 import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:tuple/tuple.dart' as tuple;
 
-/// <!-- FishyJoes.export(AProtocol) -->
-abstract class AProtocol {
-    TestAPI.AProtocol bar(
-        int x,
-        int y
+// ignore_for_file: unused_import
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: no_leading_underscores_for_local_identifiers
+// ignore_for_file: library_prefixes
+// ignore_for_file: file_names
+// ignore_for_file: annotate_overrides
+
+/// <!-- FishyJoes.export(EmptyStruct2) -->
+class EmptyStruct2 {
+
+    EmptyStruct2(
     );
 
-    /// <!-- FishyJoes.export(baz) -->
-    bool get baz;
-
-    /// <!-- FishyJoes.export(foo) -->
-    String get foo;
-}
-
-extension AProtocol_DefaultImplementations on AProtocol {
-    String hasADefaultImplementation(
-        int x,
-        double y
-    ) =>
-        GCRef.using(this, (_thisHandle) =>
-            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_AProtocol_hasADefaultImplementation(Loader.shared.env, _thisHandle.ptr, x, y, _exn)))
-        )
-    ;
-
-    static CreatedRef ffi_hasADefaultImplementation(
-        UnownedRef obj,
-        int x,
-        double y,
+    static CreatedRef ffi_constructor(
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<AProtocol>(obj).hasADefaultImplementation(
-                x,
-                y
-            )
-        )
+        createRef(EmptyStruct2(
+        ))
     );
+    @override
+    String toString() => 'EmptyStruct2()';
 
-    String hasADefaultImplementation2(
-        String a,
-        bool b,
-        String c
-    ) =>
+    @override
+    bool operator ==(Object other) {
+        return identical(other, this) ||
+        (
+            other.runtimeType == runtimeType &&
+            other is EmptyStruct2
+        );
+    }
+
+    @override
+    int get hashCode => runtimeType.hashCode;
+
+    EmptyStruct2 copyWith() => EmptyStruct2();
+
+    /// <!-- FishyJoes.export(tatiana) -->
+    String get tatiana =>
         GCRef.using(this, (_thisHandle) =>
-            GCRef.using(a, (_aHandle) =>
-                GCRef.using(c, (_cHandle) =>
-                    consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_AProtocol_hasADefaultImplementation2(Loader.shared.env, _thisHandle.ptr, _aHandle.ptr, b, _cHandle.ptr, _exn)))
-                )
+            check((exn) =>
+                consumeCreatedRef<String>(f__iota_get_TestAPI_EmptyStruct2_tatiana(Loader.shared.env, _thisHandle.ptr, exn))
             )
         )
     ;
-
-    static CreatedRef ffi_hasADefaultImplementation2(
-        UnownedRef obj,
-        UnownedRef a,
-        bool b,
-        UnownedRef c,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<AProtocol>(obj).hasADefaultImplementation2(
-                peekRef<String>(a),
-                b,
-                peekRef<String>(c)
+    /// <!-- FishyJoes.export(tutu) -->
+    int get tutu =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                f__iota_get_TestAPI_EmptyStruct2_tutu(Loader.shared.env, _thisHandle.ptr, exn)
             )
         )
-    );
+    ;
+    /// <!-- FishyJoes.export(create) -->
+    static TestAPI.EmptyStruct2 create(
+    ) =>
+        consumeCreatedRef<TestAPI.EmptyStruct2>(check((OutCreatedRef _exn) => f__iota_TestAPI_EmptyStruct2_create(Loader.shared.env, _exn)))
+    ;
+
+    /// <!-- FishyJoes.export(aap) -->
+    String aap(
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_EmptyStruct2_aap(Loader.shared.env, _thisHandle.ptr, _exn)))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(zxccxz) -->
+    String zxccxz(
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_EmptyStruct2_zxccxz(Loader.shared.env, _thisHandle.ptr, _exn)))
+        )
+    ;
 
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,
-        int x,
-        double y,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_AProtocol_hasADefaultImplementation;
+    ) f__iota_TestAPI_EmptyStruct2_aap;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_EmptyStruct2_create;
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,
-        UnownedRef a,
-        bool b,
-        UnownedRef c,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_AProtocol_hasADefaultImplementation2;
-}
-
-extension AProtocol_FfiHooks on AProtocol {
-    static bool ffi_get_baz(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catching(exn, () =>
-        peekRef<AProtocol>(obj).baz
-    ) ?? false;
-
-    static CreatedRef ffi_get_foo(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<AProtocol>(obj).foo
-        )
-    );
-
-    static CreatedRef ffi_bar(
-        UnownedRef obj,
-        int x,
-        int y,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<AProtocol>(obj).bar(
-                x,
-                y
-            )
-        )
-    );
+    ) f__iota_TestAPI_EmptyStruct2_zxccxz;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_get_TestAPI_EmptyStruct2_tatiana;
+    static late int Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_get_TestAPI_EmptyStruct2_tutu;
 }

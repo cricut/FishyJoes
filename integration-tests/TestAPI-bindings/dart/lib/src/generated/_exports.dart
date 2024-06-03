@@ -22,6 +22,7 @@ export './DefaultArguments.dart';
 export './Deprecations.dart';
 export './EmptyEnum.dart';
 export './EmptyStruct.dart';
+export './EmptyStruct2.dart';
 export './Functions.dart';
 export './Methods.dart';
 export './Primitives.dart';

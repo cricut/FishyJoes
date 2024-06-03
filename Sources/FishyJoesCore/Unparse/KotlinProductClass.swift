@@ -88,7 +88,7 @@ class KotlinProductClass: KotlinClass {
                     fragment.outputBlock("if (this === other) {") {
                         fragment.output("return true")
                     }
-                    fragment.outputBlock("if (other !is EmptyStruct) {") {
+                    fragment.outputBlock("if (other !is \(unqualifiedName)) {") {
                         fragment.output("return false")
                     }
                     let fieldsChecks = fields.map {

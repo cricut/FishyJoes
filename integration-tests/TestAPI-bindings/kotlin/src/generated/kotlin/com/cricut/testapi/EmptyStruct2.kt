@@ -4,9 +4,9 @@ import java.lang.Exception
 import kotlinx.coroutines.*
 
 /**
- * <!-- FishyJoes.export(EmptyStruct) -->
+ * <!-- FishyJoes.export(EmptyStruct2) -->
  */
-class EmptyStruct private constructor(
+class EmptyStruct2 private constructor(
 ) {
     /**
      * <!-- FishyJoes.export(tatiana) -->
@@ -46,7 +46,7 @@ class EmptyStruct private constructor(
         if (this === other) {
             return true
         }
-        if (other !is EmptyStruct) {
+        if (other !is EmptyStruct2) {
             return false
         }
         return this.tatiana == other.tatiana &&
@@ -58,21 +58,21 @@ class EmptyStruct private constructor(
     }
 
     override fun toString(): kotlin.String {
-        return "EmptyStruct(tatiana = ${tatiana}, tutu = ${tutu})"
+        return "EmptyStruct2(tatiana = ${tatiana}, tutu = ${tutu})"
     }
 
-    fun copy() = EmptyStruct()
+    fun copy() = EmptyStruct2()
 
     companion object {
         /**
          * <!-- FishyJoes.export(create) -->
          */
         fun create(
-        ): com.cricut.testapi.EmptyStruct = __jni_create()
+        ): com.cricut.testapi.EmptyStruct2 = __jni_create()
         @JvmStatic
         @JvmName("__jni_create")
         private external fun __jni_create(
-        ): com.cricut.testapi.EmptyStruct
+        ): com.cricut.testapi.EmptyStruct2
 
         init { loadNativeLibs() }
     }

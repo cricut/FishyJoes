@@ -473,6 +473,16 @@ namespace Cricut.TestAPI {
             out CreatedRef _exn
         );
 
+        delegate CreatedRef _TestAPI_EmptyStruct2Constructor(
+            out CreatedRef exn
+        );
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_EmptyStruct2_setup(
+            IntPtr envRef,
+            _TestAPI_EmptyStruct2Constructor constructor,
+            out CreatedRef _exn
+        );
+
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Functions_setup(
             IntPtr envRef,
@@ -2730,6 +2740,17 @@ namespace Cricut.TestAPI {
                     Loader.env,
                     bag<_TestAPI_EmptyStructConstructor>((out CreatedRef exn) => Catching(out exn, () => {
                         return new CreatedRef(new Cricut.TestAPI.EmptyStruct(
+                        ));
+                    })),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.EmptyStruct2", () => {
+                Console.WriteLine("setting up TestAPI.EmptyStruct2...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_EmptyStruct2_setup(
+                    Loader.env,
+                    bag<_TestAPI_EmptyStruct2Constructor>((out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.EmptyStruct2(
                         ));
                     })),
                     out exn

@@ -14,6 +14,7 @@ import './DefaultArguments.dart' as TestAPI;
 import './Deprecations.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
 import './EmptyStruct.dart' as TestAPI;
+import './EmptyStruct2.dart' as TestAPI;
 import './ExternalWitness_AProtocol.dart' as TestAPI;
 import './ExternalWitness_TestAsyncFunctions.dart' as TestAPI;
 import './ExternalWitness_TestDefaultComputedProperties.dart' as TestAPI;
@@ -275,6 +276,9 @@ typedef TestAPI_AssociatedDataEnum_extract_simpleEnum = ffi.Void Function(
     OutCreatedRef _exn
 );
 typedef _TestAPI_EmptyStructConstructor = CreatedRef Function(
+    OutCreatedRef exn
+);
+typedef _TestAPI_EmptyStruct2Constructor = CreatedRef Function(
     OutCreatedRef exn
 );
 typedef TestAPI_SimpleEnum_new_red = CreatedRef Function(
@@ -900,6 +904,18 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_EmptyStruct_setup');
+    final TestAPI_EmptyStruct2_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_EmptyStruct2Constructor>> constructor,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_EmptyStruct2Constructor>> constructor,
+            OutCreatedRef exn
+        )
+    >('TestAPI_EmptyStruct2_setup');
     final TestAPI_Functions_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -2042,6 +2058,40 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_EmptyEnum_notGoingToHappen");
+    TestAPI.EmptyStruct2.f__iota_TestAPI_EmptyStruct2_aap = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_EmptyStruct2_aap");
+    TestAPI.EmptyStruct2.f__iota_TestAPI_EmptyStruct2_create = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_EmptyStruct2_create");
+    TestAPI.EmptyStruct2.f__iota_TestAPI_EmptyStruct2_zxccxz = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_EmptyStruct2_zxccxz");
     TestAPI.EmptyStruct.f__iota_TestAPI_EmptyStruct_aap = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -2064,6 +2114,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_EmptyStruct_create");
+    TestAPI.EmptyStruct.f__iota_TestAPI_EmptyStruct_zxccxz = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_EmptyStruct_zxccxz");
     TestAPI.Functions.f__iota_TestAPI_Functions_exercise0 = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -4510,6 +4572,30 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_EmptyEnum_noot");
+    TestAPI.EmptyStruct2.f__iota_get_TestAPI_EmptyStruct2_tatiana = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_EmptyStruct2_tatiana");
+    TestAPI.EmptyStruct2.f__iota_get_TestAPI_EmptyStruct2_tutu = dylib.lookupFunction<
+        ffi.IntPtr Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_EmptyStruct2_tutu");
     TestAPI.EmptyStruct.f__iota_get_TestAPI_EmptyStruct_tatiana = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -8194,6 +8280,17 @@ final ensureLoaded = (() {
             TestAPI_EmptyStruct_setup(
                 Loader.shared.env,
                 ffi.Pointer.fromFunction(TestAPI.EmptyStruct.ffi_constructor),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.EmptyStruct2", () {
+        // print("setting up TestAPI.EmptyStruct2 (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_EmptyStruct2_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.EmptyStruct2.ffi_constructor),
                 exn
             );
         });

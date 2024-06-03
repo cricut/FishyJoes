@@ -1099,6 +1099,41 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_get_tutu"),
                 signature: bag.add("()J"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_EmptyStruct_tutu, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_zxccxz"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_TestAPI_EmptyStruct_zxccxz, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        // print("setting up TestAPI.EmptyStruct2...")
+        try TestAPI.EmptyStruct2.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI.EmptyStruct2.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_aap"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_TestAPI_EmptyStruct2_aap, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_create"),
+                signature: bag.add("()Lcom/cricut/testapi/EmptyStruct2;"),
+                fnPtr: unsafeBitCast(java_TestAPI_EmptyStruct2_create, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_tatiana"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_EmptyStruct2_tatiana, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_tutu"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_EmptyStruct2_tutu, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_zxccxz"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_TestAPI_EmptyStruct2_zxccxz, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.Functions...")

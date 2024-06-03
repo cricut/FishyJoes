@@ -14,6 +14,7 @@ import './DefaultArguments.dart' as TestAPI;
 import './Deprecations.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
 import './EmptyStruct.dart' as TestAPI;
+import './EmptyStruct2.dart' as TestAPI;
 import './ExternalWitness_AProtocol.dart' as TestAPI;
 import './ExternalWitness_TestAsyncFunctions.dart' as TestAPI;
 import './ExternalWitness_TestDefaultComputedProperties.dart' as TestAPI;
@@ -130,6 +131,14 @@ class EmptyStruct {
         )
     ;
 
+    /// <!-- FishyJoes.export(zxccxz) -->
+    String zxccxz(
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_EmptyStruct_zxccxz(Loader.shared.env, _thisHandle.ptr, _exn)))
+        )
+    ;
+
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,
@@ -139,6 +148,11 @@ class EmptyStruct {
         Env env,
         OutCreatedRef _exn
     ) f__iota_TestAPI_EmptyStruct_create;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_EmptyStruct_zxccxz;
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,

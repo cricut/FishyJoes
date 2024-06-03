@@ -77,7 +77,7 @@ public enum Structs {
 
 /// <!-- FishyJoes.export(EmptyStruct) -->
 public struct EmptyStruct {
-    // no properties!
+    // no stored properties!
 
     /// <!-- FishyJoes.export(create) -->
     public init() {}
@@ -95,5 +95,38 @@ public struct EmptyStruct {
     /// <!-- FishyJoes.export(aap) -->
     public func aap() -> String {
         "The Netherlands"
+    }
+    
+    /// <!-- FishyJoes.export(zxccxz) -->
+    public func zxc() -> String {
+        "Cambridge University (England)"
+    }
+}
+
+/// <!-- FishyJoes.export(EmptyStruct2) -->
+public struct EmptyStruct2 {
+    // no stored properties!
+
+    /// <!-- FishyJoes.export(create) -->
+    public init() {}
+
+    /// <!-- FishyJoes.export(tutu) -->
+    public var tutu: Int {
+        12897
+    }
+    
+    /// <!-- FishyJoes.export(tatiana) -->
+    public var tata: String {
+        "Arrivederci"
+    }
+
+    /// <!-- FishyJoes.export(aap) -->
+    public func aap() -> String {
+        "The Netherlands2"
+    }
+    
+    /// <!-- FishyJoes.export(zxccxz) -->
+    public func zxc() -> String {
+        "Cambridge University (England)2"
     }
 }

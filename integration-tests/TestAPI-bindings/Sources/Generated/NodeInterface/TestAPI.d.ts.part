@@ -854,6 +854,47 @@ export declare namespace TestAPI {
          */
         aap(
         ): string;
+
+        /**
+         * <!-- FishyJoes.export(zxccxz) -->
+         */
+        zxccxz(
+        ): string;
+    }
+
+    /**
+     * <!-- FishyJoes.export(EmptyStruct2) -->
+     */
+    export class EmptyStruct2 {
+        constructor()
+
+        /**
+         * <!-- FishyJoes.export(tatiana) -->
+         */
+        readonly tatiana: string;
+
+        /**
+         * <!-- FishyJoes.export(tutu) -->
+         */
+        readonly tutu: number;
+
+        /**
+         * <!-- FishyJoes.export(create) -->
+         */
+        static create(
+        ): EmptyStruct2;
+
+        /**
+         * <!-- FishyJoes.export(aap) -->
+         */
+        aap(
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(zxccxz) -->
+         */
+        zxccxz(
+        ): string;
     }
 
     export class ExternalWitness_AProtocol {
