@@ -28,6 +28,7 @@ namespace Cricut.TestAPI.Tests {
             Assert.Equal("EmptyStruct2 { }", b1.ToString());
 
             Assert.NotEqual(a1.GetHashCode(), b1.GetHashCode());
+            Assert.NotEqual(a1.ToString(), b1.ToString());
         }
 
         [Fact]
