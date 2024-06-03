@@ -37,12 +37,18 @@ class KotlinProductClass: KotlinClass {
 
     override func output(to fragment: SourceFragment) {
         document(documentation, fragment: fragment)
+        
+        var generateEqualsEtcMethods = false
+
         switch constructor {
         case .reference:
             fragment.output("\(isPrivate ? "private " : "")class \(unqualifiedName) private constructor(_swiftReference: Long)", newLineTerminated: false)
         case .`public`(let storedVariables, let arguments):
             var classDeclaration: String
-            if isPrivate || storedVariables.isEmpty {
+
+            generateEqualsEtcMethods = storedVariables.isEmpty
+
+            if isPrivate || generateEqualsEtcMethods {
                 classDeclaration = "class \(unqualifiedName) private constructor"
             } else {
                 classDeclaration = "data class \(unqualifiedName)"
@@ -74,6 +80,33 @@ class KotlinProductClass: KotlinClass {
             fields.filter { !$0.isStatic }.forEach { output(field: $0, to: fragment) }
             methods.filter { !$0.isStatic }.forEach { output(method: $0, to: fragment) }
 
+            fragment.blankLine()
+            
+            if generateEqualsEtcMethods {
+                // generate equals and hashCode functions
+                fragment.outputBlock("override fun equals(other: Any?): kotlin.Boolean {") {
+                    fragment.outputBlock("if (this === other) {") {
+                        fragment.output("return true")
+                    }
+                    fragment.outputBlock("if (other !is EmptyStruct) {") {
+                        fragment.output("return false")
+                    }
+                    let storedVariablesChecks = fields.map {
+                        "this.\($0.name) == other.\($0.name)"
+                    }
+                    fragment.output("return \(storedVariablesChecks.joined(separator: "&&\n"))")
+                }
+                fragment.blankLine()
+
+                fragment.outputBlock("override fun hashCode(): Int {") {
+                    let storedVariablesHashCodes = fields.map {
+                        "(\($0.name).hashCode())"
+                    }
+                    fragment.output("return \(storedVariablesHashCodes.joined(separator: ".xor"))")
+                }
+                fragment.blankLine()
+            }
+            
             fragment.blankLine()
 
             fragment.outputBlock("companion object {") {

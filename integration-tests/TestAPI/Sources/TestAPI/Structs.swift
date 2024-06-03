@@ -7,24 +7,6 @@
 
 /// <!-- FishyJoes.export(Structs) -->
 public enum Structs {
-    /// <!-- FishyJoes.export(Structs.EmptyStruct) -->
-    public struct EmptyStruct {
-        // no properties!
-
-        /// <!-- FishyJoes.export(create) -->
-        public init() {}
-
-        /// <!-- FishyJoes.export(tutu) -->
-        public var tutu: Int {
-            35671
-        }
-
-        /// <!-- FishyJoes.export(aap) -->
-        public func aap() -> String {
-            "The Netherlands"
-        }
-    }
-
     /// <!-- FishyJoes.export(Structs.MemberwiseStruct) -->
     public struct MemberwiseStruct: Hashable {
         public private(set) var immutable = "Eternal"
@@ -90,5 +72,23 @@ public enum Structs {
             await Task.yield()
             return i
         }
+    }
+}
+
+/// <!-- FishyJoes.export(EmptyStruct) -->
+public struct EmptyStruct {
+    // no properties!
+
+    /// <!-- FishyJoes.export(create) -->
+    public init() {}
+
+    /// <!-- FishyJoes.export(tutu) -->
+    public var tutu: Int {
+        35671
+    }
+
+    /// <!-- FishyJoes.export(aap) -->
+    public func aap() -> String {
+        "The Netherlands"
     }
 }

@@ -6,7 +6,7 @@ import FishyJoesJavaRuntime
 import Foundation
 import TestAPI
 
-extension TestAPI.Structs.EmptyStruct: JavaMutator {
+extension TestAPI.EmptyStruct: JavaMutator {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -24,7 +24,7 @@ extension TestAPI.Structs.EmptyStruct: JavaMutator {
     }
     public static func javaSetup(env: Env) throws {
         guard javaClass == nil else { return }
-        javaClass = try env.globalRef(env.FindClass("com/cricut/testapi/Structs$EmptyStruct"))
+        javaClass = try env.globalRef(env.FindClass("com/cricut/testapi/EmptyStruct"))
         _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "()V")
     }
     public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout Self) throws -> R) throws -> R {

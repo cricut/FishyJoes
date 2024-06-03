@@ -436,26 +436,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_set_TestAPI_Primitives_PrimitiveHolder_staticMutableProperty, to: UnsafeMutableRawPointer.self)
             )
         )
-        // print("setting up TestAPI.Structs.EmptyStruct...")
-        try TestAPI.Structs.EmptyStruct.javaSetup(env: env)
-        try env.RegisterNatives(
-            TestAPI.Structs.EmptyStruct.javaClass,
-            JNINativeMethod(
-                name: bag.add("__jni_aap"),
-                signature: bag.add("()Ljava/lang/String;"),
-                fnPtr: unsafeBitCast(java_TestAPI_Structs_EmptyStruct_aap, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_create"),
-                signature: bag.add("()Lcom/cricut/testapi/Structs$EmptyStruct;"),
-                fnPtr: unsafeBitCast(java_TestAPI_Structs_EmptyStruct_create, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_tutu"),
-                signature: bag.add("()J"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Structs_EmptyStruct_tutu, to: UnsafeMutableRawPointer.self)
-            )
-        )
         // print("setting up TestAPI.Structs.MemberwiseStruct...")
         try TestAPI.Structs.MemberwiseStruct.javaSetup(env: env)
         try env.RegisterNatives(
@@ -1094,6 +1074,26 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_notGoingToHappen"),
                 signature: bag.add("()Lcom/cricut/testapi/EmptyEnum;"),
                 fnPtr: unsafeBitCast(java_TestAPI_EmptyEnum_notGoingToHappen, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        // print("setting up TestAPI.EmptyStruct...")
+        try TestAPI.EmptyStruct.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI.EmptyStruct.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_aap"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_TestAPI_EmptyStruct_aap, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_create"),
+                signature: bag.add("()Lcom/cricut/testapi/EmptyStruct;"),
+                fnPtr: unsafeBitCast(java_TestAPI_EmptyStruct_create, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_tutu"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_EmptyStruct_tutu, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.Functions...")
