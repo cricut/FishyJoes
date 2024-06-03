@@ -16,7 +16,7 @@ sealed class Structs {
     /**
      * <!-- FishyJoes.export(Structs.EmptyStruct) -->
      */
-    data class EmptyStruct(
+    class EmptyStruct private constructor(
     ) {
         /**
          * <!-- FishyJoes.export(tutu) -->

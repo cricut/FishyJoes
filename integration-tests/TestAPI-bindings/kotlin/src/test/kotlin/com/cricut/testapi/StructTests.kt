@@ -17,6 +17,13 @@ internal class StructTests {
     }
 
     @Test
+    fun testEmptyStruct() {
+        val emptyStruct = Structs.EmptyStruct.create()
+        assertEquals(emptyStruct.tutu, 35671)
+        assertEquals(emptyStruct.aap(), "The Netherlands")
+    }
+
+    @Test
     fun testMutablility() {
         val memberwise = Structs.MemberwiseStruct.create()
         assertEquals(memberwise.immutable, "Eternal")

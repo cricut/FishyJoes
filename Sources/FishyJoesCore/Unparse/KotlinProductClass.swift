@@ -40,18 +40,18 @@ class KotlinProductClass: KotlinClass {
         switch constructor {
         case .reference:
             fragment.output("\(isPrivate ? "private " : "")class \(unqualifiedName) private constructor(_swiftReference: Long)", newLineTerminated: false)
-        case .`public`(let fields, let arguments):
+        case .`public`(let storedVariables, let arguments):
             var classDeclaration: String
-            if isPrivate {
+            if isPrivate || storedVariables.isEmpty {
                 classDeclaration = "class \(unqualifiedName) private constructor"
             } else {
                 classDeclaration = "data class \(unqualifiedName)"
             }
-            let constructorArgs: [String] = fields.map { field in
+            let constructorArgs: [String] = storedVariables.map { storedVariable in
                 (isPrivate ? "private " : "") +
-                (field.isOverride ? "override " : "") +
-                (field.isPubliclyWritable ? "var " : "val ") +
-                "\(field.name): \(field.type.kotlinType)"
+                (storedVariable.isOverride ? "override " : "") +
+                (storedVariable.isPubliclyWritable ? "var " : "val ") +
+                "\(storedVariable.name): \(storedVariable.type.kotlinType)"
             } + arguments.map {
                 let (name, type) = $0
                 return "\(name): \(type.kotlinType)"
