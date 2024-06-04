@@ -38,7 +38,7 @@ class SourceFragment {
     var currentIndentString: String {
         String(repeating: " ", count: SourceFragment.spacesPerIndent * currentIndent)
     }
-    
+
     func output(_ line: String, newLineTerminated: Bool = true, semicolonTerminated: Bool = false) {
         if isFreshLine {
             stringBuilder.append(currentIndentString)

@@ -24,7 +24,7 @@ class KotlinClass: NestedClass {
         var returnType: KType
         var deprecation: Deprecation?
         var body: String?
-        var isBodyInline: Bool = false
+        var isBodyInline = false
     }
 
     struct Variable {

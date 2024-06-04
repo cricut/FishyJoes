@@ -278,23 +278,23 @@ struct TranslatedReference: TranslatedType {
                 return false
             }
         }
-        
+
         let generateMethodsForEmptyClass = filtered.isEmpty
 
         let (fieldsForGeneratedMethods, _) = KotlinClass.separate(fieldsAndMethods: fieldsAndMethods)
 
         if generateMethodsForEmptyClass {
             let fields = fieldsForGeneratedMethods
-            
+
             var bodyBuilder = [String]()
-            
+
             bodyBuilder.append("if (this === other) {")
             bodyBuilder.append("    return true")
             bodyBuilder.append("}")
             bodyBuilder.append("if (other !is \(kotlinName)) {")
             bodyBuilder.append("    return false")
             bodyBuilder.append("}")
-            
+
             let fieldsChecks = fields.map {
                 "this.\($0.name) == other.\($0.name)"
             }
@@ -303,7 +303,7 @@ struct TranslatedReference: TranslatedType {
             } else {
                 bodyBuilder.append("return \(fieldsChecks.joined(separator: " && "))")
             }
-            
+
             let equalsBody = bodyBuilder.joined(separator: "\n")
 
             fieldsAndMethods.append(
@@ -356,7 +356,7 @@ struct TranslatedReference: TranslatedType {
                     )
                 )
             )
-            
+
             fieldsAndMethods.append(
                 .method(
                     KotlinClass.Method(

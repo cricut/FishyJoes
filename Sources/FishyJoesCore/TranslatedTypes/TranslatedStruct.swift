@@ -291,16 +291,16 @@ struct TranslatedStruct: TranslatedType {
 
         if generateMethodsForEmptyStruct {
             let fields = fieldsForGeneratedMethods
-            
+
             var bodyBuilder = [String]()
-            
+
             bodyBuilder.append("if (this === other) {")
             bodyBuilder.append("    return true")
             bodyBuilder.append("}")
             bodyBuilder.append("if (other !is \(kotlinName)) {")
             bodyBuilder.append("    return false")
             bodyBuilder.append("}")
-            
+
             let fieldsChecks = fields.map {
                 "this.\($0.name) == other.\($0.name)"
             }
@@ -309,7 +309,7 @@ struct TranslatedStruct: TranslatedType {
             } else {
                 bodyBuilder.append("return \(fieldsChecks.joined(separator: " && "))")
             }
-            
+
             let equalsBody = bodyBuilder.joined(separator: "\n")
 
             fieldsAndMethods.append(
@@ -362,7 +362,7 @@ struct TranslatedStruct: TranslatedType {
                     )
                 )
             )
-            
+
             fieldsAndMethods.append(
                 .method(
                     KotlinClass.Method(
@@ -381,7 +381,7 @@ struct TranslatedStruct: TranslatedType {
                     )
                 )
             )
-            
+
             fieldsAndMethods.append(
                 .method(
                     KotlinClass.Method(
