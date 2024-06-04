@@ -12,12 +12,12 @@ public class EmptyClass {
     public var wibble: String {
         "<wibble>*Wobble*"
     }
-    
+
     /// <!-- FishyJoes.export(shme) -->
     public func shme() -> String {
         "Shme! Hand me my hook."
     }
-    
+
     /// <!-- FishyJoes.export(Gorpers) -->
     public func gorp() -> String {
         "Go Gorp!"
@@ -38,12 +38,12 @@ public class EmptyClass2 {
     public var wibble: String {
         "<timey>*Whimey*"
     }
-    
+
     /// <!-- FishyJoes.export(shmee) -->
     public func shme() -> String {
         "Shme? What's that ticking sound?"
     }
-    
+
     /// <!-- FishyJoes.export(gorp) -->
     public func gorp() -> String {
         "Stop Sreprog!"

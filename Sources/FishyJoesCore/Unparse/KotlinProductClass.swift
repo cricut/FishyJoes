@@ -37,7 +37,7 @@ class KotlinProductClass: KotlinClass {
 
     override func output(to fragment: SourceFragment) {
         document(documentation, fragment: fragment)
-        
+
         let generateEqualsMethod: Bool
         let generateCopyMethod: Bool
         let generateToStringMethod: Bool
@@ -89,7 +89,7 @@ class KotlinProductClass: KotlinClass {
             methods.filter { !$0.isStatic }.forEach { output(method: $0, to: fragment) }
 
             fragment.blankLine()
-            
+
             if generateEqualsMethod {
                 // generate equals and hashCode functions
                 fragment.outputBlock("override fun equals(other: Any?): kotlin.Boolean {") {
@@ -114,7 +114,7 @@ class KotlinProductClass: KotlinClass {
                     }
                 }
                 fragment.blankLine()
-                
+
                 fragment.outputBlock("override fun hashCode(): kotlin.Int {") {
                     if fields.isEmpty {
                         fragment.output("return 42")
@@ -127,19 +127,19 @@ class KotlinProductClass: KotlinClass {
                 }
                 fragment.blankLine()
             }
-            
+
             if generateToStringMethod {
                 fragment.outputBlock("override fun toString(): kotlin.String {") {
                     fragment.output("return \"\(unqualifiedName)(\(fields.map { "\($0.name) = ${\($0.name)}" }.joined(separator: ", ")))\"")
                 }
                 fragment.blankLine()
             }
-            
+
             if generateCopyMethod {
                 fragment.output("fun copy() = \(unqualifiedName)()")
                 fragment.blankLine()
             }
-            
+
             fragment.blankLine()
 
             fragment.outputBlock("companion object {") {

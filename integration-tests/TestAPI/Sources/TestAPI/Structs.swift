@@ -86,7 +86,7 @@ public struct EmptyStruct {
     public var tutu: Int {
         35671
     }
-    
+
     /// <!-- FishyJoes.export(tatiana) -->
     public var tata: String {
         "Toodles! ta ta for now..."
@@ -96,7 +96,7 @@ public struct EmptyStruct {
     public func aap() -> String {
         "The Netherlands"
     }
-    
+
     /// <!-- FishyJoes.export(zxccxz) -->
     public func zxc() -> String {
         "Cambridge University (England)"
@@ -114,7 +114,7 @@ public struct EmptyStruct2 {
     public var tutu: Int {
         12897
     }
-    
+
     /// <!-- FishyJoes.export(tatiana) -->
     public var tata: String {
         "Arrivederci"
@@ -124,7 +124,7 @@ public struct EmptyStruct2 {
     public func aap() -> String {
         "The Netherlands2"
     }
-    
+
     /// <!-- FishyJoes.export(zxccxz) -->
     public func zxc() -> String {
         "Cambridge University (England)2"

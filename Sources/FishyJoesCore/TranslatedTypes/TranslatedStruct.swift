@@ -44,7 +44,7 @@ struct TranslatedStruct: TranslatedType {
             .init(named: $0.value, context: context)
         })
 
-        //enforceMustHaveProperties()
+        // enforceMustHaveProperties()
     }
 
     func enforceMustHaveProperties() {
