@@ -26,7 +26,7 @@ internal class ClassTests {
         assertNotEquals(a1, b1)
         assertNotEquals(a1.hashCode(), b1.hashCode())
 
-        assertEquals("TestAPI.EmptyClass", a1.toString())
-        assertEquals("TestAPI.EmptyClass2", b1.toString())
+        assertEquals("EmptyClass1(blarg = Blarg!, wibbledyWobbledyTimeyWhimey = <wibble>*Wobble*)", a1.toString())
+        assertEquals("EmptyClass2(blorg = Gralb!, wibble = <timey>*Whimey*)", b1.toString())
     }
 }
