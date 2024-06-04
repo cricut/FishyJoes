@@ -43,16 +43,6 @@ struct TranslatedStruct: TranslatedType {
         self.conformances = Set(type.implements.compactMap {
             .init(named: $0.value, context: context)
         })
-
-        // enforceMustHaveProperties()
-    }
-
-    func enforceMustHaveProperties() {
-        // https://kotlinlang.org/docs/data-classes.html
-        // * The primary constructor must have at least one parameter.
-        if storedVariables.isEmpty {
-            fatalError("☠️ Error on \(sourceType.name): Exported structs must have at least one stored property, it's the law 👮!")
-        }
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
