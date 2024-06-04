@@ -807,6 +807,78 @@ export declare namespace TestAPI {
         const deprecatedVariable: number;
     }
 
+    /**
+     * <!-- FishyJoes.exportReference(EmptyClass1) -->
+     */
+    export class EmptyClass1 {
+        private constructor()
+        private _inhibitStructuralTyping: any
+
+        /**
+         * <!-- FishyJoes.export(blarg) -->
+         */
+        readonly blarg: string;
+
+        /**
+         * <!-- FishyJoes.export(wibbledyWobbledyTimeyWhimey) -->
+         */
+        readonly wibbledyWobbledyTimeyWhimey: string;
+
+        /**
+         * <!-- FishyJoes.export(create) -->
+         */
+        static create(
+        ): TestAPI.EmptyClass1;
+
+        /**
+         * <!-- FishyJoes.export(shme) -->
+         */
+        shme(
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(Gorpers) -->
+         */
+        Gorpers(
+        ): string;
+    }
+
+    /**
+     * <!-- FishyJoes.exportReference(EmptyClass2) -->
+     */
+    export class EmptyClass2 {
+        private constructor()
+        private _inhibitStructuralTyping: any
+
+        /**
+         * <!-- FishyJoes.export(blorg) -->
+         */
+        readonly blorg: string;
+
+        /**
+         * <!-- FishyJoes.export(wibble) -->
+         */
+        readonly wibble: string;
+
+        /**
+         * <!-- FishyJoes.export(make) -->
+         */
+        static make(
+        ): TestAPI.EmptyClass2;
+
+        /**
+         * <!-- FishyJoes.export(shmee) -->
+         */
+        shmee(
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(gorp) -->
+         */
+        gorp(
+        ): string;
+    }
+
     export type EmptyEnum = never;
     export namespace EmptyEnum {
         /**

@@ -34,6 +34,24 @@ private class _ExternalWitness_TestOptionalsProtocol private constructor(_swiftR
         pippo: com.cricut.testapi.AssociatedDataEnum
     ): Long
 
+    override fun equals(other: Any?): kotlin.Boolean {
+        if (this === other) {
+            return true
+        }
+        if (other !is _ExternalWitness_TestOptionalsProtocol) {
+            return false
+        }
+        return this.flarp == other.flarp
+    }
+
+    override fun hashCode(): kotlin.Int {
+        return (flarp.hashCode())
+    }
+
+    override fun toString(): kotlin.String {
+        return "_ExternalWitness_TestOptionalsProtocol(flarp = ${flarp})"
+    }
+
     companion object {
         init { loadNativeLibs() }
     }

@@ -12,6 +12,24 @@ private class _ExternalWitness_TestDifferingExportNameProtocolDiffy private cons
     @JvmName("__jni_get_tata")
     private external fun __jni_get_tata(): Long
 
+    override fun equals(other: Any?): kotlin.Boolean {
+        if (this === other) {
+            return true
+        }
+        if (other !is _ExternalWitness_TestDifferingExportNameProtocolDiffy) {
+            return false
+        }
+        return this.tata == other.tata
+    }
+
+    override fun hashCode(): kotlin.Int {
+        return (tata.hashCode())
+    }
+
+    override fun toString(): kotlin.String {
+        return "_ExternalWitness_TestDifferingExportNameProtocolDiffy(tata = ${tata})"
+    }
+
     companion object {
         init { loadNativeLibs() }
     }

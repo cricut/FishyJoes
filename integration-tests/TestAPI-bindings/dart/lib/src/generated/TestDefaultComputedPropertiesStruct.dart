@@ -12,6 +12,8 @@ import './Collections.dart' as TestAPI;
 import './Collections_CollectionHolder.dart' as TestAPI;
 import './DefaultArguments.dart' as TestAPI;
 import './Deprecations.dart' as TestAPI;
+import './EmptyClass1.dart' as TestAPI;
+import './EmptyClass2.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
 import './EmptyStruct.dart' as TestAPI;
 import './EmptyStruct2.dart' as TestAPI;

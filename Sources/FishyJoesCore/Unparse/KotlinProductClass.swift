@@ -38,17 +38,25 @@ class KotlinProductClass: KotlinClass {
     override func output(to fragment: SourceFragment) {
         document(documentation, fragment: fragment)
         
-        var generateEqualsEtcMethods = false
+        let generateEqualsMethod: Bool
+        let generateCopyMethod: Bool
+        let generateToStringMethod: Bool
 
         switch constructor {
         case .reference:
+            generateEqualsMethod = fields.filter { $0.isPubliclyWritable }.isEmpty
+            generateCopyMethod = false
+            generateToStringMethod = generateEqualsMethod
+
             fragment.output("\(isPrivate ? "private " : "")class \(unqualifiedName) private constructor(_swiftReference: Long)", newLineTerminated: false)
         case .`public`(let storedVariables, let arguments):
             var classDeclaration: String
 
-            generateEqualsEtcMethods = storedVariables.isEmpty
+            generateEqualsMethod = storedVariables.isEmpty
+            generateCopyMethod = generateEqualsMethod
+            generateToStringMethod = generateEqualsMethod
 
-            if isPrivate || generateEqualsEtcMethods {
+            if isPrivate || generateEqualsMethod {
                 classDeclaration = "class \(unqualifiedName) private constructor"
             } else {
                 classDeclaration = "data class \(unqualifiedName)"
@@ -82,7 +90,7 @@ class KotlinProductClass: KotlinClass {
 
             fragment.blankLine()
             
-            if generateEqualsEtcMethods {
+            if generateEqualsMethod {
                 // generate equals and hashCode functions
                 fragment.outputBlock("override fun equals(other: Any?): kotlin.Boolean {") {
                     fragment.outputBlock("if (this === other) {") {
@@ -94,28 +102,40 @@ class KotlinProductClass: KotlinClass {
                     let fieldsChecks = fields.map {
                         "this.\($0.name) == other.\($0.name)"
                     }
-                    fragment.output("return ", newLineTerminated: false)
-                    fragment.indent {
-                        fragment.outputMap(fieldsChecks, separator: " &&") {
-                            $0
+                    if fields.isEmpty {
+                        fragment.output("return true")
+                    } else {
+                        fragment.output("return ", newLineTerminated: false)
+                        fragment.indent {
+                            fragment.outputMap(fieldsChecks, separator: " &&") {
+                                $0
+                            }
                         }
                     }
                 }
                 fragment.blankLine()
-
+                
                 fragment.outputBlock("override fun hashCode(): kotlin.Int {") {
-                    let fieldsHashCodes = fields.map {
-                        "(\($0.name).hashCode())"
+                    if fields.isEmpty {
+                        fragment.output("return 42")
+                    } else {
+                        let fieldsHashCodes = fields.map {
+                            "(\($0.name).hashCode())"
+                        }
+                        fragment.output("return \(fieldsHashCodes.joined(separator: ".xor"))")
                     }
-                    fragment.output("return \(fieldsHashCodes.joined(separator: ".xor"))")
                 }
                 fragment.blankLine()
-                
+            }
+            
+            if generateToStringMethod {
                 fragment.outputBlock("override fun toString(): kotlin.String {") {
                     fragment.output("return \"\(unqualifiedName)(\(fields.map { "\($0.name) = ${\($0.name)}" }.joined(separator: ", ")))\"")
                 }
                 fragment.blankLine()
-                
+            }
+            
+            if generateCopyMethod {
                 fragment.output("fun copy() = \(unqualifiedName)()")
                 fragment.blankLine()
             }

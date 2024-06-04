@@ -12,6 +12,24 @@ private class _ExternalWitness_TestLeadingUnderscoredProp private constructor(_s
     @JvmName("__jni_get__leadingUnderscoreProp")
     private external fun __jni_get__leadingUnderscoreProp(): kotlin.String
 
+    override fun equals(other: Any?): kotlin.Boolean {
+        if (this === other) {
+            return true
+        }
+        if (other !is _ExternalWitness_TestLeadingUnderscoredProp) {
+            return false
+        }
+        return this._leadingUnderscoreProp == other._leadingUnderscoreProp
+    }
+
+    override fun hashCode(): kotlin.Int {
+        return (_leadingUnderscoreProp.hashCode())
+    }
+
+    override fun toString(): kotlin.String {
+        return "_ExternalWitness_TestLeadingUnderscoredProp(_leadingUnderscoreProp = ${_leadingUnderscoreProp})"
+    }
+
     companion object {
         init { loadNativeLibs() }
     }

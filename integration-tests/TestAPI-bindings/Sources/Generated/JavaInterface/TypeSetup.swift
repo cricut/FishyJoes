@@ -1056,6 +1056,66 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_get_TestAPI_Deprecations_deprecatedVariable, to: UnsafeMutableRawPointer.self)
             )
         )
+        // print("setting up TestAPI.EmptyClass...")
+        try TestAPI.EmptyClass.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI.EmptyClass.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_Gorpers"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_TestAPI_EmptyClass_Gorpers, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_create"),
+                signature: bag.add("()Lcom/cricut/testapi/EmptyClass1;"),
+                fnPtr: unsafeBitCast(java_TestAPI_EmptyClass_create, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_blarg"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_EmptyClass_blarg, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_wibbledyWobbledyTimeyWhimey"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_EmptyClass_wibbledyWobbledyTimeyWhimey, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_shme"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_TestAPI_EmptyClass_shme, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        // print("setting up TestAPI.EmptyClass2...")
+        try TestAPI.EmptyClass2.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI.EmptyClass2.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_get_blorg"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_EmptyClass2_blorg, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_wibble"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_EmptyClass2_wibble, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_gorp"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_TestAPI_EmptyClass2_gorp, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_make"),
+                signature: bag.add("()Lcom/cricut/testapi/EmptyClass2;"),
+                fnPtr: unsafeBitCast(java_TestAPI_EmptyClass2_make, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_shmee"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_TestAPI_EmptyClass2_shmee, to: UnsafeMutableRawPointer.self)
+            )
+        )
         // print("setting up TestAPI.EmptyEnum...")
         try TestAPI.EmptyEnum.javaSetup(env: env)
         try env.RegisterNatives(

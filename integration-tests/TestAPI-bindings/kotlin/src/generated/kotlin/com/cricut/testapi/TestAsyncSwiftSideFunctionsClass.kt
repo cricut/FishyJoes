@@ -179,6 +179,31 @@ class TestAsyncSwiftSideFunctionsClass private constructor(_swiftReference: Long
         fn: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)
     ): kotlinx.coroutines.Deferred<kotlin.String>
 
+    override fun equals(other: Any?): kotlin.Boolean {
+        if (this === other) {
+            return true
+        }
+        if (other !is TestAsyncSwiftSideFunctionsClass) {
+            return false
+        }
+        return this.add3Things == other.add3Things &&
+            this.const42 == other.const42 &&
+            this.fifthThing == other.fifthThing &&
+            this.iabs == other.iabs &&
+            this.intCompose == other.intCompose &&
+            this.makeList == other.makeList &&
+            this.six == other.six &&
+            this.willThrow == other.willThrow
+    }
+
+    override fun hashCode(): kotlin.Int {
+        return (add3Things.hashCode()).xor(const42.hashCode()).xor(fifthThing.hashCode()).xor(iabs.hashCode()).xor(intCompose.hashCode()).xor(makeList.hashCode()).xor(six.hashCode()).xor(willThrow.hashCode())
+    }
+
+    override fun toString(): kotlin.String {
+        return "TestAsyncSwiftSideFunctionsClass(add3Things = ${add3Things}, const42 = ${const42}, fifthThing = ${fifthThing}, iabs = ${iabs}, intCompose = ${intCompose}, makeList = ${makeList}, six = ${six}, willThrow = ${willThrow})"
+    }
+
     companion object {
         /**
          * <!-- FishyJoes.export(init) -->

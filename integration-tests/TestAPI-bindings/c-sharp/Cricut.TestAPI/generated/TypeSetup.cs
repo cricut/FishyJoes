@@ -458,6 +458,20 @@ namespace Cricut.TestAPI {
         );
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_EmptyClass_setup(
+            IntPtr envRef,
+            SwiftReference.ConstructorDelegate constructorMethod,
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_EmptyClass2_setup(
+            IntPtr envRef,
+            SwiftReference.ConstructorDelegate constructorMethod,
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_EmptyEnum_setup(
             IntPtr envRef,
             out CreatedRef _exn
@@ -2724,6 +2738,26 @@ namespace Cricut.TestAPI {
                 Console.WriteLine("setting up TestAPI.Deprecations...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Deprecations_setup(
                     Loader.env,
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.EmptyClass", () => {
+                Console.WriteLine("setting up TestAPI.EmptyClass...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_EmptyClass_setup(
+                    Loader.env,
+                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.EmptyClass1(ptr));
+                    })),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.EmptyClass2", () => {
+                Console.WriteLine("setting up TestAPI.EmptyClass2...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_EmptyClass2_setup(
+                    Loader.env,
+                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.EmptyClass2(ptr));
+                    })),
                     out exn
                 ));
             });
