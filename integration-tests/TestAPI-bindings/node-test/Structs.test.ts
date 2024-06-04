@@ -11,18 +11,25 @@ test('StructConstruction', () => {
 });
 
 test('EmptyStruct', () => {
-    let emptyStruct1 = TestAPI.EmptyStruct.create()
-    expect(emptyStruct1.tutu).toEqual(35671)
-    expect(emptyStruct1.tatiana).toEqual("Toodles! ta ta for now...")
-    expect(emptyStruct1.aap()).toEqual("The Netherlands")
+    let a1 = TestAPI.EmptyStruct.create()
+    expect(a1.tutu).toEqual(35671)
+    expect(a1.tatiana).toEqual("Toodles! ta ta for now...")
+    expect(a1.aap()).toEqual("The Netherlands")
 
-    let emptyStruct2 = TestAPI.EmptyStruct.create()
-    expect(emptyStruct2.tutu).toEqual(35671)
-    expect(emptyStruct2.tatiana).toEqual("Toodles! ta ta for now...")
-    expect(emptyStruct2.aap()).toEqual("The Netherlands")
+    let a2 = TestAPI.EmptyStruct.create()
+    expect(a2.tutu).toEqual(35671)
+    expect(a2.tatiana).toEqual("Toodles! ta ta for now...")
+    expect(a2.aap()).toEqual("The Netherlands")
 
-    expect(emptyStruct1).toEqual(emptyStruct2)
-    expect(emptyStruct1.toString()).toEqual(emptyStruct2.toString())
+    expect(a1).toStrictEqual(a2)
+
+    let b1 = TestAPI.EmptyStruct2.create()
+    expect(b1.tutu).toEqual(12897)
+    expect(b1.tatiana).toEqual("Arrivederci")
+    expect(b1.aap()).toEqual("The Netherlands2")
+    expect(b1.zxccxz()).toEqual("Cambridge University (England)2")
+
+    expect(a1).not.toStrictEqual(b1)
 });
 
 test('StructMutablility', () => {
