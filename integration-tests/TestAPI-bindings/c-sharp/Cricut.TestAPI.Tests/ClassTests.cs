@@ -4,7 +4,7 @@ using Xunit;
 namespace Cricut.TestAPI.Tests {
     public class ClassTests {
         [Fact]
-        void testEmptyStruct() {
+        void testEmptyClass() {
             var a1 = EmptyClass1.Create();
             var a2 = EmptyClass1.Create();
             Assert.Equal("Blarg!", a1.GetBlarg());
