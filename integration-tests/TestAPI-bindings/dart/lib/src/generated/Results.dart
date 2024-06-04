@@ -81,34 +81,36 @@ class Results {
     });
 
     /// <!-- FishyJoes.export(aFailure) -->
-    static TODO get aFailure =>
+    static Result<int, TestAPI.Results_Error> get aFailure =>
         check((exn) =>
-            f__iota_get_TestAPI_Results_aFailure(Loader.shared.env, exn)
+            consumeCreatedRef<Result<int, TestAPI.Results_Error>>(f__iota_get_TestAPI_Results_aFailure(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(aSuccess) -->
-    static TODO get aSuccess =>
+    static Result<int, TestAPI.Results_Error> get aSuccess =>
         check((exn) =>
-            f__iota_get_TestAPI_Results_aSuccess(Loader.shared.env, exn)
+            consumeCreatedRef<Result<int, TestAPI.Results_Error>>(f__iota_get_TestAPI_Results_aSuccess(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(processResult) -->
     static String processResult(
-        TODO result,
+        Result<String, TestAPI.Results_Error> result,
     ) =>
-        consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_Results_processResult(Loader.shared.env, result, _exn)))
+        GCRef.using(result, (_resultHandle) =>
+            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_Results_processResult(Loader.shared.env, _resultHandle.ptr, _exn)))
+        )
     ;
 
     static late CreatedRef Function(
         Env env,
-        TODO result,
+        UnownedRef result,
         OutCreatedRef _exn
     ) f__iota_TestAPI_Results_processResult;
-    static late TODO Function(
+    static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
     ) f__iota_get_TestAPI_Results_aFailure;
-    static late TODO Function(
+    static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
     ) f__iota_get_TestAPI_Results_aSuccess;

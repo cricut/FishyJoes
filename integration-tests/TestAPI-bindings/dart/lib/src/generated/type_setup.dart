@@ -2820,12 +2820,12 @@ final ensureLoaded = (() {
     TestAPI.Results.f__iota_TestAPI_Results_processResult = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
-            ffi.TODO result,
+            UnownedRef result,
             OutCreatedRef _exn
         ),
         CreatedRef Function(
             Env env,
-            TODO result,
+            UnownedRef result,
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Results_processResult");
@@ -5456,21 +5456,21 @@ final ensureLoaded = (() {
         )
     >("__iota_get_TestAPI_Ranges_uIntRange");
     TestAPI.Results.f__iota_get_TestAPI_Results_aFailure = dylib.lookupFunction<
-        ffi.TODO Function(
+        CreatedRef Function(
             Env env,
             OutCreatedRef _exn
         ),
-        TODO Function(
+        CreatedRef Function(
             Env env,
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_Results_aFailure");
     TestAPI.Results.f__iota_get_TestAPI_Results_aSuccess = dylib.lookupFunction<
-        ffi.TODO Function(
+        CreatedRef Function(
             Env env,
             OutCreatedRef _exn
         ),
-        TODO Function(
+        CreatedRef Function(
             Env env,
             OutCreatedRef _exn
         )
@@ -7796,8 +7796,9 @@ final ensureLoaded = (() {
     Loader.shared.once("setup_ResultConverter<Swift.Int, TestAPI.Results.Error>", () {
         // print("setting up Result<Int, Results.Error> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesCommonRuntime_ResultConverter_setup(
+            Loader.shared.FishyJoesCommonRuntime_ResultConverter_setup<int, TestAPI.Results_Error>(
                 Loader.shared.env,
+                "ResultConverter<Swift.Int, TestAPI.Results.Error>",
                 exn
             );
         });
@@ -7806,8 +7807,9 @@ final ensureLoaded = (() {
     Loader.shared.once("setup_ResultConverter<Swift.String, TestAPI.Results.Error>", () {
         // print("setting up Result<String, Results.Error> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesCommonRuntime_ResultConverter_setup(
+            Loader.shared.FishyJoesCommonRuntime_ResultConverter_setup<String, TestAPI.Results_Error>(
                 Loader.shared.env,
+                "ResultConverter<Swift.String, TestAPI.Results.Error>",
                 exn
             );
         });
