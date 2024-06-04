@@ -174,6 +174,10 @@ Add C:\Program Files\Git\usr\bin to PATH in "Advanced System Settings->Environme
 
 winget install --id Microsoft.Powershell --source winget
 
+winget install --id Swift.Toolchain -e
+
+Go into your Visual Studio installer and make sure that the things specified in https://www.swift.org/install/windows/#installation-via-windows-package-manager are installed, in particular the Windows 11 SDK and the "MSVC v143 - VS 2022 C++ x64/x86 build tools (Latest)" (Microsoft.VisualStudio.Component.VC.Tools.x86.x64)
+
 install nvm-windows
 
 install and select same node version as specified elsewhere with nvm
