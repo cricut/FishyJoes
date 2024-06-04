@@ -20,25 +20,6 @@ private class _ExternalWitness_TestPropertiesProtocol private constructor(_swift
     @JvmName("__jni_get_frobby")
     private external fun __jni_get_frobby(): kotlin.collections.List<Long>
 
-    override fun equals(other: Any?): kotlin.Boolean {
-        if (this === other) {
-            return true
-        }
-        if (other !is _ExternalWitness_TestPropertiesProtocol) {
-            return false
-        }
-        return this.corge == other.corge &&
-            this.frobby == other.frobby
-    }
-
-    override fun hashCode(): kotlin.Int {
-        return (corge.hashCode()).xor(frobby.hashCode())
-    }
-
-    override fun toString(): kotlin.String {
-        return "_ExternalWitness_TestPropertiesProtocol(corge = ${corge}, frobby = ${frobby})"
-    }
-
     companion object {
         init { loadNativeLibs() }
     }

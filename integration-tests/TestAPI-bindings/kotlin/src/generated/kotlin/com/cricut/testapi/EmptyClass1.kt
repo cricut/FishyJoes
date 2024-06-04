@@ -41,22 +41,25 @@ class EmptyClass1 private constructor(_swiftReference: Long): com.cricut.fishyjo
     private external fun __jni_Gorpers(
     ): kotlin.String
 
-    override fun equals(other: Any?): kotlin.Boolean {
+    override fun equals(
+        other: Any?
+    ): kotlin.Boolean {
         if (this === other) {
             return true
         }
         if (other !is EmptyClass1) {
             return false
         }
-        return this.blarg == other.blarg &&
-            this.wibbledyWobbledyTimeyWhimey == other.wibbledyWobbledyTimeyWhimey
+        return this.blarg == other.blarg && this.wibbledyWobbledyTimeyWhimey == other.wibbledyWobbledyTimeyWhimey
     }
 
-    override fun hashCode(): kotlin.Int {
+    override fun hashCode(
+    ): kotlin.Int {
         return (blarg.hashCode()).xor(wibbledyWobbledyTimeyWhimey.hashCode())
     }
 
-    override fun toString(): kotlin.String {
+    override fun toString(
+    ): kotlin.String {
         return "EmptyClass1(blarg = ${blarg}, wibbledyWobbledyTimeyWhimey = ${wibbledyWobbledyTimeyWhimey})"
     }
 

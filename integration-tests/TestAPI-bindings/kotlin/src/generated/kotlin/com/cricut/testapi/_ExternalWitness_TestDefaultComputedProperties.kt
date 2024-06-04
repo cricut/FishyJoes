@@ -20,25 +20,6 @@ private class _ExternalWitness_TestDefaultComputedProperties private constructor
     @JvmName("__jni_get_plutonic")
     private external fun __jni_get_plutonic(): kotlin.String
 
-    override fun equals(other: Any?): kotlin.Boolean {
-        if (this === other) {
-            return true
-        }
-        if (other !is _ExternalWitness_TestDefaultComputedProperties) {
-            return false
-        }
-        return this.noot == other.noot &&
-            this.plutonic == other.plutonic
-    }
-
-    override fun hashCode(): kotlin.Int {
-        return (noot.hashCode()).xor(plutonic.hashCode())
-    }
-
-    override fun toString(): kotlin.String {
-        return "_ExternalWitness_TestDefaultComputedProperties(noot = ${noot}, plutonic = ${plutonic})"
-    }
-
     companion object {
         init { loadNativeLibs() }
     }

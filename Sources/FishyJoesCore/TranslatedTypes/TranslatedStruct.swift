@@ -281,14 +281,127 @@ struct TranslatedStruct: TranslatedType {
             }
         }
 
-        let (fields, methods) = KotlinClass.separate(
-            fieldsAndMethods:
-                computedVariables.compactMap {
-                    context.kotlin(field: $0, useNativeName: false)
-                } + methods.compactMap {
-                    context.kotlin(method: $0)
+        var fieldsAndMethods =
+            computedVariables.compactMap { context.kotlin(field: $0, useNativeName: false) } +
+            methods.compactMap { context.kotlin(method: $0) }
+
+        let generateMethodsForEmptyStruct = storedVariables.isEmpty
+
+        let (fieldsForGeneratedMethods, _) = KotlinClass.separate(fieldsAndMethods: fieldsAndMethods)
+
+        if generateMethodsForEmptyStruct {
+            let fields = fieldsForGeneratedMethods
+            
+            var bodyBuilder = [String]()
+            
+            bodyBuilder.append("if (this === other) {")
+            bodyBuilder.append("    return true")
+            bodyBuilder.append("}")
+            bodyBuilder.append("if (other !is \(kotlinName)) {")
+            bodyBuilder.append("    return false")
+            bodyBuilder.append("}")
+            
+            let fieldsChecks = fields.map {
+                "this.\($0.name) == other.\($0.name)"
+            }
+            if fields.isEmpty {
+                bodyBuilder.append("return true")
+            } else {
+                bodyBuilder.append("return \(fieldsChecks.joined(separator: " && "))")
+            }
+            
+            let equalsBody = bodyBuilder.joined(separator: "\n")
+
+            fieldsAndMethods.append(
+                .method(
+                    KotlinClass.Method(
+                        documentation: [],
+                        isStatic: false,
+                        isSuspend: false,
+                        isOverride: true,
+                        isDefaultImplementation: false,
+                        name: "equals",
+                        parameters: [
+                            (labelComment: nil, name: "other", type: .optional(.named(package: nil, name: "Any")), defaultValue: nil)
+                        ],
+                        compatibilityOrder: [],
+                        returnType: .named(package: nil, name: "kotlin.Boolean"),
+                        deprecation: nil,
+                        body: equalsBody,
+                        isBodyInline: true
+                    )
+                )
+            )
+
+            bodyBuilder.removeAll()
+            if fields.isEmpty {
+                bodyBuilder.append("    return 42")
+            } else {
+                let fieldsHashCodes = fields.map {
+                    "(\($0.name).hashCode())"
                 }
-        )
+                bodyBuilder.append("return \(fieldsHashCodes.joined(separator: ".xor"))")
+            }
+            let hashCodeBody = bodyBuilder.joined(separator: "\n")
+
+            fieldsAndMethods.append(
+                .method(
+                    KotlinClass.Method(
+                        documentation: [],
+                        isStatic: false,
+                        isSuspend: false,
+                        isOverride: true,
+                        isDefaultImplementation: false,
+                        name: "hashCode",
+                        parameters: [],
+                        compatibilityOrder: [],
+                        returnType: .named(package: nil, name: "kotlin.Int"),
+                        deprecation: nil,
+                        body: hashCodeBody,
+                        isBodyInline: true
+                    )
+                )
+            )
+            
+            fieldsAndMethods.append(
+                .method(
+                    KotlinClass.Method(
+                        documentation: [],
+                        isStatic: false,
+                        isSuspend: false,
+                        isOverride: true,
+                        isDefaultImplementation: false,
+                        name: "toString",
+                        parameters: [],
+                        compatibilityOrder: [],
+                        returnType: .named(package: nil, name: "kotlin.String"),
+                        deprecation: nil,
+                        body: "return \"\(kotlinName)(\(fields.map { "\($0.name) = ${\($0.name)}" }.joined(separator: ", ")))\"",
+                        isBodyInline: true
+                    )
+                )
+            )
+            
+            fieldsAndMethods.append(
+                .method(
+                    KotlinClass.Method(
+                        documentation: [],
+                        isStatic: false,
+                        isSuspend: false,
+                        isOverride: false,
+                        isDefaultImplementation: false,
+                        name: "copy",
+                        parameters: [],
+                        compatibilityOrder: [],
+                        returnType: .void,
+                        deprecation: nil,
+                        body: "\(kotlinName)()"
+                    )
+                )
+            )
+        }
+
+        let (fields, methods) = KotlinClass.separate(fieldsAndMethods: fieldsAndMethods)
 
         context.add(
             kotlinClass: KotlinProductClass(

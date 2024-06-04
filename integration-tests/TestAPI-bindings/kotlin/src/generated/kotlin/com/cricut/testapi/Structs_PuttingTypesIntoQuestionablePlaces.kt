@@ -16,7 +16,9 @@ class Structs_PuttingTypesIntoQuestionablePlaces private constructor(_swiftRefer
     private external fun __jni_testCall(
     ): Long
 
-    override fun equals(other: Any?): kotlin.Boolean {
+    override fun equals(
+        other: Any?
+    ): kotlin.Boolean {
         if (this === other) {
             return true
         }
@@ -26,11 +28,13 @@ class Structs_PuttingTypesIntoQuestionablePlaces private constructor(_swiftRefer
         return true
     }
 
-    override fun hashCode(): kotlin.Int {
+    override fun hashCode(
+    ): kotlin.Int {
         return 42
     }
 
-    override fun toString(): kotlin.String {
+    override fun toString(
+    ): kotlin.String {
         return "Structs_PuttingTypesIntoQuestionablePlaces()"
     }
 

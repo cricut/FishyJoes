@@ -42,26 +42,30 @@ class EmptyStruct private constructor(
     private external fun __jni_zxccxz(
     ): kotlin.String
 
-    override fun equals(other: Any?): kotlin.Boolean {
+    override fun equals(
+        other: Any?
+    ): kotlin.Boolean {
         if (this === other) {
             return true
         }
         if (other !is EmptyStruct) {
             return false
         }
-        return this.tatiana == other.tatiana &&
-            this.tutu == other.tutu
+        return this.tatiana == other.tatiana && this.tutu == other.tutu
     }
 
-    override fun hashCode(): kotlin.Int {
+    override fun hashCode(
+    ): kotlin.Int {
         return (tatiana.hashCode()).xor(tutu.hashCode())
     }
 
-    override fun toString(): kotlin.String {
+    override fun toString(
+    ): kotlin.String {
         return "EmptyStruct(tatiana = ${tatiana}, tutu = ${tutu})"
     }
 
-    fun copy() = EmptyStruct()
+    fun copy(
+    ) = EmptyStruct()
 
     companion object {
         /**

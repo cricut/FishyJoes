@@ -68,24 +68,6 @@ private class _ExternalWitness_TestMethodsProtocol private constructor(_swiftRef
         fred: kotlin.Triple<Boolean, Double, kotlin.collections.List<kotlin.String>>
     ): kotlin.Triple<Boolean, Long, kotlin.String>
 
-    override fun equals(other: Any?): kotlin.Boolean {
-        if (this === other) {
-            return true
-        }
-        if (other !is _ExternalWitness_TestMethodsProtocol) {
-            return false
-        }
-        return true
-    }
-
-    override fun hashCode(): kotlin.Int {
-        return 42
-    }
-
-    override fun toString(): kotlin.String {
-        return "_ExternalWitness_TestMethodsProtocol()"
-    }
-
     companion object {
         init { loadNativeLibs() }
     }
