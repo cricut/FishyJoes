@@ -902,7 +902,6 @@ private enum KotlinResult {
         successFieldId = try env.GetFieldID(successClass, "value", "Ljava/lang/Object;")
 
         failureClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/TypedResult$Failure"))
-        // TODO: these will change to java/lang/Throwable at some point
         failureConstructor = try env.GetMethodID(failureClass, "<init>", "(Ljava/lang/Object;)V")
         failureFieldId = try env.GetFieldID(failureClass, "exception", "Ljava/lang/Object;")
     }

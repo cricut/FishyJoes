@@ -6,7 +6,7 @@ struct TranslatedResult: TranslatedType {
     let kotlinPackage: String? = "com.cricut.fishyjoes.runtime"
     let neutralName: String
     let containedNamedTypes: [TranslatedType]
-    let cSharpType: CSharpClass.CSType = .primitive("TODO")
+    let cSharpType: CSharpClass.CSType
     let dartType: DartClass.DartType
     let jniType = JNIType.object("com/cricut/fishyjoes/runtime/TypedResult")
     let definingModule = Module.runtime
@@ -18,6 +18,10 @@ struct TranslatedResult: TranslatedType {
         self.neutralName = "Result<success=\(success.neutralName), failure=\(failure.neutralName)>"
         self.containedNamedTypes = [success, failure]
         self.kotlinName = "TypedResult<\(success.kotlinPackageQualifiedName), \(failure.kotlinPackageQualifiedName)>"
+        self.cSharpType = .named(
+            package: "Cricut.FishyJoesRuntime",
+            name: "Result<\(success.cSharpType.name), \(failure.cSharpType.name)>"
+        )
         self.dartType = .result(success.dartType, failure.dartType)
     }
 
@@ -27,6 +31,16 @@ struct TranslatedResult: TranslatedType {
 
     var converterType: BetterType {
         .generic(base: .runtime("ResultConverter"), args: [success.converterType, failure.converterType])
+    }
+
+    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>] {
+        [
+            .type(typeValue: success.cSharpType.name),
+            .type(typeValue: failure.cSharpType.name),
+            .value(name: "typeName", type: "string") { fragment in
+                fragment.output("\"\(converterType.name)\",")
+            },
+        ]
     }
 
     func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>] {

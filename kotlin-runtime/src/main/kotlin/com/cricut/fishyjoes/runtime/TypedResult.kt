@@ -6,13 +6,7 @@ package com.cricut.fishyjoes.runtime
  * A discriminated union that encapsulates a successful outcome with a value of type [T]
  * or a failure of exception type [F].
  */
-// TODO after protocols? F: Throwable?
 sealed class TypedResult<out T, out F> {
-    /**
-     * Erase the error type and convert to kotlin [Result]
-     */
-    // abstract val asResult: Result<T>
-
     /**
      * Returns `true` if this instance represents a successful outcome.
      * In this case [isFailure] returns `false`.
@@ -46,7 +40,6 @@ sealed class TypedResult<out T, out F> {
      * Encapsulates the given [value] as successful value.
      */
     data class Success<out T, out F>(val value: T): TypedResult<T, F>() {
-        // override val asResult = Result.success(value)
         override val isFailure = false
         override val isSuccess = true
         override fun exceptionOrNull(): F? = null
@@ -58,13 +51,20 @@ sealed class TypedResult<out T, out F> {
      * Encapsulates the given [F] [exception] as failure.
      */
     data class Failure<out T, out F>(val exception: F): TypedResult<T, F>() {
-        // override val asResult = Result.failure<T>(exception)
         override val isFailure = true
         override val isSuccess = false
         override fun exceptionOrNull(): F? = exception
         override fun getOrNull(): T? = null
         override fun toString(): String = "Failure($exception)"
     }
+}
+
+/**
+ * Erase the error type and convert to kotlin [Result]
+ */
+fun <T, F: Throwable> TypedResult<T, F>.asResult(): Result<T> = when (this) {
+    is TypedResult.Success -> Result.success(value)
+    is TypedResult.Failure -> Result.failure(exception)
 }
 
 /**

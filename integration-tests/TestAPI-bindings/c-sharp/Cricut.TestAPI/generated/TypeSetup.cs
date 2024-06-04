@@ -2042,15 +2042,17 @@ namespace Cricut.TestAPI {
             });
             Once("setup_ResultConverter<Swift.Int, TestAPI.Results.Error>", () => {
                 Console.WriteLine("setting up Result<Int, Results.Error>...");
-                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ResultConverter_setup(
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ResultConverter_setup<nint, Cricut.TestAPI.Results.Error>(
                     Loader.env,
+                    "ResultConverter<Swift.Int, TestAPI.Results.Error>",
                     out exn
                 ));
             });
             Once("setup_ResultConverter<Swift.String, TestAPI.Results.Error>", () => {
                 Console.WriteLine("setting up Result<String, Results.Error>...");
-                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ResultConverter_setup(
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ResultConverter_setup<string, Cricut.TestAPI.Results.Error>(
                     Loader.env,
+                    "ResultConverter<Swift.String, TestAPI.Results.Error>",
                     out exn
                 ));
             });
