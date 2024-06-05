@@ -82,7 +82,7 @@ class EmptyClass1 extends SwiftReference {
     );
 
     @override
-    String toString() => 'EmptyClass1(blarg: $blarg, wibbledyWobbledyTimeyWhimey: $wibbledyWobbledyTimeyWhimey)';
+    String toString() => 'EmptyClass1(blarg: $blarg, wibbledyWobbledyTimeyWhimey: $wibbledyWobbledyTimeyWhimey, hashCode: $hashCode)';
 
     /// <!-- FishyJoes.export(blarg) -->
     String get blarg =>
@@ -97,6 +97,13 @@ class EmptyClass1 extends SwiftReference {
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
                 consumeCreatedRef<String>(f__iota_get_TestAPI_EmptyClass_wibbledyWobbledyTimeyWhimey(Loader.shared.env, _thisHandle.ptr, exn))
+            )
+        )
+    ;
+    int get hashCode =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                f__iota_get_TestAPI_EmptyClass_hash(Loader.shared.env, _thisHandle.ptr, exn)
             )
         )
     ;
@@ -122,6 +129,14 @@ class EmptyClass1 extends SwiftReference {
         )
     ;
 
+    bool operator ==(
+        Object? other,
+    ) =>
+        GCRef.using(this, (thisHandle) =>
+            GCRef.using(other as TestAPI.EmptyClass1, (otherHandle) =>
+                check((exn) => f__iota_TestAPI_EmptyClass_equals(Loader.shared.env, thisHandle.ptr, otherHandle.ptr, exn))))
+    ;
+
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,
@@ -131,6 +146,12 @@ class EmptyClass1 extends SwiftReference {
         Env env,
         OutCreatedRef _exn
     ) f__iota_TestAPI_EmptyClass_create;
+    static late bool Function(
+        Env env,
+        UnownedRef lhs,
+        UnownedRef rhs,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_EmptyClass_equals;
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,
@@ -141,6 +162,11 @@ class EmptyClass1 extends SwiftReference {
         UnownedRef _this,
         OutCreatedRef _exn
     ) f__iota_get_TestAPI_EmptyClass_blarg;
+    static late int Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_get_TestAPI_EmptyClass_hash;
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,

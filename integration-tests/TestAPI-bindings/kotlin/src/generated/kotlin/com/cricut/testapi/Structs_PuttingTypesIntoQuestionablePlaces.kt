@@ -16,28 +16,6 @@ class Structs_PuttingTypesIntoQuestionablePlaces private constructor(_swiftRefer
     private external fun __jni_testCall(
     ): Long
 
-    override fun equals(
-        other: Any?
-    ): kotlin.Boolean {
-        if (this === other) {
-            return true
-        }
-        if (other !is Structs_PuttingTypesIntoQuestionablePlaces) {
-            return false
-        }
-        return true
-    }
-
-    override fun hashCode(
-    ): kotlin.Int {
-        return 42
-    }
-
-    override fun toString(
-    ): kotlin.String {
-        return "Structs_PuttingTypesIntoQuestionablePlaces()"
-    }
-
     companion object {
         /**
          * <!-- FishyJoes.export(create) -->

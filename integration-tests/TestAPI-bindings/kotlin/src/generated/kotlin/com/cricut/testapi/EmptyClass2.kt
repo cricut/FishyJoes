@@ -43,25 +43,13 @@ class EmptyClass2 private constructor(_swiftReference: Long): com.cricut.fishyjo
 
     override fun equals(
         other: Any?
-    ): kotlin.Boolean {
-        if (this === other) {
-            return true
-        }
-        if (other !is EmptyClass2) {
-            return false
-        }
-        return this.blorg == other.blorg && this.wibble == other.wibble
-    }
+    ): Boolean = (other is com.cricut.testapi.EmptyClass2) && __jni_swiftEquals(this, other)
 
     override fun hashCode(
-    ): kotlin.Int {
-        return (blorg.hashCode()).xor(wibble.hashCode())
-    }
-
-    override fun toString(
-    ): kotlin.String {
-        return "EmptyClass2(blorg = ${blorg}, wibble = ${wibble})"
-    }
+    ): Int = __jni_hashCode()
+    @JvmName("__jni_hashCode")
+    private external fun __jni_hashCode(
+    ): Int
 
     companion object {
         /**
@@ -73,6 +61,17 @@ class EmptyClass2 private constructor(_swiftReference: Long): com.cricut.fishyjo
         @JvmName("__jni_make")
         private external fun __jni_make(
         ): com.cricut.testapi.EmptyClass2
+
+        fun swiftEquals(
+            lhs: com.cricut.testapi.EmptyClass2,
+            rhs: com.cricut.testapi.EmptyClass2
+        ): Boolean = __jni_swiftEquals(lhs, rhs)
+        @JvmStatic
+        @JvmName("__jni_swiftEquals")
+        private external fun __jni_swiftEquals(
+            lhs: com.cricut.testapi.EmptyClass2,
+            rhs: com.cricut.testapi.EmptyClass2
+        ): Boolean
 
         init { loadNativeLibs() }
     }

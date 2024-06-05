@@ -2064,6 +2064,20 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Deprecations_deprecatedMethod");
+    TestAPI.EmptyClass2.f__iota_TestAPI_EmptyClass2_equals = dylib.lookupFunction<
+        ffi.Bool Function(
+            Env env,
+            UnownedRef lhs,
+            UnownedRef rhs,
+            OutCreatedRef _exn
+        ),
+        bool Function(
+            Env env,
+            UnownedRef lhs,
+            UnownedRef rhs,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_EmptyClass2_equals");
     TestAPI.EmptyClass2.f__iota_TestAPI_EmptyClass2_gorp = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -2120,6 +2134,20 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_EmptyClass_create");
+    TestAPI.EmptyClass1.f__iota_TestAPI_EmptyClass_equals = dylib.lookupFunction<
+        ffi.Bool Function(
+            Env env,
+            UnownedRef lhs,
+            UnownedRef rhs,
+            OutCreatedRef _exn
+        ),
+        bool Function(
+            Env env,
+            UnownedRef lhs,
+            UnownedRef rhs,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_EmptyClass_equals");
     TestAPI.EmptyClass1.f__iota_TestAPI_EmptyClass_shme = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -4668,6 +4696,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_EmptyClass2_blorg");
+    TestAPI.EmptyClass2.f__iota_get_TestAPI_EmptyClass2_hash = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_EmptyClass2_hash");
     TestAPI.EmptyClass2.f__iota_get_TestAPI_EmptyClass2_wibble = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -4692,6 +4732,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_EmptyClass_blarg");
+    TestAPI.EmptyClass1.f__iota_get_TestAPI_EmptyClass_hash = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_EmptyClass_hash");
     TestAPI.EmptyClass1.f__iota_get_TestAPI_EmptyClass_wibbledyWobbledyTimeyWhimey = dylib.lookupFunction<
         CreatedRef Function(
             Env env,

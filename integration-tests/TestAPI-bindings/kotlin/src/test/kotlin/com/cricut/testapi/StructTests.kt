@@ -39,7 +39,7 @@ internal class StructTests {
         assertEquals(a2, a3)
         assertEquals(a2.hashCode(), a3.hashCode())
         
-        assertEquals(a1.toString(), "EmptyStruct(tatiana = Toodles! ta ta for now..., tutu = 35671)")
+        assertEquals(a1.toString(), "EmptyStruct()")
         
         val b1 = EmptyStruct2.create()
         assertEquals(b1.tutu, 12897)
@@ -47,7 +47,7 @@ internal class StructTests {
         assertEquals(b1.aap(), "The Netherlands2")
         assertEquals(b1.zxccxz(), "Cambridge University (England)2")
 
-        assertEquals(b1.toString(), "EmptyStruct2(tatiana = Arrivederci, tutu = 12897)")
+        assertEquals(b1.toString(), "EmptyStruct2()")
 
         assertNotEquals(a1, b1);
         assertNotEquals(a1.hashCode(), b1.hashCode())

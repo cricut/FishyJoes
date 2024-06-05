@@ -1081,9 +1081,19 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_get_TestAPI_EmptyClass_wibbledyWobbledyTimeyWhimey, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_hashCode"),
+                signature: bag.add("()I"),
+                fnPtr: unsafeBitCast(TestAPI.EmptyClass._javaHash, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_shme"),
                 signature: bag.add("()Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(java_TestAPI_EmptyClass_shme, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_swiftEquals"),
+                signature: bag.add("(Lcom/cricut/testapi/EmptyClass1;Lcom/cricut/testapi/EmptyClass1;)Z"),
+                fnPtr: unsafeBitCast(TestAPI.EmptyClass._javaEquals, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.EmptyClass2...")
@@ -1106,6 +1116,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_TestAPI_EmptyClass2_gorp, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_hashCode"),
+                signature: bag.add("()I"),
+                fnPtr: unsafeBitCast(TestAPI.EmptyClass2._javaHash, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_make"),
                 signature: bag.add("()Lcom/cricut/testapi/EmptyClass2;"),
                 fnPtr: unsafeBitCast(java_TestAPI_EmptyClass2_make, to: UnsafeMutableRawPointer.self)
@@ -1114,6 +1129,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_shmee"),
                 signature: bag.add("()Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(java_TestAPI_EmptyClass2_shmee, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_swiftEquals"),
+                signature: bag.add("(Lcom/cricut/testapi/EmptyClass2;Lcom/cricut/testapi/EmptyClass2;)Z"),
+                fnPtr: unsafeBitCast(TestAPI.EmptyClass2._javaEquals, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.EmptyEnum...")

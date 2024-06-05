@@ -290,8 +290,6 @@ struct TranslatedStruct: TranslatedType {
         let (fieldsForGeneratedMethods, _) = KotlinClass.separate(fieldsAndMethods: fieldsAndMethods)
 
         if generateMethodsForEmptyStruct {
-            let fields = fieldsForGeneratedMethods
-
             var bodyBuilder = [String]()
 
             bodyBuilder.append("if (this === other) {")
@@ -300,15 +298,7 @@ struct TranslatedStruct: TranslatedType {
             bodyBuilder.append("if (other !is \(kotlinName)) {")
             bodyBuilder.append("    return false")
             bodyBuilder.append("}")
-
-            let fieldsChecks = fields.map {
-                "this.\($0.name) == other.\($0.name)"
-            }
-            if fields.isEmpty {
-                bodyBuilder.append("return true")
-            } else {
-                bodyBuilder.append("return \(fieldsChecks.joined(separator: " && "))")
-            }
+            bodyBuilder.append("return true")
 
             let equalsBody = bodyBuilder.joined(separator: "\n")
 
@@ -334,14 +324,7 @@ struct TranslatedStruct: TranslatedType {
             )
 
             bodyBuilder.removeAll()
-            if fields.isEmpty {
-                bodyBuilder.append("    return 42")
-            } else {
-                let fieldsHashCodes = fields.map {
-                    "(\($0.name).hashCode())"
-                }
-                bodyBuilder.append("return \(fieldsHashCodes.joined(separator: ".xor"))")
-            }
+            bodyBuilder.append("return (\(kotlinName)::class.java.name).hashCode()")
             let hashCodeBody = bodyBuilder.joined(separator: "\n")
 
             fieldsAndMethods.append(
@@ -376,7 +359,7 @@ struct TranslatedStruct: TranslatedType {
                         compatibilityOrder: [],
                         returnType: .named(package: nil, name: "kotlin.String"),
                         deprecation: nil,
-                        body: "return \"\(kotlinName)(\(fields.map { "\($0.name) = ${\($0.name)}" }.joined(separator: ", ")))\"",
+                        body: "return \"\(kotlinName)()\"",
                         isBodyInline: true
                     )
                 )

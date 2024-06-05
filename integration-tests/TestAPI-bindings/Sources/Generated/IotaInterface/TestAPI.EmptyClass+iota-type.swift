@@ -29,3 +29,23 @@ extension TestAPI.EmptyClass: IotaReferenceMutator {
         return try env.check { exn in _constructorMethod[env](ptr, exn) }
     }
 }
+@_cdecl("__iota_TestAPI_EmptyClass_equals")
+public func TestAPI_EmptyClass_iotaEquals(envRef: EnvRef, lhs: foreignObject, rhs: foreignObject, exn: foreignOutExn) -> Bool.CType {
+    let env = Env(envRef)
+    return env.catching(to: exn) {
+        try Bool.toIota(
+            TestAPI.EmptyClass.peekIota(lhs, env: env) == TestAPI.EmptyClass.peekIota(rhs, env: env),
+            env: env
+        )
+    }
+}
+@_cdecl("__iota_get_TestAPI_EmptyClass_hash")
+public func TestAPI_EmptyClass_iotaHash(envRef: EnvRef, this: foreignObject, exn: foreignOutExn) -> Int32.CType {
+    let env = Env(envRef)
+    return env.catching(to: exn) {
+        try Int32.toIota(
+            Int32(truncatingIfNeeded: TestAPI.EmptyClass.peekIota(this, env: env).hashValue),
+            env: env
+        )
+    }
+}

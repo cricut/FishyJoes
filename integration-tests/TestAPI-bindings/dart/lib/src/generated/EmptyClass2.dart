@@ -82,7 +82,7 @@ class EmptyClass2 extends SwiftReference {
     );
 
     @override
-    String toString() => 'EmptyClass2(blorg: $blorg, wibble: $wibble)';
+    String toString() => 'EmptyClass2(blorg: $blorg, wibble: $wibble, hashCode: $hashCode)';
 
     /// <!-- FishyJoes.export(blorg) -->
     String get blorg =>
@@ -97,6 +97,13 @@ class EmptyClass2 extends SwiftReference {
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
                 consumeCreatedRef<String>(f__iota_get_TestAPI_EmptyClass2_wibble(Loader.shared.env, _thisHandle.ptr, exn))
+            )
+        )
+    ;
+    int get hashCode =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                f__iota_get_TestAPI_EmptyClass2_hash(Loader.shared.env, _thisHandle.ptr, exn)
             )
         )
     ;
@@ -122,6 +129,20 @@ class EmptyClass2 extends SwiftReference {
         )
     ;
 
+    bool operator ==(
+        Object? other,
+    ) =>
+        GCRef.using(this, (thisHandle) =>
+            GCRef.using(other as TestAPI.EmptyClass2, (otherHandle) =>
+                check((exn) => f__iota_TestAPI_EmptyClass2_equals(Loader.shared.env, thisHandle.ptr, otherHandle.ptr, exn))))
+    ;
+
+    static late bool Function(
+        Env env,
+        UnownedRef lhs,
+        UnownedRef rhs,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_EmptyClass2_equals;
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,
@@ -141,6 +162,11 @@ class EmptyClass2 extends SwiftReference {
         UnownedRef _this,
         OutCreatedRef _exn
     ) f__iota_get_TestAPI_EmptyClass2_blorg;
+    static late int Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_get_TestAPI_EmptyClass2_hash;
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,

@@ -51,17 +51,17 @@ class EmptyStruct private constructor(
         if (other !is EmptyStruct) {
             return false
         }
-        return this.tatiana == other.tatiana && this.tutu == other.tutu
+        return true
     }
 
     override fun hashCode(
     ): kotlin.Int {
-        return (tatiana.hashCode()).xor(tutu.hashCode())
+        return (EmptyStruct::class.java.name).hashCode()
     }
 
     override fun toString(
     ): kotlin.String {
-        return "EmptyStruct(tatiana = ${tatiana}, tutu = ${tutu})"
+        return "EmptyStruct()"
     }
 
     fun copy(

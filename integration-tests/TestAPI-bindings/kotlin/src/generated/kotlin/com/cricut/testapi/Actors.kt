@@ -79,28 +79,6 @@ sealed class Actors {
         private external fun __jni_extensionNonisolatedGetLabel(
         ): kotlin.String
 
-        override fun equals(
-            other: Any?
-        ): kotlin.Boolean {
-            if (this === other) {
-                return true
-            }
-            if (other !is Actors.TemperatureLogger) {
-                return false
-            }
-            return this.backwardsLabel == other.backwardsLabel && this.extensionNonisolatedVarLabel == other.extensionNonisolatedVarLabel && this.label == other.label
-        }
-
-        override fun hashCode(
-        ): kotlin.Int {
-            return (backwardsLabel.hashCode()).xor(extensionNonisolatedVarLabel.hashCode()).xor(label.hashCode())
-        }
-
-        override fun toString(
-        ): kotlin.String {
-            return "Actors.TemperatureLogger(backwardsLabel = ${backwardsLabel}, extensionNonisolatedVarLabel = ${extensionNonisolatedVarLabel}, label = ${label})"
-        }
-
         companion object {
             /**
              * <!-- FishyJoes.export(create) -->
