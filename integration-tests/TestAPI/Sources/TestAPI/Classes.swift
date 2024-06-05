@@ -3,11 +3,11 @@ public class EmptyClass: Hashable {
     public static func == (lhs: EmptyClass, rhs: EmptyClass) -> Bool {
         return true
     }
-    
+
     public func hash(into hasher: inout Hasher) {
         hasher.combine(String(describing: EmptyClass.self))
     }
-    
+
     /// <!-- FishyJoes.export(create) -->
     public init() { }
 
@@ -37,7 +37,7 @@ public class EmptyClass2: Hashable {
     public static func == (lhs: EmptyClass2, rhs: EmptyClass2) -> Bool {
         return true
     }
-    
+
     public func hash(into hasher: inout Hasher) {
         hasher.combine(String(describing: EmptyClass2.self))
     }
