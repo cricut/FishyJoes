@@ -98,6 +98,7 @@ extension TestAPI.Structs.ReferenceStruct: FishyJoesNodeRuntime.NodeConverter {
                         setter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "mutable", expectedArgumentCount: 1) { env in
                                 var mutatingSelf = try env.this(converter: TestAPI.Structs.ReferenceStruct.self)
+                                FishyJoesCommonRuntime.silenceMutationWarning(&mutatingSelf)
                                 mutatingSelf.mutable = try env.argument(at: 0, converter: Swift.String.self)
                                 try TestAPI.Structs.ReferenceStruct.mutateNode(mutatingSelf, this: env.this(), env: env.env)
                                 return nil

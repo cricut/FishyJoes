@@ -881,3 +881,61 @@ extension ClosedRangeConverter: JavaConverter where BoundConverter: JavaConverte
         )
     }
 }
+
+private enum KotlinResult {
+    static var resultClass: jclass?
+
+    static var successClass: jclass?
+    static var successConstructor: jmethodID?
+    static var successFieldId: jfieldID?
+
+    static var failureClass: jclass?
+    static var failureConstructor: jmethodID?
+    static var failureFieldId: jfieldID?
+
+    public static func javaSetup(env: Env) throws {
+        guard resultClass == nil else { return }
+        resultClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/TypedResult"))
+
+        successClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/TypedResult$Success"))
+        successConstructor = try env.GetMethodID(successClass, "<init>", "(Ljava/lang/Object;)V")
+        successFieldId = try env.GetFieldID(successClass, "value", "Ljava/lang/Object;")
+
+        failureClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/TypedResult$Failure"))
+        failureConstructor = try env.GetMethodID(failureClass, "<init>", "(Ljava/lang/Object;)V")
+        failureFieldId = try env.GetFieldID(failureClass, "exception", "Ljava/lang/Object;")
+    }
+}
+
+extension ResultConverter: JavaConverter where SuccessConverter: JavaConverter, FailureConverter: JavaConverter {
+    public static var javaClass: jclass? {
+        KotlinResult.resultClass
+    }
+
+    public static func javaSetup(env: Env) throws {
+        try KotlinResult.javaSetup(env: env)
+    }
+
+    public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
+        if env.IsInstanceOf(value, KotlinResult.successClass) {
+            let successValue = env.GetObjectField(value, KotlinResult.successFieldId)
+            return .success(try SuccessConverter.fromJava(object: successValue, env: env))
+        } else if env.IsInstanceOf(value, KotlinResult.failureClass) {
+            let failureValue = env.GetObjectField(value, KotlinResult.failureFieldId)
+            return .failure(try FailureConverter.fromJava(object: failureValue, env: env))
+        } else {
+            fatalError("Unknown result type? This shouldn't be possible")
+        }
+    }
+
+    public static func toJava(_ value: SwiftType, env: Env) throws -> jobject? {
+        switch value {
+        case .success(let success):
+            let successValue = try SuccessConverter.toJavaObject(success, env: env)
+            return try env.NewObject(KotlinResult.successClass, KotlinResult.successConstructor, jvalue(successValue))
+        case .failure(let failure):
+            let failureValue = try FailureConverter.toJavaObject(failure, env: env)
+            return try env.NewObject(KotlinResult.failureClass, KotlinResult.failureConstructor, jvalue(failureValue))
+        }
+    }
+}

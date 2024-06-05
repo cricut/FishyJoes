@@ -1,6 +1,6 @@
 import { TestAPI } from 'TestAPI';
 
-const debugPrints = true;
+const debugPrints = false;
 
 test('testDefaultComputedPropertiesStruct', () => {
     const a = new TestAPI.TestDefaultComputedPropertiesStruct(
@@ -561,7 +561,7 @@ class TestAsyncFunctionsImpl implements TestAPI.TestAsyncFunctionsCore {
     witness(): TestAPI.TestAsyncFunctions {
         const a = new TestAsyncFunctionsImpl();
         return TestAPI.TestAsyncFunctions.fromCore(a);
-    }    
+    }
 }
 
 test('testAsyncFunctionsImpl', async () => {

@@ -191,3 +191,7 @@ public enum ClosedRangeConverter<BoundConverter: Converter>: Converter where Bou
 public enum FutureConverter<OutputConverter: Converter>: Converter {
     public typealias SwiftType = Future<OutputConverter.SwiftType>
 }
+
+public enum ResultConverter<SuccessConverter: Converter, FailureConverter: Converter>: Converter where FailureConverter.SwiftType: Error {
+    public typealias SwiftType = Result<SuccessConverter.SwiftType, FailureConverter.SwiftType>
+}

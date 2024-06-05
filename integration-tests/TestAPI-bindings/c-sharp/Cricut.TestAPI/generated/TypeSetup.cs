@@ -255,6 +255,19 @@ namespace Cricut.TestAPI {
             out CreatedRef _exn
         );
 
+        delegate CreatedRef _TestAPI_Results_ErrorConstructor(
+            ConsumedRef message,
+            out CreatedRef exn
+        );
+        delegate CreatedRef _TestAPI_Results_Error_messageGetter(UnownedRef obj, out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_Results_Error_setup(
+            IntPtr envRef,
+            _TestAPI_Results_ErrorConstructor constructor,
+            _TestAPI_Results_Error_messageGetter get_message,
+            out CreatedRef _exn
+        );
+
         delegate CreatedRef _TestAPI_Structs_MemberwiseStructConstructor(
             ConsumedRef immutable,
             ConsumedRef mutable,
@@ -518,6 +531,12 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Ranges_setup(
+            IntPtr envRef,
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_Results_setup(
             IntPtr envRef,
             out CreatedRef _exn
         );
@@ -2055,6 +2074,22 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_ResultConverter<Swift.Int, TestAPI.Results.Error>", () => {
+                Console.WriteLine("setting up Result<Int, Results.Error>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ResultConverter_setup<nint, Cricut.TestAPI.Results.Error>(
+                    Loader.env,
+                    "ResultConverter<Swift.Int, TestAPI.Results.Error>",
+                    out exn
+                ));
+            });
+            Once("setup_ResultConverter<Swift.String, TestAPI.Results.Error>", () => {
+                Console.WriteLine("setting up Result<String, Results.Error>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ResultConverter_setup<string, Cricut.TestAPI.Results.Error>(
+                    Loader.env,
+                    "ResultConverter<Swift.String, TestAPI.Results.Error>",
+                    out exn
+                ));
+            });
             Once("setup_SetConverter<OptionalConverter<Swift.Int>>", () => {
                 Console.WriteLine("setting up Set<Optional<Int>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_SetConverter_setup<nint?>(
@@ -2424,6 +2459,21 @@ namespace Cricut.TestAPI {
                     bag<_TestAPI_Primitives_PrimitiveHolder_dqSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Dq = newValue.Consume<double?>();
                     })),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.Results.Error", () => {
+                Console.WriteLine("setting up TestAPI.Results.Error...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_Results_Error_setup(
+                    Loader.env,
+                    bag<_TestAPI_Results_ErrorConstructor>((ConsumedRef message, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.Results.Error(
+                            message.Consume<string>()
+                        ));
+                    })),
+                    bag<_TestAPI_Results_Error_messageGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Results.Error>().Message)
+                    )),
                     out exn
                 ));
             });
@@ -2817,6 +2867,13 @@ namespace Cricut.TestAPI {
             Once("setup_TestAPI.Ranges", () => {
                 Console.WriteLine("setting up TestAPI.Ranges...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Ranges_setup(
+                    Loader.env,
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.Results", () => {
+                Console.WriteLine("setting up TestAPI.Results...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_Results_setup(
                     Loader.env,
                     out exn
                 ));

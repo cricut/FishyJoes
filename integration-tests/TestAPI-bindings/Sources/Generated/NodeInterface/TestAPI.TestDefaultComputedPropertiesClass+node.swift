@@ -59,6 +59,7 @@ extension TestAPI.TestDefaultComputedPropertiesClass: FishyJoesNodeRuntime.NodeC
                         setter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "noot", expectedArgumentCount: 1) { env in
                                 var mutatingSelf = try env.this(converter: TestAPI.TestDefaultComputedPropertiesClass.self)
+                                FishyJoesCommonRuntime.silenceMutationWarning(&mutatingSelf)
                                 mutatingSelf.noot = try env.argument(at: 0, converter: Swift.Int.self)
                                 try TestAPI.TestDefaultComputedPropertiesClass.mutateNode(mutatingSelf, this: env.this(), env: env.env)
                                 return nil
@@ -87,6 +88,7 @@ extension TestAPI.TestDefaultComputedPropertiesClass: FishyJoesNodeRuntime.NodeC
                         setter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "spam", expectedArgumentCount: 1) { env in
                                 var mutatingSelf = try env.this(converter: TestAPI.TestDefaultComputedPropertiesClass.self)
+                                FishyJoesCommonRuntime.silenceMutationWarning(&mutatingSelf)
                                 mutatingSelf.spam = try env.argument(at: 0, converter: Swift.Bool.self)
                                 try TestAPI.TestDefaultComputedPropertiesClass.mutateNode(mutatingSelf, this: env.this(), env: env.env)
                                 return nil

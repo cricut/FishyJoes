@@ -313,6 +313,10 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try RangeConverter<Swift.UInt64>.javaSetup(env: env)
         // print("setting up RangeConverter<Swift.UInt8>...")
         try RangeConverter<Swift.UInt8>.javaSetup(env: env)
+        // print("setting up ResultConverter<Swift.Int, TestAPI.Results.Error>...")
+        try ResultConverter<Swift.Int, TestAPI.Results.Error>.javaSetup(env: env)
+        // print("setting up ResultConverter<Swift.String, TestAPI.Results.Error>...")
+        try ResultConverter<Swift.String, TestAPI.Results.Error>.javaSetup(env: env)
         // print("setting up SetConverter<OptionalConverter<Swift.Int>>...")
         try SetConverter<OptionalConverter<Swift.Int>>.javaSetup(env: env)
         // print("setting up SetConverter<Swift.Bool>...")
@@ -436,6 +440,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_set_TestAPI_Primitives_PrimitiveHolder_staticMutableProperty, to: UnsafeMutableRawPointer.self)
             )
         )
+        // print("setting up TestAPI.Results.Error...")
+        try TestAPI.Results.Error.javaSetup(env: env)
         // print("setting up TestAPI.Structs.MemberwiseStruct...")
         try TestAPI.Structs.MemberwiseStruct.javaSetup(env: env)
         try env.RegisterNatives(
@@ -2039,6 +2045,26 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_get_uIntRange"),
                 signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_Ranges_uIntRange, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        // print("setting up TestAPI.Results...")
+        try TestAPI.Results.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI.Results.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_get_aFailure"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/TypedResult;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Results_aFailure, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_aSuccess"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/TypedResult;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_Results_aSuccess, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_processResult"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/TypedResult;)Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Results_processResult, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.SimpleEnum...")

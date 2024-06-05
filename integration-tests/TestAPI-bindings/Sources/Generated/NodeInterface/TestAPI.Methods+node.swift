@@ -593,6 +593,7 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                         setter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "instanceModifiable", expectedArgumentCount: 1) { env in
                                 var mutatingSelf = try env.this(converter: TestAPI.Methods.self)
+                                FishyJoesCommonRuntime.silenceMutationWarning(&mutatingSelf)
                                 mutatingSelf.instanceModifiable = try env.argument(at: 0, converter: Swift.Int.self)
                                 try TestAPI.Methods.mutateNode(mutatingSelf, this: env.this(), env: env.env)
                                 return nil
@@ -610,6 +611,7 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                         setter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "instanceStored", expectedArgumentCount: 1) { env in
                                 var mutatingSelf = try env.this(converter: TestAPI.Methods.self)
+                                FishyJoesCommonRuntime.silenceMutationWarning(&mutatingSelf)
                                 mutatingSelf.instanceStored = try env.argument(at: 0, converter: Swift.Int.self)
                                 try TestAPI.Methods.mutateNode(mutatingSelf, this: env.this(), env: env.env)
                                 return nil

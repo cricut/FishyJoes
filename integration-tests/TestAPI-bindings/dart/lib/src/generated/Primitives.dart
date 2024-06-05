@@ -30,6 +30,8 @@ import './Methods.dart' as TestAPI;
 import './Primitives.dart' as TestAPI;
 import './Primitives_PrimitiveHolder.dart' as TestAPI;
 import './Ranges.dart' as TestAPI;
+import './Results.dart' as TestAPI;
+import './Results_Error.dart' as TestAPI;
 import './SimpleEnum.dart' as TestAPI;
 import './String_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Strings.dart' as TestAPI;

@@ -2234,6 +2234,35 @@ export declare namespace TestAPI {
         const uIntRange: Runtime.SwiftRange<number>;
     }
 
+    export type Results = never;
+    export namespace Results {
+        /**
+         * <!-- FishyJoes.export(Results.Error) -->
+         */
+        export class Error {
+            constructor(message: string)
+
+            readonly message: string;
+        }
+
+        /**
+         * <!-- FishyJoes.export(aFailure) -->
+         */
+        const aFailure: Runtime.Result<number, Results.Error>;
+
+        /**
+         * <!-- FishyJoes.export(aSuccess) -->
+         */
+        const aSuccess: Runtime.Result<number, Results.Error>;
+
+        /**
+         * <!-- FishyJoes.export(processResult) -->
+         */
+        function processResult(
+            result: Runtime.Result<string, Results.Error>
+        ): string;
+    }
+
     export type SimpleEnum = "red" | "green" | "blue";
     export namespace SimpleEnum {
         /**

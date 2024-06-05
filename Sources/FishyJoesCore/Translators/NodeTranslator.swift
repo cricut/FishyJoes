@@ -27,7 +27,7 @@ struct NodeTranslator: Translator {
             fragment.outputBlock("FishyJoesNodeRuntime.callbackBody(env, info, name: \"\(nodeName)\", expectedArgumentCount: \(argIndex)) { env in", closeWith: "}") {
                 if variable.isDefaultImplementation,
                    shouldWrapDefaultImpl {
-                    fragment.output("let _wrappedSwiftSelf = \(context.module.name)_CommonInterface.\(variable.definedIn?.name ?? "")_sans_\(variable.name)(wrapped: try \(selfExpression))")
+                    fragment.output("let _wrappedSwiftSelf = \(context.module.name)_CommonInterface.\(variable.definedIn?.name ?? "")_sans_\(variable.name)(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(\(selfExpression)))")
                     selfExpression = "_wrappedSwiftSelf"
                 }
                 let resolved = context.resolve(type: variable.type)
@@ -62,6 +62,7 @@ struct NodeTranslator: Translator {
                     fragment.output("\(selfExpression).\(variable.name) = try env.argument(at: 0, converter: \(resolved.converterType.name).self)")
                 } else {
                     fragment.output("var mutatingSelf = try \(selfExpression)")
+                    fragment.output("FishyJoesCommonRuntime.silenceMutationWarning(&mutatingSelf)")
                     fragment.output("mutatingSelf.\(variable.name) = try env.argument(at: 0, converter: \(resolved.converterType.name).self)")
                     fragment.output("try \(containingNamespace).mutateNode(mutatingSelf, this: env.this(), env: env.env)")
                 }
@@ -127,7 +128,7 @@ struct NodeTranslator: Translator {
                     }
                     if method.isDefaultImplementation,
                        shouldWrapDefaultImpl {
-                        fragment.output("let _wrappedSwiftSelf = \(context.module.name)_CommonInterface.\(method.definedIn?.name ?? "")_sans_\(method.callName)(wrapped: try \(selfExpression))")
+                        fragment.output("let _wrappedSwiftSelf = \(context.module.name)_CommonInterface.\(method.definedIn?.name ?? "")_sans_\(method.callName)(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(\(selfExpression)))")
                         selfExpression = "_wrappedSwiftSelf"
                     }
 
@@ -178,11 +179,12 @@ struct NodeTranslator: Translator {
 
                     if method.isMutating {
                         fragment.output("var mutatingSelf = try \(selfExpression)")
+                        fragment.output("FishyJoesCommonRuntime.silenceMutationWarning(&mutatingSelf)")
                         selfExpression = "mutatingSelf"
                     }
                     if method.isDefaultImplementation,
                        shouldWrapDefaultImpl {
-                        fragment.output("let _wrappedSwiftSelf = \(context.module.name)_CommonInterface.\(method.definedIn?.name ?? "")_sans_\(method.callName)(wrapped: try \(selfExpression))")
+                        fragment.output("let _wrappedSwiftSelf = \(context.module.name)_CommonInterface.\(method.definedIn?.name ?? "")_sans_\(method.callName)(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(\(selfExpression)))")
                         selfExpression = "_wrappedSwiftSelf"
                     }
 
