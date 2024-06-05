@@ -13101,7 +13101,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "TODO"
+                    "_0" : "Runtime.Result<number, Results.Error>"
                   }
                 }
               },
@@ -13115,7 +13115,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "TODO"
+                    "_0" : "Runtime.Result<number, Results.Error>"
                   }
                 }
               }
@@ -13137,7 +13137,7 @@
                     "name" : "result",
                     "type" : {
                       "named" : {
-                        "_0" : "TODO"
+                        "_0" : "Runtime.Result<string, Results.Error>"
                       }
                     }
                   }

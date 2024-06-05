@@ -92,7 +92,7 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
 
                 let hasADefaultImplementationFunctionCallback: NAPI.Callback = { env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation", expectedArgumentCount: 2, hasNamedOptions: false) { env in
-                        let _wrappedSwiftSelf = TestAPI_CommonInterface.AProtocol_sans_hasADefaultImplementation(wrapped: try env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self))
+                        let _wrappedSwiftSelf = TestAPI_CommonInterface.AProtocol_sans_hasADefaultImplementation(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self)))
                         let result = try Swift.String.toNode(
                             _wrappedSwiftSelf.hasADefaultImplementation(
                                 x: try env.argument(at: 0, converter: Swift.Int.self),
@@ -114,7 +114,7 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
 
                 let hasADefaultImplementation2FunctionCallback: NAPI.Callback = { env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation2", expectedArgumentCount: 3, hasNamedOptions: false) { env in
-                        let _wrappedSwiftSelf = TestAPI_CommonInterface.AProtocol_sans_hasADefaultImplementation2(wrapped: try env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self))
+                        let _wrappedSwiftSelf = TestAPI_CommonInterface.AProtocol_sans_hasADefaultImplementation2(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self)))
                         let result = try Swift.String.toNode(
                             _wrappedSwiftSelf.hasADefaultImplementation2(
                                 try env.argument(at: 0, converter: Swift.String.self),
@@ -170,7 +170,7 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
                 "hasADefaultImplementation": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation", expectedArgumentCount: 2, hasNamedOptions: false) { env in
-                            let _wrappedSwiftSelf = TestAPI_CommonInterface.AProtocol_sans_hasADefaultImplementation(wrapped: try env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self))
+                            let _wrappedSwiftSelf = TestAPI_CommonInterface.AProtocol_sans_hasADefaultImplementation(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self)))
                             let result = try Swift.String.toNode(
                                 _wrappedSwiftSelf.hasADefaultImplementation(
                                     x: try env.argument(at: 0, converter: Swift.Int.self),
@@ -186,7 +186,7 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
                 "hasADefaultImplementation2": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation2", expectedArgumentCount: 3, hasNamedOptions: false) { env in
-                            let _wrappedSwiftSelf = TestAPI_CommonInterface.AProtocol_sans_hasADefaultImplementation2(wrapped: try env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self))
+                            let _wrappedSwiftSelf = TestAPI_CommonInterface.AProtocol_sans_hasADefaultImplementation2(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self)))
                             let result = try Swift.String.toNode(
                                 _wrappedSwiftSelf.hasADefaultImplementation2(
                                     try env.argument(at: 0, converter: Swift.String.self),

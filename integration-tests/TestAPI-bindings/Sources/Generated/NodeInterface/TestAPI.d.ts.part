@@ -2095,18 +2095,18 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(aFailure) -->
          */
-        const aFailure: TODO;
+        const aFailure: Runtime.Result<number, Results.Error>;
 
         /**
          * <!-- FishyJoes.export(aSuccess) -->
          */
-        const aSuccess: TODO;
+        const aSuccess: Runtime.Result<number, Results.Error>;
 
         /**
          * <!-- FishyJoes.export(processResult) -->
          */
         function processResult(
-            result: TODO
+            result: Runtime.Result<string, Results.Error>
         ): string;
     }
 

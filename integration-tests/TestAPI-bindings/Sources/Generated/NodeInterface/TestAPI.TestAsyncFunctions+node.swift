@@ -205,7 +205,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                         let (deferred, promise) = try env.env.createPromise()
                         let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.self))
                         let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self))
-                        let _wrappedSwiftSelf = TestAPI_CommonInterface.TestAsyncFunctions_sans_defaultExercise6(wrapped: try swiftSelf.value)
+                        let _wrappedSwiftSelf = TestAPI_CommonInterface.TestAsyncFunctions_sans_defaultExercise6(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(swiftSelf.value))
                         Task {
                             do {
                                 let taskResult: String = try await _wrappedSwiftSelf.defaultExercise6(
@@ -500,7 +500,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.self))
                             let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self))
-                            let _wrappedSwiftSelf = TestAPI_CommonInterface.TestAsyncFunctions_sans_defaultExercise6(wrapped: try swiftSelf.value)
+                            let _wrappedSwiftSelf = TestAPI_CommonInterface.TestAsyncFunctions_sans_defaultExercise6(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(swiftSelf.value))
                             Task {
                                 do {
                                     let taskResult: String = try await _wrappedSwiftSelf.defaultExercise6(

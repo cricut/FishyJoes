@@ -32,6 +32,21 @@ export declare namespace Runtime {
      */
     export type SwiftClosedRange<T> = { lowerBound: T, upperBoundInclusive: T };
 
+    export class Result<out T, out E> {
+        readonly contents: { success: T } | { error: E };
+        private constructor();
+        static success<T>(success: T): Result<T, never>;
+        static failure<E>(error: E): Result<never, E>;
+        match<R>(onSuccess: (success: T) => R, onError: (error: E) => R): R;
+        isSuccess(): boolean;
+        map<T2>(transform: (x: T) => T2): Result<T2, E>;
+        flatMap<T2>(transform: (x: T) => Result<T2, E>): Result<T2, E>;
+        getOrElse<R = T>(alternative: (error: E) => R): T | R;
+        getOrThrow(): T;
+        getOrUndefined(): T | undefined;
+        exceptionOrUndefined(): E | undefined;
+    }
+
     /**
      * A type that provides a way to store attributes and their values outside of an attributed string.
      *
@@ -118,7 +133,7 @@ export declare namespace Runtime {
             equals(
                 other: AttributeContainer.FoundationAttributes
             ): boolean;
-    
+
             hashCode(
             ): number;
 
@@ -455,7 +470,7 @@ export declare namespace Runtime {
             equals(
                 other: AttributedString.Index
             ): boolean;
-    
+
             hashCode(
             ): number;
 
@@ -544,14 +559,14 @@ export declare namespace Runtime {
             equals(
                 other: AttributedString.Runs
             ): boolean;
-    
+
             hashCode(
             ): number;
 
             forEach(
                 body: (run: Runs.Run) => any
             ): any;
-            
+
             [Symbol.iterator](
             ): RunIterator;
         }
@@ -567,10 +582,10 @@ export declare namespace Runtime {
                 equals(
                     other: AttributedString.Runs.Index
                 ): boolean;
-        
+
                 hashCode(
                 ): number;
-    
+
                 compare(
                     other: AttributedString.Runs.Index
                 ): number;
@@ -599,9 +614,9 @@ export declare namespace Runtime {
                 equals(
                     other: AttributedString.Runs.Run
                 ): boolean;
-        
+
                 hashCode(
-                ): number;    
+                ): number;
             }
         }
 

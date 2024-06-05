@@ -170,6 +170,7 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                         setter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "corge", expectedArgumentCount: 1) { env in
                                 var mutatingSelf = try env.this(converter: TestAPI.TestProtocolClass.self)
+                                FishyJoesCommonRuntime.silenceMutationWarning(&mutatingSelf)
                                 mutatingSelf.corge = try env.argument(at: 0, converter: Swift.String.self)
                                 try TestAPI.TestProtocolClass.mutateNode(mutatingSelf, this: env.this(), env: env.env)
                                 return nil
@@ -187,6 +188,7 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                         setter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "flarp", expectedArgumentCount: 1) { env in
                                 var mutatingSelf = try env.this(converter: TestAPI.TestProtocolClass.self)
+                                FishyJoesCommonRuntime.silenceMutationWarning(&mutatingSelf)
                                 mutatingSelf.flarp = try env.argument(at: 0, converter: OptionalConverter<Swift.String>.self)
                                 try TestAPI.TestProtocolClass.mutateNode(mutatingSelf, this: env.this(), env: env.env)
                                 return nil

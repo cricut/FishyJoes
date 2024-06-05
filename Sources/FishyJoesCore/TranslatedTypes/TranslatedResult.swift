@@ -14,7 +14,7 @@ struct TranslatedResult: TranslatedType {
     init(success: TranslatedType, failure: TranslatedType) {
         self.success = success
         self.failure = failure
-        self.nodeName = "TODO"
+        self.nodeName = "Runtime.Result<\(success.nodeName), \(failure.nodeName)>"
         self.neutralName = "Result<success=\(success.neutralName), failure=\(failure.neutralName)>"
         self.containedNamedTypes = [success, failure]
         self.kotlinName = "TypedResult<\(success.kotlinPackageQualifiedName), \(failure.kotlinPackageQualifiedName)>"
