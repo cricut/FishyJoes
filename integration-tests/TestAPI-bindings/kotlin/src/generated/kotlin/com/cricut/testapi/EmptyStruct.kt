@@ -6,7 +6,7 @@ import kotlinx.coroutines.*
 /**
  * <!-- FishyJoes.export(EmptyStruct) -->
  */
-class EmptyStruct private constructor(
+class EmptyStruct(
 ) {
     /**
      * <!-- FishyJoes.export(tatiana) -->

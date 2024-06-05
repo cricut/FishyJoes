@@ -44,8 +44,10 @@ class KotlinProductClass: KotlinClass {
         case .`public`(let storedVariables, let arguments):
             var classDeclaration: String
 
-            if isPrivate || storedVariables.isEmpty {
+            if isPrivate {
                 classDeclaration = "class \(unqualifiedName) private constructor"
+            } else if storedVariables.isEmpty {
+                classDeclaration = "class \(unqualifiedName)"
             } else {
                 classDeclaration = "data class \(unqualifiedName)"
             }
