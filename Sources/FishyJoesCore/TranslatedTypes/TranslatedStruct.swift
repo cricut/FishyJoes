@@ -43,16 +43,6 @@ struct TranslatedStruct: TranslatedType {
         self.conformances = Set(type.implements.compactMap {
             .init(named: $0.value, context: context)
         })
-
-        enforceMustHaveProperties()
-    }
-
-    func enforceMustHaveProperties() {
-        // https://kotlinlang.org/docs/data-classes.html
-        // * The primary constructor must have at least one parameter.
-        if storedVariables.isEmpty {
-            fatalError("☠️ Error on \(sourceType.name): Exported structs must have at least one stored property, it's the law 👮!")
-        }
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
@@ -291,14 +281,110 @@ struct TranslatedStruct: TranslatedType {
             }
         }
 
-        let (fields, methods) = KotlinClass.separate(
-            fieldsAndMethods:
-                computedVariables.compactMap {
-                    context.kotlin(field: $0, useNativeName: false)
-                } + methods.compactMap {
-                    context.kotlin(method: $0)
-                }
-        )
+        var fieldsAndMethods =
+            computedVariables.compactMap { context.kotlin(field: $0, useNativeName: false) } +
+            methods.compactMap { context.kotlin(method: $0) }
+
+        let generateMethodsForEmptyStruct = storedVariables.isEmpty
+
+        let (fieldsForGeneratedMethods, _) = KotlinClass.separate(fieldsAndMethods: fieldsAndMethods)
+
+        if generateMethodsForEmptyStruct {
+            var bodyBuilder = [String]()
+
+            bodyBuilder.append("if (this === other) {")
+            bodyBuilder.append("    return true")
+            bodyBuilder.append("}")
+            bodyBuilder.append("if (other !is \(kotlinName)) {")
+            bodyBuilder.append("    return false")
+            bodyBuilder.append("}")
+            bodyBuilder.append("return true")
+
+            let equalsBody = bodyBuilder.joined(separator: "\n")
+
+            fieldsAndMethods.append(
+                .method(
+                    KotlinClass.Method(
+                        documentation: [],
+                        isStatic: false,
+                        isSuspend: false,
+                        isOverride: true,
+                        isDefaultImplementation: false,
+                        name: "equals",
+                        parameters: [
+                            (labelComment: nil, name: "other", type: .optional(.named(package: nil, name: "Any")), defaultValue: nil)
+                        ],
+                        compatibilityOrder: [],
+                        returnType: .named(package: nil, name: "kotlin.Boolean"),
+                        deprecation: nil,
+                        body: equalsBody,
+                        isBodyInline: true
+                    )
+                )
+            )
+
+            bodyBuilder.removeAll()
+            bodyBuilder.append("return (\(kotlinName)::class.java.name).hashCode()")
+            let hashCodeBody = bodyBuilder.joined(separator: "\n")
+
+            fieldsAndMethods.append(
+                .method(
+                    KotlinClass.Method(
+                        documentation: [],
+                        isStatic: false,
+                        isSuspend: false,
+                        isOverride: true,
+                        isDefaultImplementation: false,
+                        name: "hashCode",
+                        parameters: [],
+                        compatibilityOrder: [],
+                        returnType: .named(package: nil, name: "kotlin.Int"),
+                        deprecation: nil,
+                        body: hashCodeBody,
+                        isBodyInline: true
+                    )
+                )
+            )
+
+            fieldsAndMethods.append(
+                .method(
+                    KotlinClass.Method(
+                        documentation: [],
+                        isStatic: false,
+                        isSuspend: false,
+                        isOverride: true,
+                        isDefaultImplementation: false,
+                        name: "toString",
+                        parameters: [],
+                        compatibilityOrder: [],
+                        returnType: .named(package: nil, name: "kotlin.String"),
+                        deprecation: nil,
+                        body: "return \"\(kotlinName)()\"",
+                        isBodyInline: true
+                    )
+                )
+            )
+
+            fieldsAndMethods.append(
+                .method(
+                    KotlinClass.Method(
+                        documentation: [],
+                        isStatic: false,
+                        isSuspend: false,
+                        isOverride: false,
+                        isDefaultImplementation: false,
+                        name: "copy",
+                        parameters: [],
+                        compatibilityOrder: [],
+                        returnType: .void,
+                        deprecation: nil,
+                        body: "\(kotlinName)()"
+                    )
+                )
+            )
+        }
+
+        let (fields, methods) = KotlinClass.separate(fieldsAndMethods: fieldsAndMethods)
 
         context.add(
             kotlinClass: KotlinProductClass(

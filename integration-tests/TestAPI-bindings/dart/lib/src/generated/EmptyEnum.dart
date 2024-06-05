@@ -12,7 +12,11 @@ import './Collections.dart' as TestAPI;
 import './Collections_CollectionHolder.dart' as TestAPI;
 import './DefaultArguments.dart' as TestAPI;
 import './Deprecations.dart' as TestAPI;
+import './EmptyClass1.dart' as TestAPI;
+import './EmptyClass2.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
+import './EmptyStruct.dart' as TestAPI;
+import './EmptyStruct2.dart' as TestAPI;
 import './ExternalWitness_AProtocol.dart' as TestAPI;
 import './ExternalWitness_TestAsyncFunctions.dart' as TestAPI;
 import './ExternalWitness_TestDefaultComputedProperties.dart' as TestAPI;
@@ -80,14 +84,34 @@ class EmptyEnum {
         throw UnsupportedError('This class is supposed to be uninhabited');
     });
 
+    /// <!-- FishyJoes.export(noot) -->
+    static int get noot =>
+        check((exn) =>
+            f__iota_get_TestAPI_EmptyEnum_noot(Loader.shared.env, exn)
+        )
+    ;
     /// <!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->
     static TestAPI.EmptyEnum notGoingToHappen(
     ) =>
         consumeCreatedRef<TestAPI.EmptyEnum>(check((OutCreatedRef _exn) => f__iota_TestAPI_EmptyEnum_notGoingToHappen(Loader.shared.env, _exn)))
     ;
 
+    /// <!-- FishyJoes.export(mies) -->
+    static int mies(
+    ) =>
+        check((OutCreatedRef _exn) => f__iota_TestAPI_EmptyEnum_mies(Loader.shared.env, _exn))
+    ;
+
+    static late int Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_EmptyEnum_mies;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
     ) f__iota_TestAPI_EmptyEnum_notGoingToHappen;
+    static late int Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__iota_get_TestAPI_EmptyEnum_noot;
 }

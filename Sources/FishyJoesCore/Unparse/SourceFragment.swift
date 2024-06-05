@@ -1,6 +1,7 @@
 import SourceryRuntime
 
 class SourceFragment {
+    static let spacesPerIndent = 4
     var sourceryDestination: String
     var stringBuilder: [String] = []
     var isFreshLine = true
@@ -34,9 +35,13 @@ class SourceFragment {
         stringBuilder.append("\n")
     }
 
+    var currentIndentString: String {
+        String(repeating: " ", count: SourceFragment.spacesPerIndent * currentIndent)
+    }
+
     func output(_ line: String, newLineTerminated: Bool = true, semicolonTerminated: Bool = false) {
         if isFreshLine {
-            stringBuilder.append(String(repeating: " ", count: 4 * currentIndent))
+            stringBuilder.append(currentIndentString)
         }
         stringBuilder.append(line)
         if semicolonTerminated {

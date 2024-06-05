@@ -34,6 +34,30 @@ extension TestAPI.EmptyEnum: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
+                "mies": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "mies", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try Swift.Int.toNode(
+                                TestAPI.EmptyEnum.mies(
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
+                "noot": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "noot", expectedArgumentCount: 0) { env in
+                                return try Swift.Int.toNode(TestAPI.EmptyEnum.noot, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
             ],
             constructor: { env, info in
                 FishyJoesNodeRuntime.callbackBody(

@@ -12,6 +12,9 @@ class EnumTests {
                 else -> assert(false)
             }
         }
+
+        assertEquals(54546, EmptyEnum.noot)
+        assertEquals(62645, EmptyEnum.mies())
     }
 
     @Test

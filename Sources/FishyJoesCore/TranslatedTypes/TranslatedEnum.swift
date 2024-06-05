@@ -84,6 +84,7 @@ struct TranslatedEnum: TranslatedType {
         }
         self.jniType = .object(context.kotlinTranslator.javaClassName(nodeName, in: context))
         self.documentation = type.documentation
+
         self.methods = Method.methods(type: type)
         self.fields = Field.fields(type: type)
         self.isInhabited = type.isInhabited

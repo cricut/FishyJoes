@@ -471,8 +471,42 @@ namespace Cricut.TestAPI {
         );
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_EmptyClass_setup(
+            IntPtr envRef,
+            SwiftReference.ConstructorDelegate constructorMethod,
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_EmptyClass2_setup(
+            IntPtr envRef,
+            SwiftReference.ConstructorDelegate constructorMethod,
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_EmptyEnum_setup(
             IntPtr envRef,
+            out CreatedRef _exn
+        );
+
+        delegate CreatedRef _TestAPI_EmptyStructConstructor(
+            out CreatedRef exn
+        );
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_EmptyStruct_setup(
+            IntPtr envRef,
+            _TestAPI_EmptyStructConstructor constructor,
+            out CreatedRef _exn
+        );
+
+        delegate CreatedRef _TestAPI_EmptyStruct2Constructor(
+            out CreatedRef exn
+        );
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_EmptyStruct2_setup(
+            IntPtr envRef,
+            _TestAPI_EmptyStruct2Constructor constructor,
             out CreatedRef _exn
         );
 
@@ -2757,10 +2791,52 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_TestAPI.EmptyClass", () => {
+                Console.WriteLine("setting up TestAPI.EmptyClass...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_EmptyClass_setup(
+                    Loader.env,
+                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.EmptyClass1(ptr));
+                    })),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.EmptyClass2", () => {
+                Console.WriteLine("setting up TestAPI.EmptyClass2...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_EmptyClass2_setup(
+                    Loader.env,
+                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.EmptyClass2(ptr));
+                    })),
+                    out exn
+                ));
+            });
             Once("setup_TestAPI.EmptyEnum", () => {
                 Console.WriteLine("setting up TestAPI.EmptyEnum...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_EmptyEnum_setup(
                     Loader.env,
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.EmptyStruct", () => {
+                Console.WriteLine("setting up TestAPI.EmptyStruct...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_EmptyStruct_setup(
+                    Loader.env,
+                    bag<_TestAPI_EmptyStructConstructor>((out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.EmptyStruct(
+                        ));
+                    })),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.EmptyStruct2", () => {
+                Console.WriteLine("setting up TestAPI.EmptyStruct2...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_EmptyStruct2_setup(
+                    Loader.env,
+                    bag<_TestAPI_EmptyStruct2Constructor>((out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.EmptyStruct2(
+                        ));
+                    })),
                     out exn
                 ));
             });
