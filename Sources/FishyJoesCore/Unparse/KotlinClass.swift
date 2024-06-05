@@ -24,6 +24,7 @@ class KotlinClass: NestedClass {
         var returnType: KType
         var deprecation: Deprecation?
         var body: String?
+        var isBodyInline = false
     }
 
     struct Variable {
@@ -156,12 +157,19 @@ class KotlinClass: NestedClass {
                     fragment.output(": \(method.returnType.kotlinType)", newLineTerminated: false)
                 }
                 if let body = method.body {
-                    precondition(compatibilityParameters.isEmpty, "internal error: compatibilityOrder can't be used with a non-native body")
-                    fragment.output(" = \(body)\(method.returnType.toKotlinType)", newLineTerminated: false)
-                    if method.isSuspend {
-                        fragment.output(".await()")
+                    if method.isBodyInline {
+                        fragment.outputBlock(" {") {
+                            let indentedBody = body.replacingOccurrences(of: "\n", with: "\n\(fragment.currentIndentString)")
+                            fragment.output(indentedBody)
+                        }
                     } else {
-                        fragment.output(method.returnType.toKotlinType)
+                        precondition(compatibilityParameters.isEmpty, "internal error: compatibilityOrder can't be used with a non-native body")
+                        fragment.output(" = \(body)\(method.returnType.toKotlinType)", newLineTerminated: false)
+                        if method.isSuspend {
+                            fragment.output(".await()")
+                        } else {
+                            fragment.output(method.returnType.toKotlinType)
+                        }
                     }
                 } else if external {
                     var arguments: [String] = []
