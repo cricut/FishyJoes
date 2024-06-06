@@ -176,7 +176,7 @@ extension CodeGen {
             }
 
             // Create / clean directories used by Sourcery to generate Swift and foreign language code files for the translated foreign languages
-            let generatedSwiftTargets = ["DummyMain", "IotaInterface", "NodeInterface", "JavaInterface", "CommonInterface"]
+            let generatedSwiftTargets = ["WasmMainShim", "IotaInterface", "NodeInterface", "JavaInterface", "CommonInterface"]
             let sourceLocations = generatedSwiftTargets.map {
                 "\(swiftBindingsRoot)/Sources/\($0)"
             } + [
