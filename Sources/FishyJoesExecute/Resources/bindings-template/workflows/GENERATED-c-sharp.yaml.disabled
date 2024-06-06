@@ -85,7 +85,7 @@ jobs:
           apt-get -y update
           apt-get -y install patchelf curl
           git config --global --add safe.directory '*'
-          
+
       - name: Setup dotnet
         uses: actions/setup-dotnet@v3
         with:

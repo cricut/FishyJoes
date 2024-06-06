@@ -38,6 +38,7 @@ enum Log {
             items.map(String.init(describing:)).joined(separator: separator),
             terminator: terminator
         )
+        fflush(stdout)
     }
 
     static func warn(_ items: Any..., separator: String = " ", terminator: String = "\n") {
@@ -46,6 +47,7 @@ enum Log {
             items.map(String.init(describing:)).joined(separator: separator),
             terminator: terminator
         )
+        fflush(stdout)
     }
 
     static func error(_ items: Any..., separator: String = " ", terminator: String = "\n") {
@@ -54,6 +56,7 @@ enum Log {
             items.map(String.init(describing:)).joined(separator: separator),
             terminator: terminator
         )
+        fflush(stdout)
     }
 
     static func success(_ items: Any..., separator: String = " ", terminator: String = "\n") {
@@ -62,6 +65,7 @@ enum Log {
             items.map(String.init(describing:)).joined(separator: separator),
             terminator: terminator
         )
+        fflush(stdout)
     }
 }
 
@@ -101,7 +105,11 @@ enum Interactive {
     static func confirmCommand(description: String, _ command: Command) throws {
         Log.info()
         Log.info("\(description)? Will run:")
-        Log.info("    \(command)")
+        if let describableCommand = command as? CustomStringConvertible {
+            Log.info("    \(describableCommand.description)")
+        } else {
+            Log.info("    \(command)")
+        }
         if try promptYesNo() {
             try command.run()
             Log.success("SUCCESS: \(description)")
@@ -157,6 +165,12 @@ func printAndFlush(_ items: Any..., separator: String = " ", terminator: String 
     fflush(stdout)
 }
 
+extension JSONEncoder {
+    func encodeToString<T: Encodable>(_ value: T) throws -> String {
+        String(data: try encode(value), encoding: .utf8)!
+    }
+}
+
 class PrettyJSONEncoder: JSONEncoder {
     override init() {
         super.init()
@@ -181,5 +195,28 @@ extension Optional {
         set {
             self = newValue
         }
+    }
+}
+
+extension Sequence {
+    // like filter, but returns filtered items in separate array
+    func partition(_ isIncluded: (Element) throws -> Bool) rethrows -> (included: [Element], excluded: [Element]) {
+        var included: [Element] = []
+        var excluded: [Element] = []
+        for item in self {
+            if try isIncluded(item) {
+                included.append(item)
+            } else {
+                excluded.append(item)
+            }
+        }
+        return (included, excluded)
+    }
+}
+
+extension String {
+    func trimmingIfPrefixed(_ prefix: any StringProtocol) -> Substring? {
+        guard hasPrefix(prefix) else { return nil }
+        return dropFirst(prefix.count)
     }
 }

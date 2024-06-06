@@ -9,9 +9,11 @@ struct SwiftPackage: Decodable {
         }
         enum Requirement {
             case branch(names: [String])
+            case revision(names: [String])
             case upToNextMajor(baseVersions: [String])
             case upToNextMinor(baseVersions: [String])
             case exact(versions: [String])
+            case range(lowerBound: String, upperBound: String)
         }
     }
     struct Target: Decodable {
@@ -104,8 +106,10 @@ extension SwiftPackage.Dependency {
     var version: String? {
         switch self {
         case .sourceControl(_, _, .branch(names: let names)): return names.count != 1 ? nil : names.first
+        case .sourceControl(_, _, .revision(names: let names)): return names.count != 1 ? nil : names.first
         case .sourceControl(_, _, .upToNextMajor): return nil
         case .sourceControl(_, _, .upToNextMinor): return nil
+        case .sourceControl(_, _, .range): return nil
         case .sourceControl(_, _, .exact(versions: let versions)): return versions.count != 1 ? nil : versions.first
         case .fileSystem: return nil
         }
@@ -114,7 +118,7 @@ extension SwiftPackage.Dependency {
 
 extension SwiftPackage.Dependency.Requirement: Decodable {
     enum CodingKeys: String, CodingKey {
-        case exact, branch, upToNextMajor, upToNextMinor
+        case exact, branch, revision, upToNextMajor, upToNextMinor, range
     }
 
     init(from decoder: Decoder) throws {
@@ -125,9 +129,23 @@ extension SwiftPackage.Dependency.Requirement: Decodable {
             self = .upToNextMinor(baseVersions: minorVersions)
         } else if let majorVersions = try? container.decode([String].self, forKey: .upToNextMajor) {
             self = .upToNextMajor(baseVersions: majorVersions)
-        } else {
-            let branchNames = try container.decode([String].self, forKey: .branch)
+        } else if
+            let range = try? container.decode([[String: String]].self, forKey: .range),
+            range.count == 1,
+            let lowerBound = range[0]["lowerBound"],
+            let upperBound = range[0]["upperBound"]
+        {
+            self = .range(lowerBound: lowerBound, upperBound: upperBound)
+        } else if let branchNames = try? container.decode([String].self, forKey: .branch) {
             self = .branch(names: branchNames)
+        } else if let revisionNames = try? container.decode([String].self, forKey: .revision) {
+            self = .revision(names: revisionNames)
+        } else {
+            let context = DecodingError.Context(
+                codingPath: decoder.codingPath,
+                debugDescription: "Couldn't parse requirement"
+            )
+            throw DecodingError.typeMismatch(Self.self, context)
         }
     }
 }

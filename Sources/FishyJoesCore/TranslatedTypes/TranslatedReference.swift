@@ -59,7 +59,7 @@ struct TranslatedReference: TranslatedType {
         guard context.dumpDebugRepresentation else { return [] }
 
         let fragment = SourceFragment(
-            sourceryDestination: "file:../../DebugGenerated/\(sourceType.name)+ReferenceInfo.txt"
+            sourceryDestination: "file:../../../DebugGenerated/\(sourceType.name)+ReferenceInfo.txt"
         )
         fragment.outputBlock("TranslatedReference for \(sourceType.name) {") {
             fragment.output("Equatable: \(equatable)")

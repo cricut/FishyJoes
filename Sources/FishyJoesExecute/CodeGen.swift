@@ -39,6 +39,9 @@ public struct CodeGen: ParsableCommand {
     @Flag(name: .long, inversion: .prefixedNo, help: "Use docker")
     var useDocker = true
 
+    @Flag(name: .long, help: "Pass git credentials into docker container via file .secrets/git-credentials_auth")
+    var passGitAuthToDocker = false
+
     @Option(help: "Used for debugging fishy-joes code generation")
     var sourceryDumpPath: String?
 
@@ -76,6 +79,7 @@ public struct CodeGen: ParsableCommand {
         case dart
         case wasmOpt
         case useDocker
+        case passGitAuthToDocker
         case sourceryDumpPath
         case version
         case buildStep
@@ -134,23 +138,27 @@ extension CodeGen {
         do {
             packageInfo = try JSONDecoder().decode(SwiftPackage.self, from: packageJSON)
         } catch let error {
-            fatalError("Couldn't parse swift package: \(error)")
+            Log.error("Couldn't parse swift package: \(error)")
+            fatalError()
         }
         guard let fishyJoesDependency = packageInfo.dependencyMap["FishyJoes"] else {
-            fatalError("Couldn't locate FishyJoes dependency in Package.swift")
+            Log.error("Couldn't locate FishyJoes dependency in Package.swift")
+            fatalError()
         }
         printAndFlush("Found FishyJoes at: \(fishyJoesDependency.localPath)")
 
         // Locate dependency bindings modules required by this bindings module
-        var dependencySourcePaths: [String: String] = [config.module: "."]
+        var dependencyBindingsPaths: [String: String] = [config.module: "."]
         for moduleName in config.requiredModules {
-            let bindingModule = "\(moduleName)-bindings"
-            guard let dependencyPath = packageInfo.dependencyMap[bindingModule]?.localPath else {
-                fatalError("Couldn't locate \(bindingModule) in Package.swift, but it's required by fishyjoes.json")
+            guard let dependencyPath = packageInfo.dependencyMap[moduleName]?.localPath else {
+                fatalError("Couldn't locate \(moduleName) in Package.swift, but it's required by fishyjoes.json")
             }
-            let dependencySourcesPath = dependencyPath + "\(ps)Sources"
-            dependencySourcePaths[moduleName] = dependencySourcesPath
+            let dependencySourcesPath = "\(dependencyPath)/bindings"
+            dependencyBindingsPaths[moduleName] = dependencySourcesPath
         }
+
+        // the "module-bindings" subdirectory is needed to avoid this: https://stackoverflow.com/a/71759561
+        let swiftBindingsRoot = "bindings/swift-interfaces/generated/\(config.module)-bindings"
 
         // MARK: - Generate Step
         if buildStep.contains(.generate) {
@@ -160,42 +168,180 @@ extension CodeGen {
 
             // Locate sources to translate
             let translateeSources: String
-            if let translateeLocalPath = packageInfo.dependencyMap[config.module]?.localPath {
-                translateeSources = translateeLocalPath + "\(ps)Sources"
-            } else if let targetPath = packageInfo.path(toTarget: config.module) {
-                translateeSources = targetPath
-            } else {
-                fatalError("Couldn't locate module for translation '\(config.module)' in Package.swift")
-            }
+            translateeSources = "Sources/"
 
             // Locate dependency module configuration files
-            let fishyJoesModuleFiles: [String] = dependencySourcePaths.compactMap {
-                $0.key == config.module ? nil : "\($0.value)\(ps)Generated\(ps)\($0.key).fishyjoesmodule"
+            let fishyJoesModuleFiles: [String] = dependencyBindingsPaths.compactMap {
+                $0.key == config.module ? nil : "\($0.value)/swift-interfaces/generated/\($0.key).fishyjoesmodule"
             }
 
             // Create / clean directories used by Sourcery to generate Swift and foreign language code files for the translated foreign languages
-            let sourceLocations = [
-                "Sources\(ps)Generated\(ps)CommonInterface",
-                "Sources\(ps)Generated\(ps)WasmMainShim",
-                "Sources\(ps)Generated\(ps)NodeNativeShim",
-                "Sources\(ps)Generated\(ps)NodeInterface",
-                "Sources\(ps)Generated\(ps)JavaInterface",
-                "Sources\(ps)Generated\(ps)IotaInterface",
-                "kotlin\(ps)src\(ps)generated\(ps)kotlin\(ps)com\(ps)cricut\(ps)\(config.module.lowercased())",
-                "c-sharp\(ps)Cricut.\(config.module.lowercased())\(ps)generated",
-                "dart\(ps)lib\(ps)src\(ps)generated",
+            let generatedSwiftTargets = ["WasmMainShim", "IotaInterface", "NodeInterface", "JavaInterface", "CommonInterface"]
+            let sourceLocations = generatedSwiftTargets.map {
+                "\(swiftBindingsRoot)/Sources/\($0)"
+            } + [
+                "bindings/kotlin/generated/src/main/kotlin/com/cricut/\(config.module.lowercased())",
+                "bindings/c-sharp/generated/Cricut.\(config.module.lowercased())",
+                "bindings/dart/generated/lib/src",
             ]
-            try cmd("rm", arguments: ["-rf", "Sources\(ps)Generated\(ps)FishyJoes.generated.swift"]).run()
-            try cmd("rm", arguments: ["-rf"] + sourceLocations).run()
+            try cmd("rm", "-rf", "bindings/swift-interfaces/generated").run()
+            try cmd("rm", "-rf", "bindings/kotlin/generated").run()
+            try cmd("rm", "-rf", "bindings/c-sharp/generated").run()
+            try cmd("rm", "-rf", "bindings/dart/generated").run()
             try cmd("mkdir", arguments: ["-p"] + sourceLocations).run()
+            for target in generatedSwiftTargets {
+                try cmd("echo")
+                    .output(overwritingFile: "\(swiftBindingsRoot)/Sources/\(target)/EmptyPlaceholder.swift")
+                    .run()
+            }
+            let bindingsPackageDeps = config.requiredModules.map {
+                "\n        packageDep(\"\($0)-bindings\", bindings: true),"
+            }.joined()
 
-            // Populate directories that are empty with a placeholder
-            try cmd("echo").output(overwritingFile: "Sources\(ps)Generated\(ps)CommonInterface\(ps)EmptyPlaceholder.swift").run()
-            try cmd("echo").output(overwritingFile: "Sources\(ps)Generated\(ps)WasmMainShim\(ps)EmptyPlaceholder.swift").run()
-            try cmd("echo").output(overwritingFile: "Sources\(ps)Generated\(ps)NodeNativeShim\(ps)EmptyPlaceholder.swift").run()
-            try cmd("echo").output(overwritingFile: "Sources\(ps)Generated\(ps)NodeInterface\(ps)EmptyPlaceholder.swift").run()
-            try cmd("echo").output(overwritingFile: "Sources\(ps)Generated\(ps)JavaInterface\(ps)EmptyPlaceholder.swift").run()
-            try cmd("echo").output(overwritingFile: "Sources\(ps)Generated\(ps)IotaInterface\(ps)EmptyPlaceholder.swift").run()
+            let packageCustomization = try cmd("cat", "bindings/swift-interfaces/Package.part.swift").runString()
+            // Create Package.swift for the bindings package
+
+            func targetDeps(_ name: String, tabs: Int) -> String {
+                config.requiredModules.flatMap {
+                    ["\n"] +
+                    Array(repeating: "    ", count: tabs) +
+                    [".product(name: \"\($0)-\(name)\", package: \"\($0)-bindings\"),"]
+                }.joined()
+            }
+
+            try cmd("cat")
+                .output(overwritingFile: "\(swiftBindingsRoot)/Package.swift")
+                .input(
+                    """
+                        // swift-tools-version:5.6
+                        // BEGIN GENERATED CODE
+
+                        import PackageDescription
+                        import Foundation
+
+                        let env = ProcessInfo.processInfo.environment
+                        let wasmCompatibleOnly = env["WASM_ONLY"] == "1"
+                        \("" // This enum should be kept in sync with the one PackageDotSwiftDependency.swift
+                        )
+                        enum Dependency: Codable {
+                            case local(path: String)
+                            case remote(url: String, _ refSpec: RefSpec)
+                            enum RefSpec: Codable {
+                                case branch(name: String)
+                                case revision(name: String)
+                            }
+                        }
+
+                        func LOG_package(name: String, path: String) -> Package.Dependency {
+                            // print("DEPENDENCY: .package(name: \\(name), path: \\(path))")
+                            return .package(name: name, path: path)
+                        }
+                        func LOG_package(url: String, branch: String) -> Package.Dependency {
+                            // print("DEPENDENCY: .package(url: \\(url), branch: \\(branch))")
+                            return .package(url: url, branch: branch)
+                        }
+                        func LOG_package(url: String, revision: String) -> Package.Dependency {
+                            // print("DEPENDENCY: .package(url: \\(url), revision: \\(revision))")
+                            return .package(url: url, revision: revision)
+                        }
+
+                        func packageDep(_ name: String, bindings: Bool = false) -> Package.Dependency {
+                            let subPath = bindings ? "/bindings/swift-interfaces/generated/\\(name)-bindings" : ""
+                            switch env["FISHYJOES_DEPENDENCY_\\(name)"] {
+                            case .none:
+                                return LOG_package(name: name, path: "../../../../../\\(name)\\(subPath)")
+                            case .some(let versionSpec):
+                                switch try! JSONDecoder().decode(Dependency.self, from: versionSpec.data(using: .utf8)!) {
+                                case .local(let packagePath):
+                                    return LOG_package(name: name, path: "\\(packagePath)")
+                                case let .remote(url, .branch(branch)):
+                                    if bindings { fatalError("not supported") }
+                                    return LOG_package(url: url, branch: branch)
+                                case let .remote(url, .revision(revision)):
+                                    if bindings { fatalError("not supported") }
+                                    return LOG_package(url: url, revision: revision)
+                                }
+                            }
+                        }
+
+                        var package = Package(
+                            name: "\(config.module)-bindings",
+                            products: [
+                                .library(
+                                    name: "\(config.module)-wasm",
+                                    targets: ["\(config.module)_NodeInterface"]
+                                ),
+                            ] + (
+                                wasmCompatibleOnly ? [] : [
+                                    .library(name: "\(config.module)-node", type: .dynamic, targets: ["\(config.module)_NodeInterface"]),
+                                    .library(name: "\(config.module)-java", type: .dynamic, targets: ["\(config.module)_JavaInterface"]),
+                                    .library(name: "\(config.module)-iota", type: .dynamic, targets: ["\(config.module)_IotaInterface"]),
+                                ]
+                            ),
+                            dependencies: [\(bindingsPackageDeps)
+                                packageDep("\(config.module)"),
+                                packageDep("FishyJoes"),
+                            ],
+                            targets: [
+                                .target(
+                                    name: "\(config.module)_CommonInterface",
+                                    dependencies: [
+                                        .product(name: "\(config.module)", package: "\(config.module)"),
+                                    ],
+                                    path: "Sources/CommonInterface"
+                                ),
+                                .target(
+                                    name: "\(config.module)_NodeInterface",
+                                    dependencies: [\(targetDeps("node", tabs: 4))
+                                        .target(name: "\(config.module)_CommonInterface"),
+                                        .product(name: "\(config.module)", package: "\(config.module)"),
+                                        .product(name: "FishyJoesNodeRuntime", package: "FishyJoes"),
+                                    ],
+                                    path: "Sources/NodeInterface",
+                                    resources: [
+                                        .copy("\(config.module).d.ts.part"),
+                                    ]
+                                ),
+                            ] + (
+                                wasmCompatibleOnly ? [
+                                    .executableTarget(
+                                        name: "\(config.module)_WasmMainShim",
+                                        dependencies: [
+                                            .target(name: "\(config.module)_NodeInterface"),
+                                        ],
+                                        path: "Sources/WasmMainShim",
+                                        swiftSettings: [
+                                            .unsafeFlags(["-warn-concurrency"])
+                                        ]
+                                    ),
+                                ] : [
+                                    .target(
+                                        name: "\(config.module)_JavaInterface",
+                                        dependencies: [\(targetDeps("java", tabs: 5))
+                                            .target(name: "\(config.module)_CommonInterface"),
+                                            .product(name: "\(config.module)", package: "\(config.module)"),
+                                            .product(name: "FishyJoesJavaRuntime", package: "FishyJoes"),
+                                        ],
+                                        path: "Sources/JavaInterface"
+                                    ),
+                                    .target(
+                                    name: "\(config.module)_IotaInterface",
+                                    dependencies: [\(targetDeps("iota", tabs: 5))
+                                            .target(name: "\(config.module)_CommonInterface"),
+                                            .product(name: "\(config.module)", package: "\(config.module)"),
+                                            .product(name: "FishyJoesIotaRuntime", package: "FishyJoes"),
+                                        ],
+                                        path: "Sources/IotaInterface"
+                                    ),
+                                ]
+                            )
+                        )
+                        // END GENERATED CODE
+                        // Below is copied from bindings/swift-interfaces/Package.part.swift
+
+                        \(packageCustomization)
+                        """
+                ).run()
 
             // Build the Sourcery tool itself
             try cmd("swift", "build", "--product", "sourcery").run()
@@ -209,7 +355,7 @@ extension CodeGen {
                 sourceryEnv["DUMP_SOURCERY_DATA"] = URL(fileURLWithPath: (sourceryDumpPath as NSString).expandingTildeInPath, isDirectory: false).path
             }
             if let codeCoveragePath = codeCoveragePath {
-                sourceryEnv["LLVM_PROFILE_FILE"] = "\(codeCoveragePath)\(ps)fishy-joes-execution-helper-\(UUID()).profraw"
+                sourceryEnv["LLVM_PROFILE_FILE"] = "\(codeCoveragePath)/fishy-joes-execution-helper-\(UUID()).profraw"
             }
 
             // Provide access to stderr for the fishy-joes core by creating a temporary named pipe
@@ -222,23 +368,23 @@ extension CodeGen {
 
             // Execute Sourcery to generate the Swift-side and foreign-side source files for all supported language targets
             try cmd(
-                ".build\(ps)debug\(ps)sourcery",
+                ".build/debug/sourcery",
                 arguments: [
                     quiet ? "-q" : nil,
                     "--disableCache",
                     "--parseDocumentation",
                     "--sources", translateeSources,
-                    "--templates", ".build\(ps)debug\(ps)FishyJoes_FishyJoesExecutionHelper.bundle\(ps)FishyJoes.swifttemplate",
+                    "--templates", ".build/debug/FishyJoes_FishyJoesExecutionHelper.bundle/FishyJoes.swifttemplate",
                     "--args", "module=\(config.module)",
                     "--args", "debugRepresentation=\(dumpDebugRepresentation)",
                     "--args", "requiredModules=\"\(try! JSONEncoder().encode(fishyJoesModuleFiles).base64EncodedString())\"",
-                    "--args", "fishyJoesExecutable=.build\(ps)debug\(ps)helper-fishy-joes-core",
+                    "--args", "fishyJoesExecutable=.build/debug/helper-fishy-joes-core",
                     "--args", "stderrFifo=\(errorFifoPath)",
-                    "--output", "Sources\(ps)Generated"
+                    "--output", "\(swiftBindingsRoot)/Sources/"
                 ].compactMap { $0 } + config.excludeSources.flatMap { exclude in
                     var basePath = translateeSources
-                    if !basePath.hasSuffix("\(ps)") {
-                        basePath += "\(ps)"
+                    if !basePath.hasSuffix("/") {
+                        basePath += "/"
                     }
                     let path = basePath + exclude
                     return ["--exclude-sources", path]
@@ -247,43 +393,75 @@ extension CodeGen {
             ).run()
 
             try errorReporter.succeed()
+
+            let packageInit = PackageInit(
+                config: config,
+                swiftPackage: packageInfo
+            )
+            try packageInit.installTemplate(to: "bindings")
+            for workflow in try FileManager.default.contentsOfDirectory(atPath: ".github/workflows") {
+                if workflow.hasPrefix("GENERATED-") {
+                    try cmd("rm", ".github/workflows/\(workflow)").run()
+                }
+            }
+            for workflow in try FileManager.default.contentsOfDirectory(atPath: "bindings/workflows") {
+                if workflow.hasPrefix("GENERATED-"), workflow.hasSuffix(".yaml") {
+                    try cmd("cp", "bindings/workflows/\(workflow)", ".github/workflows/\(workflow)").run()
+                }
+            }
         }
+
+        var injectedDependencies: [String: PackageDotSwiftDependency.Dependency] = [
+            "FishyJoes": .init(from: fishyJoesDependency)
+        ]
+
+        for moduleName in config.requiredModules {
+            var repoRoot: String
+            if case .fileSystem(_, let path) = packageInfo.dependencyMap[moduleName] {
+                repoRoot = path
+            } else {
+                repoRoot = ".build/checkouts/\(moduleName)"
+            }
+
+            // Sadly, this needs to be an absolute path because it may by used by several `Package.swift`s in different directories.
+            repoRoot = URL(fileURLWithPath: repoRoot).path
+
+            injectedDependencies[moduleName] = .local(path: repoRoot)
+            injectedDependencies["\(moduleName)-bindings"] = .local(
+                path: "\(repoRoot)/\(swiftBindingsRoot)"
+            )
+        }
+        injectedDependencies[config.module] = .local(path: URL(fileURLWithPath: ".").path)
 
         // MARK: - Build Step
         if buildStep.contains(.build) {
             // Assemble a build configuration from passed arguments
             let localPathsNeeded = packageInfo.dependencyMap.entries.values.map(\.localPath)
-            let makeDockerContext = useDocker ? {
-                let context = DockerContext(withAvailablePaths: localPathsNeeded)
+            let makeDockerContext = useDocker ? { [passGitAuthToDocker] in
+                let context = DockerContext(withAvailablePaths: localPathsNeeded, passGitAuth: passGitAuthToDocker)
                 if let context = context {
-                    printAndFlush("found docker binary: \(context.hostDockerBinary)")
+                    Log.info("found docker binary: \(context.hostDockerBinary)")
                 } else {
-                    printAndFlush("not using docker")
+                    Log.info("not using docker")
                 }
                 return context
             } : { nil }
             let configuration = BuildConfiguration(
+                packagePath: swiftBindingsRoot,
+                scratchPath: "\(swiftBindingsRoot)/.build",
                 debug: debug,
                 fat: fat,
                 codeCoveragePath: codeCoveragePath,
                 baseDockerContext: Lazy(makeDockerContext()),
-                disableParallelism: disableParallelism
+                disableParallelism: disableParallelism,
+                injectedSwiftDependencies: injectedDependencies
             )
-
-            // Pre-fetch dependencies for docker... TODO: can this be improved?
-            if platforms.contains(where: { $0.needsDocker(configuration: configuration) }) {
-                try cmd(
-                    "swift", "build",
-                    "--scratch-path", ".\(ps).build\(ps)android-build",
-                    "--product", "FishyJoesJavaRuntime"
-                ).run()
-            }
 
             // When building a node native target on Windows, node.lib must be downloaded and put in the LIBPATH in order to build the NodeAPI dependency
             #if os(Windows)
             if platforms.contains(.node) {
                 try DownloadNodeLib.download(
-                    destinations: ["\(try Platform.node.extraLibPathDir(configuration))\(ps)node.lib"]
+                    destinations: ["\(try Platform.node.extraLibPathDir(configuration))/node.lib"]
                 )
             }
             #endif
@@ -293,7 +471,9 @@ extension CodeGen {
                 let libs = [config.module] + config.requiredModules
                 switch platform {
                 case .wasm:
-                    try platform.build(configuration: configuration)
+                    try platform.build(
+                        configuration: configuration
+                    )
                 case .node:
                     try platform.build(
                         product: "\(config.module)-node",
@@ -328,11 +508,11 @@ extension CodeGen {
 
                 // Define a function to install library files to the output directory
                 func installLibrary(_ name: String, installName: String? = nil, sign: Bool = false) throws {
-                    let src = "\(try platform.buildDir(configuration))\(ps)\(platform.dylibName(for: name))"
+                    let src = try platform.dylibPath(for: name, configuration: configuration)
                     let installName = installName ?? platform.dylibName(for: name)
-                    let dest = "\(outputDir)\(ps)\(installName)"
+                    let dest = "\(outputDir)/\(installName)"
                     try cmd("cp", src, dest).run()
-                    if sign, platform.dylibExt == "dylib" {
+                    if sign, installName.hasSuffix(".dylib") {
                         try cmd("codesign", "-s", "-", dest).run()
                     }
                 }
@@ -363,53 +543,53 @@ extension CodeGen {
                 switch platform {
                 case .wasm, .node:
                     // Find the path to the runtime
-                    let runtimePath = "\(fishyJoesDependency.localPath)\(ps)node-runtime"
+                    let runtimePath = "\(fishyJoesDependency.localPath)/node-runtime"
                     guard cmd("test", "-d", runtimePath).runBool() else {
                         fatalError("Could not find node runtime at: \(runtimePath)")
                     }
 
+                    struct NodeModule {
+                        let name: String
+                        let localPath: String
+                        let definitionsPath: String
+                        let extensionsPath: String
+                        let jsExports: [String]
+                        let tsExports: [String]
+                        let nativeLibName: String
+                        let wasmMainShimName: String
+                        let nodeShimLibName: String
+                        let nodeShimCJSName: String
+                        let npmPackageName: String
+                        let npmModuleVersion: String
+                    }
+
                     // Collect the information about the module and its dependencies that will be needed to build node modules
-                    var nodeModules: [
-                        (
-                            name: String,
-                            localPath: String,
-                            definitionsPath: String,
-                            extensionsPath: String,
-                            jsExports: [String],
-                            tsExports: [String],
-                            nativeLibName: String,
-                            wasmMainShimName: String,
-                            nodeShimLibName: String,
-                            nodeShimCJSName: String,
-                            npmPackageName: String,
-                            npmModuleVersion: String
+                    let nodeDependencies = [
+                        NodeModule(
+                            name: "Runtime",
+                            localPath: runtimePath,
+                            definitionsPath: "\(runtimePath)/fishyjoes-runtime-common",
+                            extensionsPath: "\(runtimePath)/fishyjoes-runtime-common",
+                            jsExports: ["Runtime"],
+                            tsExports: ["Optional", "Runtime"],
+                            nativeLibName: "FishyJoesNodeRuntime",
+                            wasmMainShimName: "Runtime_WasmMainShim.wasm",
+                            nodeShimLibName: "Runtime-node-shim",
+                            nodeShimCJSName: "Runtime.cjs.node",
+                            npmPackageName: "fishyjoes-runtime-\(platform.nodeExecutionEnvironment)",
+                            npmModuleVersion: fishyJoesDependency.version ??
+                                // If fishy-joes is file-local, use a file-local runtime too
+                                "file:\(fishyJoesDependency.localPath)/node-runtime/fishyjoes-runtime-\(platform.nodeExecutionEnvironment)"
                         )
-                    ] = []
-                    nodeModules.append((
-                        name: "Runtime",
-                        localPath: runtimePath,
-                        definitionsPath: "\(runtimePath)\(ps)fishyjoes-runtime-common",
-                        extensionsPath: "\(runtimePath)\(ps)fishyjoes-runtime-common",
-                        jsExports: ["Runtime"],
-                        tsExports: ["Optional", "Runtime"],
-                        nativeLibName: "FishyJoesNodeRuntime",
-                        wasmMainShimName: "Runtime_WasmMainShim.wasm",
-                        nodeShimLibName: "Runtime-node-shim",
-                        nodeShimCJSName: "Runtime.cjs.node",
-                        npmPackageName: "fishyjoes-runtime-\(platform.nodeExecutionEnvironment)",
-                        npmModuleVersion: fishyJoesDependency.version ??
-                            // If fishy-joes is file-local, use a file-local runtime too
-                            "file:\(fishyJoesDependency.localPath)\(ps)node-runtime\(ps)fishyjoes-runtime-\(platform.nodeExecutionEnvironment)"
-                    ))
-                    for moduleName in config.requiredModules {
+                    ] + config.requiredModules.map { moduleName in
                         let bindingsModuleName = "\(moduleName)-bindings"
                         guard let dependency = packageInfo.dependencyMap[bindingsModuleName] else {
                             fatalError("Could not locate dependency \(bindingsModuleName) in Package.swift")
                         }
-                        nodeModules.append((
+                        return NodeModule(
                             name: moduleName,
                             localPath: dependency.localPath,
-                            definitionsPath: "\(dependency.localPath)\(ps)Sources\(ps)Generated\(ps)NodeInterface",
+                            definitionsPath: "\(dependency.localPath)/Sources/Generated/NodeInterface",
                             extensionsPath: "ts",
                             jsExports: [moduleName],
                             tsExports: [moduleName],
@@ -420,13 +600,13 @@ extension CodeGen {
                             npmPackageName: "\(moduleName.lowercased())-\(platform.nodeExecutionEnvironment)",
                             npmModuleVersion: dependency.version ??
                                 // If dependency is file-local, use a file-local dependency too
-                                "file:\(dependency.localPath)\(ps)output\(ps)\(platform.platform)"
-                        ))
+                                "file:\(dependency.localPath)/output/\(platform.platform)"
+                        )
                     }
-                    nodeModules.append((
+                    let nodeModule = NodeModule(
                         name: config.module,
-                        localPath: "Sources\(ps)Generated\(ps)NodeInterface",
-                        definitionsPath: "Sources\(ps)Generated\(ps)NodeInterface",
+                        localPath: "Sources/Generated/NodeInterface",
+                        definitionsPath: "Sources/Generated/NodeInterface",
                         extensionsPath: "ts",
                         jsExports: [config.module],
                         tsExports: [config.module],
@@ -435,53 +615,52 @@ extension CodeGen {
                         nodeShimLibName: "\(config.module)-node-shim",
                         nodeShimCJSName: "\(config.module).cjs.node",
                         npmPackageName: "\(config.module)-\(platform.nodeExecutionEnvironment)",
-                        npmModuleVersion: "file:output\(ps)\(platform.platform)"
-                    ))
-                    let nodeDependencies = nodeModules.dropLast()
-                    let nodeModule = nodeModules.last!
+                        npmModuleVersion: "file:output/\(platform.platform)"
+                    )
+                    let nodeModules = nodeDependencies + [nodeModule]
 
                     // Install the module and its dependencies, then assemble the Javascript files required to load them
                     if platform == .wasm {
                         // Install Wasm bundle to the output directory, using wasm-opt to optimize Wasm bundles if available
                         if wasmOpt, cmd("wasm-opt", "--version").runBool() {
-                            try cmd("wasm-opt", "\(platform.buildDir(configuration))\(ps)\(nodeModule.wasmMainShimName)", "-O1", "-o", "\(outputDir)\(ps)\(nodeModule.name).wasm").run()
+                            try cmd("wasm-opt", "\(platform.buildDir(configuration))/\(nodeModule.wasmMainShimName)", "-O1", "-o", "\(outputDir)/\(nodeModule.name).wasm").run()
                         } else {
                             if wasmOpt {
-                                printAndFlush("WARNING: wasm-opt is not installed, resulting build will be bigger and possibly slower")
+                                Log.warn("WARNING: wasm-opt is not installed, resulting build will be bigger and possibly slower")
                             } else {
-                                printAndFlush("skipping wasm-opt")
+                                Log.info("skipping wasm-opt")
                             }
-                            try cmd("cp", "\(platform.buildDir(configuration))\(ps)\(nodeModule.wasmMainShimName)", "\(outputDir)\(ps)\(nodeModule.name).wasm").run()
+                            try cmd("cp", "\(platform.buildDir(configuration))/\(nodeModule.wasmMainShimName)", "\(outputDir)/\(nodeModule.name).wasm").run()
                         }
-                        try cmd("cp", "\(fishyJoesDependency.localPath)\(ps)Sources\(ps)FishyJoesNodeRuntime\(ps)Templates\(ps)wasm-napi.js", outputDir).run()
+                        try cmd("cp", "\(fishyJoesDependency.localPath)/Sources/FishyJoesNodeRuntime/Templates/wasm-napi.js", outputDir).run()
 
                         // Create the required Javascript files for loading the module's Wasm bundle
                         try template(
-                            inPath: "\(fishyJoesDependency.localPath)\(ps)Sources\(ps)FishyJoesNodeRuntime\(ps)Templates\(ps)__MODULE_NAME__.js",
-                            outPath: "\(outputDir)\(ps)\(nodeModule.name).js",
+                            inPath: "\(fishyJoesDependency.localPath)/Sources/FishyJoesNodeRuntime/Templates/__MODULE_NAME__.js",
+                            outPath: "\(outputDir)/\(nodeModule.name).js",
                             moduleName: nodeModule.name,
                             dependencies: nodeDependencies.map(\.name)
                         )
                         try template(
-                            inPath: "\(fishyJoesDependency.localPath)\(ps)Sources\(ps)FishyJoesNodeRuntime\(ps)Templates\(ps)__MODULE_NAME__.browser.js",
-                            outPath: "\(outputDir)\(ps)\(nodeModule.name).browser.js",
+                            inPath: "\(fishyJoesDependency.localPath)/Sources/FishyJoesNodeRuntime/Templates/__MODULE_NAME__.browser.js",
+                            outPath: "\(outputDir)/\(nodeModule.name).browser.js",
                             moduleName: nodeModule.name,
                             dependencies: nodeDependencies.map(\.name)
                         )
 
                         // Install Javascript extensions for dependencies so they are loaded when the Wasm bundle is loaded, if provided
                         for module in nodeModules {
-                            let outPath = "\(outputDir)\(ps)\(module.name).extensions.js"
-                            let extensionPath = "\(module.extensionsPath)\(ps)\(module.name).extensions.js"
+                            let outPath = "\(outputDir)/\(module.name).extensions.js"
+                            let extensionPath = "\(module.extensionsPath)/\(module.name).extensions.js"
                             if !cmd("cp", extensionPath, outPath).runBool() {
                                 // No extensions found. Generate a no-op extension
                                 try cmd("cat", "-")
                                     .input(
                                         """
-                                        function applyExtensions() {}
-                                        const imports = {};
-                                        export { applyExtensions, imports };
-                                        """
+                                            function applyExtensions() {}
+                                            const imports = {};
+                                            export { applyExtensions, imports };
+                                            """
                                     )
                                     .output(overwritingFile: outPath)
                                     .run()
@@ -498,13 +677,13 @@ extension CodeGen {
                         // and also remove intermediate files that MSVC makes but we don't need
                         // TODO: When SwiftPM supports product dependencies on targets within the same package, use them instead
                         // See: https://forums.swift.org/t/pitch-swiftpm-allow-targets-to-depend-on-products-in-the-same-package/57717/37
-                        let shimDir = "Sources\(ps)Generated\(ps)NodeNativeShim"
+                        let shimDir = "Sources/Generated/NodeNativeShim"
                         try platform.clangBuild(
-                            sources: ["\(shimDir)\(ps)NAPIRegisterModule.c"],
+                            sources: ["\(shimDir)/NAPIRegisterModule.c"],
                             dependencies: [nodeModule.nativeLibName],
-                            headerSearchPaths: ["\(fishyJoesDependency.localPath)\(ps)Sources\(ps)NodeAPI\(ps)include"],
+                            headerSearchPaths: ["\(fishyJoesDependency.localPath)/Sources/NodeAPI/include"],
                             librarySearchPaths: [platform.buildDir(configuration), platform.extraLibPathDir(configuration)],
-                            outputPath: "\(platform.buildDir(configuration))\(ps)\(platform.dylibName(for: nodeModule.nodeShimLibName))",
+                            outputPath: "\(platform.buildDir(configuration))/\(platform.dylibName(for: nodeModule.nodeShimLibName))",
                             configuration: configuration
                         )
                         try installLibrary(nodeModule.nodeShimLibName, installName: nodeModule.nodeShimCJSName)
@@ -523,15 +702,15 @@ extension CodeGen {
                         moduleDotJS.append("const require = createRequire(import.meta.url);")
                         moduleDotJS.append("export const { \(nodeModule.name) } = require('./\(nodeModule.name).cjs');")
                         moduleDotJS.append("export default \(nodeModule.name);")
-                        try cmd("echo", moduleDotJS.joined(separator: "\n")).output(overwritingFile: "\(outputDir)\(ps)\(config.module).js").run()
+                        try cmd("echo", moduleDotJS.joined(separator: "\n")).output(overwritingFile: "\(outputDir)/\(config.module).js").run()
 
                         // Configure loading of Javascript extensions when the module is loaded by node, if provided
-                        let outPath = "\(outputDir)\(ps)\(nodeModule.name).extensions.js"
-                        if !cmd("cp", "\(nodeModule.extensionsPath)\(ps)\(config.module).extensions.js", outPath).runBool() {
+                        let outPath = "\(outputDir)/\(nodeModule.name).extensions.js"
+                        if !cmd("cp", "\(nodeModule.extensionsPath)/\(config.module).extensions.js", outPath).runBool() {
                             // No extensions found. Generate a no-op extension file for the module
                             try cmd("cat", "-")
                                 .input(
-                                        """
+                                    """
                                         function applyExtensions() {}
                                         const imports = {};
                                         export { applyExtensions, imports };
@@ -547,13 +726,13 @@ extension CodeGen {
                     for dependency in nodeDependencies {
                         if platform == .wasm {
                             // Splat in depenency definitions
-                            let dependencyDefinitionsPath = "\(dependency.definitionsPath)\(ps)\(dependency.name).d.ts.part"
+                            let dependencyDefinitionsPath = "\(dependency.definitionsPath)/\(dependency.name).d.ts.part"
                             let dependencyDefintions = try String(contentsOfFile: dependencyDefinitionsPath)
                             definitions.append(contentsOf: dependencyDefintions.split(separator: "\n").map(String.init))
                             definitions.append("")
 
                             // Splat in dependency extension definitions, if present
-                            let dependencyExtensionDefinitionsPath = "\(dependency.definitionsPath)\(ps)\(dependency.name).extensions.d.ts.part"
+                            let dependencyExtensionDefinitionsPath = "\(dependency.definitionsPath)/\(dependency.name).extensions.d.ts.part"
                             if cmd("test", "-f", dependencyExtensionDefinitionsPath).runBool() {
                                 let dependencyExtensionDefintions = try String(contentsOfFile: dependencyExtensionDefinitionsPath)
                                 definitions.append(contentsOf: dependencyExtensionDefintions.split(separator: "\n").map(String.init))
@@ -569,13 +748,13 @@ extension CodeGen {
                     definitions.append("")
 
                     // Splat in the module's own definitions
-                    let moduleDefinitionsPath = "Sources\(ps)Generated\(ps)NodeInterface\(ps)\(nodeModule.name).d.ts.part"
+                    let moduleDefinitionsPath = "Sources/Generated/NodeInterface/\(nodeModule.name).d.ts.part"
                     let moduleDefinitions = try String(contentsOfFile: moduleDefinitionsPath)
                     definitions.append(contentsOf: moduleDefinitions.split(separator: "\n").map(String.init))
                     definitions.append("")
 
                     // Splat in the module's extension definitions
-                    let moduleExtensionsPath = "\(nodeModule.extensionsPath)\(ps)\(nodeModule.name).extensions.d.ts.part"
+                    let moduleExtensionsPath = "\(nodeModule.extensionsPath)/\(nodeModule.name).extensions.d.ts.part"
                     if cmd("test", "-f", moduleExtensionsPath).runBool() {
                         let moduleExtensionDefinitions = try String(contentsOfFile: moduleExtensionsPath)
                         definitions.append(contentsOf: moduleExtensionDefinitions.split(separator: "\n").map(String.init))
@@ -598,7 +777,7 @@ extension CodeGen {
                     // Write out the assembled definitions file
                     try cmd("cat", "-")
                         .input(definitions.joined(separator: "\n"))
-                        .output(overwritingFile: "\(outputDir)\(ps)\(nodeModule.name).d.ts")
+                        .output(overwritingFile: "\(outputDir)/\(nodeModule.name).d.ts")
                         .run()
 
                     // Generate the package.json file from the template
@@ -616,60 +795,60 @@ extension CodeGen {
                     if platform.platform == "node-native-macos" || platform.platform == "node-native-ubuntu" {
                         // When on macOS & Ubuntu, dlopen() needs file-relative native libraries, so add a post-install script to the package to setup symlinks to dependency DYLIBs / SOs
                         var postinstall = """
-                        #!/bin/bash
-                        #
+                            #!/bin/bash
+                            #
 
-                        set -ex
-                        if [[ "$npm_package_version" == "0.0.1" ]]; then
-                            # We are installed as a file local package
-                            package_directory="node_modules/@cricut"
-                        else
-                            # We are installed as a published package
-                            package_directory=".."
-                        fi
+                            set -ex
+                            if [[ "$npm_package_version" == "0.0.1" ]]; then
+                                # We are installed as a file local package
+                                package_directory="node_modules/@cricut"
+                            else
+                                # We are installed as a published package
+                                package_directory=".."
+                            fi
 
 
-                        """
+                            """
 
                         for dependency in nodeDependencies {
                             let nativeLibFilename = platform.dylibName(for: dependency.nativeLibName)
                             postinstall += """
                                 ln -sf "$(realpath \"$package_directory/\(dependency.npmPackageName)/\(nativeLibFilename)\")" "\"\(nativeLibFilename)\""
 
-                            """
+                                """
                         }
 
                         try cmd("cat")
                             .input(postinstall)
-                            .output(overwritingFile: "\(platform.outputDir(config))\(ps)postinstall.sh")
+                            .output(overwritingFile: "\(platform.outputDir(config))/postinstall.sh")
                             .run()
-                        try cmd("chmod", "+x", "\(platform.outputDir(config))\(ps)postinstall.sh").run()
+                        try cmd("chmod", "+x", "\(platform.outputDir(config))/postinstall.sh").run()
                         package.scripts[default: [:]]["postinstall"] = "./postinstall.sh"
                     }
                     if platform.platform == "node-native-windows" {
                         // When on Windows, LoadLibrary() needs file-relative native libraries, so add a post-install script to the package to copy dependency DLLs
                         var postinstall = """
-                        @ECHO ON
-                        IF %npm_package_version%==0.0.1 (SET package_directory=node_modules\\@cricut) ELSE (SET package_directory=..)
+                            @ECHO ON
+                            IF %npm_package_version%==0.0.1 (SET package_directory=node_modules\\@cricut) ELSE (SET package_directory=..)
 
-                        """
+                            """
 
                         for dependency in nodeDependencies {
                             let nativeLibFilename = platform.dylibName(for: dependency.nativeLibName)
                             // TODO: Should copy?!? How to establish this link with only one file?
                             postinstall += """
-                            COPY "%package_directory%\\\(dependency.npmPackageName)\\\(nativeLibFilename)" "\(nativeLibFilename)"
+                                COPY "%package_directory%\\\(dependency.npmPackageName)\\\(nativeLibFilename)" "\(nativeLibFilename)"
 
-                            """
+                                """
                         }
 
                         try cmd("cat")
                             .input(postinstall)
-                            .output(overwritingFile: "\(platform.outputDir(config))\(ps)postinstall.cmd")
+                            .output(overwritingFile: "\(platform.outputDir(config))/postinstall.cmd")
                             .run()
                         package.scripts[default: [:]]["postinstall"] = "postinstall.cmd"
                     }
-                    let packageJsonPath = "\(platform.outputDir(config))\(ps)package.json"
+                    let packageJsonPath = "\(platform.outputDir(config))/package.json"
                     try cmd("cat")
                         .inputJSON(from: package, encoder: PrettyJSONEncoder())
                         .output(overwritingFile: packageJsonPath)
@@ -719,18 +898,18 @@ extension CodeGen {
                 case .wasm, .node:
                     break
                 case .kotlinSystem:
-                    try withDirectory("kotlin") {
+                    try withDirectory("bindings/kotlin/generated") {
                         try platform.gradleBuild("assemble", configuration: configuration).run()
                     }
                 case .kotlinAndroid:
                     // Compiled along with .kotlinSystem
                     break
                 case .cSharp:
-                    try withDirectory("c-sharp") {
+                    try withDirectory("bindings/c-sharp/generated") {
                         try platform.dotnetBuild("Cricut.\(config.module).sln", configuration: configuration).run()
                     }
                 case .dart:
-                    try withDirectory("dart") {
+                    try withDirectory("bindings/dart/generated") {
                         try platform.dartBuild(configuration: configuration).run()
                     }
                 }
@@ -748,7 +927,7 @@ extension CodeGen {
                         // TODO: Should build a package tarball and install it instead?
                         try platform.npm("install").run()
                     }
-                    try withDirectory("node-test") {
+                    try withDirectory("bindings/node-test") {
                         // Perform a file-local install of the test package and its dependencies
                         // TODO: Should build a package tarball and install it instead?
                         try platform.npm("install").run()
@@ -759,7 +938,7 @@ extension CodeGen {
                     }
                 case .kotlinSystem:
                     // Use gradle to execute the test suite
-                    try withDirectory("kotlin") {
+                    try withDirectory("bindings/kotlin/generated") {
                         try platform.gradleTest(codeCoveragePath: codeCoveragePath).run()
                     }
                 case .kotlinAndroid:
@@ -797,7 +976,7 @@ extension CodeGen {
                     // Update version number in package, if provided
                     if let version = version {
                         // Read package.json and update the version
-                        let packageJsonPath = "\(platform.outputDir(config))\(ps)package.json"
+                        let packageJsonPath = "\(platform.outputDir(config))/package.json"
                         var package = try cmd("cat", packageJsonPath).runJSON(NPMPackage.self)
                         package.version = version
 
@@ -809,7 +988,7 @@ extension CodeGen {
                     }
 
                     // Pack using npm
-                    try platform.npm("pack", ".\(ps)\(platform.outputDir(config))").run()
+                    try platform.npm("pack", "./\(platform.outputDir(config))").run()
                 case .kotlinSystem, .kotlinAndroid:
                     // Pack happens as part of publish step in gradle
                     ()
@@ -817,41 +996,41 @@ extension CodeGen {
                     // Pack using dotnet
                     let name = "Cricut.\(config.module)"
                     let version = version ?? "0.0.1-unknown"
-                    try cmd("dotnet", "pack", "-c", "Release", "c-sharp\(ps)\(name)\(ps)\(name).csproj", "/p:Version=\(version)").run()
-                    try cmd("cp", "c-sharp\(ps)\(name)\(ps)bin\(ps)Release\(ps)\(name).\(version).nupkg", ".").run()
+                    try cmd("dotnet", "pack", "-c", "Release", "c-sharp/\(name)/\(name).csproj", "/p:Version=\(version)").run()
+                    try cmd("cp", "c-sharp/\(name)/bin/Release/\(name).\(version).nupkg", ".").run()
                 case .dart:
                     // Generate flutter package from dart package
-                    try cmd("rm", "-rf", "dart\(ps)flutter-package").run()
-                    try cmd("mkdir", "-p", "dart\(ps)flutter-package\(ps)macos\(ps)native").run()
-                    try cmd("mkdir", "-p", "dart\(ps)flutter-package\(ps)linux\(ps)native").run()
-                    try cmd("mkdir", "-p", "dart\(ps)flutter-package\(ps)windows\(ps)native").run()
+                    try cmd("rm", "-rf", "dart/flutter-package").run()
+                    try cmd("mkdir", "-p", "dart/flutter-package/macos/native").run()
+                    try cmd("mkdir", "-p", "dart/flutter-package/linux/native").run()
+                    try cmd("mkdir", "-p", "dart/flutter-package/windows/native").run()
 
                     try cmd("yq", ".version = strenv(VERSION)", addEnv: ["VERSION": version ?? "0.0.1-unknown"])
-                        .input(fromFile: "dart\(ps)npm_flutter_pubspec.yaml")
-                        .output(overwritingFile: "dart\(ps)flutter-package\(ps)pubspec.yaml")
+                        .input(fromFile: "dart/npm_flutter_pubspec.yaml")
+                        .output(overwritingFile: "dart/flutter-package/pubspec.yaml")
                         .run()
 
                     let installList = [
-                        (path: "lib\(ps)", required: true),
+                        (path: "lib/", required: true),
 
-                        (path: "macos\(ps)cricut_\(config.module.lowercased()).podspec", required: true),
-                        (path: "macos\(ps)native\(ps)lib\(config.module).dylib", required: false),
-                        (path: "macos\(ps)native\(ps)lib\(config.module)-iota.dylib", required: false),
+                        (path: "macos/cricut_\(config.module.lowercased()).podspec", required: true),
+                        (path: "macos/native/lib\(config.module).dylib", required: false),
+                        (path: "macos/native/lib\(config.module)-iota.dylib", required: false),
 
-                        (path: "linux\(ps)CMakeLists.txt", required: true),
-                        (path: "linux\(ps)native\(ps)lib\(config.module).so", required: false),
-                        (path: "linux\(ps)native\(ps)lib\(config.module)-iota.so", required: false),
+                        (path: "linux/CMakeLists.txt", required: true),
+                        (path: "linux/native/lib\(config.module).so", required: false),
+                        (path: "linux/native/lib\(config.module)-iota.so", required: false),
 
-                        (path: "windows\(ps)CMakeLists.txt", required: true),
-                        (path: "windows\(ps)native\(ps)\(config.module).dll", required: false),
-                        (path: "windows\(ps)native\(ps)\(config.module)-iota.dll", required: false),
+                        (path: "windows/CMakeLists.txt", required: true),
+                        (path: "windows/native/\(config.module).dll", required: false),
+                        (path: "windows/native/\(config.module)-iota.dll", required: false),
                     ]
 
                     for (path, required) in installList {
                         if required {
-                            try cmd("cp", "-r", "dart\(ps)\(path)", "dart\(ps)flutter-package\(ps)\(path)").run()
+                            try cmd("cp", "-r", "dart/\(path)", "dart/flutter-package/\(path)").run()
                         } else {
-                            try? cmd("cp", "-r", "dart\(ps)\(path)", "dart\(ps)flutter-package\(ps)\(path)").run()
+                            try? cmd("cp", "-r", "dart/\(path)", "dart/flutter-package/\(path)").run()
                         }
                     }
 
@@ -860,7 +1039,7 @@ extension CodeGen {
 
                     // If fishy-joes is file-local, use a file-local runtime too
                     let runtimeVersion = fishyJoesDependency.version ??
-                        "file:\(fishyJoesDependency.localPath)\(ps)dart-runtime\(ps)flutter-package"
+                        "file:\(fishyJoesDependency.localPath)/dart-runtime/flutter-package"
 
                     var dependencies = ["@cricut/flutter-fishyjoes-runtime": runtimeVersion]
                     for module in config.requiredModules {
@@ -876,11 +1055,11 @@ extension CodeGen {
                     package.dependencies = dependencies
                     try cmd("cat")
                         .inputJSON(from: package, encoder: PrettyJSONEncoder())
-                        .output(overwritingFile: "dart\(ps)flutter-package\(ps)package.json")
+                        .output(overwritingFile: "dart/flutter-package/package.json")
                         .run()
 
                     // Pack using npm
-                    try platform.npm("pack", ".\(ps)dart\(ps)flutter-package").run()
+                    try platform.npm("pack", "./dart/flutter-package").run()
                 }
             }
         }
@@ -890,11 +1069,18 @@ extension CodeGen {
 
     func withDirectory<R>(_ dirName: String, body: () throws -> R) throws -> R {
         func printDir() {
-            print("Entering directory `\(FileManager.default.currentDirectoryPath)'")
-            fflush(stdout)
+            printAndFlush("Entering directory `\(FileManager.default.currentDirectoryPath)'")
         }
-        defer { printDir() }
+        var changedDirectory = false
+        defer {
+            if changedDirectory {
+                printDir()
+            } else {
+                Log.error("Failed to enter directory `\(dirName)' (from `\(FileManager.default.currentDirectoryPath)')")
+            }
+        }
         return try FileManager.default.withCurrentDirectoryPath(dirName) {
+            changedDirectory = true
             printDir()
             return try body()
         }

@@ -272,7 +272,7 @@ final class IotaTranslator: Translator {
             }
         }
 
-        let exportFragment = SourceFragment(sourceryDestination: "file:IotaInterface/@_exported.swift")
+        let exportFragment = context.swiftFragment("IotaInterface/@_exported.swift")
         exportFragment.output("@_exported import \(context.module.name)")
         for dependency in context.module.dependencies {
             exportFragment.output("@_exported import \(dependency)_IotaInterface")

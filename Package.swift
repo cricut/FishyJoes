@@ -53,7 +53,7 @@ let package = Package(
     dependencies: generationEnabled(
         [
             D.package(
-                url: "https://github.com/krzysztofzablocki/Sourcery", branch: "2.0.2"
+                url: "https://github.com/krzysztofzablocki/Sourcery", branch: "2.1.7"
             ),
         ]
     ) + wasmIncompatible(

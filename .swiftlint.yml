@@ -52,3 +52,4 @@ disabled_rules:
     - type_body_length
     - type_name
     - for_where
+    - fatal_error_message

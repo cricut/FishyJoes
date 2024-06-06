@@ -20,11 +20,12 @@ env:
   GITHUB_USER: cricut-builduser
   GRADLE_OPTS: -Dorg.gradle.daemon=false
   JAVA_VERSION: 11
+  FISHYJOES: 1
 
 jobs:
   build-test-kotlin-mac:
     name: "macOS: Build and test kotlin bindings"
-    runs-on: macOS-12
+    runs-on: [macOS, self-hosted, ARM64]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -58,7 +59,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: mac_lib
-          path: kotlin/src/generated/resources/mac/
+          path: bindings/kotlin/generated/src/main/resources/mac/
 
   build-test-kotlin-linux:
     name: "Ubuntu: Build and test kotlin bindings"
@@ -101,7 +102,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ubuntu_generated
-          path: kotlin/src/generated
+          path: bindings/kotlin/generated
 
   build-test-kotlin-windows:
     name: "Windows: Build and test kotlin bindings"
@@ -155,7 +156,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: windows_lib
-          path: kotlin/src/generated/resources/windows/
+          path: bindings/kotlin/generated/src/main/resources/windows/
 
   kotlin-publish:
     name: Publish kotlin package
@@ -198,18 +199,18 @@ jobs:
 
           ls *
 
-          rm -rf kotlin/src/generated
-          mv ubuntu_generated kotlin/src/generated
-          mkdir -p kotlin/src/generated/resources/{mac,windows}
-          mv mac_lib/lib*.dylib kotlin/src/generated/resources/mac/
-          mv windows_lib/*.dll kotlin/src/generated/resources/windows/
+          rm -rf bindings/kotlin/generated
+          mv ubuntu_generated bindings/kotlin/generated
+          mkdir -p bindings/kotlin/generated/src/main/resources/{mac,windows}
+          mv mac_lib/lib*.dylib bindings/kotlin/generated/src/main/resources/mac/
+          mv windows_lib/*.dll bindings/kotlin/generated/src/main/resources/windows/
 
       - name: Test publish
         shell: zsh {0}
         run: |
           set -euxo pipefail
 
-          cd kotlin
+          cd bindings/kotlin
           ./gradlew publishToMavenLocal
 
       - name: Publish
@@ -223,7 +224,7 @@ jobs:
               VERSION="0.0.1-$(git rev-parse --short HEAD)"
           fi
 
-          cd kotlin
+          cd bindings/kotlin
 
           echo "Detected Version is '$VERSION'"
           export VERSION

@@ -34,4 +34,13 @@ class SwiftPackageTests: XCTestCase {
         XCTAssertEqual(parsed.dependencyMap["crigeo"]?.url, URL(string: "https://github.com/cricut/CriGeo"))
         XCTAssertEqual(parsed.dependencyMap["crigeo"]?.version, "2.3.0")
     }
+
+    func testSwift5_10() throws {
+        let jsonURL = try XCTUnwrap(Bundle.module.url(forResource: "Resources/package-5.10", withExtension: "json"))
+
+        let parsed = try JSONDecoder().decode(SwiftPackage.self, from: Data(contentsOf: jsonURL))
+
+        XCTAssertEqual(parsed.dependencyMap["fishyjoes"]?.url, URL(string: "https://github.com/cricut/FishyJoes"))
+        XCTAssertEqual(parsed.dependencyMap["fishyjoes"]?.version, "4.7.8-alpha2")
+    }
 }

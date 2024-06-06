@@ -97,24 +97,12 @@ tasks {
     }
 }
 
-// Read what version of the fishy joes runtime to use directly out of the swift definition, so we don't get out of sync
-fun readSwiftPackageVersionConstant(name: String): String {
-    val packageText = rootProject.file("../Package.swift").readText()
-    val pattern = Regex("^\\s*let\\s+$name\\s*=\\s*\"([0-9]+\\.[0-9]+\\.[0-9]+(-[a-zA-Z0-9]+)*)\"\\s*$", RegexOption.MULTILINE)
-    val match = pattern.find(packageText)
-    val version = match?.groups?.get(1)?.value
-    if (version == null) {
-        logger.error("Could not read constant $name from Package.swift. Check format.")
-        return "unknown"
-    }
-    return version
-}
-
 dependencies {
     implementation(kotlin("stdlib:1.9.10"))
-    api("com.cricut.fishyjoes:runtime:${readSwiftPackageVersionConstant("fishyJoesVersion")}")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+__GRADLE_DEPENDENCIES__
 }

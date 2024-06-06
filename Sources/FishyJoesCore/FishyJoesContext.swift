@@ -97,12 +97,13 @@ public class FishyJoesContext {
         return SourceFragment(sourceryDestination: "file:\(name)")
     }
 
-    func kotlinFragment(_ name: String) -> SourceFragment {
-        let fileName = "../../kotlin/src/generated/kotlin/com/cricut/\(module.name.lowercased())/\(name)"
+    func kotlinFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
+        let fileName = "../../../../kotlin/generated/src/main/kotlin/com/cricut/\(module.name.lowercased())/\(name)"
         // Package must go before imports, use higher priority
         addHeader(file: fileName, priority: 1, "package \(module.kotlinPackage)\n")
         addHeader(file: fileName, "import kotlinx.coroutines.*")
         addHeader(file: fileName, "import java.lang.Exception")
+        addHeader(file: fileName, "import com.cricut.fishyjoes.runtime.*")
         for dependency in module.dependencies {
             addHeader(file: fileName, "import com.cricut.\(dependency.lowercased()).*")
         }
@@ -110,7 +111,7 @@ public class FishyJoesContext {
     }
 
     func cSharpFragment(_ name: String) -> SourceFragment {
-        let fileName = "../../c-sharp/Cricut.\(module.name)/generated/\(name)"
+        let fileName = "../../../../c-sharp/generated/Cricut.\(module.name)/\(name)"
         addHeader(file: fileName, "using System;")
         addHeader(file: fileName, "using System.Runtime.InteropServices;")
         addHeader(file: fileName, "using System.Collections.Generic;")
@@ -123,7 +124,7 @@ public class FishyJoesContext {
     }
 
     func dartFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
-        let fileName = "../../dart/lib/src/generated/\(name)"
+        let fileName = "../../../../dart/generated/lib/src/\(name)"
 
         addHeader(file: fileName, "import 'dart:ffi' as ffi;")
         addHeader(file: fileName, "import 'package:ffi/ffi.dart' as ffi;")
@@ -269,7 +270,7 @@ public class FishyJoesContext {
         )
 
         // Output moduleInfo for FishyJoes packages that depend on this one
-        let moduleInfoFragment = SourceFragment(sourceryDestination: "file:\(module).fishyjoesmodule")
+        let moduleInfoFragment = SourceFragment(sourceryDestination: "file:../../\(module).fishyjoesmodule")
         let moduleInfo = ModuleInfo(
             types: moduleDefinedTypes,
             typeScriptAnnotations: tsAnnotations

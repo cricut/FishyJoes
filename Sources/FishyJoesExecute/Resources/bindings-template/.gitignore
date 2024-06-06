@@ -10,7 +10,7 @@ node_modules
 .swift-version
 *.tgz
 *.log
-/kotlin/src/generated/resources/
+/kotlin/generated/src/main/resources/
 /c-sharp/generated/lib/
 /dart/flutter-package
 .gradle
@@ -18,5 +18,4 @@ local.properties
 Package.resolved
 package-lock.json
 DebugGenerated
-Sources/Generated/NodeNativeShim/Package.swift
-Sources/Generated/NodeNativeShim/Package.resolved
+.idea

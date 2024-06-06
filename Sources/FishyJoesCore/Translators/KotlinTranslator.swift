@@ -367,18 +367,8 @@ final class KotlinTranslator: Translator {
 
         let module = context.module
         let repName = "\(module.name)LoaderRepresentative"
-        let ktFragment = SourceFragment(
-            sourceryDestination: "file:../../kotlin/src/generated/kotlin/com/cricut/\(module.name.lowercased())/\(repName).kt"
-        )
-        ktFragment.output("package \(module.kotlinPackage)")
-        ktFragment.blankLine()
-        ktFragment.output("import com.cricut.fishyjoes.runtime.LibraryLoader")
-        ktFragment.output("import com.cricut.fishyjoes.runtime.FishyJoesRuntimeRepresentative")
-        for dependency in module.dependencies {
-            ktFragment.output("import com.cricut.\(dependency.lowercased()).\(dependency)LoaderRepresentative")
-        }
+        let ktFragment = context.kotlinFragment("\(repName).kt")
 
-        ktFragment.blankLine()
         ktFragment.outputBlock("public object \(repName): LibraryLoader.LibraryRepresentative {") {
             ktFragment.output("override fun ensureLoaded() {}")
             ktFragment.output("override val nativeLibs = listOf(\"\(module.name)\", \"\(module.name)-java\")")
@@ -396,7 +386,7 @@ final class KotlinTranslator: Translator {
             ktFragment.output("\(repName).ensureLoaded()")
         }
 
-        let exportFragment = SourceFragment(sourceryDestination: "file:JavaInterface/@_exported.swift")
+        let exportFragment = context.swiftFragment("JavaInterface/@_exported.swift")
         exportFragment.output("@_exported import \(module.name)")
         for dependency in module.dependencies {
             exportFragment.output("@_exported import \(dependency)_JavaInterface")
