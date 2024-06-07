@@ -268,7 +268,9 @@ extension NAPI.Env {
         return result
     }
     public func createDouble(_ value: Double) throws -> NAPI.Value {
+        var resultCouldBeBadOnWindows = NAPI.Value()
         var result = NAPI.Value()
+        try check(napi_create_double(ptr, value, &resultCouldBeBadOnWindows.ptr))
         try check(napi_create_double(ptr, value, &result.ptr))
         return result
     }
