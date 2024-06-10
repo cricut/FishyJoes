@@ -289,6 +289,8 @@ struct NodeTranslator: Translator {
                 let resolved = context.resolve(type: type)
                 nodeTypeListFragment.output("try \(resolved.converterType.name).nodeSetup(env: env, module: module)")
             }
+            nodeTypeListFragment.output("// call once in TypeSetup to \"prime the pump\" so to speak aka work around a bug that may be related to win_delay_hook stuff put in by Stoker.")
+            nodeTypeListFragment.output("_ = try env.createDouble(42.0)")
             nodeTypeListFragment.output("return exports")
         }
         nodeTypeListFragment.blankLine()
