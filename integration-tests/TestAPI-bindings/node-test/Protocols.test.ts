@@ -165,6 +165,11 @@ test('testProtocolStruct', () => {
 
 test('testProtocolClass', () => {
     const testProtocolClass = TestAPI.TestProtocolClass.init("Step inside it's a wilder ride!");
+
+    // for (let i=0; i < 10; i++) {
+    //     var w = testProtocolClass.wombat(undefined)
+    //     console.log("wombat: " + w);
+    // }
     expect(testProtocolClass.corge).toEqual("Step inside it's a wilder ride!");
     expect(testProtocolClass.frobby).toEqual([42, -1, 3]);
     expect(testProtocolClass.flarp).toEqual(undefined);
