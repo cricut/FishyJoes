@@ -142,13 +142,21 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                                 env: env.env
                             )
 
-                            let dateStamp = Date()
-                            let napiDate = try env.env.createDate(dateStamp.timeIntervalSince1970)
-                            print("dateStamp: \(dateStamp), doubleValue: \(dateStamp.timeIntervalSince1970) testDate: \(napiDate)")
+                            let dateStamp = Date().roundedToSecond
+                            let dateStampDoubleValue = dateStamp.timeIntervalSince1970
+                            let napiDate = try env.env.createDate(dateStampDoubleValue)
+                            print("dateStamp: \(dateStamp), doubleValue: \(dateStampDoubleValue) testDate: \(napiDate)")
                             let dateDoubleValueFromNapi = try env.env.getDateValue(napiDate)
                             var dateStampFromNapi = Date(timeIntervalSince1970: dateDoubleValueFromNapi)
                             print("dateDoubleValueFromNapi: \(dateDoubleValueFromNapi) dateStampFromNapi: \(dateStampFromNapi)")
 
+                            let retVal: NAPI.Value
+                            if dateStamp == dateStampFromNapi {
+                                retVal = try OptionalConverter<Swift.Double>.toNode(99.1, env: env.env)
+                            } else {
+                                retVal = try OptionalConverter<Swift.Double>.toNode(-22.4, env: env.env)
+                            }
+                            return retVal
                             return result
                         }
                     },
@@ -228,5 +236,13 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
             path: "TestProtocolClass",
             nodeClass: nodeClass.constructor.value(env: env)
         )
+    }
+}
+
+extension Date {
+    var roundedToSecond: Date {
+        let date = self
+        let diff = 1000000000 - Calendar.current.component(.nanosecond, from: date)
+        return Calendar.current.date(byAdding: .nanosecond, value: diff, to: date)!
     }
 }
