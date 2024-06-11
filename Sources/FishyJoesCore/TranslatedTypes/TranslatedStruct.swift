@@ -40,8 +40,12 @@ struct TranslatedStruct: TranslatedType {
         self.documentation = type.documentation
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
-        self.conformances = Set(type.implements.compactMap {
-            .init(named: $0.value, context: context)
+
+        let implementedExportedProtocols = type.implements.filter { implement in
+            !context.exportedProtocolSwiftTypes.map { $0.name }.filter { $0.contains(implement.value.name)}.isEmpty
+        }
+        self.conformances = Set(implementedExportedProtocols.compactMap {
+            return .init(named: $0.value, context: context)
         })
     }
 
