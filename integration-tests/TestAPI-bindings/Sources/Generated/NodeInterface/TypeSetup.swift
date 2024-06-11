@@ -256,8 +256,9 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try Tuple5Converter<Swift.String, Swift.UInt8, Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Tuple2Converter<Swift.Int, Swift.String>>.nodeSetup(env: env, module: module)
     try Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>.nodeSetup(env: env, module: module)
     try FishyJoesCommonRuntime.VoidConverter.nodeSetup(env: env, module: module)
-    // call once in TypeSetup to "prime the pump" so to speak aka work around a bug that may be related to win_delay_hook stuff put in by Stoker.
+    // Call once in TypeSetup to work around a Windows delayload llvm bug described here: https://github.com/llvm/llvm-project/issues/51941. This affects functions with doubles in the first or second argument, which get put into xmm0 and xmm1, and the delayload somehow clobbers the stack where they are stored so when the napi function is done and the stack is popped back into xmm0 and xmm1 the value is incorrect. This needs to be done for both napi_create_double and napi_create_date.
     _ = try env.createDouble(42.0)
+    _ = try env.createDate(42.0)
     return exports
 }
 
