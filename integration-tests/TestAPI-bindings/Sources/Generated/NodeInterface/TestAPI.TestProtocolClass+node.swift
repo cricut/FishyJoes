@@ -141,6 +141,14 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                                 ),
                                 env: env.env
                             )
+
+                            let dateStamp = Date()
+                            let napiDate = try env.env.createDate(dateStamp.timeIntervalSince1970)
+                            print("dateStamp: \(dateStamp), doubleValue: \(dateStamp.timeIntervalSince1970) testDate: \(napiDate)")
+                            let dateDoubleValueFromNapi = try env.env.getDateValue(napiDate)
+                            var dateStampFromNapi = Date(timeIntervalSince1970: dateDoubleValueFromNapi)
+                            print("dateDoubleValueFromNapi: \(dateDoubleValueFromNapi) dateStampFromNapi: \(dateStampFromNapi)")
+
                             return result
                         }
                     },
