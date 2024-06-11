@@ -172,10 +172,6 @@ public class FishyJoesContext {
         // Find all translated protocol types first, so we can filter on them later because type.implements can be nonempty for non fishy joe exported types
         exportedProtocolSwiftTypes = Set(templateContext.types.types.filter { $0 is SourceryProtocol }.compactMap { type -> BetterType? in
             debugContext = "Translating type \(type.name)"
-            print("[D] translating type \(type.name)")
-            if type.exportAnnotation != nil {
-                let elegoo = 1
-            }
             return translate(typeDefinition: type)?.sourceType
         })
         // Collect type information before starting translation
