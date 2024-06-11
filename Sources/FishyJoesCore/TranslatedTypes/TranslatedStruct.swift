@@ -9,8 +9,8 @@ struct TranslatedStruct: TranslatedType {
     let kotlinPackage: String?
     let cSharpType: CSharpClass.CSType
     let dartType: DartClass.DartType
-    let storedVariables: [Variable]
-    let computedVariables: [Variable]
+    let storedVariables: [Field]
+    let computedVariables: [Field]
     let methods: [Method]
     let documentation: [String]
     let jniType: JNIType
@@ -33,11 +33,11 @@ struct TranslatedStruct: TranslatedType {
         self.dartType = .named(package: context.module.dartNamespace, name: context.dartTranslator.fakeNamespace(exportAnnotation.name))
         self.jniType = .object(context.kotlinTranslator.javaClassName(nodeName, in: context))
 
-        self.storedVariables = type.storedVariables
+        self.storedVariables = type.storedVariables.compactMap { Field($0, type: type) }
         self.computedVariables =
-            (type.computedVariables + type.staticVariables).filter { $0.exportAnnotation != nil }
+            (type.computedVariables + type.staticVariables).compactMap { Field($0, type: type) }
 
-        self.methods = type.methods.compactMap { Method($0) }.sorted(by: { $0.name < $1.name })
+        self.methods = type.methods.compactMap { Method($0, type: type) }
         self.documentation = type.documentation
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
@@ -99,7 +99,7 @@ struct TranslatedStruct: TranslatedType {
                 // TODO: type check
                 fragment.outputBlock("Self(") {
                     for (index, storedVar) in storedVariables.enumerated() {
-                        let resolved = context.resolve(type: storedVar.typeName.better)
+                        let resolved = context.resolve(type: storedVar.type)
                         let last = index == storedVariables.count - 1
                         fragment.outputBlock("\(storedVar.name): try { () -> \(resolved.sourceType.name) in", closeWith: last ? "}()" : "}(),") {
                             fragment.output("let fieldValue = try env.getNamedProperty(value, \"\(storedVar.name)\")")
@@ -113,7 +113,7 @@ struct TranslatedStruct: TranslatedType {
                 fragment.output("let constructor = try NodeClass.constructor(for: \"\(nodeName)\", env: env)")
                 fragment.outputBlock("let args: [NAPI.Value] = [") {
                     for storedVar in storedVariables {
-                        let resolved = context.resolve(type: storedVar.typeName.better)
+                        let resolved = context.resolve(type: storedVar.type)
                         fragment.output("try \(resolved.converterType.name).toNode(value.\(storedVar.name), env: env),")
                     }
                 }
@@ -123,7 +123,7 @@ struct TranslatedStruct: TranslatedType {
             fragment.outputBlock("public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {") {
                 for storedVar in storedVariables {
                     guard storedVar.isMutable else { continue }
-                    let resolved = context.resolve(type: storedVar.typeName.better)
+                    let resolved = context.resolve(type: storedVar.type)
                     fragment.output("try env.setNamedProperty(this, \"\(storedVar.name)\", \(resolved.converterType.name).toNode(value.\(storedVar.name), env: env))")
                 }
             }
@@ -178,7 +178,7 @@ struct TranslatedStruct: TranslatedType {
                     storedVariables.map {
                         (
                             name: $0.name,
-                            type: context.resolve(type: $0.typeName.better).nodeType
+                            type: context.resolve(type: $0.type).nodeType
                         )
                     }
                 ),
@@ -212,7 +212,7 @@ struct TranslatedStruct: TranslatedType {
             fragment.outputBlock("public static func fromJava(_ value: jobject?, env: Env) throws -> Self {") {
                 fragment.outputBlock("Self(") {
                     for (index, storedVar) in storedVariables.enumerated() {
-                        let resolved = context.resolve(type: storedVar.typeName.better)
+                        let resolved = context.resolve(type: storedVar.type)
                         let last = index == storedVariables.count - 1
                         let fieldCType = resolved.jniType.valueType
                         fragment.outputBlock("\(storedVar.name): try \(resolved.converterType.name).fromJava(", closeWith: last ? ")" : "),") {
@@ -229,7 +229,7 @@ struct TranslatedStruct: TranslatedType {
                         "Self.javaClass",
                         "Self._constructorMethodID",
                     ] + storedVariables.map { storedVar in
-                        let resolved = context.resolve(type: storedVar.typeName.better)
+                        let resolved = context.resolve(type: storedVar.type)
                         return "jvalue(\(resolved.converterType.name).toJava(value.\(storedVar.name), env: env))"
                     }
                     fragment.outputMap(args, separator: ",") { $0 }
@@ -241,7 +241,7 @@ struct TranslatedStruct: TranslatedType {
                 fragment.output("javaClass = try env.globalRef(env.FindClass(\"\(className)\"))")
                 var constructorDescriptor = ""
                 for storedVar in storedVariables {
-                    let resolved = context.resolve(type: storedVar.typeName.better)
+                    let resolved = context.resolve(type: storedVar.type)
                     fragment.output("_java_\(storedVar.name)_id = try env.GetFieldID(javaClass, \"\(storedVar.name)\", \"\(resolved.jniType.asSignature)\")")
                     constructorDescriptor += resolved.jniType.asSignature
                 }
@@ -252,7 +252,7 @@ struct TranslatedStruct: TranslatedType {
                 fragment.output("var mutatingSelf = try fromJava(this, env: env)")
                 fragment.output("let result = try body(&mutatingSelf)")
                 for storedVar in storedVariables {
-                    let resolved = context.resolve(type: storedVar.typeName.better)
+                    let resolved = context.resolve(type: storedVar.type)
                     let fieldCType = resolved.jniType.valueType
                     fragment.outputBlock("try env.Set\(fieldCType)Field(") {
                         fragment.output("this, Self._java_\(storedVar.name)_id,")
@@ -266,7 +266,7 @@ struct TranslatedStruct: TranslatedType {
                 fragment.output("var mutatingSelf = try fromJava(this, env: env)")
                 fragment.output("let result = try await body(&mutatingSelf, &env)")
                 for storedVar in storedVariables {
-                    let resolved = context.resolve(type: storedVar.typeName.better)
+                    let resolved = context.resolve(type: storedVar.type)
                     let fieldCType = resolved.jniType.valueType
                     fragment.outputBlock("try env.Set\(fieldCType)Field(") {
                         fragment.output("this, Self._java_\(storedVar.name)_id,")
@@ -314,13 +314,13 @@ struct TranslatedStruct: TranslatedType {
         var lines: [String] = []
         lines.append("delegate \(cSharpType.pInvokeCreatedName) _\(converterType.genericBaseName.mangledName)Constructor(")
         for storedVar in storedVariables {
-            let resolved = context.resolve(type: storedVar.typeName.better)
+            let resolved = context.resolve(type: storedVar.type)
             lines.append("    \(resolved.cSharpType.pInvokeConsumedName) \(CSharpClass.deforbidify(storedVar.name)),")
         }
         lines.append("    out CreatedRef exn")
         lines.append(");")
         for storedVar in storedVariables {
-            let resolved = context.resolve(type: storedVar.typeName.better)
+            let resolved = context.resolve(type: storedVar.type)
             let commonName = "_\(converterType.genericBaseName.mangledName)_\(storedVar.name)"
             lines.append("delegate \(resolved.cSharpType.pInvokeCreatedName) \(commonName)Getter(\(cSharpType.pInvokeUnownedName) obj, out CreatedRef exn);")
             if storedVar.isMutable {
@@ -333,7 +333,7 @@ struct TranslatedStruct: TranslatedType {
     func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>] {
         let constructorType = "_\(converterType.genericBaseName.mangledName)Constructor"
         let constructorArgs = storedVariables.map { storedVar in
-            let resolved = context.resolve(type: storedVar.typeName.better)
+            let resolved = context.resolve(type: storedVar.type)
             return "\(resolved.cSharpType.pInvokeConsumedName) \(CSharpClass.deforbidify(storedVar.name)), "
         }.joined()
         return [
@@ -344,7 +344,7 @@ struct TranslatedStruct: TranslatedType {
                 fragment.outputBlock("bag<\(constructorType)>((\(constructorArgs)out CreatedRef exn) => Catching(out exn, () => {", closeWith: "})),") {
                     fragment.outputBlock("return new CreatedRef(new \(cSharpType.name)(", closeWith: "));") {
                         fragment.outputMap(storedVariables, separator: ",") { storedVar in
-                            let resolved = context.resolve(type: storedVar.typeName.better)
+                            let resolved = context.resolve(type: storedVar.type)
                             if resolved.cSharpType.isObject {
                                 return "\(CSharpClass.deforbidify(storedVar.name)).Consume<\(resolved.cSharpType.name)>()"
                             } else {
@@ -356,7 +356,7 @@ struct TranslatedStruct: TranslatedType {
             },
             // ("constructorMethod: @escaping \(converterType.name)._ConstructorMethod,")
         ] + storedVariables.flatMap { storedVar -> [ForeignSetupParameter] in
-            let resolved = context.resolve(type: storedVar.typeName.better)
+            let resolved = context.resolve(type: storedVar.type)
             let commonName = "_\(converterType.genericBaseName.mangledName)_\(storedVar.name)"
             let getType = "\(commonName)Getter"
             let setType = "\(commonName)Setter"
@@ -394,13 +394,13 @@ struct TranslatedStruct: TranslatedType {
         var lines: [String] = []
         lines.append("typedef _\(converterType.genericBaseName.mangledName)Constructor = \(dartType.ffiCreatedName) Function(")
         for storedVar in storedVariables {
-            let resolved = context.resolve(type: storedVar.typeName.better)
+            let resolved = context.resolve(type: storedVar.type)
             lines.append("    \(resolved.dartType.ffiConsumedTag) \(storedVar.name),")
         }
         lines.append("    OutCreatedRef exn")
         lines.append(");")
         for storedVar in storedVariables {
-            let resolved = context.resolve(type: storedVar.typeName.better)
+            let resolved = context.resolve(type: storedVar.type)
             let commonName = "_\(converterType.genericBaseName.mangledName)_\(storedVar.name)"
             lines.append("typedef \(commonName)Getter = \(resolved.dartType.ffiCreatedTag) Function(\(dartType.ffiUnownedTag) obj, OutCreatedRef exn);")
             if storedVar.isMutable {
@@ -426,7 +426,7 @@ struct TranslatedStruct: TranslatedType {
         setupParams.append(
             contentsOf:
                 storedVariables.flatMap { storedVar -> [ForeignSetupParameter<DartClass.DartType>] in
-                    let resolved = context.resolve(type: storedVar.typeName.better)
+                    let resolved = context.resolve(type: storedVar.type)
                     let commonName = "_\(converterType.genericBaseName.mangledName)_\(storedVar.name)"
                     let getType = "\(commonName)Getter"
                     let setType = "\(commonName)Setter"
@@ -468,7 +468,7 @@ struct TranslatedStruct: TranslatedType {
             fragment.output("envRef: EnvRef,")
             fragment.output("constructorMethod: @escaping \(converterType.name)._ConstructorMethod,")
             for storedVar in storedVariables {
-                let resolved = context.resolve(type: storedVar.typeName.better)
+                let resolved = context.resolve(type: storedVar.type)
                 fragment.output("_ \(storedVar.name)Getter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolved.converterType.name).CType,")
                 if storedVar.isMutable {
                     fragment.output("_ \(storedVar.name)Setter: @escaping @convention(c) (foreignObject, \(resolved.converterType.name).CType, _ exn: foreignOutExn) -> Void,")
@@ -491,7 +491,7 @@ struct TranslatedStruct: TranslatedType {
 
         fragment.outputBlock("extension \(converterType.name): IotaMutator {") {
             for storedVar in storedVariables {
-                let resolved = context.resolve(type: storedVar.typeName.better)
+                let resolved = context.resolve(type: storedVar.type)
                 fragment.output("fileprivate static let _\(storedVar.name)Getter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolved.converterType.name).CType>()")
                 if storedVar.isMutable {
                     fragment.output("fileprivate static let _\(storedVar.name)Setter = Env.CallbackMap<@convention(c) (foreignObject, \(resolved.converterType.name).CType, _ exn: foreignOutExn) -> Void>()")
@@ -499,7 +499,7 @@ struct TranslatedStruct: TranslatedType {
             }
             fragment.outputBlock("public typealias _ConstructorMethod = @convention(c) (", closeWith: ") -> foreignObject") {
                 for storedVar in storedVariables {
-                    let resolved = context.resolve(type: storedVar.typeName.better)
+                    let resolved = context.resolve(type: storedVar.type)
                     fragment.output("\(resolved.converterType.name).CType,")
                 }
                 fragment.output("_ exn: foreignOutExn")
@@ -510,7 +510,7 @@ struct TranslatedStruct: TranslatedType {
             fragment.outputBlock("public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {") {
                 fragment.outputBlock("Self(") {
                     for (index, storedVar) in storedVariables.enumerated() {
-                        let resolved = context.resolve(type: storedVar.typeName.better)
+                        let resolved = context.resolve(type: storedVar.type)
                         let last = index == storedVariables.count - 1
                         fragment.outputBlock("\(storedVar.name): try \(resolved.converterType.name).consumeIota(", closeWith: last ? ")" : "),") {
                             fragment.output("try env.check { exn in _\(storedVar.name)Getter[env](value, exn) },")
@@ -525,7 +525,7 @@ struct TranslatedStruct: TranslatedType {
                 fragment.outputBlock("try env.check { exn in", closeWith: "}") {
                     fragment.outputBlock("_constructorMethod[env](") {
                         for storedVar in storedVariables {
-                            let resolved = context.resolve(type: storedVar.typeName.better)
+                            let resolved = context.resolve(type: storedVar.type)
                             fragment.output("try \(resolved.converterType.name).toIota(value.\(storedVar.name), env: env),")
                         }
                         fragment.output("exn")
@@ -536,7 +536,7 @@ struct TranslatedStruct: TranslatedType {
 
             fragment.outputBlock("public static func mutateIota(_ this: foreignObject, to value: Self, env: Env) throws {") {
                 for storedVar in storedVariables {
-                    let resolved = context.resolve(type: storedVar.typeName.better)
+                    let resolved = context.resolve(type: storedVar.type)
                     if storedVar.isMutable {
                         fragment.outputBlock("try env.check { exn in _\(storedVar.name)Setter[env](", closeWith: ")}") {
                             fragment.output("this,")
@@ -555,9 +555,26 @@ struct TranslatedStruct: TranslatedType {
     }
 
     func registerCSharpClass(context: FishyJoesContext) {
-        let fieldsAndMethods =
-            computedVariables.compactMap { context.cSharp(field: $0, of: self, useNativeName: false) } +
+        var fieldsAndMethods =
+            computedVariables.flatMap { context.cSharp(field: $0, of: self, useNativeName: false) } +
             methods.compactMap { context.cSharp(method: $0, of: self) }
+
+        let storedFields: [CSharpClass.Variable] = storedVariables.compactMap {
+            let outFields = context.cSharp(field: $0, of: self, useNativeName: true)
+            let storedFields = outFields.compactMap { outField in
+                if case .variable(let field) = outField {
+                    return field
+                } else {
+                    fieldsAndMethods.append(outField)
+                    return nil
+                }
+            }
+            guard storedFields.count == 1 else {
+                fatalErr("Can't export stored variable `\(self.sourceType.name).\($0.name)`. Possibly marked asMethod?")
+            }
+            return storedFields[0]
+        }
+
         let (productFields, productMethods) = CSharpClass.separate(fieldsAndMethods: fieldsAndMethods)
 
         context.add(
@@ -565,15 +582,7 @@ struct TranslatedStruct: TranslatedType {
                 module: context.module,
                 documentation: documentation,
                 name: cSharpType.name,
-                constructor: .`public`(
-                    fields: storedVariables.compactMap {
-                        switch context.cSharp(field: $0, of: self, useNativeName: true) {
-                        case .method: fatalErr("Can't export a stored variable `\(self.sourceType.name).\($0.name)` as a method")
-                        case .variable(let field): return field
-                        case nil: return nil
-                        }
-                    }
-                ),
+                constructor: .`public`(fields: storedFields),
                 fields: productFields,
                 methods: productMethods,
                 conformances: conformances

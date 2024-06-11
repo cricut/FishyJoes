@@ -1,7 +1,7 @@
 package com.cricut.testapi
 
-import kotlinx.coroutines.*
 import java.lang.Exception
+import kotlinx.coroutines.*
 
 /**
  * <!-- FishyJoes.export(Structs) -->
@@ -20,15 +20,6 @@ sealed class Structs {
         var i: Long
     ) {
         /**
-         * <!-- FishyJoes.export(asyncGetI) -->
-         */
-        suspend fun asyncGetI(
-        ): Long = __jni_asyncGetI().await()
-        @JvmName("__jni_asyncGetI")
-        private external fun __jni_asyncGetI(
-        ): kotlinx.coroutines.Deferred<Long>
-
-        /**
          * <!-- FishyJoes.export(increment) -->
          */
         fun increment(
@@ -45,6 +36,15 @@ sealed class Structs {
         @JvmName("__jni_incrementAsync")
         private external fun __jni_incrementAsync(
         ): kotlinx.coroutines.Deferred<kotlin.Unit>
+
+        /**
+         * <!-- FishyJoes.export(asyncGetI) -->
+         */
+        suspend fun asyncGetI(
+        ): Long = __jni_asyncGetI().await()
+        @JvmName("__jni_asyncGetI")
+        private external fun __jni_asyncGetI(
+        ): kotlinx.coroutines.Deferred<Long>
 
         companion object {
             /**

@@ -62,11 +62,11 @@ abstract class AProtocol {
         int y
     );
 
-    /// <!-- FishyJoes.export(foo) -->
-    String get foo;
-
     /// <!-- FishyJoes.export(baz) -->
     bool get baz;
+
+    /// <!-- FishyJoes.export(foo) -->
+    String get foo;
 }
 
 extension AProtocol_DefaultImplementations on AProtocol {
@@ -137,6 +137,13 @@ extension AProtocol_DefaultImplementations on AProtocol {
 }
 
 extension AProtocol_FfiHooks on AProtocol {
+    static bool ffi_get_baz(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<AProtocol>(obj).baz
+    ) ?? false;
+
     static CreatedRef ffi_get_foo(
         UnownedRef obj,
         OutCreatedRef exn
@@ -145,13 +152,6 @@ extension AProtocol_FfiHooks on AProtocol {
             peekRef<AProtocol>(obj).foo
         )
     );
-
-    static bool ffi_get_baz(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catching(exn, () =>
-        peekRef<AProtocol>(obj).baz
-    ) ?? false;
 
     static CreatedRef ffi_bar(
         UnownedRef obj,

@@ -1,7 +1,7 @@
 package com.cricut.testapi
 
-import kotlinx.coroutines.*
 import java.lang.Exception
+import kotlinx.coroutines.*
 
 /**
  * <!-- FishyJoes.export(Actors) -->
@@ -34,6 +34,14 @@ sealed class Actors {
         private external fun __jni_get_backwardsLabel(): kotlin.String
 
         /**
+         * <!-- FishyJoes.export(extensionNonisolatedVarLabel) -->
+         */
+        val extensionNonisolatedVarLabel: kotlin.String
+          get() = __jni_get_extensionNonisolatedVarLabel()
+        @JvmName("__jni_get_extensionNonisolatedVarLabel")
+        private external fun __jni_get_extensionNonisolatedVarLabel(): kotlin.String
+
+        /**
          * <!-- FishyJoes.export(update) -->
          */
         suspend fun update(
@@ -52,6 +60,24 @@ sealed class Actors {
         @JvmName("__jni_min")
         private external fun __jni_min(
         ): kotlinx.coroutines.Deferred<Long>
+
+        /**
+         * <!-- FishyJoes.export(extensionIsolatedGetLabel) -->
+         */
+        suspend fun extensionIsolatedGetLabel(
+        ): kotlin.String = __jni_extensionIsolatedGetLabel().await()
+        @JvmName("__jni_extensionIsolatedGetLabel")
+        private external fun __jni_extensionIsolatedGetLabel(
+        ): kotlinx.coroutines.Deferred<kotlin.String>
+
+        /**
+         * <!-- FishyJoes.export(extensionNonisolatedGetLabel) -->
+         */
+        fun extensionNonisolatedGetLabel(
+        ): kotlin.String = __jni_extensionNonisolatedGetLabel()
+        @JvmName("__jni_extensionNonisolatedGetLabel")
+        private external fun __jni_extensionNonisolatedGetLabel(
+        ): kotlin.String
 
         companion object {
             /**

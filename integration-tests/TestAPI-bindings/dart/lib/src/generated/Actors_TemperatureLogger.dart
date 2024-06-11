@@ -70,7 +70,7 @@ class Actors_TemperatureLogger extends SwiftReference {
     );
 
     @override
-    String toString() => 'Actors_TemperatureLogger(label: $label, backwardsLabel: $backwardsLabel)';
+    String toString() => 'Actors_TemperatureLogger(label: $label, backwardsLabel: $backwardsLabel, extensionNonisolatedVarLabel: $extensionNonisolatedVarLabel)';
 
     /// <!-- FishyJoes.export(label) -->
     String get label =>
@@ -85,6 +85,14 @@ class Actors_TemperatureLogger extends SwiftReference {
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
                 consumeCreatedRef<String>(f__iota_get_TestAPI_Actors_TemperatureLogger_backwardsLabel(Loader.shared.env, _thisHandle.ptr, exn))
+            )
+        )
+    ;
+    /// <!-- FishyJoes.export(extensionNonisolatedVarLabel) -->
+    String get extensionNonisolatedVarLabel =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                consumeCreatedRef<String>(f__iota_get_TestAPI_Actors_TemperatureLogger_extensionNonisolatedVarLabel(Loader.shared.env, _thisHandle.ptr, exn))
             )
         )
     ;
@@ -115,12 +123,38 @@ class Actors_TemperatureLogger extends SwiftReference {
         )
     ;
 
+    /// <!-- FishyJoes.export(extensionIsolatedGetLabel) -->
+    Future<String> extensionIsolatedGetLabel(
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            consumeCreatedRef<Future<String>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Actors_TemperatureLogger_extensionIsolatedGetLabel(Loader.shared.env, _thisHandle.ptr, _exn)))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(extensionNonisolatedGetLabel) -->
+    String extensionNonisolatedGetLabel(
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_Actors_TemperatureLogger_extensionNonisolatedGetLabel(Loader.shared.env, _thisHandle.ptr, _exn)))
+        )
+    ;
+
     static late CreatedRef Function(
         Env env,
         UnownedRef label,
         int measurement,
         OutCreatedRef _exn
     ) f__iota_TestAPI_Actors_TemperatureLogger_create;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_Actors_TemperatureLogger_extensionIsolatedGetLabel;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_Actors_TemperatureLogger_extensionNonisolatedGetLabel;
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,
@@ -137,6 +171,11 @@ class Actors_TemperatureLogger extends SwiftReference {
         UnownedRef _this,
         OutCreatedRef _exn
     ) f__iota_get_TestAPI_Actors_TemperatureLogger_backwardsLabel;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_get_TestAPI_Actors_TemperatureLogger_extensionNonisolatedVarLabel;
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,

@@ -38,3 +38,17 @@ public enum Actors {
         }
     }
 }
+
+extension Actors.TemperatureLogger {
+    /// <!-- FishyJoes.export(extensionIsolatedGetLabel) -->
+    public func extensionIsolatedGetLabel() -> String { label }
+
+    /// <!-- FishyJoes.export(extensionNonisolatedGetLabel) -->
+    public nonisolated func extensionNonisolatedGetLabel() -> String { label }
+
+    // <!-- FishyJoes.exportAsMethod(extensionIsolatedVarLabel) -->
+    public var extensionIsolatedVarLabel: String { label }
+
+    /// <!-- FishyJoes.export(extensionNonisolatedVarLabel) -->
+    public nonisolated var extensionNonisolatedVarLabel: String { label }
+}

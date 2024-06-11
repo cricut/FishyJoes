@@ -130,6 +130,14 @@ class TestProtocolStruct implements TestAPI.TestMethodsProtocol, TestAPI.TestPro
             )
         )
     ;
+    /// <!-- FishyJoes.export(foo) -->
+    void foo(
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolStruct_foo(Loader.shared.env, _thisHandle.ptr, _exn))
+        )
+    ;
+
     /// <!-- FishyJoes.export(bar) -->
     bool bar(
     ) =>
@@ -147,14 +155,6 @@ class TestProtocolStruct implements TestAPI.TestMethodsProtocol, TestAPI.TestPro
         )
     ;
 
-    /// <!-- FishyJoes.export(foo) -->
-    void foo(
-    ) =>
-        GCRef.using(this, (_thisHandle) =>
-            check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolStruct_foo(Loader.shared.env, _thisHandle.ptr, _exn))
-        )
-    ;
-
     /// <!-- FishyJoes.export(garply) -->
     String garply(
         String str,
@@ -162,17 +162,6 @@ class TestProtocolStruct implements TestAPI.TestMethodsProtocol, TestAPI.TestPro
         GCRef.using(this, (_thisHandle) =>
             GCRef.using(str, (_strHandle) =>
                 consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolStruct_garply(Loader.shared.env, _thisHandle.ptr, _strHandle.ptr, _exn)))
-            )
-        )
-    ;
-
-    /// <!-- FishyJoes.export(plugh) -->
-    tuple.Tuple3<bool, int, String> plugh(
-        tuple.Tuple3<bool, double, List<String>> fred,
-    ) =>
-        GCRef.using(this, (_thisHandle) =>
-            GCRef.using(fred, (_fredHandle) =>
-                consumeCreatedRef<tuple.Tuple3<bool, int, String>>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolStruct_plugh(Loader.shared.env, _thisHandle.ptr, _fredHandle.ptr, _exn)))
             )
         )
     ;
@@ -185,6 +174,17 @@ class TestProtocolStruct implements TestAPI.TestMethodsProtocol, TestAPI.TestPro
         GCRef.using(this, (_thisHandle) =>
             GCRef.using(grault, (_graultHandle) =>
                 consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolStruct_xyzzy(Loader.shared.env, _thisHandle.ptr, thud, _graultHandle.ptr, _exn)))
+            )
+        )
+    ;
+
+    /// <!-- FishyJoes.export(plugh) -->
+    tuple.Tuple3<bool, int, String> plugh(
+        tuple.Tuple3<bool, double, List<String>> fred,
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            GCRef.using(fred, (_fredHandle) =>
+                consumeCreatedRef<tuple.Tuple3<bool, int, String>>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolStruct_plugh(Loader.shared.env, _thisHandle.ptr, _fredHandle.ptr, _exn)))
             )
         )
     ;

@@ -14,7 +14,7 @@ struct TranslatedEnum: TranslatedType {
     let cases: [Case]
     let documentation: [String]
     let methods: [Method]
-    let fields: [Variable]
+    let fields: [Field]
     let isInhabited: Bool
     let definingModule: Module
     let conformances: Set<String>
@@ -84,8 +84,8 @@ struct TranslatedEnum: TranslatedType {
         }
         self.jniType = .object(context.kotlinTranslator.javaClassName(nodeName, in: context))
         self.documentation = type.documentation
-        self.methods = type.methods.compactMap { Method($0) }
-        self.fields = type.variables.filter { $0.exportAnnotation != nil }
+        self.methods = type.methods.compactMap { Method($0, type: type) }
+        self.fields = type.variables.compactMap { Field($0, type: type) }
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
         self.conformances = exportAnnotation.conformances

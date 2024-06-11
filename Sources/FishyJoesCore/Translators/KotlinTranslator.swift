@@ -223,12 +223,6 @@ final class KotlinTranslator: Translator {
 
         let resolved = context.resolve(type: variable.typeName.better)
 
-        // TODO: support async variables
-        // if variable.isAsyncOrIsolated {
-        //     resolved = TranslatedFuture(output: resolved)
-        //     context.addToTypeCache(resolved)
-        // }
-
         let jniSignature = resolved.jniType.asSignature
         let converterName = resolved.converterType.name
         let cType = "\(converterName).CType"
@@ -250,10 +244,6 @@ final class KotlinTranslator: Translator {
         fragment.outputBlock(" -> \(cType) = { \(formals.map(\.name).joined(separator: ", ")) in", closeWith: "}") {
             fragment.outputBlock("FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in", closeWith: "}") {
                 let value = "\(selfExpression).\(variable.name)"
-                // TODO: support async variables
-                // if variable.isAsyncOrIsolated {
-                //     value = "Future { try await \(value) }"
-                // }
                 fragment.output("try \(converterName).toJava(\(value), env: _javaEnv)")
             }
         }
@@ -454,7 +444,7 @@ final class KotlinTranslator: Translator {
         )
     }
 
-    func kotlin(field: Variable, context: FishyJoesContext, useNativeName: Bool = false) -> KotlinClass.MethodOrVariable? {
+    func kotlin(field: Field, context: FishyJoesContext, useNativeName: Bool = false) -> KotlinClass.MethodOrVariable? {
         let ktName: String
         var asMethod = false
 
@@ -470,35 +460,44 @@ final class KotlinTranslator: Translator {
             asMethod = exportAnnotation.kind == .asMethod
             ktName = exportAnnotation.name
         }
-        let resolved = context.resolve(type: field.typeName.better)
-        let deprecation = Deprecation(from: field.attributes)
+        let resolved = context.resolve(type: field.type)
         if asMethod {
             precondition(!field.isPubliclyWritable, "\(context.debugContext): Can't export mutable fields as methods: \(field.name)")
             return .method(
                 KotlinClass.Method(
                     documentation: field.documentation,
                     isStatic: field.isStatic,
-                    isSuspend: field.isAsyncOrIsolated,
-                    isOverride: field.exportAnnotation?.isOverride ?? false,
+                    isSuspend: field.isAsync,
+                    isOverride: field.isOverride,
                     name: ktName,
                     parameters: [],
                     compatibilityOrder: [],
                     returnType: resolved.kotlinType,
-                    deprecation: deprecation,
+                    deprecation: field.deprecation,
                     body: nil
                 )
             )
         } else {
+            if field.isAsync {
+                fatalError(
+                    """
+                        Field \(field.name) is isolated or async.
+                        No direct version of async properties exists in kotlin.
+                        Maybe use exportAsMethod instead?
+                        context: \(context.debugContext)
+                        """
+                )
+            }
             return .variable(
                 KotlinClass.Variable(
                     documentation: field.documentation,
                     isStatic: field.isStatic,
-                    isOverride: field.exportAnnotation?.isOverride ?? false,
+                    isOverride: field.isOverride,
                     isMutable: field.isMutable,
                     isPubliclyWritable: field.isPubliclyWritable,
                     name: ktName,
                     type: resolved.kotlinType,
-                    deprecation: deprecation
+                    deprecation: field.deprecation
                 )
             )
         }
