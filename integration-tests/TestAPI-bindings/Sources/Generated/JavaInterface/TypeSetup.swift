@@ -2549,6 +2549,21 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestMethodsProtocolConverter_xyzzy, to: UnsafeMutableRawPointer.self)
             )
         )
+        // print("setting up TestAPI.TestNonExportedProtocolEnum...")
+        try TestAPI.TestNonExportedProtocolEnum.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI.TestNonExportedProtocolEnum.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_get_fuga"),
+                signature: bag.add("()D"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestNonExportedProtocolEnum_fuga, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_hoge"),
+                signature: bag.add("()D"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestNonExportedProtocolEnum_hoge, to: UnsafeMutableRawPointer.self)
+            )
+        )
         // print("setting up TestAPI_CommonInterface._TestOptionalsProtocolConverter...")
         try TestAPI_CommonInterface._TestOptionalsProtocolConverter.javaSetup(env: env)
         try env.RegisterNatives(

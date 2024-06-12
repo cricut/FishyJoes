@@ -148,11 +148,8 @@ final class CSharpTranslator: Translator {
         }
         let resolved = context.resolve(type: field.type)
 
-        let isInProtocol = type.conformances.contains { conformance in
-            guard let resolved = context.resolve(type: conformance) as? TranslatedProtocol else {
-                fatalErr("Couldn't resolve conformance `\(conformance)` as protocol")
-            }
-            return resolved.fields.contains { $0.name == field.name }
+        let isInProtocol = type.exportedConformances(in: context).contains { conformance in
+            return conformance.fields.contains { $0.name == field.name }
         }
 
         var result = [

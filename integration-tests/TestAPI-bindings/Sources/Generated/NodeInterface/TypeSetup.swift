@@ -219,6 +219,7 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter.nodeSetup(env: env, module: module)
     try TestAPI.TestLeadingUnderscoredPropStruct.nodeSetup(env: env, module: module)
     try TestAPI_CommonInterface._TestMethodsProtocolConverter.nodeSetup(env: env, module: module)
+    try TestAPI.TestNonExportedProtocolEnum.nodeSetup(env: env, module: module)
     try TestAPI_CommonInterface._TestOptionalsProtocolConverter.nodeSetup(env: env, module: module)
     try TestAPI_CommonInterface._TestPropertiesProtocolConverter.nodeSetup(env: env, module: module)
     try TestAPI.TestProtocolClass.nodeSetup(env: env, module: module)

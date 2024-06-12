@@ -77,56 +77,80 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
-/// <!-- FishyJoes.export(URLs) -->
-class URLs {
-    URLs._();
+/// <!-- FishyJoes.export(TestNonExportedProtocolEnum) -->
+sealed class TestNonExportedProtocolEnum {
+    const factory TestNonExportedProtocolEnum.hogehoge(
+    ) = TestNonExportedProtocolEnum_Hogehoge;
+
+    const TestNonExportedProtocolEnum();
 
     static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
-        throw UnsupportedError('This class is supposed to be uninhabited');
+        final peekedObj = peekRef<TestNonExportedProtocolEnum>(obj);
+        if (peekedObj is TestNonExportedProtocolEnum_Hogehoge) { return 0; }
+        else { throw UnsupportedError('Unknown TestNonExportedProtocolEnum subclass'); }
     });
 
-    /// <!-- FishyJoes.export(localFile) -->
-    static Uri get localFile =>
-        check((exn) =>
-            consumeCreatedRef<Uri>(f__iota_get_TestAPI_URLs_localFile(Loader.shared.env, exn))
+    static CreatedRef newHogehoge(
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(TestNonExportedProtocolEnum_Hogehoge(
+        ))
+    );
+
+    static void extractHogehoge(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) {
+        catching(exn, () {
+            final _self = peekRef<TestNonExportedProtocolEnum_Hogehoge>(obj);
+        });
+    }
+
+    /// <!-- FishyJoes.export(fuga) -->
+    double get fuga =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                f__iota_get_TestAPI_TestNonExportedProtocolEnum_fuga(Loader.shared.env, _thisHandle.ptr, exn)
+            )
         )
     ;
-    /// <!-- FishyJoes.export(remoteFile) -->
-    static Uri get remoteFile =>
-        check((exn) =>
-            consumeCreatedRef<Uri>(f__iota_get_TestAPI_URLs_remoteFile(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(simple) -->
-    static Uri get simple =>
-        check((exn) =>
-            consumeCreatedRef<Uri>(f__iota_get_TestAPI_URLs_simple(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(echo) -->
-    static Uri echo(
-        Uri url,
+    /// <!-- FishyJoes.export(hoge) -->
+    double hoge(
     ) =>
-        GCRef.using(url, (_urlHandle) =>
-            consumeCreatedRef<Uri>(check((OutCreatedRef _exn) => f__iota_TestAPI_URLs_echo(Loader.shared.env, _urlHandle.ptr, _exn)))
+        GCRef.using(this, (_thisHandle) =>
+            check((OutCreatedRef _exn) => f__iota_TestAPI_TestNonExportedProtocolEnum_hoge(Loader.shared.env, _thisHandle.ptr, _exn))
         )
     ;
 
-    static late CreatedRef Function(
+    static late double Function(
         Env env,
-        UnownedRef url,
+        UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_URLs_echo;
-    static late CreatedRef Function(
+    ) f__iota_TestAPI_TestNonExportedProtocolEnum_hoge;
+    static late double Function(
         Env env,
+        UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_get_TestAPI_URLs_localFile;
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__iota_get_TestAPI_URLs_remoteFile;
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__iota_get_TestAPI_URLs_simple;
+    ) f__iota_get_TestAPI_TestNonExportedProtocolEnum_fuga;
+}
+
+class TestNonExportedProtocolEnum_Hogehoge extends TestNonExportedProtocolEnum {
+    const TestNonExportedProtocolEnum_Hogehoge();
+
+    @override
+    bool operator ==(Object other) {
+        return identical(other, this) ||
+        (
+            other.runtimeType == runtimeType &&
+            other is TestNonExportedProtocolEnum_Hogehoge
+        );
+    }
+
+    @override
+    int get hashCode => runtimeType.hashCode;
+
+    @override
+    String toString() => 'TestNonExportedProtocolEnum.hogehoge()';
+
+    TestNonExportedProtocolEnum_Hogehoge copyWith() => TestNonExportedProtocolEnum_Hogehoge();
 }

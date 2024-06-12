@@ -484,6 +484,13 @@ namespace Cricut.TestAPI.Tests {
             Assert.True(a.GetSpam());
             Assert.Equal(72930, a.GetNoot());
         }
+
+        [Fact]
+        public void TestTestNonExportedProtocolEnum() {
+            var a = new TestNonExportedProtocolEnum.Hogehoge();
+            Assert.Equal(987890.23, a.GetFuga());
+            Assert.Equal(23723.11, a.Hoge());
+        }
     }
 
     public record TestDefaultComputedPropertiesOverrideNoot: TestDefaultComputedProperties {

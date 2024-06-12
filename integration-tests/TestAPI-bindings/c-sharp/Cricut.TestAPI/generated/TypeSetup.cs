@@ -836,6 +836,22 @@ namespace Cricut.TestAPI {
             out CreatedRef _exn
         );
 
+        delegate CreatedRef Cricut_TestAPI_TestNonExportedProtocolEnum_new_hogehoge(
+            out CreatedRef _exn
+        );
+        unsafe delegate void Cricut_TestAPI_TestNonExportedProtocolEnum_extract_hogehoge(
+            UnownedRef obj,
+            out CreatedRef _exn
+        );
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_TestNonExportedProtocolEnum_setup(
+            IntPtr envRef,
+            FishyJoesRuntime.EnumDiscriminator discriminator,
+            Cricut_TestAPI_TestNonExportedProtocolEnum_new_hogehoge hogehoge_constructor,
+            Cricut_TestAPI_TestNonExportedProtocolEnum_extract_hogehoge hogehoge_extractor,
+            out CreatedRef _exn
+        );
+
         delegate CreatedRef _TestAPI_CommonInterface__TestOptionalsProtocolConverterConstructor(
             ConsumedRef ptr,
             out CreatedRef exn
@@ -3289,6 +3305,39 @@ namespace Cricut.TestAPI {
                     bag<_TestAPI_CommonInterface__TestMethodsProtocolConverter_plugh>((UnownedRef obj, System.Tuple<bool, double, System.Collections.Generic.IList<string>> fred, out CreatedRef exn) => Catching(out exn, () => 
                         new CreatedRef(obj.Peek<Cricut.TestAPI.TestMethodsProtocol>().Plugh(fred))
                     )),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.TestNonExportedProtocolEnum", () => {
+                Console.WriteLine("setting up TestAPI.TestNonExportedProtocolEnum...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_TestNonExportedProtocolEnum_setup(
+                    Loader.env,
+                    bag<FishyJoesRuntime.EnumDiscriminator>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
+                        var enumeration = obj.Peek<Cricut.TestAPI.TestNonExportedProtocolEnum>();
+                        if (enumeration is Cricut.TestAPI.TestNonExportedProtocolEnum.Hogehoge) { return (nint)0; }
+                        throw new Exception($"Found unexpected subclass of Cricut.TestAPI.TestNonExportedProtocolEnum: {enumeration}");
+                    })),
+                    bag<Cricut_TestAPI_TestNonExportedProtocolEnum_new_hogehoge>(
+                        (
+                            out CreatedRef exn
+                        ) => Catching(out exn, () => 
+                            new CreatedRef(new Cricut.TestAPI.TestNonExportedProtocolEnum.Hogehoge(
+                            ))
+                        )
+                    ),
+                    bag<Cricut_TestAPI_TestNonExportedProtocolEnum_extract_hogehoge>(
+                        (
+                            UnownedRef obj,
+                            out CreatedRef exn
+                        ) => {
+                            try {
+                                var enumeration = obj.Peek<Cricut.TestAPI.TestNonExportedProtocolEnum.Hogehoge>();
+                                exn = CreatedRef.Null;
+                            } catch (Exception e) {
+                                exn = new CreatedRef(e);
+                            }
+                        }
+                    ),
                     out exn
                 ));
             });

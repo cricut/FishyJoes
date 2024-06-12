@@ -3128,6 +3128,23 @@ export declare namespace TestAPI {
         ): [boolean, number, string];
     }
 
+    export type TestNonExportedProtocolEnum = "hogehoge";
+    export namespace TestNonExportedProtocolEnum {
+        /**
+         * <!-- FishyJoes.export(fuga) -->
+         */
+        function getFuga(
+            self: TestAPI.TestNonExportedProtocolEnum
+        ): number;
+
+        /**
+         * <!-- FishyJoes.export(hoge) -->
+         */
+        function hoge(
+            self: TestAPI.TestNonExportedProtocolEnum
+        ): number;
+    }
+
     /**
      * <!-- FishyJoes.export(TestOptionalsProtocol) -->
      */

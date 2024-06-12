@@ -52,6 +52,7 @@ import './TestDifferingExportNameStruct.dart' as TestAPI;
 import './TestLeadingUnderscoredProp.dart' as TestAPI;
 import './TestLeadingUnderscoredPropStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
+import './TestNonExportedProtocolEnum.dart' as TestAPI;
 import './TestOptionalsProtocol.dart' as TestAPI;
 import './TestPropertiesProtocol.dart' as TestAPI;
 import './TestProtocolClass.dart' as TestAPI;
@@ -422,6 +423,13 @@ typedef _TestAPI_TestMethodsProtocol_baz = ffi.Void Function(UnownedRef obj, ffi
 typedef _TestAPI_TestMethodsProtocol_garply = CreatedRef Function(UnownedRef obj, UnownedRef _0, OutCreatedRef exn);
 typedef _TestAPI_TestMethodsProtocol_xyzzy = CreatedRef Function(UnownedRef obj, ffi.IntPtr thud, UnownedRef grault, OutCreatedRef exn);
 typedef _TestAPI_TestMethodsProtocol_plugh = CreatedRef Function(UnownedRef obj, UnownedRef fred, OutCreatedRef exn);
+typedef TestAPI_TestNonExportedProtocolEnum_new_hogehoge = CreatedRef Function(
+    OutCreatedRef _exn
+);
+typedef TestAPI_TestNonExportedProtocolEnum_extract_hogehoge = ffi.Void Function(
+    UnownedRef obj,
+    OutCreatedRef _exn
+);
 typedef _TestAPI_TestOptionalsProtocolConstructor = CreatedRef Function(
     ffi.Pointer ref,
     OutCreatedRef exn
@@ -1311,6 +1319,22 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_CommonInterface__TestMethodsProtocolConverter_setup');
+    final TestAPI_TestNonExportedProtocolEnum_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<EnumDiscriminatorTag>> discriminator,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_TestNonExportedProtocolEnum_new_hogehoge>> hogehoge_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_TestNonExportedProtocolEnum_extract_hogehoge>> hogehoge_extractor,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<EnumDiscriminatorTag>> discriminator,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_TestNonExportedProtocolEnum_new_hogehoge>> hogehoge_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_TestNonExportedProtocolEnum_extract_hogehoge>> hogehoge_extractor,
+            OutCreatedRef exn
+        )
+    >('TestAPI_TestNonExportedProtocolEnum_setup');
     final TestAPI_CommonInterface__TestOptionalsProtocolConverter_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -3753,6 +3777,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_TestMethodsProtocol_xyzzy");
+    TestAPI.TestNonExportedProtocolEnum.f__iota_TestAPI_TestNonExportedProtocolEnum_hoge = dylib.lookupFunction<
+        ffi.Double Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        double Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestNonExportedProtocolEnum_hoge");
     TestAPI.ExternalWitness_TestOptionalsProtocol.f__iota_TestAPI_TestOptionalsProtocol_spqr = dylib.lookupFunction<
         ffi.IntPtr Function(
             Env env,
@@ -6239,6 +6275,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_TestLeadingUnderscoredProp__leadingUnderscoreProp");
+    TestAPI.TestNonExportedProtocolEnum.f__iota_get_TestAPI_TestNonExportedProtocolEnum_fuga = dylib.lookupFunction<
+        ffi.Double Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        double Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestNonExportedProtocolEnum_fuga");
     TestAPI.ExternalWitness_TestOptionalsProtocol.f__iota_get_TestAPI_TestOptionalsProtocol_flarp = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -8878,6 +8926,19 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.TestMethodsProtocol_FfiHooks.ffi_garply),
                 ffi.Pointer.fromFunction(TestAPI.TestMethodsProtocol_FfiHooks.ffi_xyzzy),
                 ffi.Pointer.fromFunction(TestAPI.TestMethodsProtocol_FfiHooks.ffi_plugh),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.TestNonExportedProtocolEnum", () {
+        // print("setting up TestAPI.TestNonExportedProtocolEnum (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_TestNonExportedProtocolEnum_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.TestNonExportedProtocolEnum.enumDiscriminator, 0),
+                ffi.Pointer.fromFunction(TestAPI.TestNonExportedProtocolEnum.newHogehoge),
+                ffi.Pointer.fromFunction(TestAPI.TestNonExportedProtocolEnum.extractHogehoge),
                 exn
             );
         });

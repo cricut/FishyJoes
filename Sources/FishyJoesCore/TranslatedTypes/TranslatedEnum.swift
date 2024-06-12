@@ -89,8 +89,9 @@ struct TranslatedEnum: TranslatedType {
         self.fields = Field.fields(type: type)
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
+
         self.conformances = Set(type.implements.compactMap {
-            .init(named: $0.value, context: context)
+            return .init(named: $0.value, context: context)
         })
     }
 
@@ -397,9 +398,7 @@ struct TranslatedEnum: TranslatedType {
                 )
             )
 
-            let nodeConformances = Set(conformances.map {
-                context.resolve(type: $0).nodeType
-            })
+            let nodeConformances = Set(exportedConformances(in: context).map { $0.nodeType })
             var tsCases: [TypeScriptAnnotations.TSType] = []
             for enumCase in cases {
                 let className = "\(nodeName).\(upperCaseFirst(enumCase.name))"
@@ -570,8 +569,9 @@ struct TranslatedEnum: TranslatedType {
                     }
                 },
                 fields: fields,
-                methods: methods
-            ).conforming(to: conformances, context: context)
+                methods: methods,
+                conformances: Set(exportedConformances(in: context).map { $0.kotlinType })
+            ).conforming(to: exportedConformances(in: context), context: context)
         )
 
         return fragment

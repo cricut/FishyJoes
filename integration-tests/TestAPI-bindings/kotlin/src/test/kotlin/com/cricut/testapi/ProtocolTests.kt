@@ -587,4 +587,11 @@ internal class ProtocolTests {
         assertEquals(true, a.spam)
         assertEquals(72930, a.noot)
     }
+
+    @Test
+    fun testNonExportedProtocolEnum() = runTest(timeout = 1000000.seconds) {
+        val a = TestNonExportedProtocolEnum.Hogehoge
+        assertEquals(987890.23, a.fuga)
+        assertEquals(23723.11, a.hoge())
+    }
 }

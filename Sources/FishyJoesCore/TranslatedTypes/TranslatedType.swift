@@ -91,6 +91,12 @@ extension TranslatedType {
     var conformances: Set<BetterType> { [] }
 }
 
+extension TranslatedType {
+    func exportedConformances(in context: FishyJoesContext) -> [TranslatedProtocol] {
+        conformances.compactMap { try? context.tryResolve(type: $0) as? TranslatedProtocol }
+    }
+}
+
 indirect enum JNIType: Codable, Hashable {
     case object(String)
     case array(JNIType)

@@ -423,6 +423,12 @@ void main() {
         final a = TestDifferingExportNameStruct(tata: 8923);
         expect(a.tata, equals(8923));
       });
+
+      test('testNonExportedProtocol', () {
+        final a = TestNonExportedProtocolEnum.hogehoge();
+        expect(a.fuga, equals(987890.23));
+        expect(a.hoge(), equals(23723.11));
+      });
   });
 }
 

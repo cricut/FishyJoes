@@ -40,8 +40,9 @@ struct TranslatedStruct: TranslatedType {
         self.documentation = type.documentation
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
+
         self.conformances = Set(type.implements.compactMap {
-            .init(named: $0.value, context: context)
+            return .init(named: $0.value, context: context)
         })
     }
 
@@ -172,9 +173,7 @@ struct TranslatedStruct: TranslatedType {
             }
         }
 
-        let nodeConformances = Set(conformances.map {
-            context.resolve(type: $0).nodeType
-        })
+        let nodeConformances = Set(exportedConformances(in: context).map { $0.nodeType})
         context.tsAnnotations.add(class: .init(
             documentation: documentation,
             name: nodeName,
@@ -403,8 +402,9 @@ struct TranslatedStruct: TranslatedType {
                     arguments: []
                 ),
                 fields: fields,
-                methods: methods
-            ).conforming(to: conformances, context: context)
+                methods: methods,
+                conformances: Set(exportedConformances(in: context).map { $0.kotlinType })
+            ).conforming(to: exportedConformances(in: context), context: context)
         )
 
         return fragment
@@ -685,7 +685,7 @@ struct TranslatedStruct: TranslatedType {
                 constructor: .`public`(fields: storedFields),
                 fields: productFields,
                 methods: productMethods,
-                conformances: Set(conformances.map { context.resolve(type: $0).cSharpType })
+                conformances: Set(exportedConformances(in: context).map { $0.cSharpType})
             )
         )
     }
@@ -716,9 +716,7 @@ struct TranslatedStruct: TranslatedType {
                 ),
                 fields: fields,
                 methods: methods,
-                conformances: Set(conformances.map {
-                    context.resolve(type: $0).dartType
-                })
+                conformances: Set(exportedConformances(in: context).map { $0.dartType})
             )
         )
     }

@@ -51,6 +51,7 @@ export './ExternalWitness_TestLeadingUnderscoredProp.dart';
 export './TestLeadingUnderscoredPropStruct.dart';
 export './TestMethodsProtocol.dart';
 export './ExternalWitness_TestMethodsProtocol.dart';
+export './TestNonExportedProtocolEnum.dart';
 export './TestOptionalsProtocol.dart';
 export './ExternalWitness_TestOptionalsProtocol.dart';
 export './TestPropertiesProtocol.dart';
