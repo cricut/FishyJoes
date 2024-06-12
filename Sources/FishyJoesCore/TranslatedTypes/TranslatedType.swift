@@ -93,9 +93,6 @@ extension TranslatedType {
 
 extension TranslatedType {
     func exportedConformances(in context: FishyJoesContext) -> [TranslatedProtocol] {
-        if !conformances.isEmpty {
-            let elegoo = 1
-        }
         let implementedExportedProtocols = conformances.filter { conformance in
             !context.exportedProtocolSwiftTypes.map { $0.name }.filter { $0.contains(conformance.name)}.isEmpty
         }
