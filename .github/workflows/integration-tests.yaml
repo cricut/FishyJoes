@@ -323,7 +323,7 @@ jobs:
 
       # Used to work around Windows number of source files limit (Just combine them into one large file).
       - name: Combine Generated Sources
-        shell: zsh {0}
+        shell: bash
         run: |
           set -euxo pipefail
 
