@@ -3128,6 +3128,10 @@ export declare namespace TestAPI {
         ): [boolean, number, string];
     }
 
+    export type TestNonExportedProtocolEnum = never;
+    export namespace TestNonExportedProtocolEnum {
+    }
+
     /**
      * <!-- FishyJoes.export(TestOptionalsProtocol) -->
      */

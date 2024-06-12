@@ -559,3 +559,27 @@ public struct TestDifferingExportNameStruct: TestDifferingExportNameProtocol {
         self.tata = tata
     }
 }
+
+// This protocol is NOT exported to FishyJoes. We must confirm that an extension a thing that conforms to this protocol does NOT make it into exportedProtocols that are used by the Kotlin/Dart/C#/Node things, because Sourcery does add it to type.implements in this case.
+public protocol NonExportedProtocol1 {
+    var fuga: Double { get throws }
+}
+
+public protocol NonExportedProtocol2 {
+    func hoge() -> Double
+}
+
+/// <!-- FishyJoes.export(TestNonExportedProtocolEnum) -->
+public enum TestNonExportedProtocolEnum: NonExportedProtocol1 {
+    /// <!-- FishyJoes.export(fuga) -->
+    public var fuga: Double {
+        987890.23
+    }
+}
+
+extension TestNonExportedProtocolEnum: NonExportedProtocol2 {
+    /// <!-- FishyJoes.export(hoge) -->
+    public func hoge() -> Double {
+        23723.11
+    }
+}

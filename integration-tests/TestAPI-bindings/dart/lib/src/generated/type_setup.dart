@@ -52,6 +52,7 @@ import './TestDifferingExportNameStruct.dart' as TestAPI;
 import './TestLeadingUnderscoredProp.dart' as TestAPI;
 import './TestLeadingUnderscoredPropStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
+import './TestNonExportedProtocolEnum.dart' as TestAPI;
 import './TestOptionalsProtocol.dart' as TestAPI;
 import './TestPropertiesProtocol.dart' as TestAPI;
 import './TestProtocolClass.dart' as TestAPI;
@@ -1311,6 +1312,16 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_CommonInterface__TestMethodsProtocolConverter_setup');
+    final TestAPI_TestNonExportedProtocolEnum_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            OutCreatedRef exn
+        )
+    >('TestAPI_TestNonExportedProtocolEnum_setup');
     final TestAPI_CommonInterface__TestOptionalsProtocolConverter_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -3753,6 +3764,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_TestMethodsProtocol_xyzzy");
+    TestAPI.TestNonExportedProtocolEnum.f__iota_TestAPI_TestNonExportedProtocolEnum_hoge = dylib.lookupFunction<
+        ffi.Double Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        double Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestNonExportedProtocolEnum_hoge");
     TestAPI.ExternalWitness_TestOptionalsProtocol.f__iota_TestAPI_TestOptionalsProtocol_spqr = dylib.lookupFunction<
         ffi.IntPtr Function(
             Env env,
@@ -6239,6 +6262,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_TestLeadingUnderscoredProp__leadingUnderscoreProp");
+    TestAPI.TestNonExportedProtocolEnum.f__iota_get_TestAPI_TestNonExportedProtocolEnum_fuga = dylib.lookupFunction<
+        ffi.Double Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        double Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestNonExportedProtocolEnum_fuga");
     TestAPI.ExternalWitness_TestOptionalsProtocol.f__iota_get_TestAPI_TestOptionalsProtocol_flarp = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -8878,6 +8913,16 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.TestMethodsProtocol_FfiHooks.ffi_garply),
                 ffi.Pointer.fromFunction(TestAPI.TestMethodsProtocol_FfiHooks.ffi_xyzzy),
                 ffi.Pointer.fromFunction(TestAPI.TestMethodsProtocol_FfiHooks.ffi_plugh),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.TestNonExportedProtocolEnum", () {
+        // print("setting up TestAPI.TestNonExportedProtocolEnum (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_TestNonExportedProtocolEnum_setup(
+                Loader.shared.env,
                 exn
             );
         });

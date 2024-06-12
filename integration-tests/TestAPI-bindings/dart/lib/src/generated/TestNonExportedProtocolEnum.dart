@@ -77,56 +77,38 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
-/// <!-- FishyJoes.export(URLs) -->
-class URLs {
-    URLs._();
+/// <!-- FishyJoes.export(TestNonExportedProtocolEnum) -->
+class TestNonExportedProtocolEnum {
+    TestNonExportedProtocolEnum._();
 
     static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
         throw UnsupportedError('This class is supposed to be uninhabited');
     });
 
-    /// <!-- FishyJoes.export(localFile) -->
-    static Uri get localFile =>
-        check((exn) =>
-            consumeCreatedRef<Uri>(f__iota_get_TestAPI_URLs_localFile(Loader.shared.env, exn))
+    /// <!-- FishyJoes.export(fuga) -->
+    double get fuga =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                f__iota_get_TestAPI_TestNonExportedProtocolEnum_fuga(Loader.shared.env, _thisHandle.ptr, exn)
+            )
         )
     ;
-    /// <!-- FishyJoes.export(remoteFile) -->
-    static Uri get remoteFile =>
-        check((exn) =>
-            consumeCreatedRef<Uri>(f__iota_get_TestAPI_URLs_remoteFile(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(simple) -->
-    static Uri get simple =>
-        check((exn) =>
-            consumeCreatedRef<Uri>(f__iota_get_TestAPI_URLs_simple(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(echo) -->
-    static Uri echo(
-        Uri url,
+    /// <!-- FishyJoes.export(hoge) -->
+    double hoge(
     ) =>
-        GCRef.using(url, (_urlHandle) =>
-            consumeCreatedRef<Uri>(check((OutCreatedRef _exn) => f__iota_TestAPI_URLs_echo(Loader.shared.env, _urlHandle.ptr, _exn)))
+        GCRef.using(this, (_thisHandle) =>
+            check((OutCreatedRef _exn) => f__iota_TestAPI_TestNonExportedProtocolEnum_hoge(Loader.shared.env, _thisHandle.ptr, _exn))
         )
     ;
 
-    static late CreatedRef Function(
+    static late double Function(
         Env env,
-        UnownedRef url,
+        UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_URLs_echo;
-    static late CreatedRef Function(
+    ) f__iota_TestAPI_TestNonExportedProtocolEnum_hoge;
+    static late double Function(
         Env env,
+        UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_get_TestAPI_URLs_localFile;
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__iota_get_TestAPI_URLs_remoteFile;
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__iota_get_TestAPI_URLs_simple;
+    ) f__iota_get_TestAPI_TestNonExportedProtocolEnum_fuga;
 }

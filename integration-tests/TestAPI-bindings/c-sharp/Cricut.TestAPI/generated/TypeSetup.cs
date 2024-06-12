@@ -836,6 +836,12 @@ namespace Cricut.TestAPI {
             out CreatedRef _exn
         );
 
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_TestNonExportedProtocolEnum_setup(
+            IntPtr envRef,
+            out CreatedRef _exn
+        );
+
         delegate CreatedRef _TestAPI_CommonInterface__TestOptionalsProtocolConverterConstructor(
             ConsumedRef ptr,
             out CreatedRef exn
@@ -3289,6 +3295,13 @@ namespace Cricut.TestAPI {
                     bag<_TestAPI_CommonInterface__TestMethodsProtocolConverter_plugh>((UnownedRef obj, System.Tuple<bool, double, System.Collections.Generic.IList<string>> fred, out CreatedRef exn) => Catching(out exn, () => 
                         new CreatedRef(obj.Peek<Cricut.TestAPI.TestMethodsProtocol>().Plugh(fred))
                     )),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.TestNonExportedProtocolEnum", () => {
+                Console.WriteLine("setting up TestAPI.TestNonExportedProtocolEnum...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_TestNonExportedProtocolEnum_setup(
+                    Loader.env,
                     out exn
                 ));
             });
