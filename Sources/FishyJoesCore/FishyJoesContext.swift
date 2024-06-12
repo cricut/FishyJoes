@@ -7,7 +7,6 @@ public class FishyJoesContext {
     let requiredModulePaths: [String]
     let templateContext: TemplateContext
     var typeCache: [BetterType: TranslatedTypeOrAlias] = [:]
-    var exportedProtocolSwiftTypes: Set<BetterType> = []
 
     var fileHeaders: [String: Set<FileHeader>] = [:]
     func addHeader(file: String, priority: Int = 0, _ contents: String) {
@@ -169,11 +168,6 @@ public class FishyJoesContext {
             }
         }
 
-        // Find all translated protocol types first, so we can filter on them later because type.implements can be nonempty for non fishy joe exported types
-        exportedProtocolSwiftTypes = Set(templateContext.types.types.filter { $0 is SourceryProtocol }.compactMap { type -> BetterType? in
-            debugContext = "Translating type \(type.name)"
-            return translate(typeDefinition: type)?.sourceType
-        })
         // Collect type information before starting translation
         // This collects the named types possible for use later in resolve().
         let translatedTypes = templateContext.types.types.compactMap { type -> TranslatedType? in

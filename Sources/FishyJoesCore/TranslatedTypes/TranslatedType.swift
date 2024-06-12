@@ -93,14 +93,7 @@ extension TranslatedType {
 
 extension TranslatedType {
     func exportedConformances(in context: FishyJoesContext) -> [TranslatedProtocol] {
-        let implementedExportedProtocols = conformances.filter { conformance in
-            !context.exportedProtocolSwiftTypes.map { $0.name }.filter { $0.contains(conformance.name)}.isEmpty
-        }
-        let exportedConformances = implementedExportedProtocols.compactMap {
-            let resolved = try? context.resolve(type: $0)
-            return resolved as? TranslatedProtocol
-        }
-        return exportedConformances
+        conformances.compactMap { try? context.tryResolve(type: $0) as? TranslatedProtocol }
     }
 }
 
