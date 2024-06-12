@@ -328,7 +328,7 @@ jobs:
           set -euxo pipefail
 
           cd integration-tests/TestAPI-bindings
-          source combine_generated_sourches.sh TestAPI
+          source combine_generated_sources.sh TestAPI
 
       - name: Build FishyJoesNodeRuntime
         shell: bash
