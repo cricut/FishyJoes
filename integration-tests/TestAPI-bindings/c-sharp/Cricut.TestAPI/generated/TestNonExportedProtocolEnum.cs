@@ -11,6 +11,8 @@ namespace Cricut.TestAPI {
     public record TestNonExportedProtocolEnum {
         private TestNonExportedProtocolEnum() {}
 
+        public sealed record Hogehoge : TestNonExportedProtocolEnum;
+
         /// <summary>
         /// <!-- FishyJoes.export(fuga) -->
         /// </summary>

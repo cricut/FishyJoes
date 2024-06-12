@@ -78,12 +78,33 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: annotate_overrides
 
 /// <!-- FishyJoes.export(TestNonExportedProtocolEnum) -->
-class TestNonExportedProtocolEnum {
-    TestNonExportedProtocolEnum._();
+sealed class TestNonExportedProtocolEnum {
+    const factory TestNonExportedProtocolEnum.hogehoge(
+    ) = TestNonExportedProtocolEnum_Hogehoge;
+
+    const TestNonExportedProtocolEnum();
 
     static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
-        throw UnsupportedError('This class is supposed to be uninhabited');
+        final peekedObj = peekRef<TestNonExportedProtocolEnum>(obj);
+        if (peekedObj is TestNonExportedProtocolEnum_Hogehoge) { return 0; }
+        else { throw UnsupportedError('Unknown TestNonExportedProtocolEnum subclass'); }
     });
+
+    static CreatedRef newHogehoge(
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(TestNonExportedProtocolEnum_Hogehoge(
+        ))
+    );
+
+    static void extractHogehoge(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) {
+        catching(exn, () {
+            final _self = peekRef<TestNonExportedProtocolEnum_Hogehoge>(obj);
+        });
+    }
 
     /// <!-- FishyJoes.export(fuga) -->
     double get fuga =>
@@ -111,4 +132,25 @@ class TestNonExportedProtocolEnum {
         UnownedRef _this,
         OutCreatedRef _exn
     ) f__iota_get_TestAPI_TestNonExportedProtocolEnum_fuga;
+}
+
+class TestNonExportedProtocolEnum_Hogehoge extends TestNonExportedProtocolEnum {
+    const TestNonExportedProtocolEnum_Hogehoge();
+
+    @override
+    bool operator ==(Object other) {
+        return identical(other, this) ||
+        (
+            other.runtimeType == runtimeType &&
+            other is TestNonExportedProtocolEnum_Hogehoge
+        );
+    }
+
+    @override
+    int get hashCode => runtimeType.hashCode;
+
+    @override
+    String toString() => 'TestNonExportedProtocolEnum.hogehoge()';
+
+    TestNonExportedProtocolEnum_Hogehoge copyWith() => TestNonExportedProtocolEnum_Hogehoge();
 }

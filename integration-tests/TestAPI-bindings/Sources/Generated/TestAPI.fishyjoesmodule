@@ -2422,7 +2422,7 @@
         ],
         "name" : "TestAPI"
       },
-      "isInhabited" : false,
+      "isInhabited" : true,
       "jniType" : {
         "object" : {
           "_0" : "com/cricut/testapi/TestNonExportedProtocolEnum"
@@ -14570,7 +14570,54 @@
 
             ],
             "methods" : [
-
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(hoge) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "hoge",
+                "parameters" : [
+                  {
+                    "name" : "self",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.TestNonExportedProtocolEnum"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(fuga) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "getFuga",
+                "parameters" : [
+                  {
+                    "name" : "self",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.TestNonExportedProtocolEnum"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
             ],
             "name" : "TestNonExportedProtocolEnum",
             "namespaces" : {
@@ -15361,7 +15408,11 @@
             "value" : {
               "union" : {
                 "_0" : [
-
+                  {
+                    "exactString" : {
+                      "_0" : "hogehoge"
+                    }
+                  }
                 ]
               }
             }

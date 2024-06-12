@@ -593,3 +593,9 @@ test('testDifferingExportNameStruct', async () => {
     const a = new TestAPI.TestDifferingExportNameStruct(1248);
     expect(a.tata).toEqual(1248);
 });
+
+test('testNonExportedProtocolEnum', async () => {
+    const enumCase = "hogehoge"
+    expect(TestAPI.TestNonExportedProtocolEnum.getFuga(enumCase)).toEqual(987890.23);
+    expect(TestAPI.TestNonExportedProtocolEnum.hoge(enumCase)).toEqual(23723.11);
+});

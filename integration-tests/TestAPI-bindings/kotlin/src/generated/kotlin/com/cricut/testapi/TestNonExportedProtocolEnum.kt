@@ -8,6 +8,7 @@ import kotlinx.coroutines.*
  */
 @OptIn(ExperimentalCoroutinesApi::class)
 sealed class TestNonExportedProtocolEnum {
+    object Hogehoge : TestNonExportedProtocolEnum()
     /**
      * <!-- FishyJoes.export(fuga) -->
      */

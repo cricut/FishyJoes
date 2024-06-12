@@ -571,6 +571,8 @@ public protocol NonExportedProtocol2 {
 
 /// <!-- FishyJoes.export(TestNonExportedProtocolEnum) -->
 public enum TestNonExportedProtocolEnum: NonExportedProtocol1 {
+    case hogehoge
+
     /// <!-- FishyJoes.export(fuga) -->
     public var fuga: Double {
         987890.23
