@@ -75,6 +75,15 @@ jobs:
 
           ./scripts/compile-node-runtime.sh
 
+      # Used to work around Windows number of source files limit (Just combine them into one large file).
+      - name: Combine Generated Sources
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          cd integration-tests/TestAPI-bindings
+          source combine_generated_sourches.sh TestAPI
+
       - name: Test TypeScript from npm via fishy-joes
         shell: zsh {0}
         run: |
