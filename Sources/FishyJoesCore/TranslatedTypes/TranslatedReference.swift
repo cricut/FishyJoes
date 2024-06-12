@@ -45,10 +45,7 @@ struct TranslatedReference: TranslatedType {
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
 
-        let implementedExportedProtocols = type.implements.filter { implement in
-            !context.exportedProtocolSwiftTypes.map { $0.name }.filter { $0.contains(implement.value.name)}.isEmpty
-        }
-        self.conformances = Set(implementedExportedProtocols.compactMap {
+        self.conformances = Set(type.implements.compactMap {
             return .init(named: $0.value, context: context)
         })
     }
@@ -160,9 +157,7 @@ struct TranslatedReference: TranslatedType {
             }
         }
 
-        let nodeConformances = Set(conformances.map {
-            context.resolve(type: $0).nodeType
-        })
+        let nodeConformances = Set(exportedConformances(in: context).map { $0.nodeType})
         context.tsAnnotations.add(class:
             .init(
                 documentation: documentation,
@@ -345,7 +340,7 @@ struct TranslatedReference: TranslatedType {
             fields: fields,
             methods: methods,
             conformances: [KotlinClass.KType.named(package: "com.cricut.fishyjoes.runtime", name: "SwiftReference(_swiftReference)")]
-        ).conforming(to: conformances, context: context)
+        ).conforming(to: exportedConformances(in: context), context: context)
         context.add(kotlinClass: product)
 
         return fragment
@@ -511,7 +506,7 @@ struct TranslatedReference: TranslatedType {
             constructor: .reference,
             fields: productFields,
             methods: productMethods,
-            conformances: Set(conformances.map { context.resolve(type: $0).cSharpType })
+            conformances: Set(exportedConformances(in: context).map { $0.cSharpType})
         )
         context.add(cSharpClass: product)
     }
@@ -593,9 +588,7 @@ struct TranslatedReference: TranslatedType {
             constructor: .reference,
             fields: fields,
             methods: methods,
-            conformances: Set(conformances.map {
-                context.resolve(type: $0).dartType
-            })
+            conformances: Set(exportedConformances(in: context).map { $0.dartType})
         )
         context.add(dartClass: dartProduct)
     }

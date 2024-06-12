@@ -45,10 +45,7 @@ struct TranslatedProtocol: TranslatedType {
         self.definingTSNamespace = context.module.name
         self.isInhabited = type.isInhabited
 
-        let implementedExportedProtocols = type.implements.filter { implement in
-            !context.exportedProtocolSwiftTypes.map { $0.name }.filter { $0.contains(implement.value.name)}.isEmpty
-        }
-        self.conformances = Set(implementedExportedProtocols.compactMap {
+        self.conformances = Set(type.implements.compactMap {
             return .init(named: $0.value, context: context)
         })
 
@@ -573,9 +570,7 @@ struct TranslatedProtocol: TranslatedType {
 
         fragment.blankLine()
 
-        let nodeConformances = Set(conformances.map {
-            context.resolve(type: $0).nodeType
-        })
+        let nodeConformances = Set(exportedConformances(in: context).map { $0.nodeType})
         context.tsAnnotations.add(class:
             .init(
                 name: nodeExternalWitnessClassName,
@@ -949,8 +944,8 @@ struct TranslatedProtocol: TranslatedType {
                 name: kotlinName,
                 fields: interfaceFields,
                 methods: interfaceMethods,
-                conformances: Set(conformances.map { context.resolve(type: $0).kotlinType })
-            ).conforming(to: conformances, context: context)
+                conformances: Set(exportedConformances(in: context).map { $0.kotlinType})
+            ).conforming(to: exportedConformances(in: context), context: context)
         )
 
         let externalWitnessFieldsAndMethods = {
@@ -960,6 +955,8 @@ struct TranslatedProtocol: TranslatedType {
             return fAndM
         }()
         let (externalWitnessFields, externalWitnessMethods) = KotlinClass.separate(fieldsAndMethods: externalWitnessFieldsAndMethods)
+        // We know the sourceType is a TranslatedProtocol because we're in the TranslatedProtocol struct so the force cast is okay.
+        let resolvedSource = context.resolve(type: sourceType) as! TranslatedProtocol
         context.add(
             kotlinClass: KotlinProductClass(
                 module: context.module,
@@ -970,7 +967,7 @@ struct TranslatedProtocol: TranslatedType {
                 fields: externalWitnessFields,
                 methods: externalWitnessMethods,
                 conformances: [KotlinClass.KType.named(package: "com.cricut.fishyjoes.runtime", name: "SwiftReference(_swiftReference)")]
-            ).conforming(to: [sourceType], context: context)
+            ).conforming(to: [resolvedSource], context: context)
         )
 
         return [fragment]
@@ -993,7 +990,7 @@ struct TranslatedProtocol: TranslatedType {
                 name: cSharpType.name,
                 fields: protocolFields,
                 methods: protocolMethods,
-                conformances: Set(conformances.map { context.resolve(type: $0).cSharpType })
+                conformances: Set(exportedConformances(in: context).map { $0.cSharpType})
             )
         )
 
@@ -1037,9 +1034,7 @@ struct TranslatedProtocol: TranslatedType {
                 name: dartType.name(),
                 fields: protocolFields,
                 methods: protocolMethods,
-                conformances: Set(conformances.map {
-                    context.resolve(type: $0).dartType
-                })
+                conformances: Set(exportedConformances(in: context).map { $0.dartType})
             )
         )
 

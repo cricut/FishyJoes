@@ -91,6 +91,22 @@ extension TranslatedType {
     var conformances: Set<BetterType> { [] }
 }
 
+extension TranslatedType {
+    func exportedConformances(in context: FishyJoesContext) -> [TranslatedProtocol] {
+        if !conformances.isEmpty {
+            let elegoo = 1
+        }
+        let implementedExportedProtocols = conformances.filter { conformance in
+            !context.exportedProtocolSwiftTypes.map { $0.name }.filter { $0.contains(conformance.name)}.isEmpty
+        }
+        let exportedConformances = implementedExportedProtocols.compactMap {
+            let resolved = try? context.resolve(type: $0)
+            return resolved as? TranslatedProtocol
+        }
+        return exportedConformances
+    }
+}
+
 indirect enum JNIType: Codable, Hashable {
     case object(String)
     case array(JNIType)

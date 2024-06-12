@@ -587,56 +587,53 @@ final class KotlinTranslator: Translator {
         }
     }
 
-    func conform(_ kotlinClass: KotlinClass, to protoBetterType: BetterType, context: FishyJoesContext) {
-        let resolved = context.resolve(type: protoBetterType)
-        kotlinClass.conformances.insert(resolved.kotlinType)
+    func conform(_ kotlinClass: KotlinClass, to translatedProtocol: TranslatedProtocol, context: FishyJoesContext) {
+        kotlinClass.conformances.insert(translatedProtocol.kotlinType)
 
-        if let proto = resolved as? TranslatedProtocol {
-            let protoDefs = Set(
-                proto.methods.compactMap { context.kotlin(method: $0).map(OverrideSignature.init) } +
-                proto.fields.compactMap { context.kotlin(field: $0).map(OverrideSignature.init) }
-            )
+        let protoDefs = Set(
+            translatedProtocol.methods.compactMap { context.kotlin(method: $0).map(OverrideSignature.init) } +
+            translatedProtocol.fields.compactMap { context.kotlin(field: $0).map(OverrideSignature.init) }
+        )
 
-            kotlinClass.methods = kotlinClass.methods.map { method in
-                var modified = method
-                if protoDefs.contains(OverrideSignature(.method(method))) {
-                    modified.isOverride = true
-                }
-                return modified
+        kotlinClass.methods = kotlinClass.methods.map { method in
+            var modified = method
+            if protoDefs.contains(OverrideSignature(.method(method))) {
+                modified.isOverride = true
             }
-            kotlinClass.fields = kotlinClass.fields.map { field in
+            return modified
+        }
+        kotlinClass.fields = kotlinClass.fields.map { field in
+            var modified = field
+            if protoDefs.contains(OverrideSignature(.variable(field))) {
+                modified.isOverride = true
+            }
+            return modified
+        }
+        if let product = kotlinClass as? KotlinProductClass {
+            product.fields = product.fields.map { field in
                 var modified = field
                 if protoDefs.contains(OverrideSignature(.variable(field))) {
                     modified.isOverride = true
                 }
                 return modified
             }
-            if let product = kotlinClass as? KotlinProductClass {
-                product.fields = product.fields.map { field in
+            if case let .`public`(constructorFields, constructorArguments) = product.constructor {
+                let overriddenConstructorFields = constructorFields.map { field in
                     var modified = field
                     if protoDefs.contains(OverrideSignature(.variable(field))) {
                         modified.isOverride = true
                     }
                     return modified
                 }
-                if case let .`public`(constructorFields, constructorArguments) = product.constructor {
-                    let overriddenConstructorFields = constructorFields.map { field in
-                        var modified = field
-                        if protoDefs.contains(OverrideSignature(.variable(field))) {
-                            modified.isOverride = true
-                        }
-                        return modified
-                    }
 
-                    product.constructor = .public(fields: overriddenConstructorFields, arguments: constructorArguments)
-                }
+                product.constructor = .public(fields: overriddenConstructorFields, arguments: constructorArguments)
             }
         }
     }
 }
 
 extension KotlinClass {
-    func conforming(to protocols: Set<BetterType>, context: FishyJoesContext) -> KotlinClass {
+    func conforming(to protocols: [TranslatedProtocol], context: FishyJoesContext) -> KotlinClass {
         protocols.reduce(into: self) { kClass, proto in
             context.kotlinTranslator.conform(kClass, to: proto, context: context)
         }

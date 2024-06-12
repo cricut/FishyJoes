@@ -89,10 +89,8 @@ struct TranslatedEnum: TranslatedType {
         self.fields = Field.fields(type: type)
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
-        let implementedExportedProtocols = type.implements.filter { implement in
-            !context.exportedProtocolSwiftTypes.map { $0.name }.filter { $0.contains(implement.value.name)}.isEmpty
-        }
-        self.conformances = Set(implementedExportedProtocols.compactMap {
+
+        self.conformances = Set(type.implements.compactMap {
             return .init(named: $0.value, context: context)
         })
     }
@@ -573,8 +571,9 @@ struct TranslatedEnum: TranslatedType {
                     }
                 },
                 fields: fields,
-                methods: methods
-            ).conforming(to: conformances, context: context)
+                methods: methods,
+                conformances: Set(exportedConformances(in: context).map { $0.kotlinType })
+            ).conforming(to: exportedConformances(in: context), context: context)
         )
 
         return fragment
