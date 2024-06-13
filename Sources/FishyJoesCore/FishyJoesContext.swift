@@ -289,7 +289,7 @@ public class FishyJoesContext {
             return fragment
         }
 
-        return (headerFragments + collectedFragments).map(\.contents).joined()
+        return (headerFragments.sorted(by: { $0.sourceryDestination < $1.sourceryDestination }) + collectedFragments.sorted(by: { $0.sourceryDestination < $1.sourceryDestination })).map(\.contents).joined()
     }
 
     /// Process a set of classes to nest their inner classes properly for generation.
