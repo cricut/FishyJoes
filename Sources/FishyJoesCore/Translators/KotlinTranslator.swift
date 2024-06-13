@@ -55,6 +55,7 @@ final class KotlinTranslator: Translator {
 
         let fragment = context.swiftFragment(
             "JavaInterface/\(context.module.name)+java.swift",
+            sortKey: containingNamespace,
             additionalImports: ["Foundation", "FishyJoesJavaRuntime", "\(context.module.name)_CommonInterface"]
         )
         fragment.output("// MARK: - \(containingNamespace)+java-methods.swift")
@@ -224,6 +225,7 @@ final class KotlinTranslator: Translator {
 
         let fragment = context.swiftFragment(
             "JavaInterface/\(context.module.name)+java.swift",
+            sortKey: sourceTypeName,
             additionalImports: ["Foundation", "FishyJoesJavaRuntime", "\(context.module.name)_CommonInterface"]
         )
         fragment.output("// MARK: - \(sourceTypeName)+java-methods.swift")
@@ -292,6 +294,7 @@ final class KotlinTranslator: Translator {
     func setupFragments(context: FishyJoesContext, generatedTypes: [BetterType]) -> [SourceFragment] {
         let typeSetupFragment = context.swiftFragment(
             "JavaInterface/TypeSetup.swift",
+            sortKey: "JavaInterface/TypeSetup.swift",
             additionalImports: ["Foundation", "FishyJoesJavaRuntime", "\(context.module.name)_CommonInterface"]
         )
 
@@ -378,7 +381,8 @@ final class KotlinTranslator: Translator {
         let module = context.module
         let repName = "\(module.name)LoaderRepresentative"
         let ktFragment = SourceFragment(
-            sourceryDestination: "file:../../kotlin/src/generated/kotlin/com/cricut/\(module.name.lowercased())/\(repName).kt"
+            sourceryDestination: "file:../../kotlin/src/generated/kotlin/com/cricut/\(module.name.lowercased())/\(repName).kt",
+            sortKey: "file:../../kotlin/src/generated/kotlin/com/cricut/\(module.name.lowercased())/\(repName).kt"
         )
         ktFragment.output("package \(module.kotlinPackage)")
         ktFragment.blankLine()
@@ -406,7 +410,10 @@ final class KotlinTranslator: Translator {
             ktFragment.output("\(repName).ensureLoaded()")
         }
 
-        let exportFragment = SourceFragment(sourceryDestination: "file:JavaInterface/@_exported.swift")
+        let exportFragment = SourceFragment(
+            sourceryDestination: "file:JavaInterface/@_exported.swift",
+            sortKey: "file:JavaInterface/@_exported.swift"
+        )
         exportFragment.output("@_exported import \(module.name)")
         for dependency in module.dependencies {
             exportFragment.output("@_exported import \(dependency)_JavaInterface")

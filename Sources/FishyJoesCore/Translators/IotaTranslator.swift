@@ -38,6 +38,7 @@ final class IotaTranslator: Translator {
 
         let fragment = context.swiftFragment(
             "IotaInterface/\(context.module.name)+iota.swift",
+            sortKey: containingNamespace,
             additionalImports: ["Foundation", "FishyJoesIotaRuntime", "\(context.module.name)_CommonInterface"]
         )
         fragment.output("// MARK: - \(containingNamespace)+iota-methods.swift")
@@ -193,6 +194,7 @@ final class IotaTranslator: Translator {
 
         let fragment = context.swiftFragment(
             "IotaInterface/\(context.module.name)+iota.swift",
+            sortKey: sourceTypeName,
             additionalImports: ["Foundation", "FishyJoesIotaRuntime", "\(context.module.name)_CommonInterface"]
         )
         fragment.output("// MARK: - \(sourceTypeName)+iota-methods.swift")
@@ -262,6 +264,7 @@ final class IotaTranslator: Translator {
     func setupFragments(context: FishyJoesContext, generatedTypes: [BetterType]) -> [SourceFragment] {
         let swiftSetupFragment = context.swiftFragment(
             "IotaInterface/TypeSetup.swift",
+            sortKey: "IotaInterface/TypeSetup.swift",
             additionalImports: ["Foundation", "FishyJoesIotaRuntime", "\(context.module.name)_CommonInterface"]
         )
 
@@ -273,7 +276,10 @@ final class IotaTranslator: Translator {
             }
         }
 
-        let exportFragment = SourceFragment(sourceryDestination: "file:IotaInterface/@_exported.swift")
+        let exportFragment = SourceFragment(
+            sourceryDestination: "file:IotaInterface/@_exported.swift",
+            sortKey: "file:IotaInterface/@_exported.swift"
+        )
         exportFragment.output("@_exported import \(context.module.name)")
         for dependency in context.module.dependencies {
             exportFragment.output("@_exported import \(dependency)_IotaInterface")

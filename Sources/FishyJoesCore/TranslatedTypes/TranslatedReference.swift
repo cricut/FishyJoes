@@ -62,7 +62,8 @@ struct TranslatedReference: TranslatedType {
         guard context.dumpDebugRepresentation else { return [] }
 
         let fragment = SourceFragment(
-            sourceryDestination: "file:../../DebugGenerated/\(sourceType.name)+ReferenceInfo.txt"
+            sourceryDestination: "file:../../DebugGenerated/\(sourceType.name)+ReferenceInfo.txt",
+            sortKey: sourceType.name
         )
         fragment.outputBlock("TranslatedReference for \(sourceType.name) {") {
             fragment.output("Equatable: \(equatable)")
@@ -89,6 +90,7 @@ struct TranslatedReference: TranslatedType {
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
             "NodeInterface/\(context.module.name)+node.swift",
+            sortKey: sourceType.name,
             additionalImports: [
                 "Foundation",
                 "FishyJoesNodeRuntime",
@@ -177,6 +179,7 @@ struct TranslatedReference: TranslatedType {
     func jniDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
             "JavaInterface/\(context.module.name)+java.swift",
+            sortKey: sourceType.name,
             additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
         )
         fragment.output("// MARK: - \(sourceType.name)+java-type.swift")
@@ -366,6 +369,7 @@ struct TranslatedReference: TranslatedType {
     func iotaDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
             "IotaInterface/\(context.module.name)+iota.swift",
+            sortKey: sourceType.name,
             additionalImports: ["Foundation", "FishyJoesIotaRuntime"]
         )
         fragment.output("// MARK: - \(sourceType.name)+iota-type.swift")

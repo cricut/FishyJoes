@@ -107,7 +107,8 @@ struct TranslatedEnum: TranslatedType {
         guard context.dumpDebugRepresentation else { return [] }
 
         let fragment = SourceFragment(
-            sourceryDestination: "file:../../DebugGenerated/\(sourceType.name)+EnumInfo.txt"
+            sourceryDestination: "file:../../DebugGenerated/\(sourceType.name)+EnumInfo.txt",
+            sortKey: sourceType.name
         )
         fragment.outputBlock("TranslatedEnum for \(sourceType.name) {") {
             fragment.outputBlock("Documentation {") {
@@ -152,6 +153,7 @@ struct TranslatedEnum: TranslatedType {
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
             "NodeInterface/\(context.module.name)+node.swift",
+            sortKey: sourceType.name,
             additionalImports: [
                 "Foundation",
                 "FishyJoesNodeRuntime",
@@ -441,6 +443,7 @@ struct TranslatedEnum: TranslatedType {
     func jniDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
             "JavaInterface/\(context.module.name)+java.swift",
+            sortKey: sourceType.name,
             additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
         )
         fragment.output("// MARK: - \(sourceType.name)+java-type.swift")

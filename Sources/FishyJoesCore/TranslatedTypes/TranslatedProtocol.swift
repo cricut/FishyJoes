@@ -277,6 +277,7 @@ struct TranslatedProtocol: TranslatedType {
     func commonDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
             "CommonInterface/\(converterType.name).swift",
+            sortKey: converterType.nonNamespacedName,
             additionalImports: ["Foundation"]
         )
 
@@ -363,6 +364,7 @@ struct TranslatedProtocol: TranslatedType {
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
             "NodeInterface/\(context.module.name)+node.swift",
+            sortKey: sourceType.name,
             additionalImports: [
                 "Foundation",
                 "FishyJoesNodeRuntime",
@@ -588,6 +590,7 @@ struct TranslatedProtocol: TranslatedType {
     func iotaDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
             "IotaInterface/\(context.module.name)+iota.swift",
+            sortKey: sourceType.name,
             additionalImports: ["Foundation", "FishyJoesIotaRuntime", "\(context.module.name)_CommonInterface"]
         )
         fragment.output("// MARK: - \(sourceType.name)+iota-type.swift")
@@ -745,6 +748,7 @@ struct TranslatedProtocol: TranslatedType {
     func jniDefinitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
         let fragment = context.swiftFragment(
             "JavaInterface/\(context.module.name)+java.swift",
+            sortKey: sourceType.name,
             additionalImports: ["Foundation", "FishyJoesJavaRuntime", "\(context.module.name)_CommonInterface"]
         )
         fragment.output("// MARK: - \(sourceType.name)+java-type.swift")
