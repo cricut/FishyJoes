@@ -586,9 +586,10 @@ struct TranslatedProtocol: TranslatedType {
 
     func iotaDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "IotaInterface/\(sourceType.name)+iota-type.swift",
+            "IotaInterface/\(context.module.name)+iota.swift",
             additionalImports: ["Foundation", "FishyJoesIotaRuntime", "\(context.module.name)_CommonInterface"]
         )
+        fragment.output("// MARK: - \(sourceType.name)+iota-type.swift")
 
         let foreignProtocolType = "_Iota\(sourceType.nonNamespacedName)"
 

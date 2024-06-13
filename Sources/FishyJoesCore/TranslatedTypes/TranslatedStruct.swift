@@ -561,9 +561,10 @@ struct TranslatedStruct: TranslatedType {
 
     func iotaDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "IotaInterface/\(sourceType.name)+iota-type.swift",
+            "IotaInterface/\(context.module.name)+iota.swift",
             additionalImports: ["Foundation", "FishyJoesIotaRuntime"]
         )
+        fragment.output("// MARK: - \(sourceType.name)+iota-type.swift")
 
         fragment.output("@_cdecl(\"\(iotaSetupName)\")")
         fragment.outputBlock("public func \(iotaSetupName)(", newLineTerminated: false) {
