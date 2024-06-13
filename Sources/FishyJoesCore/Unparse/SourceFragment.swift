@@ -6,9 +6,11 @@ class SourceFragment {
     var stringBuilder: [String] = []
     var isFreshLine = true
     var currentIndent = 0
+    var sortKey: String
 
-    init(sourceryDestination: String) {
+    init(sourceryDestination: String, sortKey: String) {
         self.sourceryDestination = sourceryDestination
+        self.sortKey = sortKey
     }
 
     func append(fragments: [String]) {

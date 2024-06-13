@@ -58,7 +58,8 @@ struct TranslatedStruct: TranslatedType {
         guard context.dumpDebugRepresentation else { return [] }
 
         let fragment = SourceFragment(
-            sourceryDestination: "file:../../DebugGenerated/\(sourceType.name)+StructInfo.txt"
+            sourceryDestination: "file:../../DebugGenerated/\(sourceType.name)+StructInfo.txt",
+            sortKey: sourceType.name
         )
         fragment.outputBlock("TranslatedStruct for \(sourceType.name) {") {
             fragment.outputBlock("Documentation {") {
@@ -87,13 +88,15 @@ struct TranslatedStruct: TranslatedType {
 
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "NodeInterface/\(sourceType.name)+node.swift",
+            "NodeInterface/\(context.module.name)+node.swift",
+            sortKey: sourceType.name,
             additionalImports: [
                 "Foundation",
                 "FishyJoesNodeRuntime",
                 "\(context.module.name)_CommonInterface"
             ]
         )
+        fragment.output("// MARK: - \(sourceType.name)+node.swift")
 
         fragment.outputBlock("extension \(sourceType.name): NodeMutator {") {
             fragment.output("public typealias SwiftType = Self")
@@ -197,9 +200,12 @@ struct TranslatedStruct: TranslatedType {
 
     func jniDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "JavaInterface/\(sourceType.name)+java-type.swift",
+            "JavaInterface/\(context.module.name)+java.swift",
+            sortKey: sourceType.name,
             additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
         )
+        fragment.output("// MARK: - \(sourceType.name)+java-type.swift")
+
         let className = context.kotlinTranslator.javaClassName(kotlinName, in: context)
         fragment.outputBlock("extension \(sourceType.name): JavaMutator {") {
             fragment.output("public typealias SwiftType = Self")
@@ -559,9 +565,11 @@ struct TranslatedStruct: TranslatedType {
 
     func iotaDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "IotaInterface/\(sourceType.name)+iota-type.swift",
+            "IotaInterface/\(context.module.name)+iota.swift",
+            sortKey: sourceType.name,
             additionalImports: ["Foundation", "FishyJoesIotaRuntime"]
         )
+        fragment.output("// MARK: - \(sourceType.name)+iota-type.swift")
 
         fragment.output("@_cdecl(\"\(iotaSetupName)\")")
         fragment.outputBlock("public func \(iotaSetupName)(", newLineTerminated: false) {

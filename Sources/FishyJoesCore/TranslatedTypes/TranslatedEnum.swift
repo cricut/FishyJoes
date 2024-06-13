@@ -107,7 +107,8 @@ struct TranslatedEnum: TranslatedType {
         guard context.dumpDebugRepresentation else { return [] }
 
         let fragment = SourceFragment(
-            sourceryDestination: "file:../../DebugGenerated/\(sourceType.name)+EnumInfo.txt"
+            sourceryDestination: "file:../../DebugGenerated/\(sourceType.name)+EnumInfo.txt",
+            sortKey: sourceType.name
         )
         fragment.outputBlock("TranslatedEnum for \(sourceType.name) {") {
             fragment.outputBlock("Documentation {") {
@@ -151,13 +152,16 @@ struct TranslatedEnum: TranslatedType {
 
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "NodeInterface/\(sourceType.name)+node.swift",
+            "NodeInterface/\(context.module.name)+node.swift",
+            sortKey: sourceType.name,
             additionalImports: [
                 "Foundation",
                 "FishyJoesNodeRuntime",
                 "\(context.module.name)_CommonInterface"
             ]
         )
+        fragment.output("// MARK: - \(sourceType.name)+node.swift")
+
         if cases.allSatisfy({ $0.associatedValues.isEmpty }), !cases.isEmpty {
             // Simple enum, export as strings
             fragment.outputBlock("extension \(sourceType.name): FishyJoesNodeRuntime.NodeConverter {") {
@@ -438,9 +442,12 @@ struct TranslatedEnum: TranslatedType {
 
     func jniDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "JavaInterface/\(sourceType.name)+java-type.swift",
+            "JavaInterface/\(context.module.name)+java.swift",
+            sortKey: sourceType.name,
             additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
         )
+        fragment.output("// MARK: - \(sourceType.name)+java-type.swift")
+
         let className = context.kotlinTranslator.javaClassName(nodeName, in: context)
         fragment.outputBlock("extension \(sourceType.name): JavaConverter {") {
             fragment.output("public typealias SwiftType = Self")
