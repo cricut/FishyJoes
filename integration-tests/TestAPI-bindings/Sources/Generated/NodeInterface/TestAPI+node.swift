@@ -168,1083 +168,6 @@ extension Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces: FishyJoesNodeR
     }
 }
 
-// MARK: - TestAPI.Actors.TemperatureLogger+node.swift
-extension TestAPI.Actors.TemperatureLogger: FishyJoesNodeRuntime.NodeConverter {
-    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> TestAPI.Actors.TemperatureLogger {
-        guard let nonNilPointer = try env.unwrap(value) else {
-            throw JSException(message: "expected TestAPI.Actors.TemperatureLogger, got nil")
-        }
-        return try Box<TestAPI.Actors.TemperatureLogger>.takeUnretainedOpaque(nonNilPointer).value
-    }
-
-    public static func toNode(_ value: TestAPI.Actors.TemperatureLogger, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "Actors.TemperatureLogger", env: env)
-        let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
-        return try env.newInstance(constructor, [arg])
-    }
-
-    public static func mutateNode(_ value: TestAPI.Actors.TemperatureLogger, this: NAPI.Value, env: NAPI.Env) throws {
-        guard let pointer = try env.unwrap(this) else {
-            throw JSException(message: "expected TestAPI.Actors.TemperatureLogger, got nil")
-        }
-        try Box<TestAPI.Actors.TemperatureLogger>.takeUnretainedOpaque(pointer).value = value
-    }
-
-    @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
-    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-        let nodeClass = try NodeClass(
-            env: env,
-            name: "Actors.TemperatureLogger",
-            properties: [
-                "create": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 2, hasNamedOptions: false) { env in
-                            let result = try TestAPI.Actors.TemperatureLogger.toNode(
-                                TestAPI.Actors.TemperatureLogger(
-                                    label: try env.argument(at: 0, converter: Swift.String.self),
-                                    measurement: try env.argument(at: 1, converter: Swift.Int.self)
-                                ),
-                                env: env.env
-                            )
-                            return result
-                        }
-                    },
-                    isStatic: true
-                ),
-                "update": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "update", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let (deferred, promise) = try env.env.createPromise()
-                            let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: Swift.Int.self))
-                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.Actors.TemperatureLogger.self))
-                            Task {
-                                do {
-                                    let taskResult: Void = await swiftSelf.value.update(
-                                        with: arg0.value
-                                    )
-                                    try onMainThread { env in
-                                        let convertedTaskResult: NAPI.Value
-                                        do {
-                                            convertedTaskResult = try FishyJoesCommonRuntime.VoidConverter.toNode(taskResult, env: env)
-                                        } catch {
-                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
-                                            return
-                                        }
-                                        try env.resolveDeferred(deferred, convertedTaskResult)
-                                    }
-                                } catch {
-                                    try onMainThread { env in
-                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
-                                    }
-                                }
-                            }
-                            return promise
-                        }
-                    },
-                    isStatic: false
-                ),
-                "min": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "min", expectedArgumentCount: 0, hasNamedOptions: false) { env in
-                            let (deferred, promise) = try env.env.createPromise()
-                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.Actors.TemperatureLogger.self))
-                            Task {
-                                do {
-                                    let taskResult: Int = await swiftSelf.value.min(
-                                    )
-                                    try onMainThread { env in
-                                        let convertedTaskResult: NAPI.Value
-                                        do {
-                                            convertedTaskResult = try Swift.Int.toNode(taskResult, env: env)
-                                        } catch {
-                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
-                                            return
-                                        }
-                                        try env.resolveDeferred(deferred, convertedTaskResult)
-                                    }
-                                } catch {
-                                    try onMainThread { env in
-                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
-                                    }
-                                }
-                            }
-                            return promise
-                        }
-                    },
-                    isStatic: false
-                ),
-                "extensionIsolatedGetLabel": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "extensionIsolatedGetLabel", expectedArgumentCount: 0, hasNamedOptions: false) { env in
-                            let (deferred, promise) = try env.env.createPromise()
-                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.Actors.TemperatureLogger.self))
-                            Task {
-                                do {
-                                    let taskResult: String = await swiftSelf.value.extensionIsolatedGetLabel(
-                                    )
-                                    try onMainThread { env in
-                                        let convertedTaskResult: NAPI.Value
-                                        do {
-                                            convertedTaskResult = try Swift.String.toNode(taskResult, env: env)
-                                        } catch {
-                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
-                                            return
-                                        }
-                                        try env.resolveDeferred(deferred, convertedTaskResult)
-                                    }
-                                } catch {
-                                    try onMainThread { env in
-                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
-                                    }
-                                }
-                            }
-                            return promise
-                        }
-                    },
-                    isStatic: false
-                ),
-                "extensionNonisolatedGetLabel": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "extensionNonisolatedGetLabel", expectedArgumentCount: 0, hasNamedOptions: false) { env in
-                            let result = try Swift.String.toNode(
-                                env.this(converter: TestAPI.Actors.TemperatureLogger.self).extensionNonisolatedGetLabel(
-                                ),
-                                env: env.env
-                            )
-                            return result
-                        }
-                    },
-                    isStatic: false
-                ),
-                "backwardsLabel": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "backwardsLabel", expectedArgumentCount: 0) { env in
-                                return try Swift.String.toNode(env.this(converter: TestAPI.Actors.TemperatureLogger.self).backwardsLabel, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: false
-                ),
-                "extensionNonisolatedVarLabel": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "extensionNonisolatedVarLabel", expectedArgumentCount: 0) { env in
-                                return try Swift.String.toNode(env.this(converter: TestAPI.Actors.TemperatureLogger.self).extensionNonisolatedVarLabel, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: false
-                ),
-                "label": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "label", expectedArgumentCount: 0) { env in
-                                return try Swift.String.toNode(env.this(converter: TestAPI.Actors.TemperatureLogger.self).label, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: false
-                ),
-            ],
-            constructor: { env, info in
-                FishyJoesNodeRuntime.callbackBody(env, info, name: "Actors.TemperatureLogger_constructor", expectedArgumentCount: 1) { env in
-                    try FishyJoesNodeRuntime.Box<TestAPI.Actors.TemperatureLogger>.construct(env: env)
-                }
-            }
-        )
-        try FishyJoesNodeRuntime.mergeDefinitionInto(
-            env: env,
-            module: module,
-            path: "Actors.TemperatureLogger",
-            nodeClass: nodeClass.constructor.value(env: env)
-        )
-    }
-}
-
-// MARK: - TestAPI.Collections.CollectionHolder+node.swift
-extension TestAPI.Collections.CollectionHolder: NodeMutator {
-    public typealias SwiftType = Self
-    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        Self(
-            boolArray: try { () -> Array<Swift.Bool> in
-                let fieldValue = try env.getNamedProperty(value, "boolArray")
-                return try ArrayConverter<Swift.Bool>.fromNode(fieldValue, env: env)
-            }(),
-            boolSet: try { () -> Set<Swift.Bool> in
-                let fieldValue = try env.getNamedProperty(value, "boolSet")
-                return try SetConverter<Swift.Bool>.fromNode(fieldValue, env: env)
-            }(),
-            boolDictionary: try { () -> Dictionary<Swift.Bool, Swift.Bool> in
-                let fieldValue = try env.getNamedProperty(value, "boolDictionary")
-                return try DictionaryConverter<Swift.Bool, Swift.Bool>.fromNode(fieldValue, env: env)
-            }(),
-            integerArray: try { () -> Array<Swift.Int> in
-                let fieldValue = try env.getNamedProperty(value, "integerArray")
-                return try ArrayConverter<Swift.Int>.fromNode(fieldValue, env: env)
-            }(),
-            integerSet: try { () -> Set<Swift.Int> in
-                let fieldValue = try env.getNamedProperty(value, "integerSet")
-                return try SetConverter<Swift.Int>.fromNode(fieldValue, env: env)
-            }(),
-            integerDictionary: try { () -> Dictionary<Swift.Int, Swift.Int> in
-                let fieldValue = try env.getNamedProperty(value, "integerDictionary")
-                return try DictionaryConverter<Swift.Int, Swift.Int>.fromNode(fieldValue, env: env)
-            }(),
-            stringArray: try { () -> Array<Swift.String> in
-                let fieldValue = try env.getNamedProperty(value, "stringArray")
-                return try ArrayConverter<Swift.String>.fromNode(fieldValue, env: env)
-            }(),
-            stringSet: try { () -> Set<Swift.String> in
-                let fieldValue = try env.getNamedProperty(value, "stringSet")
-                return try SetConverter<Swift.String>.fromNode(fieldValue, env: env)
-            }(),
-            stringDictionary: try { () -> Dictionary<Swift.String, Swift.String> in
-                let fieldValue = try env.getNamedProperty(value, "stringDictionary")
-                return try DictionaryConverter<Swift.String, Swift.String>.fromNode(fieldValue, env: env)
-            }()
-        )
-    }
-    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try NodeClass.constructor(for: "Collections.CollectionHolder", env: env)
-        let args: [NAPI.Value] = [
-            try ArrayConverter<Swift.Bool>.toNode(value.boolArray, env: env),
-            try SetConverter<Swift.Bool>.toNode(value.boolSet, env: env),
-            try DictionaryConverter<Swift.Bool, Swift.Bool>.toNode(value.boolDictionary, env: env),
-            try ArrayConverter<Swift.Int>.toNode(value.integerArray, env: env),
-            try SetConverter<Swift.Int>.toNode(value.integerSet, env: env),
-            try DictionaryConverter<Swift.Int, Swift.Int>.toNode(value.integerDictionary, env: env),
-            try ArrayConverter<Swift.String>.toNode(value.stringArray, env: env),
-            try SetConverter<Swift.String>.toNode(value.stringSet, env: env),
-            try DictionaryConverter<Swift.String, Swift.String>.toNode(value.stringDictionary, env: env),
-        ]
-        return try env.newInstance(constructor, args)
-    }
-    public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {
-        try env.setNamedProperty(this, "boolArray", ArrayConverter<Swift.Bool>.toNode(value.boolArray, env: env))
-        try env.setNamedProperty(this, "boolSet", SetConverter<Swift.Bool>.toNode(value.boolSet, env: env))
-        try env.setNamedProperty(this, "boolDictionary", DictionaryConverter<Swift.Bool, Swift.Bool>.toNode(value.boolDictionary, env: env))
-        try env.setNamedProperty(this, "integerArray", ArrayConverter<Swift.Int>.toNode(value.integerArray, env: env))
-        try env.setNamedProperty(this, "integerSet", SetConverter<Swift.Int>.toNode(value.integerSet, env: env))
-        try env.setNamedProperty(this, "integerDictionary", DictionaryConverter<Swift.Int, Swift.Int>.toNode(value.integerDictionary, env: env))
-        try env.setNamedProperty(this, "stringArray", ArrayConverter<Swift.String>.toNode(value.stringArray, env: env))
-        try env.setNamedProperty(this, "stringSet", SetConverter<Swift.String>.toNode(value.stringSet, env: env))
-        try env.setNamedProperty(this, "stringDictionary", DictionaryConverter<Swift.String, Swift.String>.toNode(value.stringDictionary, env: env))
-    }
-    @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
-    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-        let nodeClass = try NodeClass(
-            env: env,
-            name: "Collections.CollectionHolder",
-            properties: [
-                "staticMutableProperty": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticMutableProperty", expectedArgumentCount: 0) { env in
-                                return try ArrayConverter<OptionalConverter<Swift.Int>>.toNode(TestAPI.Collections.CollectionHolder.staticMutableProperty, env: env.env)
-                            }
-                        },
-                        setter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticMutableProperty", expectedArgumentCount: 1) { env in
-                                TestAPI.Collections.CollectionHolder.staticMutableProperty = try env.argument(at: 0, converter: ArrayConverter<OptionalConverter<Swift.Int>>.self)
-                                return nil
-                            }
-                        }),
-                    isStatic: true
-                ),
-                "staticProperty": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticProperty", expectedArgumentCount: 0) { env in
-                                return try ArrayConverter<OptionalConverter<Swift.Int>>.toNode(TestAPI.Collections.CollectionHolder.staticProperty, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: true
-                ),
-                "boolArray": (.stored(mutable: true), isStatic: false),
-                "boolSet": (.stored(mutable: true), isStatic: false),
-                "boolDictionary": (.stored(mutable: true), isStatic: false),
-                "integerArray": (.stored(mutable: true), isStatic: false),
-                "integerSet": (.stored(mutable: true), isStatic: false),
-                "integerDictionary": (.stored(mutable: true), isStatic: false),
-                "stringArray": (.stored(mutable: true), isStatic: false),
-                "stringSet": (.stored(mutable: true), isStatic: false),
-                "stringDictionary": (.stored(mutable: true), isStatic: false),
-            ],
-            constructor: { env, info in
-                callbackBody(env, info, name: "Collections.CollectionHolder_constructor", expectedArgumentCount: 9) { env in
-                    // TODO: typecheck?
-                    let this = try env.this()
-                    try env.env.setNamedProperty(this, "boolArray", env.argument(at: 0))
-                    try env.env.setNamedProperty(this, "boolSet", env.argument(at: 1))
-                    try env.env.setNamedProperty(this, "boolDictionary", env.argument(at: 2))
-                    try env.env.setNamedProperty(this, "integerArray", env.argument(at: 3))
-                    try env.env.setNamedProperty(this, "integerSet", env.argument(at: 4))
-                    try env.env.setNamedProperty(this, "integerDictionary", env.argument(at: 5))
-                    try env.env.setNamedProperty(this, "stringArray", env.argument(at: 6))
-                    try env.env.setNamedProperty(this, "stringSet", env.argument(at: 7))
-                    try env.env.setNamedProperty(this, "stringDictionary", env.argument(at: 8))
-                    return this
-                }
-            }
-        )
-        try mergeDefinitionInto(
-            env: env,
-            module: module,
-            path: "Collections.CollectionHolder",
-            nodeClass: nodeClass.constructor.value(env: env)
-        )
-    }
-}
-
-// MARK: - TestAPI.Primitives.PrimitiveHolder+node.swift
-extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
-    public typealias SwiftType = Self
-    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        Self(
-            b: try { () -> Swift.Bool in
-                let fieldValue = try env.getNamedProperty(value, "b")
-                return try Swift.Bool.fromNode(fieldValue, env: env)
-            }(),
-            bq: try { () -> Optional<Swift.Bool> in
-                let fieldValue = try env.getNamedProperty(value, "bq")
-                return try OptionalConverter<Swift.Bool>.fromNode(fieldValue, env: env)
-            }(),
-            ui8: try { () -> Swift.UInt8 in
-                let fieldValue = try env.getNamedProperty(value, "ui8")
-                return try Swift.UInt8.fromNode(fieldValue, env: env)
-            }(),
-            ui8q: try { () -> Optional<Swift.UInt8> in
-                let fieldValue = try env.getNamedProperty(value, "ui8q")
-                return try OptionalConverter<Swift.UInt8>.fromNode(fieldValue, env: env)
-            }(),
-            ui16: try { () -> Swift.UInt16 in
-                let fieldValue = try env.getNamedProperty(value, "ui16")
-                return try Swift.UInt16.fromNode(fieldValue, env: env)
-            }(),
-            ui16q: try { () -> Optional<Swift.UInt16> in
-                let fieldValue = try env.getNamedProperty(value, "ui16q")
-                return try OptionalConverter<Swift.UInt16>.fromNode(fieldValue, env: env)
-            }(),
-            ui32: try { () -> Swift.UInt32 in
-                let fieldValue = try env.getNamedProperty(value, "ui32")
-                return try Swift.UInt32.fromNode(fieldValue, env: env)
-            }(),
-            ui32q: try { () -> Optional<Swift.UInt32> in
-                let fieldValue = try env.getNamedProperty(value, "ui32q")
-                return try OptionalConverter<Swift.UInt32>.fromNode(fieldValue, env: env)
-            }(),
-            ui64: try { () -> Swift.UInt64 in
-                let fieldValue = try env.getNamedProperty(value, "ui64")
-                return try Swift.UInt64.fromNode(fieldValue, env: env)
-            }(),
-            ui64q: try { () -> Optional<Swift.UInt64> in
-                let fieldValue = try env.getNamedProperty(value, "ui64q")
-                return try OptionalConverter<Swift.UInt64>.fromNode(fieldValue, env: env)
-            }(),
-            ui: try { () -> Swift.UInt in
-                let fieldValue = try env.getNamedProperty(value, "ui")
-                return try Swift.UInt.fromNode(fieldValue, env: env)
-            }(),
-            uiq: try { () -> Optional<Swift.UInt> in
-                let fieldValue = try env.getNamedProperty(value, "uiq")
-                return try OptionalConverter<Swift.UInt>.fromNode(fieldValue, env: env)
-            }(),
-            i8: try { () -> Swift.Int8 in
-                let fieldValue = try env.getNamedProperty(value, "i8")
-                return try Swift.Int8.fromNode(fieldValue, env: env)
-            }(),
-            i8q: try { () -> Optional<Swift.Int8> in
-                let fieldValue = try env.getNamedProperty(value, "i8q")
-                return try OptionalConverter<Swift.Int8>.fromNode(fieldValue, env: env)
-            }(),
-            i16: try { () -> Swift.Int16 in
-                let fieldValue = try env.getNamedProperty(value, "i16")
-                return try Swift.Int16.fromNode(fieldValue, env: env)
-            }(),
-            i16q: try { () -> Optional<Swift.Int16> in
-                let fieldValue = try env.getNamedProperty(value, "i16q")
-                return try OptionalConverter<Swift.Int16>.fromNode(fieldValue, env: env)
-            }(),
-            i32: try { () -> Swift.Int32 in
-                let fieldValue = try env.getNamedProperty(value, "i32")
-                return try Swift.Int32.fromNode(fieldValue, env: env)
-            }(),
-            i32q: try { () -> Optional<Swift.Int32> in
-                let fieldValue = try env.getNamedProperty(value, "i32q")
-                return try OptionalConverter<Swift.Int32>.fromNode(fieldValue, env: env)
-            }(),
-            i64: try { () -> Swift.Int64 in
-                let fieldValue = try env.getNamedProperty(value, "i64")
-                return try Swift.Int64.fromNode(fieldValue, env: env)
-            }(),
-            i64q: try { () -> Optional<Swift.Int64> in
-                let fieldValue = try env.getNamedProperty(value, "i64q")
-                return try OptionalConverter<Swift.Int64>.fromNode(fieldValue, env: env)
-            }(),
-            i: try { () -> Swift.Int in
-                let fieldValue = try env.getNamedProperty(value, "i")
-                return try Swift.Int.fromNode(fieldValue, env: env)
-            }(),
-            iq: try { () -> Optional<Swift.Int> in
-                let fieldValue = try env.getNamedProperty(value, "iq")
-                return try OptionalConverter<Swift.Int>.fromNode(fieldValue, env: env)
-            }(),
-            f: try { () -> Swift.Float in
-                let fieldValue = try env.getNamedProperty(value, "f")
-                return try Swift.Float.fromNode(fieldValue, env: env)
-            }(),
-            fq: try { () -> Optional<Swift.Float> in
-                let fieldValue = try env.getNamedProperty(value, "fq")
-                return try OptionalConverter<Swift.Float>.fromNode(fieldValue, env: env)
-            }(),
-            d: try { () -> Swift.Double in
-                let fieldValue = try env.getNamedProperty(value, "d")
-                return try Swift.Double.fromNode(fieldValue, env: env)
-            }(),
-            dq: try { () -> Optional<Swift.Double> in
-                let fieldValue = try env.getNamedProperty(value, "dq")
-                return try OptionalConverter<Swift.Double>.fromNode(fieldValue, env: env)
-            }()
-        )
-    }
-    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try NodeClass.constructor(for: "Primitives.PrimitiveHolder", env: env)
-        let args: [NAPI.Value] = [
-            try Swift.Bool.toNode(value.b, env: env),
-            try OptionalConverter<Swift.Bool>.toNode(value.bq, env: env),
-            try Swift.UInt8.toNode(value.ui8, env: env),
-            try OptionalConverter<Swift.UInt8>.toNode(value.ui8q, env: env),
-            try Swift.UInt16.toNode(value.ui16, env: env),
-            try OptionalConverter<Swift.UInt16>.toNode(value.ui16q, env: env),
-            try Swift.UInt32.toNode(value.ui32, env: env),
-            try OptionalConverter<Swift.UInt32>.toNode(value.ui32q, env: env),
-            try Swift.UInt64.toNode(value.ui64, env: env),
-            try OptionalConverter<Swift.UInt64>.toNode(value.ui64q, env: env),
-            try Swift.UInt.toNode(value.ui, env: env),
-            try OptionalConverter<Swift.UInt>.toNode(value.uiq, env: env),
-            try Swift.Int8.toNode(value.i8, env: env),
-            try OptionalConverter<Swift.Int8>.toNode(value.i8q, env: env),
-            try Swift.Int16.toNode(value.i16, env: env),
-            try OptionalConverter<Swift.Int16>.toNode(value.i16q, env: env),
-            try Swift.Int32.toNode(value.i32, env: env),
-            try OptionalConverter<Swift.Int32>.toNode(value.i32q, env: env),
-            try Swift.Int64.toNode(value.i64, env: env),
-            try OptionalConverter<Swift.Int64>.toNode(value.i64q, env: env),
-            try Swift.Int.toNode(value.i, env: env),
-            try OptionalConverter<Swift.Int>.toNode(value.iq, env: env),
-            try Swift.Float.toNode(value.f, env: env),
-            try OptionalConverter<Swift.Float>.toNode(value.fq, env: env),
-            try Swift.Double.toNode(value.d, env: env),
-            try OptionalConverter<Swift.Double>.toNode(value.dq, env: env),
-        ]
-        return try env.newInstance(constructor, args)
-    }
-    public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {
-        try env.setNamedProperty(this, "b", Swift.Bool.toNode(value.b, env: env))
-        try env.setNamedProperty(this, "bq", OptionalConverter<Swift.Bool>.toNode(value.bq, env: env))
-        try env.setNamedProperty(this, "ui8", Swift.UInt8.toNode(value.ui8, env: env))
-        try env.setNamedProperty(this, "ui8q", OptionalConverter<Swift.UInt8>.toNode(value.ui8q, env: env))
-        try env.setNamedProperty(this, "ui16", Swift.UInt16.toNode(value.ui16, env: env))
-        try env.setNamedProperty(this, "ui16q", OptionalConverter<Swift.UInt16>.toNode(value.ui16q, env: env))
-        try env.setNamedProperty(this, "ui32", Swift.UInt32.toNode(value.ui32, env: env))
-        try env.setNamedProperty(this, "ui32q", OptionalConverter<Swift.UInt32>.toNode(value.ui32q, env: env))
-        try env.setNamedProperty(this, "ui64", Swift.UInt64.toNode(value.ui64, env: env))
-        try env.setNamedProperty(this, "ui64q", OptionalConverter<Swift.UInt64>.toNode(value.ui64q, env: env))
-        try env.setNamedProperty(this, "ui", Swift.UInt.toNode(value.ui, env: env))
-        try env.setNamedProperty(this, "uiq", OptionalConverter<Swift.UInt>.toNode(value.uiq, env: env))
-        try env.setNamedProperty(this, "i8", Swift.Int8.toNode(value.i8, env: env))
-        try env.setNamedProperty(this, "i8q", OptionalConverter<Swift.Int8>.toNode(value.i8q, env: env))
-        try env.setNamedProperty(this, "i16", Swift.Int16.toNode(value.i16, env: env))
-        try env.setNamedProperty(this, "i16q", OptionalConverter<Swift.Int16>.toNode(value.i16q, env: env))
-        try env.setNamedProperty(this, "i32", Swift.Int32.toNode(value.i32, env: env))
-        try env.setNamedProperty(this, "i32q", OptionalConverter<Swift.Int32>.toNode(value.i32q, env: env))
-        try env.setNamedProperty(this, "i64", Swift.Int64.toNode(value.i64, env: env))
-        try env.setNamedProperty(this, "i64q", OptionalConverter<Swift.Int64>.toNode(value.i64q, env: env))
-        try env.setNamedProperty(this, "i", Swift.Int.toNode(value.i, env: env))
-        try env.setNamedProperty(this, "iq", OptionalConverter<Swift.Int>.toNode(value.iq, env: env))
-        try env.setNamedProperty(this, "f", Swift.Float.toNode(value.f, env: env))
-        try env.setNamedProperty(this, "fq", OptionalConverter<Swift.Float>.toNode(value.fq, env: env))
-        try env.setNamedProperty(this, "d", Swift.Double.toNode(value.d, env: env))
-        try env.setNamedProperty(this, "dq", OptionalConverter<Swift.Double>.toNode(value.dq, env: env))
-    }
-    @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
-    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-        let nodeClass = try NodeClass(
-            env: env,
-            name: "Primitives.PrimitiveHolder",
-            properties: [
-                "staticMutableProperty": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticMutableProperty", expectedArgumentCount: 0) { env in
-                                return try ArrayConverter<OptionalConverter<Swift.UInt8>>.toNode(TestAPI.Primitives.PrimitiveHolder.staticMutableProperty, env: env.env)
-                            }
-                        },
-                        setter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticMutableProperty", expectedArgumentCount: 1) { env in
-                                TestAPI.Primitives.PrimitiveHolder.staticMutableProperty = try env.argument(at: 0, converter: ArrayConverter<OptionalConverter<Swift.UInt8>>.self)
-                                return nil
-                            }
-                        }),
-                    isStatic: true
-                ),
-                "staticProperty": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticProperty", expectedArgumentCount: 0) { env in
-                                return try ArrayConverter<OptionalConverter<Swift.UInt8>>.toNode(TestAPI.Primitives.PrimitiveHolder.staticProperty, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: true
-                ),
-                "b": (.stored(mutable: true), isStatic: false),
-                "bq": (.stored(mutable: true), isStatic: false),
-                "ui8": (.stored(mutable: true), isStatic: false),
-                "ui8q": (.stored(mutable: true), isStatic: false),
-                "ui16": (.stored(mutable: true), isStatic: false),
-                "ui16q": (.stored(mutable: true), isStatic: false),
-                "ui32": (.stored(mutable: true), isStatic: false),
-                "ui32q": (.stored(mutable: true), isStatic: false),
-                "ui64": (.stored(mutable: true), isStatic: false),
-                "ui64q": (.stored(mutable: true), isStatic: false),
-                "ui": (.stored(mutable: true), isStatic: false),
-                "uiq": (.stored(mutable: true), isStatic: false),
-                "i8": (.stored(mutable: true), isStatic: false),
-                "i8q": (.stored(mutable: true), isStatic: false),
-                "i16": (.stored(mutable: true), isStatic: false),
-                "i16q": (.stored(mutable: true), isStatic: false),
-                "i32": (.stored(mutable: true), isStatic: false),
-                "i32q": (.stored(mutable: true), isStatic: false),
-                "i64": (.stored(mutable: true), isStatic: false),
-                "i64q": (.stored(mutable: true), isStatic: false),
-                "i": (.stored(mutable: true), isStatic: false),
-                "iq": (.stored(mutable: true), isStatic: false),
-                "f": (.stored(mutable: true), isStatic: false),
-                "fq": (.stored(mutable: true), isStatic: false),
-                "d": (.stored(mutable: true), isStatic: false),
-                "dq": (.stored(mutable: true), isStatic: false),
-            ],
-            constructor: { env, info in
-                callbackBody(env, info, name: "Primitives.PrimitiveHolder_constructor", expectedArgumentCount: 26) { env in
-                    // TODO: typecheck?
-                    let this = try env.this()
-                    try env.env.setNamedProperty(this, "b", env.argument(at: 0))
-                    try env.env.setNamedProperty(this, "bq", env.argument(at: 1))
-                    try env.env.setNamedProperty(this, "ui8", env.argument(at: 2))
-                    try env.env.setNamedProperty(this, "ui8q", env.argument(at: 3))
-                    try env.env.setNamedProperty(this, "ui16", env.argument(at: 4))
-                    try env.env.setNamedProperty(this, "ui16q", env.argument(at: 5))
-                    try env.env.setNamedProperty(this, "ui32", env.argument(at: 6))
-                    try env.env.setNamedProperty(this, "ui32q", env.argument(at: 7))
-                    try env.env.setNamedProperty(this, "ui64", env.argument(at: 8))
-                    try env.env.setNamedProperty(this, "ui64q", env.argument(at: 9))
-                    try env.env.setNamedProperty(this, "ui", env.argument(at: 10))
-                    try env.env.setNamedProperty(this, "uiq", env.argument(at: 11))
-                    try env.env.setNamedProperty(this, "i8", env.argument(at: 12))
-                    try env.env.setNamedProperty(this, "i8q", env.argument(at: 13))
-                    try env.env.setNamedProperty(this, "i16", env.argument(at: 14))
-                    try env.env.setNamedProperty(this, "i16q", env.argument(at: 15))
-                    try env.env.setNamedProperty(this, "i32", env.argument(at: 16))
-                    try env.env.setNamedProperty(this, "i32q", env.argument(at: 17))
-                    try env.env.setNamedProperty(this, "i64", env.argument(at: 18))
-                    try env.env.setNamedProperty(this, "i64q", env.argument(at: 19))
-                    try env.env.setNamedProperty(this, "i", env.argument(at: 20))
-                    try env.env.setNamedProperty(this, "iq", env.argument(at: 21))
-                    try env.env.setNamedProperty(this, "f", env.argument(at: 22))
-                    try env.env.setNamedProperty(this, "fq", env.argument(at: 23))
-                    try env.env.setNamedProperty(this, "d", env.argument(at: 24))
-                    try env.env.setNamedProperty(this, "dq", env.argument(at: 25))
-                    return this
-                }
-            }
-        )
-        try mergeDefinitionInto(
-            env: env,
-            module: module,
-            path: "Primitives.PrimitiveHolder",
-            nodeClass: nodeClass.constructor.value(env: env)
-        )
-    }
-}
-
-// MARK: - TestAPI.Results.Error+node.swift
-extension TestAPI.Results.Error: NodeMutator {
-    public typealias SwiftType = Self
-    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        Self(
-            message: try { () -> Swift.String in
-                let fieldValue = try env.getNamedProperty(value, "message")
-                return try Swift.String.fromNode(fieldValue, env: env)
-            }()
-        )
-    }
-    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try NodeClass.constructor(for: "Results.Error", env: env)
-        let args: [NAPI.Value] = [
-            try Swift.String.toNode(value.message, env: env),
-        ]
-        return try env.newInstance(constructor, args)
-    }
-    public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {
-    }
-    @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
-    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-        let nodeClass = try NodeClass(
-            env: env,
-            name: "Results.Error",
-            properties: [
-                "message": (.stored(mutable: true), isStatic: false),
-            ],
-            constructor: { env, info in
-                callbackBody(env, info, name: "Results.Error_constructor", expectedArgumentCount: 1) { env in
-                    // TODO: typecheck?
-                    let this = try env.this()
-                    try env.env.setNamedProperty(this, "message", env.argument(at: 0))
-                    return this
-                }
-            }
-        )
-        try mergeDefinitionInto(
-            env: env,
-            module: module,
-            path: "Results.Error",
-            nodeClass: nodeClass.constructor.value(env: env)
-        )
-    }
-}
-
-// MARK: - TestAPI.Structs.MemberwiseStruct+node.swift
-extension TestAPI.Structs.MemberwiseStruct: NodeMutator {
-    public typealias SwiftType = Self
-    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        Self(
-            immutable: try { () -> Swift.String in
-                let fieldValue = try env.getNamedProperty(value, "immutable")
-                return try Swift.String.fromNode(fieldValue, env: env)
-            }(),
-            mutable: try { () -> Swift.String in
-                let fieldValue = try env.getNamedProperty(value, "mutable")
-                return try Swift.String.fromNode(fieldValue, env: env)
-            }()
-        )
-    }
-    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try NodeClass.constructor(for: "Structs.MemberwiseStruct", env: env)
-        let args: [NAPI.Value] = [
-            try Swift.String.toNode(value.immutable, env: env),
-            try Swift.String.toNode(value.mutable, env: env),
-        ]
-        return try env.newInstance(constructor, args)
-    }
-    public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {
-        try env.setNamedProperty(this, "immutable", Swift.String.toNode(value.immutable, env: env))
-        try env.setNamedProperty(this, "mutable", Swift.String.toNode(value.mutable, env: env))
-    }
-    @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
-    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-        let nodeClass = try NodeClass(
-            env: env,
-            name: "Structs.MemberwiseStruct",
-            properties: [
-                "create": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0, hasNamedOptions: false) { env in
-                            let result = try TestAPI.Structs.MemberwiseStruct.toNode(
-                                TestAPI.Structs.MemberwiseStruct(
-                                ),
-                                env: env.env
-                            )
-                            return result
-                        }
-                    },
-                    isStatic: true
-                ),
-                "asyncGetMutable": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncGetMutable", expectedArgumentCount: 0, hasNamedOptions: false) { env in
-                            let (deferred, promise) = try env.env.createPromise()
-                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.Structs.MemberwiseStruct.self))
-                            Task {
-                                do {
-                                    let taskResult: String = await swiftSelf.value.asyncGetMutable(
-                                    )
-                                    try onMainThread { env in
-                                        let convertedTaskResult: NAPI.Value
-                                        do {
-                                            convertedTaskResult = try Swift.String.toNode(taskResult, env: env)
-                                        } catch {
-                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
-                                            return
-                                        }
-                                        try env.resolveDeferred(deferred, convertedTaskResult)
-                                    }
-                                } catch {
-                                    try onMainThread { env in
-                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
-                                    }
-                                }
-                            }
-                            return promise
-                        }
-                    },
-                    isStatic: false
-                ),
-                "immutable": (.stored(mutable: true), isStatic: false),
-                "mutable": (.stored(mutable: true), isStatic: false),
-            ],
-            constructor: { env, info in
-                callbackBody(env, info, name: "Structs.MemberwiseStruct_constructor", expectedArgumentCount: 2) { env in
-                    // TODO: typecheck?
-                    let this = try env.this()
-                    try env.env.setNamedProperty(this, "immutable", env.argument(at: 0))
-                    try env.env.setNamedProperty(this, "mutable", env.argument(at: 1))
-                    return this
-                }
-            }
-        )
-        try mergeDefinitionInto(
-            env: env,
-            module: module,
-            path: "Structs.MemberwiseStruct",
-            nodeClass: nodeClass.constructor.value(env: env)
-        )
-    }
-}
-
-// MARK: - TestAPI.Structs.MutableStruct+node.swift
-extension TestAPI.Structs.MutableStruct: NodeMutator {
-    public typealias SwiftType = Self
-    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        Self(
-            i: try { () -> Swift.Int in
-                let fieldValue = try env.getNamedProperty(value, "i")
-                return try Swift.Int.fromNode(fieldValue, env: env)
-            }()
-        )
-    }
-    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try NodeClass.constructor(for: "Structs.MutableStruct", env: env)
-        let args: [NAPI.Value] = [
-            try Swift.Int.toNode(value.i, env: env),
-        ]
-        return try env.newInstance(constructor, args)
-    }
-    public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {
-        try env.setNamedProperty(this, "i", Swift.Int.toNode(value.i, env: env))
-    }
-    @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
-    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-        let nodeClass = try NodeClass(
-            env: env,
-            name: "Structs.MutableStruct",
-            properties: [
-                "create": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0, hasNamedOptions: false) { env in
-                            let result = try TestAPI.Structs.MutableStruct.toNode(
-                                TestAPI.Structs.MutableStruct(
-                                ),
-                                env: env.env
-                            )
-                            return result
-                        }
-                    },
-                    isStatic: true
-                ),
-                "increment": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "increment", expectedArgumentCount: 0, hasNamedOptions: false) { env in
-                            var mutatingSelf = try env.this(converter: TestAPI.Structs.MutableStruct.self)
-                            FishyJoesCommonRuntime.silenceMutationWarning(&mutatingSelf)
-                            let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
-                                mutatingSelf.increment(
-                                ),
-                                env: env.env
-                            )
-                            try Self.mutateNode(mutatingSelf, this: env.this(), env: env.env)
-                            return result
-                        }
-                    },
-                    isStatic: false
-                ),
-                "incrementAsync": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "incrementAsync", expectedArgumentCount: 0, hasNamedOptions: false) { env in
-                            let (deferred, promise) = try env.env.createPromise()
-                            let mutatingSelf = UncheckedSendableBox(try env.this(converter: TestAPI.Structs.MutableStruct.self))
-                            let jsThis = try env.env.reference(env.this())
-                            Task {
-                                do {
-                                    let taskResult: Void = await mutatingSelf.value.incrementAsync(
-                                    )
-                                    try onMainThread { env in
-                                        let convertedTaskResult: NAPI.Value
-                                        do {
-                                            convertedTaskResult = try FishyJoesCommonRuntime.VoidConverter.toNode(taskResult, env: env)
-                                        } catch {
-                                            try Self.mutateNode(mutatingSelf.value, this: jsThis.value(env: env), env: env)
-                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
-                                            return
-                                        }
-                                        try Self.mutateNode(mutatingSelf.value, this: jsThis.value(env: env), env: env)
-                                        try env.resolveDeferred(deferred, convertedTaskResult)
-                                    }
-                                } catch {
-                                    try onMainThread { env in
-                                        try Self.mutateNode(mutatingSelf.value, this: jsThis.value(env: env), env: env)
-                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
-                                    }
-                                }
-                            }
-                            return promise
-                        }
-                    },
-                    isStatic: false
-                ),
-                "asyncGetI": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncGetI", expectedArgumentCount: 0, hasNamedOptions: false) { env in
-                            let (deferred, promise) = try env.env.createPromise()
-                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.Structs.MutableStruct.self))
-                            Task {
-                                do {
-                                    let taskResult: Int = await swiftSelf.value.asyncGetI(
-                                    )
-                                    try onMainThread { env in
-                                        let convertedTaskResult: NAPI.Value
-                                        do {
-                                            convertedTaskResult = try Swift.Int.toNode(taskResult, env: env)
-                                        } catch {
-                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
-                                            return
-                                        }
-                                        try env.resolveDeferred(deferred, convertedTaskResult)
-                                    }
-                                } catch {
-                                    try onMainThread { env in
-                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
-                                    }
-                                }
-                            }
-                            return promise
-                        }
-                    },
-                    isStatic: false
-                ),
-                "i": (.stored(mutable: true), isStatic: false),
-            ],
-            constructor: { env, info in
-                callbackBody(env, info, name: "Structs.MutableStruct_constructor", expectedArgumentCount: 1) { env in
-                    // TODO: typecheck?
-                    let this = try env.this()
-                    try env.env.setNamedProperty(this, "i", env.argument(at: 0))
-                    return this
-                }
-            }
-        )
-        try mergeDefinitionInto(
-            env: env,
-            module: module,
-            path: "Structs.MutableStruct",
-            nodeClass: nodeClass.constructor.value(env: env)
-        )
-    }
-}
-
-// MARK: - TestAPI.Structs.PuttingTypesIntoQuestionablePlaces+node.swift
-extension TestAPI.Structs.PuttingTypesIntoQuestionablePlaces: FishyJoesNodeRuntime.NodeConverter {
-    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> TestAPI.Structs.PuttingTypesIntoQuestionablePlaces {
-        guard let nonNilPointer = try env.unwrap(value) else {
-            throw JSException(message: "expected TestAPI.Structs.PuttingTypesIntoQuestionablePlaces, got nil")
-        }
-        return try Box<TestAPI.Structs.PuttingTypesIntoQuestionablePlaces>.takeUnretainedOpaque(nonNilPointer).value
-    }
-
-    public static func toNode(_ value: TestAPI.Structs.PuttingTypesIntoQuestionablePlaces, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "Structs_PuttingTypesIntoQuestionablePlaces", env: env)
-        let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
-        return try env.newInstance(constructor, [arg])
-    }
-
-    public static func mutateNode(_ value: TestAPI.Structs.PuttingTypesIntoQuestionablePlaces, this: NAPI.Value, env: NAPI.Env) throws {
-        guard let pointer = try env.unwrap(this) else {
-            throw JSException(message: "expected TestAPI.Structs.PuttingTypesIntoQuestionablePlaces, got nil")
-        }
-        try Box<TestAPI.Structs.PuttingTypesIntoQuestionablePlaces>.takeUnretainedOpaque(pointer).value = value
-    }
-
-    @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
-    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-        let nodeClass = try NodeClass(
-            env: env,
-            name: "Structs_PuttingTypesIntoQuestionablePlaces",
-            properties: [
-                "create": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0, hasNamedOptions: false) { env in
-                            let result = try TestAPI.Structs.PuttingTypesIntoQuestionablePlaces.toNode(
-                                TestAPI.Structs.PuttingTypesIntoQuestionablePlaces(
-                                ),
-                                env: env.env
-                            )
-                            return result
-                        }
-                    },
-                    isStatic: true
-                ),
-                "testCall": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "testCall", expectedArgumentCount: 0, hasNamedOptions: false) { env in
-                            let result = try Swift.Int.toNode(
-                                env.this(converter: TestAPI.Structs.PuttingTypesIntoQuestionablePlaces.self).testCall(
-                                ),
-                                env: env.env
-                            )
-                            return result
-                        }
-                    },
-                    isStatic: false
-                ),
-            ],
-            constructor: { env, info in
-                FishyJoesNodeRuntime.callbackBody(env, info, name: "Structs_PuttingTypesIntoQuestionablePlaces_constructor", expectedArgumentCount: 1) { env in
-                    try FishyJoesNodeRuntime.Box<TestAPI.Structs.PuttingTypesIntoQuestionablePlaces>.construct(env: env)
-                }
-            }
-        )
-        try FishyJoesNodeRuntime.mergeDefinitionInto(
-            env: env,
-            module: module,
-            path: "Structs_PuttingTypesIntoQuestionablePlaces",
-            nodeClass: nodeClass.constructor.value(env: env)
-        )
-    }
-}
-
-// MARK: - TestAPI.Structs.ReferenceStruct+node.swift
-extension TestAPI.Structs.ReferenceStruct: FishyJoesNodeRuntime.NodeConverter {
-    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> TestAPI.Structs.ReferenceStruct {
-        guard let nonNilPointer = try env.unwrap(value) else {
-            throw JSException(message: "expected TestAPI.Structs.ReferenceStruct, got nil")
-        }
-        return try Box<TestAPI.Structs.ReferenceStruct>.takeUnretainedOpaque(nonNilPointer).value
-    }
-
-    public static func toNode(_ value: TestAPI.Structs.ReferenceStruct, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "Structs.ReferenceStruct", env: env)
-        let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
-        return try env.newInstance(constructor, [arg])
-    }
-
-    public static func mutateNode(_ value: TestAPI.Structs.ReferenceStruct, this: NAPI.Value, env: NAPI.Env) throws {
-        guard let pointer = try env.unwrap(this) else {
-            throw JSException(message: "expected TestAPI.Structs.ReferenceStruct, got nil")
-        }
-        try Box<TestAPI.Structs.ReferenceStruct>.takeUnretainedOpaque(pointer).value = value
-    }
-
-    @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
-    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-        let nodeClass = try NodeClass(
-            env: env,
-            name: "Structs.ReferenceStruct",
-            properties: [
-                "create": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0, hasNamedOptions: false) { env in
-                            let result = try TestAPI.Structs.ReferenceStruct.toNode(
-                                TestAPI.Structs.ReferenceStruct(
-                                ),
-                                env: env.env
-                            )
-                            return result
-                        }
-                    },
-                    isStatic: true
-                ),
-                "asyncGetMutable": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncGetMutable", expectedArgumentCount: 0, hasNamedOptions: false) { env in
-                            let (deferred, promise) = try env.env.createPromise()
-                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.Structs.ReferenceStruct.self))
-                            Task {
-                                do {
-                                    let taskResult: String = await swiftSelf.value.asyncGetMutable(
-                                    )
-                                    try onMainThread { env in
-                                        let convertedTaskResult: NAPI.Value
-                                        do {
-                                            convertedTaskResult = try Swift.String.toNode(taskResult, env: env)
-                                        } catch {
-                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
-                                            return
-                                        }
-                                        try env.resolveDeferred(deferred, convertedTaskResult)
-                                    }
-                                } catch {
-                                    try onMainThread { env in
-                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
-                                    }
-                                }
-                            }
-                            return promise
-                        }
-                    },
-                    isStatic: false
-                ),
-                "immutable": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "immutable", expectedArgumentCount: 0) { env in
-                                return try Swift.String.toNode(env.this(converter: TestAPI.Structs.ReferenceStruct.self).immutable, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: false
-                ),
-                "mutable": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "mutable", expectedArgumentCount: 0) { env in
-                                return try Swift.String.toNode(env.this(converter: TestAPI.Structs.ReferenceStruct.self).mutable, env: env.env)
-                            }
-                        },
-                        setter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "mutable", expectedArgumentCount: 1) { env in
-                                var mutatingSelf = try env.this(converter: TestAPI.Structs.ReferenceStruct.self)
-                                FishyJoesCommonRuntime.silenceMutationWarning(&mutatingSelf)
-                                mutatingSelf.mutable = try env.argument(at: 0, converter: Swift.String.self)
-                                try TestAPI.Structs.ReferenceStruct.mutateNode(mutatingSelf, this: env.this(), env: env.env)
-                                return nil
-                            }
-                        }),
-                    isStatic: false
-                ),
-            ],
-            constructor: { env, info in
-                FishyJoesNodeRuntime.callbackBody(env, info, name: "Structs.ReferenceStruct_constructor", expectedArgumentCount: 1) { env in
-                    try FishyJoesNodeRuntime.Box<TestAPI.Structs.ReferenceStruct>.construct(env: env)
-                }
-            }
-        )
-        try FishyJoesNodeRuntime.mergeDefinitionInto(
-            env: env,
-            module: module,
-            path: "Structs.ReferenceStruct",
-            nodeClass: nodeClass.constructor.value(env: env)
-        )
-    }
-}
-
 // MARK: - TestAPI.AProtocol+node.swift
 struct _NodeAProtocol: TestAPI.AProtocol {
     let _nodeWitness: NodeReference
@@ -1611,6 +534,203 @@ extension TestAPI.Actors: FishyJoesNodeRuntime.NodeConverter {
             module: module,
             path: "Actors",
             nodeClass: superclass.constructor.value(env: env)
+        )
+    }
+}
+
+// MARK: - TestAPI.Actors.TemperatureLogger+node.swift
+extension TestAPI.Actors.TemperatureLogger: FishyJoesNodeRuntime.NodeConverter {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> TestAPI.Actors.TemperatureLogger {
+        guard let nonNilPointer = try env.unwrap(value) else {
+            throw JSException(message: "expected TestAPI.Actors.TemperatureLogger, got nil")
+        }
+        return try Box<TestAPI.Actors.TemperatureLogger>.takeUnretainedOpaque(nonNilPointer).value
+    }
+
+    public static func toNode(_ value: TestAPI.Actors.TemperatureLogger, env: NAPI.Env) throws -> NAPI.Value {
+        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "Actors.TemperatureLogger", env: env)
+        let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
+        return try env.newInstance(constructor, [arg])
+    }
+
+    public static func mutateNode(_ value: TestAPI.Actors.TemperatureLogger, this: NAPI.Value, env: NAPI.Env) throws {
+        guard let pointer = try env.unwrap(this) else {
+            throw JSException(message: "expected TestAPI.Actors.TemperatureLogger, got nil")
+        }
+        try Box<TestAPI.Actors.TemperatureLogger>.takeUnretainedOpaque(pointer).value = value
+    }
+
+    @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        let nodeClass = try NodeClass(
+            env: env,
+            name: "Actors.TemperatureLogger",
+            properties: [
+                "create": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 2, hasNamedOptions: false) { env in
+                            let result = try TestAPI.Actors.TemperatureLogger.toNode(
+                                TestAPI.Actors.TemperatureLogger(
+                                    label: try env.argument(at: 0, converter: Swift.String.self),
+                                    measurement: try env.argument(at: 1, converter: Swift.Int.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
+                "update": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "update", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: Swift.Int.self))
+                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.Actors.TemperatureLogger.self))
+                            Task {
+                                do {
+                                    let taskResult: Void = await swiftSelf.value.update(
+                                        with: arg0.value
+                                    )
+                                    try onMainThread { env in
+                                        let convertedTaskResult: NAPI.Value
+                                        do {
+                                            convertedTaskResult = try FishyJoesCommonRuntime.VoidConverter.toNode(taskResult, env: env)
+                                        } catch {
+                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                            return
+                                        }
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
+                                    }
+                                } catch {
+                                    try onMainThread { env in
+                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                    }
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: false
+                ),
+                "min": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "min", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.Actors.TemperatureLogger.self))
+                            Task {
+                                do {
+                                    let taskResult: Int = await swiftSelf.value.min(
+                                    )
+                                    try onMainThread { env in
+                                        let convertedTaskResult: NAPI.Value
+                                        do {
+                                            convertedTaskResult = try Swift.Int.toNode(taskResult, env: env)
+                                        } catch {
+                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                            return
+                                        }
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
+                                    }
+                                } catch {
+                                    try onMainThread { env in
+                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                    }
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: false
+                ),
+                "extensionIsolatedGetLabel": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "extensionIsolatedGetLabel", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.Actors.TemperatureLogger.self))
+                            Task {
+                                do {
+                                    let taskResult: String = await swiftSelf.value.extensionIsolatedGetLabel(
+                                    )
+                                    try onMainThread { env in
+                                        let convertedTaskResult: NAPI.Value
+                                        do {
+                                            convertedTaskResult = try Swift.String.toNode(taskResult, env: env)
+                                        } catch {
+                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                            return
+                                        }
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
+                                    }
+                                } catch {
+                                    try onMainThread { env in
+                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                    }
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: false
+                ),
+                "extensionNonisolatedGetLabel": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "extensionNonisolatedGetLabel", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try Swift.String.toNode(
+                                env.this(converter: TestAPI.Actors.TemperatureLogger.self).extensionNonisolatedGetLabel(
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                ),
+                "backwardsLabel": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "backwardsLabel", expectedArgumentCount: 0) { env in
+                                return try Swift.String.toNode(env.this(converter: TestAPI.Actors.TemperatureLogger.self).backwardsLabel, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: false
+                ),
+                "extensionNonisolatedVarLabel": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "extensionNonisolatedVarLabel", expectedArgumentCount: 0) { env in
+                                return try Swift.String.toNode(env.this(converter: TestAPI.Actors.TemperatureLogger.self).extensionNonisolatedVarLabel, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: false
+                ),
+                "label": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "label", expectedArgumentCount: 0) { env in
+                                return try Swift.String.toNode(env.this(converter: TestAPI.Actors.TemperatureLogger.self).label, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: false
+                ),
+            ],
+            constructor: { env, info in
+                FishyJoesNodeRuntime.callbackBody(env, info, name: "Actors.TemperatureLogger_constructor", expectedArgumentCount: 1) { env in
+                    try FishyJoesNodeRuntime.Box<TestAPI.Actors.TemperatureLogger>.construct(env: env)
+                }
+            }
+        )
+        try FishyJoesNodeRuntime.mergeDefinitionInto(
+            env: env,
+            module: module,
+            path: "Actors.TemperatureLogger",
+            nodeClass: nodeClass.constructor.value(env: env)
         )
     }
 }
@@ -3184,6 +2304,143 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
             module: module,
             path: "Collections",
             nodeClass: superclass.constructor.value(env: env)
+        )
+    }
+}
+
+// MARK: - TestAPI.Collections.CollectionHolder+node.swift
+extension TestAPI.Collections.CollectionHolder: NodeMutator {
+    public typealias SwiftType = Self
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
+        Self(
+            boolArray: try { () -> Array<Swift.Bool> in
+                let fieldValue = try env.getNamedProperty(value, "boolArray")
+                return try ArrayConverter<Swift.Bool>.fromNode(fieldValue, env: env)
+            }(),
+            boolSet: try { () -> Set<Swift.Bool> in
+                let fieldValue = try env.getNamedProperty(value, "boolSet")
+                return try SetConverter<Swift.Bool>.fromNode(fieldValue, env: env)
+            }(),
+            boolDictionary: try { () -> Dictionary<Swift.Bool, Swift.Bool> in
+                let fieldValue = try env.getNamedProperty(value, "boolDictionary")
+                return try DictionaryConverter<Swift.Bool, Swift.Bool>.fromNode(fieldValue, env: env)
+            }(),
+            integerArray: try { () -> Array<Swift.Int> in
+                let fieldValue = try env.getNamedProperty(value, "integerArray")
+                return try ArrayConverter<Swift.Int>.fromNode(fieldValue, env: env)
+            }(),
+            integerSet: try { () -> Set<Swift.Int> in
+                let fieldValue = try env.getNamedProperty(value, "integerSet")
+                return try SetConverter<Swift.Int>.fromNode(fieldValue, env: env)
+            }(),
+            integerDictionary: try { () -> Dictionary<Swift.Int, Swift.Int> in
+                let fieldValue = try env.getNamedProperty(value, "integerDictionary")
+                return try DictionaryConverter<Swift.Int, Swift.Int>.fromNode(fieldValue, env: env)
+            }(),
+            stringArray: try { () -> Array<Swift.String> in
+                let fieldValue = try env.getNamedProperty(value, "stringArray")
+                return try ArrayConverter<Swift.String>.fromNode(fieldValue, env: env)
+            }(),
+            stringSet: try { () -> Set<Swift.String> in
+                let fieldValue = try env.getNamedProperty(value, "stringSet")
+                return try SetConverter<Swift.String>.fromNode(fieldValue, env: env)
+            }(),
+            stringDictionary: try { () -> Dictionary<Swift.String, Swift.String> in
+                let fieldValue = try env.getNamedProperty(value, "stringDictionary")
+                return try DictionaryConverter<Swift.String, Swift.String>.fromNode(fieldValue, env: env)
+            }()
+        )
+    }
+    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
+        let constructor = try NodeClass.constructor(for: "Collections.CollectionHolder", env: env)
+        let args: [NAPI.Value] = [
+            try ArrayConverter<Swift.Bool>.toNode(value.boolArray, env: env),
+            try SetConverter<Swift.Bool>.toNode(value.boolSet, env: env),
+            try DictionaryConverter<Swift.Bool, Swift.Bool>.toNode(value.boolDictionary, env: env),
+            try ArrayConverter<Swift.Int>.toNode(value.integerArray, env: env),
+            try SetConverter<Swift.Int>.toNode(value.integerSet, env: env),
+            try DictionaryConverter<Swift.Int, Swift.Int>.toNode(value.integerDictionary, env: env),
+            try ArrayConverter<Swift.String>.toNode(value.stringArray, env: env),
+            try SetConverter<Swift.String>.toNode(value.stringSet, env: env),
+            try DictionaryConverter<Swift.String, Swift.String>.toNode(value.stringDictionary, env: env),
+        ]
+        return try env.newInstance(constructor, args)
+    }
+    public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {
+        try env.setNamedProperty(this, "boolArray", ArrayConverter<Swift.Bool>.toNode(value.boolArray, env: env))
+        try env.setNamedProperty(this, "boolSet", SetConverter<Swift.Bool>.toNode(value.boolSet, env: env))
+        try env.setNamedProperty(this, "boolDictionary", DictionaryConverter<Swift.Bool, Swift.Bool>.toNode(value.boolDictionary, env: env))
+        try env.setNamedProperty(this, "integerArray", ArrayConverter<Swift.Int>.toNode(value.integerArray, env: env))
+        try env.setNamedProperty(this, "integerSet", SetConverter<Swift.Int>.toNode(value.integerSet, env: env))
+        try env.setNamedProperty(this, "integerDictionary", DictionaryConverter<Swift.Int, Swift.Int>.toNode(value.integerDictionary, env: env))
+        try env.setNamedProperty(this, "stringArray", ArrayConverter<Swift.String>.toNode(value.stringArray, env: env))
+        try env.setNamedProperty(this, "stringSet", SetConverter<Swift.String>.toNode(value.stringSet, env: env))
+        try env.setNamedProperty(this, "stringDictionary", DictionaryConverter<Swift.String, Swift.String>.toNode(value.stringDictionary, env: env))
+    }
+    @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        let nodeClass = try NodeClass(
+            env: env,
+            name: "Collections.CollectionHolder",
+            properties: [
+                "staticMutableProperty": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticMutableProperty", expectedArgumentCount: 0) { env in
+                                return try ArrayConverter<OptionalConverter<Swift.Int>>.toNode(TestAPI.Collections.CollectionHolder.staticMutableProperty, env: env.env)
+                            }
+                        },
+                        setter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticMutableProperty", expectedArgumentCount: 1) { env in
+                                TestAPI.Collections.CollectionHolder.staticMutableProperty = try env.argument(at: 0, converter: ArrayConverter<OptionalConverter<Swift.Int>>.self)
+                                return nil
+                            }
+                        }),
+                    isStatic: true
+                ),
+                "staticProperty": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticProperty", expectedArgumentCount: 0) { env in
+                                return try ArrayConverter<OptionalConverter<Swift.Int>>.toNode(TestAPI.Collections.CollectionHolder.staticProperty, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                "boolArray": (.stored(mutable: true), isStatic: false),
+                "boolSet": (.stored(mutable: true), isStatic: false),
+                "boolDictionary": (.stored(mutable: true), isStatic: false),
+                "integerArray": (.stored(mutable: true), isStatic: false),
+                "integerSet": (.stored(mutable: true), isStatic: false),
+                "integerDictionary": (.stored(mutable: true), isStatic: false),
+                "stringArray": (.stored(mutable: true), isStatic: false),
+                "stringSet": (.stored(mutable: true), isStatic: false),
+                "stringDictionary": (.stored(mutable: true), isStatic: false),
+            ],
+            constructor: { env, info in
+                callbackBody(env, info, name: "Collections.CollectionHolder_constructor", expectedArgumentCount: 9) { env in
+                    // TODO: typecheck?
+                    let this = try env.this()
+                    try env.env.setNamedProperty(this, "boolArray", env.argument(at: 0))
+                    try env.env.setNamedProperty(this, "boolSet", env.argument(at: 1))
+                    try env.env.setNamedProperty(this, "boolDictionary", env.argument(at: 2))
+                    try env.env.setNamedProperty(this, "integerArray", env.argument(at: 3))
+                    try env.env.setNamedProperty(this, "integerSet", env.argument(at: 4))
+                    try env.env.setNamedProperty(this, "integerDictionary", env.argument(at: 5))
+                    try env.env.setNamedProperty(this, "stringArray", env.argument(at: 6))
+                    try env.env.setNamedProperty(this, "stringSet", env.argument(at: 7))
+                    try env.env.setNamedProperty(this, "stringDictionary", env.argument(at: 8))
+                    return this
+                }
+            }
+        )
+        try mergeDefinitionInto(
+            env: env,
+            module: module,
+            path: "Collections.CollectionHolder",
+            nodeClass: nodeClass.constructor.value(env: env)
         )
     }
 }
@@ -5857,6 +5114,279 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
     }
 }
 
+// MARK: - TestAPI.Primitives.PrimitiveHolder+node.swift
+extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
+    public typealias SwiftType = Self
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
+        Self(
+            b: try { () -> Swift.Bool in
+                let fieldValue = try env.getNamedProperty(value, "b")
+                return try Swift.Bool.fromNode(fieldValue, env: env)
+            }(),
+            bq: try { () -> Optional<Swift.Bool> in
+                let fieldValue = try env.getNamedProperty(value, "bq")
+                return try OptionalConverter<Swift.Bool>.fromNode(fieldValue, env: env)
+            }(),
+            ui8: try { () -> Swift.UInt8 in
+                let fieldValue = try env.getNamedProperty(value, "ui8")
+                return try Swift.UInt8.fromNode(fieldValue, env: env)
+            }(),
+            ui8q: try { () -> Optional<Swift.UInt8> in
+                let fieldValue = try env.getNamedProperty(value, "ui8q")
+                return try OptionalConverter<Swift.UInt8>.fromNode(fieldValue, env: env)
+            }(),
+            ui16: try { () -> Swift.UInt16 in
+                let fieldValue = try env.getNamedProperty(value, "ui16")
+                return try Swift.UInt16.fromNode(fieldValue, env: env)
+            }(),
+            ui16q: try { () -> Optional<Swift.UInt16> in
+                let fieldValue = try env.getNamedProperty(value, "ui16q")
+                return try OptionalConverter<Swift.UInt16>.fromNode(fieldValue, env: env)
+            }(),
+            ui32: try { () -> Swift.UInt32 in
+                let fieldValue = try env.getNamedProperty(value, "ui32")
+                return try Swift.UInt32.fromNode(fieldValue, env: env)
+            }(),
+            ui32q: try { () -> Optional<Swift.UInt32> in
+                let fieldValue = try env.getNamedProperty(value, "ui32q")
+                return try OptionalConverter<Swift.UInt32>.fromNode(fieldValue, env: env)
+            }(),
+            ui64: try { () -> Swift.UInt64 in
+                let fieldValue = try env.getNamedProperty(value, "ui64")
+                return try Swift.UInt64.fromNode(fieldValue, env: env)
+            }(),
+            ui64q: try { () -> Optional<Swift.UInt64> in
+                let fieldValue = try env.getNamedProperty(value, "ui64q")
+                return try OptionalConverter<Swift.UInt64>.fromNode(fieldValue, env: env)
+            }(),
+            ui: try { () -> Swift.UInt in
+                let fieldValue = try env.getNamedProperty(value, "ui")
+                return try Swift.UInt.fromNode(fieldValue, env: env)
+            }(),
+            uiq: try { () -> Optional<Swift.UInt> in
+                let fieldValue = try env.getNamedProperty(value, "uiq")
+                return try OptionalConverter<Swift.UInt>.fromNode(fieldValue, env: env)
+            }(),
+            i8: try { () -> Swift.Int8 in
+                let fieldValue = try env.getNamedProperty(value, "i8")
+                return try Swift.Int8.fromNode(fieldValue, env: env)
+            }(),
+            i8q: try { () -> Optional<Swift.Int8> in
+                let fieldValue = try env.getNamedProperty(value, "i8q")
+                return try OptionalConverter<Swift.Int8>.fromNode(fieldValue, env: env)
+            }(),
+            i16: try { () -> Swift.Int16 in
+                let fieldValue = try env.getNamedProperty(value, "i16")
+                return try Swift.Int16.fromNode(fieldValue, env: env)
+            }(),
+            i16q: try { () -> Optional<Swift.Int16> in
+                let fieldValue = try env.getNamedProperty(value, "i16q")
+                return try OptionalConverter<Swift.Int16>.fromNode(fieldValue, env: env)
+            }(),
+            i32: try { () -> Swift.Int32 in
+                let fieldValue = try env.getNamedProperty(value, "i32")
+                return try Swift.Int32.fromNode(fieldValue, env: env)
+            }(),
+            i32q: try { () -> Optional<Swift.Int32> in
+                let fieldValue = try env.getNamedProperty(value, "i32q")
+                return try OptionalConverter<Swift.Int32>.fromNode(fieldValue, env: env)
+            }(),
+            i64: try { () -> Swift.Int64 in
+                let fieldValue = try env.getNamedProperty(value, "i64")
+                return try Swift.Int64.fromNode(fieldValue, env: env)
+            }(),
+            i64q: try { () -> Optional<Swift.Int64> in
+                let fieldValue = try env.getNamedProperty(value, "i64q")
+                return try OptionalConverter<Swift.Int64>.fromNode(fieldValue, env: env)
+            }(),
+            i: try { () -> Swift.Int in
+                let fieldValue = try env.getNamedProperty(value, "i")
+                return try Swift.Int.fromNode(fieldValue, env: env)
+            }(),
+            iq: try { () -> Optional<Swift.Int> in
+                let fieldValue = try env.getNamedProperty(value, "iq")
+                return try OptionalConverter<Swift.Int>.fromNode(fieldValue, env: env)
+            }(),
+            f: try { () -> Swift.Float in
+                let fieldValue = try env.getNamedProperty(value, "f")
+                return try Swift.Float.fromNode(fieldValue, env: env)
+            }(),
+            fq: try { () -> Optional<Swift.Float> in
+                let fieldValue = try env.getNamedProperty(value, "fq")
+                return try OptionalConverter<Swift.Float>.fromNode(fieldValue, env: env)
+            }(),
+            d: try { () -> Swift.Double in
+                let fieldValue = try env.getNamedProperty(value, "d")
+                return try Swift.Double.fromNode(fieldValue, env: env)
+            }(),
+            dq: try { () -> Optional<Swift.Double> in
+                let fieldValue = try env.getNamedProperty(value, "dq")
+                return try OptionalConverter<Swift.Double>.fromNode(fieldValue, env: env)
+            }()
+        )
+    }
+    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
+        let constructor = try NodeClass.constructor(for: "Primitives.PrimitiveHolder", env: env)
+        let args: [NAPI.Value] = [
+            try Swift.Bool.toNode(value.b, env: env),
+            try OptionalConverter<Swift.Bool>.toNode(value.bq, env: env),
+            try Swift.UInt8.toNode(value.ui8, env: env),
+            try OptionalConverter<Swift.UInt8>.toNode(value.ui8q, env: env),
+            try Swift.UInt16.toNode(value.ui16, env: env),
+            try OptionalConverter<Swift.UInt16>.toNode(value.ui16q, env: env),
+            try Swift.UInt32.toNode(value.ui32, env: env),
+            try OptionalConverter<Swift.UInt32>.toNode(value.ui32q, env: env),
+            try Swift.UInt64.toNode(value.ui64, env: env),
+            try OptionalConverter<Swift.UInt64>.toNode(value.ui64q, env: env),
+            try Swift.UInt.toNode(value.ui, env: env),
+            try OptionalConverter<Swift.UInt>.toNode(value.uiq, env: env),
+            try Swift.Int8.toNode(value.i8, env: env),
+            try OptionalConverter<Swift.Int8>.toNode(value.i8q, env: env),
+            try Swift.Int16.toNode(value.i16, env: env),
+            try OptionalConverter<Swift.Int16>.toNode(value.i16q, env: env),
+            try Swift.Int32.toNode(value.i32, env: env),
+            try OptionalConverter<Swift.Int32>.toNode(value.i32q, env: env),
+            try Swift.Int64.toNode(value.i64, env: env),
+            try OptionalConverter<Swift.Int64>.toNode(value.i64q, env: env),
+            try Swift.Int.toNode(value.i, env: env),
+            try OptionalConverter<Swift.Int>.toNode(value.iq, env: env),
+            try Swift.Float.toNode(value.f, env: env),
+            try OptionalConverter<Swift.Float>.toNode(value.fq, env: env),
+            try Swift.Double.toNode(value.d, env: env),
+            try OptionalConverter<Swift.Double>.toNode(value.dq, env: env),
+        ]
+        return try env.newInstance(constructor, args)
+    }
+    public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {
+        try env.setNamedProperty(this, "b", Swift.Bool.toNode(value.b, env: env))
+        try env.setNamedProperty(this, "bq", OptionalConverter<Swift.Bool>.toNode(value.bq, env: env))
+        try env.setNamedProperty(this, "ui8", Swift.UInt8.toNode(value.ui8, env: env))
+        try env.setNamedProperty(this, "ui8q", OptionalConverter<Swift.UInt8>.toNode(value.ui8q, env: env))
+        try env.setNamedProperty(this, "ui16", Swift.UInt16.toNode(value.ui16, env: env))
+        try env.setNamedProperty(this, "ui16q", OptionalConverter<Swift.UInt16>.toNode(value.ui16q, env: env))
+        try env.setNamedProperty(this, "ui32", Swift.UInt32.toNode(value.ui32, env: env))
+        try env.setNamedProperty(this, "ui32q", OptionalConverter<Swift.UInt32>.toNode(value.ui32q, env: env))
+        try env.setNamedProperty(this, "ui64", Swift.UInt64.toNode(value.ui64, env: env))
+        try env.setNamedProperty(this, "ui64q", OptionalConverter<Swift.UInt64>.toNode(value.ui64q, env: env))
+        try env.setNamedProperty(this, "ui", Swift.UInt.toNode(value.ui, env: env))
+        try env.setNamedProperty(this, "uiq", OptionalConverter<Swift.UInt>.toNode(value.uiq, env: env))
+        try env.setNamedProperty(this, "i8", Swift.Int8.toNode(value.i8, env: env))
+        try env.setNamedProperty(this, "i8q", OptionalConverter<Swift.Int8>.toNode(value.i8q, env: env))
+        try env.setNamedProperty(this, "i16", Swift.Int16.toNode(value.i16, env: env))
+        try env.setNamedProperty(this, "i16q", OptionalConverter<Swift.Int16>.toNode(value.i16q, env: env))
+        try env.setNamedProperty(this, "i32", Swift.Int32.toNode(value.i32, env: env))
+        try env.setNamedProperty(this, "i32q", OptionalConverter<Swift.Int32>.toNode(value.i32q, env: env))
+        try env.setNamedProperty(this, "i64", Swift.Int64.toNode(value.i64, env: env))
+        try env.setNamedProperty(this, "i64q", OptionalConverter<Swift.Int64>.toNode(value.i64q, env: env))
+        try env.setNamedProperty(this, "i", Swift.Int.toNode(value.i, env: env))
+        try env.setNamedProperty(this, "iq", OptionalConverter<Swift.Int>.toNode(value.iq, env: env))
+        try env.setNamedProperty(this, "f", Swift.Float.toNode(value.f, env: env))
+        try env.setNamedProperty(this, "fq", OptionalConverter<Swift.Float>.toNode(value.fq, env: env))
+        try env.setNamedProperty(this, "d", Swift.Double.toNode(value.d, env: env))
+        try env.setNamedProperty(this, "dq", OptionalConverter<Swift.Double>.toNode(value.dq, env: env))
+    }
+    @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        let nodeClass = try NodeClass(
+            env: env,
+            name: "Primitives.PrimitiveHolder",
+            properties: [
+                "staticMutableProperty": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticMutableProperty", expectedArgumentCount: 0) { env in
+                                return try ArrayConverter<OptionalConverter<Swift.UInt8>>.toNode(TestAPI.Primitives.PrimitiveHolder.staticMutableProperty, env: env.env)
+                            }
+                        },
+                        setter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticMutableProperty", expectedArgumentCount: 1) { env in
+                                TestAPI.Primitives.PrimitiveHolder.staticMutableProperty = try env.argument(at: 0, converter: ArrayConverter<OptionalConverter<Swift.UInt8>>.self)
+                                return nil
+                            }
+                        }),
+                    isStatic: true
+                ),
+                "staticProperty": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticProperty", expectedArgumentCount: 0) { env in
+                                return try ArrayConverter<OptionalConverter<Swift.UInt8>>.toNode(TestAPI.Primitives.PrimitiveHolder.staticProperty, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                "b": (.stored(mutable: true), isStatic: false),
+                "bq": (.stored(mutable: true), isStatic: false),
+                "ui8": (.stored(mutable: true), isStatic: false),
+                "ui8q": (.stored(mutable: true), isStatic: false),
+                "ui16": (.stored(mutable: true), isStatic: false),
+                "ui16q": (.stored(mutable: true), isStatic: false),
+                "ui32": (.stored(mutable: true), isStatic: false),
+                "ui32q": (.stored(mutable: true), isStatic: false),
+                "ui64": (.stored(mutable: true), isStatic: false),
+                "ui64q": (.stored(mutable: true), isStatic: false),
+                "ui": (.stored(mutable: true), isStatic: false),
+                "uiq": (.stored(mutable: true), isStatic: false),
+                "i8": (.stored(mutable: true), isStatic: false),
+                "i8q": (.stored(mutable: true), isStatic: false),
+                "i16": (.stored(mutable: true), isStatic: false),
+                "i16q": (.stored(mutable: true), isStatic: false),
+                "i32": (.stored(mutable: true), isStatic: false),
+                "i32q": (.stored(mutable: true), isStatic: false),
+                "i64": (.stored(mutable: true), isStatic: false),
+                "i64q": (.stored(mutable: true), isStatic: false),
+                "i": (.stored(mutable: true), isStatic: false),
+                "iq": (.stored(mutable: true), isStatic: false),
+                "f": (.stored(mutable: true), isStatic: false),
+                "fq": (.stored(mutable: true), isStatic: false),
+                "d": (.stored(mutable: true), isStatic: false),
+                "dq": (.stored(mutable: true), isStatic: false),
+            ],
+            constructor: { env, info in
+                callbackBody(env, info, name: "Primitives.PrimitiveHolder_constructor", expectedArgumentCount: 26) { env in
+                    // TODO: typecheck?
+                    let this = try env.this()
+                    try env.env.setNamedProperty(this, "b", env.argument(at: 0))
+                    try env.env.setNamedProperty(this, "bq", env.argument(at: 1))
+                    try env.env.setNamedProperty(this, "ui8", env.argument(at: 2))
+                    try env.env.setNamedProperty(this, "ui8q", env.argument(at: 3))
+                    try env.env.setNamedProperty(this, "ui16", env.argument(at: 4))
+                    try env.env.setNamedProperty(this, "ui16q", env.argument(at: 5))
+                    try env.env.setNamedProperty(this, "ui32", env.argument(at: 6))
+                    try env.env.setNamedProperty(this, "ui32q", env.argument(at: 7))
+                    try env.env.setNamedProperty(this, "ui64", env.argument(at: 8))
+                    try env.env.setNamedProperty(this, "ui64q", env.argument(at: 9))
+                    try env.env.setNamedProperty(this, "ui", env.argument(at: 10))
+                    try env.env.setNamedProperty(this, "uiq", env.argument(at: 11))
+                    try env.env.setNamedProperty(this, "i8", env.argument(at: 12))
+                    try env.env.setNamedProperty(this, "i8q", env.argument(at: 13))
+                    try env.env.setNamedProperty(this, "i16", env.argument(at: 14))
+                    try env.env.setNamedProperty(this, "i16q", env.argument(at: 15))
+                    try env.env.setNamedProperty(this, "i32", env.argument(at: 16))
+                    try env.env.setNamedProperty(this, "i32q", env.argument(at: 17))
+                    try env.env.setNamedProperty(this, "i64", env.argument(at: 18))
+                    try env.env.setNamedProperty(this, "i64q", env.argument(at: 19))
+                    try env.env.setNamedProperty(this, "i", env.argument(at: 20))
+                    try env.env.setNamedProperty(this, "iq", env.argument(at: 21))
+                    try env.env.setNamedProperty(this, "f", env.argument(at: 22))
+                    try env.env.setNamedProperty(this, "fq", env.argument(at: 23))
+                    try env.env.setNamedProperty(this, "d", env.argument(at: 24))
+                    try env.env.setNamedProperty(this, "dq", env.argument(at: 25))
+                    return this
+                }
+            }
+        )
+        try mergeDefinitionInto(
+            env: env,
+            module: module,
+            path: "Primitives.PrimitiveHolder",
+            nodeClass: nodeClass.constructor.value(env: env)
+        )
+    }
+}
+
 // MARK: - TestAPI.Ranges+node.swift
 extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
     public typealias SwiftType = Self
@@ -6217,6 +5747,52 @@ extension TestAPI.Results: FishyJoesNodeRuntime.NodeConverter {
     }
 }
 
+// MARK: - TestAPI.Results.Error+node.swift
+extension TestAPI.Results.Error: NodeMutator {
+    public typealias SwiftType = Self
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
+        Self(
+            message: try { () -> Swift.String in
+                let fieldValue = try env.getNamedProperty(value, "message")
+                return try Swift.String.fromNode(fieldValue, env: env)
+            }()
+        )
+    }
+    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
+        let constructor = try NodeClass.constructor(for: "Results.Error", env: env)
+        let args: [NAPI.Value] = [
+            try Swift.String.toNode(value.message, env: env),
+        ]
+        return try env.newInstance(constructor, args)
+    }
+    public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {
+    }
+    @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        let nodeClass = try NodeClass(
+            env: env,
+            name: "Results.Error",
+            properties: [
+                "message": (.stored(mutable: true), isStatic: false),
+            ],
+            constructor: { env, info in
+                callbackBody(env, info, name: "Results.Error_constructor", expectedArgumentCount: 1) { env in
+                    // TODO: typecheck?
+                    let this = try env.this()
+                    try env.env.setNamedProperty(this, "message", env.argument(at: 0))
+                    return this
+                }
+            }
+        )
+        try mergeDefinitionInto(
+            env: env,
+            module: module,
+            path: "Results.Error",
+            nodeClass: nodeClass.constructor.value(env: env)
+        )
+    }
+}
+
 // MARK: - TestAPI.SimpleEnum+node.swift
 extension TestAPI.SimpleEnum: FishyJoesNodeRuntime.NodeConverter {
     public typealias SwiftType = Self
@@ -6488,6 +6064,430 @@ extension TestAPI.Structs: FishyJoesNodeRuntime.NodeConverter {
             module: module,
             path: "Structs",
             nodeClass: superclass.constructor.value(env: env)
+        )
+    }
+}
+
+// MARK: - TestAPI.Structs.MemberwiseStruct+node.swift
+extension TestAPI.Structs.MemberwiseStruct: NodeMutator {
+    public typealias SwiftType = Self
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
+        Self(
+            immutable: try { () -> Swift.String in
+                let fieldValue = try env.getNamedProperty(value, "immutable")
+                return try Swift.String.fromNode(fieldValue, env: env)
+            }(),
+            mutable: try { () -> Swift.String in
+                let fieldValue = try env.getNamedProperty(value, "mutable")
+                return try Swift.String.fromNode(fieldValue, env: env)
+            }()
+        )
+    }
+    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
+        let constructor = try NodeClass.constructor(for: "Structs.MemberwiseStruct", env: env)
+        let args: [NAPI.Value] = [
+            try Swift.String.toNode(value.immutable, env: env),
+            try Swift.String.toNode(value.mutable, env: env),
+        ]
+        return try env.newInstance(constructor, args)
+    }
+    public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {
+        try env.setNamedProperty(this, "immutable", Swift.String.toNode(value.immutable, env: env))
+        try env.setNamedProperty(this, "mutable", Swift.String.toNode(value.mutable, env: env))
+    }
+    @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        let nodeClass = try NodeClass(
+            env: env,
+            name: "Structs.MemberwiseStruct",
+            properties: [
+                "create": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try TestAPI.Structs.MemberwiseStruct.toNode(
+                                TestAPI.Structs.MemberwiseStruct(
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
+                "asyncGetMutable": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncGetMutable", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.Structs.MemberwiseStruct.self))
+                            Task {
+                                do {
+                                    let taskResult: String = await swiftSelf.value.asyncGetMutable(
+                                    )
+                                    try onMainThread { env in
+                                        let convertedTaskResult: NAPI.Value
+                                        do {
+                                            convertedTaskResult = try Swift.String.toNode(taskResult, env: env)
+                                        } catch {
+                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                            return
+                                        }
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
+                                    }
+                                } catch {
+                                    try onMainThread { env in
+                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                    }
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: false
+                ),
+                "immutable": (.stored(mutable: true), isStatic: false),
+                "mutable": (.stored(mutable: true), isStatic: false),
+            ],
+            constructor: { env, info in
+                callbackBody(env, info, name: "Structs.MemberwiseStruct_constructor", expectedArgumentCount: 2) { env in
+                    // TODO: typecheck?
+                    let this = try env.this()
+                    try env.env.setNamedProperty(this, "immutable", env.argument(at: 0))
+                    try env.env.setNamedProperty(this, "mutable", env.argument(at: 1))
+                    return this
+                }
+            }
+        )
+        try mergeDefinitionInto(
+            env: env,
+            module: module,
+            path: "Structs.MemberwiseStruct",
+            nodeClass: nodeClass.constructor.value(env: env)
+        )
+    }
+}
+
+// MARK: - TestAPI.Structs.MutableStruct+node.swift
+extension TestAPI.Structs.MutableStruct: NodeMutator {
+    public typealias SwiftType = Self
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
+        Self(
+            i: try { () -> Swift.Int in
+                let fieldValue = try env.getNamedProperty(value, "i")
+                return try Swift.Int.fromNode(fieldValue, env: env)
+            }()
+        )
+    }
+    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
+        let constructor = try NodeClass.constructor(for: "Structs.MutableStruct", env: env)
+        let args: [NAPI.Value] = [
+            try Swift.Int.toNode(value.i, env: env),
+        ]
+        return try env.newInstance(constructor, args)
+    }
+    public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {
+        try env.setNamedProperty(this, "i", Swift.Int.toNode(value.i, env: env))
+    }
+    @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        let nodeClass = try NodeClass(
+            env: env,
+            name: "Structs.MutableStruct",
+            properties: [
+                "create": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try TestAPI.Structs.MutableStruct.toNode(
+                                TestAPI.Structs.MutableStruct(
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
+                "increment": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "increment", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            var mutatingSelf = try env.this(converter: TestAPI.Structs.MutableStruct.self)
+                            FishyJoesCommonRuntime.silenceMutationWarning(&mutatingSelf)
+                            let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
+                                mutatingSelf.increment(
+                                ),
+                                env: env.env
+                            )
+                            try Self.mutateNode(mutatingSelf, this: env.this(), env: env.env)
+                            return result
+                        }
+                    },
+                    isStatic: false
+                ),
+                "incrementAsync": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "incrementAsync", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            let mutatingSelf = UncheckedSendableBox(try env.this(converter: TestAPI.Structs.MutableStruct.self))
+                            let jsThis = try env.env.reference(env.this())
+                            Task {
+                                do {
+                                    let taskResult: Void = await mutatingSelf.value.incrementAsync(
+                                    )
+                                    try onMainThread { env in
+                                        let convertedTaskResult: NAPI.Value
+                                        do {
+                                            convertedTaskResult = try FishyJoesCommonRuntime.VoidConverter.toNode(taskResult, env: env)
+                                        } catch {
+                                            try Self.mutateNode(mutatingSelf.value, this: jsThis.value(env: env), env: env)
+                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                            return
+                                        }
+                                        try Self.mutateNode(mutatingSelf.value, this: jsThis.value(env: env), env: env)
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
+                                    }
+                                } catch {
+                                    try onMainThread { env in
+                                        try Self.mutateNode(mutatingSelf.value, this: jsThis.value(env: env), env: env)
+                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                    }
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: false
+                ),
+                "asyncGetI": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncGetI", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.Structs.MutableStruct.self))
+                            Task {
+                                do {
+                                    let taskResult: Int = await swiftSelf.value.asyncGetI(
+                                    )
+                                    try onMainThread { env in
+                                        let convertedTaskResult: NAPI.Value
+                                        do {
+                                            convertedTaskResult = try Swift.Int.toNode(taskResult, env: env)
+                                        } catch {
+                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                            return
+                                        }
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
+                                    }
+                                } catch {
+                                    try onMainThread { env in
+                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                    }
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: false
+                ),
+                "i": (.stored(mutable: true), isStatic: false),
+            ],
+            constructor: { env, info in
+                callbackBody(env, info, name: "Structs.MutableStruct_constructor", expectedArgumentCount: 1) { env in
+                    // TODO: typecheck?
+                    let this = try env.this()
+                    try env.env.setNamedProperty(this, "i", env.argument(at: 0))
+                    return this
+                }
+            }
+        )
+        try mergeDefinitionInto(
+            env: env,
+            module: module,
+            path: "Structs.MutableStruct",
+            nodeClass: nodeClass.constructor.value(env: env)
+        )
+    }
+}
+
+// MARK: - TestAPI.Structs.PuttingTypesIntoQuestionablePlaces+node.swift
+extension TestAPI.Structs.PuttingTypesIntoQuestionablePlaces: FishyJoesNodeRuntime.NodeConverter {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> TestAPI.Structs.PuttingTypesIntoQuestionablePlaces {
+        guard let nonNilPointer = try env.unwrap(value) else {
+            throw JSException(message: "expected TestAPI.Structs.PuttingTypesIntoQuestionablePlaces, got nil")
+        }
+        return try Box<TestAPI.Structs.PuttingTypesIntoQuestionablePlaces>.takeUnretainedOpaque(nonNilPointer).value
+    }
+
+    public static func toNode(_ value: TestAPI.Structs.PuttingTypesIntoQuestionablePlaces, env: NAPI.Env) throws -> NAPI.Value {
+        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "Structs_PuttingTypesIntoQuestionablePlaces", env: env)
+        let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
+        return try env.newInstance(constructor, [arg])
+    }
+
+    public static func mutateNode(_ value: TestAPI.Structs.PuttingTypesIntoQuestionablePlaces, this: NAPI.Value, env: NAPI.Env) throws {
+        guard let pointer = try env.unwrap(this) else {
+            throw JSException(message: "expected TestAPI.Structs.PuttingTypesIntoQuestionablePlaces, got nil")
+        }
+        try Box<TestAPI.Structs.PuttingTypesIntoQuestionablePlaces>.takeUnretainedOpaque(pointer).value = value
+    }
+
+    @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        let nodeClass = try NodeClass(
+            env: env,
+            name: "Structs_PuttingTypesIntoQuestionablePlaces",
+            properties: [
+                "create": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try TestAPI.Structs.PuttingTypesIntoQuestionablePlaces.toNode(
+                                TestAPI.Structs.PuttingTypesIntoQuestionablePlaces(
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
+                "testCall": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "testCall", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try Swift.Int.toNode(
+                                env.this(converter: TestAPI.Structs.PuttingTypesIntoQuestionablePlaces.self).testCall(
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                ),
+            ],
+            constructor: { env, info in
+                FishyJoesNodeRuntime.callbackBody(env, info, name: "Structs_PuttingTypesIntoQuestionablePlaces_constructor", expectedArgumentCount: 1) { env in
+                    try FishyJoesNodeRuntime.Box<TestAPI.Structs.PuttingTypesIntoQuestionablePlaces>.construct(env: env)
+                }
+            }
+        )
+        try FishyJoesNodeRuntime.mergeDefinitionInto(
+            env: env,
+            module: module,
+            path: "Structs_PuttingTypesIntoQuestionablePlaces",
+            nodeClass: nodeClass.constructor.value(env: env)
+        )
+    }
+}
+
+// MARK: - TestAPI.Structs.ReferenceStruct+node.swift
+extension TestAPI.Structs.ReferenceStruct: FishyJoesNodeRuntime.NodeConverter {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> TestAPI.Structs.ReferenceStruct {
+        guard let nonNilPointer = try env.unwrap(value) else {
+            throw JSException(message: "expected TestAPI.Structs.ReferenceStruct, got nil")
+        }
+        return try Box<TestAPI.Structs.ReferenceStruct>.takeUnretainedOpaque(nonNilPointer).value
+    }
+
+    public static func toNode(_ value: TestAPI.Structs.ReferenceStruct, env: NAPI.Env) throws -> NAPI.Value {
+        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "Structs.ReferenceStruct", env: env)
+        let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
+        return try env.newInstance(constructor, [arg])
+    }
+
+    public static func mutateNode(_ value: TestAPI.Structs.ReferenceStruct, this: NAPI.Value, env: NAPI.Env) throws {
+        guard let pointer = try env.unwrap(this) else {
+            throw JSException(message: "expected TestAPI.Structs.ReferenceStruct, got nil")
+        }
+        try Box<TestAPI.Structs.ReferenceStruct>.takeUnretainedOpaque(pointer).value = value
+    }
+
+    @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        let nodeClass = try NodeClass(
+            env: env,
+            name: "Structs.ReferenceStruct",
+            properties: [
+                "create": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try TestAPI.Structs.ReferenceStruct.toNode(
+                                TestAPI.Structs.ReferenceStruct(
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
+                "asyncGetMutable": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncGetMutable", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.Structs.ReferenceStruct.self))
+                            Task {
+                                do {
+                                    let taskResult: String = await swiftSelf.value.asyncGetMutable(
+                                    )
+                                    try onMainThread { env in
+                                        let convertedTaskResult: NAPI.Value
+                                        do {
+                                            convertedTaskResult = try Swift.String.toNode(taskResult, env: env)
+                                        } catch {
+                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                            return
+                                        }
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
+                                    }
+                                } catch {
+                                    try onMainThread { env in
+                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                    }
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: false
+                ),
+                "immutable": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "immutable", expectedArgumentCount: 0) { env in
+                                return try Swift.String.toNode(env.this(converter: TestAPI.Structs.ReferenceStruct.self).immutable, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: false
+                ),
+                "mutable": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "mutable", expectedArgumentCount: 0) { env in
+                                return try Swift.String.toNode(env.this(converter: TestAPI.Structs.ReferenceStruct.self).mutable, env: env.env)
+                            }
+                        },
+                        setter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "mutable", expectedArgumentCount: 1) { env in
+                                var mutatingSelf = try env.this(converter: TestAPI.Structs.ReferenceStruct.self)
+                                FishyJoesCommonRuntime.silenceMutationWarning(&mutatingSelf)
+                                mutatingSelf.mutable = try env.argument(at: 0, converter: Swift.String.self)
+                                try TestAPI.Structs.ReferenceStruct.mutateNode(mutatingSelf, this: env.this(), env: env.env)
+                                return nil
+                            }
+                        }),
+                    isStatic: false
+                ),
+            ],
+            constructor: { env, info in
+                FishyJoesNodeRuntime.callbackBody(env, info, name: "Structs.ReferenceStruct_constructor", expectedArgumentCount: 1) { env in
+                    try FishyJoesNodeRuntime.Box<TestAPI.Structs.ReferenceStruct>.construct(env: env)
+                }
+            }
+        )
+        try FishyJoesNodeRuntime.mergeDefinitionInto(
+            env: env,
+            module: module,
+            path: "Structs.ReferenceStruct",
+            nodeClass: nodeClass.constructor.value(env: env)
         )
     }
 }
