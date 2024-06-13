@@ -362,7 +362,7 @@ struct TranslatedProtocol: TranslatedType {
 
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "NodeInterface/\(sourceType.name)+node.swift",
+            "NodeInterface/\(context.module.name)+node.swift",
             additionalImports: [
                 "Foundation",
                 "FishyJoesNodeRuntime",
@@ -370,6 +370,7 @@ struct TranslatedProtocol: TranslatedType {
                 "NodeAPI"
             ]
         )
+        fragment.output("// MARK: - \(sourceType.name)+node.swift")
 
         fragment.outputBlock("struct _Node\(sourceType.nonNamespacedName): \(sourceType.name) {") {
             fragment.output("let _nodeWitness: NodeReference")
