@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:core';
+// import 'dart:js_util';
 import 'dart:math';
 import 'package:cricut_test_api/cricut_test_api.dart';
 import 'package:cricut_test_api/src/generated/TestAsyncSwiftSideFunctionsClass.dart';
@@ -386,7 +387,57 @@ void main() {
         final b = a.witness();
         await testAsyncSwiftSideFunctionsCore(b);
       });
+
+      test('testDefaultComputedPropertiesImpl', () async {
+        final a = TestDefaultComputedPropertiesImplOverrideNoot();
+        expect(a.plutonic, equals("Newton Gimmick"));
+        expect(a.noot, equals(230723));
+
+        final b = TestDefaultComputedPropertiesImplOverridePlutonic();
+        expect(b.plutonic, equals("Teddy Ruxpin"));
+        expect(b.noot, equals(2983));
+      });
+
+      test('testDefaultComputedPropertiesStruct', () async {
+        final a = TestDefaultComputedPropertiesStruct(spam: true, noot: 98172);
+        expect(a.plutonic, equals("Newton Gimmick"));
+        expect(a.spam, equals(true));
+        expect(a.noot, equals(98172));
+      });
+
+      test('testDefaultComputedPropertiesReference', () {
+        final a = TestDefaultComputedPropertiesReference.init(false, 678753);
+        expect(a.plutonic, equals("Newton Gimmick"));
+        expect(a.spam, equals(false));
+        expect(a.noot, equals(678753));
+      });
+
+      test('testDefaultComputedPropertiesEnum', () {
+        final a = TestDefaultComputedPropertiesEnum.qux();
+        expect(a.plutonic, equals("Newton Gimmick"));
+        expect(a.spam, equals(true));
+        expect(a.noot, equals(72930));
+      });
+
+      test('testDifferingExportNameStruct', () {
+        final a = TestDifferingExportNameStruct(tata: 8923);
+        expect(a.tata, equals(8923));
+      });
+
+      test('testNonExportedProtocol', () {
+        final a = TestNonExportedProtocolEnum.hogehoge();
+        expect(a.fuga, equals(987890.23));
+        expect(a.hoge(), equals(23723.11));
+      });
   });
+}
+
+class TestDefaultComputedPropertiesImplOverrideNoot implements TestDefaultComputedProperties {
+  int get noot => 230723;
+}
+
+class TestDefaultComputedPropertiesImplOverridePlutonic implements TestDefaultComputedProperties {
+  String get plutonic => "Teddy Ruxpin";
 }
 
 class TestAsyncFunctionsImpl implements TestAPI.TestAsyncFunctions {

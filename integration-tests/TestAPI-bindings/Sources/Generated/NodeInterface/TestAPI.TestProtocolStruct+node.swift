@@ -120,7 +120,7 @@ extension TestAPI.TestProtocolStruct: NodeMutator {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "frobby", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<Swift.Int>.toNode(env.this(converter: TestAPI.TestProtocolStruct.self).frob, env: env.env)
+                                return try ArrayConverter<Swift.Int>.toNode(env.this(converter: TestAPI.TestProtocolStruct.self).frob, env: env.env)
                             }
                         },
                         setter: nil

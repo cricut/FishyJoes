@@ -164,12 +164,13 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "corge", expectedArgumentCount: 0) { env in
-                                try Swift.String.toNode(env.this(converter: TestAPI.TestProtocolClass.self).corge, env: env.env)
+                                return try Swift.String.toNode(env.this(converter: TestAPI.TestProtocolClass.self).corge, env: env.env)
                             }
                         },
                         setter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "corge", expectedArgumentCount: 1) { env in
                                 var mutatingSelf = try env.this(converter: TestAPI.TestProtocolClass.self)
+                                FishyJoesCommonRuntime.silenceMutationWarning(&mutatingSelf)
                                 mutatingSelf.corge = try env.argument(at: 0, converter: Swift.String.self)
                                 try TestAPI.TestProtocolClass.mutateNode(mutatingSelf, this: env.this(), env: env.env)
                                 return nil
@@ -181,12 +182,13 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "flarp", expectedArgumentCount: 0) { env in
-                                try OptionalConverter<Swift.String>.toNode(env.this(converter: TestAPI.TestProtocolClass.self).flarp, env: env.env)
+                                return try OptionalConverter<Swift.String>.toNode(env.this(converter: TestAPI.TestProtocolClass.self).flarp, env: env.env)
                             }
                         },
                         setter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "flarp", expectedArgumentCount: 1) { env in
                                 var mutatingSelf = try env.this(converter: TestAPI.TestProtocolClass.self)
+                                FishyJoesCommonRuntime.silenceMutationWarning(&mutatingSelf)
                                 mutatingSelf.flarp = try env.argument(at: 0, converter: OptionalConverter<Swift.String>.self)
                                 try TestAPI.TestProtocolClass.mutateNode(mutatingSelf, this: env.this(), env: env.env)
                                 return nil
@@ -198,7 +200,7 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "frobby", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<Swift.Int>.toNode(env.this(converter: TestAPI.TestProtocolClass.self).frob, env: env.env)
+                                return try ArrayConverter<Swift.Int>.toNode(env.this(converter: TestAPI.TestProtocolClass.self).frob, env: env.env)
                             }
                         },
                         setter: nil

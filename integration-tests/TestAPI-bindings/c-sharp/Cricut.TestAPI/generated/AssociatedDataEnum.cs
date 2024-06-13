@@ -32,6 +32,19 @@ namespace Cricut.TestAPI {
         ) : AssociatedDataEnum;
 
         /// <summary>
+        /// <!-- FishyJoes.export(intValue) -->
+        /// </summary>
+        public nint GetIntValue() {
+            using var thisHandle = new GCRef(this);
+            return Check((out CreatedRef exn) =>
+                __iota_get_TestAPI_AssociatedDataEnum_intValue(Loader.env, thisHandle.ptr, out exn)
+            );
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __iota_get_TestAPI_AssociatedDataEnum_intValue(IntPtr envRef, UnownedRef self, out CreatedRef exn);
+
+        /// <summary>
         /// <!-- FishyJoes.export(staticThing) -->
         /// </summary>
         public static Cricut.TestAPI.AssociatedDataEnum StaticThing {
@@ -44,19 +57,6 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_get_TestAPI_AssociatedDataEnum_staticThing(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(intValue) -->
-        /// </summary>
-        public nint GetIntValue() {
-            using var thisHandle = new GCRef(this);
-            return Check((out CreatedRef exn) =>
-                __iota_get_TestAPI_AssociatedDataEnum_intValue(Loader.env, thisHandle.ptr, out exn)
-            );
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __iota_get_TestAPI_AssociatedDataEnum_intValue(IntPtr envRef, UnownedRef self, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(plus) -->

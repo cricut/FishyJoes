@@ -148,55 +148,22 @@ extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "const42": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "const42", expectedArgumentCount: 0) { env in
-                                try Function0Converter<Swift.Int>.toNode(TestAPI.Functions.const42, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: true
-                ),
-                "abs": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "abs", expectedArgumentCount: 0) { env in
-                                try Function1Converter<Swift.Int, Swift.Int>.toNode(TestAPI.Functions.iabs, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: true
-                ),
-                "intCompose": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "intCompose", expectedArgumentCount: 0) { env in
-                                try Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>.toNode(TestAPI.Functions.intCompose, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: true
-                ),
                 "add3Things": (
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "add3Things", expectedArgumentCount: 0) { env in
-                                try Function3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.toNode(TestAPI.Functions.add3Things, env: env.env)
+                                return try Function3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.toNode(TestAPI.Functions.add3Things, env: env.env)
                             }
                         },
                         setter: nil
                     ),
                     isStatic: true
                 ),
-                "makeList": (
+                "const42": (
                     .accessor(
                         getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "makeList", expectedArgumentCount: 0) { env in
-                                try Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.toNode(TestAPI.Functions.makeList, env: env.env)
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "const42", expectedArgumentCount: 0) { env in
+                                return try Function0Converter<Swift.Int>.toNode(TestAPI.Functions.const42, env: env.env)
                             }
                         },
                         setter: nil
@@ -207,7 +174,40 @@ extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "fifthThing", expectedArgumentCount: 0) { env in
-                                try Function5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Function0Converter<Swift.Int>>.toNode(TestAPI.Functions.fifthThing, env: env.env)
+                                return try Function5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Function0Converter<Swift.Int>>.toNode(TestAPI.Functions.fifthThing, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                "abs": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "abs", expectedArgumentCount: 0) { env in
+                                return try Function1Converter<Swift.Int, Swift.Int>.toNode(TestAPI.Functions.iabs, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                "intCompose": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "intCompose", expectedArgumentCount: 0) { env in
+                                return try Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>.toNode(TestAPI.Functions.intCompose, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                "makeList": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "makeList", expectedArgumentCount: 0) { env in
+                                return try Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.toNode(TestAPI.Functions.makeList, env: env.env)
                             }
                         },
                         setter: nil
@@ -218,7 +218,7 @@ extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "sixthThing", expectedArgumentCount: 0) { env in
-                                try Function6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Swift.Int, Swift.Int>.toNode(TestAPI.Functions.six, env: env.env)
+                                return try Function6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Swift.Int, Swift.Int>.toNode(TestAPI.Functions.six, env: env.env)
                             }
                         },
                         setter: nil

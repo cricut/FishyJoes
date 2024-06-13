@@ -17,7 +17,7 @@ struct TranslatedEnum: TranslatedType {
     let fields: [Field]
     let isInhabited: Bool
     let definingModule: Module
-    let conformances: Set<String>
+    let conformances: Set<BetterType>
 
     struct Case {
         let documentation: [String]
@@ -84,11 +84,15 @@ struct TranslatedEnum: TranslatedType {
         }
         self.jniType = .object(context.kotlinTranslator.javaClassName(nodeName, in: context))
         self.documentation = type.documentation
+
         self.methods = Method.methods(type: type)
-        self.fields = type.variables.compactMap { Field($0, type: type) }
+        self.fields = Field.fields(type: type)
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
-        self.conformances = exportAnnotation.conformances
+
+        self.conformances = Set(type.implements.compactMap {
+            return .init(named: $0.value, context: context)
+        })
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
@@ -180,29 +184,20 @@ struct TranslatedEnum: TranslatedType {
                 fragment.outputBlock("public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {") {
                     fragment.output("let object = try env.createObject()")
                     fragment.outputBlock("let props = try NodeClass.descriptorsFor(properties: [", closeWith: "], env: env)") {
-                        let normalMethods = methods.filter { !$0.isDefaultImplementation }
-                        let defaultMethods = methods.filter { $0.isDefaultImplementation }
-
                         var hasProperties = false
                         hasProperties ||= context.nodeTranslator.outputProperties(
-                            methods: normalMethods,
+                            methods: methods,
                             explicitThis: true,
                             context: context,
                             fragment: fragment,
-                            converterName: nil
-                        )
-                        hasProperties ||= context.nodeTranslator.outputProperties(
-                            methods: defaultMethods,
-                            explicitThis: true,
-                            context: context,
-                            fragment: fragment,
-                            converterName: sourceType.name
+                            converterName: converterType.name
                         )
                         hasProperties ||= context.nodeTranslator.outputProperties(
                             computedVariables: fields,
                             explicitThis: true,
                             context: context,
-                            fragment: fragment
+                            fragment: fragment,
+                            converterName: converterType.name
                         )
                         if !hasProperties {
                             fragment.output(":")
@@ -309,12 +304,13 @@ struct TranslatedEnum: TranslatedType {
                                 methods: methods,
                                 context: context,
                                 fragment: fragment,
-                                converterName: nil
+                                converterName: converterType.name
                             )
                             hasProperties ||= context.nodeTranslator.outputProperties(
                                 computedVariables: fields,
                                 context: context,
-                                fragment: fragment
+                                fragment: fragment,
+                                converterName: converterType.name
                             )
                             if !hasProperties {
                                 fragment.output(":")
@@ -402,6 +398,7 @@ struct TranslatedEnum: TranslatedType {
                 )
             )
 
+            let nodeConformances = Set(exportedConformances(in: context).map { $0.nodeType })
             var tsCases: [TypeScriptAnnotations.TSType] = []
             for enumCase in cases {
                 let className = "\(nodeName).\(upperCaseFirst(enumCase.name))"
@@ -411,6 +408,7 @@ struct TranslatedEnum: TranslatedType {
                         documentation: enumCase.documentation,
                         name: className,
                         extends: [commonInterfaceName],
+                        implements: nodeConformances,
                         constructor: .visible(
                             enumCase.associatedValues.map { value in
                                 (value.bindingName, context.resolve(type: value.type).nodeType)
@@ -422,7 +420,8 @@ struct TranslatedEnum: TranslatedType {
                                 readOnly: true,
                                 isStatic: false,
                                 name: value.bindingName,
-                                type: context.resolve(type: value.type).nodeType
+                                type: context.resolve(type: value.type).nodeType,
+                                hasDefaultImplementation: false
                             )
                         },
                         methods: []
@@ -570,8 +569,9 @@ struct TranslatedEnum: TranslatedType {
                     }
                 },
                 fields: fields,
-                methods: methods
-            ).conforming(to: conformances, context: context)
+                methods: methods,
+                conformances: Set(exportedConformances(in: context).map { $0.kotlinType })
+            ).conforming(to: exportedConformances(in: context), context: context)
         )
 
         return fragment

@@ -50,6 +50,7 @@ extension TestAPI.Structs.MutableStruct: NodeMutator {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "increment", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             var mutatingSelf = try env.this(converter: TestAPI.Structs.MutableStruct.self)
+                            FishyJoesCommonRuntime.silenceMutationWarning(&mutatingSelf)
                             let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
                                 mutatingSelf.increment(
                                 ),

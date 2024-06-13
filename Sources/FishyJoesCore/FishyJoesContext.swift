@@ -185,11 +185,7 @@ public class FishyJoesContext {
         // Translate
         var methodsToTranslateForTypeDict = [Type: [Method]]()
         for type in templateContext.types.types {
-            if let sourceryProtocolType = type as? SourceryProtocol {
-                methodsToTranslateForTypeDict[type] = sourceryProtocolType.methodsPreferringDefaultImpl().compactMap { Method($0, type: type, protocolName: type.name) }
-            } else {
-                methodsToTranslateForTypeDict[type] = Method.methods(type: type)
-            }
+            methodsToTranslateForTypeDict[type] = Method.methods(type: type)
         }
 
         for (type, methods) in methodsToTranslateForTypeDict {
@@ -201,16 +197,22 @@ public class FishyJoesContext {
             }
         }
 
+        var fieldsToTranslateForTypeDict = [Type: [Field]]()
         for type in templateContext.types.types {
-            for variable in type.rawVariables {
-                debugContext = "Translating variable \(type.name).\(variable.name)"
-                guard variable.exportAnnotation != nil else { continue }
-                collectedFragments.append(contentsOf: kotlinTranslator.translate(variable: variable, context: self))
-                collectedFragments.append(contentsOf: iotaTranslator.translate(variable: variable, context: self))
+            fieldsToTranslateForTypeDict[type] = Field.fields(type: type)
+        }
+
+        for (type, fields) in fieldsToTranslateForTypeDict {
+            for field in fields {
+                debugContext = "Translating variable \(type.name).\(field.name)"
+                guard field.exportAnnotation != nil else { continue }
+
+                collectedFragments.append(contentsOf: kotlinTranslator.translate(field: field, context: self, type: type))
+                collectedFragments.append(contentsOf: iotaTranslator.translate(field: field, context: self, type: type))
             }
         }
         // Translate any top level functions
-        let topLevelFunctions = templateContext.functions.compactMap { Method($0, type: nil) }
+        let topLevelFunctions = templateContext.functions.compactMap { Method($0, type: nil, protocolName: nil) }
         guard topLevelFunctions.isEmpty else {
             fatalErr("Support for exporting top level functions has been removed for now")
         }
@@ -584,14 +586,14 @@ public class FishyJoesContext {
     func add(dartClass: DartClass) {
         dartClasses.append(dartClass)
 
-        for (name, (args, returnType, isDefaultImplementation)) in dartClass.nativeMethods {
+        for (name, (args, returnType, isDefaultImplementation, isProtocol)) in dartClass.nativeMethods {
             dartTranslator.nativeMethods.append(
                 .init(
                     name: name,
                     definingDartClass: dartClass.name,
                     args: args,
                     returnType: returnType,
-                    isDefaultImplementation: isDefaultImplementation
+                    doDefaultImplementationsSuffix: isDefaultImplementation && isProtocol
                 )
             )
         }

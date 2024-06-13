@@ -2,6 +2,9 @@ class DartProtocolClass: DartClass {
     override func output(to fragment: SourceFragment) {
         document(documentation, fragment: fragment)
 
+        let normalFields = fields.filter { !$0.isDefaultImplementation }
+        let defaultFields = fields.filter { $0.isDefaultImplementation }
+
         let normalMethods = methods.filter { !$0.isDefaultImplementation }
         let defaultMethods = methods.filter { $0.isDefaultImplementation }
 
@@ -38,7 +41,7 @@ class DartProtocolClass: DartClass {
                 fragment.blankLine()
             }
 
-            for field in fields {
+            for field in normalFields {
                 // Dart does not support static property inheritance like Swift does.
                 guard !field.isStatic else {
                     fragment.output("// \(field.name) static fields on protocols not supported in Dart.")
@@ -72,6 +75,19 @@ class DartProtocolClass: DartClass {
 
         let defaultImplsName = "\(unqualifiedName)_DefaultImplementations"
         fragment.outputBlock("extension \(defaultImplsName) on \(unqualifiedName) {") {
+            for field in defaultFields {
+                // Dart does not support static property inheritance like Swift does.
+                guard !field.isStatic else {
+                    fragment.output("// \(field.name) static fields on protocols not supported in Dart.")
+                    continue
+                }
+
+                fragment.blankLine()
+                document(field.documentation, fragment: fragment)
+
+                output(field: field, to: fragment)
+            }
+
             for method in defaultMethods {
                 // Dart does not support static method inheritance like Swift does.
                 guard !method.isStatic else {
@@ -128,7 +144,8 @@ class DartProtocolClass: DartClass {
                     }
                     paramStrings.append("_exn")
 
-                    let body = "check((OutCreatedRef _exn) => f__iota_\(method.mangledName)(Loader.shared.env, \(paramStrings.joined(separator: ", "))))"
+                    let methodName = "f__iota_\(method.mangledName)"
+                    let body = "check((OutCreatedRef _exn) => \(methodName)(Loader.shared.env, \(paramStrings.joined(separator: ", "))))"
                     wrap {
                         if method.returnType.isObject {
                             fragment.output("consumeCreatedRef<\(method.returnType.name(in: self))>(\(body))")
@@ -182,7 +199,7 @@ class DartProtocolClass: DartClass {
                 fragment.blankLine()
             }
             fragment.blankLine()
-            outputNativeMethodDeclarations(to: fragment)
+            outputNativeMethodDeclarations(methods: nativeMethods, fragment: fragment)
         }
 
         fragment.blankLine()
@@ -194,27 +211,39 @@ class DartProtocolClass: DartClass {
         }
     }
 
-    override var nativeMethods: [String: (args: [(String, DartType)], return: DartType, isDefaultImplementation: Bool)] {
-        var result: [String: (args: [(String, DartType)], return: DartType, isDefaultImplementation: Bool)] = [:]
+    override var nativeMethods: [String: (args: [(String, DartType)], return: DartType, isDefaultImplementation: Bool, isProtocol: Bool)] {
+        var result: [String: (args: [(String, DartType)], return: DartType, isDefaultImplementation: Bool, isProtocol: Bool)] = [:]
 
         let thisArg = ("_this", DartType.named(package: module.dartNamespace, name: name))
 
-        for method in methods {
-            // if method.name.hasPrefix("_") { continue }
-            if method.body != nil { continue }
+        for field in fields {
+            if field.isDefaultImplementation {
+                let baseArgs = field.isStatic ? [] : [thisArg]
 
-            var params = method.isStatic ? [] : [thisArg]
+                let resultName = "__iota__default_\(field.mangledName)"
+                // Don't add methods (except for default implementations) for DartProtocolClass to dartTranslator
+                // They will be handled by the ExternalWitness for that Protocol
+                // We still need it default implementations in order to accomodate foreign side user defined types that conform to the protocol.
 
-            // Keep the parameters in original order here, because the swift-side expects them in that order
-            for param in method.parameters {
-                params.append((param.name, param.type))
+                result[resultName] = (args: baseArgs, return: field.type, isDefaultImplementation: true, isProtocol: true)
             }
+        }
 
-            // Don't add nativeMethods for DartProtocolClass to dartTranslator
+        for method in methods {
+            // Don't add methods (except for default implementations) for DartProtocolClass to dartTranslator
             // They will be handled by the ExternalWitness for that Protocol
-            // except for default Implementations!
+            // We still need it default implementations in order to accomodate foreign side user defined types that conform to the protocol.
             if method.isDefaultImplementation {
-                result["__iota_\(method.mangledName)"] = (args: params, return: method.returnType, isDefaultImplementation: true)
+                if method.body != nil { continue }
+
+                var params = method.isStatic ? [] : [thisArg]
+
+                // Keep the parameters in original order here, because the swift-side expects them in that order
+                for param in method.parameters {
+                    params.append((param.name, param.type))
+                }
+
+                result["__iota_\(method.mangledName)"] = (args: params, return: method.returnType, isDefaultImplementation: true, isProtocol: true)
             }
         }
 

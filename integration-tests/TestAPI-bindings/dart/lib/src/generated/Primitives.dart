@@ -12,9 +12,15 @@ import './Collections.dart' as TestAPI;
 import './Collections_CollectionHolder.dart' as TestAPI;
 import './DefaultArguments.dart' as TestAPI;
 import './Deprecations.dart' as TestAPI;
+import './EmptyClass1.dart' as TestAPI;
+import './EmptyClass2.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
+import './EmptyStruct.dart' as TestAPI;
+import './EmptyStruct2.dart' as TestAPI;
 import './ExternalWitness_AProtocol.dart' as TestAPI;
 import './ExternalWitness_TestAsyncFunctions.dart' as TestAPI;
+import './ExternalWitness_TestDefaultComputedProperties.dart' as TestAPI;
+import './ExternalWitness_TestDifferingExportNameProtocolDiffy.dart' as TestAPI;
 import './ExternalWitness_TestLeadingUnderscoredProp.dart' as TestAPI;
 import './ExternalWitness_TestMethodsProtocol.dart' as TestAPI;
 import './ExternalWitness_TestOptionalsProtocol.dart' as TestAPI;
@@ -24,6 +30,8 @@ import './Methods.dart' as TestAPI;
 import './Primitives.dart' as TestAPI;
 import './Primitives_PrimitiveHolder.dart' as TestAPI;
 import './Ranges.dart' as TestAPI;
+import './Results.dart' as TestAPI;
+import './Results_Error.dart' as TestAPI;
 import './SimpleEnum.dart' as TestAPI;
 import './String_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Strings.dart' as TestAPI;
@@ -35,9 +43,16 @@ import './Structs_ReferenceStruct.dart' as TestAPI;
 import './TestAsyncForeignSideFunctionsStruct.dart' as TestAPI;
 import './TestAsyncFunctions.dart' as TestAPI;
 import './TestAsyncSwiftSideFunctionsClass.dart' as TestAPI;
+import './TestDefaultComputedProperties.dart' as TestAPI;
+import './TestDefaultComputedPropertiesEnum.dart' as TestAPI;
+import './TestDefaultComputedPropertiesReference.dart' as TestAPI;
+import './TestDefaultComputedPropertiesStruct.dart' as TestAPI;
+import './TestDifferingExportNameProtocolDiffy.dart' as TestAPI;
+import './TestDifferingExportNameStruct.dart' as TestAPI;
 import './TestLeadingUnderscoredProp.dart' as TestAPI;
 import './TestLeadingUnderscoredPropStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
+import './TestNonExportedProtocolEnum.dart' as TestAPI;
 import './TestOptionalsProtocol.dart' as TestAPI;
 import './TestPropertiesProtocol.dart' as TestAPI;
 import './TestProtocolClass.dart' as TestAPI;
@@ -70,232 +85,10 @@ class Primitives {
         throw UnsupportedError('This class is supposed to be uninhabited');
     });
 
-    /// <!-- FishyJoes.export(falseBool) -->
-    static bool get falseBool =>
+    /// <!-- FishyJoes.export(bitCountInt) -->
+    static int get bitCountInt =>
         check((exn) =>
-            f__iota_get_TestAPI_Primitives_falseBool(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(trueBool) -->
-    static bool get trueBool =>
-        check((exn) =>
-            f__iota_get_TestAPI_Primitives_trueBool(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(zeroUInt8) -->
-    static int get zeroUInt8 =>
-        check((exn) =>
-            f__iota_get_TestAPI_Primitives_zeroUInt8(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(minUInt8) -->
-    static int get minUInt8 =>
-        check((exn) =>
-            f__iota_get_TestAPI_Primitives_minUInt8(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(maxUInt8) -->
-    static int get maxUInt8 =>
-        check((exn) =>
-            f__iota_get_TestAPI_Primitives_maxUInt8(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(zeroUInt16) -->
-    static int get zeroUInt16 =>
-        check((exn) =>
-            f__iota_get_TestAPI_Primitives_zeroUInt16(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(minUInt16) -->
-    static int get minUInt16 =>
-        check((exn) =>
-            f__iota_get_TestAPI_Primitives_minUInt16(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(maxUInt16) -->
-    static int get maxUInt16 =>
-        check((exn) =>
-            f__iota_get_TestAPI_Primitives_maxUInt16(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(zeroUInt32) -->
-    static int get zeroUInt32 =>
-        check((exn) =>
-            f__iota_get_TestAPI_Primitives_zeroUInt32(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(minUInt32) -->
-    static int get minUInt32 =>
-        check((exn) =>
-            f__iota_get_TestAPI_Primitives_minUInt32(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(maxUInt32) -->
-    static int get maxUInt32 =>
-        check((exn) =>
-            f__iota_get_TestAPI_Primitives_maxUInt32(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(zeroUInt64) -->
-    static int get zeroUInt64 =>
-        check((exn) =>
-            f__iota_get_TestAPI_Primitives_zeroUInt64(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(minUInt64) -->
-    static int get minUInt64 =>
-        check((exn) =>
-            f__iota_get_TestAPI_Primitives_minUInt64(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(maxUInt64) -->
-    static int get maxUInt64 =>
-        check((exn) =>
-            f__iota_get_TestAPI_Primitives_maxUInt64(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(zeroUInt) -->
-    static int get zeroUInt =>
-        check((exn) =>
-            f__iota_get_TestAPI_Primitives_zeroUInt(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(minUInt) -->
-    static int get minUInt =>
-        check((exn) =>
-            f__iota_get_TestAPI_Primitives_minUInt(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(maxUInt) -->
-    static int get maxUInt =>
-        check((exn) =>
-            f__iota_get_TestAPI_Primitives_maxUInt(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(zeroInt8) -->
-    static int get zeroInt8 =>
-        check((exn) =>
-            f__iota_get_TestAPI_Primitives_zeroInt8(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(minInt8) -->
-    static int get minInt8 =>
-        check((exn) =>
-            f__iota_get_TestAPI_Primitives_minInt8(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(maxInt8) -->
-    static int get maxInt8 =>
-        check((exn) =>
-            f__iota_get_TestAPI_Primitives_maxInt8(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(zeroInt16) -->
-    static int get zeroInt16 =>
-        check((exn) =>
-            f__iota_get_TestAPI_Primitives_zeroInt16(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(minInt16) -->
-    static int get minInt16 =>
-        check((exn) =>
-            f__iota_get_TestAPI_Primitives_minInt16(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(maxInt16) -->
-    static int get maxInt16 =>
-        check((exn) =>
-            f__iota_get_TestAPI_Primitives_maxInt16(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(zeroInt32) -->
-    static int get zeroInt32 =>
-        check((exn) =>
-            f__iota_get_TestAPI_Primitives_zeroInt32(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(minInt32) -->
-    static int get minInt32 =>
-        check((exn) =>
-            f__iota_get_TestAPI_Primitives_minInt32(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(maxInt32) -->
-    static int get maxInt32 =>
-        check((exn) =>
-            f__iota_get_TestAPI_Primitives_maxInt32(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(zeroInt64) -->
-    static int get zeroInt64 =>
-        check((exn) =>
-            f__iota_get_TestAPI_Primitives_zeroInt64(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(minInt64) -->
-    static int get minInt64 =>
-        check((exn) =>
-            f__iota_get_TestAPI_Primitives_minInt64(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(maxInt64) -->
-    static int get maxInt64 =>
-        check((exn) =>
-            f__iota_get_TestAPI_Primitives_maxInt64(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(zeroInt) -->
-    static int get zeroInt =>
-        check((exn) =>
-            f__iota_get_TestAPI_Primitives_zeroInt(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(minInt) -->
-    static int get minInt =>
-        check((exn) =>
-            f__iota_get_TestAPI_Primitives_minInt(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(maxInt) -->
-    static int get maxInt =>
-        check((exn) =>
-            f__iota_get_TestAPI_Primitives_maxInt(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(zeroFloat) -->
-    static double get zeroFloat =>
-        check((exn) =>
-            f__iota_get_TestAPI_Primitives_zeroFloat(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(minFloat) -->
-    static double get minFloat =>
-        check((exn) =>
-            f__iota_get_TestAPI_Primitives_minFloat(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(maxFloat) -->
-    static double get maxFloat =>
-        check((exn) =>
-            f__iota_get_TestAPI_Primitives_maxFloat(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(zeroDouble) -->
-    static double get zeroDouble =>
-        check((exn) =>
-            f__iota_get_TestAPI_Primitives_zeroDouble(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(minDouble) -->
-    static double get minDouble =>
-        check((exn) =>
-            f__iota_get_TestAPI_Primitives_minDouble(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(maxDouble) -->
-    static double get maxDouble =>
-        check((exn) =>
-            f__iota_get_TestAPI_Primitives_maxDouble(Loader.shared.env, exn)
+            f__iota_get_TestAPI_Primitives_bitCountInt(Loader.shared.env, exn)
         )
     ;
     /// <!-- FishyJoes.export(bitCountUInt) -->
@@ -304,10 +97,16 @@ class Primitives {
             f__iota_get_TestAPI_Primitives_bitCountUInt(Loader.shared.env, exn)
         )
     ;
-    /// <!-- FishyJoes.export(bitCountInt) -->
-    static int get bitCountInt =>
+    /// <!-- FishyJoes.export(defaultPrimitiveHolder) -->
+    static TestAPI.Primitives_PrimitiveHolder get defaultPrimitiveHolder =>
         check((exn) =>
-            f__iota_get_TestAPI_Primitives_bitCountInt(Loader.shared.env, exn)
+            consumeCreatedRef<TestAPI.Primitives_PrimitiveHolder>(f__iota_get_TestAPI_Primitives_defaultPrimitiveHolder(Loader.shared.env, exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(falseBool) -->
+    static bool get falseBool =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_falseBool(Loader.shared.env, exn)
         )
     ;
     /// <!-- FishyJoes.export(manyBool) -->
@@ -316,40 +115,22 @@ class Primitives {
             consumeCreatedRef<List<bool>>(f__iota_get_TestAPI_Primitives_manyBool(Loader.shared.env, exn))
         )
     ;
-    /// <!-- FishyJoes.export(manyUInt8) -->
-    static List<int> get manyUInt8 =>
+    /// <!-- FishyJoes.export(manyDouble) -->
+    static List<double> get manyDouble =>
         check((exn) =>
-            consumeCreatedRef<List<int>>(f__iota_get_TestAPI_Primitives_manyUInt8(Loader.shared.env, exn))
+            consumeCreatedRef<List<double>>(f__iota_get_TestAPI_Primitives_manyDouble(Loader.shared.env, exn))
         )
     ;
-    /// <!-- FishyJoes.export(manyUInt16) -->
-    static List<int> get manyUInt16 =>
+    /// <!-- FishyJoes.export(manyFloat) -->
+    static List<double> get manyFloat =>
         check((exn) =>
-            consumeCreatedRef<List<int>>(f__iota_get_TestAPI_Primitives_manyUInt16(Loader.shared.env, exn))
+            consumeCreatedRef<List<double>>(f__iota_get_TestAPI_Primitives_manyFloat(Loader.shared.env, exn))
         )
     ;
-    /// <!-- FishyJoes.export(manyUInt32) -->
-    static List<int> get manyUInt32 =>
+    /// <!-- FishyJoes.export(manyInt) -->
+    static List<int> get manyInt =>
         check((exn) =>
-            consumeCreatedRef<List<int>>(f__iota_get_TestAPI_Primitives_manyUInt32(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(manyUInt64) -->
-    static List<int> get manyUInt64 =>
-        check((exn) =>
-            consumeCreatedRef<List<int>>(f__iota_get_TestAPI_Primitives_manyUInt64(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(manyUInt) -->
-    static List<int> get manyUInt =>
-        check((exn) =>
-            consumeCreatedRef<List<int>>(f__iota_get_TestAPI_Primitives_manyUInt(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(manyInt8) -->
-    static List<int> get manyInt8 =>
-        check((exn) =>
-            consumeCreatedRef<List<int>>(f__iota_get_TestAPI_Primitives_manyInt8(Loader.shared.env, exn))
+            consumeCreatedRef<List<int>>(f__iota_get_TestAPI_Primitives_manyInt(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(manyInt16) -->
@@ -370,22 +151,10 @@ class Primitives {
             consumeCreatedRef<List<int>>(f__iota_get_TestAPI_Primitives_manyInt64(Loader.shared.env, exn))
         )
     ;
-    /// <!-- FishyJoes.export(manyInt) -->
-    static List<int> get manyInt =>
+    /// <!-- FishyJoes.export(manyInt8) -->
+    static List<int> get manyInt8 =>
         check((exn) =>
-            consumeCreatedRef<List<int>>(f__iota_get_TestAPI_Primitives_manyInt(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(manyFloat) -->
-    static List<double> get manyFloat =>
-        check((exn) =>
-            consumeCreatedRef<List<double>>(f__iota_get_TestAPI_Primitives_manyFloat(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(manyDouble) -->
-    static List<double> get manyDouble =>
-        check((exn) =>
-            consumeCreatedRef<List<double>>(f__iota_get_TestAPI_Primitives_manyDouble(Loader.shared.env, exn))
+            consumeCreatedRef<List<int>>(f__iota_get_TestAPI_Primitives_manyInt8(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(manyMaybeBool) -->
@@ -394,40 +163,22 @@ class Primitives {
             consumeCreatedRef<List<bool?>>(f__iota_get_TestAPI_Primitives_manyMaybeBool(Loader.shared.env, exn))
         )
     ;
-    /// <!-- FishyJoes.export(manyMaybeUInt8) -->
-    static List<int?> get manyMaybeUInt8 =>
+    /// <!-- FishyJoes.export(manyMaybeDouble) -->
+    static List<double?> get manyMaybeDouble =>
         check((exn) =>
-            consumeCreatedRef<List<int?>>(f__iota_get_TestAPI_Primitives_manyMaybeUInt8(Loader.shared.env, exn))
+            consumeCreatedRef<List<double?>>(f__iota_get_TestAPI_Primitives_manyMaybeDouble(Loader.shared.env, exn))
         )
     ;
-    /// <!-- FishyJoes.export(manyMaybeUInt16) -->
-    static List<int?> get manyMaybeUInt16 =>
+    /// <!-- FishyJoes.export(manyMaybeFloat) -->
+    static List<double?> get manyMaybeFloat =>
         check((exn) =>
-            consumeCreatedRef<List<int?>>(f__iota_get_TestAPI_Primitives_manyMaybeUInt16(Loader.shared.env, exn))
+            consumeCreatedRef<List<double?>>(f__iota_get_TestAPI_Primitives_manyMaybeFloat(Loader.shared.env, exn))
         )
     ;
-    /// <!-- FishyJoes.export(manyMaybeUInt32) -->
-    static List<int?> get manyMaybeUInt32 =>
+    /// <!-- FishyJoes.export(manyMaybeInt) -->
+    static List<int?> get manyMaybeInt =>
         check((exn) =>
-            consumeCreatedRef<List<int?>>(f__iota_get_TestAPI_Primitives_manyMaybeUInt32(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(manyMaybeUInt64) -->
-    static List<int?> get manyMaybeUInt64 =>
-        check((exn) =>
-            consumeCreatedRef<List<int?>>(f__iota_get_TestAPI_Primitives_manyMaybeUInt64(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(manyMaybeUInt) -->
-    static List<int?> get manyMaybeUInt =>
-        check((exn) =>
-            consumeCreatedRef<List<int?>>(f__iota_get_TestAPI_Primitives_manyMaybeUInt(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(manyMaybeInt8) -->
-    static List<int?> get manyMaybeInt8 =>
-        check((exn) =>
-            consumeCreatedRef<List<int?>>(f__iota_get_TestAPI_Primitives_manyMaybeInt8(Loader.shared.env, exn))
+            consumeCreatedRef<List<int?>>(f__iota_get_TestAPI_Primitives_manyMaybeInt(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(manyMaybeInt16) -->
@@ -448,28 +199,292 @@ class Primitives {
             consumeCreatedRef<List<int?>>(f__iota_get_TestAPI_Primitives_manyMaybeInt64(Loader.shared.env, exn))
         )
     ;
-    /// <!-- FishyJoes.export(manyMaybeInt) -->
-    static List<int?> get manyMaybeInt =>
+    /// <!-- FishyJoes.export(manyMaybeInt8) -->
+    static List<int?> get manyMaybeInt8 =>
         check((exn) =>
-            consumeCreatedRef<List<int?>>(f__iota_get_TestAPI_Primitives_manyMaybeInt(Loader.shared.env, exn))
+            consumeCreatedRef<List<int?>>(f__iota_get_TestAPI_Primitives_manyMaybeInt8(Loader.shared.env, exn))
         )
     ;
-    /// <!-- FishyJoes.export(manyMaybeFloat) -->
-    static List<double?> get manyMaybeFloat =>
+    /// <!-- FishyJoes.export(manyMaybeUInt) -->
+    static List<int?> get manyMaybeUInt =>
         check((exn) =>
-            consumeCreatedRef<List<double?>>(f__iota_get_TestAPI_Primitives_manyMaybeFloat(Loader.shared.env, exn))
+            consumeCreatedRef<List<int?>>(f__iota_get_TestAPI_Primitives_manyMaybeUInt(Loader.shared.env, exn))
         )
     ;
-    /// <!-- FishyJoes.export(manyMaybeDouble) -->
-    static List<double?> get manyMaybeDouble =>
+    /// <!-- FishyJoes.export(manyMaybeUInt16) -->
+    static List<int?> get manyMaybeUInt16 =>
         check((exn) =>
-            consumeCreatedRef<List<double?>>(f__iota_get_TestAPI_Primitives_manyMaybeDouble(Loader.shared.env, exn))
+            consumeCreatedRef<List<int?>>(f__iota_get_TestAPI_Primitives_manyMaybeUInt16(Loader.shared.env, exn))
         )
     ;
-    /// <!-- FishyJoes.export(defaultPrimitiveHolder) -->
-    static TestAPI.Primitives_PrimitiveHolder get defaultPrimitiveHolder =>
+    /// <!-- FishyJoes.export(manyMaybeUInt32) -->
+    static List<int?> get manyMaybeUInt32 =>
         check((exn) =>
-            consumeCreatedRef<TestAPI.Primitives_PrimitiveHolder>(f__iota_get_TestAPI_Primitives_defaultPrimitiveHolder(Loader.shared.env, exn))
+            consumeCreatedRef<List<int?>>(f__iota_get_TestAPI_Primitives_manyMaybeUInt32(Loader.shared.env, exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(manyMaybeUInt64) -->
+    static List<int?> get manyMaybeUInt64 =>
+        check((exn) =>
+            consumeCreatedRef<List<int?>>(f__iota_get_TestAPI_Primitives_manyMaybeUInt64(Loader.shared.env, exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(manyMaybeUInt8) -->
+    static List<int?> get manyMaybeUInt8 =>
+        check((exn) =>
+            consumeCreatedRef<List<int?>>(f__iota_get_TestAPI_Primitives_manyMaybeUInt8(Loader.shared.env, exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(manyUInt) -->
+    static List<int> get manyUInt =>
+        check((exn) =>
+            consumeCreatedRef<List<int>>(f__iota_get_TestAPI_Primitives_manyUInt(Loader.shared.env, exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(manyUInt16) -->
+    static List<int> get manyUInt16 =>
+        check((exn) =>
+            consumeCreatedRef<List<int>>(f__iota_get_TestAPI_Primitives_manyUInt16(Loader.shared.env, exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(manyUInt32) -->
+    static List<int> get manyUInt32 =>
+        check((exn) =>
+            consumeCreatedRef<List<int>>(f__iota_get_TestAPI_Primitives_manyUInt32(Loader.shared.env, exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(manyUInt64) -->
+    static List<int> get manyUInt64 =>
+        check((exn) =>
+            consumeCreatedRef<List<int>>(f__iota_get_TestAPI_Primitives_manyUInt64(Loader.shared.env, exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(manyUInt8) -->
+    static List<int> get manyUInt8 =>
+        check((exn) =>
+            consumeCreatedRef<List<int>>(f__iota_get_TestAPI_Primitives_manyUInt8(Loader.shared.env, exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(maxDouble) -->
+    static double get maxDouble =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_maxDouble(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(maxFloat) -->
+    static double get maxFloat =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_maxFloat(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(maxInt) -->
+    static int get maxInt =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_maxInt(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(maxInt16) -->
+    static int get maxInt16 =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_maxInt16(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(maxInt32) -->
+    static int get maxInt32 =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_maxInt32(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(maxInt64) -->
+    static int get maxInt64 =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_maxInt64(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(maxInt8) -->
+    static int get maxInt8 =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_maxInt8(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(maxUInt) -->
+    static int get maxUInt =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_maxUInt(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(maxUInt16) -->
+    static int get maxUInt16 =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_maxUInt16(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(maxUInt32) -->
+    static int get maxUInt32 =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_maxUInt32(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(maxUInt64) -->
+    static int get maxUInt64 =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_maxUInt64(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(maxUInt8) -->
+    static int get maxUInt8 =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_maxUInt8(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(minDouble) -->
+    static double get minDouble =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_minDouble(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(minFloat) -->
+    static double get minFloat =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_minFloat(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(minInt) -->
+    static int get minInt =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_minInt(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(minInt16) -->
+    static int get minInt16 =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_minInt16(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(minInt32) -->
+    static int get minInt32 =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_minInt32(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(minInt64) -->
+    static int get minInt64 =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_minInt64(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(minInt8) -->
+    static int get minInt8 =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_minInt8(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(minUInt) -->
+    static int get minUInt =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_minUInt(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(minUInt16) -->
+    static int get minUInt16 =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_minUInt16(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(minUInt32) -->
+    static int get minUInt32 =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_minUInt32(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(minUInt64) -->
+    static int get minUInt64 =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_minUInt64(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(minUInt8) -->
+    static int get minUInt8 =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_minUInt8(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(trueBool) -->
+    static bool get trueBool =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_trueBool(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(zeroDouble) -->
+    static double get zeroDouble =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_zeroDouble(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(zeroFloat) -->
+    static double get zeroFloat =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_zeroFloat(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(zeroInt) -->
+    static int get zeroInt =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_zeroInt(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(zeroInt16) -->
+    static int get zeroInt16 =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_zeroInt16(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(zeroInt32) -->
+    static int get zeroInt32 =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_zeroInt32(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(zeroInt64) -->
+    static int get zeroInt64 =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_zeroInt64(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(zeroInt8) -->
+    static int get zeroInt8 =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_zeroInt8(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(zeroUInt) -->
+    static int get zeroUInt =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_zeroUInt(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(zeroUInt16) -->
+    static int get zeroUInt16 =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_zeroUInt16(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(zeroUInt32) -->
+    static int get zeroUInt32 =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_zeroUInt32(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(zeroUInt64) -->
+    static int get zeroUInt64 =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_zeroUInt64(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(zeroUInt8) -->
+    static int get zeroUInt8 =>
+        check((exn) =>
+            f__iota_get_TestAPI_Primitives_zeroUInt8(Loader.shared.env, exn)
         )
     ;
     /// <!-- FishyJoes.export(echoBool) -->

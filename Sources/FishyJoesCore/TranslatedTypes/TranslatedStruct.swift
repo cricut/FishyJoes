@@ -16,7 +16,7 @@ struct TranslatedStruct: TranslatedType {
     let jniType: JNIType
     let isInhabited: Bool
     let definingModule: Module
-    let conformances: Set<String>
+    let conformances: Set<BetterType>
 
     init(context: FishyJoesContext, type: Type) {
         guard let exportAnnotation = type.exportAnnotation else {
@@ -34,14 +34,16 @@ struct TranslatedStruct: TranslatedType {
         self.jniType = .object(context.kotlinTranslator.javaClassName(nodeName, in: context))
 
         self.storedVariables = type.storedVariables.compactMap { Field($0, type: type) }
-        self.computedVariables =
-            (type.computedVariables + type.staticVariables).compactMap { Field($0, type: type) }
+        self.computedVariables = Field.fields(type: type)
 
         self.methods = Method.methods(type: type)
         self.documentation = type.documentation
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
-        self.conformances = exportAnnotation.conformances
+
+        self.conformances = Set(type.implements.compactMap {
+            return .init(named: $0.value, context: context)
+        })
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
@@ -136,13 +138,10 @@ struct TranslatedStruct: TranslatedType {
                     fragment.output("env: env,")
                     fragment.output("name: \"\(nodeName)\",")
                     fragment.outputBlock("properties: [", closeWith: "],") {
-                        let normalMethods = methods.filter { !$0.isDefaultImplementation }
-                        let defaultMethods = methods.filter { $0.isDefaultImplementation }
-
                         var hasProperties = false
-                        hasProperties ||= context.nodeTranslator.outputProperties(methods: normalMethods, context: context, fragment: fragment, converterName: nil)
-                        hasProperties ||= context.nodeTranslator.outputProperties(methods: defaultMethods, context: context, fragment: fragment, converterName: sourceType.name)
-                        hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment)
+                        hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment, converterName: converterType.name)
+                        hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment, converterName: converterType.name)
+
                         for storedVar in storedVariables {
                             // Limitation in wasm implementation of napi_create_class doesn't allow constructors to assign to non-mutable property.
                             // let mutable = storedVar.isPubliclyWritable
@@ -174,10 +173,11 @@ struct TranslatedStruct: TranslatedType {
             }
         }
 
+        let nodeConformances = Set(exportedConformances(in: context).map { $0.nodeType})
         context.tsAnnotations.add(class: .init(
             documentation: documentation,
             name: nodeName,
-            implements: Array(conformances).sorted(by: <),
+            implements: nodeConformances,
             constructor: .visible(
                 storedVariables.map {
                     (
@@ -280,14 +280,110 @@ struct TranslatedStruct: TranslatedType {
             }
         }
 
-        let (fields, methods) = KotlinClass.separate(
-            fieldsAndMethods:
-                computedVariables.compactMap {
-                    context.kotlin(field: $0, useNativeName: false)
-                } + methods.compactMap {
-                    context.kotlin(method: $0)
-                }
-        )
+        var fieldsAndMethods =
+            computedVariables.compactMap { context.kotlin(field: $0, useNativeName: false) } +
+            methods.compactMap { context.kotlin(method: $0) }
+
+        let generateMethodsForEmptyStruct = storedVariables.isEmpty
+
+        let (fieldsForGeneratedMethods, _) = KotlinClass.separate(fieldsAndMethods: fieldsAndMethods)
+
+        if generateMethodsForEmptyStruct {
+            var bodyBuilder = [String]()
+
+            bodyBuilder.append("if (this === other) {")
+            bodyBuilder.append("    return true")
+            bodyBuilder.append("}")
+            bodyBuilder.append("if (other !is \(kotlinName)) {")
+            bodyBuilder.append("    return false")
+            bodyBuilder.append("}")
+            bodyBuilder.append("return true")
+
+            let equalsBody = bodyBuilder.joined(separator: "\n")
+
+            fieldsAndMethods.append(
+                .method(
+                    KotlinClass.Method(
+                        documentation: [],
+                        isStatic: false,
+                        isSuspend: false,
+                        isOverride: true,
+                        isDefaultImplementation: false,
+                        name: "equals",
+                        parameters: [
+                            (labelComment: nil, name: "other", type: .optional(.named(package: nil, name: "Any")), defaultValue: nil)
+                        ],
+                        compatibilityOrder: [],
+                        returnType: .named(package: nil, name: "kotlin.Boolean"),
+                        deprecation: nil,
+                        body: equalsBody,
+                        isBodyInline: true
+                    )
+                )
+            )
+
+            bodyBuilder.removeAll()
+            bodyBuilder.append("return (\(kotlinName)::class.java.name).hashCode()")
+            let hashCodeBody = bodyBuilder.joined(separator: "\n")
+
+            fieldsAndMethods.append(
+                .method(
+                    KotlinClass.Method(
+                        documentation: [],
+                        isStatic: false,
+                        isSuspend: false,
+                        isOverride: true,
+                        isDefaultImplementation: false,
+                        name: "hashCode",
+                        parameters: [],
+                        compatibilityOrder: [],
+                        returnType: .named(package: nil, name: "kotlin.Int"),
+                        deprecation: nil,
+                        body: hashCodeBody,
+                        isBodyInline: true
+                    )
+                )
+            )
+
+            fieldsAndMethods.append(
+                .method(
+                    KotlinClass.Method(
+                        documentation: [],
+                        isStatic: false,
+                        isSuspend: false,
+                        isOverride: true,
+                        isDefaultImplementation: false,
+                        name: "toString",
+                        parameters: [],
+                        compatibilityOrder: [],
+                        returnType: .named(package: nil, name: "kotlin.String"),
+                        deprecation: nil,
+                        body: "return \"\(kotlinName)()\"",
+                        isBodyInline: true
+                    )
+                )
+            )
+
+            fieldsAndMethods.append(
+                .method(
+                    KotlinClass.Method(
+                        documentation: [],
+                        isStatic: false,
+                        isSuspend: false,
+                        isOverride: false,
+                        isDefaultImplementation: false,
+                        name: "copy",
+                        parameters: [],
+                        compatibilityOrder: [],
+                        returnType: .void,
+                        deprecation: nil,
+                        body: "\(kotlinName)()"
+                    )
+                )
+            )
+        }
+
+        let (fields, methods) = KotlinClass.separate(fieldsAndMethods: fieldsAndMethods)
 
         context.add(
             kotlinClass: KotlinProductClass(
@@ -306,8 +402,9 @@ struct TranslatedStruct: TranslatedType {
                     arguments: []
                 ),
                 fields: fields,
-                methods: methods
-            ).conforming(to: conformances, context: context)
+                methods: methods,
+                conformances: Set(exportedConformances(in: context).map { $0.kotlinType })
+            ).conforming(to: exportedConformances(in: context), context: context)
         )
 
         return fragment
@@ -588,7 +685,7 @@ struct TranslatedStruct: TranslatedType {
                 constructor: .`public`(fields: storedFields),
                 fields: productFields,
                 methods: productMethods,
-                conformances: conformances
+                conformances: Set(exportedConformances(in: context).map { $0.cSharpType})
             )
         )
     }
@@ -619,7 +716,7 @@ struct TranslatedStruct: TranslatedType {
                 ),
                 fields: fields,
                 methods: methods,
-                conformances: conformances
+                conformances: Set(exportedConformances(in: context).map { $0.dartType})
             )
         )
     }

@@ -19,7 +19,7 @@ struct TranslatedReference: TranslatedType {
     let hashable: Bool
     let isInhabited: Bool
     let definingModule: Module
-    let conformances: Set<String>
+    let conformances: Set<BetterType>
 
     init(context: FishyJoesContext, type: Type) {
         guard let exportAnnotation = type.exportAnnotation else {
@@ -36,7 +36,7 @@ struct TranslatedReference: TranslatedType {
         self.cSharpType = .named(package: context.module.cSharpNamespace, name: exportAnnotation.cSharpName)
         self.dartType = .named(package: context.module.dartNamespace, name: context.dartTranslator.fakeNamespace(exportAnnotation.name))
         self.methods = Method.methods(type: type)
-        self.computedVariables = type.variables.compactMap { Field($0, type: type) }
+        self.computedVariables = Field.fields(type: type)
         self.documentation = type.documentation
         self.className = context.kotlinTranslator.javaClassName(kotlinName, in: context)
         self.jniType = .object(className)
@@ -44,7 +44,10 @@ struct TranslatedReference: TranslatedType {
         self.hashable = type.hashable
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
-        self.conformances = exportAnnotation.conformances
+
+        self.conformances = Set(type.implements.compactMap {
+            return .init(named: $0.value, context: context)
+        })
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
@@ -132,13 +135,9 @@ struct TranslatedReference: TranslatedType {
                     fragment.output("env: env,")
                     fragment.output("name: \"\(nodeName)\",")
                     fragment.outputBlock("properties: [", closeWith: "],") {
-                        let normalMethods = methods.filter { !$0.isDefaultImplementation }
-                        let defaultMethods = methods.filter { $0.isDefaultImplementation }
-
                         var hasProperties = false
-                        hasProperties ||= context.nodeTranslator.outputProperties(methods: normalMethods, context: context, fragment: fragment, converterName: nil)
-                        hasProperties ||= context.nodeTranslator.outputProperties(methods: defaultMethods, context: context, fragment: fragment, converterName: sourceType.name)
-                        hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment)
+                        hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment, converterName: converterType.name)
+                        hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment, converterName: converterType.name)
                         if !hasProperties {
                             fragment.output(":")
                         }
@@ -158,11 +157,12 @@ struct TranslatedReference: TranslatedType {
             }
         }
 
+        let nodeConformances = Set(exportedConformances(in: context).map { $0.nodeType})
         context.tsAnnotations.add(class:
             .init(
                 documentation: documentation,
                 name: nodeName,
-                implements: Array(conformances).sorted(by: <),
+                implements: nodeConformances,
                 constructor: .hidden,
                 fields: computedVariables.compactMap { context.ts(field: $0) },
                 methods: methods.compactMap { context.ts(method: $0) }
@@ -339,8 +339,8 @@ struct TranslatedReference: TranslatedType {
             constructor: .reference,
             fields: fields,
             methods: methods,
-            conformances: ["com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference)"]
-        ).conforming(to: conformances, context: context)
+            conformances: [KotlinClass.KType.named(package: "com.cricut.fishyjoes.runtime", name: "SwiftReference(_swiftReference)")]
+        ).conforming(to: exportedConformances(in: context), context: context)
         context.add(kotlinClass: product)
 
         return fragment
@@ -506,7 +506,7 @@ struct TranslatedReference: TranslatedType {
             constructor: .reference,
             fields: productFields,
             methods: productMethods,
-            conformances: conformances
+            conformances: Set(exportedConformances(in: context).map { $0.cSharpType})
         )
         context.add(cSharpClass: product)
     }
@@ -573,7 +573,8 @@ struct TranslatedReference: TranslatedType {
                         name: "hashCode",
                         mangledName: "\(sourceType.name.mangled)_hash",
                         type: .primitive("int", ffiName: "Int"),
-                        deprecation: nil
+                        deprecation: nil,
+                        isDefaultImplementation: false
                     )
                 )
             )
@@ -587,7 +588,7 @@ struct TranslatedReference: TranslatedType {
             constructor: .reference,
             fields: fields,
             methods: methods,
-            conformances: conformances
+            conformances: Set(exportedConformances(in: context).map { $0.dartType})
         )
         context.add(dartClass: dartProduct)
     }

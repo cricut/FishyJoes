@@ -1,7 +1,7 @@
 import Foundation
 import NodeAPI
 
-// MARK: - NodeJS Type Conversion Protocols
+// MARK: - NodeJS Conversion Protocols
 
 public protocol NodeConverter: Converter {
     static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType
@@ -18,7 +18,24 @@ extension NodeConverter {
     }
 }
 
-// MARK: - Primitive Type Conversions
+// MARK: - Runtime Module Helpers
+private enum RuntimeModule {
+    static var moduleReference: NodeReference?
+    static func module(env: NAPI.Env) throws -> NAPI.Value {
+        guard let ref = moduleReference else {
+            throw JSException(message: "Internal error: FishyJoesNodeRuntime was not set up properly at module load")
+        }
+        return try ref.value(env: env)
+    }
+
+    static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        if moduleReference == nil {
+            moduleReference = try NodeReference(env: env, value: module)
+        }
+    }
+}
+
+// MARK: - Primitive Conversions
 
 extension VoidConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws {}
@@ -181,7 +198,7 @@ extension Double: NodeConverter {
     }
 }
 
-// MARK: - String Type Conversion
+// MARK: - String Conversions
 
 extension String: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> String {
@@ -193,12 +210,10 @@ extension String: NodeConverter {
     }
 }
 
-// MARK: - Data Type Conversion
+// MARK: - Data Conversions
 
 // Implementing the NAPI arraybuffer functions in wasm would be very difficult, since they assume storage is in wasm memory. Use alternate hooks instead
 extension Data: NodeConverter {
-    static var moduleReference: NodeReference?
-
     fileprivate static func typedArrayElementSize(for arrayType: napi_typedarray_type) -> Int? {
         switch arrayType {
         case napi_int8_array, napi_uint8_array, napi_uint8_clamped_array:
@@ -237,8 +252,8 @@ extension Data: NodeConverter {
         #if os(WASI)
         // Limitations in the design of NAPI mean that we can't rely on dataPtr here.
         // Use an external helper instead to get the bytes.
-        guard let module = try moduleReference?.value(env: env),
-              case let fromWasi = try env.getNamedProperty(env.getNamedProperty(module, "_DataNodeConverter"), "fromWasi"),
+        let module = try RuntimeModule.module(env: env)
+        guard case let fromWasi = try env.getNamedProperty(env.getNamedProperty(module, "_DataNodeConverter"), "fromWasi"),
               try env.typeof(fromWasi) == NodeAPI.napi_function
         else {
             // These should be implemented in Runtime.extensions.js
@@ -265,8 +280,8 @@ extension Data: NodeConverter {
 
     public static func toNode(_ value: Data, env: NAPI.Env) throws -> NAPI.Value {
         #if os(WASI)
-        guard let module = try moduleReference?.value(env: env),
-              case let toWasi = try env.getNamedProperty(env.getNamedProperty(module, "_DataNodeConverter"), "toWasi"),
+        let module = try RuntimeModule.module(env: env)
+        guard case let toWasi = try env.getNamedProperty(env.getNamedProperty(module, "_DataNodeConverter"), "toWasi"),
               try env.typeof(toWasi) == NodeAPI.napi_function
         else {
             // These should be implemented in Runtime.extensions.js
@@ -297,13 +312,11 @@ extension Data: NodeConverter {
     }
 
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-        if moduleReference == nil {
-            moduleReference = try NodeReference(env: env, value: module)
-        }
+        try RuntimeModule.nodeSetup(env: env, module: module)
     }
 }
 
-// MARK: - URL Type Conversion
+// MARK: - URL Conversions
 
 extension URL: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> URL {
@@ -321,7 +334,7 @@ extension URL: NodeConverter {
     }
 }
 
-// MARK: - Generics Type Conversions
+// MARK: - Collection Conversions
 
 extension ArrayConverter: NodeConverter where ElementConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
@@ -405,7 +418,7 @@ extension SetConverter: NodeConverter where ElementConverter: NodeConverter {
     }
 }
 
-// MARK: - Optional Type Conversion
+// MARK: - Optional Conversions
 
 extension OptionalConverter: NodeConverter where WrappedConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
@@ -425,7 +438,7 @@ extension OptionalConverter: NodeConverter where WrappedConverter: NodeConverter
     }
 }
 
-// MARK: - Range Type Conversion
+// MARK: - Range Conversions
 
 extension RangeConverter: NodeConverter where BoundConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Range<BoundConverter.SwiftType> {
@@ -472,5 +485,36 @@ extension ClosedRangeConverter: NodeConverter where BoundConverter: NodeConverte
 
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         try BoundConverter.nodeSetup(env: env, module: module)
+    }
+}
+
+// MARK: - Result Conversions
+extension ResultConverter: NodeConverter where SuccessConverter: NodeConverter, FailureConverter: NodeConverter {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
+        let contents = try env.getNamedProperty(value, "contents")
+        if try env.hasNamedProperty(contents, "success") {
+            return .success(try SuccessConverter.fromNode(env.getNamedProperty(contents, "success"), env: env))
+        } else {
+            return .failure(try FailureConverter.fromNode(env.getNamedProperty(contents, "error"), env: env))
+        }
+    }
+
+    public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
+        let module = try RuntimeModule.module(env: env)
+        let resultClass = try env.getNamedProperty(module, "Result")
+        switch value {
+        case .success(let success):
+            let nodeSuccess = try SuccessConverter.toNode(success, env: env)
+            return try env.callFunction(resultClass, env.getNamedProperty(resultClass, "success"), [nodeSuccess])
+        case .failure(let failure):
+            let nodeError = try FailureConverter.toNode(failure, env: env)
+            return try env.callFunction(resultClass, env.getNamedProperty(resultClass, "failure"), [nodeError])
+        }
+    }
+
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        try RuntimeModule.nodeSetup(env: env, module: module)
+        try SuccessConverter.nodeSetup(env: env, module: module)
+        try FailureConverter.nodeSetup(env: env, module: module)
     }
 }

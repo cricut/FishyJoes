@@ -27,10 +27,6 @@ struct Method: Hashable {
     }
     let sourceKind: SourceKind
 
-    init?(_ method: SourceryMethod, type: Type?) {
-        self.init(method, type: type, protocolName: nil)
-    }
-
     init?(_ method: SourceryMethod, type: Type?, protocolName: String?) {
         guard let exportAnnotation = method.exportAnnotation else { return nil }
         self.name = method.name
@@ -78,7 +74,7 @@ struct Method: Hashable {
         precondition(omitParameters.isEmpty, "Can't find parameters \(omitParameters) to omit")
         self.parameters = parameters
         self.protocolName = protocolName
-        self.isDefaultImplementation = method.definedInType?.isExtension == true && type is SourceryProtocol
+        self.isDefaultImplementation = (type is SourceryProtocol) && (method.definedInType?.isExtension == true)
     }
 }
 
@@ -109,18 +105,31 @@ extension Method {
 
 extension Method {
     func isMostlyEqual(other: Method) -> Bool {
-        name == other.name &&
-        callName == other.callName &&
-        exportAnnotation == other.exportAnnotation &&
-        parameters == other.parameters &&
-        returnType == other.returnType &&
-        documentation == other.documentation &&
-        definedIn == other.definedIn &&
-        isStatic == other.isStatic &&
-        isMutating == other.isMutating &&
-        isThrowing == other.isThrowing &&
-        isAsync == other.isAsync &&
-        deprecation == other.deprecation
+        // name may differ
+        let callNameMatches = callName == other.callName
+        // exportAnnotations may differ
+
+        var parametersMatches = parameters.count == other.parameters.count
+        zip(parameters, other.parameters).forEach {
+            parametersMatches = parametersMatches && $0.isMostlyEqual(other: $1)
+        }
+
+        let returnTypeMatches = returnType == other.returnType
+        // documentation may differ
+        // definedIn may differ
+        let isStaticMatches = isStatic == other.isStatic
+        let isMutatingMatches = isMutating == other.isMutating
+        let isThrowingMatches = isThrowing == other.isThrowing
+        let isAsyncMatches = isAsync == other.isAsync
+        // deprecation may differ
+
+        return callNameMatches &&
+        parametersMatches &&
+        returnTypeMatches &&
+        isStaticMatches &&
+        isMutatingMatches &&
+        isThrowingMatches &&
+        isAsyncMatches
     }
 
     enum MethodTypePreference {
@@ -136,18 +145,25 @@ extension Method {
             }
             if !mostlyEqualMethods.isEmpty {
                 for mostlyEqualMethod in mostlyEqualMethods {
-                    let useMostlyEqualMethod = preference == .defaultImplementation ? mostlyEqualMethod.isDefaultImplementation : !mostlyEqualMethod.isDefaultImplementation
+                    var useMostlyEqualMethod = preference == .defaultImplementation ? mostlyEqualMethod.isDefaultImplementation : !mostlyEqualMethod.isDefaultImplementation
+
+                    if method.isDefaultImplementation && mostlyEqualMethod.isDefaultImplementation {
+                        // Needed to handle case where we have two mostly equal methods but one of them has explicit argument labels the other does not; in this case we want to favor the method with the explicit argument labels, which will necessarily have a longer name because it includes the both the argument labels and the parameter names.
+                        // https://docs.swift.org/swift-book/documentation/the-swift-programming-language/functions#Function-Argument-Labels-and-Parameter-Names
+                        // "Each function parameter has both an argument label and a parameter name. The argument label is used when calling the function; each argument is written in the function call with its argument label before it. The parameter name is used in the implementation of the function. By default, parameters use their parameter name as their argument label."
+                        useMostlyEqualMethod = method.name.count < mostlyEqualMethod.name.count
+                    }
 
                     if useMostlyEqualMethod {
                         guard let index = preferredMethods.firstIndex(of: method) else {
-                            assertionFailure("method should exist in preferredMethods")
+                            // method is not already in preferredMethods, therefore no need to replace it with mostlyEqualMethod. To get here, mostlyEqualMethod must already be part of preferredMethods.
                             continue
                         }
                         preferredMethods.remove(at: index)
                         preferredMethods.insert(mostlyEqualMethod, at: index)
                     } else { // use method
                         guard let index = preferredMethods.firstIndex(of: mostlyEqualMethod) else {
-                            assertionFailure("mostlyEqualMethod should exist in preferredMethods")
+                            // mostlyEqualMethod is not already in preferredMethods, therefore no need to replace it with mostlyEqualMethod. To get here, method must already be part of preferredMethods.
                             continue
                         }
                         preferredMethods.remove(at: index)
@@ -165,13 +181,25 @@ extension Method {
         var defaultMethods = [Method]()
         let protocols = type.implements.values.compactMap { $0 as? SourceryProtocol }
         for prot in protocols {
-            defaultMethods.append(contentsOf: prot.defaultMethods().compactMap { Method($0, type: prot, protocolName: prot.name) })
+            let protDefaultMethods = prot.rawMethods.compactMap {
+                if $0.definedInType?.isExtension == true {
+                    return Method($0, type: prot, protocolName: prot.name)
+                } else {
+                    return nil
+                }
+            }
+
+            defaultMethods.append(contentsOf: protDefaultMethods)
         }
 
-        let normalMethods = type.methods.compactMap { Method($0, type: type) }
+        let isDefinedInProtocol = type is SourceryProtocol
+        let protocolName = isDefinedInProtocol ? type.name : nil
+        let normalMethods = type.rawMethods.compactMap {
+            return Method($0, type: type, protocolName: protocolName)
+        }
 
-        let methods = Method.methodsPreferring(.normal, methods: normalMethods + defaultMethods)
-        return methods
+        let methods = Method.methodsPreferring(isDefinedInProtocol ? .defaultImplementation : .normal, methods: normalMethods + defaultMethods)
+        return methods// .sorted(by: { $0.name < $1.name })
     }
 }
 

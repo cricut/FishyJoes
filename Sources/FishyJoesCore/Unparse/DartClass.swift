@@ -2,7 +2,7 @@
 ///
 /// The purpose of DartClass is to be a pretty printer. Logic that could be extracted elsewhere perhaps should be
 class DartClass {
-    enum DartType: Equatable, Codable {
+    enum DartType: Hashable, Codable {
         case void
         case utf16Pointer
         case primitive(String, ffiName: String)
@@ -44,6 +44,7 @@ class DartClass {
         let mangledName: String
         let type: DartType
         let deprecation: Deprecation?
+        let isDefaultImplementation: Bool
 
         var hiddenStorage: Bool {
             isMutable && !isPubliclyWritable
@@ -61,7 +62,7 @@ class DartClass {
     let setupTypes: SetupTypes?
     let fields: [Variable]
     let methods: [Method]
-    let conformances: [String]
+    let conformances: [DartType]
 
     init(
         module: Module,
@@ -70,7 +71,7 @@ class DartClass {
         setupTypes: SetupTypes? = nil,
         fields: [Variable],
         methods: [Method],
-        conformances: Set<String>
+        conformances: Set<DartType>
     ) {
         self.name = name
         self.documentation = documentation
@@ -78,7 +79,7 @@ class DartClass {
         self.setupTypes = setupTypes
         self.fields = fields
         self.methods = methods
-        self.conformances = Array(conformances).sorted(by: <)
+        self.conformances = Array(conformances).sorted(by: { $0.name() < $1.name() })
     }
 
     func commonIgnoreSpecificWarnings(fragment: SourceFragment) {
@@ -117,17 +118,18 @@ class DartClass {
         String(name.split(separator: ".").last!)
     }
 
-    var nativeMethods: [String: (args: [(String, DartType)], return: DartType, isDefaultImplementation: Bool)] {
-        var result: [String: (args: [(String, DartType)], return: DartType, isDefaultImplementation: Bool)] = [:]
+    var nativeMethods: [String: (args: [(String, DartType)], return: DartType, isDefaultImplementation: Bool, isProtocol: Bool)] {
+        var result: [String: (args: [(String, DartType)], return: DartType, isDefaultImplementation: Bool, isProtocol: Bool)] = [:]
 
         let thisArg = ("_this", DartType.named(package: module.dartNamespace, name: name))
 
         for field in fields {
             let baseArgs = field.isStatic ? [] : [thisArg]
 
-            result["__iota_get_\(field.mangledName)"] = (args: baseArgs, return: field.type, isDefaultImplementation: false)
+            let resultName = field.isDefaultImplementation ? "__iota__default_\(field.mangledName)" : "__iota_get_\(field.mangledName)"
+            result[resultName] = (args: baseArgs, return: field.type, isDefaultImplementation: field.isDefaultImplementation, isProtocol: false)
             if field.isPubliclyWritable {
-                result["__iota_set_\(field.mangledName)"] = (args: baseArgs + [(field.name, field.type)], return: .void, isDefaultImplementation: false)
+                result["__iota_set_\(field.mangledName)"] = (args: baseArgs + [(field.name, field.type)], return: .void, isDefaultImplementation: false, isProtocol: false)
             }
         }
 
@@ -141,14 +143,14 @@ class DartClass {
                 params.append((DartClass.deforbidify(param.name), param.type))
             }
 
-            result["__iota_\(method.mangledName)"] = (args: params, return: method.returnType, isDefaultImplementation: (self is DartProtocolClass))
+            result["__iota_\(method.mangledName)"] = (args: params, return: method.returnType, isDefaultImplementation: method.isDefaultImplementation, isProtocol: false)
         }
 
         return result
     }
 
-    func outputNativeMethodDeclarations(to fragment: SourceFragment) {
-        for (name, (args, returnType, _)) in nativeMethods.sorted(by: { $0.key < $1.key}) {
+    func outputNativeMethodDeclarations(methods: [String: (args: [(String, DartType)], return: DartType, isDefaultImplementation: Bool, isProtocol: Bool)], fragment: SourceFragment) {
+        for (name, (args, returnType, _, _)) in methods.sorted(by: { $0.key < $1.key}) {
             fragment.outputBlock("static late \(returnType.ffiCreatedName) Function(", closeWith: ") f\(name);") {
                 fragment.output("Env env,")
                 for (argName, argType) in args {
@@ -173,10 +175,11 @@ class DartClass {
         func outputGetterBody() {
             wrap {
                 fragment.outputBlock("check((exn) =>", closeWith: ")") {
+                    let fieldFuncName = field.isDefaultImplementation ? "f__iota__default_\(field.mangledName)" : "f__iota_get_\(field.mangledName)"
                     if field.type.isObject {
-                        fragment.output("consumeCreatedRef<\(field.type.name(in: self))>(f__iota_get_\(field.mangledName)(Loader.shared.env, \(selfArg)exn))")
+                        fragment.output("consumeCreatedRef<\(field.type.name(in: self))>(\(fieldFuncName)(Loader.shared.env, \(selfArg)exn))")
                     } else {
-                        fragment.output("f__iota_get_\(field.mangledName)(Loader.shared.env, \(selfArg)exn)")
+                        fragment.output("\(fieldFuncName)(Loader.shared.env, \(selfArg)exn)")
                     }
                 }
             }
@@ -299,6 +302,10 @@ extension DartClass.DartType: CustomStringConvertible {
 
     static func future(_ inner: DartClass.DartType) -> DartClass.DartType {
         .named(package: nil, name: "Future", genericArgs: [inner])
+    }
+
+    static func result(_ success: DartClass.DartType, _ failure: DartClass.DartType) -> DartClass.DartType {
+        .named(package: nil, name: "Result", genericArgs: [success, failure])
     }
 
     var description: String {

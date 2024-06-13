@@ -11,15 +11,6 @@ sealed class AttributedStrings {
 
     companion object {
         /**
-         * <!-- FishyJoes.export(simple) -->
-         */
-        val simple: com.cricut.fishyjoes.runtime.AttributedString
-          get() = __jni_get_simple()
-        @JvmStatic
-        @JvmName("__jni_get_simple")
-        private external fun __jni_get_simple(): com.cricut.fishyjoes.runtime.AttributedString
-
-        /**
          * <!-- FishyJoes.export(accent) -->
          */
         val accent: com.cricut.fishyjoes.runtime.AttributedString
@@ -27,15 +18,6 @@ sealed class AttributedStrings {
         @JvmStatic
         @JvmName("__jni_get_accent")
         private external fun __jni_get_accent(): com.cricut.fishyjoes.runtime.AttributedString
-
-        /**
-         * <!-- FishyJoes.export(script) -->
-         */
-        val script: com.cricut.fishyjoes.runtime.AttributedString
-          get() = __jni_get_script()
-        @JvmStatic
-        @JvmName("__jni_get_script")
-        private external fun __jni_get_script(): com.cricut.fishyjoes.runtime.AttributedString
 
         /**
          * <!-- FishyJoes.export(chinese) -->
@@ -90,6 +72,24 @@ sealed class AttributedStrings {
         @JvmStatic
         @JvmName("__jni_get_polyglot")
         private external fun __jni_get_polyglot(): com.cricut.fishyjoes.runtime.AttributedString
+
+        /**
+         * <!-- FishyJoes.export(script) -->
+         */
+        val script: com.cricut.fishyjoes.runtime.AttributedString
+          get() = __jni_get_script()
+        @JvmStatic
+        @JvmName("__jni_get_script")
+        private external fun __jni_get_script(): com.cricut.fishyjoes.runtime.AttributedString
+
+        /**
+         * <!-- FishyJoes.export(simple) -->
+         */
+        val simple: com.cricut.fishyjoes.runtime.AttributedString
+          get() = __jni_get_simple()
+        @JvmStatic
+        @JvmName("__jni_get_simple")
+        private external fun __jni_get_simple(): com.cricut.fishyjoes.runtime.AttributedString
 
         /**
          * <!-- FishyJoes.export(echo) -->

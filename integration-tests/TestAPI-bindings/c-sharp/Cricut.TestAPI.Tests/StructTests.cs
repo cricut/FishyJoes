@@ -4,6 +4,34 @@ using Xunit;
 namespace Cricut.TestAPI.Tests {
     public class StructTests {
         [Fact]
+        void testEmptyStruct() {
+            var a1 = EmptyStruct.Create();
+            Assert.Equal(35671, a1.GetTutu());
+            Assert.Equal("Toodles! ta ta for now...", a1.GetTatiana());
+            Assert.Equal("The Netherlands", a1.Aap());
+
+            var a2 = EmptyStruct.Create();
+            Assert.Equal(35671, a2.GetTutu());
+            Assert.Equal("Toodles! ta ta for now...", a2.GetTatiana());
+            Assert.Equal("The Netherlands", a2.Aap());
+
+            Assert.Equal(a1, a2);
+            Assert.Equal(a1.GetHashCode(), a2.GetHashCode());
+            Assert.Equal(a1.ToString(), a2.ToString());
+
+            var b1 = EmptyStruct2.Create();
+            Assert.Equal(12897, b1.GetTutu());
+            Assert.Equal("Arrivederci", b1.GetTatiana());
+            Assert.Equal("The Netherlands2", b1.Aap());
+            Assert.Equal("Cambridge University (England)2", b1.Zxccxz());
+
+            Assert.Equal("EmptyStruct2 { }", b1.ToString());
+
+            Assert.NotEqual(a1.GetHashCode(), b1.GetHashCode());
+            Assert.NotEqual(a1.ToString(), b1.ToString());
+        }
+
+        [Fact]
         void testConstruction() {
             var memberwise = Structs.MemberwiseStruct.Create();
             Assert.Equal("Eternal", memberwise.Immutable);
