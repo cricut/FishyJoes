@@ -12,9 +12,15 @@ import './Collections.dart' as TestAPI;
 import './Collections_CollectionHolder.dart' as TestAPI;
 import './DefaultArguments.dart' as TestAPI;
 import './Deprecations.dart' as TestAPI;
+import './EmptyClass1.dart' as TestAPI;
+import './EmptyClass2.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
+import './EmptyStruct.dart' as TestAPI;
+import './EmptyStruct2.dart' as TestAPI;
 import './ExternalWitness_AProtocol.dart' as TestAPI;
 import './ExternalWitness_TestAsyncFunctions.dart' as TestAPI;
+import './ExternalWitness_TestDefaultComputedProperties.dart' as TestAPI;
+import './ExternalWitness_TestDifferingExportNameProtocolDiffy.dart' as TestAPI;
 import './ExternalWitness_TestLeadingUnderscoredProp.dart' as TestAPI;
 import './ExternalWitness_TestMethodsProtocol.dart' as TestAPI;
 import './ExternalWitness_TestOptionalsProtocol.dart' as TestAPI;
@@ -24,6 +30,8 @@ import './Methods.dart' as TestAPI;
 import './Primitives.dart' as TestAPI;
 import './Primitives_PrimitiveHolder.dart' as TestAPI;
 import './Ranges.dart' as TestAPI;
+import './Results.dart' as TestAPI;
+import './Results_Error.dart' as TestAPI;
 import './SimpleEnum.dart' as TestAPI;
 import './String_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Strings.dart' as TestAPI;
@@ -35,9 +43,16 @@ import './Structs_ReferenceStruct.dart' as TestAPI;
 import './TestAsyncForeignSideFunctionsStruct.dart' as TestAPI;
 import './TestAsyncFunctions.dart' as TestAPI;
 import './TestAsyncSwiftSideFunctionsClass.dart' as TestAPI;
+import './TestDefaultComputedProperties.dart' as TestAPI;
+import './TestDefaultComputedPropertiesEnum.dart' as TestAPI;
+import './TestDefaultComputedPropertiesReference.dart' as TestAPI;
+import './TestDefaultComputedPropertiesStruct.dart' as TestAPI;
+import './TestDifferingExportNameProtocolDiffy.dart' as TestAPI;
+import './TestDifferingExportNameStruct.dart' as TestAPI;
 import './TestLeadingUnderscoredProp.dart' as TestAPI;
 import './TestLeadingUnderscoredPropStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
+import './TestNonExportedProtocolEnum.dart' as TestAPI;
 import './TestOptionalsProtocol.dart' as TestAPI;
 import './TestPropertiesProtocol.dart' as TestAPI;
 import './TestProtocolClass.dart' as TestAPI;
@@ -62,7 +77,7 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
-/// <!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass, conformances: [TestAsyncFunctions]) -->
+/// <!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass) -->
 class TestAsyncSwiftSideFunctionsClass extends SwiftReference implements TestAPI.TestAsyncFunctions {
     TestAsyncSwiftSideFunctionsClass(ffi.Pointer reference): super(reference) {}
     static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
@@ -70,13 +85,29 @@ class TestAsyncSwiftSideFunctionsClass extends SwiftReference implements TestAPI
     );
 
     @override
-    String toString() => 'TestAsyncSwiftSideFunctionsClass(const42: $const42, iabs: $iabs, intCompose: $intCompose, add3Things: $add3Things, makeList: $makeList, fifthThing: $fifthThing, six: $six, willThrow: $willThrow)';
+    String toString() => 'TestAsyncSwiftSideFunctionsClass(add3Things: $add3Things, const42: $const42, fifthThing: $fifthThing, iabs: $iabs, intCompose: $intCompose, makeList: $makeList, six: $six, willThrow: $willThrow)';
 
+    /// <!-- FishyJoes.export(add3Things) -->
+    Future<double> Function(double, double, int) get add3Things =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                consumeCreatedRef<Future<double> Function(double, double, int)>(f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_add3Things(Loader.shared.env, _thisHandle.ptr, exn))
+            )
+        )
+    ;
     /// <!-- FishyJoes.export(const42) -->
     Future<int> Function() get const42 =>
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
                 consumeCreatedRef<Future<int> Function()>(f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_const42(Loader.shared.env, _thisHandle.ptr, exn))
+            )
+        )
+    ;
+    /// <!-- FishyJoes.export(fifthThing) -->
+    Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function()) get fifthThing =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                consumeCreatedRef<Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function())>(f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_fifthThing(Loader.shared.env, _thisHandle.ptr, exn))
             )
         )
     ;
@@ -96,27 +127,11 @@ class TestAsyncSwiftSideFunctionsClass extends SwiftReference implements TestAPI
             )
         )
     ;
-    /// <!-- FishyJoes.export(add3Things) -->
-    Future<double> Function(double, double, int) get add3Things =>
-        GCRef.using(this, (_thisHandle) =>
-            check((exn) =>
-                consumeCreatedRef<Future<double> Function(double, double, int)>(f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_add3Things(Loader.shared.env, _thisHandle.ptr, exn))
-            )
-        )
-    ;
     /// <!-- FishyJoes.export(makeList) -->
     Future<List<String>> Function(String, String, String, String) get makeList =>
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
                 consumeCreatedRef<Future<List<String>> Function(String, String, String, String)>(f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_makeList(Loader.shared.env, _thisHandle.ptr, exn))
-            )
-        )
-    ;
-    /// <!-- FishyJoes.export(fifthThing) -->
-    Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function()) get fifthThing =>
-        GCRef.using(this, (_thisHandle) =>
-            check((exn) =>
-                consumeCreatedRef<Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function())>(f__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_fifthThing(Loader.shared.env, _thisHandle.ptr, exn))
             )
         )
     ;

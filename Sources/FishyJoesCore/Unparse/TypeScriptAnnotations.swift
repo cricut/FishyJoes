@@ -1,5 +1,5 @@
 struct TypeScriptAnnotations: Codable {
-    enum TSType: Codable {
+    enum TSType: Hashable, Codable {
         case named(String)
         indirect case optional(TSType)
         case union([TSType])
@@ -13,6 +13,7 @@ struct TypeScriptAnnotations: Codable {
         let isStatic: Bool
         let name: String
         let type: TSType
+        let hasDefaultImplementation: Bool
     }
 
     struct Method: Codable {
@@ -64,7 +65,7 @@ struct TypeScriptAnnotations: Codable {
         let documentation: [String]
         var name: String
         let extends: [String]
-        let implements: [String]
+        let implements: [TSType]
         let constructor: Constructor
         let fields: [Variable]
         let methods: [Method]
@@ -79,7 +80,7 @@ struct TypeScriptAnnotations: Codable {
             documentation: [String] = [],
             name: String,
             extends: [String] = [],
-            implements: [String] = [],
+            implements: Set<TSType>,
             constructor: Constructor,
             fields: [Variable],
             methods: [Method]
@@ -87,7 +88,7 @@ struct TypeScriptAnnotations: Codable {
             self.documentation = documentation
             self.name = name
             self.extends = extends
-            self.implements = implements
+            self.implements = implements.sorted(by: { $0.description < $1.description })
             self.constructor = constructor
             self.fields = fields
             self.methods = methods
@@ -269,7 +270,7 @@ extension TypeScriptAnnotations {
     }
 
     var fragment: SourceFragment {
-        let fragment = SourceFragment(sourceryDestination: "file:NodeInterface/\(defaultNamespace).d.ts.part")
+        let fragment = SourceFragment(sourceryDestination: "file:NodeInterface/\(defaultNamespace).d.ts.part", sortKey: "d.ts")
 
         func document(_ documentation: [String]) {
             guard !documentation.isEmpty else { return }
@@ -280,14 +281,14 @@ extension TypeScriptAnnotations {
             fragment.output(" */")
         }
 
-        func output(method: Method, inClass: Bool, optionalMethodsForDefaults: Bool = false, isCore: Bool = false) {
+        func output(method: Method, inClass: Bool, optionalForDefaults: Bool = false, isCore: Bool = false) {
             document(method.documentation)
             if !inClass {
                 fragment.output("function ", newLineTerminated: false)
             } else if method.isStatic {
                 fragment.output("static ", newLineTerminated: false)
             }
-            fragment.outputBlock("\(method.name)\((method.hasDefaultImplementation && optionalMethodsForDefaults) ? "?" : "")(", newLineTerminated: false) {
+            fragment.outputBlock("\(method.name)\((method.hasDefaultImplementation && optionalForDefaults) ? "?" : "")(", newLineTerminated: false) {
                 var isFirst = true
                 func outputComma() {
                     if !isFirst {
@@ -326,8 +327,10 @@ extension TypeScriptAnnotations {
             fragment.blankLine()
         }
 
-        func output(field: Variable, inClass: Bool) {
+        func output(field: Variable, inClass: Bool, optionalForDefaults: Bool = false, isCore: Bool = false) {
             document(field.documentation)
+
+            let optionalOptionalMark = (field.hasDefaultImplementation && optionalForDefaults) ? "?" : ""
             if inClass {
                 if field.isStatic {
                     fragment.output("static ", newLineTerminated: false)
@@ -335,10 +338,10 @@ extension TypeScriptAnnotations {
                 if field.readOnly {
                     fragment.output("readonly ", newLineTerminated: false)
                 }
-                fragment.output("\(field.name)\(field.type.annotation);")
+                fragment.output("\(field.name)\(optionalOptionalMark)\(field.type.annotation);")
                 fragment.blankLine()
             } else {
-                fragment.output("\(field.readOnly ? "const" : "let") \(field.name): \(field.type);")
+                fragment.output("\(field.readOnly ? "const" : "let") \(field.name)\(optionalOptionalMark): \(field.type);")
                 fragment.blankLine()
             }
         }
@@ -362,7 +365,7 @@ extension TypeScriptAnnotations {
                         document(tsClass.documentation)
                         fragment.output("export class \(tsClass.name)", newLineTerminated: false)
                         if !tsClass.implements.isEmpty {
-                            fragment.output(" implements \(tsClass.implements.joined(separator: ", "))", newLineTerminated: false)
+                            fragment.output(" implements \(tsClass.implements.map { $0.description }.joined(separator: ", "))", newLineTerminated: false)
                         }
                         fragment.outputBlock(" {") {
                             switch tsClass.constructor {
@@ -399,13 +402,14 @@ extension TypeScriptAnnotations {
                         }
                         fragment.blankLine()
 
-                        if interface.methods.contains(where: { $0.hasDefaultImplementation }) {
+                        if interface.methods.contains(where: { $0.hasDefaultImplementation }) ||
+                            interface.fields.contains(where: { $0.hasDefaultImplementation }) {
                             fragment.outputBlock("interface \(interface.name)Core {") {
                                 for field in interface.fields {
-                                    output(field: field, inClass: true)
+                                    output(field: field, inClass: true, optionalForDefaults: true, isCore: true)
                                 }
                                 for method in interface.methods {
-                                    output(method: method, inClass: true, optionalMethodsForDefaults: true, isCore: true)
+                                    output(method: method, inClass: true, optionalForDefaults: true, isCore: true)
                                 }
                             }
                             fragment.blankLine()

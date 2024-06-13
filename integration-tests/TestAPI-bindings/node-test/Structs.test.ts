@@ -10,6 +10,28 @@ test('StructConstruction', () => {
     expect(reference.mutable).toEqual("Fickle")
 });
 
+test('EmptyStruct', () => {
+    let a1 = TestAPI.EmptyStruct.create()
+    expect(a1.tutu).toEqual(35671)
+    expect(a1.tatiana).toEqual("Toodles! ta ta for now...")
+    expect(a1.aap()).toEqual("The Netherlands")
+
+    let a2 = TestAPI.EmptyStruct.create()
+    expect(a2.tutu).toEqual(35671)
+    expect(a2.tatiana).toEqual("Toodles! ta ta for now...")
+    expect(a2.aap()).toEqual("The Netherlands")
+
+    expect(a1).toStrictEqual(a2)
+
+    let b1 = TestAPI.EmptyStruct2.create()
+    expect(b1.tutu).toEqual(12897)
+    expect(b1.tatiana).toEqual("Arrivederci")
+    expect(b1.aap()).toEqual("The Netherlands2")
+    expect(b1.zxccxz()).toEqual("Cambridge University (England)2")
+
+    expect(a1).not.toStrictEqual(b1)
+});
+
 test('StructMutablility', () => {
     let memberwise = TestAPI.Structs.MemberwiseStruct.create()
     expect(memberwise.immutable).toEqual("Eternal")

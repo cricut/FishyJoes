@@ -8,7 +8,6 @@ private enum AttributeName: String, Hashable, CaseIterable {
     case cSharp
     case noReturn
     case compatibilityOrder
-    case conformances
 }
 
 struct ExportAnnotation: Hashable {
@@ -20,7 +19,6 @@ struct ExportAnnotation: Hashable {
     let genericOverrides: [String: BetterType]
     let omitParameters: [String]
     let compatibilityOrder: [String]
-    let conformances: Set<String>
 
     init(
         kind: Kind = .unmodified,
@@ -30,8 +28,7 @@ struct ExportAnnotation: Hashable {
         noReturn: Bool = false,
         genericOverrides: [String: BetterType] = [:],
         omitParameters: [String] = [],
-        compatibilityOrder: [String] = [],
-        conformances: Set<String> = Set<String>()
+        compatibilityOrder: [String] = []
     ) {
         self.kind = kind
         self.name = name
@@ -41,7 +38,6 @@ struct ExportAnnotation: Hashable {
         self.genericOverrides = genericOverrides
         self.omitParameters = omitParameters
         self.compatibilityOrder = compatibilityOrder
-        self.conformances = conformances
     }
 
     indirect enum SimpleParse: Hashable {
@@ -262,21 +258,6 @@ extension Documented {
                 noReturn = true
             }
 
-            var conformances = Set<String>()
-            if let parse = attrs[.conformances] {
-                guard case .squareBracketed(let paramList) = parse else {
-                    fatalErr("invalid protocols in \(docLine). Expected [name, ...]")
-                }
-                conformances = Set(
-                    paramList.split(separator: .comma).map { tokens in
-                        guard case .token(let name) = tokens.first else {
-                            fatalErr("invalid protocols in \(docLine). Expected [name, ...]")
-                        }
-                        return name
-                    }
-                )
-            }
-
             // func idAttr(_ key: String) -> String? {
             //     guard let tree = attrs[key] else { return nil }
             //     guard case .token(let id) = tree else {
@@ -293,8 +274,7 @@ extension Documented {
                 noReturn: noReturn,
                 genericOverrides: genericOverrides,
                 omitParameters: omitParameters,
-                compatibilityOrder: compatibilityOrder,
-                conformances: conformances
+                compatibilityOrder: compatibilityOrder
             )
         }
         return nil

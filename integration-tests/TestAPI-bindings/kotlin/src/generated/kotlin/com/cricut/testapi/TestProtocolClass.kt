@@ -4,9 +4,9 @@ import java.lang.Exception
 import kotlinx.coroutines.*
 
 /**
- * <!-- FishyJoes.exportReference(TestProtocolClass, conformances: [TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol]) -->
+ * <!-- FishyJoes.exportReference(TestProtocolClass) -->
  */
-class TestProtocolClass private constructor(_swiftReference: Long): TestMethodsProtocol, TestOptionalsProtocol, TestPropertiesProtocol, com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference) {
+class TestProtocolClass private constructor(_swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference), com.cricut.testapi.TestMethodsProtocol, com.cricut.testapi.TestOptionalsProtocol, com.cricut.testapi.TestPropertiesProtocol {
     /**
      * <!-- FishyJoes.export(corge) -->
      */

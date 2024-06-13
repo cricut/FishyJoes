@@ -3,42 +3,40 @@ import Foundation
 import SourceryRuntime
 
 struct NodeTranslator: Translator {
-    func output(getter variable: Field, explicitThis: Bool = false, context: FishyJoesContext, fragment: SourceFragment) {
+    func output(getter variable: Field, explicitThis: Bool = false, context: FishyJoesContext, fragment: SourceFragment, converterName: String, shouldWrapDefaultImpl: Bool = false) {
         guard let exportAnnotation = variable.exportAnnotation else {
             fatalErr("Variable not annotated for export: \(variable)")
         }
         let nodeName = exportAnnotation.name
 
-        let selfExpression: String
-        let containingNamespace: String
+        var selfExpression: String
+        let containingNamespace = converterName
 
         var argIndex = 0
 
-        if let selfType = variable.definedIn {
-            containingNamespace = context.resolve(type: selfType).converterType.name
-
-            if variable.isStatic {
-                selfExpression = containingNamespace
-            } else if explicitThis {
-                selfExpression = "env.argument(at: 0, converter: \(containingNamespace).self)"
-                argIndex += 1
-            } else {
-                selfExpression = "env.this(converter: \(containingNamespace).self)"
-            }
+        if variable.isStatic {
+            selfExpression = containingNamespace
+        } else if explicitThis {
+            selfExpression = "env.argument(at: 0, converter: \(containingNamespace).self)"
+            argIndex += 1
         } else {
-            containingNamespace = context.module.name
-            selfExpression = context.module.name
+            selfExpression = "env.this(converter: \(containingNamespace).self)"
         }
 
         fragment.outputBlock("{ env, info in", closeWith: "}", newLineTerminated: false) {
             fragment.outputBlock("FishyJoesNodeRuntime.callbackBody(env, info, name: \"\(nodeName)\", expectedArgumentCount: \(argIndex)) { env in", closeWith: "}") {
+                if variable.isDefaultImplementation,
+                   shouldWrapDefaultImpl {
+                    fragment.output("let _wrappedSwiftSelf = \(context.module.name)_CommonInterface.\(variable.definedIn?.name ?? "")_sans_\(variable.name)(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(\(selfExpression)))")
+                    selfExpression = "_wrappedSwiftSelf"
+                }
                 let resolved = context.resolve(type: variable.type)
-                fragment.output("try \(resolved.converterType.name).toNode(\(selfExpression).\(variable.name), env: env.env)")
+                fragment.output("return try \(resolved.converterType.name).toNode(\(selfExpression).\(variable.name), env: env.env)")
             }
         }
     }
 
-    func output(setter variable: Field, context: FishyJoesContext, fragment: SourceFragment) {
+    func output(setter variable: Field, context: FishyJoesContext, fragment: SourceFragment, converterName: String, shouldWrapDefaultImpl: Bool = false) {
         guard let exportAnnotation = variable.exportAnnotation else {
             fatalErr("Variable not annotated for export: \(variable)")
         }
@@ -49,19 +47,12 @@ struct NodeTranslator: Translator {
         let nodeName = exportAnnotation.name
 
         let selfExpression: String
-        let containingNamespace: String
+        let containingNamespace = converterName
 
-        if let selfType = variable.definedIn {
-            containingNamespace = context.resolve(type: selfType).sourceType.name
-
-            if variable.isStatic {
-                selfExpression = containingNamespace
-            } else {
-                selfExpression = "env.this(converter: \(containingNamespace).self)"
-            }
+        if variable.isStatic {
+            selfExpression = containingNamespace
         } else {
-            containingNamespace = context.module.name
-            selfExpression = context.module.name
+            selfExpression = "env.this(converter: \(containingNamespace).self)"
         }
 
         fragment.outputBlock("{ env, info in", closeWith: "}", newLineTerminated: false) {
@@ -71,6 +62,7 @@ struct NodeTranslator: Translator {
                     fragment.output("\(selfExpression).\(variable.name) = try env.argument(at: 0, converter: \(resolved.converterType.name).self)")
                 } else {
                     fragment.output("var mutatingSelf = try \(selfExpression)")
+                    fragment.output("FishyJoesCommonRuntime.silenceMutationWarning(&mutatingSelf)")
                     fragment.output("mutatingSelf.\(variable.name) = try env.argument(at: 0, converter: \(resolved.converterType.name).self)")
                     fragment.output("try \(containingNamespace).mutateNode(mutatingSelf, this: env.this(), env: env.env)")
                 }
@@ -79,30 +71,22 @@ struct NodeTranslator: Translator {
         }
     }
 
-    func output(method: Method, explicitThis: Bool, context: FishyJoesContext, fragment: SourceFragment, newLineTerminated: Bool = true, converterName: String? = nil, shouldWrapDefaultImpl: Bool = false) {
+    func output(method: Method, explicitThis: Bool, context: FishyJoesContext, fragment: SourceFragment, newLineTerminated: Bool = true, converterName: String, shouldWrapDefaultImpl: Bool = false) {
         let exportAnnotation = method.exportAnnotation
         let nodeName = exportAnnotation.name
 
         var selfExpression: String
-        let containingNamespace: String
+        let containingNamespace = converterName
 
         var argIndex = 0
 
-        if let selfType = method.definedIn {
-            let resolved = context.resolve(type: selfType)
-            containingNamespace = converterName ?? resolved.converterType.name
-
-            if method.isStatic {
-                selfExpression = containingNamespace
-            } else if explicitThis {
-                selfExpression = "env.argument(at: 0, converter: \(containingNamespace).self)"
-                argIndex += 1
-            } else {
-                selfExpression = "env.this(converter: \(containingNamespace).self)"
-            }
+        if method.isStatic {
+            selfExpression = containingNamespace
+        } else if explicitThis {
+            selfExpression = "env.argument(at: 0, converter: \(containingNamespace).self)"
+            argIndex += 1
         } else {
-            containingNamespace = context.module.name
-            selfExpression = context.module.name
+            selfExpression = "env.this(converter: \(containingNamespace).self)"
         }
 
         let returnType = context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides)
@@ -144,7 +128,7 @@ struct NodeTranslator: Translator {
                     }
                     if method.isDefaultImplementation,
                        shouldWrapDefaultImpl {
-                        fragment.output("let _wrappedSwiftSelf = \(context.module.name)_CommonInterface.\(method.definedIn?.name ?? "")_sans_\(method.callName)(wrapped: try \(selfExpression))")
+                        fragment.output("let _wrappedSwiftSelf = \(context.module.name)_CommonInterface.\(method.definedIn?.name ?? "")_sans_\(method.callName)(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(\(selfExpression)))")
                         selfExpression = "_wrappedSwiftSelf"
                     }
 
@@ -195,11 +179,12 @@ struct NodeTranslator: Translator {
 
                     if method.isMutating {
                         fragment.output("var mutatingSelf = try \(selfExpression)")
+                        fragment.output("FishyJoesCommonRuntime.silenceMutationWarning(&mutatingSelf)")
                         selfExpression = "mutatingSelf"
                     }
                     if method.isDefaultImplementation,
                        shouldWrapDefaultImpl {
-                        fragment.output("let _wrappedSwiftSelf = \(context.module.name)_CommonInterface.\(method.definedIn?.name ?? "")_sans_\(method.callName)(wrapped: try \(selfExpression))")
+                        fragment.output("let _wrappedSwiftSelf = \(context.module.name)_CommonInterface.\(method.definedIn?.name ?? "")_sans_\(method.callName)(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(\(selfExpression)))")
                         selfExpression = "_wrappedSwiftSelf"
                     }
 
@@ -238,7 +223,7 @@ struct NodeTranslator: Translator {
         }
     }
 
-    func outputProperties(methods: [Method], explicitThis: Bool = false, context: FishyJoesContext, fragment: SourceFragment, converterName: String? = nil, shouldWrapDefaultImpl: Bool = false) -> Bool {
+    func outputProperties(methods: [Method], explicitThis: Bool = false, context: FishyJoesContext, fragment: SourceFragment, converterName: String, shouldWrapDefaultImpl: Bool = false) -> Bool {
         for method in methods {
             let isStatic = explicitThis || method.isStatic
             let explicitThis = explicitThis && !method.isStatic
@@ -253,7 +238,7 @@ struct NodeTranslator: Translator {
         return !methods.isEmpty
     }
 
-    func outputProperties(computedVariables: [Field], explicitThis: Bool = false, context: FishyJoesContext, fragment: SourceFragment) -> Bool {
+    func outputProperties(computedVariables: [Field], explicitThis: Bool = false, context: FishyJoesContext, fragment: SourceFragment, converterName: String, shouldWrapDefaultImpl: Bool = false) -> Bool {
         var didOutput = false
         for variable in computedVariables {
             guard let exportAnnotation = variable.exportAnnotation else {
@@ -263,7 +248,7 @@ struct NodeTranslator: Translator {
             if explicitThis, !variable.isStatic {
                 fragment.outputBlock("\"get\(upperCaseFirst(nodeName))\": (", closeWith: "),") {
                     fragment.output(".method ", newLineTerminated: false)
-                    output(getter: variable, explicitThis: true, context: context, fragment: fragment)
+                    output(getter: variable, explicitThis: true, context: context, fragment: fragment, converterName: converterName, shouldWrapDefaultImpl: shouldWrapDefaultImpl)
                     fragment.output(",")
                     fragment.output("isStatic: true")
                 }
@@ -272,10 +257,10 @@ struct NodeTranslator: Translator {
                 fragment.outputBlock("\"\(nodeName)\": (", closeWith: "),") {
                     fragment.outputBlock(".accessor(", closeWith: "),") {
                         fragment.output("getter: ", newLineTerminated: false)
-                        output(getter: variable, context: context, fragment: fragment)
+                        output(getter: variable, context: context, fragment: fragment, converterName: converterName, shouldWrapDefaultImpl: shouldWrapDefaultImpl)
                         fragment.output(",")
                         fragment.output("setter: ", newLineTerminated: false)
-                        output(setter: variable, context: context, fragment: fragment)
+                        output(setter: variable, context: context, fragment: fragment, converterName: converterName, shouldWrapDefaultImpl: shouldWrapDefaultImpl)
                     }
                     fragment.output("isStatic: \(variable.isStatic)")
                 }
@@ -288,6 +273,7 @@ struct NodeTranslator: Translator {
     func setupFragments(context: FishyJoesContext, generatedTypes: [BetterType]) -> [SourceFragment] {
         let nodeTypeListFragment = context.swiftFragment(
             "NodeInterface/TypeSetup.swift",
+            sortKey: "NodeInterface/TypeSetup.swift",
             additionalImports: ["Foundation", "FishyJoesNodeRuntime", "NodeAPI", "\(context.module.name)_CommonInterface"]
         )
         nodeTypeListFragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
@@ -304,6 +290,9 @@ struct NodeTranslator: Translator {
                 let resolved = context.resolve(type: type)
                 nodeTypeListFragment.output("try \(resolved.converterType.name).nodeSetup(env: env, module: module)")
             }
+            nodeTypeListFragment.output("// Call once in TypeSetup to work around a Windows delayload llvm bug described here: https://github.com/llvm/llvm-project/issues/51941. This affects functions with doubles in the first or second argument, which get put into xmm0 and xmm1, and the delayload somehow clobbers the stack where they are stored so when the napi function is done and the stack is popped back into xmm0 and xmm1 the value is incorrect. This needs to be done for both napi_create_double and napi_create_date.")
+            nodeTypeListFragment.output("_ = try env.createDouble(42.0)")
+            nodeTypeListFragment.output("_ = try env.createDate(42.0)")
             nodeTypeListFragment.output("return exports")
         }
         nodeTypeListFragment.blankLine()
@@ -317,13 +306,16 @@ struct NodeTranslator: Translator {
             }
         }
 
-        let exportFragment = SourceFragment(sourceryDestination: "file:NodeInterface/@_exported.swift")
+        let exportFragment = SourceFragment(sourceryDestination: "file:NodeInterface/@_exported.swift", sortKey: "file:NodeInterface/@_exported.swift")
         exportFragment.output("@_exported import \(context.module.name)")
         for dependency in context.module.dependencies {
             exportFragment.output("@_exported import \(dependency)_NodeInterface")
         }
 
-        let nodeNativeShimFragment = SourceFragment(sourceryDestination: "file:NodeNativeShim/NAPIRegisterModule.c")
+        let nodeNativeShimFragment = SourceFragment(
+            sourceryDestination: "file:NodeNativeShim/NAPIRegisterModule.c",
+            sortKey: "file:NodeNativeShim/NAPIRegisterModule.c"
+        )
         nodeNativeShimFragment.output("#include <node_api.h>")
         nodeNativeShimFragment.blankLine()
         nodeNativeShimFragment.output("extern napi_value registerModule\(context.module.name)(napi_env env, napi_value exports);")
@@ -335,6 +327,7 @@ struct NodeTranslator: Translator {
 
         let wasmShimFragment = context.swiftFragment(
             "WasmMainShim/NAPIRegisterModule.swift",
+            sortKey: "WasmMainShim/NAPIRegisterModule.swift",
             additionalImports: ["FishyJoesNodeRuntime", "NodeAPI", "\(context.module.name)_NodeInterface"] + context.module.dependencies.map { "\($0)_NodeInterface" }
         )
         wasmShimFragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
@@ -352,7 +345,10 @@ struct NodeTranslator: Translator {
             }
         }
 
-        let wasmShimMainFragment = SourceFragment(sourceryDestination: "file:WasmMainShim/main.swift")
+        let wasmShimMainFragment = SourceFragment(
+            sourceryDestination: "file:WasmMainShim/main.swift",
+            sortKey: "file:WasmMainShim/main.swift"
+        )
         wasmShimMainFragment.output("// Executable main requires no statements, as module registration is done by napi.init() calling napi_register_module_v1()")
 
         return [nodeTypeListFragment, exportFragment, nodeNativeShimFragment, wasmShimFragment, wasmShimMainFragment]
@@ -436,7 +432,8 @@ struct NodeTranslator: Translator {
             readOnly: !field.isPubliclyWritable,
             isStatic: field.isStatic,
             name: name,
-            type: context.resolve(type: field.type).nodeType
+            type: context.resolve(type: field.type).nodeType,
+            hasDefaultImplementation: field.isDefaultImplementation
         )
     }
 

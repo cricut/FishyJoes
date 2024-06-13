@@ -99,7 +99,6 @@ describe('AsyncInstanceTests', () => {
 
     test('AsyncThrowingMethod', async () => {
         const promise = TestAPI.Methods.create().asyncThrowing()
-        console.log(`promise = ${promise}`)
         await expect(promise).rejects.toThrowError(/TheMethodError/)
     })
 })

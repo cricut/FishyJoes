@@ -255,6 +255,19 @@ namespace Cricut.TestAPI {
             out CreatedRef _exn
         );
 
+        delegate CreatedRef _TestAPI_Results_ErrorConstructor(
+            ConsumedRef message,
+            out CreatedRef exn
+        );
+        delegate CreatedRef _TestAPI_Results_Error_messageGetter(UnownedRef obj, out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_Results_Error_setup(
+            IntPtr envRef,
+            _TestAPI_Results_ErrorConstructor constructor,
+            _TestAPI_Results_Error_messageGetter get_message,
+            out CreatedRef _exn
+        );
+
         delegate CreatedRef _TestAPI_Structs_MemberwiseStructConstructor(
             ConsumedRef immutable,
             ConsumedRef mutable,
@@ -458,8 +471,42 @@ namespace Cricut.TestAPI {
         );
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_EmptyClass_setup(
+            IntPtr envRef,
+            SwiftReference.ConstructorDelegate constructorMethod,
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_EmptyClass2_setup(
+            IntPtr envRef,
+            SwiftReference.ConstructorDelegate constructorMethod,
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_EmptyEnum_setup(
             IntPtr envRef,
+            out CreatedRef _exn
+        );
+
+        delegate CreatedRef _TestAPI_EmptyStructConstructor(
+            out CreatedRef exn
+        );
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_EmptyStruct_setup(
+            IntPtr envRef,
+            _TestAPI_EmptyStructConstructor constructor,
+            out CreatedRef _exn
+        );
+
+        delegate CreatedRef _TestAPI_EmptyStruct2Constructor(
+            out CreatedRef exn
+        );
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_EmptyStruct2_setup(
+            IntPtr envRef,
+            _TestAPI_EmptyStruct2Constructor constructor,
             out CreatedRef _exn
         );
 
@@ -484,6 +531,12 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Ranges_setup(
+            IntPtr envRef,
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_Results_setup(
             IntPtr envRef,
             out CreatedRef _exn
         );
@@ -646,6 +699,92 @@ namespace Cricut.TestAPI {
             out CreatedRef _exn
         );
 
+        delegate CreatedRef _TestAPI_CommonInterface__TestDefaultComputedPropertiesConverterConstructor(
+            ConsumedRef ptr,
+            out CreatedRef exn
+        );
+        delegate nint _TestAPI_CommonInterface__TestDefaultComputedPropertiesConverter_Getnoot(UnownedRef obj, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_CommonInterface__TestDefaultComputedPropertiesConverter_Getpluto(UnownedRef obj, out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_CommonInterface__TestDefaultComputedPropertiesConverter_setup(
+            IntPtr envRef,
+            _TestAPI_CommonInterface__TestDefaultComputedPropertiesConverterConstructor constructor,
+            _TestAPI_CommonInterface__TestDefaultComputedPropertiesConverter_Getnoot Getnoot,
+            _TestAPI_CommonInterface__TestDefaultComputedPropertiesConverter_Getpluto Getpluto,
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_TestDefaultComputedPropertiesClass_setup(
+            IntPtr envRef,
+            SwiftReference.ConstructorDelegate constructorMethod,
+            out CreatedRef _exn
+        );
+
+        delegate CreatedRef Cricut_TestAPI_TestDefaultComputedPropertiesEnum_new_qux(
+            out CreatedRef _exn
+        );
+        unsafe delegate void Cricut_TestAPI_TestDefaultComputedPropertiesEnum_extract_qux(
+            UnownedRef obj,
+            out CreatedRef _exn
+        );
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_TestDefaultComputedPropertiesEnum_setup(
+            IntPtr envRef,
+            FishyJoesRuntime.EnumDiscriminator discriminator,
+            Cricut_TestAPI_TestDefaultComputedPropertiesEnum_new_qux qux_constructor,
+            Cricut_TestAPI_TestDefaultComputedPropertiesEnum_extract_qux qux_extractor,
+            out CreatedRef _exn
+        );
+
+        delegate CreatedRef _TestAPI_TestDefaultComputedPropertiesStructConstructor(
+            bool spam,
+            nint noot,
+            out CreatedRef exn
+        );
+        delegate bool _TestAPI_TestDefaultComputedPropertiesStruct_spamGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_TestDefaultComputedPropertiesStruct_spamSetter(UnownedRef obj, bool newValue, out CreatedRef exn);
+        delegate nint _TestAPI_TestDefaultComputedPropertiesStruct_nootGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_TestDefaultComputedPropertiesStruct_nootSetter(UnownedRef obj, nint newValue, out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_TestDefaultComputedPropertiesStruct_setup(
+            IntPtr envRef,
+            _TestAPI_TestDefaultComputedPropertiesStructConstructor constructor,
+            _TestAPI_TestDefaultComputedPropertiesStruct_spamGetter get_spam,
+            _TestAPI_TestDefaultComputedPropertiesStruct_spamSetter set_spam,
+            _TestAPI_TestDefaultComputedPropertiesStruct_nootGetter get_noot,
+            _TestAPI_TestDefaultComputedPropertiesStruct_nootSetter set_noot,
+            out CreatedRef _exn
+        );
+
+        delegate CreatedRef _TestAPI_CommonInterface__TestDifferingExportNameProtocolConverterConstructor(
+            ConsumedRef ptr,
+            out CreatedRef exn
+        );
+        delegate nint _TestAPI_CommonInterface__TestDifferingExportNameProtocolConverter_Gettata(UnownedRef obj, out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_CommonInterface__TestDifferingExportNameProtocolConverter_setup(
+            IntPtr envRef,
+            _TestAPI_CommonInterface__TestDifferingExportNameProtocolConverterConstructor constructor,
+            _TestAPI_CommonInterface__TestDifferingExportNameProtocolConverter_Gettata Gettata,
+            out CreatedRef _exn
+        );
+
+        delegate CreatedRef _TestAPI_TestDifferingExportNameStructConstructor(
+            nint tata,
+            out CreatedRef exn
+        );
+        delegate nint _TestAPI_TestDifferingExportNameStruct_tataGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_TestDifferingExportNameStruct_tataSetter(UnownedRef obj, nint newValue, out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_TestDifferingExportNameStruct_setup(
+            IntPtr envRef,
+            _TestAPI_TestDifferingExportNameStructConstructor constructor,
+            _TestAPI_TestDifferingExportNameStruct_tataGetter get_tata,
+            _TestAPI_TestDifferingExportNameStruct_tataSetter set_tata,
+            out CreatedRef _exn
+        );
+
         delegate CreatedRef _TestAPI_CommonInterface__TestLeadingUnderscoredPropConverterConstructor(
             ConsumedRef ptr,
             out CreatedRef exn
@@ -694,6 +833,22 @@ namespace Cricut.TestAPI {
             _TestAPI_CommonInterface__TestMethodsProtocolConverter_garply garply,
             _TestAPI_CommonInterface__TestMethodsProtocolConverter_xyzzy xyzzy,
             _TestAPI_CommonInterface__TestMethodsProtocolConverter_plugh plugh,
+            out CreatedRef _exn
+        );
+
+        delegate CreatedRef Cricut_TestAPI_TestNonExportedProtocolEnum_new_hogehoge(
+            out CreatedRef _exn
+        );
+        unsafe delegate void Cricut_TestAPI_TestNonExportedProtocolEnum_extract_hogehoge(
+            UnownedRef obj,
+            out CreatedRef _exn
+        );
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_TestNonExportedProtocolEnum_setup(
+            IntPtr envRef,
+            FishyJoesRuntime.EnumDiscriminator discriminator,
+            Cricut_TestAPI_TestNonExportedProtocolEnum_new_hogehoge hogehoge_constructor,
+            Cricut_TestAPI_TestNonExportedProtocolEnum_extract_hogehoge hogehoge_extractor,
             out CreatedRef _exn
         );
 
@@ -1935,6 +2090,22 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_ResultConverter<Swift.Int, TestAPI.Results.Error>", () => {
+                Console.WriteLine("setting up Result<Int, Results.Error>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ResultConverter_setup<nint, Cricut.TestAPI.Results.Error>(
+                    Loader.env,
+                    "ResultConverter<Swift.Int, TestAPI.Results.Error>",
+                    out exn
+                ));
+            });
+            Once("setup_ResultConverter<Swift.String, TestAPI.Results.Error>", () => {
+                Console.WriteLine("setting up Result<String, Results.Error>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ResultConverter_setup<string, Cricut.TestAPI.Results.Error>(
+                    Loader.env,
+                    "ResultConverter<Swift.String, TestAPI.Results.Error>",
+                    out exn
+                ));
+            });
             Once("setup_SetConverter<OptionalConverter<Swift.Int>>", () => {
                 Console.WriteLine("setting up Set<Optional<Int>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_SetConverter_setup<nint?>(
@@ -2307,6 +2478,21 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_TestAPI.Results.Error", () => {
+                Console.WriteLine("setting up TestAPI.Results.Error...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_Results_Error_setup(
+                    Loader.env,
+                    bag<_TestAPI_Results_ErrorConstructor>((ConsumedRef message, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.Results.Error(
+                            message.Consume<string>()
+                        ));
+                    })),
+                    bag<_TestAPI_Results_Error_messageGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Results.Error>().Message)
+                    )),
+                    out exn
+                ));
+            });
             Once("setup_TestAPI.Structs.MemberwiseStruct", () => {
                 Console.WriteLine("setting up TestAPI.Structs.MemberwiseStruct...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Structs_MemberwiseStruct_setup(
@@ -2621,10 +2807,52 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_TestAPI.EmptyClass", () => {
+                Console.WriteLine("setting up TestAPI.EmptyClass...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_EmptyClass_setup(
+                    Loader.env,
+                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.EmptyClass1(ptr));
+                    })),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.EmptyClass2", () => {
+                Console.WriteLine("setting up TestAPI.EmptyClass2...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_EmptyClass2_setup(
+                    Loader.env,
+                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.EmptyClass2(ptr));
+                    })),
+                    out exn
+                ));
+            });
             Once("setup_TestAPI.EmptyEnum", () => {
                 Console.WriteLine("setting up TestAPI.EmptyEnum...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_EmptyEnum_setup(
                     Loader.env,
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.EmptyStruct", () => {
+                Console.WriteLine("setting up TestAPI.EmptyStruct...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_EmptyStruct_setup(
+                    Loader.env,
+                    bag<_TestAPI_EmptyStructConstructor>((out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.EmptyStruct(
+                        ));
+                    })),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.EmptyStruct2", () => {
+                Console.WriteLine("setting up TestAPI.EmptyStruct2...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_EmptyStruct2_setup(
+                    Loader.env,
+                    bag<_TestAPI_EmptyStruct2Constructor>((out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.EmptyStruct2(
+                        ));
+                    })),
                     out exn
                 ));
             });
@@ -2655,6 +2883,13 @@ namespace Cricut.TestAPI {
             Once("setup_TestAPI.Ranges", () => {
                 Console.WriteLine("setting up TestAPI.Ranges...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Ranges_setup(
+                    Loader.env,
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.Results", () => {
+                Console.WriteLine("setting up TestAPI.Results...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_Results_setup(
                     Loader.env,
                     out exn
                 ));
@@ -2899,6 +3134,121 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter", () => {
+                Console.WriteLine("setting up TestAPI.TestDefaultComputedProperties...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_CommonInterface__TestDefaultComputedPropertiesConverter_setup(
+                    Loader.env,
+                    bag<_TestAPI_CommonInterface__TestDefaultComputedPropertiesConverterConstructor>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.ExternalWitness_TestDefaultComputedProperties(ptr));
+                    })),
+                    bag<_TestAPI_CommonInterface__TestDefaultComputedPropertiesConverter_Getnoot>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.TestDefaultComputedProperties>().GetNoot()
+                    )),
+                    bag<_TestAPI_CommonInterface__TestDefaultComputedPropertiesConverter_Getpluto>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.TestDefaultComputedProperties>().GetPlutonic())
+                    )),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.TestDefaultComputedPropertiesClass", () => {
+                Console.WriteLine("setting up TestAPI.TestDefaultComputedPropertiesClass...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_TestDefaultComputedPropertiesClass_setup(
+                    Loader.env,
+                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.TestDefaultComputedPropertiesReference(ptr));
+                    })),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.TestDefaultComputedPropertiesEnum", () => {
+                Console.WriteLine("setting up TestAPI.TestDefaultComputedPropertiesEnum...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_TestDefaultComputedPropertiesEnum_setup(
+                    Loader.env,
+                    bag<FishyJoesRuntime.EnumDiscriminator>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
+                        var enumeration = obj.Peek<Cricut.TestAPI.TestDefaultComputedPropertiesEnum>();
+                        if (enumeration is Cricut.TestAPI.TestDefaultComputedPropertiesEnum.Qux) { return (nint)0; }
+                        throw new Exception($"Found unexpected subclass of Cricut.TestAPI.TestDefaultComputedPropertiesEnum: {enumeration}");
+                    })),
+                    bag<Cricut_TestAPI_TestDefaultComputedPropertiesEnum_new_qux>(
+                        (
+                            out CreatedRef exn
+                        ) => Catching(out exn, () => 
+                            new CreatedRef(new Cricut.TestAPI.TestDefaultComputedPropertiesEnum.Qux(
+                            ))
+                        )
+                    ),
+                    bag<Cricut_TestAPI_TestDefaultComputedPropertiesEnum_extract_qux>(
+                        (
+                            UnownedRef obj,
+                            out CreatedRef exn
+                        ) => {
+                            try {
+                                var enumeration = obj.Peek<Cricut.TestAPI.TestDefaultComputedPropertiesEnum.Qux>();
+                                exn = CreatedRef.Null;
+                            } catch (Exception e) {
+                                exn = new CreatedRef(e);
+                            }
+                        }
+                    ),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.TestDefaultComputedPropertiesStruct", () => {
+                Console.WriteLine("setting up TestAPI.TestDefaultComputedPropertiesStruct...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_TestDefaultComputedPropertiesStruct_setup(
+                    Loader.env,
+                    bag<_TestAPI_TestDefaultComputedPropertiesStructConstructor>((bool spam, nint noot, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.TestDefaultComputedPropertiesStruct(
+                            spam,
+                            noot
+                        ));
+                    })),
+                    bag<_TestAPI_TestDefaultComputedPropertiesStruct_spamGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.TestDefaultComputedPropertiesStruct>().Spam
+                    )),
+                    bag<_TestAPI_TestDefaultComputedPropertiesStruct_spamSetter>((UnownedRef obj, bool newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.TestDefaultComputedPropertiesStruct>().Spam = newValue;
+                    })),
+                    bag<_TestAPI_TestDefaultComputedPropertiesStruct_nootGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.TestDefaultComputedPropertiesStruct>().Noot
+                    )),
+                    bag<_TestAPI_TestDefaultComputedPropertiesStruct_nootSetter>((UnownedRef obj, nint newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.TestDefaultComputedPropertiesStruct>().Noot = newValue;
+                    })),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI_CommonInterface._TestDifferingExportNameProtocolConverter", () => {
+                Console.WriteLine("setting up TestAPI.TestDifferingExportNameProtocol...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_CommonInterface__TestDifferingExportNameProtocolConverter_setup(
+                    Loader.env,
+                    bag<_TestAPI_CommonInterface__TestDifferingExportNameProtocolConverterConstructor>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.ExternalWitness_TestDifferingExportNameProtocolDiffy(ptr));
+                    })),
+                    bag<_TestAPI_CommonInterface__TestDifferingExportNameProtocolConverter_Gettata>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.TestDifferingExportNameProtocolDiffy>().GetTata()
+                    )),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.TestDifferingExportNameStruct", () => {
+                Console.WriteLine("setting up TestAPI.TestDifferingExportNameStruct...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_TestDifferingExportNameStruct_setup(
+                    Loader.env,
+                    bag<_TestAPI_TestDifferingExportNameStructConstructor>((nint tata, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.TestDifferingExportNameStruct(
+                            tata
+                        ));
+                    })),
+                    bag<_TestAPI_TestDifferingExportNameStruct_tataGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.TestDifferingExportNameStruct>().Tata
+                    )),
+                    bag<_TestAPI_TestDifferingExportNameStruct_tataSetter>((UnownedRef obj, nint newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.TestDifferingExportNameStruct>().Tata = newValue;
+                    })),
+                    out exn
+                ));
+            });
             Once("setup_TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter", () => {
                 Console.WriteLine("setting up TestAPI.TestLeadingUnderscoredProp...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_CommonInterface__TestLeadingUnderscoredPropConverter_setup(
@@ -2955,6 +3305,39 @@ namespace Cricut.TestAPI {
                     bag<_TestAPI_CommonInterface__TestMethodsProtocolConverter_plugh>((UnownedRef obj, System.Tuple<bool, double, System.Collections.Generic.IList<string>> fred, out CreatedRef exn) => Catching(out exn, () => 
                         new CreatedRef(obj.Peek<Cricut.TestAPI.TestMethodsProtocol>().Plugh(fred))
                     )),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.TestNonExportedProtocolEnum", () => {
+                Console.WriteLine("setting up TestAPI.TestNonExportedProtocolEnum...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_TestNonExportedProtocolEnum_setup(
+                    Loader.env,
+                    bag<FishyJoesRuntime.EnumDiscriminator>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
+                        var enumeration = obj.Peek<Cricut.TestAPI.TestNonExportedProtocolEnum>();
+                        if (enumeration is Cricut.TestAPI.TestNonExportedProtocolEnum.Hogehoge) { return (nint)0; }
+                        throw new Exception($"Found unexpected subclass of Cricut.TestAPI.TestNonExportedProtocolEnum: {enumeration}");
+                    })),
+                    bag<Cricut_TestAPI_TestNonExportedProtocolEnum_new_hogehoge>(
+                        (
+                            out CreatedRef exn
+                        ) => Catching(out exn, () => 
+                            new CreatedRef(new Cricut.TestAPI.TestNonExportedProtocolEnum.Hogehoge(
+                            ))
+                        )
+                    ),
+                    bag<Cricut_TestAPI_TestNonExportedProtocolEnum_extract_hogehoge>(
+                        (
+                            UnownedRef obj,
+                            out CreatedRef exn
+                        ) => {
+                            try {
+                                var enumeration = obj.Peek<Cricut.TestAPI.TestNonExportedProtocolEnum.Hogehoge>();
+                                exn = CreatedRef.Null;
+                            } catch (Exception e) {
+                                exn = new CreatedRef(e);
+                            }
+                        }
+                    ),
                     out exn
                 ));
             });

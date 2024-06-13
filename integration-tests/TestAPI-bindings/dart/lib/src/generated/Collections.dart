@@ -12,9 +12,15 @@ import './Collections.dart' as TestAPI;
 import './Collections_CollectionHolder.dart' as TestAPI;
 import './DefaultArguments.dart' as TestAPI;
 import './Deprecations.dart' as TestAPI;
+import './EmptyClass1.dart' as TestAPI;
+import './EmptyClass2.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
+import './EmptyStruct.dart' as TestAPI;
+import './EmptyStruct2.dart' as TestAPI;
 import './ExternalWitness_AProtocol.dart' as TestAPI;
 import './ExternalWitness_TestAsyncFunctions.dart' as TestAPI;
+import './ExternalWitness_TestDefaultComputedProperties.dart' as TestAPI;
+import './ExternalWitness_TestDifferingExportNameProtocolDiffy.dart' as TestAPI;
 import './ExternalWitness_TestLeadingUnderscoredProp.dart' as TestAPI;
 import './ExternalWitness_TestMethodsProtocol.dart' as TestAPI;
 import './ExternalWitness_TestOptionalsProtocol.dart' as TestAPI;
@@ -24,6 +30,8 @@ import './Methods.dart' as TestAPI;
 import './Primitives.dart' as TestAPI;
 import './Primitives_PrimitiveHolder.dart' as TestAPI;
 import './Ranges.dart' as TestAPI;
+import './Results.dart' as TestAPI;
+import './Results_Error.dart' as TestAPI;
 import './SimpleEnum.dart' as TestAPI;
 import './String_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Strings.dart' as TestAPI;
@@ -35,9 +43,16 @@ import './Structs_ReferenceStruct.dart' as TestAPI;
 import './TestAsyncForeignSideFunctionsStruct.dart' as TestAPI;
 import './TestAsyncFunctions.dart' as TestAPI;
 import './TestAsyncSwiftSideFunctionsClass.dart' as TestAPI;
+import './TestDefaultComputedProperties.dart' as TestAPI;
+import './TestDefaultComputedPropertiesEnum.dart' as TestAPI;
+import './TestDefaultComputedPropertiesReference.dart' as TestAPI;
+import './TestDefaultComputedPropertiesStruct.dart' as TestAPI;
+import './TestDifferingExportNameProtocolDiffy.dart' as TestAPI;
+import './TestDifferingExportNameStruct.dart' as TestAPI;
 import './TestLeadingUnderscoredProp.dart' as TestAPI;
 import './TestLeadingUnderscoredPropStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
+import './TestNonExportedProtocolEnum.dart' as TestAPI;
 import './TestOptionalsProtocol.dart' as TestAPI;
 import './TestPropertiesProtocol.dart' as TestAPI;
 import './TestProtocolClass.dart' as TestAPI;
@@ -70,16 +85,22 @@ class Collections {
         throw UnsupportedError('This class is supposed to be uninhabited');
     });
 
+    /// <!-- FishyJoes.export(arrayOfBigTuples) -->
+    static List<tuple.Tuple4<int, int, int, int>> get arrayOfBigTuples =>
+        check((exn) =>
+            consumeCreatedRef<List<tuple.Tuple4<int, int, int, int>>>(f__iota_get_TestAPI_Collections_arrayOfBigTuples(Loader.shared.env, exn))
+        )
+    ;
     /// <!-- FishyJoes.export(arrayOfInt) -->
     static List<int> get arrayOfInt =>
         check((exn) =>
             consumeCreatedRef<List<int>>(f__iota_get_TestAPI_Collections_arrayOfInt(Loader.shared.env, exn))
         )
     ;
-    /// <!-- FishyJoes.export(setOfInt) -->
-    static Set<int> get setOfInt =>
+    /// <!-- FishyJoes.export(defaultCollectionHolder) -->
+    static TestAPI.Collections_CollectionHolder get defaultCollectionHolder =>
         check((exn) =>
-            consumeCreatedRef<Set<int>>(f__iota_get_TestAPI_Collections_setOfInt(Loader.shared.env, exn))
+            consumeCreatedRef<TestAPI.Collections_CollectionHolder>(f__iota_get_TestAPI_Collections_defaultCollectionHolder(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(dictionaryOfIntToInt) -->
@@ -88,28 +109,10 @@ class Collections {
             consumeCreatedRef<Map<int, int>>(f__iota_get_TestAPI_Collections_dictionaryOfIntToInt(Loader.shared.env, exn))
         )
     ;
-    /// <!-- FishyJoes.export(arrayOfBigTuples) -->
-    static List<tuple.Tuple4<int, int, int, int>> get arrayOfBigTuples =>
-        check((exn) =>
-            consumeCreatedRef<List<tuple.Tuple4<int, int, int, int>>>(f__iota_get_TestAPI_Collections_arrayOfBigTuples(Loader.shared.env, exn))
-        )
-    ;
     /// <!-- FishyJoes.export(maybeArrayOfInt) -->
     static List<int>? get maybeArrayOfInt =>
         check((exn) =>
             consumeCreatedRef<List<int>?>(f__iota_get_TestAPI_Collections_maybeArrayOfInt(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(maybeSetOfInt) -->
-    static Set<int>? get maybeSetOfInt =>
-        check((exn) =>
-            consumeCreatedRef<Set<int>?>(f__iota_get_TestAPI_Collections_maybeSetOfInt(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(maybeDictionaryOfIntToInt) -->
-    static Map<int, int>? get maybeDictionaryOfIntToInt =>
-        check((exn) =>
-            consumeCreatedRef<Map<int, int>?>(f__iota_get_TestAPI_Collections_maybeDictionaryOfIntToInt(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(maybeArrayOfMaybeInt) -->
@@ -118,10 +121,10 @@ class Collections {
             consumeCreatedRef<List<int?>?>(f__iota_get_TestAPI_Collections_maybeArrayOfMaybeInt(Loader.shared.env, exn))
         )
     ;
-    /// <!-- FishyJoes.export(maybeSetOfMaybeInt) -->
-    static Set<int?>? get maybeSetOfMaybeInt =>
+    /// <!-- FishyJoes.export(maybeDictionaryOfIntToInt) -->
+    static Map<int, int>? get maybeDictionaryOfIntToInt =>
         check((exn) =>
-            consumeCreatedRef<Set<int?>?>(f__iota_get_TestAPI_Collections_maybeSetOfMaybeInt(Loader.shared.env, exn))
+            consumeCreatedRef<Map<int, int>?>(f__iota_get_TestAPI_Collections_maybeDictionaryOfIntToInt(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(maybeDictionaryOfIntToMaybeInt) -->
@@ -130,10 +133,22 @@ class Collections {
             consumeCreatedRef<Map<int, int?>?>(f__iota_get_TestAPI_Collections_maybeDictionaryOfIntToMaybeInt(Loader.shared.env, exn))
         )
     ;
-    /// <!-- FishyJoes.export(defaultCollectionHolder) -->
-    static TestAPI.Collections_CollectionHolder get defaultCollectionHolder =>
+    /// <!-- FishyJoes.export(maybeSetOfInt) -->
+    static Set<int>? get maybeSetOfInt =>
         check((exn) =>
-            consumeCreatedRef<TestAPI.Collections_CollectionHolder>(f__iota_get_TestAPI_Collections_defaultCollectionHolder(Loader.shared.env, exn))
+            consumeCreatedRef<Set<int>?>(f__iota_get_TestAPI_Collections_maybeSetOfInt(Loader.shared.env, exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(maybeSetOfMaybeInt) -->
+    static Set<int?>? get maybeSetOfMaybeInt =>
+        check((exn) =>
+            consumeCreatedRef<Set<int?>?>(f__iota_get_TestAPI_Collections_maybeSetOfMaybeInt(Loader.shared.env, exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(setOfInt) -->
+    static Set<int> get setOfInt =>
+        check((exn) =>
+            consumeCreatedRef<Set<int>>(f__iota_get_TestAPI_Collections_setOfInt(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(echoArrayOfInt) -->

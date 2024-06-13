@@ -148,13 +148,8 @@ final class CSharpTranslator: Translator {
         }
         let resolved = context.resolve(type: field.type)
 
-        let isInProtocol = type.conformances.contains { conformance in
-            // TODO: Conformance should not be a string. This will not work cross-module
-            let betterConformance = BetterType.named(.init(name: conformance, module: nil))
-            guard let resolved = context.resolve(type: betterConformance) as? TranslatedProtocol else {
-                fatalErr("Couldn't resolve conformance `\(conformance)` as protocol")
-            }
-            return resolved.fields.contains { $0.name == field.name }
+        let isInProtocol = type.exportedConformances(in: context).contains { conformance in
+            return conformance.fields.contains { $0.name == field.name }
         }
 
         var result = [
@@ -169,7 +164,8 @@ final class CSharpTranslator: Translator {
                     name: csName,
                     mangledName: "\(type.mangledName)_\(mangledName)",
                     type: resolved.cSharpType,
-                    deprecation: field.deprecation
+                    deprecation: field.deprecation,
+                    isDefaultImplementation: field.isDefaultImplementation
                 )
             )
         ]

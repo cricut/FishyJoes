@@ -12,9 +12,15 @@ import './Collections.dart' as TestAPI;
 import './Collections_CollectionHolder.dart' as TestAPI;
 import './DefaultArguments.dart' as TestAPI;
 import './Deprecations.dart' as TestAPI;
+import './EmptyClass1.dart' as TestAPI;
+import './EmptyClass2.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
+import './EmptyStruct.dart' as TestAPI;
+import './EmptyStruct2.dart' as TestAPI;
 import './ExternalWitness_AProtocol.dart' as TestAPI;
 import './ExternalWitness_TestAsyncFunctions.dart' as TestAPI;
+import './ExternalWitness_TestDefaultComputedProperties.dart' as TestAPI;
+import './ExternalWitness_TestDifferingExportNameProtocolDiffy.dart' as TestAPI;
 import './ExternalWitness_TestLeadingUnderscoredProp.dart' as TestAPI;
 import './ExternalWitness_TestMethodsProtocol.dart' as TestAPI;
 import './ExternalWitness_TestOptionalsProtocol.dart' as TestAPI;
@@ -24,6 +30,8 @@ import './Methods.dart' as TestAPI;
 import './Primitives.dart' as TestAPI;
 import './Primitives_PrimitiveHolder.dart' as TestAPI;
 import './Ranges.dart' as TestAPI;
+import './Results.dart' as TestAPI;
+import './Results_Error.dart' as TestAPI;
 import './SimpleEnum.dart' as TestAPI;
 import './String_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Strings.dart' as TestAPI;
@@ -35,9 +43,16 @@ import './Structs_ReferenceStruct.dart' as TestAPI;
 import './TestAsyncForeignSideFunctionsStruct.dart' as TestAPI;
 import './TestAsyncFunctions.dart' as TestAPI;
 import './TestAsyncSwiftSideFunctionsClass.dart' as TestAPI;
+import './TestDefaultComputedProperties.dart' as TestAPI;
+import './TestDefaultComputedPropertiesEnum.dart' as TestAPI;
+import './TestDefaultComputedPropertiesReference.dart' as TestAPI;
+import './TestDefaultComputedPropertiesStruct.dart' as TestAPI;
+import './TestDifferingExportNameProtocolDiffy.dart' as TestAPI;
+import './TestDifferingExportNameStruct.dart' as TestAPI;
 import './TestLeadingUnderscoredProp.dart' as TestAPI;
 import './TestLeadingUnderscoredPropStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
+import './TestNonExportedProtocolEnum.dart' as TestAPI;
 import './TestOptionalsProtocol.dart' as TestAPI;
 import './TestPropertiesProtocol.dart' as TestAPI;
 import './TestProtocolClass.dart' as TestAPI;
@@ -70,22 +85,10 @@ class AttributedStrings {
         throw UnsupportedError('This class is supposed to be uninhabited');
     });
 
-    /// <!-- FishyJoes.export(simple) -->
-    static FishyJoesRuntime.AttributedString get simple =>
-        check((exn) =>
-            consumeCreatedRef<FishyJoesRuntime.AttributedString>(f__iota_get_TestAPI_AttributedStrings_simple(Loader.shared.env, exn))
-        )
-    ;
     /// <!-- FishyJoes.export(accent) -->
     static FishyJoesRuntime.AttributedString get accent =>
         check((exn) =>
             consumeCreatedRef<FishyJoesRuntime.AttributedString>(f__iota_get_TestAPI_AttributedStrings_accent(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(script) -->
-    static FishyJoesRuntime.AttributedString get script =>
-        check((exn) =>
-            consumeCreatedRef<FishyJoesRuntime.AttributedString>(f__iota_get_TestAPI_AttributedStrings_script(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(chinese) -->
@@ -122,6 +125,18 @@ class AttributedStrings {
     static FishyJoesRuntime.AttributedString get polyglot =>
         check((exn) =>
             consumeCreatedRef<FishyJoesRuntime.AttributedString>(f__iota_get_TestAPI_AttributedStrings_polyglot(Loader.shared.env, exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(script) -->
+    static FishyJoesRuntime.AttributedString get script =>
+        check((exn) =>
+            consumeCreatedRef<FishyJoesRuntime.AttributedString>(f__iota_get_TestAPI_AttributedStrings_script(Loader.shared.env, exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(simple) -->
+    static FishyJoesRuntime.AttributedString get simple =>
+        check((exn) =>
+            consumeCreatedRef<FishyJoesRuntime.AttributedString>(f__iota_get_TestAPI_AttributedStrings_simple(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(echo) -->

@@ -1,5 +1,5 @@
 class CSharpClass: NestedClass {
-    indirect enum CSType: Equatable, Codable {
+    indirect enum CSType: Hashable, Codable {
         case void
         case primitive(String)
         case named(package: String?, name: String)
@@ -34,6 +34,7 @@ class CSharpClass: NestedClass {
         let mangledName: String
         let type: CSType
         let deprecation: Deprecation?
+        let isDefaultImplementation: Bool
     }
 
     let module: Module
@@ -42,7 +43,7 @@ class CSharpClass: NestedClass {
     var innerClasses: [CSharpClass] = []
     let fields: [Variable]
     let methods: [Method]
-    let conformances: [String]
+    let conformances: Set<CSType>
 
     init(
         module: Module,
@@ -50,14 +51,14 @@ class CSharpClass: NestedClass {
         name: String,
         fields: [Variable],
         methods: [Method],
-        conformances: Set<String>
+        conformances: Set<CSType>
     ) {
         self.name = name
         self.documentation = documentation
         self.module = module
         self.fields = fields
         self.methods = methods
-        self.conformances = Array(conformances).sorted(by: <)
+        self.conformances = conformances
     }
 
     func output(to fragment: SourceFragment) {
@@ -106,6 +107,7 @@ class CSharpClass: NestedClass {
         document(field.documentation, fragment: fragment)
         let selfFormal = field.isStatic ? "" : "\(CSType.object.pInvokeUnownedName) self, "
         let selfArg = field.isStatic ? "" : "thisHandle.ptr, "
+        let getterName = field.isDefaultImplementation ? "__iota__default_\(field.mangledName)" : "__iota_get_\(field.mangledName)"
 
         func outputGetterBody() {
             if !field.isStatic {
@@ -113,9 +115,9 @@ class CSharpClass: NestedClass {
             }
             fragment.outputBlock("return Check((out CreatedRef exn) =>", closeWith: ");") {
                 if field.type.isObject {
-                    fragment.output("__iota_get_\(field.mangledName)(Loader.env, \(selfArg)out exn).Consume<\(field.type.name)>()")
+                    fragment.output("\(getterName)(Loader.env, \(selfArg)out exn).Consume<\(field.type.name)>()")
                 } else {
-                    fragment.output("__iota_get_\(field.mangledName)(Loader.env, \(selfArg)out exn)")
+                    fragment.output("\(getterName)(Loader.env, \(selfArg)out exn)")
                 }
             }
         }
@@ -174,7 +176,7 @@ class CSharpClass: NestedClass {
 
         fragment.blankLine()
         fragment.output(module.dllImportMark)
-        fragment.output("private static extern \(field.type.pInvokeCreatedName) __iota_get_\(field.mangledName)(IntPtr envRef, \(selfFormal)out CreatedRef exn);")
+        fragment.output("private static extern \(field.type.pInvokeCreatedName) \(getterName)(IntPtr envRef, \(selfFormal)out CreatedRef exn);")
         if field.isPubliclyWritable {
             fragment.blankLine()
             fragment.output(module.dllImportMark)
@@ -277,6 +279,15 @@ extension CSharpClass.CSType: CustomStringConvertible {
         }
     }
 
+    var unqualifiedName: String {
+        switch self {
+        case .void: return "void"
+        case let .named(_, name): return name
+        case let .primitive(name): return name
+        case let .optional(wrapped): return "\(wrapped.name)?"
+        }
+    }
+
     var pInvokeConsumedName: String {
         isObject ? "ConsumedRef" : name
     }
@@ -326,7 +337,7 @@ class CSharpProductClass: CSharpClass {
         constructor: Constructor,
         fields: [Variable],
         methods: [Method],
-        conformances: Set<String>
+        conformances: Set<CSType>
     ) {
         self.constructor = constructor
         super.init(
@@ -346,12 +357,12 @@ class CSharpProductClass: CSharpClass {
         case .reference:
             fragment.output("public class \(unqualifiedName) : SwiftReference", newLineTerminated: false)
             if !conformances.isEmpty {
-                fragment.output(", \(Array(conformances).sorted(by: < ).joined(separator: ", "))", newLineTerminated: false)
+                fragment.output(", \(Array(conformances.map { $0.name }).sorted(by: < ).joined(separator: ", "))", newLineTerminated: false)
             }
         case .public:
             fragment.output("public record \(unqualifiedName)", newLineTerminated: false)
             if !conformances.isEmpty {
-                fragment.output(": \(Array(conformances).sorted(by: < ).joined(separator: ", "))", newLineTerminated: false)
+                fragment.output(": \(Array(conformances.map { $0.name }).sorted(by: < ).joined(separator: ", "))", newLineTerminated: false)
             }
         }
         fragment.outputBlock(" {") {
@@ -404,7 +415,7 @@ class CSharpEnumClass: CSharpClass {
         cases: [Case],
         fields: [Variable],
         methods: [Method],
-        conformances: Set<String>
+        conformances: Set<CSType>
     ) {
         self.cases = cases
         super.init(

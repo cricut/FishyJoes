@@ -2,6 +2,7 @@ export 'utilities.dart';
 export 'loader.dart';
 export 'swift_reference.dart';
 export 'swift_range.dart';
+export 'result.dart';
 export 'AttributeContainer_FoundationAttributes.dart';
 export 'AttributeContainer.dart';
 export 'AttributedString_CharacterView.dart';
