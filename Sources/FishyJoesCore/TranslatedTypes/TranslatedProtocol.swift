@@ -742,9 +742,10 @@ struct TranslatedProtocol: TranslatedType {
 
     func jniDefinitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
         let fragment = context.swiftFragment(
-            "JavaInterface/\(sourceType.name)+java-type.swift",
+            "JavaInterface/\(context.module.name)+java.swift",
             additionalImports: ["Foundation", "FishyJoesJavaRuntime", "\(context.module.name)_CommonInterface"]
         )
+        fragment.output("// MARK: - \(sourceType.name)+java-type.swift")
 
         let foreignProtocolType = "_Java\(sourceType.nonNamespacedName)"
 
