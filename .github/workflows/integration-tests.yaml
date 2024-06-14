@@ -173,9 +173,10 @@ jobs:
           # Sadly, Ubuntu LTS doesn't have an up-to-date binaryen, so use a wasm version instead
           npm -g install binaryen@111.0.0
 
-          curl -Lo swift-wasm.tgz https://github.com/swiftwasm/swift/releases/download/swift-wasm-5.9-SNAPSHOT-2024-03-27-a/swift-wasm-5.9-SNAPSHOT-2024-03-27-a-ubuntu20.04_x86_64.tar.gz
-          sudo mkdir -p /Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2024-03-27-a.xctoolchain
-          sudo tar -xf swift-wasm.tgz -C /Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2024-03-27-a.xctoolchain --strip-components 1
+          SWIFT_WASM_VERSION="5.10-SNAPSHOT-2024-04-26-a"
+          curl -Lo swift-wasm.tgz "https://github.com/swiftwasm/swift/releases/download/swift-wasm-$SWIFT_WASM_VERSION/swift-wasm-$SWIFT_WASM_VERSION-ubuntu20.04_x86_64.tar.gz"
+          sudo mkdir -p "/Library/Developer/Toolchains/swift-wasm-$SWIFT_WASM_VERSION.xctoolchain"
+          sudo tar -xf swift-wasm.tgz -C "/Library/Developer/Toolchains/swift-wasm-$SWIFT_WASM_VERSION.xctoolchain" --strip-components 1
 
       - name: Build FishyJoesNodeRuntime
         shell: zsh {0}
@@ -233,7 +234,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ghcr.io
-          image: ghcr.io/cricut/android-swift-runtime:1.1.0
+          image: ghcr.io/cricut/android-swift-runtime:1.2.0
           options: -v ${{ github.workspace }}:/work -w /work
           run: /work/scripts/compile-android-runtime.sh
 
@@ -283,8 +284,8 @@ jobs:
 
       - uses: compnerd/gha-setup-swift@main
         with:
-          branch: swift-5.9.1-release
-          tag: 5.9.1-RELEASE
+          branch: swift-5.10-release
+          tag: 5.10-RELEASE
 
       - name: Setup JDK
         uses: actions/setup-java@v3

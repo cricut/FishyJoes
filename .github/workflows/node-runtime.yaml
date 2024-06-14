@@ -85,7 +85,7 @@ jobs:
     name: "Ubuntu: Build and test node runtime"
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cricut/android-swift-runtime:1.1.0
+      image: ghcr.io/cricut/android-swift-runtime:1.2.0
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
@@ -226,8 +226,8 @@ jobs:
 
       - uses: compnerd/gha-setup-swift@main
         with:
-          branch: swift-5.9.1-release
-          tag: 5.9.1-RELEASE
+          branch: swift-5.10-release
+          tag: 5.10-RELEASE
 
       - name: Pre-resolve Required SwiftPM Packages
         continue-on-error: true
@@ -254,7 +254,9 @@ jobs:
         run: |
           set -euxo pipefail
 
-          cp -R "/c/Program Files/Swift/runtime-development/usr/bin/"*.dll "$LIB_DIR"
+          mkdir -p "$LIB_DIR"
+          SWIFT_RUNTIME_DIR=`realpath "$SDKROOT/../../../.." | sed s#Platforms#Runtimes#g`
+          cp -R "$SWIFT_RUNTIME_DIR/usr/bin/"*.dll "$LIB_DIR"
 
       - name: Determine version
         shell: bash
