@@ -4,6 +4,11 @@ struct Module: Hashable, CustomStringConvertible, Codable {
     let name: String
     let dependencies: [String]
 
+    init(name: String, dependencies: [String]) {
+        self.name = name
+        self.dependencies = dependencies.sorted()
+    }
+
     var kotlinPackage: String { "com.cricut.\(name.lowercased())" }
     var cSharpNamespace: String { "Cricut.\(name)" }
     var dartNamespace: String { name }
