@@ -266,6 +266,7 @@ extension CodeGen {
 
                         var package = Package(
                             name: "\(config.module)-bindings",
+                            platforms: [.macOS(.v12), .iOS(.v15)],
                             products: [
                                 .library(
                                     name: "\(config.module)-wasm",
@@ -399,6 +400,7 @@ extension CodeGen {
                 swiftPackage: packageInfo
             )
             try packageInit.installTemplate(to: "bindings")
+            try cmd("mkdir", "-p", ".github/workflows").run()
             for workflow in try FileManager.default.contentsOfDirectory(atPath: ".github/workflows") {
                 if workflow.hasPrefix("GENERATED-") {
                     try cmd("rm", ".github/workflows/\(workflow)").run()

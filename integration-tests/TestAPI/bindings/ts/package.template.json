@@ -1,0 +1,19 @@
+{
+  "name": "TestAPI",
+  "version": "0.0.1",
+  "dependencies": {
+    "@wasmer/wasi": "^0.12.0",
+    "@wasmer/wasmfs": "^0.12.0",
+    "buffer": "^5.7.1"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.31",
+    "node-addon-api": "^3.1.0",
+    "ts-loader": "^9.2.5",
+    "ts-node": "^10.2.0",
+    "typescript": "^4.3.5"
+  },
+  "scripts": {
+    "compile-test": "tsc -m esnext output/test/test.ts"
+  }
+}
