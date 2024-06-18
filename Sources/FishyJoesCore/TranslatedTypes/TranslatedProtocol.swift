@@ -277,6 +277,7 @@ struct TranslatedProtocol: TranslatedType {
     func commonDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
             "CommonInterface/\(converterType.name).swift",
+            sortKey: converterType.nonNamespacedName,
             additionalImports: ["Foundation"]
         )
 
@@ -362,7 +363,8 @@ struct TranslatedProtocol: TranslatedType {
 
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "NodeInterface/\(sourceType.name)+node.swift",
+            "NodeInterface/\(context.module.name)+node.swift",
+            sortKey: sourceType.name,
             additionalImports: [
                 "Foundation",
                 "FishyJoesNodeRuntime",
@@ -370,6 +372,7 @@ struct TranslatedProtocol: TranslatedType {
                 "NodeAPI"
             ]
         )
+        fragment.output("// MARK: - \(sourceType.name)+node.swift")
 
         fragment.outputBlock("struct _Node\(sourceType.nonNamespacedName): \(sourceType.name) {") {
             fragment.output("let _nodeWitness: NodeReference")
@@ -586,9 +589,11 @@ struct TranslatedProtocol: TranslatedType {
 
     func iotaDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "IotaInterface/\(sourceType.name)+iota-type.swift",
+            "IotaInterface/\(context.module.name)+iota.swift",
+            sortKey: sourceType.name,
             additionalImports: ["Foundation", "FishyJoesIotaRuntime", "\(context.module.name)_CommonInterface"]
         )
+        fragment.output("// MARK: - \(sourceType.name)+iota-type.swift")
 
         let foreignProtocolType = "_Iota\(sourceType.nonNamespacedName)"
 
@@ -742,9 +747,11 @@ struct TranslatedProtocol: TranslatedType {
 
     func jniDefinitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
         let fragment = context.swiftFragment(
-            "JavaInterface/\(sourceType.name)+java-type.swift",
+            "JavaInterface/\(context.module.name)+java.swift",
+            sortKey: sourceType.name,
             additionalImports: ["Foundation", "FishyJoesJavaRuntime", "\(context.module.name)_CommonInterface"]
         )
+        fragment.output("// MARK: - \(sourceType.name)+java-type.swift")
 
         let foreignProtocolType = "_Java\(sourceType.nonNamespacedName)"
 

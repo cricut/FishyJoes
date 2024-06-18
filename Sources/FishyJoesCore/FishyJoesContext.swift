@@ -79,7 +79,7 @@ public class FishyJoesContext {
         }
     }
 
-    func swiftFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
+    func swiftFragment(_ name: String, sortKey: String, additionalImports: [String] = []) -> SourceFragment {
         for dependency in module.dependencies + [module.name] + additionalImports {
             addHeader(file: name, "import \(dependency)")
         }
@@ -94,7 +94,7 @@ public class FishyJoesContext {
             priority: 1,
             "// swiftlint:disable unused_closure_parameter syntactic_sugar attributes"
         )
-        return SourceFragment(sourceryDestination: "file:\(name)")
+        return SourceFragment(sourceryDestination: "file:\(name)", sortKey: sortKey)
     }
 
     func kotlinFragment(_ name: String) -> SourceFragment {
@@ -106,7 +106,7 @@ public class FishyJoesContext {
         for dependency in module.dependencies {
             addHeader(file: fileName, "import com.cricut.\(dependency.lowercased()).*")
         }
-        return SourceFragment(sourceryDestination: "file:\(fileName)")
+        return SourceFragment(sourceryDestination: "file:\(fileName)", sortKey: fileName)
     }
 
     func cSharpFragment(_ name: String) -> SourceFragment {
@@ -119,7 +119,7 @@ public class FishyJoesContext {
         for dependency in module.dependencies {
             addHeader(file: fileName, "using Cricut.\(dependency);")
         }
-        return SourceFragment(sourceryDestination: "file:\(fileName)")
+        return SourceFragment(sourceryDestination: "file:\(fileName)", sortKey: fileName)
     }
 
     func dartFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
@@ -145,7 +145,7 @@ public class FishyJoesContext {
             addHeader(file: fileName, additionalImport)
         }
 
-        return SourceFragment(sourceryDestination: "file:\(fileName)")
+        return SourceFragment(sourceryDestination: "file:\(fileName)", sortKey: fileName)
     }
 
     public func translateAll() -> String {
@@ -271,7 +271,7 @@ public class FishyJoesContext {
         )
 
         // Output moduleInfo for FishyJoes packages that depend on this one
-        let moduleInfoFragment = SourceFragment(sourceryDestination: "file:\(module).fishyjoesmodule")
+        let moduleInfoFragment = SourceFragment(sourceryDestination: "file:\(module).fishyjoesmodule", sortKey: module.name)
         let moduleInfo = ModuleInfo(
             types: moduleDefinedTypes,
             typeScriptAnnotations: tsAnnotations
@@ -282,14 +282,14 @@ public class FishyJoesContext {
         moduleInfoFragment.output(String(data: try! encoder.encode(moduleInfo), encoding: .utf8)!)
 
         let headerFragments = fileHeaders.keys.map { fileName -> SourceFragment in
-            let fragment = SourceFragment(sourceryDestination: "file:\(fileName)")
+            let fragment = SourceFragment(sourceryDestination: "file:\(fileName)", sortKey: fileName)
             for headerLine in fileHeaders[fileName, default: []].sorted() {
                 fragment.output(headerLine.contents)
             }
             return fragment
         }
 
-        return (headerFragments + collectedFragments).map(\.contents).joined()
+        return (headerFragments.sorted(by: { $0.sortKey < $1.sortKey }) + collectedFragments.sorted(by: { $0.sortKey < $1.sortKey })).map(\.contents).joined()
     }
 
     /// Process a set of classes to nest their inner classes properly for generation.

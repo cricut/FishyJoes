@@ -2,9 +2,9 @@ import Foundation
 import swsh
 
 #if os(macOS)
-let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2024-03-27-a.xctoolchain"
+let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.10-SNAPSHOT-2024-04-26-a.xctoolchain"
 #elseif os(Linux)
-let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2024-03-27-a.xctoolchain"
+let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.10-SNAPSHOT-2024-04-26-a.xctoolchain"
 #else
 let wasmToolchain: String = { fatalError("wasm compilation is currently only supported on mac and linux") }()
 #endif
@@ -50,10 +50,6 @@ enum Platform: CustomStringConvertible, Hashable {
             case .x86_64: return "x86_64"
             case .aarch64: return "arm64-v8a"
             }
-        }
-
-        var toolchainPath: String {
-            "\(ps)swift-android-\(self)"
         }
     }
 
@@ -212,7 +208,7 @@ enum Platform: CustomStringConvertible, Hashable {
             args.append(
                 contentsOf: [
                     "--scratch-path", ".\(ps).build\(ps)android-build",
-                    "--destination", "\(arch.toolchainPath)\(ps)usr\(ps)swiftpm-android-\(arch).json",
+                    "--destination", "\(ps)swift-android\(ps)usr\(ps)swiftpm-android-\(arch).json",
                 ]
             )
             env["ANDROID_COMPATIBLE_ONLY"] = "1"
