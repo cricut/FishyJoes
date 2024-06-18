@@ -1,34 +1,54 @@
-CriGeo/
- - bindings/
-   - swift-interfaces/
-     - Package.part.swift
-     - generated/
-       - CriGeo-bindings
-         - Package.swift
-         - Sources/
-           - CriGeoIotaInterface/
-           - CriGeoJavaInterface/
-           - CriGeoNodeInterface/
-   - kotlin/
-     - tests/
-     - generated/
-       - build.gradle.kts
-       - src/main
-         - kotlin/com/cricut/crigeo
-           - CriGeoLibraryLoader.kt
-         - resources/mac/
-           - libCriGeo-java.dylib
-  - c-sharp/
-    - tests/
-    - generated/
-      - Cricut.CriGeo.sln
-      - Cricut.CriGeo/
-        - runtimes/osx/native
-           - libCriGeo-iota.dylib
-      - Cricut.CriGeo.Tests/
-  - dart/
-    - generated/
-      - lib/
-        - src/
-      - macos/native/
-        - libCriGeo-iota.dylib
+CriGeo/bindings/
+├── fishy-joes.yaml
+├── swift-interfaces/
+│   ├── Package.part.swift
+│   └── generated/
+│       ├── CriGeo-bindings/
+│       │   ├── Package.swift
+│       │   └── Sources/
+│       │       ├── CommonInterface/
+│       │       ├── IotaInterface/
+│       │       ├── JavaInterface/
+│       │       ├── NodeInterface/
+│       │       │   └── CriGeo.d.ts.part
+│       │       └── WasmMainShim/
+│       ├── NodeNativeShim/
+│       │   └── NAPIRegisterModule.c
+│       └── CriGeo.fishyjoesmodule
+├── kotlin/
+│   ├── generated/
+│   │   ├── build.gradle.kts
+│   │   └── src/main/kotlin/
+│   │       └── com/cricut/crigeo/
+│   │           └── CriGeoLoaderRepresentative.kt
+│   └── tests/kotlin/com/cricut/crigeo/
+│       └── PathTest.kt
+├── ts/
+│   ├── package.template.json
+│   ├── generated/packages/
+│   │   ├── node-native-macos/
+│   │   └── wasm/
+│   └── tests
+│       ├── example.test.ts
+│       ├── package-lock.json
+│       ├── package.json -> generated/package.generated.json
+│       ├── test.ts
+│       ├── tsconfig.json // '{ "extends": "./generated/tsconfig.json" }'
+│       └── generated/
+│           ├── CriGeo.d.ts
+│           ├── jest.config.common.cjs
+│           ├── jest.config.native-macos.cjs
+│           ├── jest.config.native-ubuntu.cjs
+│           ├── jest.config.native-windows.cjs
+│           ├── jest.config.wasm.cjs
+│           ├── package.generated.json
+│           └── tsconfig.json
+├── c-sharp/
+│   └── ???
+├── dart/
+│   └── ???
+└── workflows/
+    ├── GENERATED-c-sharp.yaml
+    ├── GENERATED-dart.yaml
+    ├── GENERATED-kotlin.yaml
+    └── GENERATED-typescript.yaml

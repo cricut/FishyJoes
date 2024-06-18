@@ -9,14 +9,6 @@ let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2024-
 let wasmToolchain: String = { fatalError("wasm compilation is currently only supported on mac and linux") }()
 #endif
 
-#if os(macOS)
-private let ps: String = "/"
-#elseif os(Linux)
-private let ps: String = "/"
-#elseif os(Windows)
-private let ps: String = "\\"
-#endif
-
 struct BuildConfiguration: Hashable {
     let packagePath: String?
     let scratchPath: String
@@ -55,7 +47,7 @@ enum Platform: CustomStringConvertible, Hashable {
         }
 
         var toolchainPath: String {
-            "\(ps)swift-android-\(self)"
+            "/swift-android-\(self)"
         }
     }
 
@@ -75,8 +67,6 @@ enum Platform: CustomStringConvertible, Hashable {
             return "dart"
         }
     }
-
-    static let pathSeparator = ps
 
     static let nativeMacSwiftBuild = try! cmd("xcrun", "-f", "swift-build").runString()
 
@@ -162,7 +152,7 @@ enum Platform: CustomStringConvertible, Hashable {
             swiftBuild = ["\(wasmToolchain)/usr/bin/swift-build"]
             args.append(contentsOf: ["--triple", "wasm32-unknown-wasi"])
             // custom build paths to avoid different versions of spm destroying each other's caches
-            args.append(contentsOf: ["--build-path", ".\(ps).build\(ps)wasm-build"])
+            args.append(contentsOf: ["--build-path", "./.build/wasm-build"])
 
             // TODO: see https://blog.swiftwasm.org/posts/5-6-released/
             // args.append(contentsOf: ["-Xswiftc", "-Xclang-linker", "-Xswiftc", "-mexec-model=reactor"])
@@ -182,8 +172,8 @@ enum Platform: CustomStringConvertible, Hashable {
             scratchPath = "\(scratchPath)/android-build"
             args.append(
                 contentsOf: [
-                    "--scratch-path", ".\(ps).build\(ps)android-build",
-                    "--destination", "\(arch.toolchainPath)\(ps)usr\(ps)swiftpm-android-\(arch).json",
+                    "--scratch-path", "./.build/android-build",
+                    "--destination", "\(arch.toolchainPath)/usr/swiftpm-android-\(arch).json",
                 ]
             )
             env["ANDROID_COMPATIBLE_ONLY"] = "1"
@@ -383,7 +373,7 @@ enum Platform: CustomStringConvertible, Hashable {
         let args = ["cleanTest", "test"] + (codeCoveragePath == nil ? [] : ["jacocoTestReport"]) + arguments
         let env = codeCoveragePath.map {
             [
-                "LLVM_PROFILE_FILE": "\($0)\(ps)fishy-joes-test-\(platform)-\(UUID()).profraw",
+                "LLVM_PROFILE_FILE": "\($0)/fishy-joes-test-\(platform)-\(UUID()).profraw",
             ]
         } ?? [:]
         #if os(macOS)
@@ -413,12 +403,12 @@ enum Platform: CustomStringConvertible, Hashable {
     func dotnetTest(arguments: [String], codeCoveragePath: String?) -> Command {
         let env = codeCoveragePath.map {
             [
-                "LLVM_PROFILE_FILE": "\($0)\(ps)fishy-joes-test-\(platform)-\(UUID()).profraw",
+                "LLVM_PROFILE_FILE": "\($0)/fishy-joes-test-\(platform)-\(UUID()).profraw",
             ]
         } ?? [:]
         var commandParts = ["dotnet", "test"] + arguments
         if let path = codeCoveragePath {
-            commandParts = ["dotnet-coverage", "collect", "-f", "xml", "-o", "\(path)\(ps)integration-tests-c-sharp.xml"] + commandParts
+            commandParts = ["dotnet-coverage", "collect", "-f", "xml", "-o", "\(path)/integration-tests-c-sharp.xml"] + commandParts
         }
         return cmd(commandParts.first!, arguments: Array(commandParts.dropFirst()), addEnv: env)
     }
@@ -438,7 +428,7 @@ enum Platform: CustomStringConvertible, Hashable {
     func dartTest(arguments: [String], codeCoveragePath: String?) -> Command {
         let env = codeCoveragePath.map {
             [
-                "LLVM_PROFILE_FILE": "\($0)\(ps)fishy-joes-test-\(platform)-\(UUID()).profraw",
+                "LLVM_PROFILE_FILE": "\($0)/fishy-joes-test-\(platform)-\(UUID()).profraw",
             ]
         } ?? [:]
         return cmd("dart", arguments: ["test", "--chain-stack-traces"], addEnv: env)
@@ -467,8 +457,8 @@ enum Platform: CustomStringConvertible, Hashable {
     func npmTest(arguments: [String], codeCoveragePath: String?) -> Command {
         let env = codeCoveragePath.map {
             [
-                "LLVM_PROFILE_FILE": "\($0)\(ps)fishy-joes-test-\(platform)-\(UUID()).profraw",
-                "NODE_V8_COVERAGE": "\($0)\(ps)node",
+                "LLVM_PROFILE_FILE": "\($0)/fishy-joes-test-\(platform)-\(UUID()).profraw",
+                "NODE_V8_COVERAGE": "\($0)/node",
             ]
         } ?? [:]
         let args = ["run", "test-\(nodeExecutionEnvironment)"] + arguments
@@ -507,7 +497,7 @@ enum Platform: CustomStringConvertible, Hashable {
     }
 
     func dylibPath(for lib: String, configuration: BuildConfiguration) throws -> String {
-        try buildDir(configuration) + "\(ps)" + dylibName(for: lib)
+        try buildDir(configuration) + "/" + dylibName(for: lib)
     }
 
     var platform: String {
@@ -558,7 +548,8 @@ enum Platform: CustomStringConvertible, Hashable {
 
     func outputDir(_ config: FishyJoesConfig) -> String {
         switch self {
-        case .wasm, .node: return "bindings/generated/node/packages/\(platform)"
+        case .wasm, .node:
+            return "bindings/ts/generated/packages/\(platform)"
         case .kotlinSystem:
             #if os(macOS)
             return "bindings/kotlin/generated/src/main/resources/mac"
@@ -617,6 +608,6 @@ enum Platform: CustomStringConvertible, Hashable {
     }
 
     func extraLibPathDir(_ configuration: BuildConfiguration) throws -> String {
-        return ".build\(ps)lib"
+        return ".build/lib"
     }
 }

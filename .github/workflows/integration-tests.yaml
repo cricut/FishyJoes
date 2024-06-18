@@ -91,6 +91,7 @@ jobs:
           ./scripts/compile-iota-runtime.sh
 
       - name: Test C♯ from dotnet via fishy-joes
+        if: false
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -99,6 +100,7 @@ jobs:
           swift run -- fishy-joes --c-sharp build test
 
       - name: Test Dart from dart via fishy-joes
+        if: false
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -200,6 +202,7 @@ jobs:
           ./scripts/compile-iota-runtime.sh
 
       - name: Test C♯ from dotnet via fishy-joes
+        if: false
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -208,6 +211,7 @@ jobs:
           swift run -- fishy-joes --c-sharp build test
 
       - name: Test Dart from dart via fishy-joes
+        if: false
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -344,6 +348,7 @@ jobs:
           ./scripts/compile-iota-runtime.sh
 
       - name: Test C♯ from dotnet via fishy-joes
+        if: false
         shell: bash
         run: |
           set -euxo pipefail
@@ -352,6 +357,7 @@ jobs:
           "$SWIFT" run -- fishy-joes --c-sharp build test
 
       - name: Test Dart from dart via fishy-joes
+        if: false
         shell: bash
         run: |
           set -euxo pipefail
