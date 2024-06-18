@@ -59,11 +59,11 @@ jobs:
 
           cd integration-tests/TestAPI
 
-          swift run -- fishy-joes generate
+          FISHYJOES=1 swift run -- fishy-joes generate
 
           if [ ! -z "$(cd integration-tests/TestAPI; git status --porcelain .)" ]; then
             echo '::error:: generation modified sources'
-            echo '::error::   run `swift run fishy-joes generate` from integration-tests/TestAPI and re-commit'
+            echo '::error::   run `FISHYJOES=1 swift run fishy-joes generate` from integration-tests/TestAPI and re-commit'
             git status
             exit 1
           fi
@@ -81,7 +81,7 @@ jobs:
           set -euxo pipefail
 
           cd integration-tests/TestAPI
-          swift run -- fishy-joes --nodejs build test
+          FISHYJOES=1 swift run -- fishy-joes --nodejs build test
 
       - name: Build FishyJoesIotaRuntime
         shell: zsh {0}
@@ -97,7 +97,7 @@ jobs:
           set -euxo pipefail
 
           cd integration-tests/TestAPI
-          swift run -- fishy-joes --c-sharp build test
+          FISHYJOES=1 swift run -- fishy-joes --c-sharp build test
 
       - name: Test Dart from dart via fishy-joes
         if: false
@@ -106,7 +106,7 @@ jobs:
           set -euxo pipefail
 
           cd integration-tests/TestAPI
-          swift run -- fishy-joes --dart build test
+          FISHYJOES=1 swift run -- fishy-joes --dart build test
 
       - name: Build FishyJoesJavaRuntime
         shell: zsh {0}
@@ -125,7 +125,7 @@ jobs:
           set -euxo pipefail
 
           cd integration-tests/TestAPI
-          swift run -- fishy-joes --kotlin-fast build test
+          FISHYJOES=1 swift run -- fishy-joes --kotlin-fast build test
 
   integration-tests-ubuntu:
     name: "Ubuntu: Integration tests"
@@ -192,7 +192,7 @@ jobs:
           set -euxo pipefail
 
           cd integration-tests/TestAPI
-          swift run -- fishy-joes --nodejs --wasm build test
+          FISHYJOES=1 swift run -- fishy-joes --nodejs --wasm build test
 
       - name: Build FishyJoesIotaRuntime
         shell: zsh {0}
@@ -208,7 +208,7 @@ jobs:
           set -euxo pipefail
 
           cd integration-tests/TestAPI
-          swift run -- fishy-joes --c-sharp build test
+          FISHYJOES=1 swift run -- fishy-joes --c-sharp build test
 
       - name: Test Dart from dart via fishy-joes
         if: false
@@ -217,7 +217,7 @@ jobs:
           set -euxo pipefail
 
           cd integration-tests/TestAPI
-          swift run -- fishy-joes --dart build test
+          FISHYJOES=1 swift run -- fishy-joes --dart build test
 
       - name: Build linux FishyJoesJavaRuntime
         shell: zsh {0}
@@ -255,7 +255,7 @@ jobs:
           set -euxo pipefail
 
           cd integration-tests/TestAPI
-          swift run -- fishy-joes --kotlin build test
+          FISHYJOES=1 swift run -- fishy-joes --kotlin build test
 
           # Publish test-api for the android tests to use later
           (cd kotlin && ./gradlew publishToMavenLocal)
@@ -384,7 +384,7 @@ jobs:
           set -euxo pipefail
 
           cd integration-tests/TestAPI
-          $SWIFT run -- fishy-joes --kotlin-fast build test
+          FISHYJOES=1 $SWIFT run -- fishy-joes --kotlin-fast build test
 
   integration-tests-android:
     name: "Android: Integration Tests"
