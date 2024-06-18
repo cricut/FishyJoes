@@ -130,6 +130,21 @@ jobs:
           cp -dv /usr/lib/x86_64-linux-gnu/libicudata.so* $LIB_DIR
           cp -dv /usr/lib/x86_64-linux-gnu/libxml2.so* $LIB_DIR
 
+      - name: Add symlinks for swift runtime dependencies
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+          
+          # Add links
+          pushd $LIB_DIR
+            ln -s libicudataswift.so.69.1 libicudataswift.so.69
+            ln -s libicudataswift.so.69.1 libicudataswift.so
+            ln -s libicui18nswift.so.69.1 libicui18nswift.so.69
+            ln -s libicui18nswift.so.69.1 libicui18nswift.so
+            ln -s libicuucswift.so.69.1 libicuucswift.so.69
+            ln -s libicuucswift.so.69.1 libicuucswift.so
+          popd
+
       - name: Patch system swift runtime SOs to use relative libraries
         shell: zsh {0}
         run: |

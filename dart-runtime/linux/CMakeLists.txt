@@ -27,5 +27,12 @@ set(fishyjoes_dart_bundled_libraries
   ${CMAKE_CURRENT_SOURCE_DIR}/native/libswiftDistributed.so
   ${CMAKE_CURRENT_SOURCE_DIR}/native/libswiftRemoteMirror.so
   ${CMAKE_CURRENT_SOURCE_DIR}/native/libswiftSwiftOnoneSupport.so
+  ${CMAKE_CURRENT_SOURCE_DIR}/native/libswiftGlibc.so
+  ${CMAKE_CURRENT_SOURCE_DIR}/native/libicuucswift.so.69
+  ${CMAKE_CURRENT_SOURCE_DIR}/native/libicuucswift.so.69.1
+  ${CMAKE_CURRENT_SOURCE_DIR}/native/libicui18nswift.so.69
+  ${CMAKE_CURRENT_SOURCE_DIR}/native/libicui18nswift.so.69.1
+  ${CMAKE_CURRENT_SOURCE_DIR}/native/libicudataswift.so.69
+  ${CMAKE_CURRENT_SOURCE_DIR}/native/libicudataswift.so.69.1
   PARENT_SCOPE
 )
