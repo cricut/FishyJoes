@@ -130,18 +130,6 @@ jobs:
           cp -dv /usr/lib/x86_64-linux-gnu/libicudata.so* $LIB_DIR
           cp -dv /usr/lib/x86_64-linux-gnu/libxml2.so* $LIB_DIR
 
-      - name: rename swift runtime dependencies
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-          
-          # Add links
-          pushd $LIB_DIR
-            mv libicudataswift.so.69.1 libicudataswift.so.69
-            mv libicui18nswift.so.69.1 libicui18nswift.so.69
-            mv libicuucswift.so.69.1 libicuucswift.so.69
-          popd
-
       - name: Patch system swift runtime SOs to use relative libraries
         shell: zsh {0}
         run: |
@@ -153,6 +141,18 @@ jobs:
           for LIB in lib*.so*; do
             patchelf --set-rpath $SWIFT_RUN_PATH $LIB
           done
+
+      - name: rename swift runtime dependencies
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+          
+          # Add links
+          pushd $LIB_DIR
+            mv libicudataswift.so.69.1 libicudataswift.so.69
+            mv libicui18nswift.so.69.1 libicui18nswift.so.69
+            mv libicuucswift.so.69.1 libicuucswift.so.69
+          popd
 
       - name: Determine version
         shell: zsh {0}

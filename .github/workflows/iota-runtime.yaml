@@ -102,6 +102,16 @@ jobs:
           cp -dv /usr/lib/x86_64-linux-gnu/libicudata.so* $LIB_DIR
           cp -dv /usr/lib/x86_64-linux-gnu/libxml2.so* $LIB_DIR
 
+      - name: Patch libraries to use relative dependencies
+        shell: zsh {0}
+        run: |
+          cd $LIB_DIR
+
+          SWIFT_RUN_PATH='/usr/lib/swift/linux:./:$ORIGIN'
+          for LIB in lib*.so*; do
+            patchelf --set-rpath $SWIFT_RUN_PATH $LIB
+          done
+
       - name: rename swift runtime dependencies
         shell: zsh {0}
         run: |
@@ -113,16 +123,6 @@ jobs:
             mv libicui18nswift.so.69.1 libicui18nswift.so.69
             mv libicuucswift.so.69.1 libicuucswift.so.69
           popd
-
-      - name: Patch libraries to use relative dependencies
-        shell: zsh {0}
-        run: |
-          cd $LIB_DIR
-
-          SWIFT_RUN_PATH='/usr/lib/swift/linux:./:$ORIGIN'
-          for LIB in lib*.so*; do
-            patchelf --set-rpath $SWIFT_RUN_PATH $LIB
-          done
 
       - name: Upload library
         uses: actions/upload-artifact@v3
