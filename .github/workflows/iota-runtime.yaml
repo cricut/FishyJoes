@@ -102,6 +102,18 @@ jobs:
           cp -dv /usr/lib/x86_64-linux-gnu/libicudata.so* $LIB_DIR
           cp -dv /usr/lib/x86_64-linux-gnu/libxml2.so* $LIB_DIR
 
+      - name: rename swift runtime dependencies
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+          
+          # Add links
+          pushd $LIB_DIR
+            mv libicudataswift.so.69.1 libicudataswift.so.69
+            mv libicui18nswift.so.69.1 libicui18nswift.so.69
+            mv libicuucswift.so.69.1 libicuucswift.so.69
+          popd
+
       - name: Patch libraries to use relative dependencies
         shell: zsh {0}
         run: |
