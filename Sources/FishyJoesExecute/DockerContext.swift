@@ -52,6 +52,9 @@ struct DockerContext {
         for (externalMount, internalMount) in mountMappings {
             if let suffix = externalPath.trimmingIfPrefixed("\(externalMount)/") {
                 return "\(internalMount)/\(suffix)"
+            } else if externalPath == externalMount {
+                // Have to deal with paths that are exact matches, but don't end with "/" specially
+                return internalMount
             }
         }
         fatalError("Couldn't find where path `\(externalPath)` mounts to inside docker container")
