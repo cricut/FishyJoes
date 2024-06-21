@@ -2787,7 +2787,7 @@ public func TestAPI_EmptyClass_iotaEquals(envRef: EnvRef, lhs: foreignObject, rh
         )
     }
 }
-@_cdecl("__iota_get_TestAPI_EmptyClass_hash")
+@_cdecl("__iota_TestAPI_EmptyClass_hash")
 public func TestAPI_EmptyClass_iotaHash(envRef: EnvRef, this: foreignObject, exn: foreignOutExn) -> Int32.CType {
     let env = Env(envRef)
     return env.catching(to: exn) {
@@ -2913,7 +2913,7 @@ public func TestAPI_EmptyClass2_iotaEquals(envRef: EnvRef, lhs: foreignObject, r
         )
     }
 }
-@_cdecl("__iota_get_TestAPI_EmptyClass2_hash")
+@_cdecl("__iota_TestAPI_EmptyClass2_hash")
 public func TestAPI_EmptyClass2_iotaHash(envRef: EnvRef, this: foreignObject, exn: foreignOutExn) -> Int32.CType {
     let env = Env(envRef)
     return env.catching(to: exn) {
@@ -7157,7 +7157,7 @@ public func TestAPI_Structs_ReferenceStruct_iotaEquals(envRef: EnvRef, lhs: fore
         )
     }
 }
-@_cdecl("__iota_get_TestAPI_Structs_ReferenceStruct_hash")
+@_cdecl("__iota_TestAPI_Structs_ReferenceStruct_hash")
 public func TestAPI_Structs_ReferenceStruct_iotaHash(envRef: EnvRef, this: foreignObject, exn: foreignOutExn) -> Int32.CType {
     let env = Env(envRef)
     return env.catching(to: exn) {
@@ -10220,7 +10220,7 @@ public func TestAPI_TestProtocolClass_iotaEquals(envRef: EnvRef, lhs: foreignObj
         )
     }
 }
-@_cdecl("__iota_get_TestAPI_TestProtocolClass_hash")
+@_cdecl("__iota_TestAPI_TestProtocolClass_hash")
 public func TestAPI_TestProtocolClass_iotaHash(envRef: EnvRef, this: foreignObject, exn: foreignOutExn) -> Int32.CType {
     let env = Env(envRef)
     return env.catching(to: exn) {
