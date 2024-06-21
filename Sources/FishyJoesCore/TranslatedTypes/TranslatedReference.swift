@@ -424,7 +424,7 @@ struct TranslatedReference: TranslatedType {
             }
         }
         if hashable {
-            fragment.output("@_cdecl(\"__iota_get_\(sourceType.name.mangled)_hash\")")
+            fragment.output("@_cdecl(\"__iota_\(sourceType.name.mangled)_hash\")")
             fragment.outputBlock("public func \(sourceType.name.mangled)_iotaHash(envRef: EnvRef, this: foreignObject, exn: foreignOutExn) -> Int32.CType {") {
                 fragment.output("let env = Env(envRef)")
                 fragment.outputBlock("return env.catching(to: exn) {") {
