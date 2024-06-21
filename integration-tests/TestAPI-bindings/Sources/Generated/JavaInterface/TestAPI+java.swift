@@ -9165,6 +9165,30 @@ extension TestAPI.TestProtocolClass: JavaMutator {
     public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout TestAPI.TestProtocolClass) throws -> R) throws -> R {
         try body(&Box<TestAPI.TestProtocolClass>.fromJava(this, env: env).value)
     }
+    static let _javaEquals: @convention(c)(
+        UnsafeMutablePointer<JNIEnv?>,
+        jobject?,
+        jobject?,
+        jobject?
+    ) -> Bool.CType = { _javaEnv, _, lhs, rhs in
+        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+            return try Bool.toJava(
+                TestAPI.TestProtocolClass.fromJava(lhs, env: _javaEnv) == TestAPI.TestProtocolClass.fromJava(rhs, env: _javaEnv),
+                env: _javaEnv
+            )
+        }
+    }
+    static let _javaHash: @convention(c)(
+        UnsafeMutablePointer<JNIEnv?>,
+        jobject?
+    ) -> Int32.CType = { _javaEnv, _javaThis in
+        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+            return try Int32.toJava(
+                Int32(truncatingIfNeeded: TestAPI.TestProtocolClass.fromJava(_javaThis, env: _javaEnv).hashValue),
+                env: _javaEnv
+            )
+        }
+    }
 }
 
 // MARK: - TestAPI.TestProtocolEnum+java-methods.swift

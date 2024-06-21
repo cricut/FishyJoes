@@ -123,6 +123,16 @@ class TestProtocolClass private constructor(_swiftReference: Long): com.cricut.f
         pippo: com.cricut.testapi.AssociatedDataEnum
     ): Long
 
+    override fun equals(
+        other: Any?
+    ): Boolean = (other is com.cricut.testapi.TestProtocolClass) && __jni_swiftEquals(this, other)
+
+    override fun hashCode(
+    ): Int = __jni_hashCode()
+    @JvmName("__jni_hashCode")
+    private external fun __jni_hashCode(
+    ): Int
+
     companion object {
         /**
          * <!-- FishyJoes.export(init) -->
@@ -137,6 +147,17 @@ class TestProtocolClass private constructor(_swiftReference: Long): com.cricut.f
             corge: kotlin.String,
             flarp: kotlin.String?
         ): com.cricut.testapi.TestProtocolClass
+
+        fun swiftEquals(
+            lhs: com.cricut.testapi.TestProtocolClass,
+            rhs: com.cricut.testapi.TestProtocolClass
+        ): Boolean = __jni_swiftEquals(lhs, rhs)
+        @JvmStatic
+        @JvmName("__jni_swiftEquals")
+        private external fun __jni_swiftEquals(
+            lhs: com.cricut.testapi.TestProtocolClass,
+            rhs: com.cricut.testapi.TestProtocolClass
+        ): Boolean
 
         init { loadNativeLibs() }
     }

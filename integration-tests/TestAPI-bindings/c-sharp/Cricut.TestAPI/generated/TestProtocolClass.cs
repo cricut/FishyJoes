@@ -257,6 +257,35 @@ namespace Cricut.TestAPI {
             out CreatedRef exn
         );
 
+        public override bool Equals(
+            object? other
+        ) {
+            using var thisHandle = new GCRef(this);
+            using var otherHandle = new GCRef(other as Cricut.TestAPI.TestProtocolClass);
+            return Check((out CreatedRef exn) => __iota_TestAPI_TestProtocolClass_equals(Loader.env, thisHandle.ptr, otherHandle.ptr, out exn));
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern bool __iota_TestAPI_TestProtocolClass_equals(
+            IntPtr envRef,
+            UnownedRef lhs,
+            UnownedRef rhs,
+            out CreatedRef exn
+        );
+
+        public override int GetHashCode(
+        ) {
+            using var _thisHandle = new GCRef(this);
+            return Check((out CreatedRef _exn) => __iota_TestAPI_TestProtocolClass_hash(Loader.env, _thisHandle.ptr, out _exn));
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern int __iota_TestAPI_TestProtocolClass_hash(
+            IntPtr envRef,
+            UnownedRef self,
+            out CreatedRef exn
+        );
+
         static TestProtocolClass() { _TypeSetup._ensureLoaded(); }
     }
 }
