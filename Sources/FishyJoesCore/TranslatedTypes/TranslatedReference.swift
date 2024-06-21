@@ -462,6 +462,7 @@ struct TranslatedReference: TranslatedType {
                         returnType: .primitive("bool"),
                         deprecation: nil,
                         body: [
+                            "if (other as \(cSharpType.name) == null) { return false; }",
                             "using var thisHandle = new GCRef(this);",
                             "using var otherHandle = new GCRef(other as \(cSharpType.name));",
                             "return Check((out CreatedRef exn) => __iota_\(sourceType.name.mangled)_equals(Loader.env, thisHandle.ptr, otherHandle.ptr, out exn));",

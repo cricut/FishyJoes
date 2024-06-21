@@ -86,6 +86,7 @@ namespace Cricut.TestAPI {
         public override bool Equals(
             object? other
         ) {
+            if (other as Cricut.TestAPI.EmptyClass2 == null) { return false; }
             using var thisHandle = new GCRef(this);
             using var otherHandle = new GCRef(other as Cricut.TestAPI.EmptyClass2);
             return Check((out CreatedRef exn) => __iota_TestAPI_EmptyClass2_equals(Loader.env, thisHandle.ptr, otherHandle.ptr, out exn));

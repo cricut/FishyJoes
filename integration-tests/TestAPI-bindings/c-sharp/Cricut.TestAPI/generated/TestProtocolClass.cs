@@ -260,6 +260,7 @@ namespace Cricut.TestAPI {
         public override bool Equals(
             object? other
         ) {
+            if (other as Cricut.TestAPI.TestProtocolClass == null) { return false; }
             using var thisHandle = new GCRef(this);
             using var otherHandle = new GCRef(other as Cricut.TestAPI.TestProtocolClass);
             return Check((out CreatedRef exn) => __iota_TestAPI_TestProtocolClass_equals(Loader.env, thisHandle.ptr, otherHandle.ptr, out exn));

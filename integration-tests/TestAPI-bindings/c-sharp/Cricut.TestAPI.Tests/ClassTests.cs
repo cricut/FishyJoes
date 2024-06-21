@@ -12,6 +12,7 @@ namespace Cricut.TestAPI.Tests {
             Assert.Equal("Shme! Hand me my hook.", a1.Shme());
             Assert.Equal("Go Gorp!", a1.Gorpers());
 
+            Assert.Equal(a1, a2);
             Assert.True(a1.Equals(a2));
             Assert.Equal(a1.GetHashCode(), a2.GetHashCode());
 
@@ -21,7 +22,7 @@ namespace Cricut.TestAPI.Tests {
             Assert.Equal("Shme? What's that ticking sound?", b1.Shmee());
             Assert.Equal("Stop Sreprog!", b1.Gorp());
 
-            //Assert.False(a1.Equals(b1));
+            Assert.False(a1.Equals(b1));
             Assert.NotEqual(a1.GetHashCode(), b1.GetHashCode());
 
             Assert.Equal("TestAPI.EmptyClass", a1.ToString());
