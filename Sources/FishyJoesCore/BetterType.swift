@@ -150,14 +150,12 @@ extension BetterType {
             self = .named(.foundation(parts.dropFirst().joined(separator: ".")))
         } else if
             parts.count > 1,
-            case let .named(baseName) = try? context.tryResolve(type: .named(.init(name: parts[0], module: nil))).sourceType
-        {
+            case let .named(baseName) = try? context.tryResolve(type: .named(.init(name: parts[0], module: nil))).sourceType {
             self = .init(named: type, module: baseName.module)
         } else if
             parts.count > 2,
-            case let .named(baseName) = try? context.tryResolve(type: .named(.init(name: parts[1], module: parts[0]))).sourceType
-        {
-            self = .named(
+            case let .named(baseName) = try? context.tryResolve(type: .named(.init(name: parts[1], module: parts[0]))).sourceType {
+              self = .named(
                 .init(
                     module: baseName.module,
                     namespace: baseName.namespace + [baseName.name] + parts.dropFirst(2).dropLast(),
