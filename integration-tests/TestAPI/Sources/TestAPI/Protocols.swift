@@ -233,12 +233,12 @@ public class TestProtocolClass: TestMethodsProtocol, TestPropertiesProtocol, Tes
         lhs.corge == rhs.corge &&
         lhs.flarp == rhs.flarp
     }
-    
+
     public func hash(into hasher: inout Hasher) {
         hasher.combine(corge)
         hasher.combine(flarp)
     }
-    
+
     static let debugPrints = false
 
     /// <!-- FishyJoes.export(foo) -->
