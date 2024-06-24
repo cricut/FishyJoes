@@ -228,7 +228,17 @@ public struct TestProtocolStruct: TestMethodsProtocol, TestPropertiesProtocol {
 }
 
 /// <!-- FishyJoes.exportReference(TestProtocolClass) -->
-public class TestProtocolClass: TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol {
+public class TestProtocolClass: TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol, Hashable {
+    public static func == (lhs: TestProtocolClass, rhs: TestProtocolClass) -> Bool {
+        lhs.corge == rhs.corge &&
+        lhs.flarp == rhs.flarp
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(corge)
+        hasher.combine(flarp)
+    }
+
     static let debugPrints = false
 
     /// <!-- FishyJoes.export(foo) -->

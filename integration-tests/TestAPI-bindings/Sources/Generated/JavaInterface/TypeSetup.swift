@@ -2639,6 +2639,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_get_TestAPI_TestProtocolClass_frobby, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_hashCode"),
+                signature: bag.add("()I"),
+                fnPtr: unsafeBitCast(TestAPI.TestProtocolClass._javaHash, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_init"),
                 signature: bag.add("(Ljava/lang/String;Ljava/lang/String;)Lcom/cricut/testapi/TestProtocolClass;"),
                 fnPtr: unsafeBitCast(java_TestAPI_TestProtocolClass_init, to: UnsafeMutableRawPointer.self)
@@ -2662,6 +2667,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_spqr"),
                 signature: bag.add("(Lcom/cricut/testapi/AssociatedDataEnum;)J"),
                 fnPtr: unsafeBitCast(java_TestAPI_TestProtocolClass_spqr, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_swiftEquals"),
+                signature: bag.add("(Lcom/cricut/testapi/TestProtocolClass;Lcom/cricut/testapi/TestProtocolClass;)Z"),
+                fnPtr: unsafeBitCast(TestAPI.TestProtocolClass._javaEquals, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_wombat"),

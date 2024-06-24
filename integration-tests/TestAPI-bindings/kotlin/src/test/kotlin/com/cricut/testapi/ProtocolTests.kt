@@ -594,4 +594,17 @@ internal class ProtocolTests {
         assertEquals(987890.23, a.fuga)
         assertEquals(23723.11, a.hoge())
     }
+
+    @Test
+    fun testEqualsHashCodeToStringForReferences() = runTest(timeout = 1000000.seconds) {
+        val a = TestProtocolClass.init(corge = "Zoobilee Zoo; Zoobilee Zoo!", flarp = "Magic and wonder are waiting for you.")
+        val b = TestProtocolClass.init(corge = "Zoobilee Zoo; Zoobilee Zoo!", flarp = "Magic and wonder are waiting for you.")
+        val c = TestProtocolClass.init(corge = "It's as close as a dream", flarp = "And as bright as the brightest blue-oo!")
+        assertNotEquals(0, a.hashCode())
+        assertEquals(a.hashCode(), b.hashCode())
+        assertNotEquals(a.hashCode(), c.hashCode())
+        assertEquals("TestAPI.TestProtocolClass", a.toString())
+        assertEquals(a, b);
+        assertNotEquals(a, c);
+    }
 }

@@ -429,6 +429,18 @@ void main() {
         expect(a.fuga, equals(987890.23));
         expect(a.hoge(), equals(23723.11));
       });
+
+      test('testEqualsHashCodeToStringForReferences', () {
+        final a = TestProtocolClass.init("Zoobilee Zoo; Zoobilee Zoo!", flarp: "Magic and wonder are waiting for you.");
+        final b = TestProtocolClass.init("Zoobilee Zoo; Zoobilee Zoo!", flarp: "Magic and wonder are waiting for you.");
+        final c = TestProtocolClass.init("It's as close as a dream", flarp: "And as bright as the brightest blue-oo!");
+        expect(0, isNot(equals(a.hashCode)));
+        expect(a.hashCode, equals(b.hashCode));
+        expect(a.hashCode, isNot(equals(c.hashCode)));
+        // expect("TestAPI.TestProtocolClass", a.toString());
+        expect(a, equals(b));
+        expect(a, isNot(equals(c)));
+      });
   });
 }
 

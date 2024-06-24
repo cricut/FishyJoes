@@ -85,7 +85,7 @@ class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsPro
     );
 
     @override
-    String toString() => 'TestProtocolClass(corge: $corge, flarp: $flarp, frobby: $frobby)';
+    String toString() => 'TestProtocolClass(corge: $corge, flarp: $flarp, frobby: $frobby, hashCode: $hashCode)';
 
     /// <!-- FishyJoes.export(corge) -->
     String get corge =>
@@ -128,6 +128,13 @@ class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsPro
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
                 consumeCreatedRef<List<int>>(f__iota_get_TestAPI_TestProtocolClass_frobby(Loader.shared.env, _thisHandle.ptr, exn))
+            )
+        )
+    ;
+    int get hashCode =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                f__iota_get_TestAPI_TestProtocolClass_hash(Loader.shared.env, _thisHandle.ptr, exn)
             )
         )
     ;
@@ -226,6 +233,14 @@ class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsPro
         )
     ;
 
+    bool operator ==(
+        Object? other,
+    ) =>
+        GCRef.using(this, (thisHandle) =>
+            GCRef.using(other as TestAPI.TestProtocolClass, (otherHandle) =>
+                check((exn) => f__iota_TestAPI_TestProtocolClass_equals(Loader.shared.env, thisHandle.ptr, otherHandle.ptr, exn))))
+    ;
+
     static late bool Function(
         Env env,
         UnownedRef _this,
@@ -237,6 +252,12 @@ class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsPro
         bool qux,
         OutCreatedRef _exn
     ) f__iota_TestAPI_TestProtocolClass_baz;
+    static late bool Function(
+        Env env,
+        UnownedRef lhs,
+        UnownedRef rhs,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_TestProtocolClass_equals;
     static late void Function(
         Env env,
         UnownedRef _this,
@@ -294,6 +315,11 @@ class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsPro
         UnownedRef _this,
         OutCreatedRef _exn
     ) f__iota_get_TestAPI_TestProtocolClass_frobby;
+    static late int Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_get_TestAPI_TestProtocolClass_hash;
     static late void Function(
         Env env,
         UnownedRef _this,

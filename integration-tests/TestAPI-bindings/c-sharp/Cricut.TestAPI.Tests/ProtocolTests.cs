@@ -491,6 +491,19 @@ namespace Cricut.TestAPI.Tests {
             Assert.Equal(987890.23, a.GetFuga());
             Assert.Equal(23723.11, a.Hoge());
         }
+
+        [Fact]
+        public void TestEqualsHashCodeToStringForReferences() {
+            var a = TestProtocolClass.Init("Zoobilee Zoo; Zoobilee Zoo!", "Magic and wonder are waiting for you.");
+            var b = TestProtocolClass.Init("Zoobilee Zoo; Zoobilee Zoo!", "Magic and wonder are waiting for you.");
+            var c = TestProtocolClass.Init("It's as close as a dream", "And as bright as the brightest blue-oo!");
+            Assert.NotEqual(0, a.GetHashCode());
+            Assert.Equal(a.GetHashCode(), b.GetHashCode());
+            Assert.NotEqual(a.GetHashCode(), c.GetHashCode());
+            Assert.Equal("TestAPI.TestProtocolClass", a.ToString());
+            Assert.Equal(a, b);
+            Assert.NotEqual(b, c);
+        }
     }
 
     public record TestDefaultComputedPropertiesOverrideNoot: TestDefaultComputedProperties {

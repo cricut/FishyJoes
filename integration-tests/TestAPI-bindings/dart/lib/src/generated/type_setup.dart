@@ -3843,6 +3843,20 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_TestProtocolClass_baz");
+    TestAPI.TestProtocolClass.f__iota_TestAPI_TestProtocolClass_equals = dylib.lookupFunction<
+        ffi.Bool Function(
+            Env env,
+            UnownedRef lhs,
+            UnownedRef rhs,
+            OutCreatedRef _exn
+        ),
+        bool Function(
+            Env env,
+            UnownedRef lhs,
+            UnownedRef rhs,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestProtocolClass_equals");
     TestAPI.TestProtocolClass.f__iota_TestAPI_TestProtocolClass_foo = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -6359,6 +6373,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_TestProtocolClass_frobby");
+    TestAPI.TestProtocolClass.f__iota_get_TestAPI_TestProtocolClass_hash = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestProtocolClass_hash");
     TestAPI.TestProtocolStruct.f__iota_get_TestAPI_TestProtocolStruct_frobby = dylib.lookupFunction<
         CreatedRef Function(
             Env env,

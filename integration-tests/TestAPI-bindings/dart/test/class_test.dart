@@ -18,6 +18,8 @@ void main() {
         expect(a1.shme(), equals("Shme! Hand me my hook."));
         expect(a1.Gorpers(), equals("Go Gorp!"));
 
+        expect(a1, equals(a2));
+        expect(a1.hashCode, equals(a2.hashCode));
         expect(a1.toString(), equals(a2.toString()));
 
         final b1 = EmptyClass2.make();
@@ -26,6 +28,8 @@ void main() {
         expect(b1.shmee(), equals("Shme? What's that ticking sound?"));
         expect(b1.gorp(), equals("Stop Sreprog!"));
 
+        expect(a1, isNot(equals(b1)));
+        expect(a1.hashCode, isNot(equals(b1.hashCode)));
         expect(a1.toString(), isNot(equals(b1.toString())));
       });
   });
