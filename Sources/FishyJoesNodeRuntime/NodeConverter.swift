@@ -237,7 +237,8 @@ extension Data: NodeConverter {
         } else if
             try env.isTypedarray(value),
             case let info = try env.getTypedarrayInfo(value),
-            let elementSize = typedArrayElementSize(for: info.type) {
+            let elementSize = typedArrayElementSize(for: info.type)
+        {
             length = info.length * elementSize
             dataPtr = info.data
         } else {
