@@ -126,6 +126,10 @@ struct Lazy<T> {
         box = Box(.thunk(thunk))
     }
 
+    init(_ thunk: @escaping () -> T) {
+        box = Box(.thunk(thunk))
+    }
+
     private enum Storage {
         case thunk(() -> T)
         case computed(T)
@@ -218,5 +222,24 @@ extension String {
     func trimmingIfPrefixed(_ prefix: any StringProtocol) -> Substring? {
         guard hasPrefix(prefix) else { return nil }
         return dropFirst(prefix.count)
+    }
+}
+
+func withDirectory<R>(_ dirName: String, body: () throws -> R) throws -> R {
+    func printDir() {
+        printAndFlush("Entering directory `\(FileManager.default.currentDirectoryPath)'")
+    }
+    var changedDirectory = false
+    defer {
+        if changedDirectory {
+            printDir()
+        } else {
+            Log.error("Failed to enter directory `\(dirName)' (from `\(FileManager.default.currentDirectoryPath)')")
+        }
+    }
+    return try FileManager.default.withCurrentDirectoryPath(dirName) {
+        changedDirectory = true
+        printDir()
+        return try body()
     }
 }
