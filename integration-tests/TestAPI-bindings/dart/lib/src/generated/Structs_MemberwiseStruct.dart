@@ -101,7 +101,7 @@ class Structs_MemberwiseStruct {
         ))
     );
     @override
-    String toString() => 'Structs_MemberwiseStruct(immutable: $immutable, mutable: $mutable)';
+    String toString() => 'TestAPI.Structs_MemberwiseStruct(immutable: $immutable, mutable: $mutable)';
 
     static CreatedRef ffi_get_immutable(
         UnownedRef obj,

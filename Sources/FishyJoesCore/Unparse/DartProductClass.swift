@@ -36,7 +36,7 @@ class DartProductClass: DartClass {
 
     private func toStringImpl(fields: [Variable], fragment: SourceFragment) {
         fragment.output("@override")
-        fragment.output("String toString() => '\(unqualifiedName)(", newLineTerminated: false)
+        fragment.output("String toString() => '\(module.name).\(unqualifiedName)(", newLineTerminated: false)
         if unqualifiedName.contains("EmptyClass") {
             let elegoo = 1
         }

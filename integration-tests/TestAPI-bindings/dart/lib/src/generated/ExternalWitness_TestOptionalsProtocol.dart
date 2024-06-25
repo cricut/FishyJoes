@@ -85,7 +85,7 @@ class ExternalWitness_TestOptionalsProtocol extends SwiftReference implements Te
     );
 
     @override
-    String toString() => 'ExternalWitness_TestOptionalsProtocol(flarp: $flarp)';
+    String toString() => 'TestAPI.ExternalWitness_TestOptionalsProtocol(flarp: $flarp)';
 
     /// <!-- FishyJoes.export(flarp) -->
     String? get flarp =>

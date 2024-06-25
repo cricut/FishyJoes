@@ -85,7 +85,7 @@ class ExternalWitness_TestAsyncFunctions extends SwiftReference implements TestA
     );
 
     @override
-    String toString() => 'ExternalWitness_TestAsyncFunctions(add3Things: $add3Things, const42: $const42, fifthThing: $fifthThing, iabs: $iabs, intCompose: $intCompose, makeList: $makeList, six: $six, willThrow: $willThrow)';
+    String toString() => 'TestAPI.ExternalWitness_TestAsyncFunctions(add3Things: $add3Things, const42: $const42, fifthThing: $fifthThing, iabs: $iabs, intCompose: $intCompose, makeList: $makeList, six: $six, willThrow: $willThrow)';
 
     /// <!-- FishyJoes.export(add3Things) -->
     Future<double> Function(double, double, int) get add3Things =>

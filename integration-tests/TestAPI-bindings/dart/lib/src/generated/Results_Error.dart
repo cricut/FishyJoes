@@ -95,7 +95,7 @@ class Results_Error {
         ))
     );
     @override
-    String toString() => 'Results_Error(message: $message)';
+    String toString() => 'TestAPI.Results_Error(message: $message)';
 
     static CreatedRef ffi_get_message(
         UnownedRef obj,

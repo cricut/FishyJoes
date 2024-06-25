@@ -95,7 +95,7 @@ class AttributedString_PuttingTypesIntoQuestionablePlaces {
         ))
     );
     @override
-    String toString() => 'AttributedString_PuttingTypesIntoQuestionablePlaces(x: $x)';
+    String toString() => 'TestAPI.AttributedString_PuttingTypesIntoQuestionablePlaces(x: $x)';
 
     static CreatedRef ffi_get_x(
         UnownedRef obj,

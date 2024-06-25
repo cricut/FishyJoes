@@ -85,7 +85,7 @@ class ExternalWitness_AProtocol extends SwiftReference implements TestAPI.AProto
     );
 
     @override
-    String toString() => 'ExternalWitness_AProtocol(baz: $baz, foo: $foo)';
+    String toString() => 'TestAPI.ExternalWitness_AProtocol(baz: $baz, foo: $foo)';
 
     /// <!-- FishyJoes.export(baz) -->
     bool get baz =>

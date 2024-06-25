@@ -85,7 +85,7 @@ class ExternalWitness_TestDefaultComputedProperties extends SwiftReference imple
     );
 
     @override
-    String toString() => 'ExternalWitness_TestDefaultComputedProperties(noot: $noot, plutonic: $plutonic)';
+    String toString() => 'TestAPI.ExternalWitness_TestDefaultComputedProperties(noot: $noot, plutonic: $plutonic)';
 
     /// <!-- FishyJoes.export(noot) -->
     int get noot =>

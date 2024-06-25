@@ -85,7 +85,7 @@ class ExternalWitness_TestDifferingExportNameProtocolDiffy extends SwiftReferenc
     );
 
     @override
-    String toString() => 'ExternalWitness_TestDifferingExportNameProtocolDiffy(tata: $tata)';
+    String toString() => 'TestAPI.ExternalWitness_TestDifferingExportNameProtocolDiffy(tata: $tata)';
 
     /// <!-- FishyJoes.export(tata) -->
     int get tata =>

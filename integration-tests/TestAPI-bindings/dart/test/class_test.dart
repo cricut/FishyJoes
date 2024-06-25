@@ -32,8 +32,8 @@ void main() {
         expect(a1.hashCode, isNot(equals(b1.hashCode)));
         expect(a1.toString(), isNot(equals(b1.toString())));
 
-        expect(a1.toString(), equals("EmptyClass1(blarg: Blarg!, wibbledyWobbledyTimeyWhimey: <wibble>*Wobble*)"));
-        expect(b1.toString(), equals("EmptyClass2(blorg: Gralb!, wibble: <timey>*Whimey*)"));
+        expect(a1.toString(), equals("TestAPI.EmptyClass1(blarg: Blarg!, wibbledyWobbledyTimeyWhimey: <wibble>*Wobble*)"));
+        expect(b1.toString(), equals("TestAPI.EmptyClass2(blorg: Gralb!, wibble: <timey>*Whimey*)"));
       });
   });
 }

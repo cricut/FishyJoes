@@ -100,7 +100,7 @@ class AProtocolImplementation implements TestAPI.AProtocol {
         ))
     );
     @override
-    String toString() => 'AProtocolImplementation(foo: $foo, baz: $baz)';
+    String toString() => 'TestAPI.AProtocolImplementation(foo: $foo, baz: $baz)';
 
     static CreatedRef ffi_get_foo(
         UnownedRef obj,

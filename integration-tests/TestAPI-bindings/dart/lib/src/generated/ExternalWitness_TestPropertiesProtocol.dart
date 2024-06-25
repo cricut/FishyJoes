@@ -85,7 +85,7 @@ class ExternalWitness_TestPropertiesProtocol extends SwiftReference implements T
     );
 
     @override
-    String toString() => 'ExternalWitness_TestPropertiesProtocol(corge: $corge, frobby: $frobby)';
+    String toString() => 'TestAPI.ExternalWitness_TestPropertiesProtocol(corge: $corge, frobby: $frobby)';
 
     /// <!-- FishyJoes.export(corge) -->
     String get corge =>

@@ -85,7 +85,7 @@ class TestDefaultComputedPropertiesReference extends SwiftReference implements T
     );
 
     @override
-    String toString() => 'TestDefaultComputedPropertiesReference(noot: $noot, plutonic: $plutonic, spam: $spam)';
+    String toString() => 'TestAPI.TestDefaultComputedPropertiesReference(noot: $noot, plutonic: $plutonic, spam: $spam)';
 
     /// <!-- FishyJoes.export(noot) -->
     int get noot =>

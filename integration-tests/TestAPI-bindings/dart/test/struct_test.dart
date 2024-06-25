@@ -24,7 +24,7 @@ void main() {
         expect(a1, equals(a2));
         expect(a1.hashCode, equals(a2.hashCode));
         expect(a1.toString(), equals(a2.toString()));
-        expect(a1.toString(), equals("EmptyStruct()"));
+        expect(a1.toString(), equals("TestAPI.EmptyStruct()"));
 
         final b1 = EmptyStruct2.create();
         expect(b1.tutu, equals(12897));
