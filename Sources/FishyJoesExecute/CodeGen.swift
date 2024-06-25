@@ -234,7 +234,7 @@ extension CodeGen {
                 "bindings/ts/generated",
                 "bindings/ts/tests/generated",
                 "bindings/kotlin/generated/src/main/kotlin/com/cricut/\(config.module.lowercased())",
-                "bindings/c-sharp/generated/Cricut.\(config.module.lowercased())",
+                "bindings/c-sharp/generated/Cricut.\(config.module)",
                 "bindings/dart/generated/lib/src",
             ]
             try cmd("rm", "-rf", "bindings/swift-interfaces/generated").run()

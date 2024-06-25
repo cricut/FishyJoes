@@ -12,6 +12,7 @@ node_modules
 *.log
 /kotlin/generated/src/main/resources/
 /c-sharp/generated/lib/
+/c-sharp/nupkgs/
 /dart/flutter-package
 .gradle
 local.properties

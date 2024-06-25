@@ -242,10 +242,11 @@ jobs:
         run: |
           set -euxo pipefail
 
-          (
-            cd c-sharp-runtime
-            dotnet pack -c Release -o out /p:PackageVersion="${{ env.VERSION }}"
-          )
+          dotnet pack \
+              -c Release \
+              c-sharp-runtime/Cricut.FishyJoesRuntime.csproj \
+              "/p:Version=$VERSION" \
+              --output c-sharp-runtime/nupkgs
 
           tar -cvzf FishyJoes-dart-binaries.tgz -C dart-runtime {macos,linux,windows}/native
 
@@ -270,7 +271,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: nuget-package
-          path: c-sharp-runtime/out/*.*nupkg
+          path: c-sharp-runtime/nupkgs/*.*nupkg
 
       - name: Upload Dart Tarball
         uses: actions/upload-artifact@v3

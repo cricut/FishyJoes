@@ -9,7 +9,7 @@ class CSharpPhases: IotaPhases, Phases {
     }
 
     func compileHostLanguagePhase() throws {
-        try withDirectory("bindings/c-sharp/generated") {
+        try withDirectory("bindings/c-sharp") {
             var args = ["build", "Cricut.\(options.config.module).sln"]
             if options.buildConfig.debug {
                 args.append(contentsOf: ["--configuration", "Debug"])
@@ -20,7 +20,7 @@ class CSharpPhases: IotaPhases, Phases {
 
     func testPhase() throws {
         // Use dotnet to execute the test suite
-        try withDirectory("c-sharp") {
+        try withDirectory("bindings/c-sharp") {
             if options.codeCoveragePath != nil, !cmd("dotnet-coverage", "--version").runBool() {
                 printAndFlush("Couldn't find dotnet-coverage! Install with:")
                 printAndFlush()
@@ -30,7 +30,7 @@ class CSharpPhases: IotaPhases, Phases {
             }
 
             var command = "dotnet"
-            var args = ["test", "Cricut.\(options.config.module).sln"]
+            var args = ["test", "Cricut.\(options.config.module).sln", "--logger", "console;verbosity=detailed"]
             var addEnv: [String: String] = [:]
             if let codeCoveragePath = options.codeCoveragePath {
                 command = "dotnet-coverage"
@@ -45,7 +45,12 @@ class CSharpPhases: IotaPhases, Phases {
         // Pack using dotnet
         let name = "Cricut.\(options.config.module)"
         let version = options.version ?? "0.0.1-unknown"
-        try cmd("dotnet", "pack", "-c", "Release", "c-sharp/\(name)/\(name).csproj", "/p:Version=\(version)").run()
-        try cmd("cp", "c-sharp/\(name)/bin/Release/\(name).\(version).nupkg", ".").run()
+        try cmd(
+            "dotnet", "pack",
+            "-c", "Release",
+            "c-sharp/\(name)/\(name).csproj",
+            "/p:Version=\(version)",
+            "--output", "c-sharp/nupkgs"
+        ).run()
     }
 }

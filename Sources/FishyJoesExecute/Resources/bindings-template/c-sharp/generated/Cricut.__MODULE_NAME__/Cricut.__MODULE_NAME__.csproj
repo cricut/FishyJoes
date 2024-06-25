@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk">
-  <ItemGroup>
-    <PackageReference Include="Cricut.FishyJoesRuntime" Version="(replace this string with latest fishyjoes version)" />
-  </ItemGroup>
+<Project Sdk="Microsoft.NET.Sdk">__CSPROJ_DEPENDENCIES__
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>

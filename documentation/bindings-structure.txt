@@ -28,7 +28,7 @@ CriGeo/bindings/
 │   ├── generated/packages/
 │   │   ├── node-native-macos/
 │   │   └── wasm/
-│   └── tests
+│   └── tests/
 │       ├── example.test.ts
 │       ├── package-lock.json
 │       ├── package.json -> generated/package.generated.json
@@ -44,7 +44,16 @@ CriGeo/bindings/
 │           ├── package.generated.json
 │           └── tsconfig.json
 ├── c-sharp/
-│   └── ???
+│   ├── Cricut.CriGeo.sln
+│   ├── Cricut.CriGeo.Tests/
+│   │   ├── Cricut.CriGeo.Tests.csproj
+│   │   └── PathTests.cs
+│   └── generated/Cricut.CriGeo/
+│       ├── Cricut.CriGeo.csproj
+│       ├── Path.cs
+│       └── runtimes/osx/native/
+│           ├── libCriGeo-iota.dylib
+│           └── libCriGeo.dylib
 ├── dart/
 │   └── ???
 └── workflows/
