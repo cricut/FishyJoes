@@ -1,0 +1,107 @@
+import Foundation
+import swsh
+
+class DartPhases: IotaPhases, Phases {
+    func installPhase() throws {
+        // Install the module library and interfacing library
+        try installLibrary(options.config.module)
+        try installLibrary("\(options.config.module)-iota")
+    }
+
+    func compileHostLanguagePhase() throws {
+        try withDirectory("bindings/dart/generated") {
+            try cmd("dart", "run", "build_runner", "build", "--delete-conflicting-outputs").run()
+        }
+    }
+
+    override func preTestPhase() throws {
+        try super.preTestPhase()
+        try withDirectory("dart") {
+            // Fetch binary artifacts
+            try cmd("dart", "run", "fishyjoes_dart:setup").run()
+        }
+    }
+
+    func testPhase() throws {
+        // Use dart to execute the test suite
+        try withDirectory("dart") {
+            let env = options.codeCoveragePath.map {
+                [
+                    "LLVM_PROFILE_FILE": "\($0)/fishy-joes-test-\(platform)-\(UUID()).profraw",
+                ]
+            } ?? [:]
+            try cmd("dart", "test", "--chain-stack-traces", addEnv: env).run()
+        }
+    }
+
+    func packPhase() throws {
+        // Generate flutter package from dart package
+        try cmd("rm", "-rf", "dart/flutter-package").run()
+        try cmd("mkdir", "-p", "dart/flutter-package/macos/native").run()
+        try cmd("mkdir", "-p", "dart/flutter-package/linux/native").run()
+        try cmd("mkdir", "-p", "dart/flutter-package/windows/native").run()
+
+        try cmd("yq", ".version = strenv(VERSION)", addEnv: ["VERSION": options.version ?? "0.0.1-unknown"])
+            .input(fromFile: "dart/npm_flutter_pubspec.yaml")
+            .output(overwritingFile: "dart/flutter-package/pubspec.yaml")
+            .run()
+
+        let installList = [
+            (path: "lib/", required: true),
+
+            (path: "macos/cricut_\(options.config.module.lowercased()).podspec", required: true),
+            (path: "macos/native/lib\(options.config.module).dylib", required: false),
+            (path: "macos/native/lib\(options.config.module)-iota.dylib", required: false),
+
+            (path: "linux/CMakeLists.txt", required: true),
+            (path: "linux/native/lib\(options.config.module).so", required: false),
+            (path: "linux/native/lib\(options.config.module)-iota.so", required: false),
+
+            (path: "windows/CMakeLists.txt", required: true),
+            (path: "windows/native/\(options.config.module).dll", required: false),
+            (path: "windows/native/\(options.config.module)-iota.dll", required: false),
+        ]
+
+        for (path, required) in installList {
+            if required {
+                try cmd("cp", "-r", "dart/\(path)", "dart/flutter-package/\(path)").run()
+            } else {
+                try? cmd("cp", "-r", "dart/\(path)", "dart/flutter-package/\(path)").run()
+            }
+        }
+
+        var package = NPMPackage(name: "@cricut/flutter-\(options.config.module.lowercased())")
+        package.version = options.version ?? "0.0.1" // If no version is provided, use a dummy version to package
+
+        // If fishy-joes is file-local, use a file-local runtime too
+        let runtimeVersion = options.fishyJoesDependency.version ??
+            "file:\(options.fishyJoesDependency.localPath)/dart-runtime/flutter-package"
+
+        var dependencies = ["@cricut/flutter-fishyjoes-runtime": runtimeVersion]
+        for module in options.config.requiredModules {
+            let bindingsModuleName = "\(module)-bindings"
+            guard let dependency = options.packageInfo.dependencyMap[bindingsModuleName] else {
+                fatalError("Could not locate dependency \(bindingsModuleName) in Package.swift")
+            }
+
+            // If dependency is file-local, use a file-local dependency too
+            let moduleVersion = dependency.version ?? "file:\(dependency.localPath)/dart/flutter-package/"
+            dependencies["@cricut/flutter-\(module.lowercased())"] = moduleVersion
+        }
+        package.dependencies = dependencies
+        try cmd("cat")
+            .inputJSON(from: package, encoder: PrettyJSONEncoder())
+            .output(overwritingFile: "dart/flutter-package/package.json")
+            .run()
+
+        // Pack using npm
+        let npmPackArgs = ["pack", "./dart/flutter-package"]
+        #if os(macOS) || os(Linux)
+        try cmd("npm", arguments: npmPackArgs).run()
+        #elseif os(Windows)
+        return cmd("cmd.exe", arguments: ["/c", "npm"] + npmPackArgs).run()
+        #else
+        fatalError("unknown host OS")
+        #endif
+    }
+}

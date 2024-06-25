@@ -10,7 +10,7 @@ let wasmToolchain: String = { fatalError("wasm compilation is currently only sup
 #endif
 
 struct BuildConfiguration: Hashable {
-    let packagePath: String?
+    let packagePath: String
     let scratchPath: String
     let debug: Bool
     let fat: Bool
@@ -130,9 +130,7 @@ enum Platform: CustomStringConvertible, Hashable {
         }
 
         args.append(contentsOf: ["--configuration", configuration.debug ? "debug" : "release"])
-        if let packagePath = configuration.packagePath {
-            args.append(contentsOf: ["--package-path", packagePath])
-        }
+        args.append(contentsOf: ["--package-path", configuration.packagePath])
         if configuration.codeCoverage {
             args.append(contentsOf: Platform.coverageFlags)
         }
@@ -227,254 +225,6 @@ enum Platform: CustomStringConvertible, Hashable {
 
     func swiftBuild(_ arguments: String..., configuration: BuildConfiguration, addEnv: [String: String] = [:]) -> Command {
         swiftBuild(arguments: arguments, configuration: configuration, addEnv: addEnv)
-    }
-
-    func clangBuild(
-        sources: [String],
-        dependencies: [String] = [],
-        headerSearchPaths: [String] = [],
-        librarySearchPaths: [String] = [],
-        omitLocalRPath: Bool = false,
-        dynamic: Bool = true,
-        outputPath: String? = nil,
-        configuration: BuildConfiguration
-    ) throws {
-        if isNative, configuration.fat {
-            let triples = ["arm64-apple-macosx", "x86_64-apple-macosx"]
-            let libs = triples.map { "\((outputPath as? NSString)?.lastPathComponent ?? dylibName(for: "out"))_\($0)" }
-            for (triple, lib) in zip(triples, libs) {
-                try clangBuild(
-                    sources: sources,
-                    dependencies: dependencies,
-                    headerSearchPaths: headerSearchPaths,
-                    librarySearchPaths: librarySearchPaths,
-                    omitLocalRPath: omitLocalRPath,
-                    dynamic: dynamic,
-                    optimize: !configuration.debug,
-                    targetTriple: triple,
-                    outputPath: lib
-                ).run()
-            }
-            try cmd("lipo", arguments: ["-create"] + (outputPath != nil ? ["-output", outputPath!] : []) + libs).run()
-            for lib in libs {
-                if cmd("test", "-f", lib).runBool() {
-                    try? cmd("rm", lib).run()
-                }
-            }
-        } else {
-            try clangBuild(
-                sources: sources,
-                dependencies: dependencies,
-                headerSearchPaths: headerSearchPaths,
-                librarySearchPaths: librarySearchPaths,
-                omitLocalRPath: omitLocalRPath,
-                dynamic: dynamic,
-                optimize: !configuration.debug,
-                outputPath: outputPath
-            ).run()
-        }
-    }
-
-    func clangBuild(
-        sources: [String],
-        dependencies: [String] = [],
-        headerSearchPaths: [String] = [],
-        librarySearchPaths: [String] = [],
-        omitLocalRPath: Bool = false,
-        dynamic: Bool = true,
-        optimize: Bool = true,
-        targetTriple: String? = nil,
-        outputPath: String? = nil
-    ) -> Command {
-        #if os(macOS) || os(Linux)
-        var args: [String] = []
-        if dynamic {
-            args.append(contentsOf: ["-shared", "-undefined", "dynamic_lookup"])
-        }
-        if optimize {
-            args.append("-Ofast")
-        }
-        for headerSearchPath in headerSearchPaths {
-            args.append("-I\(headerSearchPath)")
-        }
-        for librarySearchPath in librarySearchPaths {
-            args.append("-L\(librarySearchPath)")
-        }
-        for dependency in dependencies {
-            args.append("-l\(dependency)")
-        }
-        if let targetTriple = targetTriple {
-            args.append("--target=\(targetTriple)")
-        }
-        if let outputPath = outputPath {
-            args.append(contentsOf: ["-o", outputPath])
-        }
-        if !omitLocalRPath {
-            #if os(macOS)
-            args.append(contentsOf: ["-rpath", "@loader_path"])
-            #elseif os(Linux)
-            args.append(contentsOf: ["-rpath", "$ORIGIN"])
-            #endif
-        }
-        args.append(contentsOf: sources)
-        return cmd("clang", arguments: args)
-        #elseif os(Windows)
-        var args: [String] = []
-        if dynamic {
-            args.append("/LD")
-        }
-        if optimize {
-            args.append("/O2")
-        } else {
-            args.append("/Od")
-        }
-        for headerSearchPath in headerSearchPaths {
-            args.append("/I\(headerSearchPath)")
-        }
-        args.append(contentsOf: sources)
-        if !dependencies.isEmpty || !librarySearchPaths.isEmpty || outputPath != nil {
-            args.append("/link")
-        }
-        for librarySearchPath in librarySearchPaths {
-            args.append("/LIBPATH:\(librarySearchPath)")
-        }
-        for dependency in dependencies {
-            args.append("\(dependency).lib")
-        }
-        if let targetTriple = targetTriple {
-            fatalError("Windows clang cross-compile builds not supported: \(targetTriple)")
-        }
-        if let outputPath = outputPath {
-            args.append("/OUT:\(outputPath)")
-        }
-        return cmd("clang-cl", arguments: args)
-        #else
-        fatalError("unknown host OS")
-        #endif
-    }
-
-    func gradleBuild(arguments: [String], configuration: BuildConfiguration) -> Command {
-        #if os(macOS)
-        return cmd("./gradlew", arguments: arguments)
-        #elseif os(Linux)
-        return cmd("./gradlew", arguments: arguments)
-        #elseif os(Windows)
-        return cmd("cmd.exe", arguments: ["/c", "gradlew.bat"] + arguments)
-        #else
-        fatalError("unknown host OS")
-        #endif
-    }
-
-    func gradleBuild(_ arguments: String..., configuration: BuildConfiguration) -> Command {
-        gradleBuild(arguments: arguments, configuration: configuration)
-    }
-
-    func gradleTest(arguments: [String], codeCoveragePath: String?) -> Command {
-        let args = ["cleanTest", "test"] + (codeCoveragePath == nil ? [] : ["jacocoTestReport"]) + arguments
-        let env = codeCoveragePath.map {
-            [
-                "LLVM_PROFILE_FILE": "\($0)/fishy-joes-test-\(platform)-\(UUID()).profraw",
-            ]
-        } ?? [:]
-        #if os(macOS)
-        return cmd("./gradlew", arguments: args, addEnv: env)
-        #elseif os(Linux)
-        return cmd("./gradlew", arguments: args, addEnv: env)
-        #elseif os(Windows)
-        return cmd("cmd.exe", arguments: ["/c", "gradlew.bat"] + args, addEnv: env)
-        #else
-        fatalError("unknown host OS")
-        #endif
-    }
-
-    func gradleTest(_ arguments: String..., codeCoveragePath: String?) -> Command {
-        gradleTest(arguments: arguments, codeCoveragePath: codeCoveragePath)
-    }
-
-    func dotnetBuild(arguments: [String], configuration: BuildConfiguration) -> Command {
-        let args = ["build"] + arguments + (configuration.debug ? [] : ["--configuration", "Debug"])
-        return cmd("dotnet", arguments: args)
-    }
-
-    func dotnetBuild(_ arguments: String..., configuration: BuildConfiguration) -> Command {
-        dotnetBuild(arguments: arguments, configuration: configuration)
-    }
-
-    func dotnetTest(arguments: [String], codeCoveragePath: String?) -> Command {
-        let env = codeCoveragePath.map {
-            [
-                "LLVM_PROFILE_FILE": "\($0)/fishy-joes-test-\(platform)-\(UUID()).profraw",
-            ]
-        } ?? [:]
-        var commandParts = ["dotnet", "test"] + arguments
-        if let path = codeCoveragePath {
-            commandParts = ["dotnet-coverage", "collect", "-f", "xml", "-o", "\(path)/integration-tests-c-sharp.xml"] + commandParts
-        }
-        return cmd(commandParts.first!, arguments: Array(commandParts.dropFirst()), addEnv: env)
-    }
-
-    func dotnetTest(_ arguments: String..., codeCoveragePath: String?) -> Command {
-        dotnetTest(arguments: arguments, codeCoveragePath: codeCoveragePath)
-    }
-
-    func dartBuild(arguments: [String], configuration: BuildConfiguration) -> Command {
-        return cmd("dart", arguments: ["run", "build_runner", "build", "--delete-conflicting-outputs"])
-    }
-
-    func dartBuild(_ arguments: String..., configuration: BuildConfiguration) -> Command {
-        dartBuild(arguments: arguments, configuration: configuration)
-    }
-
-    func dartTest(arguments: [String], codeCoveragePath: String?) -> Command {
-        let env = codeCoveragePath.map {
-            [
-                "LLVM_PROFILE_FILE": "\($0)/fishy-joes-test-\(platform)-\(UUID()).profraw",
-            ]
-        } ?? [:]
-        return cmd("dart", arguments: ["test", "--chain-stack-traces"], addEnv: env)
-    }
-
-    func dartTest(_ arguments: String..., codeCoveragePath: String?) -> Command {
-        dartTest(arguments: arguments, codeCoveragePath: codeCoveragePath)
-    }
-
-    func npm(arguments: [String]) -> Command {
-        #if os(macOS)
-        return cmd("npm", arguments: arguments)
-        #elseif os(Linux)
-        return cmd("npm", arguments: arguments)
-        #elseif os(Windows)
-        return cmd("cmd.exe", arguments: ["/c", "npm"] + arguments)
-        #else
-        fatalError("unknown host OS")
-        #endif
-    }
-
-    func npm(_ arguments: String...) -> Command {
-        npm(arguments: arguments)
-    }
-
-    func npmTest(arguments: [String], codeCoveragePath: String?) -> Command {
-        let env = codeCoveragePath.map {
-            [
-                "LLVM_PROFILE_FILE": "\($0)/fishy-joes-test-\(platform)-\(UUID()).profraw",
-                "NODE_V8_COVERAGE": "\($0)/node",
-            ]
-        } ?? [:]
-        let args = ["run", "test-\(nodeExecutionEnvironment)"] + arguments
-        #if os(macOS)
-        return cmd("npm", arguments: args, addEnv: env)
-        #elseif os(Linux)
-        return cmd("npm", arguments: args, addEnv: env)
-        #elseif os(Windows)
-        return cmd("cmd.exe", arguments: ["/c", "npm"] + args, addEnv: env)
-        #else
-        fatalError("unknown host OS")
-        #endif
-    }
-
-    func npmTest(_ arguments: String..., codeCoveragePath: String?) -> Command {
-        npmTest(arguments: arguments, codeCoveragePath: codeCoveragePath)
     }
 
     func dylibName(for lib: String) -> String {
@@ -596,7 +346,7 @@ enum Platform: CustomStringConvertible, Hashable {
 
     func buildDir(_ configuration: BuildConfiguration) throws -> String {
         let directory: String
-        let packagePrefix = configuration.packagePath.map { $0 + "/" } ?? ""
+        let packagePrefix = configuration.packagePath + "/"
         if isNative, configuration.fat {
             directory = "\(packagePrefix).build/apple/\(configuration.debug ? "debug" : "release")"
         } else if case .kotlinAndroid(let arch) = self {
