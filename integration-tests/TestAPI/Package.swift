@@ -7,10 +7,7 @@ let forceDynamic = ProcessInfo.processInfo.environment["SWIFT_PACKAGE_FORCE_DYNA
 
 let package = Package(
     name: "TestAPI",
-    platforms: [
-        .macOS(.v12),
-        .iOS(.v15),
-    ],
+    platforms: [.macOS(.v12), .iOS(.v15)],
     products: [
         .library(
             name: "TestAPI",
@@ -18,7 +15,9 @@ let package = Package(
             targets: ["TestAPI"]
         ),
     ],
-    dependencies: [],
+    dependencies : [
+        ProcessInfo.processInfo.environment["FISHYJOES"] == "1" ? .package(name: "FishyJoes", path: "../..") : nil,
+    ].compactMap { $0 },
     targets: [
         .target(
             name: "TestAPI",

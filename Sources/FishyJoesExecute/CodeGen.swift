@@ -95,8 +95,6 @@ public struct CodeGen: ParsableCommand {
     public init() {}
 }
 
-private let ps = Platform.pathSeparator
-
 extension CodeGen {
     public mutating func validate() throws {
         ExternalCommand.verbose = !quiet
@@ -180,6 +178,8 @@ extension CodeGen {
             let sourceLocations = generatedSwiftTargets.map {
                 "\(swiftBindingsRoot)/Sources/\($0)"
             } + [
+                "bindings/ts/generated",
+                "bindings/ts/tests/generated",
                 "bindings/kotlin/generated/src/main/kotlin/com/cricut/\(config.module.lowercased())",
                 "bindings/c-sharp/generated/Cricut.\(config.module.lowercased())",
                 "bindings/dart/generated/lib/src",
@@ -266,6 +266,7 @@ extension CodeGen {
 
                         var package = Package(
                             name: "\(config.module)-bindings",
+                            platforms: [.macOS(.v12), .iOS(.v15)],
                             products: [
                                 .library(
                                     name: "\(config.module)-wasm",
@@ -399,6 +400,7 @@ extension CodeGen {
                 swiftPackage: packageInfo
             )
             try packageInit.installTemplate(to: "bindings")
+            try cmd("mkdir", "-p", ".github/workflows").run()
             for workflow in try FileManager.default.contentsOfDirectory(atPath: ".github/workflows") {
                 if workflow.hasPrefix("GENERATED-") {
                     try cmd("rm", ".github/workflows/\(workflow)").run()
@@ -677,7 +679,7 @@ extension CodeGen {
                         // and also remove intermediate files that MSVC makes but we don't need
                         // TODO: When SwiftPM supports product dependencies on targets within the same package, use them instead
                         // See: https://forums.swift.org/t/pitch-swiftpm-allow-targets-to-depend-on-products-in-the-same-package/57717/37
-                        let shimDir = "Sources/Generated/NodeNativeShim"
+                        let shimDir = "bindings/swift-interfaces/generated/NodeNativeShim"
                         try platform.clangBuild(
                             sources: ["\(shimDir)/NAPIRegisterModule.c"],
                             dependencies: [nodeModule.nativeLibName],
@@ -748,7 +750,8 @@ extension CodeGen {
                     definitions.append("")
 
                     // Splat in the module's own definitions
-                    let moduleDefinitionsPath = "Sources/Generated/NodeInterface/\(nodeModule.name).d.ts.part"
+                    // let moduleDefinitionsPath = "Sources/Generated/NodeInterface/\(nodeModule.name).d.ts.part"
+                    let moduleDefinitionsPath = "\(swiftBindingsRoot)/Sources/NodeInterface/\(nodeModule.name).d.ts.part"
                     let moduleDefinitions = try String(contentsOfFile: moduleDefinitionsPath)
                     definitions.append(contentsOf: moduleDefinitions.split(separator: "\n").map(String.init))
                     definitions.append("")
@@ -779,10 +782,13 @@ extension CodeGen {
                         .input(definitions.joined(separator: "\n"))
                         .output(overwritingFile: "\(outputDir)/\(nodeModule.name).d.ts")
                         .run()
+                    // Copy ths .d.ts file to the test directory for common use between tests
+                    try cmd("cp", "\(outputDir)/\(nodeModule.name).d.ts", "bindings/ts/tests/generated/").run()
 
                     // Generate the package.json file from the template
                     let packageVersion = version ?? "0.0.1" // If no version is provided, use a dummy version to build the package
-                    var npmDependencies = try cmd("cat", "package.template.json").runJSON(NPMPackage.self).dependencies ?? [:]
+                    let packageTemplate = try cmd("cat", "bindings/ts/package.template.json").runJSON(NPMPackage.self)
+                    var npmDependencies = packageTemplate.dependencies ?? [:]
                     for dependency in nodeDependencies {
                         npmDependencies["@cricut/\(dependency.npmPackageName)"] = dependency.npmModuleVersion
                     }
@@ -927,7 +933,10 @@ extension CodeGen {
                         // TODO: Should build a package tarball and install it instead?
                         try platform.npm("install").run()
                     }
-                    try withDirectory("bindings/node-test") {
+                    try withDirectory("bindings/ts/tests") {
+                        // symlink generated package.json to test directory
+                        try cmd("ln", "-sf", "generated/package.generated.json", "package.json").run()
+
                         // Perform a file-local install of the test package and its dependencies
                         // TODO: Should build a package tarball and install it instead?
                         try platform.npm("install").run()

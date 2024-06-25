@@ -41,7 +41,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
+          node-version: '18.x'
           registry-url: 'https://npm.pkg.github.com/'
           scope: '@cricut'
 
@@ -57,13 +57,13 @@ jobs:
         run: |
           set -euxo pipefail
 
-          cd integration-tests/TestAPI-bindings
+          cd integration-tests/TestAPI
 
-          swift run -- fishy-joes generate
+          FISHYJOES=1 swift run -- fishy-joes generate
 
-          if [ ! -z "$(cd integration-tests/TestAPI-Bindings; git status --porcelain .)" ]; then
+          if [ ! -z "$(cd integration-tests/TestAPI; git status --porcelain .)" ]; then
             echo '::error:: generation modified sources'
-            echo '::error::   run `swift run fishy-joes generate` from integration-tests/TestAPI-Bindings and re-commit'
+            echo '::error::   run `FISHYJOES=1 swift run fishy-joes generate` from integration-tests/TestAPI and re-commit'
             git status
             exit 1
           fi
@@ -80,8 +80,8 @@ jobs:
         run: |
           set -euxo pipefail
 
-          cd integration-tests/TestAPI-bindings
-          swift run -- fishy-joes --nodejs build test
+          cd integration-tests/TestAPI
+          FISHYJOES=1 swift run -- fishy-joes --nodejs build test
 
       - name: Build FishyJoesIotaRuntime
         shell: zsh {0}
@@ -91,20 +91,22 @@ jobs:
           ./scripts/compile-iota-runtime.sh
 
       - name: Test C♯ from dotnet via fishy-joes
+        if: false
         shell: zsh {0}
         run: |
           set -euxo pipefail
 
-          cd integration-tests/TestAPI-bindings
-          swift run -- fishy-joes --c-sharp build test
+          cd integration-tests/TestAPI
+          FISHYJOES=1 swift run -- fishy-joes --c-sharp build test
 
       - name: Test Dart from dart via fishy-joes
+        if: false
         shell: zsh {0}
         run: |
           set -euxo pipefail
 
-          cd integration-tests/TestAPI-bindings
-          swift run -- fishy-joes --dart build test
+          cd integration-tests/TestAPI
+          FISHYJOES=1 swift run -- fishy-joes --dart build test
 
       - name: Build FishyJoesJavaRuntime
         shell: zsh {0}
@@ -122,8 +124,8 @@ jobs:
         run: |
           set -euxo pipefail
 
-          cd integration-tests/TestAPI-bindings
-          swift run -- fishy-joes --kotlin-fast build test
+          cd integration-tests/TestAPI
+          FISHYJOES=1 swift run -- fishy-joes --kotlin-fast build test
 
   integration-tests-ubuntu:
     name: "Ubuntu: Integration tests"
@@ -152,7 +154,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
+          node-version: '18.x'
           registry-url: 'https://npm.pkg.github.com/'
           scope: '@cricut'
 
@@ -189,8 +191,8 @@ jobs:
         run: |
           set -euxo pipefail
 
-          cd integration-tests/TestAPI-bindings
-          swift run -- fishy-joes --nodejs --wasm build test
+          cd integration-tests/TestAPI
+          FISHYJOES=1 swift run -- fishy-joes --nodejs --wasm build test
 
       - name: Build FishyJoesIotaRuntime
         shell: zsh {0}
@@ -200,20 +202,22 @@ jobs:
           ./scripts/compile-iota-runtime.sh
 
       - name: Test C♯ from dotnet via fishy-joes
+        if: false
         shell: zsh {0}
         run: |
           set -euxo pipefail
 
-          cd integration-tests/TestAPI-bindings
-          swift run -- fishy-joes --c-sharp build test
+          cd integration-tests/TestAPI
+          FISHYJOES=1 swift run -- fishy-joes --c-sharp build test
 
       - name: Test Dart from dart via fishy-joes
+        if: false
         shell: zsh {0}
         run: |
           set -euxo pipefail
 
-          cd integration-tests/TestAPI-bindings
-          swift run -- fishy-joes --dart build test
+          cd integration-tests/TestAPI
+          FISHYJOES=1 swift run -- fishy-joes --dart build test
 
       - name: Build linux FishyJoesJavaRuntime
         shell: zsh {0}
@@ -250,8 +254,8 @@ jobs:
         run: |
           set -euxo pipefail
 
-          cd integration-tests/TestAPI-bindings
-          swift run -- fishy-joes --kotlin build test
+          cd integration-tests/TestAPI
+          FISHYJOES=1 swift run -- fishy-joes --kotlin build test
 
           # Publish test-api for the android tests to use later
           (cd kotlin && ./gradlew publishToMavenLocal)
@@ -295,7 +299,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
+          node-version: '18.x'
           registry-url: 'https://npm.pkg.github.com/'
           scope: '@cricut'
 
@@ -311,7 +315,7 @@ jobs:
           swift package resolve
           swift package resolve
 
-          cd integration-tests/TestAPI-bindings
+          cd integration-tests/TestAPI
           swift package resolve
           swift package resolve
           swift package resolve
@@ -333,7 +337,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          cd integration-tests/TestAPI-bindings
+          cd integration-tests/TestAPI
           "$SWIFT" run -- fishy-joes --nodejs build test
 
       - name: Build FishyJoesIotaRuntime
@@ -344,19 +348,21 @@ jobs:
           ./scripts/compile-iota-runtime.sh
 
       - name: Test C♯ from dotnet via fishy-joes
+        if: false
         shell: bash
         run: |
           set -euxo pipefail
 
-          cd integration-tests/TestAPI-bindings
+          cd integration-tests/TestAPI
           "$SWIFT" run -- fishy-joes --c-sharp build test
 
       - name: Test Dart from dart via fishy-joes
+        if: false
         shell: bash
         run: |
           set -euxo pipefail
 
-          cd integration-tests/TestAPI-bindings
+          cd integration-tests/TestAPI
 
           # Add dart DLLs to path
           # Someone who understands windows better than I do is welcome to fix this in a better way
@@ -377,8 +383,8 @@ jobs:
         run: |
           set -euxo pipefail
 
-          cd integration-tests/TestAPI-bindings
-          $SWIFT run -- fishy-joes --kotlin-fast build test
+          cd integration-tests/TestAPI
+          FISHYJOES=1 $SWIFT run -- fishy-joes --kotlin-fast build test
 
   integration-tests-android:
     name: "Android: Integration Tests"

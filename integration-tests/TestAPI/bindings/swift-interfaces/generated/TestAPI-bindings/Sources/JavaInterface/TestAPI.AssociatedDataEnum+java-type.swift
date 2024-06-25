@@ -1,0 +1,113 @@
+// Generated using Sourcery 2.1.7 — https://github.com/krzysztofzablocki/Sourcery
+// DO NOT EDIT
+// swiftlint:disable:next blanket_disable_command superfluous_disable_command
+// swiftlint:disable unused_closure_parameter syntactic_sugar attributes
+import FishyJoesJavaRuntime
+import Foundation
+import TestAPI
+
+extension TestAPI.AssociatedDataEnum: JavaConverter {
+    public typealias SwiftType = Self
+    public typealias CType = jobject?
+
+    public static var javaClass: jclass?
+    static var _java_thing: jclass!
+    static var _java_thing_init: jmethodID!
+    static var _java_thing_field_value: jfieldID!
+    static var _java_other: jclass!
+    static var _java_other_init: jmethodID!
+    static var _java_other_field_0: jfieldID!
+    static var _java_other_field_1: jfieldID!
+    static var _java_bar: jclass!
+    static var _java_bar_init: jmethodID!
+    static var _java_bar_field_named: jfieldID!
+    static var _java_bar_field_1: jfieldID!
+    static var _java_noValue: jclass!
+    static var _java_noValue_INSTANCE: jfieldID!
+    static var _java_simpleEnum: jclass!
+    static var _java_simpleEnum_init: jmethodID!
+    static var _java_simpleEnum_field_value: jfieldID!
+
+    public static func fromJava(_ value: jobject?, env: Env) throws -> Self {
+        if env.IsInstanceOf(value, Self._java_thing) {
+            return Self.thing(
+                value: try Swift.Int.fromJava(env.GetLongField(value, Self._java_thing_field_value), env: env)
+            )
+        }
+        if env.IsInstanceOf(value, Self._java_other) {
+            return Self.other(
+                try Swift.String.fromJava(env.GetObjectField(value, Self._java_other_field_0), env: env),
+                try Swift.Int.fromJava(env.GetLongField(value, Self._java_other_field_1), env: env)
+            )
+        }
+        if env.IsInstanceOf(value, Self._java_bar) {
+            return Self.bar(
+                named: try Swift.String.fromJava(env.GetObjectField(value, Self._java_bar_field_named), env: env),
+                try TestAPI.AssociatedDataEnum.fromJava(env.GetObjectField(value, Self._java_bar_field_1), env: env)
+            )
+        }
+        if env.IsInstanceOf(value, Self._java_noValue) {
+            return Self.noValue
+        }
+        if env.IsInstanceOf(value, Self._java_simpleEnum) {
+            return Self.simpleEnum(
+                value: try TestAPI.SimpleEnum.fromJava(env.GetObjectField(value, Self._java_simpleEnum_field_value), env: env)
+            )
+        }
+        throw JNIError(message: "invalid enum \(try env.javaDescription(value)) for TestAPI.AssociatedDataEnum")
+    }
+
+    public static func toJava(_ value: Self, env: Env) throws -> jobject? {
+        switch value {
+        case let .thing(value):
+            return try env.NewObject(
+                Self._java_thing,
+                Self._java_thing_init,
+                jvalue(Swift.Int.toJava(value, env: env))
+            )
+        case let .other(unnamed, _1):
+            return try env.NewObject(
+                Self._java_other,
+                Self._java_other_init,
+                jvalue(Swift.String.toJava(unnamed, env: env)),
+                jvalue(Swift.Int.toJava(_1, env: env))
+            )
+        case let .bar(named, _1):
+            return try env.NewObject(
+                Self._java_bar,
+                Self._java_bar_init,
+                jvalue(Swift.String.toJava(named, env: env)),
+                jvalue(TestAPI.AssociatedDataEnum.toJava(_1, env: env))
+            )
+        case .noValue:
+            return env.GetStaticObjectField(Self._java_noValue, Self._java_noValue_INSTANCE)
+        case let .simpleEnum(value):
+            return try env.NewObject(
+                Self._java_simpleEnum,
+                Self._java_simpleEnum_init,
+                jvalue(TestAPI.SimpleEnum.toJava(value, env: env))
+            )
+        }
+    }
+
+    public static func javaSetup(env: Env) throws {
+        guard javaClass == nil else { return }
+        javaClass = try env.globalRef(env.FindClass("com/cricut/testapi/AssociatedDataEnum"))
+        _java_thing = try env.globalRef(env.FindClass("com/cricut/testapi/AssociatedDataEnum$Thing"))
+        _java_thing_init = try env.GetMethodID(_java_thing, "<init>", "(J)V")
+        _java_thing_field_value = try env.GetFieldID(_java_thing, "value", "J")
+        _java_other = try env.globalRef(env.FindClass("com/cricut/testapi/AssociatedDataEnum$Other"))
+        _java_other_init = try env.GetMethodID(_java_other, "<init>", "(Ljava/lang/String;J)V")
+        _java_other_field_0 = try env.GetFieldID(_java_other, "unnamed", "Ljava/lang/String;")
+        _java_other_field_1 = try env.GetFieldID(_java_other, "_1", "J")
+        _java_bar = try env.globalRef(env.FindClass("com/cricut/testapi/AssociatedDataEnum$Bar"))
+        _java_bar_init = try env.GetMethodID(_java_bar, "<init>", "(Ljava/lang/String;Lcom/cricut/testapi/AssociatedDataEnum;)V")
+        _java_bar_field_named = try env.GetFieldID(_java_bar, "named", "Ljava/lang/String;")
+        _java_bar_field_1 = try env.GetFieldID(_java_bar, "_1", "Lcom/cricut/testapi/AssociatedDataEnum;")
+        _java_noValue = try env.globalRef(env.FindClass("com/cricut/testapi/AssociatedDataEnum$NoValue"))
+        _java_noValue_INSTANCE = try env.GetStaticFieldID(_java_noValue, "INSTANCE", "Lcom/cricut/testapi/AssociatedDataEnum$NoValue;")
+        _java_simpleEnum = try env.globalRef(env.FindClass("com/cricut/testapi/AssociatedDataEnum$SimpleEnum"))
+        _java_simpleEnum_init = try env.GetMethodID(_java_simpleEnum, "<init>", "(Lcom/cricut/testapi/SimpleEnum;)V")
+        _java_simpleEnum_field_value = try env.GetFieldID(_java_simpleEnum, "value", "Lcom/cricut/testapi/SimpleEnum;")
+    }
+}

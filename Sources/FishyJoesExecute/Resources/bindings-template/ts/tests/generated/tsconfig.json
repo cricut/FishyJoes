@@ -1,0 +1,16 @@
+// __AUTOGEN_WARNING__
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "noImplicitAny": true,
+    "strict": true,
+    "target": "es2017",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "paths": {
+      "__MODULE_NAME__": [
+        "./__MODULE_NAME__.d.ts",
+      ]
+    }
+  }
+}
