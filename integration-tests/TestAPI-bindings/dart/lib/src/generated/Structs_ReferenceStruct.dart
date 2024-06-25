@@ -85,7 +85,7 @@ class Structs_ReferenceStruct extends SwiftReference {
     );
 
     @override
-    String toString() => 'Structs_ReferenceStruct(immutable: $immutable, mutable: $mutable, hashCode: $hashCode)';
+    String toString() => 'Structs_ReferenceStruct(immutable: $immutable, mutable: $mutable)';
 
     /// <!-- FishyJoes.export(immutable) -->
     String get immutable =>

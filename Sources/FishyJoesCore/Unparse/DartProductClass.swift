@@ -37,7 +37,15 @@ class DartProductClass: DartClass {
     private func toStringImpl(fields: [Variable], fragment: SourceFragment) {
         fragment.output("@override")
         fragment.output("String toString() => '\(unqualifiedName)(", newLineTerminated: false)
-        let toStringParamsString = fields.map { "\(DartClass.deforbidify($0.name)): $\(DartClass.deforbidify($0.name))" }.joined(separator: ", ")
+        if unqualifiedName.contains("EmptyClass") {
+            let elegoo = 1
+        }
+        let toStringParamsString = fields.filter {
+            $0.name != "hashCode"
+        }.map {
+            "\(DartClass.deforbidify($0.name)): $\(DartClass.deforbidify($0.name))"
+        }.joined(separator: ", ")
+
         fragment.output("\(toStringParamsString))';")
 
         fragment.blankLine()

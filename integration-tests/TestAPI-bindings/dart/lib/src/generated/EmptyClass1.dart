@@ -85,7 +85,7 @@ class EmptyClass1 extends SwiftReference {
     );
 
     @override
-    String toString() => 'EmptyClass1(blarg: $blarg, wibbledyWobbledyTimeyWhimey: $wibbledyWobbledyTimeyWhimey, hashCode: $hashCode)';
+    String toString() => 'EmptyClass1(blarg: $blarg, wibbledyWobbledyTimeyWhimey: $wibbledyWobbledyTimeyWhimey)';
 
     /// <!-- FishyJoes.export(blarg) -->
     String get blarg =>

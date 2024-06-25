@@ -85,7 +85,7 @@ class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsPro
     );
 
     @override
-    String toString() => 'TestProtocolClass(corge: $corge, flarp: $flarp, frobby: $frobby, hashCode: $hashCode)';
+    String toString() => 'TestProtocolClass(corge: $corge, flarp: $flarp, frobby: $frobby)';
 
     /// <!-- FishyJoes.export(corge) -->
     String get corge =>
