@@ -78,7 +78,7 @@ class DartProductClass: DartClass {
                 }
                 fragment.blankLine()
 
-                toStringImpl(fields: fields, fragment: fragment)
+                // Swift references handle toString through the dart runtime toString call to Swift on SwiftReference in utilities.dart
             case .public(let fields):
                 storedFields = fields
                 for field in fields {

@@ -84,9 +84,6 @@ class ExternalWitness_TestOptionalsProtocol extends SwiftReference implements Te
         createRef(ExternalWitness_TestOptionalsProtocol(ref))
     );
 
-    @override
-    String toString() => 'TestAPI.ExternalWitness_TestOptionalsProtocol(flarp: $flarp)';
-
     /// <!-- FishyJoes.export(flarp) -->
     String? get flarp =>
         GCRef.using(this, (_thisHandle) =>

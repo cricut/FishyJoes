@@ -2,9 +2,22 @@ package com.cricut.testapi
 
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 
 internal class ClassTests {
+    companion object {
+        const val DEBUG_PRINTS = true
+        @BeforeAll
+        @JvmStatic
+        // To get procId for attaching lldb debugger to
+        fun beforeAll() {
+            val procId = ProcessHandle.current().pid()
+            if (DEBUG_PRINTS) {
+                println("procId: $procId")
+            }
+        }
+    }
     @Test
     fun testEmptyClass() {
         val a1 = EmptyClass1.create()
@@ -26,7 +39,7 @@ internal class ClassTests {
         assertNotEquals(a1, b1)
         assertNotEquals(a1.hashCode(), b1.hashCode())
 
-        assertEquals("TestAPI.EmptyClass1(blarg: Blarg!, wibbledyWobbledyTimeyWhimey: <wibble>*Wobble*)", a1.toString())
-        assertEquals("TestAPI.EmptyClass2(blorg: Gralb!, wibble: <timey>*Whimey*)", b1.toString())
+        assertEquals("TestAPI.EmptyClass", a1.toString())
+        assertEquals("TestAPI.EmptyClass2", b1.toString())
     }
 }

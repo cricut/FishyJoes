@@ -20,6 +20,10 @@ class SwiftReference {
     }
   }
 
+  String toString() {
+    return check((exn) => consumeCreatedRef<String>(Loader.fishyJoesCommonRuntime_AnyBox_toString(Loader.shared.env, unsafeReference.cast(), exn)));
+  }
+
   static CreatedRef constructor(ffi.Pointer ptr, OutCreatedRef exn) =>
     catchingRef(exn, () => createRef(SwiftReference(ptr)));
 

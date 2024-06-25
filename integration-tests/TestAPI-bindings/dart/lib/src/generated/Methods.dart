@@ -84,9 +84,6 @@ class Methods extends SwiftReference {
         createRef(Methods(ref))
     );
 
-    @override
-    String toString() => 'TestAPI.Methods(garply: $garply, instanceGet: $instanceGet, instanceGetMethod: $instanceGetMethod, instanceModifiable: $instanceModifiable, instanceStored: $instanceStored, staticGet: $staticGet, staticGetMethod: $staticGetMethod, staticModifiable: $staticModifiable, staticStored: $staticStored)';
-
     /// <!-- FishyJoes.export(garply) -->
     int get garply =>
         GCRef.using(this, (_thisHandle) =>

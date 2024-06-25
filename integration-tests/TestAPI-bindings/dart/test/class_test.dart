@@ -11,6 +11,8 @@ void main() {
 
   group('ClassTests', () {
       test('testEmptyClass', () {
+        print('pid: $pid');
+
         final a1 = EmptyClass1.create();
         final a2 = EmptyClass1.create();
         expect(a1.blarg, equals("Blarg!"));
@@ -32,8 +34,8 @@ void main() {
         expect(a1.hashCode, isNot(equals(b1.hashCode)));
         expect(a1.toString(), isNot(equals(b1.toString())));
 
-        expect(a1.toString(), equals("TestAPI.EmptyClass1(blarg: Blarg!, wibbledyWobbledyTimeyWhimey: <wibble>*Wobble*)"));
-        expect(b1.toString(), equals("TestAPI.EmptyClass2(blorg: Gralb!, wibble: <timey>*Whimey*)"));
+        expect(a1.toString(), equals("TestAPI.EmptyClass"));
+        expect(b1.toString(), equals("TestAPI.EmptyClass2"));
       });
   });
 }

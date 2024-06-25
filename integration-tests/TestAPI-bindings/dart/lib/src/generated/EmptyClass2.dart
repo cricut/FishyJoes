@@ -84,9 +84,6 @@ class EmptyClass2 extends SwiftReference {
         createRef(EmptyClass2(ref))
     );
 
-    @override
-    String toString() => 'TestAPI.EmptyClass2(blorg: $blorg, wibble: $wibble)';
-
     /// <!-- FishyJoes.export(blorg) -->
     String get blorg =>
         GCRef.using(this, (_thisHandle) =>

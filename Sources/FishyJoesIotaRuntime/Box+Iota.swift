@@ -39,7 +39,8 @@ public func AnyBoxRelease(envRef: EnvRef, ptr: UnsafeMutableRawPointer?, _ exn: 
 public func toString(envRef: EnvRef, ptr: UnsafeMutableRawPointer?, _ exn: foreignOutExn) -> foreignObject {
     let env = Env(envRef)
     return env.catching(to: exn) {
-        try String.toIota("\(AnyBox.takeUnretainedOpaque(try Env.unwrap(ptr)).value)", env: env)
+        let this = AnyBox.takeUnretainedOpaque(try Env.unwrap(ptr))
+        return try String.toIota("\(this.value)", env: env)
     }
 }
 
