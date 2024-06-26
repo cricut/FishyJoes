@@ -84,9 +84,6 @@ class ExternalWitness_TestLeadingUnderscoredProp extends SwiftReference implemen
         createRef(ExternalWitness_TestLeadingUnderscoredProp(ref))
     );
 
-    @override
-    String toString() => 'ExternalWitness_TestLeadingUnderscoredProp(m_leadingUnderscoreProp: $m_leadingUnderscoreProp)';
-
     /// <!-- FishyJoes.export(_leadingUnderscoreProp) -->
     String get m_leadingUnderscoreProp =>
         GCRef.using(this, (_thisHandle) =>

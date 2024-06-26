@@ -36,8 +36,12 @@ class DartProductClass: DartClass {
 
     private func toStringImpl(fields: [Variable], fragment: SourceFragment) {
         fragment.output("@override")
-        fragment.output("String toString() => '\(unqualifiedName)(", newLineTerminated: false)
-        let toStringParamsString = fields.map { "\(DartClass.deforbidify($0.name)): $\(DartClass.deforbidify($0.name))" }.joined(separator: ", ")
+        fragment.output("String toString() => '\(module.name).\(unqualifiedName)(", newLineTerminated: false)
+
+        let toStringParamsString = fields.map {
+            "\(DartClass.deforbidify($0.name)): $\(DartClass.deforbidify($0.name))"
+        }.joined(separator: ", ")
+
         fragment.output("\(toStringParamsString))';")
 
         fragment.blankLine()
@@ -72,7 +76,7 @@ class DartProductClass: DartClass {
                 }
                 fragment.blankLine()
 
-                toStringImpl(fields: fields, fragment: fragment)
+                // Swift references handle toString through the dart runtime toString call to Swift on SwiftReference in utilities.dart
             case .public(let fields):
                 storedFields = fields
                 for field in fields {

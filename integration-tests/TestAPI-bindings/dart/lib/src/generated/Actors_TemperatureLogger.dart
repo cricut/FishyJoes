@@ -84,9 +84,6 @@ class Actors_TemperatureLogger extends SwiftReference {
         createRef(Actors_TemperatureLogger(ref))
     );
 
-    @override
-    String toString() => 'Actors_TemperatureLogger(backwardsLabel: $backwardsLabel, extensionNonisolatedVarLabel: $extensionNonisolatedVarLabel, label: $label)';
-
     /// <!-- FishyJoes.export(backwardsLabel) -->
     String get backwardsLabel =>
         GCRef.using(this, (_thisHandle) =>

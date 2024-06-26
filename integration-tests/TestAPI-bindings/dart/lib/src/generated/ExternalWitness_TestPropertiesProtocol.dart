@@ -84,9 +84,6 @@ class ExternalWitness_TestPropertiesProtocol extends SwiftReference implements T
         createRef(ExternalWitness_TestPropertiesProtocol(ref))
     );
 
-    @override
-    String toString() => 'ExternalWitness_TestPropertiesProtocol(corge: $corge, frobby: $frobby)';
-
     /// <!-- FishyJoes.export(corge) -->
     String get corge =>
         GCRef.using(this, (_thisHandle) =>

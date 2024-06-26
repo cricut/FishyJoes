@@ -292,8 +292,6 @@ struct TranslatedStruct: TranslatedType {
 
         let generateMethodsForEmptyStruct = storedVariables.isEmpty
 
-        let (fieldsForGeneratedMethods, _) = KotlinClass.separate(fieldsAndMethods: fieldsAndMethods)
-
         if generateMethodsForEmptyStruct {
             var bodyBuilder = [String]()
 

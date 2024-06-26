@@ -170,7 +170,7 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
         ))
     );
     @override
-    String toString() => 'TestAsyncForeignSideFunctionsStruct(const42: $const42, iabs: $iabs, intCompose: $intCompose, add3Things: $add3Things, makeList: $makeList, fifthThing: $fifthThing, six: $six, willThrow: $willThrow, exercise0Fun: $exercise0Fun, exercise1Fun: $exercise1Fun, exercise2Fun: $exercise2Fun, exercise3Fun: $exercise3Fun, exercise4Fun: $exercise4Fun, exercise5Fun: $exercise5Fun, exercise6Fun: $exercise6Fun, thunkTwiceMakerFun: $thunkTwiceMakerFun)';
+    String toString() => 'TestAPI.TestAsyncForeignSideFunctionsStruct(const42: $const42, iabs: $iabs, intCompose: $intCompose, add3Things: $add3Things, makeList: $makeList, fifthThing: $fifthThing, six: $six, willThrow: $willThrow, exercise0Fun: $exercise0Fun, exercise1Fun: $exercise1Fun, exercise2Fun: $exercise2Fun, exercise3Fun: $exercise3Fun, exercise4Fun: $exercise4Fun, exercise5Fun: $exercise5Fun, exercise6Fun: $exercise6Fun, thunkTwiceMakerFun: $thunkTwiceMakerFun)';
 
     static CreatedRef ffi_get_const42(
         UnownedRef obj,

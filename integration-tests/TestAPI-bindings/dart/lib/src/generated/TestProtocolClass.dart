@@ -84,9 +84,6 @@ class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsPro
         createRef(TestProtocolClass(ref))
     );
 
-    @override
-    String toString() => 'TestProtocolClass(corge: $corge, flarp: $flarp, frobby: $frobby, hashCode: $hashCode)';
-
     /// <!-- FishyJoes.export(corge) -->
     String get corge =>
         GCRef.using(this, (_thisHandle) =>

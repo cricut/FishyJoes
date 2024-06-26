@@ -95,7 +95,7 @@ class TestProtocolStruct implements TestAPI.TestMethodsProtocol, TestAPI.TestPro
         ))
     );
     @override
-    String toString() => 'TestProtocolStruct(corge: $corge)';
+    String toString() => 'TestAPI.TestProtocolStruct(corge: $corge)';
 
     static CreatedRef ffi_get_corge(
         UnownedRef obj,

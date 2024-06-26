@@ -2,9 +2,22 @@ package com.cricut.testapi
 
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 
 internal class ClassTests {
+    companion object {
+        const val DEBUG_PRINTS = false
+        @BeforeAll
+        @JvmStatic
+        // To get procId for attaching lldb debugger to
+        fun beforeAll() {
+            val procId = ProcessHandle.current().pid()
+            if (DEBUG_PRINTS) {
+                println("procId: $procId")
+            }
+        }
+    }
     @Test
     fun testEmptyClass() {
         val a1 = EmptyClass1.create()

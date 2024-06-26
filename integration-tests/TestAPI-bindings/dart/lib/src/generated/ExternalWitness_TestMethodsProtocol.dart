@@ -84,9 +84,6 @@ class ExternalWitness_TestMethodsProtocol extends SwiftReference implements Test
         createRef(ExternalWitness_TestMethodsProtocol(ref))
     );
 
-    @override
-    String toString() => 'ExternalWitness_TestMethodsProtocol()';
-
     /// <!-- FishyJoes.export(foo) -->
     void foo(
     ) =>

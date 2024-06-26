@@ -84,9 +84,6 @@ class ExternalWitness_TestDifferingExportNameProtocolDiffy extends SwiftReferenc
         createRef(ExternalWitness_TestDifferingExportNameProtocolDiffy(ref))
     );
 
-    @override
-    String toString() => 'ExternalWitness_TestDifferingExportNameProtocolDiffy(tata: $tata)';
-
     /// <!-- FishyJoes.export(tata) -->
     int get tata =>
         GCRef.using(this, (_thisHandle) =>

@@ -84,9 +84,6 @@ class ExternalWitness_TestDefaultComputedProperties extends SwiftReference imple
         createRef(ExternalWitness_TestDefaultComputedProperties(ref))
     );
 
-    @override
-    String toString() => 'ExternalWitness_TestDefaultComputedProperties(noot: $noot, plutonic: $plutonic)';
-
     /// <!-- FishyJoes.export(noot) -->
     int get noot =>
         GCRef.using(this, (_thisHandle) =>

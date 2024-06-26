@@ -95,7 +95,7 @@ class TestLeadingUnderscoredPropStruct implements TestAPI.TestLeadingUnderscored
         ))
     );
     @override
-    String toString() => 'TestLeadingUnderscoredPropStruct(m_leadingUnderscoreProp: $m_leadingUnderscoreProp)';
+    String toString() => 'TestAPI.TestLeadingUnderscoredPropStruct(m_leadingUnderscoreProp: $m_leadingUnderscoreProp)';
 
     static CreatedRef ffi_get__leadingUnderscoreProp(
         UnownedRef obj,

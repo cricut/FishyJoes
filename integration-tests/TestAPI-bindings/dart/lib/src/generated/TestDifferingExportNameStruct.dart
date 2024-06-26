@@ -95,7 +95,7 @@ class TestDifferingExportNameStruct implements TestAPI.TestDifferingExportNamePr
         ))
     );
     @override
-    String toString() => 'TestDifferingExportNameStruct(tata: $tata)';
+    String toString() => 'TestAPI.TestDifferingExportNameStruct(tata: $tata)';
 
     static int ffi_get_tata(
         UnownedRef obj,

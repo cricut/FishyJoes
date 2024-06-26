@@ -95,7 +95,7 @@ class Structs_MutableStruct {
         ))
     );
     @override
-    String toString() => 'Structs_MutableStruct(i: $i)';
+    String toString() => 'TestAPI.Structs_MutableStruct(i: $i)';
 
     static int ffi_get_i(
         UnownedRef obj,

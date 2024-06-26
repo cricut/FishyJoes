@@ -84,9 +84,6 @@ class TestDefaultComputedPropertiesReference extends SwiftReference implements T
         createRef(TestDefaultComputedPropertiesReference(ref))
     );
 
-    @override
-    String toString() => 'TestDefaultComputedPropertiesReference(noot: $noot, plutonic: $plutonic, spam: $spam)';
-
     /// <!-- FishyJoes.export(noot) -->
     int get noot =>
         GCRef.using(this, (_thisHandle) =>

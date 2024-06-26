@@ -84,9 +84,6 @@ class ExternalWitness_TestAsyncFunctions extends SwiftReference implements TestA
         createRef(ExternalWitness_TestAsyncFunctions(ref))
     );
 
-    @override
-    String toString() => 'ExternalWitness_TestAsyncFunctions(add3Things: $add3Things, const42: $const42, fifthThing: $fifthThing, iabs: $iabs, intCompose: $intCompose, makeList: $makeList, six: $six, willThrow: $willThrow)';
-
     /// <!-- FishyJoes.export(add3Things) -->
     Future<double> Function(double, double, int) get add3Things =>
         GCRef.using(this, (_thisHandle) =>

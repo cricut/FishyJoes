@@ -90,7 +90,7 @@ class EmptyStruct {
         ))
     );
     @override
-    String toString() => 'EmptyStruct()';
+    String toString() => 'TestAPI.EmptyStruct()';
 
     @override
     bool operator ==(Object other) {

@@ -100,7 +100,7 @@ class TestDefaultComputedPropertiesStruct implements TestAPI.TestDefaultComputed
         ))
     );
     @override
-    String toString() => 'TestDefaultComputedPropertiesStruct(spam: $spam, noot: $noot)';
+    String toString() => 'TestAPI.TestDefaultComputedPropertiesStruct(spam: $spam, noot: $noot)';
 
     static bool ffi_get_spam(
         UnownedRef obj,

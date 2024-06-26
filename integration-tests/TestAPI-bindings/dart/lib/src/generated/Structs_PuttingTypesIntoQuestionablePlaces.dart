@@ -84,9 +84,6 @@ class Structs_PuttingTypesIntoQuestionablePlaces extends SwiftReference {
         createRef(Structs_PuttingTypesIntoQuestionablePlaces(ref))
     );
 
-    @override
-    String toString() => 'Structs_PuttingTypesIntoQuestionablePlaces()';
-
     /// <!-- FishyJoes.export(create) -->
     static TestAPI.Structs_PuttingTypesIntoQuestionablePlaces create(
     ) =>
