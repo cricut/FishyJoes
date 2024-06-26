@@ -124,7 +124,7 @@ public class CodeGen: ParsableCommand {
 
             injectedDependencies[moduleName] = .local(path: repoRoot)
             injectedDependencies["\(moduleName)-bindings"] = .local(
-                path: "\(repoRoot)/\(swiftBindingsRoot)"
+                path: "\(repoRoot)/bindings/swift-interfaces/generated/\(moduleName)-bindings"
             )
         }
         injectedDependencies[config.module] = .local(path: URL(fileURLWithPath: ".").path)

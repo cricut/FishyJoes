@@ -48,7 +48,7 @@ class CSharpPhases: IotaPhases, Phases {
         try cmd(
             "dotnet", "pack",
             "-c", "Release",
-            "c-sharp/\(name)/\(name).csproj",
+            "bindings/c-sharp/generated/\(name)/\(name).csproj",
             "/p:Version=\(version)",
             "--output", "c-sharp/nupkgs"
         ).run()
