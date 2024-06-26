@@ -20,6 +20,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Cricut.__MODULE_NAME__\Cricut.__MODULE_NAME__.csproj" />
+    <ProjectReference Include="$(ProjectDir)..\generated\Cricut.__MODULE_NAME__\Cricut.__MODULE_NAME__.csproj" />
   </ItemGroup>
 </Project>

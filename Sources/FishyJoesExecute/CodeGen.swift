@@ -131,7 +131,7 @@ public class CodeGen: ParsableCommand {
 
         return BuildConfiguration(
             packagePath: swiftBindingsRoot,
-            scratchPath: "\(swiftBindingsRoot)/.build",
+            scratchPath: ".build/bindings",
             debug: debug,
             fat: fat,
             codeCoveragePath: codeCoveragePath,
