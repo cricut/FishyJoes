@@ -38,9 +38,7 @@ class DartProductClass: DartClass {
         fragment.output("@override")
         fragment.output("String toString() => '\(module.name).\(unqualifiedName)(", newLineTerminated: false)
 
-        let toStringParamsString = fields.filter {
-            $0.name != "hashCode"
-        }.map {
+        let toStringParamsString = fields.map {
             "\(DartClass.deforbidify($0.name)): $\(DartClass.deforbidify($0.name))"
         }.joined(separator: ", ")
 
