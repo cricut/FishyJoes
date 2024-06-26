@@ -248,17 +248,8 @@ func withDirectory<R>(_ dirName: String, body: () throws -> R) throws -> R {
 // It's almost always better to construct relative paths from other relative paths.
 // Sometimes (I'm looking at you, SPM) absolute paths are given as input and a workaround is needed.
 func relativePath(of targetPath: String, relativeTo sourcePath: String) -> String {
-    func components(of path: String) -> [String] {
-        let absPath: String
-        if (path as NSString).isAbsolutePath {
-            absPath = path
-        } else {
-            absPath = (FileManager.default.currentDirectoryPath as NSString).appendingPathComponent(path)
-        }
-        return ((absPath as NSString).standardizingPath as NSString).pathComponents
-    }
-    var targetComponents = components(of: targetPath)
-    var sourceComponents = components(of: sourcePath)
+    var targetComponents = (URL(fileURLWithPath: targetPath).standardized.path as NSString).pathComponents
+    var sourceComponents = (URL(fileURLWithPath: sourcePath).standardized.path as NSString).pathComponents
     while
         let sourceHead = sourceComponents.first,
         let targetHead = targetComponents.first,
