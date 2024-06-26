@@ -50,7 +50,7 @@ class CSharpPhases: IotaPhases, Phases {
             "-c", "Release",
             "bindings/c-sharp/generated/\(name)/\(name).csproj",
             "/p:Version=\(version)",
-            "--output", "c-sharp/nupkgs"
+            "--output", "bindings/c-sharp/nupkgs"
         ).run()
     }
 }

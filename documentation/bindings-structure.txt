@@ -48,12 +48,14 @@ CriGeo/bindings/
 │   ├── Cricut.CriGeo.Tests/
 │   │   ├── Cricut.CriGeo.Tests.csproj
 │   │   └── PathTests.cs
-│   └── generated/Cricut.CriGeo/
-│       ├── Cricut.CriGeo.csproj
-│       ├── Path.cs
-│       └── runtimes/osx/native/
-│           ├── libCriGeo-iota.dylib
-│           └── libCriGeo.dylib
+│   ├── generated/Cricut.CriGeo/
+│   │   ├── Cricut.CriGeo.csproj
+│   │   ├── Path.cs
+│   │   └── runtimes/osx/native/
+│   │       ├── libCriGeo-iota.dylib
+│   │       └── libCriGeo.dylib
+│   └── nupkgs/
+│       └── Cricut.CriGeo.0.0.1-unknown.nupkg
 ├── dart/
 │   └── ???
 └── workflows/
