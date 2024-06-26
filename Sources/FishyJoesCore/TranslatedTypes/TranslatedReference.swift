@@ -144,7 +144,7 @@ struct TranslatedReference: TranslatedType {
                             fragment.outputBlock(".method { env, info in", closeWith: "},") {
                                 fragment.outputBlock(#"FishyJoesNodeRuntime.callbackBody(env, info, name: "toString", expectedArgumentCount: 0, hasNamedOptions: false) { env in"#, closeWith: "}") {
                                     fragment.outputBlock("let result = try Swift.String.toNode(") {
-                                        fragment.output(#""\(env.this(converter: TestAPI.EmptyClass.self))","#)
+                                        fragment.output("\"\\(env.this(converter: \(sourceType.name).self))\",")
                                         fragment.output("env: env.env")
                                     }
                                     fragment.output("return result")

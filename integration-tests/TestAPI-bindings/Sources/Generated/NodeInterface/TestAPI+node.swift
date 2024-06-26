@@ -723,7 +723,7 @@ extension TestAPI.Actors.TemperatureLogger: FishyJoesNodeRuntime.NodeConverter {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "toString", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
-                                "\(env.this(converter: TestAPI.EmptyClass.self))",
+                                "\(env.this(converter: TestAPI.Actors.TemperatureLogger.self))",
                                 env: env.env
                             )
                             return result
@@ -2781,7 +2781,7 @@ extension TestAPI.EmptyClass2: FishyJoesNodeRuntime.NodeConverter {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "toString", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
-                                "\(env.this(converter: TestAPI.EmptyClass.self))",
+                                "\(env.this(converter: TestAPI.EmptyClass2.self))",
                                 env: env.env
                             )
                             return result
@@ -3985,7 +3985,7 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "toString", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
-                                "\(env.this(converter: TestAPI.EmptyClass.self))",
+                                "\(env.this(converter: TestAPI.Methods.self))",
                                 env: env.env
                             )
                             return result
@@ -6412,7 +6412,7 @@ extension TestAPI.Structs.PuttingTypesIntoQuestionablePlaces: FishyJoesNodeRunti
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "toString", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
-                                "\(env.this(converter: TestAPI.EmptyClass.self))",
+                                "\(env.this(converter: TestAPI.Structs.PuttingTypesIntoQuestionablePlaces.self))",
                                 env: env.env
                             )
                             return result
@@ -6540,7 +6540,7 @@ extension TestAPI.Structs.ReferenceStruct: FishyJoesNodeRuntime.NodeConverter {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "toString", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
-                                "\(env.this(converter: TestAPI.EmptyClass.self))",
+                                "\(env.this(converter: TestAPI.Structs.ReferenceStruct.self))",
                                 env: env.env
                             )
                             return result
@@ -8051,7 +8051,7 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "toString", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
-                                "\(env.this(converter: TestAPI.EmptyClass.self))",
+                                "\(env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self))",
                                 env: env.env
                             )
                             return result
@@ -8329,7 +8329,7 @@ extension TestAPI.TestDefaultComputedPropertiesClass: FishyJoesNodeRuntime.NodeC
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "toString", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
-                                "\(env.this(converter: TestAPI.EmptyClass.self))",
+                                "\(env.this(converter: TestAPI.TestDefaultComputedPropertiesClass.self))",
                                 env: env.env
                             )
                             return result
@@ -9464,7 +9464,7 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "toString", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
-                                "\(env.this(converter: TestAPI.EmptyClass.self))",
+                                "\(env.this(converter: TestAPI.TestProtocolClass.self))",
                                 env: env.env
                             )
                             return result
