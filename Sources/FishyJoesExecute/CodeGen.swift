@@ -124,7 +124,7 @@ public class CodeGen: ParsableCommand {
 
             injectedDependencies[moduleName] = .local(path: repoRoot)
             injectedDependencies["\(moduleName)-bindings"] = .local(
-                path: "\(repoRoot)/\(swiftBindingsRoot)"
+                path: "\(repoRoot)/bindings/swift-interfaces/generated/\(moduleName)-bindings"
             )
         }
         injectedDependencies[config.module] = .local(path: URL(fileURLWithPath: ".").path)
@@ -234,7 +234,7 @@ extension CodeGen {
                 "bindings/ts/generated",
                 "bindings/ts/tests/generated",
                 "bindings/kotlin/generated/src/main/kotlin/com/cricut/\(config.module.lowercased())",
-                "bindings/c-sharp/generated/Cricut.\(config.module.lowercased())",
+                "bindings/c-sharp/generated/Cricut.\(config.module)",
                 "bindings/dart/generated/lib/src",
             ]
             try cmd("rm", "-rf", "bindings/swift-interfaces/generated").run()

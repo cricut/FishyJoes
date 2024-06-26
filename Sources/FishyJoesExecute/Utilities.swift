@@ -243,3 +243,21 @@ func withDirectory<R>(_ dirName: String, body: () throws -> R) throws -> R {
         return try body()
     }
 }
+
+// Use this function with extreme hesitance.
+// It's almost always better to construct relative paths from other relative paths.
+// Sometimes (I'm looking at you, SPM) absolute paths are given as input and a workaround is needed.
+func relativePath(of targetPath: String, relativeTo sourcePath: String) -> String {
+    var targetComponents = (URL(fileURLWithPath: targetPath).standardized.path as NSString).pathComponents
+    var sourceComponents = (URL(fileURLWithPath: sourcePath).standardized.path as NSString).pathComponents
+    while
+        let sourceHead = sourceComponents.first,
+        let targetHead = targetComponents.first,
+        sourceHead == targetHead
+    {
+        // quadratic, but not worth speeding up
+        sourceComponents.removeFirst()
+        targetComponents.removeFirst()
+    }
+    return (sourceComponents.map { _ in ".." } + targetComponents).joined(separator: "/")
+}

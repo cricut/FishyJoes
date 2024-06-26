@@ -21,6 +21,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <ProjectReference Include="..\Cricut.TestAPI\Cricut.TestAPI.csproj" />
+    <ProjectReference Include="..\generated\Cricut.TestAPI\Cricut.TestAPI.csproj" />
   </ItemGroup>
 </Project>

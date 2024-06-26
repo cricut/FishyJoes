@@ -59,7 +59,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: mac_generated
-          path: c-sharp/Cricut.__MODULE_NAME__/runtimes
+          path: bindings/c-sharp/generated/Cricut.__MODULE_NAME__/runtimes
 
   build-test-c-sharp-linux:
     name: "Ubuntu: Build and test C# bindings"
@@ -105,7 +105,7 @@ jobs:
       - name: Patch libs to use relative paths to swift stdlib
         shell: zsh {0}
         run: |
-          cd c-sharp/Cricut.__MODULE_NAME__/runtimes/linux/native
+          cd bindings/c-sharp/generated/Cricut.__MODULE_NAME__/runtimes/linux/native
 
           SWIFT_RUN_PATH='/usr/lib/swift/linux:./:$ORIGIN'
           for LIB in lib*.so*; do
@@ -123,7 +123,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ubuntu_generated
-          path: c-sharp/Cricut.__MODULE_NAME__/runtimes
+          path: bindings/c-sharp/generated/Cricut.__MODULE_NAME__/runtimes
 
   build-test-c-sharp-windows:
     name: "Windows: Build and test C# bindings"
@@ -179,7 +179,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: windows_generated
-          path: c-sharp/Cricut.__MODULE_NAME__/runtimes
+          path: bindings/c-sharp/generated/Cricut.__MODULE_NAME__/runtimes
 
   c-sharp-publish:
     name: "Publish C# package"
@@ -224,13 +224,13 @@ jobs:
 
           ls *
 
-          rm -rf c-sharp/Cricut.__MODULE_NAME__/runtimes
-          mkdir -p c-sharp/Cricut.__MODULE_NAME__/runtimes
-          mv mac_generated/osx c-sharp/Cricut.__MODULE_NAME__/runtimes/
-          mv ubuntu_generated/linux c-sharp/Cricut.__MODULE_NAME__/runtimes/
-          mv windows_generated/win c-sharp/Cricut.__MODULE_NAME__/runtimes/
+          rm -rf bindings/c-sharp/generated/Cricut.__MODULE_NAME__/runtimes
+          mkdir -p bindings/c-sharp/generated/Cricut.__MODULE_NAME__/runtimes
+          mv mac_generated/osx bindings/c-sharp/generated/Cricut.__MODULE_NAME__/runtimes/
+          mv ubuntu_generated/linux bindings/c-sharp/generated/Cricut.__MODULE_NAME__/runtimes/
+          mv windows_generated/win bindings/c-sharp/generated/Cricut.__MODULE_NAME__/runtimes/
 
-          ls -R c-sharp/
+          ls -R bindings/c-sharp/
 
       - name: Determine version
         shell: zsh {0}
@@ -249,14 +249,17 @@ jobs:
         run: |
           set -euxo pipefail
 
-          cd c-sharp/Cricut.__MODULE_NAME__
-          dotnet pack -c Release -o out /p:PackageVersion="${{ env.VERSION }}"
+          dotnet pack \
+              -c Release \
+              bindings/c-sharp/generated/Cricut.__MODULE_NAME__.csproj \
+              /p:Version=$VERSION \
+              --output bindings/c-sharp/nupkgs
 
       - name:  result
         uses: actions/upload-artifact@v3
         with:
           name: nuget-package
-          path: c-sharp/Cricut.__MODULE_NAME__/out/*.nupkg
+          path: c-sharp/Cricut.__MODULE_NAME__/nupkgs/*.nupkg
 
       - name: Publish
         shell: zsh {0}
@@ -264,7 +267,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          dotnet nuget push ./c-sharp/Cricut.__MODULE_NAME__/out/*.nupkg \
+          dotnet nuget push ./bindings/c-sharp/nupkgs/*.nupkg \
             --source https://nuget.pkg.github.com/cricut \
             --api-key ${{ github.token }} \
             --skip-duplicate
