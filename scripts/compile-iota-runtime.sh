@@ -55,8 +55,12 @@ install-lib "FishyJoesIotaRuntime.dll" "c-sharp-runtime/runtimes/win/native" "da
     install-lib "libFishyJoesIotaRuntime.dylib" "c-sharp-runtime/runtimes/osx/native" "dart-runtime/macos/native" ||
     install-lib "libFishyJoesIotaRuntime.so" "c-sharp-runtime/runtimes/linux/native" "dart-runtime/linux/native"
 
-dotnet pack \
-    -c "$CONFIGURATION" \
-    c-sharp-runtime/Cricut.FishyJoesRuntime.csproj \
-    "/p:Version=$VERSION" \
-    --output c-sharp-runtime/nupkgs
+if dotnet --version >/dev/null 2>&1; then
+    dotnet pack \
+           -c "$CONFIGURATION" \
+           c-sharp-runtime/Cricut.FishyJoesRuntime.csproj \
+           "/p:Version=$VERSION" \
+           --output c-sharp-runtime/nupkgs
+else
+    echo "dotnet executable not found, skipping creation of nuget package"
+fi
