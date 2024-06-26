@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 
 internal class ClassTests {
     companion object {
-        const val DEBUG_PRINTS = true
+        const val DEBUG_PRINTS = false
         @BeforeAll
         @JvmStatic
         // To get procId for attaching lldb debugger to

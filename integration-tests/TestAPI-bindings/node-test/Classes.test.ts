@@ -1,8 +1,7 @@
 import { TestAPI } from 'TestAPI';
 
 test('EmptyClass', () => {
-    console.log('pid: ' + process.pid);
-
+    //console.log('pid: ' + process.pid);
     let a1 = TestAPI.EmptyClass1.create()
     let a2 = TestAPI.EmptyClass1.create()
     expect(a1.blarg).toEqual("Blarg!")

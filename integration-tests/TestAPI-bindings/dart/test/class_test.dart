@@ -11,8 +11,6 @@ void main() {
 
   group('ClassTests', () {
       test('testEmptyClass', () {
-        print('pid: $pid');
-
         final a1 = EmptyClass1.create();
         final a2 = EmptyClass1.create();
         expect(a1.blarg, equals("Blarg!"));
