@@ -56,7 +56,7 @@ install-lib "FishyJoesIotaRuntime.dll" "c-sharp-runtime/runtimes/win/native" "da
     install-lib "libFishyJoesIotaRuntime.so" "c-sharp-runtime/runtimes/linux/native" "dart-runtime/linux/native"
 
 if dotnet --version >/dev/null 2>&1; then
-    dotnet pack \
+    MSYS_NO_PATHCONV=1 dotnet pack \
            -c "$CONFIGURATION" \
            c-sharp-runtime/Cricut.FishyJoesRuntime.csproj \
            "/p:Version=$VERSION" \
