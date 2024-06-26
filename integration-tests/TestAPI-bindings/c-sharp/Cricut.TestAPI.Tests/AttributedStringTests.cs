@@ -496,9 +496,14 @@ namespace Cricut.TestAPI.Tests {
             // TODO: implement copyWith for c#?
 
             Assert.Equal("quxx", a1.X);
+            Assert.Equal("quxx", a2.X);
             Assert.Equal("corgle", b1.X);
+            Assert.Equal("garply", b2.X);
 
             Assert.Equal("AttributedString_PuttingTypesIntoQuestionablePlaces { X = quxx }", a1.ToString());
+            Assert.Equal("AttributedString_PuttingTypesIntoQuestionablePlaces { X = quxx }", a2.ToString());
+            Assert.Equal("AttributedString_PuttingTypesIntoQuestionablePlaces { X = corgle }", b1.ToString());
+            Assert.Equal("AttributedString_PuttingTypesIntoQuestionablePlaces { X = garply }", b2.ToString());
 
             Assert.Equal(a1.GetHashCode(), a2.GetHashCode());
             Assert.NotEqual(b1.GetHashCode(), b2.GetHashCode());
