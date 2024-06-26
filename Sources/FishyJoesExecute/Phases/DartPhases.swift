@@ -99,7 +99,7 @@ class DartPhases: IotaPhases, Phases {
         #if os(macOS) || os(Linux)
         try cmd("npm", arguments: npmPackArgs).run()
         #elseif os(Windows)
-        return cmd("cmd.exe", arguments: ["/c", "npm"] + npmPackArgs).run()
+        try cmd("cmd.exe", arguments: ["/c", "npm"] + npmPackArgs).run()
         #else
         fatalError("unknown host OS")
         #endif
