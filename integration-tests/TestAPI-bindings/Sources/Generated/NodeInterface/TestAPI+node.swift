@@ -719,6 +719,18 @@ extension TestAPI.Actors.TemperatureLogger: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
+                "toString": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "toString", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try Swift.String.toNode(
+                                "\(env.this(converter: TestAPI.EmptyClass.self))",
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                )
             ],
             constructor: { env, info in
                 FishyJoesNodeRuntime.callbackBody(env, info, name: "Actors.TemperatureLogger_constructor", expectedArgumentCount: 1) { env in
@@ -2648,6 +2660,18 @@ extension TestAPI.EmptyClass: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
+                "toString": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "toString", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try Swift.String.toNode(
+                                "\(env.this(converter: TestAPI.EmptyClass.self))",
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                )
             ],
             constructor: { env, info in
                 FishyJoesNodeRuntime.callbackBody(env, info, name: "EmptyClass1_constructor", expectedArgumentCount: 1) { env in
@@ -2753,6 +2777,18 @@ extension TestAPI.EmptyClass2: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
+                "toString": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "toString", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try Swift.String.toNode(
+                                "\(env.this(converter: TestAPI.EmptyClass.self))",
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                )
             ],
             constructor: { env, info in
                 FishyJoesNodeRuntime.callbackBody(env, info, name: "EmptyClass2_constructor", expectedArgumentCount: 1) { env in
@@ -3945,6 +3981,18 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                         }),
                     isStatic: true
                 ),
+                "toString": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "toString", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try Swift.String.toNode(
+                                "\(env.this(converter: TestAPI.EmptyClass.self))",
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                )
             ],
             constructor: { env, info in
                 FishyJoesNodeRuntime.callbackBody(env, info, name: "Methods_constructor", expectedArgumentCount: 1) { env in
@@ -6360,6 +6408,18 @@ extension TestAPI.Structs.PuttingTypesIntoQuestionablePlaces: FishyJoesNodeRunti
                     },
                     isStatic: false
                 ),
+                "toString": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "toString", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try Swift.String.toNode(
+                                "\(env.this(converter: TestAPI.EmptyClass.self))",
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                )
             ],
             constructor: { env, info in
                 FishyJoesNodeRuntime.callbackBody(env, info, name: "Structs_PuttingTypesIntoQuestionablePlaces_constructor", expectedArgumentCount: 1) { env in
@@ -6476,6 +6536,18 @@ extension TestAPI.Structs.ReferenceStruct: FishyJoesNodeRuntime.NodeConverter {
                         }),
                     isStatic: false
                 ),
+                "toString": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "toString", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try Swift.String.toNode(
+                                "\(env.this(converter: TestAPI.EmptyClass.self))",
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                )
             ],
             constructor: { env, info in
                 FishyJoesNodeRuntime.callbackBody(env, info, name: "Structs.ReferenceStruct_constructor", expectedArgumentCount: 1) { env in
@@ -7975,6 +8047,18 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                     ),
                     isStatic: false
                 ),
+                "toString": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "toString", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try Swift.String.toNode(
+                                "\(env.this(converter: TestAPI.EmptyClass.self))",
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                )
             ],
             constructor: { env, info in
                 FishyJoesNodeRuntime.callbackBody(env, info, name: "TestAsyncSwiftSideFunctionsClass_constructor", expectedArgumentCount: 1) { env in
@@ -8241,6 +8325,18 @@ extension TestAPI.TestDefaultComputedPropertiesClass: FishyJoesNodeRuntime.NodeC
                         }),
                     isStatic: false
                 ),
+                "toString": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "toString", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try Swift.String.toNode(
+                                "\(env.this(converter: TestAPI.EmptyClass.self))",
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                )
             ],
             constructor: { env, info in
                 FishyJoesNodeRuntime.callbackBody(env, info, name: "TestDefaultComputedPropertiesReference_constructor", expectedArgumentCount: 1) { env in
@@ -9364,6 +9460,18 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
+                "toString": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "toString", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try Swift.String.toNode(
+                                "\(env.this(converter: TestAPI.EmptyClass.self))",
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                )
             ],
             constructor: { env, info in
                 FishyJoesNodeRuntime.callbackBody(env, info, name: "TestProtocolClass_constructor", expectedArgumentCount: 1) { env in

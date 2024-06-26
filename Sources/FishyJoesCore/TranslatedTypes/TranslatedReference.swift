@@ -133,8 +133,6 @@ struct TranslatedReference: TranslatedType {
 
             fragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
             fragment.outputBlock("public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {") {
-                // fragment.output("print(\"setting up \(sourceType.name)\")")
-
                 fragment.outputBlock("let nodeClass = try NodeClass(") {
                     fragment.output("env: env,")
                     fragment.output("name: \"\(nodeName)\",")
@@ -142,8 +140,17 @@ struct TranslatedReference: TranslatedType {
                         var hasProperties = false
                         hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment, converterName: converterType.name)
                         hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment, converterName: converterType.name)
-                        if !hasProperties {
-                            fragment.output(":")
+                        fragment.outputBlock(#""toString": ("#) {
+                            fragment.outputBlock(".method { env, info in", closeWith: "},") {
+                                fragment.outputBlock(#"FishyJoesNodeRuntime.callbackBody(env, info, name: "toString", expectedArgumentCount: 0, hasNamedOptions: false) { env in"#, closeWith: "}") {
+                                    fragment.outputBlock("let result = try Swift.String.toNode(") {
+                                        fragment.output(#""\(env.this(converter: TestAPI.EmptyClass.self))","#)
+                                        fragment.output("env: env.env")
+                                    }
+                                    fragment.output("return result")
+                                }
+                            }
+                            fragment.output("isStatic: false")
                         }
                     }
                     fragment.outputBlock("constructor: { env, info in", closeWith: "}") {
