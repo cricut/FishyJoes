@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup><RestoreAdditionalProjectSources>/Users/acobb/src/FishyJoes/c-sharp-runtime/nupkgs</RestoreAdditionalProjectSources></PropertyGroup>
+  <PropertyGroup><RestoreAdditionalProjectSources>../../../../../../c-sharp-runtime/nupkgs</RestoreAdditionalProjectSources></PropertyGroup>
   <ItemGroup><PackageReference Include="Cricut.FishyJoesRuntime" Version="0.0.1-unknown" /></ItemGroup>
 
   <PropertyGroup>

@@ -213,8 +213,9 @@ public struct PackageInit: ParsableCommand {
             if let version = dependency.version {
                 return ["<ItemGroup><PackageReference Include=\"\($0.nuget)\" Version=\"\(version)\" /></ItemGroup>"]
             } else {
+                let dependencyPath = relativePath(of: dependency.localPath, relativeTo: "bindings/c-sharp/generated/Cricut.\(config.module)/")
                 return [
-                    "<PropertyGroup><RestoreAdditionalProjectSources>\(dependency.localPath)/\($0.nupkgsPath)</RestoreAdditionalProjectSources></PropertyGroup>",
+                    "<PropertyGroup><RestoreAdditionalProjectSources>\(dependencyPath)/\($0.nupkgsPath)</RestoreAdditionalProjectSources></PropertyGroup>",
                     "<ItemGroup><PackageReference Include=\"\($0.nuget)\" Version=\"0.0.1-unknown\" /></ItemGroup>",
                 ]
             }
