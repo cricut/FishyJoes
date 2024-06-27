@@ -292,7 +292,7 @@ jobs:
 
           # publish C#
 
-          dotnet nuget push ./c-sharp-runtime/out/*.*nupkg \
+          dotnet nuget push ./c-sharp-runtime/nupkgs/*.*nupkg \
             --source https://nuget.pkg.github.com/cricut \
             --api-key ${{ github.token }} \
             --skip-duplicate
