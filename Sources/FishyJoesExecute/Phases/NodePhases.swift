@@ -48,72 +48,62 @@ class NodePhases: BasePhases, Phases {
 
         struct NodeModule {
             let name: String
-            let localPath: String
             let definitionsPath: String
             let extensionsPath: String
             let jsExports: [String]
             let tsExports: [String]
             let nativeLibName: String
-            let wasmMainShimName: String
-            let nodeShimLibName: String
-            let nodeShimCJSName: String
             let npmPackageName: String
             let npmModuleVersion: String
+
+            var wasmMainShimName: String { "\(name)_WasmMainShim.wasm" }
+            var nodeShimLibName: String { "\(name)-node-shim" }
+            var nodeShimCJSName: String { "\(name).cjs.node" }
         }
 
         // Collect the information about the module and its dependencies that will be needed to build node modules
         let nodeDependencies = [
             NodeModule(
                 name: "Runtime",
-                localPath: runtimePath,
                 definitionsPath: "\(runtimePath)/fishyjoes-runtime-common",
                 extensionsPath: "\(runtimePath)/fishyjoes-runtime-common",
                 jsExports: ["Runtime"],
                 tsExports: ["Optional", "Runtime"],
                 nativeLibName: "FishyJoesNodeRuntime",
-                wasmMainShimName: "Runtime_WasmMainShim.wasm",
-                nodeShimLibName: "Runtime-node-shim",
-                nodeShimCJSName: "Runtime.cjs.node",
                 npmPackageName: "fishyjoes-runtime-\(platform.nodeExecutionEnvironment)",
                 npmModuleVersion: fishyJoesDependency.version ??
                     // If fishy-joes is file-local, use a file-local runtime too
                     "file:\(fishyJoesDependency.localPath)/node-runtime/fishyjoes-runtime-\(platform.nodeExecutionEnvironment)"
             )
         ] + options.config.requiredModules.map { requiredModule in
-            let bindingsModuleName = "\(requiredModule)-bindings"
-            guard let dependency = options.packageInfo.dependencyMap[bindingsModuleName] else {
-                fatalError("Could not locate dependency \(bindingsModuleName) in Package.swift")
+            guard let dependency = options.packageInfo.dependencyMap[requiredModule] else {
+                fatalError("Could not locate dependency \(requiredModule) in Package.swift")
             }
+            let swiftBindingsRoot = "\(dependency.localPath)/bindings/swift-interfaces/generated/\(requiredModule)-bindings"
             return NodeModule(
                 name: requiredModule,
-                localPath: dependency.localPath,
-                definitionsPath: "\(dependency.localPath)/Sources/Generated/NodeInterface",
-                extensionsPath: "ts",
+                definitionsPath: "\(swiftBindingsRoot)/Sources/NodeInterface",
+                extensionsPath: "\(dependency.localPath)/bindings/ts",
                 jsExports: [requiredModule],
                 tsExports: [requiredModule],
                 nativeLibName: "\(requiredModule)-node",
-                wasmMainShimName: "\(requiredModule)_WasmMainShim.wasm",
-                nodeShimLibName: "\(requiredModule)-node-shim",
-                nodeShimCJSName: "\(requiredModule).cjs.node",
                 npmPackageName: "\(requiredModule.lowercased())-\(platform.nodeExecutionEnvironment)",
                 npmModuleVersion: dependency.version ??
                     // If dependency is file-local, use a file-local dependency too
-                    "file:\(dependency.localPath)/output/\(platform.platform)"
+                    "file:\(dependency.localPath)/\(outputDir)"
             )
         }
+
+        let swiftBindingsRoot = "bindings/swift-interfaces/generated/\(module)-bindings"
         let nodeModule = NodeModule(
             name: module,
-            localPath: "Sources/Generated/NodeInterface",
-            definitionsPath: "Sources/Generated/NodeInterface",
-            extensionsPath: "ts",
+            definitionsPath: "\(swiftBindingsRoot)Sources/NodeInterface",
+            extensionsPath: "bindings/ts",
             jsExports: [module],
             tsExports: [module],
             nativeLibName: "\(module)-node",
-            wasmMainShimName: "\(module)_WasmMainShim.wasm",
-            nodeShimLibName: "\(module)-node-shim",
-            nodeShimCJSName: "\(module).cjs.node",
             npmPackageName: "\(module)-\(platform.nodeExecutionEnvironment)",
-            npmModuleVersion: "file:output/\(platform.platform)"
+            npmModuleVersion: "file:\(outputDir)"
         )
         let nodeModules = nodeDependencies + [nodeModule]
 
