@@ -18,8 +18,8 @@ extension Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces: NodeMu
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_string
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_string
+                assert(fieldType == expectedFieldType)
 
                 return try Swift.String.fromNode(fieldValue, env: env)
             }()
@@ -88,8 +88,8 @@ extension Swift.String.PuttingTypesIntoQuestionablePlaces: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_string
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_string
+                assert(fieldType == expectedFieldType)
 
                 return try Swift.String.fromNode(fieldValue, env: env)
             }()
@@ -431,8 +431,8 @@ extension TestAPI.AProtocolImplementation: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_string
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_string
+                assert(fieldType == expectedFieldType)
 
                 return try Swift.String.fromNode(fieldValue, env: env)
             }(),
@@ -441,8 +441,8 @@ extension TestAPI.AProtocolImplementation: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_boolean
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_boolean
+                assert(fieldType == expectedFieldType)
 
                 return try Swift.Bool.fromNode(fieldValue, env: env)
             }()
@@ -2369,8 +2369,8 @@ extension TestAPI.Collections.CollectionHolder: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_object
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_object
+                assert(fieldType == expectedFieldType)
 
                 return try ArrayConverter<Swift.Bool>.fromNode(fieldValue, env: env)
             }(),
@@ -2379,8 +2379,8 @@ extension TestAPI.Collections.CollectionHolder: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_object
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_object
+                assert(fieldType == expectedFieldType)
 
                 return try SetConverter<Swift.Bool>.fromNode(fieldValue, env: env)
             }(),
@@ -2389,8 +2389,8 @@ extension TestAPI.Collections.CollectionHolder: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_object
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_object
+                assert(fieldType == expectedFieldType)
 
                 return try DictionaryConverter<Swift.Bool, Swift.Bool>.fromNode(fieldValue, env: env)
             }(),
@@ -2399,8 +2399,8 @@ extension TestAPI.Collections.CollectionHolder: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_object
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_object
+                assert(fieldType == expectedFieldType)
 
                 return try ArrayConverter<Swift.Int>.fromNode(fieldValue, env: env)
             }(),
@@ -2409,8 +2409,8 @@ extension TestAPI.Collections.CollectionHolder: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_object
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_object
+                assert(fieldType == expectedFieldType)
 
                 return try SetConverter<Swift.Int>.fromNode(fieldValue, env: env)
             }(),
@@ -2419,8 +2419,8 @@ extension TestAPI.Collections.CollectionHolder: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_object
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_object
+                assert(fieldType == expectedFieldType)
 
                 return try DictionaryConverter<Swift.Int, Swift.Int>.fromNode(fieldValue, env: env)
             }(),
@@ -2429,8 +2429,8 @@ extension TestAPI.Collections.CollectionHolder: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_object
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_object
+                assert(fieldType == expectedFieldType)
 
                 return try ArrayConverter<Swift.String>.fromNode(fieldValue, env: env)
             }(),
@@ -2439,8 +2439,8 @@ extension TestAPI.Collections.CollectionHolder: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_object
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_object
+                assert(fieldType == expectedFieldType)
 
                 return try SetConverter<Swift.String>.fromNode(fieldValue, env: env)
             }(),
@@ -2449,8 +2449,8 @@ extension TestAPI.Collections.CollectionHolder: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_object
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_object
+                assert(fieldType == expectedFieldType)
 
                 return try DictionaryConverter<Swift.String, Swift.String>.fromNode(fieldValue, env: env)
             }()
@@ -5280,8 +5280,8 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_boolean
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_boolean
+                assert(fieldType == expectedFieldType)
 
                 return try Swift.Bool.fromNode(fieldValue, env: env)
             }(),
@@ -5290,8 +5290,8 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_undefined
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_undefined
+                assert(fieldType == expectedFieldType)
 
                 return try OptionalConverter<Swift.Bool>.fromNode(fieldValue, env: env)
             }(),
@@ -5300,8 +5300,8 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_number
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_number
+                assert(fieldType == expectedFieldType)
 
                 return try Swift.UInt8.fromNode(fieldValue, env: env)
             }(),
@@ -5310,8 +5310,8 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_undefined
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_undefined
+                assert(fieldType == expectedFieldType)
 
                 return try OptionalConverter<Swift.UInt8>.fromNode(fieldValue, env: env)
             }(),
@@ -5320,8 +5320,8 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_number
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_number
+                assert(fieldType == expectedFieldType)
 
                 return try Swift.UInt16.fromNode(fieldValue, env: env)
             }(),
@@ -5330,8 +5330,8 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_undefined
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_undefined
+                assert(fieldType == expectedFieldType)
 
                 return try OptionalConverter<Swift.UInt16>.fromNode(fieldValue, env: env)
             }(),
@@ -5340,8 +5340,8 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_number
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_number
+                assert(fieldType == expectedFieldType)
 
                 return try Swift.UInt32.fromNode(fieldValue, env: env)
             }(),
@@ -5350,8 +5350,8 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_undefined
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_undefined
+                assert(fieldType == expectedFieldType)
 
                 return try OptionalConverter<Swift.UInt32>.fromNode(fieldValue, env: env)
             }(),
@@ -5360,8 +5360,8 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_bigint
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_bigint
+                assert(fieldType == expectedFieldType)
 
                 return try Swift.UInt64.fromNode(fieldValue, env: env)
             }(),
@@ -5370,8 +5370,8 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_undefined
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_undefined
+                assert(fieldType == expectedFieldType)
 
                 return try OptionalConverter<Swift.UInt64>.fromNode(fieldValue, env: env)
             }(),
@@ -5380,8 +5380,8 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_number
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_number
+                assert(fieldType == expectedFieldType)
 
                 return try Swift.UInt.fromNode(fieldValue, env: env)
             }(),
@@ -5390,8 +5390,8 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_undefined
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_undefined
+                assert(fieldType == expectedFieldType)
 
                 return try OptionalConverter<Swift.UInt>.fromNode(fieldValue, env: env)
             }(),
@@ -5400,8 +5400,8 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_number
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_number
+                assert(fieldType == expectedFieldType)
 
                 return try Swift.Int8.fromNode(fieldValue, env: env)
             }(),
@@ -5410,8 +5410,8 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_undefined
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_undefined
+                assert(fieldType == expectedFieldType)
 
                 return try OptionalConverter<Swift.Int8>.fromNode(fieldValue, env: env)
             }(),
@@ -5420,8 +5420,8 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_number
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_number
+                assert(fieldType == expectedFieldType)
 
                 return try Swift.Int16.fromNode(fieldValue, env: env)
             }(),
@@ -5430,8 +5430,8 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_undefined
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_undefined
+                assert(fieldType == expectedFieldType)
 
                 return try OptionalConverter<Swift.Int16>.fromNode(fieldValue, env: env)
             }(),
@@ -5440,8 +5440,8 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_number
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_number
+                assert(fieldType == expectedFieldType)
 
                 return try Swift.Int32.fromNode(fieldValue, env: env)
             }(),
@@ -5450,8 +5450,8 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_undefined
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_undefined
+                assert(fieldType == expectedFieldType)
 
                 return try OptionalConverter<Swift.Int32>.fromNode(fieldValue, env: env)
             }(),
@@ -5460,8 +5460,8 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_bigint
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_bigint
+                assert(fieldType == expectedFieldType)
 
                 return try Swift.Int64.fromNode(fieldValue, env: env)
             }(),
@@ -5470,8 +5470,8 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_undefined
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_undefined
+                assert(fieldType == expectedFieldType)
 
                 return try OptionalConverter<Swift.Int64>.fromNode(fieldValue, env: env)
             }(),
@@ -5480,8 +5480,8 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_number
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_number
+                assert(fieldType == expectedFieldType)
 
                 return try Swift.Int.fromNode(fieldValue, env: env)
             }(),
@@ -5490,8 +5490,8 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_undefined
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_undefined
+                assert(fieldType == expectedFieldType)
 
                 return try OptionalConverter<Swift.Int>.fromNode(fieldValue, env: env)
             }(),
@@ -5500,8 +5500,8 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_number
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_number
+                assert(fieldType == expectedFieldType)
 
                 return try Swift.Float.fromNode(fieldValue, env: env)
             }(),
@@ -5510,8 +5510,8 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_undefined
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_undefined
+                assert(fieldType == expectedFieldType)
 
                 return try OptionalConverter<Swift.Float>.fromNode(fieldValue, env: env)
             }(),
@@ -5520,8 +5520,8 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_number
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_number
+                assert(fieldType == expectedFieldType)
 
                 return try Swift.Double.fromNode(fieldValue, env: env)
             }(),
@@ -5530,8 +5530,8 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_undefined
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_undefined
+                assert(fieldType == expectedFieldType)
 
                 return try OptionalConverter<Swift.Double>.fromNode(fieldValue, env: env)
             }()
@@ -6074,8 +6074,8 @@ extension TestAPI.Results.Error: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_string
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_string
+                assert(fieldType == expectedFieldType)
 
                 return try Swift.String.fromNode(fieldValue, env: env)
             }()
@@ -6406,8 +6406,8 @@ extension TestAPI.Structs.MemberwiseStruct: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_string
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_string
+                assert(fieldType == expectedFieldType)
 
                 return try Swift.String.fromNode(fieldValue, env: env)
             }(),
@@ -6416,8 +6416,8 @@ extension TestAPI.Structs.MemberwiseStruct: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_string
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_string
+                assert(fieldType == expectedFieldType)
 
                 return try Swift.String.fromNode(fieldValue, env: env)
             }()
@@ -6521,8 +6521,8 @@ extension TestAPI.Structs.MutableStruct: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_number
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_number
+                assert(fieldType == expectedFieldType)
 
                 return try Swift.Int.fromNode(fieldValue, env: env)
             }()
@@ -6882,8 +6882,8 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_function
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_function
+                assert(fieldType == expectedFieldType)
 
                 return try AsyncFunction0Converter<Swift.Int>.fromNode(fieldValue, env: env)
             }(),
@@ -6892,8 +6892,8 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_function
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_function
+                assert(fieldType == expectedFieldType)
 
                 return try AsyncFunction1Converter<Swift.Int, Swift.Int>.fromNode(fieldValue, env: env)
             }(),
@@ -6902,8 +6902,8 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_function
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_function
+                assert(fieldType == expectedFieldType)
 
                 return try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.fromNode(fieldValue, env: env)
             }(),
@@ -6912,8 +6912,8 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_function
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_function
+                assert(fieldType == expectedFieldType)
 
                 return try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.fromNode(fieldValue, env: env)
             }(),
@@ -6922,8 +6922,8 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_function
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_function
+                assert(fieldType == expectedFieldType)
 
                 return try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.fromNode(fieldValue, env: env)
             }(),
@@ -6932,8 +6932,8 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_function
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_function
+                assert(fieldType == expectedFieldType)
 
                 return try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.fromNode(fieldValue, env: env)
             }(),
@@ -6942,8 +6942,8 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_function
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_function
+                assert(fieldType == expectedFieldType)
 
                 return try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.fromNode(fieldValue, env: env)
             }(),
@@ -6952,8 +6952,8 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_function
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_function
+                assert(fieldType == expectedFieldType)
 
                 return try AsyncFunction0Converter<Swift.Int>.fromNode(fieldValue, env: env)
             }(),
@@ -6962,8 +6962,8 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_function
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_function
+                assert(fieldType == expectedFieldType)
 
                 return try AsyncFunction1Converter<AsyncFunction0Converter<Swift.Int>, Swift.String>.fromNode(fieldValue, env: env)
             }(),
@@ -6972,8 +6972,8 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_function
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_function
+                assert(fieldType == expectedFieldType)
 
                 return try AsyncFunction1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, Swift.String>.fromNode(fieldValue, env: env)
             }(),
@@ -6982,8 +6982,8 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_function
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_function
+                assert(fieldType == expectedFieldType)
 
                 return try AsyncFunction1Converter<Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>, Swift.String>.fromNode(fieldValue, env: env)
             }(),
@@ -6992,8 +6992,8 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_function
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_function
+                assert(fieldType == expectedFieldType)
 
                 return try AsyncFunction1Converter<AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>, Swift.String>.fromNode(fieldValue, env: env)
             }(),
@@ -7002,8 +7002,8 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_function
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_function
+                assert(fieldType == expectedFieldType)
 
                 return try AsyncFunction1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, Swift.String>.fromNode(fieldValue, env: env)
             }(),
@@ -7012,8 +7012,8 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_function
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_function
+                assert(fieldType == expectedFieldType)
 
                 return try AsyncFunction1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, Swift.String>.fromNode(fieldValue, env: env)
             }(),
@@ -7022,8 +7022,8 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_function
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_function
+                assert(fieldType == expectedFieldType)
 
                 return try AsyncFunction1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, Swift.String>.fromNode(fieldValue, env: env)
             }(),
@@ -7032,8 +7032,8 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_function
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_function
+                assert(fieldType == expectedFieldType)
 
                 return try Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>.fromNode(fieldValue, env: env)
             }()
@@ -8825,8 +8825,8 @@ extension TestAPI.TestDefaultComputedPropertiesStruct: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_boolean
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_boolean
+                assert(fieldType == expectedFieldType)
 
                 return try Swift.Bool.fromNode(fieldValue, env: env)
             }(),
@@ -8835,8 +8835,8 @@ extension TestAPI.TestDefaultComputedPropertiesStruct: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_number
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_number
+                assert(fieldType == expectedFieldType)
 
                 return try Swift.Int.fromNode(fieldValue, env: env)
             }()
@@ -9002,8 +9002,8 @@ extension TestAPI.TestDifferingExportNameStruct: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_number
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_number
+                assert(fieldType == expectedFieldType)
 
                 return try Swift.Int.fromNode(fieldValue, env: env)
             }()
@@ -9154,8 +9154,8 @@ extension TestAPI.TestLeadingUnderscoredPropStruct: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_string
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_string
+                assert(fieldType == expectedFieldType)
 
                 return try Swift.String.fromNode(fieldValue, env: env)
             }()
@@ -10058,8 +10058,8 @@ extension TestAPI.TestProtocolStruct: NodeMutator {
 
                 // Type Check
                 let fieldType = try env.typeof(fieldValue)
-                let expectedArgType: napi_valuetype = napi_string
-                assert(fieldType == expectedArgType)
+                let expectedFieldType = napi_string
+                assert(fieldType == expectedFieldType)
 
                 return try Swift.String.fromNode(fieldValue, env: env)
             }()

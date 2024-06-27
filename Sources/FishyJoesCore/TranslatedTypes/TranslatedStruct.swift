@@ -111,8 +111,8 @@ struct TranslatedStruct: TranslatedType {
                             fragment.blankLine()
                             fragment.output("// Type Check")
                             fragment.output("let fieldType = try env.typeof(fieldValue)")
-                            fragment.output("let expectedArgType: napi_valuetype = \(expectedTypes(context: context, fields: [ storedVar ]))")
-                            fragment.output("assert(fieldType == expectedArgType)")
+                            fragment.output("let expectedFieldType = \(expectedTypes(context: context, fields: [ storedVar ]))")
+                            fragment.output("assert(fieldType == expectedFieldType)")
                             fragment.blankLine()
 
                             fragment.output("return try \(resolved.converterType.name).fromNode(fieldValue, env: env)")
