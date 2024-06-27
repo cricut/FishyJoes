@@ -363,7 +363,6 @@ struct TranslatedEnum: TranslatedType {
                                     fragment.output("expectedArgumentCount: \(enumCase.associatedValues.count)")
                                 }
                                 fragment.outputBlock(" { env in", closeWith: "}") {
-                                    fragment.output("// TODO: typecheck?")
                                     fragment.output("let this = try env.this()")
                                     for value in enumCase.associatedValues {
                                         fragment.output("try env.env.setNamedProperty(this, \"\(value.bindingName)\", env.argument(at: \(value.index)))")

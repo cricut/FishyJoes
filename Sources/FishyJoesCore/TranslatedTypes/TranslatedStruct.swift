@@ -158,7 +158,6 @@ struct TranslatedStruct: TranslatedType {
                     }
                     fragment.outputBlock("constructor: { env, info in", closeWith: "}") {
                         fragment.outputBlock("callbackBody(env, info, name: \"\(nodeName)_constructor\", expectedArgumentCount: \(storedVariables.count)) { env in", closeWith: "}") {
-                            fragment.output("// TODO: typecheck?")
                             fragment.output("let this = try env.this()")
                             for (index, storedVar) in storedVariables.enumerated() {
                                 fragment.output("try env.env.setNamedProperty(this, \"\(storedVar.name)\", env.argument(at: \(index)))")
