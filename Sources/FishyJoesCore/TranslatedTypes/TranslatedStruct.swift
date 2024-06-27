@@ -101,13 +101,20 @@ struct TranslatedStruct: TranslatedType {
         fragment.outputBlock("extension \(sourceType.name): NodeMutator {") {
             fragment.output("public typealias SwiftType = Self")
             fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {") {
-                // TODO: type check
-                fragment.outputBlock("Self(") {
+                fragment.outputBlock("return Self(") {
                     for (index, storedVar) in storedVariables.enumerated() {
                         let resolved = context.resolve(type: storedVar.type)
                         let last = index == storedVariables.count - 1
                         fragment.outputBlock("\(storedVar.name): try { () -> \(resolved.sourceType.name) in", closeWith: last ? "}()" : "}(),") {
                             fragment.output("let fieldValue = try env.getNamedProperty(value, \"\(storedVar.name)\")")
+
+                            fragment.blankLine()
+                            fragment.output("// Type Check")
+                            fragment.output("let fieldType = try env.typeof(fieldValue)")
+                            fragment.output("let expectedArgType: napi_valuetype = \(expectedTypes(context: context, fields: [ storedVar ]))")
+                            fragment.output("assert(fieldType == expectedArgType)")
+                            fragment.blankLine()
+
                             fragment.output("return try \(resolved.converterType.name).fromNode(fieldValue, env: env)")
                         }
                     }
@@ -161,49 +168,7 @@ struct TranslatedStruct: TranslatedType {
                             fragment.output("// Type check")
                             fragment.output("let args = try (0..<\(storedVariables.count)).map { try env.argument(at: $0) }")
                             fragment.output("let argTypes = try args.map { try env.env.typeof($0) }")
-
-                            let expectedArgTypes = storedVariables.map {
-                                guard !$0.type.name.starts(with: "Optional") else {
-                                    // any optional type in swift is mapped to napi_undefined
-                                    return "napi_undefined"
-                                }
-                                guard !$0.type.name.starts(with: "Array"),
-                                      !$0.type.name.starts(with: "Set"),
-                                      !$0.type.name.starts(with: "Dictionary") else {
-                                    return "napi_object"
-                                }
-                                let resolved = context.resolve(type: $0.type)
-                                guard !(resolved is TranslatedFunction) else {
-                                    return "napi_function"
-                                }
-
-                                switch resolved.nodeName {
-                                case "undefined":
-                                    return "napi_undefined"
-                                case "null":
-                                    return "napi_null"
-                                case "boolean":
-                                    return "napi_boolean"
-                                case "number":
-                                    return "napi_number"
-                                case "string":
-                                    return "napi_string"
-                                case "symbol":
-                                    return "napi_symbol"
-                                case "object":
-                                    return "napi_object"
-                                case "function":
-                                    return "napi_function"
-                                case "external":
-                                    return "napi_external"
-                                case "bigint":
-                                    return "napi_bigint"
-                                default:
-                                    return "napi_undefined"
-                                }
-                            }.joined(separator: ", ")
-                            fragment.output("let expectedArgTypes: [napi_valuetype] = [\(expectedArgTypes)]")
-
+                            fragment.output("let expectedArgTypes: [napi_valuetype] = [\(expectedTypes(context: context, fields: storedVariables))]")
                             fragment.output("(0..<\(storedVariables.count)).forEach { assert(argTypes[$0] == expectedArgTypes[$0]) }")
                             fragment.blankLine()
 

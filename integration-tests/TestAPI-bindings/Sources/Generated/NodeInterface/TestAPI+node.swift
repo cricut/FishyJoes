@@ -12,9 +12,15 @@ import TestAPI_CommonInterface
 extension Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        Self(
+        return Self(
             x: try { () -> Swift.String in
                 let fieldValue = try env.getNamedProperty(value, "x")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_string
+                assert(fieldType == expectedArgType)
+
                 return try Swift.String.fromNode(fieldValue, env: env)
             }()
         )
@@ -76,9 +82,15 @@ extension Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces: NodeMu
 extension Swift.String.PuttingTypesIntoQuestionablePlaces: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        Self(
+        return Self(
             x: try { () -> Swift.String in
                 let fieldValue = try env.getNamedProperty(value, "x")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_string
+                assert(fieldType == expectedArgType)
+
                 return try Swift.String.fromNode(fieldValue, env: env)
             }()
         )
@@ -413,13 +425,25 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
 extension TestAPI.AProtocolImplementation: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        Self(
+        return Self(
             foo: try { () -> Swift.String in
                 let fieldValue = try env.getNamedProperty(value, "foo")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_string
+                assert(fieldType == expectedArgType)
+
                 return try Swift.String.fromNode(fieldValue, env: env)
             }(),
             baz: try { () -> Swift.Bool in
                 let fieldValue = try env.getNamedProperty(value, "baz")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_boolean
+                assert(fieldType == expectedArgType)
+
                 return try Swift.Bool.fromNode(fieldValue, env: env)
             }()
         )
@@ -2339,41 +2363,95 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
 extension TestAPI.Collections.CollectionHolder: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        Self(
+        return Self(
             boolArray: try { () -> Array<Swift.Bool> in
                 let fieldValue = try env.getNamedProperty(value, "boolArray")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_object
+                assert(fieldType == expectedArgType)
+
                 return try ArrayConverter<Swift.Bool>.fromNode(fieldValue, env: env)
             }(),
             boolSet: try { () -> Set<Swift.Bool> in
                 let fieldValue = try env.getNamedProperty(value, "boolSet")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_object
+                assert(fieldType == expectedArgType)
+
                 return try SetConverter<Swift.Bool>.fromNode(fieldValue, env: env)
             }(),
             boolDictionary: try { () -> Dictionary<Swift.Bool, Swift.Bool> in
                 let fieldValue = try env.getNamedProperty(value, "boolDictionary")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_object
+                assert(fieldType == expectedArgType)
+
                 return try DictionaryConverter<Swift.Bool, Swift.Bool>.fromNode(fieldValue, env: env)
             }(),
             integerArray: try { () -> Array<Swift.Int> in
                 let fieldValue = try env.getNamedProperty(value, "integerArray")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_object
+                assert(fieldType == expectedArgType)
+
                 return try ArrayConverter<Swift.Int>.fromNode(fieldValue, env: env)
             }(),
             integerSet: try { () -> Set<Swift.Int> in
                 let fieldValue = try env.getNamedProperty(value, "integerSet")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_object
+                assert(fieldType == expectedArgType)
+
                 return try SetConverter<Swift.Int>.fromNode(fieldValue, env: env)
             }(),
             integerDictionary: try { () -> Dictionary<Swift.Int, Swift.Int> in
                 let fieldValue = try env.getNamedProperty(value, "integerDictionary")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_object
+                assert(fieldType == expectedArgType)
+
                 return try DictionaryConverter<Swift.Int, Swift.Int>.fromNode(fieldValue, env: env)
             }(),
             stringArray: try { () -> Array<Swift.String> in
                 let fieldValue = try env.getNamedProperty(value, "stringArray")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_object
+                assert(fieldType == expectedArgType)
+
                 return try ArrayConverter<Swift.String>.fromNode(fieldValue, env: env)
             }(),
             stringSet: try { () -> Set<Swift.String> in
                 let fieldValue = try env.getNamedProperty(value, "stringSet")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_object
+                assert(fieldType == expectedArgType)
+
                 return try SetConverter<Swift.String>.fromNode(fieldValue, env: env)
             }(),
             stringDictionary: try { () -> Dictionary<Swift.String, Swift.String> in
                 let fieldValue = try env.getNamedProperty(value, "stringDictionary")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_object
+                assert(fieldType == expectedArgType)
+
                 return try DictionaryConverter<Swift.String, Swift.String>.fromNode(fieldValue, env: env)
             }()
         )
@@ -2901,7 +2979,7 @@ extension TestAPI.EmptyEnum: FishyJoesNodeRuntime.NodeConverter {
 extension TestAPI.EmptyStruct: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        Self(
+        return Self(
         )
     }
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
@@ -3006,7 +3084,7 @@ extension TestAPI.EmptyStruct: NodeMutator {
 extension TestAPI.EmptyStruct2: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        Self(
+        return Self(
         )
     }
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
@@ -5196,109 +5274,265 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
 extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        Self(
+        return Self(
             b: try { () -> Swift.Bool in
                 let fieldValue = try env.getNamedProperty(value, "b")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_boolean
+                assert(fieldType == expectedArgType)
+
                 return try Swift.Bool.fromNode(fieldValue, env: env)
             }(),
             bq: try { () -> Optional<Swift.Bool> in
                 let fieldValue = try env.getNamedProperty(value, "bq")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_undefined
+                assert(fieldType == expectedArgType)
+
                 return try OptionalConverter<Swift.Bool>.fromNode(fieldValue, env: env)
             }(),
             ui8: try { () -> Swift.UInt8 in
                 let fieldValue = try env.getNamedProperty(value, "ui8")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_number
+                assert(fieldType == expectedArgType)
+
                 return try Swift.UInt8.fromNode(fieldValue, env: env)
             }(),
             ui8q: try { () -> Optional<Swift.UInt8> in
                 let fieldValue = try env.getNamedProperty(value, "ui8q")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_undefined
+                assert(fieldType == expectedArgType)
+
                 return try OptionalConverter<Swift.UInt8>.fromNode(fieldValue, env: env)
             }(),
             ui16: try { () -> Swift.UInt16 in
                 let fieldValue = try env.getNamedProperty(value, "ui16")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_number
+                assert(fieldType == expectedArgType)
+
                 return try Swift.UInt16.fromNode(fieldValue, env: env)
             }(),
             ui16q: try { () -> Optional<Swift.UInt16> in
                 let fieldValue = try env.getNamedProperty(value, "ui16q")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_undefined
+                assert(fieldType == expectedArgType)
+
                 return try OptionalConverter<Swift.UInt16>.fromNode(fieldValue, env: env)
             }(),
             ui32: try { () -> Swift.UInt32 in
                 let fieldValue = try env.getNamedProperty(value, "ui32")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_number
+                assert(fieldType == expectedArgType)
+
                 return try Swift.UInt32.fromNode(fieldValue, env: env)
             }(),
             ui32q: try { () -> Optional<Swift.UInt32> in
                 let fieldValue = try env.getNamedProperty(value, "ui32q")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_undefined
+                assert(fieldType == expectedArgType)
+
                 return try OptionalConverter<Swift.UInt32>.fromNode(fieldValue, env: env)
             }(),
             ui64: try { () -> Swift.UInt64 in
                 let fieldValue = try env.getNamedProperty(value, "ui64")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_bigint
+                assert(fieldType == expectedArgType)
+
                 return try Swift.UInt64.fromNode(fieldValue, env: env)
             }(),
             ui64q: try { () -> Optional<Swift.UInt64> in
                 let fieldValue = try env.getNamedProperty(value, "ui64q")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_undefined
+                assert(fieldType == expectedArgType)
+
                 return try OptionalConverter<Swift.UInt64>.fromNode(fieldValue, env: env)
             }(),
             ui: try { () -> Swift.UInt in
                 let fieldValue = try env.getNamedProperty(value, "ui")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_number
+                assert(fieldType == expectedArgType)
+
                 return try Swift.UInt.fromNode(fieldValue, env: env)
             }(),
             uiq: try { () -> Optional<Swift.UInt> in
                 let fieldValue = try env.getNamedProperty(value, "uiq")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_undefined
+                assert(fieldType == expectedArgType)
+
                 return try OptionalConverter<Swift.UInt>.fromNode(fieldValue, env: env)
             }(),
             i8: try { () -> Swift.Int8 in
                 let fieldValue = try env.getNamedProperty(value, "i8")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_number
+                assert(fieldType == expectedArgType)
+
                 return try Swift.Int8.fromNode(fieldValue, env: env)
             }(),
             i8q: try { () -> Optional<Swift.Int8> in
                 let fieldValue = try env.getNamedProperty(value, "i8q")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_undefined
+                assert(fieldType == expectedArgType)
+
                 return try OptionalConverter<Swift.Int8>.fromNode(fieldValue, env: env)
             }(),
             i16: try { () -> Swift.Int16 in
                 let fieldValue = try env.getNamedProperty(value, "i16")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_number
+                assert(fieldType == expectedArgType)
+
                 return try Swift.Int16.fromNode(fieldValue, env: env)
             }(),
             i16q: try { () -> Optional<Swift.Int16> in
                 let fieldValue = try env.getNamedProperty(value, "i16q")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_undefined
+                assert(fieldType == expectedArgType)
+
                 return try OptionalConverter<Swift.Int16>.fromNode(fieldValue, env: env)
             }(),
             i32: try { () -> Swift.Int32 in
                 let fieldValue = try env.getNamedProperty(value, "i32")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_number
+                assert(fieldType == expectedArgType)
+
                 return try Swift.Int32.fromNode(fieldValue, env: env)
             }(),
             i32q: try { () -> Optional<Swift.Int32> in
                 let fieldValue = try env.getNamedProperty(value, "i32q")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_undefined
+                assert(fieldType == expectedArgType)
+
                 return try OptionalConverter<Swift.Int32>.fromNode(fieldValue, env: env)
             }(),
             i64: try { () -> Swift.Int64 in
                 let fieldValue = try env.getNamedProperty(value, "i64")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_bigint
+                assert(fieldType == expectedArgType)
+
                 return try Swift.Int64.fromNode(fieldValue, env: env)
             }(),
             i64q: try { () -> Optional<Swift.Int64> in
                 let fieldValue = try env.getNamedProperty(value, "i64q")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_undefined
+                assert(fieldType == expectedArgType)
+
                 return try OptionalConverter<Swift.Int64>.fromNode(fieldValue, env: env)
             }(),
             i: try { () -> Swift.Int in
                 let fieldValue = try env.getNamedProperty(value, "i")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_number
+                assert(fieldType == expectedArgType)
+
                 return try Swift.Int.fromNode(fieldValue, env: env)
             }(),
             iq: try { () -> Optional<Swift.Int> in
                 let fieldValue = try env.getNamedProperty(value, "iq")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_undefined
+                assert(fieldType == expectedArgType)
+
                 return try OptionalConverter<Swift.Int>.fromNode(fieldValue, env: env)
             }(),
             f: try { () -> Swift.Float in
                 let fieldValue = try env.getNamedProperty(value, "f")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_number
+                assert(fieldType == expectedArgType)
+
                 return try Swift.Float.fromNode(fieldValue, env: env)
             }(),
             fq: try { () -> Optional<Swift.Float> in
                 let fieldValue = try env.getNamedProperty(value, "fq")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_undefined
+                assert(fieldType == expectedArgType)
+
                 return try OptionalConverter<Swift.Float>.fromNode(fieldValue, env: env)
             }(),
             d: try { () -> Swift.Double in
                 let fieldValue = try env.getNamedProperty(value, "d")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_number
+                assert(fieldType == expectedArgType)
+
                 return try Swift.Double.fromNode(fieldValue, env: env)
             }(),
             dq: try { () -> Optional<Swift.Double> in
                 let fieldValue = try env.getNamedProperty(value, "dq")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_undefined
+                assert(fieldType == expectedArgType)
+
                 return try OptionalConverter<Swift.Double>.fromNode(fieldValue, env: env)
             }()
         )
@@ -5834,9 +6068,15 @@ extension TestAPI.Results: FishyJoesNodeRuntime.NodeConverter {
 extension TestAPI.Results.Error: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        Self(
+        return Self(
             message: try { () -> Swift.String in
                 let fieldValue = try env.getNamedProperty(value, "message")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_string
+                assert(fieldType == expectedArgType)
+
                 return try Swift.String.fromNode(fieldValue, env: env)
             }()
         )
@@ -6160,13 +6400,25 @@ extension TestAPI.Structs: FishyJoesNodeRuntime.NodeConverter {
 extension TestAPI.Structs.MemberwiseStruct: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        Self(
+        return Self(
             immutable: try { () -> Swift.String in
                 let fieldValue = try env.getNamedProperty(value, "immutable")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_string
+                assert(fieldType == expectedArgType)
+
                 return try Swift.String.fromNode(fieldValue, env: env)
             }(),
             mutable: try { () -> Swift.String in
                 let fieldValue = try env.getNamedProperty(value, "mutable")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_string
+                assert(fieldType == expectedArgType)
+
                 return try Swift.String.fromNode(fieldValue, env: env)
             }()
         )
@@ -6263,9 +6515,15 @@ extension TestAPI.Structs.MemberwiseStruct: NodeMutator {
 extension TestAPI.Structs.MutableStruct: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        Self(
+        return Self(
             i: try { () -> Swift.Int in
                 let fieldValue = try env.getNamedProperty(value, "i")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_number
+                assert(fieldType == expectedArgType)
+
                 return try Swift.Int.fromNode(fieldValue, env: env)
             }()
         )
@@ -6618,69 +6876,165 @@ extension TestAPI.Structs.ReferenceStruct: FishyJoesNodeRuntime.NodeConverter {
 extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        Self(
+        return Self(
             const42: try { () -> () async throws -> Swift.Int in
                 let fieldValue = try env.getNamedProperty(value, "const42")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_function
+                assert(fieldType == expectedArgType)
+
                 return try AsyncFunction0Converter<Swift.Int>.fromNode(fieldValue, env: env)
             }(),
             iabs: try { () -> (Swift.Int) async throws -> Swift.Int in
                 let fieldValue = try env.getNamedProperty(value, "iabs")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_function
+                assert(fieldType == expectedArgType)
+
                 return try AsyncFunction1Converter<Swift.Int, Swift.Int>.fromNode(fieldValue, env: env)
             }(),
             intCompose: try { () -> (@escaping (Swift.Int) async throws -> Swift.Int, @escaping (Swift.Int) async throws -> Swift.Int) throws -> (Swift.Int) async throws -> Swift.Int in
                 let fieldValue = try env.getNamedProperty(value, "intCompose")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_function
+                assert(fieldType == expectedArgType)
+
                 return try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.fromNode(fieldValue, env: env)
             }(),
             add3Things: try { () -> (Swift.Float, Swift.Double, Swift.Int) async throws -> Swift.Double in
                 let fieldValue = try env.getNamedProperty(value, "add3Things")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_function
+                assert(fieldType == expectedArgType)
+
                 return try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.fromNode(fieldValue, env: env)
             }(),
             makeList: try { () -> (Swift.String, Swift.String, Swift.String, Swift.String) async throws -> Array<Swift.String> in
                 let fieldValue = try env.getNamedProperty(value, "makeList")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_function
+                assert(fieldType == expectedArgType)
+
                 return try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.fromNode(fieldValue, env: env)
             }(),
             fifthThing: try { () -> (Swift.String, Swift.Int, Swift.Double, Swift.String, @escaping () async throws -> Swift.Int) async throws -> () async throws -> Swift.Int in
                 let fieldValue = try env.getNamedProperty(value, "fifthThing")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_function
+                assert(fieldType == expectedArgType)
+
                 return try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.fromNode(fieldValue, env: env)
             }(),
             six: try { () -> (Swift.String, Swift.Int, Swift.Double, Swift.String, @escaping () async throws -> Swift.Int, Swift.Int) async throws -> Swift.Int in
                 let fieldValue = try env.getNamedProperty(value, "six")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_function
+                assert(fieldType == expectedArgType)
+
                 return try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.fromNode(fieldValue, env: env)
             }(),
             willThrow: try { () -> () async throws -> Swift.Int in
                 let fieldValue = try env.getNamedProperty(value, "willThrow")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_function
+                assert(fieldType == expectedArgType)
+
                 return try AsyncFunction0Converter<Swift.Int>.fromNode(fieldValue, env: env)
             }(),
             exercise0Fun: try { () -> (@escaping () async throws -> Swift.Int) async throws -> Swift.String in
                 let fieldValue = try env.getNamedProperty(value, "exercise0Fun")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_function
+                assert(fieldType == expectedArgType)
+
                 return try AsyncFunction1Converter<AsyncFunction0Converter<Swift.Int>, Swift.String>.fromNode(fieldValue, env: env)
             }(),
             exercise1Fun: try { () -> (@escaping (Swift.Int) async throws -> Swift.Int) async throws -> Swift.String in
                 let fieldValue = try env.getNamedProperty(value, "exercise1Fun")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_function
+                assert(fieldType == expectedArgType)
+
                 return try AsyncFunction1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, Swift.String>.fromNode(fieldValue, env: env)
             }(),
             exercise2Fun: try { () -> (@escaping (@escaping (Swift.Int) async throws -> Swift.Int, @escaping (Swift.Int) async throws -> Swift.Int) throws -> (Swift.Int) async throws -> Swift.Int) async throws -> Swift.String in
                 let fieldValue = try env.getNamedProperty(value, "exercise2Fun")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_function
+                assert(fieldType == expectedArgType)
+
                 return try AsyncFunction1Converter<Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>, Swift.String>.fromNode(fieldValue, env: env)
             }(),
             exercise3Fun: try { () -> (@escaping (Swift.Float, Swift.Double, Swift.Int) async throws -> Swift.Double) async throws -> Swift.String in
                 let fieldValue = try env.getNamedProperty(value, "exercise3Fun")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_function
+                assert(fieldType == expectedArgType)
+
                 return try AsyncFunction1Converter<AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>, Swift.String>.fromNode(fieldValue, env: env)
             }(),
             exercise4Fun: try { () -> (@escaping (Swift.String, Swift.String, Swift.String, Swift.String) async throws -> Array<Swift.String>) async throws -> Swift.String in
                 let fieldValue = try env.getNamedProperty(value, "exercise4Fun")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_function
+                assert(fieldType == expectedArgType)
+
                 return try AsyncFunction1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, Swift.String>.fromNode(fieldValue, env: env)
             }(),
             exercise5Fun: try { () -> (@escaping (Swift.String, Swift.Int, Swift.Double, Swift.String, @escaping () async throws -> Swift.Int) async throws -> () async throws -> Swift.Int) async throws -> Swift.String in
                 let fieldValue = try env.getNamedProperty(value, "exercise5Fun")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_function
+                assert(fieldType == expectedArgType)
+
                 return try AsyncFunction1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, Swift.String>.fromNode(fieldValue, env: env)
             }(),
             exercise6Fun: try { () -> (@escaping (Swift.String, Swift.Int, Swift.Double, Swift.String, @escaping () async throws -> Swift.Int, Swift.Int) async throws -> Swift.Int) async throws -> Swift.String in
                 let fieldValue = try env.getNamedProperty(value, "exercise6Fun")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_function
+                assert(fieldType == expectedArgType)
+
                 return try AsyncFunction1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, Swift.String>.fromNode(fieldValue, env: env)
             }(),
             thunkTwiceMakerFun: try { () -> (@escaping () async throws -> Void) throws -> () async throws -> Void in
                 let fieldValue = try env.getNamedProperty(value, "thunkTwiceMakerFun")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_function
+                assert(fieldType == expectedArgType)
+
                 return try Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>.fromNode(fieldValue, env: env)
             }()
         )
@@ -8465,13 +8819,25 @@ extension TestAPI.TestDefaultComputedPropertiesEnum: FishyJoesNodeRuntime.NodeCo
 extension TestAPI.TestDefaultComputedPropertiesStruct: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        Self(
+        return Self(
             spam: try { () -> Swift.Bool in
                 let fieldValue = try env.getNamedProperty(value, "spam")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_boolean
+                assert(fieldType == expectedArgType)
+
                 return try Swift.Bool.fromNode(fieldValue, env: env)
             }(),
             noot: try { () -> Swift.Int in
                 let fieldValue = try env.getNamedProperty(value, "noot")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_number
+                assert(fieldType == expectedArgType)
+
                 return try Swift.Int.fromNode(fieldValue, env: env)
             }()
         )
@@ -8630,9 +8996,15 @@ extension TestAPI_CommonInterface._TestDifferingExportNameProtocolConverter: Nod
 extension TestAPI.TestDifferingExportNameStruct: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        Self(
+        return Self(
             tata: try { () -> Swift.Int in
                 let fieldValue = try env.getNamedProperty(value, "tata")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_number
+                assert(fieldType == expectedArgType)
+
                 return try Swift.Int.fromNode(fieldValue, env: env)
             }()
         )
@@ -8776,9 +9148,15 @@ extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: NodeConv
 extension TestAPI.TestLeadingUnderscoredPropStruct: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        Self(
+        return Self(
             _leadingUnderscoreProp: try { () -> Swift.String in
                 let fieldValue = try env.getNamedProperty(value, "_leadingUnderscoreProp")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_string
+                assert(fieldType == expectedArgType)
+
                 return try Swift.String.fromNode(fieldValue, env: env)
             }()
         )
@@ -9674,9 +10052,15 @@ extension TestAPI.TestProtocolEnum: FishyJoesNodeRuntime.NodeConverter {
 extension TestAPI.TestProtocolStruct: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        Self(
+        return Self(
             corge: try { () -> Swift.String in
                 let fieldValue = try env.getNamedProperty(value, "corge")
+
+                // Type Check
+                let fieldType = try env.typeof(fieldValue)
+                let expectedArgType: napi_valuetype = napi_string
+                assert(fieldType == expectedArgType)
+
                 return try Swift.String.fromNode(fieldValue, env: env)
             }()
         )
