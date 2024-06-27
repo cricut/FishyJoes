@@ -207,7 +207,13 @@ extension Type {
         if let self = self as? Enum {
             result = self.cases.contains { enumCase in
                 enumCase.associatedValues.allSatisfy {
-                    // TODO: fixpoint?
+                    // TODO: fixpoint? (fixpoint is a technique to detect cycles of uninhabited types)
+                    // example:
+                    // 
+                    // indirect enum ComplicatedEmpty {
+                    //   case cantHappen(ComplicatedEmpty)
+                    // }
+                    //
                     $0.type?.isInhabited ?? true
                 }
             }
