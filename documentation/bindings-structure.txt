@@ -1,3 +1,5 @@
+// TODO: ensure no intermidiatae build folders are inside a "generated" directory
+// TODO: separate package-init generated things from generation-generated things
 CriGeo/bindings/
 ├── fishy-joes.yaml
 ├── swift-interfaces/
