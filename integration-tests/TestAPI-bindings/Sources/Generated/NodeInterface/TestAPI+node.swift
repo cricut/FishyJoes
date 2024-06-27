@@ -12,7 +12,7 @@ import TestAPI_CommonInterface
 extension Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        return Self(
+        Self(
             x: try { () -> Swift.String in
                 let fieldValue = try env.getNamedProperty(value, "x")
 
@@ -82,7 +82,7 @@ extension Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces: NodeMu
 extension Swift.String.PuttingTypesIntoQuestionablePlaces: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        return Self(
+        Self(
             x: try { () -> Swift.String in
                 let fieldValue = try env.getNamedProperty(value, "x")
 
@@ -425,7 +425,7 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
 extension TestAPI.AProtocolImplementation: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        return Self(
+        Self(
             foo: try { () -> Swift.String in
                 let fieldValue = try env.getNamedProperty(value, "foo")
 
@@ -2363,7 +2363,7 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
 extension TestAPI.Collections.CollectionHolder: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        return Self(
+        Self(
             boolArray: try { () -> Array<Swift.Bool> in
                 let fieldValue = try env.getNamedProperty(value, "boolArray")
 
@@ -2979,7 +2979,7 @@ extension TestAPI.EmptyEnum: FishyJoesNodeRuntime.NodeConverter {
 extension TestAPI.EmptyStruct: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        return Self(
+        Self(
         )
     }
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
@@ -3084,7 +3084,7 @@ extension TestAPI.EmptyStruct: NodeMutator {
 extension TestAPI.EmptyStruct2: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        return Self(
+        Self(
         )
     }
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
@@ -5274,7 +5274,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
 extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        return Self(
+        Self(
             b: try { () -> Swift.Bool in
                 let fieldValue = try env.getNamedProperty(value, "b")
 
@@ -6068,7 +6068,7 @@ extension TestAPI.Results: FishyJoesNodeRuntime.NodeConverter {
 extension TestAPI.Results.Error: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        return Self(
+        Self(
             message: try { () -> Swift.String in
                 let fieldValue = try env.getNamedProperty(value, "message")
 
@@ -6400,7 +6400,7 @@ extension TestAPI.Structs: FishyJoesNodeRuntime.NodeConverter {
 extension TestAPI.Structs.MemberwiseStruct: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        return Self(
+        Self(
             immutable: try { () -> Swift.String in
                 let fieldValue = try env.getNamedProperty(value, "immutable")
 
@@ -6515,7 +6515,7 @@ extension TestAPI.Structs.MemberwiseStruct: NodeMutator {
 extension TestAPI.Structs.MutableStruct: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        return Self(
+        Self(
             i: try { () -> Swift.Int in
                 let fieldValue = try env.getNamedProperty(value, "i")
 
@@ -6876,7 +6876,7 @@ extension TestAPI.Structs.ReferenceStruct: FishyJoesNodeRuntime.NodeConverter {
 extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        return Self(
+        Self(
             const42: try { () -> () async throws -> Swift.Int in
                 let fieldValue = try env.getNamedProperty(value, "const42")
 
@@ -8819,7 +8819,7 @@ extension TestAPI.TestDefaultComputedPropertiesEnum: FishyJoesNodeRuntime.NodeCo
 extension TestAPI.TestDefaultComputedPropertiesStruct: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        return Self(
+        Self(
             spam: try { () -> Swift.Bool in
                 let fieldValue = try env.getNamedProperty(value, "spam")
 
@@ -8996,7 +8996,7 @@ extension TestAPI_CommonInterface._TestDifferingExportNameProtocolConverter: Nod
 extension TestAPI.TestDifferingExportNameStruct: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        return Self(
+        Self(
             tata: try { () -> Swift.Int in
                 let fieldValue = try env.getNamedProperty(value, "tata")
 
@@ -9148,7 +9148,7 @@ extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: NodeConv
 extension TestAPI.TestLeadingUnderscoredPropStruct: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        return Self(
+        Self(
             _leadingUnderscoreProp: try { () -> Swift.String in
                 let fieldValue = try env.getNamedProperty(value, "_leadingUnderscoreProp")
 
@@ -10052,7 +10052,7 @@ extension TestAPI.TestProtocolEnum: FishyJoesNodeRuntime.NodeConverter {
 extension TestAPI.TestProtocolStruct: NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        return Self(
+        Self(
             corge: try { () -> Swift.String in
                 let fieldValue = try env.getNamedProperty(value, "corge")
 

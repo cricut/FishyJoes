@@ -101,7 +101,7 @@ struct TranslatedStruct: TranslatedType {
         fragment.outputBlock("extension \(sourceType.name): NodeMutator {") {
             fragment.output("public typealias SwiftType = Self")
             fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {") {
-                fragment.outputBlock("return Self(") {
+                fragment.outputBlock("Self(") {
                     for (index, storedVar) in storedVariables.enumerated() {
                         let resolved = context.resolve(type: storedVar.type)
                         let last = index == storedVariables.count - 1
