@@ -1,0 +1,14 @@
+name: cricut___LOWERCASE_MODULE_NAME__
+description: "A Dart wrapper for __MODULE_NAME__"
+version: 0.0.1
+
+environment:
+  sdk: '>=3.1.5 <4.0.0'
+
+dependencies:__PUBSPEC_DART_DEPENDENCIES__
+
+  path: ^1.8.0
+
+dev_dependencies:
+  lints: ^2.0.0
+  test: ^1.16.0

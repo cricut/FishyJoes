@@ -39,7 +39,7 @@ public class CodeGen: ParsableCommand {
     @Flag(name: .long, inversion: .prefixedNo, help: "Use docker")
     var useDocker = true
 
-    @Flag(name: .long, help: "Pass git credentials into docker container via file .secrets/git-credentials_auth")
+    @Flag(name: .long, help: "Pass git credentials into docker container via file .secrets/git-credentials")
     var passGitAuthToDocker = false
 
     @Option(help: "Used for debugging fishy-joes code generation")

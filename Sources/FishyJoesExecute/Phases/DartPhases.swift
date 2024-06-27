@@ -9,28 +9,27 @@ class DartPhases: IotaPhases, Phases {
     }
 
     func compileHostLanguagePhase() throws {
-        try withDirectory("bindings/dart/generated") {
-            try cmd("dart", "run", "build_runner", "build", "--delete-conflicting-outputs").run()
-        }
+        // Nothing to do here. Dart doesn't provide a way to compile libraries without running/testing them
     }
 
     override func preTestPhase() throws {
         try super.preTestPhase()
-        try withDirectory("dart") {
+        try withDirectory("bindings/dart/generated") {
             // Fetch binary artifacts
             try cmd("dart", "run", "fishyjoes_dart:setup").run()
+            try cmd("ln", "-sf", "../test", "test").run()
         }
     }
 
     func testPhase() throws {
         // Use dart to execute the test suite
-        try withDirectory("dart") {
+        try withDirectory("bindings/dart/generated") {
             let env = options.codeCoveragePath.map {
                 [
                     "LLVM_PROFILE_FILE": "\($0)/fishy-joes-test-\(platform)-\(UUID()).profraw",
                 ]
             } ?? [:]
-            try cmd("dart", "test", "--chain-stack-traces", addEnv: env).run()
+            try cmd("dart", "test", "--chain-stack-traces", "../test", addEnv: env).run()
         }
     }
 

@@ -57,7 +57,17 @@ CriGeo/bindings/
 │   └── nupkgs/
 │       └── Cricut.CriGeo.0.0.1-unknown.nupkg
 ├── dart/
-│   └── ???
+│   ├── generated/
+│   │   ├── lib/
+│   │   │   └── crigeo.dart
+│   │   ├── test -> ../test
+│   │   ├── pubspec.yaml
+│   │   ├── npm_flutter_pubspec.yaml
+│   │   ├── linux/CMakeLists.txt
+│   │   ├── macos/cricut_crigeo.podspec
+│   │   └── windows/CMakeLists.txt
+│   └── test/
+│       └── example_test.dart
 └── workflows/
     ├── GENERATED-c-sharp.yaml
     ├── GENERATED-dart.yaml

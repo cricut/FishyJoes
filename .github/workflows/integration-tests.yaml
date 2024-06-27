@@ -99,7 +99,6 @@ jobs:
           FISHYJOES=1 swift run -- fishy-joes --c-sharp build test
 
       - name: Test Dart from dart via fishy-joes
-        if: false
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -209,7 +208,6 @@ jobs:
           FISHYJOES=1 swift run -- fishy-joes --c-sharp build test
 
       - name: Test Dart from dart via fishy-joes
-        if: false
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -354,7 +352,6 @@ jobs:
           "$SWIFT" run -- fishy-joes --c-sharp build test
 
       - name: Test Dart from dart via fishy-joes
-        if: false
         shell: bash
         run: |
           set -euxo pipefail
