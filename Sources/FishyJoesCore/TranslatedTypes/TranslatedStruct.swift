@@ -158,7 +158,55 @@ struct TranslatedStruct: TranslatedType {
                     }
                     fragment.outputBlock("constructor: { env, info in", closeWith: "}") {
                         fragment.outputBlock("callbackBody(env, info, name: \"\(nodeName)_constructor\", expectedArgumentCount: \(storedVariables.count)) { env in", closeWith: "}") {
-                            fragment.output("// TODO: typecheck?")
+                            fragment.output("// Type check")
+                            fragment.output("let args = try (0..<\(storedVariables.count)).map { try env.argument(at: $0) }")
+                            fragment.output("let argTypes = try args.map { try env.env.typeof($0) }")
+
+                            let expectedArgTypes = storedVariables.map {
+                                guard !$0.type.name.starts(with: "Optional") else {
+                                    // any optional type in swift is mapped to napi_undefined
+                                    return "napi_undefined"
+                                }
+                                guard !$0.type.name.starts(with: "Array"),
+                                      !$0.type.name.starts(with: "Set"),
+                                      !$0.type.name.starts(with: "Dictionary") else {
+                                    return "napi_object"
+                                }
+                                let resolved = context.resolve(type: $0.type)
+                                guard !(resolved is TranslatedFunction) else {
+                                    return "napi_function"
+                                }
+
+                                switch resolved.nodeName {
+                                case "undefined":
+                                    return "napi_undefined"
+                                case "null":
+                                    return "napi_null"
+                                case "boolean":
+                                    return "napi_boolean"
+                                case "number":
+                                    return "napi_number"
+                                case "string":
+                                    return "napi_string"
+                                case "symbol":
+                                    return "napi_symbol"
+                                case "object":
+                                    return "napi_object"
+                                case "function":
+                                    return "napi_function"
+                                case "external":
+                                    return "napi_external"
+                                case "bigint":
+                                    return "napi_bigint"
+                                default:
+                                    return "napi_undefined"
+                                }
+                            }.joined(separator: ", ")
+                            fragment.output("let expectedArgTypes: [napi_valuetype] = [\(expectedArgTypes)]")
+
+                            fragment.output("(0..<\(storedVariables.count)).forEach { assert(argTypes[$0] == expectedArgTypes[$0]) }")
+                            fragment.blankLine()
+
                             fragment.output("let this = try env.this()")
                             for (index, storedVar) in storedVariables.enumerated() {
                                 fragment.output("try env.env.setNamedProperty(this, \"\(storedVar.name)\", env.argument(at: \(index)))")

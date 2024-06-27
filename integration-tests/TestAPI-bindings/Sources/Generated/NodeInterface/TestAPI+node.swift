@@ -51,7 +51,12 @@ extension Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces: NodeMu
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "AttributedString_PuttingTypesIntoQuestionablePlaces_constructor", expectedArgumentCount: 1) { env in
-                    // TODO: typecheck?
+                    // Type check
+                    let args = try (0..<1).map { try env.argument(at: $0) }
+                    let argTypes = try args.map { try env.env.typeof($0) }
+                    let expectedArgTypes: [napi_valuetype] = [napi_string]
+                    (0..<1).forEach { assert(argTypes[$0] == expectedArgTypes[$0]) }
+
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "x", env.argument(at: 0))
                     return this
@@ -110,7 +115,12 @@ extension Swift.String.PuttingTypesIntoQuestionablePlaces: NodeMutator {
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "String_PuttingTypesIntoQuestionablePlaces_constructor", expectedArgumentCount: 1) { env in
-                    // TODO: typecheck?
+                    // Type check
+                    let args = try (0..<1).map { try env.argument(at: $0) }
+                    let argTypes = try args.map { try env.env.typeof($0) }
+                    let expectedArgTypes: [napi_valuetype] = [napi_string]
+                    (0..<1).forEach { assert(argTypes[$0] == expectedArgTypes[$0]) }
+
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "x", env.argument(at: 0))
                     return this
@@ -483,7 +493,12 @@ extension TestAPI.AProtocolImplementation: NodeMutator {
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "AProtocolImplementation_constructor", expectedArgumentCount: 2) { env in
-                    // TODO: typecheck?
+                    // Type check
+                    let args = try (0..<2).map { try env.argument(at: $0) }
+                    let argTypes = try args.map { try env.env.typeof($0) }
+                    let expectedArgTypes: [napi_valuetype] = [napi_string, napi_boolean]
+                    (0..<2).forEach { assert(argTypes[$0] == expectedArgTypes[$0]) }
+
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "foo", env.argument(at: 0))
                     try env.env.setNamedProperty(this, "baz", env.argument(at: 1))
@@ -2433,7 +2448,12 @@ extension TestAPI.Collections.CollectionHolder: NodeMutator {
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "Collections.CollectionHolder_constructor", expectedArgumentCount: 9) { env in
-                    // TODO: typecheck?
+                    // Type check
+                    let args = try (0..<9).map { try env.argument(at: $0) }
+                    let argTypes = try args.map { try env.env.typeof($0) }
+                    let expectedArgTypes: [napi_valuetype] = [napi_object, napi_object, napi_object, napi_object, napi_object, napi_object, napi_object, napi_object, napi_object]
+                    (0..<9).forEach { assert(argTypes[$0] == expectedArgTypes[$0]) }
+
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "boolArray", env.argument(at: 0))
                     try env.env.setNamedProperty(this, "boolSet", env.argument(at: 1))
@@ -2962,7 +2982,12 @@ extension TestAPI.EmptyStruct: NodeMutator {
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "EmptyStruct_constructor", expectedArgumentCount: 0) { env in
-                    // TODO: typecheck?
+                    // Type check
+                    let args = try (0..<0).map { try env.argument(at: $0) }
+                    let argTypes = try args.map { try env.env.typeof($0) }
+                    let expectedArgTypes: [napi_valuetype] = []
+                    (0..<0).forEach { assert(argTypes[$0] == expectedArgTypes[$0]) }
+
                     let this = try env.this()
                     return this
                 }
@@ -3062,7 +3087,12 @@ extension TestAPI.EmptyStruct2: NodeMutator {
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "EmptyStruct2_constructor", expectedArgumentCount: 0) { env in
-                    // TODO: typecheck?
+                    // Type check
+                    let args = try (0..<0).map { try env.argument(at: $0) }
+                    let argTypes = try args.map { try env.env.typeof($0) }
+                    let expectedArgTypes: [napi_valuetype] = []
+                    (0..<0).forEach { assert(argTypes[$0] == expectedArgTypes[$0]) }
+
                     let this = try env.this()
                     return this
                 }
@@ -5394,7 +5424,12 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "Primitives.PrimitiveHolder_constructor", expectedArgumentCount: 26) { env in
-                    // TODO: typecheck?
+                    // Type check
+                    let args = try (0..<26).map { try env.argument(at: $0) }
+                    let argTypes = try args.map { try env.env.typeof($0) }
+                    let expectedArgTypes: [napi_valuetype] = [napi_boolean, napi_undefined, napi_number, napi_undefined, napi_number, napi_undefined, napi_number, napi_undefined, napi_bigint, napi_undefined, napi_number, napi_undefined, napi_number, napi_undefined, napi_number, napi_undefined, napi_number, napi_undefined, napi_bigint, napi_undefined, napi_number, napi_undefined, napi_number, napi_undefined, napi_number, napi_undefined]
+                    (0..<26).forEach { assert(argTypes[$0] == expectedArgTypes[$0]) }
+
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "b", env.argument(at: 0))
                     try env.env.setNamedProperty(this, "bq", env.argument(at: 1))
@@ -5825,7 +5860,12 @@ extension TestAPI.Results.Error: NodeMutator {
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "Results.Error_constructor", expectedArgumentCount: 1) { env in
-                    // TODO: typecheck?
+                    // Type check
+                    let args = try (0..<1).map { try env.argument(at: $0) }
+                    let argTypes = try args.map { try env.env.typeof($0) }
+                    let expectedArgTypes: [napi_valuetype] = [napi_string]
+                    (0..<1).forEach { assert(argTypes[$0] == expectedArgTypes[$0]) }
+
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "message", env.argument(at: 0))
                     return this
@@ -6197,7 +6237,12 @@ extension TestAPI.Structs.MemberwiseStruct: NodeMutator {
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "Structs.MemberwiseStruct_constructor", expectedArgumentCount: 2) { env in
-                    // TODO: typecheck?
+                    // Type check
+                    let args = try (0..<2).map { try env.argument(at: $0) }
+                    let argTypes = try args.map { try env.env.typeof($0) }
+                    let expectedArgTypes: [napi_valuetype] = [napi_string, napi_string]
+                    (0..<2).forEach { assert(argTypes[$0] == expectedArgTypes[$0]) }
+
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "immutable", env.argument(at: 0))
                     try env.env.setNamedProperty(this, "mutable", env.argument(at: 1))
@@ -6338,7 +6383,12 @@ extension TestAPI.Structs.MutableStruct: NodeMutator {
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "Structs.MutableStruct_constructor", expectedArgumentCount: 1) { env in
-                    // TODO: typecheck?
+                    // Type check
+                    let args = try (0..<1).map { try env.argument(at: $0) }
+                    let argTypes = try args.map { try env.env.typeof($0) }
+                    let expectedArgTypes: [napi_valuetype] = [napi_number]
+                    (0..<1).forEach { assert(argTypes[$0] == expectedArgTypes[$0]) }
+
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "i", env.argument(at: 0))
                     return this
@@ -6967,7 +7017,12 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "TestAsyncForeignSideFunctionsStruct_constructor", expectedArgumentCount: 16) { env in
-                    // TODO: typecheck?
+                    // Type check
+                    let args = try (0..<16).map { try env.argument(at: $0) }
+                    let argTypes = try args.map { try env.env.typeof($0) }
+                    let expectedArgTypes: [napi_valuetype] = [napi_function, napi_function, napi_function, napi_function, napi_function, napi_function, napi_function, napi_function, napi_function, napi_function, napi_function, napi_function, napi_function, napi_function, napi_function, napi_function]
+                    (0..<16).forEach { assert(argTypes[$0] == expectedArgTypes[$0]) }
+
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "const42", env.argument(at: 0))
                     try env.env.setNamedProperty(this, "iabs", env.argument(at: 1))
@@ -8455,7 +8510,12 @@ extension TestAPI.TestDefaultComputedPropertiesStruct: NodeMutator {
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "TestDefaultComputedPropertiesStruct_constructor", expectedArgumentCount: 2) { env in
-                    // TODO: typecheck?
+                    // Type check
+                    let args = try (0..<2).map { try env.argument(at: $0) }
+                    let argTypes = try args.map { try env.env.typeof($0) }
+                    let expectedArgTypes: [napi_valuetype] = [napi_boolean, napi_number]
+                    (0..<2).forEach { assert(argTypes[$0] == expectedArgTypes[$0]) }
+
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "spam", env.argument(at: 0))
                     try env.env.setNamedProperty(this, "noot", env.argument(at: 1))
@@ -8597,7 +8657,12 @@ extension TestAPI.TestDifferingExportNameStruct: NodeMutator {
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "TestDifferingExportNameStruct_constructor", expectedArgumentCount: 1) { env in
-                    // TODO: typecheck?
+                    // Type check
+                    let args = try (0..<1).map { try env.argument(at: $0) }
+                    let argTypes = try args.map { try env.env.typeof($0) }
+                    let expectedArgTypes: [napi_valuetype] = [napi_number]
+                    (0..<1).forEach { assert(argTypes[$0] == expectedArgTypes[$0]) }
+
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "tata", env.argument(at: 0))
                     return this
@@ -8738,7 +8803,12 @@ extension TestAPI.TestLeadingUnderscoredPropStruct: NodeMutator {
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "TestLeadingUnderscoredPropStruct_constructor", expectedArgumentCount: 1) { env in
-                    // TODO: typecheck?
+                    // Type check
+                    let args = try (0..<1).map { try env.argument(at: $0) }
+                    let argTypes = try args.map { try env.env.typeof($0) }
+                    let expectedArgTypes: [napi_valuetype] = [napi_string]
+                    (0..<1).forEach { assert(argTypes[$0] == expectedArgTypes[$0]) }
+
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "_leadingUnderscoreProp", env.argument(at: 0))
                     return this
@@ -9725,7 +9795,12 @@ extension TestAPI.TestProtocolStruct: NodeMutator {
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "TestProtocolStruct_constructor", expectedArgumentCount: 1) { env in
-                    // TODO: typecheck?
+                    // Type check
+                    let args = try (0..<1).map { try env.argument(at: $0) }
+                    let argTypes = try args.map { try env.env.typeof($0) }
+                    let expectedArgTypes: [napi_valuetype] = [napi_string]
+                    (0..<1).forEach { assert(argTypes[$0] == expectedArgTypes[$0]) }
+
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "corge", env.argument(at: 0))
                     return this
