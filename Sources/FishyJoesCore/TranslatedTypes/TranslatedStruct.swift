@@ -101,7 +101,6 @@ struct TranslatedStruct: TranslatedType {
         fragment.outputBlock("extension \(sourceType.name): NodeMutator {") {
             fragment.output("public typealias SwiftType = Self")
             fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {") {
-                // TODO: type check
                 fragment.outputBlock("Self(") {
                     for (index, storedVar) in storedVariables.enumerated() {
                         let resolved = context.resolve(type: storedVar.type)
@@ -158,7 +157,6 @@ struct TranslatedStruct: TranslatedType {
                     }
                     fragment.outputBlock("constructor: { env, info in", closeWith: "}") {
                         fragment.outputBlock("callbackBody(env, info, name: \"\(nodeName)_constructor\", expectedArgumentCount: \(storedVariables.count)) { env in", closeWith: "}") {
-                            fragment.output("// TODO: typecheck?")
                             fragment.output("let this = try env.this()")
                             for (index, storedVar) in storedVariables.enumerated() {
                                 fragment.output("try env.env.setNamedProperty(this, \"\(storedVar.name)\", env.argument(at: \(index)))")

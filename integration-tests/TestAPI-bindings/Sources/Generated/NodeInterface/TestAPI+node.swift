@@ -51,7 +51,6 @@ extension Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces: NodeMu
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "AttributedString_PuttingTypesIntoQuestionablePlaces_constructor", expectedArgumentCount: 1) { env in
-                    // TODO: typecheck?
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "x", env.argument(at: 0))
                     return this
@@ -110,7 +109,6 @@ extension Swift.String.PuttingTypesIntoQuestionablePlaces: NodeMutator {
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "String_PuttingTypesIntoQuestionablePlaces_constructor", expectedArgumentCount: 1) { env in
-                    // TODO: typecheck?
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "x", env.argument(at: 0))
                     return this
@@ -483,7 +481,6 @@ extension TestAPI.AProtocolImplementation: NodeMutator {
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "AProtocolImplementation_constructor", expectedArgumentCount: 2) { env in
-                    // TODO: typecheck?
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "foo", env.argument(at: 0))
                     try env.env.setNamedProperty(this, "baz", env.argument(at: 1))
@@ -903,7 +900,6 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
                     name: "AssociatedDataEnum.Thing_constructor",
                     expectedArgumentCount: 1
                 ) { env in
-                    // TODO: typecheck?
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "value", env.argument(at: 0))
                     return this
@@ -930,7 +926,6 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
                     name: "AssociatedDataEnum.Other_constructor",
                     expectedArgumentCount: 2
                 ) { env in
-                    // TODO: typecheck?
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "unnamed", env.argument(at: 0))
                     try env.env.setNamedProperty(this, "_1", env.argument(at: 1))
@@ -958,7 +953,6 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
                     name: "AssociatedDataEnum.Bar_constructor",
                     expectedArgumentCount: 2
                 ) { env in
-                    // TODO: typecheck?
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "named", env.argument(at: 0))
                     try env.env.setNamedProperty(this, "_1", env.argument(at: 1))
@@ -983,7 +977,6 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
                     name: "AssociatedDataEnum.NoValue_constructor",
                     expectedArgumentCount: 0
                 ) { env in
-                    // TODO: typecheck?
                     let this = try env.this()
                     return this
                 }
@@ -1008,7 +1001,6 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
                     name: "AssociatedDataEnum.SimpleEnum_constructor",
                     expectedArgumentCount: 1
                 ) { env in
-                    // TODO: typecheck?
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "value", env.argument(at: 0))
                     return this
@@ -2433,7 +2425,6 @@ extension TestAPI.Collections.CollectionHolder: NodeMutator {
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "Collections.CollectionHolder_constructor", expectedArgumentCount: 9) { env in
-                    // TODO: typecheck?
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "boolArray", env.argument(at: 0))
                     try env.env.setNamedProperty(this, "boolSet", env.argument(at: 1))
@@ -2962,7 +2953,6 @@ extension TestAPI.EmptyStruct: NodeMutator {
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "EmptyStruct_constructor", expectedArgumentCount: 0) { env in
-                    // TODO: typecheck?
                     let this = try env.this()
                     return this
                 }
@@ -3062,7 +3052,6 @@ extension TestAPI.EmptyStruct2: NodeMutator {
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "EmptyStruct2_constructor", expectedArgumentCount: 0) { env in
-                    // TODO: typecheck?
                     let this = try env.this()
                     return this
                 }
@@ -5394,7 +5383,6 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "Primitives.PrimitiveHolder_constructor", expectedArgumentCount: 26) { env in
-                    // TODO: typecheck?
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "b", env.argument(at: 0))
                     try env.env.setNamedProperty(this, "bq", env.argument(at: 1))
@@ -5825,7 +5813,6 @@ extension TestAPI.Results.Error: NodeMutator {
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "Results.Error_constructor", expectedArgumentCount: 1) { env in
-                    // TODO: typecheck?
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "message", env.argument(at: 0))
                     return this
@@ -6197,7 +6184,6 @@ extension TestAPI.Structs.MemberwiseStruct: NodeMutator {
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "Structs.MemberwiseStruct_constructor", expectedArgumentCount: 2) { env in
-                    // TODO: typecheck?
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "immutable", env.argument(at: 0))
                     try env.env.setNamedProperty(this, "mutable", env.argument(at: 1))
@@ -6338,7 +6324,6 @@ extension TestAPI.Structs.MutableStruct: NodeMutator {
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "Structs.MutableStruct_constructor", expectedArgumentCount: 1) { env in
-                    // TODO: typecheck?
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "i", env.argument(at: 0))
                     return this
@@ -6967,7 +6952,6 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "TestAsyncForeignSideFunctionsStruct_constructor", expectedArgumentCount: 16) { env in
-                    // TODO: typecheck?
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "const42", env.argument(at: 0))
                     try env.env.setNamedProperty(this, "iabs", env.argument(at: 1))
@@ -8455,7 +8439,6 @@ extension TestAPI.TestDefaultComputedPropertiesStruct: NodeMutator {
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "TestDefaultComputedPropertiesStruct_constructor", expectedArgumentCount: 2) { env in
-                    // TODO: typecheck?
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "spam", env.argument(at: 0))
                     try env.env.setNamedProperty(this, "noot", env.argument(at: 1))
@@ -8597,7 +8580,6 @@ extension TestAPI.TestDifferingExportNameStruct: NodeMutator {
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "TestDifferingExportNameStruct_constructor", expectedArgumentCount: 1) { env in
-                    // TODO: typecheck?
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "tata", env.argument(at: 0))
                     return this
@@ -8738,7 +8720,6 @@ extension TestAPI.TestLeadingUnderscoredPropStruct: NodeMutator {
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "TestLeadingUnderscoredPropStruct_constructor", expectedArgumentCount: 1) { env in
-                    // TODO: typecheck?
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "_leadingUnderscoreProp", env.argument(at: 0))
                     return this
@@ -9725,7 +9706,6 @@ extension TestAPI.TestProtocolStruct: NodeMutator {
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "TestProtocolStruct_constructor", expectedArgumentCount: 1) { env in
-                    // TODO: typecheck?
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "corge", env.argument(at: 0))
                     return this
