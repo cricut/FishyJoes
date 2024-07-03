@@ -179,6 +179,11 @@ enum Platform: CustomStringConvertible, Hashable {
         env["SWIFT_PACKAGE_FORCE_DYNAMIC"] = "1"
         env["FISHYJOES_TARGET_PLATFORM"] = "\(self)"
         env["EXTRA_LIBPATH"] = try? extraLibPathDir(configuration)
+
+        if self == .dart {
+            args.append(contentsOf: ["-Xswiftc", "-DENABLE_PROTOCOL_DEBUG"])
+        }
+
         switch self {
         case .wasm:
             path = "\(wasmToolchain)\(ps)usr\(ps)bin\(ps)swift-build"
