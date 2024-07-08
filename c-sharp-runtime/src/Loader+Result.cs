@@ -17,7 +17,7 @@ public partial class Loader {
         IntPtr context
     );
 
-    public static void FishyJoesCommonRuntime_ResultConverter_setup<T, F>(IntPtr envRef, string name, out CreatedRef exn) where T: IComparable<T> {
+    public static void FishyJoesCommonRuntime_ResultConverter_setup<T, F>(IntPtr envRef, string name, out CreatedRef exn) {
         unsafe
         {
             FishyJoesCommonRuntime_ResultConverter_setup(
