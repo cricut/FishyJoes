@@ -1,5 +1,3 @@
-import SourceryRuntime
-
 public class SourceFragment {
     public var sourceryDestination: String
     private var stringBuilder: [String] = []
