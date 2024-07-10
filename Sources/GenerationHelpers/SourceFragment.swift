@@ -1,20 +1,20 @@
 import SourceryRuntime
 
-class SourceFragment {
-    var sourceryDestination: String
-    var stringBuilder: [String] = []
-    var isFreshLine = true
-    var currentIndent = 0
+public class SourceFragment {
+    public var sourceryDestination: String
+    private var stringBuilder: [String] = []
+    private var isFreshLine = true
+    private var currentIndent = 0
 
-    init(sourceryDestination: String) {
+    public init(sourceryDestination: String) {
         self.sourceryDestination = sourceryDestination
     }
 
-    func append(fragments: [String]) {
+    private func append(fragments: [String]) {
         stringBuilder.append(contentsOf: fragments)
     }
 
-    var contents: String {
+    public var contents: String {
         """
             // sourcery:\(sourceryDestination)
             \(stringBuilder.joined())
@@ -23,32 +23,29 @@ class SourceFragment {
             """
     }
 
-    func blankLine() {
+    public func blankLine() {
         if !stringBuilder.suffix(2).joined().hasSuffix("\n\n") {
             output()
         }
     }
 
-    func output() {
+    public func output() {
         isFreshLine = true
         stringBuilder.append("\n")
     }
 
-    func output(_ line: String, newLineTerminated: Bool = true, semicolonTerminated: Bool = false) {
+    public func output(_ line: String, newLineTerminated: Bool = true) {
         if isFreshLine {
             stringBuilder.append(String(repeating: " ", count: 4 * currentIndent))
         }
         stringBuilder.append(line)
-        if semicolonTerminated {
-            stringBuilder.append(";")
-        }
         if newLineTerminated {
             stringBuilder.append("\n")
         }
         isFreshLine = newLineTerminated
     }
 
-    func outputBlock<R>(_ openingLine: String, closeWith close: String? = nil, newLineTerminated: Bool = true, semicolonTerminated: Bool = false, _ body: () throws -> R) rethrows -> R {
+    public func outputBlock<R>(_ openingLine: String, closeWith close: String? = nil, newLineTerminated: Bool = true, _ body: () throws -> R) rethrows -> R {
         output(openingLine)
         let matchingClose: String
         if let close = close {
@@ -72,11 +69,11 @@ class SourceFragment {
         if previousLines.count == 2, previousLines.last == "\n", previousLines.first?.hasSuffix("\n") == true {
             _ = stringBuilder.popLast()
         }
-        output(matchingClose, newLineTerminated: newLineTerminated, semicolonTerminated: semicolonTerminated)
+        output(matchingClose, newLineTerminated: newLineTerminated)
         return result
     }
 
-    func outputMap<S: Sequence>(_ source: S, separator: String, newLineTerminated: Bool = true, _ body: (S.Element) throws -> String) rethrows {
+    public func outputMap<S: Sequence>(_ source: S, separator: String, newLineTerminated: Bool = true, _ body: (S.Element) throws -> String) rethrows {
         var first = true
         for element in source {
             if !first {
@@ -90,7 +87,7 @@ class SourceFragment {
         }
     }
 
-    func indent<R>(_ body: () throws -> R) rethrows -> R {
+    public func indent<R>(_ body: () throws -> R) rethrows -> R {
         currentIndent += 1
         defer { currentIndent -= 1 }
         return try body()

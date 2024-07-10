@@ -278,6 +278,7 @@ let package = Package(
             T.target(
                 name: "FishyJoesCore",
                 dependencies: [
+                    .target(name: "GenerationHelpers"),
                     .product(name: "SourceryRuntime", package: "Sourcery"),
                 ]
             ),
@@ -312,8 +313,13 @@ let package = Package(
             dependencies: ["FishyJoesExecute"]
         ),
         T.target(
+            // TODO: better name for this target
+            name: "GenerationHelpers"
+        ),
+        T.target(
             name: "FishyJoesExecute",
             dependencies: [
+                .target(name: "GenerationHelpers"),
                 .product(name: "swsh", package: "swsh"),
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
                 .product(name: "Yams", package: "Yams"),

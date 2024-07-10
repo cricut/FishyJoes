@@ -13,7 +13,6 @@ struct DockerContext {
 
     init?(withAvailablePaths paths: [String], passGitAuth: Bool) {
         // This is somewhat ugly logic... not sure of a better way
-
         guard let docker = ["nerdctl", "docker"].first(where: { (try? swsh.cmd($0, "info").runString()) != nil }) else {
             return nil
         }

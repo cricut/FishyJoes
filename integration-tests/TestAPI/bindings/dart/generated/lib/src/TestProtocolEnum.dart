@@ -191,13 +191,10 @@ class TestProtocolEnum_Qux extends TestProtocolEnum {
     const TestProtocolEnum_Qux();
 
     @override
-    bool operator ==(Object other) {
-        return identical(other, this) ||
-        (
-            other.runtimeType == runtimeType &&
-            other is TestProtocolEnum_Qux
-        );
-    }
+    bool operator ==(Object other) => identical(other, this) || (
+        other.runtimeType == runtimeType
+        && other is TestProtocolEnum_Qux
+    );
 
     @override
     int get hashCode => runtimeType.hashCode;

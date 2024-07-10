@@ -251,16 +251,11 @@ class AssociatedDataEnum_Thing extends AssociatedDataEnum {
     final int value;
 
     @override
-    bool operator ==(Object other) {
-        return identical(other, this) ||
-        (
-            other.runtimeType == runtimeType &&
-            other is AssociatedDataEnum_Thing &&
-            (
-                const DeepCollectionEquality().equals(other.value, value)
-            )
-        );
-    }
+    bool operator ==(Object other) => identical(other, this) || (
+        other.runtimeType == runtimeType
+        && other is AssociatedDataEnum_Thing
+        && const DeepCollectionEquality().equals(other.value, value)
+    );
 
     @override
     int get hashCode => Object.hash(
@@ -288,22 +283,17 @@ class AssociatedDataEnum_Other extends AssociatedDataEnum {
     final int m_1;
 
     @override
-    bool operator ==(Object other) {
-        return identical(other, this) ||
-        (
-            other.runtimeType == runtimeType &&
-            other is AssociatedDataEnum_Other &&
-            (
-                const DeepCollectionEquality().equals(other.unnamed, unnamed) &&
-                const DeepCollectionEquality().equals(other.m_1, m_1)
-            )
-        );
-    }
+    bool operator ==(Object other) => identical(other, this) || (
+        other.runtimeType == runtimeType
+        && other is AssociatedDataEnum_Other
+        && const DeepCollectionEquality().equals(other.unnamed, unnamed)
+        && const DeepCollectionEquality().equals(other.m_1, m_1)
+    );
 
     @override
     int get hashCode => Object.hash(
         runtimeType,
-        const DeepCollectionEquality().hash(unnamed), 
+        const DeepCollectionEquality().hash(unnamed),
         const DeepCollectionEquality().hash(m_1)
     );
 
@@ -329,22 +319,17 @@ class AssociatedDataEnum_Bar extends AssociatedDataEnum {
     final TestAPI.AssociatedDataEnum m_1;
 
     @override
-    bool operator ==(Object other) {
-        return identical(other, this) ||
-        (
-            other.runtimeType == runtimeType &&
-            other is AssociatedDataEnum_Bar &&
-            (
-                const DeepCollectionEquality().equals(other.named, named) &&
-                const DeepCollectionEquality().equals(other.m_1, m_1)
-            )
-        );
-    }
+    bool operator ==(Object other) => identical(other, this) || (
+        other.runtimeType == runtimeType
+        && other is AssociatedDataEnum_Bar
+        && const DeepCollectionEquality().equals(other.named, named)
+        && const DeepCollectionEquality().equals(other.m_1, m_1)
+    );
 
     @override
     int get hashCode => Object.hash(
         runtimeType,
-        const DeepCollectionEquality().hash(named), 
+        const DeepCollectionEquality().hash(named),
         const DeepCollectionEquality().hash(m_1)
     );
 
@@ -364,13 +349,10 @@ class AssociatedDataEnum_NoValue extends AssociatedDataEnum {
     const AssociatedDataEnum_NoValue();
 
     @override
-    bool operator ==(Object other) {
-        return identical(other, this) ||
-        (
-            other.runtimeType == runtimeType &&
-            other is AssociatedDataEnum_NoValue
-        );
-    }
+    bool operator ==(Object other) => identical(other, this) || (
+        other.runtimeType == runtimeType
+        && other is AssociatedDataEnum_NoValue
+    );
 
     @override
     int get hashCode => runtimeType.hashCode;
@@ -389,16 +371,11 @@ class AssociatedDataEnum_SimpleEnum extends AssociatedDataEnum {
     final TestAPI.SimpleEnum value;
 
     @override
-    bool operator ==(Object other) {
-        return identical(other, this) ||
-        (
-            other.runtimeType == runtimeType &&
-            other is AssociatedDataEnum_SimpleEnum &&
-            (
-                const DeepCollectionEquality().equals(other.value, value)
-            )
-        );
-    }
+    bool operator ==(Object other) => identical(other, this) || (
+        other.runtimeType == runtimeType
+        && other is AssociatedDataEnum_SimpleEnum
+        && const DeepCollectionEquality().equals(other.value, value)
+    );
 
     @override
     int get hashCode => Object.hash(

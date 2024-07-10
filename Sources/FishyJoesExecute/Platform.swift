@@ -170,7 +170,6 @@ enum Platform: CustomStringConvertible, Hashable {
             scratchPath = "\(scratchPath)/android-build"
             args.append(
                 contentsOf: [
-                    "--scratch-path", "./.build/android-build",
                     "--destination", "\(arch.toolchainPath)/usr/swiftpm-android-\(arch).json",
                 ]
             )
@@ -179,7 +178,6 @@ enum Platform: CustomStringConvertible, Hashable {
             dockerContext = configuration.baseDockerContext.get()
             if dockerContext == nil {
                 Log.warn("WARNING: building for android without using a docker context (expecting to already be inside container)")
-                break
             }
         case .cSharp:
             #if os(macOS)
@@ -345,16 +343,13 @@ enum Platform: CustomStringConvertible, Hashable {
     }
 
     func buildDir(_ configuration: BuildConfiguration) throws -> String {
-        let directory: String
-        let packagePrefix = configuration.packagePath + "/"
         if isNative, configuration.fat {
-            directory = "\(packagePrefix).build/apple/\(configuration.debug ? "debug" : "release")"
+            return "\(configuration.scratchPath)/apple/\(configuration.debug ? "debug" : "release")"
         } else if case .kotlinAndroid(let arch) = self {
-            directory = "\(packagePrefix).build/android-build/\(arch.triple)/\(configuration.debug ? "debug" : "release")"
+            return "\(configuration.scratchPath)/android-build/\(arch.triple)/\(configuration.debug ? "debug" : "release")"
         } else {
-            directory = try swiftBuild("--show-bin-path", configuration: configuration).runString().trimmingCharacters(in: .whitespacesAndNewlines)
+            return try swiftBuild("--show-bin-path", configuration: configuration).runString().trimmingCharacters(in: .whitespacesAndNewlines)
         }
-        return directory
     }
 
     func extraLibPathDir(_ configuration: BuildConfiguration) throws -> String {

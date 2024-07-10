@@ -110,13 +110,10 @@ class UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing extends UnicodeScal
     const UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing();
 
     @override
-    bool operator ==(Object other) {
-        return identical(other, this) ||
-        (
-            other.runtimeType == runtimeType &&
-            other is UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing
-        );
-    }
+    bool operator ==(Object other) => identical(other, this) || (
+        other.runtimeType == runtimeType
+        && other is UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing
+    );
 
     @override
     int get hashCode => runtimeType.hashCode;
