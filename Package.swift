@@ -313,7 +313,7 @@ let package = Package(
             dependencies: ["FishyJoesExecute"],
             linkerSettings: [
                 .unsafeFlags(
-                    extraLibPath.flatMap { ["-Xlinker", "/IGNORE:LNK4217"] },
+                    ["-Xlinker", "/IGNORE:LNK4217"],
                     .when(platforms: [.windows])
                 )
             ]
