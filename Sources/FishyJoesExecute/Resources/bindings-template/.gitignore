@@ -13,7 +13,7 @@ node_modules
 /kotlin/generated/src/main/resources/
 /c-sharp/generated/lib/
 /c-sharp/nupkgs/
-/dart/flutter-package
+/dart/generated/flutter-package
 .gradle
 local.properties
 Package.resolved

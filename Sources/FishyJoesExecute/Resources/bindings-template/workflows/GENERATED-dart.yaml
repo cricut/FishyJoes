@@ -23,7 +23,7 @@ env:
 jobs:
   build-test-dart-mac:
     name: "macOS: Build and test dart bindings"
-    runs-on: macOS-12
+    runs-on: [macOS, self-hosted, ARM64]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -112,6 +112,9 @@ jobs:
     name: "Windows: Build and test dart bindings"
     runs-on: windows-latest
     steps:
+      - name: Enable git longpaths
+        run: "git config --system core.longpaths true"
+
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -124,7 +127,7 @@ jobs:
 
       - name: Fetch remote dart stuff before swift gets installed and confuses dart for some reason
         run: |
-          cd dart
+          cd bindings/dart/generated
           dart pub get
 
       - uses: compnerd/gha-setup-swift@main
