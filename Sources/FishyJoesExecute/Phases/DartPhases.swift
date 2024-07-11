@@ -94,6 +94,7 @@ class DartPhases: IotaPhases, Phases {
                 .run()
 
             // Pack using npm
+            try cmd("mkdir", "-p", "../packed-npm-packages").run()
             let npmPackArgs = ["pack", "./generated/flutter-package", "--pack-destination", "../packed-npm-packages"]
             #if os(macOS) || os(Linux)
             try cmd("npm", arguments: npmPackArgs).run()

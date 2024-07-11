@@ -18,12 +18,12 @@ concurrency:
 env:
   GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
   GITHUB_USER: cricut-builduser
+  FISHYJOES: 1
 
 jobs:
   build-test-dart-mac:
     name: "macOS: Build and test dart bindings"
     runs-on: macOS-12
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -52,14 +52,14 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: mac_generated
-          path: dart
+          name: mac_lib
+          path: bindings/dart/generated/macos/native/
 
   build-test-dart-linux:
     name: "Ubuntu: Build and test dart bindings"
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cricut/android-swift-runtime:1.1.0
+      image: ghcr.io/cricut/android-swift-runtime:2.0.1
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
@@ -74,14 +74,6 @@ jobs:
 
       - uses: dart-lang/setup-dart@v1
 
-      - name: Configure build environment
-        run: |
-          set -eux
-
-          apt-get -y update
-          apt-get -y install patchelf curl
-          git config --global --add safe.directory '*'
-
       - name: Build library
         shell: zsh {0}
         run: |
@@ -94,11 +86,13 @@ jobs:
         run: |
           set -euxo pipefail
 
-          cd dart/linux/native
+          cd bindings/dart/generated/linux/native
 
           SWIFT_RUN_PATH='/usr/lib/swift/linux:./:$ORIGIN'
           for LIB in lib*.so*; do
+            echo "$LIB: rpath = $(readelf --print-rpath $LIB)"
             patchelf --set-rpath $SWIFT_RUN_PATH $LIB
+            echo "$LIB: rpath = $(readelf --print-rpath $LIB)"
           done
 
       - name: Test library from dart
@@ -111,8 +105,8 @@ jobs:
       - name: Upload library
         uses: actions/upload-artifact@v3
         with:
-          name: ubuntu_generated
-          path: dart
+          name: ubuntu_lib
+          path: bindings/dart/generated/linux/native/
 
   build-test-dart-windows:
     name: "Windows: Build and test dart bindings"
@@ -162,15 +156,15 @@ jobs:
 
           # Add dart DLLs to path
           # Someone who understands windows better than I do is welcome to fix this in a better way
-          PATH="$(pwd)/dart/windows/native:$PATH"
+          PATH="$(pwd)/bindings/dart/generated/windows/native:$PATH"
 
           "$SWIFT_WINDOWS_BASH" run -- fishy-joes --dart test
 
       - name: Upload library
         uses: actions/upload-artifact@v3
         with:
-          name: windows_generated
-          path: dart
+          name: windows_lib
+          path: bindings/dart/generated/windows/native/
 
   dart-publish:
     name: "Publish dart packages"
@@ -211,12 +205,11 @@ jobs:
 
           ls *
 
-          rm -rf dart/lib dart/{macos,linux,windows}/native
-          mkdir -p dart/{macos,linux,windows}/native
-          mv mac_generated/lib dart/
-          mv mac_generated/macos/native/* dart/macos/native/
-          mv ubuntu_generated/linux/native/* dart/linux/native/
-          mv windows_generated/windows/native/* dart/windows/native/
+          rm -rf bindings/dart/generated/{macos,linux,windows}/native
+          # mkdir -p bindings/dart/generated/{macos,linux,windows}/native
+          mv mac_lib bindings/dart/generated/macos/native
+          mv ubuntu_lib bindings/dart/generated/linux/native
+          mv windows_lib bindings/dart/generated/windows/native
 
           ls -R dart/
 
@@ -237,14 +230,14 @@ jobs:
         run: |
           set -euxo pipefail
 
-          tar -cvzf __MODULE_NAME__-bindings-dart-binaries.tgz -C dart \
+          tar -cvzf __MODULE_NAME__-bindings-dart-binaries.tgz -C bindings/dart/generated \
               macos/native/lib__MODULE_NAME__{,-iota}.dylib \
               linux/native/lib__MODULE_NAME__{,-iota}.so \
               windows/native/__MODULE_NAME__{,-iota}.dll
 
           swift run fishy-joes pack --dart --version=$VERSION
 
-          tar -tf cricut-flutter-*.tgz
+          tar -tf bindings/packed-npm-packages/cricut-flutter-*.tgz
 
       - name: Upload result
         uses: actions/upload-artifact@v3
@@ -282,4 +275,4 @@ jobs:
             --data-binary @$file
 
           # publish flutter NPM package
-          npm publish cricut-flutter-*.tgz
+          npm publish bindings/packed-npm-packages/cricut-flutter-*.tgz

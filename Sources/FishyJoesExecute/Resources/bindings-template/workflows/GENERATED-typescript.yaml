@@ -80,7 +80,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          for package in cricut-*.tgz; do
+          for package in bindings/packed-npm-packages/cricut-*.tgz; do
             npm publish $package
           done
 
@@ -158,7 +158,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          for package in cricut-*.tgz; do
+          for package in bindings/packed-npm-packages/cricut-*.tgz; do
             npm publish $package
           done
 
@@ -235,6 +235,6 @@ jobs:
         run: |
           set -euxo pipefail
 
-          for package in cricut-*.tgz; do
+          for package in bindings/packed-npm-packages/cricut-*.tgz; do
             npm publish "$package"
           done

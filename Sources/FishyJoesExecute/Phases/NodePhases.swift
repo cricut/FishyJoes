@@ -398,7 +398,8 @@ class NodePhases: BasePhases, Phases {
         }
 
         // Pack using npm
-        try npm("pack", "./\(platform.outputDir(options.config))").run()
+        try cmd("mkdir", "-p", "bindings/packed-npm-packages").run()
+        try npm("pack", "./\(platform.outputDir(options.config))", "--pack-destination", "bindings/packed-npm-packages").run()
     }
 
     private func npm(_ arguments: String..., addEnv: [String: String] = [:]) -> Command {
