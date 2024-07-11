@@ -215,7 +215,7 @@ enum Platform: CustomStringConvertible, Hashable {
         // This warning seems to be related to dynamic libraries importing static libraries.
         // Since it's usually caused by swift code, not C code where the annotations can be changed, just ignore it.
         // Maybe some day the swift-on-windows toolchain won't generate these
-        args.append(contentsOf: ["-Xlinker", "/IGNORE:LNK4217"])
+        args.append(contentsOf: ["-Xlinker", "/IGNORE:4217"])
         #endif
 
         if var dockerContext = dockerContext {
