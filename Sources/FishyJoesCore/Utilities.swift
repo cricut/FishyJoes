@@ -1,6 +1,6 @@
 import Foundation
-import SourceryRuntime
 @_exported import GenerationHelpers
+import SourceryRuntime
 
 func snakify<S: StringProtocol>(_ camel: S) -> String {
     camel

@@ -1,5 +1,6 @@
 import ArgumentParser
 import Foundation
+import GenerationHelpers
 import swsh
 
 public class CodeGen: ParsableCommand {
@@ -247,155 +248,143 @@ extension CodeGen {
                     .output(overwritingFile: "\(swiftBindingsRoot)/Sources/\(target)/EmptyPlaceholder.swift")
                     .run()
             }
-            let bindingsPackageDeps = config.requiredModules.map {
-                "\n        packageDep(\"\($0)-bindings\", bindings: true),"
-            }.joined()
 
             let packageCustomization = try cmd("cat", "bindings/swift-interfaces/Package.part.swift").runString()
             // Create Package.swift for the bindings package
 
-            func targetDeps(_ name: String, tabs: Int) -> String {
-                config.requiredModules.flatMap {
-                    ["\n"] +
-                    Array(repeating: "    ", count: tabs) +
-                    [".product(name: \"\($0)-\(name)\", package: \"\($0)-bindings\"),"]
-                }.joined()
+            let fragment = SourceFragment(sourceryDestination: nil)
+
+            func targetDeps(_ name: String) {
+                for module in config.requiredModules {
+                    fragment.output(#".product(name: "\#(module)-\#(name)", package: "\#(module)-bindings"),"#)
+                }
             }
+
+            fragment.output(#"// swift-tools-version:5.6"#)
+            fragment.output(#"// BEGIN GENERATED CODE"#)
+            fragment.blankLine()
+
+            fragment.output(#"import PackageDescription"#)
+            fragment.output(#"import Foundation"#)
+            fragment.blankLine()
+
+            fragment.output(#"let env = ProcessInfo.processInfo.environment"#)
+            fragment.output(#"let wasmCompatibleOnly = env["WASM_ONLY"] == "1""#)
+            fragment.blankLine()
+
+            // This enum should be kept in sync with the one PackageDotSwiftDependency.swift"#)
+            fragment.outputBlock(#"enum Dependency: Codable {"#) {
+                fragment.output(#"case local(path: String)"#)
+                fragment.output(#"case remote(url: String, _ refSpec: RefSpec)"#)
+                fragment.outputBlock(#"enum RefSpec: Codable {"#) {
+                    fragment.output(#"case branch(name: String)"#)
+                    fragment.output(#"case revision(name: String)"#)
+                }
+            }
+            fragment.blankLine()
+
+            fragment.outputBlock(#"func packageDep(_ name: String, bindings: Bool = false) -> Package.Dependency {"#) {
+                fragment.output(#"let subPath = bindings ? "/bindings/swift-interfaces/generated/\(name)-bindings" : """#)
+                fragment.outputBlock(#"switch env["FISHYJOES_DEPENDENCY_\(name)"] {"#) {
+                    fragment.dedentedOutput(#"case .none:"#)
+                    fragment.output(#"return .package(name: name, path: "../../../../../\(name)\(subPath)")"#)
+                    fragment.dedentedOutput(#"case .some(let versionSpec):"#)
+                    fragment.outputBlock(#"switch try! JSONDecoder().decode(Dependency.self, from: versionSpec.data(using: .utf8)!) {"#) {
+                        fragment.dedentedOutput(#"case .local(let packagePath):"#)
+                        fragment.output(#"return .package(name: name, path: packagePath)"#)
+                        fragment.dedentedOutput(#"case let .remote(url, .branch(branch)):"#)
+                        fragment.output(#"if bindings { fatalError("not supported") }"#)
+                        fragment.output(#"return .package(url: url, branch: branch)"#)
+                        fragment.dedentedOutput(#"case let .remote(url, .revision(revision)):"#)
+                        fragment.output(#"if bindings { fatalError("not supported") }"#)
+                        fragment.output(#"return .package(url: url, revision: revision)"#)
+                    }
+                }
+            }
+            fragment.blankLine()
+
+            fragment.outputBlock(#"var package = Package("#) {
+                fragment.output(#"name: "\#(config.module)-bindings","#)
+                fragment.output(#"platforms: [.macOS(.v12), .iOS(.v15)],"#)
+                fragment.outputBlock(#"products: ["#, newLineTerminated: false) {
+                    fragment.outputBlock(#".library("#, closeWith: "),") {
+                        fragment.output(#"name: "\#(config.module)-wasm","#)
+                        fragment.output(#"targets: ["\#(config.module)_NodeInterface"]"#)
+                    }
+                }
+                fragment.outputBlock(#" + ("#, closeWith: "),") {
+                    fragment.outputBlock(#"wasmCompatibleOnly ? [] : ["#) {
+                        fragment.output(#".library(name: "\#(config.module)-node", type: .dynamic, targets: ["\#(config.module)_NodeInterface"]),"#)
+                        fragment.output(#".library(name: "\#(config.module)-java", type: .dynamic, targets: ["\#(config.module)_JavaInterface"]),"#)
+                        fragment.output(#".library(name: "\#(config.module)-iota", type: .dynamic, targets: ["\#(config.module)_IotaInterface"]),"#)
+                    }
+                }
+                fragment.outputBlock(#"dependencies: ["#, closeWith: "],") {
+                    for module in config.requiredModules {
+                        fragment.output(#"packageDep("\#(module)-bindings", bindings: true),"#)
+                    }
+                    fragment.output(#"packageDep("\#(config.module)"),"#)
+                    fragment.output(#"packageDep("FishyJoes"),"#)
+                }
+                fragment.outputBlock(#"targets: ["#, newLineTerminated: false) {
+                    fragment.outputBlock(".target(", closeWith: "),") {
+                        fragment.output(#"name: "\#(config.module)_CommonInterface","#)
+                        fragment.output(#"dependencies: [.product(name: "\#(config.module)", package: "\#(config.module)")],"#)
+                        fragment.output(#"path: "Sources/CommonInterface""#)
+                    }
+                    fragment.outputBlock(#".target("#, closeWith: "),") {
+                        fragment.output(#"name: "\#(config.module)_NodeInterface","#)
+                        fragment.outputBlock(#"dependencies: ["#, closeWith: "],") {
+                            targetDeps("node")
+                            fragment.output(#".target(name: "\#(config.module)_CommonInterface"),"#)
+                            fragment.output(#".product(name: "\#(config.module)", package: "\#(config.module)"),"#)
+                            fragment.output(#".product(name: "FishyJoesNodeRuntime", package: "FishyJoes"),"#)
+                        }
+                        fragment.output(#"path: "Sources/NodeInterface","#)
+                        fragment.output(#"resources: [.copy("\#(config.module).d.ts.part")]"#)
+                    }
+                }
+                fragment.outputBlock(#" + ("#) {
+                    fragment.outputBlock(#"wasmCompatibleOnly ? ["#, newLineTerminated: false) {
+                        fragment.outputBlock(#".executableTarget("#, closeWith: "),") {
+                            fragment.output(#"name: "\#(config.module)_WasmMainShim","#)
+                            fragment.output(#"dependencies: [.target(name: "\#(config.module)_NodeInterface")],"#)
+                            fragment.output(#"path: "Sources/WasmMainShim","#)
+                            fragment.output(#"swiftSettings: [.unsafeFlags(["-warn-concurrency"])]"#)
+                        }
+                    }
+                    fragment.outputBlock(#" : ["#) {
+                        fragment.outputBlock(#".target("#, closeWith: "),") {
+                            fragment.output(#"name: "\#(config.module)_JavaInterface","#)
+                            fragment.outputBlock(#"dependencies: ["#, closeWith: "],") {
+                                targetDeps("java")
+                                fragment.output(#".target(name: "\#(config.module)_CommonInterface"),"#)
+                                fragment.output(#".product(name: "\#(config.module)", package: "\#(config.module)"),"#)
+                                fragment.output(#".product(name: "FishyJoesJavaRuntime", package: "FishyJoes"),"#)
+                            }
+                            fragment.output(#"path: "Sources/JavaInterface""#)
+                        }
+                        fragment.outputBlock(#".target("#, closeWith: "),") {
+                            fragment.output(#"name: "\#(config.module)_IotaInterface","#)
+                            fragment.outputBlock(#"dependencies: ["#, closeWith: "],") {
+                                targetDeps("iota")
+                                fragment.output(#".target(name: "\#(config.module)_CommonInterface"),"#)
+                                fragment.output(#".product(name: "\#(config.module)", package: "\#(config.module)"),"#)
+                                fragment.output(#".product(name: "FishyJoesIotaRuntime", package: "FishyJoes"),"#)
+                            }
+                            fragment.output(#"path: "Sources/IotaInterface""#)
+                        }
+                    }
+                }
+            }
+            fragment.output(#"// END GENERATED CODE"#)
+            fragment.output(#"// Below is copied from bindings/swift-interfaces/Package.part.swift"#)
+
+            fragment.output(packageCustomization)
 
             try cmd("cat")
                 .output(overwritingFile: "\(swiftBindingsRoot)/Package.swift")
-                .input(
-                    """
-                        // swift-tools-version:5.6
-                        // BEGIN GENERATED CODE
-
-                        import PackageDescription
-                        import Foundation
-
-                        let env = ProcessInfo.processInfo.environment
-                        let wasmCompatibleOnly = env["WASM_ONLY"] == "1"
-                        \("" // This enum should be kept in sync with the one PackageDotSwiftDependency.swift
-                        )
-                        enum Dependency: Codable {
-                            case local(path: String)
-                            case remote(url: String, _ refSpec: RefSpec)
-                            enum RefSpec: Codable {
-                                case branch(name: String)
-                                case revision(name: String)
-                            }
-                        }
-
-                        func LOG_package(name: String, path: String) -> Package.Dependency {
-                            // print("DEPENDENCY: .package(name: \\(name), path: \\(path))")
-                            return .package(name: name, path: path)
-                        }
-                        func LOG_package(url: String, branch: String) -> Package.Dependency {
-                            // print("DEPENDENCY: .package(url: \\(url), branch: \\(branch))")
-                            return .package(url: url, branch: branch)
-                        }
-                        func LOG_package(url: String, revision: String) -> Package.Dependency {
-                            // print("DEPENDENCY: .package(url: \\(url), revision: \\(revision))")
-                            return .package(url: url, revision: revision)
-                        }
-
-                        func packageDep(_ name: String, bindings: Bool = false) -> Package.Dependency {
-                            let subPath = bindings ? "/bindings/swift-interfaces/generated/\\(name)-bindings" : ""
-                            switch env["FISHYJOES_DEPENDENCY_\\(name)"] {
-                            case .none:
-                                return LOG_package(name: name, path: "../../../../../\\(name)\\(subPath)")
-                            case .some(let versionSpec):
-                                switch try! JSONDecoder().decode(Dependency.self, from: versionSpec.data(using: .utf8)!) {
-                                case .local(let packagePath):
-                                    return LOG_package(name: name, path: "\\(packagePath)")
-                                case let .remote(url, .branch(branch)):
-                                    if bindings { fatalError("not supported") }
-                                    return LOG_package(url: url, branch: branch)
-                                case let .remote(url, .revision(revision)):
-                                    if bindings { fatalError("not supported") }
-                                    return LOG_package(url: url, revision: revision)
-                                }
-                            }
-                        }
-
-                        var package = Package(
-                            name: "\(config.module)-bindings",
-                            platforms: [.macOS(.v12), .iOS(.v15)],
-                            products: [
-                                .library(
-                                    name: "\(config.module)-wasm",
-                                    targets: ["\(config.module)_NodeInterface"]
-                                ),
-                            ] + (
-                                wasmCompatibleOnly ? [] : [
-                                    .library(name: "\(config.module)-node", type: .dynamic, targets: ["\(config.module)_NodeInterface"]),
-                                    .library(name: "\(config.module)-java", type: .dynamic, targets: ["\(config.module)_JavaInterface"]),
-                                    .library(name: "\(config.module)-iota", type: .dynamic, targets: ["\(config.module)_IotaInterface"]),
-                                ]
-                            ),
-                            dependencies: [\(bindingsPackageDeps)
-                                packageDep("\(config.module)"),
-                                packageDep("FishyJoes"),
-                            ],
-                            targets: [
-                                .target(
-                                    name: "\(config.module)_CommonInterface",
-                                    dependencies: [
-                                        .product(name: "\(config.module)", package: "\(config.module)"),
-                                    ],
-                                    path: "Sources/CommonInterface"
-                                ),
-                                .target(
-                                    name: "\(config.module)_NodeInterface",
-                                    dependencies: [\(targetDeps("node", tabs: 4))
-                                        .target(name: "\(config.module)_CommonInterface"),
-                                        .product(name: "\(config.module)", package: "\(config.module)"),
-                                        .product(name: "FishyJoesNodeRuntime", package: "FishyJoes"),
-                                    ],
-                                    path: "Sources/NodeInterface",
-                                    resources: [
-                                        .copy("\(config.module).d.ts.part"),
-                                    ]
-                                ),
-                            ] + (
-                                wasmCompatibleOnly ? [
-                                    .executableTarget(
-                                        name: "\(config.module)_WasmMainShim",
-                                        dependencies: [
-                                            .target(name: "\(config.module)_NodeInterface"),
-                                        ],
-                                        path: "Sources/WasmMainShim",
-                                        swiftSettings: [
-                                            .unsafeFlags(["-warn-concurrency"])
-                                        ]
-                                    ),
-                                ] : [
-                                    .target(
-                                        name: "\(config.module)_JavaInterface",
-                                        dependencies: [\(targetDeps("java", tabs: 5))
-                                            .target(name: "\(config.module)_CommonInterface"),
-                                            .product(name: "\(config.module)", package: "\(config.module)"),
-                                            .product(name: "FishyJoesJavaRuntime", package: "FishyJoes"),
-                                        ],
-                                        path: "Sources/JavaInterface"
-                                    ),
-                                    .target(
-                                    name: "\(config.module)_IotaInterface",
-                                    dependencies: [\(targetDeps("iota", tabs: 5))
-                                            .target(name: "\(config.module)_CommonInterface"),
-                                            .product(name: "\(config.module)", package: "\(config.module)"),
-                                            .product(name: "FishyJoesIotaRuntime", package: "FishyJoes"),
-                                        ],
-                                        path: "Sources/IotaInterface"
-                                    ),
-                                ]
-                            )
-                        )
-                        // END GENERATED CODE
-                        // Below is copied from bindings/swift-interfaces/Package.part.swift
-
-                        \(packageCustomization)
-                        """
-                ).run()
+                .input(fragment.contents).run()
 
             // Build the Sourcery tool itself
             try cmd("swift", "build", "--product", "sourcery").run()

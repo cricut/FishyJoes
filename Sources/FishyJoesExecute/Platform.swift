@@ -211,6 +211,13 @@ enum Platform: CustomStringConvertible, Hashable {
             env["FISHYJOES_DEPENDENCY_\(module)"] = try! encoder.encodeToString(dependency)
         }
 
+        #if os(windows)
+        // This warning seems to be related to dynamic libraries importing static libraries.
+        // Since it's usually caused by swift code, not C code where the annotations can be changed, just ignore it.
+        // Maybe some day the swift-on-windows toolchain won't generate these
+        args.append(contentsOf: ["-Xlinker", "/IGNORE:LNK4217"])
+        #endif
+
         if var dockerContext = dockerContext {
             dockerContext.env.merge(env) { $1 }
             try! dockerContext.cmd("env", arguments: []).run()

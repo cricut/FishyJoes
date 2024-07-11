@@ -1,10 +1,10 @@
 public class SourceFragment {
-    public var sourceryDestination: String
+    public var sourceryDestination: String?
     private var stringBuilder: [String] = []
     private var isFreshLine = true
     private var currentIndent = 0
 
-    public init(sourceryDestination: String) {
+    public init(sourceryDestination: String?) {
         self.sourceryDestination = sourceryDestination
     }
 
@@ -13,12 +13,16 @@ public class SourceFragment {
     }
 
     public var contents: String {
-        """
-            // sourcery:\(sourceryDestination)
-            \(stringBuilder.joined())
-            // sourcery:end
+        if let sourceryDestination = sourceryDestination {
+            return """
+                // sourcery:\(sourceryDestination)
+                \(stringBuilder.joined())
+                // sourcery:end
 
-            """
+                """
+        } else {
+            return "\(stringBuilder.joined())\n"
+        }
     }
 
     public func blankLine() {
@@ -41,6 +45,10 @@ public class SourceFragment {
             stringBuilder.append("\n")
         }
         isFreshLine = newLineTerminated
+    }
+
+    public func dedentedOutput(_ line: String, newLineTerminated: Bool = true) {
+        dedent { output(line, newLineTerminated: newLineTerminated) }
     }
 
     public func outputBlock<R>(_ openingLine: String, closeWith close: String? = nil, newLineTerminated: Bool = true, _ body: () throws -> R) rethrows -> R {
@@ -88,6 +96,12 @@ public class SourceFragment {
     public func indent<R>(_ body: () throws -> R) rethrows -> R {
         currentIndent += 1
         defer { currentIndent -= 1 }
+        return try body()
+    }
+
+    public func dedent<R>(_ body: () throws -> R) rethrows -> R {
+        currentIndent -= 1
+        defer { currentIndent += 1 }
         return try body()
     }
 }
