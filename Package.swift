@@ -310,7 +310,13 @@ let package = Package(
     ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] : [
         T.executableTarget(
             name: "FishyJoesExecuteMain",
-            dependencies: ["FishyJoesExecute"]
+            dependencies: ["FishyJoesExecute"],
+            linkerSettings: [
+                .unsafeFlags(
+                    extraLibPath.flatMap { ["-Xlinker", "/IGNORE:LNK4217"] },
+                    .when(platforms: [.windows])
+                )
+            ]
         ),
         T.target(
             // TODO: better name for this target
