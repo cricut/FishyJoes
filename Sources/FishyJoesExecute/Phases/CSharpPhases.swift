@@ -10,7 +10,11 @@ class CSharpPhases: IotaPhases, Phases {
 
     func compileHostLanguagePhase() throws {
         try withDirectory("bindings/c-sharp") {
-            var args = ["build", "generated/Cricut.\(options.config.module).sln"]
+            let solution = "generated/Cricut.\(options.config.module).sln"
+            // dotnet caches "package doesn't exist" for an annoyingly long time. This still caches the large downloads.
+            try cmd("dotnet", "restore", "--no-cache", solution).run()
+
+            var args = ["build", solution]
             if options.buildConfig.debug {
                 args.append(contentsOf: ["--configuration", "Debug"])
             }

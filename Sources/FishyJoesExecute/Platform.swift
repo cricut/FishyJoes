@@ -45,10 +45,6 @@ enum Platform: CustomStringConvertible, Hashable {
             case .aarch64: return "arm64-v8a"
             }
         }
-
-        var toolchainPath: String {
-            "/swift-android-\(self)"
-        }
     }
 
     var description: String {
@@ -170,7 +166,7 @@ enum Platform: CustomStringConvertible, Hashable {
             scratchPath = "\(scratchPath)/android-build"
             args.append(
                 contentsOf: [
-                    "--destination", "\(arch.toolchainPath)/usr/swiftpm-android-\(arch).json",
+                    "--destination", "/swift-android/usr/swiftpm-android-\(arch).json",
                 ]
             )
             env["ANDROID_COMPATIBLE_ONLY"] = "1"
