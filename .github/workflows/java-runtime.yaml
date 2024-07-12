@@ -170,7 +170,7 @@ jobs:
     needs:
       - build-test-kotlin-mac
       - build-test-kotlin-ubuntu
-      # - build-test-kotlin-windows
+      - build-test-kotlin-windows
     env:
       GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
@@ -208,7 +208,7 @@ jobs:
           mv ubuntu_generated kotlin-runtime/src/generated
           mkdir -p kotlin-runtime/src/generated/resources/{mac,windows}
           mv mac_lib/*.dylib kotlin-runtime/src/generated/resources/mac/
-          mv windows_lib/*.dll kotlin-runtime/src/generated/resources/windows/ || true
+          mv windows_lib/*.dll kotlin-runtime/src/generated/resources/windows/
 
       - name: Test publish
         shell: zsh {0}
