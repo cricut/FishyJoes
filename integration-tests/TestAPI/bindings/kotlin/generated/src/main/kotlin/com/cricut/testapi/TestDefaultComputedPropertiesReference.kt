@@ -1,3 +1,9 @@
+package com.cricut.testapi
+
+import com.cricut.fishyjoes.runtime.*
+import java.lang.Exception
+import kotlinx.coroutines.*
+
 /**
  * <!-- FishyJoes.exportReference(TestDefaultComputedPropertiesReference) -->
  */
@@ -50,9 +56,3 @@ class TestDefaultComputedPropertiesReference private constructor(_swiftReference
         init { loadNativeLibs() }
     }
 }
-
-package com.cricut.testapi
-
-import com.cricut.fishyjoes.runtime.*
-import java.lang.Exception
-import kotlinx.coroutines.*

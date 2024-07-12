@@ -1,3 +1,9 @@
+package com.cricut.testapi
+
+import com.cricut.fishyjoes.runtime.*
+import java.lang.Exception
+import kotlinx.coroutines.*
+
 /**
  * <!-- FishyJoes.exportReference(EmptyClass2) -->
  */
@@ -71,9 +77,3 @@ class EmptyClass2 private constructor(_swiftReference: Long): com.cricut.fishyjo
         init { loadNativeLibs() }
     }
 }
-
-package com.cricut.testapi
-
-import com.cricut.fishyjoes.runtime.*
-import java.lang.Exception
-import kotlinx.coroutines.*

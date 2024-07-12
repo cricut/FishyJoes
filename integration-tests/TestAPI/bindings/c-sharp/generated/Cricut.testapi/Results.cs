@@ -1,3 +1,9 @@
+using Cricut.FishyJoesRuntime;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System;
+using static Cricut.FishyJoesRuntime.Utilities;
+
 namespace Cricut.TestAPI {
     /// <summary>
     /// <!-- FishyJoes.export(Results) -->
@@ -63,9 +69,3 @@ namespace Cricut.TestAPI {
         static Results() { _TypeSetup._ensureLoaded(); }
     }
 }
-
-using Cricut.FishyJoesRuntime;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System;
-using static Cricut.FishyJoesRuntime.Utilities;

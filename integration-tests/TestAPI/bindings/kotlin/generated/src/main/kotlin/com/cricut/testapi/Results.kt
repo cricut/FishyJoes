@@ -1,3 +1,9 @@
+package com.cricut.testapi
+
+import com.cricut.fishyjoes.runtime.*
+import java.lang.Exception
+import kotlinx.coroutines.*
+
 /**
  * <!-- FishyJoes.export(Results) -->
  */
@@ -50,9 +56,3 @@ sealed class Results {
         }
     }
 }
-
-package com.cricut.testapi
-
-import com.cricut.fishyjoes.runtime.*
-import java.lang.Exception
-import kotlinx.coroutines.*

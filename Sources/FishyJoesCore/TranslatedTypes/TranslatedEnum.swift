@@ -149,14 +149,13 @@ struct TranslatedEnum: TranslatedType {
 
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "NodeInterface/\(context.module.name)+node.swift",
+            "NodeInterface/\(sourceType.name)+node.swift",
             additionalImports: [
                 "Foundation",
                 "FishyJoesNodeRuntime",
                 "\(context.module.name)_CommonInterface"
             ]
         )
-        fragment.output("// MARK: - \(sourceType.name)+node.swift")
 
         if cases.allSatisfy({ $0.associatedValues.isEmpty }), !cases.isEmpty {
             // Simple enum, export as strings
@@ -437,10 +436,9 @@ struct TranslatedEnum: TranslatedType {
 
     func jniDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "JavaInterface/\(context.module.name)+java.swift",
+            "JavaInterface/\(sourceType.name)+java-type.swift",
             additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
         )
-        fragment.output("// MARK: - \(sourceType.name)+java-type.swift")
 
         let className = context.kotlinTranslator.javaClassName(nodeName, in: context)
         fragment.outputBlock("extension \(sourceType.name): JavaConverter {") {

@@ -1,3 +1,9 @@
+package com.cricut.testapi
+
+import com.cricut.fishyjoes.runtime.*
+import java.lang.Exception
+import kotlinx.coroutines.*
+
 /**
  * <!-- FishyJoes.export(TestDefaultComputedProperties) -->
  */
@@ -29,9 +35,3 @@ interface TestDefaultComputedProperties {
         }
     }
 }
-
-package com.cricut.testapi
-
-import com.cricut.fishyjoes.runtime.*
-import java.lang.Exception
-import kotlinx.coroutines.*

@@ -1,62 +1,3 @@
-// ignore_for_file: unused_import
-// ignore_for_file: non_constant_identifier_names
-// ignore_for_file: no_leading_underscores_for_local_identifiers
-// ignore_for_file: library_prefixes
-// ignore_for_file: file_names
-// ignore_for_file: annotate_overrides
-
-/// <!-- FishyJoes.export(AProtocol) -->
-class ExternalWitness_AProtocol extends SwiftReference implements TestAPI.AProtocol {
-    ExternalWitness_AProtocol(ffi.Pointer reference): super(reference) {}
-    static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
-        createRef(ExternalWitness_AProtocol(ref))
-    );
-
-    /// <!-- FishyJoes.export(baz) -->
-    bool get baz =>
-        GCRef.using(this, (_thisHandle) =>
-            check((exn) =>
-                f__iota_get_TestAPI_AProtocol_baz(Loader.shared.env, _thisHandle.ptr, exn)
-            )
-        )
-    ;
-    /// <!-- FishyJoes.export(foo) -->
-    String get foo =>
-        GCRef.using(this, (_thisHandle) =>
-            check((exn) =>
-                consumeCreatedRef<String>(f__iota_get_TestAPI_AProtocol_foo(Loader.shared.env, _thisHandle.ptr, exn))
-            )
-        )
-    ;
-    /// <!-- FishyJoes.export(bar) -->
-    TestAPI.AProtocol bar(
-        int x,
-        int y,
-    ) =>
-        GCRef.using(this, (_thisHandle) =>
-            consumeCreatedRef<TestAPI.AProtocol>(check((OutCreatedRef _exn) => f__iota_TestAPI_AProtocol_bar(Loader.shared.env, _thisHandle.ptr, x, y, _exn)))
-        )
-    ;
-
-    static late CreatedRef Function(
-        Env env,
-        UnownedRef _this,
-        int x,
-        int y,
-        OutCreatedRef _exn
-    ) f__iota_TestAPI_AProtocol_bar;
-    static late bool Function(
-        Env env,
-        UnownedRef _this,
-        OutCreatedRef _exn
-    ) f__iota_get_TestAPI_AProtocol_baz;
-    static late CreatedRef Function(
-        Env env,
-        UnownedRef _this,
-        OutCreatedRef _exn
-    ) f__iota_get_TestAPI_AProtocol_foo;
-}
-
 import './AProtocol.dart' as TestAPI;
 import './AProtocolImplementation.dart' as TestAPI;
 import './Actors.dart' as TestAPI;
@@ -128,3 +69,62 @@ import 'package:fishyjoes_dart/runtime.dart' as FishyJoesRuntime;
 import 'package:fishyjoes_dart/runtime.dart';
 import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:tuple/tuple.dart' as tuple;
+
+// ignore_for_file: unused_import
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: no_leading_underscores_for_local_identifiers
+// ignore_for_file: library_prefixes
+// ignore_for_file: file_names
+// ignore_for_file: annotate_overrides
+
+/// <!-- FishyJoes.export(AProtocol) -->
+class ExternalWitness_AProtocol extends SwiftReference implements TestAPI.AProtocol {
+    ExternalWitness_AProtocol(ffi.Pointer reference): super(reference) {}
+    static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
+        createRef(ExternalWitness_AProtocol(ref))
+    );
+
+    /// <!-- FishyJoes.export(baz) -->
+    bool get baz =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                f__iota_get_TestAPI_AProtocol_baz(Loader.shared.env, _thisHandle.ptr, exn)
+            )
+        )
+    ;
+    /// <!-- FishyJoes.export(foo) -->
+    String get foo =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                consumeCreatedRef<String>(f__iota_get_TestAPI_AProtocol_foo(Loader.shared.env, _thisHandle.ptr, exn))
+            )
+        )
+    ;
+    /// <!-- FishyJoes.export(bar) -->
+    TestAPI.AProtocol bar(
+        int x,
+        int y,
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            consumeCreatedRef<TestAPI.AProtocol>(check((OutCreatedRef _exn) => f__iota_TestAPI_AProtocol_bar(Loader.shared.env, _thisHandle.ptr, x, y, _exn)))
+        )
+    ;
+
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        int x,
+        int y,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_AProtocol_bar;
+    static late bool Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_get_TestAPI_AProtocol_baz;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_get_TestAPI_AProtocol_foo;
+}

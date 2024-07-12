@@ -271,41 +271,42 @@ struct NodeTranslator: Translator {
     }
 
     func setupFragments(context: FishyJoesContext, generatedTypes: [BetterType]) -> [SourceFragment] {
-        let nodeTypeListFragment = context.swiftFragment(
+        let typeSetupFragment = context.swiftFragment(
             "NodeInterface/TypeSetup.swift",
+            withDedicatedFile: true,
             additionalImports: ["Foundation", "FishyJoesNodeRuntime", "NodeAPI", "\(context.module.name)_CommonInterface"]
         )
-        nodeTypeListFragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
-        nodeTypeListFragment.outputBlock("public func registerModule\(context.module.name)(env: NAPI.Env, exports: NAPI.Value) throws -> NAPI.Value {") {
-            nodeTypeListFragment.output("#if os(WASI)")
-            nodeTypeListFragment.output("try JavaScriptEventLoop.installGlobalExecutor(env: env)")
-            nodeTypeListFragment.output("#endif")
-            nodeTypeListFragment.output("try setupOnMainThreadEntryPoint(env: env)")
-            nodeTypeListFragment.output("let module = try env.createObject()")
-            nodeTypeListFragment.output("try env.setNamedProperty(exports, \"\(context.module.name)\", module)")
-            nodeTypeListFragment.output("try env.setNamedProperty(exports, \"default\", module)")
-            nodeTypeListFragment.blankLine()
+        typeSetupFragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
+        typeSetupFragment.outputBlock("public func registerModule\(context.module.name)(env: NAPI.Env, exports: NAPI.Value) throws -> NAPI.Value {") {
+            typeSetupFragment.output("#if os(WASI)")
+            typeSetupFragment.output("try JavaScriptEventLoop.installGlobalExecutor(env: env)")
+            typeSetupFragment.output("#endif")
+            typeSetupFragment.output("try setupOnMainThreadEntryPoint(env: env)")
+            typeSetupFragment.output("let module = try env.createObject()")
+            typeSetupFragment.output("try env.setNamedProperty(exports, \"\(context.module.name)\", module)")
+            typeSetupFragment.output("try env.setNamedProperty(exports, \"default\", module)")
+            typeSetupFragment.blankLine()
             for type in generatedTypes {
                 let resolved = context.resolve(type: type)
-                nodeTypeListFragment.output("try \(resolved.converterType.name).nodeSetup(env: env, module: module)")
+                typeSetupFragment.output("try \(resolved.converterType.name).nodeSetup(env: env, module: module)")
             }
-            nodeTypeListFragment.output("// Call once in TypeSetup to work around a Windows delayload llvm bug described here: https://github.com/llvm/llvm-project/issues/51941. This affects functions with doubles in the first or second argument, which get put into xmm0 and xmm1, and the delayload somehow clobbers the stack where they are stored so when the napi function is done and the stack is popped back into xmm0 and xmm1 the value is incorrect. This needs to be done for both napi_create_double and napi_create_date.")
-            nodeTypeListFragment.output("_ = try env.createDouble(42.0)")
-            nodeTypeListFragment.output("_ = try env.createDate(42.0)")
-            nodeTypeListFragment.output("return exports")
+            typeSetupFragment.output("// Call once in TypeSetup to work around a Windows delayload llvm bug described here: https://github.com/llvm/llvm-project/issues/51941. This affects functions with doubles in the first or second argument, which get put into xmm0 and xmm1, and the delayload somehow clobbers the stack where they are stored so when the napi function is done and the stack is popped back into xmm0 and xmm1 the value is incorrect. This needs to be done for both napi_create_double and napi_create_date.")
+            typeSetupFragment.output("_ = try env.createDouble(42.0)")
+            typeSetupFragment.output("_ = try env.createDate(42.0)")
+            typeSetupFragment.output("return exports")
         }
-        nodeTypeListFragment.blankLine()
-        nodeTypeListFragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
-        nodeTypeListFragment.output("@_cdecl(\"registerModule\(context.module.name)\")")
-        nodeTypeListFragment.outputBlock("public func cRegisterModule\(context.module.name)(env: napi_env, exports: napi_value) -> napi_value? {") {
-            nodeTypeListFragment.output("let env = NAPI.Env(ptr: env)")
-            nodeTypeListFragment.output("let exports = NAPI.Value(ptr: exports)")
-            nodeTypeListFragment.outputBlock("return FishyJoesNodeRuntime.rethrowToNode(env: env) {") {
-                nodeTypeListFragment.output("try registerModule\(context.module.name)(env: env, exports: exports)")
+        typeSetupFragment.blankLine()
+        typeSetupFragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
+        typeSetupFragment.output("@_cdecl(\"registerModule\(context.module.name)\")")
+        typeSetupFragment.outputBlock("public func cRegisterModule\(context.module.name)(env: napi_env, exports: napi_value) -> napi_value? {") {
+            typeSetupFragment.output("let env = NAPI.Env(ptr: env)")
+            typeSetupFragment.output("let exports = NAPI.Value(ptr: exports)")
+            typeSetupFragment.outputBlock("return FishyJoesNodeRuntime.rethrowToNode(env: env) {") {
+                typeSetupFragment.output("try registerModule\(context.module.name)(env: env, exports: exports)")
             }
         }
 
-        let exportFragment = context.swiftFragment("NodeInterface/@_exported.swift")
+        let exportFragment = SourceFragment(sourceryDestination: "file:NodeInterface/@_exported.swift")
         exportFragment.output("@_exported import \(context.module.name)")
         for dependency in context.module.dependencies {
             exportFragment.output("@_exported import \(dependency)_NodeInterface")
@@ -323,6 +324,7 @@ struct NodeTranslator: Translator {
 
         let wasmShimFragment = context.swiftFragment(
             "WasmMainShim/NAPIRegisterModule.swift",
+            withDedicatedFile: true,
             additionalImports: ["FishyJoesNodeRuntime", "NodeAPI", "\(context.module.name)_NodeInterface"] + context.module.dependencies.map { "\($0)_NodeInterface" }
         )
         wasmShimFragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
@@ -340,10 +342,10 @@ struct NodeTranslator: Translator {
             }
         }
 
-        let wasmShimMainFragment = SourceFragment(sourceryDestination: "file:WasmMainShim/main.swift")
+        let wasmShimMainFragment = context.swiftFragment("WasmMainShim/main.swift", withDedicatedFile: true)
         wasmShimMainFragment.output("// Executable main requires no statements, as module registration is done by napi.init() calling napi_register_module_v1()")
 
-        return [nodeTypeListFragment, exportFragment, nodeNativeShimFragment, wasmShimFragment, wasmShimMainFragment]
+        return [typeSetupFragment, exportFragment, nodeNativeShimFragment, wasmShimFragment, wasmShimMainFragment]
     }
 
     func ts(method: Method, explicitThis: Bool, context: FishyJoesContext) -> TypeScriptAnnotations.Method? {

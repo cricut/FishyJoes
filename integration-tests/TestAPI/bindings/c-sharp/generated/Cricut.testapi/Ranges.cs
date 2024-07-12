@@ -1,3 +1,9 @@
+using Cricut.FishyJoesRuntime;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System;
+using static Cricut.FishyJoesRuntime.Utilities;
+
 namespace Cricut.TestAPI {
     /// <summary>
     /// <!-- FishyJoes.export(Ranges) -->
@@ -318,9 +324,3 @@ namespace Cricut.TestAPI {
         static Ranges() { _TypeSetup._ensureLoaded(); }
     }
 }
-
-using Cricut.FishyJoesRuntime;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System;
-using static Cricut.FishyJoesRuntime.Utilities;

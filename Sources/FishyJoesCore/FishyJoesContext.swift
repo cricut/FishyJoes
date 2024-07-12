@@ -79,22 +79,32 @@ public class FishyJoesContext {
         }
     }
 
-    func swiftFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
+    func swiftFragment(_ name: String, withDedicatedFile: Bool = false, additionalImports: [String] = []) -> SourceFragment {
+        var fileName = name
+        if !withDedicatedFile {
+            fileName = (name.components(separatedBy: "/").dropLast() + ["\(module.name).swift"]).joined(separator: "/")
+        }
         for dependency in module.dependencies + [module.name] + additionalImports {
-            addHeader(file: name, "import \(dependency)")
+            addHeader(file: fileName, "import \(dependency)")
         }
         // These need to be in order, so add them with higher priority
         addHeader(
-            file: name,
+            file: fileName,
             priority: 2,
             "// swiftlint:disable:next blanket_disable_command superfluous_disable_command"
         )
         addHeader(
-            file: name,
+            file: fileName,
             priority: 1,
             "// swiftlint:disable unused_closure_parameter syntactic_sugar attributes"
         )
-        return SourceFragment(sourceryDestination: "file:\(name)")
+        let fragment = SourceFragment(sourceryDestination: "file:\(fileName)")
+        if !withDedicatedFile {
+            fragment.blankLine()
+            fragment.output("// MARK: - \(name)")
+            fragment.blankLine()
+        }
+        return fragment
     }
 
     func kotlinFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
@@ -290,7 +300,7 @@ public class FishyJoesContext {
             return fragment
         }
 
-        return (headerFragments + collectedFragments).map(\.contents).sorted().joined()
+        return (headerFragments.map(\.contents) + collectedFragments.map(\.contents).sorted()).joined()
     }
 
     /// Process a set of classes to nest their inner classes properly for generation.

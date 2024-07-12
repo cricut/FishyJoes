@@ -1,3 +1,9 @@
+using Cricut.FishyJoesRuntime;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System;
+using static Cricut.FishyJoesRuntime.Utilities;
+
 namespace Cricut.TestAPI {
     /// <summary>
     /// <!-- FishyJoes.exportReference(TestDefaultComputedPropertiesReference) -->
@@ -95,9 +101,3 @@ namespace Cricut.TestAPI {
         static TestDefaultComputedPropertiesReference() { _TypeSetup._ensureLoaded(); }
     }
 }
-
-using Cricut.FishyJoesRuntime;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System;
-using static Cricut.FishyJoesRuntime.Utilities;

@@ -85,14 +85,13 @@ struct TranslatedStruct: TranslatedType {
 
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "NodeInterface/\(context.module.name)+node.swift",
+            "NodeInterface/\(sourceType.name)+node.swift",
             additionalImports: [
                 "Foundation",
                 "FishyJoesNodeRuntime",
                 "\(context.module.name)_CommonInterface"
             ]
         )
-        fragment.output("// MARK: - \(sourceType.name)+node.swift")
 
         fragment.outputBlock("extension \(sourceType.name): NodeMutator {") {
             fragment.output("public typealias SwiftType = Self")
@@ -194,10 +193,9 @@ struct TranslatedStruct: TranslatedType {
 
     func jniDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "JavaInterface/\(context.module.name)+java.swift",
+            "JavaInterface/\(sourceType.name)+java-type.swift",
             additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
         )
-        fragment.output("// MARK: - \(sourceType.name)+java-type.swift")
 
         let className = context.kotlinTranslator.javaClassName(kotlinName, in: context)
         fragment.outputBlock("extension \(sourceType.name): JavaMutator {") {
@@ -537,10 +535,9 @@ struct TranslatedStruct: TranslatedType {
 
     func iotaDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "IotaInterface/\(context.module.name)+iota.swift",
+            "IotaInterface/\(sourceType.name)+iota-type.swift",
             additionalImports: ["Foundation", "FishyJoesIotaRuntime"]
         )
-        fragment.output("// MARK: - \(sourceType.name)+iota-type.swift")
 
         fragment.output("@_cdecl(\"\(iotaSetupName)\")")
         fragment.outputBlock("public func \(iotaSetupName)(", newLineTerminated: false) {

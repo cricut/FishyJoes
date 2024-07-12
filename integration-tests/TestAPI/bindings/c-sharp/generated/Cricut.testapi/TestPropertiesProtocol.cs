@@ -1,3 +1,9 @@
+using Cricut.FishyJoesRuntime;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System;
+using static Cricut.FishyJoesRuntime.Utilities;
+
 namespace Cricut.TestAPI {
     /// <summary>
     /// <!-- FishyJoes.export(TestPropertiesProtocol) -->
@@ -32,9 +38,3 @@ namespace Cricut.TestAPI {
         static TestPropertiesProtocol() { _TypeSetup._ensureLoaded(); }
     }
 }
-
-using Cricut.FishyJoesRuntime;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System;
-using static Cricut.FishyJoesRuntime.Utilities;

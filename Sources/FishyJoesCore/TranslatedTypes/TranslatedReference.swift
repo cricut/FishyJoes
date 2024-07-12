@@ -86,14 +86,13 @@ struct TranslatedReference: TranslatedType {
 
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "NodeInterface/\(context.module.name)+node.swift",
+            "NodeInterface/\(sourceType.name)+node.swift",
             additionalImports: [
                 "Foundation",
                 "FishyJoesNodeRuntime",
                 "\(context.module.name)_CommonInterface"
             ]
         )
-        fragment.output("// MARK: - \(sourceType.name)+node.swift")
 
         fragment.outputBlock("extension \(sourceType.name): FishyJoesNodeRuntime.NodeConverter {") {
             fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> \(sourceType.name) {") {
@@ -182,10 +181,9 @@ struct TranslatedReference: TranslatedType {
 
     func jniDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "JavaInterface/\(context.module.name)+java.swift",
+            "JavaInterface/\(sourceType.name)+java-type.swift",
             additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
         )
-        fragment.output("// MARK: - \(sourceType.name)+java-type.swift")
 
         fragment.outputBlock("extension \(sourceType.name): JavaMutator {") {
             fragment.output("public static var javaClass: jclass?")
@@ -371,10 +369,9 @@ struct TranslatedReference: TranslatedType {
 
     func iotaDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "IotaInterface/\(context.module.name)+iota.swift",
+            "IotaInterface/\(sourceType.name)+iota-type.swift",
             additionalImports: ["Foundation", "FishyJoesIotaRuntime"]
         )
-        fragment.output("// MARK: - \(sourceType.name)+iota-type.swift")
 
         fragment.output("@_cdecl(\"\(iotaSetupName)\")")
         fragment.outputBlock("public func \(iotaSetupName)(", newLineTerminated: false) {

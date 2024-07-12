@@ -362,7 +362,7 @@ struct TranslatedProtocol: TranslatedType {
 
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "NodeInterface/\(context.module.name)+node.swift",
+            "NodeInterface/\(sourceType.name)+node.swift",
             additionalImports: [
                 "Foundation",
                 "FishyJoesNodeRuntime",
@@ -370,7 +370,6 @@ struct TranslatedProtocol: TranslatedType {
                 "NodeAPI"
             ]
         )
-        fragment.output("// MARK: - \(sourceType.name)+node.swift")
 
         fragment.outputBlock("struct _Node\(sourceType.nonNamespacedName): \(sourceType.name) {") {
             fragment.output("let _nodeWitness: NodeReference")
@@ -587,10 +586,9 @@ struct TranslatedProtocol: TranslatedType {
 
     func iotaDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "IotaInterface/\(context.module.name)+iota.swift",
+            "IotaInterface/\(sourceType.name)+iota-type.swift",
             additionalImports: ["Foundation", "FishyJoesIotaRuntime", "\(context.module.name)_CommonInterface"]
         )
-        fragment.output("// MARK: - \(sourceType.name)+iota-type.swift")
 
         let foreignProtocolType = "_Iota\(sourceType.nonNamespacedName)"
 
@@ -744,10 +742,9 @@ struct TranslatedProtocol: TranslatedType {
 
     func jniDefinitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
         let fragment = context.swiftFragment(
-            "JavaInterface/\(context.module.name)+java.swift",
+            "JavaInterface/\(sourceType.name)+java-type.swift",
             additionalImports: ["Foundation", "FishyJoesJavaRuntime", "\(context.module.name)_CommonInterface"]
         )
-        fragment.output("// MARK: - \(sourceType.name)+java-type.swift")
 
         let foreignProtocolType = "_Java\(sourceType.nonNamespacedName)"
 

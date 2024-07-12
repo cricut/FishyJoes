@@ -1,22 +1,3 @@
-/// <!-- FishyJoes.export(TestDifferingExportNameProtocolDiffy) -->
-abstract class TestDifferingExportNameProtocolDiffy {
-
-    /// <!-- FishyJoes.export(tata) -->
-    int get tata;
-}
-
-extension TestDifferingExportNameProtocolDiffy_DefaultImplementations on TestDifferingExportNameProtocolDiffy {
-}
-
-extension TestDifferingExportNameProtocolDiffy_FfiHooks on TestDifferingExportNameProtocolDiffy {
-    static int ffi_get_tata(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catching(exn, () =>
-        peekRef<TestDifferingExportNameProtocolDiffy>(obj).tata
-    ) ?? 0;
-}
-
 import './AProtocol.dart' as TestAPI;
 import './AProtocolImplementation.dart' as TestAPI;
 import './Actors.dart' as TestAPI;
@@ -88,3 +69,22 @@ import 'package:fishyjoes_dart/runtime.dart' as FishyJoesRuntime;
 import 'package:fishyjoes_dart/runtime.dart';
 import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:tuple/tuple.dart' as tuple;
+
+/// <!-- FishyJoes.export(TestDifferingExportNameProtocolDiffy) -->
+abstract class TestDifferingExportNameProtocolDiffy {
+
+    /// <!-- FishyJoes.export(tata) -->
+    int get tata;
+}
+
+extension TestDifferingExportNameProtocolDiffy_DefaultImplementations on TestDifferingExportNameProtocolDiffy {
+}
+
+extension TestDifferingExportNameProtocolDiffy_FfiHooks on TestDifferingExportNameProtocolDiffy {
+    static int ffi_get_tata(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<TestDifferingExportNameProtocolDiffy>(obj).tata
+    ) ?? 0;
+}
