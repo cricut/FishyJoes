@@ -170,7 +170,7 @@ class NodePhases: BasePhases, Phases {
                 sources: ["\(shimDir)/NAPIRegisterModule.c"],
                 dependencies: [nodeModule.nativeLibName],
                 headerSearchPaths: ["\(fishyJoesDependency.localPath)/Sources/NodeAPI/include"],
-                librarySearchPaths: [platform.buildDir(buildConfig), platform.extraLibPathDir(buildConfig)],
+                librarySearchPaths: [platform.buildDir(buildConfig), platform.extraLibPathDir()],
                 outputPath: "\(platform.buildDir(buildConfig))/\(platform.dylibName(for: nodeModule.nodeShimLibName))",
                 configuration: buildConfig
             )

@@ -255,7 +255,7 @@ jobs:
 
           dotnet pack \
               -c Release \
-              bindings/c-sharp/generated/Cricut.__MODULE_NAME__.csproj \
+              bindings/c-sharp/generated/Cricut.__MODULE_NAME__/Cricut.__MODULE_NAME__.csproj \
               /p:Version=$VERSION \
               --output bindings/c-sharp/nupkgs
 

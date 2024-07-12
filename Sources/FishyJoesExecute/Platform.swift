@@ -141,7 +141,7 @@ enum Platform: CustomStringConvertible, Hashable {
         var env: [String: String] = addEnv
         env["SWIFT_PACKAGE_FORCE_DYNAMIC"] = "1"
         env["FISHYJOES_TARGET_PLATFORM"] = "\(self)"
-        env["EXTRA_LIBPATH"] = try? extraLibPathDir(configuration)
+        env["EXTRA_LIBPATH"] = relativePath(of: extraLibPathDir(), relativeTo: configuration.packagePath)
         var dockerContext: DockerContext?
 
         var scratchPath = configuration.scratchPath
@@ -359,7 +359,7 @@ enum Platform: CustomStringConvertible, Hashable {
         }
     }
 
-    func extraLibPathDir(_ configuration: BuildConfiguration) throws -> String {
+    func extraLibPathDir() -> String {
         return ".build/lib"
     }
 }
