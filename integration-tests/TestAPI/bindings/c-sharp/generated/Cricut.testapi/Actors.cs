@@ -1,9 +1,3 @@
-using Cricut.FishyJoesRuntime;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System;
-using static Cricut.FishyJoesRuntime.Utilities;
-
 namespace Cricut.TestAPI {
     /// <summary>
     /// <!-- FishyJoes.export(Actors) -->
@@ -16,21 +10,6 @@ namespace Cricut.TestAPI {
         /// </summary>
         public class TemperatureLogger : SwiftReference {
             internal TemperatureLogger(ConsumedRef reference): base(reference) {}
-
-            /// <summary>
-            /// <!-- FishyJoes.export(label) -->
-            /// </summary>
-            public string Label {
-                get {
-                    using var thisHandle = new GCRef(this);
-                    return Check((out CreatedRef exn) =>
-                        __iota_get_TestAPI_Actors_TemperatureLogger_label(Loader.env, thisHandle.ptr, out exn).Consume<string>()
-                    );
-                }
-            }
-
-            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern CreatedRef __iota_get_TestAPI_Actors_TemperatureLogger_label(IntPtr envRef, UnownedRef self, out CreatedRef exn);
 
             /// <summary>
             /// <!-- FishyJoes.export(backwardsLabel) -->
@@ -57,6 +36,21 @@ namespace Cricut.TestAPI {
 
             [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __iota_get_TestAPI_Actors_TemperatureLogger_extensionNonisolatedVarLabel(IntPtr envRef, UnownedRef self, out CreatedRef exn);
+
+            /// <summary>
+            /// <!-- FishyJoes.export(label) -->
+            /// </summary>
+            public string Label {
+                get {
+                    using var thisHandle = new GCRef(this);
+                    return Check((out CreatedRef exn) =>
+                        __iota_get_TestAPI_Actors_TemperatureLogger_label(Loader.env, thisHandle.ptr, out exn).Consume<string>()
+                    );
+                }
+            }
+
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern CreatedRef __iota_get_TestAPI_Actors_TemperatureLogger_label(IntPtr envRef, UnownedRef self, out CreatedRef exn);
 
             /// <summary>
             /// <!-- FishyJoes.export(create) -->
@@ -148,3 +142,9 @@ namespace Cricut.TestAPI {
         static Actors() { _TypeSetup._ensureLoaded(); }
     }
 }
+
+using Cricut.FishyJoesRuntime;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System;
+using static Cricut.FishyJoesRuntime.Utilities;

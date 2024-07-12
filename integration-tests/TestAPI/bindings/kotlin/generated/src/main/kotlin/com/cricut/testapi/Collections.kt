@@ -1,9 +1,3 @@
-package com.cricut.testapi
-
-import com.cricut.fishyjoes.runtime.*
-import java.lang.Exception
-import kotlinx.coroutines.*
-
 /**
  * <!-- FishyJoes.export(Collections) -->
  */
@@ -11,6 +5,15 @@ import kotlinx.coroutines.*
 sealed class Collections {
 
     companion object {
+        /**
+         * <!-- FishyJoes.export(arrayOfBigTuples) -->
+         */
+        val arrayOfBigTuples: kotlin.collections.List<com.cricut.fishyjoes.runtime.Tuple4<Byte, Short, Int, Long>>
+          get() = __jni_get_arrayOfBigTuples()
+        @JvmStatic
+        @JvmName("__jni_get_arrayOfBigTuples")
+        private external fun __jni_get_arrayOfBigTuples(): kotlin.collections.List<com.cricut.fishyjoes.runtime.Tuple4<Byte, Short, Int, Long>>
+
         /**
          * <!-- FishyJoes.export(arrayOfInt) -->
          */
@@ -21,13 +24,13 @@ sealed class Collections {
         private external fun __jni_get_arrayOfInt(): kotlin.collections.List<Long>
 
         /**
-         * <!-- FishyJoes.export(setOfInt) -->
+         * <!-- FishyJoes.export(defaultCollectionHolder) -->
          */
-        val setOfInt: kotlin.collections.Set<Long>
-          get() = __jni_get_setOfInt()
+        val defaultCollectionHolder: com.cricut.testapi.Collections.CollectionHolder
+          get() = __jni_get_defaultCollectionHolder()
         @JvmStatic
-        @JvmName("__jni_get_setOfInt")
-        private external fun __jni_get_setOfInt(): kotlin.collections.Set<Long>
+        @JvmName("__jni_get_defaultCollectionHolder")
+        private external fun __jni_get_defaultCollectionHolder(): com.cricut.testapi.Collections.CollectionHolder
 
         /**
          * <!-- FishyJoes.export(dictionaryOfIntToInt) -->
@@ -39,15 +42,6 @@ sealed class Collections {
         private external fun __jni_get_dictionaryOfIntToInt(): kotlin.collections.Map<Long, Long>
 
         /**
-         * <!-- FishyJoes.export(arrayOfBigTuples) -->
-         */
-        val arrayOfBigTuples: kotlin.collections.List<com.cricut.fishyjoes.runtime.Tuple4<Byte, Short, Int, Long>>
-          get() = __jni_get_arrayOfBigTuples()
-        @JvmStatic
-        @JvmName("__jni_get_arrayOfBigTuples")
-        private external fun __jni_get_arrayOfBigTuples(): kotlin.collections.List<com.cricut.fishyjoes.runtime.Tuple4<Byte, Short, Int, Long>>
-
-        /**
          * <!-- FishyJoes.export(maybeArrayOfInt) -->
          */
         val maybeArrayOfInt: kotlin.collections.List<Long>?
@@ -55,24 +49,6 @@ sealed class Collections {
         @JvmStatic
         @JvmName("__jni_get_maybeArrayOfInt")
         private external fun __jni_get_maybeArrayOfInt(): kotlin.collections.List<Long>?
-
-        /**
-         * <!-- FishyJoes.export(maybeSetOfInt) -->
-         */
-        val maybeSetOfInt: kotlin.collections.Set<Long>?
-          get() = __jni_get_maybeSetOfInt()
-        @JvmStatic
-        @JvmName("__jni_get_maybeSetOfInt")
-        private external fun __jni_get_maybeSetOfInt(): kotlin.collections.Set<Long>?
-
-        /**
-         * <!-- FishyJoes.export(maybeDictionaryOfIntToInt) -->
-         */
-        val maybeDictionaryOfIntToInt: kotlin.collections.Map<Long, Long>?
-          get() = __jni_get_maybeDictionaryOfIntToInt()
-        @JvmStatic
-        @JvmName("__jni_get_maybeDictionaryOfIntToInt")
-        private external fun __jni_get_maybeDictionaryOfIntToInt(): kotlin.collections.Map<Long, Long>?
 
         /**
          * <!-- FishyJoes.export(maybeArrayOfMaybeInt) -->
@@ -84,13 +60,13 @@ sealed class Collections {
         private external fun __jni_get_maybeArrayOfMaybeInt(): kotlin.collections.List<Long?>?
 
         /**
-         * <!-- FishyJoes.export(maybeSetOfMaybeInt) -->
+         * <!-- FishyJoes.export(maybeDictionaryOfIntToInt) -->
          */
-        val maybeSetOfMaybeInt: kotlin.collections.Set<Long?>?
-          get() = __jni_get_maybeSetOfMaybeInt()
+        val maybeDictionaryOfIntToInt: kotlin.collections.Map<Long, Long>?
+          get() = __jni_get_maybeDictionaryOfIntToInt()
         @JvmStatic
-        @JvmName("__jni_get_maybeSetOfMaybeInt")
-        private external fun __jni_get_maybeSetOfMaybeInt(): kotlin.collections.Set<Long?>?
+        @JvmName("__jni_get_maybeDictionaryOfIntToInt")
+        private external fun __jni_get_maybeDictionaryOfIntToInt(): kotlin.collections.Map<Long, Long>?
 
         /**
          * <!-- FishyJoes.export(maybeDictionaryOfIntToMaybeInt) -->
@@ -102,13 +78,31 @@ sealed class Collections {
         private external fun __jni_get_maybeDictionaryOfIntToMaybeInt(): kotlin.collections.Map<Long, Long?>?
 
         /**
-         * <!-- FishyJoes.export(defaultCollectionHolder) -->
+         * <!-- FishyJoes.export(maybeSetOfInt) -->
          */
-        val defaultCollectionHolder: com.cricut.testapi.Collections.CollectionHolder
-          get() = __jni_get_defaultCollectionHolder()
+        val maybeSetOfInt: kotlin.collections.Set<Long>?
+          get() = __jni_get_maybeSetOfInt()
         @JvmStatic
-        @JvmName("__jni_get_defaultCollectionHolder")
-        private external fun __jni_get_defaultCollectionHolder(): com.cricut.testapi.Collections.CollectionHolder
+        @JvmName("__jni_get_maybeSetOfInt")
+        private external fun __jni_get_maybeSetOfInt(): kotlin.collections.Set<Long>?
+
+        /**
+         * <!-- FishyJoes.export(maybeSetOfMaybeInt) -->
+         */
+        val maybeSetOfMaybeInt: kotlin.collections.Set<Long?>?
+          get() = __jni_get_maybeSetOfMaybeInt()
+        @JvmStatic
+        @JvmName("__jni_get_maybeSetOfMaybeInt")
+        private external fun __jni_get_maybeSetOfMaybeInt(): kotlin.collections.Set<Long?>?
+
+        /**
+         * <!-- FishyJoes.export(setOfInt) -->
+         */
+        val setOfInt: kotlin.collections.Set<Long>
+          get() = __jni_get_setOfInt()
+        @JvmStatic
+        @JvmName("__jni_get_setOfInt")
+        private external fun __jni_get_setOfInt(): kotlin.collections.Set<Long>
 
         /**
          * <!-- FishyJoes.export(echoArrayOfInt) -->
@@ -216,15 +210,6 @@ sealed class Collections {
 
         companion object {
             /**
-             * <!-- FishyJoes.export(staticProperty) -->
-             */
-            val staticProperty: kotlin.collections.List<Long?>
-              get() = __jni_get_staticProperty()
-            @JvmStatic
-            @JvmName("__jni_get_staticProperty")
-            private external fun __jni_get_staticProperty(): kotlin.collections.List<Long?>
-
-            /**
              * <!-- FishyJoes.export(staticMutableProperty) -->
              */
             var staticMutableProperty: kotlin.collections.List<Long?>
@@ -237,7 +222,22 @@ sealed class Collections {
             @JvmName("__jni_set_staticMutableProperty")
             private external fun __jni_set_staticMutableProperty(newValue: kotlin.collections.List<Long?>)
 
+            /**
+             * <!-- FishyJoes.export(staticProperty) -->
+             */
+            val staticProperty: kotlin.collections.List<Long?>
+              get() = __jni_get_staticProperty()
+            @JvmStatic
+            @JvmName("__jni_get_staticProperty")
+            private external fun __jni_get_staticProperty(): kotlin.collections.List<Long?>
+
             init { loadNativeLibs() }
         }
     }
 }
+
+package com.cricut.testapi
+
+import com.cricut.fishyjoes.runtime.*
+import java.lang.Exception
+import kotlinx.coroutines.*

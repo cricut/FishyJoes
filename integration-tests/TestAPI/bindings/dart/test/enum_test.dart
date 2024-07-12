@@ -9,6 +9,8 @@ void main() {
   group('EnumTests', () {
       test('testEmptyEnum', () {
           expect(EmptyEnum.notGoingToHappen, throwsA(isA<Exception>()));
+          expect(EmptyEnum.noot, equals(54546));
+          expect(EmptyEnum.mies(), equals(62645));
       });
 
       test('testSimpleEnum', () {

@@ -1,9 +1,3 @@
-package com.cricut.testapi
-
-import com.cricut.fishyjoes.runtime.*
-import java.lang.Exception
-import kotlinx.coroutines.*
-
 /**
  * <!-- FishyJoes.export(URLs) -->
  */
@@ -12,13 +6,13 @@ sealed class URLs {
 
     companion object {
         /**
-         * <!-- FishyJoes.export(simple) -->
+         * <!-- FishyJoes.export(localFile) -->
          */
-        val simple: java.net.URL
-          get() = __jni_get_simple()
+        val localFile: java.net.URL
+          get() = __jni_get_localFile()
         @JvmStatic
-        @JvmName("__jni_get_simple")
-        private external fun __jni_get_simple(): java.net.URL
+        @JvmName("__jni_get_localFile")
+        private external fun __jni_get_localFile(): java.net.URL
 
         /**
          * <!-- FishyJoes.export(remoteFile) -->
@@ -30,13 +24,13 @@ sealed class URLs {
         private external fun __jni_get_remoteFile(): java.net.URL
 
         /**
-         * <!-- FishyJoes.export(localFile) -->
+         * <!-- FishyJoes.export(simple) -->
          */
-        val localFile: java.net.URL
-          get() = __jni_get_localFile()
+        val simple: java.net.URL
+          get() = __jni_get_simple()
         @JvmStatic
-        @JvmName("__jni_get_localFile")
-        private external fun __jni_get_localFile(): java.net.URL
+        @JvmName("__jni_get_simple")
+        private external fun __jni_get_simple(): java.net.URL
 
         /**
          * <!-- FishyJoes.export(echo) -->
@@ -53,3 +47,9 @@ sealed class URLs {
         init { loadNativeLibs() }
     }
 }
+
+package com.cricut.testapi
+
+import com.cricut.fishyjoes.runtime.*
+import java.lang.Exception
+import kotlinx.coroutines.*

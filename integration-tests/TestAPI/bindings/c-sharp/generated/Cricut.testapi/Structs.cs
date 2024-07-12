@@ -1,9 +1,3 @@
-using Cricut.FishyJoesRuntime;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System;
-using static Cricut.FishyJoesRuntime.Utilities;
-
 namespace Cricut.TestAPI {
     /// <summary>
     /// <!-- FishyJoes.export(Structs) -->
@@ -167,6 +161,7 @@ namespace Cricut.TestAPI {
             public override bool Equals(
                 object? other
             ) {
+                if (other as Cricut.TestAPI.Structs.ReferenceStruct == null) { return false; }
                 using var thisHandle = new GCRef(this);
                 using var otherHandle = new GCRef(other as Cricut.TestAPI.Structs.ReferenceStruct);
                 return Check((out CreatedRef exn) => __iota_TestAPI_Structs_ReferenceStruct_equals(Loader.env, thisHandle.ptr, otherHandle.ptr, out exn));
@@ -183,11 +178,11 @@ namespace Cricut.TestAPI {
             public override int GetHashCode(
             ) {
                 using var _thisHandle = new GCRef(this);
-                return Check((out CreatedRef _exn) => __iota_TestAPI_Structs_ReferenceStruct_hash(Loader.env, _thisHandle.ptr, out _exn));
+                return Check((out CreatedRef _exn) => __iota_get_TestAPI_Structs_ReferenceStruct_hash(Loader.env, _thisHandle.ptr, out _exn));
             }
 
             [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern int __iota_TestAPI_Structs_ReferenceStruct_hash(
+            private static extern int __iota_get_TestAPI_Structs_ReferenceStruct_hash(
                 IntPtr envRef,
                 UnownedRef self,
                 out CreatedRef exn
@@ -246,3 +241,9 @@ namespace Cricut.TestAPI {
         static Structs() { _TypeSetup._ensureLoaded(); }
     }
 }
+
+using Cricut.FishyJoesRuntime;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System;
+using static Cricut.FishyJoesRuntime.Utilities;

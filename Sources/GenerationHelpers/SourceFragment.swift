@@ -1,4 +1,5 @@
 public class SourceFragment {
+    private let spacesPerIndent = 4
     public var sourceryDestination: String?
     private var stringBuilder: [String] = []
     private var isFreshLine = true
@@ -36,9 +37,13 @@ public class SourceFragment {
         stringBuilder.append("\n")
     }
 
+    private var currentIndentString: String {
+        String(repeating: " ", count: spacesPerIndent * currentIndent)
+    }
+
     public func output(_ line: String, newLineTerminated: Bool = true) {
         if isFreshLine {
-            stringBuilder.append(String(repeating: " ", count: 4 * currentIndent))
+            stringBuilder.append(currentIndentString)
         }
         stringBuilder.append(line)
         if newLineTerminated {

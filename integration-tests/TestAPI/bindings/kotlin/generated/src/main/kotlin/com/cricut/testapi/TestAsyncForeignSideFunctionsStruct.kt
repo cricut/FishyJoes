@@ -1,11 +1,5 @@
-package com.cricut.testapi
-
-import com.cricut.fishyjoes.runtime.*
-import java.lang.Exception
-import kotlinx.coroutines.*
-
 /**
- * <!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct, conformances: [TestAsyncFunctions]) -->
+ * <!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct) -->
  */
 data class TestAsyncForeignSideFunctionsStruct(
     override val const42: (suspend () -> Long),
@@ -24,7 +18,7 @@ data class TestAsyncForeignSideFunctionsStruct(
     val exercise5Fun: (suspend ((suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long)) -> (suspend () -> Long))) -> kotlin.String),
     val exercise6Fun: (suspend ((suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)) -> kotlin.String),
     val thunkTwiceMakerFun: (((suspend () -> kotlin.Unit)) -> (suspend () -> kotlin.Unit))
-): TestAsyncFunctions {
+): com.cricut.testapi.TestAsyncFunctions {
     /**
      * <!-- FishyJoes.export(exercise0) -->
      */
@@ -137,3 +131,9 @@ data class TestAsyncForeignSideFunctionsStruct(
         init { loadNativeLibs() }
     }
 }
+
+package com.cricut.testapi
+
+import com.cricut.fishyjoes.runtime.*
+import java.lang.Exception
+import kotlinx.coroutines.*

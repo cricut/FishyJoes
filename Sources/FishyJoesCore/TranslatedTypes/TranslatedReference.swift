@@ -19,7 +19,7 @@ struct TranslatedReference: TranslatedType {
     let hashable: Bool
     let isInhabited: Bool
     let definingModule: Module
-    let conformances: Set<String>
+    let conformances: Set<BetterType>
 
     init(context: FishyJoesContext, type: Type) {
         guard let exportAnnotation = type.exportAnnotation else {
@@ -36,7 +36,7 @@ struct TranslatedReference: TranslatedType {
         self.cSharpType = .named(package: context.module.cSharpNamespace, name: exportAnnotation.cSharpName)
         self.dartType = .named(package: context.module.dartNamespace, name: context.dartTranslator.fakeNamespace(exportAnnotation.name))
         self.methods = Method.methods(type: type)
-        self.computedVariables = type.variables.compactMap { Field($0, type: type) }
+        self.computedVariables = Field.fields(type: type)
         self.documentation = type.documentation
         self.className = context.kotlinTranslator.javaClassName(kotlinName, in: context)
         self.jniType = .object(className)
@@ -44,7 +44,10 @@ struct TranslatedReference: TranslatedType {
         self.hashable = type.hashable
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
-        self.conformances = exportAnnotation.conformances
+
+        self.conformances = Set(type.implements.compactMap {
+            return .init(named: $0.value, context: context)
+        })
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
@@ -58,9 +61,7 @@ struct TranslatedReference: TranslatedType {
     func neutralDefinitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
         guard context.dumpDebugRepresentation else { return [] }
 
-        let fragment = SourceFragment(
-            sourceryDestination: "file:../../../DebugGenerated/\(sourceType.name)+ReferenceInfo.txt"
-        )
+        let fragment = SourceFragment(sourceryDestination: "file:../../DebugGenerated/\(sourceType.name)+ReferenceInfo.txt")
         fragment.outputBlock("TranslatedReference for \(sourceType.name) {") {
             fragment.output("Equatable: \(equatable)")
             fragment.output("Hashable: \(hashable)")
@@ -85,13 +86,15 @@ struct TranslatedReference: TranslatedType {
 
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "NodeInterface/\(sourceType.name)+node.swift",
+            "NodeInterface/\(context.module.name)+node.swift",
             additionalImports: [
                 "Foundation",
                 "FishyJoesNodeRuntime",
                 "\(context.module.name)_CommonInterface"
             ]
         )
+        fragment.output("// MARK: - \(sourceType.name)+node.swift")
+
         fragment.outputBlock("extension \(sourceType.name): FishyJoesNodeRuntime.NodeConverter {") {
             fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> \(sourceType.name) {") {
                 fragment.outputBlock("guard let nonNilPointer = try env.unwrap(value) else {") {
@@ -127,20 +130,24 @@ struct TranslatedReference: TranslatedType {
             fragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
             fragment.outputBlock("public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {") {
                 // fragment.output("print(\"setting up \(sourceType.name)\")")
-
                 fragment.outputBlock("let nodeClass = try NodeClass(") {
                     fragment.output("env: env,")
                     fragment.output("name: \"\(nodeName)\",")
                     fragment.outputBlock("properties: [", closeWith: "],") {
-                        let normalMethods = methods.filter { !$0.isDefaultImplementation }
-                        let defaultMethods = methods.filter { $0.isDefaultImplementation }
-
                         var hasProperties = false
-                        hasProperties ||= context.nodeTranslator.outputProperties(methods: normalMethods, context: context, fragment: fragment, converterName: nil)
-                        hasProperties ||= context.nodeTranslator.outputProperties(methods: defaultMethods, context: context, fragment: fragment, converterName: sourceType.name)
-                        hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment)
-                        if !hasProperties {
-                            fragment.output(":")
+                        hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment, converterName: converterType.name)
+                        hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment, converterName: converterType.name)
+                        fragment.outputBlock(#""toString": ("#) {
+                            fragment.outputBlock(".method { env, info in", closeWith: "},") {
+                                fragment.outputBlock(#"FishyJoesNodeRuntime.callbackBody(env, info, name: "toString", expectedArgumentCount: 0, hasNamedOptions: false) { env in"#, closeWith: "}") {
+                                    fragment.outputBlock("let result = try Swift.String.toNode(") {
+                                        fragment.output("\"\\(env.this(converter: \(converterType.name).self))\",")
+                                        fragment.output("env: env.env")
+                                    }
+                                    fragment.output("return result")
+                                }
+                            }
+                            fragment.output("isStatic: false")
                         }
                     }
                     fragment.outputBlock("constructor: { env, info in", closeWith: "}") {
@@ -158,11 +165,12 @@ struct TranslatedReference: TranslatedType {
             }
         }
 
+        let nodeConformances = Set(exportedConformances(in: context).map { $0.nodeType})
         context.tsAnnotations.add(class:
             .init(
                 documentation: documentation,
                 name: nodeName,
-                implements: Array(conformances).sorted(by: <),
+                implements: nodeConformances,
                 constructor: .hidden,
                 fields: computedVariables.compactMap { context.ts(field: $0) },
                 methods: methods.compactMap { context.ts(method: $0) }
@@ -174,9 +182,11 @@ struct TranslatedReference: TranslatedType {
 
     func jniDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "JavaInterface/\(sourceType.name)+java-type.swift",
+            "JavaInterface/\(context.module.name)+java.swift",
             additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
         )
+        fragment.output("// MARK: - \(sourceType.name)+java-type.swift")
+
         fragment.outputBlock("extension \(sourceType.name): JavaMutator {") {
             fragment.output("public static var javaClass: jclass?")
             fragment.output("private static var _constructorMethodID: jmethodID!")
@@ -339,8 +349,8 @@ struct TranslatedReference: TranslatedType {
             constructor: .reference,
             fields: fields,
             methods: methods,
-            conformances: ["com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference)"]
-        ).conforming(to: conformances, context: context)
+            conformances: [KotlinClass.KType.named(package: "com.cricut.fishyjoes.runtime", name: "SwiftReference(_swiftReference)")]
+        ).conforming(to: exportedConformances(in: context), context: context)
         context.add(kotlinClass: product)
 
         return fragment
@@ -361,9 +371,10 @@ struct TranslatedReference: TranslatedType {
 
     func iotaDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "IotaInterface/\(sourceType.name)+iota-type.swift",
+            "IotaInterface/\(context.module.name)+iota.swift",
             additionalImports: ["Foundation", "FishyJoesIotaRuntime"]
         )
+        fragment.output("// MARK: - \(sourceType.name)+iota-type.swift")
 
         fragment.output("@_cdecl(\"\(iotaSetupName)\")")
         fragment.outputBlock("public func \(iotaSetupName)(", newLineTerminated: false) {
@@ -453,6 +464,7 @@ struct TranslatedReference: TranslatedType {
                         returnType: .primitive("bool"),
                         deprecation: nil,
                         body: [
+                            "if (other as \(cSharpType.name) == null) { return false; }",
                             "using var thisHandle = new GCRef(this);",
                             "using var otherHandle = new GCRef(other as \(cSharpType.name));",
                             "return Check((out CreatedRef exn) => __iota_\(sourceType.name.mangled)_equals(Loader.env, thisHandle.ptr, otherHandle.ptr, out exn));",
@@ -487,7 +499,7 @@ struct TranslatedReference: TranslatedType {
                         isStatic: false,
                         isOverride: true,
                         name: "GetHashCode",
-                        mangledName: "\(sourceType.name.mangled)_hash",
+                        mangledName: "get_\(sourceType.name.mangled)_hash",
                         parameters: [],
                         returnType: .primitive("int"),
                         deprecation: nil,
@@ -506,7 +518,7 @@ struct TranslatedReference: TranslatedType {
             constructor: .reference,
             fields: productFields,
             methods: productMethods,
-            conformances: conformances
+            conformances: Set(exportedConformances(in: context).map { $0.cSharpType})
         )
         context.add(cSharpClass: product)
     }
@@ -573,7 +585,8 @@ struct TranslatedReference: TranslatedType {
                         name: "hashCode",
                         mangledName: "\(sourceType.name.mangled)_hash",
                         type: .primitive("int", ffiName: "Int"),
-                        deprecation: nil
+                        deprecation: nil,
+                        isDefaultImplementation: false
                     )
                 )
             )
@@ -587,7 +600,7 @@ struct TranslatedReference: TranslatedType {
             constructor: .reference,
             fields: fields,
             methods: methods,
-            conformances: conformances
+            conformances: Set(exportedConformances(in: context).map { $0.dartType})
         )
         context.add(dartClass: dartProduct)
     }

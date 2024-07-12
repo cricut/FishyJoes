@@ -1,14 +1,8 @@
-using Cricut.FishyJoesRuntime;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System;
-using static Cricut.FishyJoesRuntime.Utilities;
-
 namespace Cricut.TestAPI {
     /// <summary>
     /// <!-- FishyJoes.export(TestMethodsProtocol) -->
     /// </summary>
-    public class ExternalWitness_TestMethodsProtocol : SwiftReference, TestMethodsProtocol {
+    public class ExternalWitness_TestMethodsProtocol : SwiftReference, Cricut.TestAPI.TestMethodsProtocol {
         internal ExternalWitness_TestMethodsProtocol(ConsumedRef reference): base(reference) {}
 
         /// <summary>
@@ -123,3 +117,9 @@ namespace Cricut.TestAPI {
         static ExternalWitness_TestMethodsProtocol() { _TypeSetup._ensureLoaded(); }
     }
 }
+
+using Cricut.FishyJoesRuntime;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System;
+using static Cricut.FishyJoesRuntime.Utilities;

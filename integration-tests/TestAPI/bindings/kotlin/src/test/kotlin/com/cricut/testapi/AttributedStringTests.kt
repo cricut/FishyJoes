@@ -6,10 +6,19 @@ import com.cricut.fishyjoes.runtime.AttributedString
 import com.cricut.fishyjoes.runtime.AttributedSubstring
 import com.cricut.fishyjoes.runtime.SwiftRange
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import java.net.URL
 
 internal class AttributedStringTests {
+    companion object {
+        @JvmStatic
+        @BeforeAll
+        fun beforeAttachDebugger() {
+            // Utilities.attachXcodeToCurrentProcess()
+        }
+    }
+
     @Test
     fun testStringValues() {
         val en = AttributeContainerFoundationAttributes().apply { languageIdentifier = "en" }.asContainer()
@@ -457,5 +466,31 @@ internal class AttributedStringTests {
         runRanges = attributedString.runs.rangeIterator().asSequence().toList()
         assertEquals(runRanges.count(), 1)
         assertEquals(attributedString, AttributedString.create("Hello Olá こんにちは"))
+    }
+
+    @Test
+    fun testAttributedStringPuttingTypesIntoQuestionablePlaces() {
+        val a1 = AttributedString_PuttingTypesIntoQuestionablePlaces(x = "quxx")
+        val a2 = AttributedString_PuttingTypesIntoQuestionablePlaces(x = "quxx")
+        val b1 = AttributedString_PuttingTypesIntoQuestionablePlaces(x = "corgle")
+        val b2 = AttributedString_PuttingTypesIntoQuestionablePlaces(x = "garply")
+
+        assertEquals("quxx", a1.x)
+        assertEquals("quxx", a2.x)
+        assertEquals("corgle", b1.x)
+        assertEquals("garply", b2.x)
+
+        assertEquals("AttributedString_PuttingTypesIntoQuestionablePlaces(x=quxx)", a1.toString())
+        assertEquals("AttributedString_PuttingTypesIntoQuestionablePlaces(x=quxx)", a2.toString())
+        assertEquals("AttributedString_PuttingTypesIntoQuestionablePlaces(x=corgle)", b1.toString())
+        assertEquals("AttributedString_PuttingTypesIntoQuestionablePlaces(x=garply)", b2.toString())
+
+        assertEquals(a1.hashCode(), a2.hashCode())
+        assertNotEquals(b1.hashCode(), b2.hashCode())
+
+        assertEquals(42, a1.testCall())
+        assertEquals(42, a2.testCall())
+        assertEquals(42, b1.testCall())
+        assertEquals(42, b2.testCall())
     }
 }

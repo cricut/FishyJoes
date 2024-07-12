@@ -1,57 +1,9 @@
-using Cricut.FishyJoesRuntime;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System;
-using static Cricut.FishyJoesRuntime.Utilities;
-
 namespace Cricut.TestAPI {
     /// <summary>
     /// <!-- FishyJoes.export(Collections) -->
     /// </summary>
     public record Collections {
         private Collections() {}
-
-        /// <summary>
-        /// <!-- FishyJoes.export(arrayOfInt) -->
-        /// </summary>
-        public static System.Collections.Generic.IList<nint> ArrayOfInt {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Collections_arrayOfInt(Loader.env, out exn).Consume<System.Collections.Generic.IList<nint>>()
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_Collections_arrayOfInt(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(setOfInt) -->
-        /// </summary>
-        public static System.Collections.Generic.ISet<nint> SetOfInt {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Collections_setOfInt(Loader.env, out exn).Consume<System.Collections.Generic.ISet<nint>>()
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_Collections_setOfInt(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(dictionaryOfIntToInt) -->
-        /// </summary>
-        public static System.Collections.Generic.IDictionary<nint, nint> DictionaryOfIntToInt {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Collections_dictionaryOfIntToInt(Loader.env, out exn).Consume<System.Collections.Generic.IDictionary<nint, nint>>()
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_Collections_dictionaryOfIntToInt(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(arrayOfBigTuples) -->
@@ -68,6 +20,48 @@ namespace Cricut.TestAPI {
         private static extern CreatedRef __iota_get_TestAPI_Collections_arrayOfBigTuples(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
+        /// <!-- FishyJoes.export(arrayOfInt) -->
+        /// </summary>
+        public static System.Collections.Generic.IList<nint> ArrayOfInt {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Collections_arrayOfInt(Loader.env, out exn).Consume<System.Collections.Generic.IList<nint>>()
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Collections_arrayOfInt(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(defaultCollectionHolder) -->
+        /// </summary>
+        public static Cricut.TestAPI.Collections.CollectionHolder DefaultCollectionHolder {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Collections_defaultCollectionHolder(Loader.env, out exn).Consume<Cricut.TestAPI.Collections.CollectionHolder>()
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Collections_defaultCollectionHolder(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(dictionaryOfIntToInt) -->
+        /// </summary>
+        public static System.Collections.Generic.IDictionary<nint, nint> DictionaryOfIntToInt {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Collections_dictionaryOfIntToInt(Loader.env, out exn).Consume<System.Collections.Generic.IDictionary<nint, nint>>()
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Collections_dictionaryOfIntToInt(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
         /// <!-- FishyJoes.export(maybeArrayOfInt) -->
         /// </summary>
         public static System.Collections.Generic.IList<nint>? MaybeArrayOfInt {
@@ -80,34 +74,6 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_get_TestAPI_Collections_maybeArrayOfInt(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(maybeSetOfInt) -->
-        /// </summary>
-        public static System.Collections.Generic.ISet<nint>? MaybeSetOfInt {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Collections_maybeSetOfInt(Loader.env, out exn).Consume<System.Collections.Generic.ISet<nint>?>()
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_Collections_maybeSetOfInt(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(maybeDictionaryOfIntToInt) -->
-        /// </summary>
-        public static System.Collections.Generic.IDictionary<nint, nint>? MaybeDictionaryOfIntToInt {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Collections_maybeDictionaryOfIntToInt(Loader.env, out exn).Consume<System.Collections.Generic.IDictionary<nint, nint>?>()
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_Collections_maybeDictionaryOfIntToInt(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(maybeArrayOfMaybeInt) -->
@@ -124,18 +90,18 @@ namespace Cricut.TestAPI {
         private static extern CreatedRef __iota_get_TestAPI_Collections_maybeArrayOfMaybeInt(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
-        /// <!-- FishyJoes.export(maybeSetOfMaybeInt) -->
+        /// <!-- FishyJoes.export(maybeDictionaryOfIntToInt) -->
         /// </summary>
-        public static System.Collections.Generic.ISet<nint?>? MaybeSetOfMaybeInt {
+        public static System.Collections.Generic.IDictionary<nint, nint>? MaybeDictionaryOfIntToInt {
             get {
                 return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Collections_maybeSetOfMaybeInt(Loader.env, out exn).Consume<System.Collections.Generic.ISet<nint?>?>()
+                    __iota_get_TestAPI_Collections_maybeDictionaryOfIntToInt(Loader.env, out exn).Consume<System.Collections.Generic.IDictionary<nint, nint>?>()
                 );
             }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_Collections_maybeSetOfMaybeInt(IntPtr envRef, out CreatedRef exn);
+        private static extern CreatedRef __iota_get_TestAPI_Collections_maybeDictionaryOfIntToInt(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(maybeDictionaryOfIntToMaybeInt) -->
@@ -152,18 +118,46 @@ namespace Cricut.TestAPI {
         private static extern CreatedRef __iota_get_TestAPI_Collections_maybeDictionaryOfIntToMaybeInt(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
-        /// <!-- FishyJoes.export(defaultCollectionHolder) -->
+        /// <!-- FishyJoes.export(maybeSetOfInt) -->
         /// </summary>
-        public static Cricut.TestAPI.Collections.CollectionHolder DefaultCollectionHolder {
+        public static System.Collections.Generic.ISet<nint>? MaybeSetOfInt {
             get {
                 return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Collections_defaultCollectionHolder(Loader.env, out exn).Consume<Cricut.TestAPI.Collections.CollectionHolder>()
+                    __iota_get_TestAPI_Collections_maybeSetOfInt(Loader.env, out exn).Consume<System.Collections.Generic.ISet<nint>?>()
                 );
             }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_Collections_defaultCollectionHolder(IntPtr envRef, out CreatedRef exn);
+        private static extern CreatedRef __iota_get_TestAPI_Collections_maybeSetOfInt(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(maybeSetOfMaybeInt) -->
+        /// </summary>
+        public static System.Collections.Generic.ISet<nint?>? MaybeSetOfMaybeInt {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Collections_maybeSetOfMaybeInt(Loader.env, out exn).Consume<System.Collections.Generic.ISet<nint?>?>()
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Collections_maybeSetOfMaybeInt(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(setOfInt) -->
+        /// </summary>
+        public static System.Collections.Generic.ISet<nint> SetOfInt {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Collections_setOfInt(Loader.env, out exn).Consume<System.Collections.Generic.ISet<nint>>()
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Collections_setOfInt(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(echoArrayOfInt) -->
@@ -324,20 +318,6 @@ namespace Cricut.TestAPI {
             }
 
             /// <summary>
-            /// <!-- FishyJoes.export(staticProperty) -->
-            /// </summary>
-            public static System.Collections.Generic.IList<nint?> StaticProperty {
-                get {
-                    return Check((out CreatedRef exn) =>
-                        __iota_get_TestAPI_Collections_CollectionHolder_staticProperty(Loader.env, out exn).Consume<System.Collections.Generic.IList<nint?>>()
-                    );
-                }
-            }
-
-            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern CreatedRef __iota_get_TestAPI_Collections_CollectionHolder_staticProperty(IntPtr envRef, out CreatedRef exn);
-
-            /// <summary>
             /// <!-- FishyJoes.export(staticMutableProperty) -->
             /// </summary>
             public static System.Collections.Generic.IList<nint?> StaticMutableProperty {
@@ -360,8 +340,28 @@ namespace Cricut.TestAPI {
             [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern void __iota_set_TestAPI_Collections_CollectionHolder_staticMutableProperty(IntPtr envRef, UnownedRef value, out CreatedRef exn);
 
+            /// <summary>
+            /// <!-- FishyJoes.export(staticProperty) -->
+            /// </summary>
+            public static System.Collections.Generic.IList<nint?> StaticProperty {
+                get {
+                    return Check((out CreatedRef exn) =>
+                        __iota_get_TestAPI_Collections_CollectionHolder_staticProperty(Loader.env, out exn).Consume<System.Collections.Generic.IList<nint?>>()
+                    );
+                }
+            }
+
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern CreatedRef __iota_get_TestAPI_Collections_CollectionHolder_staticProperty(IntPtr envRef, out CreatedRef exn);
+
             static CollectionHolder() { _TypeSetup._ensureLoaded(); }
         }
         static Collections() { _TypeSetup._ensureLoaded(); }
     }
 }
+
+using Cricut.FishyJoesRuntime;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System;
+using static Cricut.FishyJoesRuntime.Utilities;

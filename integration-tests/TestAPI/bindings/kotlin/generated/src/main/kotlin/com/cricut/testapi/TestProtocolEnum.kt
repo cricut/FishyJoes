@@ -1,14 +1,8 @@
-package com.cricut.testapi
-
-import com.cricut.fishyjoes.runtime.*
-import java.lang.Exception
-import kotlinx.coroutines.*
-
 /**
- * <!-- FishyJoes.export(TestProtocolEnum, conformances: [TestMethodsProtocol]) -->
+ * <!-- FishyJoes.export(TestProtocolEnum) -->
  */
 @OptIn(ExperimentalCoroutinesApi::class)
-sealed class TestProtocolEnum: TestMethodsProtocol {
+sealed class TestProtocolEnum: com.cricut.testapi.TestMethodsProtocol {
     object Qux : TestProtocolEnum()
     /**
      * <!-- FishyJoes.export(foo) -->
@@ -78,3 +72,9 @@ sealed class TestProtocolEnum: TestMethodsProtocol {
         init { loadNativeLibs() }
     }
 }
+
+package com.cricut.testapi
+
+import com.cricut.fishyjoes.runtime.*
+import java.lang.Exception
+import kotlinx.coroutines.*

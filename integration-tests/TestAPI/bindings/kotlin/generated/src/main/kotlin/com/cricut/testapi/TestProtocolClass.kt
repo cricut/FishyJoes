@@ -1,13 +1,7 @@
-package com.cricut.testapi
-
-import com.cricut.fishyjoes.runtime.*
-import java.lang.Exception
-import kotlinx.coroutines.*
-
 /**
- * <!-- FishyJoes.exportReference(TestProtocolClass, conformances: [TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol]) -->
+ * <!-- FishyJoes.exportReference(TestProtocolClass) -->
  */
-class TestProtocolClass private constructor(_swiftReference: Long): TestMethodsProtocol, TestOptionalsProtocol, TestPropertiesProtocol, com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference) {
+class TestProtocolClass private constructor(_swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference), com.cricut.testapi.TestMethodsProtocol, com.cricut.testapi.TestOptionalsProtocol, com.cricut.testapi.TestPropertiesProtocol {
     /**
      * <!-- FishyJoes.export(corge) -->
      */
@@ -124,6 +118,16 @@ class TestProtocolClass private constructor(_swiftReference: Long): TestMethodsP
         pippo: com.cricut.testapi.AssociatedDataEnum
     ): Long
 
+    override fun equals(
+        other: Any?
+    ): Boolean = (other is com.cricut.testapi.TestProtocolClass) && __jni_swiftEquals(this, other)
+
+    override fun hashCode(
+    ): Int = __jni_hashCode()
+    @JvmName("__jni_hashCode")
+    private external fun __jni_hashCode(
+    ): Int
+
     companion object {
         /**
          * <!-- FishyJoes.export(init) -->
@@ -139,6 +143,23 @@ class TestProtocolClass private constructor(_swiftReference: Long): TestMethodsP
             flarp: kotlin.String?
         ): com.cricut.testapi.TestProtocolClass
 
+        fun swiftEquals(
+            lhs: com.cricut.testapi.TestProtocolClass,
+            rhs: com.cricut.testapi.TestProtocolClass
+        ): Boolean = __jni_swiftEquals(lhs, rhs)
+        @JvmStatic
+        @JvmName("__jni_swiftEquals")
+        private external fun __jni_swiftEquals(
+            lhs: com.cricut.testapi.TestProtocolClass,
+            rhs: com.cricut.testapi.TestProtocolClass
+        ): Boolean
+
         init { loadNativeLibs() }
     }
 }
+
+package com.cricut.testapi
+
+import com.cricut.fishyjoes.runtime.*
+import java.lang.Exception
+import kotlinx.coroutines.*

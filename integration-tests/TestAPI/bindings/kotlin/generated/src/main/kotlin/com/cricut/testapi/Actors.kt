@@ -1,9 +1,3 @@
-package com.cricut.testapi
-
-import com.cricut.fishyjoes.runtime.*
-import java.lang.Exception
-import kotlinx.coroutines.*
-
 /**
  * <!-- FishyJoes.export(Actors) -->
  */
@@ -19,14 +13,6 @@ sealed class Actors {
      */
     class TemperatureLogger private constructor(_swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference) {
         /**
-         * <!-- FishyJoes.export(label) -->
-         */
-        val label: kotlin.String
-          get() = __jni_get_label()
-        @JvmName("__jni_get_label")
-        private external fun __jni_get_label(): kotlin.String
-
-        /**
          * <!-- FishyJoes.export(backwardsLabel) -->
          */
         val backwardsLabel: kotlin.String
@@ -41,6 +27,14 @@ sealed class Actors {
           get() = __jni_get_extensionNonisolatedVarLabel()
         @JvmName("__jni_get_extensionNonisolatedVarLabel")
         private external fun __jni_get_extensionNonisolatedVarLabel(): kotlin.String
+
+        /**
+         * <!-- FishyJoes.export(label) -->
+         */
+        val label: kotlin.String
+          get() = __jni_get_label()
+        @JvmName("__jni_get_label")
+        private external fun __jni_get_label(): kotlin.String
 
         /**
          * <!-- FishyJoes.export(update) -->
@@ -99,3 +93,9 @@ sealed class Actors {
         }
     }
 }
+
+package com.cricut.testapi
+
+import com.cricut.fishyjoes.runtime.*
+import java.lang.Exception
+import kotlinx.coroutines.*

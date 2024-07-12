@@ -1,14 +1,8 @@
-using Cricut.FishyJoesRuntime;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System;
-using static Cricut.FishyJoesRuntime.Utilities;
-
 namespace Cricut.TestAPI {
     /// <summary>
     /// <!-- FishyJoes.export(TestLeadingUnderscoredProp) -->
     /// </summary>
-    public class ExternalWitness_TestLeadingUnderscoredProp : SwiftReference, TestLeadingUnderscoredProp {
+    public class ExternalWitness_TestLeadingUnderscoredProp : SwiftReference, Cricut.TestAPI.TestLeadingUnderscoredProp {
         internal ExternalWitness_TestLeadingUnderscoredProp(ConsumedRef reference): base(reference) {}
 
         /// <summary>
@@ -29,3 +23,9 @@ namespace Cricut.TestAPI {
         static ExternalWitness_TestLeadingUnderscoredProp() { _TypeSetup._ensureLoaded(); }
     }
 }
+
+using Cricut.FishyJoesRuntime;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System;
+using static Cricut.FishyJoesRuntime.Utilities;

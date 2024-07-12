@@ -1,14 +1,8 @@
-using Cricut.FishyJoesRuntime;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System;
-using static Cricut.FishyJoesRuntime.Utilities;
-
 namespace Cricut.TestAPI {
     /// <summary>
-    /// <!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct, conformances: [TestAsyncFunctions]) -->
+    /// <!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct) -->
     /// </summary>
-    public record TestAsyncForeignSideFunctionsStruct: TestAsyncFunctions {
+    public record TestAsyncForeignSideFunctionsStruct: Cricut.TestAPI.TestAsyncFunctions {
         public System.Func<System.Threading.Tasks.Task<nint>> Const42 { get; internal set; }
         public System.Func<nint, System.Threading.Tasks.Task<nint>> Iabs { get; internal set; }
         public System.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>> IntCompose { get; internal set; }
@@ -292,3 +286,9 @@ namespace Cricut.TestAPI {
         static TestAsyncForeignSideFunctionsStruct() { _TypeSetup._ensureLoaded(); }
     }
 }
+
+using Cricut.FishyJoesRuntime;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System;
+using static Cricut.FishyJoesRuntime.Utilities;

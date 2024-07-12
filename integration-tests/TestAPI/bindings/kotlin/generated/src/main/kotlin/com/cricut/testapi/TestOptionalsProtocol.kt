@@ -1,9 +1,3 @@
-package com.cricut.testapi
-
-import com.cricut.fishyjoes.runtime.*
-import java.lang.Exception
-import kotlinx.coroutines.*
-
 /**
  * <!-- FishyJoes.export(TestOptionalsProtocol) -->
  */
@@ -32,3 +26,9 @@ interface TestOptionalsProtocol {
         }
     }
 }
+
+package com.cricut.testapi
+
+import com.cricut.fishyjoes.runtime.*
+import java.lang.Exception
+import kotlinx.coroutines.*

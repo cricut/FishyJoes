@@ -1,15 +1,22 @@
-using Cricut.FishyJoesRuntime;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System;
-using static Cricut.FishyJoesRuntime.Utilities;
-
 namespace Cricut.TestAPI {
     /// <summary>
-    /// <!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass, conformances: [TestAsyncFunctions]) -->
+    /// <!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass) -->
     /// </summary>
-    public class TestAsyncSwiftSideFunctionsClass : SwiftReference, TestAsyncFunctions {
+    public class TestAsyncSwiftSideFunctionsClass : SwiftReference, Cricut.TestAPI.TestAsyncFunctions {
         internal TestAsyncSwiftSideFunctionsClass(ConsumedRef reference): base(reference) {}
+
+        /// <summary>
+        /// <!-- FishyJoes.export(add3Things) -->
+        /// </summary>
+        public System.Func<float, double, nint, System.Threading.Tasks.Task<double>> GetAdd3Things() {
+            using var thisHandle = new GCRef(this);
+            return Check((out CreatedRef exn) =>
+                __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_add3Things(Loader.env, thisHandle.ptr, out exn).Consume<System.Func<float, double, nint, System.Threading.Tasks.Task<double>>>()
+            );
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_add3Things(IntPtr envRef, UnownedRef self, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(const42) -->
@@ -23,6 +30,19 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_const42(IntPtr envRef, UnownedRef self, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(fifthThing) -->
+        /// </summary>
+        public System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>> GetFifthThing() {
+            using var thisHandle = new GCRef(this);
+            return Check((out CreatedRef exn) =>
+                __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_fifthThing(Loader.env, thisHandle.ptr, out exn).Consume<System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>>>()
+            );
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_fifthThing(IntPtr envRef, UnownedRef self, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(iabs) -->
@@ -51,19 +71,6 @@ namespace Cricut.TestAPI {
         private static extern CreatedRef __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_intCompose(IntPtr envRef, UnownedRef self, out CreatedRef exn);
 
         /// <summary>
-        /// <!-- FishyJoes.export(add3Things) -->
-        /// </summary>
-        public System.Func<float, double, nint, System.Threading.Tasks.Task<double>> GetAdd3Things() {
-            using var thisHandle = new GCRef(this);
-            return Check((out CreatedRef exn) =>
-                __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_add3Things(Loader.env, thisHandle.ptr, out exn).Consume<System.Func<float, double, nint, System.Threading.Tasks.Task<double>>>()
-            );
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_add3Things(IntPtr envRef, UnownedRef self, out CreatedRef exn);
-
-        /// <summary>
         /// <!-- FishyJoes.export(makeList) -->
         /// </summary>
         public System.Func<string, string, string, string, System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>> GetMakeList() {
@@ -75,19 +82,6 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_makeList(IntPtr envRef, UnownedRef self, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(fifthThing) -->
-        /// </summary>
-        public System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>> GetFifthThing() {
-            using var thisHandle = new GCRef(this);
-            return Check((out CreatedRef exn) =>
-                __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_fifthThing(Loader.env, thisHandle.ptr, out exn).Consume<System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>>>()
-            );
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_fifthThing(IntPtr envRef, UnownedRef self, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(six) -->
@@ -319,3 +313,9 @@ namespace Cricut.TestAPI {
         static TestAsyncSwiftSideFunctionsClass() { _TypeSetup._ensureLoaded(); }
     }
 }
+
+using Cricut.FishyJoesRuntime;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System;
+using static Cricut.FishyJoesRuntime.Utilities;

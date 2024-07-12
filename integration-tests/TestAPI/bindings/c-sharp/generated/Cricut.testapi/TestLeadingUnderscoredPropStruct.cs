@@ -1,15 +1,8 @@
-using Cricut.FishyJoesRuntime;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System;
-using static Cricut.FishyJoesRuntime.Utilities;
-
 namespace Cricut.TestAPI {
     /// <summary>
-    /// <para>// &lt;!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp, TestLeadingUnderscoredMethod]) --&gt;</para>
-    /// <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp]) -->
+    /// <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct) -->
     /// </summary>
-    public record TestLeadingUnderscoredPropStruct: TestLeadingUnderscoredProp {
+    public record TestLeadingUnderscoredPropStruct: Cricut.TestAPI.TestLeadingUnderscoredProp {
         public string _leadingUnderscoreProp { get; set; }
 
         public TestLeadingUnderscoredPropStruct(
@@ -26,3 +19,9 @@ namespace Cricut.TestAPI {
         static TestLeadingUnderscoredPropStruct() { _TypeSetup._ensureLoaded(); }
     }
 }
+
+using Cricut.FishyJoesRuntime;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System;
+using static Cricut.FishyJoesRuntime.Utilities;

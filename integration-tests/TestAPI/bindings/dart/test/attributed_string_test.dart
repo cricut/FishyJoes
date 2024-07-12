@@ -489,10 +489,10 @@ void main() {
           // struct reference 'a' itself is mutable, but struct property x is immutable because it's marked as 'final'
           // compiler will not allow a.x = "something else";
           expect(a.x, equals("quxx"));
-          expect(a.toString(), equals("AttributedString_PuttingTypesIntoQuestionablePlaces(x: quxx)"));
+          expect(a.toString(), equals("TestAPI.AttributedString_PuttingTypesIntoQuestionablePlaces(x: quxx)"));
           a = b;
-          expect(a.toString(), equals("AttributedString_PuttingTypesIntoQuestionablePlaces(x: garply)"));
-          expect(c.toString(), equals("AttributedString_PuttingTypesIntoQuestionablePlaces(x: corgle)"));
+          expect(a.toString(), equals("TestAPI.AttributedString_PuttingTypesIntoQuestionablePlaces(x: garply)"));
+          expect(c.toString(), equals("TestAPI.AttributedString_PuttingTypesIntoQuestionablePlaces(x: corgle)"));
           expect(c != a, true);
           expect(c != b, true);
           expect(a.hashCode, equals(b.hashCode));

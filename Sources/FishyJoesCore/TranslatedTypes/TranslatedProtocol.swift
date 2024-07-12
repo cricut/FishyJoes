@@ -14,7 +14,7 @@ struct TranslatedProtocol: TranslatedType {
     let definingTSNamespace: String?
     let isInhabited: Bool
     var containedNamedTypes: [TranslatedType] { [self] }
-    let conformances: Set<String>
+    let conformances: Set<BetterType>
     let methods: [Method]
     let fields: [Field]
     let documentation: [String]
@@ -45,15 +45,17 @@ struct TranslatedProtocol: TranslatedType {
         self.definingTSNamespace = context.module.name
         self.isInhabited = type.isInhabited
 
-        self.conformances = exportAnnotation.conformances
+        self.conformances = Set(type.implements.compactMap {
+            return .init(named: $0.value, context: context)
+        })
 
-        self.methods = type.methodsPreferringDefaultImpl().compactMap { Method($0, type: type, protocolName: typeName) }
-        self.fields = type.variablesPreferringDefaultImpl().compactMap { Field($0, type: type) }
+        self.methods = Method.methods(type: type)
+        self.fields = Field.fields(type: type)
 
         self.documentation = type.documentation
         self.className = context.kotlinTranslator.javaClassName(kotlinName, in: context)
         self.javaExternalWitnessClassName = context.kotlinTranslator.javaClassName("_ExternalWitness_\(kotlinName)", in: context)
-        self.iotaExternalWitnessClassName = "ExternalWitness_\(sourceType.nonNamespacedName)"
+        self.iotaExternalWitnessClassName = "ExternalWitness_\(typeName)"
         self.nodeExternalWitnessClassName = "ExternalWitness_\(nodeName)"
 
         enforceProtocolThrows()
@@ -64,32 +66,32 @@ struct TranslatedProtocol: TranslatedType {
 
     func enforceProtocolThrows() {
         if let method = methods.first(where: { !$0.isThrowing }) {
-            fatalError("☠️ Error on \(sourceType.name).\(method.name): All Protocol methods exported through FishyJoes must be throwing, it's the law 👮!")
+            fatalErr("☠️ Error on \(sourceType.name).\(method.name): All Protocol methods exported through FishyJoes must be throwing, it's the law 👮!")
         }
 
         if let field = fields.first(where: { !$0.isThrowing }) {
-            fatalError("☠️ Error on \(sourceType.name).\(field.name): All Protocol properties exported through FishyJoes must be throwing, it's the law 👮!")
+            fatalErr("☠️ Error on \(sourceType.name).\(field.name): All Protocol properties exported through FishyJoes must be throwing, it's the law 👮!")
         }
     }
 
     func enforceNoProtocolSetters() {
         if let field = fields.first(where: { $0.isMutable }) {
-            fatalError("☠️ Error on \(sourceType.name).\(field.name): No setters allowed in protocols because the Swift language does not allow them to throw, it's the law 👮! Use a function instead.")
+            fatalErr("☠️ Error on \(sourceType.name).\(field.name): No setters allowed in protocols because the Swift language does not allow them to throw, it's the law 👮! Use a function instead.")
         }
     }
 
     func enforceNoProtocolStatics() {
         if let field = fields.first(where: { $0.isStatic }) {
-            fatalError("☠️ Error on \(sourceType.name).\(field.name): No static properties allowed in protocols because other languages do not generally support them, it's the law 👮!")
+            fatalErr("☠️ Error on \(sourceType.name).\(field.name): No static properties allowed in protocols because other languages do not generally support them, it's the law 👮!")
         }
         if let method = methods.first(where: { $0.isStatic }) {
-            fatalError("☠️ Error on \(sourceType.name).\(method.name): No static methods allowed in protocols because other languages do not generally support them, it's the law 👮!")
+            fatalErr("☠️ Error on \(sourceType.name).\(method.name): No static methods allowed in protocols because other languages do not generally support them, it's the law 👮!")
         }
     }
 
     func enforceNoProtocolMutatingFunctions() {
         if let method = methods.first(where: { $0.isMutating }) {
-            fatalError("☠️ Error on \(sourceType).\(method.name): No mutating functions on protocols because there are some edge cases that we don't want to support, it's the law 👮!")
+            fatalErr("☠️ Error on \(sourceType).\(method.name): No mutating functions on protocols because there are some edge cases that we don't want to support, it's the law 👮!")
         }
     }
 
@@ -146,7 +148,7 @@ struct TranslatedProtocol: TranslatedType {
                     type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(getType)>>")
                 ) { fragment in
                     let defaultValue = resolved.dartType.defaultReturnValue.map { ", \($0)" } ?? ""
-                    fragment.output("ffi.Pointer.fromFunction(\(sourceType.name)_FfiHooks.ffi_get_\(field.exportAnnotation?.name ?? field.name)\(defaultValue)),")
+                    fragment.output("ffi.Pointer.fromFunction(\(dartType.name())_FfiHooks.ffi_get_\(field.exportAnnotation?.name ?? field.name)\(defaultValue)),")
                 }
             )
         }
@@ -162,9 +164,9 @@ struct TranslatedProtocol: TranslatedType {
                 ) { fragment in
                     let defaultValue = resolvedReturn.dartType.defaultReturnValue.map { ", \($0)" } ?? ""
                     if method.isDefaultImplementation {
-                        fragment.output("ffi.Pointer.fromFunction(\(sourceType.name)_DefaultImplementations.ffi_\(method.callName)\(resolvedReturn.dartType.defaultReturnValue.map { ", \($0)" } ?? "")),")
+                        fragment.output("ffi.Pointer.fromFunction(\(dartType.name())_DefaultImplementations.ffi_\(method.callName)\(resolvedReturn.dartType.defaultReturnValue.map { ", \($0)" } ?? "")),")
                     } else {
-                        fragment.output("ffi.Pointer.fromFunction(\(sourceType.name)_FfiHooks.ffi_\(method.callName)\(defaultValue)),")
+                        fragment.output("ffi.Pointer.fromFunction(\(dartType.name())_FfiHooks.ffi_\(method.callName)\(defaultValue)),")
                     }
                 }
             )
@@ -209,7 +211,7 @@ struct TranslatedProtocol: TranslatedType {
                 type: constructorType
             ) { fragment in
                 fragment.outputBlock("bag<\(constructorType)>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {", closeWith: "})),") {
-                    fragment.output("return new CreatedRef(new \(cSharpType.package ?? context.module.name).ExternalWitness_\(sourceType.genericBaseName.name)(ptr));")
+                    fragment.output("return new CreatedRef(new \(cSharpType.package ?? context.module.name).ExternalWitness_\(cSharpType.unqualifiedName)(ptr));")
                 }
             }
         )
@@ -284,14 +286,23 @@ struct TranslatedProtocol: TranslatedType {
 
         fragment.blankLine()
 
-        generateSansForDefaultMethods(fragment: fragment, defaultMethods: methods.filter { $0.isDefaultImplementation })
+        let defaultFields = fields.filter { $0.isDefaultImplementation }
+        let defaultMethods = methods.filter { $0.isDefaultImplementation }
+        generateSansForDefaultImplementations(fragment: fragment, defaultFields: defaultFields, defaultMethods: defaultMethods)
 
         return fragment
     }
 
-    func generateSansForDefaultMethods(fragment: SourceFragment, defaultMethods: [Method]) {
-        for defaultMethod in defaultMethods {
-            fragment.outputBlock("public struct \(sourceType.nonNamespacedName)_sans_\(defaultMethod.callName): \(sourceType.name) {", closeWith: "}") {
+    func generateSansForDefaultImplementations(fragment: SourceFragment, defaultFields: [Field], defaultMethods: [Method]) {
+        func outputSansFor(defaultField: Field? = nil, defaultMethod: Method? = nil) {
+            guard defaultField != nil && defaultMethod == nil ||
+                    defaultField == nil && defaultMethod != nil else {
+                fatalErr("Exactly one of defaultField or defaultMethod must be non nil, the other must be nil")
+            }
+            guard let name = (defaultField?.name ?? defaultMethod?.callName) else {
+                fatalErr("Need a name")
+            }
+            fragment.outputBlock("public struct \(sourceType.nonNamespacedName)_sans_\(name): \(sourceType.name) {", closeWith: "}") {
                 fragment.output("public let wrapped: \(sourceType.name)")
 
                 fragment.blankLine()
@@ -300,21 +311,29 @@ struct TranslatedProtocol: TranslatedType {
                     fragment.output("self.wrapped = wrapped")
                 }
 
-                for variable in fields {
+                for field in fields {
+                    if let defaultField = defaultField {
+                        guard field.name != defaultField.name else {
+                            continue
+                        }
+                    }
                     fragment.blankLine()
-                    let name = variable.name
-                    let type = variable.type.name
+                    let name = field.name
+                    let type = field.type.name
                     fragment.outputBlock("public var \(name): \(type) {") {
                         fragment.outputBlock("get throws {") {
                             fragment.output("try wrapped.\(name)")
                         }
                     }
                 }
+
                 for method in methods {
-                    guard method.name != defaultMethod.name else {
-                        continue
+                    if let defaultMethod = defaultMethod {
+                        guard method.name != defaultMethod.name else {
+                            continue
+                        }
                     }
-                    fragment.output()
+                    fragment.blankLine()
                     let returnSignature = "\(method.isAsync ? " async": "")\(method.isThrowing ? " throws" : "") -> \(method.returnType.name)"
                     fragment.outputBlock("public func \(method.name)\(returnSignature) {", closeWith: "}") {
                         var methodParamsStr = [String]()
@@ -329,19 +348,29 @@ struct TranslatedProtocol: TranslatedType {
                     }
                 }
             }
-            fragment.output()
+        }
+        for defaultField in defaultFields {
+            outputSansFor(defaultField: defaultField)
+            fragment.blankLine()
+        }
+
+        for defaultMethod in defaultMethods {
+            outputSansFor(defaultMethod: defaultMethod)
+            fragment.blankLine()
         }
     }
 
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "NodeInterface/\(sourceType.name)+node.swift",
+            "NodeInterface/\(context.module.name)+node.swift",
             additionalImports: [
                 "Foundation",
                 "FishyJoesNodeRuntime",
-                "\(context.module.name)_CommonInterface"
+                "\(context.module.name)_CommonInterface",
+                "NodeAPI"
             ]
         )
+        fragment.output("// MARK: - \(sourceType.name)+node.swift")
 
         fragment.outputBlock("struct _Node\(sourceType.nonNamespacedName): \(sourceType.name) {") {
             fragment.output("let _nodeWitness: NodeReference")
@@ -437,10 +466,38 @@ struct TranslatedProtocol: TranslatedType {
                         fragment.output("let result = try env.callFunction(object, create, [coreArg])")
                         fragment.blankLine()
 
+                        let defaultFields = fields.filter { $0.isDefaultImplementation }
+                        for field in defaultFields {
+                            let fieldName = field.exportAnnotation?.name ?? field.name
+                            fragment.output("let \(fieldName)GetterCallback: NAPI.Callback = ", newLineTerminated: false)
+                            context.nodeTranslator.output(getter: field, explicitThis: false, context: context, fragment: fragment, converterName: converterType.name, shouldWrapDefaultImpl: true)
+
+                            fragment.blankLine()
+
+                            fragment.output("let \(fieldName)NodeName = try String.toNode(\"\(fieldName)\", env: env)")
+                            fragment.outputBlock("let \(fieldName)PropertyDesc = napi_property_descriptor(") {
+                                fragment.output("utf8name: nil,")
+                                fragment.output("name: \(fieldName)NodeName.ptr,")
+                                fragment.output("method: nil,")
+                                fragment.output("getter: \(fieldName)GetterCallback,")
+                                fragment.output("setter: nil,")
+                                fragment.output("value: nil,")
+                                fragment.output("attributes: napi_default,")
+                                fragment.output("data: nil")
+                            }
+
+                            fragment.blankLine()
+
+                            fragment.outputBlock("if !(try env.hasNamedProperty(result, \"\(fieldName)\")) {") {
+                                fragment.output("try env.defineProperties(result, properties: [\(fieldName)PropertyDesc])")
+                            }
+                            fragment.blankLine()
+                        }
+
                         let defaultMethods = methods.filter { $0.isDefaultImplementation }
                         for method in defaultMethods {
                             fragment.output("let \(method.callName)FunctionCallback: NAPI.Callback = ", newLineTerminated: false)
-                            context.nodeTranslator.output(method: method, explicitThis: false, context: context, fragment: fragment, newLineTerminated: true, converterName: nil, shouldWrapDefaultImpl: true)
+                            context.nodeTranslator.output(method: method, explicitThis: false, context: context, fragment: fragment, newLineTerminated: true, converterName: converterType.name, shouldWrapDefaultImpl: true)
                             fragment.outputBlock("let \(method.callName)Function = try env.createFunction(") {
                                 fragment.output("\"\(method.callName)\",")
                                 fragment.output("\(method.callName)FunctionCallback,")
@@ -474,8 +531,8 @@ struct TranslatedProtocol: TranslatedType {
                     fragment.output("name: \"\(nodeExternalWitnessClassName)\",")
                     fragment.outputBlock("properties: [", closeWith: "],") {
                         var hasProperties = false
-                        hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment, converterName: nil, shouldWrapDefaultImpl: true)
-                        hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: fields, context: context, fragment: fragment)
+                        hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment, converterName: converterType.name, shouldWrapDefaultImpl: true)
+                        hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: fields, context: context, fragment: fragment, converterName: converterType.name, shouldWrapDefaultImpl: true)
 //                        for field in fields {
 //                            // Limitation in wasm implementation of napi_create_class doesn't allow constructors to assign to non-mutable property.
 //                            // let mutable = field.isPubliclyWritable
@@ -514,11 +571,13 @@ struct TranslatedProtocol: TranslatedType {
 
         fragment.blankLine()
 
+        let nodeConformances = Set(exportedConformances(in: context).map { $0.nodeType})
         context.tsAnnotations.add(class:
             .init(
                 name: nodeExternalWitnessClassName,
+                implements: nodeConformances,
                 constructor: .hidden,
-                fields: fields.compactMap {context.ts(field: $0, useNativeName: false) },
+                fields: fields.compactMap { context.ts(field: $0, useNativeName: false) },
                 methods: methods.compactMap { context.ts(method: $0) }
             )
         )
@@ -528,9 +587,10 @@ struct TranslatedProtocol: TranslatedType {
 
     func iotaDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "IotaInterface/\(sourceType.name)+iota-type.swift",
+            "IotaInterface/\(context.module.name)+iota.swift",
             additionalImports: ["Foundation", "FishyJoesIotaRuntime", "\(context.module.name)_CommonInterface"]
         )
+        fragment.output("// MARK: - \(sourceType.name)+iota-type.swift")
 
         let foreignProtocolType = "_Iota\(sourceType.nonNamespacedName)"
 
@@ -668,7 +728,6 @@ struct TranslatedProtocol: TranslatedType {
 
             fragment.outputBlock("public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {") {
                 fragment.outputBlock("try env.check { exn in", closeWith: "}") {
-                    fragment.output("// here's where we should make a new witness with witness constructor")
                     fragment.outputBlock("_constructorMethod[env](") {
                         fragment.output("Box(value).retainedOpaque(),")
                         fragment.output("exn")
@@ -685,9 +744,10 @@ struct TranslatedProtocol: TranslatedType {
 
     func jniDefinitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
         let fragment = context.swiftFragment(
-            "JavaInterface/\(sourceType.name)+java-type.swift",
+            "JavaInterface/\(context.module.name)+java.swift",
             additionalImports: ["Foundation", "FishyJoesJavaRuntime", "\(context.module.name)_CommonInterface"]
         )
+        fragment.output("// MARK: - \(sourceType.name)+java-type.swift")
 
         let foreignProtocolType = "_Java\(sourceType.nonNamespacedName)"
 
@@ -836,8 +896,29 @@ struct TranslatedProtocol: TranslatedType {
 
         let (interfaceFields, interfaceMethods) = KotlinClass.separate(
             fieldsAndMethods:
-                fields.compactMap {
-                    context.kotlin(field: $0, useNativeName: false)
+                fields.flatMap { field -> [KotlinClass.MethodOrVariable] in
+                    guard let kotlinMethodOrVariable = context.kotlin(field: field, useNativeName: false) else { return [] }
+
+                    guard !field.isStatic,
+                          field.isDefaultImplementation,
+                          case .variable(var kotlinVariable) = kotlinMethodOrVariable else {
+                        return [kotlinMethodOrVariable]
+                    }
+
+                    let defaultMethodForVariable = KotlinClass.Method(
+                        documentation: [],
+                        isStatic: true,
+                        isSuspend: false,
+                        isOverride: false,
+                        isDefaultImplementation: true,
+                        name: kotlinVariable.name,
+                        parameters: [(nil, name: "self", type: .named(package: nil, name: kotlinName), nil)],
+                        compatibilityOrder: [],
+                        returnType: kotlinVariable.type
+                    )
+                    kotlinVariable.body = "    get() = __jni__default_\(defaultMethodForVariable.name)(this)"
+
+                    return [.variable(kotlinVariable), .method(defaultMethodForVariable)]
                 } + methods.flatMap { method -> [KotlinClass.MethodOrVariable] in
                     guard let kotlinMethodOrVariable = context.kotlin(method: method) else { return [] }
 
@@ -866,8 +947,8 @@ struct TranslatedProtocol: TranslatedType {
                 name: kotlinName,
                 fields: interfaceFields,
                 methods: interfaceMethods,
-                conformances: conformances
-            ).conforming(to: conformances, context: context)
+                conformances: Set(exportedConformances(in: context).map { $0.kotlinType})
+            ).conforming(to: exportedConformances(in: context), context: context)
         )
 
         let externalWitnessFieldsAndMethods = {
@@ -877,6 +958,8 @@ struct TranslatedProtocol: TranslatedType {
             return fAndM
         }()
         let (externalWitnessFields, externalWitnessMethods) = KotlinClass.separate(fieldsAndMethods: externalWitnessFieldsAndMethods)
+        // We know the sourceType is a TranslatedProtocol because we're in the TranslatedProtocol struct so the force cast is okay.
+        let resolvedSource = context.resolve(type: sourceType) as! TranslatedProtocol
         context.add(
             kotlinClass: KotlinProductClass(
                 module: context.module,
@@ -886,8 +969,8 @@ struct TranslatedProtocol: TranslatedType {
                 constructor: .reference,
                 fields: externalWitnessFields,
                 methods: externalWitnessMethods,
-                conformances: ["com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference)"]
-            ).conforming(to: [sourceType.name], context: context)
+                conformances: [KotlinClass.KType.named(package: "com.cricut.fishyjoes.runtime", name: "SwiftReference(_swiftReference)")]
+            ).conforming(to: [resolvedSource], context: context)
         )
 
         return [fragment]
@@ -910,7 +993,7 @@ struct TranslatedProtocol: TranslatedType {
                 name: cSharpType.name,
                 fields: protocolFields,
                 methods: protocolMethods,
-                conformances: conformances
+                conformances: Set(exportedConformances(in: context).map { $0.cSharpType})
             )
         )
 
@@ -922,6 +1005,7 @@ struct TranslatedProtocol: TranslatedType {
                     context.cSharp(method: $0, of: self)
                 }
         )
+
         context.add(
             cSharpClass: CSharpProductClass(
                 module: context.module,
@@ -930,7 +1014,8 @@ struct TranslatedProtocol: TranslatedType {
                 constructor: .reference,
                 fields: externalWitnessFields,
                 methods: externalWitnessMethods,
-                conformances: [sourceType.nonNamespacedName]
+                conformances: [context.resolve(type: sourceType).cSharpType]
+                // [CSharpClass.CSType.named(package: sourceType.module, name: sourceType.nonNamespacedName)]
             )
         )
     }
@@ -944,6 +1029,7 @@ struct TranslatedProtocol: TranslatedType {
                     context.dart(method: $0, of: self)
                 }
         )
+
         context.add(
             dartClass: DartProtocolClass(
                 module: context.module,
@@ -951,7 +1037,7 @@ struct TranslatedProtocol: TranslatedType {
                 name: dartType.name(),
                 fields: protocolFields,
                 methods: protocolMethods,
-                conformances: conformances
+                conformances: Set(exportedConformances(in: context).map { $0.dartType})
             )
         )
 
@@ -971,7 +1057,7 @@ struct TranslatedProtocol: TranslatedType {
                 constructor: .reference,
                 fields: externalWitnessFields,
                 methods: externalWitnessMethods,
-                conformances: [sourceType.nonNamespacedName]
+                conformances: [dartType]
             )
         )
     }

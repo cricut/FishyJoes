@@ -1,14 +1,8 @@
-using Cricut.FishyJoesRuntime;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System;
-using static Cricut.FishyJoesRuntime.Utilities;
-
 namespace Cricut.TestAPI {
     /// <summary>
-    /// <!-- FishyJoes.exportReference(TestProtocolClass, conformances: [TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol]) -->
+    /// <!-- FishyJoes.exportReference(TestProtocolClass) -->
     /// </summary>
-    public class TestProtocolClass : SwiftReference, TestMethodsProtocol, TestOptionalsProtocol, TestPropertiesProtocol {
+    public class TestProtocolClass : SwiftReference, Cricut.TestAPI.TestMethodsProtocol, Cricut.TestAPI.TestOptionalsProtocol, Cricut.TestAPI.TestPropertiesProtocol {
         internal TestProtocolClass(ConsumedRef reference): base(reference) {}
 
         /// <summary>
@@ -257,6 +251,42 @@ namespace Cricut.TestAPI {
             out CreatedRef exn
         );
 
+        public override bool Equals(
+            object? other
+        ) {
+            if (other as Cricut.TestAPI.TestProtocolClass == null) { return false; }
+            using var thisHandle = new GCRef(this);
+            using var otherHandle = new GCRef(other as Cricut.TestAPI.TestProtocolClass);
+            return Check((out CreatedRef exn) => __iota_TestAPI_TestProtocolClass_equals(Loader.env, thisHandle.ptr, otherHandle.ptr, out exn));
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern bool __iota_TestAPI_TestProtocolClass_equals(
+            IntPtr envRef,
+            UnownedRef lhs,
+            UnownedRef rhs,
+            out CreatedRef exn
+        );
+
+        public override int GetHashCode(
+        ) {
+            using var _thisHandle = new GCRef(this);
+            return Check((out CreatedRef _exn) => __iota_get_TestAPI_TestProtocolClass_hash(Loader.env, _thisHandle.ptr, out _exn));
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern int __iota_get_TestAPI_TestProtocolClass_hash(
+            IntPtr envRef,
+            UnownedRef self,
+            out CreatedRef exn
+        );
+
         static TestProtocolClass() { _TypeSetup._ensureLoaded(); }
     }
 }
+
+using Cricut.FishyJoesRuntime;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System;
+using static Cricut.FishyJoesRuntime.Utilities;

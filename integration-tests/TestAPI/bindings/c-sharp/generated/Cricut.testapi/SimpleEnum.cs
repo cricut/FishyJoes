@@ -1,9 +1,3 @@
-using Cricut.FishyJoesRuntime;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System;
-using static Cricut.FishyJoesRuntime.Utilities;
-
 namespace Cricut.TestAPI {
     /// <summary>
     /// <!-- FishyJoes.export(SimpleEnum) -->
@@ -16,19 +10,6 @@ namespace Cricut.TestAPI {
         public sealed record Green : SimpleEnum;
 
         public sealed record Blue : SimpleEnum;
-
-        /// <summary>
-        /// <!-- FishyJoes.export(hex) -->
-        /// </summary>
-        public nint GetHex() {
-            using var thisHandle = new GCRef(this);
-            return Check((out CreatedRef exn) =>
-                __iota_get_TestAPI_SimpleEnum_hex(Loader.env, thisHandle.ptr, out exn)
-            );
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __iota_get_TestAPI_SimpleEnum_hex(IntPtr envRef, UnownedRef self, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(favoriteColor) -->
@@ -52,6 +33,19 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern void __iota_set_TestAPI_SimpleEnum_favoriteColor(IntPtr envRef, UnownedRef value, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(hex) -->
+        /// </summary>
+        public nint GetHex() {
+            using var thisHandle = new GCRef(this);
+            return Check((out CreatedRef exn) =>
+                __iota_get_TestAPI_SimpleEnum_hex(Loader.env, thisHandle.ptr, out exn)
+            );
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __iota_get_TestAPI_SimpleEnum_hex(IntPtr envRef, UnownedRef self, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(pickAColor) -->
@@ -102,3 +96,9 @@ namespace Cricut.TestAPI {
         static SimpleEnum() { _TypeSetup._ensureLoaded(); }
     }
 }
+
+using Cricut.FishyJoesRuntime;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System;
+using static Cricut.FishyJoesRuntime.Utilities;

@@ -1,29 +1,9 @@
-using Cricut.FishyJoesRuntime;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System;
-using static Cricut.FishyJoesRuntime.Utilities;
-
 namespace Cricut.TestAPI {
     /// <summary>
     /// <!-- FishyJoes.export(Strings) -->
     /// </summary>
     public record Strings {
         private Strings() {}
-
-        /// <summary>
-        /// <!-- FishyJoes.export(simple) -->
-        /// </summary>
-        public static string Simple {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Strings_simple(Loader.env, out exn).Consume<string>()
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_Strings_simple(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(accent) -->
@@ -38,20 +18,6 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_get_TestAPI_Strings_accent(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(script) -->
-        /// </summary>
-        public static string Script {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Strings_script(Loader.env, out exn).Consume<string>()
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_Strings_script(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(chinese) -->
@@ -124,6 +90,34 @@ namespace Cricut.TestAPI {
         private static extern CreatedRef __iota_get_TestAPI_Strings_emojiMulti(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
+        /// <!-- FishyJoes.export(script) -->
+        /// </summary>
+        public static string Script {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Strings_script(Loader.env, out exn).Consume<string>()
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Strings_script(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(simple) -->
+        /// </summary>
+        public static string Simple {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Strings_simple(Loader.env, out exn).Consume<string>()
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Strings_simple(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
         /// <!-- FishyJoes.export(echo) -->
         /// </summary>
         public static string Echo(
@@ -143,3 +137,9 @@ namespace Cricut.TestAPI {
         static Strings() { _TypeSetup._ensureLoaded(); }
     }
 }
+
+using Cricut.FishyJoesRuntime;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System;
+using static Cricut.FishyJoesRuntime.Utilities;

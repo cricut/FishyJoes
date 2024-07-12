@@ -1,9 +1,3 @@
-package com.cricut.testapi
-
-import com.cricut.fishyjoes.runtime.*
-import java.lang.Exception
-import kotlinx.coroutines.*
-
 /**
  * <!-- FishyJoes.export(Deprecations) -->
  */
@@ -35,3 +29,9 @@ sealed class Deprecations {
         init { loadNativeLibs() }
     }
 }
+
+package com.cricut.testapi
+
+import com.cricut.fishyjoes.runtime.*
+import java.lang.Exception
+import kotlinx.coroutines.*

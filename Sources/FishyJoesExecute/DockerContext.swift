@@ -5,7 +5,7 @@ struct DockerContext {
     var hostDockerBinary: String
     let passGitAuth: Bool
 
-    var image = "ghcr.io/cricut/android-swift-runtime:1.1.0"
+    var image = "ghcr.io/cricut/android-swift-runtime:2.0.0"
     var platform = "linux/amd64"
     var mountMappings: [String: String]
     var startDirectory: String

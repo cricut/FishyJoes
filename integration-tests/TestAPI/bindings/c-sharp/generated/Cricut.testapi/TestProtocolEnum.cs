@@ -1,12 +1,6 @@
-using Cricut.FishyJoesRuntime;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System;
-using static Cricut.FishyJoesRuntime.Utilities;
-
 namespace Cricut.TestAPI {
     /// <summary>
-    /// <!-- FishyJoes.export(TestProtocolEnum, conformances: [TestMethodsProtocol]) -->
+    /// <!-- FishyJoes.export(TestProtocolEnum) -->
     /// </summary>
     public record TestProtocolEnum {
         private TestProtocolEnum() {}
@@ -125,3 +119,9 @@ namespace Cricut.TestAPI {
         static TestProtocolEnum() { _TypeSetup._ensureLoaded(); }
     }
 }
+
+using Cricut.FishyJoesRuntime;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System;
+using static Cricut.FishyJoesRuntime.Utilities;

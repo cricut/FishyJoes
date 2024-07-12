@@ -32,9 +32,11 @@ class KotlinClass: NestedClass {
         var isOverride: Bool
         var isMutable: Bool
         var isPubliclyWritable: Bool
+        var isDefaultImplementation: Bool
         var name: String
         var type: KType
         var deprecation: Deprecation?
+        var body: String?
     }
 
     let module: Module
@@ -43,7 +45,7 @@ class KotlinClass: NestedClass {
     var innerClasses: [KotlinClass] = []
     var fields: [Variable]
     var methods: [Method]
-    var conformances: Set<String> = []
+    var conformances: Set<KType> = []
 
     init(
         module: Module,
@@ -51,7 +53,7 @@ class KotlinClass: NestedClass {
         name: String,
         fields: [Variable],
         methods: [Method],
-        conformances: Set<String>
+        conformances: Set<KType>
     ) {
         self.name = name
         self.documentation = documentation
@@ -101,6 +103,10 @@ class KotlinClass: NestedClass {
             fragment.output("@Deprecated(\"\(deprecation.quotedMessage)\")")
         }
         fragment.output("\(field.isOverride ? "override " : "")\(field.isPubliclyWritable ? "var" : "val") \(field.name): \(field.type.kotlinType)")
+        if let body = field.body {
+            fragment.output(body)
+        }
+
         if external {
             fragment.output("  get() = __jni_get_\(field.name)()\(field.type.toKotlinType)")
             if field.isPubliclyWritable {

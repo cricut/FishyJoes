@@ -20,7 +20,7 @@ class KotlinProductClass: KotlinClass {
         constructor: Constructor,
         fields: [Variable],
         methods: [Method],
-        conformances: Set<String> = []
+        conformances: Set<KType> = []
     ) {
         self.isPrivate = isPrivate
         self.constructor = constructor
@@ -37,21 +37,25 @@ class KotlinProductClass: KotlinClass {
 
     override func output(to fragment: SourceFragment) {
         document(documentation, fragment: fragment)
+
         switch constructor {
         case .reference:
             fragment.output("\(isPrivate ? "private " : "")class \(unqualifiedName) private constructor(_swiftReference: Long)", newLineTerminated: false)
-        case .`public`(let fields, let arguments):
+        case .`public`(let storedVariables, let arguments):
             var classDeclaration: String
+
             if isPrivate {
                 classDeclaration = "class \(unqualifiedName) private constructor"
+            } else if storedVariables.isEmpty {
+                classDeclaration = "class \(unqualifiedName)"
             } else {
                 classDeclaration = "data class \(unqualifiedName)"
             }
-            let constructorArgs: [String] = fields.map { field in
+            let constructorArgs: [String] = storedVariables.map { storedVariable in
                 (isPrivate ? "private " : "") +
-                (field.isOverride ? "override " : "") +
-                (field.isPubliclyWritable ? "var " : "val ") +
-                "\(field.name): \(field.type.kotlinType)"
+                (storedVariable.isOverride ? "override " : "") +
+                (storedVariable.isPubliclyWritable ? "var " : "val ") +
+                "\(storedVariable.name): \(storedVariable.type.kotlinType)"
             } + arguments.map {
                 let (name, type) = $0
                 return "\(name): \(type.kotlinType)"
@@ -61,7 +65,14 @@ class KotlinProductClass: KotlinClass {
             }
         }
         if !conformances.isEmpty {
-            fragment.output(": \(Array(conformances).sorted(by: < ).joined(separator: ", "))", newLineTerminated: false)
+            let conformancesList = conformances.map { kType in
+                guard case let .named(package, name) = kType else {
+                    fatalErr("kType must be .name case")
+                }
+                return "\(package ?? "").\(name)"
+            }.sorted(by: <).joined(separator: ", ")
+
+            fragment.output(": \(conformancesList)", newLineTerminated: false)
         }
         fragment.outputBlock(" {") {
             fields.filter { !$0.isStatic }.forEach { output(field: $0, to: fragment) }

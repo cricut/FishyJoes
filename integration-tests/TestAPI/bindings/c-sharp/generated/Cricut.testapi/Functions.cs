@@ -1,15 +1,23 @@
-using Cricut.FishyJoesRuntime;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System;
-using static Cricut.FishyJoesRuntime.Utilities;
-
 namespace Cricut.TestAPI {
     /// <summary>
     /// <!-- FishyJoes.export(Functions) -->
     /// </summary>
     public record Functions {
         private Functions() {}
+
+        /// <summary>
+        /// <!-- FishyJoes.export(add3Things) -->
+        /// </summary>
+        public static System.Func<float, double, nint, double> Add3Things {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Functions_add3Things(Loader.env, out exn).Consume<System.Func<float, double, nint, double>>()
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Functions_add3Things(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(const42) -->
@@ -24,6 +32,20 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_get_TestAPI_Functions_const42(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(fifthThing) -->
+        /// </summary>
+        public static System.Func<string, nint, double, string, System.Func<nint>, System.Func<nint>> FifthThing {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_Functions_fifthThing(Loader.env, out exn).Consume<System.Func<string, nint, double, string, System.Func<nint>, System.Func<nint>>>()
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Functions_fifthThing(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(abs) -->
@@ -54,20 +76,6 @@ namespace Cricut.TestAPI {
         private static extern CreatedRef __iota_get_TestAPI_Functions_intCompose(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
-        /// <!-- FishyJoes.export(add3Things) -->
-        /// </summary>
-        public static System.Func<float, double, nint, double> Add3Things {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Functions_add3Things(Loader.env, out exn).Consume<System.Func<float, double, nint, double>>()
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_Functions_add3Things(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
         /// <!-- FishyJoes.export(makeList) -->
         /// </summary>
         public static System.Func<string, string, string, string, System.Collections.Generic.IList<string>> MakeList {
@@ -80,20 +88,6 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_get_TestAPI_Functions_makeList(IntPtr envRef, out CreatedRef exn);
-
-        /// <summary>
-        /// <!-- FishyJoes.export(fifthThing) -->
-        /// </summary>
-        public static System.Func<string, nint, double, string, System.Func<nint>, System.Func<nint>> FifthThing {
-            get {
-                return Check((out CreatedRef exn) =>
-                    __iota_get_TestAPI_Functions_fifthThing(Loader.env, out exn).Consume<System.Func<string, nint, double, string, System.Func<nint>, System.Func<nint>>>()
-                );
-            }
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_TestAPI_Functions_fifthThing(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(sixthThing) -->
@@ -262,3 +256,9 @@ namespace Cricut.TestAPI {
         static Functions() { _TypeSetup._ensureLoaded(); }
     }
 }
+
+using Cricut.FishyJoesRuntime;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System;
+using static Cricut.FishyJoesRuntime.Utilities;
