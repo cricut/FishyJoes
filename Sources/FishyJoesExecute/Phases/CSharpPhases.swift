@@ -10,7 +10,7 @@ class CSharpPhases: IotaPhases, Phases {
 
     func compileHostLanguagePhase() throws {
         try withDirectory("bindings/c-sharp") {
-            var args = ["build", "Cricut.\(options.config.module).sln"]
+            var args = ["build", "generated/Cricut.\(options.config.module).sln"]
             if options.buildConfig.debug {
                 args.append(contentsOf: ["--configuration", "Debug"])
             }
@@ -30,7 +30,7 @@ class CSharpPhases: IotaPhases, Phases {
             }
 
             var command = "dotnet"
-            var args = ["test", "Cricut.\(options.config.module).sln", "--logger", "console;verbosity=detailed"]
+            var args = ["test", "generated/Cricut.\(options.config.module).sln", "--logger", "console;verbosity=detailed"]
             var addEnv: [String: String] = [:]
             if let codeCoveragePath = options.codeCoveragePath {
                 command = "dotnet-coverage"

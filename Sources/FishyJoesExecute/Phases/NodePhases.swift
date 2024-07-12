@@ -358,9 +358,6 @@ class NodePhases: BasePhases, Phases {
             try npm("install").run()
         }
         try withDirectory("bindings/ts/tests") {
-            // symlink generated package.json to test directory
-            try cmd("ln", "-sf", "generated/package.generated.json", "package.json").run()
-
             // Perform a file-local install of the test package and its dependencies
             // TODO: Should build a package tarball and install it instead?
             try npm("install").run()

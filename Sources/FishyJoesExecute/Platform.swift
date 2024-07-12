@@ -150,7 +150,7 @@ enum Platform: CustomStringConvertible, Hashable {
             swiftBuild = ["\(wasmToolchain)/usr/bin/swift-build"]
             args.append(contentsOf: ["--triple", "wasm32-unknown-wasi"])
             // custom build paths to avoid different versions of spm destroying each other's caches
-            args.append(contentsOf: ["--build-path", "./.build/wasm-build"])
+            scratchPath = "\(scratchPath)/wasm-build"
 
             // TODO: see https://blog.swiftwasm.org/posts/5-6-released/
             // args.append(contentsOf: ["-Xswiftc", "-Xclang-linker", "-Xswiftc", "-mexec-model=reactor"])

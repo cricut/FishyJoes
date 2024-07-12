@@ -1,6 +1,6 @@
 import { TestAPI } from 'TestAPI';
 
-const debugPrints = true;
+const debugPrints = false;
 
 test('testProtocolImplementation', () => {
     const a = new TestAPI.AProtocolImplementation(
@@ -509,7 +509,7 @@ class TestAsyncFunctionsImpl implements TestAPI.TestAsyncFunctionsCore {
     witness(): TestAPI.TestAsyncFunctions {
         const a = new TestAsyncFunctionsImpl();
         return TestAPI.TestAsyncFunctions.fromCore(a);
-    }    
+    }
 }
 
 test('testAsyncFunctionsImpl', async () => {

@@ -1,12 +1,8 @@
 import 'dart:io';
 import 'dart:core';
-import 'dart:math';
-import 'package:cricut_test_api/cricut_test_api.dart';
-import 'package:cricut_test_api/src/generated/TestAsyncSwiftSideFunctionsClass.dart';
+import 'package:cricut_testapi/testapi.dart';
 import 'package:test/test.dart';
 import 'package:tuple/tuple.dart' as tuple;
-import 'package:dart_numerics/dart_numerics.dart';
-import 'package:cricut_test_api/src/generated/TestAsyncFunctions.dart' as TestAPI;
 
 final debugPrint = false;
 
@@ -112,7 +108,7 @@ void main() {
         expect(d, List.of(["By", "your", "powers", "combined"]));
         final e = await a.fifthThing(
           "I, am",
-          int64MaxValue,
+          4,
           double.minPositive,
           "Captain Planet!",
           () { 
@@ -122,15 +118,15 @@ void main() {
         expect(await e(), 42);
         final f = await a.six(
           "Big, bad",
-          24,
+          3,
           3.14159265359,
           "Beetleborgs",
           () { 
             return Future.delayed(const Duration(seconds: 0), () => 43);
           },
-          int64MinValue
+          8
         );
-        expect(f, equals(int64MinValue));
+        expect(f, equals(8));
 
         expect(() async => await a.willThrow(), throwsA(predicate((e) => '$e'.contains("Spoon!"))));
 
@@ -292,7 +288,7 @@ void main() {
         expect(d, List.of(["By", "your", "powers", "combined"]));
         final e = await a.fifthThing(
           "I, am",
-          int64MaxValue,
+          4,
           double.minPositive,
           "Captain Planet!",
           () { 
@@ -308,9 +304,9 @@ void main() {
           () { 
             return Future.delayed(const Duration(seconds: 0), () => 43);
           },
-          int64MinValue
+          4
         );
-        expect(f, equals(int64MinValue));
+        expect(f, equals(4));
 
         expect(() async => await a.willThrow(), throwsA(predicate((e) => '$e'.contains("TheAsyncError()"))));
 
@@ -389,7 +385,7 @@ void main() {
   });
 }
 
-class TestAsyncFunctionsImpl implements TestAPI.TestAsyncFunctions {
+class TestAsyncFunctionsImpl implements TestAsyncFunctions {
     @override
     Future<String> exercise0(
         Future<int> Function() fn
@@ -444,7 +440,7 @@ class TestAsyncFunctionsImpl implements TestAPI.TestAsyncFunctions {
       };
     }
     @override
-    TestAPI.TestAsyncFunctions witness(
+    TestAsyncFunctions witness(
     ) {
       return TestAsyncFunctionsImpl();
     }

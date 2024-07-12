@@ -1,5 +1,5 @@
 ---
-name: "C#"
+name: "Dart"
 
 "on":
   workflow_dispatch:
@@ -21,8 +21,8 @@ env:
   FISHYJOES: 1
 
 jobs:
-  build-test-c-sharp-mac:
-    name: "macOS: Build and test C# bindings"
+  build-test-dart-mac:
+    name: "macOS: Build and test dart bindings"
     runs-on: [macOS, self-hosted, ARM64]
     steps:
       - name: Checkout
@@ -33,40 +33,33 @@ jobs:
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '6.0.x'
-          source-url: https://nuget.pkg.github.com/cricut/index.json
-          owner: cricut-builduser
-        env:
-          NUGET_AUTH_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
+      - uses: dart-lang/setup-dart@v1
 
       - name: Build library
         shell: zsh {0}
         run: |
           set -euxo pipefail
 
-          swift run -- fishy-joes --c-sharp --fat generate build
+          swift run -- fishy-joes --dart --fat generate build
 
-      - name: Test library from dotnet
+      - name: Test library from dart
         shell: zsh {0}
         run: |
           set -euxo pipefail
 
-          swift run -- fishy-joes --c-sharp --fat test
+          swift run -- fishy-joes --dart --fat test
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: mac_generated
-          path: bindings/c-sharp/generated/Cricut.TestAPI/runtimes
+          name: mac_lib
+          path: bindings/dart/generated/macos/native/
 
-  build-test-c-sharp-linux:
-    name: "Ubuntu: Build and test C# bindings"
+  build-test-dart-linux:
+    name: "Ubuntu: Build and test dart bindings"
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cricut/android-swift-runtime:1.1.0
+      image: ghcr.io/cricut/android-swift-runtime:2.0.1
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
@@ -79,55 +72,44 @@ jobs:
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
-      - name: Configure build environment
-        run: |
-          set -eux
-
-          apt-get -y update
-          apt-get -y install patchelf curl
-          git config --global --add safe.directory '*'
-
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '6.0.x'
-          source-url: https://nuget.pkg.github.com/cricut/index.json
-          owner: cricut-builduser
-        env:
-          NUGET_AUTH_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
+      - uses: dart-lang/setup-dart@v1
 
       - name: Build library
         shell: zsh {0}
         run: |
           set -euxo pipefail
 
-          swift run -- fishy-joes --c-sharp build
+          swift run -- fishy-joes --dart build
 
       - name: Patch libs to use relative paths to swift stdlib
         shell: zsh {0}
         run: |
-          cd bindings/c-sharp/generated/Cricut.TestAPI/runtimes/linux/native
+          set -euxo pipefail
+
+          cd bindings/dart/generated/linux/native
 
           SWIFT_RUN_PATH='/usr/lib/swift/linux:./:$ORIGIN'
           for LIB in lib*.so*; do
+            echo "$LIB: rpath = $(readelf --print-rpath $LIB)"
             patchelf --set-rpath $SWIFT_RUN_PATH $LIB
+            echo "$LIB: rpath = $(readelf --print-rpath $LIB)"
           done
 
-      - name: Test library from dotnet
+      - name: Test library from dart
         shell: zsh {0}
         run: |
           set -euxo pipefail
 
-          swift run -- fishy-joes --c-sharp test
+          swift run -- fishy-joes --dart test
 
       - name: Upload library
         uses: actions/upload-artifact@v3
         with:
-          name: ubuntu_generated
-          path: bindings/c-sharp/generated/Cricut.TestAPI/runtimes
+          name: ubuntu_lib
+          path: bindings/dart/generated/linux/native/
 
-  build-test-c-sharp-windows:
-    name: "Windows: Build and test C# bindings"
+  build-test-dart-windows:
+    name: "Windows: Build and test dart bindings"
     runs-on: windows-latest
     steps:
       - name: Enable git longpaths
@@ -141,14 +123,12 @@ jobs:
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '6.0.x'
-          source-url: https://nuget.pkg.github.com/cricut/index.json
-          owner: cricut-builduser
-        env:
-          NUGET_AUTH_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
+      - uses: dart-lang/setup-dart@v1
+
+      - name: Fetch remote dart stuff before swift gets installed and confuses dart for some reason
+        run: |
+          cd bindings/dart/generated
+          dart pub get
 
       - uses: compnerd/gha-setup-swift@main
         with:
@@ -170,30 +150,32 @@ jobs:
         run: |
           set -euxo pipefail
 
-          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --c-sharp build
+          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --dart build
 
-      - name: Test library from dotnet
+      - name: Test library from dart
         shell: bash
         run: |
           set -euxo pipefail
 
-          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --c-sharp test
+          # Add dart DLLs to path
+          # Someone who understands windows better than I do is welcome to fix this in a better way
+          PATH="$(pwd)/bindings/dart/generated/windows/native:$PATH"
+
+          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --dart test
 
       - name: Upload library
         uses: actions/upload-artifact@v3
         with:
-          name: windows_generated
-          path: bindings/c-sharp/generated/Cricut.TestAPI/runtimes
+          name: windows_lib
+          path: bindings/dart/generated/windows/native/
 
-  c-sharp-publish:
-    name: "Publish C# package"
+  dart-publish:
+    name: "Publish dart packages"
     runs-on: ubuntu-latest
     needs:
-      - build-test-c-sharp-mac
-      - build-test-c-sharp-linux
-      - build-test-c-sharp-windows
-    env:
-      GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - build-test-dart-mac
+      - build-test-dart-linux
+      - build-test-dart-windows
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -203,14 +185,12 @@ jobs:
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
         with:
-          dotnet-version: '6.0.x'
-          source-url: https://nuget.pkg.github.com/cricut/index.json
-          owner: cricut-builduser
-        env:
-          NUGET_AUTH_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
+          node-version: '18.x'
+          registry-url: 'https://npm.pkg.github.com/'
+          scope: '@cricut'
 
       - name: Configure build environment
         run: |
@@ -228,13 +208,13 @@ jobs:
 
           ls *
 
-          rm -rf bindings/c-sharp/generated/Cricut.TestAPI/runtimes
-          mkdir -p bindings/c-sharp/generated/Cricut.TestAPI/runtimes
-          mv mac_generated/osx bindings/c-sharp/generated/Cricut.TestAPI/runtimes/
-          mv ubuntu_generated/linux bindings/c-sharp/generated/Cricut.TestAPI/runtimes/
-          mv windows_generated/win bindings/c-sharp/generated/Cricut.TestAPI/runtimes/
+          rm -rf bindings/dart/generated/{macos,linux,windows}/native
+          # mkdir -p bindings/dart/generated/{macos,linux,windows}/native
+          mv mac_lib bindings/dart/generated/macos/native
+          mv ubuntu_lib bindings/dart/generated/linux/native
+          mv windows_lib bindings/dart/generated/windows/native
 
-          ls -R bindings/c-sharp/
+          ls -R dart/
 
       - name: Determine version
         shell: zsh {0}
@@ -253,25 +233,49 @@ jobs:
         run: |
           set -euxo pipefail
 
-          dotnet pack \
-              -c Release \
-              bindings/c-sharp/generated/Cricut.TestAPI.csproj \
-              /p:Version=$VERSION \
-              --output bindings/c-sharp/nupkgs
+          tar -cvzf TestAPI-bindings-dart-binaries.tgz -C bindings/dart/generated \
+              macos/native/libTestAPI{,-iota}.dylib \
+              linux/native/libTestAPI{,-iota}.so \
+              windows/native/TestAPI{,-iota}.dll
 
-      - name:  result
+          swift run fishy-joes pack --dart --version=$VERSION
+
+          tar -tf bindings/packed-npm-packages/cricut-flutter-*.tgz
+
+      - name: Upload result
         uses: actions/upload-artifact@v3
         with:
-          name: nuget-package
-          path: c-sharp/Cricut.TestAPI/nupkgs/*.nupkg
+          name: TestAPI-bindings-dart-binaries.tgz
+          path: TestAPI-bindings-dart-binaries.tgz
 
       - name: Publish
         shell: zsh {0}
         if: github.event_name == 'release'
+        env:
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
+          TAG_NAME: ${{ github.event.release.tag_name }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euxo pipefail
 
-          dotnet nuget push ./bindings/c-sharp/nupkgs/*.nupkg \
-            --source https://nuget.pkg.github.com/cricut \
-            --api-key ${{ github.token }} \
-            --skip-duplicate
+          releaseID=$(
+              gh api \
+              -H "Accept: application/vnd.github.v3+json" \
+              "/repos/$OWNER/$REPO/releases/tags/$TAG_NAME" \
+              -q .id
+          )
+
+          file=TestAPI-bindings-dart-binaries.tgz
+
+          # https://docs.github.com/en/rest/releases/assets#upload-a-release-asset
+          curl -f -u "$GITHUB_USER:$GITHUB_PUBLISH_TOKEN" \
+            -X POST \
+            -H 'Content-Type: application/gzip' \
+            -H 'Accept: application/vnd.github.v3+json' \
+            "https://uploads.github.com/repos/$OWNER/$REPO/releases/$releaseID/assets?name=$file" \
+            --data-binary @$file
+
+          # publish flutter NPM package
+          npm publish bindings/packed-npm-packages/cricut-flutter-*.tgz

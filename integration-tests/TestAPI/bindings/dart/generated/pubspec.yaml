@@ -9,6 +9,7 @@ dependencies:
   fishyjoes_dart:
     path: ../../../../../dart-runtime
 
+  tuple: ^2.0.2
   path: ^1.8.0
 
 dev_dependencies:

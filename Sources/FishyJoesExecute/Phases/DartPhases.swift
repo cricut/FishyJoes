@@ -17,7 +17,6 @@ class DartPhases: IotaPhases, Phases {
         try withDirectory("bindings/dart/generated") {
             // Fetch binary artifacts
             try cmd("dart", "run", "fishyjoes_dart:setup").run()
-            try cmd("ln", "-sf", "../test", "test").run()
         }
     }
 
@@ -29,7 +28,7 @@ class DartPhases: IotaPhases, Phases {
                     "LLVM_PROFILE_FILE": "\($0)/fishy-joes-test-\(platform)-\(UUID()).profraw",
                 ]
             } ?? [:]
-            try cmd("dart", "test", "--chain-stack-traces", "../test", addEnv: env).run()
+            try cmd("dart", "test", "--chain-stack-traces", addEnv: env).run()
         }
     }
 

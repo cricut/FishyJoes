@@ -1,11 +1,11 @@
-import 'package:cricut_test_api/cricut_test_api.dart';
+import 'package:cricut_testapi/testapi.dart';
 import 'package:test/test.dart';
 import 'package:fishyjoes_dart/runtime.dart';
 import 'dart:io';
 
 void main() {
   setUp(() {
-      print('pid: $pid');
+      // print('pid: $pid');
       final _ = ensureLoaded;
   });
 
@@ -51,7 +51,7 @@ void main() {
           expect(AttributedStrings.accent, isNot(AttributedStrings.simple));
           expect(AttributedString.create(AttributedStrings.simple.string, attributes: null), isNot(AttributedStrings.simple));
       });
-  
+
 
       test('testStringEcho', () {
           expect(AttributedStrings.simple, AttributedStrings.echo(AttributedStrings.simple));
@@ -167,8 +167,8 @@ void main() {
           }
           expect(
               [
-                  127480, 127482, 127999, 128077, 128102, 8205, 128103, 8205, 128105, 8205, 128104, 
-                  32, 12399, 12385, 12395, 12435, 12371, 
+                  127480, 127482, 127999, 128077, 128102, 8205, 128103, 8205, 128105, 8205, 128104,
+                  32, 12399, 12385, 12395, 12435, 12371,
                   32, 225, 108, 79,
                   32, 111, 108, 108, 101, 72,
               ],
@@ -212,7 +212,7 @@ void main() {
           expect("Hello Olá こんにちは", equals(attributedString.string));
 
           var range = SwiftRange(
-              attributedString.characters.indexAfter(attributedString.startIndex), 
+              attributedString.characters.indexAfter(attributedString.startIndex),
               attributedString.characters.indexBefore(attributedString.endIndex)
           );
           var substring = attributedString[range];
@@ -221,7 +221,7 @@ void main() {
           expect(substring, equals(substring.substring));
 
           var subRange = SwiftRange(
-              substring.runs.first.range.upperBound, 
+              substring.runs.first.range.upperBound,
               substring.runs.last.range.lowerBound
           );
           var subSubstring = substring[subRange];
@@ -229,7 +229,7 @@ void main() {
           expect("Hello Olá こんにちは", equals(subSubstring.base.string));
 
           var subSubRange = SwiftRange(
-              subSubstring.unicodeScalars.indexAfter(subSubstring.startIndex), 
+              subSubstring.unicodeScalars.indexAfter(subSubstring.startIndex),
               subSubstring.unicodeScalars.indexBefore(subSubstring.endIndex)
           );
           var subSubSubstring = subSubstring[subSubRange];
@@ -256,7 +256,7 @@ void main() {
 
           // Attempt to "modify" the attributed string from the test suite, verify only an (unnamed) clone of it changes, but it does not change
           AttributedStrings.polyglot.replaceSubrange(
-              SwiftRange(AttributedStrings.polyglot.startIndex, AttributedStrings.polyglot.endIndex), 
+              SwiftRange(AttributedStrings.polyglot.startIndex, AttributedStrings.polyglot.endIndex),
               AttributedString.create("H")
           );
           expect("Hello Olá こんにちは", AttributedStrings.polyglot.string);
@@ -275,7 +275,7 @@ void main() {
 
           // Modify the attributed string's attributes, verify it and the reference change, but the clone and original do not
           var range = SwiftRange(
-              attributedString.characters.indexAfter(attributedString.startIndex), 
+              attributedString.characters.indexAfter(attributedString.startIndex),
               attributedString.characters.indexBefore(attributedString.endIndex)
           );
           expect(
@@ -283,7 +283,7 @@ void main() {
               equals(attributedString.runs.map((run) => attributedString[run.range].string))
           );
           attributedString.replaceSubrange(
-              range, 
+              range,
               AttributedString.create(attributedString[range].string, attributes: AttributeContainer.createEmpty())
           );
           expect(
@@ -334,7 +334,7 @@ void main() {
             expect("Hello Olá こんにちは HolaHello", equals(attributedString.string));
 
             var firstSpaceRange = SwiftRange(
-                attributedString.runs.first.range.upperBound, 
+                attributedString.runs.first.range.upperBound,
                 attributedString.characters.indexAfter(attributedString.runs.first.range.upperBound)
             );
             attributedString.insertSubstring(attributedString[firstSpaceRange], attributedString.runs.last.range.lowerBound);
@@ -368,9 +368,9 @@ void main() {
           expect(AttributedString.create("こんにちは", attributes: ja).substring, equals(attributedString[runRanges[4]]));
 
           attributedString.replaceSubrange(
-              runRanges[1], 
+              runRanges[1],
               AttributedString.create(
-                  attributedString[runRanges[1]].string, 
+                  attributedString[runRanges[1]].string,
                   attributes: attributedString.runs.elementAtPosition(runRanges[0].lowerBound).attributes
               )
           );
@@ -459,7 +459,7 @@ void main() {
             var enOtherLink = AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "en", link: otherURI).asContainer();
             var ptOtherLink = AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "pt", link: otherURI).asContainer();
             var jaOtherLink = AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "ja", link: otherURI).asContainer();
-            
+
             attributedString.replaceAttributes(link, otherLink);
             runRanges = attributedString.runs.map((run) => run.range).toList();
             expect(5, equals(runRanges.length));

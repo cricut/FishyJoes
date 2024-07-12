@@ -1,0 +1,28 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cricut.TestAPI", "Cricut.TestAPI\Cricut.TestAPI.csproj", "{75201136-CF95-5C07-B2E5-8F7BB3F62788}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cricut.TestAPI.Tests", "..\Cricut.TestAPI.Tests\Cricut.TestAPI.Tests.csproj", "{D7C89BCA-719E-50F6-A318-A5B59F6EBFC8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{75201136-CF95-5C07-B2E5-8F7BB3F62788}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75201136-CF95-5C07-B2E5-8F7BB3F62788}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75201136-CF95-5C07-B2E5-8F7BB3F62788}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75201136-CF95-5C07-B2E5-8F7BB3F62788}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7C89BCA-719E-50F6-A318-A5B59F6EBFC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7C89BCA-719E-50F6-A318-A5B59F6EBFC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7C89BCA-719E-50F6-A318-A5B59F6EBFC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7C89BCA-719E-50F6-A318-A5B59F6EBFC8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
