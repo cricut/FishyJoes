@@ -85,7 +85,7 @@ jobs:
     name: "Ubuntu: Build and test node runtime"
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cricut/android-swift-runtime:2.0.0
+      image: ghcr.io/cricut/android-swift-runtime:2.0.1
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
@@ -146,7 +146,7 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
-          
+
           # Add links
           pushd $LIB_DIR
             mv libicudataswift.so.69.1 libicudataswift.so.69
