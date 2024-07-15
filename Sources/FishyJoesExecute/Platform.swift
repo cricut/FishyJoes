@@ -311,7 +311,7 @@ enum Platform: CustomStringConvertible, Hashable {
             #else
             fatalError("unknown host OS")
             #endif
-        case .kotlinAndroid(let arch): return "kotlin/src/main/resources/lib/\(arch.ndkName)"
+        case .kotlinAndroid(let arch): return "bindings/kotlin/generated/src/main/resources/lib/\(arch.ndkName)"
         case .cSharp:
             #if os(macOS)
             return "bindings/c-sharp/generated/Cricut.\(config.module)/runtimes/osx/native"
