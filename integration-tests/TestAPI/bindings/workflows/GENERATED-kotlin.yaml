@@ -58,8 +58,8 @@ jobs:
       - name: Upload library
         uses: actions/upload-artifact@v3
         with:
-          name: mac_lib
-          path: bindings/kotlin/generated/src/main/resources/mac/
+          name: mac_libs
+          path: bindings/kotlin/generated/src/main/resources
 
   build-test-kotlin-linux:
     name: "Ubuntu: Build and test kotlin bindings"
@@ -101,8 +101,8 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: ubuntu_generated
-          path: bindings/kotlin/generated
+          name: ubuntu_libs
+          path: bindings/kotlin/generated/src/main/resources
 
   build-test-kotlin-windows:
     name: "Windows: Build and test kotlin bindings"
@@ -158,8 +158,8 @@ jobs:
       - name: Upload library
         uses: actions/upload-artifact@v3
         with:
-          name: windows_lib
-          path: bindings/kotlin/generated/src/main/resources/windows/
+          name: windows_libs
+          path: bindings/kotlin/generated/src/main/resources
 
   kotlin-publish:
     name: Publish kotlin package
@@ -202,11 +202,12 @@ jobs:
 
           ls *
 
-          rm -rf bindings/kotlin/generated
-          mv ubuntu_generated bindings/kotlin/generated
-          mkdir -p bindings/kotlin/generated/src/main/resources/{mac,windows}
-          mv mac_lib/lib*.dylib bindings/kotlin/generated/src/main/resources/mac/
-          mv windows_lib/*.dll bindings/kotlin/generated/src/main/resources/windows/
+          mkdir -p bindings/kotlin/generated/src/main/resources/
+
+          mv mac_libs/mac bindings/kotlin/generated/src/main/resources/
+          mv windows_libs/windows bindings/kotlin/generated/src/main/resources/
+          mv ubuntu_libs/linux bindings/kotlin/generated/src/main/resources/
+          mv ubuntu_libs/lib bindings/kotlin/generated/src/main/resources/
 
       - name: Test publish
         shell: zsh {0}

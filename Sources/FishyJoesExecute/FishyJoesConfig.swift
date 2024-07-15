@@ -17,9 +17,9 @@ struct FishyJoesConfig: Codable {
         else {
             Log.error("fishy-joes.yaml root object must be a dictionary. Should be something like:")
             Log.error("---")
-            Log.error("module: MyModule")
+            Log.error("module: CriMyModule")
             Log.error("requiredModules:")
-            Log.error("  - othermodule.fishyjoesmodule")
+            Log.error("  - CriOtherModule")
             Log.error("excludeSources:")
             Log.error("  - SomeFile.swift")
             Log.error("  - Some/Directory/")
