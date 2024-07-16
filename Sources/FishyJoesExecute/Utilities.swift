@@ -225,6 +225,12 @@ extension String {
     }
 }
 
+extension NSRange {
+    var asOptional: NSRange? {
+        location == NSNotFound ? nil : self
+    }
+}
+
 func withDirectory<R>(_ dirName: String, body: () throws -> R) throws -> R {
     func printDir() {
         printAndFlush("Entering directory `\(FileManager.default.currentDirectoryPath)'")

@@ -17,10 +17,10 @@ struct SwiftPackageResolved {
         let version: String?
     }
 
-    func revision(for identity: String) -> String? {
+    func state(for identity: String) -> State? {
         pins.first {
             $0.identity?.lowercased() == identity.lowercased() || $0.package?.lowercased() == identity.lowercased()
-        }?.state.revision
+        }?.state
     }
 
     enum CodingKeys: CodingKey {

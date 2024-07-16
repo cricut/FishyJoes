@@ -219,12 +219,12 @@ public struct PackageInit: ParsableCommand {
                 fatalError("Couldn't find version of dependency \($0.swift)")
             }
             var lines = ["\($0.dart):"]
-            if let resolved = swiftPackageResolved?.revision(for: $0.swift) {
+            if let resolvedState = swiftPackageResolved?.state(for: $0.swift) {
                 lines.append(
                     contentsOf: [
                         #"  git:"#,
                         #"    url: "https://github.com/cricut/\#($0.swift).git""#,
-                        #"    ref: "\#(resolved)""#,
+                        #"    ref: "\#(resolvedState.version ?? resolvedState.branch ?? resolvedState.revision)""#,
                         #"    path: "\#($0.path)""#,
                     ]
                 )

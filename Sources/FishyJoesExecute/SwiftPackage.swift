@@ -320,8 +320,8 @@ struct SemanticVersion: Hashable {
         self.major = major
         self.minor = minor
         self.patch = patch
-        self.prerelease = nsString.substring(with: match.range(at: 4))
-        self.buildMetadata = nsString.substring(with: match.range(at: 5))
+        self.prerelease = match.range(at: 4).asOptional.map(nsString.substring(with:))
+        self.buildMetadata = match.range(at: 5).asOptional.map(nsString.substring(with:))
     }
 
     var versionString: String {
