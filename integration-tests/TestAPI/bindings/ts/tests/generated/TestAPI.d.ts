@@ -76,9 +76,9 @@ export declare namespace TestAPI {
         function fromCore(core: AProtocolCore): AProtocol
     }
     /**
-     * <!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->
+     * <!-- FishyJoes.export(AProtocolImplementation) -->
      */
-    export class AProtocolImplementation implements AProtocol {
+    export class AProtocolImplementation implements TestAPI.AProtocol {
         constructor(foo: string, baz: boolean)
         foo: string;
         baz: boolean;
@@ -114,10 +114,6 @@ export declare namespace TestAPI {
             private constructor()
             private _inhibitStructuralTyping: any
             /**
-             * <!-- FishyJoes.export(label) -->
-             */
-            readonly label: string;
-            /**
              * <!-- FishyJoes.export(backwardsLabel) -->
              */
             readonly backwardsLabel: string;
@@ -125,6 +121,10 @@ export declare namespace TestAPI {
              * <!-- FishyJoes.export(extensionNonisolatedVarLabel) -->
              */
             readonly extensionNonisolatedVarLabel: string;
+            /**
+             * <!-- FishyJoes.export(label) -->
+             */
+            readonly label: string;
             /**
              * <!-- FishyJoes.export(create) -->
              */
@@ -549,13 +549,13 @@ export declare namespace TestAPI {
             stringSet: Set<string>;
             stringDictionary: Map<string, string>;
             /**
-             * <!-- FishyJoes.export(staticProperty) -->
-             */
-            static readonly staticProperty: Optional<number>[];
-            /**
              * <!-- FishyJoes.export(staticMutableProperty) -->
              */
             static staticMutableProperty: Optional<number>[];
+            /**
+             * <!-- FishyJoes.export(staticProperty) -->
+             */
+            static readonly staticProperty: Optional<number>[];
         }
         /**
          * <!-- FishyJoes.export(arrayOfBigTuples) -->
@@ -672,13 +672,140 @@ export declare namespace TestAPI {
          */
         const deprecatedVariable: number;
     }
+    /**
+     * <!-- FishyJoes.exportReference(EmptyClass1) -->
+     */
+    export class EmptyClass1 {
+        private constructor()
+        private _inhibitStructuralTyping: any
+        /**
+         * <!-- FishyJoes.export(blarg) -->
+         */
+        readonly blarg: string;
+        /**
+         * <!-- FishyJoes.export(wibbledyWobbledyTimeyWhimey) -->
+         */
+        readonly wibbledyWobbledyTimeyWhimey: string;
+        /**
+         * <!-- FishyJoes.export(create) -->
+         */
+        static create(
+        ): TestAPI.EmptyClass1;
+        /**
+         * <!-- FishyJoes.export(shme) -->
+         */
+        shme(
+        ): string;
+        /**
+         * <!-- FishyJoes.export(Gorpers) -->
+         */
+        Gorpers(
+        ): string;
+    }
+    /**
+     * <!-- FishyJoes.exportReference(EmptyClass2) -->
+     */
+    export class EmptyClass2 {
+        private constructor()
+        private _inhibitStructuralTyping: any
+        /**
+         * <!-- FishyJoes.export(blorg) -->
+         */
+        readonly blorg: string;
+        /**
+         * <!-- FishyJoes.export(wibble) -->
+         */
+        readonly wibble: string;
+        /**
+         * <!-- FishyJoes.export(make) -->
+         */
+        static make(
+        ): TestAPI.EmptyClass2;
+        /**
+         * <!-- FishyJoes.export(shmee) -->
+         */
+        shmee(
+        ): string;
+        /**
+         * <!-- FishyJoes.export(gorp) -->
+         */
+        gorp(
+        ): string;
+    }
     export type EmptyEnum = never;
     export namespace EmptyEnum {
+        /**
+         * <!-- FishyJoes.export(mies) -->
+         */
+        function mies(
+        ): number;
+        /**
+         * <!-- FishyJoes.export(noot) -->
+         */
+        const noot: number;
         /**
          * <!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->
          */
         function notGoingToHappen(
         ): TestAPI.EmptyEnum;
+    }
+    /**
+     * <!-- FishyJoes.export(EmptyStruct) -->
+     */
+    export class EmptyStruct {
+        constructor()
+        /**
+         * <!-- FishyJoes.export(tatiana) -->
+         */
+        readonly tatiana: string;
+        /**
+         * <!-- FishyJoes.export(tutu) -->
+         */
+        readonly tutu: number;
+        /**
+         * <!-- FishyJoes.export(create) -->
+         */
+        static create(
+        ): EmptyStruct;
+        /**
+         * <!-- FishyJoes.export(aap) -->
+         */
+        aap(
+        ): string;
+        /**
+         * <!-- FishyJoes.export(zxccxz) -->
+         */
+        zxccxz(
+        ): string;
+    }
+    /**
+     * <!-- FishyJoes.export(EmptyStruct2) -->
+     */
+    export class EmptyStruct2 {
+        constructor()
+        /**
+         * <!-- FishyJoes.export(tatiana) -->
+         */
+        readonly tatiana: string;
+        /**
+         * <!-- FishyJoes.export(tutu) -->
+         */
+        readonly tutu: number;
+        /**
+         * <!-- FishyJoes.export(create) -->
+         */
+        static create(
+        ): EmptyStruct2;
+        /**
+         * <!-- FishyJoes.export(aap) -->
+         */
+        aap(
+        ): string;
+        /**
+         * <!-- FishyJoes.export(zxccxz) -->
+         */
+        zxccxz(
+        ): string;
     }
     export class ExternalWitness_AProtocol {
         private constructor()
@@ -808,6 +935,26 @@ export declare namespace TestAPI {
          */
         witness(
         ): TestAPI.TestAsyncFunctions;
+    }
+    export class ExternalWitness_TestDefaultComputedProperties {
+        private constructor()
+        private _inhibitStructuralTyping: any
+        /**
+         * <!-- FishyJoes.export(noot) -->
+         */
+        readonly noot: number;
+        /**
+         * <!-- FishyJoes.export(plutonic) -->
+         */
+        readonly plutonic: string;
+    }
+    export class ExternalWitness_TestDifferingExportNameProtocolDiffy {
+        private constructor()
+        private _inhibitStructuralTyping: any
+        /**
+         * <!-- FishyJoes.export(tata) -->
+         */
+        readonly tata: number;
     }
     export class ExternalWitness_TestLeadingUnderscoredProp {
         private constructor()
@@ -979,6 +1126,26 @@ export declare namespace TestAPI {
         private constructor()
         private _inhibitStructuralTyping: any
         /**
+         * <!-- FishyJoes.export(garply) -->
+         */
+        readonly garply: number;
+        /**
+         * <!-- FishyJoes.export(instanceGet) -->
+         */
+        readonly instanceGet: number;
+        /**
+         * <!-- FishyJoes.exportAsMethod(instanceGetMethod) -->
+         */
+        readonly instanceGetMethod: number;
+        /**
+         * <!-- FishyJoes.export(instanceModifiable) -->
+         */
+        instanceModifiable: number;
+        /**
+         * <!-- FishyJoes.export(instanceStored) -->
+         */
+        instanceStored: number;
+        /**
          * <!-- FishyJoes.export(staticGet) -->
          */
         static readonly staticGet: number;
@@ -994,26 +1161,6 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(staticStored) -->
          */
         static staticStored: number;
-        /**
-         * <!-- FishyJoes.export(instanceGet) -->
-         */
-        readonly instanceGet: number;
-        /**
-         * <!-- FishyJoes.export(garply) -->
-         */
-        readonly garply: number;
-        /**
-         * <!-- FishyJoes.exportAsMethod(instanceGetMethod) -->
-         */
-        readonly instanceGetMethod: number;
-        /**
-         * <!-- FishyJoes.export(instanceModifiable) -->
-         */
-        instanceModifiable: number;
-        /**
-         * <!-- FishyJoes.export(instanceStored) -->
-         */
-        instanceStored: number;
         /**
          * <!-- FishyJoes.export(create) -->
          */
@@ -1149,13 +1296,13 @@ export declare namespace TestAPI {
             d: number;
             dq?: number;
             /**
-             * <!-- FishyJoes.export(staticProperty) -->
-             */
-            static readonly staticProperty: Optional<number>[];
-            /**
              * <!-- FishyJoes.export(staticMutableProperty) -->
              */
             static staticMutableProperty: Optional<number>[];
+            /**
+             * <!-- FishyJoes.export(staticProperty) -->
+             */
+            static readonly staticProperty: Optional<number>[];
         }
         /**
          * <!-- FishyJoes.export(bitCountInt) -->
@@ -1692,6 +1839,30 @@ export declare namespace TestAPI {
          */
         const uIntRange: Runtime.SwiftRange<number>;
     }
+    export type Results = never;
+    export namespace Results {
+        /**
+         * <!-- FishyJoes.export(Results.Error) -->
+         */
+        export class Error {
+            constructor(message: string)
+            readonly message: string;
+        }
+        /**
+         * <!-- FishyJoes.export(aFailure) -->
+         */
+        const aFailure: Runtime.Result<number, Results.Error>;
+        /**
+         * <!-- FishyJoes.export(aSuccess) -->
+         */
+        const aSuccess: Runtime.Result<number, Results.Error>;
+        /**
+         * <!-- FishyJoes.export(processResult) -->
+         */
+        function processResult(
+            result: Runtime.Result<string, Results.Error>
+        ): string;
+    }
     export type SimpleEnum = "red" | "green" | "blue";
     export namespace SimpleEnum {
         /**
@@ -1866,9 +2037,9 @@ export declare namespace TestAPI {
         ): number;
     }
     /**
-     * <!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct, conformances: [TestAsyncFunctions]) -->
+     * <!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct) -->
      */
-    export class TestAsyncForeignSideFunctionsStruct implements TestAsyncFunctions {
+    export class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions {
         constructor(const42: () => Promise<number>, iabs: (_0: number) => Promise<number>, intCompose: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>, add3Things: (_0: number, _1: number, _2: number) => Promise<number>, makeList: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>, fifthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>, six: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>, willThrow: () => Promise<number>, exercise0Fun: (_0: () => Promise<number>) => Promise<string>, exercise1Fun: (_0: (_0: number) => Promise<number>) => Promise<string>, exercise2Fun: (_0: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>) => Promise<string>, exercise3Fun: (_0: (_0: number, _1: number, _2: number) => Promise<number>) => Promise<string>, exercise4Fun: (_0: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>) => Promise<string>, exercise5Fun: (_0: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>) => Promise<string>, exercise6Fun: (_0: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>) => Promise<string>, thunkTwiceMakerFun: (_0: () => Promise<void>) => () => Promise<void>)
         readonly const42: () => Promise<number>;
         readonly iabs: (_0: number) => Promise<number>;
@@ -2149,15 +2320,23 @@ export declare namespace TestAPI {
         function fromCore(core: TestAsyncFunctionsCore): TestAsyncFunctions
     }
     /**
-     * <!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass, conformances: [TestAsyncFunctions]) -->
+     * <!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass) -->
      */
-    export class TestAsyncSwiftSideFunctionsClass implements TestAsyncFunctions {
+    export class TestAsyncSwiftSideFunctionsClass implements TestAPI.TestAsyncFunctions {
         private constructor()
         private _inhibitStructuralTyping: any
+        /**
+         * <!-- FishyJoes.export(add3Things) -->
+         */
+        readonly add3Things: (_0: number, _1: number, _2: number) => Promise<number>;
         /**
          * <!-- FishyJoes.export(const42) -->
          */
         readonly const42: () => Promise<number>;
+        /**
+         * <!-- FishyJoes.export(fifthThing) -->
+         */
+        readonly fifthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>;
         /**
          * <!-- FishyJoes.export(iabs) -->
          */
@@ -2167,17 +2346,9 @@ export declare namespace TestAPI {
          */
         readonly intCompose: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>;
         /**
-         * <!-- FishyJoes.export(add3Things) -->
-         */
-        readonly add3Things: (_0: number, _1: number, _2: number) => Promise<number>;
-        /**
          * <!-- FishyJoes.export(makeList) -->
          */
         readonly makeList: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>;
-        /**
-         * <!-- FishyJoes.export(fifthThing) -->
-         */
-        readonly fifthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>;
         /**
          * <!-- FishyJoes.export(six) -->
          */
@@ -2252,6 +2423,107 @@ export declare namespace TestAPI {
         ): Promise<string>;
     }
     /**
+     * <!-- FishyJoes.export(TestDefaultComputedProperties) -->
+     */
+    interface TestDefaultComputedProperties {
+        /**
+         * <!-- FishyJoes.export(noot) -->
+         */
+        readonly noot: number;
+        /**
+         * <!-- FishyJoes.export(plutonic) -->
+         */
+        readonly plutonic: string;
+    }
+    interface TestDefaultComputedPropertiesCore {
+        /**
+         * <!-- FishyJoes.export(noot) -->
+         */
+        readonly noot?: number;
+        /**
+         * <!-- FishyJoes.export(plutonic) -->
+         */
+        readonly plutonic?: string;
+    }
+    namespace TestDefaultComputedProperties {
+        function fromCore(core: TestDefaultComputedPropertiesCore): TestDefaultComputedProperties
+    }
+    export type TestDefaultComputedPropertiesEnum = "qux";
+    export namespace TestDefaultComputedPropertiesEnum {
+        /**
+         * <!-- FishyJoes.export(noot) -->
+         */
+        function getNoot(
+            self: TestAPI.TestDefaultComputedPropertiesEnum
+        ): number;
+        /**
+         * <!-- FishyJoes.export(plutonic) -->
+         */
+        function getPlutonic(
+            self: TestAPI.TestDefaultComputedProperties
+        ): string;
+        /**
+         * <!-- FishyJoes.export(spam) -->
+         */
+        function getSpam(
+            self: TestAPI.TestDefaultComputedPropertiesEnum
+        ): boolean;
+    }
+    /**
+     * <!-- FishyJoes.exportReference(TestDefaultComputedPropertiesReference) -->
+     */
+    export class TestDefaultComputedPropertiesReference implements TestAPI.TestDefaultComputedProperties {
+        private constructor()
+        private _inhibitStructuralTyping: any
+        /**
+         * <!-- FishyJoes.export(noot) -->
+         */
+        noot: number;
+        /**
+         * <!-- FishyJoes.export(plutonic) -->
+         */
+        readonly plutonic: string;
+        /**
+         * <!-- FishyJoes.export(spam) -->
+         */
+        spam: boolean;
+        /**
+         * <!-- FishyJoes.export(init) -->
+         */
+        static init(
+            spam: boolean,
+            noot: number
+        ): TestAPI.TestDefaultComputedPropertiesReference;
+    }
+    /**
+     * <!-- FishyJoes.export(TestDefaultComputedPropertiesStruct) -->
+     */
+    export class TestDefaultComputedPropertiesStruct implements TestAPI.TestDefaultComputedProperties {
+        constructor(spam: boolean, noot: number)
+        spam: boolean;
+        noot: number;
+        /**
+         * <!-- FishyJoes.export(plutonic) -->
+         */
+        readonly plutonic: string;
+    }
+    /**
+     * <!-- FishyJoes.export(TestDifferingExportNameProtocolDiffy) -->
+     */
+    interface TestDifferingExportNameProtocolDiffy {
+        /**
+         * <!-- FishyJoes.export(tata) -->
+         */
+        readonly tata: number;
+    }
+    /**
+     * <!-- FishyJoes.export(TestDifferingExportNameStruct) -->
+     */
+    export class TestDifferingExportNameStruct implements TestAPI.TestDifferingExportNameProtocolDiffy {
+        constructor(tata: number)
+        tata: number;
+    }
+    /**
      * <!-- FishyJoes.export(TestLeadingUnderscoredProp) -->
      */
     interface TestLeadingUnderscoredProp {
@@ -2261,10 +2533,9 @@ export declare namespace TestAPI {
         readonly _leadingUnderscoreProp: string;
     }
     /**
-     * // <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp, TestLeadingUnderscoredMethod]) -->
-     * <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp]) -->
+     * <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct) -->
      */
-    export class TestLeadingUnderscoredPropStruct implements TestLeadingUnderscoredProp {
+    export class TestLeadingUnderscoredPropStruct implements TestAPI.TestLeadingUnderscoredProp {
         constructor(_leadingUnderscoreProp: string)
         _leadingUnderscoreProp: string;
     }
@@ -2308,6 +2579,21 @@ export declare namespace TestAPI {
             fred: [boolean, number, string[]]
         ): [boolean, number, string];
     }
+    export type TestNonExportedProtocolEnum = "hogehoge";
+    export namespace TestNonExportedProtocolEnum {
+        /**
+         * <!-- FishyJoes.export(fuga) -->
+         */
+        function getFuga(
+            self: TestAPI.TestNonExportedProtocolEnum
+        ): number;
+        /**
+         * <!-- FishyJoes.export(hoge) -->
+         */
+        function hoge(
+            self: TestAPI.TestNonExportedProtocolEnum
+        ): number;
+    }
     /**
      * <!-- FishyJoes.export(TestOptionalsProtocol) -->
      */
@@ -2343,9 +2629,9 @@ export declare namespace TestAPI {
         readonly frobby: number[];
     }
     /**
-     * <!-- FishyJoes.exportReference(TestProtocolClass, conformances: [TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol]) -->
+     * <!-- FishyJoes.exportReference(TestProtocolClass) -->
      */
-    export class TestProtocolClass implements TestMethodsProtocol, TestOptionalsProtocol, TestPropertiesProtocol {
+    export class TestProtocolClass implements TestAPI.TestMethodsProtocol, TestAPI.TestOptionalsProtocol, TestAPI.TestPropertiesProtocol {
         private constructor()
         private _inhibitStructuralTyping: any
         /**
@@ -2462,9 +2748,9 @@ export declare namespace TestAPI {
         ): string;
     }
     /**
-     * <!-- FishyJoes.export(TestProtocolStruct, conformances: [TestMethodsProtocol, TestPropertiesProtocol]) -->
+     * <!-- FishyJoes.export(TestProtocolStruct) -->
      */
-    export class TestProtocolStruct implements TestMethodsProtocol, TestPropertiesProtocol {
+    export class TestProtocolStruct implements TestAPI.TestMethodsProtocol, TestAPI.TestPropertiesProtocol {
         constructor(corge: string)
         corge: string;
         /**

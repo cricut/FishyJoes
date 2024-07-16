@@ -335,7 +335,7 @@ struct TranslatedStruct: TranslatedType {
                         compatibilityOrder: [],
                         returnType: .named(package: nil, name: "kotlin.String"),
                         deprecation: nil,
-                        body: "\(kotlinName)()\""
+                        body: "\"\(kotlinName)()\""
                     )
                 )
             )

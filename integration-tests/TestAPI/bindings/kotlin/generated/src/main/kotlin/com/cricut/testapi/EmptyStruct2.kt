@@ -51,7 +51,7 @@ class EmptyStruct2(
     ): kotlin.Int = (EmptyStruct2::class.java.name).hashCode()
 
     override fun toString(
-    ): kotlin.String = EmptyStruct2()"
+    ): kotlin.String = "EmptyStruct2()"
 
     fun copy(
     ) = EmptyStruct2()

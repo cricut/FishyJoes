@@ -115,17 +115,14 @@ public class CodeGen: ParsableCommand {
         ]
 
         for moduleName in config.requiredModules {
-            var repoRoot: String
-            if case .fileSystem(_, let path) = packageInfo.dependencyMap[moduleName] {
-                repoRoot = path
-            } else {
-                repoRoot = ".build/checkouts/\(moduleName)"
+            guard let dependency = packageInfo.dependencyMap[moduleName] else {
+                fatalError("Couldn't find module \(moduleName) in Package.swift")
             }
 
             // Sadly, this needs to be an absolute path because it may by used by several `Package.swift`s in different directories.
-            repoRoot = URL(fileURLWithPath: repoRoot).path
+            let repoRoot = URL(fileURLWithPath: dependency.localPath).path
 
-            injectedDependencies[moduleName] = .local(path: repoRoot)
+            injectedDependencies[moduleName] = PackageDotSwiftDependency.Dependency(from: dependency)
             injectedDependencies["\(moduleName)-bindings"] = .local(
                 path: "\(repoRoot)/bindings/swift-interfaces/generated/\(moduleName)-bindings"
             )
@@ -319,14 +316,10 @@ extension CodeGen {
                 fragment.output(#"name: "\#(config.module)-bindings","#)
                 fragment.output(#"platforms: [.macOS(.v12), .iOS(.v15)],"#)
                 fragment.outputBlock(#"products: ["#, newLineTerminated: false) {
-                    fragment.outputBlock(#".library("#, closeWith: "),") {
-                        fragment.output(#"name: "\#(config.module)-wasm","#)
-                        fragment.output(#"targets: ["\#(config.module)_NodeInterface"]"#)
-                    }
+                    fragment.output(#".library(name: "\#(config.module)-node", type: wasmCompatibleOnly ? nil : .dynamic, targets: ["\#(config.module)_NodeInterface"]),"#)
                 }
                 fragment.outputBlock(#" + ("#, closeWith: "),") {
                     fragment.outputBlock(#"wasmCompatibleOnly ? [] : ["#) {
-                        fragment.output(#".library(name: "\#(config.module)-node", type: .dynamic, targets: ["\#(config.module)_NodeInterface"]),"#)
                         fragment.output(#".library(name: "\#(config.module)-java", type: .dynamic, targets: ["\#(config.module)_JavaInterface"]),"#)
                         fragment.output(#".library(name: "\#(config.module)-iota", type: .dynamic, targets: ["\#(config.module)_IotaInterface"]),"#)
                     }

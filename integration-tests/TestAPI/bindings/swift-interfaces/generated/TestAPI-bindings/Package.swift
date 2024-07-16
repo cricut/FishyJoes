@@ -43,13 +43,9 @@ var package = Package(
     name: "TestAPI-bindings",
     platforms: [.macOS(.v12), .iOS(.v15)],
     products: [
-        .library(
-            name: "TestAPI-wasm",
-            targets: ["TestAPI_NodeInterface"]
-        ),
+        .library(name: "TestAPI-node", type: wasmCompatibleOnly ? nil : .dynamic, targets: ["TestAPI_NodeInterface"]),
     ] + (
         wasmCompatibleOnly ? [] : [
-            .library(name: "TestAPI-node", type: .dynamic, targets: ["TestAPI_NodeInterface"]),
             .library(name: "TestAPI-java", type: .dynamic, targets: ["TestAPI_JavaInterface"]),
             .library(name: "TestAPI-iota", type: .dynamic, targets: ["TestAPI_IotaInterface"]),
         ]
