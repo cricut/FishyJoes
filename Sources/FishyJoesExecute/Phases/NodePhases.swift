@@ -71,9 +71,9 @@ class NodePhases: BasePhases, Phases {
                 tsExports: ["Optional", "Runtime"],
                 nativeLibName: "FishyJoesNodeRuntime",
                 npmPackageName: "fishyjoes-runtime-\(platform.nodeExecutionEnvironment)",
-                npmModuleVersion: fishyJoesDependency.version ??
-                    // If fishy-joes is file-local, use a file-local runtime too
-                    "file:\(fishyJoesDependency.localPath)/node-runtime/fishyjoes-runtime-\(platform.nodeExecutionEnvironment)"
+                npmModuleVersion: fishyJoesDependency.npmVersionSpec(
+                    addIfLocalPath: "/node-runtime/fishyjoes-runtime-\(platform.nodeExecutionEnvironment)"
+                )
             )
         ] + options.config.requiredModules.map { requiredModule in
             guard let dependency = options.packageInfo.dependencyMap[requiredModule] else {
@@ -88,9 +88,7 @@ class NodePhases: BasePhases, Phases {
                 tsExports: [requiredModule],
                 nativeLibName: "\(requiredModule)-node",
                 npmPackageName: "\(requiredModule.lowercased())-\(platform.nodeExecutionEnvironment)",
-                npmModuleVersion: dependency.version ??
-                    // If dependency is file-local, use a file-local dependency too
-                    "file:\(dependency.localPath)/\(outputDir)"
+                npmModuleVersion: dependency.npmVersionSpec(addIfLocalPath: "/\(outputDir)")
             )
         }
 

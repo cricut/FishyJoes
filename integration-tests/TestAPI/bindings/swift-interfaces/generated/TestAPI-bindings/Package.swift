@@ -13,6 +13,7 @@ enum Dependency: Codable {
     enum RefSpec: Codable {
         case branch(name: String)
         case revision(name: String)
+        case range(lowerBound: String, upperBound: String)
     }
 }
 
@@ -31,6 +32,9 @@ func packageDep(_ name: String, bindings: Bool = false) -> Package.Dependency {
         case let .remote(url, .revision(revision)):
             if bindings { fatalError("not supported") }
             return .package(url: url, revision: revision)
+        case let .remote(url, .range(lowerBound, upperBound)):
+            if bindings { fatalError("not supported") }
+            return .package(url: url, Version(lowerBound)!..<Version(upperBound)!)
         }
     }
 }

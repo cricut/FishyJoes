@@ -45,16 +45,19 @@ public struct PackageInit: ParsableCommand {
     var config: FishyJoesConfig!
     var templateReplacements: [String: String]!
     var swiftPackage: SwiftPackage?
+    var swiftPackageResolved: SwiftPackageResolved?
 
     struct Error: Swift.Error {}
 
     public init() {}
     init(
         config: FishyJoesConfig,
-        swiftPackage: SwiftPackage
+        swiftPackage: SwiftPackage,
+        swiftPackageResolved: SwiftPackageResolved
     ) {
         self.config = config
         self.swiftPackage = swiftPackage
+        self.swiftPackageResolved = swiftPackageResolved
         self.templateReplacements = generateTemplateReplacements()
     }
 
@@ -175,8 +178,7 @@ public struct PackageInit: ParsableCommand {
             (swift: $0, groupId: "com.cricut.\($0)", artifactId: $0.lowercased())
         }
         let gradleDependencyLines = gradleDependencies.map {
-            let version = (swiftPackage?.dependencyMap[$0.swift]?.version ?? "local")
-                .replacingOccurrences(of: "/", with: "-")
+            let version = swiftPackage!.dependencyMap[$0.swift]!.gradleVersionSpec
             return "api(\"\($0.groupId):\($0.artifactId):\(version)\")"
         }
         replacements["__GRADLE_DEPENDENCIES__"] = join(lines: gradleDependencyLines, indent: 4)
@@ -194,13 +196,13 @@ public struct PackageInit: ParsableCommand {
             guard let dependency = swiftPackage?.dependencyMap[$0.swift] else {
                 fatalError("Couldn't find version of dependency \($0.swift)")
             }
-            if let version = dependency.version {
-                return ["<ItemGroup><PackageReference Include=\"\($0.nuget)\" Version=\"\(version)\" /></ItemGroup>"]
+            if let version = dependency.nugetVersionSpec {
+                return [#"<ItemGroup><PackageReference Include="\#($0.nuget)" Version="\#(version)" /></ItemGroup>"#]
             } else {
                 let dependencyPath = relativePath(of: dependency.localPath, relativeTo: "bindings/c-sharp/generated/Cricut.\(config.module)/")
                 return [
-                    "<PropertyGroup><RestoreAdditionalProjectSources>$(ProjectDir)\(dependencyPath)/\($0.nupkgsPath)</RestoreAdditionalProjectSources></PropertyGroup>",
-                    "<ItemGroup><PackageReference Include=\"\($0.nuget)\" Version=\"0.0.1-unknown\" /></ItemGroup>",
+                    #"<PropertyGroup><RestoreAdditionalProjectSources>$(ProjectDir)\#(dependencyPath)/\#($0.nupkgsPath)</RestoreAdditionalProjectSources></PropertyGroup>"#,
+                    #"<ItemGroup><PackageReference Include="\#($0.nuget)" Version="[0.0.1-unknown]" /></ItemGroup>"#,
                 ]
             }
         }
@@ -217,13 +219,13 @@ public struct PackageInit: ParsableCommand {
                 fatalError("Couldn't find version of dependency \($0.swift)")
             }
             var lines = ["\($0.dart):"]
-            if let version = dependency.version {
+            if let resolved = swiftPackageResolved?.revision(for: $0.swift) {
                 lines.append(
                     contentsOf: [
-                        "  git:",
-                        "    url: \"https://github.com/cricut/\($0.swift).git\"",
-                        "    ref: \"\(version)\"",
-                        "    path: \"\($0.path)\"",
+                        #"  git:"#,
+                        #"    url: "https://github.com/cricut/\#($0.swift).git""#,
+                        #"    ref: "\#(resolved)""#,
+                        #"    path: "\#($0.path)""#,
                     ]
                 )
             } else {

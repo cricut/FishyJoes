@@ -92,6 +92,8 @@ public class CodeGen: ParsableCommand {
 
     var config: FishyJoesConfig!
     var packageInfo: SwiftPackage!
+    var packageResolved: SwiftPackageResolved!
+
     lazy var buildConfig: BuildConfiguration = {
         // the "module-bindings" subdirectory is needed to avoid this: https://stackoverflow.com/a/71759561
         let swiftBindingsRoot = "bindings/swift-interfaces/generated/\(config.module)-bindings"
@@ -172,6 +174,12 @@ extension CodeGen {
             packageInfo = try JSONDecoder().decode(SwiftPackage.self, from: packageJSON)
         } catch let error {
             Log.error("Couldn't parse swift package: \(error)")
+            fatalError()
+        }
+        do {
+            packageResolved = try cmd("cat", "Package.resolved").runJSON(SwiftPackageResolved.self)
+        } catch let error {
+            Log.error("Failed to parse Package.resolved: \(error)")
             fatalError()
         }
 
@@ -279,6 +287,7 @@ extension CodeGen {
                 fragment.outputBlock(#"enum RefSpec: Codable {"#) {
                     fragment.output(#"case branch(name: String)"#)
                     fragment.output(#"case revision(name: String)"#)
+                    fragment.output(#"case range(lowerBound: String, upperBound: String)"#)
                 }
             }
             fragment.blankLine()
@@ -298,6 +307,9 @@ extension CodeGen {
                         fragment.dedentedOutput(#"case let .remote(url, .revision(revision)):"#)
                         fragment.output(#"if bindings { fatalError("not supported") }"#)
                         fragment.output(#"return .package(url: url, revision: revision)"#)
+                        fragment.dedentedOutput(#"case let .remote(url, .range(lowerBound, upperBound)):"#)
+                        fragment.output(#"if bindings { fatalError("not supported") }"#)
+                        fragment.output(#"return .package(url: url, Version(lowerBound)!..<Version(upperBound)!)"#)
                     }
                 }
             }
@@ -439,7 +451,8 @@ extension CodeGen {
 
             let packageInit = PackageInit(
                 config: config,
-                swiftPackage: packageInfo
+                swiftPackage: packageInfo,
+                swiftPackageResolved: packageResolved
             )
             try packageInit.installTemplate(to: "bindings")
             try cmd("mkdir", "-p", ".github/workflows").run()
