@@ -3,45 +3,13 @@ import Foundation
 import swsh
 import Yams
 
-extension UUID {
-    /// Pretends to be a version 5 uuid (sha1), but using a less secure hash to avoid dependencies
-    public init(deterministicFrom key: String) {
-        // Swift version of https://github.com/tidwall/th64
-        func tinyHash64(_ data: Data, seed: UInt64 = 0) -> UInt64 {
-            data.withUnsafeBytes { (buffer: UnsafeRawBufferPointer) -> UInt64 in
-                let r: UInt64 = 0x14020a57acced8b7
-                var h: UInt64 = seed
-                for offset in stride(from: 0, through: buffer.count - 8, by: 8) {
-                    let x = buffer.loadUnaligned(fromByteOffset: offset, as: UInt64.self) &* r
-                    h = h &* r ^ (x << 31 | x >> 33)
-                    h = h << 31 | h >> 33
-                }
-                for byte in buffer[(buffer.count - buffer.count % 8)..<buffer.count] {
-                    h = h &* r ^ UInt64(byte)
-                }
-                h = h &* r &+ UInt64(buffer.count)
-                h = (h ^ (h >> 31)) &* r
-                h = (h ^ (h >> 31)) &* r
-                h = (h ^ (h >> 31)) &* r
-                return h
-            }
-        }
-        let utf8 = Data(key.utf8)
-        var bytes = unsafeBitCast((tinyHash64(utf8, seed: 0), tinyHash64(utf8, seed: 1)), to: uuid_t.self)
-        // set version nibble to 0x5
-        bytes.6 = bytes.6 & 0x0f | 0x50
-        // set variant bits to 0b10
-        bytes.8 = bytes.8 & 0x3f | 0x80
-        self.init(uuid: bytes)
-    }
-}
-
 public struct PackageInit: ParsableCommand {
     public static var configuration = CommandConfiguration(abstract: "create/update the recommended files for a bindings repo in the current directory")
 
     @Flag(help: "continue with generation, even if not in a clean git state")
     var force = false
 
+    var includeFilesNotMarkedAsGenerated = true
     var config: FishyJoesConfig!
     var templateReplacements: [String: String]!
     var swiftPackage: SwiftPackage?
@@ -53,11 +21,13 @@ public struct PackageInit: ParsableCommand {
     init(
         config: FishyJoesConfig,
         swiftPackage: SwiftPackage,
-        swiftPackageResolved: SwiftPackageResolved
+        swiftPackageResolved: SwiftPackageResolved,
+        includeFilesNotMarkedAsGenerated: Bool
     ) {
         self.config = config
         self.swiftPackage = swiftPackage
         self.swiftPackageResolved = swiftPackageResolved
+        self.includeFilesNotMarkedAsGenerated = includeFilesNotMarkedAsGenerated
         self.templateReplacements = generateTemplateReplacements()
     }
 
@@ -81,9 +51,9 @@ public struct PackageInit: ParsableCommand {
         try setupCSharp(config: config)
     }
 
-    func installTemplate(to destPath: String? = nil) throws {
+    func installTemplate() throws {
         let sourcePath = Bundle.module.resourceURL!.appendingPathComponent("bindings-template", isDirectory: true).path
-        try install(sourcePath, to: destPath ?? FileManager.default.currentDirectoryPath)
+        try install(sourcePath, to: "bindings")
     }
 
     func setupKotlin(config: FishyJoesConfig) throws {
@@ -105,24 +75,29 @@ public struct PackageInit: ParsableCommand {
     }
 
     func installBehavior(for fileName: String, in directory: String) throws -> InstallBehavior {
+        let path = "\(directory)/\(fileName)"
         func oneOfSuffix(_ suffixes: String...) -> Bool {
             suffixes.contains(where: fileName.hasSuffix)
         }
 
-        let attributes = try FileManager.default.attributesOfItem(atPath: "\(directory)/\(fileName)")
-        if attributes[.type] as? FileAttributeType == FileAttributeType.typeSymbolicLink {
+        if [".DS_Store", ".gradle"].contains(fileName) {
+            return .skip
+        }
+        let fileType = try FileManager.default.attributesOfItem(atPath: path)[.type] as! FileAttributeType
+
+        if
+            !includeFilesNotMarkedAsGenerated,
+            fileType == .typeRegular,
+            path.range(of: #"\bgenerated\b"#, options: [.regularExpression, .caseInsensitive]) == nil
+        {
+            return .skip
+        }
+
+        if fileType == .typeSymbolicLink || fileName == "gradlew" || oneOfSuffix(".jar") {
             return .copy
         }
 
-        switch fileName {
-        case ".DS_Store", ".gradle":
-            return .skip
-        case "gradlew",
-             _ where oneOfSuffix(".jar"):
-            return .copy
-        default:
-            return .template
-        }
+        return .template
     }
 
     func install(_ sourcePath: String, to destPath: String) throws {

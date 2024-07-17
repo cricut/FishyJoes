@@ -229,7 +229,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          tar -cvzf TestAPI-bindings-dart-binaries.tgz -C bindings/dart/generated \
+          tar -cvzf TestAPI-dart-binaries.tgz -C bindings/dart/generated \
               macos/native/libTestAPI{,-iota}.dylib \
               linux/native/libTestAPI{,-iota}.so \
               windows/native/TestAPI{,-iota}.dll
@@ -241,8 +241,8 @@ jobs:
       - name: Upload result
         uses: actions/upload-artifact@v3
         with:
-          name: TestAPI-bindings-dart-binaries.tgz
-          path: TestAPI-bindings-dart-binaries.tgz
+          name: TestAPI-dart-binaries.tgz
+          path: TestAPI-dart-binaries.tgz
 
       - name: Publish
         shell: zsh {0}
@@ -263,7 +263,7 @@ jobs:
               -q .id
           )
 
-          file=TestAPI-bindings-dart-binaries.tgz
+          file=TestAPI-dart-binaries.tgz
 
           # https://docs.github.com/en/rest/releases/assets#upload-a-release-asset
           curl -f -u "$GITHUB_USER:$GITHUB_PUBLISH_TOKEN" \

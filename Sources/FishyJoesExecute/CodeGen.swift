@@ -445,9 +445,10 @@ extension CodeGen {
             let packageInit = PackageInit(
                 config: config,
                 swiftPackage: packageInfo,
-                swiftPackageResolved: packageResolved
+                swiftPackageResolved: packageResolved,
+                includeFilesNotMarkedAsGenerated: false
             )
-            try packageInit.installTemplate(to: "bindings")
+            try packageInit.installTemplate()
             try cmd("mkdir", "-p", ".github/workflows").run()
             for workflow in try FileManager.default.contentsOfDirectory(atPath: ".github/workflows") {
                 if workflow.hasPrefix("GENERATED-") {
