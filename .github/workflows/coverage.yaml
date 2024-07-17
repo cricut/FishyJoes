@@ -64,7 +64,7 @@ jobs:
               mv swift-wasm-$SWIFT_WASM_VERSION-macos_arm64.artifactbundle ~/swift-wasm-toolchains
           }
 
-          (cd integration-tests/TestAPI-bindings/node-test; npm install)
+          (cd integration-tests/TestAPI/bindings/ts/tests; npm install)
           (cd Tests/NAPITests/node-tests; npm install)
 
           if [[ ! -f $HOME/.dotnet/tools/dotnet-coverage ]]; then
@@ -87,8 +87,6 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
-
-          brew install sonar-scanner
 
           sonar-scanner \
             '-Dsonar.sources=.' \
