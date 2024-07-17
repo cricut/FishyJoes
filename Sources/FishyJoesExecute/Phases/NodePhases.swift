@@ -71,7 +71,7 @@ class NodePhases: BasePhases, Phases {
                 tsExports: ["Optional", "Runtime"],
                 nativeLibName: "FishyJoesNodeRuntime",
                 npmPackageName: "fishyjoes-runtime-\(platform.nodeExecutionEnvironment)",
-                npmModuleVersion: fishyJoesDependency.npmVersionSpec(
+                npmModuleVersion: fishyJoesDependency.versionInNpmFormat(
                     addIfLocalPath: "/node-runtime/fishyjoes-runtime-\(platform.nodeExecutionEnvironment)"
                 )
             )
@@ -88,7 +88,7 @@ class NodePhases: BasePhases, Phases {
                 tsExports: [requiredModule],
                 nativeLibName: "\(requiredModule)-node",
                 npmPackageName: "\(requiredModule.lowercased())-\(platform.nodeExecutionEnvironment)",
-                npmModuleVersion: dependency.npmVersionSpec(addIfLocalPath: "/\(outputDir)")
+                npmModuleVersion: dependency.versionInNpmFormat(addIfLocalPath: "/\(outputDir)")
             )
         }
 

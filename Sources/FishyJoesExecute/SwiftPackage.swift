@@ -103,19 +103,7 @@ extension SwiftPackage.Dependency {
         return url.scheme == "file" || url.scheme == nil ? url.path : ".build/checkouts/\(url.lastPathComponent)"
     }
 
-    // var version: String? {
-    //     switch self {
-    //     case .sourceControl(_, _, .branch(let name)): return name
-    //     case .sourceControl(_, _, .revision(let name)): return name
-    //     case .sourceControl(_, _, .upToNextMajor): return nil
-    //     case .sourceControl(_, _, .upToNextMinor): return nil
-    //     case .sourceControl(_, _, .range): return nil
-    //     case .sourceControl(_, _, .exact(let version)): return version.versionString
-    //     case .fileSystem: return nil
-    //     }
-    // }
-
-    var gradleVersionSpec: String {
+    var versionInGradleFormat: String {
         // https://docs.gradle.org/current/userguide/single_versions.html
         let spec: String
         switch self {
@@ -139,7 +127,7 @@ extension SwiftPackage.Dependency {
         return spec.replacingOccurrences(of: "/", with: "-")
     }
 
-    var nugetVersionSpec: String? {
+    var versionInNugetFormat: String? {
         // https://learn.microsoft.com/en-us/nuget/concepts/package-versioning
         switch self {
         case .sourceControl(_, _, .branch(let name)):
@@ -159,7 +147,7 @@ extension SwiftPackage.Dependency {
         }
     }
 
-    func npmVersionSpec(addIfLocalPath: String = "") -> String {
+    func versionInNpmFormat(addIfLocalPath: String = "") -> String {
         // These examples are the most authoritative source I could find without digging into the code of npm itself...
         // https://semver.npmjs.com/#syntax-examples
         switch self {
@@ -185,7 +173,7 @@ extension SwiftPackage.Dependency {
     }
 
     // Currently unused, dart is pinned to an exact version
-    // var pubspecVersionSpec: String? {
+    // var versionInPubspecFormat: String? {
     //     // https://dart.dev/tools/pub/versioning
     //     switch self {
     //     case .sourceControl(_, _, .branch(let name)):

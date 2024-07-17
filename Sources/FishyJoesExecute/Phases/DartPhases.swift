@@ -73,7 +73,7 @@ class DartPhases: IotaPhases, Phases {
             package.version = options.version ?? "0.0.1" // If no version is provided, use a dummy version to package
 
             // If fishy-joes is file-local, use a file-local runtime too
-            let runtimeVersion = options.fishyJoesDependency.npmVersionSpec(addIfLocalPath: "/dart-runtime/flutter-package")
+            let runtimeVersion = options.fishyJoesDependency.versionInNpmFormat(addIfLocalPath: "/dart-runtime/flutter-package")
 
             var dependencies = ["@cricut/flutter-fishyjoes-runtime": runtimeVersion]
             for module in options.config.requiredModules {
@@ -82,7 +82,7 @@ class DartPhases: IotaPhases, Phases {
                 }
 
                 // If dependency is file-local, use a file-local dependency too
-                let moduleVersion = dependency.npmVersionSpec(addIfLocalPath: "/bindings/dart/generated/flutter-package")
+                let moduleVersion = dependency.versionInNpmFormat(addIfLocalPath: "/bindings/dart/generated/flutter-package")
                 dependencies["@cricut/flutter-\(module.lowercased())"] = moduleVersion
             }
             package.dependencies = dependencies

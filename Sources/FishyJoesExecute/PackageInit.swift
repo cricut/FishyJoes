@@ -153,7 +153,7 @@ public struct PackageInit: ParsableCommand {
             (swift: $0, groupId: "com.cricut.\($0)", artifactId: $0.lowercased())
         }
         let gradleDependencyLines = gradleDependencies.map {
-            let version = swiftPackage!.dependencyMap[$0.swift]!.gradleVersionSpec
+            let version = swiftPackage!.dependencyMap[$0.swift]!.versionInGradleFormat
             return "api(\"\($0.groupId):\($0.artifactId):\(version)\")"
         }
         replacements["__GRADLE_DEPENDENCIES__"] = join(lines: gradleDependencyLines, indent: 4)
@@ -171,7 +171,7 @@ public struct PackageInit: ParsableCommand {
             guard let dependency = swiftPackage?.dependencyMap[$0.swift] else {
                 fatalError("Couldn't find version of dependency \($0.swift)")
             }
-            if let version = dependency.nugetVersionSpec {
+            if let version = dependency.versionInNugetFormat {
                 return [#"<ItemGroup><PackageReference Include="\#($0.nuget)" Version="\#(version)" /></ItemGroup>"#]
             } else {
                 let dependencyPath = relativePath(of: dependency.localPath, relativeTo: "bindings/c-sharp/generated/Cricut.\(config.module)/")
