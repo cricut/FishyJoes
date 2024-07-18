@@ -8,7 +8,7 @@ class SwiftPackageTests: XCTestCase {
         let parsed = try JSONDecoder().decode(SwiftPackage.self, from: Data(contentsOf: jsonURL))
 
         XCTAssertEqual(parsed.dependencyMap["fishyjoes"]?.url, URL(fileURLWithPath: "/Users/acobb/src/FishyJoes"))
-        XCTAssertNil(parsed.dependencyMap["fishyjoes"]?.versionInGradleFormat)
+        XCTAssertEqual(parsed.dependencyMap["fishyjoes"]?.versionInGradleFormat, "local")
         XCTAssertEqual(parsed.dependencyMap["crigeo"]?.url, URL(string: "https://github.com/cricut/CriGeo"))
         XCTAssertEqual(parsed.dependencyMap["crigeo"]?.versionInGradleFormat, "0.14.2")
     }
@@ -19,7 +19,7 @@ class SwiftPackageTests: XCTestCase {
         let parsed = try JSONDecoder().decode(SwiftPackage.self, from: Data(contentsOf: jsonURL))
 
         XCTAssertEqual(parsed.dependencyMap["fishyjoes"]?.url, URL(fileURLWithPath: "/Users/mstoker/.cricut/FishyJoes"))
-        XCTAssertNil(parsed.dependencyMap["fishyjoes"]?.versionInGradleFormat)
+        XCTAssertEqual(parsed.dependencyMap["fishyjoes"]?.versionInGradleFormat, "local")
         XCTAssertEqual(parsed.dependencyMap["crigeo"]?.url, URL(string: "https://github.com/cricut/CriGeo"))
         XCTAssertEqual(parsed.dependencyMap["crigeo"]?.versionInGradleFormat, "fishy-joes-annotations")
     }

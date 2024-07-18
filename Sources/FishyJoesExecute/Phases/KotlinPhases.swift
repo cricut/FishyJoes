@@ -46,6 +46,7 @@ class KotlinPhases: BasePhases, Phases {
             if let codeCoveragePath = options.codeCoveragePath {
                 args.append("jacocoTestReport")
                 addEnv["LLVM_PROFILE_FILE"] = "\(codeCoveragePath)/fishy-joes-test-\(platform)-\(UUID()).profraw"
+                addEnv["JACOCO_COVERAGE_PATH"] = "\(codeCoveragePath)/jacoco-\(options.config.module)"
             }
             try gradle(args, addEnv: addEnv).run()
         }

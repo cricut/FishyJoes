@@ -10,11 +10,11 @@ binaries=(
     .build/debug/libFishyJoesJavaRuntime.dylib
     .build/debug/libFishyJoesIotaRuntime.dylib
     .build/debug/helper-fishy-joes-core
-    integration-tests/TestAPI-bindings/.build/debug/libTestAPI.dylib
-    integration-tests/TestAPI-bindings/.build/debug/libTestAPI-java.dylib
-    integration-tests/TestAPI-bindings/.build/debug/libTestAPI-node.dylib
-    integration-tests/TestAPI-bindings/.build/debug/libTestAPI-iota.dylib
-    integration-tests/TestAPI-bindings/.build/debug/libFishyJoesNodeRuntime.dylib
+    integration-tests/TestAPI/.build/bindings/debug/libTestAPI.dylib
+    integration-tests/TestAPI/.build/bindings/debug/libTestAPI-java.dylib
+    integration-tests/TestAPI/.build/bindings/debug/libTestAPI-node.dylib
+    integration-tests/TestAPI/.build/bindings/debug/libTestAPI-iota.dylib
+    integration-tests/TestAPI/.build/bindings/debug/libFishyJoesNodeRuntime.dylib
 )
 
 xcrun llvm-profdata merge coverage-data/*.profraw > coverage-data/combined.profdata

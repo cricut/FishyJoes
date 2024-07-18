@@ -5,6 +5,7 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 plugins {
     `maven-publish`
     kotlin("jvm") version "1.9.10"
+    jacoco
 }
 
 repositories {
@@ -75,9 +76,17 @@ tasks.test {
     jvmArgs("-Xcheck:jni", "-XX:+SuppressFatalErrorMessage")
     testLogging {
         exceptionFormat = TestExceptionFormat.FULL
-        events("started", "skipped", "passed", "failed")
+        events("started", "skipped", "passed", "failed" , "standardOut", "standardError")
         showStandardStreams = true
     }
+}
+
+tasks.jacocoTestReport {
+    reports.xml.required.set(true)
+}
+jacoco {
+    toolVersion = "0.8.10"
+    System.getenv("JACOCO_COVERAGE_PATH")?.let { reportsDirectory.set(layout.buildDirectory.dir(it)) }
 }
 
 tasks {

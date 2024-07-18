@@ -8,6 +8,7 @@ if [[ ! -d integration-tests ]]; then
 fi
 
 export GRADLE_OPTS=-Dorg.gradle.daemon=false
+export FISHYJOES=1
 
 export FISHYJOES_COVERAGE_PATH=$PWD/coverage-data
 rm -rf $FISHYJOES_COVERAGE_PATH
@@ -41,35 +42,37 @@ ls .build/debug/*(.x)
 )
 
 # Gather coverage for integration tests
+(cd integration-tests/TestAPI && swift package resolve)
+
 (
-    cd integration-tests/TestAPI-bindings
+    cd integration-tests/TestAPI
     export LLVM_PROFILE_FILE=$FISHYJOES_COVERAGE_PATH/integration-tests-generate-build.profraw
     ../../.build/debug/fishy-joes generate build --kotlin-fast --nodejs --debug
 )
 
 (
-    cd integration-tests/TestAPI-bindings
+    cd integration-tests/TestAPI
     export LLVM_PROFILE_FILE=$FISHYJOES_COVERAGE_PATH/integration-tests-node.profraw
     ../../.build/debug/fishy-joes test --nodejs --debug
 )
 
 (
-    cd integration-tests/TestAPI-bindings
+    cd integration-tests/TestAPI
     export LLVM_PROFILE_FILE=$FISHYJOES_COVERAGE_PATH/integration-tests-kotlin.profraw
     ../../.build/debug/fishy-joes build test --kotlin-fast --debug
 )
 
 (
-    cd integration-tests/TestAPI-bindings
+    cd integration-tests/TestAPI
     export LLVM_PROFILE_FILE=$FISHYJOES_COVERAGE_PATH/integration-tests-c-sharp.profraw
     ../../.build/debug/fishy-joes build test --c-sharp --debug
 )
 
 # Check that generation didn't change anything
-if [ ! -z "$(cd integration-tests/TestAPI-Bindings; git status --porcelain .)" ]; then
+if [ ! -z "$(cd integration-tests/TestAPI; git status --porcelain .)" ]; then
     # fail CI, but keep going
     echo '::error:: generation modified sources, coverage won'\''t match with commited files'
-    echo '::error::   run `swift run fishy-joes generate` from integration-tests/TestAPI-Bindings and re-commit'
+    echo '::error::   run `swift run fishy-joes generate` from integration-tests/TestAPI and re-commit'
     git status
     exit 1
 fi
