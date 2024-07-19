@@ -65,7 +65,7 @@ jobs:
     name: "Ubuntu: Build and test C# bindings"
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cricut/android-swift-runtime:2.0.0
+      image: ghcr.io/cricut/android-swift-runtime:2.0.2
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
@@ -85,7 +85,7 @@ jobs:
           apt-get -y update
           apt-get -y install patchelf curl
           git config --global --add safe.directory '*'
-          
+
       - name: Setup dotnet
         uses: actions/setup-dotnet@v3
         with:

@@ -33,6 +33,7 @@ android {
         jvmTarget = '11'
     }
     packagingOptions {
+        jniLibs.useLegacyPackaging = true
         resources.excludes += "linux/*"
         resources.excludes += "windows/*"
         resources.excludes += "mac/*"
