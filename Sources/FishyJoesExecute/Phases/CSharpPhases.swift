@@ -12,7 +12,18 @@ class CSharpPhases: IotaPhases, Phases {
         try withDirectory("bindings/c-sharp") {
             let solution = "generated/Cricut.\(options.config.module).sln"
             // dotnet caches "package doesn't exist" for an annoyingly long time. This still caches the large downloads.
-            try cmd("dotnet", "restore", "--no-cache", solution).run()
+            // This seems consistently flaky on clean checkouts, so try multiple times
+            var restoreSucceeded = false
+            for _ in 0..<2 {
+                if cmd("dotnet", "restore", "--no-cache", solution).runBool() {
+                    restoreSucceeded = true
+                    break
+                }
+            }
+            guard restoreSucceeded else {
+                Log.error("dotnet restore failed after multiple attempts")
+                fatalError()
+            }
 
             var args = ["build", solution]
             if options.buildConfig.debug {
