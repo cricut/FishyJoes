@@ -265,7 +265,7 @@ jobs:
           FISHYJOES=1 swift run -- fishy-joes --kotlin build test
 
           # Publish test-api for the android tests to use later
-          (cd kotlin && ./gradlew publishToMavenLocal)
+          (cd bindings/kotlin/generated && ./gradlew publishToMavenLocal)
 
       - name: Upload artifacts for use by Android later
         uses: actions/upload-artifact@v3
