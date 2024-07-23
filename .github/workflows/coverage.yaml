@@ -51,6 +51,9 @@ jobs:
         with:
           dotnet-version: '6'
 
+      - name: Force clear nuget cache
+        run: "dotnet nuget locals all --clear"
+
       - name: Configure build environment
         shell: zsh {0}
         run: |

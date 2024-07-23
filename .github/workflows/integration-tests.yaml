@@ -46,6 +46,9 @@ jobs:
           registry-url: 'https://npm.pkg.github.com/'
           scope: '@cricut'
 
+      - name: Force clear nuget cache
+        run: "dotnet nuget locals all --clear"
+
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
         with:
