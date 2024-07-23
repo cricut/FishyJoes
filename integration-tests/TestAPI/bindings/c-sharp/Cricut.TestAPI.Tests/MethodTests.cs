@@ -4,6 +4,7 @@ using FluentAssertions;
 using Xunit;
 
 namespace Cricut.TestAPI.Tests {
+    [Collection("root")]
     public class MethodTests {
         [Fact]
         void testStaticMethods() {

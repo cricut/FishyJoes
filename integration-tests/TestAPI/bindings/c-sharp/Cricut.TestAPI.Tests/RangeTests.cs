@@ -3,6 +3,7 @@ using Xunit;
 using Cricut.FishyJoesRuntime;
 
 namespace Cricut.TestAPI.Tests {
+    [Collection("root")]
     public class RangeTests {
         [Fact]
         void testRangeValues() {

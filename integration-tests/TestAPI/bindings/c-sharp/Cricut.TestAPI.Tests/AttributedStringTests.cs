@@ -6,6 +6,7 @@ using Cricut.FishyJoesRuntime;
 using FluentAssertions.Equivalency.Steps;
 
 namespace Cricut.TestAPI.Tests {
+    [Collection("root")]
     public class AttributedStringTests {
         [Fact]
         void testStringValues() {

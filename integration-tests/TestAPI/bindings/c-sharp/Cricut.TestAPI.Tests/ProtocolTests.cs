@@ -7,6 +7,7 @@ using Xunit;
 using System.Collections.Generic;
 
 namespace Cricut.TestAPI.Tests {    
+    [Collection("root")]
     public class ProtocolTests {
         public ProtocolTests() {
             _TypeSetup._ensureLoaded();

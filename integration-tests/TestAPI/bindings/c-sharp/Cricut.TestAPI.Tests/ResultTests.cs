@@ -4,6 +4,7 @@ using ResStr = Cricut.FishyJoesRuntime.Result<string, Cricut.TestAPI.Results.Err
 using ResNint = Cricut.FishyJoesRuntime.Result<nint, Cricut.TestAPI.Results.Error>;
 
 namespace Cricut.TestAPI.Tests {
+    [Collection("root")]
     public class ResultTests {
         [Fact]
         void TestResult() {

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Xunit;
 
 namespace Cricut.TestAPI.Tests {
+    [Collection("root")]
     public class ActorTests {
         [Fact]
         async Task TestActor() {

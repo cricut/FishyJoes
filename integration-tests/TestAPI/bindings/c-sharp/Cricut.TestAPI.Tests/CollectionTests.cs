@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using FluentAssertions;
 
 namespace Cricut.TestAPI.Tests {
+    [Collection("root")]
     public class CollectionTests {
         [Fact]
         void testCollectionValues() {

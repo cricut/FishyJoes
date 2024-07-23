@@ -2,6 +2,7 @@ using System;
 using Xunit;
 
 namespace Cricut.TestAPI.Tests {
+    [Collection("root")]
     public class EnumTests {
         [Fact]
         void testEmptyEnum() {
