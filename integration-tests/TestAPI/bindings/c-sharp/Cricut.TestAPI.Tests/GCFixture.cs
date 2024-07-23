@@ -13,12 +13,16 @@ namespace Cricut.TestAPI.Tests {
             Console.WriteLine("");
             Console.WriteLine("TEARDOWN");
             Cricut.FishyJoesRuntime.Utilities.PrintOutstandingHandles();
+            #if DEBUG
             if (Cricut.FishyJoesRuntime.Utilities.OutstandingHandleCount() != 2) {
                 throw new Exception(
                     "Expected only 'true' and 'false' to still be referenced. Probably a memory leak!\n"
                     + "Or possibly a test class was run without the [Collection(\"root\")] annotation"
                 );
             }
+            #else
+            Console.WriteLine("Not in debug mode, didn't perform leak check")
+            #endif
         }
     }
 

@@ -23,6 +23,7 @@ jobs:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
+      CONFIGURATION: debug
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -131,6 +132,7 @@ jobs:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
+      CONFIGURATION: debug
 
     runs-on: ubuntu-latest
     steps:
@@ -278,6 +280,7 @@ jobs:
       SWIFT: ${{ github.workspace }}\scripts\swift-shim.ps1
       SWIFT_PACKAGE_RESOLVE: 0
       EXTRA_LIBPATH: '.build\lib'
+      CONFIGURATION: debug
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -399,6 +402,7 @@ jobs:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
+      CONFIGURATION: debug
     steps:
       - name: Checkout
         uses: actions/checkout@v4
