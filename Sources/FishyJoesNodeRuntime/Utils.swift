@@ -110,7 +110,7 @@ public func asyncRethrowToNode(env: NAPI.Env, _ body: @escaping () async throws 
                     try env.rejectDeferred(deferred, env.getUndefined())
                 } catch {
                     debug("Caught swift error \(error). Re-throwing to node.")
-                    try? env.rejectDeferred(deferred, String.toNode("\(error)")
+                    try? env.rejectDeferred(deferred, String.toNode("\(error)", env: env))
                 }
             }
         }
