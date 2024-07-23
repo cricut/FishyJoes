@@ -51,9 +51,9 @@ public func rethrowToNode(env: NAPI.Env, _ body: () throws -> NAPI.Value?) -> na
     } catch is JSExceptionPending {
         // let js deal with the exception
         return nil
-    } catch let e {
-        debug("Caught swift error \(e). Re-throwing to node.")
-        try? env.throw(String.toNode(e.localizedDescription, env: env))
+    } catch {
+        debug("Caught swift error \(error). Re-throwing to node.")
+        try? env.throw(String.toNode("\(error)", env: env))
         return nil
     }
 }
@@ -108,9 +108,9 @@ public func asyncRethrowToNode(env: NAPI.Env, _ body: @escaping () async throws 
                     // let js deal with the exception
                     // is this right?
                     try env.rejectDeferred(deferred, env.getUndefined())
-                } catch let e {
-                    debug("Caught swift error \(e). Re-throwing to node.")
-                    try? env.rejectDeferred(deferred, String.toNode(e.localizedDescription, env: env))
+                } catch {
+                    debug("Caught swift error \(error). Re-throwing to node.")
+                    try? env.rejectDeferred(deferred, String.toNode("\(error)")
                 }
             }
         }
