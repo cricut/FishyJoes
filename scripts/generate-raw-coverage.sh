@@ -31,7 +31,7 @@ ls .build/debug/*(.x)
     cd kotlin-runtime
 
     export LLVM_PROFILE_FILE=$FISHYJOES_COVERAGE_PATH/kotlin-runtime-tests.profraw
-    ./gradlew clean test jacocoTestReport
+    ./gradlew cleanTest test jacocoTestReport
 )
 
 # Gather coverage for unit tests

@@ -66,9 +66,8 @@ publishing {
     }
 }
 
-sourceSets.main {
-    java.srcDir("src/generated/kotlin")
-    resources.srcDir("src/generated/resources")
+sourceSets.test {
+    java.srcDir("../src/test/kotlin")
 }
 
 tasks.test {
@@ -82,11 +81,13 @@ tasks.test {
 }
 
 tasks.jacocoTestReport {
-    reports.xml.required.set(true)
+    reports.xml.required = true
 }
 jacoco {
     toolVersion = "0.8.10"
-    System.getenv("JACOCO_COVERAGE_PATH")?.let { reportsDirectory.set(layout.buildDirectory.dir(it)) }
+    System.getenv("JACOCO_COVERAGE_PATH")?.let {
+        reportsDirectory = layout.buildDirectory.dir(it)
+    }
 }
 
 tasks {
