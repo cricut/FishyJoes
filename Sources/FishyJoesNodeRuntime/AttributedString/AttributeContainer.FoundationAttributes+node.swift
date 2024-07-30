@@ -9,7 +9,7 @@ extension AttributeContainer.FoundationAttributes: FishyJoesNodeRuntime.NodeConv
     }
 
     public static func toNode(_ value: AttributeContainer.FoundationAttributes, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "AttributeContainer.FoundationAttributes", env: env)
+        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "AttributeContainer.FoundationAttributes", module: "FishyJoesCommonRuntime", env: env)
         let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
         return try env.newInstance(constructor, [arg])
     }
@@ -24,6 +24,7 @@ extension AttributeContainer.FoundationAttributes: FishyJoesNodeRuntime.NodeConv
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
+            module: "FishyJoesCommonRuntime",
             name: "AttributeContainer.FoundationAttributes",
             properties: [
                 "link": (

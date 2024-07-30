@@ -113,7 +113,7 @@ struct TranslatedReference: TranslatedType {
                     fragment.output("// Uninhabited")
                     return
                 }
-                fragment.output("let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: \"\(nodeName)\", env: env)")
+                fragment.output(#"let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "\#(nodeName)", module: "\#(context.module)", env: env)"#)
                 fragment.output("let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)")
                 fragment.output("return try env.newInstance(constructor, [arg])")
             }
@@ -136,7 +136,8 @@ struct TranslatedReference: TranslatedType {
                 // fragment.output("print(\"setting up \(sourceType.name)\")")
                 fragment.outputBlock("let nodeClass = try NodeClass(") {
                     fragment.output("env: env,")
-                    fragment.output("name: \"\(nodeName)\",")
+                    fragment.output(#"module: "\#(context.module)","#)
+                    fragment.output(#"name: "\#(nodeName)","#)
                     fragment.outputBlock("properties: [", closeWith: "],") {
                         var hasProperties = false
                         hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment, converterName: converterType.name)

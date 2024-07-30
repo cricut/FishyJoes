@@ -9,7 +9,7 @@ extension AttributedString.Runs: FishyJoesNodeRuntime.NodeConverter {
     }
 
     public static func toNode(_ value: AttributedString.Runs, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "AttributedString.Runs", env: env)
+        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "AttributedString.Runs", module: "FishyJoesCommonRuntime", env: env)
         let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
         return try env.newInstance(constructor, [arg])
     }
@@ -24,6 +24,7 @@ extension AttributedString.Runs: FishyJoesNodeRuntime.NodeConverter {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
+            module: "FishyJoesCommonRuntime",
             name: "AttributedString.Runs",
             properties: [
                 "startIndex": (

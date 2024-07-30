@@ -20,7 +20,7 @@ extension Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces: NodeMu
         )
     }
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try NodeClass.constructor(for: "AttributedString_PuttingTypesIntoQuestionablePlaces", env: env)
+        let constructor = try NodeClass.constructor(for: "AttributedString_PuttingTypesIntoQuestionablePlaces", module: "TestAPI", env: env)
         let args: [NAPI.Value] = [
             try Swift.String.toNode(value.x, env: env),
         ]
@@ -32,6 +32,7 @@ extension Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces: NodeMu
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "AttributedString_PuttingTypesIntoQuestionablePlaces",
             properties: [
                 "testCall": (
@@ -78,7 +79,7 @@ extension Swift.String.PuttingTypesIntoQuestionablePlaces: NodeMutator {
         )
     }
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try NodeClass.constructor(for: "String_PuttingTypesIntoQuestionablePlaces", env: env)
+        let constructor = try NodeClass.constructor(for: "String_PuttingTypesIntoQuestionablePlaces", module: "TestAPI", env: env)
         let args: [NAPI.Value] = [
             try Swift.String.toNode(value.x, env: env),
         ]
@@ -90,6 +91,7 @@ extension Swift.String.PuttingTypesIntoQuestionablePlaces: NodeMutator {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "String_PuttingTypesIntoQuestionablePlaces",
             properties: [
                 "testCall": (
@@ -217,7 +219,7 @@ struct _NodeAProtocol: TestAPI.AProtocol {
 extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         do {
-            let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_AProtocol", env: env)
+            let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_AProtocol", module: "TestAPI", env: env)
             if try env.instanceof(value, constructor) {
                 guard let nonNilPointer = try env.unwrap(value) else {
                     throw JSException(message: "expected TestAPI.AProtocol, got nil")
@@ -230,7 +232,7 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
             }
         }}
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_AProtocol", env: env)
+        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_AProtocol", module: "TestAPI", env: env)
         let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
         return try env.newInstance(constructor, [arg])
     }
@@ -309,6 +311,7 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
 
         let nodeClass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "ExternalWitness_AProtocol",
             properties: [
                 "bar": (
@@ -413,7 +416,7 @@ extension TestAPI.AProtocolImplementation: NodeMutator {
         )
     }
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try NodeClass.constructor(for: "AProtocolImplementation", env: env)
+        let constructor = try NodeClass.constructor(for: "AProtocolImplementation", module: "TestAPI", env: env)
         let args: [NAPI.Value] = [
             try Swift.String.toNode(value.foo, env: env),
             try Swift.Bool.toNode(value.baz, env: env),
@@ -428,6 +431,7 @@ extension TestAPI.AProtocolImplementation: NodeMutator {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "AProtocolImplementation",
             properties: [
                 "bar": (
@@ -512,6 +516,7 @@ extension TestAPI.Actors: FishyJoesNodeRuntime.NodeConverter {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let superclass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "Actors",
             properties: [
                 :
@@ -545,7 +550,7 @@ extension TestAPI.Actors.TemperatureLogger: FishyJoesNodeRuntime.NodeConverter {
     }
 
     public static func toNode(_ value: TestAPI.Actors.TemperatureLogger, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "Actors.TemperatureLogger", env: env)
+        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "Actors.TemperatureLogger", module: "TestAPI", env: env)
         let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
         return try env.newInstance(constructor, [arg])
     }
@@ -561,6 +566,7 @@ extension TestAPI.Actors.TemperatureLogger: FishyJoesNodeRuntime.NodeConverter {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "Actors.TemperatureLogger",
             properties: [
                 "create": (
@@ -748,14 +754,14 @@ extension TestAPI.Actors.TemperatureLogger: FishyJoesNodeRuntime.NodeConverter {
 extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        if try env.instanceof(value, NodeClass.constructor(for: "AssociatedDataEnum.Thing", env: env)) {
+        if try env.instanceof(value, NodeClass.constructor(for: "AssociatedDataEnum.Thing", module: "TestAPI", env: env)) {
             let _value = try env.getNamedProperty(value, "value")
             return Self.thing(
                 value: try Swift.Int.fromNode(_value, env: env)
             )
         }
 
-        if try env.instanceof(value, NodeClass.constructor(for: "AssociatedDataEnum.Other", env: env)) {
+        if try env.instanceof(value, NodeClass.constructor(for: "AssociatedDataEnum.Other", module: "TestAPI", env: env)) {
             let _unnamed = try env.getNamedProperty(value, "unnamed")
             let __1 = try env.getNamedProperty(value, "_1")
             return Self.other(
@@ -764,7 +770,7 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
             )
         }
 
-        if try env.instanceof(value, NodeClass.constructor(for: "AssociatedDataEnum.Bar", env: env)) {
+        if try env.instanceof(value, NodeClass.constructor(for: "AssociatedDataEnum.Bar", module: "TestAPI", env: env)) {
             let _named = try env.getNamedProperty(value, "named")
             let __1 = try env.getNamedProperty(value, "_1")
             return Self.bar(
@@ -773,11 +779,11 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
             )
         }
 
-        if try env.instanceof(value, NodeClass.constructor(for: "AssociatedDataEnum.NoValue", env: env)) {
+        if try env.instanceof(value, NodeClass.constructor(for: "AssociatedDataEnum.NoValue", module: "TestAPI", env: env)) {
             return noValue
         }
 
-        if try env.instanceof(value, NodeClass.constructor(for: "AssociatedDataEnum.SimpleEnum", env: env)) {
+        if try env.instanceof(value, NodeClass.constructor(for: "AssociatedDataEnum.SimpleEnum", module: "TestAPI", env: env)) {
             let _value = try env.getNamedProperty(value, "value")
             return Self.simpleEnum(
                 value: try TestAPI.SimpleEnum.fromNode(_value, env: env)
@@ -791,14 +797,14 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
         switch value {
         case let .thing(value):
             return try env.newInstance(
-                NodeClass.constructor(for: "AssociatedDataEnum.Thing", env: env),
+                NodeClass.constructor(for: "AssociatedDataEnum.Thing", module: "TestAPI", env: env),
                 [
                     Swift.Int.toNode(value, env: env),
                 ]
             )
         case let .other(unnamed, _1):
             return try env.newInstance(
-                NodeClass.constructor(for: "AssociatedDataEnum.Other", env: env),
+                NodeClass.constructor(for: "AssociatedDataEnum.Other", module: "TestAPI", env: env),
                 [
                     Swift.String.toNode(unnamed, env: env),
                     Swift.Int.toNode(_1, env: env),
@@ -806,7 +812,7 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
             )
         case let .bar(named, _1):
             return try env.newInstance(
-                NodeClass.constructor(for: "AssociatedDataEnum.Bar", env: env),
+                NodeClass.constructor(for: "AssociatedDataEnum.Bar", module: "TestAPI", env: env),
                 [
                     Swift.String.toNode(named, env: env),
                     TestAPI.AssociatedDataEnum.toNode(_1, env: env),
@@ -814,13 +820,13 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
             )
         case .noValue:
             return try env.newInstance(
-                NodeClass.constructor(for: "AssociatedDataEnum.NoValue", env: env),
+                NodeClass.constructor(for: "AssociatedDataEnum.NoValue", module: "TestAPI", env: env),
                 [
                 ]
             )
         case let .simpleEnum(value):
             return try env.newInstance(
-                NodeClass.constructor(for: "AssociatedDataEnum.SimpleEnum", env: env),
+                NodeClass.constructor(for: "AssociatedDataEnum.SimpleEnum", module: "TestAPI", env: env),
                 [
                     TestAPI.SimpleEnum.toNode(value, env: env),
                 ]
@@ -832,6 +838,7 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let superclass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "AssociatedDataEnum",
             properties: [
                 "plus": (
@@ -889,6 +896,7 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
         )
         let thingClass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "AssociatedDataEnum.Thing",
             superclass: superclass,
             properties: [
@@ -914,6 +922,7 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
         )
         let otherClass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "AssociatedDataEnum.Other",
             superclass: superclass,
             properties: [
@@ -941,6 +950,7 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
         )
         let barClass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "AssociatedDataEnum.Bar",
             superclass: superclass,
             properties: [
@@ -968,6 +978,7 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
         )
         let noValueClass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "AssociatedDataEnum.NoValue",
             superclass: superclass,
             properties: [:],
@@ -990,6 +1001,7 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
         )
         let simpleEnumClass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "AssociatedDataEnum.SimpleEnum",
             superclass: superclass,
             properties: [
@@ -1031,6 +1043,7 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let superclass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "AsyncFunctions",
             properties: [
                 "exercise0": (
@@ -1387,6 +1400,7 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let superclass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "AttributedStrings",
             properties: [
                 "echo": (
@@ -1621,6 +1635,7 @@ extension TestAPI.Bytes: FishyJoesNodeRuntime.NodeConverter {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let superclass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "Bytes",
             properties: [
                 "echoBytes": (
@@ -1708,6 +1723,7 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let superclass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "ClosedRanges",
             properties: [
                 "echoUInt8Range": (
@@ -2070,6 +2086,7 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let superclass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "Collections",
             properties: [
                 "echoArrayOfInt": (
@@ -2356,7 +2373,7 @@ extension TestAPI.Collections.CollectionHolder: NodeMutator {
         )
     }
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try NodeClass.constructor(for: "Collections.CollectionHolder", env: env)
+        let constructor = try NodeClass.constructor(for: "Collections.CollectionHolder", module: "TestAPI", env: env)
         let args: [NAPI.Value] = [
             try ArrayConverter<Swift.Bool>.toNode(value.boolArray, env: env),
             try SetConverter<Swift.Bool>.toNode(value.boolSet, env: env),
@@ -2385,6 +2402,7 @@ extension TestAPI.Collections.CollectionHolder: NodeMutator {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "Collections.CollectionHolder",
             properties: [
                 "staticMutableProperty": (
@@ -2463,6 +2481,7 @@ extension TestAPI.DefaultArguments: FishyJoesNodeRuntime.NodeConverter {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let superclass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "DefaultArguments",
             properties: [
                 "echoDefaults": (
@@ -2516,6 +2535,7 @@ extension TestAPI.Deprecations: FishyJoesNodeRuntime.NodeConverter {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let superclass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "Deprecations",
             properties: [
                 "deprecatedMethod": (
@@ -2572,7 +2592,7 @@ extension TestAPI.EmptyClass: FishyJoesNodeRuntime.NodeConverter {
     }
 
     public static func toNode(_ value: TestAPI.EmptyClass, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "EmptyClass1", env: env)
+        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "EmptyClass1", module: "TestAPI", env: env)
         let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
         return try env.newInstance(constructor, [arg])
     }
@@ -2588,6 +2608,7 @@ extension TestAPI.EmptyClass: FishyJoesNodeRuntime.NodeConverter {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "EmptyClass1",
             properties: [
                 "create": (
@@ -2689,7 +2710,7 @@ extension TestAPI.EmptyClass2: FishyJoesNodeRuntime.NodeConverter {
     }
 
     public static func toNode(_ value: TestAPI.EmptyClass2, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "EmptyClass2", env: env)
+        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "EmptyClass2", module: "TestAPI", env: env)
         let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
         return try env.newInstance(constructor, [arg])
     }
@@ -2705,6 +2726,7 @@ extension TestAPI.EmptyClass2: FishyJoesNodeRuntime.NodeConverter {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "EmptyClass2",
             properties: [
                 "make": (
@@ -2811,6 +2833,7 @@ extension TestAPI.EmptyEnum: FishyJoesNodeRuntime.NodeConverter {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let superclass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "EmptyEnum",
             properties: [
                 "notGoingToHappen": (
@@ -2876,7 +2899,7 @@ extension TestAPI.EmptyStruct: NodeMutator {
         )
     }
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try NodeClass.constructor(for: "EmptyStruct", env: env)
+        let constructor = try NodeClass.constructor(for: "EmptyStruct", module: "TestAPI", env: env)
         let args: [NAPI.Value] = [
         ]
         return try env.newInstance(constructor, args)
@@ -2887,6 +2910,7 @@ extension TestAPI.EmptyStruct: NodeMutator {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "EmptyStruct",
             properties: [
                 "create": (
@@ -2975,7 +2999,7 @@ extension TestAPI.EmptyStruct2: NodeMutator {
         )
     }
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try NodeClass.constructor(for: "EmptyStruct2", env: env)
+        let constructor = try NodeClass.constructor(for: "EmptyStruct2", module: "TestAPI", env: env)
         let args: [NAPI.Value] = [
         ]
         return try env.newInstance(constructor, args)
@@ -2986,6 +3010,7 @@ extension TestAPI.EmptyStruct2: NodeMutator {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "EmptyStruct2",
             properties: [
                 "create": (
@@ -3081,6 +3106,7 @@ extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let superclass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "Functions",
             properties: [
                 "exercise0": (
@@ -3315,7 +3341,7 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
     }
 
     public static func toNode(_ value: TestAPI.Methods, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "Methods", env: env)
+        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "Methods", module: "TestAPI", env: env)
         let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
         return try env.newInstance(constructor, [arg])
     }
@@ -3331,6 +3357,7 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "Methods",
             properties: [
                 "create": (
@@ -4013,6 +4040,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let superclass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "Primitives",
             properties: [
                 "echoBool": (
@@ -5263,7 +5291,7 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
         )
     }
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try NodeClass.constructor(for: "Primitives.PrimitiveHolder", env: env)
+        let constructor = try NodeClass.constructor(for: "Primitives.PrimitiveHolder", module: "TestAPI", env: env)
         let args: [NAPI.Value] = [
             try Swift.Bool.toNode(value.b, env: env),
             try OptionalConverter<Swift.Bool>.toNode(value.bq, env: env),
@@ -5326,6 +5354,7 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "Primitives.PrimitiveHolder",
             properties: [
                 "staticMutableProperty": (
@@ -5438,6 +5467,7 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let superclass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "Ranges",
             properties: [
                 "echoUInt8Range": (
@@ -5725,6 +5755,7 @@ extension TestAPI.Results: FishyJoesNodeRuntime.NodeConverter {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let superclass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "Results",
             properties: [
                 "processResult": (
@@ -5795,7 +5826,7 @@ extension TestAPI.Results.Error: NodeMutator {
         )
     }
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try NodeClass.constructor(for: "Results.Error", env: env)
+        let constructor = try NodeClass.constructor(for: "Results.Error", module: "TestAPI", env: env)
         let args: [NAPI.Value] = [
             try Swift.String.toNode(value.message, env: env),
         ]
@@ -5807,6 +5838,7 @@ extension TestAPI.Results.Error: NodeMutator {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "Results.Error",
             properties: [
                 "message": (.stored(mutable: true), isStatic: false),
@@ -5941,6 +5973,7 @@ extension TestAPI.Strings: FishyJoesNodeRuntime.NodeConverter {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let superclass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "Strings",
             properties: [
                 "echo": (
@@ -6080,6 +6113,7 @@ extension TestAPI.Structs: FishyJoesNodeRuntime.NodeConverter {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let superclass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "Structs",
             properties: [
                 :
@@ -6119,7 +6153,7 @@ extension TestAPI.Structs.MemberwiseStruct: NodeMutator {
         )
     }
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try NodeClass.constructor(for: "Structs.MemberwiseStruct", env: env)
+        let constructor = try NodeClass.constructor(for: "Structs.MemberwiseStruct", module: "TestAPI", env: env)
         let args: [NAPI.Value] = [
             try Swift.String.toNode(value.immutable, env: env),
             try Swift.String.toNode(value.mutable, env: env),
@@ -6134,6 +6168,7 @@ extension TestAPI.Structs.MemberwiseStruct: NodeMutator {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "Structs.MemberwiseStruct",
             properties: [
                 "create": (
@@ -6212,7 +6247,7 @@ extension TestAPI.Structs.MutableStruct: NodeMutator {
         )
     }
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try NodeClass.constructor(for: "Structs.MutableStruct", env: env)
+        let constructor = try NodeClass.constructor(for: "Structs.MutableStruct", module: "TestAPI", env: env)
         let args: [NAPI.Value] = [
             try Swift.Int.toNode(value.i, env: env),
         ]
@@ -6225,6 +6260,7 @@ extension TestAPI.Structs.MutableStruct: NodeMutator {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "Structs.MutableStruct",
             properties: [
                 "create": (
@@ -6349,7 +6385,7 @@ extension TestAPI.Structs.PuttingTypesIntoQuestionablePlaces: FishyJoesNodeRunti
     }
 
     public static func toNode(_ value: TestAPI.Structs.PuttingTypesIntoQuestionablePlaces, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "Structs_PuttingTypesIntoQuestionablePlaces", env: env)
+        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "Structs_PuttingTypesIntoQuestionablePlaces", module: "TestAPI", env: env)
         let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
         return try env.newInstance(constructor, [arg])
     }
@@ -6365,6 +6401,7 @@ extension TestAPI.Structs.PuttingTypesIntoQuestionablePlaces: FishyJoesNodeRunti
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "Structs_PuttingTypesIntoQuestionablePlaces",
             properties: [
                 "create": (
@@ -6431,7 +6468,7 @@ extension TestAPI.Structs.ReferenceStruct: FishyJoesNodeRuntime.NodeConverter {
     }
 
     public static func toNode(_ value: TestAPI.Structs.ReferenceStruct, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "Structs.ReferenceStruct", env: env)
+        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "Structs.ReferenceStruct", module: "TestAPI", env: env)
         let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
         return try env.newInstance(constructor, [arg])
     }
@@ -6447,6 +6484,7 @@ extension TestAPI.Structs.ReferenceStruct: FishyJoesNodeRuntime.NodeConverter {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "Structs.ReferenceStruct",
             properties: [
                 "create": (
@@ -6621,7 +6659,7 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
         )
     }
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try NodeClass.constructor(for: "TestAsyncForeignSideFunctionsStruct", env: env)
+        let constructor = try NodeClass.constructor(for: "TestAsyncForeignSideFunctionsStruct", module: "TestAPI", env: env)
         let args: [NAPI.Value] = [
             try AsyncFunction0Converter<Swift.Int>.toNode(value.const42, env: env),
             try AsyncFunction1Converter<Swift.Int, Swift.Int>.toNode(value.iabs, env: env),
@@ -6648,6 +6686,7 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "TestAsyncForeignSideFunctionsStruct",
             properties: [
                 "exercise0": (
@@ -7143,7 +7182,7 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
 extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         do {
-            let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestAsyncFunctions", env: env)
+            let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestAsyncFunctions", module: "TestAPI", env: env)
             if try env.instanceof(value, constructor) {
                 guard let nonNilPointer = try env.unwrap(value) else {
                     throw JSException(message: "expected TestAPI.TestAsyncFunctions, got nil")
@@ -7156,7 +7195,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
             }
         }}
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestAsyncFunctions", env: env)
+        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestAsyncFunctions", module: "TestAPI", env: env)
         let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
         return try env.newInstance(constructor, [arg])
     }
@@ -7229,6 +7268,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
 
         let nodeClass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "ExternalWitness_TestAsyncFunctions",
             properties: [
                 "exercise0": (
@@ -7629,7 +7669,7 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
     }
 
     public static func toNode(_ value: TestAPI.TestAsyncSwiftSideFunctionsClass, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "TestAsyncSwiftSideFunctionsClass", env: env)
+        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "TestAsyncSwiftSideFunctionsClass", module: "TestAPI", env: env)
         let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
         return try env.newInstance(constructor, [arg])
     }
@@ -7645,6 +7685,7 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "TestAsyncSwiftSideFunctionsClass",
             properties: [
                 "exercise0": (
@@ -8086,7 +8127,7 @@ struct _NodeTestDefaultComputedProperties: TestAPI.TestDefaultComputedProperties
 extension TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         do {
-            let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestDefaultComputedProperties", env: env)
+            let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestDefaultComputedProperties", module: "TestAPI", env: env)
             if try env.instanceof(value, constructor) {
                 guard let nonNilPointer = try env.unwrap(value) else {
                     throw JSException(message: "expected TestAPI.TestDefaultComputedProperties, got nil")
@@ -8099,7 +8140,7 @@ extension TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter: NodeC
             }
         }}
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestDefaultComputedProperties", env: env)
+        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestDefaultComputedProperties", module: "TestAPI", env: env)
         let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
         return try env.newInstance(constructor, [arg])
     }
@@ -8177,6 +8218,7 @@ extension TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter: NodeC
 
         let nodeClass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "ExternalWitness_TestDefaultComputedProperties",
             properties: [
                 "noot": (
@@ -8229,7 +8271,7 @@ extension TestAPI.TestDefaultComputedPropertiesClass: FishyJoesNodeRuntime.NodeC
     }
 
     public static func toNode(_ value: TestAPI.TestDefaultComputedPropertiesClass, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "TestDefaultComputedPropertiesReference", env: env)
+        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "TestDefaultComputedPropertiesReference", module: "TestAPI", env: env)
         let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
         return try env.newInstance(constructor, [arg])
     }
@@ -8245,6 +8287,7 @@ extension TestAPI.TestDefaultComputedPropertiesClass: FishyJoesNodeRuntime.NodeC
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "TestDefaultComputedPropertiesReference",
             properties: [
                 "init": (
@@ -8406,7 +8449,7 @@ extension TestAPI.TestDefaultComputedPropertiesStruct: NodeMutator {
         )
     }
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try NodeClass.constructor(for: "TestDefaultComputedPropertiesStruct", env: env)
+        let constructor = try NodeClass.constructor(for: "TestDefaultComputedPropertiesStruct", module: "TestAPI", env: env)
         let args: [NAPI.Value] = [
             try Swift.Bool.toNode(value.spam, env: env),
             try Swift.Int.toNode(value.noot, env: env),
@@ -8421,6 +8464,7 @@ extension TestAPI.TestDefaultComputedPropertiesStruct: NodeMutator {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "TestDefaultComputedPropertiesStruct",
             properties: [
                 "plutonic": (
@@ -8473,7 +8517,7 @@ struct _NodeTestDifferingExportNameProtocol: TestAPI.TestDifferingExportNameProt
 extension TestAPI_CommonInterface._TestDifferingExportNameProtocolConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         do {
-            let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestDifferingExportNameProtocolDiffy", env: env)
+            let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestDifferingExportNameProtocolDiffy", module: "TestAPI", env: env)
             if try env.instanceof(value, constructor) {
                 guard let nonNilPointer = try env.unwrap(value) else {
                     throw JSException(message: "expected TestAPI.TestDifferingExportNameProtocol, got nil")
@@ -8486,7 +8530,7 @@ extension TestAPI_CommonInterface._TestDifferingExportNameProtocolConverter: Nod
             }
         }}
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestDifferingExportNameProtocolDiffy", env: env)
+        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestDifferingExportNameProtocolDiffy", module: "TestAPI", env: env)
         let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
         return try env.newInstance(constructor, [arg])
     }
@@ -8520,6 +8564,7 @@ extension TestAPI_CommonInterface._TestDifferingExportNameProtocolConverter: Nod
 
         let nodeClass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "ExternalWitness_TestDifferingExportNameProtocolDiffy",
             properties: [
                 "tata": (
@@ -8561,7 +8606,7 @@ extension TestAPI.TestDifferingExportNameStruct: NodeMutator {
         )
     }
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try NodeClass.constructor(for: "TestDifferingExportNameStruct", env: env)
+        let constructor = try NodeClass.constructor(for: "TestDifferingExportNameStruct", module: "TestAPI", env: env)
         let args: [NAPI.Value] = [
             try Swift.Int.toNode(value.tata, env: env),
         ]
@@ -8574,6 +8619,7 @@ extension TestAPI.TestDifferingExportNameStruct: NodeMutator {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "TestDifferingExportNameStruct",
             properties: [
                 "tata": (.stored(mutable: true), isStatic: false),
@@ -8613,7 +8659,7 @@ struct _NodeTestLeadingUnderscoredProp: TestAPI.TestLeadingUnderscoredProp {
 extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         do {
-            let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestLeadingUnderscoredProp", env: env)
+            let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestLeadingUnderscoredProp", module: "TestAPI", env: env)
             if try env.instanceof(value, constructor) {
                 guard let nonNilPointer = try env.unwrap(value) else {
                     throw JSException(message: "expected TestAPI.TestLeadingUnderscoredProp, got nil")
@@ -8626,7 +8672,7 @@ extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: NodeConv
             }
         }}
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestLeadingUnderscoredProp", env: env)
+        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestLeadingUnderscoredProp", module: "TestAPI", env: env)
         let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
         return try env.newInstance(constructor, [arg])
     }
@@ -8660,6 +8706,7 @@ extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: NodeConv
 
         let nodeClass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "ExternalWitness_TestLeadingUnderscoredProp",
             properties: [
                 "_leadingUnderscoreProp": (
@@ -8701,7 +8748,7 @@ extension TestAPI.TestLeadingUnderscoredPropStruct: NodeMutator {
         )
     }
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try NodeClass.constructor(for: "TestLeadingUnderscoredPropStruct", env: env)
+        let constructor = try NodeClass.constructor(for: "TestLeadingUnderscoredPropStruct", module: "TestAPI", env: env)
         let args: [NAPI.Value] = [
             try Swift.String.toNode(value._leadingUnderscoreProp, env: env),
         ]
@@ -8714,6 +8761,7 @@ extension TestAPI.TestLeadingUnderscoredPropStruct: NodeMutator {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "TestLeadingUnderscoredPropStruct",
             properties: [
                 "_leadingUnderscoreProp": (.stored(mutable: true), isStatic: false),
@@ -8790,7 +8838,7 @@ struct _NodeTestMethodsProtocol: TestAPI.TestMethodsProtocol {
 extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         do {
-            let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestMethodsProtocol", env: env)
+            let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestMethodsProtocol", module: "TestAPI", env: env)
             if try env.instanceof(value, constructor) {
                 guard let nonNilPointer = try env.unwrap(value) else {
                     throw JSException(message: "expected TestAPI.TestMethodsProtocol, got nil")
@@ -8803,7 +8851,7 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
             }
         }}
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestMethodsProtocol", env: env)
+        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestMethodsProtocol", module: "TestAPI", env: env)
         let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
         return try env.newInstance(constructor, [arg])
     }
@@ -8837,6 +8885,7 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
 
         let nodeClass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "ExternalWitness_TestMethodsProtocol",
             properties: [
                 "foo": (
@@ -9022,7 +9071,7 @@ struct _NodeTestOptionalsProtocol: TestAPI.TestOptionalsProtocol {
 extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         do {
-            let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestOptionalsProtocol", env: env)
+            let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestOptionalsProtocol", module: "TestAPI", env: env)
             if try env.instanceof(value, constructor) {
                 guard let nonNilPointer = try env.unwrap(value) else {
                     throw JSException(message: "expected TestAPI.TestOptionalsProtocol, got nil")
@@ -9035,7 +9084,7 @@ extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: NodeConverter
             }
         }}
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestOptionalsProtocol", env: env)
+        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestOptionalsProtocol", module: "TestAPI", env: env)
         let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
         return try env.newInstance(constructor, [arg])
     }
@@ -9069,6 +9118,7 @@ extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: NodeConverter
 
         let nodeClass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "ExternalWitness_TestOptionalsProtocol",
             properties: [
                 "wombat": (
@@ -9153,7 +9203,7 @@ struct _NodeTestPropertiesProtocol: TestAPI.TestPropertiesProtocol {
 extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         do {
-            let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestPropertiesProtocol", env: env)
+            let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestPropertiesProtocol", module: "TestAPI", env: env)
             if try env.instanceof(value, constructor) {
                 guard let nonNilPointer = try env.unwrap(value) else {
                     throw JSException(message: "expected TestAPI.TestPropertiesProtocol, got nil")
@@ -9166,7 +9216,7 @@ extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: NodeConverte
             }
         }}
     public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestPropertiesProtocol", env: env)
+        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ExternalWitness_TestPropertiesProtocol", module: "TestAPI", env: env)
         let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
         return try env.newInstance(constructor, [arg])
     }
@@ -9200,6 +9250,7 @@ extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: NodeConverte
 
         let nodeClass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "ExternalWitness_TestPropertiesProtocol",
             properties: [
                 "corge": (
@@ -9250,7 +9301,7 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
     }
 
     public static func toNode(_ value: TestAPI.TestProtocolClass, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "TestProtocolClass", env: env)
+        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "TestProtocolClass", module: "TestAPI", env: env)
         let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
         return try env.newInstance(constructor, [arg])
     }
@@ -9266,6 +9317,7 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "TestProtocolClass",
             properties: [
                 "foo": (
@@ -9593,7 +9645,7 @@ extension TestAPI.TestProtocolStruct: NodeMutator {
         )
     }
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try NodeClass.constructor(for: "TestProtocolStruct", env: env)
+        let constructor = try NodeClass.constructor(for: "TestProtocolStruct", module: "TestAPI", env: env)
         let args: [NAPI.Value] = [
             try Swift.String.toNode(value.corge, env: env),
         ]
@@ -9606,6 +9658,7 @@ extension TestAPI.TestProtocolStruct: NodeMutator {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "TestProtocolStruct",
             properties: [
                 "foo": (
@@ -9736,6 +9789,7 @@ extension TestAPI.Tuples: FishyJoesNodeRuntime.NodeConverter {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let superclass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "Tuples",
             properties: [
                 "checkTuples": (
@@ -9846,6 +9900,7 @@ extension TestAPI.URLs: FishyJoesNodeRuntime.NodeConverter {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let superclass = try NodeClass(
             env: env,
+            module: "TestAPI",
             name: "URLs",
             properties: [
                 "echo": (
