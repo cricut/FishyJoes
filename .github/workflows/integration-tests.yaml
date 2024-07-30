@@ -275,7 +275,7 @@ jobs:
 
   integration-tests-windows:
     name: "Windows: Integration tests"
-    runs-on: windows-2019
+    runs-on: windows-latest
     env:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}

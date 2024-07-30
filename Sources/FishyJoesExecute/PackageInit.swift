@@ -72,6 +72,7 @@ public struct PackageInit: ParsableCommand {
 
     enum InstallBehavior {
         case skip, copy, template
+        case symlink(installName: String)
     }
 
     func installBehavior(for fileName: String, in directory: String) throws -> InstallBehavior {
@@ -83,17 +84,19 @@ public struct PackageInit: ParsableCommand {
         if [".DS_Store", ".gradle"].contains(fileName) {
             return .skip
         }
-        let fileType = try FileManager.default.attributesOfItem(atPath: path)[.type] as! FileAttributeType
+
+        if let installName = fileName.trimmingIfSuffixed(".symlink") {
+            return .symlink(installName: installName)
+        }
 
         if
             !includeFilesNotMarkedAsGenerated,
-            fileType == .typeRegular,
             path.range(of: #"\bgenerated\b"#, options: [.regularExpression, .caseInsensitive]) == nil
         {
             return .skip
         }
 
-        if fileType == .typeSymbolicLink || fileName == "gradlew" || oneOfSuffix(".jar") {
+        if fileName == "gradlew" || oneOfSuffix(".jar") {
             return .copy
         }
 
@@ -124,6 +127,10 @@ public struct PackageInit: ParsableCommand {
                         "\(sourcePath)/\(sourceName)",
                         to: "\(destPath)/\(destName)"
                     )
+                case .symlink(let installName):
+                    let linkDestination = try cmd("cat", "\(sourcePath)/\(sourceName)").runString()
+                    // TODO: different command for windows?
+                    try cmd("ln", "-sf", linkDestination, "\(destPath)/\(installName)").run()
                 }
             }
         } else {

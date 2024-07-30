@@ -223,6 +223,11 @@ extension String {
         guard hasPrefix(prefix) else { return nil }
         return dropFirst(prefix.count)
     }
+
+    func trimmingIfSuffixed(_ suffix: any StringProtocol) -> Substring? {
+        guard hasSuffix(suffix) else { return nil }
+        return dropLast(suffix.count)
+    }
 }
 
 extension NSRange {
