@@ -77,10 +77,6 @@ public struct PackageInit: ParsableCommand {
 
     func installBehavior(for fileName: String, in directory: String) throws -> InstallBehavior {
         let path = "\(directory)/\(fileName)"
-        func oneOfSuffix(_ suffixes: String...) -> Bool {
-            suffixes.contains(where: fileName.hasSuffix)
-        }
-
         if [".DS_Store", ".gradle"].contains(fileName) {
             return .skip
         }
@@ -89,14 +85,16 @@ public struct PackageInit: ParsableCommand {
             return .symlink(installName: String(installName))
         }
 
+        let fileType = try FileManager.default.attributesOfItem(atPath: path)[.type] as! FileAttributeType
         if
             !includeFilesNotMarkedAsGenerated,
+            fileType == .typeRegular,
             path.range(of: #"\bgenerated\b"#, options: [.regularExpression, .caseInsensitive]) == nil
         {
             return .skip
         }
 
-        if fileName == "gradlew" || oneOfSuffix(".jar") {
+        if fileName == "gradlew" || fileName.hasSuffix(".jar") {
             return .copy
         }
 
