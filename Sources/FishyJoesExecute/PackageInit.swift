@@ -86,7 +86,7 @@ public struct PackageInit: ParsableCommand {
         }
 
         if let installName = fileName.trimmingIfSuffixed(".symlink") {
-            return .symlink(installName: installName)
+            return .symlink(installName: String(installName))
         }
 
         if
