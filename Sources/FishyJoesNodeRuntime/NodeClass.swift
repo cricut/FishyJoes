@@ -11,11 +11,11 @@ extension napi_property_attributes {
 }
 
 public struct NodeClass {
-    public static var registeredConstructors: [String: NodeReference] = [:]
+    public static var registeredConstructors: [String: [String: NodeReference]] = [:]
 
-    public static func constructor(for cName: String, env: NAPI.Env) throws -> NAPI.Value {
-        guard let constructor = try Self.registeredConstructors[cName]?.value(env: env) else {
-            throw JSException(message: "Internal error, couldn't locate constructor for `\(cName)`")
+    public static func constructor(for nodeName: String, module: String, env: NAPI.Env) throws -> NAPI.Value {
+        guard let constructor = try Self.registeredConstructors[module]?[nodeName]?.value(env: env) else {
+            throw JSException(message: "Internal error, couldn't locate constructor for `\(nodeName)` in module `\(module)`")
         }
         return constructor
     }
@@ -78,6 +78,7 @@ public struct NodeClass {
 
     public init(
         env: NAPI.Env,
+        module: String,
         name: String,
         superclass: NodeClass? = nil,
         callbackData: UnsafeMutableRawPointer? = nil,
@@ -109,7 +110,7 @@ public struct NodeClass {
         }
 
         self.constructor = try NodeReference(env: env, value: nodeConstructor)
-        Self.registeredConstructors[name] = self.constructor
+        Self.registeredConstructors[module, default: [:]][name] = self.constructor
     }
 }
 
