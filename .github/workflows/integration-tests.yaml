@@ -334,6 +334,11 @@ jobs:
           swift package resolve
           swift package resolve
 
+          $env:FISHYJOES_DEPENDENCY_FishyJoes = @{local=@{path=$pwd.Path}} | ConvertTo-Json -Compress
+          swift package resolve --scratch-path .build/bindings --package-path bindings/swift-interfaces/generated/TestAPI-bindings
+          swift package resolve --scratch-path .build/bindings --package-path bindings/swift-interfaces/generated/TestAPI-bindings
+          swift package resolve --scratch-path .build/bindings --package-path bindings/swift-interfaces/generated/TestAPI-bindings
+
           cd ../../node-runtime/register-module-shim
           swift package resolve
           swift package resolve
