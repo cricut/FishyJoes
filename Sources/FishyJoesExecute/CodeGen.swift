@@ -220,7 +220,9 @@ extension CodeGen {
         // MARK: - Generate Step
         if buildStep.contains(.generate) {
             #if os(Windows)
-            fatalError("Code generation step is not supported on Windows. Generate source code on another platform then use steps 'build', 'test', or 'pack'")
+            if true { // supresses a unreachable code warning
+                fatalError("Code generation step is not supported on Windows. Generate source code on another platform then use steps 'build', 'test', or 'pack'")
+            }
             #endif
 
             // Locate sources to translate

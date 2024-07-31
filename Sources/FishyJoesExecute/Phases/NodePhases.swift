@@ -8,7 +8,7 @@ class NodePhases: BasePhases, Phases {
         #if os(Windows)
         if platform == .node {
             try DownloadNodeLib.download(
-                destinations: ["\(try Platform.node.extraLibPathDir())/node.lib"]
+                destinations: ["\(Platform.node.extraLibPathDir())/node.lib"]
             )
         }
         #endif

@@ -323,6 +323,7 @@ jobs:
         continue-on-error: true
         shell: pwsh
         run: |
+          Set-PSDebug -Trace 2
           $ErrorActionPreference = 'SilentlyContinue'
 
           swift package resolve
