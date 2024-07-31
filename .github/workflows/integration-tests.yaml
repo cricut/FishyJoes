@@ -325,6 +325,7 @@ jobs:
         run: |
           Set-PSDebug -Trace 2
           $ErrorActionPreference = 'SilentlyContinue'
+          $env:FISHYJOES_DEPENDENCY_FishyJoes = @{local=@{path=$pwd.Path}} | ConvertTo-Json -Compress
 
           swift package resolve
           swift package resolve
@@ -335,7 +336,6 @@ jobs:
           swift package resolve
           swift package resolve
 
-          $env:FISHYJOES_DEPENDENCY_FishyJoes = @{local=@{path=$pwd.Path}} | ConvertTo-Json -Compress
           swift package resolve --scratch-path .build/bindings --package-path bindings/swift-interfaces/generated/TestAPI-bindings
           swift package resolve --scratch-path .build/bindings --package-path bindings/swift-interfaces/generated/TestAPI-bindings
           swift package resolve --scratch-path .build/bindings --package-path bindings/swift-interfaces/generated/TestAPI-bindings
