@@ -384,7 +384,7 @@ jobs:
 
           # Add dart DLLs to path
           # Someone who understands windows better than I do is welcome to fix this in a better way
-          PATH="$PWD/dart/windows/native:$PATH"
+          PATH="$PWD/bindings/dart/generated/windows/native:$PATH"
 
           "$SWIFT" run -- fishy-joes --dart build test
 
