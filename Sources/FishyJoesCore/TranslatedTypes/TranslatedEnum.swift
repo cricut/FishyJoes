@@ -238,7 +238,7 @@ struct TranslatedEnum: TranslatedType {
                     for enumCase in cases {
                         let className = "\(nodeName).\(upperCaseFirst(enumCase.name))"
 
-                        fragment.outputBlock("if try env.instanceof(value, NodeClass.constructor(for: \"\(className)\", env: env)) {") {
+                        fragment.outputBlock(#"if try env.instanceof(value, NodeClass.constructor(for: "\#(className)", module: "\#(context.module.name)", env: env)) {"#) {
                             func variable(for value: Value) -> String { return "_\(value.bindingName)" }
                             for value in enumCase.associatedValues {
                                 fragment.output("let \(variable(for: value)) = try env.getNamedProperty(value, \"\(value.bindingName)\")")
@@ -277,7 +277,7 @@ struct TranslatedEnum: TranslatedType {
                             }
                             fragment.outputBlock(caseStatement, closeWith: "", newLineTerminated: false) {
                                 fragment.outputBlock("return try env.newInstance(") {
-                                    fragment.output("NodeClass.constructor(for: \"\(className)\", env: env),")
+                                    fragment.output(#"NodeClass.constructor(for: "\#(className)", module: "\#(context.module)", env: env),"#)
                                     fragment.outputBlock("[") {
                                         for value in enumCase.associatedValues {
                                             let resolved = context.resolve(type: value.type)
@@ -296,7 +296,8 @@ struct TranslatedEnum: TranslatedType {
                 fragment.outputBlock("public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {") {
                     fragment.outputBlock("let superclass = try NodeClass(") {
                         fragment.output("env: env,")
-                        fragment.output("name: \"\(nodeName)\",")
+                        fragment.output(#"module: "\#(context.module)","#)
+                        fragment.output(#"name: "\#(nodeName)","#)
                         fragment.outputBlock("properties: [", closeWith: "],") {
                             var hasProperties = false
                             hasProperties ||= context.nodeTranslator.outputProperties(
@@ -339,7 +340,8 @@ struct TranslatedEnum: TranslatedType {
                         let classVarName = "\(enumCase.name)Class"
                         fragment.outputBlock("let \(classVarName) = try NodeClass(") {
                             fragment.output("env: env,")
-                            fragment.output("name: \"\(className)\",")
+                            fragment.output(#"module: "\#(context.module)","#)
+                            fragment.output(#"name: "\#(className)","#)
                             fragment.output("superclass: superclass,")
                             if enumCase.associatedValues.isEmpty {
                                 fragment.output("properties: [:],")

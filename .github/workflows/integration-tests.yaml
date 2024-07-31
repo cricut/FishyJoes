@@ -244,7 +244,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ghcr.io
-          image: ghcr.io/cricut/android-swift-runtime:2.0.1
+          image: ghcr.io/cricut/android-swift-runtime:2.0.2
           options: -v ${{ github.workspace }}:/work -w /work
           run: /work/scripts/compile-android-runtime.sh
 

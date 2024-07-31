@@ -109,7 +109,7 @@ struct TranslatedStruct: TranslatedType {
             }
 
             fragment.outputBlock("public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {") {
-                fragment.output("let constructor = try NodeClass.constructor(for: \"\(nodeName)\", env: env)")
+                fragment.output(#"let constructor = try NodeClass.constructor(for: "\#(nodeName)", module: "\#(context.module)", env: env)"#)
                 fragment.outputBlock("let args: [NAPI.Value] = [") {
                     for storedVar in storedVariables {
                         let resolved = context.resolve(type: storedVar.type)
@@ -133,7 +133,8 @@ struct TranslatedStruct: TranslatedType {
 
                 fragment.outputBlock("let nodeClass = try NodeClass(") {
                     fragment.output("env: env,")
-                    fragment.output("name: \"\(nodeName)\",")
+                    fragment.output(#"module: "\#(context.module)","#)
+                    fragment.output(#"name: "\#(nodeName)","#)
                     fragment.outputBlock("properties: [", closeWith: "],") {
                         var hasProperties = false
                         hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment, converterName: converterType.name)

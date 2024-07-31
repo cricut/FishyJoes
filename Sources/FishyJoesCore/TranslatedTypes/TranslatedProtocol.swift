@@ -424,7 +424,7 @@ struct TranslatedProtocol: TranslatedType {
         fragment.outputBlock("extension \(converterType.name): NodeConverter {") {
             fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {") {
                 fragment.outputBlock("do {", newLineTerminated: false) {
-                    fragment.output("let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: \"\(nodeExternalWitnessClassName)\", env: env)")
+                    fragment.output(#"let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "\#(nodeExternalWitnessClassName)", module: "\#(context.module)", env: env)"#)
                     fragment.outputBlock("if try env.instanceof(value, constructor) {", newLineTerminated: false) {
                         fragment.outputBlock("guard let nonNilPointer = try env.unwrap(value) else {") {
                             fragment.output("throw JSException(message: \"expected \(sourceType.name), got nil\")")
@@ -440,7 +440,7 @@ struct TranslatedProtocol: TranslatedType {
             }
 
             fragment.outputBlock("public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {") {
-                fragment.output("let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: \"\(nodeExternalWitnessClassName)\", env: env)")
+                fragment.output(#"let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "\#(nodeExternalWitnessClassName)", module: "\#(context.module)", env: env)"#)
                 fragment.output("let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)")
                 fragment.output("return try env.newInstance(constructor, [arg])")
             }
@@ -527,7 +527,8 @@ struct TranslatedProtocol: TranslatedType {
 
                 fragment.outputBlock("let nodeClass = try NodeClass(") {
                     fragment.output("env: env,")
-                    fragment.output("name: \"\(nodeExternalWitnessClassName)\",")
+                    fragment.output(#"module: "\#(context.module)","#)
+                    fragment.output(#"name: "\#(nodeExternalWitnessClassName)","#)
                     fragment.outputBlock("properties: [", closeWith: "],") {
                         var hasProperties = false
                         hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment, converterName: converterType.name, shouldWrapDefaultImpl: true)
