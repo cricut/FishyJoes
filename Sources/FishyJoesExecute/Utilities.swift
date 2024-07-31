@@ -223,6 +223,17 @@ extension String {
         guard hasPrefix(prefix) else { return nil }
         return dropFirst(prefix.count)
     }
+
+    func trimmingIfSuffixed(_ suffix: any StringProtocol) -> Substring? {
+        guard hasSuffix(suffix) else { return nil }
+        return dropLast(suffix.count)
+    }
+}
+
+extension NSRange {
+    var asOptional: NSRange? {
+        location == NSNotFound ? nil : self
+    }
 }
 
 func withDirectory<R>(_ dirName: String, body: () throws -> R) throws -> R {

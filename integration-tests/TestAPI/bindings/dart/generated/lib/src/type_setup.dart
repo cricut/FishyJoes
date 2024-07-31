@@ -12,9 +12,15 @@ import './Collections.dart' as TestAPI;
 import './Collections_CollectionHolder.dart' as TestAPI;
 import './DefaultArguments.dart' as TestAPI;
 import './Deprecations.dart' as TestAPI;
+import './EmptyClass1.dart' as TestAPI;
+import './EmptyClass2.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
+import './EmptyStruct.dart' as TestAPI;
+import './EmptyStruct2.dart' as TestAPI;
 import './ExternalWitness_AProtocol.dart' as TestAPI;
 import './ExternalWitness_TestAsyncFunctions.dart' as TestAPI;
+import './ExternalWitness_TestDefaultComputedProperties.dart' as TestAPI;
+import './ExternalWitness_TestDifferingExportNameProtocolDiffy.dart' as TestAPI;
 import './ExternalWitness_TestLeadingUnderscoredProp.dart' as TestAPI;
 import './ExternalWitness_TestMethodsProtocol.dart' as TestAPI;
 import './ExternalWitness_TestOptionalsProtocol.dart' as TestAPI;
@@ -24,6 +30,8 @@ import './Methods.dart' as TestAPI;
 import './Primitives.dart' as TestAPI;
 import './Primitives_PrimitiveHolder.dart' as TestAPI;
 import './Ranges.dart' as TestAPI;
+import './Results.dart' as TestAPI;
+import './Results_Error.dart' as TestAPI;
 import './SimpleEnum.dart' as TestAPI;
 import './String_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Strings.dart' as TestAPI;
@@ -35,9 +43,16 @@ import './Structs_ReferenceStruct.dart' as TestAPI;
 import './TestAsyncForeignSideFunctionsStruct.dart' as TestAPI;
 import './TestAsyncFunctions.dart' as TestAPI;
 import './TestAsyncSwiftSideFunctionsClass.dart' as TestAPI;
+import './TestDefaultComputedProperties.dart' as TestAPI;
+import './TestDefaultComputedPropertiesEnum.dart' as TestAPI;
+import './TestDefaultComputedPropertiesReference.dart' as TestAPI;
+import './TestDefaultComputedPropertiesStruct.dart' as TestAPI;
+import './TestDifferingExportNameProtocolDiffy.dart' as TestAPI;
+import './TestDifferingExportNameStruct.dart' as TestAPI;
 import './TestLeadingUnderscoredProp.dart' as TestAPI;
 import './TestLeadingUnderscoredPropStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
+import './TestNonExportedProtocolEnum.dart' as TestAPI;
 import './TestOptionalsProtocol.dart' as TestAPI;
 import './TestPropertiesProtocol.dart' as TestAPI;
 import './TestProtocolClass.dart' as TestAPI;
@@ -185,6 +200,11 @@ typedef _TestAPI_Primitives_PrimitiveHolder_dGetter = ffi.Double Function(Unowne
 typedef _TestAPI_Primitives_PrimitiveHolder_dSetter = ffi.Void Function(UnownedRef obj, ffi.Double newValue, OutCreatedRef exn);
 typedef _TestAPI_Primitives_PrimitiveHolder_dqGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_Primitives_PrimitiveHolder_dqSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _TestAPI_Results_ErrorConstructor = CreatedRef Function(
+    ConsumedRef message,
+    OutCreatedRef exn
+);
+typedef _TestAPI_Results_Error_messageGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_Structs_MemberwiseStructConstructor = CreatedRef Function(
     ConsumedRef immutable,
     ConsumedRef mutable,
@@ -265,6 +285,12 @@ typedef TestAPI_AssociatedDataEnum_extract_simpleEnum = ffi.Void Function(
     OutCreatedRef value,
     OutCreatedRef _exn
 );
+typedef _TestAPI_EmptyStructConstructor = CreatedRef Function(
+    OutCreatedRef exn
+);
+typedef _TestAPI_EmptyStruct2Constructor = CreatedRef Function(
+    OutCreatedRef exn
+);
 typedef TestAPI_SimpleEnum_new_red = CreatedRef Function(
     OutCreatedRef _exn
 );
@@ -343,6 +369,39 @@ typedef _TestAPI_TestAsyncFunctions_exercise6 = CreatedRef Function(UnownedRef o
 typedef _TestAPI_TestAsyncFunctions_thunkTwiceMaker = CreatedRef Function(UnownedRef obj, UnownedRef thunk, OutCreatedRef exn);
 typedef _TestAPI_TestAsyncFunctions_defaultExercise6 = CreatedRef Function(UnownedRef obj, UnownedRef fn, OutCreatedRef exn);
 typedef _TestAPI_TestAsyncFunctions_witness = CreatedRef Function(UnownedRef obj,  OutCreatedRef exn);
+typedef _TestAPI_TestDefaultComputedPropertiesConstructor = CreatedRef Function(
+    ffi.Pointer ref,
+    OutCreatedRef exn
+);
+typedef _TestAPI_TestDefaultComputedProperties_nootGetter = ffi.IntPtr Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestDefaultComputedProperties_plutoGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef TestAPI_TestDefaultComputedPropertiesEnum_new_qux = CreatedRef Function(
+    OutCreatedRef _exn
+);
+typedef TestAPI_TestDefaultComputedPropertiesEnum_extract_qux = ffi.Void Function(
+    UnownedRef obj,
+    OutCreatedRef _exn
+);
+typedef _TestAPI_TestDefaultComputedPropertiesStructConstructor = CreatedRef Function(
+    ffi.Bool spam,
+    ffi.IntPtr noot,
+    OutCreatedRef exn
+);
+typedef _TestAPI_TestDefaultComputedPropertiesStruct_spamGetter = ffi.Bool Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestDefaultComputedPropertiesStruct_spamSetter = ffi.Void Function(UnownedRef obj, ffi.Bool newValue, OutCreatedRef exn);
+typedef _TestAPI_TestDefaultComputedPropertiesStruct_nootGetter = ffi.IntPtr Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestDefaultComputedPropertiesStruct_nootSetter = ffi.Void Function(UnownedRef obj, ffi.IntPtr newValue, OutCreatedRef exn);
+typedef _TestAPI_TestDifferingExportNameProtocolConstructor = CreatedRef Function(
+    ffi.Pointer ref,
+    OutCreatedRef exn
+);
+typedef _TestAPI_TestDifferingExportNameProtocol_tataGetter = ffi.IntPtr Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestDifferingExportNameStructConstructor = CreatedRef Function(
+    ffi.IntPtr tata,
+    OutCreatedRef exn
+);
+typedef _TestAPI_TestDifferingExportNameStruct_tataGetter = ffi.IntPtr Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_TestDifferingExportNameStruct_tataSetter = ffi.Void Function(UnownedRef obj, ffi.IntPtr newValue, OutCreatedRef exn);
 typedef _TestAPI_TestLeadingUnderscoredPropConstructor = CreatedRef Function(
     ffi.Pointer ref,
     OutCreatedRef exn
@@ -364,6 +423,13 @@ typedef _TestAPI_TestMethodsProtocol_baz = ffi.Void Function(UnownedRef obj, ffi
 typedef _TestAPI_TestMethodsProtocol_garply = CreatedRef Function(UnownedRef obj, UnownedRef _0, OutCreatedRef exn);
 typedef _TestAPI_TestMethodsProtocol_xyzzy = CreatedRef Function(UnownedRef obj, ffi.IntPtr thud, UnownedRef grault, OutCreatedRef exn);
 typedef _TestAPI_TestMethodsProtocol_plugh = CreatedRef Function(UnownedRef obj, UnownedRef fred, OutCreatedRef exn);
+typedef TestAPI_TestNonExportedProtocolEnum_new_hogehoge = CreatedRef Function(
+    OutCreatedRef _exn
+);
+typedef TestAPI_TestNonExportedProtocolEnum_extract_hogehoge = ffi.Void Function(
+    UnownedRef obj,
+    OutCreatedRef _exn
+);
 typedef _TestAPI_TestOptionalsProtocolConstructor = CreatedRef Function(
     ffi.Pointer ref,
     OutCreatedRef exn
@@ -619,6 +685,20 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_Primitives_PrimitiveHolder_setup');
+    final TestAPI_Results_Error_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Results_ErrorConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Results_Error_messageGetter>> get_message,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Results_ErrorConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Results_Error_messageGetter>> get_message,
+            OutCreatedRef exn
+        )
+    >('TestAPI_Results_Error_setup');
     final TestAPI_Structs_MemberwiseStruct_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -833,6 +913,30 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_Deprecations_setup');
+    final TestAPI_EmptyClass_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
+            OutCreatedRef exn
+        )
+    >('TestAPI_EmptyClass_setup');
+    final TestAPI_EmptyClass2_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
+            OutCreatedRef exn
+        )
+    >('TestAPI_EmptyClass2_setup');
     final TestAPI_EmptyEnum_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -843,6 +947,30 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_EmptyEnum_setup');
+    final TestAPI_EmptyStruct_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_EmptyStructConstructor>> constructor,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_EmptyStructConstructor>> constructor,
+            OutCreatedRef exn
+        )
+    >('TestAPI_EmptyStruct_setup');
+    final TestAPI_EmptyStruct2_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_EmptyStruct2Constructor>> constructor,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_EmptyStruct2Constructor>> constructor,
+            OutCreatedRef exn
+        )
+    >('TestAPI_EmptyStruct2_setup');
     final TestAPI_Functions_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -885,6 +1013,16 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_Ranges_setup');
+    final TestAPI_Results_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            OutCreatedRef exn
+        )
+    >('TestAPI_Results_setup');
     final TestAPI_SimpleEnum_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -1033,6 +1171,100 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_TestAsyncSwiftSideFunctionsClass_setup');
+    final TestAPI_CommonInterface__TestDefaultComputedPropertiesConverter_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDefaultComputedPropertiesConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDefaultComputedProperties_nootGetter>> get_noot,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDefaultComputedProperties_plutoGetter>> get_pluto,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDefaultComputedPropertiesConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDefaultComputedProperties_nootGetter>> get_noot,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDefaultComputedProperties_plutoGetter>> get_pluto,
+            OutCreatedRef exn
+        )
+    >('TestAPI_CommonInterface__TestDefaultComputedPropertiesConverter_setup');
+    final TestAPI_TestDefaultComputedPropertiesClass_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
+            OutCreatedRef exn
+        )
+    >('TestAPI_TestDefaultComputedPropertiesClass_setup');
+    final TestAPI_TestDefaultComputedPropertiesEnum_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<EnumDiscriminatorTag>> discriminator,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_TestDefaultComputedPropertiesEnum_new_qux>> qux_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_TestDefaultComputedPropertiesEnum_extract_qux>> qux_extractor,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<EnumDiscriminatorTag>> discriminator,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_TestDefaultComputedPropertiesEnum_new_qux>> qux_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_TestDefaultComputedPropertiesEnum_extract_qux>> qux_extractor,
+            OutCreatedRef exn
+        )
+    >('TestAPI_TestDefaultComputedPropertiesEnum_setup');
+    final TestAPI_TestDefaultComputedPropertiesStruct_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDefaultComputedPropertiesStructConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDefaultComputedPropertiesStruct_spamGetter>> get_spam,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDefaultComputedPropertiesStruct_spamSetter>> set_spam,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDefaultComputedPropertiesStruct_nootGetter>> get_noot,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDefaultComputedPropertiesStruct_nootSetter>> set_noot,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDefaultComputedPropertiesStructConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDefaultComputedPropertiesStruct_spamGetter>> get_spam,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDefaultComputedPropertiesStruct_spamSetter>> set_spam,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDefaultComputedPropertiesStruct_nootGetter>> get_noot,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDefaultComputedPropertiesStruct_nootSetter>> set_noot,
+            OutCreatedRef exn
+        )
+    >('TestAPI_TestDefaultComputedPropertiesStruct_setup');
+    final TestAPI_CommonInterface__TestDifferingExportNameProtocolConverter_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDifferingExportNameProtocolConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDifferingExportNameProtocol_tataGetter>> get_tata,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDifferingExportNameProtocolConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDifferingExportNameProtocol_tataGetter>> get_tata,
+            OutCreatedRef exn
+        )
+    >('TestAPI_CommonInterface__TestDifferingExportNameProtocolConverter_setup');
+    final TestAPI_TestDifferingExportNameStruct_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDifferingExportNameStructConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDifferingExportNameStruct_tataGetter>> get_tata,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDifferingExportNameStruct_tataSetter>> set_tata,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDifferingExportNameStructConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDifferingExportNameStruct_tataGetter>> get_tata,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TestDifferingExportNameStruct_tataSetter>> set_tata,
+            OutCreatedRef exn
+        )
+    >('TestAPI_TestDifferingExportNameStruct_setup');
     final TestAPI_CommonInterface__TestLeadingUnderscoredPropConverter_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -1087,6 +1319,22 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_CommonInterface__TestMethodsProtocolConverter_setup');
+    final TestAPI_TestNonExportedProtocolEnum_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<EnumDiscriminatorTag>> discriminator,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_TestNonExportedProtocolEnum_new_hogehoge>> hogehoge_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_TestNonExportedProtocolEnum_extract_hogehoge>> hogehoge_extractor,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<EnumDiscriminatorTag>> discriminator,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_TestNonExportedProtocolEnum_new_hogehoge>> hogehoge_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_TestNonExportedProtocolEnum_extract_hogehoge>> hogehoge_extractor,
+            OutCreatedRef exn
+        )
+    >('TestAPI_TestNonExportedProtocolEnum_setup');
     final TestAPI_CommonInterface__TestOptionalsProtocolConverter_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -1871,6 +2119,112 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Deprecations_deprecatedMethod");
+    TestAPI.EmptyClass2.f__iota_TestAPI_EmptyClass2_equals = dylib.lookupFunction<
+        ffi.Bool Function(
+            Env env,
+            UnownedRef lhs,
+            UnownedRef rhs,
+            OutCreatedRef _exn
+        ),
+        bool Function(
+            Env env,
+            UnownedRef lhs,
+            UnownedRef rhs,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_EmptyClass2_equals");
+    TestAPI.EmptyClass2.f__iota_TestAPI_EmptyClass2_gorp = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_EmptyClass2_gorp");
+    TestAPI.EmptyClass2.f__iota_TestAPI_EmptyClass2_make = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_EmptyClass2_make");
+    TestAPI.EmptyClass2.f__iota_TestAPI_EmptyClass2_shmee = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_EmptyClass2_shmee");
+    TestAPI.EmptyClass1.f__iota_TestAPI_EmptyClass_Gorpers = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_EmptyClass_Gorpers");
+    TestAPI.EmptyClass1.f__iota_TestAPI_EmptyClass_create = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_EmptyClass_create");
+    TestAPI.EmptyClass1.f__iota_TestAPI_EmptyClass_equals = dylib.lookupFunction<
+        ffi.Bool Function(
+            Env env,
+            UnownedRef lhs,
+            UnownedRef rhs,
+            OutCreatedRef _exn
+        ),
+        bool Function(
+            Env env,
+            UnownedRef lhs,
+            UnownedRef rhs,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_EmptyClass_equals");
+    TestAPI.EmptyClass1.f__iota_TestAPI_EmptyClass_shme = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_EmptyClass_shme");
+    TestAPI.EmptyEnum.f__iota_TestAPI_EmptyEnum_mies = dylib.lookupFunction<
+        ffi.IntPtr Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_EmptyEnum_mies");
     TestAPI.EmptyEnum.f__iota_TestAPI_EmptyEnum_notGoingToHappen = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -1881,6 +2235,74 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_EmptyEnum_notGoingToHappen");
+    TestAPI.EmptyStruct2.f__iota_TestAPI_EmptyStruct2_aap = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_EmptyStruct2_aap");
+    TestAPI.EmptyStruct2.f__iota_TestAPI_EmptyStruct2_create = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_EmptyStruct2_create");
+    TestAPI.EmptyStruct2.f__iota_TestAPI_EmptyStruct2_zxccxz = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_EmptyStruct2_zxccxz");
+    TestAPI.EmptyStruct.f__iota_TestAPI_EmptyStruct_aap = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_EmptyStruct_aap");
+    TestAPI.EmptyStruct.f__iota_TestAPI_EmptyStruct_create = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_EmptyStruct_create");
+    TestAPI.EmptyStruct.f__iota_TestAPI_EmptyStruct_zxccxz = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_EmptyStruct_zxccxz");
     TestAPI.Functions.f__iota_TestAPI_Functions_exercise0 = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -2651,6 +3073,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Ranges_echoUIntRange");
+    TestAPI.Results.f__iota_TestAPI_Results_processResult = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef result,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef result,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_Results_processResult");
     TestAPI.SimpleEnum.f__iota_TestAPI_SimpleEnum_hexMethod = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -3247,6 +3681,20 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_witness");
+    TestAPI.TestDefaultComputedPropertiesReference.f__iota_TestAPI_TestDefaultComputedPropertiesClass_init = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            ffi.Bool spam,
+            ffi.IntPtr noot,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            bool spam,
+            int noot,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestDefaultComputedPropertiesClass_init");
     TestAPI.ExternalWitness_TestMethodsProtocol.f__iota_TestAPI_TestMethodsProtocol_bar = dylib.lookupFunction<
         ffi.Bool Function(
             Env env,
@@ -3329,6 +3777,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_TestMethodsProtocol_xyzzy");
+    TestAPI.TestNonExportedProtocolEnum.f__iota_TestAPI_TestNonExportedProtocolEnum_hoge = dylib.lookupFunction<
+        ffi.Double Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        double Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestNonExportedProtocolEnum_hoge");
     TestAPI.ExternalWitness_TestOptionalsProtocol.f__iota_TestAPI_TestOptionalsProtocol_spqr = dylib.lookupFunction<
         ffi.IntPtr Function(
             Env env,
@@ -3383,6 +3843,20 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_TestProtocolClass_baz");
+    TestAPI.TestProtocolClass.f__iota_TestAPI_TestProtocolClass_equals = dylib.lookupFunction<
+        ffi.Bool Function(
+            Env env,
+            UnownedRef lhs,
+            UnownedRef rhs,
+            OutCreatedRef _exn
+        ),
+        bool Function(
+            Env env,
+            UnownedRef lhs,
+            UnownedRef rhs,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestProtocolClass_equals");
     TestAPI.TestProtocolClass.f__iota_TestAPI_TestProtocolClass_foo = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -3677,6 +4151,90 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_URLs_echo");
+    TestAPI.TestDefaultComputedPropertiesReference.f__iota__default_TestAPI_TestDefaultComputedPropertiesClass_plutonic = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota__default_TestAPI_TestDefaultComputedPropertiesClass_plutonic");
+    TestAPI.TestDefaultComputedPropertiesEnum.f__iota__default_TestAPI_TestDefaultComputedPropertiesEnum_plutonic = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota__default_TestAPI_TestDefaultComputedPropertiesEnum_plutonic");
+    TestAPI.TestDefaultComputedPropertiesStruct.f__iota__default_TestAPI_TestDefaultComputedPropertiesStruct_plutonic = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota__default_TestAPI_TestDefaultComputedPropertiesStruct_plutonic");
+    TestAPI.TestDefaultComputedProperties_DefaultImplementations.f__iota__default_TestAPI_TestDefaultComputedProperties_noot = dylib.lookupFunction<
+        ffi.IntPtr Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota__default_TestAPI_TestDefaultComputedProperties_noot");
+    TestAPI.ExternalWitness_TestDefaultComputedProperties.f__iota__default_TestAPI_TestDefaultComputedProperties_noot = dylib.lookupFunction<
+        ffi.IntPtr Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota__default_TestAPI_TestDefaultComputedProperties_noot");
+    TestAPI.TestDefaultComputedProperties_DefaultImplementations.f__iota__default_TestAPI_TestDefaultComputedProperties_plutonic = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota__default_TestAPI_TestDefaultComputedProperties_plutonic");
+    TestAPI.ExternalWitness_TestDefaultComputedProperties.f__iota__default_TestAPI_TestDefaultComputedProperties_plutonic = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota__default_TestAPI_TestDefaultComputedProperties_plutonic");
     TestAPI.ExternalWitness_AProtocol.f__iota_get_TestAPI_AProtocol_baz = dylib.lookupFunction<
         ffi.Bool Function(
             Env env,
@@ -4219,6 +4777,136 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_Deprecations_deprecatedVariable");
+    TestAPI.EmptyClass2.f__iota_get_TestAPI_EmptyClass2_blorg = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_EmptyClass2_blorg");
+    TestAPI.EmptyClass2.f__iota_get_TestAPI_EmptyClass2_hash = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_EmptyClass2_hash");
+    TestAPI.EmptyClass2.f__iota_get_TestAPI_EmptyClass2_wibble = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_EmptyClass2_wibble");
+    TestAPI.EmptyClass1.f__iota_get_TestAPI_EmptyClass_blarg = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_EmptyClass_blarg");
+    TestAPI.EmptyClass1.f__iota_get_TestAPI_EmptyClass_hash = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_EmptyClass_hash");
+    TestAPI.EmptyClass1.f__iota_get_TestAPI_EmptyClass_wibbledyWobbledyTimeyWhimey = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_EmptyClass_wibbledyWobbledyTimeyWhimey");
+    TestAPI.EmptyEnum.f__iota_get_TestAPI_EmptyEnum_noot = dylib.lookupFunction<
+        ffi.IntPtr Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_EmptyEnum_noot");
+    TestAPI.EmptyStruct2.f__iota_get_TestAPI_EmptyStruct2_tatiana = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_EmptyStruct2_tatiana");
+    TestAPI.EmptyStruct2.f__iota_get_TestAPI_EmptyStruct2_tutu = dylib.lookupFunction<
+        ffi.IntPtr Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_EmptyStruct2_tutu");
+    TestAPI.EmptyStruct.f__iota_get_TestAPI_EmptyStruct_tatiana = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_EmptyStruct_tatiana");
+    TestAPI.EmptyStruct.f__iota_get_TestAPI_EmptyStruct_tutu = dylib.lookupFunction<
+        ffi.IntPtr Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_EmptyStruct_tutu");
     TestAPI.Functions.f__iota_get_TestAPI_Functions_abs = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -5179,6 +5867,26 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_Ranges_uIntRange");
+    TestAPI.Results.f__iota_get_TestAPI_Results_aFailure = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_Results_aFailure");
+    TestAPI.Results.f__iota_get_TestAPI_Results_aSuccess = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_Results_aSuccess");
     TestAPI.SimpleEnum.f__iota_get_TestAPI_SimpleEnum_favoriteColor = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -5509,6 +6217,66 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_willThrow");
+    TestAPI.TestDefaultComputedPropertiesReference.f__iota_get_TestAPI_TestDefaultComputedPropertiesClass_noot = dylib.lookupFunction<
+        ffi.IntPtr Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestDefaultComputedPropertiesClass_noot");
+    TestAPI.TestDefaultComputedPropertiesReference.f__iota_get_TestAPI_TestDefaultComputedPropertiesClass_spam = dylib.lookupFunction<
+        ffi.Bool Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        bool Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestDefaultComputedPropertiesClass_spam");
+    TestAPI.TestDefaultComputedPropertiesEnum.f__iota_get_TestAPI_TestDefaultComputedPropertiesEnum_noot = dylib.lookupFunction<
+        ffi.IntPtr Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestDefaultComputedPropertiesEnum_noot");
+    TestAPI.TestDefaultComputedPropertiesEnum.f__iota_get_TestAPI_TestDefaultComputedPropertiesEnum_spam = dylib.lookupFunction<
+        ffi.Bool Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        bool Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestDefaultComputedPropertiesEnum_spam");
+    TestAPI.ExternalWitness_TestDifferingExportNameProtocolDiffy.f__iota_get_TestAPI_TestDifferingExportNameProtocol_tata = dylib.lookupFunction<
+        ffi.IntPtr Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestDifferingExportNameProtocol_tata");
     TestAPI.ExternalWitness_TestLeadingUnderscoredProp.f__iota_get_TestAPI_TestLeadingUnderscoredProp__leadingUnderscoreProp = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -5521,6 +6289,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_TestLeadingUnderscoredProp__leadingUnderscoreProp");
+    TestAPI.TestNonExportedProtocolEnum.f__iota_get_TestAPI_TestNonExportedProtocolEnum_fuga = dylib.lookupFunction<
+        ffi.Double Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        double Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestNonExportedProtocolEnum_fuga");
     TestAPI.ExternalWitness_TestOptionalsProtocol.f__iota_get_TestAPI_TestOptionalsProtocol_flarp = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -5593,6 +6373,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_TestProtocolClass_frobby");
+    TestAPI.TestProtocolClass.f__iota_get_TestAPI_TestProtocolClass_hash = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestProtocolClass_hash");
     TestAPI.TestProtocolStruct.f__iota_get_TestAPI_TestProtocolStruct_frobby = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -5787,6 +6579,34 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_set_TestAPI_Structs_ReferenceStruct_mutable");
+    TestAPI.TestDefaultComputedPropertiesReference.f__iota_set_TestAPI_TestDefaultComputedPropertiesClass_noot = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            UnownedRef _this,
+            ffi.IntPtr noot,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            UnownedRef _this,
+            int noot,
+            OutCreatedRef _exn
+        )
+    >("__iota_set_TestAPI_TestDefaultComputedPropertiesClass_noot");
+    TestAPI.TestDefaultComputedPropertiesReference.f__iota_set_TestAPI_TestDefaultComputedPropertiesClass_spam = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            UnownedRef _this,
+            ffi.Bool spam,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            UnownedRef _this,
+            bool spam,
+            OutCreatedRef _exn
+        )
+    >("__iota_set_TestAPI_TestDefaultComputedPropertiesClass_spam");
     TestAPI.TestProtocolClass.f__iota_set_TestAPI_TestProtocolClass_corge = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -7409,6 +8229,28 @@ final ensureLoaded = (() {
         });
     });
 
+    Loader.shared.once("setup_ResultConverter<Swift.Int, TestAPI.Results.Error>", () {
+        // print("setting up Result<Int, Results.Error> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_ResultConverter_setup<int, TestAPI.Results_Error>(
+                Loader.shared.env,
+                "ResultConverter<Swift.Int, TestAPI.Results.Error>",
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_ResultConverter<Swift.String, TestAPI.Results.Error>", () {
+        // print("setting up Result<String, Results.Error> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_ResultConverter_setup<String, TestAPI.Results_Error>(
+                Loader.shared.env,
+                "ResultConverter<Swift.String, TestAPI.Results.Error>",
+                exn
+            );
+        });
+    });
+
     Loader.shared.once("setup_SetConverter<OptionalConverter<Swift.Int>>", () {
         // print("setting up Set<Optional<Int>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
@@ -7588,6 +8430,18 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_d),
                 ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_dq),
                 ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_dq),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.Results.Error", () {
+        // print("setting up TestAPI.Results.Error (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_Results_Error_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.Results_Error.ffi_constructor),
+                ffi.Pointer.fromFunction(TestAPI.Results_Error.ffi_get_message),
                 exn
             );
         });
@@ -7775,11 +8629,55 @@ final ensureLoaded = (() {
         });
     });
 
+    Loader.shared.once("setup_TestAPI.EmptyClass", () {
+        // print("setting up TestAPI.EmptyClass (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_EmptyClass_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.EmptyClass1.ffi_new),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.EmptyClass2", () {
+        // print("setting up TestAPI.EmptyClass2 (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_EmptyClass2_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.EmptyClass2.ffi_new),
+                exn
+            );
+        });
+    });
+
     Loader.shared.once("setup_TestAPI.EmptyEnum", () {
         // print("setting up TestAPI.EmptyEnum (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             TestAPI_EmptyEnum_setup(
                 Loader.shared.env,
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.EmptyStruct", () {
+        // print("setting up TestAPI.EmptyStruct (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_EmptyStruct_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.EmptyStruct.ffi_constructor),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.EmptyStruct2", () {
+        // print("setting up TestAPI.EmptyStruct2 (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_EmptyStruct2_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.EmptyStruct2.ffi_constructor),
                 exn
             );
         });
@@ -7820,6 +8718,16 @@ final ensureLoaded = (() {
         // print("setting up TestAPI.Ranges (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             TestAPI_Ranges_setup(
+                Loader.shared.env,
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.Results", () {
+        // print("setting up TestAPI.Results (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_Results_setup(
                 Loader.shared.env,
                 exn
             );
@@ -7930,6 +8838,83 @@ final ensureLoaded = (() {
         });
     });
 
+    Loader.shared.once("setup_TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter", () {
+        // print("setting up TestAPI.TestDefaultComputedProperties (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_CommonInterface__TestDefaultComputedPropertiesConverter_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestDefaultComputedProperties.ffi_new),
+                ffi.Pointer.fromFunction(TestAPI.TestDefaultComputedProperties_FfiHooks.ffi_get_noot, 0),
+                ffi.Pointer.fromFunction(TestAPI.TestDefaultComputedProperties_FfiHooks.ffi_get_plutonic),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.TestDefaultComputedPropertiesClass", () {
+        // print("setting up TestAPI.TestDefaultComputedPropertiesClass (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_TestDefaultComputedPropertiesClass_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.TestDefaultComputedPropertiesReference.ffi_new),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.TestDefaultComputedPropertiesEnum", () {
+        // print("setting up TestAPI.TestDefaultComputedPropertiesEnum (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_TestDefaultComputedPropertiesEnum_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.TestDefaultComputedPropertiesEnum.enumDiscriminator, 0),
+                ffi.Pointer.fromFunction(TestAPI.TestDefaultComputedPropertiesEnum.newQux),
+                ffi.Pointer.fromFunction(TestAPI.TestDefaultComputedPropertiesEnum.extractQux),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.TestDefaultComputedPropertiesStruct", () {
+        // print("setting up TestAPI.TestDefaultComputedPropertiesStruct (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_TestDefaultComputedPropertiesStruct_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.TestDefaultComputedPropertiesStruct.ffi_constructor),
+                ffi.Pointer.fromFunction(TestAPI.TestDefaultComputedPropertiesStruct.ffi_get_spam, false),
+                ffi.Pointer.fromFunction(TestAPI.TestDefaultComputedPropertiesStruct.ffi_set_spam),
+                ffi.Pointer.fromFunction(TestAPI.TestDefaultComputedPropertiesStruct.ffi_get_noot, 0),
+                ffi.Pointer.fromFunction(TestAPI.TestDefaultComputedPropertiesStruct.ffi_set_noot),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI_CommonInterface._TestDifferingExportNameProtocolConverter", () {
+        // print("setting up TestAPI.TestDifferingExportNameProtocol (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_CommonInterface__TestDifferingExportNameProtocolConverter_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.ExternalWitness_TestDifferingExportNameProtocolDiffy.ffi_new),
+                ffi.Pointer.fromFunction(TestAPI.TestDifferingExportNameProtocolDiffy_FfiHooks.ffi_get_tata, 0),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.TestDifferingExportNameStruct", () {
+        // print("setting up TestAPI.TestDifferingExportNameStruct (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_TestDifferingExportNameStruct_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.TestDifferingExportNameStruct.ffi_constructor),
+                ffi.Pointer.fromFunction(TestAPI.TestDifferingExportNameStruct.ffi_get_tata, 0),
+                ffi.Pointer.fromFunction(TestAPI.TestDifferingExportNameStruct.ffi_set_tata),
+                exn
+            );
+        });
+    });
+
     Loader.shared.once("setup_TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter", () {
         // print("setting up TestAPI.TestLeadingUnderscoredProp (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
@@ -7967,6 +8952,19 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.TestMethodsProtocol_FfiHooks.ffi_garply),
                 ffi.Pointer.fromFunction(TestAPI.TestMethodsProtocol_FfiHooks.ffi_xyzzy),
                 ffi.Pointer.fromFunction(TestAPI.TestMethodsProtocol_FfiHooks.ffi_plugh),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.TestNonExportedProtocolEnum", () {
+        // print("setting up TestAPI.TestNonExportedProtocolEnum (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_TestNonExportedProtocolEnum_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.TestNonExportedProtocolEnum.enumDiscriminator, 0),
+                ffi.Pointer.fromFunction(TestAPI.TestNonExportedProtocolEnum.newHogehoge),
+                ffi.Pointer.fromFunction(TestAPI.TestNonExportedProtocolEnum.extractHogehoge),
                 exn
             );
         });

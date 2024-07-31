@@ -278,6 +278,7 @@ let package = Package(
             T.target(
                 name: "FishyJoesCore",
                 dependencies: [
+                    .target(name: "GenerationHelpers"),
                     .product(name: "SourceryRuntime", package: "Sourcery"),
                 ]
             ),
@@ -309,11 +310,22 @@ let package = Package(
     ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] : [
         T.executableTarget(
             name: "FishyJoesExecuteMain",
-            dependencies: ["FishyJoesExecute"]
+            dependencies: ["FishyJoesExecute"],
+            linkerSettings: [
+                .unsafeFlags(
+                    ["-Xlinker", "/IGNORE:4217"],
+                    .when(platforms: [.windows])
+                )
+            ]
+        ),
+        T.target(
+            // TODO: better name for this target
+            name: "GenerationHelpers"
         ),
         T.target(
             name: "FishyJoesExecute",
             dependencies: [
+                .target(name: "GenerationHelpers"),
                 .product(name: "swsh", package: "swsh"),
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
                 .product(name: "Yams", package: "Yams"),

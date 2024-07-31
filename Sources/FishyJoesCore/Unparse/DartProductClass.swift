@@ -19,7 +19,7 @@ class DartProductClass: DartClass {
         constructor: Constructor,
         fields: [Variable],
         methods: [Method],
-        conformances: Set<String>,
+        conformances: Set<DartType>,
         isExternalWitness: Bool = false
     ) {
         self.constructor = constructor
@@ -36,8 +36,12 @@ class DartProductClass: DartClass {
 
     private func toStringImpl(fields: [Variable], fragment: SourceFragment) {
         fragment.output("@override")
-        fragment.output("String toString() => '\(unqualifiedName)(", newLineTerminated: false)
-        let toStringParamsString = fields.map { "\(DartClass.deforbidify($0.name)): $\(DartClass.deforbidify($0.name))" }.joined(separator: ", ")
+        fragment.output("String toString() => '\(module.name).\(unqualifiedName)(", newLineTerminated: false)
+
+        let toStringParamsString = fields.map {
+            "\(DartClass.deforbidify($0.name)): $\(DartClass.deforbidify($0.name))"
+        }.joined(separator: ", ")
+
         fragment.output("\(toStringParamsString))';")
 
         fragment.blankLine()
@@ -47,7 +51,7 @@ class DartProductClass: DartClass {
         var conformancesPart = ""
         if !conformances.isEmpty {
             conformancesPart.append(" implements ")
-            conformancesPart.append(conformances.map { "\(module).\($0)" }.joined(separator: ", "))
+            conformancesPart.append(conformances.map { $0.name(in: self) }.joined(separator: ", "))
         }
 
         commonIgnoreSpecificWarnings(fragment: fragment)
@@ -72,7 +76,7 @@ class DartProductClass: DartClass {
                 }
                 fragment.blankLine()
 
-                toStringImpl(fields: fields, fragment: fragment)
+                // Swift references handle toString through the dart runtime toString call to Swift on SwiftReference in utilities.dart
             case .public(let fields):
                 storedFields = fields
                 for field in fields {
@@ -225,9 +229,8 @@ class DartProductClass: DartClass {
 
             fields.forEach { output(field: $0, to: fragment) }
             methods.forEach { output(method: $0, to: fragment) }
-
             fragment.blankLine()
-            outputNativeMethodDeclarations(to: fragment)
+            outputNativeMethodDeclarations(methods: nativeMethods, fragment: fragment)
         }
     }
 }

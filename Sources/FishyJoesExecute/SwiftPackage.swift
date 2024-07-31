@@ -8,12 +8,12 @@ struct SwiftPackage: Decodable {
             let urlString: URL
         }
         enum Requirement {
-            case branch(names: [String])
-            case revision(names: [String])
-            case upToNextMajor(baseVersions: [String])
-            case upToNextMinor(baseVersions: [String])
-            case exact(versions: [String])
-            case range(lowerBound: String, upperBound: String)
+            case branch(name: String)
+            case revision(name: String)
+            case upToNextMajor(baseVersion: SemanticVersion)
+            case upToNextMinor(baseVersion: SemanticVersion)
+            case exact(version: SemanticVersion)
+            case range(lowerBound: SemanticVersion, upperBound: SemanticVersion)
         }
     }
     struct Target: Decodable {
@@ -29,21 +29,21 @@ extension SwiftPackage.Dependency: Decodable {
         // Swift 5.5
         case scm, local
 
-        // Swift 5.6 -> 5.9
+        // Swift 5.6 -> 5.10
         case sourceControl, fileSystem
     }
 
-    // Swift 5.5 -> 5.9
+    // Swift 5.5 -> 5.10
     private enum SourceControlCodingKeys: String, CodingKey {
         case identity, location, requirement
     }
 
-    // Swift 5.5 -> 5.9
+    // Swift 5.5 -> 5.10
     private enum FileSystemCodingKeys: String, CodingKey {
         case identity, path, nameForTargetDependencyResolutionOnly
     }
 
-    // Swift 5.6 -> 5.9
+    // Swift 5.6 -> 5.10
     private enum LocationCodingKeys: String, CodingKey {
         case remote
     }
@@ -52,7 +52,7 @@ extension SwiftPackage.Dependency: Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         if var sourceControlListContainer = try? container.nestedUnkeyedContainer(forKey: .sourceControl) {
-            // Swift 5.6 -> 5.9
+            // Swift 5.6 -> 5.10
             let sourceControlContainer = try sourceControlListContainer.nestedContainer(keyedBy: SourceControlCodingKeys.self)
             let identity = try sourceControlContainer.decode(String.self, forKey: .identity)
 
@@ -70,7 +70,7 @@ extension SwiftPackage.Dependency: Decodable {
             let requirement = try sourceControlContainer.decode(Requirement.self, forKey: .requirement)
             self = .sourceControl(identity: identity, location: location, requirement: requirement)
         } else {
-            // Swift 5.6 -> 5.9 ("local" key name changed to "fileSystem" in 5.6)
+            // Swift 5.6 -> 5.10 ("local" key name changed to "fileSystem" in 5.6)
             var fileSystemListContainer = try (try? container.nestedUnkeyedContainer(forKey: .local)) ?? container.nestedUnkeyedContainer(forKey: .fileSystem)
             let fileSystemContainer = try fileSystemListContainer.nestedContainer(keyedBy: FileSystemCodingKeys.self)
             // nameForTargetDependencyResolutionOnly appears to show up when filesystem name doesn't match package name
@@ -103,17 +103,99 @@ extension SwiftPackage.Dependency {
         return url.scheme == "file" || url.scheme == nil ? url.path : ".build/checkouts/\(url.lastPathComponent)"
     }
 
-    var version: String? {
+    var versionInGradleFormat: String {
+        // https://docs.gradle.org/current/userguide/single_versions.html
+        let spec: String
         switch self {
-        case .sourceControl(_, _, .branch(names: let names)): return names.count != 1 ? nil : names.first
-        case .sourceControl(_, _, .revision(names: let names)): return names.count != 1 ? nil : names.first
-        case .sourceControl(_, _, .upToNextMajor): return nil
-        case .sourceControl(_, _, .upToNextMinor): return nil
-        case .sourceControl(_, _, .range): return nil
-        case .sourceControl(_, _, .exact(versions: let versions)): return versions.count != 1 ? nil : versions.first
-        case .fileSystem: return nil
+        case .sourceControl(_, _, .branch(let name)):
+            spec = name
+        case .sourceControl(_, _, .revision(let name)):
+            spec = name
+        case .sourceControl(_, _, .upToNextMajor(let baseVersion)):
+            spec = "[\(baseVersion),\(baseVersion.nextMajor))"
+        case .sourceControl(_, _, .upToNextMinor(let baseVersion)):
+            spec = "[\(baseVersion),\(baseVersion.nextMinor))"
+        case .sourceControl(_, _, .range(let lowerBound, let upperBound)):
+            spec = "[\(lowerBound),\(upperBound))"
+        case .sourceControl(_, _, .exact(let version)):
+            spec = version.versionString
+        case .fileSystem:
+            spec = "local"
+        }
+
+        // Convert anything like "user/branch" into things gradle can parse, even if it probably won't find a release by that name
+        return spec.replacingOccurrences(of: "/", with: "-")
+    }
+
+    var versionInNugetFormat: String? {
+        // https://learn.microsoft.com/en-us/nuget/concepts/package-versioning
+        switch self {
+        case .sourceControl(_, _, .branch(let name)):
+            return "[\(name)]"
+        case .sourceControl(_, _, .revision(let name)):
+            return "[\(name)]"
+        case .sourceControl(_, _, .upToNextMajor(let baseVersion)):
+            return "[\(baseVersion),\(baseVersion.nextMajor))"
+        case .sourceControl(_, _, .upToNextMinor(let baseVersion)):
+            return "[\(baseVersion),\(baseVersion.nextMinor))"
+        case .sourceControl(_, _, .range(let lowerBound, let upperBound)):
+            return "[\(lowerBound),\(upperBound))"
+        case .sourceControl(_, _, .exact(let version)):
+            return "[\(version)]"
+        case .fileSystem:
+            return nil
         }
     }
+
+    func versionInNpmFormat(addIfLocalPath: String = "") -> String {
+        // These examples are the most authoritative source I could find without digging into the code of npm itself...
+        // https://semver.npmjs.com/#syntax-examples
+        switch self {
+        case .sourceControl(_, _, .branch(let name)):
+            return name
+        case .sourceControl(_, _, .revision(let name)):
+            return name
+        case .sourceControl(_, _, .upToNextMajor(let baseVersion)):
+            if baseVersion.major > 0 {
+                return "^\(baseVersion)"
+            } else {
+                return ">=\(baseVersion) <\(baseVersion.nextMajor)"
+            }
+        case .sourceControl(_, _, .upToNextMinor(let baseVersion)):
+            return "~\(baseVersion)"
+        case .sourceControl(_, _, .range(let lowerBound, let upperBound)):
+            return ">=\(lowerBound) <\(upperBound)"
+        case .sourceControl(_, _, .exact(let version)):
+            return version.versionString
+        case .fileSystem:
+            return "file:\(localPath)\(addIfLocalPath)"
+        }
+    }
+
+    // Currently unused, dart is pinned to an exact version
+    // var versionInPubspecFormat: String? {
+    //     // https://dart.dev/tools/pub/versioning
+    //     switch self {
+    //     case .sourceControl(_, _, .branch(let name)):
+    //         return name
+    //     case .sourceControl(_, _, .revision(let name)):
+    //         return name
+    //     case .sourceControl(_, _, .upToNextMajor(let baseVersion)):
+    //         if baseVersion.major > 0 {
+    //             return "^\(baseVersion)"
+    //         } else {
+    //             return ">=\(baseVersion) <\(baseVersion.nextMajor)"
+    //         }
+    //     case .sourceControl(_, _, .upToNextMinor(let baseVersion)):
+    //         return "~\(baseVersion)"
+    //     case .sourceControl(_, _, .range(let lowerBound, let upperBound)):
+    //         return ">=\(lowerBound) <\(upperBound)"
+    //     case .sourceControl(_, _, .exact(let version)):
+    //         return version.versionString
+    //     case .fileSystem:
+    //         return "file:\(localPath)\(addIfLocalPath)"
+    //     }
+    // }
 }
 
 extension SwiftPackage.Dependency.Requirement: Decodable {
@@ -123,23 +205,35 @@ extension SwiftPackage.Dependency.Requirement: Decodable {
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        if let exactVersions = try? container.decode([String].self, forKey: .exact) {
-            self = .exact(versions: exactVersions)
-        } else if let minorVersions = try? container.decode([String].self, forKey: .upToNextMinor) {
-            self = .upToNextMinor(baseVersions: minorVersions)
-        } else if let majorVersions = try? container.decode([String].self, forKey: .upToNextMajor) {
-            self = .upToNextMajor(baseVersions: majorVersions)
+        if
+            let exactVersions = try? container.decode([String].self, forKey: .exact),
+            exactVersions.count == 1,
+            let exactVersion = SemanticVersion(exactVersions[0])
+        {
+            self = .exact(version: exactVersion)
         } else if
-            let range = try? container.decode([[String: String]].self, forKey: .range),
-            range.count == 1,
-            let lowerBound = range[0]["lowerBound"],
-            let upperBound = range[0]["upperBound"]
+            let minorVersions = try? container.decode([String].self, forKey: .upToNextMinor),
+            minorVersions.count == 1,
+            let minorVersion = SemanticVersion(minorVersions[0])
+        {
+            self = .upToNextMinor(baseVersion: minorVersion)
+        } else if
+            let majorVersions = try? container.decode([String].self, forKey: .upToNextMajor),
+            majorVersions.count == 1,
+            let majorVersion = SemanticVersion(majorVersions[0])
+        {
+            self = .upToNextMajor(baseVersion: majorVersion)
+        } else if
+            let ranges = try? container.decode([[String: String]].self, forKey: .range),
+            ranges.count == 1,
+            let lowerBound = ranges[0]["lowerBound"].flatMap(SemanticVersion.init),
+            let upperBound = ranges[0]["upperBound"].flatMap(SemanticVersion.init)
         {
             self = .range(lowerBound: lowerBound, upperBound: upperBound)
-        } else if let branchNames = try? container.decode([String].self, forKey: .branch) {
-            self = .branch(names: branchNames)
-        } else if let revisionNames = try? container.decode([String].self, forKey: .revision) {
-            self = .revision(names: revisionNames)
+        } else if let branchNames = try? container.decode([String].self, forKey: .branch), branchNames.count == 1 {
+            self = .branch(name: branchNames[0])
+        } else if let revisionNames = try? container.decode([String].self, forKey: .revision), revisionNames.count == 1 {
+            self = .revision(name: revisionNames[0])
         } else {
             let context = DecodingError.Context(
                 codingPath: decoder.codingPath,
@@ -173,5 +267,62 @@ extension SwiftPackage {
             return nil
         }
         return target.path ?? "./Sources/\(targetName)"
+    }
+}
+
+struct SemanticVersion: Hashable, CustomStringConvertible {
+    let major: Int
+    let minor: Int
+    let patch: Int
+    let prerelease: String?
+    let buildMetadata: String?
+
+    init(major: Int, minor: Int = 0, patch: Int = 0, prerelease: String? = nil, buildMetadata: String? = nil) {
+        self.major = major
+        self.minor = minor
+        self.patch = patch
+        self.prerelease = prerelease
+        self.buildMetadata = buildMetadata
+    }
+
+    // From https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
+    static let regex = try! NSRegularExpression(
+        pattern:
+            #"^(0|[1-9]\d*)"# +
+            #"\.(0|[1-9]\d*)"# +
+            #"\.(0|[1-9]\d*)"# + #"(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?"# +
+            #"(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$"#
+    )
+
+    init?(_ string: String) {
+        let nsString = string as NSString
+        guard
+            let match = SemanticVersion.regex.firstMatch(in: string, range: NSRange(location: 0, length: nsString.length)),
+            let major = Int(nsString.substring(with: match.range(at: 1))),
+            let minor = Int(nsString.substring(with: match.range(at: 2))),
+            let patch = Int(nsString.substring(with: match.range(at: 3)))
+        else {
+            return nil
+        }
+        self.major = major
+        self.minor = minor
+        self.patch = patch
+        self.prerelease = match.range(at: 4).asOptional.map(nsString.substring(with:))
+        self.buildMetadata = match.range(at: 5).asOptional.map(nsString.substring(with:))
+    }
+
+    var versionString: String {
+        let prereleaseString = prerelease.map { "-\($0)" } ?? ""
+        let buildMetadataString = buildMetadata.map { "+\($0)" } ?? ""
+        return "\(major).\(minor).\(patch)\(prereleaseString)\(buildMetadataString)"
+    }
+    var description: String { versionString }
+
+    var nextMajor: SemanticVersion {
+        SemanticVersion(major: major + 1)
+    }
+
+    var nextMinor: SemanticVersion {
+        SemanticVersion(major: major, minor: minor + 1)
     }
 }

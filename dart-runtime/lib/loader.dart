@@ -4,6 +4,7 @@ import 'dart:ffi' as ffi;
 import 'dart:isolate';
 import 'package:ffi/ffi.dart' as ffi;
 import 'package:fishyjoes_dart/dart_api_dl.dart';
+import 'package:fishyjoes_dart/result.dart';
 import 'dart:typed_data' as typed_data;
 import 'dart:async' as async;
 import 'package:tuple/tuple.dart';
@@ -33,6 +34,7 @@ part 'loader_futures.dart';
 part 'loader_misc.dart';
 part 'loader_primitives.dart';
 part 'loader_ranges.dart';
+part 'loader_result.dart';
 part 'loader_tuple.dart';
 
 typedef _EnvNewRefFn = CreatedRef Function(UnownedRef obj);

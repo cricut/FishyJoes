@@ -2,6 +2,8 @@ import { TestAPI } from 'TestAPI';
 
 test('testEmptyEnum', () => {
     expect(() => TestAPI.EmptyEnum.notGoingToHappen()).toThrow()
+    expect(54546).toEqual(TestAPI.EmptyEnum.noot)
+    expect(62645).toEqual(TestAPI.EmptyEnum.mies())
 });
 
 test('testSimpleEnum', () => {

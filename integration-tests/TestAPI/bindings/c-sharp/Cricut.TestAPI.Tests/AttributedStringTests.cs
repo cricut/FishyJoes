@@ -6,6 +6,7 @@ using Cricut.FishyJoesRuntime;
 using FluentAssertions.Equivalency.Steps;
 
 namespace Cricut.TestAPI.Tests {
+    [Collection("root")]
     public class AttributedStringTests {
         [Fact]
         void testStringValues() {
@@ -484,6 +485,34 @@ namespace Cricut.TestAPI.Tests {
             runRanges = attributedString.Runs.Select(run => run.Range).ToList();
             Assert.Single(runRanges);
             Assert.Equal(new AttributedString("Hello Olá こんにちは"), attributedString);
+        }
+
+        [Fact]
+        void testAttributedStringPuttingTypesIntoQuestionablePlaces() {
+            var a1 = new AttributedString_PuttingTypesIntoQuestionablePlaces("quxx");
+            var a2 = new AttributedString_PuttingTypesIntoQuestionablePlaces("quxx");
+            var b1 = new AttributedString_PuttingTypesIntoQuestionablePlaces("corgle");
+            var b2 = new AttributedString_PuttingTypesIntoQuestionablePlaces("garply");
+
+            // TODO: implement copyWith for c#?
+
+            Assert.Equal("quxx", a1.X);
+            Assert.Equal("quxx", a2.X);
+            Assert.Equal("corgle", b1.X);
+            Assert.Equal("garply", b2.X);
+
+            Assert.Equal("AttributedString_PuttingTypesIntoQuestionablePlaces { X = quxx }", a1.ToString());
+            Assert.Equal("AttributedString_PuttingTypesIntoQuestionablePlaces { X = quxx }", a2.ToString());
+            Assert.Equal("AttributedString_PuttingTypesIntoQuestionablePlaces { X = corgle }", b1.ToString());
+            Assert.Equal("AttributedString_PuttingTypesIntoQuestionablePlaces { X = garply }", b2.ToString());
+
+            Assert.Equal(a1.GetHashCode(), a2.GetHashCode());
+            Assert.NotEqual(b1.GetHashCode(), b2.GetHashCode());
+
+            Assert.Equal(42, a1.TestCall());
+            Assert.Equal(42, a2.TestCall());
+            Assert.Equal(42, b1.TestCall());
+            Assert.Equal(42, b2.TestCall());
         }
     }
 }

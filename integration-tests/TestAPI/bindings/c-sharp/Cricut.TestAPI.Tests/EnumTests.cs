@@ -2,10 +2,13 @@ using System;
 using Xunit;
 
 namespace Cricut.TestAPI.Tests {
+    [Collection("root")]
     public class EnumTests {
         [Fact]
         void testEmptyEnum() {
             Assert.Throws<Exception>(() => EmptyEnum.NotGoingToHappen());
+            Assert.Equal(54546, EmptyEnum.GetNoot());
+            Assert.Equal(62645, EmptyEnum.Mies());
         }
 
         [Fact]

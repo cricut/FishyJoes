@@ -10,7 +10,7 @@ import kotlin.time.Duration.Companion.seconds
 @kotlinx.coroutines.ExperimentalCoroutinesApi
 internal class ProtocolTests {
     companion object {
-        const val DEBUG_PRINTS = false
+        const val DEBUG_PRINTS = true
         @BeforeAll
         @JvmStatic
         // To get procId for attaching lldb debugger to
@@ -439,6 +439,12 @@ internal class ProtocolTests {
         testAsyncFunctionsImplCore(a)
     }
 
+    @Test
+    fun testDifferingExportNameStruct() = runTest(timeout = 1000000.seconds) {
+        val a = TestDifferingExportNameStruct(tata = 8923)
+        assertEquals(8923, a.tata);
+    }
+
     data class ProtocolKotlinImpl(
         override var foo: kotlin.String,
         override val baz: Boolean
@@ -536,5 +542,69 @@ internal class ProtocolTests {
         override fun witness(): TestAsyncFunctions {
             return TestAsyncFunctionsImpl()
         }
+    }
+
+    @Test
+    fun testDefaultComputedPropertiesImpl() = runTest(timeout = 1000000.seconds) {
+        val a = TestDefaultComputedPropertiesImplOverrideNoot()
+        assertEquals(424242, a.noot)
+        assertEquals("Newton Gimmick", a.plutonic)
+
+        val b = TestDefaultComputedPropertiesImplOverridePlutonic()
+        assertEquals(2983, b.noot)
+        assertEquals("Teddy Ruxpin", b.plutonic)
+    }
+    class TestDefaultComputedPropertiesImplOverrideNoot : TestDefaultComputedProperties {
+        override val noot: Long
+            get() = 424242
+    }
+
+    class TestDefaultComputedPropertiesImplOverridePlutonic : TestDefaultComputedProperties {
+        override val plutonic: String
+            get() = "Teddy Ruxpin"
+    }
+
+    @Test
+    fun testDefaultComputedPropertiesStruct() = runTest(timeout = 1000000.seconds) {
+        val a = TestDefaultComputedPropertiesStruct(spam = true, noot = 98172)
+        assertEquals("Newton Gimmick", a.plutonic)
+        assertEquals(true, a.spam)
+        assertEquals(98172, a.noot)
+    }
+
+    @Test
+    fun testDefaultComputedPropertiesReference() = runTest(timeout = 1000000.seconds) {
+        val a = TestDefaultComputedPropertiesReference.init(spam = true, noot = 98172)
+        assertEquals("Newton Gimmick", a.plutonic)
+        assertEquals(true, a.spam)
+        assertEquals(98172, a.noot)
+    }
+
+    @Test
+    fun testDefaultComputedPropertiesEnum() = runTest(timeout = 1000000.seconds) {
+        val a = TestDefaultComputedPropertiesEnum.Qux
+        assertEquals("Newton Gimmick", a.plutonic)
+        assertEquals(true, a.spam)
+        assertEquals(72930, a.noot)
+    }
+
+    @Test
+    fun testNonExportedProtocolEnum() = runTest(timeout = 1000000.seconds) {
+        val a = TestNonExportedProtocolEnum.Hogehoge
+        assertEquals(987890.23, a.fuga)
+        assertEquals(23723.11, a.hoge())
+    }
+
+    @Test
+    fun testEqualsHashCodeToStringForReferences() = runTest(timeout = 1000000.seconds) {
+        val a = TestProtocolClass.init(corge = "Zoobilee Zoo; Zoobilee Zoo!", flarp = "Magic and wonder are waiting for you.")
+        val b = TestProtocolClass.init(corge = "Zoobilee Zoo; Zoobilee Zoo!", flarp = "Magic and wonder are waiting for you.")
+        val c = TestProtocolClass.init(corge = "It's as close as a dream", flarp = "And as bright as the brightest blue-oo!")
+        assertNotEquals(0, a.hashCode())
+        assertEquals(a.hashCode(), b.hashCode())
+        assertNotEquals(a.hashCode(), c.hashCode())
+        assertEquals("TestAPI.TestProtocolClass", a.toString())
+        assertEquals(a, b);
+        assertNotEquals(a, c);
     }
 }

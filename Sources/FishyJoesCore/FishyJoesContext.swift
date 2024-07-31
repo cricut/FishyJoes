@@ -79,22 +79,32 @@ public class FishyJoesContext {
         }
     }
 
-    func swiftFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
+    func swiftFragment(_ name: String, withDedicatedFile: Bool = false, additionalImports: [String] = []) -> SourceFragment {
+        var fileName = name
+        if !withDedicatedFile {
+            fileName = (name.components(separatedBy: "/").dropLast() + ["\(module.name).swift"]).joined(separator: "/")
+        }
         for dependency in module.dependencies + [module.name] + additionalImports {
-            addHeader(file: name, "import \(dependency)")
+            addHeader(file: fileName, "import \(dependency)")
         }
         // These need to be in order, so add them with higher priority
         addHeader(
-            file: name,
+            file: fileName,
             priority: 2,
             "// swiftlint:disable:next blanket_disable_command superfluous_disable_command"
         )
         addHeader(
-            file: name,
+            file: fileName,
             priority: 1,
             "// swiftlint:disable unused_closure_parameter syntactic_sugar attributes"
         )
-        return SourceFragment(sourceryDestination: "file:\(name)")
+        let fragment = SourceFragment(sourceryDestination: "file:\(fileName)")
+        if !withDedicatedFile {
+            fragment.blankLine()
+            fragment.output("// MARK: - \(name)")
+            fragment.blankLine()
+        }
+        return fragment
     }
 
     func kotlinFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
@@ -186,11 +196,7 @@ public class FishyJoesContext {
         // Translate
         var methodsToTranslateForTypeDict = [Type: [Method]]()
         for type in templateContext.types.types {
-            if let sourceryProtocolType = type as? SourceryProtocol {
-                methodsToTranslateForTypeDict[type] = sourceryProtocolType.methodsPreferringDefaultImpl().compactMap { Method($0, type: type, protocolName: type.name) }
-            } else {
-                methodsToTranslateForTypeDict[type] = Method.methods(type: type)
-            }
+            methodsToTranslateForTypeDict[type] = Method.methods(type: type)
         }
 
         for (type, methods) in methodsToTranslateForTypeDict {
@@ -202,16 +208,22 @@ public class FishyJoesContext {
             }
         }
 
+        var fieldsToTranslateForTypeDict = [Type: [Field]]()
         for type in templateContext.types.types {
-            for variable in type.rawVariables {
-                debugContext = "Translating variable \(type.name).\(variable.name)"
-                guard variable.exportAnnotation != nil else { continue }
-                collectedFragments.append(contentsOf: kotlinTranslator.translate(variable: variable, context: self))
-                collectedFragments.append(contentsOf: iotaTranslator.translate(variable: variable, context: self))
+            fieldsToTranslateForTypeDict[type] = Field.fields(type: type)
+        }
+
+        for (type, fields) in fieldsToTranslateForTypeDict {
+            for field in fields {
+                debugContext = "Translating variable \(type.name).\(field.name)"
+                guard field.exportAnnotation != nil else { continue }
+
+                collectedFragments.append(contentsOf: kotlinTranslator.translate(field: field, context: self, type: type))
+                collectedFragments.append(contentsOf: iotaTranslator.translate(field: field, context: self, type: type))
             }
         }
         // Translate any top level functions
-        let topLevelFunctions = templateContext.functions.compactMap { Method($0, type: nil) }
+        let topLevelFunctions = templateContext.functions.compactMap { Method($0, type: nil, protocolName: nil) }
         guard topLevelFunctions.isEmpty else {
             fatalErr("Support for exporting top level functions has been removed for now")
         }
@@ -288,7 +300,7 @@ public class FishyJoesContext {
             return fragment
         }
 
-        return (headerFragments + collectedFragments).map(\.contents).joined()
+        return (headerFragments.map(\.contents) + collectedFragments.map(\.contents).sorted()).joined()
     }
 
     /// Process a set of classes to nest their inner classes properly for generation.
@@ -585,14 +597,14 @@ public class FishyJoesContext {
     func add(dartClass: DartClass) {
         dartClasses.append(dartClass)
 
-        for (name, (args, returnType, isDefaultImplementation)) in dartClass.nativeMethods {
+        for (name, (args, returnType, isDefaultImplementation, isProtocol)) in dartClass.nativeMethods {
             dartTranslator.nativeMethods.append(
                 .init(
                     name: name,
                     definingDartClass: dartClass.name,
                     args: args,
                     returnType: returnType,
-                    isDefaultImplementation: isDefaultImplementation
+                    doDefaultImplementationsSuffix: isDefaultImplementation && isProtocol
                 )
             )
         }

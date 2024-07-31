@@ -5,7 +5,7 @@ struct DockerContext {
     var hostDockerBinary: String
     let passGitAuth: Bool
 
-    var image = "ghcr.io/cricut/android-swift-runtime:1.1.0"
+    var image = "ghcr.io/cricut/android-swift-runtime:2.0.1"
     var platform = "linux/amd64"
     var mountMappings: [String: String]
     var startDirectory: String
@@ -13,7 +13,6 @@ struct DockerContext {
 
     init?(withAvailablePaths paths: [String], passGitAuth: Bool) {
         // This is somewhat ugly logic... not sure of a better way
-
         guard let docker = ["nerdctl", "docker"].first(where: { (try? swsh.cmd($0, "info").runString()) != nil }) else {
             return nil
         }

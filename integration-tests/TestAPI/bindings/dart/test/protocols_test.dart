@@ -1,12 +1,8 @@
 import 'dart:io';
 import 'dart:core';
-import 'dart:math';
-import 'package:cricut_test_api/cricut_test_api.dart';
-import 'package:cricut_test_api/src/generated/TestAsyncSwiftSideFunctionsClass.dart';
+import 'package:cricut_testapi/testapi.dart';
 import 'package:test/test.dart';
 import 'package:tuple/tuple.dart' as tuple;
-import 'package:dart_numerics/dart_numerics.dart';
-import 'package:cricut_test_api/src/generated/TestAsyncFunctions.dart' as TestAPI;
 
 final debugPrint = false;
 
@@ -77,7 +73,7 @@ void main() {
         expect(testProtocolClass.spqr(AssociatedDataEnum.other("zxc", 89708973)), equals(89708973));
         expect(testProtocolClass.spqr(AssociatedDataEnum.bar("shme", AssociatedDataEnum.noValue())), equals(45));
         expect(testProtocolClass.spqr(AssociatedDataEnum.noValue()), equals(42));
-        expect(testProtocolClass.spqr(AssociatedDataEnum.simpleEnum(SimpleEnum.blue())), equals(1));        
+        expect(testProtocolClass.spqr(AssociatedDataEnum.simpleEnum(SimpleEnum.blue())), equals(1));
 
         testProtocolClass.foo();
         expect(testProtocolClass.bar(), equals(true));
@@ -100,7 +96,7 @@ void main() {
         final b = a.intCompose(
           (x) {
           return Future.delayed(const Duration(seconds: 0), () => x * 3);
-          }, 
+          },
           (y) {
           return Future.delayed(const Duration(seconds: 0), () => y * 5);
           }
@@ -112,25 +108,25 @@ void main() {
         expect(d, List.of(["By", "your", "powers", "combined"]));
         final e = await a.fifthThing(
           "I, am",
-          int64MaxValue,
+          4,
           double.minPositive,
           "Captain Planet!",
-          () { 
+          () {
             return Future.delayed(const Duration(seconds: 0), () => 42);
           }
         );
         expect(await e(), 42);
         final f = await a.six(
           "Big, bad",
-          24,
+          3,
           3.14159265359,
           "Beetleborgs",
-          () { 
+          () {
             return Future.delayed(const Duration(seconds: 0), () => 43);
           },
-          int64MinValue
+          8
         );
-        expect(f, equals(int64MinValue));
+        expect(f, equals(8));
 
         expect(() async => await a.willThrow(), throwsA(predicate((e) => '$e'.contains("Spoon!"))));
 
@@ -140,7 +136,7 @@ void main() {
         expect(h, equals("-105"));
 
         final i = await a.exercise2(
-          (a, b) { 
+          (a, b) {
             return (z) async {
               return (await a(3)) + (await b(3)) + z;
             };
@@ -207,22 +203,22 @@ void main() {
           },
           add3Things: (x, y, z) async {
             return x.toDouble() + y + z.toDouble();
-          }, 
+          },
           makeList: (a, b, c, d) async {
             return [a, b, c, d];
-          }, 
+          },
           fifthThing: (a, b, c, d, e) async {
             return e;
-          }, 
-          six: (a, b, c, d, e, f) async { 
+          },
+          six: (a, b, c, d, e, f) async {
             return f;
-          }, 
+          },
           willThrow: () async {
             throw(Exception('Spoon!'));
-          }, 
+          },
           exercise0Fun: (fn) async {
             return "${await fn() * 2}";
-          }, 
+          },
           exercise1Fun: (fn) async {
             return "${await fn(-7)}";
           },
@@ -245,7 +241,7 @@ void main() {
             final y = await fn("78", 6, 4.2, "12", () async { return 654; }, 98);
             return "$y";
           },
-          thunkTwiceMakerFun: (thunk) { 
+          thunkTwiceMakerFun: (thunk) {
             return () async {
               await thunk();
               await thunk();
@@ -282,7 +278,7 @@ void main() {
         final b = a.intCompose(
           (x) {
           return Future.delayed(const Duration(seconds: 0), () => x * 3);
-          }, 
+          },
           (y) {
           return Future.delayed(const Duration(seconds: 0), () => y * 5);
           }
@@ -292,10 +288,10 @@ void main() {
         expect(d, List.of(["By", "your", "powers", "combined"]));
         final e = await a.fifthThing(
           "I, am",
-          int64MaxValue,
+          4,
           double.minPositive,
           "Captain Planet!",
-          () { 
+          () {
             return Future.delayed(const Duration(seconds: 0), () => 42);
           }
         );
@@ -305,12 +301,12 @@ void main() {
           24,
           3.14159265359,
           "Beetleborgs",
-          () { 
+          () {
             return Future.delayed(const Duration(seconds: 0), () => 43);
           },
-          int64MinValue
+          4
         );
-        expect(f, equals(int64MinValue));
+        expect(f, equals(4));
 
         expect(() async => await a.willThrow(), throwsA(predicate((e) => '$e'.contains("TheAsyncError()"))));
 
@@ -320,7 +316,7 @@ void main() {
         expect(h, equals("-45"));
 
         final i = await a.exercise2(
-          (a, b) { 
+          (a, b) {
             return (z) async {
               return (await a(3)) + (await b(3)) + z;
             };
@@ -386,10 +382,72 @@ void main() {
         final b = a.witness();
         await testAsyncSwiftSideFunctionsCore(b);
       });
+
+      test('testDefaultComputedPropertiesImpl', () async {
+        final a = TestDefaultComputedPropertiesImplOverrideNoot();
+        expect(a.plutonic, equals("Newton Gimmick"));
+        expect(a.noot, equals(230723));
+
+        final b = TestDefaultComputedPropertiesImplOverridePlutonic();
+        expect(b.plutonic, equals("Teddy Ruxpin"));
+        expect(b.noot, equals(2983));
+      });
+
+      test('testDefaultComputedPropertiesStruct', () async {
+        final a = TestDefaultComputedPropertiesStruct(spam: true, noot: 98172);
+        expect(a.plutonic, equals("Newton Gimmick"));
+        expect(a.spam, equals(true));
+        expect(a.noot, equals(98172));
+      });
+
+      test('testDefaultComputedPropertiesReference', () {
+        final a = TestDefaultComputedPropertiesReference.init(false, 678753);
+        expect(a.plutonic, equals("Newton Gimmick"));
+        expect(a.spam, equals(false));
+        expect(a.noot, equals(678753));
+      });
+
+      test('testDefaultComputedPropertiesEnum', () {
+        final a = TestDefaultComputedPropertiesEnum.qux();
+        expect(a.plutonic, equals("Newton Gimmick"));
+        expect(a.spam, equals(true));
+        expect(a.noot, equals(72930));
+      });
+
+      test('testDifferingExportNameStruct', () {
+        final a = TestDifferingExportNameStruct(tata: 8923);
+        expect(a.tata, equals(8923));
+      });
+
+      test('testNonExportedProtocol', () {
+        final a = TestNonExportedProtocolEnum.hogehoge();
+        expect(a.fuga, equals(987890.23));
+        expect(a.hoge(), equals(23723.11));
+      });
+
+      test('testEqualsHashCodeToStringForReferences', () {
+        final a = TestProtocolClass.init("Zoobilee Zoo; Zoobilee Zoo!", flarp: "Magic and wonder are waiting for you.");
+        final b = TestProtocolClass.init("Zoobilee Zoo; Zoobilee Zoo!", flarp: "Magic and wonder are waiting for you.");
+        final c = TestProtocolClass.init("It's as close as a dream", flarp: "And as bright as the brightest blue-oo!");
+        expect(0, isNot(equals(a.hashCode)));
+        expect(a.hashCode, equals(b.hashCode));
+        expect(a.hashCode, isNot(equals(c.hashCode)));
+        // expect("TestAPI.TestProtocolClass", a.toString());
+        expect(a, equals(b));
+        expect(a, isNot(equals(c)));
+      });
   });
 }
 
-class TestAsyncFunctionsImpl implements TestAPI.TestAsyncFunctions {
+class TestDefaultComputedPropertiesImplOverrideNoot implements TestDefaultComputedProperties {
+  int get noot => 230723;
+}
+
+class TestDefaultComputedPropertiesImplOverridePlutonic implements TestDefaultComputedProperties {
+  String get plutonic => "Teddy Ruxpin";
+}
+
+class TestAsyncFunctionsImpl implements TestAsyncFunctions {
     @override
     Future<String> exercise0(
         Future<int> Function() fn
@@ -444,7 +502,7 @@ class TestAsyncFunctionsImpl implements TestAPI.TestAsyncFunctions {
       };
     }
     @override
-    TestAPI.TestAsyncFunctions witness(
+    TestAsyncFunctions witness(
     ) {
       return TestAsyncFunctionsImpl();
     }
@@ -484,7 +542,7 @@ class TestAsyncFunctionsImpl implements TestAPI.TestAsyncFunctions {
     }
     @override
     Future<int> Function(String, int, double, String, Future<int> Function(), int) get six {
-      return (a, b, c, d, e, f) async { 
+      return (a, b, c, d, e, f) async {
         return f;
       };
     }

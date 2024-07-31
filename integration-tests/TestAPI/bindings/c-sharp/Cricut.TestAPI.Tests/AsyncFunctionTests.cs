@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Xunit;
 
 namespace Cricut.TestAPI.Tests {
+    [Collection("root")]
     public class AsyncFunctionTests {
         // Helper to avoid warnings about trivial async functions
         private static async Task<T> Async<T>(T result) {

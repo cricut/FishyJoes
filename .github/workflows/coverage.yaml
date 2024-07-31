@@ -23,7 +23,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      SWIFT_WASM_VERSION: 5.9-SNAPSHOT-2024-03-27-a
+      SWIFT_WASM_VERSION: 5.10-SNAPSHOT-2024-04-26-a
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -51,6 +51,9 @@ jobs:
         with:
           dotnet-version: '6'
 
+      - name: Force clear nuget cache
+        run: "dotnet nuget locals all --clear"
+
       - name: Configure build environment
         shell: zsh {0}
         run: |
@@ -64,7 +67,7 @@ jobs:
               mv swift-wasm-$SWIFT_WASM_VERSION-macos_arm64.artifactbundle ~/swift-wasm-toolchains
           }
 
-          (cd integration-tests/TestAPI-bindings/node-test; npm install)
+          (cd integration-tests/TestAPI/bindings/ts/tests; npm install)
           (cd Tests/NAPITests/node-tests; npm install)
 
           if [[ ! -f $HOME/.dotnet/tools/dotnet-coverage ]]; then
@@ -87,8 +90,6 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
-
-          brew install sonar-scanner
 
           sonar-scanner \
             '-Dsonar.sources=.' \

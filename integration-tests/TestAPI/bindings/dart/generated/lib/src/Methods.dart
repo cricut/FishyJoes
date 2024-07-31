@@ -12,9 +12,15 @@ import './Collections.dart' as TestAPI;
 import './Collections_CollectionHolder.dart' as TestAPI;
 import './DefaultArguments.dart' as TestAPI;
 import './Deprecations.dart' as TestAPI;
+import './EmptyClass1.dart' as TestAPI;
+import './EmptyClass2.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
+import './EmptyStruct.dart' as TestAPI;
+import './EmptyStruct2.dart' as TestAPI;
 import './ExternalWitness_AProtocol.dart' as TestAPI;
 import './ExternalWitness_TestAsyncFunctions.dart' as TestAPI;
+import './ExternalWitness_TestDefaultComputedProperties.dart' as TestAPI;
+import './ExternalWitness_TestDifferingExportNameProtocolDiffy.dart' as TestAPI;
 import './ExternalWitness_TestLeadingUnderscoredProp.dart' as TestAPI;
 import './ExternalWitness_TestMethodsProtocol.dart' as TestAPI;
 import './ExternalWitness_TestOptionalsProtocol.dart' as TestAPI;
@@ -24,6 +30,8 @@ import './Methods.dart' as TestAPI;
 import './Primitives.dart' as TestAPI;
 import './Primitives_PrimitiveHolder.dart' as TestAPI;
 import './Ranges.dart' as TestAPI;
+import './Results.dart' as TestAPI;
+import './Results_Error.dart' as TestAPI;
 import './SimpleEnum.dart' as TestAPI;
 import './String_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Strings.dart' as TestAPI;
@@ -35,9 +43,16 @@ import './Structs_ReferenceStruct.dart' as TestAPI;
 import './TestAsyncForeignSideFunctionsStruct.dart' as TestAPI;
 import './TestAsyncFunctions.dart' as TestAPI;
 import './TestAsyncSwiftSideFunctionsClass.dart' as TestAPI;
+import './TestDefaultComputedProperties.dart' as TestAPI;
+import './TestDefaultComputedPropertiesEnum.dart' as TestAPI;
+import './TestDefaultComputedPropertiesReference.dart' as TestAPI;
+import './TestDefaultComputedPropertiesStruct.dart' as TestAPI;
+import './TestDifferingExportNameProtocolDiffy.dart' as TestAPI;
+import './TestDifferingExportNameStruct.dart' as TestAPI;
 import './TestLeadingUnderscoredProp.dart' as TestAPI;
 import './TestLeadingUnderscoredPropStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
+import './TestNonExportedProtocolEnum.dart' as TestAPI;
 import './TestOptionalsProtocol.dart' as TestAPI;
 import './TestPropertiesProtocol.dart' as TestAPI;
 import './TestProtocolClass.dart' as TestAPI;
@@ -69,58 +84,19 @@ class Methods extends SwiftReference {
         createRef(Methods(ref))
     );
 
-    @override
-    String toString() => 'Methods(staticGet: $staticGet, staticGetMethod: $staticGetMethod, staticModifiable: $staticModifiable, staticStored: $staticStored, instanceGet: $instanceGet, garply: $garply, instanceGetMethod: $instanceGetMethod, instanceModifiable: $instanceModifiable, instanceStored: $instanceStored)';
-
-    /// <!-- FishyJoes.export(staticGet) -->
-    static int get staticGet =>
-        check((exn) =>
-            f__iota_get_TestAPI_Methods_staticGet(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.exportAsMethod(staticGetMethod) -->
-    static int get staticGetMethod =>
-        check((exn) =>
-            f__iota_get_TestAPI_Methods_staticGetMethod(Loader.shared.env, exn)
-        )
-    ;
-    /// <!-- FishyJoes.export(staticModifiable) -->
-    static int get staticModifiable =>
-        check((exn) =>
-            f__iota_get_TestAPI_Methods_staticModifiable(Loader.shared.env, exn)
-        )
-    ;
-    static void set staticModifiable(int value) {
-        check((exn) =>
-            f__iota_set_TestAPI_Methods_staticModifiable(Loader.shared.env, value, exn)
-        )
-        ;
-    }
-    /// <!-- FishyJoes.export(staticStored) -->
-    static int get staticStored =>
-        check((exn) =>
-            f__iota_get_TestAPI_Methods_staticStored(Loader.shared.env, exn)
-        )
-    ;
-    static void set staticStored(int value) {
-        check((exn) =>
-            f__iota_set_TestAPI_Methods_staticStored(Loader.shared.env, value, exn)
-        )
-        ;
-    }
-    /// <!-- FishyJoes.export(instanceGet) -->
-    int get instanceGet =>
-        GCRef.using(this, (_thisHandle) =>
-            check((exn) =>
-                f__iota_get_TestAPI_Methods_instanceGet(Loader.shared.env, _thisHandle.ptr, exn)
-            )
-        )
-    ;
     /// <!-- FishyJoes.export(garply) -->
     int get garply =>
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
                 f__iota_get_TestAPI_Methods_garply(Loader.shared.env, _thisHandle.ptr, exn)
+            )
+        )
+    ;
+    /// <!-- FishyJoes.export(instanceGet) -->
+    int get instanceGet =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                f__iota_get_TestAPI_Methods_instanceGet(Loader.shared.env, _thisHandle.ptr, exn)
             )
         )
     ;
@@ -161,6 +137,42 @@ class Methods extends SwiftReference {
             check((exn) =>
                 f__iota_set_TestAPI_Methods_instanceStored(Loader.shared.env, _thisHandle.ptr, value, exn)
             )
+        )
+        ;
+    }
+    /// <!-- FishyJoes.export(staticGet) -->
+    static int get staticGet =>
+        check((exn) =>
+            f__iota_get_TestAPI_Methods_staticGet(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.exportAsMethod(staticGetMethod) -->
+    static int get staticGetMethod =>
+        check((exn) =>
+            f__iota_get_TestAPI_Methods_staticGetMethod(Loader.shared.env, exn)
+        )
+    ;
+    /// <!-- FishyJoes.export(staticModifiable) -->
+    static int get staticModifiable =>
+        check((exn) =>
+            f__iota_get_TestAPI_Methods_staticModifiable(Loader.shared.env, exn)
+        )
+    ;
+    static void set staticModifiable(int value) {
+        check((exn) =>
+            f__iota_set_TestAPI_Methods_staticModifiable(Loader.shared.env, value, exn)
+        )
+        ;
+    }
+    /// <!-- FishyJoes.export(staticStored) -->
+    static int get staticStored =>
+        check((exn) =>
+            f__iota_get_TestAPI_Methods_staticStored(Loader.shared.env, exn)
+        )
+    ;
+    static void set staticStored(int value) {
+        check((exn) =>
+            f__iota_set_TestAPI_Methods_staticStored(Loader.shared.env, value, exn)
         )
         ;
     }

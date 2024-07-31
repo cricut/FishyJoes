@@ -12,9 +12,15 @@ import './Collections.dart' as TestAPI;
 import './Collections_CollectionHolder.dart' as TestAPI;
 import './DefaultArguments.dart' as TestAPI;
 import './Deprecations.dart' as TestAPI;
+import './EmptyClass1.dart' as TestAPI;
+import './EmptyClass2.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
+import './EmptyStruct.dart' as TestAPI;
+import './EmptyStruct2.dart' as TestAPI;
 import './ExternalWitness_AProtocol.dart' as TestAPI;
 import './ExternalWitness_TestAsyncFunctions.dart' as TestAPI;
+import './ExternalWitness_TestDefaultComputedProperties.dart' as TestAPI;
+import './ExternalWitness_TestDifferingExportNameProtocolDiffy.dart' as TestAPI;
 import './ExternalWitness_TestLeadingUnderscoredProp.dart' as TestAPI;
 import './ExternalWitness_TestMethodsProtocol.dart' as TestAPI;
 import './ExternalWitness_TestOptionalsProtocol.dart' as TestAPI;
@@ -24,6 +30,8 @@ import './Methods.dart' as TestAPI;
 import './Primitives.dart' as TestAPI;
 import './Primitives_PrimitiveHolder.dart' as TestAPI;
 import './Ranges.dart' as TestAPI;
+import './Results.dart' as TestAPI;
+import './Results_Error.dart' as TestAPI;
 import './SimpleEnum.dart' as TestAPI;
 import './String_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Strings.dart' as TestAPI;
@@ -35,9 +43,16 @@ import './Structs_ReferenceStruct.dart' as TestAPI;
 import './TestAsyncForeignSideFunctionsStruct.dart' as TestAPI;
 import './TestAsyncFunctions.dart' as TestAPI;
 import './TestAsyncSwiftSideFunctionsClass.dart' as TestAPI;
+import './TestDefaultComputedProperties.dart' as TestAPI;
+import './TestDefaultComputedPropertiesEnum.dart' as TestAPI;
+import './TestDefaultComputedPropertiesReference.dart' as TestAPI;
+import './TestDefaultComputedPropertiesStruct.dart' as TestAPI;
+import './TestDifferingExportNameProtocolDiffy.dart' as TestAPI;
+import './TestDifferingExportNameStruct.dart' as TestAPI;
 import './TestLeadingUnderscoredProp.dart' as TestAPI;
 import './TestLeadingUnderscoredPropStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
+import './TestNonExportedProtocolEnum.dart' as TestAPI;
 import './TestOptionalsProtocol.dart' as TestAPI;
 import './TestPropertiesProtocol.dart' as TestAPI;
 import './TestProtocolClass.dart' as TestAPI;
@@ -201,18 +216,18 @@ sealed class AssociatedDataEnum {
         });
     }
 
-    /// <!-- FishyJoes.export(staticThing) -->
-    static TestAPI.AssociatedDataEnum get staticThing =>
-        check((exn) =>
-            consumeCreatedRef<TestAPI.AssociatedDataEnum>(f__iota_get_TestAPI_AssociatedDataEnum_staticThing(Loader.shared.env, exn))
-        )
-    ;
     /// <!-- FishyJoes.export(intValue) -->
     int get intValue =>
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
                 f__iota_get_TestAPI_AssociatedDataEnum_intValue(Loader.shared.env, _thisHandle.ptr, exn)
             )
+        )
+    ;
+    /// <!-- FishyJoes.export(staticThing) -->
+    static TestAPI.AssociatedDataEnum get staticThing =>
+        check((exn) =>
+            consumeCreatedRef<TestAPI.AssociatedDataEnum>(f__iota_get_TestAPI_AssociatedDataEnum_staticThing(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(plus) -->
@@ -251,16 +266,11 @@ class AssociatedDataEnum_Thing extends AssociatedDataEnum {
     final int value;
 
     @override
-    bool operator ==(Object other) {
-        return identical(other, this) ||
-        (
-            other.runtimeType == runtimeType &&
-            other is AssociatedDataEnum_Thing &&
-            (
-                const DeepCollectionEquality().equals(other.value, value)
-            )
-        );
-    }
+    bool operator ==(Object other) => identical(other, this) || (
+        other.runtimeType == runtimeType
+        && other is AssociatedDataEnum_Thing
+        && const DeepCollectionEquality().equals(other.value, value)
+    );
 
     @override
     int get hashCode => Object.hash(
@@ -288,22 +298,17 @@ class AssociatedDataEnum_Other extends AssociatedDataEnum {
     final int m_1;
 
     @override
-    bool operator ==(Object other) {
-        return identical(other, this) ||
-        (
-            other.runtimeType == runtimeType &&
-            other is AssociatedDataEnum_Other &&
-            (
-                const DeepCollectionEquality().equals(other.unnamed, unnamed) &&
-                const DeepCollectionEquality().equals(other.m_1, m_1)
-            )
-        );
-    }
+    bool operator ==(Object other) => identical(other, this) || (
+        other.runtimeType == runtimeType
+        && other is AssociatedDataEnum_Other
+        && const DeepCollectionEquality().equals(other.unnamed, unnamed)
+        && const DeepCollectionEquality().equals(other.m_1, m_1)
+    );
 
     @override
     int get hashCode => Object.hash(
         runtimeType,
-        const DeepCollectionEquality().hash(unnamed), 
+        const DeepCollectionEquality().hash(unnamed),
         const DeepCollectionEquality().hash(m_1)
     );
 
@@ -329,22 +334,17 @@ class AssociatedDataEnum_Bar extends AssociatedDataEnum {
     final TestAPI.AssociatedDataEnum m_1;
 
     @override
-    bool operator ==(Object other) {
-        return identical(other, this) ||
-        (
-            other.runtimeType == runtimeType &&
-            other is AssociatedDataEnum_Bar &&
-            (
-                const DeepCollectionEquality().equals(other.named, named) &&
-                const DeepCollectionEquality().equals(other.m_1, m_1)
-            )
-        );
-    }
+    bool operator ==(Object other) => identical(other, this) || (
+        other.runtimeType == runtimeType
+        && other is AssociatedDataEnum_Bar
+        && const DeepCollectionEquality().equals(other.named, named)
+        && const DeepCollectionEquality().equals(other.m_1, m_1)
+    );
 
     @override
     int get hashCode => Object.hash(
         runtimeType,
-        const DeepCollectionEquality().hash(named), 
+        const DeepCollectionEquality().hash(named),
         const DeepCollectionEquality().hash(m_1)
     );
 
@@ -364,13 +364,10 @@ class AssociatedDataEnum_NoValue extends AssociatedDataEnum {
     const AssociatedDataEnum_NoValue();
 
     @override
-    bool operator ==(Object other) {
-        return identical(other, this) ||
-        (
-            other.runtimeType == runtimeType &&
-            other is AssociatedDataEnum_NoValue
-        );
-    }
+    bool operator ==(Object other) => identical(other, this) || (
+        other.runtimeType == runtimeType
+        && other is AssociatedDataEnum_NoValue
+    );
 
     @override
     int get hashCode => runtimeType.hashCode;
@@ -389,16 +386,11 @@ class AssociatedDataEnum_SimpleEnum extends AssociatedDataEnum {
     final TestAPI.SimpleEnum value;
 
     @override
-    bool operator ==(Object other) {
-        return identical(other, this) ||
-        (
-            other.runtimeType == runtimeType &&
-            other is AssociatedDataEnum_SimpleEnum &&
-            (
-                const DeepCollectionEquality().equals(other.value, value)
-            )
-        );
-    }
+    bool operator ==(Object other) => identical(other, this) || (
+        other.runtimeType == runtimeType
+        && other is AssociatedDataEnum_SimpleEnum
+        && const DeepCollectionEquality().equals(other.value, value)
+    );
 
     @override
     int get hashCode => Object.hash(

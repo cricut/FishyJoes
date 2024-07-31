@@ -35,7 +35,7 @@ extension AProtocol {
     }
 }
 
-/// <!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->
+/// <!-- FishyJoes.export(AProtocolImplementation) -->
 public struct AProtocolImplementation: AProtocol {
     public var foo: String
     public var baz: Bool
@@ -75,6 +75,29 @@ public protocol TestPropertiesProtocol {
     var frob: [Int] { get throws }
 }
 
+/// <!-- FishyJoes.export(TestDefaultComputedProperties) -->
+public protocol TestDefaultComputedProperties {
+    /// <!-- FishyJoes.export(noot) -->
+    var noot: Int { get throws }
+    /// <!-- FishyJoes.export(plutonic) -->
+    var pluto: String { get throws }
+}
+
+extension TestDefaultComputedProperties {
+    /// <!-- FishyJoes.export(noot) -->
+    public var noot: Int {
+        get throws {
+            2983
+        }
+    }
+    /// <!-- FishyJoes.export(plutonic) -->
+    public var pluto: String {
+        get throws {
+            "Newton Gimmick"
+        }
+    }
+}
+
 /// <!-- FishyJoes.export(TestOptionalsProtocol) -->
 public protocol TestOptionalsProtocol {
     /// <!-- FishyJoes.export(flarp) -->
@@ -85,7 +108,52 @@ public protocol TestOptionalsProtocol {
     func spqr(_ pippo: AssociatedDataEnum) throws -> Int
 }
 
-/// <!-- FishyJoes.export(TestProtocolEnum, conformances: [TestMethodsProtocol]) -->
+/// <!-- FishyJoes.export(TestDefaultComputedPropertiesStruct) -->
+public struct TestDefaultComputedPropertiesStruct: TestDefaultComputedProperties {
+    public var spam: Bool
+    public var noot: Int
+
+    public init(
+        spam: Bool,
+        noot: Int
+    ) {
+        self.spam = spam
+        self.noot = noot
+    }
+}
+
+/// <!-- FishyJoes.exportReference(TestDefaultComputedPropertiesReference) -->
+public struct TestDefaultComputedPropertiesClass: TestDefaultComputedProperties {
+    /// <!-- FishyJoes.export(spam) -->
+    public var spam: Bool
+    /// <!-- FishyJoes.export(noot) -->
+    public var noot: Int
+
+    /// <!-- FishyJoes.export(init) -->
+    public init(
+        spam: Bool,
+        noot: Int
+    ) {
+        self.spam = spam
+        self.noot = noot
+    }
+}
+
+/// <!-- FishyJoes.export(TestDefaultComputedPropertiesEnum) -->
+public enum TestDefaultComputedPropertiesEnum: TestDefaultComputedProperties {
+    case qux
+
+    /// <!-- FishyJoes.export(spam) -->
+    public var spam: Bool {
+        true
+    }
+    /// <!-- FishyJoes.export(noot) -->
+    public var noot: Int {
+        72930
+    }
+}
+
+/// <!-- FishyJoes.export(TestProtocolEnum) -->
 public enum TestProtocolEnum: TestMethodsProtocol {
     static let debugPrints = false
 
@@ -117,7 +185,7 @@ public enum TestProtocolEnum: TestMethodsProtocol {
     }
 }
 
-/// <!-- FishyJoes.export(TestProtocolStruct, conformances: [TestMethodsProtocol, TestPropertiesProtocol]) -->
+/// <!-- FishyJoes.export(TestProtocolStruct) -->
 public struct TestProtocolStruct: TestMethodsProtocol, TestPropertiesProtocol {
     static let debugPrints = false
 
@@ -159,8 +227,18 @@ public struct TestProtocolStruct: TestMethodsProtocol, TestPropertiesProtocol {
     }
 }
 
-/// <!-- FishyJoes.exportReference(TestProtocolClass, conformances: [TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol]) -->
-public class TestProtocolClass: TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol {
+/// <!-- FishyJoes.exportReference(TestProtocolClass) -->
+public class TestProtocolClass: TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol, Hashable {
+    public static func == (lhs: TestProtocolClass, rhs: TestProtocolClass) -> Bool {
+        lhs.corge == rhs.corge &&
+        lhs.flarp == rhs.flarp
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(corge)
+        hasher.combine(flarp)
+    }
+
     static let debugPrints = false
 
     /// <!-- FishyJoes.export(foo) -->
@@ -232,15 +310,15 @@ public protocol TestLeadingUnderscoredProp {
 }
 
 // TODO: make this work for Kotlin
-///// <!-- FishyJoes.export(TestLeadingUnderscoredMethod) -->
+// /// <!-- FishyJoes.export(TestLeadingUnderscoredMethod) -->
 // public protocol TestLeadingUnderscoredMethod {
 //    /// <!-- FishyJoes.export(_leadingUnderscoreMethod) -->
 //    func _leadingUnderscoreMethod() throws -> String
 // }
 
-///// <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp, TestLeadingUnderscoredMethod]) -->
+// /// <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct) -->
 // public struct TestLeadingUnderscoredPropStruct: TestLeadingUnderscoredProp, TestLeadingUnderscoredMethod {
-/// <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp]) -->
+/// <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct) -->
 public struct TestLeadingUnderscoredPropStruct: TestLeadingUnderscoredProp {
     public var _leadingUnderscoreProp: String
 
@@ -248,7 +326,7 @@ public struct TestLeadingUnderscoredPropStruct: TestLeadingUnderscoredProp {
         self._leadingUnderscoreProp = _leadingUnderscoreProp
     }
 
-    // TODO: make this work for Kotlin
+// TODO: make this work for Kotlin
 //    /// <!-- FishyJoes.export(_leadingUnderscoreMethod) -->
 //    public func _leadingUnderscoreMethod() throws -> String {
 //        "Captain Planet, he's our hero; Gonna take pollution down to zero."
@@ -302,7 +380,7 @@ extension TestAsyncFunctions {
     }
 }
 
-/// <!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct, conformances: [TestAsyncFunctions]) -->
+/// <!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct) -->
 public struct TestAsyncForeignSideFunctionsStruct: TestAsyncFunctions {
     public let const42: AsyncFunctions.AFun0
     public let iabs: AsyncFunctions.AFun1
@@ -412,7 +490,7 @@ public struct TestAsyncForeignSideFunctionsStruct: TestAsyncFunctions {
     }
 }
 
-/// <!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass, conformances: [TestAsyncFunctions]) -->
+/// <!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass) -->
 public class TestAsyncSwiftSideFunctionsClass: TestAsyncFunctions {
     /// <!-- FishyJoes.export(const42) -->
     public var const42: AsyncFunctions.AFun0 { AsyncFunctions.const42 }
@@ -475,4 +553,45 @@ public class TestAsyncSwiftSideFunctionsClass: TestAsyncFunctions {
 
     /// <!-- FishyJoes.export(init) -->
     public init() {}
+}
+
+/// <!-- FishyJoes.export(TestDifferingExportNameProtocolDiffy) -->
+public protocol TestDifferingExportNameProtocol {
+    /// <!-- FishyJoes.export(tata) -->
+    var tata: Int { get throws }
+}
+
+/// <!-- FishyJoes.export(TestDifferingExportNameStruct) -->
+public struct TestDifferingExportNameStruct: TestDifferingExportNameProtocol {
+    public var tata: Int
+
+    public init(tata: Int) {
+        self.tata = tata
+    }
+}
+
+// This protocol is NOT exported to FishyJoes. We must confirm that an extension a thing that conforms to this protocol does NOT make it into exportedProtocols that are used by the Kotlin/Dart/C#/Node things, because Sourcery does add it to type.implements in this case.
+public protocol NonExportedProtocol1 {
+    var fuga: Double { get throws }
+}
+
+public protocol NonExportedProtocol2 {
+    func hoge() -> Double
+}
+
+/// <!-- FishyJoes.export(TestNonExportedProtocolEnum) -->
+public enum TestNonExportedProtocolEnum: NonExportedProtocol1 {
+    case hogehoge
+
+    /// <!-- FishyJoes.export(fuga) -->
+    public var fuga: Double {
+        987890.23
+    }
+}
+
+extension TestNonExportedProtocolEnum: NonExportedProtocol2 {
+    /// <!-- FishyJoes.export(hoge) -->
+    public func hoge() -> Double {
+        23723.11
+    }
 }

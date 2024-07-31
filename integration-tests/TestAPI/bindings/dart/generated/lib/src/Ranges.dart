@@ -12,9 +12,15 @@ import './Collections.dart' as TestAPI;
 import './Collections_CollectionHolder.dart' as TestAPI;
 import './DefaultArguments.dart' as TestAPI;
 import './Deprecations.dart' as TestAPI;
+import './EmptyClass1.dart' as TestAPI;
+import './EmptyClass2.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
+import './EmptyStruct.dart' as TestAPI;
+import './EmptyStruct2.dart' as TestAPI;
 import './ExternalWitness_AProtocol.dart' as TestAPI;
 import './ExternalWitness_TestAsyncFunctions.dart' as TestAPI;
+import './ExternalWitness_TestDefaultComputedProperties.dart' as TestAPI;
+import './ExternalWitness_TestDifferingExportNameProtocolDiffy.dart' as TestAPI;
 import './ExternalWitness_TestLeadingUnderscoredProp.dart' as TestAPI;
 import './ExternalWitness_TestMethodsProtocol.dart' as TestAPI;
 import './ExternalWitness_TestOptionalsProtocol.dart' as TestAPI;
@@ -24,6 +30,8 @@ import './Methods.dart' as TestAPI;
 import './Primitives.dart' as TestAPI;
 import './Primitives_PrimitiveHolder.dart' as TestAPI;
 import './Ranges.dart' as TestAPI;
+import './Results.dart' as TestAPI;
+import './Results_Error.dart' as TestAPI;
 import './SimpleEnum.dart' as TestAPI;
 import './String_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Strings.dart' as TestAPI;
@@ -35,9 +43,16 @@ import './Structs_ReferenceStruct.dart' as TestAPI;
 import './TestAsyncForeignSideFunctionsStruct.dart' as TestAPI;
 import './TestAsyncFunctions.dart' as TestAPI;
 import './TestAsyncSwiftSideFunctionsClass.dart' as TestAPI;
+import './TestDefaultComputedProperties.dart' as TestAPI;
+import './TestDefaultComputedPropertiesEnum.dart' as TestAPI;
+import './TestDefaultComputedPropertiesReference.dart' as TestAPI;
+import './TestDefaultComputedPropertiesStruct.dart' as TestAPI;
+import './TestDifferingExportNameProtocolDiffy.dart' as TestAPI;
+import './TestDifferingExportNameStruct.dart' as TestAPI;
 import './TestLeadingUnderscoredProp.dart' as TestAPI;
 import './TestLeadingUnderscoredPropStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
+import './TestNonExportedProtocolEnum.dart' as TestAPI;
 import './TestOptionalsProtocol.dart' as TestAPI;
 import './TestPropertiesProtocol.dart' as TestAPI;
 import './TestProtocolClass.dart' as TestAPI;
@@ -70,10 +85,34 @@ class Ranges {
         throw UnsupportedError('This class is supposed to be uninhabited');
     });
 
-    /// <!-- FishyJoes.export(uInt8Range) -->
-    static FishyJoesRuntime.SwiftRange<int> get uInt8Range =>
+    /// <!-- FishyJoes.export(int16Range) -->
+    static FishyJoesRuntime.SwiftRange<int> get int16Range =>
         check((exn) =>
-            consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(f__iota_get_TestAPI_Ranges_uInt8Range(Loader.shared.env, exn))
+            consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(f__iota_get_TestAPI_Ranges_int16Range(Loader.shared.env, exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(int32Range) -->
+    static FishyJoesRuntime.SwiftRange<int> get int32Range =>
+        check((exn) =>
+            consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(f__iota_get_TestAPI_Ranges_int32Range(Loader.shared.env, exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(int64Range) -->
+    static FishyJoesRuntime.SwiftRange<int> get int64Range =>
+        check((exn) =>
+            consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(f__iota_get_TestAPI_Ranges_int64Range(Loader.shared.env, exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(int8Range) -->
+    static FishyJoesRuntime.SwiftRange<int> get int8Range =>
+        check((exn) =>
+            consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(f__iota_get_TestAPI_Ranges_int8Range(Loader.shared.env, exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(intRange) -->
+    static FishyJoesRuntime.SwiftRange<int> get intRange =>
+        check((exn) =>
+            consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(f__iota_get_TestAPI_Ranges_intRange(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(uInt16Range) -->
@@ -94,40 +133,16 @@ class Ranges {
             consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(f__iota_get_TestAPI_Ranges_uInt64Range(Loader.shared.env, exn))
         )
     ;
+    /// <!-- FishyJoes.export(uInt8Range) -->
+    static FishyJoesRuntime.SwiftRange<int> get uInt8Range =>
+        check((exn) =>
+            consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(f__iota_get_TestAPI_Ranges_uInt8Range(Loader.shared.env, exn))
+        )
+    ;
     /// <!-- FishyJoes.export(uIntRange) -->
     static FishyJoesRuntime.SwiftRange<int> get uIntRange =>
         check((exn) =>
             consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(f__iota_get_TestAPI_Ranges_uIntRange(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(int8Range) -->
-    static FishyJoesRuntime.SwiftRange<int> get int8Range =>
-        check((exn) =>
-            consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(f__iota_get_TestAPI_Ranges_int8Range(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(int16Range) -->
-    static FishyJoesRuntime.SwiftRange<int> get int16Range =>
-        check((exn) =>
-            consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(f__iota_get_TestAPI_Ranges_int16Range(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(int32Range) -->
-    static FishyJoesRuntime.SwiftRange<int> get int32Range =>
-        check((exn) =>
-            consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(f__iota_get_TestAPI_Ranges_int32Range(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(int64Range) -->
-    static FishyJoesRuntime.SwiftRange<int> get int64Range =>
-        check((exn) =>
-            consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(f__iota_get_TestAPI_Ranges_int64Range(Loader.shared.env, exn))
-        )
-    ;
-    /// <!-- FishyJoes.export(intRange) -->
-    static FishyJoesRuntime.SwiftRange<int> get intRange =>
-        check((exn) =>
-            consumeCreatedRef<FishyJoesRuntime.SwiftRange<int>>(f__iota_get_TestAPI_Ranges_intRange(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(echoUInt8Range) -->

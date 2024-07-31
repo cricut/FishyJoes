@@ -17,6 +17,43 @@ internal class StructTests {
     }
 
     @Test
+    fun testEmptyStruct() {
+        val a1 = EmptyStruct.create()
+        assertEquals(a1.tutu, 35671)
+        assertEquals(a1.tatiana, "Toodles! ta ta for now...")
+        assertEquals(a1.aap(), "The Netherlands")
+
+        val a2 = EmptyStruct.create()
+        assertEquals(a2.tutu, 35671)
+        assertEquals(a2.tatiana, "Toodles! ta ta for now...")
+        assertEquals(a2.aap(), "The Netherlands")
+
+        val a3 = a2.copy()
+        assertEquals(a3.tutu, 35671)
+        assertEquals(a3.tatiana, "Toodles! ta ta for now...")
+        assertEquals(a3.aap(), "The Netherlands")
+
+        assertEquals(a1, a2)
+        assertEquals(a1.hashCode(), a2.hashCode())
+
+        assertEquals(a2, a3)
+        assertEquals(a2.hashCode(), a3.hashCode())
+        
+        assertEquals(a1.toString(), "EmptyStruct()")
+        
+        val b1 = EmptyStruct2.create()
+        assertEquals(b1.tutu, 12897)
+        assertEquals(b1.tatiana, "Arrivederci")
+        assertEquals(b1.aap(), "The Netherlands2")
+        assertEquals(b1.zxccxz(), "Cambridge University (England)2")
+
+        assertEquals(b1.toString(), "EmptyStruct2()")
+
+        assertNotEquals(a1, b1);
+        assertNotEquals(a1.hashCode(), b1.hashCode())
+    }
+
+    @Test
     fun testMutablility() {
         val memberwise = Structs.MemberwiseStruct.create()
         assertEquals(memberwise.immutable, "Eternal")

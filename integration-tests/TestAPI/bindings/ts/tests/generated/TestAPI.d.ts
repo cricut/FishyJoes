@@ -1,805 +1,5 @@
-export type Optional<T> = T | undefined;
-export declare namespace Runtime {
-    /**
-     * A half-open interval from a lower bound up to, but not including, an upper bound.
-     *
-     * @remarks
-     * Represents the concept of a half-open range of values using rules identical to those used by Swift.
-     * A Swift range requires that its lower bound be less-than-or-equal-to its upper bound.
-     *
-     * Because a half-open range does not include its upper bound, a half-open range whose lower bound
-     * is equal to the upper bound represents an empty range.
-     *
-     * @param lowerBound - The lower value of the range, inclusive.
-     * @param upperBound - The upper value of the range, exclusive.
-     */
-    export type SwiftRange<T> = { lowerBound: T, upperBoundExclusive: T };
-    /**
-     * An interval from a lower bound up to, and including, an upper bound.
-     *
-     * @remarks
-     * Represents the concept of a range of values using rules identical to those used by Swift.
-     * A Swift range requires that its lower bound be less-than-or-equal-to its upper bound.
-     *
-     * Because a closed range includes its upper bound, a closed range whose lower bound
-     * is equal to the upper bound contains that value. Therefore, a SwiftClosedRange instance
-     * cannot represent an empty range.
-     *
-     * @param lowerBound - The lower value of the range, inclusive.
-     * @param upperBound - The upper value of the range, inclusive.
-     */
-    export type SwiftClosedRange<T> = { lowerBound: T, upperBoundInclusive: T };
-    /**
-     * A type that provides a way to store attributes and their values outside of an attributed string.
-     *
-     * Use this type to initialize an instance of AttributedString with preset attributes,
-     * and to set, merge, or replace attributes in existing attributed strings.
-     *
-     * Libraries that depend on `AttributeContainer` are free to define their own attributes to be associated with attributed strings.
-     * As a result of this flexibility, the actual values of attributes can only be obtained using types defined in those libraries.
-     *
-     * The runtime itself defines one such type, `AttributeContainer.FoundationAttributes`.
-     * To obtain the values of attributes from that type, such as the `link` attribute or `languageIdentifier` attribute,
-     * one must construct an instance passing the container:
-     *
-     * `link = AttributeContainer.FoundationAttributes(someContainer).link`
-     *
-     * <!-- FishyJoes.exportReference(AttributeContainer) -->
-     */
-    export class AttributeContainer {
-        private constructor()
-        private _inhibitStructuralTyping: any
-        /**
-         * Merges the attributes of another attribute container with those of this container.
-         *
-         * - Parameter other The other attribute container whose attributes should be merged into this container.
-         * - Parameter keepCurrent For attributes in `other` that already have a value in this container,
-         *     passing `true` retains the current value of the attribute,
-         *     passing `false` replaces the value of the attribute with the one in `other`.
-         *
-         * <!-- FishyJoes.export(merge) -->
-         */
-        merge(
-            other: AttributeContainer,
-            options?: {
-                "keepCurrent"?: boolean /* defaults to `false` */,
-            }
-        ): void;
-        equals(
-            other: AttributeContainer
-        ): boolean;
-        hashCode(
-        ): number;
-        /**
-         * Creates an attribute container having no attribute values.
-         * <!-- FishyJoes.export(createEmpty) -->
-         */
-        static createEmpty(
-        ): AttributeContainer;
-    }
-    export namespace AttributeContainer {
-        /**
-         * Attributes defined by the Swift Foundation library in ``AttributeScopes``, packaged as a static type.
-         *
-         * This type (and the ones like it defined in other libraries) allow features similar to those
-         * offered by Swift dynamic member lookup in ``AttributeScope`` to be exported to other languages.
-         *
-         * An attribute container can be asked to fill in the fields defined by this structure using `AttributeContainerFoundationAttributes(AttributeContainer)`.
-         * This type can be asked to fill in an attribute container using `AttributeContainer(FoundationAttributes)`.
-         *
-         * Combining these calls with `AttributedString.setAttributes(_:)` and `AttributedString.mergeAttributes(_:)` allows expansion
-         * of attributed strings with new attributes in other languages analogously to how it is done in ``AttributeScopes`` using Swift dynamic member lookup.
-         *
-         * <!-- FishyJoes.exportReference(AttributeContainer.FoundationAttributes) -->
-         */
-        export class FoundationAttributes {
-            private constructor()
-            private _inhibitStructuralTyping: any
-            /**
-             * A link attribute.
-             * <!-- FishyJoes.export(link) -->
-             */
-            link?: URL;
-            /**
-             * A language identifier attribute.
-             * <!-- FishyJoes.export(languageIdentifier) -->
-             */
-            languageIdentifier?: string;
-            equals(
-                other: AttributeContainer.FoundationAttributes
-            ): boolean;
-    
-            hashCode(
-            ): number;
-            /**
-             * Creates a Foundation attribute container having no attribute values.
-             * <!-- FishyJoes.export(createEmpty) -->
-             */
-            static createEmpty(
-            ): AttributeContainer.FoundationAttributes;
-            /**
-             * Extracts the Foundation attributes from an attribute container and makes them available as statically typed properties.
-             * <!-- FishyJoes.export(createFromContainer) -->
-             */
-            static createFromContainer(
-                container: AttributeContainer
-            ): AttributeContainer.FoundationAttributes;
-            /**
-             * Obtains an attribute container which contains the attributes from this type.
-             * <!-- FishyJoes.export(asContainer) -->
-             */
-            asContainer(): AttributeContainer;
-        }
-    }
-    /**
-     * A string with associated attributes for portions of its text.
-     *
-     * See `text` or `characters` for access to the text of an attributed string.
-     * See `runs` for access to the attribute information associated with the attributed string's text.
-     *
-     * <!-- FishyJoes.exportReference(AttributedString) -->
-     */
-    export class AttributedString {
-        private constructor()
-        private _inhibitStructuralTyping: any
-        /**
-         * Text represented by the attributed string.
-         *
-         * See `runs` for the attribute information associated with the attributed string's text.
-         *
-         * <!-- FishyJoes.export(string) -->
-         */
-        readonly string: string;
-        /**
-         * The attributed runs of the attributed string, as a view into the underlying string.
-         *
-         * This view provides access to the attribute information associated with the attributed string.
-         *
-         * See `runs.elementAtPosition()` or its `get()` operator for a way to access the attributes that
-         * are associated with a particular position in the attributed string.
-         *
-         * For example, `s.runs.first().attributes` yields the attributes in the first run of `s`
-         * and `s.runs[index].attributes` yields the attributes associated with the position `index` in `s`.
-         *
-         * <!-- FishyJoes.export(runs) -->
-         */
-        readonly runs: AttributedString.Runs;
-        /**
-         * The characters of the attributed string, as a view into the underlying string.
-         * <!-- FishyJoes.export(characters) -->
-         */
-        readonly characters: AttributedString.CharacterView;
-        /**
-         * The Unicode scalars of the attributed string, as a view into the underlying string.
-         * <!-- FishyJoes.export(unicodeScalars) -->
-         */
-        readonly unicodeScalars: AttributedString.UnicodeScalarView;
-        /**
-         * An attributed substring representing the full content of the attributed string.
-         * <!-- FishyJoes.export(substring) -->
-         */
-        readonly substring: AttributedSubstring;
-        /**
-         * The position of the first character in a nonempty attributed string.
-         *
-         * See `runs`, `characters`, and `unicodeScalars` for ways to obtain other indices within the attributed string.
-         *
-         * <!-- FishyJoes.export(startIndex) -->
-         */
-        readonly startIndex: AttributedString.Index;
-        /**
-         * An attributed string’s past-the-end position — the position one greater than the last valid subscript argument.
-         *
-         * See `runs`, `characters`, and `unicodeScalars` for ways to obtain other indices within the attributed string.
-         *
-         * <!-- FishyJoes.export(endIndex) -->
-         */
-        readonly endIndex: AttributedString.Index;
-        /**
-         * Obtains an attributed substring representing part of the attributed string.
-         *
-         * - Parameter range The portion of the attributed string to be represented by the substring, bounded by `startIndex` and `endIndex`.
-         *
-         * <!-- FishyJoes.export(substringForRange) -->
-         */
-        substringForRange(
-            /* for */ range: SwiftRange<AttributedString.Index>
-        ): AttributedSubstring;
-        /**
-         * Appends the text and any associated attributes of another attributed string to the end of this one.
-         * - Parameter attributedString The attributed string containing the text and attributes to append.
-         *
-         * <!-- FishyJoes.export(append) -->
-         */
-        append(
-            attributedString: AttributedString
-        ): void;
-        /**
-         * Appends the text and any associated attributes of the portion of an attributed string represented by a substring to the end of this one.
-         * - Parameter subtring The substring containing the text and attributes to append.
-         *
-         * <!-- FishyJoes.export(appendSubstring) -->
-         */
-        appendSubstring(
-            substring: AttributedSubstring
-        ): void;
-        /**
-         * Inserts the text and any associated attributes of another attributed string into this one at the specified position.
-         *
-         * - Parameter attributedString The attributed string containing the text and attributes to insert.
-         * - Parameter index Position at which the content of `attributedString` should be inserted, bounded by `startIndex` and `endIndex`.
-         *     If `index` is `startIndex` the content will be inserted before all content of this attributed string.
-         *     If `index` is `endIndex` the content will be inserted after all content of this attributed string, similar to `append()`.
-         *
-         * <!-- FishyJoes.export(insert) -->
-         */
-        insert(
-            attributedString: AttributedString,
-            /* at */ index: AttributedString.Index
-        ): void;
-        /**
-         * Inserts the text and any associated attributes of a substring of an attributed string into this one at the specified position.
-         *
-         * - Parameter substring The substring of an attributed string containing the text and attributes to insert.
-         * - Parameter index Position at which the content of `substring` should be inserted, bounded by `startIndex` and `endIndex`.
-         *     If `index` is `startIndex` the content will be inserted before all content of this attributed string.
-         *     If `index` is `endIndex` the content will be inserted after all content of this attributed string, similar to `appendSubstring()`.
-         *
-         * <!-- FishyJoes.export(insertSubstring) -->
-         */
-        insertSubstring(
-            substring: AttributedSubstring,
-            /* at */ index: AttributedString.Index
-        ): void;
-        /**
-         * Replaces a portion of the text and associated attributes of the attributed string with content from another one.
-         *
-         * - Parameter range The portion of the attributed string to be replaced, bounded by `startIndex` and `endIndex`.
-         * - Parameter attributedString The attributed string containing the text and attributes that replaces the content in `range`.
-         *
-         * <!-- FishyJoes.export(replaceSubrange) -->
-         */
-        replaceSubrange(
-            range: SwiftRange<AttributedString.Index>,
-            /* with */ attributedString: AttributedString
-        ): void;
-        /**
-         * Replaces a portion of the text and associated attributes of the attributed string with content from a substring of another one.
-         *
-         * - Parameter range The portion of the attributed string to be replaced, bounded by `startIndex` and `endIndex`.
-         * - Parameter substring The substring of an attributed string containing the text and attributes that replaces the content in `range`.
-         *
-         * <!-- FishyJoes.export(replaceSubrangeWithSubstring) -->
-         */
-        replaceSubrangeWithSubstring(
-            range: SwiftRange<AttributedString.Index>,
-            /* with */ substring: AttributedSubstring
-        ): void;
-        /**
-         * Removes a portion of the text and associated attributes from the attributed string.
-         *
-         * - Parameter range The portion of the attributed string to remove, bounded by `startIndex` and `endIndex`.
-         *
-         * <!-- FishyJoes.export(removeSubrange) -->
-         */
-        removeSubrange(
-            range: SwiftRange<AttributedString.Index>
-        ): void;
-        /**
-         * Associates attributes with the content of the entire attributed string, replacing any existing attribute information.
-         *
-         * - Parameter attributes The attributes which will subsequently apply to all text in the attributed string.
-         *
-         * <!-- FishyJoes.export(setAttributes) -->
-         */
-        setAttributes(
-            attributes: AttributeContainer
-        ): void;
-        /**
-         * Associates attributes with the content of a portion of the attributed string, replacing any existing attribute information.
-         *
-         * - Parameter range The portion of the attributed string whose attributes are to be replaced, bounded by `startIndex` and `endIndex`.
-         * - Parameter attributes The attributes which will subsequently apply to the text in `range`.
-         *
-         * <!-- FishyJoes.export(setAttributesForRange) -->
-         */
-        setAttributesForRange(
-            /* for */ range: SwiftRange<AttributedString.Index>,
-            attributes: AttributeContainer
-        ): void;
-        /**
-         * Associates attributes with the content of the entire attributed string, merging with any existing attribute information.
-         *
-         * - Parameter attributes The attributes which will subsequently apply to all text in the attributed string.
-         * - Parameter keepCurrent For attributes in `attributes` that already have a value in the attributed string,
-         *     passing `true` retains the current value of the attribute,
-         *     passing `false` replaces the value of the attribute with the one in `attributes`.
-         *
-         * <!-- FishyJoes.export(mergeAttributes) -->
-         */
-        mergeAttributes(
-            attributes: AttributeContainer,
-            options?: {
-                "keepCurrent"?: boolean /* defaults to `false` */,
-            }
-        ): void;
-        /**
-         * Associates attributes with the content of a portion of the attributed string, merging with any existing attribute information.
-         *
-         * - Parameter range The portion of the attributed string whose attributes are to be modified, bounded by `startIndex` and `endIndex`.
-         * - Parameter attributes The attributes which will subsequently apply to the text in `range`.
-         * - Parameter keepCurrent For attributes in `attributes` that already have a value in `range` in the attributed string,
-         *     passing `true` retains the current value of the attribute,
-         *     passing `false` replaces the value of the attribute with the one in `attributes`.
-         *
-         * <!-- FishyJoes.export(mergeAttributesForRange) -->
-         */
-        mergeAttributesForRange(
-            /* for */ range: SwiftRange<AttributedString.Index>,
-            attributes: AttributeContainer,
-            options?: {
-                "keepCurrent"?: boolean /* defaults to `false` */,
-            }
-        ): void;
-        /**
-         * Replaces occurrences of attributes in one attribute container with those in another attribute container.
-         *
-         * - Parameter attributes The existing attributes to replace.
-         * - Parameter others The new attributes to apply.
-         *
-         * <!-- FishyJoes.export(replaceAttributes) -->
-         */
-        replaceAttributes(
-            attributes: AttributeContainer,
-            /* with */ others: AttributeContainer
-        ): void;
-        /**
-         * Replaces occurrences of attributes in one attribute container with those in another attribute container.
-         *
-         * - Parameter range The portion of the attributed string whose attributes are to be modified, bounded by `startIndex` and `endIndex`.
-         * - Parameter attributes The existing attributes to replace.
-         * - Parameter others The new attributes to apply.
-         *
-         * <!-- FishyJoes.export(replaceAttributesForRange) -->
-         */
-        replaceAttributesForRange(
-            /* for */ range: SwiftRange<AttributedString.Index>,
-            attributes: AttributeContainer,
-            /* with */ others: AttributeContainer
-        ): void;
-        equals(
-            other: AttributedString
-        ): boolean;
-        hashCode(
-        ): number;
-        /**
-         * Creates an attributed string containing the empty string as its text with no associated attributes.
-         * <!-- FishyJoes.export(createEmpty) -->
-         */
-        static createEmpty(
-        ): AttributedString;
-        /**
-         * Creates an attributed string containing a string as its text, all associated with the specified attributes.
-         *
-         * - Parameter string A string containing the text to serve as the content of the attributed string.
-         * - Parameter attributes Attributes to associate with the full range of the attributed string.
-         *
-         * <!-- FishyJoes.export(create) -->
-         */
-        static create(
-            string: string,
-            options?: {
-                "attributes"?: Optional<AttributeContainer> /* defaults to `nil` */,
-            }
-        ): AttributedString;
-        /**
-         * Creates an attributed string drawing its the text and attributes from a substring of another attributed string.
-         *
-         * - Parameter substring A substring of another attributed string whose content is used for the created attributed string.
-         *
-         * <!-- FishyJoes.export(createFromSubstring) -->
-         */
-        static createFromSubstring(
-            substring: AttributedSubstring
-        ): AttributedString;
-    }
-    export namespace AttributedString {
-        /**
-         * A type that represents the position of a character or code unit within an attributed string.
-         * <!-- FishyJoes.exportReference(AttributedString.Index) -->
-         */
-        export class Index {
-            private constructor()
-            private _inhibitStructuralTyping: any
-            equals(
-                other: AttributedString.Index
-            ): boolean;
-    
-            hashCode(
-            ): number;
-            compare(
-                other: AttributedString.Index
-            ): number;
-        }
-        /**
-         * An iterable view into segments of the attributed string or substring, each of which indicates where a run of identical attributes begins or ends.
-         * <!-- FishyJoes.exportReference(AttributedString.Runs) -->
-         */
-        export class Runs {
-            private constructor()
-            private _inhibitStructuralTyping: any
-            /**
-             * The position of the first run in a nonempty attributed string or substring.
-             * <!-- FishyJoes.export(startIndex) -->
-             */
-            readonly startIndex: AttributedString.Runs.Index;
-            /**
-             * The past-the-end position — the position one greater than the last valid subscript argument.
-             * <!-- FishyJoes.export(endIndex) -->
-             */
-            readonly endIndex: AttributedString.Runs.Index;
-            /**
-             * Obtains the run index before another index.
-             *
-             * - Parameter index The index serving as the starting position, between `startIndex` exclusive and `endIndex` inclusive.
-             * - Returns The index of the run before `index`.
-             *     If `index` is `startIndex` an exception is thrown.
-             *     If `index` is `endIndex`, the last valid index is returned.
-             *
-             * <!-- FishyJoes.export(indexBefore) -->
-             */
-            indexBefore(
-                /* before */ i: AttributedString.Runs.Index
-            ): AttributedString.Runs.Index;
-            /**
-             * Obtains the run index after another index.
-             *
-             * - Parameter index The index serving as the starting position, between `startIndex` inclusive and `endIndex` exclusive.
-             * - Returns The index of the run after `index`.
-             *     If `index` is `endIndex`, an exception is thrown.
-             *     If `index` is `startIndex`, the first valid index is returned.
-             *
-             * <!-- FishyJoes.export(indexAfter) -->
-             */
-            indexAfter(
-                /* after */ i: AttributedString.Runs.Index
-            ): AttributedString.Runs.Index;
-            /**
-             * Obtains the run descriptor at a run index.
-             *
-             * - Parameter index The index of the desired run, between `startIndex` inclusive and `endIndex` exclusive.
-             * - Returns The descriptor for the run at `index`.
-             *      If `index` is `endIndex`, an exception is thrown.
-             *      If `index` is `startIndex`, the first valid run descriptor is returned.
-             *
-             * <!-- FishyJoes.export(elementAt) -->
-             */
-            elementAt(
-                /* at */ index: AttributedString.Runs.Index
-            ): AttributedString.Runs.Run;
-            /**
-             * Obtains the run descriptor associated with an attributed string index.
-             *
-             * - Parameter index The index of the desired position in the attributed string or substring that this object is a view for,
-             *              between its `startIndex` inclusive and `endIndex` exclusive.
-             * - Returns The descriptor for the run whose `range` contains `index`.
-             *     If `index` is `endIndex` of the view's attributed string or substring, an exception is thrown.
-             *     If `index` is `startIndex` of the view's attributed string or substring, the first valid run descriptor is returned.
-             *
-             * <!-- FishyJoes.export(elementAtPosition) -->
-             */
-            elementAtPosition(
-                /* at */ index: AttributedString.Index
-            ): AttributedString.Runs.Run;
-            equals(
-                other: AttributedString.Runs
-            ): boolean;
-    
-            hashCode(
-            ): number;
-            forEach(
-                body: (run: Runs.Run) => any
-            ): any;
-            
-            [Symbol.iterator](
-            ): RunIterator;
-        }
-        export namespace Runs {
-            /**
-             * A type that represents the position of a descriptor for a run within an attributed string's view of runs.
-             * <!-- FishyJoes.exportReference(AttributedString.Runs.Index) -->
-             */
-            export class Index {
-                private constructor()
-                private _inhibitStructuralTyping: any
-                equals(
-                    other: AttributedString.Runs.Index
-                ): boolean;
-        
-                hashCode(
-                ): number;
-    
-                compare(
-                    other: AttributedString.Runs.Index
-                ): number;
-            }
-            /**
-             * Description of a run of attributes within an attributed string or substring.
-             * <!-- FishyJoes.exportReference(AttributedString.Runs.Run) -->
-             */
-            export class Run {
-                private constructor()
-                private _inhibitStructuralTyping: any
-                /**
-                 * The range of the portion of the attributed string that this run description represents.
-                 * <!-- FishyJoes.export(range) -->
-                 */
-                readonly range: SwiftRange<AttributedString.Index>;
-                /**
-                 * The attributes associated with of the portion of the attributed string that this run description represents.
-                 * <!-- FishyJoes.export(attributes) -->
-                 */
-                readonly attributes: AttributeContainer;
-                equals(
-                    other: AttributedString.Runs.Run
-                ): boolean;
-        
-                hashCode(
-                ): number;    
-            }
-        }
-        export class RunIterator implements Iterator<Runtime.AttributedString.Runs.Run> {
-            private constructor()
-            private _inhibitStructuralTyping: any
-            next(
-            ): IteratorResult<Runtime.AttributedString.Runs.Run>;
-        }
-        /**
-         * A view into the underlying storage of an attributed string or substring, as Unicode characters.
-         * <!-- FishyJoes.exportReference(AttributedString.CharacterView) -->
-         */
-        export class CharacterView {
-            private constructor()
-            private _inhibitStructuralTyping: any
-            /**
-             * The position of the first character in a nonempty attributed string or substring.
-             * <!-- FishyJoes.export(startIndex) -->
-             */
-            readonly startIndex: AttributedString.Index;
-            /**
-             * The past-the-end position — the position one greater than the last valid subscript argument.
-             * <!-- FishyJoes.export(endIndex) -->
-             */
-            readonly endIndex: AttributedString.Index;
-            /**
-             * Obtains the index of the character before the character referenced by another index in the view's attributed string or substring.
-             *
-             * - Parameter index The index serving as the starting position, between `startIndex` exclusive and `endIndex` inclusive.
-             * - Returns The index of the character before the one referenced by `index`.
-             *     If `index` is `startIndex` an exception is thrown.
-             *     If `index` is `endIndex`, the index to the last character in the view's attributed string or substring is returned.
-             *
-             * <!-- FishyJoes.export(indexBefore) -->
-             */
-            indexBefore(
-                /* before */ i: AttributedString.Index
-            ): AttributedString.Index;
-            /**
-             * Obtains the index of the character after the character referenced by another index in the view's attributed string or substring.
-             *
-             * - Parameter index The index serving as the starting position, between `startIndex` inclusive and `endIndex` exclusive.
-             * - Returns The index of the character before the one referenced by `index`.
-             *     If `index` is `endIndex` an exception is thrown.
-             *     If `index` is `startIndex`, the index to the first character in the view's attributed string or substring is returned.
-             *
-             * <!-- FishyJoes.export(indexAfter) -->
-             */
-            indexAfter(
-                /* after */ i: AttributedString.Index
-            ): AttributedString.Index;
-            /**
-             * Obtains the character associated with an attributed string index.
-             *
-             * - Parameter index The index of the desired character, between `startIndex` inclusive and `endIndex` exclusive.
-             * - Returns The character associated with `index`.
-             *     If `index` is `endIndex`, an exception is thrown.
-             *     If `index` is `startIndex`, the first character in the view's attributed string or substring is returned.
-             *
-             * <!-- FishyJoes.export(elementAt) -->
-             */
-            elementAt(
-                /* at */ index: AttributedString.Index
-            ): string;
-            forEach(
-                body: (character: string) => any
-            ): any;
-            [Symbol.iterator](): CharacterIterator;
-        }
-        export class CharacterIterator implements Iterator<string> {
-            private constructor()
-            private _inhibitStructuralTyping: any
-            next(
-            ): IteratorResult<string>;
-        }
-        /**
-         * A view into the underlying storage of the attributed string, as Unicode scalars.
-         * <!-- FishyJoes.exportReference(AttributedString.UnicodeScalarView) -->
-         */
-        export class UnicodeScalarView {
-            private constructor()
-            private _inhibitStructuralTyping: any
-            /**
-             * The position of the first Unicode scalar in a nonempty attributed string or substring.
-             * <!-- FishyJoes.export(startIndex) -->
-             */
-            readonly startIndex: AttributedString.Index;
-            /**
-             * The past-the-end position — the position one greater than the last valid subscript argument.
-             * <!-- FishyJoes.export(endIndex) -->
-             */
-            readonly endIndex: AttributedString.Index;
-            /**
-             * Obtains the index of the Unicode scalar before the scalar referenced by another index in the view's attributed string or substring.
-             *
-             * - Parameter index The index serving as the starting position, between `startIndex` exclusive and `endIndex` inclusive.
-             * - Returns The index of the Unicode scalar before the one referenced by `index`.
-             *     If `index` is `startIndex` an exception is thrown.
-             *     If `index` is `endIndex`, the index to the last Unicode scalar in the view's attributed string or substring is returned.
-             *
-             * <!-- FishyJoes.export(indexBefore) -->
-             */
-            indexBefore(
-                /* before */ i: AttributedString.Index
-            ): AttributedString.Index;
-            /**
-             * Obtains the index of the Unicode scalar after the scalar referenced by another index in the view's attributed string or substring.
-             *
-             * - Parameter index The index serving as the starting position, between `startIndex` inclusive and `endIndex` exclusive.
-             * - Returns The index of the Unicode scalar before the one referenced by `index`.
-             *     If `index` is `endIndex` an exception is thrown.
-             *     If `index` is `startIndex`, the index to the first Unicode scalar in the view's attributed string or substring is returned.
-             *
-             * <!-- FishyJoes.export(indexAfter) -->
-             */
-            indexAfter(
-                /* after */ i: AttributedString.Index
-            ): AttributedString.Index;
-            /**
-             * Obtains the Unicode scalar associated with an attributed string index.
-             *
-             * - Parameter index The index of the desired Unicode scalar, between `startIndex` inclusive and `endIndex` exclusive.
-             * - Returns The Unicode scalar associated with `index`.
-             *     If `index` is `endIndex`, an exception is thrown.
-             *     If `index` is `startIndex`, the first Unicode scalar in the view's attributed string or substring is returned.
-             *
-             * <!-- FishyJoes.export(elementAt) -->
-             */
-            elementAt(
-                /* at */ index: AttributedString.Index
-            ): number;
-            forEach(
-                body: (scalar: number) => any
-            ): any;
-            [Symbol.iterator](): UnicodeScalarIterator;
-        }
-        export class UnicodeScalarIterator implements Iterator<number> {
-            private constructor()
-            private _inhibitStructuralTyping: any
-            next(
-            ): IteratorResult<number>;
-        }
-    }
-    /**
-     * A type that represents a portion of an attributed string.
-     *
-     * The attributed string for which the type represents a sub-portion can be accessed in the `base` property.
-     * The indices offered in `startIndex` and `endIndex` are in the same index space as those in `base`,
-     * so they can be used to find what part of `base` the substring represents.
-     *
-     * <!-- FishyJoes.exportReference(AttributedSubstring) -->
-     */
-    export class AttributedSubstring {
-        private constructor()
-        private _inhibitStructuralTyping: any
-        /**
-         * The attributed string that this substring references.
-         *
-         * The `startIndex` and `endIndex` of this substring are comparable to `base.startIndex` and `base.endIndex` and are guaranteed to be bounded by them.
-         * As such, the portion of the base string represented by the substring is the range from `startIndex` inclusive to `endIndex` exclusive.
-         *
-         * <!-- FishyJoes.export(base) -->
-         */
-        readonly base: AttributedString;
-        /**
-         * Text represented by the attributed substring.
-         *
-         * See `runs` for the attribute information associated with the attributed substring's text.
-         *
-         * <!-- FishyJoes.export(string) -->
-         */
-        readonly string: string;
-        /**
-         * The attributed runs of the attributed substring, as a view into the underlying string.
-         *
-         * This view provides access to the attribute information associated with the attributed substring.
-         *
-         * See `runs.elementAtPosition()` or its `get()` operator for a way to access the attributes that
-         * are associated with a particular position in the attributed substring.
-         *
-         * For example, `s.runs.first().attributes` yields the attributes in the first run of `s`
-         * and `s.runs[index].attributes` yields the attributes associated with the position `index` in `s`.
-         *
-         * <!-- FishyJoes.export(runs) -->
-         */
-        readonly runs: AttributedString.Runs;
-        /**
-         * The characters of the attributed substring, as a view into the underlying string.
-         * <!-- FishyJoes.export(characters) -->
-         */
-        readonly characters: AttributedString.CharacterView;
-        /**
-         * The Unicode scalars of the attributed substring, as a view into the underlying string.
-         * <!-- FishyJoes.export(unicodeScalars) -->
-         */
-        readonly unicodeScalars: AttributedString.UnicodeScalarView;
-        /**
-         * The position of the first character in a nonempty attributed substring.
-         *
-         * See `runs`, `characters`, and `unicodeScalars` for ways to obtain other indices within the attributed substring.
-         *
-         * <!-- FishyJoes.export(startIndex) -->
-         */
-        readonly startIndex: AttributedString.Index;
-        /**
-         * An attributed substring’s past-the-end position — the position one greater than the last valid subscript argument.
-         *
-         * See `runs`, `characters`, and `unicodeScalars` for ways to obtain other indices within the attributed substring.
-         *
-         * <!-- FishyJoes.export(endIndex) -->
-         */
-        readonly endIndex: AttributedString.Index;
-        /**
-         * An attributed substring representing the full content of the attributed substring.
-         * <!-- FishyJoes.export(substring) -->
-         */
-        readonly substring: AttributedSubstring;
-        /**
-         * Obtains an attributed substring representing part of the attributed substring.
-         *
-         * - Parameter range The portion of the attributed substring to be represented by the substring, bounded by `startIndex` and `endIndex`.
-         * - Returns A substring of `base` over `range`.
-         *
-         * <!-- FishyJoes.export(substringForRange) -->
-         */
-        substringForRange(
-            /* for */ range: SwiftRange<AttributedString.Index>
-        ): AttributedSubstring;
-        equals(
-            other: AttributedSubstring
-        ): boolean;
-        hashCode(
-        ): number;
-        /**
-         * Creates an attributed substring with an empty base attributed string.
-         * <!-- FishyJoes.export(createEmpty) -->
-         */
-        static createEmpty(
-        ): AttributedSubstring;
-    }
-}
-
-export namespace Runtime {
-    export namespace AttributeContainer {
-        export namespace FoundationAttributes {
-            export function create(attributes: { languageIdentifier?: String, link?: URL }): FoundationAttributes;
-        }
-    }
-    export namespace AttributedString {
-        export function createJoining(attributedStrings: AttributedString[]): AttributedString;
-        export function createJoiningSubstrings(attributedStrings: AttributedSubstring[]): AttributedString;
-    }
-}
-
+import { Optional, Runtime } from '@cricut/fishyjoes-runtime-native-macos';
+export { Optional, Runtime } from '@cricut/fishyjoes-runtime-native-macos';
 
 export declare namespace TestAPI {
     /**
@@ -876,9 +76,9 @@ export declare namespace TestAPI {
         function fromCore(core: AProtocolCore): AProtocol
     }
     /**
-     * <!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->
+     * <!-- FishyJoes.export(AProtocolImplementation) -->
      */
-    export class AProtocolImplementation implements AProtocol {
+    export class AProtocolImplementation implements TestAPI.AProtocol {
         constructor(foo: string, baz: boolean)
         foo: string;
         baz: boolean;
@@ -914,10 +114,6 @@ export declare namespace TestAPI {
             private constructor()
             private _inhibitStructuralTyping: any
             /**
-             * <!-- FishyJoes.export(label) -->
-             */
-            readonly label: string;
-            /**
              * <!-- FishyJoes.export(backwardsLabel) -->
              */
             readonly backwardsLabel: string;
@@ -925,6 +121,10 @@ export declare namespace TestAPI {
              * <!-- FishyJoes.export(extensionNonisolatedVarLabel) -->
              */
             readonly extensionNonisolatedVarLabel: string;
+            /**
+             * <!-- FishyJoes.export(label) -->
+             */
+            readonly label: string;
             /**
              * <!-- FishyJoes.export(create) -->
              */
@@ -1349,13 +549,13 @@ export declare namespace TestAPI {
             stringSet: Set<string>;
             stringDictionary: Map<string, string>;
             /**
-             * <!-- FishyJoes.export(staticProperty) -->
-             */
-            static readonly staticProperty: Optional<number>[];
-            /**
              * <!-- FishyJoes.export(staticMutableProperty) -->
              */
             static staticMutableProperty: Optional<number>[];
+            /**
+             * <!-- FishyJoes.export(staticProperty) -->
+             */
+            static readonly staticProperty: Optional<number>[];
         }
         /**
          * <!-- FishyJoes.export(arrayOfBigTuples) -->
@@ -1472,13 +672,140 @@ export declare namespace TestAPI {
          */
         const deprecatedVariable: number;
     }
+    /**
+     * <!-- FishyJoes.exportReference(EmptyClass1) -->
+     */
+    export class EmptyClass1 {
+        private constructor()
+        private _inhibitStructuralTyping: any
+        /**
+         * <!-- FishyJoes.export(blarg) -->
+         */
+        readonly blarg: string;
+        /**
+         * <!-- FishyJoes.export(wibbledyWobbledyTimeyWhimey) -->
+         */
+        readonly wibbledyWobbledyTimeyWhimey: string;
+        /**
+         * <!-- FishyJoes.export(create) -->
+         */
+        static create(
+        ): TestAPI.EmptyClass1;
+        /**
+         * <!-- FishyJoes.export(shme) -->
+         */
+        shme(
+        ): string;
+        /**
+         * <!-- FishyJoes.export(Gorpers) -->
+         */
+        Gorpers(
+        ): string;
+    }
+    /**
+     * <!-- FishyJoes.exportReference(EmptyClass2) -->
+     */
+    export class EmptyClass2 {
+        private constructor()
+        private _inhibitStructuralTyping: any
+        /**
+         * <!-- FishyJoes.export(blorg) -->
+         */
+        readonly blorg: string;
+        /**
+         * <!-- FishyJoes.export(wibble) -->
+         */
+        readonly wibble: string;
+        /**
+         * <!-- FishyJoes.export(make) -->
+         */
+        static make(
+        ): TestAPI.EmptyClass2;
+        /**
+         * <!-- FishyJoes.export(shmee) -->
+         */
+        shmee(
+        ): string;
+        /**
+         * <!-- FishyJoes.export(gorp) -->
+         */
+        gorp(
+        ): string;
+    }
     export type EmptyEnum = never;
     export namespace EmptyEnum {
+        /**
+         * <!-- FishyJoes.export(mies) -->
+         */
+        function mies(
+        ): number;
+        /**
+         * <!-- FishyJoes.export(noot) -->
+         */
+        const noot: number;
         /**
          * <!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->
          */
         function notGoingToHappen(
         ): TestAPI.EmptyEnum;
+    }
+    /**
+     * <!-- FishyJoes.export(EmptyStruct) -->
+     */
+    export class EmptyStruct {
+        constructor()
+        /**
+         * <!-- FishyJoes.export(tatiana) -->
+         */
+        readonly tatiana: string;
+        /**
+         * <!-- FishyJoes.export(tutu) -->
+         */
+        readonly tutu: number;
+        /**
+         * <!-- FishyJoes.export(create) -->
+         */
+        static create(
+        ): EmptyStruct;
+        /**
+         * <!-- FishyJoes.export(aap) -->
+         */
+        aap(
+        ): string;
+        /**
+         * <!-- FishyJoes.export(zxccxz) -->
+         */
+        zxccxz(
+        ): string;
+    }
+    /**
+     * <!-- FishyJoes.export(EmptyStruct2) -->
+     */
+    export class EmptyStruct2 {
+        constructor()
+        /**
+         * <!-- FishyJoes.export(tatiana) -->
+         */
+        readonly tatiana: string;
+        /**
+         * <!-- FishyJoes.export(tutu) -->
+         */
+        readonly tutu: number;
+        /**
+         * <!-- FishyJoes.export(create) -->
+         */
+        static create(
+        ): EmptyStruct2;
+        /**
+         * <!-- FishyJoes.export(aap) -->
+         */
+        aap(
+        ): string;
+        /**
+         * <!-- FishyJoes.export(zxccxz) -->
+         */
+        zxccxz(
+        ): string;
     }
     export class ExternalWitness_AProtocol {
         private constructor()
@@ -1608,6 +935,26 @@ export declare namespace TestAPI {
          */
         witness(
         ): TestAPI.TestAsyncFunctions;
+    }
+    export class ExternalWitness_TestDefaultComputedProperties {
+        private constructor()
+        private _inhibitStructuralTyping: any
+        /**
+         * <!-- FishyJoes.export(noot) -->
+         */
+        readonly noot: number;
+        /**
+         * <!-- FishyJoes.export(plutonic) -->
+         */
+        readonly plutonic: string;
+    }
+    export class ExternalWitness_TestDifferingExportNameProtocolDiffy {
+        private constructor()
+        private _inhibitStructuralTyping: any
+        /**
+         * <!-- FishyJoes.export(tata) -->
+         */
+        readonly tata: number;
     }
     export class ExternalWitness_TestLeadingUnderscoredProp {
         private constructor()
@@ -1779,6 +1126,26 @@ export declare namespace TestAPI {
         private constructor()
         private _inhibitStructuralTyping: any
         /**
+         * <!-- FishyJoes.export(garply) -->
+         */
+        readonly garply: number;
+        /**
+         * <!-- FishyJoes.export(instanceGet) -->
+         */
+        readonly instanceGet: number;
+        /**
+         * <!-- FishyJoes.exportAsMethod(instanceGetMethod) -->
+         */
+        readonly instanceGetMethod: number;
+        /**
+         * <!-- FishyJoes.export(instanceModifiable) -->
+         */
+        instanceModifiable: number;
+        /**
+         * <!-- FishyJoes.export(instanceStored) -->
+         */
+        instanceStored: number;
+        /**
          * <!-- FishyJoes.export(staticGet) -->
          */
         static readonly staticGet: number;
@@ -1794,26 +1161,6 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(staticStored) -->
          */
         static staticStored: number;
-        /**
-         * <!-- FishyJoes.export(instanceGet) -->
-         */
-        readonly instanceGet: number;
-        /**
-         * <!-- FishyJoes.export(garply) -->
-         */
-        readonly garply: number;
-        /**
-         * <!-- FishyJoes.exportAsMethod(instanceGetMethod) -->
-         */
-        readonly instanceGetMethod: number;
-        /**
-         * <!-- FishyJoes.export(instanceModifiable) -->
-         */
-        instanceModifiable: number;
-        /**
-         * <!-- FishyJoes.export(instanceStored) -->
-         */
-        instanceStored: number;
         /**
          * <!-- FishyJoes.export(create) -->
          */
@@ -1949,13 +1296,13 @@ export declare namespace TestAPI {
             d: number;
             dq?: number;
             /**
-             * <!-- FishyJoes.export(staticProperty) -->
-             */
-            static readonly staticProperty: Optional<number>[];
-            /**
              * <!-- FishyJoes.export(staticMutableProperty) -->
              */
             static staticMutableProperty: Optional<number>[];
+            /**
+             * <!-- FishyJoes.export(staticProperty) -->
+             */
+            static readonly staticProperty: Optional<number>[];
         }
         /**
          * <!-- FishyJoes.export(bitCountInt) -->
@@ -2492,6 +1839,30 @@ export declare namespace TestAPI {
          */
         const uIntRange: Runtime.SwiftRange<number>;
     }
+    export type Results = never;
+    export namespace Results {
+        /**
+         * <!-- FishyJoes.export(Results.Error) -->
+         */
+        export class Error {
+            constructor(message: string)
+            readonly message: string;
+        }
+        /**
+         * <!-- FishyJoes.export(aFailure) -->
+         */
+        const aFailure: Runtime.Result<number, Results.Error>;
+        /**
+         * <!-- FishyJoes.export(aSuccess) -->
+         */
+        const aSuccess: Runtime.Result<number, Results.Error>;
+        /**
+         * <!-- FishyJoes.export(processResult) -->
+         */
+        function processResult(
+            result: Runtime.Result<string, Results.Error>
+        ): string;
+    }
     export type SimpleEnum = "red" | "green" | "blue";
     export namespace SimpleEnum {
         /**
@@ -2666,9 +2037,9 @@ export declare namespace TestAPI {
         ): number;
     }
     /**
-     * <!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct, conformances: [TestAsyncFunctions]) -->
+     * <!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct) -->
      */
-    export class TestAsyncForeignSideFunctionsStruct implements TestAsyncFunctions {
+    export class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions {
         constructor(const42: () => Promise<number>, iabs: (_0: number) => Promise<number>, intCompose: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>, add3Things: (_0: number, _1: number, _2: number) => Promise<number>, makeList: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>, fifthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>, six: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>, willThrow: () => Promise<number>, exercise0Fun: (_0: () => Promise<number>) => Promise<string>, exercise1Fun: (_0: (_0: number) => Promise<number>) => Promise<string>, exercise2Fun: (_0: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>) => Promise<string>, exercise3Fun: (_0: (_0: number, _1: number, _2: number) => Promise<number>) => Promise<string>, exercise4Fun: (_0: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>) => Promise<string>, exercise5Fun: (_0: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>) => Promise<string>, exercise6Fun: (_0: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>) => Promise<string>, thunkTwiceMakerFun: (_0: () => Promise<void>) => () => Promise<void>)
         readonly const42: () => Promise<number>;
         readonly iabs: (_0: number) => Promise<number>;
@@ -2949,15 +2320,23 @@ export declare namespace TestAPI {
         function fromCore(core: TestAsyncFunctionsCore): TestAsyncFunctions
     }
     /**
-     * <!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass, conformances: [TestAsyncFunctions]) -->
+     * <!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass) -->
      */
-    export class TestAsyncSwiftSideFunctionsClass implements TestAsyncFunctions {
+    export class TestAsyncSwiftSideFunctionsClass implements TestAPI.TestAsyncFunctions {
         private constructor()
         private _inhibitStructuralTyping: any
+        /**
+         * <!-- FishyJoes.export(add3Things) -->
+         */
+        readonly add3Things: (_0: number, _1: number, _2: number) => Promise<number>;
         /**
          * <!-- FishyJoes.export(const42) -->
          */
         readonly const42: () => Promise<number>;
+        /**
+         * <!-- FishyJoes.export(fifthThing) -->
+         */
+        readonly fifthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>;
         /**
          * <!-- FishyJoes.export(iabs) -->
          */
@@ -2967,17 +2346,9 @@ export declare namespace TestAPI {
          */
         readonly intCompose: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>;
         /**
-         * <!-- FishyJoes.export(add3Things) -->
-         */
-        readonly add3Things: (_0: number, _1: number, _2: number) => Promise<number>;
-        /**
          * <!-- FishyJoes.export(makeList) -->
          */
         readonly makeList: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>;
-        /**
-         * <!-- FishyJoes.export(fifthThing) -->
-         */
-        readonly fifthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>;
         /**
          * <!-- FishyJoes.export(six) -->
          */
@@ -3052,6 +2423,107 @@ export declare namespace TestAPI {
         ): Promise<string>;
     }
     /**
+     * <!-- FishyJoes.export(TestDefaultComputedProperties) -->
+     */
+    interface TestDefaultComputedProperties {
+        /**
+         * <!-- FishyJoes.export(noot) -->
+         */
+        readonly noot: number;
+        /**
+         * <!-- FishyJoes.export(plutonic) -->
+         */
+        readonly plutonic: string;
+    }
+    interface TestDefaultComputedPropertiesCore {
+        /**
+         * <!-- FishyJoes.export(noot) -->
+         */
+        readonly noot?: number;
+        /**
+         * <!-- FishyJoes.export(plutonic) -->
+         */
+        readonly plutonic?: string;
+    }
+    namespace TestDefaultComputedProperties {
+        function fromCore(core: TestDefaultComputedPropertiesCore): TestDefaultComputedProperties
+    }
+    export type TestDefaultComputedPropertiesEnum = "qux";
+    export namespace TestDefaultComputedPropertiesEnum {
+        /**
+         * <!-- FishyJoes.export(noot) -->
+         */
+        function getNoot(
+            self: TestAPI.TestDefaultComputedPropertiesEnum
+        ): number;
+        /**
+         * <!-- FishyJoes.export(plutonic) -->
+         */
+        function getPlutonic(
+            self: TestAPI.TestDefaultComputedProperties
+        ): string;
+        /**
+         * <!-- FishyJoes.export(spam) -->
+         */
+        function getSpam(
+            self: TestAPI.TestDefaultComputedPropertiesEnum
+        ): boolean;
+    }
+    /**
+     * <!-- FishyJoes.exportReference(TestDefaultComputedPropertiesReference) -->
+     */
+    export class TestDefaultComputedPropertiesReference implements TestAPI.TestDefaultComputedProperties {
+        private constructor()
+        private _inhibitStructuralTyping: any
+        /**
+         * <!-- FishyJoes.export(noot) -->
+         */
+        noot: number;
+        /**
+         * <!-- FishyJoes.export(plutonic) -->
+         */
+        readonly plutonic: string;
+        /**
+         * <!-- FishyJoes.export(spam) -->
+         */
+        spam: boolean;
+        /**
+         * <!-- FishyJoes.export(init) -->
+         */
+        static init(
+            spam: boolean,
+            noot: number
+        ): TestAPI.TestDefaultComputedPropertiesReference;
+    }
+    /**
+     * <!-- FishyJoes.export(TestDefaultComputedPropertiesStruct) -->
+     */
+    export class TestDefaultComputedPropertiesStruct implements TestAPI.TestDefaultComputedProperties {
+        constructor(spam: boolean, noot: number)
+        spam: boolean;
+        noot: number;
+        /**
+         * <!-- FishyJoes.export(plutonic) -->
+         */
+        readonly plutonic: string;
+    }
+    /**
+     * <!-- FishyJoes.export(TestDifferingExportNameProtocolDiffy) -->
+     */
+    interface TestDifferingExportNameProtocolDiffy {
+        /**
+         * <!-- FishyJoes.export(tata) -->
+         */
+        readonly tata: number;
+    }
+    /**
+     * <!-- FishyJoes.export(TestDifferingExportNameStruct) -->
+     */
+    export class TestDifferingExportNameStruct implements TestAPI.TestDifferingExportNameProtocolDiffy {
+        constructor(tata: number)
+        tata: number;
+    }
+    /**
      * <!-- FishyJoes.export(TestLeadingUnderscoredProp) -->
      */
     interface TestLeadingUnderscoredProp {
@@ -3061,10 +2533,9 @@ export declare namespace TestAPI {
         readonly _leadingUnderscoreProp: string;
     }
     /**
-     * // <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp, TestLeadingUnderscoredMethod]) -->
-     * <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp]) -->
+     * <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct) -->
      */
-    export class TestLeadingUnderscoredPropStruct implements TestLeadingUnderscoredProp {
+    export class TestLeadingUnderscoredPropStruct implements TestAPI.TestLeadingUnderscoredProp {
         constructor(_leadingUnderscoreProp: string)
         _leadingUnderscoreProp: string;
     }
@@ -3108,6 +2579,21 @@ export declare namespace TestAPI {
             fred: [boolean, number, string[]]
         ): [boolean, number, string];
     }
+    export type TestNonExportedProtocolEnum = "hogehoge";
+    export namespace TestNonExportedProtocolEnum {
+        /**
+         * <!-- FishyJoes.export(fuga) -->
+         */
+        function getFuga(
+            self: TestAPI.TestNonExportedProtocolEnum
+        ): number;
+        /**
+         * <!-- FishyJoes.export(hoge) -->
+         */
+        function hoge(
+            self: TestAPI.TestNonExportedProtocolEnum
+        ): number;
+    }
     /**
      * <!-- FishyJoes.export(TestOptionalsProtocol) -->
      */
@@ -3143,9 +2629,9 @@ export declare namespace TestAPI {
         readonly frobby: number[];
     }
     /**
-     * <!-- FishyJoes.exportReference(TestProtocolClass, conformances: [TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol]) -->
+     * <!-- FishyJoes.exportReference(TestProtocolClass) -->
      */
-    export class TestProtocolClass implements TestMethodsProtocol, TestOptionalsProtocol, TestPropertiesProtocol {
+    export class TestProtocolClass implements TestAPI.TestMethodsProtocol, TestAPI.TestOptionalsProtocol, TestAPI.TestPropertiesProtocol {
         private constructor()
         private _inhibitStructuralTyping: any
         /**
@@ -3262,9 +2748,9 @@ export declare namespace TestAPI {
         ): string;
     }
     /**
-     * <!-- FishyJoes.export(TestProtocolStruct, conformances: [TestMethodsProtocol, TestPropertiesProtocol]) -->
+     * <!-- FishyJoes.export(TestProtocolStruct) -->
      */
-    export class TestProtocolStruct implements TestMethodsProtocol, TestPropertiesProtocol {
+    export class TestProtocolStruct implements TestAPI.TestMethodsProtocol, TestAPI.TestPropertiesProtocol {
         constructor(corge: string)
         corge: string;
         /**

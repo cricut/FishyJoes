@@ -46,19 +46,26 @@ class KotlinPhases: BasePhases, Phases {
             if let codeCoveragePath = options.codeCoveragePath {
                 args.append("jacocoTestReport")
                 addEnv["LLVM_PROFILE_FILE"] = "\(codeCoveragePath)/fishy-joes-test-\(platform)-\(UUID()).profraw"
+                addEnv["JACOCO_COVERAGE_PATH"] = "\(codeCoveragePath)/jacoco-\(options.config.module)"
             }
-
-            #if os(macOS) || os(Linux)
-            try cmd("./gradlew", arguments: args, addEnv: addEnv).run()
-            #elseif os(Windows)
-            try cmd("cmd.exe", arguments: ["/c", "gradlew.bat"] + args, addEnv: addEnv).run()
-            #else
-            fatalError("unknown host OS")
-            #endif
+            try gradle(args, addEnv: addEnv).run()
         }
     }
 
     func packPhase() throws {
         // Pack happens as part of publish step in gradle
+        try withDirectory("bindings/kotlin/generated") {
+            try gradle(["publishToMavenLocal"]).run()
+        }
+    }
+
+    func gradle(_ args: [String], addEnv: [String: String] = [:]) -> any Command {
+        #if os(macOS) || os(Linux)
+        cmd("./gradlew", arguments: args, addEnv: addEnv)
+        #elseif os(Windows)
+        cmd("cmd.exe", arguments: ["/c", "gradlew.bat"] + args, addEnv: addEnv)
+        #else
+        fatalError("unknown host OS")
+        #endif
     }
 }

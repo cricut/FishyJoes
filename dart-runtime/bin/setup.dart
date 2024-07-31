@@ -3,17 +3,32 @@ import "dart:convert" as convert;
 import 'package:path/path.dart' as path;
 import 'package:yaml/yaml.dart' as yaml;
 
-class Download {
-  String repoName;
-  String version;
-  String assetName;
+sealed class TarballSource {
+  abstract String repoName;
+  abstract String version;
+  abstract String tarballName;
+}
+class Download extends TarballSource {
+  @override String repoName;
+  @override String version;
+  @override String tarballName;
 
-  Download(this.repoName, this.version, this.assetName);
+  Download(this.repoName, this.version, this.tarballName);
 
   @override
   String toString() {
-    return "Download(repoName = '$repoName', version = '$version', assetName = '$assetName')";
+    return "Download(repoName = '$repoName', version = '$version', tarballName = '$tarballName')";
   }
+}
+
+class Archive extends TarballSource {
+  @override String repoName;
+  @override String version = "local";
+  @override String tarballName;
+  String path;
+  List<String> files;
+
+  Archive(this.repoName, this.path, this.files, this.tarballName);
 }
 
 void main() async {
@@ -36,32 +51,42 @@ void main() async {
     io.exit(1);
   }
 
-  List<Download> downloads = [];
+  List<TarballSource> tarballSources = [];
   for (final dep in deps) {
     String name = dep['name'];
     // String version = dep['version'];
     String source = dep['source'];
+    if (source == 'root') {
+      continue;
+    }
     List<String> directDeps = [...dep['dependencies']];
 
     // Download binaries for any remote package that is fishyjoes_dart or depends directly on it
-    bool needsDownload =
-        source == 'git' &&
-        (name == 'fishyjoes_dart' || directDeps.contains('fishyjoes_dart'));
-    if (needsDownload) {
-      final depLock = pubspecLock["packages"][name];
-      if (depLock == null) {
-        io.stderr.writeln("No lock information for $name. Skipping binary download");
-      } else {
-        final url = Uri.parse(depLock["description"]["url"]);
-        String ref = depLock["description"]["ref"];
-        final pathMatch = RegExp(r'cricut/(.*?)(.git)?$').firstMatch(url.path);
-        if (pathMatch == null) {
-          io.stderr.writeln("Couldn't determing github repo of $name");
-          io.exit(1);
-        }
-        final repoName = pathMatch[1]!;
-        downloads.add(Download(repoName, ref, "$repoName-dart-binaries.tgz"));
+    bool needsDownload = name == 'fishyjoes_dart' || directDeps.contains('fishyjoes_dart');
+    if (!needsDownload) {
+      continue;
+    }
+
+    final depLock = pubspecLock["packages"][name];
+    if (depLock == null) {
+      io.stderr.writeln("No lock information for $name. Skipping binary download");
+      continue;
+    }
+
+    if (source == 'git') {
+      final url = Uri.parse(depLock["description"]["url"]);
+      String ref = depLock["description"]["ref"];
+      final pathMatch = RegExp(r'cricut/(.*?)(.git)?$').firstMatch(url.path);
+      if (pathMatch == null) {
+        io.stderr.writeln("Couldn't determing github repo of $name");
+        io.exit(1);
       }
+      final repoName = pathMatch[1]!;
+      tarballSources.add(Download(repoName, ref, "$repoName-dart-binaries.tgz"));
+    } else if (source == 'path') {
+      final path = depLock["description"]["path"];
+      final artifacts = ["macos/native", "linux/native", "windows/native"];
+      tarballSources.add(Archive(name, path, artifacts, "$name-dart-binaries.tgz"));
     }
   }
 
@@ -81,14 +106,31 @@ void main() async {
   print("using $githubCreds");
 
   await io.Directory('native/download-cache/').create(recursive: true);
-  for (final download in downloads) {
-    final archivePath = "native/download-cache/${pathSafe(download.repoName)}-${pathSafe(download.version)}-${download.assetName}";
+  for (final tarballSource in tarballSources) {
+    final archivePath = "native/download-cache/${pathSafe(tarballSource.repoName)}-${pathSafe(tarballSource.version)}-${tarballSource.tarballName}";
 
-    if (await io.File(archivePath).exists()) {
-      print("using cached binary for '${download.repoName}:${download.version}' at $archivePath");
-    } else {
+    if (tarballSource is Archive) {
+      // Never used cached version for a local dependency
+      final existingFiles = tarballSource.files.where((file) => io.Directory("${tarballSource.path}/$file").existsSync());
+      if (existingFiles.isEmpty) {
+        io.stderr.writeln("Expected built libraries in at least one of:");
+        for (final file in tarballSource.files) {
+          io.stderr.writeln("  ${tarballSource.path}/$file");
+        }
+        io.exit(0);
+      }
+      final tarResult = await io.Process.run('tar', ['-cvzf', archivePath, '-C', tarballSource.path, ...existingFiles]);
+      io.stdout.write(tarResult.stdout);
+      io.stderr.write(tarResult.stderr);
+      if (tarResult.exitCode != 0) {
+        io.stderr.writeln("Failed to create archive");
+        io.exit(tarResult.exitCode);
+      }
+    } else if (await io.File(archivePath).exists()) {
+      print("using cached binary for '${tarballSource.repoName}:${tarballSource.version}' at $archivePath");
+    } else if (tarballSource is Download) {
       // Download binaries
-      final releaseURL = "https://api.github.com/repos/cricut/${download.repoName}/releases/tags/${download.version}";
+      final releaseURL = "https://api.github.com/repos/cricut/${tarballSource.repoName}/releases/tags/${tarballSource.version}";
       dynamic release;
       try {
         release = await callGithubAPI(Uri.parse(releaseURL), githubCreds);
@@ -96,23 +138,26 @@ void main() async {
         io.stderr.writeln("");
         io.stderr.writeln("$e");
         io.stderr.writeln("");
-        io.stderr.writeln("Failed to find github release '${download.version}' in");
-        io.stderr.writeln("  https://github.com/cricut/${download.repoName}/releases");
+        io.stderr.writeln("Failed to find github release '${tarballSource.version}' in");
+        io.stderr.writeln("  https://github.com/cricut/${tarballSource.repoName}/releases");
         io.stderr.writeln("Check that release exists and used token has permissions to read it");
         io.stderr.writeln("");
         io.exit(1);
       }
       final asset = release['assets'].firstWhere(
-        (asset) => asset['name'] == download.assetName,
+        (asset) => asset['name'] == tarballSource.tarballName,
         orElse: () {
-          io.stderr.writeln("Couldn't find asset named '${download.assetName}' in release");
-          io.stderr.writeln("  https://github.com/cricut/${download.repoName}/releases/tag/${download.version}");
+          io.stderr.writeln("Couldn't find asset named '${tarballSource.tarballName}' in release");
+          io.stderr.writeln("  https://github.com/cricut/${tarballSource.repoName}/releases/tag/${tarballSource.version}");
           io.stderr.writeln("Maybe CI/CD failed to generate the asset");
           io.exit(1);
         }
       );
       print("downloading $releaseURL => $archivePath");
       await downloadGithubBinary(archivePath, Uri.parse(asset['url']), githubCreds);
+    } else {
+      io.stderr.writeln("Internal error: unexpected type for $tarballSource");
+      io.exit(1);
     }
 
     // Extract binaries

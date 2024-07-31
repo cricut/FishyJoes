@@ -13,37 +13,28 @@ enum Dependency: Codable {
     enum RefSpec: Codable {
         case branch(name: String)
         case revision(name: String)
+        case range(lowerBound: String, upperBound: String)
     }
-}
-
-func LOG_package(name: String, path: String) -> Package.Dependency {
-    // print("DEPENDENCY: .package(name: \(name), path: \(path))")
-    return .package(name: name, path: path)
-}
-func LOG_package(url: String, branch: String) -> Package.Dependency {
-    // print("DEPENDENCY: .package(url: \(url), branch: \(branch))")
-    return .package(url: url, branch: branch)
-}
-func LOG_package(url: String, revision: String) -> Package.Dependency {
-    // print("DEPENDENCY: .package(url: \(url), revision: \(revision))")
-    return .package(url: url, revision: revision)
 }
 
 func packageDep(_ name: String, bindings: Bool = false) -> Package.Dependency {
     let subPath = bindings ? "/bindings/swift-interfaces/generated/\(name)-bindings" : ""
     switch env["FISHYJOES_DEPENDENCY_\(name)"] {
     case .none:
-        return LOG_package(name: name, path: "../../../../../\(name)\(subPath)")
+        return .package(name: name, path: "../../../../../\(name)\(subPath)")
     case .some(let versionSpec):
         switch try! JSONDecoder().decode(Dependency.self, from: versionSpec.data(using: .utf8)!) {
         case .local(let packagePath):
-            return LOG_package(name: name, path: "\(packagePath)")
+            return .package(name: name, path: packagePath)
         case let .remote(url, .branch(branch)):
             if bindings { fatalError("not supported") }
-            return LOG_package(url: url, branch: branch)
+            return .package(url: url, branch: branch)
         case let .remote(url, .revision(revision)):
             if bindings { fatalError("not supported") }
-            return LOG_package(url: url, revision: revision)
+            return .package(url: url, revision: revision)
+        case let .remote(url, .range(lowerBound, upperBound)):
+            if bindings { fatalError("not supported") }
+            return .package(url: url, Version(lowerBound)!..<Version(upperBound)!)
         }
     }
 }
@@ -52,13 +43,9 @@ var package = Package(
     name: "TestAPI-bindings",
     platforms: [.macOS(.v12), .iOS(.v15)],
     products: [
-        .library(
-            name: "TestAPI-wasm",
-            targets: ["TestAPI_NodeInterface"]
-        ),
+        .library(name: "TestAPI-node", type: wasmCompatibleOnly ? nil : .dynamic, targets: ["TestAPI_NodeInterface"]),
     ] + (
         wasmCompatibleOnly ? [] : [
-            .library(name: "TestAPI-node", type: .dynamic, targets: ["TestAPI_NodeInterface"]),
             .library(name: "TestAPI-java", type: .dynamic, targets: ["TestAPI_JavaInterface"]),
             .library(name: "TestAPI-iota", type: .dynamic, targets: ["TestAPI_IotaInterface"]),
         ]
@@ -70,9 +57,7 @@ var package = Package(
     targets: [
         .target(
             name: "TestAPI_CommonInterface",
-            dependencies: [
-                .product(name: "TestAPI", package: "TestAPI"),
-            ],
+            dependencies: [.product(name: "TestAPI", package: "TestAPI")],
             path: "Sources/CommonInterface"
         ),
         .target(
@@ -83,21 +68,15 @@ var package = Package(
                 .product(name: "FishyJoesNodeRuntime", package: "FishyJoes"),
             ],
             path: "Sources/NodeInterface",
-            resources: [
-                .copy("TestAPI.d.ts.part"),
-            ]
+            resources: [.copy("TestAPI.d.ts.part")]
         ),
     ] + (
         wasmCompatibleOnly ? [
             .executableTarget(
                 name: "TestAPI_WasmMainShim",
-                dependencies: [
-                    .target(name: "TestAPI_NodeInterface"),
-                ],
+                dependencies: [.target(name: "TestAPI_NodeInterface")],
                 path: "Sources/WasmMainShim",
-                swiftSettings: [
-                    .unsafeFlags(["-warn-concurrency"])
-                ]
+                swiftSettings: [.unsafeFlags(["-warn-concurrency"])]
             ),
         ] : [
             .target(
@@ -110,8 +89,8 @@ var package = Package(
                 path: "Sources/JavaInterface"
             ),
             .target(
-            name: "TestAPI_IotaInterface",
-            dependencies: [
+                name: "TestAPI_IotaInterface",
+                dependencies: [
                     .target(name: "TestAPI_CommonInterface"),
                     .product(name: "TestAPI", package: "TestAPI"),
                     .product(name: "FishyJoesIotaRuntime", package: "FishyJoes"),
@@ -123,4 +102,5 @@ var package = Package(
 )
 // END GENERATED CODE
 // Below is copied from bindings/swift-interfaces/Package.part.swift
+
 

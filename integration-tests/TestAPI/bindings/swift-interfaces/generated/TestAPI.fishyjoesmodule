@@ -681,6 +681,110 @@
         "named" : {
           "_0" : {
             "module" : "TestAPI",
+            "name" : "EmptyClass",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "EmptyClass1",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "EmptyClass1",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/EmptyClass1"
+        }
+      },
+      "kotlinName" : "EmptyClass1",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=EmptyClass1>>",
+      "nodeName" : "TestAPI.EmptyClass1",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "EmptyClass",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "EmptyClass2",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "EmptyClass2",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "EmptyClass2",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/EmptyClass2"
+        }
+      },
+      "kotlinName" : "EmptyClass2",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=EmptyClass2>>",
+      "nodeName" : "TestAPI.EmptyClass2",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "EmptyClass2",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
             "name" : "EmptyEnum",
             "namespace" : [
 
@@ -721,6 +825,110 @@
           "_0" : {
             "module" : "TestAPI",
             "name" : "EmptyEnum",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "EmptyStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "EmptyStruct",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "EmptyStruct",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/EmptyStruct"
+        }
+      },
+      "kotlinName" : "EmptyStruct",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=EmptyStruct>>",
+      "nodeName" : "TestAPI.EmptyStruct",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "EmptyStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "EmptyStruct2",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "EmptyStruct2",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "EmptyStruct2",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/EmptyStruct2"
+        }
+      },
+      "kotlinName" : "EmptyStruct2",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=EmptyStruct2>>",
+      "nodeName" : "TestAPI.EmptyStruct2",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "EmptyStruct2",
             "namespace" : [
 
             ]
@@ -1035,6 +1243,110 @@
             "name" : "Ranges",
             "namespace" : [
 
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Results",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "Results",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Results",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Results"
+        }
+      },
+      "kotlinName" : "Results",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Results>>",
+      "nodeName" : "TestAPI.Results",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Results",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Error",
+            "namespace" : [
+              "Results"
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "Results.Error",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Results_Error",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Results$Error"
+        }
+      },
+      "kotlinName" : "Results.Error",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=Results.Error>>",
+      "nodeName" : "TestAPI.Results.Error",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Error",
+            "namespace" : [
+              "Results"
             ]
           }
         }
@@ -1617,6 +1929,318 @@
         "named" : {
           "_0" : {
             "module" : "TestAPI_CommonInterface",
+            "name" : "_TestDefaultComputedPropertiesConverter",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestDefaultComputedProperties",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestDefaultComputedProperties",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestDefaultComputedProperties"
+        }
+      },
+      "kotlinName" : "TestDefaultComputedProperties",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestDefaultComputedProperties>>",
+      "nodeName" : "TestAPI.TestDefaultComputedProperties",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestDefaultComputedProperties",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestDefaultComputedPropertiesClass",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestDefaultComputedPropertiesReference",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestDefaultComputedPropertiesReference",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestDefaultComputedPropertiesReference"
+        }
+      },
+      "kotlinName" : "TestDefaultComputedPropertiesReference",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=TestDefaultComputedPropertiesReference>>",
+      "nodeName" : "TestAPI.TestDefaultComputedPropertiesReference",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestDefaultComputedPropertiesClass",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestDefaultComputedPropertiesEnum",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestDefaultComputedPropertiesEnum",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestDefaultComputedPropertiesEnum",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestDefaultComputedPropertiesEnum"
+        }
+      },
+      "kotlinName" : "TestDefaultComputedPropertiesEnum",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=TestDefaultComputedPropertiesEnum>>",
+      "nodeName" : "TestAPI.TestDefaultComputedPropertiesEnum",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestDefaultComputedPropertiesEnum",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestDefaultComputedPropertiesStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestDefaultComputedPropertiesStruct",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestDefaultComputedPropertiesStruct",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestDefaultComputedPropertiesStruct"
+        }
+      },
+      "kotlinName" : "TestDefaultComputedPropertiesStruct",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestDefaultComputedPropertiesStruct>>",
+      "nodeName" : "TestAPI.TestDefaultComputedPropertiesStruct",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestDefaultComputedPropertiesStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI_CommonInterface",
+            "name" : "_TestDifferingExportNameProtocolConverter",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestDifferingExportNameProtocolDiffy",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestDifferingExportNameProtocolDiffy",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestDifferingExportNameProtocolDiffy"
+        }
+      },
+      "kotlinName" : "TestDifferingExportNameProtocolDiffy",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestDifferingExportNameProtocolDiffy>>",
+      "nodeName" : "TestAPI.TestDifferingExportNameProtocolDiffy",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestDifferingExportNameProtocol",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestDifferingExportNameStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestDifferingExportNameStruct",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestDifferingExportNameStruct",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestDifferingExportNameStruct"
+        }
+      },
+      "kotlinName" : "TestDifferingExportNameStruct",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestDifferingExportNameStruct>>",
+      "nodeName" : "TestAPI.TestDifferingExportNameStruct",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestDifferingExportNameStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI_CommonInterface",
             "name" : "_TestLeadingUnderscoredPropConverter",
             "namespace" : [
 
@@ -1761,6 +2385,58 @@
           "_0" : {
             "module" : "TestAPI",
             "name" : "TestMethodsProtocol",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestNonExportedProtocolEnum",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestNonExportedProtocolEnum",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestNonExportedProtocolEnum",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestNonExportedProtocolEnum"
+        }
+      },
+      "kotlinName" : "TestNonExportedProtocolEnum",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=TestNonExportedProtocolEnum>>",
+      "nodeName" : "TestAPI.TestNonExportedProtocolEnum",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestNonExportedProtocolEnum",
             "namespace" : [
 
             ]
@@ -2216,6 +2892,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "x",
                 "readOnly" : true,
@@ -2276,6 +2953,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "x",
                 "readOnly" : true,
@@ -2383,6 +3061,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(baz) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "baz",
                 "readOnly" : true,
@@ -2396,6 +3075,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(foo) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "foo",
                 "readOnly" : true,
@@ -2542,7 +3222,7 @@
               }
             },
             "documentation" : [
-              "<!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->"
+              "<!-- FishyJoes.export(AProtocolImplementation) -->"
             ],
             "extends" : [
 
@@ -2552,6 +3232,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "foo",
                 "readOnly" : false,
@@ -2565,6 +3246,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "baz",
                 "readOnly" : false,
@@ -2576,7 +3258,11 @@
               }
             ],
             "implements" : [
-              "AProtocol"
+              {
+                "named" : {
+                  "_0" : "TestAPI.AProtocol"
+                }
+              }
             ],
             "methods" : [
               {
@@ -2695,6 +3381,416 @@
               }
             },
             "documentation" : [
+              "<!-- FishyJoes.exportReference(EmptyClass1) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(blarg) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : false,
+                "name" : "blarg",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(wibbledyWobbledyTimeyWhimey) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : false,
+                "name" : "wibbledyWobbledyTimeyWhimey",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              }
+            ],
+            "implements" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(create) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "create",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.EmptyClass1"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(shme) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "shme",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(Gorpers) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "Gorpers",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              }
+            ],
+            "name" : "EmptyClass1"
+          },
+          {
+            "constructor" : {
+              "hidden" : {
+
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.exportReference(EmptyClass2) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(blorg) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : false,
+                "name" : "blorg",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(wibble) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : false,
+                "name" : "wibble",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              }
+            ],
+            "implements" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(make) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "make",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.EmptyClass2"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(shmee) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "shmee",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(gorp) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "gorp",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              }
+            ],
+            "name" : "EmptyClass2"
+          },
+          {
+            "constructor" : {
+              "visible" : {
+                "names" : [
+
+                ],
+                "types" : [
+
+                ]
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.export(EmptyStruct) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(tatiana) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : false,
+                "name" : "tatiana",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(tutu) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : false,
+                "name" : "tutu",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
+            ],
+            "implements" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(create) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "create",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "EmptyStruct"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(aap) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "aap",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(zxccxz) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "zxccxz",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              }
+            ],
+            "name" : "EmptyStruct"
+          },
+          {
+            "constructor" : {
+              "visible" : {
+                "names" : [
+
+                ],
+                "types" : [
+
+                ]
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.export(EmptyStruct2) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(tatiana) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : false,
+                "name" : "tatiana",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(tutu) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : false,
+                "name" : "tutu",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
+            ],
+            "implements" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(create) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "create",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "EmptyStruct2"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(aap) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "aap",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(zxccxz) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "zxccxz",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              }
+            ],
+            "name" : "EmptyStruct2"
+          },
+          {
+            "constructor" : {
+              "hidden" : {
+
+              }
+            },
+            "documentation" : [
               "<!-- FishyJoes.exportReference(Methods) -->"
             ],
             "extends" : [
@@ -2703,73 +3799,9 @@
             "fields" : [
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(staticGet) -->"
-                ],
-                "isStatic" : true,
-                "name" : "staticGet",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.exportAsMethod(staticGetMethod) -->"
-                ],
-                "isStatic" : true,
-                "name" : "staticGetMethod",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(staticModifiable) -->"
-                ],
-                "isStatic" : true,
-                "name" : "staticModifiable",
-                "readOnly" : false,
-                "type" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(staticStored) -->"
-                ],
-                "isStatic" : true,
-                "name" : "staticStored",
-                "readOnly" : false,
-                "type" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(instanceGet) -->"
-                ],
-                "isStatic" : false,
-                "name" : "instanceGet",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
                   "<!-- FishyJoes.export(garply) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "garply",
                 "readOnly" : true,
@@ -2781,8 +3813,23 @@
               },
               {
                 "documentation" : [
+                  "<!-- FishyJoes.export(instanceGet) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : false,
+                "name" : "instanceGet",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
                   "<!-- FishyJoes.exportAsMethod(instanceGetMethod) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "instanceGetMethod",
                 "readOnly" : true,
@@ -2796,6 +3843,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(instanceModifiable) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "instanceModifiable",
                 "readOnly" : false,
@@ -2809,8 +3857,65 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(instanceStored) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "instanceStored",
+                "readOnly" : false,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(staticGet) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "staticGet",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.exportAsMethod(staticGetMethod) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "staticGetMethod",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(staticModifiable) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "staticModifiable",
+                "readOnly" : false,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(staticStored) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "staticStored",
                 "readOnly" : false,
                 "type" : {
                   "named" : {
@@ -3375,7 +4480,7 @@
               }
             },
             "documentation" : [
-              "<!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct, conformances: [TestAsyncFunctions]) -->"
+              "<!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct) -->"
             ],
             "extends" : [
 
@@ -3385,6 +4490,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "const42",
                 "readOnly" : true,
@@ -3398,6 +4504,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "iabs",
                 "readOnly" : true,
@@ -3411,6 +4518,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "intCompose",
                 "readOnly" : true,
@@ -3424,6 +4532,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "add3Things",
                 "readOnly" : true,
@@ -3437,6 +4546,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "makeList",
                 "readOnly" : true,
@@ -3450,6 +4560,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "fifthThing",
                 "readOnly" : true,
@@ -3463,6 +4574,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "six",
                 "readOnly" : true,
@@ -3476,6 +4588,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "willThrow",
                 "readOnly" : true,
@@ -3489,6 +4602,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "exercise0Fun",
                 "readOnly" : true,
@@ -3502,6 +4616,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "exercise1Fun",
                 "readOnly" : true,
@@ -3515,6 +4630,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "exercise2Fun",
                 "readOnly" : true,
@@ -3528,6 +4644,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "exercise3Fun",
                 "readOnly" : true,
@@ -3541,6 +4658,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "exercise4Fun",
                 "readOnly" : true,
@@ -3554,6 +4672,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "exercise5Fun",
                 "readOnly" : true,
@@ -3567,6 +4686,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "exercise6Fun",
                 "readOnly" : true,
@@ -3580,6 +4700,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "thunkTwiceMakerFun",
                 "readOnly" : true,
@@ -3591,7 +4712,11 @@
               }
             ],
             "implements" : [
-              "TestAsyncFunctions"
+              {
+                "named" : {
+                  "_0" : "TestAPI.TestAsyncFunctions"
+                }
+              }
             ],
             "methods" : [
               {
@@ -3880,6 +5005,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(add3Things) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "add3Things",
                 "readOnly" : true,
@@ -3893,6 +5019,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(const42) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "const42",
                 "readOnly" : true,
@@ -3906,6 +5033,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(fifthThing) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "fifthThing",
                 "readOnly" : true,
@@ -3919,6 +5047,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(iabs) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "iabs",
                 "readOnly" : true,
@@ -3932,6 +5061,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(intCompose) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "intCompose",
                 "readOnly" : true,
@@ -3945,6 +5075,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(makeList) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "makeList",
                 "readOnly" : true,
@@ -3958,6 +5089,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(six) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "six",
                 "readOnly" : true,
@@ -3971,6 +5103,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(willThrow) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "willThrow",
                 "readOnly" : true,
@@ -4270,7 +5403,7 @@
               }
             },
             "documentation" : [
-              "<!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass, conformances: [TestAsyncFunctions]) -->"
+              "<!-- FishyJoes.export(TestAsyncSwiftSideFunctionsClass) -->"
             ],
             "extends" : [
 
@@ -4278,8 +5411,23 @@
             "fields" : [
               {
                 "documentation" : [
+                  "<!-- FishyJoes.export(add3Things) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : false,
+                "name" : "add3Things",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: number, _1: number, _2: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
                   "<!-- FishyJoes.export(const42) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "const42",
                 "readOnly" : true,
@@ -4291,8 +5439,23 @@
               },
               {
                 "documentation" : [
+                  "<!-- FishyJoes.export(fifthThing) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : false,
+                "name" : "fifthThing",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
                   "<!-- FishyJoes.export(iabs) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "iabs",
                 "readOnly" : true,
@@ -4306,6 +5469,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(intCompose) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "intCompose",
                 "readOnly" : true,
@@ -4317,21 +5481,9 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(add3Things) -->"
-                ],
-                "isStatic" : false,
-                "name" : "add3Things",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "(_0: number, _1: number, _2: number) => Promise<number>"
-                  }
-                }
-              },
-              {
-                "documentation" : [
                   "<!-- FishyJoes.export(makeList) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "makeList",
                 "readOnly" : true,
@@ -4343,21 +5495,9 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(fifthThing) -->"
-                ],
-                "isStatic" : false,
-                "name" : "fifthThing",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>"
-                  }
-                }
-              },
-              {
-                "documentation" : [
                   "<!-- FishyJoes.export(six) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "six",
                 "readOnly" : true,
@@ -4371,6 +5511,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(willThrow) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "willThrow",
                 "readOnly" : true,
@@ -4382,7 +5523,11 @@
               }
             ],
             "implements" : [
-              "TestAsyncFunctions"
+              {
+                "named" : {
+                  "_0" : "TestAPI.TestAsyncFunctions"
+                }
+              }
             ],
             "methods" : [
               {
@@ -4686,8 +5831,326 @@
             "fields" : [
               {
                 "documentation" : [
+                  "<!-- FishyJoes.export(noot) -->"
+                ],
+                "hasDefaultImplementation" : true,
+                "isStatic" : false,
+                "name" : "noot",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(plutonic) -->"
+                ],
+                "hasDefaultImplementation" : true,
+                "isStatic" : false,
+                "name" : "plutonic",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              }
+            ],
+            "implements" : [
+
+            ],
+            "methods" : [
+
+            ],
+            "name" : "ExternalWitness_TestDefaultComputedProperties"
+          },
+          {
+            "constructor" : {
+              "hidden" : {
+
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.exportReference(TestDefaultComputedPropertiesReference) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(noot) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : false,
+                "name" : "noot",
+                "readOnly" : false,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(plutonic) -->"
+                ],
+                "hasDefaultImplementation" : true,
+                "isStatic" : false,
+                "name" : "plutonic",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(spam) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : false,
+                "name" : "spam",
+                "readOnly" : false,
+                "type" : {
+                  "named" : {
+                    "_0" : "boolean"
+                  }
+                }
+              }
+            ],
+            "implements" : [
+              {
+                "named" : {
+                  "_0" : "TestAPI.TestDefaultComputedProperties"
+                }
+              }
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(init) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "init",
+                "parameters" : [
+                  {
+                    "name" : "spam",
+                    "type" : {
+                      "named" : {
+                        "_0" : "boolean"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "noot",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.TestDefaultComputedPropertiesReference"
+                  }
+                }
+              }
+            ],
+            "name" : "TestDefaultComputedPropertiesReference"
+          },
+          {
+            "constructor" : {
+              "visible" : {
+                "names" : [
+                  "spam",
+                  "noot"
+                ],
+                "types" : [
+                  {
+                    "named" : {
+                      "_0" : "boolean"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "number"
+                    }
+                  }
+                ]
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.export(TestDefaultComputedPropertiesStruct) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : false,
+                "name" : "spam",
+                "readOnly" : false,
+                "type" : {
+                  "named" : {
+                    "_0" : "boolean"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : false,
+                "name" : "noot",
+                "readOnly" : false,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(plutonic) -->"
+                ],
+                "hasDefaultImplementation" : true,
+                "isStatic" : false,
+                "name" : "plutonic",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              }
+            ],
+            "implements" : [
+              {
+                "named" : {
+                  "_0" : "TestAPI.TestDefaultComputedProperties"
+                }
+              }
+            ],
+            "methods" : [
+
+            ],
+            "name" : "TestDefaultComputedPropertiesStruct"
+          },
+          {
+            "constructor" : {
+              "hidden" : {
+
+              }
+            },
+            "documentation" : [
+
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(tata) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : false,
+                "name" : "tata",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
+            ],
+            "implements" : [
+
+            ],
+            "methods" : [
+
+            ],
+            "name" : "ExternalWitness_TestDifferingExportNameProtocolDiffy"
+          },
+          {
+            "constructor" : {
+              "visible" : {
+                "names" : [
+                  "tata"
+                ],
+                "types" : [
+                  {
+                    "named" : {
+                      "_0" : "number"
+                    }
+                  }
+                ]
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.export(TestDifferingExportNameStruct) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : false,
+                "name" : "tata",
+                "readOnly" : false,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
+            ],
+            "implements" : [
+              {
+                "named" : {
+                  "_0" : "TestAPI.TestDifferingExportNameProtocolDiffy"
+                }
+              }
+            ],
+            "methods" : [
+
+            ],
+            "name" : "TestDifferingExportNameStruct"
+          },
+          {
+            "constructor" : {
+              "hidden" : {
+
+              }
+            },
+            "documentation" : [
+
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
                   "<!-- FishyJoes.export(_leadingUnderscoreProp) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "_leadingUnderscoreProp",
                 "readOnly" : true,
@@ -4722,8 +6185,7 @@
               }
             },
             "documentation" : [
-              "// <!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp, TestLeadingUnderscoredMethod]) -->",
-              "<!-- FishyJoes.export(TestLeadingUnderscoredPropStruct, conformances: [TestLeadingUnderscoredProp]) -->"
+              "<!-- FishyJoes.export(TestLeadingUnderscoredPropStruct) -->"
             ],
             "extends" : [
 
@@ -4733,6 +6195,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "_leadingUnderscoreProp",
                 "readOnly" : false,
@@ -4744,7 +6207,11 @@
               }
             ],
             "implements" : [
-              "TestLeadingUnderscoredProp"
+              {
+                "named" : {
+                  "_0" : "TestAPI.TestLeadingUnderscoredProp"
+                }
+              }
             ],
             "methods" : [
 
@@ -4934,6 +6401,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(flarp) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "flarp",
                 "readOnly" : true,
@@ -5030,6 +6498,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(corge) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "corge",
                 "readOnly" : true,
@@ -5043,6 +6512,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(frobby) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "frobby",
                 "readOnly" : true,
@@ -5068,7 +6538,7 @@
               }
             },
             "documentation" : [
-              "<!-- FishyJoes.exportReference(TestProtocolClass, conformances: [TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol]) -->"
+              "<!-- FishyJoes.exportReference(TestProtocolClass) -->"
             ],
             "extends" : [
 
@@ -5078,6 +6548,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(corge) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "corge",
                 "readOnly" : false,
@@ -5091,6 +6562,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(flarp) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "flarp",
                 "readOnly" : false,
@@ -5108,6 +6580,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(frobby) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "frobby",
                 "readOnly" : true,
@@ -5119,9 +6592,21 @@
               }
             ],
             "implements" : [
-              "TestMethodsProtocol",
-              "TestOptionalsProtocol",
-              "TestPropertiesProtocol"
+              {
+                "named" : {
+                  "_0" : "TestAPI.TestMethodsProtocol"
+                }
+              },
+              {
+                "named" : {
+                  "_0" : "TestAPI.TestOptionalsProtocol"
+                }
+              },
+              {
+                "named" : {
+                  "_0" : "TestAPI.TestPropertiesProtocol"
+                }
+              }
             ],
             "methods" : [
               {
@@ -5374,7 +6859,7 @@
               }
             },
             "documentation" : [
-              "<!-- FishyJoes.export(TestProtocolStruct, conformances: [TestMethodsProtocol, TestPropertiesProtocol]) -->"
+              "<!-- FishyJoes.export(TestProtocolStruct) -->"
             ],
             "extends" : [
 
@@ -5384,6 +6869,7 @@
                 "documentation" : [
 
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "corge",
                 "readOnly" : false,
@@ -5397,6 +6883,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(frobby) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "frobby",
                 "readOnly" : true,
@@ -5408,8 +6895,16 @@
               }
             ],
             "implements" : [
-              "TestMethodsProtocol",
-              "TestPropertiesProtocol"
+              {
+                "named" : {
+                  "_0" : "TestAPI.TestMethodsProtocol"
+                }
+              },
+              {
+                "named" : {
+                  "_0" : "TestAPI.TestPropertiesProtocol"
+                }
+              }
             ],
             "methods" : [
               {
@@ -5567,6 +7062,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(baz) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "baz",
                 "readOnly" : true,
@@ -5580,6 +7076,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(foo) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "foo",
                 "readOnly" : true,
@@ -5711,6 +7208,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(intValue) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "intValue",
                 "readOnly" : true,
@@ -5759,6 +7257,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(add3Things) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "add3Things",
                 "readOnly" : true,
@@ -5772,6 +7271,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(const42) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "const42",
                 "readOnly" : true,
@@ -5785,6 +7285,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(fifthThing) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "fifthThing",
                 "readOnly" : true,
@@ -5798,6 +7299,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(iabs) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "iabs",
                 "readOnly" : true,
@@ -5811,6 +7313,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(intCompose) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "intCompose",
                 "readOnly" : true,
@@ -5824,6 +7327,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(makeList) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "makeList",
                 "readOnly" : true,
@@ -5837,6 +7341,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(six) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "six",
                 "readOnly" : true,
@@ -5850,6 +7355,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(willThrow) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "willThrow",
                 "readOnly" : true,
@@ -6142,6 +7648,72 @@
           },
           {
             "documentation" : [
+              "<!-- FishyJoes.export(TestDefaultComputedProperties) -->"
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(noot) -->"
+                ],
+                "hasDefaultImplementation" : true,
+                "isStatic" : false,
+                "name" : "noot",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(plutonic) -->"
+                ],
+                "hasDefaultImplementation" : true,
+                "isStatic" : false,
+                "name" : "plutonic",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              }
+            ],
+            "forNamespace" : "TestAPI",
+            "methods" : [
+
+            ],
+            "name" : "TestDefaultComputedProperties"
+          },
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(TestDifferingExportNameProtocolDiffy) -->"
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(tata) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : false,
+                "name" : "tata",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
+            ],
+            "forNamespace" : "TestAPI",
+            "methods" : [
+
+            ],
+            "name" : "TestDifferingExportNameProtocolDiffy"
+          },
+          {
+            "documentation" : [
               "<!-- FishyJoes.export(TestLeadingUnderscoredProp) -->"
             ],
             "fields" : [
@@ -6149,6 +7721,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(_leadingUnderscoreProp) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "_leadingUnderscoreProp",
                 "readOnly" : true,
@@ -6330,6 +7903,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(flarp) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "flarp",
                 "readOnly" : true,
@@ -6416,6 +7990,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(corge) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "corge",
                 "readOnly" : true,
@@ -6429,6 +8004,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(frobby) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "frobby",
                 "readOnly" : true,
@@ -6468,21 +8044,9 @@
                 "fields" : [
                   {
                     "documentation" : [
-                      "<!-- FishyJoes.export(label) -->"
-                    ],
-                    "isStatic" : false,
-                    "name" : "label",
-                    "readOnly" : true,
-                    "type" : {
-                      "named" : {
-                        "_0" : "string"
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
                       "<!-- FishyJoes.export(backwardsLabel) -->"
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "backwardsLabel",
                     "readOnly" : true,
@@ -6496,8 +8060,23 @@
                     "documentation" : [
                       "<!-- FishyJoes.export(extensionNonisolatedVarLabel) -->"
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "extensionNonisolatedVarLabel",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(label) -->"
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "label",
                     "readOnly" : true,
                     "type" : {
                       "named" : {
@@ -6679,6 +8258,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "value",
                     "readOnly" : true,
@@ -6729,6 +8309,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "unnamed",
                     "readOnly" : true,
@@ -6742,6 +8323,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "_1",
                     "readOnly" : true,
@@ -6792,6 +8374,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "named",
                     "readOnly" : true,
@@ -6805,6 +8388,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "_1",
                     "readOnly" : true,
@@ -6877,6 +8461,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "value",
                     "readOnly" : true,
@@ -6901,6 +8486,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(staticThing) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "staticThing",
                 "readOnly" : true,
@@ -6932,8 +8518,23 @@
             "fields" : [
               {
                 "documentation" : [
+                  "<!-- FishyJoes.export(add3Things) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "add3Things",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: number, _1: number, _2: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
                   "<!-- FishyJoes.export(const42) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "const42",
                 "readOnly" : true,
@@ -6945,8 +8546,23 @@
               },
               {
                 "documentation" : [
+                  "<!-- FishyJoes.export(fifthThing) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "fifthThing",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
                   "<!-- FishyJoes.export(abs) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "abs",
                 "readOnly" : true,
@@ -6960,6 +8576,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(intCompose) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "intCompose",
                 "readOnly" : true,
@@ -6971,21 +8588,9 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(add3Things) -->"
-                ],
-                "isStatic" : true,
-                "name" : "add3Things",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "(_0: number, _1: number, _2: number) => Promise<number>"
-                  }
-                }
-              },
-              {
-                "documentation" : [
                   "<!-- FishyJoes.export(makeList) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "makeList",
                 "readOnly" : true,
@@ -6997,21 +8602,9 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(fifthThing) -->"
-                ],
-                "isStatic" : true,
-                "name" : "fifthThing",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>"
-                  }
-                }
-              },
-              {
-                "documentation" : [
                   "<!-- FishyJoes.export(sixthThing) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "sixthThing",
                 "readOnly" : true,
@@ -7025,6 +8618,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(willThrow) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "willThrow",
                 "readOnly" : true,
@@ -7275,21 +8869,9 @@
             "fields" : [
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(simple) -->"
-                ],
-                "isStatic" : true,
-                "name" : "simple",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "Runtime.AttributedString"
-                  }
-                }
-              },
-              {
-                "documentation" : [
                   "<!-- FishyJoes.export(accent) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "accent",
                 "readOnly" : true,
@@ -7301,21 +8883,9 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(script) -->"
-                ],
-                "isStatic" : true,
-                "name" : "script",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "Runtime.AttributedString"
-                  }
-                }
-              },
-              {
-                "documentation" : [
                   "<!-- FishyJoes.export(chinese) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "chinese",
                 "readOnly" : true,
@@ -7329,6 +8899,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(chineseBMP) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "chineseBMP",
                 "readOnly" : true,
@@ -7342,6 +8913,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(chineseSIP) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "chineseSIP",
                 "readOnly" : true,
@@ -7355,6 +8927,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(emoji) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "emoji",
                 "readOnly" : true,
@@ -7368,6 +8941,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(emojiMulti) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "emojiMulti",
                 "readOnly" : true,
@@ -7381,8 +8955,37 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(polyglot) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "polyglot",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "Runtime.AttributedString"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(script) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "script",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "Runtime.AttributedString"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(simple) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "simple",
                 "readOnly" : true,
                 "type" : {
                   "named" : {
@@ -7587,6 +9190,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(bytes, cSharp: TheBytes) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "bytes",
                 "readOnly" : true,
@@ -7600,6 +9204,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(data) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "data",
                 "readOnly" : true,
@@ -7678,10 +9283,11 @@
             "fields" : [
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(uInt8Range) -->"
+                  "<!-- FishyJoes.export(doubleRange) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
-                "name" : "uInt8Range",
+                "name" : "doubleRange",
                 "readOnly" : true,
                 "type" : {
                   "named" : {
@@ -7691,62 +9297,11 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(uInt16Range) -->"
+                  "<!-- FishyJoes.export(floatRange) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
-                "name" : "uInt16Range",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "Runtime.SwiftClosedRange<number>"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(uInt32Range) -->"
-                ],
-                "isStatic" : true,
-                "name" : "uInt32Range",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "Runtime.SwiftClosedRange<number>"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(uInt64Range) -->"
-                ],
-                "isStatic" : true,
-                "name" : "uInt64Range",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "Runtime.SwiftClosedRange<bigint>"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(uIntRange) -->"
-                ],
-                "isStatic" : true,
-                "name" : "uIntRange",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "Runtime.SwiftClosedRange<number>"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(int8Range) -->"
-                ],
-                "isStatic" : true,
-                "name" : "int8Range",
+                "name" : "floatRange",
                 "readOnly" : true,
                 "type" : {
                   "named" : {
@@ -7758,6 +9313,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(int16Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "int16Range",
                 "readOnly" : true,
@@ -7771,6 +9327,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(int32Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "int32Range",
                 "readOnly" : true,
@@ -7784,6 +9341,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(int64Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "int64Range",
                 "readOnly" : true,
@@ -7795,8 +9353,23 @@
               },
               {
                 "documentation" : [
+                  "<!-- FishyJoes.export(int8Range) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "int8Range",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "Runtime.SwiftClosedRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
                   "<!-- FishyJoes.export(intRange) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "intRange",
                 "readOnly" : true,
@@ -7808,40 +9381,85 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(floatRange) -->"
-                ],
-                "isStatic" : true,
-                "name" : "floatRange",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "Runtime.SwiftClosedRange<number>"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(doubleRange) -->"
-                ],
-                "isStatic" : true,
-                "name" : "doubleRange",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "Runtime.SwiftClosedRange<number>"
-                  }
-                }
-              },
-              {
-                "documentation" : [
                   "<!-- FishyJoes.export(stringRange) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "stringRange",
                 "readOnly" : true,
                 "type" : {
                   "named" : {
                     "_0" : "Runtime.SwiftClosedRange<string>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(uInt16Range) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "uInt16Range",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "Runtime.SwiftClosedRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(uInt32Range) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "uInt32Range",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "Runtime.SwiftClosedRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(uInt64Range) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "uInt64Range",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "Runtime.SwiftClosedRange<bigint>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(uInt8Range) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "uInt8Range",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "Runtime.SwiftClosedRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(uIntRange) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "uIntRange",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "Runtime.SwiftClosedRange<number>"
                   }
                 }
               }
@@ -8247,6 +9865,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "boolArray",
                     "readOnly" : false,
@@ -8260,6 +9879,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "boolSet",
                     "readOnly" : false,
@@ -8273,6 +9893,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "boolDictionary",
                     "readOnly" : false,
@@ -8286,6 +9907,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "integerArray",
                     "readOnly" : false,
@@ -8299,6 +9921,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "integerSet",
                     "readOnly" : false,
@@ -8312,6 +9935,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "integerDictionary",
                     "readOnly" : false,
@@ -8325,6 +9949,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "stringArray",
                     "readOnly" : false,
@@ -8338,6 +9963,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "stringSet",
                     "readOnly" : false,
@@ -8351,6 +9977,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "stringDictionary",
                     "readOnly" : false,
@@ -8362,11 +9989,12 @@
                   },
                   {
                     "documentation" : [
-                      "<!-- FishyJoes.export(staticProperty) -->"
+                      "<!-- FishyJoes.export(staticMutableProperty) -->"
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : true,
-                    "name" : "staticProperty",
-                    "readOnly" : true,
+                    "name" : "staticMutableProperty",
+                    "readOnly" : false,
                     "type" : {
                       "named" : {
                         "_0" : "Optional<number>[]"
@@ -8375,11 +10003,12 @@
                   },
                   {
                     "documentation" : [
-                      "<!-- FishyJoes.export(staticMutableProperty) -->"
+                      "<!-- FishyJoes.export(staticProperty) -->"
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : true,
-                    "name" : "staticMutableProperty",
-                    "readOnly" : false,
+                    "name" : "staticProperty",
+                    "readOnly" : true,
                     "type" : {
                       "named" : {
                         "_0" : "Optional<number>[]"
@@ -8399,47 +10028,9 @@
             "fields" : [
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(arrayOfInt) -->"
-                ],
-                "isStatic" : true,
-                "name" : "arrayOfInt",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number[]"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(setOfInt) -->"
-                ],
-                "isStatic" : true,
-                "name" : "setOfInt",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "Set<number>"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(dictionaryOfIntToInt) -->"
-                ],
-                "isStatic" : true,
-                "name" : "dictionaryOfIntToInt",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "Map<number, number>"
-                  }
-                }
-              },
-              {
-                "documentation" : [
                   "<!-- FishyJoes.export(arrayOfBigTuples) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "arrayOfBigTuples",
                 "readOnly" : true,
@@ -8451,8 +10042,51 @@
               },
               {
                 "documentation" : [
+                  "<!-- FishyJoes.export(arrayOfInt) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "arrayOfInt",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number[]"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(defaultCollectionHolder) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "defaultCollectionHolder",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "Collections.CollectionHolder"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(dictionaryOfIntToInt) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "dictionaryOfIntToInt",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "Map<number, number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
                   "<!-- FishyJoes.export(maybeArrayOfInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "maybeArrayOfInt",
                 "readOnly" : true,
@@ -8468,42 +10102,9 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(maybeSetOfInt) -->"
-                ],
-                "isStatic" : true,
-                "name" : "maybeSetOfInt",
-                "readOnly" : true,
-                "type" : {
-                  "optional" : {
-                    "_0" : {
-                      "named" : {
-                        "_0" : "Set<number>"
-                      }
-                    }
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(maybeDictionaryOfIntToInt) -->"
-                ],
-                "isStatic" : true,
-                "name" : "maybeDictionaryOfIntToInt",
-                "readOnly" : true,
-                "type" : {
-                  "optional" : {
-                    "_0" : {
-                      "named" : {
-                        "_0" : "Map<number, number>"
-                      }
-                    }
-                  }
-                }
-              },
-              {
-                "documentation" : [
                   "<!-- FishyJoes.export(maybeArrayOfMaybeInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "maybeArrayOfMaybeInt",
                 "readOnly" : true,
@@ -8519,16 +10120,17 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(maybeSetOfMaybeInt) -->"
+                  "<!-- FishyJoes.export(maybeDictionaryOfIntToInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
-                "name" : "maybeSetOfMaybeInt",
+                "name" : "maybeDictionaryOfIntToInt",
                 "readOnly" : true,
                 "type" : {
                   "optional" : {
                     "_0" : {
                       "named" : {
-                        "_0" : "Set<Optional<number>>"
+                        "_0" : "Map<number, number>"
                       }
                     }
                   }
@@ -8538,6 +10140,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maybeDictionaryOfIntToMaybeInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "maybeDictionaryOfIntToMaybeInt",
                 "readOnly" : true,
@@ -8553,14 +10156,51 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(defaultCollectionHolder) -->"
+                  "<!-- FishyJoes.export(maybeSetOfInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
-                "name" : "defaultCollectionHolder",
+                "name" : "maybeSetOfInt",
+                "readOnly" : true,
+                "type" : {
+                  "optional" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "Set<number>"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(maybeSetOfMaybeInt) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "maybeSetOfMaybeInt",
+                "readOnly" : true,
+                "type" : {
+                  "optional" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "Set<Optional<number>>"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(setOfInt) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "setOfInt",
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "Collections.CollectionHolder"
+                    "_0" : "Set<number>"
                   }
                 }
               }
@@ -8867,6 +10507,7 @@
                   "<!-- FishyJoes.export(deprecatedVariable) -->",
                   "@deprecated replace with `deprecatedMethod` ( <-- swift name, sorry )"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "deprecatedVariable",
                 "readOnly" : true,
@@ -8913,7 +10554,20 @@
 
             ],
             "fields" : [
-
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(noot) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "noot",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
             ],
             "interfaces" : [
 
@@ -8935,6 +10589,23 @@
                     "_0" : "TestAPI.EmptyEnum"
                   }
                 }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(mies) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "mies",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
               }
             ],
             "name" : "EmptyEnum",
@@ -8952,8 +10623,23 @@
             "fields" : [
               {
                 "documentation" : [
+                  "<!-- FishyJoes.export(add3Things) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "add3Things",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: number, _1: number, _2: number) => number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
                   "<!-- FishyJoes.export(const42) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "const42",
                 "readOnly" : true,
@@ -8965,8 +10651,23 @@
               },
               {
                 "documentation" : [
+                  "<!-- FishyJoes.export(fifthThing) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "fifthThing",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => number) => () => number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
                   "<!-- FishyJoes.export(abs) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "abs",
                 "readOnly" : true,
@@ -8980,6 +10681,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(intCompose) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "intCompose",
                 "readOnly" : true,
@@ -8991,21 +10693,9 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(add3Things) -->"
-                ],
-                "isStatic" : true,
-                "name" : "add3Things",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "(_0: number, _1: number, _2: number) => number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
                   "<!-- FishyJoes.export(makeList) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "makeList",
                 "readOnly" : true,
@@ -9017,21 +10707,9 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(fifthThing) -->"
-                ],
-                "isStatic" : true,
-                "name" : "fifthThing",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => number) => () => number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
                   "<!-- FishyJoes.export(sixthThing) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "sixthThing",
                 "readOnly" : true,
@@ -9494,6 +11172,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "b",
                     "readOnly" : false,
@@ -9507,6 +11186,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "bq",
                     "readOnly" : false,
@@ -9524,6 +11204,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "ui8",
                     "readOnly" : false,
@@ -9537,6 +11218,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "ui8q",
                     "readOnly" : false,
@@ -9554,6 +11236,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "ui16",
                     "readOnly" : false,
@@ -9567,6 +11250,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "ui16q",
                     "readOnly" : false,
@@ -9584,6 +11268,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "ui32",
                     "readOnly" : false,
@@ -9597,6 +11282,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "ui32q",
                     "readOnly" : false,
@@ -9614,6 +11300,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "ui64",
                     "readOnly" : false,
@@ -9627,6 +11314,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "ui64q",
                     "readOnly" : false,
@@ -9644,6 +11332,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "ui",
                     "readOnly" : false,
@@ -9657,6 +11346,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "uiq",
                     "readOnly" : false,
@@ -9674,6 +11364,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "i8",
                     "readOnly" : false,
@@ -9687,6 +11378,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "i8q",
                     "readOnly" : false,
@@ -9704,6 +11396,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "i16",
                     "readOnly" : false,
@@ -9717,6 +11410,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "i16q",
                     "readOnly" : false,
@@ -9734,6 +11428,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "i32",
                     "readOnly" : false,
@@ -9747,6 +11442,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "i32q",
                     "readOnly" : false,
@@ -9764,6 +11460,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "i64",
                     "readOnly" : false,
@@ -9777,6 +11474,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "i64q",
                     "readOnly" : false,
@@ -9794,6 +11492,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "i",
                     "readOnly" : false,
@@ -9807,6 +11506,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "iq",
                     "readOnly" : false,
@@ -9824,6 +11524,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "f",
                     "readOnly" : false,
@@ -9837,6 +11538,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "fq",
                     "readOnly" : false,
@@ -9854,6 +11556,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "d",
                     "readOnly" : false,
@@ -9867,6 +11570,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "dq",
                     "readOnly" : false,
@@ -9882,11 +11586,12 @@
                   },
                   {
                     "documentation" : [
-                      "<!-- FishyJoes.export(staticProperty) -->"
+                      "<!-- FishyJoes.export(staticMutableProperty) -->"
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : true,
-                    "name" : "staticProperty",
-                    "readOnly" : true,
+                    "name" : "staticMutableProperty",
+                    "readOnly" : false,
                     "type" : {
                       "named" : {
                         "_0" : "Optional<number>[]"
@@ -9895,11 +11600,12 @@
                   },
                   {
                     "documentation" : [
-                      "<!-- FishyJoes.export(staticMutableProperty) -->"
+                      "<!-- FishyJoes.export(staticProperty) -->"
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : true,
-                    "name" : "staticMutableProperty",
-                    "readOnly" : false,
+                    "name" : "staticProperty",
+                    "readOnly" : true,
                     "type" : {
                       "named" : {
                         "_0" : "Optional<number>[]"
@@ -9919,515 +11625,9 @@
             "fields" : [
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(falseBool) -->"
-                ],
-                "isStatic" : true,
-                "name" : "falseBool",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "boolean"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(trueBool) -->"
-                ],
-                "isStatic" : true,
-                "name" : "trueBool",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "boolean"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(zeroUInt8) -->"
-                ],
-                "isStatic" : true,
-                "name" : "zeroUInt8",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(minUInt8) -->"
-                ],
-                "isStatic" : true,
-                "name" : "minUInt8",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(maxUInt8) -->"
-                ],
-                "isStatic" : true,
-                "name" : "maxUInt8",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(zeroUInt16) -->"
-                ],
-                "isStatic" : true,
-                "name" : "zeroUInt16",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(minUInt16) -->"
-                ],
-                "isStatic" : true,
-                "name" : "minUInt16",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(maxUInt16) -->"
-                ],
-                "isStatic" : true,
-                "name" : "maxUInt16",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(zeroUInt32) -->"
-                ],
-                "isStatic" : true,
-                "name" : "zeroUInt32",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(minUInt32) -->"
-                ],
-                "isStatic" : true,
-                "name" : "minUInt32",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(maxUInt32) -->"
-                ],
-                "isStatic" : true,
-                "name" : "maxUInt32",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(zeroUInt64) -->"
-                ],
-                "isStatic" : true,
-                "name" : "zeroUInt64",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "bigint"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(minUInt64) -->"
-                ],
-                "isStatic" : true,
-                "name" : "minUInt64",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "bigint"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(maxUInt64) -->"
-                ],
-                "isStatic" : true,
-                "name" : "maxUInt64",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "bigint"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(zeroUInt) -->"
-                ],
-                "isStatic" : true,
-                "name" : "zeroUInt",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(minUInt) -->"
-                ],
-                "isStatic" : true,
-                "name" : "minUInt",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(maxUInt) -->"
-                ],
-                "isStatic" : true,
-                "name" : "maxUInt",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(zeroInt8) -->"
-                ],
-                "isStatic" : true,
-                "name" : "zeroInt8",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(minInt8) -->"
-                ],
-                "isStatic" : true,
-                "name" : "minInt8",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(maxInt8) -->"
-                ],
-                "isStatic" : true,
-                "name" : "maxInt8",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(zeroInt16) -->"
-                ],
-                "isStatic" : true,
-                "name" : "zeroInt16",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(minInt16) -->"
-                ],
-                "isStatic" : true,
-                "name" : "minInt16",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(maxInt16) -->"
-                ],
-                "isStatic" : true,
-                "name" : "maxInt16",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(zeroInt32) -->"
-                ],
-                "isStatic" : true,
-                "name" : "zeroInt32",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(minInt32) -->"
-                ],
-                "isStatic" : true,
-                "name" : "minInt32",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(maxInt32) -->"
-                ],
-                "isStatic" : true,
-                "name" : "maxInt32",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(zeroInt64) -->"
-                ],
-                "isStatic" : true,
-                "name" : "zeroInt64",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "bigint"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(minInt64) -->"
-                ],
-                "isStatic" : true,
-                "name" : "minInt64",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "bigint"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(maxInt64) -->"
-                ],
-                "isStatic" : true,
-                "name" : "maxInt64",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "bigint"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(zeroInt) -->"
-                ],
-                "isStatic" : true,
-                "name" : "zeroInt",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(minInt) -->"
-                ],
-                "isStatic" : true,
-                "name" : "minInt",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(maxInt) -->"
-                ],
-                "isStatic" : true,
-                "name" : "maxInt",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(zeroFloat) -->"
-                ],
-                "isStatic" : true,
-                "name" : "zeroFloat",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(minFloat) -->"
-                ],
-                "isStatic" : true,
-                "name" : "minFloat",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(maxFloat) -->"
-                ],
-                "isStatic" : true,
-                "name" : "maxFloat",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(zeroDouble) -->"
-                ],
-                "isStatic" : true,
-                "name" : "zeroDouble",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(minDouble) -->"
-                ],
-                "isStatic" : true,
-                "name" : "minDouble",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(maxDouble) -->"
-                ],
-                "isStatic" : true,
-                "name" : "maxDouble",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(bitCountUInt) -->"
-                ],
-                "isStatic" : true,
-                "name" : "bitCountUInt",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
                   "<!-- FishyJoes.export(bitCountInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "bitCountInt",
                 "readOnly" : true,
@@ -10439,8 +11639,51 @@
               },
               {
                 "documentation" : [
+                  "<!-- FishyJoes.export(bitCountUInt) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "bitCountUInt",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(defaultPrimitiveHolder) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "defaultPrimitiveHolder",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "Primitives.PrimitiveHolder"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(falseBool) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "falseBool",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "boolean"
+                  }
+                }
+              },
+              {
+                "documentation" : [
                   "<!-- FishyJoes.export(manyBool) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "manyBool",
                 "readOnly" : true,
@@ -10452,10 +11695,11 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(manyUInt8) -->"
+                  "<!-- FishyJoes.export(manyDouble) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
-                "name" : "manyUInt8",
+                "name" : "manyDouble",
                 "readOnly" : true,
                 "type" : {
                   "named" : {
@@ -10465,10 +11709,11 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(manyUInt16) -->"
+                  "<!-- FishyJoes.export(manyFloat) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
-                "name" : "manyUInt16",
+                "name" : "manyFloat",
                 "readOnly" : true,
                 "type" : {
                   "named" : {
@@ -10478,49 +11723,11 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(manyUInt32) -->"
+                  "<!-- FishyJoes.export(manyInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
-                "name" : "manyUInt32",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number[]"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(manyUInt64) -->"
-                ],
-                "isStatic" : true,
-                "name" : "manyUInt64",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "bigint[]"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(manyUInt) -->"
-                ],
-                "isStatic" : true,
-                "name" : "manyUInt",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number[]"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(manyInt8) -->"
-                ],
-                "isStatic" : true,
-                "name" : "manyInt8",
+                "name" : "manyInt",
                 "readOnly" : true,
                 "type" : {
                   "named" : {
@@ -10532,6 +11739,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(manyInt16) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "manyInt16",
                 "readOnly" : true,
@@ -10545,6 +11753,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(manyInt32) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "manyInt32",
                 "readOnly" : true,
@@ -10558,6 +11767,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(manyInt64) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "manyInt64",
                 "readOnly" : true,
@@ -10569,36 +11779,11 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(manyInt) -->"
+                  "<!-- FishyJoes.export(manyInt8) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
-                "name" : "manyInt",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number[]"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(manyFloat) -->"
-                ],
-                "isStatic" : true,
-                "name" : "manyFloat",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number[]"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(manyDouble) -->"
-                ],
-                "isStatic" : true,
-                "name" : "manyDouble",
+                "name" : "manyInt8",
                 "readOnly" : true,
                 "type" : {
                   "named" : {
@@ -10610,6 +11795,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(manyMaybeBool) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "manyMaybeBool",
                 "readOnly" : true,
@@ -10621,10 +11807,11 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(manyMaybeUInt8) -->"
+                  "<!-- FishyJoes.export(manyMaybeDouble) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
-                "name" : "manyMaybeUInt8",
+                "name" : "manyMaybeDouble",
                 "readOnly" : true,
                 "type" : {
                   "named" : {
@@ -10634,10 +11821,11 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(manyMaybeUInt16) -->"
+                  "<!-- FishyJoes.export(manyMaybeFloat) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
-                "name" : "manyMaybeUInt16",
+                "name" : "manyMaybeFloat",
                 "readOnly" : true,
                 "type" : {
                   "named" : {
@@ -10647,49 +11835,11 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(manyMaybeUInt32) -->"
+                  "<!-- FishyJoes.export(manyMaybeInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
-                "name" : "manyMaybeUInt32",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "Optional<number>[]"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(manyMaybeUInt64) -->"
-                ],
-                "isStatic" : true,
-                "name" : "manyMaybeUInt64",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "Optional<bigint>[]"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(manyMaybeUInt) -->"
-                ],
-                "isStatic" : true,
-                "name" : "manyMaybeUInt",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "Optional<number>[]"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(manyMaybeInt8) -->"
-                ],
-                "isStatic" : true,
-                "name" : "manyMaybeInt8",
+                "name" : "manyMaybeInt",
                 "readOnly" : true,
                 "type" : {
                   "named" : {
@@ -10701,6 +11851,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(manyMaybeInt16) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "manyMaybeInt16",
                 "readOnly" : true,
@@ -10714,6 +11865,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(manyMaybeInt32) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "manyMaybeInt32",
                 "readOnly" : true,
@@ -10727,6 +11879,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(manyMaybeInt64) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "manyMaybeInt64",
                 "readOnly" : true,
@@ -10738,10 +11891,11 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(manyMaybeInt) -->"
+                  "<!-- FishyJoes.export(manyMaybeInt8) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
-                "name" : "manyMaybeInt",
+                "name" : "manyMaybeInt8",
                 "readOnly" : true,
                 "type" : {
                   "named" : {
@@ -10751,10 +11905,11 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(manyMaybeFloat) -->"
+                  "<!-- FishyJoes.export(manyMaybeUInt) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
-                "name" : "manyMaybeFloat",
+                "name" : "manyMaybeUInt",
                 "readOnly" : true,
                 "type" : {
                   "named" : {
@@ -10764,10 +11919,11 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(manyMaybeDouble) -->"
+                  "<!-- FishyJoes.export(manyMaybeUInt16) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
-                "name" : "manyMaybeDouble",
+                "name" : "manyMaybeUInt16",
                 "readOnly" : true,
                 "type" : {
                   "named" : {
@@ -10777,14 +11933,631 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(defaultPrimitiveHolder) -->"
+                  "<!-- FishyJoes.export(manyMaybeUInt32) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
-                "name" : "defaultPrimitiveHolder",
+                "name" : "manyMaybeUInt32",
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "Primitives.PrimitiveHolder"
+                    "_0" : "Optional<number>[]"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(manyMaybeUInt64) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "manyMaybeUInt64",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "Optional<bigint>[]"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(manyMaybeUInt8) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "manyMaybeUInt8",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "Optional<number>[]"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(manyUInt) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "manyUInt",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number[]"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(manyUInt16) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "manyUInt16",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number[]"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(manyUInt32) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "manyUInt32",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number[]"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(manyUInt64) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "manyUInt64",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "bigint[]"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(manyUInt8) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "manyUInt8",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number[]"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(maxDouble) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "maxDouble",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(maxFloat) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "maxFloat",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(maxInt) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "maxInt",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(maxInt16) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "maxInt16",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(maxInt32) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "maxInt32",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(maxInt64) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "maxInt64",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "bigint"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(maxInt8) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "maxInt8",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(maxUInt) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "maxUInt",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(maxUInt16) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "maxUInt16",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(maxUInt32) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "maxUInt32",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(maxUInt64) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "maxUInt64",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "bigint"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(maxUInt8) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "maxUInt8",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(minDouble) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "minDouble",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(minFloat) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "minFloat",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(minInt) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "minInt",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(minInt16) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "minInt16",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(minInt32) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "minInt32",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(minInt64) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "minInt64",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "bigint"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(minInt8) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "minInt8",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(minUInt) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "minUInt",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(minUInt16) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "minUInt16",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(minUInt32) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "minUInt32",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(minUInt64) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "minUInt64",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "bigint"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(minUInt8) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "minUInt8",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(trueBool) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "trueBool",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "boolean"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(zeroDouble) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "zeroDouble",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(zeroFloat) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "zeroFloat",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(zeroInt) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "zeroInt",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(zeroInt16) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "zeroInt16",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(zeroInt32) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "zeroInt32",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(zeroInt64) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "zeroInt64",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "bigint"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(zeroInt8) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "zeroInt8",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(zeroUInt) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "zeroUInt",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(zeroUInt16) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "zeroUInt16",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(zeroUInt32) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "zeroUInt32",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(zeroUInt64) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "zeroUInt64",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "bigint"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(zeroUInt8) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "zeroUInt8",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
                   }
                 }
               }
@@ -11577,86 +13350,9 @@
             "fields" : [
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(uInt8Range) -->"
-                ],
-                "isStatic" : true,
-                "name" : "uInt8Range",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "Runtime.SwiftRange<number>"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(uInt16Range) -->"
-                ],
-                "isStatic" : true,
-                "name" : "uInt16Range",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "Runtime.SwiftRange<number>"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(uInt32Range) -->"
-                ],
-                "isStatic" : true,
-                "name" : "uInt32Range",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "Runtime.SwiftRange<number>"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(uInt64Range) -->"
-                ],
-                "isStatic" : true,
-                "name" : "uInt64Range",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "Runtime.SwiftRange<bigint>"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(uIntRange) -->"
-                ],
-                "isStatic" : true,
-                "name" : "uIntRange",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "Runtime.SwiftRange<number>"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(int8Range) -->"
-                ],
-                "isStatic" : true,
-                "name" : "int8Range",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "Runtime.SwiftRange<number>"
-                  }
-                }
-              },
-              {
-                "documentation" : [
                   "<!-- FishyJoes.export(int16Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "int16Range",
                 "readOnly" : true,
@@ -11670,6 +13366,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(int32Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "int32Range",
                 "readOnly" : true,
@@ -11683,6 +13380,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(int64Range) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "int64Range",
                 "readOnly" : true,
@@ -11694,10 +13392,95 @@
               },
               {
                 "documentation" : [
+                  "<!-- FishyJoes.export(int8Range) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "int8Range",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "Runtime.SwiftRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
                   "<!-- FishyJoes.export(intRange) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "intRange",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "Runtime.SwiftRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(uInt16Range) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "uInt16Range",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "Runtime.SwiftRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(uInt32Range) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "uInt32Range",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "Runtime.SwiftRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(uInt64Range) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "uInt64Range",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "Runtime.SwiftRange<bigint>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(uInt8Range) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "uInt8Range",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "Runtime.SwiftRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(uIntRange) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "uIntRange",
                 "readOnly" : true,
                 "type" : {
                   "named" : {
@@ -11959,6 +13742,121 @@
 
             ]
           },
+          "Results" : {
+            "classes" : [
+              {
+                "constructor" : {
+                  "visible" : {
+                    "names" : [
+                      "message"
+                    ],
+                    "types" : [
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      }
+                    ]
+                  }
+                },
+                "documentation" : [
+                  "<!-- FishyJoes.export(Results.Error) -->"
+                ],
+                "extends" : [
+
+                ],
+                "fields" : [
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "message",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                ],
+                "implements" : [
+
+                ],
+                "methods" : [
+
+                ],
+                "name" : "Error"
+              }
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(aFailure) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "aFailure",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "Runtime.Result<number, Results.Error>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(aSuccess) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "aSuccess",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "Runtime.Result<number, Results.Error>"
+                  }
+                }
+              }
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(processResult) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "processResult",
+                "parameters" : [
+                  {
+                    "name" : "result",
+                    "type" : {
+                      "named" : {
+                        "_0" : "Runtime.Result<string, Results.Error>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              }
+            ],
+            "name" : "Results",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
+          },
           "SimpleEnum" : {
             "classes" : [
 
@@ -11968,6 +13866,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(favoriteColor) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "favoriteColor",
                 "readOnly" : false,
@@ -12091,21 +13990,9 @@
             "fields" : [
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(simple) -->"
-                ],
-                "isStatic" : true,
-                "name" : "simple",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "string"
-                  }
-                }
-              },
-              {
-                "documentation" : [
                   "<!-- FishyJoes.export(accent) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "accent",
                 "readOnly" : true,
@@ -12117,21 +14004,9 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(script) -->"
-                ],
-                "isStatic" : true,
-                "name" : "script",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "string"
-                  }
-                }
-              },
-              {
-                "documentation" : [
                   "<!-- FishyJoes.export(chinese) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "chinese",
                 "readOnly" : true,
@@ -12145,6 +14020,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(chineseBMP) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "chineseBMP",
                 "readOnly" : true,
@@ -12158,6 +14034,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(chineseSIP) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "chineseSIP",
                 "readOnly" : true,
@@ -12171,6 +14048,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(emoji) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "emoji",
                 "readOnly" : true,
@@ -12184,8 +14062,37 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(emojiMulti) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "emojiMulti",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(script) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "script",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(simple) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "simple",
                 "readOnly" : true,
                 "type" : {
                   "named" : {
@@ -12265,6 +14172,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "immutable",
                     "readOnly" : true,
@@ -12278,6 +14186,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "mutable",
                     "readOnly" : false,
@@ -12359,6 +14268,7 @@
                     "documentation" : [
 
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "i",
                     "readOnly" : false,
@@ -12469,6 +14379,7 @@
                     "documentation" : [
                       "<!-- FishyJoes.export(immutable) -->"
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "immutable",
                     "readOnly" : true,
@@ -12482,6 +14393,7 @@
                     "documentation" : [
                       "<!-- FishyJoes.export(mutable) -->"
                     ],
+                    "hasDefaultImplementation" : false,
                     "isStatic" : false,
                     "name" : "mutable",
                     "readOnly" : false,
@@ -12548,6 +14460,166 @@
 
             ],
             "name" : "Structs",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
+          },
+          "TestDefaultComputedPropertiesEnum" : {
+            "classes" : [
+
+            ],
+            "fields" : [
+
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(noot) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "getNoot",
+                "parameters" : [
+                  {
+                    "name" : "self",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.TestDefaultComputedPropertiesEnum"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(plutonic) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "getPlutonic",
+                "parameters" : [
+                  {
+                    "name" : "self",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.TestDefaultComputedProperties"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(spam) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "getSpam",
+                "parameters" : [
+                  {
+                    "name" : "self",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.TestDefaultComputedPropertiesEnum"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "boolean"
+                  }
+                }
+              }
+            ],
+            "name" : "TestDefaultComputedPropertiesEnum",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
+          },
+          "TestNonExportedProtocolEnum" : {
+            "classes" : [
+
+            ],
+            "fields" : [
+
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(hoge) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "hoge",
+                "parameters" : [
+                  {
+                    "name" : "self",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.TestNonExportedProtocolEnum"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(fuga) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "getFuga",
+                "parameters" : [
+                  {
+                    "name" : "self",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.TestNonExportedProtocolEnum"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
+            ],
+            "name" : "TestNonExportedProtocolEnum",
             "namespaces" : {
 
             },
@@ -12768,6 +14840,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(tuple2) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "tuple2",
                 "readOnly" : true,
@@ -12781,6 +14854,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(tuple3) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "tuple3",
                 "readOnly" : true,
@@ -12794,6 +14868,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(tuple4) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "tuple4",
                 "readOnly" : true,
@@ -12807,6 +14882,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(tuple5) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "tuple5",
                 "readOnly" : true,
@@ -12820,6 +14896,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(tuple6) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "tuple6",
                 "readOnly" : true,
@@ -12950,10 +15027,11 @@
             "fields" : [
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(simple) -->"
+                  "<!-- FishyJoes.export(localFile) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
-                "name" : "simple",
+                "name" : "localFile",
                 "readOnly" : true,
                 "type" : {
                   "named" : {
@@ -12965,6 +15043,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(remoteFile) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
                 "name" : "remoteFile",
                 "readOnly" : true,
@@ -12976,10 +15055,11 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(localFile) -->"
+                  "<!-- FishyJoes.export(simple) -->"
                 ],
+                "hasDefaultImplementation" : false,
                 "isStatic" : true,
-                "name" : "localFile",
+                "name" : "simple",
                 "readOnly" : true,
                 "type" : {
                   "named" : {
@@ -13239,6 +15319,19 @@
           },
           {
             "documentation" : [
+              "<!-- FishyJoes.export(Results) -->"
+            ],
+            "name" : "Results",
+            "value" : {
+              "union" : {
+                "_0" : [
+
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
               "<!-- FishyJoes.export(SimpleEnum) -->"
             ],
             "name" : "SimpleEnum",
@@ -13292,7 +15385,41 @@
           },
           {
             "documentation" : [
-              "<!-- FishyJoes.export(TestProtocolEnum, conformances: [TestMethodsProtocol]) -->"
+              "<!-- FishyJoes.export(TestDefaultComputedPropertiesEnum) -->"
+            ],
+            "name" : "TestDefaultComputedPropertiesEnum",
+            "value" : {
+              "union" : {
+                "_0" : [
+                  {
+                    "exactString" : {
+                      "_0" : "qux"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(TestNonExportedProtocolEnum) -->"
+            ],
+            "name" : "TestNonExportedProtocolEnum",
+            "value" : {
+              "union" : {
+                "_0" : [
+                  {
+                    "exactString" : {
+                      "_0" : "hogehoge"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(TestProtocolEnum) -->"
             ],
             "name" : "TestProtocolEnum",
             "value" : {

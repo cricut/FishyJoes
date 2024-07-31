@@ -52,7 +52,7 @@ jobs:
     name: "Ubuntu: Build Iota Runtime"
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cricut/android-swift-runtime:1.1.0
+      image: ghcr.io/cricut/android-swift-runtime:2.0.1
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
@@ -82,7 +82,7 @@ jobs:
 
           ./scripts/compile-iota-runtime.sh
 
-      - name: Copy swift runtime SOs
+      - name: Collect libFishyJoesIotaRuntime and its dependencies
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -102,7 +102,7 @@ jobs:
           cp -dv /usr/lib/x86_64-linux-gnu/libicudata.so* $LIB_DIR
           cp -dv /usr/lib/x86_64-linux-gnu/libxml2.so* $LIB_DIR
 
-      - name: Patch system swift runtime SOs to use relative libraries
+      - name: Patch libraries to use relative dependencies
         shell: zsh {0}
         run: |
           cd $LIB_DIR
@@ -111,6 +111,18 @@ jobs:
           for LIB in lib*.so*; do
             patchelf --set-rpath $SWIFT_RUN_PATH $LIB
           done
+
+      - name: rename swift runtime dependencies
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          # Add links
+          pushd $LIB_DIR
+            mv libicudataswift.so.69.1 libicudataswift.so.69
+            mv libicui18nswift.so.69.1 libicui18nswift.so.69
+            mv libicuucswift.so.69.1 libicuucswift.so.69
+          popd
 
       - name: Upload library
         uses: actions/upload-artifact@v3
@@ -134,8 +146,8 @@ jobs:
 
       - uses: compnerd/gha-setup-swift@main
         with:
-          branch: swift-5.9.1-release
-          tag: 5.9.1-RELEASE
+          branch: swift-5.10-release
+          tag: 5.10-RELEASE
 
       - name: Pre-resolve Required SwiftPM Packages
         continue-on-error: true
@@ -153,13 +165,17 @@ jobs:
 
           ./scripts/compile-iota-runtime.sh
 
-      - name: Copy swift runtime DLLs
+      - name: Collect libFishyJoesIotaRuntime and its dependencies
         shell: bash
         run: |
           set -euxo pipefail
 
           mkdir -p "$LIB_DIR"
-          cp -R "/c/Program Files/Swift/runtime-development/usr/bin/"*.dll "$LIB_DIR"
+          SWIFT_RUNTIME_DIR="$(realpath "$SDKROOT/../../../.." | sed s#Platforms#Runtimes#g)"
+          cp -R "$SWIFT_RUNTIME_DIR/usr/bin/"*.dll "$LIB_DIR"
+
+          binPath="$(swift build --configuration release --show-bin-path)"
+          cp -R "$binPath/FishyJoesIotaRuntime.dll" "$LIB_DIR"
 
       - name: Upload library
         uses: actions/upload-artifact@v3
@@ -292,7 +308,7 @@ jobs:
 
           # publish C#
 
-          dotnet nuget push ./c-sharp-runtime/out/*.*nupkg \
+          dotnet nuget push ./c-sharp-runtime/nupkgs/*.*nupkg \
             --source https://nuget.pkg.github.com/cricut \
             --api-key ${{ github.token }} \
             --skip-duplicate

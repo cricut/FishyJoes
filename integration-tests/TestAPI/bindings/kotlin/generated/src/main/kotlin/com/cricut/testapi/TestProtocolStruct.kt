@@ -5,11 +5,11 @@ import java.lang.Exception
 import kotlinx.coroutines.*
 
 /**
- * <!-- FishyJoes.export(TestProtocolStruct, conformances: [TestMethodsProtocol, TestPropertiesProtocol]) -->
+ * <!-- FishyJoes.export(TestProtocolStruct) -->
  */
 data class TestProtocolStruct(
     override var corge: kotlin.String
-): TestMethodsProtocol, TestPropertiesProtocol {
+): com.cricut.testapi.TestMethodsProtocol, com.cricut.testapi.TestPropertiesProtocol {
     /**
      * <!-- FishyJoes.export(frobby) -->
      */

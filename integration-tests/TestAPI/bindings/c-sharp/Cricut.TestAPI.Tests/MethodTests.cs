@@ -4,6 +4,7 @@ using FluentAssertions;
 using Xunit;
 
 namespace Cricut.TestAPI.Tests {
+    [Collection("root")]
     public class MethodTests {
         [Fact]
         void testStaticMethods() {
@@ -35,6 +36,7 @@ namespace Cricut.TestAPI.Tests {
             Assert.Equal(7654, instance.InstanceStored);
         }
 
+        [Collection("root")]
         public class AsyncInstanceTests {
             [Fact]
             async Task TestAsyncFunctionCall() {
@@ -103,6 +105,7 @@ namespace Cricut.TestAPI.Tests {
             }
         }
 
+        [Collection("root")]
         public class AsyncStaticTests {
             [Fact]
             async Task TestAsyncFunctionCall() {

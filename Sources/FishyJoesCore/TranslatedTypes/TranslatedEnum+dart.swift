@@ -72,7 +72,7 @@ extension TranslatedEnum {
             },
             fields: fields,
             methods: methods,
-            conformances: conformances
+            conformances: Set(exportedConformances(in: context).map { $0.dartType})
         )
     }
 }

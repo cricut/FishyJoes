@@ -2,9 +2,9 @@ import Foundation
 import swsh
 
 #if os(macOS)
-let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2024-03-27-a.xctoolchain"
+let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.10-SNAPSHOT-2024-04-26-a.xctoolchain"
 #elseif os(Linux)
-let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2024-03-27-a.xctoolchain"
+let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.10-SNAPSHOT-2024-04-26-a.xctoolchain"
 #else
 let wasmToolchain: String = { fatalError("wasm compilation is currently only supported on mac and linux") }()
 #endif
@@ -44,10 +44,6 @@ enum Platform: CustomStringConvertible, Hashable {
             case .x86_64: return "x86_64"
             case .aarch64: return "arm64-v8a"
             }
-        }
-
-        var toolchainPath: String {
-            "/swift-android-\(self)"
         }
     }
 
@@ -141,7 +137,7 @@ enum Platform: CustomStringConvertible, Hashable {
         var env: [String: String] = addEnv
         env["SWIFT_PACKAGE_FORCE_DYNAMIC"] = "1"
         env["FISHYJOES_TARGET_PLATFORM"] = "\(self)"
-        env["EXTRA_LIBPATH"] = try? extraLibPathDir(configuration)
+        env["EXTRA_LIBPATH"] = relativePath(of: extraLibPathDir(), relativeTo: configuration.packagePath)
         var dockerContext: DockerContext?
 
         var scratchPath = configuration.scratchPath
@@ -150,7 +146,7 @@ enum Platform: CustomStringConvertible, Hashable {
             swiftBuild = ["\(wasmToolchain)/usr/bin/swift-build"]
             args.append(contentsOf: ["--triple", "wasm32-unknown-wasi"])
             // custom build paths to avoid different versions of spm destroying each other's caches
-            args.append(contentsOf: ["--build-path", "./.build/wasm-build"])
+            scratchPath = "\(scratchPath)/wasm-build"
 
             // TODO: see https://blog.swiftwasm.org/posts/5-6-released/
             // args.append(contentsOf: ["-Xswiftc", "-Xclang-linker", "-Xswiftc", "-mexec-model=reactor"])
@@ -170,8 +166,7 @@ enum Platform: CustomStringConvertible, Hashable {
             scratchPath = "\(scratchPath)/android-build"
             args.append(
                 contentsOf: [
-                    "--scratch-path", "./.build/android-build",
-                    "--destination", "\(arch.toolchainPath)/usr/swiftpm-android-\(arch).json",
+                    "--destination", "/swift-android/usr/swiftpm-android-\(arch).json",
                 ]
             )
             env["ANDROID_COMPATIBLE_ONLY"] = "1"
@@ -179,7 +174,6 @@ enum Platform: CustomStringConvertible, Hashable {
             dockerContext = configuration.baseDockerContext.get()
             if dockerContext == nil {
                 Log.warn("WARNING: building for android without using a docker context (expecting to already be inside container)")
-                break
             }
         case .cSharp:
             #if os(macOS)
@@ -212,6 +206,13 @@ enum Platform: CustomStringConvertible, Hashable {
             }
             env["FISHYJOES_DEPENDENCY_\(module)"] = try! encoder.encodeToString(dependency)
         }
+
+        #if os(Windows)
+        // This warning seems to be related to dynamic libraries importing static libraries.
+        // Since it's usually caused by swift code, not C code where the annotations can be changed, just ignore it.
+        // Maybe some day the swift-on-windows toolchain won't generate these
+        args.append(contentsOf: ["-Xlinker", "/IGNORE:4217"])
+        #endif
 
         if var dockerContext = dockerContext {
             dockerContext.env.merge(env) { $1 }
@@ -310,7 +311,7 @@ enum Platform: CustomStringConvertible, Hashable {
             #else
             fatalError("unknown host OS")
             #endif
-        case .kotlinAndroid(let arch): return "kotlin/src/main/resources/lib/\(arch.ndkName)"
+        case .kotlinAndroid(let arch): return "bindings/kotlin/generated/src/main/resources/lib/\(arch.ndkName)"
         case .cSharp:
             #if os(macOS)
             return "bindings/c-sharp/generated/Cricut.\(config.module)/runtimes/osx/native"
@@ -345,19 +346,16 @@ enum Platform: CustomStringConvertible, Hashable {
     }
 
     func buildDir(_ configuration: BuildConfiguration) throws -> String {
-        let directory: String
-        let packagePrefix = configuration.packagePath + "/"
         if isNative, configuration.fat {
-            directory = "\(packagePrefix).build/apple/\(configuration.debug ? "debug" : "release")"
+            return "\(configuration.scratchPath)/apple/\(configuration.debug ? "debug" : "release")"
         } else if case .kotlinAndroid(let arch) = self {
-            directory = "\(packagePrefix).build/android-build/\(arch.triple)/\(configuration.debug ? "debug" : "release")"
+            return "\(configuration.scratchPath)/android-build/\(arch.triple)/\(configuration.debug ? "debug" : "release")"
         } else {
-            directory = try swiftBuild("--show-bin-path", configuration: configuration).runString().trimmingCharacters(in: .whitespacesAndNewlines)
+            return try swiftBuild("--show-bin-path", configuration: configuration).runString().trimmingCharacters(in: .whitespacesAndNewlines)
         }
-        return directory
     }
 
-    func extraLibPathDir(_ configuration: BuildConfiguration) throws -> String {
+    func extraLibPathDir() -> String {
         return ".build/lib"
     }
 }

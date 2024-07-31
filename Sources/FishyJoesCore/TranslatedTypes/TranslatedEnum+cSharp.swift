@@ -124,7 +124,7 @@ extension TranslatedEnum {
             },
             fields: enumFields,
             methods: enumMethods,
-            conformances: conformances
+            conformances: Set(exportedConformances(in: context).map { $0.cSharpType})
         )
     }
 }

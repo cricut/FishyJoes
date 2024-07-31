@@ -23,6 +23,7 @@ jobs:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
+      CONFIGURATION: debug
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -49,6 +50,9 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '6'
+
+      - name: Force clear nuget cache
+        run: "dotnet nuget locals all --clear"
 
       - uses: dart-lang/setup-dart@v1
 
@@ -99,7 +103,6 @@ jobs:
           FISHYJOES=1 swift run -- fishy-joes --c-sharp build test
 
       - name: Test Dart from dart via fishy-joes
-        if: false
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -132,6 +135,7 @@ jobs:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
+      CONFIGURATION: debug
 
     runs-on: ubuntu-latest
     steps:
@@ -150,6 +154,12 @@ jobs:
           password:  ${{ secrets.CRICUT_GPR_TOKEN }}
           registry: ghcr.io
 
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: zulu
+          java-version: 20
+
       - name: Setup node
         uses: actions/setup-node@v3
         with:
@@ -157,11 +167,10 @@ jobs:
           registry-url: 'https://npm.pkg.github.com/'
           scope: '@cricut'
 
-      - name: Setup JDK
-        uses: actions/setup-java@v3
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
         with:
-          distribution: zulu
-          java-version: 11
+          dotnet-version: '6'
 
       - uses: dart-lang/setup-dart@v1
 
@@ -174,9 +183,10 @@ jobs:
           # Sadly, Ubuntu LTS doesn't have an up-to-date binaryen, so use a wasm version instead
           npm -g install binaryen@111.0.0
 
-          curl -Lo swift-wasm.tgz https://github.com/swiftwasm/swift/releases/download/swift-wasm-5.9-SNAPSHOT-2024-03-27-a/swift-wasm-5.9-SNAPSHOT-2024-03-27-a-ubuntu20.04_x86_64.tar.gz
-          sudo mkdir -p /Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2024-03-27-a.xctoolchain
-          sudo tar -xf swift-wasm.tgz -C /Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2024-03-27-a.xctoolchain --strip-components 1
+          SWIFT_WASM_VERSION="5.10-SNAPSHOT-2024-04-26-a"
+          curl -Lo swift-wasm.tgz "https://github.com/swiftwasm/swift/releases/download/swift-wasm-$SWIFT_WASM_VERSION/swift-wasm-$SWIFT_WASM_VERSION-ubuntu20.04_x86_64.tar.gz"
+          sudo mkdir -p "/Library/Developer/Toolchains/swift-wasm-$SWIFT_WASM_VERSION.xctoolchain"
+          sudo tar -xf swift-wasm.tgz -C "/Library/Developer/Toolchains/swift-wasm-$SWIFT_WASM_VERSION.xctoolchain" --strip-components 1
 
       - name: Build FishyJoesNodeRuntime
         shell: zsh {0}
@@ -209,7 +219,6 @@ jobs:
           FISHYJOES=1 swift run -- fishy-joes --c-sharp build test
 
       - name: Test Dart from dart via fishy-joes
-        if: false
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -235,7 +244,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ghcr.io
-          image: ghcr.io/cricut/android-swift-runtime:1.1.0
+          image: ghcr.io/cricut/android-swift-runtime:2.0.1
           options: -v ${{ github.workspace }}:/work -w /work
           run: /work/scripts/compile-android-runtime.sh
 
@@ -256,7 +265,7 @@ jobs:
           FISHYJOES=1 swift run -- fishy-joes --kotlin build test
 
           # Publish test-api for the android tests to use later
-          (cd kotlin && ./gradlew publishToMavenLocal)
+          (cd bindings/kotlin/generated && ./gradlew publishToMavenLocal)
 
       - name: Upload artifacts for use by Android later
         uses: actions/upload-artifact@v3
@@ -266,7 +275,7 @@ jobs:
 
   integration-tests-windows:
     name: "Windows: Integration tests"
-    runs-on: windows-2019
+    runs-on: windows-latest
     env:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
@@ -274,6 +283,8 @@ jobs:
       SWIFT: ${{ github.workspace }}\scripts\swift-shim.ps1
       SWIFT_PACKAGE_RESOLVE: 0
       EXTRA_LIBPATH: '.build\lib'
+      CONFIGURATION: debug
+      FISHYJOES: 1
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -285,14 +296,14 @@ jobs:
 
       - uses: compnerd/gha-setup-swift@main
         with:
-          branch: swift-5.9.1-release
-          tag: 5.9.1-RELEASE
+          branch: swift-5.10-release
+          tag: 5.10-RELEASE
 
       - name: Setup JDK
         uses: actions/setup-java@v3
         with:
           distribution: zulu
-          java-version: 11
+          java-version: 20
 
       - name: Setup node
         uses: actions/setup-node@v3
@@ -301,13 +312,20 @@ jobs:
           registry-url: 'https://npm.pkg.github.com/'
           scope: '@cricut'
 
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '6'
+
       - uses: dart-lang/setup-dart@v1
 
       - name: Pre-resolve Required SwiftPM Packages
         continue-on-error: true
         shell: pwsh
         run: |
+          Set-PSDebug -Trace 2
           $ErrorActionPreference = 'SilentlyContinue'
+          $env:FISHYJOES_DEPENDENCY_FishyJoes = @{local=@{path=$pwd.Path}} | ConvertTo-Json -Compress
 
           swift package resolve
           swift package resolve
@@ -317,6 +335,10 @@ jobs:
           swift package resolve
           swift package resolve
           swift package resolve
+
+          swift package resolve --scratch-path .build/bindings --package-path bindings/swift-interfaces/generated/TestAPI-bindings
+          swift package resolve --scratch-path .build/bindings --package-path bindings/swift-interfaces/generated/TestAPI-bindings
+          swift package resolve --scratch-path .build/bindings --package-path bindings/swift-interfaces/generated/TestAPI-bindings
 
           cd ../../node-runtime/register-module-shim
           swift package resolve
@@ -354,7 +376,6 @@ jobs:
           "$SWIFT" run -- fishy-joes --c-sharp build test
 
       - name: Test Dart from dart via fishy-joes
-        if: false
         shell: bash
         run: |
           set -euxo pipefail
@@ -363,7 +384,7 @@ jobs:
 
           # Add dart DLLs to path
           # Someone who understands windows better than I do is welcome to fix this in a better way
-          PATH="$PWD/dart/windows/native:$PATH"
+          PATH="$PWD/bindings/dart/generated/windows/native:$PATH"
 
           "$SWIFT" run -- fishy-joes --dart build test
 
@@ -381,7 +402,7 @@ jobs:
           set -euxo pipefail
 
           cd integration-tests/TestAPI
-          FISHYJOES=1 $SWIFT run -- fishy-joes --kotlin-fast build test
+          "$SWIFT" run -- fishy-joes --kotlin-fast build test
 
   integration-tests-android:
     name: "Android: Integration Tests"
@@ -391,6 +412,7 @@ jobs:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
+      CONFIGURATION: debug
     steps:
       - name: Checkout
         uses: actions/checkout@v4

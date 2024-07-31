@@ -1,4 +1,4 @@
-import 'package:cricut_test_api/cricut_test_api.dart';
+import 'package:cricut_testapi/testapi.dart';
 import 'package:test/test.dart';
 import 'package:tuple/tuple.dart' as tuple;
 

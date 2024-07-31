@@ -12,6 +12,7 @@ namespace Cricut.TestAPI.Tests {
             namespace T6 {
                 using T6 = Tuple<string, nint, double, T4, T5, bool>;
 
+                [Collection("root")]
                 public class TupleTests {
 
                     private T2 tuple2; 

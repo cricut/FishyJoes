@@ -12,6 +12,15 @@ sealed class AsyncFunctions {
 
     companion object {
         /**
+         * <!-- FishyJoes.export(add3Things) -->
+         */
+        val add3Things: (suspend (Float, Double, Long) -> Double)
+          get() = __jni_get_add3Things()
+        @JvmStatic
+        @JvmName("__jni_get_add3Things")
+        private external fun __jni_get_add3Things(): (suspend (Float, Double, Long) -> Double)
+
+        /**
          * <!-- FishyJoes.export(const42) -->
          */
         val const42: (suspend () -> Long)
@@ -19,6 +28,15 @@ sealed class AsyncFunctions {
         @JvmStatic
         @JvmName("__jni_get_const42")
         private external fun __jni_get_const42(): (suspend () -> Long)
+
+        /**
+         * <!-- FishyJoes.export(fifthThing) -->
+         */
+        val fifthThing: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long)) -> (suspend () -> Long))
+          get() = __jni_get_fifthThing()
+        @JvmStatic
+        @JvmName("__jni_get_fifthThing")
+        private external fun __jni_get_fifthThing(): (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long)) -> (suspend () -> Long))
 
         /**
          * <!-- FishyJoes.export(abs) -->
@@ -39,15 +57,6 @@ sealed class AsyncFunctions {
         private external fun __jni_get_intCompose(): (((suspend (Long) -> Long), (suspend (Long) -> Long)) -> (suspend (Long) -> Long))
 
         /**
-         * <!-- FishyJoes.export(add3Things) -->
-         */
-        val add3Things: (suspend (Float, Double, Long) -> Double)
-          get() = __jni_get_add3Things()
-        @JvmStatic
-        @JvmName("__jni_get_add3Things")
-        private external fun __jni_get_add3Things(): (suspend (Float, Double, Long) -> Double)
-
-        /**
          * <!-- FishyJoes.export(makeList) -->
          */
         val makeList: (suspend (kotlin.String, kotlin.String, kotlin.String, kotlin.String) -> kotlin.collections.List<kotlin.String>)
@@ -55,15 +64,6 @@ sealed class AsyncFunctions {
         @JvmStatic
         @JvmName("__jni_get_makeList")
         private external fun __jni_get_makeList(): (suspend (kotlin.String, kotlin.String, kotlin.String, kotlin.String) -> kotlin.collections.List<kotlin.String>)
-
-        /**
-         * <!-- FishyJoes.export(fifthThing) -->
-         */
-        val fifthThing: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long)) -> (suspend () -> Long))
-          get() = __jni_get_fifthThing()
-        @JvmStatic
-        @JvmName("__jni_get_fifthThing")
-        private external fun __jni_get_fifthThing(): (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long)) -> (suspend () -> Long))
 
         /**
          * <!-- FishyJoes.export(sixthThing) -->
