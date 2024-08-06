@@ -64,7 +64,7 @@ jobs:
     name: "Ubuntu: Build and test kotlin bindings"
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cricut/android-swift-runtime:2.0.2
+      image: ghcr.io/cricut/android-swift-runtime:2.0.3
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}

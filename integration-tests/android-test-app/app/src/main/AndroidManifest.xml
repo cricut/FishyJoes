@@ -12,7 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TestAPITestApp"
         tools:targetApi="31"
-        android:extractNativeLibs="true"
         android:allowNativeHeapPointerTagging="false"/>
 
 </manifest>
