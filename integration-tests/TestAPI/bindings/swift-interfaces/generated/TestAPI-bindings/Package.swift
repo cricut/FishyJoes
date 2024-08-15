@@ -1,4 +1,4 @@
-// swift-tools-version:5.6
+// swift-tools-version:5.7
 // BEGIN GENERATED CODE
 
 import PackageDescription
@@ -41,7 +41,7 @@ func packageDep(_ name: String, bindings: Bool = false) -> Package.Dependency {
 
 var package = Package(
     name: "TestAPI-bindings",
-    platforms: [.macOS(.v12), .iOS(.v15)],
+    platforms: [.macOS(.v13), .iOS(.v15)],
     products: [
         .library(name: "TestAPI-node", type: wasmCompatibleOnly ? nil : .dynamic, targets: ["TestAPI_NodeInterface"]),
     ] + (
@@ -102,5 +102,3 @@ var package = Package(
 )
 // END GENERATED CODE
 // Below is copied from bindings/swift-interfaces/Package.part.swift
-
-

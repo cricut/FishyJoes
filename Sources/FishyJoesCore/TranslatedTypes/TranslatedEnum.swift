@@ -443,7 +443,7 @@ struct TranslatedEnum: TranslatedType {
         )
 
         let className = context.kotlinTranslator.javaClassName(nodeName, in: context)
-        fragment.outputBlock("extension \(sourceType.name): JavaConverter {") {
+        fragment.outputBlock("extension \(sourceType.name): FishyJoesJavaRuntime.JavaConverter {") {
             fragment.output("public typealias SwiftType = Self")
             fragment.output("public typealias CType = jobject?")
             fragment.blankLine()

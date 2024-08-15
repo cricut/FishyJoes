@@ -1,4 +1,4 @@
-// swift-tools-version:5.6
+// swift-tools-version:5.7
 
 import Foundation
 import PackageDescription
@@ -28,7 +28,7 @@ typealias T = Target
 
 let package = Package(
     name: "FishyJoes",
-    platforms: [.macOS(.v12), .iOS(.v15)],
+    platforms: [.macOS(.v13), .iOS(.v15)],
     products: [
         P.library(
             name: "FishyJoesNodeRuntime",
@@ -53,7 +53,7 @@ let package = Package(
     dependencies: generationEnabled(
         [
             D.package(
-                url: "https://github.com/krzysztofzablocki/Sourcery", branch: "2.1.7"
+                url: "https://github.com/krzysztofzablocki/Sourcery", revision: "2.2.5"
             ),
         ]
     ) + wasmIncompatible(

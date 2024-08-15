@@ -267,7 +267,7 @@ extension CodeGen {
                 }
             }
 
-            fragment.output(#"// swift-tools-version:5.6"#)
+            fragment.output(#"// swift-tools-version:5.7"#)
             fragment.output(#"// BEGIN GENERATED CODE"#)
             fragment.blankLine()
 
@@ -316,7 +316,7 @@ extension CodeGen {
 
             fragment.outputBlock(#"var package = Package("#) {
                 fragment.output(#"name: "\#(config.module)-bindings","#)
-                fragment.output(#"platforms: [.macOS(.v12), .iOS(.v15)],"#)
+                fragment.output(#"platforms: [.macOS(.v13), .iOS(.v15)],"#)
                 fragment.outputBlock(#"products: ["#, newLineTerminated: false) {
                     fragment.output(#".library(name: "\#(config.module)-node", type: wasmCompatibleOnly ? nil : .dynamic, targets: ["\#(config.module)_NodeInterface"]),"#)
                 }

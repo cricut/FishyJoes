@@ -199,7 +199,7 @@ struct TranslatedStruct: TranslatedType {
         )
 
         let className = context.kotlinTranslator.javaClassName(kotlinName, in: context)
-        fragment.outputBlock("extension \(sourceType.name): JavaMutator {") {
+        fragment.outputBlock("extension \(sourceType.name): FishyJoesJavaRuntime.JavaMutator {") {
             fragment.output("public typealias SwiftType = Self")
             fragment.output("public typealias CType = jobject?")
             fragment.blankLine()

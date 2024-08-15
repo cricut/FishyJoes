@@ -196,7 +196,10 @@ public struct PackageInit: ParsableCommand {
         }
         let dartDependencyLines = dartDependencies.flatMap {
             guard let dependency = swiftPackage?.dependencyMap[$0.swift] else {
-                return ["\($0.dart):"]
+                return [
+                    "\($0.dart):",
+                    "  path: DEPENDENCY_NOT_FOUND",
+                ]
             }
             var lines = ["\($0.dart):"]
             if let resolvedState = swiftPackageResolved?.state(for: $0.swift) {

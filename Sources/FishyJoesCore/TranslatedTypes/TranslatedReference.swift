@@ -186,7 +186,7 @@ struct TranslatedReference: TranslatedType {
             additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
         )
 
-        fragment.outputBlock("extension \(sourceType.name): JavaMutator {") {
+        fragment.outputBlock("extension \(sourceType.name): FishyJoesJavaRuntime.JavaMutator {") {
             fragment.output("public static var javaClass: jclass?")
             fragment.output("private static var _constructorMethodID: jmethodID!")
 
