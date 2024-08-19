@@ -1899,6 +1899,7 @@ export class NAPI {
     this.indirectFunctionTable = instance.exports.__indirect_function_table;
 
     this.wasi.start(instance);
+    instance.exports._initialize?.();
 
     this.errorMessageTable = this.allocateErrorMessages();
     this.extendedErrorInfoPtr = this.malloc(16);
