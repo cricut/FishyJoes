@@ -1,7 +1,7 @@
 ```mermaid
 graph TD;
-FishyJoes --> -Bindings;
-subgraph -Bindings
+FishyJoes --> -bindings;
+subgraph -bindings
 CriGeo --> CriText;
 CriGeo & CriRaster ---> CriTrace;
 CriGeo & CriRaster  --> Tesseract;
