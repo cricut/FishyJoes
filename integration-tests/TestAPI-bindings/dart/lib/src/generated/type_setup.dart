@@ -3131,6 +3131,20 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Strings_echo");
+    TestAPI.Strings.f__iota_TestAPI_Strings_split = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef string,
+            UnownedRef by,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef string,
+            UnownedRef by,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_Strings_split");
     TestAPI.Structs_MemberwiseStruct.f__iota_TestAPI_Structs_MemberwiseStruct_asyncGetMutable = dylib.lookupFunction<
         CreatedRef Function(
             Env env,

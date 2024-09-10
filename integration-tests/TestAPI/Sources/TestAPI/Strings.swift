@@ -28,4 +28,9 @@ public enum Strings {
     public static func echo(_ string: String) -> String {
         return string
     }
+
+    /// <!-- FishyJoes.export(split) -->
+    public static func split(_ string: String, by: String) -> [String] {
+        string.components(separatedBy: by).map(String.init(_:))
+    }
 }

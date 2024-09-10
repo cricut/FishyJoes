@@ -4,7 +4,7 @@ import swsh
 struct DockerContext {
     var hostDockerBinary: String
 
-    var image = "ghcr.io/cricut/android-swift-runtime:2.0.3"
+    var image = "ghcr.io/cricut/android-swift-runtime:3.0.0"
     var platform = "linux/amd64"
     var mountMappings: [String: String]
     var startDirectory: String

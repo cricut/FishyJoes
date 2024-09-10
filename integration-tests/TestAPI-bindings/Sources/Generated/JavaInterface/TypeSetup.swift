@@ -2150,6 +2150,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_get_simple"),
                 signature: bag.add("()Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_Strings_simple, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_split"),
+                signature: bag.add("(Ljava/lang/String;Ljava/lang/String;)Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Strings_split, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.Structs...")

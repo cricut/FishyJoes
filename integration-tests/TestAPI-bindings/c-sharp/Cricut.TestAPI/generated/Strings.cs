@@ -140,6 +140,26 @@ namespace Cricut.TestAPI {
             out CreatedRef exn
         );
 
+        /// <summary>
+        /// <!-- FishyJoes.export(split) -->
+        /// </summary>
+        public static System.Collections.Generic.IList<string> Split(
+            string _string,
+            string by
+        ) {
+            using var _stringHandle = new GCRef(_string);
+            using var _byHandle = new GCRef(by);
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Strings_split(Loader.env, _stringHandle.ptr, _byHandle.ptr, out _exn)).Consume<System.Collections.Generic.IList<string>>();
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_TestAPI_Strings_split(
+            IntPtr envRef,
+            UnownedRef _string,
+            UnownedRef by,
+            out CreatedRef exn
+        );
+
         static Strings() { _TypeSetup._ensureLoaded(); }
     }
 }

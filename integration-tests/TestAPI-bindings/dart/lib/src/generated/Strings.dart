@@ -142,11 +142,29 @@ class Strings {
         )
     ;
 
+    /// <!-- FishyJoes.export(split) -->
+    static List<String> split(
+        String string,
+        String by,
+    ) =>
+        GCRef.using(string, (_stringHandle) =>
+            GCRef.using(by, (_byHandle) =>
+                consumeCreatedRef<List<String>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Strings_split(Loader.shared.env, _stringHandle.ptr, _byHandle.ptr, _exn)))
+            )
+        )
+    ;
+
     static late CreatedRef Function(
         Env env,
         UnownedRef string,
         OutCreatedRef _exn
     ) f__iota_TestAPI_Strings_echo;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef string,
+        UnownedRef by,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_Strings_split;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn

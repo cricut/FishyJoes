@@ -2361,6 +2361,14 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(simple) -->
          */
         const simple: string;
+
+        /**
+         * <!-- FishyJoes.export(split) -->
+         */
+        function split(
+            string: string,
+            by: string
+        ): string[];
     }
 
     export type Structs = never;

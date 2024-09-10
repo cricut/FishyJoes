@@ -52,7 +52,7 @@ jobs:
     name: "Ubuntu: Build Iota Runtime"
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cricut/android-swift-runtime:2.0.3
+      image: ghcr.io/cricut/android-swift-runtime:3.0.0
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
