@@ -197,8 +197,8 @@ class DartEnumClass: DartClass {
                 if enumCase.values.isEmpty {
                     fragment.output("runtimeType.hashCode;")
                 } else {
-                    fragment.output("Object.hash", newLineTerminated: false)
-                    fragment.outputBlock("(", closeWith: ");") {
+                    // TODO: This will fail if there are more than 20 items
+                    fragment.outputBlock("Object.hash(", closeWith: ");") {
                         fragment.output("runtimeType,")
                         fragment.outputMap(enumCase.values, separator: ", ") { value in
                             "const DeepCollectionEquality().hash(\(DartClass.deforbidify(value.name)))"

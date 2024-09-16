@@ -15,29 +15,31 @@ let __LOWERCASE_FIRST_MODULE_NAME__Version = "(replace this string with the late
 let package = Package(
     name: "__MODULE_NAME__-bindings",
     platforms: [.macOS(.v12)],
-    products: 
-        wasmCompatibleOnly ? [
-            .library(
-                name: "__MODULE_NAME__-wasm",
-                targets: ["__MODULE_NAME___WasmMainShim"]
-            ),
-        ] : [
+    products: [
             .library(
                 name: "__MODULE_NAME__-node",
-                type: .dynamic,
+                type: wasmCompatibleOnly ? .static : .dynamic,
                 targets: ["__MODULE_NAME___NodeInterface"]
             ),
-            .library(
-                name: "__MODULE_NAME__-java",
-                type: .dynamic,
-                targets: ["__MODULE_NAME___JavaInterface"]
-            ),
-            .library(
-                name: "__MODULE_NAME__-iota",
-                type: .dynamic,
-                targets: ["__MODULE_NAME___IotaInterface"]
-            ),
-        ],
+        ] + (
+            wasmCompatibleOnly ? [
+                .library( // TODO: Can this be .executable() instead?
+                    name: "__MODULE_NAME__-wasm",
+                    targets: ["__MODULE_NAME___WasmMainShim"]
+                ),
+            ] : [
+                .library(
+                    name: "__MODULE_NAME__-java",
+                    type: .dynamic,
+                    targets: ["__MODULE_NAME___JavaInterface"]
+                ),
+                .library(
+                    name: "__MODULE_NAME__-iota",
+                    type: .dynamic,
+                    targets: ["__MODULE_NAME___IotaInterface"]
+                ),
+            ]
+        ),
     dependencies: [
         .package(
             url: "https://github.com/cricut/__MODULE_NAME__", .branch(__LOWERCASE_FIRST_MODULE_NAME__Version)

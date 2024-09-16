@@ -7,30 +7,32 @@ let wasmCompatibleOnly = ProcessInfo.processInfo.environment["WASM_ONLY"] == "1"
 
 let package = Package(
     name: "TestAPI-bindings",
-    platforms: [.macOS(.v12), .iOS(.v15)],
-    products:
-        wasmCompatibleOnly ? [
-            .library(
-                name: "TestAPI-wasm",
-                targets: ["TestAPI_WasmMainShim"]
-            ),
-        ] : [
+    platforms: [.macOS(.v12)],
+    products: [
             .library(
                 name: "TestAPI-node",
-                type: .dynamic,
+                type: wasmCompatibleOnly ? .static : .dynamic,
                 targets: ["TestAPI_NodeInterface"]
             ),
-            .library(
-                name: "TestAPI-java",
-                type: .dynamic,
-                targets: ["TestAPI_JavaInterface"]
-            ),
-            .library(
-                name: "TestAPI-iota",
-                type: .dynamic,
-                targets: ["TestAPI_IotaInterface"]
-            ),
-        ],
+        ] + (
+            wasmCompatibleOnly ? [
+                .library( // TODO: Can this be .executable() instead?
+                    name: "TestAPI-wasm",
+                    targets: ["TestAPI_WasmMainShim"]
+                ),
+            ] : [
+                .library(
+                    name: "TestAPI-java",
+                    type: .dynamic,
+                    targets: ["TestAPI_JavaInterface"]
+                ),
+                .library(
+                    name: "TestAPI-iota",
+                    type: .dynamic,
+                    targets: ["TestAPI_IotaInterface"]
+                ),
+            ]
+        ),
     dependencies: [
         .package(
             name: "TestAPI", 
@@ -40,9 +42,16 @@ let package = Package(
     ],
     targets: [
         .target(
+            name: "TestAPI_CommonInterface",
+            dependencies: [
+                .product(name: "TestAPI", package: "TestAPI"),
+            ],
+            path: "Sources/Generated/CommonInterface"
+        ),
+        .target(
             name: "TestAPI_NodeInterface",
             dependencies: [
-                "TestAPI_CommonInterface",
+                .target(name: "TestAPI_CommonInterface"),
                 .product(name: "TestAPI", package: "TestAPI"),
                 .product(name: "FishyJoesNodeRuntime", package: "FishyJoes"),
             ],
@@ -50,13 +59,6 @@ let package = Package(
             resources: [
                 .copy("TestAPI.d.ts.part"),
             ]
-        ),
-        .target(
-            name: "TestAPI_CommonInterface",
-            dependencies: [
-                "TestAPI"
-            ],
-            path: "Sources/Generated/CommonInterface"
         ),
     ] + (
         wasmCompatibleOnly ? [
@@ -74,7 +76,7 @@ let package = Package(
             .target(
                 name: "TestAPI_JavaInterface",
                 dependencies: [
-                    "TestAPI_CommonInterface",
+                    .target(name: "TestAPI_CommonInterface"),
                     .product(name: "TestAPI", package: "TestAPI"),
                     .product(name: "FishyJoesJavaRuntime", package: "FishyJoes"),
                 ],
@@ -83,7 +85,7 @@ let package = Package(
             .target(
                 name: "TestAPI_IotaInterface",
                 dependencies: [
-                    "TestAPI_CommonInterface",
+                    .target(name: "TestAPI_CommonInterface"),
                     .product(name: "TestAPI", package: "TestAPI"),
                     .product(name: "FishyJoesIotaRuntime", package: "FishyJoes"),
                 ],

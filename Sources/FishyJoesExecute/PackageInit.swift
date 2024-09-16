@@ -124,7 +124,7 @@ public struct PackageInit: ParsableCommand {
         )
 
         let nodeDependencyLines = config.requiredModules.map { dependency in
-            ".product(name: wasmCompatibleOnly ? \"\(dependency)-wasm\" : \"\(dependency)-node\", package: \"\(dependency)-bindings\"),"
+            ".product(name: \"\(dependency)-node\", package: \"\(dependency)-bindings\"),"
         }
         string = string.replacingOccurrences(
             of: "__NODE_TARGET_DEPENDENCIES__",
