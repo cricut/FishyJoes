@@ -9,6 +9,7 @@ export './Structs_MemberwiseStruct.dart';
 export './Structs_MutableStruct.dart';
 export './Structs_PuttingTypesIntoQuestionablePlaces.dart';
 export './Structs_ReferenceStruct.dart';
+export './Structs_TwentyOneItemStruct.dart';
 export './AProtocol.dart';
 export './ExternalWitness_AProtocol.dart';
 export './AProtocolImplementation.dart';

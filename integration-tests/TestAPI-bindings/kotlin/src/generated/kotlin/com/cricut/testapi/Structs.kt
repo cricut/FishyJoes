@@ -161,4 +161,36 @@ sealed class Structs {
             init { loadNativeLibs() }
         }
     }
+
+    /**
+     * <!-- FishyJoes.export(Structs.TwentyOneItemStruct) -->
+     */
+    data class TwentyOneItemStruct(
+        var a: kotlin.String,
+        var b: kotlin.String,
+        var c: kotlin.String,
+        var d: kotlin.String,
+        var e: kotlin.String,
+        var f: kotlin.String,
+        var g: kotlin.String,
+        var h: kotlin.String,
+        var i: kotlin.String,
+        var j: kotlin.String,
+        var k: kotlin.String,
+        var l: kotlin.String,
+        var m: kotlin.String,
+        var n: kotlin.String,
+        var o: kotlin.String,
+        var p: kotlin.String,
+        var q: kotlin.String,
+        var r: kotlin.String,
+        var s: kotlin.String,
+        var t: kotlin.String,
+        var u: kotlin.String
+    ) {
+
+        companion object {
+            init { loadNativeLibs() }
+        }
+    }
 }

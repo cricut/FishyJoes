@@ -40,6 +40,7 @@ import './Structs_MemberwiseStruct.dart' as TestAPI;
 import './Structs_MutableStruct.dart' as TestAPI;
 import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Structs_ReferenceStruct.dart' as TestAPI;
+import './Structs_TwentyOneItemStruct.dart' as TestAPI;
 import './TestAsyncForeignSideFunctionsStruct.dart' as TestAPI;
 import './TestAsyncFunctions.dart' as TestAPI;
 import './TestAsyncSwiftSideFunctionsClass.dart' as TestAPI;
@@ -220,6 +221,72 @@ typedef _TestAPI_Structs_MutableStructConstructor = CreatedRef Function(
 );
 typedef _TestAPI_Structs_MutableStruct_iGetter = ffi.IntPtr Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_Structs_MutableStruct_iSetter = ffi.Void Function(UnownedRef obj, ffi.IntPtr newValue, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStructConstructor = CreatedRef Function(
+    ConsumedRef a,
+    ConsumedRef b,
+    ConsumedRef c,
+    ConsumedRef d,
+    ConsumedRef e,
+    ConsumedRef f,
+    ConsumedRef g,
+    ConsumedRef h,
+    ConsumedRef i,
+    ConsumedRef j,
+    ConsumedRef k,
+    ConsumedRef l,
+    ConsumedRef m,
+    ConsumedRef n,
+    ConsumedRef o,
+    ConsumedRef p,
+    ConsumedRef q,
+    ConsumedRef r,
+    ConsumedRef s,
+    ConsumedRef t,
+    ConsumedRef u,
+    OutCreatedRef exn
+);
+typedef _TestAPI_Structs_TwentyOneItemStruct_aGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_aSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_bGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_bSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_cGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_cSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_dGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_dSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_eGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_eSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_fGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_fSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_gGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_gSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_hGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_hSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_iGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_iSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_jGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_jSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_kGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_kSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_lGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_lSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_mGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_mSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_nGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_nSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_oGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_oSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_pGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_pSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_qGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_qSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_rGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_rSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_sGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_sSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_tGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_tSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_uGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_Structs_TwentyOneItemStruct_uSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
 typedef _TestAPI_AProtocolConstructor = CreatedRef Function(
     ffi.Pointer ref,
     OutCreatedRef exn
@@ -759,6 +826,102 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_Structs_ReferenceStruct_setup');
+    final TestAPI_Structs_TwentyOneItemStruct_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStructConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_aGetter>> get_a,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_aSetter>> set_a,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_bGetter>> get_b,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_bSetter>> set_b,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_cGetter>> get_c,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_cSetter>> set_c,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_dGetter>> get_d,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_dSetter>> set_d,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_eGetter>> get_e,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_eSetter>> set_e,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_fGetter>> get_f,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_fSetter>> set_f,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_gGetter>> get_g,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_gSetter>> set_g,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_hGetter>> get_h,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_hSetter>> set_h,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_iGetter>> get_i,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_iSetter>> set_i,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_jGetter>> get_j,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_jSetter>> set_j,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_kGetter>> get_k,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_kSetter>> set_k,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_lGetter>> get_l,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_lSetter>> set_l,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_mGetter>> get_m,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_mSetter>> set_m,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_nGetter>> get_n,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_nSetter>> set_n,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_oGetter>> get_o,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_oSetter>> set_o,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_pGetter>> get_p,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_pSetter>> set_p,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_qGetter>> get_q,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_qSetter>> set_q,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_rGetter>> get_r,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_rSetter>> set_r,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_sGetter>> get_s,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_sSetter>> set_s,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_tGetter>> get_t,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_tSetter>> set_t,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_uGetter>> get_u,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_uSetter>> set_u,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStructConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_aGetter>> get_a,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_aSetter>> set_a,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_bGetter>> get_b,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_bSetter>> set_b,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_cGetter>> get_c,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_cSetter>> set_c,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_dGetter>> get_d,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_dSetter>> set_d,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_eGetter>> get_e,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_eSetter>> set_e,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_fGetter>> get_f,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_fSetter>> set_f,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_gGetter>> get_g,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_gSetter>> set_g,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_hGetter>> get_h,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_hSetter>> set_h,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_iGetter>> get_i,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_iSetter>> set_i,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_jGetter>> get_j,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_jSetter>> set_j,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_kGetter>> get_k,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_kSetter>> set_k,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_lGetter>> get_l,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_lSetter>> set_l,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_mGetter>> get_m,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_mSetter>> set_m,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_nGetter>> get_n,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_nSetter>> set_n,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_oGetter>> get_o,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_oSetter>> set_o,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_pGetter>> get_p,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_pSetter>> set_p,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_qGetter>> get_q,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_qSetter>> set_q,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_rGetter>> get_r,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_rSetter>> set_r,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_sGetter>> get_s,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_sSetter>> set_s,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_tGetter>> get_t,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_tSetter>> set_t,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_uGetter>> get_u,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Structs_TwentyOneItemStruct_uSetter>> set_u,
+            OutCreatedRef exn
+        )
+    >('TestAPI_Structs_TwentyOneItemStruct_setup');
     final TestAPI_CommonInterface__AProtocolConverter_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -8492,6 +8655,59 @@ final ensureLoaded = (() {
             TestAPI_Structs_ReferenceStruct_setup(
                 Loader.shared.env,
                 ffi.Pointer.fromFunction(TestAPI.Structs_ReferenceStruct.ffi_new),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.Structs.TwentyOneItemStruct", () {
+        // print("setting up TestAPI.Structs.TwentyOneItemStruct (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_Structs_TwentyOneItemStruct_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_constructor),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_get_a),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_set_a),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_get_b),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_set_b),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_get_c),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_set_c),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_get_d),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_set_d),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_get_e),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_set_e),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_get_f),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_set_f),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_get_g),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_set_g),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_get_h),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_set_h),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_get_i),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_set_i),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_get_j),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_set_j),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_get_k),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_set_k),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_get_l),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_set_l),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_get_m),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_set_m),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_get_n),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_set_n),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_get_o),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_set_o),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_get_p),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_set_p),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_get_q),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_set_q),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_get_r),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_set_r),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_get_s),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_set_s),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_get_t),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_set_t),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_get_u),
+                ffi.Pointer.fromFunction(TestAPI.Structs_TwentyOneItemStruct.ffi_set_u),
                 exn
             );
         });

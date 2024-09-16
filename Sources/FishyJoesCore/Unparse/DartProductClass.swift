@@ -185,12 +185,13 @@ class DartProductClass: DartClass {
                             for fieldGroupStartIndex in stride(from: storedFields.indices.lowerBound, to: storedFields.indices.upperBound, by: maxPositionalParamsPerObjectHashCall) {
                                 if fieldGroupStartIndex != storedFields.indices.lowerBound {
                                     fragment.output(",")
-                                } else if fieldGroupStartIndex == storedFields.indices.upperBound - 1 {
-                                    fragment.output("const DeepCollectionEquality().hash(\(DartClass.deforbidify(storedFields[fieldGroupStartIndex].name)))")
+                                } 
+                                let fieldGroup = Array(storedFields[fieldGroupStartIndex..<min(storedFields.indices.upperBound, fieldGroupStartIndex + maxPositionalParamsPerObjectHashCall)])
+                                if fieldGroup.count == 1 {
+                                    fragment.output("const DeepCollectionEquality().hash(\(DartClass.deforbidify(fieldGroup[0].name)))")
                                 } else {
                                     fragment.output("Object.hash", newLineTerminated: false)
                                     fragment.outputBlock("(", closeWith: ")", newLineTerminated: false) {
-                                        let fieldGroup = Array(storedFields[fieldGroupStartIndex..<min(storedFields.indices.upperBound, fieldGroupStartIndex + maxPositionalParamsPerObjectHashCall)])
                                         fragment.outputMap(fieldGroup, separator: ", ") { field in
                                             "const DeepCollectionEquality().hash(\(DartClass.deforbidify(field.name)))"
                                         }

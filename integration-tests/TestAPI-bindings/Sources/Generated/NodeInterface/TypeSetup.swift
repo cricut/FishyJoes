@@ -183,6 +183,7 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try TestAPI.Structs.MutableStruct.nodeSetup(env: env, module: module)
     try TestAPI.Structs.PuttingTypesIntoQuestionablePlaces.nodeSetup(env: env, module: module)
     try TestAPI.Structs.ReferenceStruct.nodeSetup(env: env, module: module)
+    try TestAPI.Structs.TwentyOneItemStruct.nodeSetup(env: env, module: module)
     try TestAPI_CommonInterface._AProtocolConverter.nodeSetup(env: env, module: module)
     try TestAPI.AProtocolImplementation.nodeSetup(env: env, module: module)
     try TestAPI.Actors.nodeSetup(env: env, module: module)

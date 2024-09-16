@@ -7168,6 +7168,398 @@ public func TestAPI_Structs_ReferenceStruct_iotaHash(envRef: EnvRef, this: forei
     }
 }
 
+// MARK: - TestAPI.Structs.TwentyOneItemStruct+iota-type.swift
+@_cdecl("TestAPI_Structs_TwentyOneItemStruct_setup")
+public func TestAPI_Structs_TwentyOneItemStruct_setup(
+    envRef: EnvRef,
+    constructorMethod: @escaping TestAPI.Structs.TwentyOneItemStruct._ConstructorMethod,
+    _ aGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
+    _ aSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
+    _ bGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
+    _ bSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
+    _ cGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
+    _ cSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
+    _ dGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
+    _ dSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
+    _ eGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
+    _ eSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
+    _ fGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
+    _ fSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
+    _ gGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
+    _ gSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
+    _ hGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
+    _ hSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
+    _ iGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
+    _ iSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
+    _ jGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
+    _ jSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
+    _ kGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
+    _ kSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
+    _ lGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
+    _ lSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
+    _ mGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
+    _ mSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
+    _ nGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
+    _ nSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
+    _ oGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
+    _ oSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
+    _ pGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
+    _ pSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
+    _ qGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
+    _ qSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
+    _ rGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
+    _ rSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
+    _ sGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
+    _ sSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
+    _ tGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
+    _ tSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
+    _ uGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
+    _ uSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
+    _ exn: foreignOutExn
+) {
+    let env = Env(envRef)
+    if TestAPI.Structs.TwentyOneItemStruct._constructorMethod.isInitialized(env) { return }
+    TestAPI.Structs.TwentyOneItemStruct._constructorMethod[env] = constructorMethod
+    TestAPI.Structs.TwentyOneItemStruct._aGetter[env] = aGetter
+    TestAPI.Structs.TwentyOneItemStruct._aSetter[env] = aSetter
+    TestAPI.Structs.TwentyOneItemStruct._bGetter[env] = bGetter
+    TestAPI.Structs.TwentyOneItemStruct._bSetter[env] = bSetter
+    TestAPI.Structs.TwentyOneItemStruct._cGetter[env] = cGetter
+    TestAPI.Structs.TwentyOneItemStruct._cSetter[env] = cSetter
+    TestAPI.Structs.TwentyOneItemStruct._dGetter[env] = dGetter
+    TestAPI.Structs.TwentyOneItemStruct._dSetter[env] = dSetter
+    TestAPI.Structs.TwentyOneItemStruct._eGetter[env] = eGetter
+    TestAPI.Structs.TwentyOneItemStruct._eSetter[env] = eSetter
+    TestAPI.Structs.TwentyOneItemStruct._fGetter[env] = fGetter
+    TestAPI.Structs.TwentyOneItemStruct._fSetter[env] = fSetter
+    TestAPI.Structs.TwentyOneItemStruct._gGetter[env] = gGetter
+    TestAPI.Structs.TwentyOneItemStruct._gSetter[env] = gSetter
+    TestAPI.Structs.TwentyOneItemStruct._hGetter[env] = hGetter
+    TestAPI.Structs.TwentyOneItemStruct._hSetter[env] = hSetter
+    TestAPI.Structs.TwentyOneItemStruct._iGetter[env] = iGetter
+    TestAPI.Structs.TwentyOneItemStruct._iSetter[env] = iSetter
+    TestAPI.Structs.TwentyOneItemStruct._jGetter[env] = jGetter
+    TestAPI.Structs.TwentyOneItemStruct._jSetter[env] = jSetter
+    TestAPI.Structs.TwentyOneItemStruct._kGetter[env] = kGetter
+    TestAPI.Structs.TwentyOneItemStruct._kSetter[env] = kSetter
+    TestAPI.Structs.TwentyOneItemStruct._lGetter[env] = lGetter
+    TestAPI.Structs.TwentyOneItemStruct._lSetter[env] = lSetter
+    TestAPI.Structs.TwentyOneItemStruct._mGetter[env] = mGetter
+    TestAPI.Structs.TwentyOneItemStruct._mSetter[env] = mSetter
+    TestAPI.Structs.TwentyOneItemStruct._nGetter[env] = nGetter
+    TestAPI.Structs.TwentyOneItemStruct._nSetter[env] = nSetter
+    TestAPI.Structs.TwentyOneItemStruct._oGetter[env] = oGetter
+    TestAPI.Structs.TwentyOneItemStruct._oSetter[env] = oSetter
+    TestAPI.Structs.TwentyOneItemStruct._pGetter[env] = pGetter
+    TestAPI.Structs.TwentyOneItemStruct._pSetter[env] = pSetter
+    TestAPI.Structs.TwentyOneItemStruct._qGetter[env] = qGetter
+    TestAPI.Structs.TwentyOneItemStruct._qSetter[env] = qSetter
+    TestAPI.Structs.TwentyOneItemStruct._rGetter[env] = rGetter
+    TestAPI.Structs.TwentyOneItemStruct._rSetter[env] = rSetter
+    TestAPI.Structs.TwentyOneItemStruct._sGetter[env] = sGetter
+    TestAPI.Structs.TwentyOneItemStruct._sSetter[env] = sSetter
+    TestAPI.Structs.TwentyOneItemStruct._tGetter[env] = tGetter
+    TestAPI.Structs.TwentyOneItemStruct._tSetter[env] = tSetter
+    TestAPI.Structs.TwentyOneItemStruct._uGetter[env] = uGetter
+    TestAPI.Structs.TwentyOneItemStruct._uSetter[env] = uSetter
+}
+
+extension TestAPI.Structs.TwentyOneItemStruct: IotaMutator {
+    fileprivate static let _aGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
+    fileprivate static let _aSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _bGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
+    fileprivate static let _bSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _cGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
+    fileprivate static let _cSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _dGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
+    fileprivate static let _dSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _eGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
+    fileprivate static let _eSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _fGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
+    fileprivate static let _fSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _gGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
+    fileprivate static let _gSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _hGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
+    fileprivate static let _hSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _iGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
+    fileprivate static let _iSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _jGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
+    fileprivate static let _jSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _kGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
+    fileprivate static let _kSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _lGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
+    fileprivate static let _lSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _mGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
+    fileprivate static let _mSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _nGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
+    fileprivate static let _nSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _oGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
+    fileprivate static let _oSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _pGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
+    fileprivate static let _pSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _qGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
+    fileprivate static let _qSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _rGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
+    fileprivate static let _rSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _sGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
+    fileprivate static let _sSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _tGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
+    fileprivate static let _tSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _uGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
+    fileprivate static let _uSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
+    public typealias _ConstructorMethod = @convention(c) (
+        Swift.String.CType,
+        Swift.String.CType,
+        Swift.String.CType,
+        Swift.String.CType,
+        Swift.String.CType,
+        Swift.String.CType,
+        Swift.String.CType,
+        Swift.String.CType,
+        Swift.String.CType,
+        Swift.String.CType,
+        Swift.String.CType,
+        Swift.String.CType,
+        Swift.String.CType,
+        Swift.String.CType,
+        Swift.String.CType,
+        Swift.String.CType,
+        Swift.String.CType,
+        Swift.String.CType,
+        Swift.String.CType,
+        Swift.String.CType,
+        Swift.String.CType,
+        _ exn: foreignOutExn
+    ) -> foreignObject
+    fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
+
+    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+        Self(
+            a: try Swift.String.consumeIota(
+                try env.check { exn in _aGetter[env](value, exn) },
+                env: env
+            ),
+            b: try Swift.String.consumeIota(
+                try env.check { exn in _bGetter[env](value, exn) },
+                env: env
+            ),
+            c: try Swift.String.consumeIota(
+                try env.check { exn in _cGetter[env](value, exn) },
+                env: env
+            ),
+            d: try Swift.String.consumeIota(
+                try env.check { exn in _dGetter[env](value, exn) },
+                env: env
+            ),
+            e: try Swift.String.consumeIota(
+                try env.check { exn in _eGetter[env](value, exn) },
+                env: env
+            ),
+            f: try Swift.String.consumeIota(
+                try env.check { exn in _fGetter[env](value, exn) },
+                env: env
+            ),
+            g: try Swift.String.consumeIota(
+                try env.check { exn in _gGetter[env](value, exn) },
+                env: env
+            ),
+            h: try Swift.String.consumeIota(
+                try env.check { exn in _hGetter[env](value, exn) },
+                env: env
+            ),
+            i: try Swift.String.consumeIota(
+                try env.check { exn in _iGetter[env](value, exn) },
+                env: env
+            ),
+            j: try Swift.String.consumeIota(
+                try env.check { exn in _jGetter[env](value, exn) },
+                env: env
+            ),
+            k: try Swift.String.consumeIota(
+                try env.check { exn in _kGetter[env](value, exn) },
+                env: env
+            ),
+            l: try Swift.String.consumeIota(
+                try env.check { exn in _lGetter[env](value, exn) },
+                env: env
+            ),
+            m: try Swift.String.consumeIota(
+                try env.check { exn in _mGetter[env](value, exn) },
+                env: env
+            ),
+            n: try Swift.String.consumeIota(
+                try env.check { exn in _nGetter[env](value, exn) },
+                env: env
+            ),
+            o: try Swift.String.consumeIota(
+                try env.check { exn in _oGetter[env](value, exn) },
+                env: env
+            ),
+            p: try Swift.String.consumeIota(
+                try env.check { exn in _pGetter[env](value, exn) },
+                env: env
+            ),
+            q: try Swift.String.consumeIota(
+                try env.check { exn in _qGetter[env](value, exn) },
+                env: env
+            ),
+            r: try Swift.String.consumeIota(
+                try env.check { exn in _rGetter[env](value, exn) },
+                env: env
+            ),
+            s: try Swift.String.consumeIota(
+                try env.check { exn in _sGetter[env](value, exn) },
+                env: env
+            ),
+            t: try Swift.String.consumeIota(
+                try env.check { exn in _tGetter[env](value, exn) },
+                env: env
+            ),
+            u: try Swift.String.consumeIota(
+                try env.check { exn in _uGetter[env](value, exn) },
+                env: env
+            )
+        )
+    }
+
+    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+        try env.check { exn in
+            _constructorMethod[env](
+                try Swift.String.toIota(value.a, env: env),
+                try Swift.String.toIota(value.b, env: env),
+                try Swift.String.toIota(value.c, env: env),
+                try Swift.String.toIota(value.d, env: env),
+                try Swift.String.toIota(value.e, env: env),
+                try Swift.String.toIota(value.f, env: env),
+                try Swift.String.toIota(value.g, env: env),
+                try Swift.String.toIota(value.h, env: env),
+                try Swift.String.toIota(value.i, env: env),
+                try Swift.String.toIota(value.j, env: env),
+                try Swift.String.toIota(value.k, env: env),
+                try Swift.String.toIota(value.l, env: env),
+                try Swift.String.toIota(value.m, env: env),
+                try Swift.String.toIota(value.n, env: env),
+                try Swift.String.toIota(value.o, env: env),
+                try Swift.String.toIota(value.p, env: env),
+                try Swift.String.toIota(value.q, env: env),
+                try Swift.String.toIota(value.r, env: env),
+                try Swift.String.toIota(value.s, env: env),
+                try Swift.String.toIota(value.t, env: env),
+                try Swift.String.toIota(value.u, env: env),
+                exn
+            )
+        }
+    }
+
+    public static func mutateIota(_ this: foreignObject, to value: Self, env: Env) throws {
+        try env.check { exn in _aSetter[env](
+            this,
+            try Swift.String.toIota(value.a, env: env),
+            exn
+        )}
+        try env.check { exn in _bSetter[env](
+            this,
+            try Swift.String.toIota(value.b, env: env),
+            exn
+        )}
+        try env.check { exn in _cSetter[env](
+            this,
+            try Swift.String.toIota(value.c, env: env),
+            exn
+        )}
+        try env.check { exn in _dSetter[env](
+            this,
+            try Swift.String.toIota(value.d, env: env),
+            exn
+        )}
+        try env.check { exn in _eSetter[env](
+            this,
+            try Swift.String.toIota(value.e, env: env),
+            exn
+        )}
+        try env.check { exn in _fSetter[env](
+            this,
+            try Swift.String.toIota(value.f, env: env),
+            exn
+        )}
+        try env.check { exn in _gSetter[env](
+            this,
+            try Swift.String.toIota(value.g, env: env),
+            exn
+        )}
+        try env.check { exn in _hSetter[env](
+            this,
+            try Swift.String.toIota(value.h, env: env),
+            exn
+        )}
+        try env.check { exn in _iSetter[env](
+            this,
+            try Swift.String.toIota(value.i, env: env),
+            exn
+        )}
+        try env.check { exn in _jSetter[env](
+            this,
+            try Swift.String.toIota(value.j, env: env),
+            exn
+        )}
+        try env.check { exn in _kSetter[env](
+            this,
+            try Swift.String.toIota(value.k, env: env),
+            exn
+        )}
+        try env.check { exn in _lSetter[env](
+            this,
+            try Swift.String.toIota(value.l, env: env),
+            exn
+        )}
+        try env.check { exn in _mSetter[env](
+            this,
+            try Swift.String.toIota(value.m, env: env),
+            exn
+        )}
+        try env.check { exn in _nSetter[env](
+            this,
+            try Swift.String.toIota(value.n, env: env),
+            exn
+        )}
+        try env.check { exn in _oSetter[env](
+            this,
+            try Swift.String.toIota(value.o, env: env),
+            exn
+        )}
+        try env.check { exn in _pSetter[env](
+            this,
+            try Swift.String.toIota(value.p, env: env),
+            exn
+        )}
+        try env.check { exn in _qSetter[env](
+            this,
+            try Swift.String.toIota(value.q, env: env),
+            exn
+        )}
+        try env.check { exn in _rSetter[env](
+            this,
+            try Swift.String.toIota(value.r, env: env),
+            exn
+        )}
+        try env.check { exn in _sSetter[env](
+            this,
+            try Swift.String.toIota(value.s, env: env),
+            exn
+        )}
+        try env.check { exn in _tSetter[env](
+            this,
+            try Swift.String.toIota(value.t, env: env),
+            exn
+        )}
+        try env.check { exn in _uSetter[env](
+            this,
+            try Swift.String.toIota(value.u, env: env),
+            exn
+        )}
+    }
+}
+
 // MARK: - TestAPI.TestAsyncForeignSideFunctionsStruct+iota-methods.swift
 // Generated by FishyJoes for `TestAPI.TestAsyncForeignSideFunctionsStruct.exercise0(_ fn: @escaping AsyncFunctions.AFun0)`
 @_cdecl("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise0")
