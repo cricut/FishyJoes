@@ -6410,6 +6410,355 @@ extension TestAPI.Structs.ReferenceStruct: JavaMutator {
     }
 }
 
+// MARK: - TestAPI.Structs.TwentyOneItemStruct+java-type.swift
+extension TestAPI.Structs.TwentyOneItemStruct: JavaMutator {
+    public typealias SwiftType = Self
+    public typealias CType = jobject?
+
+    public static var javaClass: jclass?
+    private static var _java_a_id: jfieldID!
+    private static var _java_b_id: jfieldID!
+    private static var _java_c_id: jfieldID!
+    private static var _java_d_id: jfieldID!
+    private static var _java_e_id: jfieldID!
+    private static var _java_f_id: jfieldID!
+    private static var _java_g_id: jfieldID!
+    private static var _java_h_id: jfieldID!
+    private static var _java_i_id: jfieldID!
+    private static var _java_j_id: jfieldID!
+    private static var _java_k_id: jfieldID!
+    private static var _java_l_id: jfieldID!
+    private static var _java_m_id: jfieldID!
+    private static var _java_n_id: jfieldID!
+    private static var _java_o_id: jfieldID!
+    private static var _java_p_id: jfieldID!
+    private static var _java_q_id: jfieldID!
+    private static var _java_r_id: jfieldID!
+    private static var _java_s_id: jfieldID!
+    private static var _java_t_id: jfieldID!
+    private static var _java_u_id: jfieldID!
+    private static var _constructorMethodID: jmethodID!
+    public static func fromJava(_ value: jobject?, env: Env) throws -> Self {
+        Self(
+            a: try Swift.String.fromJava(
+                env.GetObjectField(value, Self._java_a_id),
+                env: env
+            ),
+            b: try Swift.String.fromJava(
+                env.GetObjectField(value, Self._java_b_id),
+                env: env
+            ),
+            c: try Swift.String.fromJava(
+                env.GetObjectField(value, Self._java_c_id),
+                env: env
+            ),
+            d: try Swift.String.fromJava(
+                env.GetObjectField(value, Self._java_d_id),
+                env: env
+            ),
+            e: try Swift.String.fromJava(
+                env.GetObjectField(value, Self._java_e_id),
+                env: env
+            ),
+            f: try Swift.String.fromJava(
+                env.GetObjectField(value, Self._java_f_id),
+                env: env
+            ),
+            g: try Swift.String.fromJava(
+                env.GetObjectField(value, Self._java_g_id),
+                env: env
+            ),
+            h: try Swift.String.fromJava(
+                env.GetObjectField(value, Self._java_h_id),
+                env: env
+            ),
+            i: try Swift.String.fromJava(
+                env.GetObjectField(value, Self._java_i_id),
+                env: env
+            ),
+            j: try Swift.String.fromJava(
+                env.GetObjectField(value, Self._java_j_id),
+                env: env
+            ),
+            k: try Swift.String.fromJava(
+                env.GetObjectField(value, Self._java_k_id),
+                env: env
+            ),
+            l: try Swift.String.fromJava(
+                env.GetObjectField(value, Self._java_l_id),
+                env: env
+            ),
+            m: try Swift.String.fromJava(
+                env.GetObjectField(value, Self._java_m_id),
+                env: env
+            ),
+            n: try Swift.String.fromJava(
+                env.GetObjectField(value, Self._java_n_id),
+                env: env
+            ),
+            o: try Swift.String.fromJava(
+                env.GetObjectField(value, Self._java_o_id),
+                env: env
+            ),
+            p: try Swift.String.fromJava(
+                env.GetObjectField(value, Self._java_p_id),
+                env: env
+            ),
+            q: try Swift.String.fromJava(
+                env.GetObjectField(value, Self._java_q_id),
+                env: env
+            ),
+            r: try Swift.String.fromJava(
+                env.GetObjectField(value, Self._java_r_id),
+                env: env
+            ),
+            s: try Swift.String.fromJava(
+                env.GetObjectField(value, Self._java_s_id),
+                env: env
+            ),
+            t: try Swift.String.fromJava(
+                env.GetObjectField(value, Self._java_t_id),
+                env: env
+            ),
+            u: try Swift.String.fromJava(
+                env.GetObjectField(value, Self._java_u_id),
+                env: env
+            )
+        )
+    }
+    public static func toJava(_ value: Self, env: Env) throws -> jobject? {
+        try env.NewObject(
+            Self.javaClass,
+            Self._constructorMethodID,
+            jvalue(Swift.String.toJava(value.a, env: env)),
+            jvalue(Swift.String.toJava(value.b, env: env)),
+            jvalue(Swift.String.toJava(value.c, env: env)),
+            jvalue(Swift.String.toJava(value.d, env: env)),
+            jvalue(Swift.String.toJava(value.e, env: env)),
+            jvalue(Swift.String.toJava(value.f, env: env)),
+            jvalue(Swift.String.toJava(value.g, env: env)),
+            jvalue(Swift.String.toJava(value.h, env: env)),
+            jvalue(Swift.String.toJava(value.i, env: env)),
+            jvalue(Swift.String.toJava(value.j, env: env)),
+            jvalue(Swift.String.toJava(value.k, env: env)),
+            jvalue(Swift.String.toJava(value.l, env: env)),
+            jvalue(Swift.String.toJava(value.m, env: env)),
+            jvalue(Swift.String.toJava(value.n, env: env)),
+            jvalue(Swift.String.toJava(value.o, env: env)),
+            jvalue(Swift.String.toJava(value.p, env: env)),
+            jvalue(Swift.String.toJava(value.q, env: env)),
+            jvalue(Swift.String.toJava(value.r, env: env)),
+            jvalue(Swift.String.toJava(value.s, env: env)),
+            jvalue(Swift.String.toJava(value.t, env: env)),
+            jvalue(Swift.String.toJava(value.u, env: env))
+        )
+    }
+    public static func javaSetup(env: Env) throws {
+        guard javaClass == nil else { return }
+        javaClass = try env.globalRef(env.FindClass("com/cricut/testapi/Structs$TwentyOneItemStruct"))
+        _java_a_id = try env.GetFieldID(javaClass, "a", "Ljava/lang/String;")
+        _java_b_id = try env.GetFieldID(javaClass, "b", "Ljava/lang/String;")
+        _java_c_id = try env.GetFieldID(javaClass, "c", "Ljava/lang/String;")
+        _java_d_id = try env.GetFieldID(javaClass, "d", "Ljava/lang/String;")
+        _java_e_id = try env.GetFieldID(javaClass, "e", "Ljava/lang/String;")
+        _java_f_id = try env.GetFieldID(javaClass, "f", "Ljava/lang/String;")
+        _java_g_id = try env.GetFieldID(javaClass, "g", "Ljava/lang/String;")
+        _java_h_id = try env.GetFieldID(javaClass, "h", "Ljava/lang/String;")
+        _java_i_id = try env.GetFieldID(javaClass, "i", "Ljava/lang/String;")
+        _java_j_id = try env.GetFieldID(javaClass, "j", "Ljava/lang/String;")
+        _java_k_id = try env.GetFieldID(javaClass, "k", "Ljava/lang/String;")
+        _java_l_id = try env.GetFieldID(javaClass, "l", "Ljava/lang/String;")
+        _java_m_id = try env.GetFieldID(javaClass, "m", "Ljava/lang/String;")
+        _java_n_id = try env.GetFieldID(javaClass, "n", "Ljava/lang/String;")
+        _java_o_id = try env.GetFieldID(javaClass, "o", "Ljava/lang/String;")
+        _java_p_id = try env.GetFieldID(javaClass, "p", "Ljava/lang/String;")
+        _java_q_id = try env.GetFieldID(javaClass, "q", "Ljava/lang/String;")
+        _java_r_id = try env.GetFieldID(javaClass, "r", "Ljava/lang/String;")
+        _java_s_id = try env.GetFieldID(javaClass, "s", "Ljava/lang/String;")
+        _java_t_id = try env.GetFieldID(javaClass, "t", "Ljava/lang/String;")
+        _java_u_id = try env.GetFieldID(javaClass, "u", "Ljava/lang/String;")
+        _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V")
+    }
+    public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout Self) throws -> R) throws -> R {
+        var mutatingSelf = try fromJava(this, env: env)
+        let result = try body(&mutatingSelf)
+        try env.SetObjectField(
+            this, Self._java_a_id,
+            Swift.String.toJava(mutatingSelf.a, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_b_id,
+            Swift.String.toJava(mutatingSelf.b, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_c_id,
+            Swift.String.toJava(mutatingSelf.c, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_d_id,
+            Swift.String.toJava(mutatingSelf.d, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_e_id,
+            Swift.String.toJava(mutatingSelf.e, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_f_id,
+            Swift.String.toJava(mutatingSelf.f, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_g_id,
+            Swift.String.toJava(mutatingSelf.g, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_h_id,
+            Swift.String.toJava(mutatingSelf.h, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_i_id,
+            Swift.String.toJava(mutatingSelf.i, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_j_id,
+            Swift.String.toJava(mutatingSelf.j, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_k_id,
+            Swift.String.toJava(mutatingSelf.k, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_l_id,
+            Swift.String.toJava(mutatingSelf.l, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_m_id,
+            Swift.String.toJava(mutatingSelf.m, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_n_id,
+            Swift.String.toJava(mutatingSelf.n, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_o_id,
+            Swift.String.toJava(mutatingSelf.o, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_p_id,
+            Swift.String.toJava(mutatingSelf.p, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_q_id,
+            Swift.String.toJava(mutatingSelf.q, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_r_id,
+            Swift.String.toJava(mutatingSelf.r, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_s_id,
+            Swift.String.toJava(mutatingSelf.s, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_t_id,
+            Swift.String.toJava(mutatingSelf.t, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_u_id,
+            Swift.String.toJava(mutatingSelf.u, env: env)
+        )
+        return result
+    }
+    public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout Self, inout Env) async throws -> R) async throws -> R {
+        var mutatingSelf = try fromJava(this, env: env)
+        let result = try await body(&mutatingSelf, &env)
+        try env.SetObjectField(
+            this, Self._java_a_id,
+            Swift.String.toJava(mutatingSelf.a, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_b_id,
+            Swift.String.toJava(mutatingSelf.b, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_c_id,
+            Swift.String.toJava(mutatingSelf.c, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_d_id,
+            Swift.String.toJava(mutatingSelf.d, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_e_id,
+            Swift.String.toJava(mutatingSelf.e, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_f_id,
+            Swift.String.toJava(mutatingSelf.f, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_g_id,
+            Swift.String.toJava(mutatingSelf.g, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_h_id,
+            Swift.String.toJava(mutatingSelf.h, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_i_id,
+            Swift.String.toJava(mutatingSelf.i, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_j_id,
+            Swift.String.toJava(mutatingSelf.j, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_k_id,
+            Swift.String.toJava(mutatingSelf.k, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_l_id,
+            Swift.String.toJava(mutatingSelf.l, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_m_id,
+            Swift.String.toJava(mutatingSelf.m, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_n_id,
+            Swift.String.toJava(mutatingSelf.n, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_o_id,
+            Swift.String.toJava(mutatingSelf.o, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_p_id,
+            Swift.String.toJava(mutatingSelf.p, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_q_id,
+            Swift.String.toJava(mutatingSelf.q, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_r_id,
+            Swift.String.toJava(mutatingSelf.r, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_s_id,
+            Swift.String.toJava(mutatingSelf.s, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_t_id,
+            Swift.String.toJava(mutatingSelf.t, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_u_id,
+            Swift.String.toJava(mutatingSelf.u, env: env)
+        )
+        return result
+    }
+}
+
 // MARK: - TestAPI.TestAsyncForeignSideFunctionsStruct+java-methods.swift
 // Generated by FishyJoes for `TestAPI.TestAsyncForeignSideFunctionsStruct.exercise0(_ fn: @escaping AsyncFunctions.AFun0)`
 let java_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise0: @convention(c) (

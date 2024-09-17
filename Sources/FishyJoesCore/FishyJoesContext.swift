@@ -375,8 +375,7 @@ public class FishyJoesContext {
         if
             case .named(var name) = type,
             name.module == nil,
-            let module = name.namespace.first
-        {
+            let module = name.namespace.first {
             name.module = module
             name.namespace.removeFirst()
             typeNameAsModuleQualified = BetterType.named(name)

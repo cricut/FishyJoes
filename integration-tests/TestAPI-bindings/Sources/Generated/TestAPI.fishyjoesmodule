@@ -1720,6 +1720,58 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
+            "name" : "TwentyOneItemStruct",
+            "namespace" : [
+              "Structs"
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "Structs.TwentyOneItemStruct",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Structs_TwentyOneItemStruct",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Structs$TwentyOneItemStruct"
+        }
+      },
+      "kotlinName" : "Structs.TwentyOneItemStruct",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=Structs.TwentyOneItemStruct>>",
+      "nodeName" : "TestAPI.Structs.TwentyOneItemStruct",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TwentyOneItemStruct",
+            "namespace" : [
+              "Structs"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
             "module" : "Swift",
             "name" : "PuttingTypesIntoQuestionablePlaces",
             "namespace" : [
@@ -14448,6 +14500,451 @@
                   }
                 ],
                 "name" : "ReferenceStruct"
+              },
+              {
+                "constructor" : {
+                  "visible" : {
+                    "names" : [
+                      "a",
+                      "b",
+                      "c",
+                      "d",
+                      "e",
+                      "f",
+                      "g",
+                      "h",
+                      "i",
+                      "j",
+                      "k",
+                      "l",
+                      "m",
+                      "n",
+                      "o",
+                      "p",
+                      "q",
+                      "r",
+                      "s",
+                      "t",
+                      "u"
+                    ],
+                    "types" : [
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      }
+                    ]
+                  }
+                },
+                "documentation" : [
+                  "<!-- FishyJoes.export(Structs.TwentyOneItemStruct) -->"
+                ],
+                "extends" : [
+
+                ],
+                "fields" : [
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "a",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "b",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "c",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "d",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "e",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "f",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "g",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "h",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "i",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "j",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "k",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "l",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "m",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "n",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "o",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "p",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "q",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "r",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "s",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "t",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "u",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                ],
+                "implements" : [
+
+                ],
+                "methods" : [
+
+                ],
+                "name" : "TwentyOneItemStruct"
               }
             ],
             "fields" : [

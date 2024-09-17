@@ -537,6 +537,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(TestAPI.Structs.ReferenceStruct._javaEquals, to: UnsafeMutableRawPointer.self)
             )
         )
+        // print("setting up TestAPI.Structs.TwentyOneItemStruct...")
+        try TestAPI.Structs.TwentyOneItemStruct.javaSetup(env: env)
         // print("setting up TestAPI_CommonInterface._AProtocolConverter...")
         try TestAPI_CommonInterface._AProtocolConverter.javaSetup(env: env)
         try env.RegisterNatives(
