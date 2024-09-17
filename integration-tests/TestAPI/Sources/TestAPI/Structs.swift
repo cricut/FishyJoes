@@ -73,7 +73,7 @@ public enum Structs {
             return i
         }
     }
-    
+
     /// <!-- FishyJoes.export(Structs.TwentyOneItemStruct) -->
     public struct TwentyOneItemStruct: Hashable {
         public var a = "a"
@@ -97,7 +97,7 @@ public enum Structs {
         public var s = "s"
         public var t = "t"
         public var u = "u"
-        
+
         public init(
             a: String = "a",
             b: String = "b",
