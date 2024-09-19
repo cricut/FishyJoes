@@ -14180,6 +14180,38 @@
                     "_0" : "string"
                   }
                 }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(split) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "split",
+                "parameters" : [
+                  {
+                    "name" : "string",
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "by",
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string[]"
+                  }
+                }
               }
             ],
             "name" : "Strings",
