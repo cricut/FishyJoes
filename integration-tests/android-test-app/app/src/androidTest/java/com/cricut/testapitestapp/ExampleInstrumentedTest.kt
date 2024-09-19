@@ -43,8 +43,11 @@ class ExampleInstrumentedTest {
     fun testEchoBytes() {
         assertEquals(Bytes.echoBytes(Bytes.bytes), Bytes.bytes)
         assert(Bytes.echoData(Bytes.data).contentEquals(Bytes.data))
+    }
 
-        print(Strings.split("foo bar baz", " "))
+    @Test
+    fun testStringSplit() {
+        assertEquals(Strings.split("foo bar baz", " "), listOf("foo", "bar", "baz"))
     }
 
     @Test
