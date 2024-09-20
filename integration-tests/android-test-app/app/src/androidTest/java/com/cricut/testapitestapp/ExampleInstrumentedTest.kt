@@ -46,6 +46,11 @@ class ExampleInstrumentedTest {
     }
 
     @Test
+    fun testStringSplit() {
+        assertEquals(Strings.split("foo bar baz", " "), listOf("foo", "bar", "baz"))
+    }
+
+    @Test
     fun testFoundationXMLLoads() {
         FishyJoesRuntimeRepresentative.ensureLoaded()
         System.loadLibrary("FoundationXML")

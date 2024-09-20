@@ -5990,6 +5990,21 @@ extension TestAPI.Strings: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
+                "split": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "split", expectedArgumentCount: 2, hasNamedOptions: false) { env in
+                            let result = try ArrayConverter<Swift.String>.toNode(
+                                TestAPI.Strings.split(
+                                    try env.argument(at: 0, converter: Swift.String.self),
+                                    by: try env.argument(at: 1, converter: Swift.String.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
                 "accent": (
                     .accessor(
                         getter: { env, info in
