@@ -3,10 +3,11 @@ graph TD;
 FishyJoes --> -bindings;
 subgraph -bindings
 CriGeo --> CriText;
-CriGeo & CriRaster ---> CriTrace;
+CriGeo --> CriSVG;
+CriGeo & CriRaster --> CriTrace;
 CriGeo & CriRaster  --> Tesseract;
 CriGeo & Tesseract --> Bifrost;
-CriSVG ---> CriCanvas;
+CriSVG --> CriCanvas;
 CriGeo & CriText --> CriCanvas;
 end
 ```
