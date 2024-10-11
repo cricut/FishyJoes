@@ -290,7 +290,7 @@ extension CodeGen {
 
             // Build libraries for the requested platforms
             for platform in platforms {
-                let libs = [config.module] + config.requiredModules
+                let libs = [config.module] + config.requiredModules + config.extraDynamicLibraries
                 switch platform {
                 case .wasm:
                     try platform.build(configuration: configuration)
