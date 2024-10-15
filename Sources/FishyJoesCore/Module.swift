@@ -3,10 +3,12 @@ import Foundation
 struct Module: Hashable, CustomStringConvertible, Codable {
     let name: String
     let dependencies: [String]
+    let extraDynamicLibraries: [String]
 
-    init(name: String, dependencies: [String]) {
+    init(name: String, dependencies: [String], extraDynamicLibraries: [String] = []) {
         self.name = name
         self.dependencies = dependencies.sorted()
+        self.extraDynamicLibraries = extraDynamicLibraries
     }
 
     var kotlinPackage: String { "com.cricut.\(name.lowercased())" }
@@ -27,7 +29,8 @@ extension Module {
     static var runtime: Module {
         Module(
             name: "FishyJoesRuntime",
-            dependencies: []
+            dependencies: [],
+            extraDynamicLibraries: []
         )
     }
 }

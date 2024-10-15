@@ -221,6 +221,8 @@ extension CodeGen {
             let errorReporter = cmd("cat", errorFifoPath).async(stdout: .stderr)
 
             // Execute Sourcery to generate the Swift-side and foreign-side source files for all supported language targets
+            let base64RequiredModules = try! JSONEncoder().encode(fishyJoesModuleFiles).base64EncodedString()
+            let base64ExtraDynamicLibraries = try! JSONEncoder().encode(config.extraDynamicLibraries).base64EncodedString()
             try cmd(
                 ".build\(ps)debug\(ps)sourcery",
                 arguments: [
@@ -231,7 +233,8 @@ extension CodeGen {
                     "--templates", ".build\(ps)debug\(ps)FishyJoes_FishyJoesExecutionHelper.bundle\(ps)FishyJoes.swifttemplate",
                     "--args", "module=\(config.module)",
                     "--args", "debugRepresentation=\(dumpDebugRepresentation)",
-                    "--args", "requiredModules=\"\(try! JSONEncoder().encode(fishyJoesModuleFiles).base64EncodedString())\"",
+                    "--args", "requiredModules=\"\(base64RequiredModules)\"",
+                    "--args", "extraDynamicLibraries=\"\(base64ExtraDynamicLibraries)\"",
                     "--args", "fishyJoesExecutable=.build\(ps)debug\(ps)helper-fishy-joes-core",
                     "--args", "stderrFifo=\(errorFifoPath)",
                     "--output", "Sources\(ps)Generated"
