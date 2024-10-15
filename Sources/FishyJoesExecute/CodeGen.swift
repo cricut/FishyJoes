@@ -682,12 +682,16 @@ extension CodeGen {
                         .run()
                 case .kotlinSystem, .kotlinAndroid:
                     // Install the module library and interfacing JNI library
+                    try config.extraDynamicLibraries.forEach {
+                        try installLibrary($0)
+                    }
                     try installLibrary(config.module)
                     try installLibrary("\(config.module)-java")
                 case .cSharp:
                     // Install the module library, interfacing library, and required module libraries
                     try cmd("mkdir", "-p", outputDir).run()
-                    let libs = [
+                    var libs = config.extraDynamicLibraries
+                    libs += [
                         "FishyJoesIotaRuntime",
                         config.module,
                         config.module + "-iota",
@@ -703,7 +707,8 @@ extension CodeGen {
                 case .dart:
                     // Install the module library, interfacing library, and required module libraries, signing if necessary
                     try cmd("mkdir", "-p", outputDir).run()
-                    let libs = [
+                    var libs = config.extraDynamicLibraries
+                    libs += [
                         "FishyJoesIotaRuntime",
                         config.module,
                         config.module + "-iota",
