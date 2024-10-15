@@ -293,26 +293,29 @@ extension CodeGen {
 
             // Build libraries for the requested platforms
             for platform in platforms {
-                let libs = [config.module] + config.requiredModules + config.extraDynamicLibraries
+                let libs = [config.module] + config.requiredModules
                 switch platform {
                 case .wasm:
                     try platform.build(configuration: configuration)
                 case .node:
+                    let nodeLibsToBuild = config.extraDynamicLibraries + libs.flatMap { [$0, "\($0)-node"] } + ["FishyJoesNodeRuntime"]
                     try platform.build(
                         product: "\(config.module)-node",
-                        libs: libs.flatMap { [$0, "\($0)-node"] } + ["FishyJoesNodeRuntime"],
+                        libs: nodeLibsToBuild,
                         configuration: configuration
                     )
                 case .kotlinSystem, .kotlinAndroid:
+                    let javaLibsToBuild = config.extraDynamicLibraries + libs.flatMap { [$0, "\($0)-java"] } + ["FishyJoesJavaRuntime"]
                     try platform.build(
                         product: "\(config.module)-java",
-                        libs: libs.flatMap { [$0, "\($0)-java"] } + ["FishyJoesJavaRuntime"],
+                        libs: javaLibsToBuild,
                         configuration: configuration
                     )
                 case .cSharp, .dart:
+                    let iotaLibsToBuild = config.extraDynamicLibraries + libs.flatMap { [$0, "\($0)-iota"] } + ["FishyJoesIotaRuntime"]
                     try platform.build(
                         product: "\(config.module)-iota",
-                        libs: libs.flatMap { [$0, "\($0)-iota"] } + ["FishyJoesIotaRuntime"],
+                        libs: iotaLibsToBuild,
                         configuration: configuration
                     )
                 }
