@@ -15,6 +15,13 @@ struct Module: Hashable, CustomStringConvertible, Codable {
     var cSharpNamespace: String { "Cricut.\(name)" }
     var dartNamespace: String { name }
     var description: String { name }
+    
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.name = try container.decode(String.self, forKey: .name)
+        self.dependencies = try container.decode([String].self, forKey: .dependencies)
+        self.extraDynamicLibraries = try container.decodeIfPresent([String].self, forKey: .extraDynamicLibraries) ?? []
+    }
 }
 
 extension Module {
