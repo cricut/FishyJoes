@@ -495,6 +495,9 @@ extension CodeGen {
                         }
                     }
                     if platform == .node {
+                        try config.extraDynamicLibraries.forEach {
+                            try installLibrary($0)
+                        }
                         // Install the module library and Node interfacing library
                         try installLibrary(nodeModule.name)
                         try installLibrary(nodeModule.nativeLibName)
