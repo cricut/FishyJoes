@@ -298,7 +298,7 @@ extension CodeGen {
                 case .wasm:
                     try platform.build(configuration: configuration)
                 case .node:
-                    let nodeLibsToBuild = libs.flatMap { [$0, "\($0)-node"] } + ["FishyJoesNodeRuntime"]
+                    let nodeLibsToBuild = config.extraDynamicLibraries + libs.flatMap { [$0, "\($0)-node"] } + ["FishyJoesNodeRuntime"]
                     try platform.build(
                         product: "\(config.module)-node",
                         libs: nodeLibsToBuild,
