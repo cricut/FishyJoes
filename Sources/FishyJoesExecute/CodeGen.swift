@@ -221,6 +221,8 @@ extension CodeGen {
             let errorReporter = cmd("cat", errorFifoPath).async(stdout: .stderr)
 
             // Execute Sourcery to generate the Swift-side and foreign-side source files for all supported language targets
+            let base64RequiredModules = try! JSONEncoder().encode(fishyJoesModuleFiles).base64EncodedString()
+            let base64ExtraDynamicLibraries = try! JSONEncoder().encode(config.extraDynamicLibraries).base64EncodedString()
             try cmd(
                 ".build\(ps)debug\(ps)sourcery",
                 arguments: [
@@ -231,7 +233,8 @@ extension CodeGen {
                     "--templates", ".build\(ps)debug\(ps)FishyJoes_FishyJoesExecutionHelper.bundle\(ps)FishyJoes.swifttemplate",
                     "--args", "module=\(config.module)",
                     "--args", "debugRepresentation=\(dumpDebugRepresentation)",
-                    "--args", "requiredModules=\"\(try! JSONEncoder().encode(fishyJoesModuleFiles).base64EncodedString())\"",
+                    "--args", "requiredModules=\"\(base64RequiredModules)\"",
+                    "--args", "extraDynamicLibraries=\"\(base64ExtraDynamicLibraries)\"",
                     "--args", "fishyJoesExecutable=.build\(ps)debug\(ps)helper-fishy-joes-core",
                     "--args", "stderrFifo=\(errorFifoPath)",
                     "--output", "Sources\(ps)Generated"
@@ -295,21 +298,24 @@ extension CodeGen {
                 case .wasm:
                     try platform.build(configuration: configuration)
                 case .node:
+                    let nodeLibsToBuild = config.extraDynamicLibraries + libs.flatMap { [$0, "\($0)-node"] } + ["FishyJoesNodeRuntime"]
                     try platform.build(
                         product: "\(config.module)-node",
-                        libs: libs.flatMap { [$0, "\($0)-node"] } + ["FishyJoesNodeRuntime"],
+                        libs: nodeLibsToBuild,
                         configuration: configuration
                     )
                 case .kotlinSystem, .kotlinAndroid:
+                    let javaLibsToBuild = config.extraDynamicLibraries + libs.flatMap { [$0, "\($0)-java"] } + ["FishyJoesJavaRuntime"]
                     try platform.build(
                         product: "\(config.module)-java",
-                        libs: libs.flatMap { [$0, "\($0)-java"] } + ["FishyJoesJavaRuntime"],
+                        libs: javaLibsToBuild,
                         configuration: configuration
                     )
                 case .cSharp, .dart:
+                    let iotaLibsToBuild = config.extraDynamicLibraries + libs.flatMap { [$0, "\($0)-iota"] } + ["FishyJoesIotaRuntime"]
                     try platform.build(
                         product: "\(config.module)-iota",
-                        libs: libs.flatMap { [$0, "\($0)-iota"] } + ["FishyJoesIotaRuntime"],
+                        libs: iotaLibsToBuild,
                         configuration: configuration
                     )
                 }
@@ -489,6 +495,9 @@ extension CodeGen {
                         }
                     }
                     if platform == .node {
+                        try config.extraDynamicLibraries.forEach {
+                            try installLibrary($0)
+                        }
                         // Install the module library and Node interfacing library
                         try installLibrary(nodeModule.name)
                         try installLibrary(nodeModule.nativeLibName)
@@ -676,12 +685,16 @@ extension CodeGen {
                         .run()
                 case .kotlinSystem, .kotlinAndroid:
                     // Install the module library and interfacing JNI library
+                    try config.extraDynamicLibraries.forEach {
+                        try installLibrary($0)
+                    }
                     try installLibrary(config.module)
                     try installLibrary("\(config.module)-java")
                 case .cSharp:
                     // Install the module library, interfacing library, and required module libraries
                     try cmd("mkdir", "-p", outputDir).run()
-                    let libs = [
+                    var libs = config.extraDynamicLibraries
+                    libs += [
                         "FishyJoesIotaRuntime",
                         config.module,
                         config.module + "-iota",
@@ -697,7 +710,8 @@ extension CodeGen {
                 case .dart:
                     // Install the module library, interfacing library, and required module libraries, signing if necessary
                     try cmd("mkdir", "-p", outputDir).run()
-                    let libs = [
+                    var libs = config.extraDynamicLibraries
+                    libs += [
                         "FishyJoesIotaRuntime",
                         config.module,
                         config.module + "-iota",

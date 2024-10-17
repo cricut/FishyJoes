@@ -176,6 +176,11 @@ public struct PackageInit: ParsableCommand {
             allowEmpty: true
         )
 
+        let extraDynamicLibraries = try Interactive.prompt(
+            "Dynamic libraries that do not have a -bindings repo and so are not in the requiredModules of \(module), space separated. Default []: ",
+            allowEmpty: true
+        )
+
         let excludeSources = try Interactive.prompt(
             "File or directory paths to exclude from generation, space separated. Default []:",
             allowEmpty: true
@@ -185,6 +190,7 @@ public struct PackageInit: ParsableCommand {
             module: module,
             publishRepository: publishRepository,
             requiredModules: requiredModules.split(separator: " ").map(String.init),
+            extraDynamicLibraries: extraDynamicLibraries.split(separator: " ").map(String.init),
             excludeSources: excludeSources.split(separator: " ").map(String.init)
         )
 

@@ -32,9 +32,14 @@ class NAPITests: XCTestCase {
         "\(testDirectory)/entry_point.c",
     ]
 
-    override func setUp() {
+    override func setUpWithError() throws {
         super.setUp()
         ExternalCommand.verbose = false
+        guard FileManager.default.fileExists(atPath: "Package.swift") else {
+            XCTFail("These tests expect to run in the root of the FishyJoes package. Use `swift test`.")
+            struct BadWorkingDirectory: Error {}
+            throw BadWorkingDirectory()
+        }
     }
 
     func testNative(_ testName: String, js: [String] = ["test.js"], fixups: [String] = []) throws {
