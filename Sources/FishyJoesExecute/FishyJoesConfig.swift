@@ -46,7 +46,7 @@ struct FishyJoesConfig: Codable {
         }
         let extraDynamicLibraries = try configDictionary["extraDynamicLibraries"].map { obj -> [String] in
             guard let list = obj as? [String] else {
-                throw ValidationError("fishy-joes.yaml value for key `extraDynamicLibraries` is not an array of file or directory paths")
+                throw ValidationError("fishy-joes.yaml value for key `extraDynamicLibraries` is not an array of file names")
             }
             return list
         }
