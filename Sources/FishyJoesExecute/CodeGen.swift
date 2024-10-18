@@ -153,6 +153,25 @@ extension CodeGen {
             dependencySourcePaths[moduleName] = dependencySourcesPath
         }
 
+        // Locate dependency module configuration files
+        let fishyJoesModuleFiles: [String] = dependencySourcePaths.compactMap {
+            $0.key == config.module ? nil : "\($0.value)\(ps)Generated\(ps)\($0.key).fishyjoesmodule"
+        }
+
+        // extraDynamicLibsToInstall is different from config.extraDynamicLibraries because it includes the extraDynamicLibraries of all the dependencies as well, instead of the ones just for this module. This is needed because say if CriSVG depends on the dynamic library CanvasModel and CriCanvas also depends on CanvasModel and on CriSVG as well, then we must install the CanvasModel library i.e. copy over the dynamic library to where the language environment needs it to run and test with, but we don't want to pass it to the generate/sourcery step where it's used to generate the kotlin LoaderRepresentative.kt file, because CriSVG will already load it there, so if we try to load the same dynamic CanvasModel library in CriCanvas's LoaderRepresentative we will get an error on Windows and Linux.
+        var extraDynamicLibsToInstall = Set<String>(config.extraDynamicLibraries)
+        for path in fishyJoesModuleFiles {
+            let moduleInfo = Result {
+                try JSONDecoder().decode(ModuleInfo.self, from: Data(contentsOf: URL(fileURLWithPath: path)))
+            }.mapError { error in
+                fatalErr("error reading fishy joes module file at \(path):\n\(error)")
+            }.neverFails
+
+            moduleInfo.types.forEach {
+                extraDynamicLibsToInstall.formUnion($0.definingModule.extraDynamicLibraries)
+            }
+        }
+
         // MARK: - Generate Step
         if buildStep.contains(.generate) {
             #if os(Windows)
@@ -167,26 +186,6 @@ extension CodeGen {
                 translateeSources = targetPath
             } else {
                 fatalError("Couldn't locate module for translation '\(config.module)' in Package.swift")
-            }
-
-            // Locate dependency module configuration files
-            let fishyJoesModuleFiles: [String] = dependencySourcePaths.compactMap {
-                $0.key == config.module ? nil : "\($0.value)\(ps)Generated\(ps)\($0.key).fishyjoesmodule"
-            }
-            
-            var extraDynamicLibsToCopy = Set<String>()
-            for path in fishyJoesModuleFiles {
-                let moduleInfo = Result {
-                    try JSONDecoder().decode(ModuleInfo.self, from: Data(contentsOf: URL(fileURLWithPath: path)))
-                }.mapError { error in
-                    fatalErr("error reading fishy joes module file at \(path):\n\(error)")
-                }.neverFails
-
-                moduleInfo.types.forEach {
-                    $0.definingModule.extraDynamicLibraries.forEach {
-                        extraDynamicLibsToCopy.insert($0)
-                    }
-                }
             }
 
             // Create / clean directories used by Sourcery to generate Swift and foreign language code files for the translated foreign languages
@@ -511,7 +510,7 @@ extension CodeGen {
                         }
                     }
                     if platform == .node {
-                        try config.extraDynamicLibraries.forEach {
+                        try extraDynamicLibsToInstall.forEach {
                             try installLibrary($0)
                         }
                         // Install the module library and Node interfacing library
@@ -701,7 +700,7 @@ extension CodeGen {
                         .run()
                 case .kotlinSystem, .kotlinAndroid:
                     // Install the module library and interfacing JNI library
-                    try config.extraDynamicLibraries.forEach {
+                    try extraDynamicLibsToInstall.forEach {
                         try installLibrary($0)
                     }
                     try installLibrary(config.module)
@@ -709,7 +708,7 @@ extension CodeGen {
                 case .cSharp:
                     // Install the module library, interfacing library, and required module libraries
                     try cmd("mkdir", "-p", outputDir).run()
-                    var libs = config.extraDynamicLibraries
+                    var libs = Array(extraDynamicLibsToInstall)
                     libs += [
                         "FishyJoesIotaRuntime",
                         config.module,
@@ -726,7 +725,7 @@ extension CodeGen {
                 case .dart:
                     // Install the module library, interfacing library, and required module libraries, signing if necessary
                     try cmd("mkdir", "-p", outputDir).run()
-                    var libs = config.extraDynamicLibraries
+                    var libs = Array(extraDynamicLibsToInstall)
                     libs += [
                         "FishyJoesIotaRuntime",
                         config.module,
