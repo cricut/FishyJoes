@@ -1,5 +1,4 @@
 import ArgumentParser
-import FishyJoesCore
 import Foundation
 import swsh
 
@@ -102,7 +101,7 @@ extension CodeGen {
             throw ValidationError("No Package.swift found in current directory. fishy-joes must be run in the root of the bindings package")
         }
 
-        config = try FishyJoesConfig.readFromFile()
+        config = try FishyJoesConfig.readFromFile(basePath: ".\(ps)")
 
         if wasm {
             platforms.append(.wasm)
@@ -153,24 +152,14 @@ extension CodeGen {
             dependencySourcePaths[moduleName] = dependencySourcesPath
         }
 
-        // Locate dependency module configuration files
-        let fishyJoesModuleFiles: [String] = dependencySourcePaths.compactMap {
-            $0.key == config.module ? nil : "\($0.value)\(ps)Generated\(ps)\($0.key).fishyjoesmodule"
-        }
+        // Locate dependencies yaml files
+        let fishyJoesYamlConfigs: [FishyJoesConfig] = try dependencySourcePaths.compactMap {
+            $0.key == config.module ? nil : "\($0.value)\(ps)..\(ps)"
+        }.map(FishyJoesConfig.readFromFile(basePath:))
 
         // extraDynamicLibsToInstall is different from config.extraDynamicLibraries because it includes the extraDynamicLibraries of all the dependencies as well, instead of the ones just for this module. This is needed because say if CriSVG depends on the dynamic library CanvasModel and CriCanvas also depends on CanvasModel and on CriSVG as well, then we must install the CanvasModel library i.e. copy over the dynamic library to where the language environment needs it to run and test with, but we don't want to pass it to the generate/sourcery step where it's used to generate the kotlin LoaderRepresentative.kt file, because CriSVG will already load it there, so if we try to load the same dynamic CanvasModel library in CriCanvas's LoaderRepresentative we will get an error on Windows and Linux.
         var extraDynamicLibsToInstall = Set<String>(config.extraDynamicLibraries)
-        for path in fishyJoesModuleFiles {
-            let moduleInfo = Result {
-                try JSONDecoder().decode(ModuleInfo.self, from: Data(contentsOf: URL(fileURLWithPath: path)))
-            }.mapError { error in
-                fatalErr("error reading fishy joes module file at \(path):\n\(error)")
-            }.neverFails
-
-            moduleInfo.types.forEach {
-                extraDynamicLibsToInstall.formUnion($0.definingModule.extraDynamicLibraries)
-            }
-        }
+        fishyJoesYamlConfigs.forEach { extraDynamicLibsToInstall.formUnion($0.extraDynamicLibraries) }
 
         // MARK: - Generate Step
         if buildStep.contains(.generate) {
@@ -186,6 +175,11 @@ extension CodeGen {
                 translateeSources = targetPath
             } else {
                 fatalError("Couldn't locate module for translation '\(config.module)' in Package.swift")
+            }
+
+            // Locate dependency module configuration files
+            let fishyJoesModuleFiles: [String] = dependencySourcePaths.compactMap {
+                $0.key == config.module ? nil : "\($0.value)\(ps)Generated\(ps)\($0.key).fishyjoesmodule"
             }
 
             // Create / clean directories used by Sourcery to generate Swift and foreign language code files for the translated foreign languages

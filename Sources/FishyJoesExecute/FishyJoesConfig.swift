@@ -9,8 +9,8 @@ struct FishyJoesConfig: Codable {
     let extraDynamicLibraries: [String]
     let excludeSources: [String]
 
-    static func readFromFile() throws -> FishyJoesConfig {
-        guard let configData = try? cmd("cat", "fishy-joes.yaml").runString() else {
+    static func readFromFile(basePath: String) throws -> FishyJoesConfig {
+        guard let configData = try? cmd("cat", "\(basePath)fishy-joes.yaml").runString() else {
             throw ValidationError("missing config file fishy-joes.yaml")
         }
         guard let configObject = try? Yams.load(yaml: configData),
