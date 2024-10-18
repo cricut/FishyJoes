@@ -1,6 +1,6 @@
 import Foundation
 
-struct ModuleInfo: Codable {
-    let types: [ExternalTranslatedType]
+public struct ModuleInfo: Codable {
+    public let types: [ExternalTranslatedType]
     let typeScriptAnnotations: TypeScriptAnnotations
 }

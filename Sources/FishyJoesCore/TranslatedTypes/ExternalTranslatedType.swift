@@ -1,4 +1,4 @@
-struct ExternalTranslatedType: Codable {
+public struct ExternalTranslatedType: Codable {
     var sourceType: BetterType
     var converterType: BetterType
     var neutralName: String
@@ -9,7 +9,7 @@ struct ExternalTranslatedType: Codable {
     var cSharpType: CSharpClass.CSType
     var dartType: DartClass.DartType
     var isInhabited: Bool
-    var definingModule: Module
+    public var definingModule: Module
 
     internal init(
         sourceType: BetterType,

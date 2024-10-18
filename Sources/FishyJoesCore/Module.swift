@@ -1,11 +1,11 @@
 import Foundation
 
-struct Module: Hashable, CustomStringConvertible, Codable {
-    let name: String
-    let dependencies: [String]
-    let extraDynamicLibraries: [String]
+public struct Module: Hashable, CustomStringConvertible, Codable {
+    public let name: String
+    public let dependencies: [String]
+    public let extraDynamicLibraries: [String]
 
-    init(name: String, dependencies: [String], extraDynamicLibraries: [String] = []) {
+    public init(name: String, dependencies: [String], extraDynamicLibraries: [String] = []) {
         self.name = name
         self.dependencies = dependencies.sorted()
         self.extraDynamicLibraries = extraDynamicLibraries
@@ -14,9 +14,9 @@ struct Module: Hashable, CustomStringConvertible, Codable {
     var kotlinPackage: String { "com.cricut.\(name.lowercased())" }
     var cSharpNamespace: String { "Cricut.\(name)" }
     var dartNamespace: String { name }
-    var description: String { name }
+    public var description: String { name }
 
-    init(from decoder: any Decoder) throws {
+    public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.name = try container.decode(String.self, forKey: .name)
         self.dependencies = try container.decode([String].self, forKey: .dependencies)

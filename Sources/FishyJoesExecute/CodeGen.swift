@@ -1,4 +1,5 @@
 import ArgumentParser
+import FishyJoesCore
 import Foundation
 import swsh
 
@@ -171,6 +172,21 @@ extension CodeGen {
             // Locate dependency module configuration files
             let fishyJoesModuleFiles: [String] = dependencySourcePaths.compactMap {
                 $0.key == config.module ? nil : "\($0.value)\(ps)Generated\(ps)\($0.key).fishyjoesmodule"
+            }
+            
+            var extraDynamicLibsToCopy = Set<String>()
+            for path in fishyJoesModuleFiles {
+                let moduleInfo = Result {
+                    try JSONDecoder().decode(ModuleInfo.self, from: Data(contentsOf: URL(fileURLWithPath: path)))
+                }.mapError { error in
+                    fatalErr("error reading fishy joes module file at \(path):\n\(error)")
+                }.neverFails
+
+                moduleInfo.types.forEach {
+                    $0.definingModule.extraDynamicLibraries.forEach {
+                        extraDynamicLibsToCopy.insert($0)
+                    }
+                }
             }
 
             // Create / clean directories used by Sourcery to generate Swift and foreign language code files for the translated foreign languages
