@@ -317,7 +317,6 @@ let package = Package(
                 .product(name: "swsh", package: "swsh"),
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
                 .product(name: "Yams", package: "Yams"),
-                .target(name: "FishyJoesCore"),
             ],
             resources: [
                 .copy("Resources"),

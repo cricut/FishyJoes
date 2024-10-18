@@ -54,7 +54,7 @@ extension RandomAccessCollection {
 }
 
 extension Result where Failure == Never {
-    public var neverFails: Success {
+    var neverFails: Success {
         switch self {
         case .success(let success):
             return success
