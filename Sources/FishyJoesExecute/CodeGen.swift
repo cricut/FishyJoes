@@ -652,6 +652,15 @@ extension CodeGen {
 
                             """
                         }
+                        for xdl in config.extraDynamicLibraries {
+                            let nativeLibFilename = platform.dylibName(for: xdl)
+                            for destDirSuffix in ["macos", "ubuntu", "windows"] {
+                                postinstall += """
+                                    ln -sf "$(realpath \"$package_directory/output/node-native-\(destDirSuffix)/\(nativeLibFilename)\")" "\"\(nativeLibFilename)\""
+                                
+                                """
+                            }
+                        }
 
                         try cmd("cat")
                             .input(postinstall)
