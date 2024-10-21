@@ -844,16 +844,23 @@ extension CodeGen {
                     try cmd("dotnet", "pack", "-c", "Release", "c-sharp\(ps)\(name)\(ps)\(name).csproj", "/p:Version=\(version)").run()
                     try cmd("cp", "c-sharp\(ps)\(name)\(ps)bin\(ps)Release\(ps)\(name).\(version).nupkg", ".").run()
                 case .dart:
-                    try cmd(
-                        "tar",
-                        "-cvzf",
-                        "\(config.module)-bindings-dart-binaries.tgz",
-                        "-C",
-                        "dart",
-                        "macos/native/lib\(config.module){,-iota}.dylib",
-                        "linux/native/lib\(config.module){,-iota}.so",
-                        "windows/native/\(config.module){,-iota}.dll"
-                    ).run()
+                    let tarCmdArgs = [
+                        "-cvzf", "\(config.module)-bindings-dart-binaries.tgz", "-C", "dart"
+                    ] + config.extraDynamicLibraries.flatMap {
+                        [
+                            "macos/native/lib\($0).dylib",
+                            "linux/native/lib\($0).so",
+                            "windows/native/\($0).dll"
+                        ]
+                    } + [
+                        "macos/native/lib\(config.module).dylib",
+                        "macos/native/lib\(config.module)-iota.dylib",
+                        "linux/native/lib\(config.module).so",
+                        "linux/native/lib\(config.module)-iota.so",
+                        "windows/native/\(config.module).dll",
+                        "windows/native/\(config.module)-iota.dll"
+                    ]
+                    try cmd("tar", arguments: tarCmdArgs).run()
 
                     // Generate flutter package from dart package
                     try cmd("rm", "-rf", "dart\(ps)flutter-package").run()
