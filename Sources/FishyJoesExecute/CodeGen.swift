@@ -725,7 +725,7 @@ extension CodeGen {
                 case .dart:
                     // Install the module library, interfacing library, and required module libraries, signing if necessary
                     try cmd("mkdir", "-p", outputDir).run()
-                    var libs = Array(config.extraDynamicLibraries)
+                    var libs = config.extraDynamicLibraries
                     libs += [
                         "FishyJoesIotaRuntime",
                         config.module,
