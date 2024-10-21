@@ -720,7 +720,7 @@ extension CodeGen {
                 case .dart:
                     // Install the module library, interfacing library, and required module libraries, signing if necessary
                     try cmd("mkdir", "-p", outputDir).run()
-                    var libs = Array(extraDynamicLibsToInstall)
+                    var libs = Array(config.extraDynamicLibraries)
                     libs += [
                         "FishyJoesIotaRuntime",
                         config.module,
@@ -844,6 +844,17 @@ extension CodeGen {
                     try cmd("dotnet", "pack", "-c", "Release", "c-sharp\(ps)\(name)\(ps)\(name).csproj", "/p:Version=\(version)").run()
                     try cmd("cp", "c-sharp\(ps)\(name)\(ps)bin\(ps)Release\(ps)\(name).\(version).nupkg", ".").run()
                 case .dart:
+                    try cmd(
+                        "tar",
+                        "-cvzf",
+                        "\(config.module)-bindings-dart-binaries.tgz",
+                        "-C",
+                        "dart",
+                        "macos/native/lib\(config.module){,-iota}.dylib",
+                        "linux/native/lib\(config.module){,-iota}.so",
+                        "windows/native/\(config.module){,-iota}.dll"
+                    ).run()
+
                     // Generate flutter package from dart package
                     try cmd("rm", "-rf", "dart\(ps)flutter-package").run()
                     try cmd("mkdir", "-p", "dart\(ps)flutter-package\(ps)macos\(ps)native").run()
@@ -869,7 +880,10 @@ extension CodeGen {
                         (path: "windows\(ps)CMakeLists.txt", required: true),
                         (path: "windows\(ps)native\(ps)\(config.module).dll", required: false),
                         (path: "windows\(ps)native\(ps)\(config.module)-iota.dll", required: false),
-                    ]
+                    ] + 
+                    config.extraDynamicLibraries.map {
+                        (path: "macos\(ps)native\(ps)lib\($0).dylib", required: true)
+                    }
 
                     for (path, required) in installList {
                         if required {
