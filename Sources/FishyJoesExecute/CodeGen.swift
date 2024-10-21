@@ -157,10 +157,6 @@ extension CodeGen {
             $0.key == config.module ? nil : "\($0.value)\(ps)..\(ps)"
         }.map(FishyJoesConfig.readFromFile(basePath:))
 
-        // extraDynamicLibsToInstall is different from config.extraDynamicLibraries because it includes the extraDynamicLibraries of all the dependencies as well, instead of the ones just for this module. This is needed because say if CriSVG depends on the dynamic library CanvasModel and CriCanvas also depends on CanvasModel and on CriSVG as well, then we must install the CanvasModel library i.e. copy over the dynamic library to where the language environment needs it to run and test with, but we don't want to pass it to the generate/sourcery step where it's used to generate the kotlin LoaderRepresentative.kt file, because CriSVG will already load it there, so if we try to load the same dynamic CanvasModel library in CriCanvas's LoaderRepresentative we will get an error on Windows and Linux.
-        var extraDynamicLibsToInstall = Set<String>(config.extraDynamicLibraries)
-        fishyJoesYamlConfigs.forEach { extraDynamicLibsToInstall.formUnion($0.extraDynamicLibraries) }
-
         // MARK: - Generate Step
         if buildStep.contains(.generate) {
             #if os(Windows)
@@ -504,7 +500,7 @@ extension CodeGen {
                         }
                     }
                     if platform == .node {
-                        try extraDynamicLibsToInstall.forEach {
+                        try config.extraDynamicLibraries.forEach {
                             try installLibrary($0)
                         }
                         // Install the module library and Node interfacing library
@@ -703,7 +699,7 @@ extension CodeGen {
                 case .cSharp:
                     // Install the module library, interfacing library, and required module libraries
                     try cmd("mkdir", "-p", outputDir).run()
-                    var libs = Array(extraDynamicLibsToInstall)
+                    var libs = config.extraDynamicLibraries
                     libs += [
                         "FishyJoesIotaRuntime",
                         config.module,
@@ -839,6 +835,20 @@ extension CodeGen {
                     ()
                 case .cSharp:
                     // Pack using dotnet
+                    // The `XDL` initialism is used to denote `Extra dynamic library` below:
+                    // Currently, both direct XDLs and dependency's XDLs are copyied into the same directory for C# currently.
+                    // So we remove the dependency's XDLs here because we don't want to redundantly package them, as they are already packaged with the dependencies.
+                    var dependencyXDLs = Set<String>()
+                    fishyJoesYamlConfigs.forEach { dependencyXDLs.formUnion($0.extraDynamicLibraries) }
+                    let rmArgs = ["-f"] + dependencyXDLs.flatMap {
+                        [
+                            "c-sharp\(ps)Cricut.\(config.module)\(ps)runtimes\(ps)osx\(ps)native\(ps)lib\($0).dylib",
+                            "c-sharp\(ps)Cricut.\(config.module)\(ps)runtimes\(ps)linux\(ps)native\(ps)lib\($0).so",
+                            "c-sharp\(ps)Cricut.\(config.module)\(ps)runtimes\(ps)win\(ps)native\(ps)\($0).dll"
+                        ]
+                    }
+                    try cmd("rm", arguments: rmArgs).run()
+
                     let name = "Cricut.\(config.module)"
                     let version = version ?? "0.0.1-unknown"
                     try cmd("dotnet", "pack", "-c", "Release", "c-sharp\(ps)\(name)\(ps)\(name).csproj", "/p:Version=\(version)").run()
@@ -848,17 +858,17 @@ extension CodeGen {
                         "-cvzf", "\(config.module)-bindings-dart-binaries.tgz", "-C", "dart"
                     ] + config.extraDynamicLibraries.flatMap {
                         [
-                            "macos/native/lib\($0).dylib",
-                            "linux/native/lib\($0).so",
-                            "windows/native/\($0).dll"
+                            "macos\(ps)native\(ps)lib\($0).dylib",
+                            "linux\(ps)native\(ps)lib\($0).so",
+                            "windows\(ps)native\(ps)\($0).dll"
                         ]
                     } + [
-                        "macos/native/lib\(config.module).dylib",
-                        "macos/native/lib\(config.module)-iota.dylib",
-                        "linux/native/lib\(config.module).so",
-                        "linux/native/lib\(config.module)-iota.so",
-                        "windows/native/\(config.module).dll",
-                        "windows/native/\(config.module)-iota.dll"
+                        "macos\(ps)native\(ps)lib\(config.module).dylib",
+                        "macos\(ps)native\(ps)lib\(config.module)-iota.dylib",
+                        "linux\(ps)native\(ps)lib\(config.module).so",
+                        "linux\(ps)native\(ps)lib\(config.module)-iota.so",
+                        "windows\(ps)native\(ps)\(config.module).dll",
+                        "windows\(ps)native\(ps)\(config.module)-iota.dll"
                     ]
                     try cmd("tar", arguments: tarCmdArgs).run()
 
