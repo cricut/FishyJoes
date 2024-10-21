@@ -888,8 +888,12 @@ extension CodeGen {
                         (path: "windows\(ps)native\(ps)\(config.module).dll", required: false),
                         (path: "windows\(ps)native\(ps)\(config.module)-iota.dll", required: false),
                     ] + 
-                    config.extraDynamicLibraries.map {
-                        (path: "macos\(ps)native\(ps)lib\($0).dylib", required: true)
+                    config.extraDynamicLibraries.flatMap {
+                        [
+                            (path: "macos\(ps)native\(ps)lib\($0).dylib", required: true),
+                            (path: "linux\(ps)native\(ps)lib\($0).so", required: true),
+                            (path: "windows\(ps)native\(ps)\($0).dll", required: true)
+                        ]
                     }
 
                     for (path, required) in installList {
