@@ -657,7 +657,7 @@ extension CodeGen {
                             for destDirSuffix in ["macos", "ubuntu", "windows"] {
                                 postinstall += """
                                     ln -sf "$(realpath \"$package_directory/output/node-native-\(destDirSuffix)/\(nativeLibFilename)\")" "\"\(nativeLibFilename)\""
-                                
+
                                 """
                             }
                         }
@@ -906,7 +906,7 @@ extension CodeGen {
                         (path: "windows\(ps)CMakeLists.txt", required: true),
                         (path: "windows\(ps)native\(ps)\(config.module).dll", required: false),
                         (path: "windows\(ps)native\(ps)\(config.module)-iota.dll", required: false),
-                    ] + 
+                    ] +
                     config.extraDynamicLibraries.flatMap {
                         [
                             (path: "macos\(ps)native\(ps)lib\($0).dylib", required: true),
