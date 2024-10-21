@@ -694,7 +694,8 @@ extension CodeGen {
                         .run()
                 case .kotlinSystem, .kotlinAndroid:
                     // Install the module library and interfacing JNI library
-                    try extraDynamicLibsToInstall.forEach {
+                    // Don't copy over any dependency's extraDynamicLibraries for Kotlin because it's bundled by maven from the dependency.
+                    try config.extraDynamicLibraries.forEach {
                         try installLibrary($0)
                     }
                     try installLibrary(config.module)
