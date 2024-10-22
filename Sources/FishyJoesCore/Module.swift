@@ -5,7 +5,11 @@ struct Module: Hashable, CustomStringConvertible, Codable {
     let dependencies: [String]
     let extraDynamicLibraries: [String]
 
-    init(name: String, dependencies: [String], extraDynamicLibraries: [String] = []) {
+    init(
+        name: String,
+        dependencies: [String],
+        extraDynamicLibraries: [String] = []
+    ) {
         self.name = name
         self.dependencies = dependencies.sorted()
         self.extraDynamicLibraries = extraDynamicLibraries

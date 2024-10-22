@@ -101,7 +101,7 @@ extension CodeGen {
             throw ValidationError("No Package.swift found in current directory. fishy-joes must be run in the root of the bindings package")
         }
 
-        config = try FishyJoesConfig.readFromFile()
+        config = try FishyJoesConfig.readFromFile(basePath: ".\(ps)")
 
         if wasm {
             platforms.append(.wasm)
@@ -151,6 +151,11 @@ extension CodeGen {
             let dependencySourcesPath = dependencyPath + "\(ps)Sources"
             dependencySourcePaths[moduleName] = dependencySourcesPath
         }
+
+        // Locate dependencies yaml files
+        let fishyJoesYamlConfigs: [FishyJoesConfig] = try dependencySourcePaths.compactMap {
+            $0.key == config.module ? nil : "\($0.value)\(ps)..\(ps)"
+        }.map(FishyJoesConfig.readFromFile(basePath:))
 
         // MARK: - Generate Step
         if buildStep.contains(.generate) {
@@ -637,7 +642,6 @@ extension CodeGen {
                             package_directory=".."
                         fi
 
-
                         """
 
                         for dependency in nodeDependencies {
@@ -685,6 +689,7 @@ extension CodeGen {
                         .run()
                 case .kotlinSystem, .kotlinAndroid:
                     // Install the module library and interfacing JNI library
+                    // Don't copy over any dependency's extraDynamicLibraries for Kotlin because it's bundled by maven from the dependency.
                     try config.extraDynamicLibraries.forEach {
                         try installLibrary($0)
                     }
@@ -829,11 +834,43 @@ extension CodeGen {
                     ()
                 case .cSharp:
                     // Pack using dotnet
+                    // The `XDL` initialism is used to denote `Extra dynamic library` below:
+                    // Currently, both direct XDLs and dependency's XDLs are copyied into the same directory for C# currently.
+                    // So we remove the dependency's XDLs here because we don't want to redundantly package them, as they are already packaged with the dependencies.
+                    var dependencyXDLs = Set<String>()
+                    fishyJoesYamlConfigs.forEach { dependencyXDLs.formUnion($0.extraDynamicLibraries) }
+                    let rmArgs = ["-f"] + dependencyXDLs.flatMap {
+                        [
+                            "c-sharp\(ps)Cricut.\(config.module)\(ps)runtimes\(ps)osx\(ps)native\(ps)lib\($0).dylib",
+                            "c-sharp\(ps)Cricut.\(config.module)\(ps)runtimes\(ps)linux\(ps)native\(ps)lib\($0).so",
+                            "c-sharp\(ps)Cricut.\(config.module)\(ps)runtimes\(ps)win\(ps)native\(ps)\($0).dll"
+                        ]
+                    }
+                    try cmd("rm", arguments: rmArgs).run()
+
                     let name = "Cricut.\(config.module)"
                     let version = version ?? "0.0.1-unknown"
                     try cmd("dotnet", "pack", "-c", "Release", "c-sharp\(ps)\(name)\(ps)\(name).csproj", "/p:Version=\(version)").run()
                     try cmd("cp", "c-sharp\(ps)\(name)\(ps)bin\(ps)Release\(ps)\(name).\(version).nupkg", ".").run()
                 case .dart:
+                    let tarCmdArgs = [
+                        "-cvzf", "\(config.module)-bindings-dart-binaries.tgz", "-C", "dart"
+                    ] + config.extraDynamicLibraries.flatMap {
+                        [
+                            "macos\(ps)native\(ps)lib\($0).dylib",
+                            "linux\(ps)native\(ps)lib\($0).so",
+                            "windows\(ps)native\(ps)\($0).dll"
+                        ]
+                    } + [
+                        "macos\(ps)native\(ps)lib\(config.module).dylib",
+                        "macos\(ps)native\(ps)lib\(config.module)-iota.dylib",
+                        "linux\(ps)native\(ps)lib\(config.module).so",
+                        "linux\(ps)native\(ps)lib\(config.module)-iota.so",
+                        "windows\(ps)native\(ps)\(config.module).dll",
+                        "windows\(ps)native\(ps)\(config.module)-iota.dll"
+                    ]
+                    try cmd("tar", arguments: tarCmdArgs).run()
+
                     // Generate flutter package from dart package
                     try cmd("rm", "-rf", "dart\(ps)flutter-package").run()
                     try cmd("mkdir", "-p", "dart\(ps)flutter-package\(ps)macos\(ps)native").run()
@@ -859,7 +896,14 @@ extension CodeGen {
                         (path: "windows\(ps)CMakeLists.txt", required: true),
                         (path: "windows\(ps)native\(ps)\(config.module).dll", required: false),
                         (path: "windows\(ps)native\(ps)\(config.module)-iota.dll", required: false),
-                    ]
+                    ] +
+                    config.extraDynamicLibraries.flatMap {
+                        [
+                            (path: "macos\(ps)native\(ps)lib\($0).dylib", required: false),
+                            (path: "linux\(ps)native\(ps)lib\($0).so", required: false),
+                            (path: "windows\(ps)native\(ps)\($0).dll", required: false)
+                        ]
+                    }
 
                     for (path, required) in installList {
                         if required {

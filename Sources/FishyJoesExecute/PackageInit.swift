@@ -3,6 +3,8 @@ import Foundation
 import swsh
 import Yams
 
+private let ps = Platform.pathSeparator
+
 public struct PackageInit: ParsableCommand {
     public static var configuration = CommandConfiguration(abstract: "create/update the recommended files for a bindings repo in the current directory")
 
@@ -25,7 +27,7 @@ public struct PackageInit: ParsableCommand {
             }
             Log.warn("Uncommitted changes present. Continuing anyway.")
         }
-        config = try (try? FishyJoesConfig.readFromFile()) ?? promptForConfig()
+        config = try (try? FishyJoesConfig.readFromFile(basePath: ".\(ps)")) ?? promptForConfig()
 
         let sourcePath = Bundle.module.resourceURL!.appendingPathComponent("bindings-template", isDirectory: true).path
         let destPath = FileManager.default.currentDirectoryPath
@@ -177,7 +179,7 @@ public struct PackageInit: ParsableCommand {
         )
 
         let extraDynamicLibraries = try Interactive.prompt(
-            "Dynamic libraries that do not have a -bindings repo and so are not in the requiredModules of \(module), space separated. Default []: ",
+            "Dynamic library names that do not have a -bindings repo and so are not in the requiredModules of \(module), space separated. Default []: ",
             allowEmpty: true
         )
 
