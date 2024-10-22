@@ -656,7 +656,7 @@ extension CodeGen {
                             let nativeLibFilename = platform.dylibName(for: xdl)
                             for destDirSuffix in ["macos", "ubuntu", "windows"] {
                                 postinstall += """
-                                    ln -sf "$(realpath \"$package_directory/output/\(config.module.lowercased())-native-\(destDirSuffix)/\(nativeLibFilename)\")" "\"\(nativeLibFilename)\""
+                                    ln -sf "$(realpath \"$package_directory/\(config.module.lowercased())-native-\(destDirSuffix)/\(nativeLibFilename)\")" "\"\(nativeLibFilename)\""
 
                                 """
                             }
