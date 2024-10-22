@@ -654,12 +654,11 @@ extension CodeGen {
                         }
                         for xdl in config.extraDynamicLibraries {
                             let nativeLibFilename = platform.dylibName(for: xdl)
-                            for destDirSuffix in ["macos", "ubuntu", "windows"] {
-                                postinstall += """
-                                    ln -sf "$(realpath \"$package_directory/\(config.module.lowercased())-native-\(destDirSuffix)/\(nativeLibFilename)\")" "\"\(nativeLibFilename)\""
-
-                                """
-                            }
+                            let dependencyNpmPackageName = "\(config.module.lowercased())-\(platform.nodeExecutionEnvironment)"
+                            postinstall += """
+                                ln -sf "$(realpath \"$package_directory/\(dependencyNpmPackageName)/\(nativeLibFilename)\")" "\"\(nativeLibFilename)\""
+                            
+                            """
                         }
 
                         try cmd("cat")
