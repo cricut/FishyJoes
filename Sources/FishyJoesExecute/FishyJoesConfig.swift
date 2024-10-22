@@ -7,7 +7,6 @@ struct FishyJoesConfig: Codable {
     let publishRepository: String?
     let requiredModules: [String]
     let extraDynamicLibraries: [String]
-    let extraDynamicLibrariesRepoNames: [String]
     let excludeSources: [String]
 
     static func readFromFile(basePath: String) throws -> FishyJoesConfig {
@@ -51,12 +50,6 @@ struct FishyJoesConfig: Codable {
             }
             return list
         }
-        let extraDynamicLibrariesRepoNames = try configDictionary["extraDynamicLibrariesRepoNames"].map { obj -> [String] in
-            guard let list = obj as? [String] else {
-                throw ValidationError("fishy-joes.yaml value for key `extraDynamicLibrariesRepoNames` is not an array of file names")
-            }
-            return list
-        }
         let excludeSources = try configDictionary["excludeSources"].map { obj -> [String] in
             guard let list = obj as? [String] else {
                 throw ValidationError("fishy-joes.yaml value for key `excludeSources` is not an array of file or directory paths")
@@ -68,7 +61,6 @@ struct FishyJoesConfig: Codable {
             publishRepository: publishRepository,
             requiredModules: requiredModules ?? [],
             extraDynamicLibraries: extraDynamicLibraries ?? [],
-            extraDynamicLibrariesRepoNames: extraDynamicLibrariesRepoNames ?? [],
             excludeSources: excludeSources ?? []
         )
     }

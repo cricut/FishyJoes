@@ -621,15 +621,6 @@ extension CodeGen {
                     for dependency in nodeDependencies {
                         npmDependencies["@cricut/\(dependency.npmPackageName)"] = dependency.npmModuleVersion
                     }
-                    for (xdl, xdlRepoName) in zip(config.extraDynamicLibraries, config.extraDynamicLibrariesRepoNames) {
-                        guard let dependency = packageInfo.dependencyMap[xdlRepoName] else {
-                            fatalError("Could not locate dependency \(xdlRepoName) in Package.swift")
-                        }
-                        let dependencyNpmPackageName = "\(config.module.lowercased())-\(platform.nodeExecutionEnvironment)"
-                        // Use a file-local dependency
-                        let dependencyNpmModuleVersion = "file:\(dependency.localPath)\(ps)output\(ps)\(platform.platform)"
-                        npmDependencies["@cricut/\(dependencyNpmPackageName)"] = dependencyNpmModuleVersion
-                    }
                     var package = NPMPackage(
                         config: config,
                         platform: platform,
@@ -666,14 +657,6 @@ extension CodeGen {
                             postinstall += """
                                 ln -sf "$(realpath \"$package_directory/\(dependency.npmPackageName)/\(nativeLibFilename)\")" "\"\(nativeLibFilename)\""
 
-                            """
-                        }
-                        for (xdl, xdlRepoName) in zip(config.extraDynamicLibraries, config.extraDynamicLibrariesRepoNames) {
-                            let nativeLibFilename = platform.dylibName(for: xdl)
-                            let dependencyNpmPackageName = "\(config.module.lowercased())-\(platform.nodeExecutionEnvironment)"
-                            postinstall += """
-                                ln -sf "$(realpath \"$package_directory/\(dependencyNpmPackageName)/\(nativeLibFilename)\")" "\"\(nativeLibFilename)\""
-                            
                             """
                         }
 
