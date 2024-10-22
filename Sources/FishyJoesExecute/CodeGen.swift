@@ -621,6 +621,15 @@ extension CodeGen {
                     for dependency in nodeDependencies {
                         npmDependencies["@cricut/\(dependency.npmPackageName)"] = dependency.npmModuleVersion
                     }
+                    for (xdl, xdlRepoName) in zip(config.extraDynamicLibraries, config.extraDynamicLibrariesRepoNames) {
+                        guard let dependency = packageInfo.dependencyMap[xdlRepoName] else {
+                            fatalError("Could not locate dependency \(xdlRepoName) in Package.swift")
+                        }
+                        let dependencyNpmPackageName = "\(config.module.lowercased())-\(platform.nodeExecutionEnvironment)"
+                        // Use a file-local dependency
+                        let dependencyNpmModuleVersion = "file:\(dependency.localPath)\(ps)output\(ps)\(platform.platform)"
+                        npmDependencies["@cricut/\(dependencyNpmPackageName)"] = dependencyNpmModuleVersion
+                    }
                     var package = NPMPackage(
                         config: config,
                         platform: platform,
@@ -642,6 +651,13 @@ extension CodeGen {
                             package_directory=".."
                         fi
 
+                        echo "npm_package_version: ${npm_package_version}"
+                        echo "package_directory: ${package_directory}"
+                        echo "pwd: "
+                        pwd
+                        
+                        echo "finding: "
+                        find . -iname "*crisvg*"
 
                         """
 
@@ -652,7 +668,7 @@ extension CodeGen {
 
                             """
                         }
-                        for xdl in config.extraDynamicLibraries {
+                        for (xdl, xdlRepoName) in zip(config.extraDynamicLibraries, config.extraDynamicLibrariesRepoNames) {
                             let nativeLibFilename = platform.dylibName(for: xdl)
                             let dependencyNpmPackageName = "\(config.module.lowercased())-\(platform.nodeExecutionEnvironment)"
                             postinstall += """

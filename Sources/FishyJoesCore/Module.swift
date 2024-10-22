@@ -4,11 +4,18 @@ struct Module: Hashable, CustomStringConvertible, Codable {
     let name: String
     let dependencies: [String]
     let extraDynamicLibraries: [String]
+    let extraDynamicLibrariesRepoNames: [String]
 
-    init(name: String, dependencies: [String], extraDynamicLibraries: [String] = []) {
+    init(
+        name: String,
+        dependencies: [String],
+        extraDynamicLibraries: [String] = [],
+        extraDynamicLibrariesRepoNames: [String] = []
+    ) {
         self.name = name
         self.dependencies = dependencies.sorted()
         self.extraDynamicLibraries = extraDynamicLibraries
+        self.extraDynamicLibrariesRepoNames = extraDynamicLibrariesRepoNames
     }
 
     var kotlinPackage: String { "com.cricut.\(name.lowercased())" }
@@ -21,6 +28,7 @@ struct Module: Hashable, CustomStringConvertible, Codable {
         self.name = try container.decode(String.self, forKey: .name)
         self.dependencies = try container.decode([String].self, forKey: .dependencies)
         self.extraDynamicLibraries = try container.decodeIfPresent([String].self, forKey: .extraDynamicLibraries) ?? []
+        self.extraDynamicLibrariesRepoNames = try container.decodeIfPresent([String].self, forKey: .extraDynamicLibrariesRepoNames) ?? []
     }
 }
 
