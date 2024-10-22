@@ -646,7 +646,7 @@ extension CodeGen {
                         echo "package_directory: ${package_directory}"
                         echo "pwd: "
                         pwd
-                        
+
                         echo "finding: "
                         find . -iname "*crisvg*"
 
