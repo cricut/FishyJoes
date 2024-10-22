@@ -642,14 +642,6 @@ extension CodeGen {
                             package_directory=".."
                         fi
 
-                        echo "npm_package_version: ${npm_package_version}"
-                        echo "package_directory: ${package_directory}"
-                        echo "pwd: "
-                        pwd
-
-                        echo "finding: "
-                        find . -iname "*crisvg*"
-
                         """
 
                         for dependency in nodeDependencies {
@@ -907,9 +899,9 @@ extension CodeGen {
                     ] +
                     config.extraDynamicLibraries.flatMap {
                         [
-                            (path: "macos\(ps)native\(ps)lib\($0).dylib", required: true),
-                            (path: "linux\(ps)native\(ps)lib\($0).so", required: true),
-                            (path: "windows\(ps)native\(ps)\($0).dll", required: true)
+                            (path: "macos\(ps)native\(ps)lib\($0).dylib", required: false),
+                            (path: "linux\(ps)native\(ps)lib\($0).so", required: false),
+                            (path: "windows\(ps)native\(ps)\($0).dll", required: false)
                         ]
                     }
 
