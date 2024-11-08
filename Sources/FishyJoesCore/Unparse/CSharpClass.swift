@@ -300,21 +300,6 @@ extension CSharpClass.CSType: Equatable, CustomStringConvertible {
         let marshalAsType: String?
         let name: String
 
-        init(consumed type: CSharpClass.CSType) {
-            marshalAsType = type == .bool ? "UnmanagedType.I1" : nil
-            name = type.isObject ? "ConsumedRef" : type.name
-        }
-
-        init(created type: CSharpClass.CSType) {
-            marshalAsType = type == .bool ? "UnmanagedType.I1" : nil
-            name = type.isObject ? "CreatedRef" : type.name
-        }
-
-        init(unowned type: CSharpClass.CSType) {
-            marshalAsType = type == .bool ? "UnmanagedType.I1" : nil
-            name = type.isObject ? "UnownedRef" : type.name
-        }
-
         /// Annotation for marking an FFI function that returns this type
         var returnMark: [String] {
             if let marshalType = marshalAsType {
@@ -347,15 +332,24 @@ extension CSharpClass.CSType: Equatable, CustomStringConvertible {
     }
 
     var pInvokeConsumedName: MarshalledType {
-        MarshalledType(consumed: self)
+        MarshalledType(
+            marshalAsType: self == .bool ? "UnmanagedType.I1" : nil,
+            name: isObject ? "ConsumedRef" : name
+        )
     }
 
     var pInvokeCreatedName: MarshalledType {
-        MarshalledType(created: self)
+        MarshalledType(
+            marshalAsType: self == .bool ? "UnmanagedType.I1" : nil,
+            name: isObject ? "CreatedRef" : name
+        )
     }
 
     var pInvokeUnownedName: MarshalledType {
-        MarshalledType(unowned: self)
+        MarshalledType(
+            marshalAsType: self == .bool ? "UnmanagedType.I1" : nil,
+            name: isObject ? "UnownedRef" : name
+        )
     }
 
     var package: String? {
