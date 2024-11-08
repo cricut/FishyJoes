@@ -209,3 +209,14 @@ test('ObjectsWithPrimitiveMembers', () => {
     s.b = !s.b
     expect(s).not.toEqual(TestAPI.Primitives.defaultPrimitiveHolder);
 });
+
+test('BoolOverflow', () => {
+    expect(
+        Primitives.BoolOverflow(
+            true, false, true, false,
+            false, true, false, true,
+            true, false, true, false,
+            false, true, false, true
+        )
+    ).toEqual(8);
+});

@@ -194,4 +194,17 @@ internal class PrimitiveTests {
         s.b = !s.b
         assertNotEquals(s, Primitives.defaultPrimitiveHolder)
     }
+
+    @Test
+    fun testBoolOverflow() {
+        assertEquals(
+            Primitives.BoolOverflow(
+                true, false, true, false,
+                false, true, false, true,
+                true, false, true, false,
+                false, true, false, true
+            ),
+            8
+        )
+    }
 }
