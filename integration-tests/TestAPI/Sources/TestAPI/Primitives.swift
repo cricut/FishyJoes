@@ -217,7 +217,7 @@ public enum Primitives {
         _ b8: Bool, _ b9: Bool, _ ba: Bool, _ bb: Bool,
         _ bc: Bool, _ bd: Bool, _ be: Bool, _ bf: Bool
     ) -> Int {
-        [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, ba, bb, bc, bd, be, bf].count { $0 }
+        [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, ba, bb, bc, bd, be, bf].filter { $0 }.count
     }
 
     // MARK: - Functions Taking Closures with Primitive Types
