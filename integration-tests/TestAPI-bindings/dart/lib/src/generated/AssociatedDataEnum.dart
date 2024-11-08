@@ -91,7 +91,8 @@ sealed class AssociatedDataEnum {
 
     const factory AssociatedDataEnum.bar(
         String named,
-        TestAPI.AssociatedDataEnum m_1
+        TestAPI.AssociatedDataEnum m_1,
+        bool toggled
     ) = AssociatedDataEnum_Bar;
 
     const factory AssociatedDataEnum.noValue(
@@ -160,11 +161,13 @@ sealed class AssociatedDataEnum {
     static CreatedRef newBar(
         ConsumedRef _named,
         ConsumedRef __1,
+        bool _toggled,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(AssociatedDataEnum_Bar(
             consumeRef<String>(_named),
             consumeRef<TestAPI.AssociatedDataEnum>(__1),
+            _toggled,
         ))
     );
 
@@ -172,12 +175,14 @@ sealed class AssociatedDataEnum {
         UnownedRef obj,
         OutCreatedRef _named,
         OutCreatedRef __1,
+        ffi.Pointer<ffi.Bool> _toggled,
         OutCreatedRef exn
     ) {
         catching(exn, () {
             final _self = peekRef<AssociatedDataEnum_Bar>(obj);
             _named.value = createRef(_self.named);
             __1.value = createRef(_self.m_1);
+            _toggled.value = _self.toggled;
         });
     }
 
@@ -338,11 +343,13 @@ class AssociatedDataEnum_Other extends AssociatedDataEnum {
 class AssociatedDataEnum_Bar extends AssociatedDataEnum {
     const AssociatedDataEnum_Bar(
         this.named,
-        this.m_1
+        this.m_1,
+        this.toggled
     );
 
     final String named;
     final TestAPI.AssociatedDataEnum m_1;
+    final bool toggled;
 
     @override
     bool operator ==(Object other) {
@@ -352,7 +359,8 @@ class AssociatedDataEnum_Bar extends AssociatedDataEnum {
             other is AssociatedDataEnum_Bar &&
             (
                 const DeepCollectionEquality().equals(other.named, named) &&
-                const DeepCollectionEquality().equals(other.m_1, m_1)
+                const DeepCollectionEquality().equals(other.m_1, m_1) &&
+                const DeepCollectionEquality().equals(other.toggled, toggled)
             )
         );
     }
@@ -361,18 +369,21 @@ class AssociatedDataEnum_Bar extends AssociatedDataEnum {
     int get hashCode => Object.hash(
         runtimeType,
         const DeepCollectionEquality().hash(named), 
-        const DeepCollectionEquality().hash(m_1)
+        const DeepCollectionEquality().hash(m_1), 
+        const DeepCollectionEquality().hash(toggled)
     );
 
     @override
-    String toString() => 'AssociatedDataEnum.bar(named: $named, m_1: $m_1)';
+    String toString() => 'AssociatedDataEnum.bar(named: $named, m_1: $m_1, toggled: $toggled)';
 
     AssociatedDataEnum_Bar copyWith([
         String? named,
-        TestAPI.AssociatedDataEnum? m_1
+        TestAPI.AssociatedDataEnum? m_1,
+        bool? toggled
     ]) => AssociatedDataEnum_Bar(
         named ?? this.named,
-        m_1 ?? this.m_1
+        m_1 ?? this.m_1,
+        toggled ?? this.toggled
     );
 }
 

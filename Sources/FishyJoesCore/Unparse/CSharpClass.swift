@@ -176,7 +176,9 @@ class CSharpClass: NestedClass {
 
         fragment.blankLine()
         fragment.output(module.dllImportMark)
-        fragment.output("private static extern \(field.type.pInvokeCreatedName) \(getterName)(IntPtr envRef, \(selfFormal)out CreatedRef exn);")
+        let created = field.type.pInvokeCreatedName
+        created.outputReturnMark(to: fragment)
+        fragment.output("private static extern \(created.name) \(getterName)(IntPtr envRef, \(selfFormal)out CreatedRef exn);")
         if field.isPubliclyWritable {
             fragment.blankLine()
             fragment.output(module.dllImportMark)
@@ -238,7 +240,9 @@ class CSharpClass: NestedClass {
         if method.body == nil {
             fragment.blankLine()
             fragment.output(module.dllImportMark)
-            fragment.outputBlock("private static extern \(method.returnType.pInvokeCreatedName) __iota_\(method.mangledName)(", closeWith: ");") {
+            let created = method.returnType.pInvokeCreatedName
+            created.outputReturnMark(to: fragment)
+            fragment.outputBlock("private static extern \(created.name) __iota_\(method.mangledName)(", closeWith: ");") {
                 fragment.output("IntPtr envRef,")
                 if !method.isStatic {
                     fragment.output("\(CSType.object.pInvokeUnownedName) self,")
@@ -253,7 +257,7 @@ class CSharpClass: NestedClass {
     }
 }
 
-extension CSharpClass.CSType: CustomStringConvertible {
+extension CSharpClass.CSType: Equatable, CustomStringConvertible {
     static var object: Self {
         return .named(package: nil, name: "object")
     }
@@ -288,16 +292,64 @@ extension CSharpClass.CSType: CustomStringConvertible {
         }
     }
 
-    var pInvokeConsumedName: String {
-        isObject ? "ConsumedRef" : name
+    static let bool: CSharpClass.CSType = .primitive("bool")
+
+    /// A CSharp type with an optional annotation specifying how it should be marshalled through the FFI.
+    /// Currently only Bool uses this customization
+    struct MarshalledType: CustomStringConvertible {
+        let marshalAsType: String?
+        let name: String
+
+        /// Annotation for marking an FFI function that returns this type
+        var returnMark: [String] {
+            if let marshalType = marshalAsType {
+                return ["[return: MarshalAs(\(marshalType))]"]
+            } else {
+                return []
+            }
+        }
+
+        /// Output the annotation for marking an FFI function that returns this type to fragment
+        func outputReturnMark(to fragment: SourceFragment) {
+            returnMark.forEach { fragment.output($0) }
+        }
+
+        var description: String {
+            if let marshalType = marshalAsType {
+                return "[MarshalAs(\(marshalType))] \(name)"
+            } else {
+                return name
+            }
+        }
+
+        var asRefArg: String {
+            if let marshalType = marshalAsType {
+                return "[MarshalAs(\(marshalType))] ref \(name)"
+            } else {
+                return "ref \(name)"
+            }
+        }
     }
 
-    var pInvokeCreatedName: String {
-        isObject ? "CreatedRef" : name
+    var pInvokeConsumedName: MarshalledType {
+        MarshalledType(
+            marshalAsType: self == .bool ? "UnmanagedType.I1" : nil,
+            name: isObject ? "ConsumedRef" : name
+        )
     }
 
-    var pInvokeUnownedName: String {
-        isObject ? "UnownedRef" : name
+    var pInvokeCreatedName: MarshalledType {
+        MarshalledType(
+            marshalAsType: self == .bool ? "UnmanagedType.I1" : nil,
+            name: isObject ? "CreatedRef" : name
+        )
+    }
+
+    var pInvokeUnownedName: MarshalledType {
+        MarshalledType(
+            marshalAsType: self == .bool ? "UnmanagedType.I1" : nil,
+            name: isObject ? "UnownedRef" : name
+        )
     }
 
     var package: String? {

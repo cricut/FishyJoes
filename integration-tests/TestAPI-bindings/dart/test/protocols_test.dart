@@ -76,9 +76,9 @@ void main() {
 
         expect(testProtocolClass.spqr(AssociatedDataEnum.thing(23947889)), equals(23947889));
         expect(testProtocolClass.spqr(AssociatedDataEnum.other("zxc", 89708973)), equals(89708973));
-        expect(testProtocolClass.spqr(AssociatedDataEnum.bar("shme", AssociatedDataEnum.noValue())), equals(45));
+        expect(testProtocolClass.spqr(AssociatedDataEnum.bar("shme", AssociatedDataEnum.noValue(), true)), equals(45));
         expect(testProtocolClass.spqr(AssociatedDataEnum.noValue()), equals(42));
-        expect(testProtocolClass.spqr(AssociatedDataEnum.simpleEnum(SimpleEnum.blue())), equals(1));        
+        expect(testProtocolClass.spqr(AssociatedDataEnum.simpleEnum(SimpleEnum.blue())), equals(1));
 
         testProtocolClass.foo();
         expect(testProtocolClass.bar(), equals(true));
@@ -101,7 +101,7 @@ void main() {
         final b = a.intCompose(
           (x) {
           return Future.delayed(const Duration(seconds: 0), () => x * 3);
-          }, 
+          },
           (y) {
           return Future.delayed(const Duration(seconds: 0), () => y * 5);
           }
@@ -116,7 +116,7 @@ void main() {
           int64MaxValue,
           double.minPositive,
           "Captain Planet!",
-          () { 
+          () {
             return Future.delayed(const Duration(seconds: 0), () => 42);
           }
         );
@@ -126,7 +126,7 @@ void main() {
           24,
           3.14159265359,
           "Beetleborgs",
-          () { 
+          () {
             return Future.delayed(const Duration(seconds: 0), () => 43);
           },
           int64MinValue
@@ -141,7 +141,7 @@ void main() {
         expect(h, equals("-105"));
 
         final i = await a.exercise2(
-          (a, b) { 
+          (a, b) {
             return (z) async {
               return (await a(3)) + (await b(3)) + z;
             };
@@ -208,22 +208,22 @@ void main() {
           },
           add3Things: (x, y, z) async {
             return x.toDouble() + y + z.toDouble();
-          }, 
+          },
           makeList: (a, b, c, d) async {
             return [a, b, c, d];
-          }, 
+          },
           fifthThing: (a, b, c, d, e) async {
             return e;
-          }, 
-          six: (a, b, c, d, e, f) async { 
+          },
+          six: (a, b, c, d, e, f) async {
             return f;
-          }, 
+          },
           willThrow: () async {
             throw(Exception('Spoon!'));
-          }, 
+          },
           exercise0Fun: (fn) async {
             return "${await fn() * 2}";
-          }, 
+          },
           exercise1Fun: (fn) async {
             return "${await fn(-7)}";
           },
@@ -246,7 +246,7 @@ void main() {
             final y = await fn("78", 6, 4.2, "12", () async { return 654; }, 98);
             return "$y";
           },
-          thunkTwiceMakerFun: (thunk) { 
+          thunkTwiceMakerFun: (thunk) {
             return () async {
               await thunk();
               await thunk();
@@ -283,7 +283,7 @@ void main() {
         final b = a.intCompose(
           (x) {
           return Future.delayed(const Duration(seconds: 0), () => x * 3);
-          }, 
+          },
           (y) {
           return Future.delayed(const Duration(seconds: 0), () => y * 5);
           }
@@ -296,7 +296,7 @@ void main() {
           int64MaxValue,
           double.minPositive,
           "Captain Planet!",
-          () { 
+          () {
             return Future.delayed(const Duration(seconds: 0), () => 42);
           }
         );
@@ -306,7 +306,7 @@ void main() {
           24,
           3.14159265359,
           "Beetleborgs",
-          () { 
+          () {
             return Future.delayed(const Duration(seconds: 0), () => 43);
           },
           int64MinValue
@@ -321,7 +321,7 @@ void main() {
         expect(h, equals("-45"));
 
         final i = await a.exercise2(
-          (a, b) { 
+          (a, b) {
             return (z) async {
               return (await a(3)) + (await b(3)) + z;
             };
@@ -547,7 +547,7 @@ class TestAsyncFunctionsImpl implements TestAPI.TestAsyncFunctions {
     }
     @override
     Future<int> Function(String, int, double, String, Future<int> Function(), int) get six {
-      return (a, b, c, d, e, f) async { 
+      return (a, b, c, d, e, f) async {
         return f;
       };
     }

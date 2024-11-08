@@ -67,10 +67,11 @@ namespace Cricut.TestAPI {
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool __iota_get_TestAPI_TestDefaultComputedPropertiesClass_spam(IntPtr envRef, UnownedRef self, out CreatedRef exn);
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern void __iota_set_TestAPI_TestDefaultComputedPropertiesClass_spam(IntPtr envRef, UnownedRef self, bool value, out CreatedRef exn);
+        private static extern void __iota_set_TestAPI_TestDefaultComputedPropertiesClass_spam(IntPtr envRef, UnownedRef self, [MarshalAs(UnmanagedType.I1)] bool value, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(noot) -->
@@ -93,7 +94,7 @@ namespace Cricut.TestAPI {
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_TestAPI_TestDefaultComputedPropertiesClass_init(
             IntPtr envRef,
-            bool spam,
+            [MarshalAs(UnmanagedType.I1)] bool spam,
             nint noot,
             out CreatedRef exn
         );

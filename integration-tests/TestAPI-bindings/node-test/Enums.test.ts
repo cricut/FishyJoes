@@ -26,7 +26,7 @@ test('testSimpleEnum', () => {
 
 test('AssociatedDataEnum', () => {
     const shape1 = (x: number) => new TestAPI.AssociatedDataEnum.Thing(x)
-    const shape2 = (x: string, y: string, z: number) => new TestAPI.AssociatedDataEnum.Bar(x, new TestAPI.AssociatedDataEnum.Other(y, z))
+    const shape2 = (x: string, y: string, z: number) => new TestAPI.AssociatedDataEnum.Bar(x, new TestAPI.AssociatedDataEnum.Other(y, z), true)
 
     expect((shape2("1", "2", 3)._1 as TestAPI.AssociatedDataEnum.Other)._1).toEqual(3)
     expect(TestAPI.AssociatedDataEnum.staticThing).toEqual(shape1(2))

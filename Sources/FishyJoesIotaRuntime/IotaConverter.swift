@@ -77,8 +77,7 @@ extension VoidConverter: IotaConverter {
 }
 
 extension Bool: IotaConverter {
-    // TODO: possible to marshall as 1-byte, but requires weird annotations
-    public typealias CType = UInt32
+    public typealias CType = UInt8
 
     public typealias ValueMethod = @convention(c) (foreignObject, foreignOutExn) -> CType
 

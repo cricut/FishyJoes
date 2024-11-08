@@ -181,7 +181,7 @@ test('testProtocolClass', () => {
 
     expect(testProtocolClass.spqr(new TestAPI.AssociatedDataEnum.Thing(23947889))).toEqual(23947889);
     expect(testProtocolClass.spqr(new TestAPI.AssociatedDataEnum.Other("zxc", 89708973))).toEqual(89708973);
-    expect(testProtocolClass.spqr(new TestAPI.AssociatedDataEnum.Bar("shme", new TestAPI.AssociatedDataEnum.NoValue()))).toEqual(45);
+    expect(testProtocolClass.spqr(new TestAPI.AssociatedDataEnum.Bar("shme", new TestAPI.AssociatedDataEnum.NoValue(), true))).toEqual(45);
     expect(testProtocolClass.spqr(new TestAPI.AssociatedDataEnum.NoValue())).toEqual(42);
     expect(testProtocolClass.spqr(new TestAPI.AssociatedDataEnum.SimpleEnum("blue"))).toEqual(1);
 

@@ -79,7 +79,7 @@ namespace Cricut.TestAPI {
             IntPtr envRef,
             UnownedRef self,
             UnownedRef a,
-            bool b,
+            [MarshalAs(UnmanagedType.I1)] bool b,
             UnownedRef c,
             out CreatedRef exn
         );

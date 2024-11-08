@@ -1474,6 +1474,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try env.RegisterNatives(
             TestAPI.Primitives.javaClass,
             JNINativeMethod(
+                name: bag.add("__jni_boolOverflow"),
+                signature: bag.add("(ZZZZZZZZZZZZZZZZ)J"),
+                fnPtr: unsafeBitCast(java_TestAPI_Primitives_boolOverflow, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_echoBool"),
                 signature: bag.add("(Z)Z"),
                 fnPtr: unsafeBitCast(java_TestAPI_Primitives_echoBool, to: UnsafeMutableRawPointer.self)
