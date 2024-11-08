@@ -20,6 +20,7 @@ namespace Cricut.TestAPI {
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool __iota_get_TestAPI_AProtocol_baz(IntPtr envRef, UnownedRef self, out CreatedRef exn);
 
         /// <summary>
@@ -94,7 +95,7 @@ namespace Cricut.TestAPI {
             IntPtr envRef,
             UnownedRef self,
             UnownedRef a,
-            bool b,
+            [MarshalAs(UnmanagedType.I1)] bool b,
             UnownedRef c,
             out CreatedRef exn
         );

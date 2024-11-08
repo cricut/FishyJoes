@@ -415,7 +415,9 @@ struct TranslatedStruct: TranslatedType {
 
     func cSharpSetupDelegates(in context: FishyJoesContext) -> [String] {
         var lines: [String] = []
-        lines.append("delegate \(cSharpType.pInvokeCreatedName) _\(converterType.genericBaseName.mangledName)Constructor(")
+        let created = cSharpType.pInvokeCreatedName
+        lines += created.returnMark
+        lines.append("delegate \(created.name) _\(converterType.genericBaseName.mangledName)Constructor(")
         for storedVar in storedVariables {
             let resolved = context.resolve(type: storedVar.type)
             lines.append("    \(resolved.cSharpType.pInvokeConsumedName) \(CSharpClass.deforbidify(storedVar.name)),")
@@ -425,7 +427,9 @@ struct TranslatedStruct: TranslatedType {
         for storedVar in storedVariables {
             let resolved = context.resolve(type: storedVar.type)
             let commonName = "_\(converterType.genericBaseName.mangledName)_\(storedVar.name)"
-            lines.append("delegate \(resolved.cSharpType.pInvokeCreatedName) \(commonName)Getter(\(cSharpType.pInvokeUnownedName) obj, out CreatedRef exn);")
+            let created = resolved.cSharpType.pInvokeCreatedName
+            lines += created.returnMark
+            lines.append("delegate \(created.name) \(commonName)Getter(\(cSharpType.pInvokeUnownedName) obj, out CreatedRef exn);")
             if storedVar.isMutable {
                 lines.append("delegate void \(commonName)Setter(\(cSharpType.pInvokeUnownedName) obj, \(resolved.cSharpType.pInvokeConsumedName) newValue, out CreatedRef exn);")
             }

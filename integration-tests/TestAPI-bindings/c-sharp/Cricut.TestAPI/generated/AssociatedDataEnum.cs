@@ -22,7 +22,8 @@ namespace Cricut.TestAPI {
 
         public sealed record Bar(
             string Named,
-            Cricut.TestAPI.AssociatedDataEnum _1
+            Cricut.TestAPI.AssociatedDataEnum _1,
+            bool Toggled
         ) : AssociatedDataEnum;
 
         public sealed record NoValue : AssociatedDataEnum;

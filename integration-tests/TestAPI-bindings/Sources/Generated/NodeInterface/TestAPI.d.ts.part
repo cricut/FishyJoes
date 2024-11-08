@@ -182,11 +182,13 @@ export declare namespace TestAPI {
     export namespace AssociatedDataEnum {
         interface Bar extends AssociatedDataEnum_Common {}
         export class Bar {
-            constructor(named: string, _1: TestAPI.AssociatedDataEnum)
+            constructor(named: string, _1: TestAPI.AssociatedDataEnum, toggled: boolean)
 
             readonly named: string;
 
             readonly _1: TestAPI.AssociatedDataEnum;
+
+            readonly toggled: boolean;
         }
 
         interface NoValue extends AssociatedDataEnum_Common {}
@@ -1594,6 +1596,28 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(bitCountUInt) -->
          */
         const bitCountUInt: number;
+
+        /**
+         * <!-- FishyJoes.export(boolOverflow) -->
+         */
+        function boolOverflow(
+            b0: boolean,
+            b1: boolean,
+            b2: boolean,
+            b3: boolean,
+            b4: boolean,
+            b5: boolean,
+            b6: boolean,
+            b7: boolean,
+            b8: boolean,
+            b9: boolean,
+            ba: boolean,
+            bb: boolean,
+            bc: boolean,
+            bd: boolean,
+            be: boolean,
+            bf: boolean
+        ): number;
 
         /**
          * <!-- FishyJoes.export(defaultPrimitiveHolder) -->

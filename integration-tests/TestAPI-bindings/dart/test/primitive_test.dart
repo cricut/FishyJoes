@@ -184,5 +184,17 @@ void main() {
           s.b = !s.b;
           expect(s, isNot(equals(Primitives.defaultPrimitiveHolder)));
       });
+
+      test('boolOverflowTest', () {
+          expect(
+              Primitives.boolOverflow(
+                  true, false, true, false,
+                  false, true, false, true,
+                  true, false, true, false,
+                  false, true, false, true
+              ),
+              equals(8)
+          );
+      });
   });
 }

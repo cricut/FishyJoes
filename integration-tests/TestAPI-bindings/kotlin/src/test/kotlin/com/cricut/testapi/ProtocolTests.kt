@@ -112,7 +112,7 @@ internal class ProtocolTests {
 
         assertEquals(23947889, a.spqr(AssociatedDataEnum.Thing(23947889)))
         assertEquals(89708973, a.spqr(AssociatedDataEnum.Other("zxc", 89708973)))
-        assertEquals(45, a.spqr(AssociatedDataEnum.Bar("shme", AssociatedDataEnum.NoValue)))
+        assertEquals(45, a.spqr(AssociatedDataEnum.Bar("shme", AssociatedDataEnum.NoValue, true)))
         assertEquals(42, a.spqr(AssociatedDataEnum.NoValue))
         assertEquals(1, a.spqr(AssociatedDataEnum.SimpleEnum(SimpleEnum.Blue)))
 

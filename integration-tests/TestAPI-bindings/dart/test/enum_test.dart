@@ -57,7 +57,7 @@ void main() {
 
       test('testAssociatedDataEnum', () {
           shape1(int x) => AssociatedDataEnum.thing(x);
-          shape2(String x, String y, int z) => AssociatedDataEnum.bar(x, AssociatedDataEnum.other(y, z));
+          shape2(String x, String y, int z) => AssociatedDataEnum.bar(x, AssociatedDataEnum.other(y, z), true);
 
           expect(shape1(4).intValue, equals(4));
           expect(shape2("hello", "world", 8).intValue, equals(11));
@@ -76,8 +76,8 @@ void main() {
 
         var x = AssociatedDataEnum.thing(90);
         expect(x.toString(), equals("AssociatedDataEnum.thing(value: 90)"));
-        var y = AssociatedDataEnum.bar("qux", x);
-        expect(y.toString(), equals("AssociatedDataEnum.bar(named: qux, m_1: AssociatedDataEnum.thing(value: 90))"));
+        var y = AssociatedDataEnum.bar("qux", x, false);
+        expect(y.toString(), equals("AssociatedDataEnum.bar(named: qux, m_1: AssociatedDataEnum.thing(value: 90), toggled: false)"));
       });
 
       test('testEnumToString', () {
@@ -85,8 +85,8 @@ void main() {
         expect(a.toString(), equals("SimpleEnum.blue()"));
 
         var b = AssociatedDataEnum.simpleEnum(a);
-        var c = AssociatedDataEnum.bar("qux", b);
-        expect(c.toString(), equals("AssociatedDataEnum.bar(named: qux, m_1: AssociatedDataEnum.simpleEnum(value: SimpleEnum.blue()))"));
+        var c = AssociatedDataEnum.bar("qux", b, true);
+        expect(c.toString(), equals("AssociatedDataEnum.bar(named: qux, m_1: AssociatedDataEnum.simpleEnum(value: SimpleEnum.blue()), toggled: true)"));
       });
 
       test('testEnumCopyWith', () {
@@ -99,7 +99,7 @@ void main() {
           expect(b != d, true);
 
           var e = AssociatedDataEnum.simpleEnum(b);
-          var f = AssociatedDataEnum.bar("corge", e);
+          var f = AssociatedDataEnum.bar("corge", e, true);
           var g = (f as AssociatedDataEnum_Bar).copyWith("plugh", e);
           expect(g != f, true);
 
@@ -123,9 +123,9 @@ void main() {
         var d = AssociatedDataEnum.simpleEnum(a);
         var e = AssociatedDataEnum.simpleEnum(b);
         var f = AssociatedDataEnum.simpleEnum(c);
-        var g = AssociatedDataEnum.bar("garply", d);
-        var h = AssociatedDataEnum.bar("garply", e);
-        var i = AssociatedDataEnum.bar("garply", f);
+        var g = AssociatedDataEnum.bar("garply", d, true);
+        var h = AssociatedDataEnum.bar("garply", e, true);
+        var i = AssociatedDataEnum.bar("garply", f, true);
         expect(g.hashCode, equals(h.hashCode));
         expect(i.hashCode != h.hashCode, true);
       });

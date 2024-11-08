@@ -50,6 +50,7 @@ namespace Cricut.TestAPI {
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool __iota_get_TestAPI_TestDefaultComputedPropertiesEnum_spam(IntPtr envRef, UnownedRef self, out CreatedRef exn);
 
         static TestDefaultComputedPropertiesEnum() { _TypeSetup._ensureLoaded(); }

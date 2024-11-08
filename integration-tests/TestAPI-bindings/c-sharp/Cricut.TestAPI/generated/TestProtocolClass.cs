@@ -116,6 +116,7 @@ namespace Cricut.TestAPI {
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool __iota_TestAPI_TestProtocolClass_bar(
             IntPtr envRef,
             UnownedRef self,
@@ -136,7 +137,7 @@ namespace Cricut.TestAPI {
         private static extern void __iota_TestAPI_TestProtocolClass_baz(
             IntPtr envRef,
             UnownedRef self,
-            bool qux,
+            [MarshalAs(UnmanagedType.I1)] bool qux,
             out CreatedRef exn
         );
 
@@ -267,6 +268,7 @@ namespace Cricut.TestAPI {
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool __iota_TestAPI_TestProtocolClass_equals(
             IntPtr envRef,
             UnownedRef lhs,

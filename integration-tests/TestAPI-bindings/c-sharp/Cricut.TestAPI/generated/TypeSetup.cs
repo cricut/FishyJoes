@@ -116,7 +116,7 @@ namespace Cricut.TestAPI {
         );
 
         delegate CreatedRef _TestAPI_Primitives_PrimitiveHolderConstructor(
-            bool b,
+            [MarshalAs(UnmanagedType.I1)] bool b,
             ConsumedRef bq,
             byte ui8,
             ConsumedRef ui8q,
@@ -144,8 +144,9 @@ namespace Cricut.TestAPI {
             ConsumedRef dq,
             out CreatedRef exn
         );
+        [return: MarshalAs(UnmanagedType.I1)]
         delegate bool _TestAPI_Primitives_PrimitiveHolder_bGetter(UnownedRef obj, out CreatedRef exn);
-        delegate void _TestAPI_Primitives_PrimitiveHolder_bSetter(UnownedRef obj, bool newValue, out CreatedRef exn);
+        delegate void _TestAPI_Primitives_PrimitiveHolder_bSetter(UnownedRef obj, [MarshalAs(UnmanagedType.I1)] bool newValue, out CreatedRef exn);
         delegate CreatedRef _TestAPI_Primitives_PrimitiveHolder_bqGetter(UnownedRef obj, out CreatedRef exn);
         delegate void _TestAPI_Primitives_PrimitiveHolder_bqSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
         delegate byte _TestAPI_Primitives_PrimitiveHolder_ui8Getter(UnownedRef obj, out CreatedRef exn);
@@ -436,6 +437,7 @@ namespace Cricut.TestAPI {
             ConsumedRef ptr,
             out CreatedRef exn
         );
+        [return: MarshalAs(UnmanagedType.I1)]
         delegate bool _TestAPI_CommonInterface__AProtocolConverter_Getbaz(UnownedRef obj, out CreatedRef exn);
         delegate CreatedRef _TestAPI_CommonInterface__AProtocolConverter_Getfoo(UnownedRef obj, out CreatedRef exn);
         delegate CreatedRef _TestAPI_CommonInterface__AProtocolConverter_bar(UnownedRef obj, nint x, nint y, out CreatedRef exn);
@@ -455,13 +457,14 @@ namespace Cricut.TestAPI {
 
         delegate CreatedRef _TestAPI_AProtocolImplementationConstructor(
             ConsumedRef foo,
-            bool baz,
+            [MarshalAs(UnmanagedType.I1)] bool baz,
             out CreatedRef exn
         );
         delegate CreatedRef _TestAPI_AProtocolImplementation_fooGetter(UnownedRef obj, out CreatedRef exn);
         delegate void _TestAPI_AProtocolImplementation_fooSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        [return: MarshalAs(UnmanagedType.I1)]
         delegate bool _TestAPI_AProtocolImplementation_bazGetter(UnownedRef obj, out CreatedRef exn);
-        delegate void _TestAPI_AProtocolImplementation_bazSetter(UnownedRef obj, bool newValue, out CreatedRef exn);
+        delegate void _TestAPI_AProtocolImplementation_bazSetter(UnownedRef obj, [MarshalAs(UnmanagedType.I1)] bool newValue, out CreatedRef exn);
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_AProtocolImplementation_setup(
             IntPtr envRef,
@@ -502,12 +505,14 @@ namespace Cricut.TestAPI {
         delegate CreatedRef Cricut_TestAPI_AssociatedDataEnum_new_bar(
             ConsumedRef named,
             ConsumedRef _1,
+            [MarshalAs(UnmanagedType.I1)] bool toggled,
             out CreatedRef _exn
         );
         unsafe delegate void Cricut_TestAPI_AssociatedDataEnum_extract_bar(
             UnownedRef obj,
             ref CreatedRef named,
             ref CreatedRef _1,
+            [MarshalAs(UnmanagedType.I1)] ref bool toggled,
             out CreatedRef _exn
         );
         delegate CreatedRef Cricut_TestAPI_AssociatedDataEnum_new_noValue(
@@ -853,12 +858,13 @@ namespace Cricut.TestAPI {
         );
 
         delegate CreatedRef _TestAPI_TestDefaultComputedPropertiesStructConstructor(
-            bool spam,
+            [MarshalAs(UnmanagedType.I1)] bool spam,
             nint noot,
             out CreatedRef exn
         );
+        [return: MarshalAs(UnmanagedType.I1)]
         delegate bool _TestAPI_TestDefaultComputedPropertiesStruct_spamGetter(UnownedRef obj, out CreatedRef exn);
-        delegate void _TestAPI_TestDefaultComputedPropertiesStruct_spamSetter(UnownedRef obj, bool newValue, out CreatedRef exn);
+        delegate void _TestAPI_TestDefaultComputedPropertiesStruct_spamSetter(UnownedRef obj, [MarshalAs(UnmanagedType.I1)] bool newValue, out CreatedRef exn);
         delegate nint _TestAPI_TestDefaultComputedPropertiesStruct_nootGetter(UnownedRef obj, out CreatedRef exn);
         delegate void _TestAPI_TestDefaultComputedPropertiesStruct_nootSetter(UnownedRef obj, nint newValue, out CreatedRef exn);
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -933,6 +939,7 @@ namespace Cricut.TestAPI {
             out CreatedRef exn
         );
         delegate void _TestAPI_CommonInterface__TestMethodsProtocolConverter_foo(UnownedRef obj, out CreatedRef exn);
+        [return: MarshalAs(UnmanagedType.I1)]
         delegate bool _TestAPI_CommonInterface__TestMethodsProtocolConverter_bar(UnownedRef obj, out CreatedRef exn);
         delegate void _TestAPI_CommonInterface__TestMethodsProtocolConverter_baz(UnownedRef obj, bool qux, out CreatedRef exn);
         delegate CreatedRef _TestAPI_CommonInterface__TestMethodsProtocolConverter_garply(UnownedRef obj, string _0, out CreatedRef exn);
@@ -2404,7 +2411,7 @@ namespace Cricut.TestAPI {
                 Console.WriteLine("setting up TestAPI.Primitives.PrimitiveHolder...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Primitives_PrimitiveHolder_setup(
                     Loader.env,
-                    bag<_TestAPI_Primitives_PrimitiveHolderConstructor>((bool b, ConsumedRef bq, byte ui8, ConsumedRef ui8q, ushort ui16, ConsumedRef ui16q, uint ui32, ConsumedRef ui32q, ulong ui64, ConsumedRef ui64q, nuint ui, ConsumedRef uiq, sbyte i8, ConsumedRef i8q, short i16, ConsumedRef i16q, int i32, ConsumedRef i32q, long i64, ConsumedRef i64q, nint i, ConsumedRef iq, float f, ConsumedRef fq, double d, ConsumedRef dq, out CreatedRef exn) => Catching(out exn, () => {
+                    bag<_TestAPI_Primitives_PrimitiveHolderConstructor>(([MarshalAs(UnmanagedType.I1)] bool b, ConsumedRef bq, byte ui8, ConsumedRef ui8q, ushort ui16, ConsumedRef ui16q, uint ui32, ConsumedRef ui32q, ulong ui64, ConsumedRef ui64q, nuint ui, ConsumedRef uiq, sbyte i8, ConsumedRef i8q, short i16, ConsumedRef i16q, int i32, ConsumedRef i32q, long i64, ConsumedRef i64q, nint i, ConsumedRef iq, float f, ConsumedRef fq, double d, ConsumedRef dq, out CreatedRef exn) => Catching(out exn, () => {
                         return new CreatedRef(new Cricut.TestAPI.Primitives.PrimitiveHolder(
                             b,
                             bq.Consume<bool?>(),
@@ -2437,7 +2444,7 @@ namespace Cricut.TestAPI {
                     bag<_TestAPI_Primitives_PrimitiveHolder_bGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().B
                     )),
-                    bag<_TestAPI_Primitives_PrimitiveHolder_bSetter>((UnownedRef obj, bool newValue, out CreatedRef exn) => Catching(out exn, () => {
+                    bag<_TestAPI_Primitives_PrimitiveHolder_bSetter>((UnownedRef obj, [MarshalAs(UnmanagedType.I1)] bool newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().B = newValue;
                     })),
                     bag<_TestAPI_Primitives_PrimitiveHolder_bqGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
@@ -2858,7 +2865,7 @@ namespace Cricut.TestAPI {
                 Console.WriteLine("setting up TestAPI.AProtocolImplementation...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_AProtocolImplementation_setup(
                     Loader.env,
-                    bag<_TestAPI_AProtocolImplementationConstructor>((ConsumedRef foo, bool baz, out CreatedRef exn) => Catching(out exn, () => {
+                    bag<_TestAPI_AProtocolImplementationConstructor>((ConsumedRef foo, [MarshalAs(UnmanagedType.I1)] bool baz, out CreatedRef exn) => Catching(out exn, () => {
                         return new CreatedRef(new Cricut.TestAPI.AProtocolImplementation(
                             foo.Consume<string>(),
                             baz
@@ -2873,7 +2880,7 @@ namespace Cricut.TestAPI {
                     bag<_TestAPI_AProtocolImplementation_bazGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         obj.Peek<Cricut.TestAPI.AProtocolImplementation>().Baz
                     )),
-                    bag<_TestAPI_AProtocolImplementation_bazSetter>((UnownedRef obj, bool newValue, out CreatedRef exn) => Catching(out exn, () => {
+                    bag<_TestAPI_AProtocolImplementation_bazSetter>((UnownedRef obj, [MarshalAs(UnmanagedType.I1)] bool newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.AProtocolImplementation>().Baz = newValue;
                     })),
                     out exn
@@ -2957,11 +2964,13 @@ namespace Cricut.TestAPI {
                         (
                             ConsumedRef _named,
                             ConsumedRef __1,
+                            [MarshalAs(UnmanagedType.I1)] bool _toggled,
                             out CreatedRef exn
                         ) => Catching(out exn, () => 
                             new CreatedRef(new Cricut.TestAPI.AssociatedDataEnum.Bar(
                                 _named.Consume<string>(),
-                                __1.Consume<Cricut.TestAPI.AssociatedDataEnum>()
+                                __1.Consume<Cricut.TestAPI.AssociatedDataEnum>(),
+                                _toggled
                             ))
                         )
                     ),
@@ -2970,12 +2979,14 @@ namespace Cricut.TestAPI {
                             UnownedRef obj,
                             ref CreatedRef _named,
                             ref CreatedRef __1,
+                            [MarshalAs(UnmanagedType.I1)] ref bool _toggled,
                             out CreatedRef exn
                         ) => {
                             try {
                                 var enumeration = obj.Peek<Cricut.TestAPI.AssociatedDataEnum.Bar>();
                                 _named = new CreatedRef(enumeration.Named);
                                 __1 = new CreatedRef(enumeration._1);
+                                _toggled = enumeration.Toggled;
                                 exn = CreatedRef.Null;
                             } catch (Exception e) {
                                 exn = new CreatedRef(e);
@@ -3470,7 +3481,7 @@ namespace Cricut.TestAPI {
                 Console.WriteLine("setting up TestAPI.TestDefaultComputedPropertiesStruct...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_TestDefaultComputedPropertiesStruct_setup(
                     Loader.env,
-                    bag<_TestAPI_TestDefaultComputedPropertiesStructConstructor>((bool spam, nint noot, out CreatedRef exn) => Catching(out exn, () => {
+                    bag<_TestAPI_TestDefaultComputedPropertiesStructConstructor>(([MarshalAs(UnmanagedType.I1)] bool spam, nint noot, out CreatedRef exn) => Catching(out exn, () => {
                         return new CreatedRef(new Cricut.TestAPI.TestDefaultComputedPropertiesStruct(
                             spam,
                             noot
@@ -3479,7 +3490,7 @@ namespace Cricut.TestAPI {
                     bag<_TestAPI_TestDefaultComputedPropertiesStruct_spamGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         obj.Peek<Cricut.TestAPI.TestDefaultComputedPropertiesStruct>().Spam
                     )),
-                    bag<_TestAPI_TestDefaultComputedPropertiesStruct_spamSetter>((UnownedRef obj, bool newValue, out CreatedRef exn) => Catching(out exn, () => {
+                    bag<_TestAPI_TestDefaultComputedPropertiesStruct_spamSetter>((UnownedRef obj, [MarshalAs(UnmanagedType.I1)] bool newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.TestDefaultComputedPropertiesStruct>().Spam = newValue;
                     })),
                     bag<_TestAPI_TestDefaultComputedPropertiesStruct_nootGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>

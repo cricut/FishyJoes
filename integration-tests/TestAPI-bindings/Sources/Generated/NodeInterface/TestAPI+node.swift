@@ -773,9 +773,11 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
         if try env.instanceof(value, NodeClass.constructor(for: "AssociatedDataEnum.Bar", module: "TestAPI", env: env)) {
             let _named = try env.getNamedProperty(value, "named")
             let __1 = try env.getNamedProperty(value, "_1")
+            let _toggled = try env.getNamedProperty(value, "toggled")
             return Self.bar(
                 named: try Swift.String.fromNode(_named, env: env),
-                try TestAPI.AssociatedDataEnum.fromNode(__1, env: env)
+                try TestAPI.AssociatedDataEnum.fromNode(__1, env: env),
+                toggled: try Swift.Bool.fromNode(_toggled, env: env)
             )
         }
 
@@ -810,12 +812,13 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
                     Swift.Int.toNode(_1, env: env),
                 ]
             )
-        case let .bar(named, _1):
+        case let .bar(named, _1, toggled):
             return try env.newInstance(
                 NodeClass.constructor(for: "AssociatedDataEnum.Bar", module: "TestAPI", env: env),
                 [
                     Swift.String.toNode(named, env: env),
                     TestAPI.AssociatedDataEnum.toNode(_1, env: env),
+                    Swift.Bool.toNode(toggled, env: env),
                 ]
             )
         case .noValue:
@@ -956,16 +959,18 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
             properties: [
                 "named": (.stored(mutable: true), isStatic: false),
                 "_1": (.stored(mutable: true), isStatic: false),
+                "toggled": (.stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in
                 FishyJoesNodeRuntime.callbackBody(
                     env, info,
                     name: "AssociatedDataEnum.Bar_constructor",
-                    expectedArgumentCount: 2
+                    expectedArgumentCount: 3
                 ) { env in
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "named", env.argument(at: 0))
                     try env.env.setNamedProperty(this, "_1", env.argument(at: 1))
+                    try env.env.setNamedProperty(this, "toggled", env.argument(at: 2))
                     return this
                 }
             }
@@ -4399,6 +4404,35 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                             let result = try OptionalConverter<Swift.Double>.toNode(
                                 TestAPI.Primitives.maybeEchoDouble(
                                     value: try env.argument(at: 0, converter: OptionalConverter<Swift.Double>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
+                "boolOverflow": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "boolOverflow", expectedArgumentCount: 16, hasNamedOptions: false) { env in
+                            let result = try Swift.Int.toNode(
+                                TestAPI.Primitives.boolOverflow(
+                                    try env.argument(at: 0, converter: Swift.Bool.self),
+                                    try env.argument(at: 1, converter: Swift.Bool.self),
+                                    try env.argument(at: 2, converter: Swift.Bool.self),
+                                    try env.argument(at: 3, converter: Swift.Bool.self),
+                                    try env.argument(at: 4, converter: Swift.Bool.self),
+                                    try env.argument(at: 5, converter: Swift.Bool.self),
+                                    try env.argument(at: 6, converter: Swift.Bool.self),
+                                    try env.argument(at: 7, converter: Swift.Bool.self),
+                                    try env.argument(at: 8, converter: Swift.Bool.self),
+                                    try env.argument(at: 9, converter: Swift.Bool.self),
+                                    try env.argument(at: 10, converter: Swift.Bool.self),
+                                    try env.argument(at: 11, converter: Swift.Bool.self),
+                                    try env.argument(at: 12, converter: Swift.Bool.self),
+                                    try env.argument(at: 13, converter: Swift.Bool.self),
+                                    try env.argument(at: 14, converter: Swift.Bool.self),
+                                    try env.argument(at: 15, converter: Swift.Bool.self)
                                 ),
                                 env: env.env
                             )

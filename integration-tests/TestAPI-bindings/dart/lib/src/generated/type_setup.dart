@@ -328,12 +328,14 @@ typedef TestAPI_AssociatedDataEnum_extract_other = ffi.Void Function(
 typedef TestAPI_AssociatedDataEnum_new_bar = CreatedRef Function(
     ConsumedRef named,
     ConsumedRef m_1,
+    ffi.Bool toggled,
     OutCreatedRef _exn
 );
 typedef TestAPI_AssociatedDataEnum_extract_bar = ffi.Void Function(
     UnownedRef obj,
     OutCreatedRef named,
     OutCreatedRef _1,
+    ffi.Pointer<ffi.Bool> toggled,
     OutCreatedRef _exn
 );
 typedef TestAPI_AssociatedDataEnum_new_noValue = CreatedRef Function(
@@ -2790,6 +2792,48 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Methods_staticAsyncYield");
+    TestAPI.Primitives.f__iota_TestAPI_Primitives_boolOverflow = dylib.lookupFunction<
+        ffi.IntPtr Function(
+            Env env,
+            ffi.Bool b0,
+            ffi.Bool b1,
+            ffi.Bool b2,
+            ffi.Bool b3,
+            ffi.Bool b4,
+            ffi.Bool b5,
+            ffi.Bool b6,
+            ffi.Bool b7,
+            ffi.Bool b8,
+            ffi.Bool b9,
+            ffi.Bool ba,
+            ffi.Bool bb,
+            ffi.Bool bc,
+            ffi.Bool bd,
+            ffi.Bool be,
+            ffi.Bool bf,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            bool b0,
+            bool b1,
+            bool b2,
+            bool b3,
+            bool b4,
+            bool b5,
+            bool b6,
+            bool b7,
+            bool b8,
+            bool b9,
+            bool ba,
+            bool bb,
+            bool bc,
+            bool bd,
+            bool be,
+            bool bf,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_Primitives_boolOverflow");
     TestAPI.Primitives.f__iota_TestAPI_Primitives_echoBool = dylib.lookupFunction<
         ffi.Bool Function(
             Env env,

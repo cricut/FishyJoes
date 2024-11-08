@@ -210,6 +210,16 @@ public enum Primitives {
     /// <!-- FishyJoes.export(maybeEchoDouble) -->
     public static func maybeEchoDouble(value: Double?) -> Double? { return value }
 
+    /// <!-- FishyJoes.export(boolOverflow) -->
+    public static func boolOverflow(
+        _ b0: Bool, _ b1: Bool, _ b2: Bool, _ b3: Bool,
+        _ b4: Bool, _ b5: Bool, _ b6: Bool, _ b7: Bool,
+        _ b8: Bool, _ b9: Bool, _ ba: Bool, _ bb: Bool,
+        _ bc: Bool, _ bd: Bool, _ be: Bool, _ bf: Bool
+    ) -> Int {
+        [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, ba, bb, bc, bd, be, bf].count { $0 }
+    }
+
     // MARK: - Functions Taking Closures with Primitive Types
 
     /// <!-- FishyJoes.export(valueMapper) -->

@@ -23,7 +23,7 @@ namespace Cricut.TestAPI.Tests {
         [Fact]
         void testAssociatedDataEnum() {
             Func<nint, AssociatedDataEnum> shape1 = x => new AssociatedDataEnum.Thing(x);
-            Func<string, string, nint, AssociatedDataEnum> shape2 = (x, y, z) => new AssociatedDataEnum.Bar(x, new AssociatedDataEnum.Other(y, z));
+            Func<string, string, nint, AssociatedDataEnum> shape2 = (x, y, z) => new AssociatedDataEnum.Bar(x, new AssociatedDataEnum.Other(y, z), true);
 
             Assert.Equal(4, shape1(4).GetIntValue());
             Assert.Equal(11, shape2("hello", "world", 8).GetIntValue());

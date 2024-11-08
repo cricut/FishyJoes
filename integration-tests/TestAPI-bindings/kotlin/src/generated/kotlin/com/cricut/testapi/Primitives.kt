@@ -926,6 +926,48 @@ sealed class Primitives {
         ): Double?
 
         /**
+         * <!-- FishyJoes.export(boolOverflow) -->
+         */
+        fun boolOverflow(
+            b0: Boolean,
+            b1: Boolean,
+            b2: Boolean,
+            b3: Boolean,
+            b4: Boolean,
+            b5: Boolean,
+            b6: Boolean,
+            b7: Boolean,
+            b8: Boolean,
+            b9: Boolean,
+            ba: Boolean,
+            bb: Boolean,
+            bc: Boolean,
+            bd: Boolean,
+            be: Boolean,
+            bf: Boolean
+        ): Long = __jni_boolOverflow(b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, ba, bb, bc, bd, be, bf)
+        @JvmStatic
+        @JvmName("__jni_boolOverflow")
+        private external fun __jni_boolOverflow(
+            b0: Boolean,
+            b1: Boolean,
+            b2: Boolean,
+            b3: Boolean,
+            b4: Boolean,
+            b5: Boolean,
+            b6: Boolean,
+            b7: Boolean,
+            b8: Boolean,
+            b9: Boolean,
+            ba: Boolean,
+            bb: Boolean,
+            bc: Boolean,
+            bd: Boolean,
+            be: Boolean,
+            bf: Boolean
+        ): Long
+
+        /**
          * <!-- FishyJoes.export(valueMapper) -->
          */
         fun valueMapper(
