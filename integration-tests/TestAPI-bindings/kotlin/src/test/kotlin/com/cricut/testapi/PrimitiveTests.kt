@@ -198,7 +198,7 @@ internal class PrimitiveTests {
     @Test
     fun testBoolOverflow() {
         assertEquals(
-            Primitives.BoolOverflow(
+            Primitives.boolOverflow(
                 true, false, true, false,
                 false, true, false, true,
                 true, false, true, false,

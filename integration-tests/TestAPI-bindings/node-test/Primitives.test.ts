@@ -212,7 +212,7 @@ test('ObjectsWithPrimitiveMembers', () => {
 
 test('BoolOverflow', () => {
     expect(
-        Primitives.BoolOverflow(
+        TestAPI.Primitives.boolOverflow(
             true, false, true, false,
             false, true, false, true,
             true, false, true, false,
