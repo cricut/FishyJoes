@@ -168,27 +168,83 @@ public struct Foo {
 
 ## How to run on windows (you can't generate code on windows, but you can build and test)
 
-Install git and git command line tools. Set up credentials so you can clone/access https://www.github.com/cricut/FishyJoes repo.
+### Install Visual Studio 2022
+
+Go into your Visual Studio installer check the "Desktop development with C++" box on the "Workloads" tab.
+* Select "Desktop developerment with C++"
+
+Go to the "Individual components" tab and check the following:
+* Windows 11 SDK (10.0.22000.0)
+* MSVC v143 - VS 2022 C++ x64/x86 build tools (v14.36-17.6) (don't select (Latest) because Swift 5.10 needs clang 16 and (Latest) will required clang 17 in some of the c headers for the libraries)
+
+Install these
+
+### Install Swift 5.10 (or 5.10.1):
+https://www.swift.org/install/windows/traditional/ but ignore the components listed there since you already installed the correct ones above
+
+The "Support Files" section is required, regardless of what the instructions say. However, only the first and last modulemap files exist, but they still need to be copied over:
+* copy /Y %SDKROOT%\usr\share\ucrt.modulemap "%UniversalCRTSdkDir%\Include\%UCRTVersion%\ucrt\module.modulemap"
+* copy /Y %SDKROOT%\usr\share\winsdk.modulemap "%UniversalCRTSdkDir%\Include\%UCRTVersion%\um\module.modulemap"
+
+Add the following to your PATH variable in "edit the System Environment Variables":
+* C:\Users\<yourUserName>\AppData\Local\Programs\Swift\Runtimes\5.10.0\usr\bin
+* C:\Users\<yourUserName>\AppData\Local\Programs\Swift\Toolchains\5.10.0+Asserts\usr\bin
+* C:\Users\<yourUserName>\AppData\Local\Programs\Swift\Tools\5.10.0
+
+### Set up x64 Native Tools Command Prompt for VS 2022
+Copy vcvars64.bat from C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Auxiliary\Build to your home directory (or some other directory you have write access to)
+Rename it to something else, such as vcvars64sdk22000.bat
+edit vcvars64sdk22000.bat
+
+Change the line with @call on it to the following:
+`@call "%~dp0vcvarsall.bat" x64 10.0.22000.0 -vcvars_ver=14.36.32532 %*`
+copy vcvars64sdk22000.bat back to the C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Auxiliary\Build directory (you will need admin privileges to do this)
+Create a shortcut to vcvars64sdk22000.bat and put it somewhere you can use it.
+Use that shortcut to get a properly configured command prompt to run fishy joes in. It configures the PATH, TMP, INCLUDE, LIB, and LIBPATH environment variables properly.
+Make sure you didn't forget to do the copy modulemaps step above, otherwise, things still won't work when compiling c files such as is required with BiFrost-bindings.
+
+### Install git and git command line tools. Set up credentials so you can clone/access https://www.github.com/cricut/FishyJoes repo.
 
 Add C:\Program Files\Git\usr\bin to PATH in "Advanced System Settings->Environment Variables"
 
-winget install --id Microsoft.Powershell --source winget
+### Install Flutter version 3.19.4 x64, which comes with Dart 3.3.2
+https://docs.flutter.dev/release/archive
 
-winget install --id Swift.Toolchain -e
+### Install Android Studio Jellyfish 2023.3.1
+https://developer.android.com/studio/releases/past-releases/as-jellyfish-release-notes#android-studio-jellyfish-|-2023.3.1-patch-2-and-agp-8.4.2-june-2024
 
-Go into your Visual Studio installer and make sure that the things specified in https://www.swift.org/install/windows/#installation-via-windows-package-manager are installed, in particular the Windows 11 SDK and the "MSVC v143 - VS 2022 C++ x64/x86 build tools (Latest)" (Microsoft.VisualStudio.Component.VC.Tools.x86.x64)
-
-install nvm-windows
+### install nvm-windows
 
 install and select same node version as specified elsewhere with nvm
 
+Make a ~/.npmrc file (~ is `C:\Users\<yourUserName>`). It should be in this format (fill in your github personal access token):
+
+@cricut-plugin:registry=https://cricut.myget.org/F/cricut/npm/
+always-auth=true
+registry=https://registry.npmjs.org/
+@cricut:registry=https://npm.pkg.github.com/
+//npm.pkg.github.com/:_authToken=<put your github personal auth token here>
+//registry.npmjs.org/:_authToken=<put your npm token here>
+
+### Build fishy joes runtimes
 bash .\scripts\compile-node-runtime.sh
+bash .\scripts\compile-iota-runtime.sh
+
+Edit the .\kotlin-runtime\.gradle\gradle.properties file in the FishyJoes root folder of the checked out repo from github and add the gpr_user and gpr_key fields appropriately:
+
+gpr_user=<yourGithubUserName>
+gpr_key=<yourGithubPersonalAccessToken>
+
+bash .\scripts\compile-kotlin-native-runtime.sh
+cd kotlin-runtime
+.\gradlew publishToMavenLocal
 
 (you must build runtimes first before you can run tests in integration-tests\TestAPI-bindings)
 
-Now you should be able to run `swift run fishy-joes build test --node-js --debug` as usual in the integration-tests\TestAPI-bindings directory.
+### Run fishy joes
+Now you should be able to run `swift run fishy-joes build test --node-js --dart --c-sharp --kotlin-fast --debug` as usual in the integration-tests\TestAPI-bindings directory.
 
-
+## Other tutorials
 [Tutorial by Matt](https://cricut.sharepoint.com/:v:/r/sites/softwareteam/Shared%20Documents/Team-Enablement-Client/Cross-Platform%20Code%20Introduction.mp4?csf=1&web=1&e=vSEVMc)
 
 [Async Working Session](https://cricut-my.sharepoint.com/personal/jha_cricut_com/_layouts/15/stream.aspx?id=%2Fpersonal%2Fjha%5Fcricut%5Fcom%2FDocuments%2FRecordings%2FDart%20Async%20Work%20Session%2D20231214%5F080339%2DMeeting%20Recording%2Emp4&referrer=StreamWebApp%2EWeb&referrerScenario=AddressBarCopied%2Eview&ga=1)
