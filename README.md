@@ -181,6 +181,8 @@ Install these
 
 Add `c:\Program Files\dotnet\x64` to PATH environment variable
 
+Note: you may have to edit the c-sharp\*.sln file to use `Debug|x64` instead of `Debug|Any CPU` for it to work in the x64 native tools command prompt.
+
 ### Install Swift 5.10 (or 5.10.1):
 https://www.swift.org/download/ click on "Older Releases" to find it
 
