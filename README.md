@@ -168,16 +168,18 @@ public struct Foo {
 
 ## How to run on windows (you can't generate code on windows, but you can build and test)
 
-### Install Visual Studio 2022
+### Install Visual Studio 2022 (I'm at 17.11.5)
 
 Go into your Visual Studio installer check the "Desktop development with C++" box on the "Workloads" tab.
 * Select "Desktop development with C++"
 
 Go to the "Individual components" tab and check the following:
 * Windows 11 SDK (10.0.22000.0)
-* MSVC v143 - VS 2022 C++ x64/x86 build tools (v14.36-17.6) (don't select (Latest) because Swift 5.10 needs clang 16 and (Latest) will required clang 17 in some of the c headers for the libraries)
+* MSVC v143 - VS 2022 C++ x64/x86 build tools (v14.36-17.6) (don't select `(Latest)` because Swift 5.10 needs clang 16 and `(Latest)` will required clang 17 in some of the c headers for the libraries)
 
 Install these
+
+Add `c:\Program Files\dotnet\x64` to PATH environment variable
 
 ### Install Swift 5.10 (or 5.10.1):
 https://www.swift.org/download/ click on "Older Releases" to find it
@@ -212,6 +214,9 @@ Make new environment variables GITHUB_USER and GITHUB_TOKEN and fill them out wi
 
 ### Install Flutter version 3.19.4 x64, which comes with Dart 3.3.2
 https://docs.flutter.dev/release/archive
+
+### Install dotnet version 6.0
+https://github.com/dotnet/core/blob/main/release-notes/6.0/README.md
 
 ### Install Android Studio Jellyfish 2023.3.1
 https://developer.android.com/studio/releases/past-releases/as-jellyfish-release-notes#android-studio-jellyfish-|-2023.3.1-patch-2-and-agp-8.4.2-june-2024
