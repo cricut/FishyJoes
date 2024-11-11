@@ -171,7 +171,7 @@ public struct Foo {
 ### Install Visual Studio 2022
 
 Go into your Visual Studio installer check the "Desktop development with C++" box on the "Workloads" tab.
-* Select "Desktop developerment with C++"
+* Select "Desktop development with C++"
 
 Go to the "Individual components" tab and check the following:
 * Windows 11 SDK (10.0.22000.0)
@@ -180,9 +180,11 @@ Go to the "Individual components" tab and check the following:
 Install these
 
 ### Install Swift 5.10 (or 5.10.1):
-https://www.swift.org/install/windows/traditional/ but ignore the components listed there since you already installed the correct ones above
+https://www.swift.org/download/ click on "Older Releases" to find it
 
-The "Support Files" section is required, regardless of what the instructions say. However, only the first and last modulemap files exist, but they still need to be copied over:
+The instructions in https://www.swift.org/install/windows/traditional/ aren't right for us since we are using Windows SDK 10.0.22000.0 and MSVC build tools 14.36.3253, plus in order to actually have the vcvarsall.bat file exist you need "Desktop development with C++" installed, but...
+
+The "Support Files" section is required, regardless of what the instructions say it not being required for Swift version >= 5.4.2. However, only the first and last modulemap files exist, but they still need to be copied over:
 * copy /Y %SDKROOT%\usr\share\ucrt.modulemap "%UniversalCRTSdkDir%\Include\%UCRTVersion%\ucrt\module.modulemap"
 * copy /Y %SDKROOT%\usr\share\winsdk.modulemap "%UniversalCRTSdkDir%\Include\%UCRTVersion%\um\module.modulemap"
 
@@ -206,6 +208,7 @@ Make sure you didn't forget to do the copy modulemaps step above, otherwise, thi
 ### Install git and git command line tools. Set up credentials so you can clone/access https://www.github.com/cricut/FishyJoes repo.
 
 Add C:\Program Files\Git\usr\bin to PATH in "Advanced System Settings->Environment Variables"
+Make new environment variables GITHUB_USER and GITHUB_TOKEN and fill them out with your github user name and github personal access token, respectively.
 
 ### Install Flutter version 3.19.4 x64, which comes with Dart 3.3.2
 https://docs.flutter.dev/release/archive
@@ -229,12 +232,6 @@ registry=https://registry.npmjs.org/
 ### Build fishy joes runtimes
 bash .\scripts\compile-node-runtime.sh
 bash .\scripts\compile-iota-runtime.sh
-
-Edit the .\kotlin-runtime\.gradle\gradle.properties file in the FishyJoes root folder of the checked out repo from github and add the gpr_user and gpr_key fields appropriately:
-
-gpr_user=<yourGithubUserName>
-gpr_key=<yourGithubPersonalAccessToken>
-
 bash .\scripts\compile-kotlin-native-runtime.sh
 cd kotlin-runtime
 .\gradlew publishToMavenLocal
