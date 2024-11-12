@@ -179,10 +179,6 @@ Go to the "Individual components" tab and check the following:
 
 Install these
 
-Add `c:\Program Files\dotnet\x64` to PATH environment variable
-
-Note: you may have to edit the c-sharp\*.sln file to use `Debug|x64` instead of `Debug|Any CPU` for it to work in the x64 native tools command prompt.
-
 ### Install Swift 5.10 (or 5.10.1):
 https://www.swift.org/download/ click on "Older Releases" to find it
 
@@ -219,6 +215,10 @@ https://docs.flutter.dev/release/archive
 
 ### Install dotnet version 6.0
 https://github.com/dotnet/core/blob/main/release-notes/6.0/README.md
+
+Add `c:\Program Files\dotnet\x64` to PATH environment variable
+
+Note: you may have to edit the c-sharp\*.sln file to use `Debug|x64` instead of `Debug|Any CPU` for it to work in the x64 native tools command prompt.
 
 ### Install Android Studio Jellyfish 2023.3.1
 https://developer.android.com/studio/releases/past-releases/as-jellyfish-release-notes#android-studio-jellyfish-|-2023.3.1-patch-2-and-agp-8.4.2-june-2024
