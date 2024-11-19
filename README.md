@@ -184,7 +184,7 @@ winget install --id GitHub.cli
 gh auth login
 ```
 
-3. If building Bifrost, install vcpkg and openssl
+3. (Optional) If building Bifrost, install vcpkg and openssl
 
 In powershell:
 ```powershell
