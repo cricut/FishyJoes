@@ -168,47 +168,38 @@ public struct Foo {
 
 ## How to run on windows (you can't generate code on windows, but you can build and test)
 
-### Install Visual Studio 2022 (I'm at 17.11.5)
+0. Install VS with x64 tools:
+```powershell
+winget install --id Microsoft.VisualStudio.2022.Professional --exact --force --custom "--add Microsoft.VisualStudio.Component.Windows11SDK.22000 --add Microsoft.VisualStudio.Component.VC.Tools.x86.x64"
+```
 
-Go into your Visual Studio installer check the "Desktop development with C++" box on the "Workloads" tab.
-* Select "Desktop development with C++"
+1. Install swift
+```powershell
+winget install --id Swift.Toolchain --exact --force --architecture x64
+```
 
-Go to the "Individual components" tab and check the following:
-* Windows 11 SDK (10.0.22000.0)
-* MSVC v143 - VS 2022 C++ x64/x86 build tools (v14.36-17.6) (don't select `(Latest)` because Swift 5.10 needs clang 16 and `(Latest)` will required clang 17 in some of the c headers for the libraries)
+2. Authenticate with github
+```powershell
+winget install --id GitHub.cli
+gh auth login
+```
 
-Install these
+3. (Optional) If building Bifrost, install vcpkg and openssl
 
-### Install Swift 5.10 (or 5.10.1):
-https://www.swift.org/download/ click on "Older Releases" to find it
+In powershell:
+```powershell
+git clone https://github.com/microsoft/vcpkg.git
+cd vcpkg; .\bootstrap-vcpkg.bat; [Environment]::SetEnvironmentVariable("VCPKG_ROOT", $PWD, "User")
 
-The instructions in https://www.swift.org/install/windows/traditional/ aren't right for us since we are using Windows SDK 10.0.22000.0 and MSVC build tools 14.36.3253, plus in order to actually have the vcvarsall.bat file exist you need "Desktop development with C++" installed, but...
+# (relaunch shell)
 
-The "Support Files" section is required, regardless of what the instructions say it not being required for Swift version >= 5.4.2. However, only the first and last modulemap files exist, but they still need to be copied over:
-* copy /Y %SDKROOT%\usr\share\ucrt.modulemap "%UniversalCRTSdkDir%\Include\%UCRTVersion%\ucrt\module.modulemap"
-* copy /Y %SDKROOT%\usr\share\winsdk.modulemap "%UniversalCRTSdkDir%\Include\%UCRTVersion%\um\module.modulemap"
+& "$env:VCPKG_ROOT\vcpkg.exe" install openssl:x64-windows-static
+```
 
-Add the following to your PATH variable in "edit the System Environment Variables":
-* C:\Users\<yourUserName>\AppData\Local\Programs\Swift\Runtimes\5.10.0\usr\bin
-* C:\Users\<yourUserName>\AppData\Local\Programs\Swift\Toolchains\5.10.0+Asserts\usr\bin
-* C:\Users\<yourUserName>\AppData\Local\Programs\Swift\Tools\5.10.0
-
-### Set up x64 Native Tools Command Prompt for VS 2022
-Copy vcvars64.bat from C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Auxiliary\Build to your home directory (or some other directory you have write access to)
-Rename it to something else, such as vcvars64sdk22000.bat
-edit vcvars64sdk22000.bat
-
-Change the line with @call on it to the following:
-`@call "%~dp0vcvarsall.bat" x64 10.0.22000.0 -vcvars_ver=14.36.32532 %*`
-copy vcvars64sdk22000.bat back to the C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Auxiliary\Build directory (you will need admin privileges to do this)
-Create a shortcut to vcvars64sdk22000.bat and put it somewhere you can use it.
-Use that shortcut to get a properly configured command prompt to run fishy joes in. It configures the PATH, TMP, INCLUDE, LIB, and LIBPATH environment variables properly.
-Make sure you didn't forget to do the copy modulemaps step above, otherwise, things still won't work when compiling c files such as is required with BiFrost-bindings.
-
-### Install git and git command line tools. Set up credentials so you can clone/access https://www.github.com/cricut/FishyJoes repo.
-
-Add C:\Program Files\Git\usr\bin to PATH in "Advanced System Settings->Environment Variables"
-Make new environment variables GITHUB_USER and GITHUB_TOKEN and fill them out with your github user name and github personal access token, respectively.
+4. In "x64 Native Tools Command Prompt"
+```
+swift build
+```
 
 ### Install Flutter version 3.19.4 x64, which comes with Dart 3.3.2
 https://docs.flutter.dev/release/archive
