@@ -240,7 +240,7 @@ cd kotlin-runtime
 Now you should be able to run `swift run fishy-joes build test --node-js --dart --c-sharp --kotlin-fast --debug` as usual in the integration-tests\TestAPI-bindings directory.
 
 ## Other tutorials
-[Setup Windows for specific version of Swift 5.10 (not recommended)](docs/windows-swift-5.10.x.md)
+[Setup Windows for specific version of Swift 5.10 (not recommended)](documentation/windows-swift-5.10.x.md)
 
 [Tutorial by Matt](https://cricut.sharepoint.com/:v:/r/sites/softwareteam/Shared%20Documents/Team-Enablement-Client/Cross-Platform%20Code%20Introduction.mp4?csf=1&web=1&e=vSEVMc)
 
