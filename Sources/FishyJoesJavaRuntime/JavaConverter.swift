@@ -740,8 +740,8 @@ extension SetConverter: JavaConverter where ElementConverter: JavaConverter, Ele
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
         var result = SwiftType()
-        try JavaSet.forEach(value, env: env) { _ in
-            result.insert(try ElementConverter.fromJava(object: value, env: env))
+        try JavaSet.forEach(value, env: env) { entry in
+            result.insert(try ElementConverter.fromJava(object: entry, env: env))
         }
         return result
     }
