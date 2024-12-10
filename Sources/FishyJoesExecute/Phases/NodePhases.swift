@@ -109,7 +109,14 @@ class NodePhases: BasePhases, Phases {
         if platform == .wasm {
             // Install Wasm bundle to the output directory, using wasm-opt to optimize Wasm bundles if available
             if options.wasmOpt, cmd("wasm-opt", "--version").runBool() {
-                try cmd("wasm-opt", "\(platform.buildDir(buildConfig))/\(nodeModule.wasmMainShimName)", "-O1", "-o", "\(outputDir)/\(nodeModule.name).wasm").run()
+                let optArgs = try [
+                    "\(platform.buildDir(buildConfig))/\(nodeModule.wasmMainShimName)",
+                ] + (
+                    options.buildConfig.debug ? ["--debuginfo", "-O1"] : ["-O1"]
+                ) + [
+                    "-o", "\(outputDir)/\(nodeModule.name).wasm",
+                ]
+                try cmd("wasm-opt", arguments: optArgs).run()
             } else {
                 if options.wasmOpt {
                     Log.warn("WARNING: wasm-opt is not installed, resulting build will be bigger and possibly slower")
