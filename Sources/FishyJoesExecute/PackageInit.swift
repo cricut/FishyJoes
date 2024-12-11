@@ -172,20 +172,32 @@ public struct PackageInit: ParsableCommand {
         ] + config.requiredModules.map {
             (swift: $0, nupkgsPath: "bindings/c-sharp/nupkgs", nuget: "Cricut.\($0)")
         }
-        let csProjDependencyLines = csProjDependencies.flatMap {
-            guard let dependency = swiftPackage?.dependencyMap[$0.swift] else {
-                return [#"<ItemGroup><PackageReference Include="\#($0.nuget)" Version="[0.0.1-unknown]" /></ItemGroup>"#]
+        let csProjDependencyLines = (
+            {
+                var dependencyPaths: [String] = []
+                let deps = csProjDependencies.map {
+                    guard let dependency = swiftPackage?.dependencyMap[$0.swift] else {
+                        return #"<ItemGroup><PackageReference Include="\#($0.nuget)" Version="[0.0.1-unknown]" /></ItemGroup>"#
+                    }
+                    if let version = dependency.versionInNugetFormat {
+                        return #"<ItemGroup><PackageReference Include="\#($0.nuget)" Version="\#(version)" /></ItemGroup>"#
+                    } else {
+                        let path = relativePath(of: dependency.localPath, relativeTo: "bindings/c-sharp/generated/Cricut.\(config.module)/")
+                        dependencyPaths.append("$(MSBuildThisFileDirectory)\(path)/\($0.nupkgsPath)")
+                        return #"<ItemGroup><PackageReference Include="\#($0.nuget)" Version="[0.0.1-unknown]" /></ItemGroup>"#
+                    }
+                }
+
+                if dependencyPaths.isEmpty {
+                    return deps
+                } else {
+                    return [
+                        // Note: All these being in one line as one item seems to be important, even though ugly
+                        #"<PropertyGroup><RestoreAdditionalProjectSources>\#(dependencyPaths.joined(separator: ";"))</RestoreAdditionalProjectSources></PropertyGroup>"#,
+                    ] + deps
+                }
             }
-            if let version = dependency.versionInNugetFormat {
-                return [#"<ItemGroup><PackageReference Include="\#($0.nuget)" Version="\#(version)" /></ItemGroup>"#]
-            } else {
-                let dependencyPath = relativePath(of: dependency.localPath, relativeTo: "bindings/c-sharp/generated/Cricut.\(config.module)/")
-                return [
-                    #"<PropertyGroup><RestoreAdditionalProjectSources>$(ProjectDir)\#(dependencyPath)/\#($0.nupkgsPath)</RestoreAdditionalProjectSources></PropertyGroup>"#,
-                    #"<ItemGroup><PackageReference Include="\#($0.nuget)" Version="[0.0.1-unknown]" /></ItemGroup>"#,
-                ]
-            }
-        }
+        )()
         replacements["__CSPROJ_DEPENDENCIES__"] = join(lines: csProjDependencyLines, indent: 2)
 
         // MARK: dart replacements
