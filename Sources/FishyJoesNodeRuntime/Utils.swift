@@ -161,6 +161,13 @@ public func nodeDescribe(_ value: NAPI.Value?, env: NAPI.Env) throws -> String {
     return try String.fromNode(env.coerceToString(value), env: env)
 }
 
+public func nodeConsoleLog(_ value: NAPI.Value, env: NAPI.Env) throws {
+    let global = try env.getGlobal()
+    let console = try env.getNamedProperty(global, "console")
+    let log = try env.getNamedProperty(console, "log")
+    _ = try env.callFunction(console, log, [value])
+}
+
 public func nodeError(_ error: Error, env: NAPI.Env) throws -> NAPI.Value {
     let message: String
     if let error = error as? JSException {
