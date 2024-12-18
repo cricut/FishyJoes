@@ -19,7 +19,7 @@ extension NodeConverter {
 }
 
 // MARK: - Runtime Module Helpers
-private enum RuntimeModule {
+internal enum RuntimeModule {
     static var moduleReference: NodeReference?
     static func module(env: NAPI.Env) throws -> NAPI.Value {
         guard let ref = moduleReference else {
@@ -309,10 +309,6 @@ extension Data: NodeConverter {
         return arrayBuffer
         #endif
     }
-
-    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-        try RuntimeModule.nodeSetup(env: env, module: module)
-    }
 }
 
 // MARK: - URL Conversions
@@ -350,10 +346,6 @@ extension ArrayConverter: NodeConverter where ElementConverter: NodeConverter {
         }
         return array
     }
-
-    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-        try ElementConverter.nodeSetup(env: env, module: module)
-    }
 }
 
 extension DictionaryConverter: NodeConverter where KeyConverter: NodeConverter, ValueConverter: NodeConverter {
@@ -381,11 +373,6 @@ extension DictionaryConverter: NodeConverter where KeyConverter: NodeConverter, 
 
         return map
     }
-
-    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-        try KeyConverter.nodeSetup(env: env, module: module)
-        try ValueConverter.nodeSetup(env: env, module: module)
-    }
 }
 
 extension SetConverter: NodeConverter where ElementConverter: NodeConverter {
@@ -411,10 +398,6 @@ extension SetConverter: NodeConverter where ElementConverter: NodeConverter {
 
         return try env.newInstance(setConstructor, [array])
     }
-
-    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-        try ElementConverter.nodeSetup(env: env, module: module)
-    }
 }
 
 // MARK: - Optional Conversions
@@ -430,10 +413,6 @@ extension OptionalConverter: NodeConverter where WrappedConverter: NodeConverter
         } else {
             return try env.getUndefined()
         }
-    }
-
-    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-        try WrappedConverter.nodeSetup(env: env, module: module)
     }
 }
 
@@ -457,10 +436,6 @@ extension RangeConverter: NodeConverter where BoundConverter: NodeConverter {
         try env.setNamedProperty(range, "upperBoundExclusive", upperBound)
         return range
     }
-
-    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-        try BoundConverter.nodeSetup(env: env, module: module)
-    }
 }
 
 extension ClosedRangeConverter: NodeConverter where BoundConverter: NodeConverter {
@@ -480,10 +455,6 @@ extension ClosedRangeConverter: NodeConverter where BoundConverter: NodeConverte
         try env.setNamedProperty(range, "lowerBound", lowerBound)
         try env.setNamedProperty(range, "upperBoundInclusive", upperBound)
         return range
-    }
-
-    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-        try BoundConverter.nodeSetup(env: env, module: module)
     }
 }
 
@@ -509,11 +480,5 @@ extension ResultConverter: NodeConverter where SuccessConverter: NodeConverter, 
             let nodeError = try FailureConverter.toNode(failure, env: env)
             return try env.callFunction(resultClass, env.getNamedProperty(resultClass, "failure"), [nodeError])
         }
-    }
-
-    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-        try RuntimeModule.nodeSetup(env: env, module: module)
-        try SuccessConverter.nodeSetup(env: env, module: module)
-        try FailureConverter.nodeSetup(env: env, module: module)
     }
 }

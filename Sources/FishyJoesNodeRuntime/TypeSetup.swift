@@ -7,17 +7,21 @@ public func registerModuleRuntime(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try env.setNamedProperty(exports, "Runtime", module)
     try env.setNamedProperty(exports, "default", module)
 
-    try AttributeContainer.FoundationAttributes.nodeSetup(env: env, module: module)
+    try RuntimeModule.nodeSetup(env: env, module: module)
+
+    // Sorted alphabetically by type
     try AttributeContainer.nodeSetup(env: env, module: module)
+    try AttributeContainer.FoundationAttributes.nodeSetup(env: env, module: module)
     try AttributedString.nodeSetup(env: env, module: module)
-    try AttributedSubstring.nodeSetup(env: env, module: module)
     try AttributedString.CharacterView.nodeSetup(env: env, module: module)
-    try AttributedString.Runs.Index.nodeSetup(env: env, module: module)
     try AttributedString.Index.nodeSetup(env: env, module: module)
-    try AttributedString.Runs.Run.nodeSetup(env: env, module: module)
     try AttributedString.Runs.nodeSetup(env: env, module: module)
+    try AttributedString.Runs.Index.nodeSetup(env: env, module: module)
+    try AttributedString.Runs.Run.nodeSetup(env: env, module: module)
     try AttributedString.UnicodeScalarView.nodeSetup(env: env, module: module)
+    try AttributedSubstring.nodeSetup(env: env, module: module)
     try Data.nodeSetup(env: env, module: module)
+    try FutureConverter<VoidConverter>.nodeSetup(env: env, module: module)
     return exports
 }
 

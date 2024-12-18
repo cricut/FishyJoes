@@ -22,7 +22,7 @@ export const init = async () => {
   }
 
   let wasmPromise
-  if (typeof(fetch) === 'function') {
+  if (typeof(__webpack_require__) === 'function' && typeof(fetch) === 'function') {
     const response = await import("./__MODULE_NAME__.wasm").then((module) => fetch(module.default));
     wasmPromise = WebAssembly.instantiateStreaming(response, importObject);
   } else {

@@ -1,3086 +1,4 @@
 {
-  "types" : [
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI_CommonInterface",
-            "name" : "_AProtocolConverter",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "AProtocol",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "AProtocol",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/AProtocol"
-        }
-      },
-      "kotlinName" : "AProtocol",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=AProtocol>>",
-      "nodeName" : "TestAPI.AProtocol",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "AProtocol",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "AProtocolImplementation",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "AProtocolImplementation",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "AProtocolImplementation",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/AProtocolImplementation"
-        }
-      },
-      "kotlinName" : "AProtocolImplementation",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=AProtocolImplementation>>",
-      "nodeName" : "TestAPI.AProtocolImplementation",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "AProtocolImplementation",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "Actors",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "Actors",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "Actors",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : false,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/Actors"
-        }
-      },
-      "kotlinName" : "Actors",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Actors>>",
-      "nodeName" : "TestAPI.Actors",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "Actors",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TemperatureLogger",
-            "namespace" : [
-              "Actors"
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "Actors.TemperatureLogger",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "Actors_TemperatureLogger",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/Actors$TemperatureLogger"
-        }
-      },
-      "kotlinName" : "Actors.TemperatureLogger",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Reference<To=Actors.TemperatureLogger>>",
-      "nodeName" : "TestAPI.Actors.TemperatureLogger",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TemperatureLogger",
-            "namespace" : [
-              "Actors"
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "AssociatedDataEnum",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "AssociatedDataEnum",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "AssociatedDataEnum",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/AssociatedDataEnum"
-        }
-      },
-      "kotlinName" : "AssociatedDataEnum",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=AssociatedDataEnum>>",
-      "nodeName" : "TestAPI.AssociatedDataEnum",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "AssociatedDataEnum",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "AsyncFunctions",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "AsyncFunctions",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "AsyncFunctions",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : false,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/AsyncFunctions"
-        }
-      },
-      "kotlinName" : "AsyncFunctions",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=AsyncFunctions>>",
-      "nodeName" : "TestAPI.AsyncFunctions",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "AsyncFunctions",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "AttributedStrings",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "AttributedStrings",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "AttributedStrings",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : false,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/AttributedStrings"
-        }
-      },
-      "kotlinName" : "AttributedStrings",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=AttributedStrings>>",
-      "nodeName" : "TestAPI.AttributedStrings",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "AttributedStrings",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "Bytes",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "Bytes",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "Bytes",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : false,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/Bytes"
-        }
-      },
-      "kotlinName" : "Bytes",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Bytes>>",
-      "nodeName" : "TestAPI.Bytes",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "Bytes",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "ClosedRanges",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "ClosedRanges",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "ClosedRanges",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : false,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/ClosedRanges"
-        }
-      },
-      "kotlinName" : "ClosedRanges",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=ClosedRanges>>",
-      "nodeName" : "TestAPI.ClosedRanges",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "ClosedRanges",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "Collections",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "Collections",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "Collections",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : false,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/Collections"
-        }
-      },
-      "kotlinName" : "Collections",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Collections>>",
-      "nodeName" : "TestAPI.Collections",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "Collections",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "CollectionHolder",
-            "namespace" : [
-              "Collections"
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "Collections.CollectionHolder",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "Collections_CollectionHolder",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/Collections$CollectionHolder"
-        }
-      },
-      "kotlinName" : "Collections.CollectionHolder",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=Collections.CollectionHolder>>",
-      "nodeName" : "TestAPI.Collections.CollectionHolder",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "CollectionHolder",
-            "namespace" : [
-              "Collections"
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "DefaultArguments",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "DefaultArguments",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "DefaultArguments",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : false,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/DefaultArguments"
-        }
-      },
-      "kotlinName" : "DefaultArguments",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=DefaultArguments>>",
-      "nodeName" : "TestAPI.DefaultArguments",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "DefaultArguments",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "Deprecations",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "Deprecations",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "Deprecations",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : false,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/Deprecations"
-        }
-      },
-      "kotlinName" : "Deprecations",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Deprecations>>",
-      "nodeName" : "TestAPI.Deprecations",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "Deprecations",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "EmptyClass",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "EmptyClass1",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "EmptyClass1",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/EmptyClass1"
-        }
-      },
-      "kotlinName" : "EmptyClass1",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Reference<To=EmptyClass1>>",
-      "nodeName" : "TestAPI.EmptyClass1",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "EmptyClass",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "EmptyClass2",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "EmptyClass2",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "EmptyClass2",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/EmptyClass2"
-        }
-      },
-      "kotlinName" : "EmptyClass2",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Reference<To=EmptyClass2>>",
-      "nodeName" : "TestAPI.EmptyClass2",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "EmptyClass2",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "EmptyEnum",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "EmptyEnum",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "EmptyEnum",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : false,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/EmptyEnum"
-        }
-      },
-      "kotlinName" : "EmptyEnum",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=EmptyEnum>>",
-      "nodeName" : "TestAPI.EmptyEnum",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "EmptyEnum",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "EmptyStruct",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "EmptyStruct",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "EmptyStruct",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/EmptyStruct"
-        }
-      },
-      "kotlinName" : "EmptyStruct",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=EmptyStruct>>",
-      "nodeName" : "TestAPI.EmptyStruct",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "EmptyStruct",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "EmptyStruct2",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "EmptyStruct2",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "EmptyStruct2",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/EmptyStruct2"
-        }
-      },
-      "kotlinName" : "EmptyStruct2",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=EmptyStruct2>>",
-      "nodeName" : "TestAPI.EmptyStruct2",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "EmptyStruct2",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "Foundation",
-            "name" : "PuttingTypesIntoQuestionablePlaces",
-            "namespace" : [
-              "AttributedString"
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "AttributedString_PuttingTypesIntoQuestionablePlaces",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "AttributedString_PuttingTypesIntoQuestionablePlaces",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/AttributedString_PuttingTypesIntoQuestionablePlaces"
-        }
-      },
-      "kotlinName" : "AttributedString_PuttingTypesIntoQuestionablePlaces",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=AttributedString_PuttingTypesIntoQuestionablePlaces>>",
-      "nodeName" : "TestAPI.AttributedString_PuttingTypesIntoQuestionablePlaces",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "Foundation",
-            "name" : "PuttingTypesIntoQuestionablePlaces",
-            "namespace" : [
-              "AttributedString"
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "Functions",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "Functions",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "Functions",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : false,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/Functions"
-        }
-      },
-      "kotlinName" : "Functions",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Functions>>",
-      "nodeName" : "TestAPI.Functions",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "Functions",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "Methods",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "Methods",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "Methods",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/Methods"
-        }
-      },
-      "kotlinName" : "Methods",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Reference<To=Methods>>",
-      "nodeName" : "TestAPI.Methods",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "Methods",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "Primitives",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "Primitives",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "Primitives",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : false,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/Primitives"
-        }
-      },
-      "kotlinName" : "Primitives",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Primitives>>",
-      "nodeName" : "TestAPI.Primitives",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "Primitives",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "PrimitiveHolder",
-            "namespace" : [
-              "Primitives"
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "Primitives.PrimitiveHolder",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "Primitives_PrimitiveHolder",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/Primitives$PrimitiveHolder"
-        }
-      },
-      "kotlinName" : "Primitives.PrimitiveHolder",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=Primitives.PrimitiveHolder>>",
-      "nodeName" : "TestAPI.Primitives.PrimitiveHolder",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "PrimitiveHolder",
-            "namespace" : [
-              "Primitives"
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "Ranges",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "Ranges",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "Ranges",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : false,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/Ranges"
-        }
-      },
-      "kotlinName" : "Ranges",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Ranges>>",
-      "nodeName" : "TestAPI.Ranges",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "Ranges",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "Results",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "Results",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "Results",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : false,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/Results"
-        }
-      },
-      "kotlinName" : "Results",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Results>>",
-      "nodeName" : "TestAPI.Results",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "Results",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "Error",
-            "namespace" : [
-              "Results"
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "Results.Error",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "Results_Error",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/Results$Error"
-        }
-      },
-      "kotlinName" : "Results.Error",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=Results.Error>>",
-      "nodeName" : "TestAPI.Results.Error",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "Error",
-            "namespace" : [
-              "Results"
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "SimpleEnum",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "SimpleEnum",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "SimpleEnum",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/SimpleEnum"
-        }
-      },
-      "kotlinName" : "SimpleEnum",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=SimpleEnum>>",
-      "nodeName" : "TestAPI.SimpleEnum",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "SimpleEnum",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "Strings",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "Strings",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "Strings",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : false,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/Strings"
-        }
-      },
-      "kotlinName" : "Strings",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Strings>>",
-      "nodeName" : "TestAPI.Strings",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "Strings",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "Structs",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "Structs",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "Structs",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : false,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/Structs"
-        }
-      },
-      "kotlinName" : "Structs",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Structs>>",
-      "nodeName" : "TestAPI.Structs",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "Structs",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "MemberwiseStruct",
-            "namespace" : [
-              "Structs"
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "Structs.MemberwiseStruct",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "Structs_MemberwiseStruct",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/Structs$MemberwiseStruct"
-        }
-      },
-      "kotlinName" : "Structs.MemberwiseStruct",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=Structs.MemberwiseStruct>>",
-      "nodeName" : "TestAPI.Structs.MemberwiseStruct",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "MemberwiseStruct",
-            "namespace" : [
-              "Structs"
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "MutableStruct",
-            "namespace" : [
-              "Structs"
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "Structs.MutableStruct",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "Structs_MutableStruct",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/Structs$MutableStruct"
-        }
-      },
-      "kotlinName" : "Structs.MutableStruct",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=Structs.MutableStruct>>",
-      "nodeName" : "TestAPI.Structs.MutableStruct",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "MutableStruct",
-            "namespace" : [
-              "Structs"
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "PuttingTypesIntoQuestionablePlaces",
-            "namespace" : [
-              "Structs"
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "Structs_PuttingTypesIntoQuestionablePlaces",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "Structs_PuttingTypesIntoQuestionablePlaces",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/Structs_PuttingTypesIntoQuestionablePlaces"
-        }
-      },
-      "kotlinName" : "Structs_PuttingTypesIntoQuestionablePlaces",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Reference<To=Structs_PuttingTypesIntoQuestionablePlaces>>",
-      "nodeName" : "TestAPI.Structs_PuttingTypesIntoQuestionablePlaces",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "PuttingTypesIntoQuestionablePlaces",
-            "namespace" : [
-              "Structs"
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "ReferenceStruct",
-            "namespace" : [
-              "Structs"
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "Structs.ReferenceStruct",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "Structs_ReferenceStruct",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/Structs$ReferenceStruct"
-        }
-      },
-      "kotlinName" : "Structs.ReferenceStruct",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Reference<To=Structs.ReferenceStruct>>",
-      "nodeName" : "TestAPI.Structs.ReferenceStruct",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "ReferenceStruct",
-            "namespace" : [
-              "Structs"
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TwentyOneItemStruct",
-            "namespace" : [
-              "Structs"
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "Structs.TwentyOneItemStruct",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "Structs_TwentyOneItemStruct",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/Structs$TwentyOneItemStruct"
-        }
-      },
-      "kotlinName" : "Structs.TwentyOneItemStruct",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=Structs.TwentyOneItemStruct>>",
-      "nodeName" : "TestAPI.Structs.TwentyOneItemStruct",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TwentyOneItemStruct",
-            "namespace" : [
-              "Structs"
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "Swift",
-            "name" : "PuttingTypesIntoQuestionablePlaces",
-            "namespace" : [
-              "String"
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "String_PuttingTypesIntoQuestionablePlaces",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "String_PuttingTypesIntoQuestionablePlaces",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/String_PuttingTypesIntoQuestionablePlaces"
-        }
-      },
-      "kotlinName" : "String_PuttingTypesIntoQuestionablePlaces",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=String_PuttingTypesIntoQuestionablePlaces>>",
-      "nodeName" : "TestAPI.String_PuttingTypesIntoQuestionablePlaces",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "Swift",
-            "name" : "PuttingTypesIntoQuestionablePlaces",
-            "namespace" : [
-              "String"
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TestAsyncForeignSideFunctionsStruct",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "TestAsyncForeignSideFunctionsStruct",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "TestAsyncForeignSideFunctionsStruct",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/TestAsyncForeignSideFunctionsStruct"
-        }
-      },
-      "kotlinName" : "TestAsyncForeignSideFunctionsStruct",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestAsyncForeignSideFunctionsStruct>>",
-      "nodeName" : "TestAPI.TestAsyncForeignSideFunctionsStruct",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TestAsyncForeignSideFunctionsStruct",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI_CommonInterface",
-            "name" : "_TestAsyncFunctionsConverter",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "TestAsyncFunctions",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "TestAsyncFunctions",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/TestAsyncFunctions"
-        }
-      },
-      "kotlinName" : "TestAsyncFunctions",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestAsyncFunctions>>",
-      "nodeName" : "TestAPI.TestAsyncFunctions",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TestAsyncFunctions",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TestAsyncSwiftSideFunctionsClass",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "TestAsyncSwiftSideFunctionsClass",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "TestAsyncSwiftSideFunctionsClass",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/TestAsyncSwiftSideFunctionsClass"
-        }
-      },
-      "kotlinName" : "TestAsyncSwiftSideFunctionsClass",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Reference<To=TestAsyncSwiftSideFunctionsClass>>",
-      "nodeName" : "TestAPI.TestAsyncSwiftSideFunctionsClass",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TestAsyncSwiftSideFunctionsClass",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI_CommonInterface",
-            "name" : "_TestDefaultComputedPropertiesConverter",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "TestDefaultComputedProperties",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "TestDefaultComputedProperties",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/TestDefaultComputedProperties"
-        }
-      },
-      "kotlinName" : "TestDefaultComputedProperties",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestDefaultComputedProperties>>",
-      "nodeName" : "TestAPI.TestDefaultComputedProperties",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TestDefaultComputedProperties",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TestDefaultComputedPropertiesClass",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "TestDefaultComputedPropertiesReference",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "TestDefaultComputedPropertiesReference",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/TestDefaultComputedPropertiesReference"
-        }
-      },
-      "kotlinName" : "TestDefaultComputedPropertiesReference",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Reference<To=TestDefaultComputedPropertiesReference>>",
-      "nodeName" : "TestAPI.TestDefaultComputedPropertiesReference",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TestDefaultComputedPropertiesClass",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TestDefaultComputedPropertiesEnum",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "TestDefaultComputedPropertiesEnum",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "TestDefaultComputedPropertiesEnum",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/TestDefaultComputedPropertiesEnum"
-        }
-      },
-      "kotlinName" : "TestDefaultComputedPropertiesEnum",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=TestDefaultComputedPropertiesEnum>>",
-      "nodeName" : "TestAPI.TestDefaultComputedPropertiesEnum",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TestDefaultComputedPropertiesEnum",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TestDefaultComputedPropertiesStruct",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "TestDefaultComputedPropertiesStruct",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "TestDefaultComputedPropertiesStruct",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/TestDefaultComputedPropertiesStruct"
-        }
-      },
-      "kotlinName" : "TestDefaultComputedPropertiesStruct",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestDefaultComputedPropertiesStruct>>",
-      "nodeName" : "TestAPI.TestDefaultComputedPropertiesStruct",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TestDefaultComputedPropertiesStruct",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI_CommonInterface",
-            "name" : "_TestDifferingExportNameProtocolConverter",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "TestDifferingExportNameProtocolDiffy",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "TestDifferingExportNameProtocolDiffy",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/TestDifferingExportNameProtocolDiffy"
-        }
-      },
-      "kotlinName" : "TestDifferingExportNameProtocolDiffy",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestDifferingExportNameProtocolDiffy>>",
-      "nodeName" : "TestAPI.TestDifferingExportNameProtocolDiffy",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TestDifferingExportNameProtocol",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TestDifferingExportNameStruct",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "TestDifferingExportNameStruct",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "TestDifferingExportNameStruct",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/TestDifferingExportNameStruct"
-        }
-      },
-      "kotlinName" : "TestDifferingExportNameStruct",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestDifferingExportNameStruct>>",
-      "nodeName" : "TestAPI.TestDifferingExportNameStruct",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TestDifferingExportNameStruct",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI_CommonInterface",
-            "name" : "_TestLeadingUnderscoredPropConverter",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "TestLeadingUnderscoredProp",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "TestLeadingUnderscoredProp",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/TestLeadingUnderscoredProp"
-        }
-      },
-      "kotlinName" : "TestLeadingUnderscoredProp",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestLeadingUnderscoredProp>>",
-      "nodeName" : "TestAPI.TestLeadingUnderscoredProp",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TestLeadingUnderscoredProp",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TestLeadingUnderscoredPropStruct",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "TestLeadingUnderscoredPropStruct",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "TestLeadingUnderscoredPropStruct",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/TestLeadingUnderscoredPropStruct"
-        }
-      },
-      "kotlinName" : "TestLeadingUnderscoredPropStruct",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestLeadingUnderscoredPropStruct>>",
-      "nodeName" : "TestAPI.TestLeadingUnderscoredPropStruct",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TestLeadingUnderscoredPropStruct",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI_CommonInterface",
-            "name" : "_TestMethodsProtocolConverter",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "TestMethodsProtocol",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "TestMethodsProtocol",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/TestMethodsProtocol"
-        }
-      },
-      "kotlinName" : "TestMethodsProtocol",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestMethodsProtocol>>",
-      "nodeName" : "TestAPI.TestMethodsProtocol",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TestMethodsProtocol",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TestNonExportedProtocolEnum",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "TestNonExportedProtocolEnum",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "TestNonExportedProtocolEnum",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/TestNonExportedProtocolEnum"
-        }
-      },
-      "kotlinName" : "TestNonExportedProtocolEnum",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=TestNonExportedProtocolEnum>>",
-      "nodeName" : "TestAPI.TestNonExportedProtocolEnum",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TestNonExportedProtocolEnum",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI_CommonInterface",
-            "name" : "_TestOptionalsProtocolConverter",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "TestOptionalsProtocol",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "TestOptionalsProtocol",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/TestOptionalsProtocol"
-        }
-      },
-      "kotlinName" : "TestOptionalsProtocol",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestOptionalsProtocol>>",
-      "nodeName" : "TestAPI.TestOptionalsProtocol",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TestOptionalsProtocol",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI_CommonInterface",
-            "name" : "_TestPropertiesProtocolConverter",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "TestPropertiesProtocol",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "TestPropertiesProtocol",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/TestPropertiesProtocol"
-        }
-      },
-      "kotlinName" : "TestPropertiesProtocol",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestPropertiesProtocol>>",
-      "nodeName" : "TestAPI.TestPropertiesProtocol",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TestPropertiesProtocol",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TestProtocolClass",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "TestProtocolClass",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "TestProtocolClass",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/TestProtocolClass"
-        }
-      },
-      "kotlinName" : "TestProtocolClass",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Reference<To=TestProtocolClass>>",
-      "nodeName" : "TestAPI.TestProtocolClass",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TestProtocolClass",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TestProtocolEnum",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "TestProtocolEnum",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "TestProtocolEnum",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/TestProtocolEnum"
-        }
-      },
-      "kotlinName" : "TestProtocolEnum",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=TestProtocolEnum>>",
-      "nodeName" : "TestAPI.TestProtocolEnum",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TestProtocolEnum",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TestProtocolStruct",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "TestProtocolStruct",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "TestProtocolStruct",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/TestProtocolStruct"
-        }
-      },
-      "kotlinName" : "TestProtocolStruct",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestProtocolStruct>>",
-      "nodeName" : "TestAPI.TestProtocolStruct",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TestProtocolStruct",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "Tuples",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "Tuples",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "Tuples",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : false,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/Tuples"
-        }
-      },
-      "kotlinName" : "Tuples",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Tuples>>",
-      "nodeName" : "TestAPI.Tuples",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "Tuples",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "URLs",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "URLs",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "URLs",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : false,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/URLs"
-        }
-      },
-      "kotlinName" : "URLs",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=URLs>>",
-      "nodeName" : "TestAPI.URLs",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "URLs",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "Swift",
-            "name" : "PuttingTypesIntoQuestionablePlaces",
-            "namespace" : [
-              "UnicodeScalar"
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "UnicodeScalar_PuttingTypesIntoQuestionablePlaces",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "UnicodeScalar_PuttingTypesIntoQuestionablePlaces",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/UnicodeScalar_PuttingTypesIntoQuestionablePlaces"
-        }
-      },
-      "kotlinName" : "UnicodeScalar_PuttingTypesIntoQuestionablePlaces",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=UnicodeScalar_PuttingTypesIntoQuestionablePlaces>>",
-      "nodeName" : "TestAPI.UnicodeScalar_PuttingTypesIntoQuestionablePlaces",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "Swift",
-            "name" : "PuttingTypesIntoQuestionablePlaces",
-            "namespace" : [
-              "UnicodeScalar"
-            ]
-          }
-        }
-      }
-    }
-  ],
   "typeScriptAnnotations" : {
     "defaultNamespace" : "TestAPI",
     "rootNamespaces" : [
@@ -15673,50 +12591,6 @@
 
             ]
           },
-          "UnicodeScalar_PuttingTypesIntoQuestionablePlaces" : {
-            "classes" : [
-
-            ],
-            "fields" : [
-
-            ],
-            "interfaces" : [
-
-            ],
-            "methods" : [
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(testCall) -->"
-                ],
-                "hasDefaultImplementation" : false,
-                "isAsync" : false,
-                "isStatic" : true,
-                "name" : "testCall",
-                "parameters" : [
-                  {
-                    "name" : "self",
-                    "type" : {
-                      "named" : {
-                        "_0" : "TestAPI.UnicodeScalar_PuttingTypesIntoQuestionablePlaces"
-                      }
-                    }
-                  }
-                ],
-                "returnType" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              }
-            ],
-            "name" : "UnicodeScalar_PuttingTypesIntoQuestionablePlaces",
-            "namespaces" : {
-
-            },
-            "typealiases" : [
-
-            ]
-          },
           "URLs" : {
             "classes" : [
 
@@ -15795,6 +12669,50 @@
               }
             ],
             "name" : "URLs",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
+          },
+          "UnicodeScalar_PuttingTypesIntoQuestionablePlaces" : {
+            "classes" : [
+
+            ],
+            "fields" : [
+
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(testCall) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "testCall",
+                "parameters" : [
+                  {
+                    "name" : "self",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.UnicodeScalar_PuttingTypesIntoQuestionablePlaces"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
+            ],
+            "name" : "UnicodeScalar_PuttingTypesIntoQuestionablePlaces",
             "namespaces" : {
 
             },
@@ -16160,5 +13078,3087 @@
         ]
       }
     ]
-  }
+  },
+  "types" : [
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "AProtocol",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI_CommonInterface",
+            "name" : "_AProtocolConverter",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "AProtocol",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/AProtocol"
+        }
+      },
+      "kotlinName" : "AProtocol",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=AProtocol>>",
+      "nodeName" : "TestAPI.AProtocol",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "AProtocol",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "AProtocolImplementation",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "AProtocolImplementation",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "AProtocolImplementation",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/AProtocolImplementation"
+        }
+      },
+      "kotlinName" : "AProtocolImplementation",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=AProtocolImplementation>>",
+      "nodeName" : "TestAPI.AProtocolImplementation",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "AProtocolImplementation",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "Actors",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Actors",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Actors",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Actors"
+        }
+      },
+      "kotlinName" : "Actors",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Actors>>",
+      "nodeName" : "TestAPI.Actors",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Actors",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "Actors.TemperatureLogger",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TemperatureLogger",
+            "namespace" : [
+              "Actors"
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Actors_TemperatureLogger",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Actors$TemperatureLogger"
+        }
+      },
+      "kotlinName" : "Actors.TemperatureLogger",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=Actors.TemperatureLogger>>",
+      "nodeName" : "TestAPI.Actors.TemperatureLogger",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TemperatureLogger",
+            "namespace" : [
+              "Actors"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "AssociatedDataEnum",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "AssociatedDataEnum",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "AssociatedDataEnum",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/AssociatedDataEnum"
+        }
+      },
+      "kotlinName" : "AssociatedDataEnum",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=AssociatedDataEnum>>",
+      "nodeName" : "TestAPI.AssociatedDataEnum",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "AssociatedDataEnum",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "AsyncFunctions",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "AsyncFunctions",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "AsyncFunctions",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/AsyncFunctions"
+        }
+      },
+      "kotlinName" : "AsyncFunctions",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=AsyncFunctions>>",
+      "nodeName" : "TestAPI.AsyncFunctions",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "AsyncFunctions",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "AttributedStrings",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "AttributedStrings",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "AttributedStrings",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/AttributedStrings"
+        }
+      },
+      "kotlinName" : "AttributedStrings",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=AttributedStrings>>",
+      "nodeName" : "TestAPI.AttributedStrings",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "AttributedStrings",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "Bytes",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Bytes",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Bytes",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Bytes"
+        }
+      },
+      "kotlinName" : "Bytes",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Bytes>>",
+      "nodeName" : "TestAPI.Bytes",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Bytes",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "ClosedRanges",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "ClosedRanges",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "ClosedRanges",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/ClosedRanges"
+        }
+      },
+      "kotlinName" : "ClosedRanges",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=ClosedRanges>>",
+      "nodeName" : "TestAPI.ClosedRanges",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "ClosedRanges",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "Collections",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Collections",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Collections",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Collections"
+        }
+      },
+      "kotlinName" : "Collections",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Collections>>",
+      "nodeName" : "TestAPI.Collections",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Collections",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "Collections.CollectionHolder",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "CollectionHolder",
+            "namespace" : [
+              "Collections"
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Collections_CollectionHolder",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Collections$CollectionHolder"
+        }
+      },
+      "kotlinName" : "Collections.CollectionHolder",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=Collections.CollectionHolder>>",
+      "nodeName" : "TestAPI.Collections.CollectionHolder",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "CollectionHolder",
+            "namespace" : [
+              "Collections"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "DefaultArguments",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "DefaultArguments",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "DefaultArguments",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/DefaultArguments"
+        }
+      },
+      "kotlinName" : "DefaultArguments",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=DefaultArguments>>",
+      "nodeName" : "TestAPI.DefaultArguments",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "DefaultArguments",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "Deprecations",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Deprecations",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Deprecations",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Deprecations"
+        }
+      },
+      "kotlinName" : "Deprecations",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Deprecations>>",
+      "nodeName" : "TestAPI.Deprecations",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Deprecations",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "EmptyClass1",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "EmptyClass",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "EmptyClass1",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/EmptyClass1"
+        }
+      },
+      "kotlinName" : "EmptyClass1",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=EmptyClass1>>",
+      "nodeName" : "TestAPI.EmptyClass1",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "EmptyClass",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "EmptyClass2",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "EmptyClass2",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "EmptyClass2",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/EmptyClass2"
+        }
+      },
+      "kotlinName" : "EmptyClass2",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=EmptyClass2>>",
+      "nodeName" : "TestAPI.EmptyClass2",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "EmptyClass2",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "EmptyEnum",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "EmptyEnum",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "EmptyEnum",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/EmptyEnum"
+        }
+      },
+      "kotlinName" : "EmptyEnum",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=EmptyEnum>>",
+      "nodeName" : "TestAPI.EmptyEnum",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "EmptyEnum",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "EmptyStruct",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "EmptyStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "EmptyStruct",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/EmptyStruct"
+        }
+      },
+      "kotlinName" : "EmptyStruct",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=EmptyStruct>>",
+      "nodeName" : "TestAPI.EmptyStruct",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "EmptyStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "EmptyStruct2",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "EmptyStruct2",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "EmptyStruct2",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/EmptyStruct2"
+        }
+      },
+      "kotlinName" : "EmptyStruct2",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=EmptyStruct2>>",
+      "nodeName" : "TestAPI.EmptyStruct2",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "EmptyStruct2",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "AttributedString_PuttingTypesIntoQuestionablePlaces",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "Foundation",
+            "name" : "PuttingTypesIntoQuestionablePlaces",
+            "namespace" : [
+              "AttributedString"
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "AttributedString_PuttingTypesIntoQuestionablePlaces",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/AttributedString_PuttingTypesIntoQuestionablePlaces"
+        }
+      },
+      "kotlinName" : "AttributedString_PuttingTypesIntoQuestionablePlaces",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=AttributedString_PuttingTypesIntoQuestionablePlaces>>",
+      "nodeName" : "TestAPI.AttributedString_PuttingTypesIntoQuestionablePlaces",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "Foundation",
+            "name" : "PuttingTypesIntoQuestionablePlaces",
+            "namespace" : [
+              "AttributedString"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "Functions",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Functions",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Functions",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Functions"
+        }
+      },
+      "kotlinName" : "Functions",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Functions>>",
+      "nodeName" : "TestAPI.Functions",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Functions",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "Methods",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Methods",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Methods",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Methods"
+        }
+      },
+      "kotlinName" : "Methods",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=Methods>>",
+      "nodeName" : "TestAPI.Methods",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Methods",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "Primitives",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Primitives",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Primitives",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Primitives"
+        }
+      },
+      "kotlinName" : "Primitives",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Primitives>>",
+      "nodeName" : "TestAPI.Primitives",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Primitives",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "Primitives.PrimitiveHolder",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "PrimitiveHolder",
+            "namespace" : [
+              "Primitives"
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Primitives_PrimitiveHolder",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Primitives$PrimitiveHolder"
+        }
+      },
+      "kotlinName" : "Primitives.PrimitiveHolder",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=Primitives.PrimitiveHolder>>",
+      "nodeName" : "TestAPI.Primitives.PrimitiveHolder",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "PrimitiveHolder",
+            "namespace" : [
+              "Primitives"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "Ranges",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Ranges",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Ranges",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Ranges"
+        }
+      },
+      "kotlinName" : "Ranges",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Ranges>>",
+      "nodeName" : "TestAPI.Ranges",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Ranges",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "Results",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Results",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Results",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Results"
+        }
+      },
+      "kotlinName" : "Results",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Results>>",
+      "nodeName" : "TestAPI.Results",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Results",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "Results.Error",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Error",
+            "namespace" : [
+              "Results"
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Results_Error",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Results$Error"
+        }
+      },
+      "kotlinName" : "Results.Error",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=Results.Error>>",
+      "nodeName" : "TestAPI.Results.Error",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Error",
+            "namespace" : [
+              "Results"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "SimpleEnum",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "SimpleEnum",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "SimpleEnum",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/SimpleEnum"
+        }
+      },
+      "kotlinName" : "SimpleEnum",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=SimpleEnum>>",
+      "nodeName" : "TestAPI.SimpleEnum",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "SimpleEnum",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "Strings",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Strings",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Strings",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Strings"
+        }
+      },
+      "kotlinName" : "Strings",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Strings>>",
+      "nodeName" : "TestAPI.Strings",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Strings",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "Structs",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Structs",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Structs",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Structs"
+        }
+      },
+      "kotlinName" : "Structs",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Structs>>",
+      "nodeName" : "TestAPI.Structs",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Structs",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "Structs.MemberwiseStruct",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "MemberwiseStruct",
+            "namespace" : [
+              "Structs"
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Structs_MemberwiseStruct",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Structs$MemberwiseStruct"
+        }
+      },
+      "kotlinName" : "Structs.MemberwiseStruct",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=Structs.MemberwiseStruct>>",
+      "nodeName" : "TestAPI.Structs.MemberwiseStruct",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "MemberwiseStruct",
+            "namespace" : [
+              "Structs"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "Structs.MutableStruct",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "MutableStruct",
+            "namespace" : [
+              "Structs"
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Structs_MutableStruct",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Structs$MutableStruct"
+        }
+      },
+      "kotlinName" : "Structs.MutableStruct",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=Structs.MutableStruct>>",
+      "nodeName" : "TestAPI.Structs.MutableStruct",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "MutableStruct",
+            "namespace" : [
+              "Structs"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "Structs_PuttingTypesIntoQuestionablePlaces",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "PuttingTypesIntoQuestionablePlaces",
+            "namespace" : [
+              "Structs"
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Structs_PuttingTypesIntoQuestionablePlaces",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Structs_PuttingTypesIntoQuestionablePlaces"
+        }
+      },
+      "kotlinName" : "Structs_PuttingTypesIntoQuestionablePlaces",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=Structs_PuttingTypesIntoQuestionablePlaces>>",
+      "nodeName" : "TestAPI.Structs_PuttingTypesIntoQuestionablePlaces",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "PuttingTypesIntoQuestionablePlaces",
+            "namespace" : [
+              "Structs"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "Structs.ReferenceStruct",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "ReferenceStruct",
+            "namespace" : [
+              "Structs"
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Structs_ReferenceStruct",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Structs$ReferenceStruct"
+        }
+      },
+      "kotlinName" : "Structs.ReferenceStruct",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=Structs.ReferenceStruct>>",
+      "nodeName" : "TestAPI.Structs.ReferenceStruct",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "ReferenceStruct",
+            "namespace" : [
+              "Structs"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "Structs.TwentyOneItemStruct",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TwentyOneItemStruct",
+            "namespace" : [
+              "Structs"
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Structs_TwentyOneItemStruct",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Structs$TwentyOneItemStruct"
+        }
+      },
+      "kotlinName" : "Structs.TwentyOneItemStruct",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=Structs.TwentyOneItemStruct>>",
+      "nodeName" : "TestAPI.Structs.TwentyOneItemStruct",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TwentyOneItemStruct",
+            "namespace" : [
+              "Structs"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "String_PuttingTypesIntoQuestionablePlaces",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "Swift",
+            "name" : "PuttingTypesIntoQuestionablePlaces",
+            "namespace" : [
+              "String"
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "String_PuttingTypesIntoQuestionablePlaces",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/String_PuttingTypesIntoQuestionablePlaces"
+        }
+      },
+      "kotlinName" : "String_PuttingTypesIntoQuestionablePlaces",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=String_PuttingTypesIntoQuestionablePlaces>>",
+      "nodeName" : "TestAPI.String_PuttingTypesIntoQuestionablePlaces",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "Swift",
+            "name" : "PuttingTypesIntoQuestionablePlaces",
+            "namespace" : [
+              "String"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestAsyncForeignSideFunctionsStruct",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestAsyncForeignSideFunctionsStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestAsyncForeignSideFunctionsStruct",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestAsyncForeignSideFunctionsStruct"
+        }
+      },
+      "kotlinName" : "TestAsyncForeignSideFunctionsStruct",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestAsyncForeignSideFunctionsStruct>>",
+      "nodeName" : "TestAPI.TestAsyncForeignSideFunctionsStruct",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestAsyncForeignSideFunctionsStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestAsyncFunctions",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI_CommonInterface",
+            "name" : "_TestAsyncFunctionsConverter",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestAsyncFunctions",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestAsyncFunctions"
+        }
+      },
+      "kotlinName" : "TestAsyncFunctions",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestAsyncFunctions>>",
+      "nodeName" : "TestAPI.TestAsyncFunctions",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestAsyncFunctions",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestAsyncSwiftSideFunctionsClass",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestAsyncSwiftSideFunctionsClass",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestAsyncSwiftSideFunctionsClass",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestAsyncSwiftSideFunctionsClass"
+        }
+      },
+      "kotlinName" : "TestAsyncSwiftSideFunctionsClass",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=TestAsyncSwiftSideFunctionsClass>>",
+      "nodeName" : "TestAPI.TestAsyncSwiftSideFunctionsClass",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestAsyncSwiftSideFunctionsClass",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestDefaultComputedProperties",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI_CommonInterface",
+            "name" : "_TestDefaultComputedPropertiesConverter",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestDefaultComputedProperties",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestDefaultComputedProperties"
+        }
+      },
+      "kotlinName" : "TestDefaultComputedProperties",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestDefaultComputedProperties>>",
+      "nodeName" : "TestAPI.TestDefaultComputedProperties",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestDefaultComputedProperties",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestDefaultComputedPropertiesReference",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestDefaultComputedPropertiesClass",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestDefaultComputedPropertiesReference",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestDefaultComputedPropertiesReference"
+        }
+      },
+      "kotlinName" : "TestDefaultComputedPropertiesReference",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=TestDefaultComputedPropertiesReference>>",
+      "nodeName" : "TestAPI.TestDefaultComputedPropertiesReference",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestDefaultComputedPropertiesClass",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestDefaultComputedPropertiesEnum",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestDefaultComputedPropertiesEnum",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestDefaultComputedPropertiesEnum",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestDefaultComputedPropertiesEnum"
+        }
+      },
+      "kotlinName" : "TestDefaultComputedPropertiesEnum",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=TestDefaultComputedPropertiesEnum>>",
+      "nodeName" : "TestAPI.TestDefaultComputedPropertiesEnum",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestDefaultComputedPropertiesEnum",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestDefaultComputedPropertiesStruct",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestDefaultComputedPropertiesStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestDefaultComputedPropertiesStruct",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestDefaultComputedPropertiesStruct"
+        }
+      },
+      "kotlinName" : "TestDefaultComputedPropertiesStruct",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestDefaultComputedPropertiesStruct>>",
+      "nodeName" : "TestAPI.TestDefaultComputedPropertiesStruct",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestDefaultComputedPropertiesStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestDifferingExportNameProtocolDiffy",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI_CommonInterface",
+            "name" : "_TestDifferingExportNameProtocolConverter",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestDifferingExportNameProtocolDiffy",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestDifferingExportNameProtocolDiffy"
+        }
+      },
+      "kotlinName" : "TestDifferingExportNameProtocolDiffy",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestDifferingExportNameProtocolDiffy>>",
+      "nodeName" : "TestAPI.TestDifferingExportNameProtocolDiffy",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestDifferingExportNameProtocol",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestDifferingExportNameStruct",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestDifferingExportNameStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestDifferingExportNameStruct",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestDifferingExportNameStruct"
+        }
+      },
+      "kotlinName" : "TestDifferingExportNameStruct",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestDifferingExportNameStruct>>",
+      "nodeName" : "TestAPI.TestDifferingExportNameStruct",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestDifferingExportNameStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestLeadingUnderscoredProp",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI_CommonInterface",
+            "name" : "_TestLeadingUnderscoredPropConverter",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestLeadingUnderscoredProp",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestLeadingUnderscoredProp"
+        }
+      },
+      "kotlinName" : "TestLeadingUnderscoredProp",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestLeadingUnderscoredProp>>",
+      "nodeName" : "TestAPI.TestLeadingUnderscoredProp",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestLeadingUnderscoredProp",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestLeadingUnderscoredPropStruct",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestLeadingUnderscoredPropStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestLeadingUnderscoredPropStruct",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestLeadingUnderscoredPropStruct"
+        }
+      },
+      "kotlinName" : "TestLeadingUnderscoredPropStruct",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestLeadingUnderscoredPropStruct>>",
+      "nodeName" : "TestAPI.TestLeadingUnderscoredPropStruct",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestLeadingUnderscoredPropStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestMethodsProtocol",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI_CommonInterface",
+            "name" : "_TestMethodsProtocolConverter",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestMethodsProtocol",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestMethodsProtocol"
+        }
+      },
+      "kotlinName" : "TestMethodsProtocol",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestMethodsProtocol>>",
+      "nodeName" : "TestAPI.TestMethodsProtocol",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestMethodsProtocol",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestNonExportedProtocolEnum",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestNonExportedProtocolEnum",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestNonExportedProtocolEnum",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestNonExportedProtocolEnum"
+        }
+      },
+      "kotlinName" : "TestNonExportedProtocolEnum",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=TestNonExportedProtocolEnum>>",
+      "nodeName" : "TestAPI.TestNonExportedProtocolEnum",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestNonExportedProtocolEnum",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestOptionalsProtocol",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI_CommonInterface",
+            "name" : "_TestOptionalsProtocolConverter",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestOptionalsProtocol",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestOptionalsProtocol"
+        }
+      },
+      "kotlinName" : "TestOptionalsProtocol",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestOptionalsProtocol>>",
+      "nodeName" : "TestAPI.TestOptionalsProtocol",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestOptionalsProtocol",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestPropertiesProtocol",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI_CommonInterface",
+            "name" : "_TestPropertiesProtocolConverter",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestPropertiesProtocol",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestPropertiesProtocol"
+        }
+      },
+      "kotlinName" : "TestPropertiesProtocol",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestPropertiesProtocol>>",
+      "nodeName" : "TestAPI.TestPropertiesProtocol",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestPropertiesProtocol",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestProtocolClass",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestProtocolClass",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestProtocolClass",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestProtocolClass"
+        }
+      },
+      "kotlinName" : "TestProtocolClass",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=TestProtocolClass>>",
+      "nodeName" : "TestAPI.TestProtocolClass",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestProtocolClass",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestProtocolEnum",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestProtocolEnum",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestProtocolEnum",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestProtocolEnum"
+        }
+      },
+      "kotlinName" : "TestProtocolEnum",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=TestProtocolEnum>>",
+      "nodeName" : "TestAPI.TestProtocolEnum",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestProtocolEnum",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestProtocolStruct",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestProtocolStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestProtocolStruct",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestProtocolStruct"
+        }
+      },
+      "kotlinName" : "TestProtocolStruct",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestProtocolStruct>>",
+      "nodeName" : "TestAPI.TestProtocolStruct",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestProtocolStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "Tuples",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Tuples",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Tuples",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Tuples"
+        }
+      },
+      "kotlinName" : "Tuples",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Tuples>>",
+      "nodeName" : "TestAPI.Tuples",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Tuples",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "URLs",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "URLs",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "URLs",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/URLs"
+        }
+      },
+      "kotlinName" : "URLs",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=URLs>>",
+      "nodeName" : "TestAPI.URLs",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "URLs",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "cSharpType" : {
+        "named" : {
+          "name" : "UnicodeScalar_PuttingTypesIntoQuestionablePlaces",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "Swift",
+            "name" : "PuttingTypesIntoQuestionablePlaces",
+            "namespace" : [
+              "UnicodeScalar"
+            ]
+          }
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "UnicodeScalar_PuttingTypesIntoQuestionablePlaces",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/UnicodeScalar_PuttingTypesIntoQuestionablePlaces"
+        }
+      },
+      "kotlinName" : "UnicodeScalar_PuttingTypesIntoQuestionablePlaces",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=UnicodeScalar_PuttingTypesIntoQuestionablePlaces>>",
+      "nodeName" : "TestAPI.UnicodeScalar_PuttingTypesIntoQuestionablePlaces",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "Swift",
+            "name" : "PuttingTypesIntoQuestionablePlaces",
+            "namespace" : [
+              "UnicodeScalar"
+            ]
+          }
+        }
+      }
+    }
+  ]
 }

@@ -142,6 +142,9 @@ public func mergeDefinitionInto(env: NAPI.Env, module: NAPI.Value, path: String,
     let namespaceObject = try findNamespace(object: module, parts: namespace)
 
     let existingObject = try env.getNamedProperty(namespaceObject, name)
+    if try env.strictEquals(nodeClass, existingObject) {
+        return
+    }
     if try !nodeIsUndefiend(existingObject, env: env) {
         // Object.assign(nodeClass, existingObject)
         let global = try env.getGlobal()

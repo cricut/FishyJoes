@@ -288,7 +288,9 @@ struct NodeTranslator: Translator {
             nodeTypeListFragment.blankLine()
             for type in generatedTypes {
                 let resolved = context.resolve(type: type)
-                nodeTypeListFragment.output("try \(resolved.converterType.name).nodeSetup(env: env, module: module)")
+                if resolved.definingModule == context.module {
+                    nodeTypeListFragment.output("try \(resolved.converterType.name).nodeSetup(env: env, module: module)")
+                }
             }
             nodeTypeListFragment.output("// Call once in TypeSetup to work around a Windows delayload llvm bug described here: https://github.com/llvm/llvm-project/issues/51941. This affects functions with doubles in the first or second argument, which get put into xmm0 and xmm1, and the delayload somehow clobbers the stack where they are stored so when the napi function is done and the stack is popped back into xmm0 and xmm1 the value is incorrect. This needs to be done for both napi_create_double and napi_create_date.")
             nodeTypeListFragment.output("_ = try env.createDouble(42.0)")
