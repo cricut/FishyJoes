@@ -1,9 +1,4 @@
 function applyExtensions(library, { wasmNapi } = {}) {
-    // TODO: why is this function being applied multiple times in the first place?
-    if (library.Runtime.__extensionsApplied !== undefined) {
-        return
-    }
-    library.Runtime.__extensionsApplied = true;
     // TODO: unify this file and the .d.ts into a single .ts file
     // The .js and .d.ts code for result was generated from this TS:
 
