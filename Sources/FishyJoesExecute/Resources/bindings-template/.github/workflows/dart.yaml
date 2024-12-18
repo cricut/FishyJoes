@@ -22,7 +22,7 @@ env:
 jobs:
   build-test-dart-mac:
     name: "macOS: Build and test dart bindings"
-    runs-on: macOS-12
+    runs-on: macOS-14
 
     steps:
       - name: Checkout
