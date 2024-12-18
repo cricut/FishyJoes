@@ -384,7 +384,7 @@ jobs:
   integration-tests-android:
     name: "Android: Integration Tests"
     needs: [integration-tests-ubuntu]
-    runs-on: macOS-14
+    runs-on: macOS-13
     env:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
