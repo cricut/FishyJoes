@@ -25,13 +25,14 @@ CriGeo/bindings/
 │   └── tests/kotlin/com/cricut/crigeo/
 │       └── PathTest.kt
 ├── ts/
-│   ├── package.template.json
+│   ├── package.override.json
 │   ├── generated/packages/
 │   │   ├── node-native-macos/
 │   │   └── wasm/
 │   └── tests/
 │       ├── example.test.ts
 │       ├── package-lock.json
+│       ├── package.override.json
 │       ├── package.json -> generated/package.generated.json
 │       ├── test.ts
 │       ├── tsconfig.json // '{ "extends": "./generated/tsconfig.json" }'
