@@ -1,15 +1,15 @@
 import Foundation
 
 // Based on https://cs3110.github.io/textbook/chapters/ds/promises.html#the-full-implementation
-public final class Future<Output> {
-    private typealias Handler = (Result<Output, any Error>) -> Void
+public final class Future<Output: Sendable>: Sendable {
+    private typealias Handler = @Sendable (Result<Output, any Error>) -> Void
 
     // read or write access to state/handlers must be synchronized by lock
-    private var state: Result<Output, any Error>?
-    private var handlers: [Handler] = []
+    private nonisolated(unsafe) var state: Result<Output, any Error>?
+    private nonisolated(unsafe) var handlers: [Handler] = []
     private let lock = NSLock()
 
-    public struct Promise {
+    public struct Promise: Sendable {
         fileprivate let future: Future<Output>
 
         public func resolve(_ resolved: Output) { handle(.success(resolved)) }
@@ -55,7 +55,7 @@ extension Future {
         return (future, Promise(future: future))
     }
 
-    public func sink(_ body: @escaping (Result<Output, any Error>) -> Void) {
+    public func sink(_ body: @escaping @Sendable (Result<Output, any Error>) -> Void) {
         let syncedState: Result<Output, any Error>? = withLock {
             if let state = state {
                 return state
@@ -67,11 +67,11 @@ extension Future {
         syncedState.map(body)
     }
 
-    public func flatMap<U>(_ body: @escaping (Output) throws -> Future<U>) -> Future<U> {
+    public func flatMap<U>(_ body: @escaping @Sendable (Output) throws -> Future<U>) -> Future<U> {
         func bodyHandler(_ resolver: Future<U>.Promise) -> Future<Output>.Handler {
             { result in
                 do {
-                    try body(result.get()).sink(resolver.handle)
+                    try body(result.get()).sink { resolver.handle($0) }
                 } catch {
                     resolver.reject(error)
                 }
@@ -131,7 +131,7 @@ extension Future {
     public var value: Output {
         get async throws {
             try await withCheckedThrowingContinuation { continuation in
-                sink(continuation.resume(with:))
+                sink { continuation.resume(with: $0) }
             }
         }
     }
