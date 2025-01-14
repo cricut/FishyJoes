@@ -1,6 +1,6 @@
 class CSharpClass: NestedClass {
     indirect enum CSType: Hashable, Codable {
-        case void
+        case unit
         case primitive(String)
         case named(package: String?, name: String)
         case optional(CSType)
@@ -192,7 +192,8 @@ class CSharpClass: NestedClass {
                 fragment.output("[Obsolete(\"\(deprecation.quotedMessage)\")]")
             }
             fragment.output("public \(method.isOverride ? "override " : "")\(method.isStatic ? "static " : "")", newLineTerminated: false)
-            fragment.outputBlock("\(method.returnType.name) \(method.name)(", newLineTerminated: false) {
+            let returnTypeName = method.returnType == .unit ? "void" : method.returnType.name
+            fragment.outputBlock("\(returnTypeName) \(method.name)(", newLineTerminated: false) {
                 // put all optional parameters at the end, or C# gets unhappy
                 let requiredParams = method.parameters.filter { $0.defaultValue == nil }
                 let optionalParams = method.parameters.filter { $0.defaultValue != nil }
@@ -227,7 +228,7 @@ class CSharpClass: NestedClass {
                     let body = "Check((out CreatedRef _exn) => __iota_\(method.mangledName)(\(paramStrings.joined(separator: ", "))))"
                     if method.returnType.isObject {
                         fragment.output("return \(body).Consume<\(method.returnType.name)>();")
-                    } else if method.returnType == .void {
+                    } else if method.returnType == .unit {
                         fragment.output("\(body);")
                     } else {
                         fragment.output("return \(body);")
@@ -261,7 +262,7 @@ extension CSharpClass.CSType: CustomStringConvertible {
     static func task(_ output: CSharpClass.CSType) -> CSharpClass.CSType {
         .named(
             package: "System.Threading.Tasks",
-            name: "Task\(output == .void ? "" : "<\(output.name)>")"
+            name: "Task\(output == .unit ? "" : "<\(output.name)>")"
         )
     }
 
@@ -271,7 +272,7 @@ extension CSharpClass.CSType: CustomStringConvertible {
 
     var name: String {
         switch self {
-        case .void: return "void"
+        case .unit: return "System.ValueTuple"
         case let .named(.none, name): return name
         case let .named(.some(package), name): return "\(package).\(name)"
         case let .primitive(name): return name
@@ -281,7 +282,7 @@ extension CSharpClass.CSType: CustomStringConvertible {
 
     var unqualifiedName: String {
         switch self {
-        case .void: return "void"
+        case .unit: return "ValueTuple"
         case let .named(_, name): return name
         case let .primitive(name): return name
         case let .optional(wrapped): return "\(wrapped.name)?"
@@ -289,15 +290,33 @@ extension CSharpClass.CSType: CustomStringConvertible {
     }
 
     var pInvokeConsumedName: String {
-        isObject ? "ConsumedRef" : name
+        if isObject {
+            return "ConsumedRef"
+        } else if self == .unit {
+            return "void"
+        } else {
+            return name
+        }
     }
 
     var pInvokeCreatedName: String {
-        isObject ? "CreatedRef" : name
+        if isObject {
+            return "CreatedRef"
+        } else if self == .unit {
+            return "void"
+        } else {
+            return name
+        }
     }
 
     var pInvokeUnownedName: String {
-        isObject ? "UnownedRef" : name
+        if isObject {
+            return "UnownedRef"
+        } else if self == .unit {
+            return "void"
+        } else {
+            return name
+        }
     }
 
     var package: String? {

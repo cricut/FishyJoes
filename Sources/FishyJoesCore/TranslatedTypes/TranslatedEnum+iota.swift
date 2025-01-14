@@ -32,7 +32,7 @@ extension TranslatedEnum {
         }
         fragment.blankLine()
 
-        fragment.outputBlock("extension \(sourceType.name): IotaConverter {") {
+        fragment.outputBlock("extension \(sourceType.name): FishyJoesIotaRuntime.IotaConverter {") {
             for method in setupMethods {
                 fragment.outputBlock("public typealias \(upperCaseFirst(method.name)) = @convention(c) (", closeWith: ") -> \(method.returns)") {
                     fragment.outputMap(method.args, separator: ",") { $0 }

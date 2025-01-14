@@ -86,7 +86,7 @@ class Deprecations {
     });
 
     /// <!-- FishyJoes.export(deprecatedVariable) -->
-    @Deprecated("replace with `deprecatedMethod` ( <-- swift name, sorry )")
+    @Deprecated("replace with `deprecatedMethod` (This is the swift name of the replacement function, due to technical limitations)")
     static int get deprecatedVariable =>
         check((exn) =>
             f__iota_get_TestAPI_Deprecations_deprecatedVariable(Loader.shared.env, exn)

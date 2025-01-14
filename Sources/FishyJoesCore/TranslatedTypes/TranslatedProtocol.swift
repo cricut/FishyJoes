@@ -685,7 +685,7 @@ struct TranslatedProtocol: TranslatedType {
         }
         fragment.blankLine()
 
-        fragment.outputBlock("extension \(converterType.name): IotaConverter {") {
+        fragment.outputBlock("extension \(converterType.name): FishyJoesIotaRuntime.IotaConverter {") {
             fragment.output("public typealias CType = foreignObject")
 
             fragment.outputBlock("public typealias _ConstructorMethod = @convention(c) (", closeWith: ") -> foreignObject") {

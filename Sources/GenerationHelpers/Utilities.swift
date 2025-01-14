@@ -16,7 +16,7 @@ public func fatalErr(_ message: String = "", file: StaticString = #file, line: U
     fatalError("\n\(file):\(line): \(message)\n\(Thread.callStackSymbols.joined(separator: "\n"))\n")
 }
 
-extension FileHandle: TextOutputStream {
+extension FileHandle: Swift.TextOutputStream {
     public func write(_ string: String) {
         let data = Data(string.utf8)
         self.write(data)

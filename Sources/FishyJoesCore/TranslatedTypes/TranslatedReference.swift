@@ -387,7 +387,7 @@ struct TranslatedReference: TranslatedType {
         }
         fragment.blankLine()
 
-        fragment.outputBlock("extension \(converterType.name): IotaReferenceMutator {") {
+        fragment.outputBlock("extension \(converterType.name): FishyJoesIotaRuntime.IotaReferenceMutator {") {
             fragment.output("fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject>()")
             fragment.blankLine()
 

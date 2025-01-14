@@ -68,7 +68,9 @@ var package = Package(
                 .product(name: "FishyJoesNodeRuntime", package: "FishyJoes"),
             ],
             path: "Sources/NodeInterface",
-            resources: [.copy("TestAPI.d.ts.part")]
+            resources: [.copy("TestAPI.d.ts.part")],
+            linkerSettings: [
+            ]
         ),
     ] + (
         wasmCompatibleOnly ? [
@@ -86,7 +88,9 @@ var package = Package(
                     .product(name: "TestAPI", package: "TestAPI"),
                     .product(name: "FishyJoesJavaRuntime", package: "FishyJoes"),
                 ],
-                path: "Sources/JavaInterface"
+                path: "Sources/JavaInterface",
+                linkerSettings: [
+                ]
             ),
             .target(
                 name: "TestAPI_IotaInterface",
@@ -95,10 +99,14 @@ var package = Package(
                     .product(name: "TestAPI", package: "TestAPI"),
                     .product(name: "FishyJoesIotaRuntime", package: "FishyJoes"),
                 ],
-                path: "Sources/IotaInterface"
+                path: "Sources/IotaInterface",
+                linkerSettings: [
+                ]
             ),
         ]
     )
 )
 // END GENERATED CODE
 // Below is copied from bindings/swift-interfaces/Package.part.swift
+
+

@@ -1,4 +1,4 @@
-// Generated using Sourcery 2.1.7 — https://github.com/krzysztofzablocki/Sourcery
+// Generated using Sourcery 2.2.5 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 // swiftlint:disable:next blanket_disable_command superfluous_disable_command
 // swiftlint:disable unused_closure_parameter syntactic_sugar attributes
@@ -27,7 +27,7 @@ let java_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall
 
 // MARK: - JavaInterface/Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces+java-type.swift
 
-extension Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces: JavaMutator {
+extension Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces: FishyJoesJavaRuntime.JavaMutator {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -95,7 +95,7 @@ let java_Swift_String_PuttingTypesIntoQuestionablePlaces_testCall: @convention(c
 
 // MARK: - JavaInterface/Swift.String.PuttingTypesIntoQuestionablePlaces+java-type.swift
 
-extension Swift.String.PuttingTypesIntoQuestionablePlaces: JavaMutator {
+extension Swift.String.PuttingTypesIntoQuestionablePlaces: FishyJoesJavaRuntime.JavaMutator {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -163,7 +163,7 @@ let java_Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_testCall: @conve
 
 // MARK: - JavaInterface/Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces+java-type.swift
 
-extension Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces: JavaConverter {
+extension Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces: FishyJoesJavaRuntime.JavaConverter {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -477,7 +477,7 @@ let java_TestAPI_AProtocolImplementation__default_hasADefaultImplementation2: @c
 
 // MARK: - JavaInterface/TestAPI.AProtocolImplementation+java-type.swift
 
-extension TestAPI.AProtocolImplementation: JavaMutator {
+extension TestAPI.AProtocolImplementation: FishyJoesJavaRuntime.JavaMutator {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -543,7 +543,7 @@ extension TestAPI.AProtocolImplementation: JavaMutator {
 
 // MARK: - JavaInterface/TestAPI.Actors+java-type.swift
 
-extension TestAPI.Actors: JavaConverter {
+extension TestAPI.Actors: FishyJoesJavaRuntime.JavaConverter {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -715,7 +715,7 @@ let java_TestAPI_Actors_TemperatureLogger_update: @convention(c) (
 
 // MARK: - JavaInterface/TestAPI.Actors.TemperatureLogger+java-type.swift
 
-extension TestAPI.Actors.TemperatureLogger: JavaMutator {
+extension TestAPI.Actors.TemperatureLogger: FishyJoesJavaRuntime.JavaMutator {
     public static var javaClass: jclass?
     private static var _constructorMethodID: jmethodID!
     public static func fromJava(_ value: jobject?, env: Env) throws -> TestAPI.Actors.TemperatureLogger {
@@ -787,7 +787,7 @@ let java_get_TestAPI_AssociatedDataEnum_staticThing: @convention(c) (
 
 // MARK: - JavaInterface/TestAPI.AssociatedDataEnum+java-type.swift
 
-extension TestAPI.AssociatedDataEnum: JavaConverter {
+extension TestAPI.AssociatedDataEnum: FishyJoesJavaRuntime.JavaConverter {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -1187,7 +1187,7 @@ let java_get_TestAPI_AsyncFunctions_willThrow: @convention(c) (
 
 // MARK: - JavaInterface/TestAPI.AsyncFunctions+java-type.swift
 
-extension TestAPI.AsyncFunctions: JavaConverter {
+extension TestAPI.AsyncFunctions: FishyJoesJavaRuntime.JavaConverter {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -1460,7 +1460,7 @@ let java_get_TestAPI_AttributedStrings_simple: @convention(c) (
 
 // MARK: - JavaInterface/TestAPI.AttributedStrings+java-type.swift
 
-extension TestAPI.AttributedStrings: JavaConverter {
+extension TestAPI.AttributedStrings: FishyJoesJavaRuntime.JavaConverter {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -1547,7 +1547,7 @@ let java_TestAPI_Bytes_echoData: @convention(c) (
 
 // MARK: - JavaInterface/TestAPI.Bytes+java-type.swift
 
-extension TestAPI.Bytes: JavaConverter {
+extension TestAPI.Bytes: FishyJoesJavaRuntime.JavaConverter {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -1986,7 +1986,7 @@ let java_get_TestAPI_ClosedRanges_uIntRange: @convention(c) (
 
 // MARK: - JavaInterface/TestAPI.ClosedRanges+java-type.swift
 
-extension TestAPI.ClosedRanges: JavaConverter {
+extension TestAPI.ClosedRanges: FishyJoesJavaRuntime.JavaConverter {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -2287,7 +2287,7 @@ let java_get_TestAPI_Collections_setOfInt: @convention(c) (
 
 // MARK: - JavaInterface/TestAPI.Collections+java-type.swift
 
-extension TestAPI.Collections: JavaConverter {
+extension TestAPI.Collections: FishyJoesJavaRuntime.JavaConverter {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -2345,7 +2345,7 @@ let java_get_TestAPI_Collections_CollectionHolder_staticProperty: @convention(c)
 
 // MARK: - JavaInterface/TestAPI.Collections.CollectionHolder+java-type.swift
 
-extension TestAPI.Collections.CollectionHolder: JavaMutator {
+extension TestAPI.Collections.CollectionHolder: FishyJoesJavaRuntime.JavaMutator {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -2539,7 +2539,7 @@ let java_TestAPI_DefaultArguments_echoDefaults: @convention(c) (
 
 // MARK: - JavaInterface/TestAPI.DefaultArguments+java-type.swift
 
-extension TestAPI.DefaultArguments: JavaConverter {
+extension TestAPI.DefaultArguments: FishyJoesJavaRuntime.JavaConverter {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -2594,7 +2594,7 @@ let java_get_TestAPI_Deprecations_deprecatedVariable: @convention(c) (
 
 // MARK: - JavaInterface/TestAPI.Deprecations+java-type.swift
 
-extension TestAPI.Deprecations: JavaConverter {
+extension TestAPI.Deprecations: FishyJoesJavaRuntime.JavaConverter {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -2694,7 +2694,7 @@ let java_get_TestAPI_EmptyClass_wibbledyWobbledyTimeyWhimey: @convention(c) (
 
 // MARK: - JavaInterface/TestAPI.EmptyClass+java-type.swift
 
-extension TestAPI.EmptyClass: JavaMutator {
+extension TestAPI.EmptyClass: FishyJoesJavaRuntime.JavaMutator {
     public static var javaClass: jclass?
     private static var _constructorMethodID: jmethodID!
     public static func fromJava(_ value: jobject?, env: Env) throws -> TestAPI.EmptyClass {
@@ -2822,7 +2822,7 @@ let java_get_TestAPI_EmptyClass2_wibble: @convention(c) (
 
 // MARK: - JavaInterface/TestAPI.EmptyClass2+java-type.swift
 
-extension TestAPI.EmptyClass2: JavaMutator {
+extension TestAPI.EmptyClass2: FishyJoesJavaRuntime.JavaMutator {
     public static var javaClass: jclass?
     private static var _constructorMethodID: jmethodID!
     public static func fromJava(_ value: jobject?, env: Env) throws -> TestAPI.EmptyClass2 {
@@ -2920,7 +2920,7 @@ let java_TestAPI_EmptyEnum_notGoingToHappen: @convention(c) (
 
 // MARK: - JavaInterface/TestAPI.EmptyEnum+java-type.swift
 
-extension TestAPI.EmptyEnum: JavaConverter {
+extension TestAPI.EmptyEnum: FishyJoesJavaRuntime.JavaConverter {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -3020,7 +3020,7 @@ let java_TestAPI_EmptyStruct_zxccxz: @convention(c) (
 
 // MARK: - JavaInterface/TestAPI.EmptyStruct+java-type.swift
 
-extension TestAPI.EmptyStruct: JavaMutator {
+extension TestAPI.EmptyStruct: FishyJoesJavaRuntime.JavaMutator {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -3133,7 +3133,7 @@ let java_TestAPI_EmptyStruct2_zxccxz: @convention(c) (
 
 // MARK: - JavaInterface/TestAPI.EmptyStruct2+java-type.swift
 
-extension TestAPI.EmptyStruct2: JavaMutator {
+extension TestAPI.EmptyStruct2: FishyJoesJavaRuntime.JavaMutator {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -3429,7 +3429,7 @@ let java_TestAPI_Functions_willThrow: @convention(c) (
 
 // MARK: - JavaInterface/TestAPI.Functions+java-type.swift
 
-extension TestAPI.Functions: JavaConverter {
+extension TestAPI.Functions: FishyJoesJavaRuntime.JavaConverter {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -4023,7 +4023,7 @@ let java_set_TestAPI_Methods_staticStored: @convention(c) (
 
 // MARK: - JavaInterface/TestAPI.Methods+java-type.swift
 
-extension TestAPI.Methods: JavaMutator {
+extension TestAPI.Methods: FishyJoesJavaRuntime.JavaMutator {
     public static var javaClass: jclass?
     private static var _constructorMethodID: jmethodID!
     public static func fromJava(_ value: jobject?, env: Env) throws -> TestAPI.Methods {
@@ -5436,7 +5436,7 @@ let java_get_TestAPI_Primitives_zeroUInt: @convention(c) (
 
 // MARK: - JavaInterface/TestAPI.Primitives+java-type.swift
 
-extension TestAPI.Primitives: JavaConverter {
+extension TestAPI.Primitives: FishyJoesJavaRuntime.JavaConverter {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -5494,7 +5494,7 @@ let java_get_TestAPI_Primitives_PrimitiveHolder_staticProperty: @convention(c) (
 
 // MARK: - JavaInterface/TestAPI.Primitives.PrimitiveHolder+java-type.swift
 
-extension TestAPI.Primitives.PrimitiveHolder: JavaMutator {
+extension TestAPI.Primitives.PrimitiveHolder: FishyJoesJavaRuntime.JavaMutator {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -6240,7 +6240,7 @@ let java_get_TestAPI_Ranges_uIntRange: @convention(c) (
 
 // MARK: - JavaInterface/TestAPI.Ranges+java-type.swift
 
-extension TestAPI.Ranges: JavaConverter {
+extension TestAPI.Ranges: FishyJoesJavaRuntime.JavaConverter {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -6308,7 +6308,7 @@ let java_TestAPI_Results_processResult: @convention(c) (
 
 // MARK: - JavaInterface/TestAPI.Results+java-type.swift
 
-extension TestAPI.Results: JavaConverter {
+extension TestAPI.Results: FishyJoesJavaRuntime.JavaConverter {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -6331,7 +6331,7 @@ extension TestAPI.Results: JavaConverter {
 
 // MARK: - JavaInterface/TestAPI.Results.Error+java-type.swift
 
-extension TestAPI.Results.Error: JavaMutator {
+extension TestAPI.Results.Error: FishyJoesJavaRuntime.JavaMutator {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -6470,7 +6470,7 @@ let java_TestAPI_SimpleEnum_resetFavoriteColor: @convention(c) (
 
 // MARK: - JavaInterface/TestAPI.SimpleEnum+java-type.swift
 
-extension TestAPI.SimpleEnum: JavaConverter {
+extension TestAPI.SimpleEnum: FishyJoesJavaRuntime.JavaConverter {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -6644,7 +6644,7 @@ let java_get_TestAPI_Strings_simple: @convention(c) (
 
 // MARK: - JavaInterface/TestAPI.Strings+java-type.swift
 
-extension TestAPI.Strings: JavaConverter {
+extension TestAPI.Strings: FishyJoesJavaRuntime.JavaConverter {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -6667,7 +6667,7 @@ extension TestAPI.Strings: JavaConverter {
 
 // MARK: - JavaInterface/TestAPI.Structs+java-type.swift
 
-extension TestAPI.Structs: JavaConverter {
+extension TestAPI.Structs: FishyJoesJavaRuntime.JavaConverter {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -6730,7 +6730,7 @@ let java_TestAPI_Structs_MemberwiseStruct_create: @convention(c) (
 
 // MARK: - JavaInterface/TestAPI.Structs.MemberwiseStruct+java-type.swift
 
-extension TestAPI.Structs.MemberwiseStruct: JavaMutator {
+extension TestAPI.Structs.MemberwiseStruct: FishyJoesJavaRuntime.JavaMutator {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -6879,7 +6879,7 @@ let java_TestAPI_Structs_MutableStruct_create: @convention(c) (
 
 // MARK: - JavaInterface/TestAPI.Structs.MutableStruct+java-type.swift
 
-extension TestAPI.Structs.MutableStruct: JavaMutator {
+extension TestAPI.Structs.MutableStruct: FishyJoesJavaRuntime.JavaMutator {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -6964,7 +6964,7 @@ let java_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_testCall: @conventio
 
 // MARK: - JavaInterface/TestAPI.Structs.PuttingTypesIntoQuestionablePlaces+java-type.swift
 
-extension TestAPI.Structs.PuttingTypesIntoQuestionablePlaces: JavaMutator {
+extension TestAPI.Structs.PuttingTypesIntoQuestionablePlaces: FishyJoesJavaRuntime.JavaMutator {
     public static var javaClass: jclass?
     private static var _constructorMethodID: jmethodID!
     public static func fromJava(_ value: jobject?, env: Env) throws -> TestAPI.Structs.PuttingTypesIntoQuestionablePlaces {
@@ -7068,7 +7068,7 @@ let java_set_TestAPI_Structs_ReferenceStruct_mutable: @convention(c) (
 
 // MARK: - JavaInterface/TestAPI.Structs.ReferenceStruct+java-type.swift
 
-extension TestAPI.Structs.ReferenceStruct: JavaMutator {
+extension TestAPI.Structs.ReferenceStruct: FishyJoesJavaRuntime.JavaMutator {
     public static var javaClass: jclass?
     private static var _constructorMethodID: jmethodID!
     public static func fromJava(_ value: jobject?, env: Env) throws -> TestAPI.Structs.ReferenceStruct {
@@ -7363,7 +7363,7 @@ let java_TestAPI_TestAsyncForeignSideFunctionsStruct_witness: @convention(c) (
 
 // MARK: - JavaInterface/TestAPI.TestAsyncForeignSideFunctionsStruct+java-type.swift
 
-extension TestAPI.TestAsyncForeignSideFunctionsStruct: JavaMutator {
+extension TestAPI.TestAsyncForeignSideFunctionsStruct: FishyJoesJavaRuntime.JavaMutator {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -8678,7 +8678,7 @@ let java_TestAPI_TestAsyncSwiftSideFunctionsClass_witness: @convention(c) (
 
 // MARK: - JavaInterface/TestAPI.TestAsyncSwiftSideFunctionsClass+java-type.swift
 
-extension TestAPI.TestAsyncSwiftSideFunctionsClass: JavaMutator {
+extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesJavaRuntime.JavaMutator {
     public static var javaClass: jclass?
     private static var _constructorMethodID: jmethodID!
     public static func fromJava(_ value: jobject?, env: Env) throws -> TestAPI.TestAsyncSwiftSideFunctionsClass {
@@ -8879,7 +8879,7 @@ let java_set_TestAPI_TestDefaultComputedPropertiesClass_spam: @convention(c) (
 
 // MARK: - JavaInterface/TestAPI.TestDefaultComputedPropertiesClass+java-type.swift
 
-extension TestAPI.TestDefaultComputedPropertiesClass: JavaMutator {
+extension TestAPI.TestDefaultComputedPropertiesClass: FishyJoesJavaRuntime.JavaMutator {
     public static var javaClass: jclass?
     private static var _constructorMethodID: jmethodID!
     public static func fromJava(_ value: jobject?, env: Env) throws -> TestAPI.TestDefaultComputedPropertiesClass {
@@ -8945,7 +8945,7 @@ let java_get_TestAPI_TestDefaultComputedPropertiesEnum_spam: @convention(c) (
 
 // MARK: - JavaInterface/TestAPI.TestDefaultComputedPropertiesEnum+java-type.swift
 
-extension TestAPI.TestDefaultComputedPropertiesEnum: JavaConverter {
+extension TestAPI.TestDefaultComputedPropertiesEnum: FishyJoesJavaRuntime.JavaConverter {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -8991,7 +8991,7 @@ let java_get_TestAPI_TestDefaultComputedPropertiesStruct_plutonic: @convention(c
 
 // MARK: - JavaInterface/TestAPI.TestDefaultComputedPropertiesStruct+java-type.swift
 
-extension TestAPI.TestDefaultComputedPropertiesStruct: JavaMutator {
+extension TestAPI.TestDefaultComputedPropertiesStruct: FishyJoesJavaRuntime.JavaMutator {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -9119,7 +9119,7 @@ extension TestAPI_CommonInterface._TestDifferingExportNameProtocolConverter: Jav
 
 // MARK: - JavaInterface/TestAPI.TestDifferingExportNameStruct+java-type.swift
 
-extension TestAPI.TestDifferingExportNameStruct: JavaMutator {
+extension TestAPI.TestDifferingExportNameStruct: FishyJoesJavaRuntime.JavaMutator {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -9232,7 +9232,7 @@ extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: JavaConv
 
 // MARK: - JavaInterface/TestAPI.TestLeadingUnderscoredPropStruct+java-type.swift
 
-extension TestAPI.TestLeadingUnderscoredPropStruct: JavaMutator {
+extension TestAPI.TestLeadingUnderscoredPropStruct: FishyJoesJavaRuntime.JavaMutator {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -9560,7 +9560,7 @@ let java_TestAPI_TestNonExportedProtocolEnum_hoge: @convention(c) (
 
 // MARK: - JavaInterface/TestAPI.TestNonExportedProtocolEnum+java-type.swift
 
-extension TestAPI.TestNonExportedProtocolEnum: JavaConverter {
+extension TestAPI.TestNonExportedProtocolEnum: FishyJoesJavaRuntime.JavaConverter {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -10049,7 +10049,7 @@ let java_TestAPI_TestProtocolClass_xyzzy: @convention(c) (
 
 // MARK: - JavaInterface/TestAPI.TestProtocolClass+java-type.swift
 
-extension TestAPI.TestProtocolClass: JavaMutator {
+extension TestAPI.TestProtocolClass: FishyJoesJavaRuntime.JavaMutator {
     public static var javaClass: jclass?
     private static var _constructorMethodID: jmethodID!
     public static func fromJava(_ value: jobject?, env: Env) throws -> TestAPI.TestProtocolClass {
@@ -10212,7 +10212,7 @@ let java_TestAPI_TestProtocolEnum_xyzzy: @convention(c) (
 
 // MARK: - JavaInterface/TestAPI.TestProtocolEnum+java-type.swift
 
-extension TestAPI.TestProtocolEnum: JavaConverter {
+extension TestAPI.TestProtocolEnum: FishyJoesJavaRuntime.JavaConverter {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -10370,7 +10370,7 @@ let java_TestAPI_TestProtocolStruct_xyzzy: @convention(c) (
 
 // MARK: - JavaInterface/TestAPI.TestProtocolStruct+java-type.swift
 
-extension TestAPI.TestProtocolStruct: JavaMutator {
+extension TestAPI.TestProtocolStruct: FishyJoesJavaRuntime.JavaMutator {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -10513,7 +10513,7 @@ let java_get_TestAPI_Tuples_tuple6: @convention(c) (
 
 // MARK: - JavaInterface/TestAPI.Tuples+java-type.swift
 
-extension TestAPI.Tuples: JavaConverter {
+extension TestAPI.Tuples: FishyJoesJavaRuntime.JavaConverter {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -10594,7 +10594,7 @@ let java_get_TestAPI_URLs_simple: @convention(c) (
 
 // MARK: - JavaInterface/TestAPI.URLs+java-type.swift
 
-extension TestAPI.URLs: JavaConverter {
+extension TestAPI.URLs: FishyJoesJavaRuntime.JavaConverter {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 

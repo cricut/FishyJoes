@@ -14,7 +14,7 @@ sealed class Deprecations {
         /**
          * <!-- FishyJoes.export(deprecatedVariable) -->
          */
-        @Deprecated("replace with `deprecatedMethod` ( <-- swift name, sorry )")
+        @Deprecated("replace with `deprecatedMethod` (This is the swift name of the replacement function, due to technical limitations)")
         val deprecatedVariable: Long
           get() = __jni_get_deprecatedVariable()
         @JvmStatic

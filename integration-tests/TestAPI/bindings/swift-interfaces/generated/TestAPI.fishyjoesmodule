@@ -10505,7 +10505,7 @@
               {
                 "documentation" : [
                   "<!-- FishyJoes.export(deprecatedVariable) -->",
-                  "@deprecated replace with `deprecatedMethod` ( <-- swift name, sorry )"
+                  "@deprecated replace with `deprecatedMethod` (This is the swift name of the replacement function, due to technical limitations)"
                 ],
                 "hasDefaultImplementation" : false,
                 "isStatic" : true,

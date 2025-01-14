@@ -290,7 +290,16 @@ public class FishyJoesContext {
         collectedFragments.append(moduleInfoFragment)
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]
-        moduleInfoFragment.output(String(data: try! encoder.encode(moduleInfo), encoding: .utf8)!)
+        var jsonData = try! encoder.encode(moduleInfo)
+
+        // Do an extra round trip using JSONSerialization.
+        // This is needed because of some weird environment-dependent key-sorting behavior was happening with JSONEncoder.
+        jsonData = try! JSONSerialization.data(
+            withJSONObject: JSONSerialization.jsonObject(with: jsonData),
+            options: [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]
+        )
+
+        moduleInfoFragment.output(String(data: jsonData, encoding: .utf8)!)
 
         let headerFragments = fileHeaders.keys.map { fileName -> SourceFragment in
             let fragment = SourceFragment(sourceryDestination: "file:\(fileName)")

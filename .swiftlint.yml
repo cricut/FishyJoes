@@ -53,3 +53,6 @@ disabled_rules:
     - type_name
     - for_where
     - fatal_error_message
+
+opening_brace:
+    ignore_multiline_statement_conditions: true

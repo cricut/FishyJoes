@@ -14,7 +14,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(deprecatedVariable) -->
         /// </summary>
-        [Obsolete("replace with `deprecatedMethod` ( <-- swift name, sorry )")]
+        [Obsolete("replace with `deprecatedMethod` (This is the swift name of the replacement function, due to technical limitations)")]
         public static nint DeprecatedVariable {
             get {
                 return Check((out CreatedRef exn) =>

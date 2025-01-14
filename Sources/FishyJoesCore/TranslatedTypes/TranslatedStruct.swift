@@ -566,7 +566,7 @@ struct TranslatedStruct: TranslatedType {
         }
         fragment.blankLine()
 
-        fragment.outputBlock("extension \(converterType.name): IotaMutator {") {
+        fragment.outputBlock("extension \(converterType.name): FishyJoesIotaRuntime.IotaMutator {") {
             for storedVar in storedVariables {
                 let resolved = context.resolve(type: storedVar.type)
                 fragment.output("fileprivate static let _\(storedVar.name)Getter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolved.converterType.name).CType>()")

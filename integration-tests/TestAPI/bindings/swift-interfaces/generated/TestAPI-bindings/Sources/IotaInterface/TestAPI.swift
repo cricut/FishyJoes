@@ -1,4 +1,4 @@
-// Generated using Sourcery 2.1.7 — https://github.com/krzysztofzablocki/Sourcery
+// Generated using Sourcery 2.2.5 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 // swiftlint:disable:next blanket_disable_command superfluous_disable_command
 // swiftlint:disable unused_closure_parameter syntactic_sugar attributes
@@ -43,7 +43,7 @@ public func Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_setup
     Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces._xGetter[env] = xGetter
 }
 
-extension Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces: IotaMutator {
+extension Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces: FishyJoesIotaRuntime.IotaMutator {
     fileprivate static let _xGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
     public typealias _ConstructorMethod = @convention(c) (
         Swift.String.CType,
@@ -109,7 +109,7 @@ public func Swift_String_PuttingTypesIntoQuestionablePlaces_setup(
     Swift.String.PuttingTypesIntoQuestionablePlaces._xGetter[env] = xGetter
 }
 
-extension Swift.String.PuttingTypesIntoQuestionablePlaces: IotaMutator {
+extension Swift.String.PuttingTypesIntoQuestionablePlaces: FishyJoesIotaRuntime.IotaMutator {
     fileprivate static let _xGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
     public typealias _ConstructorMethod = @convention(c) (
         Swift.String.CType,
@@ -175,7 +175,7 @@ public func Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_setup(
     Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces.thing_extractor[env] = thing_extractor
 }
 
-extension Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces: IotaConverter {
+extension Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces: FishyJoesIotaRuntime.IotaConverter {
     public typealias Discriminator = @convention(c) (
         foreignObject,
         foreignOutExn
@@ -434,7 +434,7 @@ public func TestAPI_CommonInterface__AProtocolConverter_setup(
     TestAPI_CommonInterface._AProtocolConverter._hasADefaultImplementation2[env] = hasADefaultImplementation2
 }
 
-extension TestAPI_CommonInterface._AProtocolConverter: IotaConverter {
+extension TestAPI_CommonInterface._AProtocolConverter: FishyJoesIotaRuntime.IotaConverter {
     public typealias CType = foreignObject
     public typealias _ConstructorMethod = @convention(c) (
         _ ref: UnsafeMutableRawPointer,
@@ -579,7 +579,7 @@ public func TestAPI_AProtocolImplementation_setup(
     TestAPI.AProtocolImplementation._bazSetter[env] = bazSetter
 }
 
-extension TestAPI.AProtocolImplementation: IotaMutator {
+extension TestAPI.AProtocolImplementation: FishyJoesIotaRuntime.IotaMutator {
     fileprivate static let _fooGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
     fileprivate static let _fooSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
     fileprivate static let _bazGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Bool.CType>()
@@ -637,7 +637,7 @@ public func TestAPI_Actors_setup(
 ) {
 }
 
-extension TestAPI.Actors: IotaConverter {
+extension TestAPI.Actors: FishyJoesIotaRuntime.IotaConverter {
     public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
@@ -817,7 +817,7 @@ public func TestAPI_Actors_TemperatureLogger_setup(
     TestAPI.Actors.TemperatureLogger._constructorMethod[env] = constructorMethod
 }
 
-extension TestAPI.Actors.TemperatureLogger: IotaReferenceMutator {
+extension TestAPI.Actors.TemperatureLogger: FishyJoesIotaRuntime.IotaReferenceMutator {
     fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject>()
 
     public static func peekIota(_ value: foreignObject, env: Env) throws -> TestAPI.Actors.TemperatureLogger {
@@ -915,7 +915,7 @@ public func TestAPI_AssociatedDataEnum_setup(
     TestAPI.AssociatedDataEnum.simpleEnum_extractor[env] = simpleEnum_extractor
 }
 
-extension TestAPI.AssociatedDataEnum: IotaConverter {
+extension TestAPI.AssociatedDataEnum: FishyJoesIotaRuntime.IotaConverter {
     public typealias Discriminator = @convention(c) (
         foreignObject,
         foreignOutExn
@@ -1373,7 +1373,7 @@ public func TestAPI_AsyncFunctions_setup(
 ) {
 }
 
-extension TestAPI.AsyncFunctions: IotaConverter {
+extension TestAPI.AsyncFunctions: FishyJoesIotaRuntime.IotaConverter {
     public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
@@ -1673,7 +1673,7 @@ public func TestAPI_AttributedStrings_setup(
 ) {
 }
 
-extension TestAPI.AttributedStrings: IotaConverter {
+extension TestAPI.AttributedStrings: FishyJoesIotaRuntime.IotaConverter {
     public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
@@ -1763,7 +1763,7 @@ public func TestAPI_Bytes_setup(
 ) {
 }
 
-extension TestAPI.Bytes: IotaConverter {
+extension TestAPI.Bytes: FishyJoesIotaRuntime.IotaConverter {
     public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
@@ -2249,7 +2249,7 @@ public func TestAPI_ClosedRanges_setup(
 ) {
 }
 
-extension TestAPI.ClosedRanges: IotaConverter {
+extension TestAPI.ClosedRanges: FishyJoesIotaRuntime.IotaConverter {
     public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
@@ -2581,7 +2581,7 @@ public func TestAPI_Collections_setup(
 ) {
 }
 
-extension TestAPI.Collections: IotaConverter {
+extension TestAPI.Collections: FishyJoesIotaRuntime.IotaConverter {
     public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
@@ -2681,7 +2681,7 @@ public func TestAPI_Collections_CollectionHolder_setup(
     TestAPI.Collections.CollectionHolder._stringDictionarySetter[env] = stringDictionarySetter
 }
 
-extension TestAPI.Collections.CollectionHolder: IotaMutator {
+extension TestAPI.Collections.CollectionHolder: FishyJoesIotaRuntime.IotaMutator {
     fileprivate static let _boolArrayGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> ArrayConverter<Swift.Bool>.CType>()
     fileprivate static let _boolArraySetter = Env.CallbackMap<@convention(c) (foreignObject, ArrayConverter<Swift.Bool>.CType, _ exn: foreignOutExn) -> Void>()
     fileprivate static let _boolSetGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> SetConverter<Swift.Bool>.CType>()
@@ -2855,7 +2855,7 @@ public func TestAPI_DefaultArguments_setup(
 ) {
 }
 
-extension TestAPI.DefaultArguments: IotaConverter {
+extension TestAPI.DefaultArguments: FishyJoesIotaRuntime.IotaConverter {
     public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
@@ -2909,7 +2909,7 @@ public func TestAPI_Deprecations_setup(
 ) {
 }
 
-extension TestAPI.Deprecations: IotaConverter {
+extension TestAPI.Deprecations: FishyJoesIotaRuntime.IotaConverter {
     public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
@@ -3023,7 +3023,7 @@ public func TestAPI_EmptyClass_setup(
     TestAPI.EmptyClass._constructorMethod[env] = constructorMethod
 }
 
-extension TestAPI.EmptyClass: IotaReferenceMutator {
+extension TestAPI.EmptyClass: FishyJoesIotaRuntime.IotaReferenceMutator {
     fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject>()
 
     public static func peekIota(_ value: foreignObject, env: Env) throws -> TestAPI.EmptyClass {
@@ -3161,7 +3161,7 @@ public func TestAPI_EmptyClass2_setup(
     TestAPI.EmptyClass2._constructorMethod[env] = constructorMethod
 }
 
-extension TestAPI.EmptyClass2: IotaReferenceMutator {
+extension TestAPI.EmptyClass2: FishyJoesIotaRuntime.IotaReferenceMutator {
     fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject>()
 
     public static func peekIota(_ value: foreignObject, env: Env) throws -> TestAPI.EmptyClass2 {
@@ -3255,7 +3255,7 @@ public func TestAPI_EmptyEnum_setup(
 ) {
 }
 
-extension TestAPI.EmptyEnum: IotaConverter {
+extension TestAPI.EmptyEnum: FishyJoesIotaRuntime.IotaConverter {
     public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
@@ -3369,7 +3369,7 @@ public func TestAPI_EmptyStruct_setup(
     TestAPI.EmptyStruct._constructorMethod[env] = constructorMethod
 }
 
-extension TestAPI.EmptyStruct: IotaMutator {
+extension TestAPI.EmptyStruct: FishyJoesIotaRuntime.IotaMutator {
     public typealias _ConstructorMethod = @convention(c) (
         _ exn: foreignOutExn
     ) -> foreignObject
@@ -3497,7 +3497,7 @@ public func TestAPI_EmptyStruct2_setup(
     TestAPI.EmptyStruct2._constructorMethod[env] = constructorMethod
 }
 
-extension TestAPI.EmptyStruct2: IotaMutator {
+extension TestAPI.EmptyStruct2: FishyJoesIotaRuntime.IotaMutator {
     public typealias _ConstructorMethod = @convention(c) (
         _ exn: foreignOutExn
     ) -> foreignObject
@@ -3821,7 +3821,7 @@ public func TestAPI_Functions_setup(
 ) {
 }
 
-extension TestAPI.Functions: IotaConverter {
+extension TestAPI.Functions: FishyJoesIotaRuntime.IotaConverter {
     public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
@@ -4421,7 +4421,7 @@ public func TestAPI_Methods_setup(
     TestAPI.Methods._constructorMethod[env] = constructorMethod
 }
 
-extension TestAPI.Methods: IotaReferenceMutator {
+extension TestAPI.Methods: FishyJoesIotaRuntime.IotaReferenceMutator {
     fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject>()
 
     public static func peekIota(_ value: foreignObject, env: Env) throws -> TestAPI.Methods {
@@ -6017,7 +6017,7 @@ public func TestAPI_Primitives_setup(
 ) {
 }
 
-extension TestAPI.Primitives: IotaConverter {
+extension TestAPI.Primitives: FishyJoesIotaRuntime.IotaConverter {
     public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
@@ -6185,7 +6185,7 @@ public func TestAPI_Primitives_PrimitiveHolder_setup(
     TestAPI.Primitives.PrimitiveHolder._dqSetter[env] = dqSetter
 }
 
-extension TestAPI.Primitives.PrimitiveHolder: IotaMutator {
+extension TestAPI.Primitives.PrimitiveHolder: FishyJoesIotaRuntime.IotaMutator {
     fileprivate static let _bGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Bool.CType>()
     fileprivate static let _bSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.Bool.CType, _ exn: foreignOutExn) -> Void>()
     fileprivate static let _bqGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Swift.Bool>.CType>()
@@ -6915,7 +6915,7 @@ public func TestAPI_Ranges_setup(
 ) {
 }
 
-extension TestAPI.Ranges: IotaConverter {
+extension TestAPI.Ranges: FishyJoesIotaRuntime.IotaConverter {
     public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
@@ -6984,7 +6984,7 @@ public func TestAPI_Results_setup(
 ) {
 }
 
-extension TestAPI.Results: IotaConverter {
+extension TestAPI.Results: FishyJoesIotaRuntime.IotaConverter {
     public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
@@ -7009,7 +7009,7 @@ public func TestAPI_Results_Error_setup(
     TestAPI.Results.Error._messageGetter[env] = messageGetter
 }
 
-extension TestAPI.Results.Error: IotaMutator {
+extension TestAPI.Results.Error: FishyJoesIotaRuntime.IotaMutator {
     fileprivate static let _messageGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
     public typealias _ConstructorMethod = @convention(c) (
         Swift.String.CType,
@@ -7165,7 +7165,7 @@ public func TestAPI_SimpleEnum_setup(
     TestAPI.SimpleEnum.blue_extractor[env] = blue_extractor
 }
 
-extension TestAPI.SimpleEnum: IotaConverter {
+extension TestAPI.SimpleEnum: FishyJoesIotaRuntime.IotaConverter {
     public typealias Discriminator = @convention(c) (
         foreignObject,
         foreignOutExn
@@ -7389,7 +7389,7 @@ public func TestAPI_Strings_setup(
 ) {
 }
 
-extension TestAPI.Strings: IotaConverter {
+extension TestAPI.Strings: FishyJoesIotaRuntime.IotaConverter {
     public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
@@ -7407,7 +7407,7 @@ public func TestAPI_Structs_setup(
 ) {
 }
 
-extension TestAPI.Structs: IotaConverter {
+extension TestAPI.Structs: FishyJoesIotaRuntime.IotaConverter {
     public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
@@ -7478,7 +7478,7 @@ public func TestAPI_Structs_MemberwiseStruct_setup(
     TestAPI.Structs.MemberwiseStruct._mutableSetter[env] = mutableSetter
 }
 
-extension TestAPI.Structs.MemberwiseStruct: IotaMutator {
+extension TestAPI.Structs.MemberwiseStruct: FishyJoesIotaRuntime.IotaMutator {
     fileprivate static let _immutableGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
     fileprivate static let _immutableSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
     fileprivate static let _mutableGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
@@ -7639,7 +7639,7 @@ public func TestAPI_Structs_MutableStruct_setup(
     TestAPI.Structs.MutableStruct._iSetter[env] = iSetter
 }
 
-extension TestAPI.Structs.MutableStruct: IotaMutator {
+extension TestAPI.Structs.MutableStruct: FishyJoesIotaRuntime.IotaMutator {
     fileprivate static let _iGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Int.CType>()
     fileprivate static let _iSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.Int.CType, _ exn: foreignOutExn) -> Void>()
     public typealias _ConstructorMethod = @convention(c) (
@@ -7728,7 +7728,7 @@ public func TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_setup(
     TestAPI.Structs.PuttingTypesIntoQuestionablePlaces._constructorMethod[env] = constructorMethod
 }
 
-extension TestAPI.Structs.PuttingTypesIntoQuestionablePlaces: IotaReferenceMutator {
+extension TestAPI.Structs.PuttingTypesIntoQuestionablePlaces: FishyJoesIotaRuntime.IotaReferenceMutator {
     fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject>()
 
     public static func peekIota(_ value: foreignObject, env: Env) throws -> TestAPI.Structs.PuttingTypesIntoQuestionablePlaces {
@@ -7841,7 +7841,7 @@ public func TestAPI_Structs_ReferenceStruct_setup(
     TestAPI.Structs.ReferenceStruct._constructorMethod[env] = constructorMethod
 }
 
-extension TestAPI.Structs.ReferenceStruct: IotaReferenceMutator {
+extension TestAPI.Structs.ReferenceStruct: FishyJoesIotaRuntime.IotaReferenceMutator {
     fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject>()
 
     public static func peekIota(_ value: foreignObject, env: Env) throws -> TestAPI.Structs.ReferenceStruct {
@@ -8154,7 +8154,7 @@ public func TestAPI_TestAsyncForeignSideFunctionsStruct_setup(
     TestAPI.TestAsyncForeignSideFunctionsStruct._thunkTwiceMakerFunGetter[env] = thunkTwiceMakerFunGetter
 }
 
-extension TestAPI.TestAsyncForeignSideFunctionsStruct: IotaMutator {
+extension TestAPI.TestAsyncForeignSideFunctionsStruct: FishyJoesIotaRuntime.IotaMutator {
     fileprivate static let _const42Getter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction0Converter<Swift.Int>.CType>()
     fileprivate static let _iabsGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction1Converter<Swift.Int, Swift.Int>.CType>()
     fileprivate static let _intComposeGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.CType>()
@@ -8962,7 +8962,7 @@ public func TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup(
     TestAPI_CommonInterface._TestAsyncFunctionsConverter._witness[env] = witness
 }
 
-extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: IotaConverter {
+extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: FishyJoesIotaRuntime.IotaConverter {
     public typealias CType = foreignObject
     public typealias _ConstructorMethod = @convention(c) (
         _ ref: UnsafeMutableRawPointer,
@@ -9442,7 +9442,7 @@ public func TestAPI_TestAsyncSwiftSideFunctionsClass_setup(
     TestAPI.TestAsyncSwiftSideFunctionsClass._constructorMethod[env] = constructorMethod
 }
 
-extension TestAPI.TestAsyncSwiftSideFunctionsClass: IotaReferenceMutator {
+extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesIotaRuntime.IotaReferenceMutator {
     fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject>()
 
     public static func peekIota(_ value: foreignObject, env: Env) throws -> TestAPI.TestAsyncSwiftSideFunctionsClass {
@@ -9531,7 +9531,7 @@ public func TestAPI_CommonInterface__TestDefaultComputedPropertiesConverter_setu
     TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter._plutoGetter[env] = plutoGetter
 }
 
-extension TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter: IotaConverter {
+extension TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter: FishyJoesIotaRuntime.IotaConverter {
     public typealias CType = foreignObject
     public typealias _ConstructorMethod = @convention(c) (
         _ ref: UnsafeMutableRawPointer,
@@ -9674,7 +9674,7 @@ public func TestAPI_TestDefaultComputedPropertiesClass_setup(
     TestAPI.TestDefaultComputedPropertiesClass._constructorMethod[env] = constructorMethod
 }
 
-extension TestAPI.TestDefaultComputedPropertiesClass: IotaReferenceMutator {
+extension TestAPI.TestDefaultComputedPropertiesClass: FishyJoesIotaRuntime.IotaReferenceMutator {
     fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject>()
 
     public static func peekIota(_ value: foreignObject, env: Env) throws -> TestAPI.TestDefaultComputedPropertiesClass {
@@ -9751,7 +9751,7 @@ public func TestAPI_TestDefaultComputedPropertiesEnum_setup(
     TestAPI.TestDefaultComputedPropertiesEnum.qux_extractor[env] = qux_extractor
 }
 
-extension TestAPI.TestDefaultComputedPropertiesEnum: IotaConverter {
+extension TestAPI.TestDefaultComputedPropertiesEnum: FishyJoesIotaRuntime.IotaConverter {
     public typealias Discriminator = @convention(c) (
         foreignObject,
         foreignOutExn
@@ -9827,7 +9827,7 @@ public func TestAPI_TestDefaultComputedPropertiesStruct_setup(
     TestAPI.TestDefaultComputedPropertiesStruct._nootSetter[env] = nootSetter
 }
 
-extension TestAPI.TestDefaultComputedPropertiesStruct: IotaMutator {
+extension TestAPI.TestDefaultComputedPropertiesStruct: FishyJoesIotaRuntime.IotaMutator {
     fileprivate static let _spamGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Bool.CType>()
     fileprivate static let _spamSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.Bool.CType, _ exn: foreignOutExn) -> Void>()
     fileprivate static let _nootGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Int.CType>()
@@ -9923,7 +9923,7 @@ public func TestAPI_CommonInterface__TestDifferingExportNameProtocolConverter_se
     TestAPI_CommonInterface._TestDifferingExportNameProtocolConverter._tataGetter[env] = tataGetter
 }
 
-extension TestAPI_CommonInterface._TestDifferingExportNameProtocolConverter: IotaConverter {
+extension TestAPI_CommonInterface._TestDifferingExportNameProtocolConverter: FishyJoesIotaRuntime.IotaConverter {
     public typealias CType = foreignObject
     public typealias _ConstructorMethod = @convention(c) (
         _ ref: UnsafeMutableRawPointer,
@@ -9970,7 +9970,7 @@ public func TestAPI_TestDifferingExportNameStruct_setup(
     TestAPI.TestDifferingExportNameStruct._tataSetter[env] = tataSetter
 }
 
-extension TestAPI.TestDifferingExportNameStruct: IotaMutator {
+extension TestAPI.TestDifferingExportNameStruct: FishyJoesIotaRuntime.IotaMutator {
     fileprivate static let _tataGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Int.CType>()
     fileprivate static let _tataSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.Int.CType, _ exn: foreignOutExn) -> Void>()
     public typealias _ConstructorMethod = @convention(c) (
@@ -10053,7 +10053,7 @@ public func TestAPI_CommonInterface__TestLeadingUnderscoredPropConverter_setup(
     TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter.__leadingUnderscorePropGetter[env] = _leadingUnderscorePropGetter
 }
 
-extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: IotaConverter {
+extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: FishyJoesIotaRuntime.IotaConverter {
     public typealias CType = foreignObject
     public typealias _ConstructorMethod = @convention(c) (
         _ ref: UnsafeMutableRawPointer,
@@ -10100,7 +10100,7 @@ public func TestAPI_TestLeadingUnderscoredPropStruct_setup(
     TestAPI.TestLeadingUnderscoredPropStruct.__leadingUnderscorePropSetter[env] = _leadingUnderscorePropSetter
 }
 
-extension TestAPI.TestLeadingUnderscoredPropStruct: IotaMutator {
+extension TestAPI.TestLeadingUnderscoredPropStruct: FishyJoesIotaRuntime.IotaMutator {
     fileprivate static let __leadingUnderscorePropGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
     fileprivate static let __leadingUnderscorePropSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
     public typealias _ConstructorMethod = @convention(c) (
@@ -10396,7 +10396,7 @@ public func TestAPI_CommonInterface__TestMethodsProtocolConverter_setup(
     TestAPI_CommonInterface._TestMethodsProtocolConverter._plugh[env] = plugh
 }
 
-extension TestAPI_CommonInterface._TestMethodsProtocolConverter: IotaConverter {
+extension TestAPI_CommonInterface._TestMethodsProtocolConverter: FishyJoesIotaRuntime.IotaConverter {
     public typealias CType = foreignObject
     public typealias _ConstructorMethod = @convention(c) (
         _ ref: UnsafeMutableRawPointer,
@@ -10505,7 +10505,7 @@ public func TestAPI_TestNonExportedProtocolEnum_setup(
     TestAPI.TestNonExportedProtocolEnum.hogehoge_extractor[env] = hogehoge_extractor
 }
 
-extension TestAPI.TestNonExportedProtocolEnum: IotaConverter {
+extension TestAPI.TestNonExportedProtocolEnum: FishyJoesIotaRuntime.IotaConverter {
     public typealias Discriminator = @convention(c) (
         foreignObject,
         foreignOutExn
@@ -10672,7 +10672,7 @@ public func TestAPI_CommonInterface__TestOptionalsProtocolConverter_setup(
     TestAPI_CommonInterface._TestOptionalsProtocolConverter._spqr[env] = spqr
 }
 
-extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: IotaConverter {
+extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: FishyJoesIotaRuntime.IotaConverter {
     public typealias CType = foreignObject
     public typealias _ConstructorMethod = @convention(c) (
         _ ref: UnsafeMutableRawPointer,
@@ -10787,7 +10787,7 @@ public func TestAPI_CommonInterface__TestPropertiesProtocolConverter_setup(
     TestAPI_CommonInterface._TestPropertiesProtocolConverter._frobGetter[env] = frobGetter
 }
 
-extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: IotaConverter {
+extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: FishyJoesIotaRuntime.IotaConverter {
     public typealias CType = foreignObject
     public typealias _ConstructorMethod = @convention(c) (
         _ ref: UnsafeMutableRawPointer,
@@ -11104,7 +11104,7 @@ public func TestAPI_TestProtocolClass_setup(
     TestAPI.TestProtocolClass._constructorMethod[env] = constructorMethod
 }
 
-extension TestAPI.TestProtocolClass: IotaReferenceMutator {
+extension TestAPI.TestProtocolClass: FishyJoesIotaRuntime.IotaReferenceMutator {
     fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject>()
 
     public static func peekIota(_ value: foreignObject, env: Env) throws -> TestAPI.TestProtocolClass {
@@ -11283,7 +11283,7 @@ public func TestAPI_TestProtocolEnum_setup(
     TestAPI.TestProtocolEnum.qux_extractor[env] = qux_extractor
 }
 
-extension TestAPI.TestProtocolEnum: IotaConverter {
+extension TestAPI.TestProtocolEnum: FishyJoesIotaRuntime.IotaConverter {
     public typealias Discriminator = @convention(c) (
         foreignObject,
         foreignOutExn
@@ -11485,7 +11485,7 @@ public func TestAPI_TestProtocolStruct_setup(
     TestAPI.TestProtocolStruct._corgeSetter[env] = corgeSetter
 }
 
-extension TestAPI.TestProtocolStruct: IotaMutator {
+extension TestAPI.TestProtocolStruct: FishyJoesIotaRuntime.IotaMutator {
     fileprivate static let _corgeGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
     fileprivate static let _corgeSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
     public typealias _ConstructorMethod = @convention(c) (
@@ -11634,7 +11634,7 @@ public func TestAPI_Tuples_setup(
 ) {
 }
 
-extension TestAPI.Tuples: IotaConverter {
+extension TestAPI.Tuples: FishyJoesIotaRuntime.IotaConverter {
     public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
@@ -11718,7 +11718,7 @@ public func TestAPI_URLs_setup(
 ) {
 }
 
-extension TestAPI.URLs: IotaConverter {
+extension TestAPI.URLs: FishyJoesIotaRuntime.IotaConverter {
     public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }

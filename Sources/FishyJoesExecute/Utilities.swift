@@ -175,7 +175,7 @@ extension JSONEncoder {
     }
 }
 
-class PrettyJSONEncoder: JSONEncoder {
+class PrettyJSONEncoder: JSONEncoder, @unchecked Sendable {
     override init() {
         super.init()
         outputFormatting = [
@@ -186,7 +186,7 @@ class PrettyJSONEncoder: JSONEncoder {
 
     override func encode<E: Encodable>(_ object: E) throws -> Data {
         var data = try super.encode(object)
-        data.append("\n".data(using: .utf8)!)
+        data.append(Data("\n".utf8))
         return data
     }
 }
