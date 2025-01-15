@@ -6,11 +6,12 @@ struct FishyJoesConfig: Codable {
     let module: String
     let publishRepository: String?
     let requiredModules: [String]
+    let extraDynamicLibraries: [String]
     let excludeSources: [String]
 
-    static func readFromFile() throws -> FishyJoesConfig {
-        guard let configData = try? cmd("cat", "bindings/fishy-joes.yaml").runString() else {
-            throw ValidationError("missing config file bindings/fishy-joes.yaml")
+    static func readFromFile(basePath: String) throws -> FishyJoesConfig {
+        guard let configData = try? cmd("cat", "\(basePath)/bindings/fishy-joes.yaml").runString() else {
+            throw ValidationError("missing config file \(basePath)/bindings/fishy-joes.yaml")
         }
         guard let configObject = try? Yams.load(yaml: configData),
               let configDictionary = configObject as? [String: Any]
@@ -43,12 +44,24 @@ struct FishyJoesConfig: Codable {
             }
             return list
         }
+        let extraDynamicLibraries = try configDictionary["extraDynamicLibraries"].map { obj -> [String] in
+            guard let list = obj as? [String] else {
+                throw ValidationError("fishy-joes.yaml value for key `extraDynamicLibraries` is not an array of file names")
+            }
+            return list
+        }
         let excludeSources = try configDictionary["excludeSources"].map { obj -> [String] in
             guard let list = obj as? [String] else {
                 throw ValidationError("fishy-joes.yaml value for key `excludeSources` is not an array of file or directory paths")
             }
             return list
         }
-        return FishyJoesConfig(module: module, publishRepository: publishRepository, requiredModules: requiredModules ?? [], excludeSources: excludeSources ?? [])
+        return FishyJoesConfig(
+            module: module,
+            publishRepository: publishRepository,
+            requiredModules: requiredModules ?? [],
+            extraDynamicLibraries: extraDynamicLibraries ?? [],
+            excludeSources: excludeSources ?? []
+        )
     }
 }

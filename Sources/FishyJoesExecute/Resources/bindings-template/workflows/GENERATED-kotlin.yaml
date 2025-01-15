@@ -65,7 +65,7 @@ jobs:
     name: "Ubuntu: Build and test kotlin bindings"
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cricut/android-swift-runtime:2.0.2
+      image: ghcr.io/cricut/android-swift-runtime:3.0.1
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
@@ -233,4 +233,4 @@ jobs:
           echo "Detected Version is '$VERSION'"
           export VERSION
           ./gradlew updateVersion
-          ./gradlew build publish
+          ./gradlew assemble publish

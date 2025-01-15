@@ -7,7 +7,7 @@ class IotaPhases: BasePhases {
         let libs = [options.config.module] + options.config.requiredModules
         try platform.build(
             product: "\(options.config.module)-iota",
-            libs: libs.flatMap { [$0, "\($0)-iota"] } + ["FishyJoesIotaRuntime"],
+            libs: options.config.extraDynamicLibraries + libs.flatMap { [$0, "\($0)-iota"] } + ["FishyJoesIotaRuntime"],
             configuration: options.buildConfig
         )
     }

@@ -6,6 +6,7 @@ class CSharpPhases: IotaPhases, Phases {
         // Install the module library and interfacing library
         try installLibrary(options.config.module)
         try installLibrary("\(options.config.module)-iota")
+        try options.config.extraDynamicLibraries.forEach { try installLibrary($0) }
     }
 
     func compileHostLanguagePhase() throws {
@@ -58,6 +59,31 @@ class CSharpPhases: IotaPhases, Phases {
 
     func packPhase() throws {
         // Pack using dotnet
+
+        // TODO: fix this to use dotnet's package exclusion instead of using rm
+        var dependencyBindingsPaths: [String: String] = [options.config.module: "."]
+        for moduleName in options.config.requiredModules {
+            guard let dependencyPath = options.packageInfo.dependencyMap[moduleName]?.localPath else {
+                fatalError("Couldn't locate \(moduleName) in Package.swift, but it's required by fishyjoes.json")
+            }
+            dependencyBindingsPaths[moduleName] = dependencyPath
+        }
+        var dependencyXDLs = Set<String>()
+        // Locate dependencies yaml files
+        let fishyJoesYamlConfigs: [FishyJoesConfig] = try dependencyBindingsPaths.compactMap {
+            $0.key == options.config.module ? nil : $0.value
+        }.map(FishyJoesConfig.readFromFile(basePath:))
+
+        fishyJoesYamlConfigs.forEach { dependencyXDLs.formUnion($0.extraDynamicLibraries) }
+        let rmArgs = ["-f"] + dependencyXDLs.flatMap {
+            [
+                "c-sharp/Cricut.\(options.config.module)/runtimes/osx/native/lib\($0).dylib",
+                "c-sharp/Cricut.\(options.config.module)/runtimes/linux/native/lib\($0).so",
+                "c-sharp/Cricut.\(options.config.module)/runtimes/win/native/\($0).dll",
+            ]
+        }
+        try cmd("rm", arguments: rmArgs).run()
+
         let name = "Cricut.\(options.config.module)"
         let version = options.version ?? "0.0.1-unknown"
         try cmd(

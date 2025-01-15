@@ -193,5 +193,18 @@ namespace Cricut.TestAPI.Tests {
             s.B = !s.B;
             Assert.NotEqual(s, Primitives.DefaultPrimitiveHolder);
         }
+
+        [Fact]
+        void testBoolOverflow() {
+            Assert.Equal(
+                8,
+                Primitives.BoolOverflow(
+                    true, false, true, false,
+                    false, true, false, true,
+                    true, false, true, false,
+                    false, true, false, true
+                )
+            );
+        }
     }
 }

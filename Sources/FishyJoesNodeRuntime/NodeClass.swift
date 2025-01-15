@@ -85,6 +85,12 @@ public struct NodeClass {
         properties: [String: (Property, isStatic: Bool)],
         constructor: @escaping napi_callback
     ) throws {
+        if let existingConstructor = Self.registeredConstructors[module]?[name] {
+            // TODO: I don't really like this solution. Some other method should ensure this isn't called more than once like we do in other languages
+            self.constructor = existingConstructor
+            return
+        }
+
         let nodeConstructor = try env.defineClassViaFunction(
             name,
             constructor,

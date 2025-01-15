@@ -28,6 +28,9 @@
         "dependencies" : [
 
         ],
+        "extraDynamicLibraries" : [
+
+        ],
         "name" : "TestAPI"
       },
       "isInhabited" : true,
@@ -78,6 +81,9 @@
       },
       "definingModule" : {
         "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
 
         ],
         "name" : "TestAPI"
@@ -132,6 +138,9 @@
         "dependencies" : [
 
         ],
+        "extraDynamicLibraries" : [
+
+        ],
         "name" : "TestAPI"
       },
       "isInhabited" : false,
@@ -182,6 +191,9 @@
       },
       "definingModule" : {
         "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
 
         ],
         "name" : "TestAPI"
@@ -236,6 +248,9 @@
         "dependencies" : [
 
         ],
+        "extraDynamicLibraries" : [
+
+        ],
         "name" : "TestAPI"
       },
       "isInhabited" : true,
@@ -286,6 +301,9 @@
       },
       "definingModule" : {
         "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
 
         ],
         "name" : "TestAPI"
@@ -340,6 +358,9 @@
         "dependencies" : [
 
         ],
+        "extraDynamicLibraries" : [
+
+        ],
         "name" : "TestAPI"
       },
       "isInhabited" : false,
@@ -390,6 +411,9 @@
       },
       "definingModule" : {
         "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
 
         ],
         "name" : "TestAPI"
@@ -444,6 +468,9 @@
         "dependencies" : [
 
         ],
+        "extraDynamicLibraries" : [
+
+        ],
         "name" : "TestAPI"
       },
       "isInhabited" : false,
@@ -494,6 +521,9 @@
       },
       "definingModule" : {
         "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
 
         ],
         "name" : "TestAPI"
@@ -548,6 +578,9 @@
         "dependencies" : [
 
         ],
+        "extraDynamicLibraries" : [
+
+        ],
         "name" : "TestAPI"
       },
       "isInhabited" : true,
@@ -598,6 +631,9 @@
       },
       "definingModule" : {
         "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
 
         ],
         "name" : "TestAPI"
@@ -652,6 +688,9 @@
         "dependencies" : [
 
         ],
+        "extraDynamicLibraries" : [
+
+        ],
         "name" : "TestAPI"
       },
       "isInhabited" : false,
@@ -702,6 +741,9 @@
       },
       "definingModule" : {
         "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
 
         ],
         "name" : "TestAPI"
@@ -756,6 +798,9 @@
         "dependencies" : [
 
         ],
+        "extraDynamicLibraries" : [
+
+        ],
         "name" : "TestAPI"
       },
       "isInhabited" : true,
@@ -806,6 +851,9 @@
       },
       "definingModule" : {
         "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
 
         ],
         "name" : "TestAPI"
@@ -860,6 +908,9 @@
         "dependencies" : [
 
         ],
+        "extraDynamicLibraries" : [
+
+        ],
         "name" : "TestAPI"
       },
       "isInhabited" : true,
@@ -910,6 +961,9 @@
       },
       "definingModule" : {
         "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
 
         ],
         "name" : "TestAPI"
@@ -964,6 +1018,9 @@
         "dependencies" : [
 
         ],
+        "extraDynamicLibraries" : [
+
+        ],
         "name" : "TestAPI"
       },
       "isInhabited" : true,
@@ -1014,6 +1071,9 @@
       },
       "definingModule" : {
         "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
 
         ],
         "name" : "TestAPI"
@@ -1068,6 +1128,9 @@
         "dependencies" : [
 
         ],
+        "extraDynamicLibraries" : [
+
+        ],
         "name" : "TestAPI"
       },
       "isInhabited" : true,
@@ -1118,6 +1181,9 @@
       },
       "definingModule" : {
         "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
 
         ],
         "name" : "TestAPI"
@@ -1172,6 +1238,9 @@
         "dependencies" : [
 
         ],
+        "extraDynamicLibraries" : [
+
+        ],
         "name" : "TestAPI"
       },
       "isInhabited" : true,
@@ -1222,6 +1291,9 @@
       },
       "definingModule" : {
         "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
 
         ],
         "name" : "TestAPI"
@@ -1276,6 +1348,9 @@
         "dependencies" : [
 
         ],
+        "extraDynamicLibraries" : [
+
+        ],
         "name" : "TestAPI"
       },
       "isInhabited" : false,
@@ -1326,6 +1401,9 @@
       },
       "definingModule" : {
         "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
 
         ],
         "name" : "TestAPI"
@@ -1380,6 +1458,9 @@
         "dependencies" : [
 
         ],
+        "extraDynamicLibraries" : [
+
+        ],
         "name" : "TestAPI"
       },
       "isInhabited" : true,
@@ -1430,6 +1511,9 @@
       },
       "definingModule" : {
         "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
 
         ],
         "name" : "TestAPI"
@@ -1484,6 +1568,9 @@
         "dependencies" : [
 
         ],
+        "extraDynamicLibraries" : [
+
+        ],
         "name" : "TestAPI"
       },
       "isInhabited" : false,
@@ -1534,6 +1621,9 @@
       },
       "definingModule" : {
         "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
 
         ],
         "name" : "TestAPI"
@@ -1588,6 +1678,9 @@
         "dependencies" : [
 
         ],
+        "extraDynamicLibraries" : [
+
+        ],
         "name" : "TestAPI"
       },
       "isInhabited" : true,
@@ -1638,6 +1731,9 @@
       },
       "definingModule" : {
         "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
 
         ],
         "name" : "TestAPI"
@@ -1692,6 +1788,9 @@
         "dependencies" : [
 
         ],
+        "extraDynamicLibraries" : [
+
+        ],
         "name" : "TestAPI"
       },
       "isInhabited" : true,
@@ -1709,6 +1808,61 @@
           "_0" : {
             "module" : "TestAPI",
             "name" : "ReferenceStruct",
+            "namespace" : [
+              "Structs"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TwentyOneItemStruct",
+            "namespace" : [
+              "Structs"
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "Structs.TwentyOneItemStruct",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Structs_TwentyOneItemStruct",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Structs$TwentyOneItemStruct"
+        }
+      },
+      "kotlinName" : "Structs.TwentyOneItemStruct",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=Structs.TwentyOneItemStruct>>",
+      "nodeName" : "TestAPI.Structs.TwentyOneItemStruct",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TwentyOneItemStruct",
             "namespace" : [
               "Structs"
             ]
@@ -1742,6 +1896,9 @@
       },
       "definingModule" : {
         "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
 
         ],
         "name" : "TestAPI"
@@ -1796,6 +1953,9 @@
         "dependencies" : [
 
         ],
+        "extraDynamicLibraries" : [
+
+        ],
         "name" : "TestAPI"
       },
       "isInhabited" : true,
@@ -1846,6 +2006,9 @@
       },
       "definingModule" : {
         "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
 
         ],
         "name" : "TestAPI"
@@ -1900,6 +2063,9 @@
         "dependencies" : [
 
         ],
+        "extraDynamicLibraries" : [
+
+        ],
         "name" : "TestAPI"
       },
       "isInhabited" : true,
@@ -1950,6 +2116,9 @@
       },
       "definingModule" : {
         "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
 
         ],
         "name" : "TestAPI"
@@ -2004,6 +2173,9 @@
         "dependencies" : [
 
         ],
+        "extraDynamicLibraries" : [
+
+        ],
         "name" : "TestAPI"
       },
       "isInhabited" : true,
@@ -2054,6 +2226,9 @@
       },
       "definingModule" : {
         "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
 
         ],
         "name" : "TestAPI"
@@ -2108,6 +2283,9 @@
         "dependencies" : [
 
         ],
+        "extraDynamicLibraries" : [
+
+        ],
         "name" : "TestAPI"
       },
       "isInhabited" : true,
@@ -2158,6 +2336,9 @@
       },
       "definingModule" : {
         "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
 
         ],
         "name" : "TestAPI"
@@ -2212,6 +2393,9 @@
         "dependencies" : [
 
         ],
+        "extraDynamicLibraries" : [
+
+        ],
         "name" : "TestAPI"
       },
       "isInhabited" : true,
@@ -2262,6 +2446,9 @@
       },
       "definingModule" : {
         "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
 
         ],
         "name" : "TestAPI"
@@ -2316,6 +2503,9 @@
         "dependencies" : [
 
         ],
+        "extraDynamicLibraries" : [
+
+        ],
         "name" : "TestAPI"
       },
       "isInhabited" : true,
@@ -2366,6 +2556,9 @@
       },
       "definingModule" : {
         "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
 
         ],
         "name" : "TestAPI"
@@ -2420,6 +2613,9 @@
         "dependencies" : [
 
         ],
+        "extraDynamicLibraries" : [
+
+        ],
         "name" : "TestAPI"
       },
       "isInhabited" : true,
@@ -2470,6 +2666,9 @@
       },
       "definingModule" : {
         "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
 
         ],
         "name" : "TestAPI"
@@ -2524,6 +2723,9 @@
         "dependencies" : [
 
         ],
+        "extraDynamicLibraries" : [
+
+        ],
         "name" : "TestAPI"
       },
       "isInhabited" : true,
@@ -2574,6 +2776,9 @@
       },
       "definingModule" : {
         "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
 
         ],
         "name" : "TestAPI"
@@ -2628,6 +2833,9 @@
         "dependencies" : [
 
         ],
+        "extraDynamicLibraries" : [
+
+        ],
         "name" : "TestAPI"
       },
       "isInhabited" : true,
@@ -2678,6 +2886,9 @@
       },
       "definingModule" : {
         "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
 
         ],
         "name" : "TestAPI"
@@ -2732,6 +2943,9 @@
         "dependencies" : [
 
         ],
+        "extraDynamicLibraries" : [
+
+        ],
         "name" : "TestAPI"
       },
       "isInhabited" : false,
@@ -2784,6 +2998,9 @@
         "dependencies" : [
 
         ],
+        "extraDynamicLibraries" : [
+
+        ],
         "name" : "TestAPI"
       },
       "isInhabited" : false,
@@ -2834,6 +3051,9 @@
       },
       "definingModule" : {
         "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
 
         ],
         "name" : "TestAPI"
@@ -8347,7 +8567,8 @@
                   "visible" : {
                     "names" : [
                       "named",
-                      "_1"
+                      "_1",
+                      "toggled"
                     ],
                     "types" : [
                       {
@@ -8358,6 +8579,11 @@
                       {
                         "named" : {
                           "_0" : "TestAPI.AssociatedDataEnum"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "boolean"
                         }
                       }
                     ]
@@ -8395,6 +8621,20 @@
                     "type" : {
                       "named" : {
                         "_0" : "TestAPI.AssociatedDataEnum"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "toggled",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "boolean"
                       }
                     }
                   }
@@ -13296,6 +13536,150 @@
               },
               {
                 "documentation" : [
+                  "<!-- FishyJoes.export(boolOverflow) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "boolOverflow",
+                "parameters" : [
+                  {
+                    "name" : "b0",
+                    "type" : {
+                      "named" : {
+                        "_0" : "boolean"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "b1",
+                    "type" : {
+                      "named" : {
+                        "_0" : "boolean"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "b2",
+                    "type" : {
+                      "named" : {
+                        "_0" : "boolean"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "b3",
+                    "type" : {
+                      "named" : {
+                        "_0" : "boolean"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "b4",
+                    "type" : {
+                      "named" : {
+                        "_0" : "boolean"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "b5",
+                    "type" : {
+                      "named" : {
+                        "_0" : "boolean"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "b6",
+                    "type" : {
+                      "named" : {
+                        "_0" : "boolean"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "b7",
+                    "type" : {
+                      "named" : {
+                        "_0" : "boolean"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "b8",
+                    "type" : {
+                      "named" : {
+                        "_0" : "boolean"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "b9",
+                    "type" : {
+                      "named" : {
+                        "_0" : "boolean"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "ba",
+                    "type" : {
+                      "named" : {
+                        "_0" : "boolean"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "bb",
+                    "type" : {
+                      "named" : {
+                        "_0" : "boolean"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "bc",
+                    "type" : {
+                      "named" : {
+                        "_0" : "boolean"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "bd",
+                    "type" : {
+                      "named" : {
+                        "_0" : "boolean"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "be",
+                    "type" : {
+                      "named" : {
+                        "_0" : "boolean"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "bf",
+                    "type" : {
+                      "named" : {
+                        "_0" : "boolean"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
                   "<!-- FishyJoes.export(valueMapper) -->"
                 ],
                 "hasDefaultImplementation" : false,
@@ -14128,6 +14512,38 @@
                     "_0" : "string"
                   }
                 }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(split) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "split",
+                "parameters" : [
+                  {
+                    "name" : "string",
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "by",
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string[]"
+                  }
+                }
               }
             ],
             "name" : "Strings",
@@ -14448,6 +14864,451 @@
                   }
                 ],
                 "name" : "ReferenceStruct"
+              },
+              {
+                "constructor" : {
+                  "visible" : {
+                    "names" : [
+                      "a",
+                      "b",
+                      "c",
+                      "d",
+                      "e",
+                      "f",
+                      "g",
+                      "h",
+                      "i",
+                      "j",
+                      "k",
+                      "l",
+                      "m",
+                      "n",
+                      "o",
+                      "p",
+                      "q",
+                      "r",
+                      "s",
+                      "t",
+                      "u"
+                    ],
+                    "types" : [
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      }
+                    ]
+                  }
+                },
+                "documentation" : [
+                  "<!-- FishyJoes.export(Structs.TwentyOneItemStruct) -->"
+                ],
+                "extends" : [
+
+                ],
+                "fields" : [
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "a",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "b",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "c",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "d",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "e",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "f",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "g",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "h",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "i",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "j",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "k",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "l",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "m",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "n",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "o",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "p",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "q",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "r",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "s",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "t",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "u",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                ],
+                "implements" : [
+
+                ],
+                "methods" : [
+
+                ],
+                "name" : "TwentyOneItemStruct"
               }
             ],
             "fields" : [

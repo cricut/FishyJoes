@@ -163,7 +163,7 @@ extension CodeGen {
             throw ValidationError("No Package.swift found in current directory. fishy-joes must be run in the root of the bindings package")
         }
 
-        config = try FishyJoesConfig.readFromFile()
+        config = try FishyJoesConfig.readFromFile(basePath: ".")
 
         // Parse swift package information from the Package.swift file for the bindings module
         let packageJSON = try cmd("swift", "package", "dump-package").runData()
@@ -432,6 +432,8 @@ extension CodeGen {
             let errorReporter = cmd("cat", errorFifoPath).async(stdout: .stderr)
 
             // Execute Sourcery to generate the Swift-side and foreign-side source files for all supported language targets
+            let base64RequiredModules = try! JSONEncoder().encode(fishyJoesModuleFiles).base64EncodedString()
+            let base64ExtraDynamicLibraries = try! JSONEncoder().encode(config.extraDynamicLibraries).base64EncodedString()
             try cmd(
                 ".build/debug/sourcery",
                 arguments: [
@@ -442,7 +444,8 @@ extension CodeGen {
                     "--templates", ".build/debug/FishyJoes_FishyJoesExecutionHelper.bundle/FishyJoes.swifttemplate",
                     "--args", "module=\(config.module)",
                     "--args", "debugRepresentation=\(dumpDebugRepresentation)",
-                    "--args", "requiredModules=\"\(try! JSONEncoder().encode(fishyJoesModuleFiles).base64EncodedString())\"",
+                    "--args", "requiredModules=\"\(base64RequiredModules)\"",
+                    "--args", "extraDynamicLibraries=\"\(base64ExtraDynamicLibraries)\"",
                     "--args", "fishyJoesExecutable=.build/debug/helper-fishy-joes-core",
                     "--args", "stderrFifo=\(errorFifoPath)",
                     "--output", "\(swiftBindingsRoot)/Sources/"

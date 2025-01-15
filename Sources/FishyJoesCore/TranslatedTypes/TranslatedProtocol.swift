@@ -177,7 +177,9 @@ struct TranslatedProtocol: TranslatedType {
 
     func cSharpSetupDelegates(in context: FishyJoesContext) -> [String] {
         var lines: [String] = []
-        lines.append("delegate \(cSharpType.pInvokeCreatedName) _\(converterType.genericBaseName.mangledName)Constructor(")
+        let created = cSharpType.pInvokeCreatedName
+        lines += created.returnMark
+        lines.append("delegate \(created.name) _\(converterType.genericBaseName.mangledName)Constructor(")
         lines.append("    ConsumedRef ptr,")
         lines.append("    out CreatedRef exn")
         lines.append(");")
@@ -185,12 +187,16 @@ struct TranslatedProtocol: TranslatedType {
         for field in fields {
             let resolved = context.resolve(type: field.type)
             let commonName = "_\(converterType.genericBaseName.mangledName)_Get\(field.name)"
-            lines.append("delegate \(resolved.cSharpType.pInvokeCreatedName) \(commonName)(\(cSharpType.pInvokeUnownedName) obj, out CreatedRef exn);")
+            let created = resolved.cSharpType.pInvokeCreatedName
+            lines += created.returnMark
+            lines.append("delegate \(created.name) \(commonName)(\(cSharpType.pInvokeUnownedName) obj, out CreatedRef exn);")
         }
         for method in methods {
             let resolvedReturnType = context.resolve(type: method.returnType)
             let commonName = "_\(converterType.genericBaseName.mangledName)_\(method.callName)"
-            var line = "delegate \(resolvedReturnType.cSharpType.pInvokeCreatedName) \(commonName)(\(cSharpType.pInvokeUnownedName) obj, "
+            let created = resolvedReturnType.cSharpType.pInvokeCreatedName
+            lines += created.returnMark
+            var line = "delegate \(created.name) \(commonName)(\(cSharpType.pInvokeUnownedName) obj, "
             for parameter in method.parameters {
                 let resolved = context.resolve(type: parameter.type)
                 line.append("\(resolved.cSharpType.name) \(parameter.name), ")

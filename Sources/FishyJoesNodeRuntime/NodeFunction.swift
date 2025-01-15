@@ -116,10 +116,6 @@ extension Function0Converter: NodeConverter where R: NodeConverter {
             return try R.toNode(value(), env: env.env)
         }.toNode(env: env)
     }
-
-    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-        try R.nodeSetup(env: env, module: module)
-    }
 }
 
 extension AsyncFunction0Converter: NodeConverter where R: NodeConverter {
@@ -131,10 +127,6 @@ extension AsyncFunction0Converter: NodeConverter where R: NodeConverter {
     public static func toNode(_ value: @escaping SwiftType, env: NAPI.Env) throws -> NAPI.Value {
         let futureFunc = toFutureFunction(value)
         return try FutureFunctionConverter.toNode(futureFunc, env: env)
-    }
-
-    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-        try FutureFunctionConverter.nodeSetup(env: env, module: module)
     }
 }
 
@@ -157,11 +149,6 @@ extension Function1Converter: NodeConverter where R: NodeConverter, P0: NodeConv
             return try R.toNode(value(v0), env: env.env)
         }.toNode(env: env)
     }
-
-    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-        try R.nodeSetup(env: env, module: module)
-        try P0.nodeSetup(env: env, module: module)
-    }
 }
 
 extension AsyncFunction1Converter: NodeConverter where R: NodeConverter, P0: NodeConverter {
@@ -173,10 +160,6 @@ extension AsyncFunction1Converter: NodeConverter where R: NodeConverter, P0: Nod
     public static func toNode(_ value: @escaping SwiftType, env: NAPI.Env) throws -> NAPI.Value {
         let futureFunc = toFutureFunction(value)
         return try FutureFunctionConverter.toNode(futureFunc, env: env)
-    }
-
-    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-        try FutureFunctionConverter.nodeSetup(env: env, module: module)
     }
 }
 
@@ -201,12 +184,6 @@ extension Function2Converter: NodeConverter where R: NodeConverter, P0: NodeConv
             return try R.toNode(value(v0, v1), env: env.env)
         }.toNode(env: env)
     }
-
-    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-        try R.nodeSetup(env: env, module: module)
-        try P0.nodeSetup(env: env, module: module)
-        try P1.nodeSetup(env: env, module: module)
-    }
 }
 
 extension AsyncFunction2Converter: NodeConverter where R: NodeConverter, P0: NodeConverter, P1: NodeConverter {
@@ -218,10 +195,6 @@ extension AsyncFunction2Converter: NodeConverter where R: NodeConverter, P0: Nod
     public static func toNode(_ value: @escaping SwiftType, env: NAPI.Env) throws -> NAPI.Value {
         let futureFunc = toFutureFunction(value)
         return try FutureFunctionConverter.toNode(futureFunc, env: env)
-    }
-
-    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-        try FutureFunctionConverter.nodeSetup(env: env, module: module)
     }
 }
 
@@ -248,13 +221,6 @@ extension Function3Converter: NodeConverter where R: NodeConverter, P0: NodeConv
             return try R.toNode(value(v0, v1, v2), env: env.env)
         }.toNode(env: env)
     }
-
-    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-        try R.nodeSetup(env: env, module: module)
-        try P0.nodeSetup(env: env, module: module)
-        try P1.nodeSetup(env: env, module: module)
-        try P2.nodeSetup(env: env, module: module)
-    }
 }
 
 extension AsyncFunction3Converter: NodeConverter where R: NodeConverter, P0: NodeConverter, P1: NodeConverter, P2: NodeConverter {
@@ -266,10 +232,6 @@ extension AsyncFunction3Converter: NodeConverter where R: NodeConverter, P0: Nod
     public static func toNode(_ value: @escaping SwiftType, env: NAPI.Env) throws -> NAPI.Value {
         let futureFunc = toFutureFunction(value)
         return try FutureFunctionConverter.toNode(futureFunc, env: env)
-    }
-
-    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-        try FutureFunctionConverter.nodeSetup(env: env, module: module)
     }
 }
 
@@ -298,14 +260,6 @@ extension Function4Converter: NodeConverter where R: NodeConverter, P0: NodeConv
             return try R.toNode(value(v0, v1, v2, v3), env: env.env)
         }.toNode(env: env)
     }
-
-    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-        try R.nodeSetup(env: env, module: module)
-        try P0.nodeSetup(env: env, module: module)
-        try P1.nodeSetup(env: env, module: module)
-        try P2.nodeSetup(env: env, module: module)
-        try P3.nodeSetup(env: env, module: module)
-    }
 }
 
 extension AsyncFunction4Converter: NodeConverter where R: NodeConverter, P0: NodeConverter, P1: NodeConverter, P2: NodeConverter, P3: NodeConverter {
@@ -317,10 +271,6 @@ extension AsyncFunction4Converter: NodeConverter where R: NodeConverter, P0: Nod
     public static func toNode(_ value: @escaping SwiftType, env: NAPI.Env) throws -> NAPI.Value {
         let futureFunc = toFutureFunction(value)
         return try FutureFunctionConverter.toNode(futureFunc, env: env)
-    }
-
-    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-        try FutureFunctionConverter.nodeSetup(env: env, module: module)
     }
 }
 
@@ -351,15 +301,6 @@ extension Function5Converter: NodeConverter where R: NodeConverter, P0: NodeConv
             return try R.toNode(value(v0, v1, v2, v3, v4), env: env.env)
         }.toNode(env: env)
     }
-
-    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-        try R.nodeSetup(env: env, module: module)
-        try P0.nodeSetup(env: env, module: module)
-        try P1.nodeSetup(env: env, module: module)
-        try P2.nodeSetup(env: env, module: module)
-        try P3.nodeSetup(env: env, module: module)
-        try P4.nodeSetup(env: env, module: module)
-    }
 }
 
 extension AsyncFunction5Converter: NodeConverter where R: NodeConverter, P0: NodeConverter, P1: NodeConverter, P2: NodeConverter, P3: NodeConverter, P4: NodeConverter {
@@ -371,10 +312,6 @@ extension AsyncFunction5Converter: NodeConverter where R: NodeConverter, P0: Nod
     public static func toNode(_ value: @escaping SwiftType, env: NAPI.Env) throws -> NAPI.Value {
         let futureFunc = toFutureFunction(value)
         return try FutureFunctionConverter.toNode(futureFunc, env: env)
-    }
-
-    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-        try FutureFunctionConverter.nodeSetup(env: env, module: module)
     }
 }
 
@@ -407,16 +344,6 @@ extension Function6Converter: NodeConverter where R: NodeConverter, P0: NodeConv
             return try R.toNode(value(v0, v1, v2, v3, v4, v5), env: env.env)
         }.toNode(env: env)
     }
-
-    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-        try R.nodeSetup(env: env, module: module)
-        try P0.nodeSetup(env: env, module: module)
-        try P1.nodeSetup(env: env, module: module)
-        try P2.nodeSetup(env: env, module: module)
-        try P3.nodeSetup(env: env, module: module)
-        try P4.nodeSetup(env: env, module: module)
-        try P5.nodeSetup(env: env, module: module)
-    }
 }
 
 extension AsyncFunction6Converter: NodeConverter where R: NodeConverter, P0: NodeConverter, P1: NodeConverter, P2: NodeConverter, P3: NodeConverter, P4: NodeConverter, P5: NodeConverter {
@@ -428,9 +355,5 @@ extension AsyncFunction6Converter: NodeConverter where R: NodeConverter, P0: Nod
     public static func toNode(_ value: @escaping SwiftType, env: NAPI.Env) throws -> NAPI.Value {
         let futureFunc = toFutureFunction(value)
         return try FutureFunctionConverter.toNode(futureFunc, env: env)
-    }
-
-    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-        try FutureFunctionConverter.nodeSetup(env: env, module: module)
     }
 }

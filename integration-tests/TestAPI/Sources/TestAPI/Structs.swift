@@ -73,6 +73,77 @@ public enum Structs {
             return i
         }
     }
+
+    /// <!-- FishyJoes.export(Structs.TwentyOneItemStruct) -->
+    public struct TwentyOneItemStruct: Hashable {
+        public var a = "a"
+        public var b = "b"
+        public var c = "c"
+        public var d = "d"
+        public var e = "e"
+        public var f = "f"
+        public var g = "g"
+        public var h = "h"
+        public var i = "i"
+        public var j = "j"
+        public var k = "k"
+        public var l = "l"
+        public var m = "m"
+        public var n = "n"
+        public var o = "o"
+        public var p = "p"
+        public var q = "q"
+        public var r = "r"
+        public var s = "s"
+        public var t = "t"
+        public var u = "u"
+
+        public init(
+            a: String = "a",
+            b: String = "b",
+            c: String = "c",
+            d: String = "d",
+            e: String = "e",
+            f: String = "f",
+            g: String = "g",
+            h: String = "h",
+            i: String = "i",
+            j: String = "j",
+            k: String = "k",
+            l: String = "l",
+            m: String = "m",
+            n: String = "n",
+            o: String = "o",
+            p: String = "p",
+            q: String = "q",
+            r: String = "r",
+            s: String = "s",
+            t: String = "t",
+            u: String = "u"
+        ) {
+            self.a = a
+            self.b = b
+            self.c = c
+            self.d = d
+            self.e = e
+            self.f = f
+            self.g = g
+            self.h = h
+            self.i = i
+            self.j = j
+            self.k = k
+            self.l = l
+            self.m = m
+            self.n = n
+            self.o = o
+            self.p = p
+            self.q = q
+            self.r = r
+            self.s = s
+            self.t = t
+            self.u = u
+        }
+    }
 }
 
 /// <!-- FishyJoes.export(EmptyStruct) -->

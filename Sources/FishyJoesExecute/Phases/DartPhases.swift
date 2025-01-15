@@ -6,6 +6,7 @@ class DartPhases: IotaPhases, Phases {
         // Install the module library and interfacing library
         try installLibrary(options.config.module)
         try installLibrary("\(options.config.module)-iota")
+        try options.config.extraDynamicLibraries.forEach { try installLibrary($0) }
     }
 
     func compileHostLanguagePhase() throws {
@@ -33,6 +34,25 @@ class DartPhases: IotaPhases, Phases {
     }
 
     func packPhase() throws {
+        let tarCmdArgs = [
+            "-cvzf", "\(options.config.module)-bindings-dart-binaries.tgz", "-C", "dart"
+        ] + options.config.extraDynamicLibraries.flatMap {
+            [
+                "macos/native/lib\($0).dylib",
+                "linux/native/lib\($0).so",
+                "windows/native/\($0).dll"
+            ]
+        } + [
+            "macos/native/lib\(options.config.module).dylib",
+            "macos/native/lib\(options.config.module)-iota.dylib",
+            "linux/native/lib\(options.config.module).so",
+            "linux/native/lib\(options.config.module)-iota.so",
+            "windows/native/\(options.config.module).dll",
+            "windows/native/\(options.config.module)-iota.dll"
+        ]
+        try cmd("tar", arguments: tarCmdArgs).run()
+
+
         // Generate flutter package from dart package
         try withDirectory("bindings/dart") {
             try cmd("rm", "-rf", "generated/flutter-package").run()
@@ -59,7 +79,13 @@ class DartPhases: IotaPhases, Phases {
                 (path: "windows/CMakeLists.txt", required: true),
                 (path: "windows/native/\(options.config.module).dll", required: false),
                 (path: "windows/native/\(options.config.module)-iota.dll", required: false),
-            ]
+            ] + options.config.extraDynamicLibraries.flatMap {
+                [
+                    (path: "macos/native/lib\($0).dylib", required: false),
+                    (path: "linux/native/lib\($0).so", required: false),
+                    (path: "windows/native/\($0).dll", required: false),
+                ]
+            }
 
             for (path, required) in installList {
                 if required {

@@ -168,26 +168,79 @@ public struct Foo {
 
 ## How to run on windows (you can't generate code on windows, but you can build and test)
 
-Install git and git command line tools. Set up credentials so you can clone/access https://www.github.com/cricut/FishyJoes repo.
+0. Install VS with x64 tools:
+```powershell
+winget install --id Microsoft.VisualStudio.2022.Professional --exact --force --custom "--add Microsoft.VisualStudio.Component.Windows11SDK.22000 --add Microsoft.VisualStudio.Component.VC.Tools.x86.x64"
+```
 
-Add C:\Program Files\Git\usr\bin to PATH in "Advanced System Settings->Environment Variables"
+1. Install swift
+```powershell
+winget install --id Swift.Toolchain --exact --force --architecture x64
+```
 
-winget install --id Microsoft.Powershell --source winget
+2. Authenticate with github
+```powershell
+winget install --id GitHub.cli
+gh auth login
+```
 
-winget install --id Swift.Toolchain -e
+3. (Optional) If building Bifrost, install vcpkg and openssl
 
-Go into your Visual Studio installer and make sure that the things specified in https://www.swift.org/install/windows/#installation-via-windows-package-manager are installed, in particular the Windows 11 SDK and the "MSVC v143 - VS 2022 C++ x64/x86 build tools (Latest)" (Microsoft.VisualStudio.Component.VC.Tools.x86.x64)
+In powershell:
+```powershell
+git clone https://github.com/microsoft/vcpkg.git
+cd vcpkg; .\bootstrap-vcpkg.bat; [Environment]::SetEnvironmentVariable("VCPKG_ROOT", $PWD, "User")
 
-install nvm-windows
+# (relaunch shell)
+
+& "$env:VCPKG_ROOT\vcpkg.exe" install openssl:x64-windows-static
+```
+
+4. In "x64 Native Tools Command Prompt"
+```
+swift build
+```
+
+### Install Flutter version 3.19.4 x64, which comes with Dart 3.3.2
+https://docs.flutter.dev/release/archive
+
+### Install dotnet version 6.0
+https://github.com/dotnet/core/blob/main/release-notes/6.0/README.md
+
+Add `c:\Program Files\dotnet\x64` to PATH environment variable
+
+Note: you may have to edit the c-sharp\*.sln file to use `Debug|x64` instead of `Debug|Any CPU` for it to work in the x64 native tools command prompt.
+
+### Install Android Studio Jellyfish 2023.3.1
+https://developer.android.com/studio/releases/past-releases/as-jellyfish-release-notes#android-studio-jellyfish-|-2023.3.1-patch-2-and-agp-8.4.2-june-2024
+
+### install nvm-windows
 
 install and select same node version as specified elsewhere with nvm
 
+Make a ~/.npmrc file (~ is `C:\Users\<yourUserName>`). It should be in this format (fill in your github personal access token):
+
+@cricut-plugin:registry=https://cricut.myget.org/F/cricut/npm/
+always-auth=true
+registry=https://registry.npmjs.org/
+@cricut:registry=https://npm.pkg.github.com/
+//npm.pkg.github.com/:_authToken=<put your github personal auth token here>
+//registry.npmjs.org/:_authToken=<put your npm token here>
+
+### Build fishy joes runtimes
 bash .\scripts\compile-node-runtime.sh
+bash .\scripts\compile-iota-runtime.sh
+bash .\scripts\compile-kotlin-native-runtime.sh
+cd kotlin-runtime
+.\gradlew publishToMavenLocal
 
 (you must build runtimes first before you can run tests in integration-tests\TestAPI-bindings)
 
-Now you should be able to run `swift run fishy-joes build test --node-js --debug` as usual in the integration-tests\TestAPI-bindings directory.
+### Run fishy joes
+Now you should be able to run `swift run fishy-joes build test --node-js --dart --c-sharp --kotlin-fast --debug` as usual in the integration-tests\TestAPI-bindings directory.
 
+## Other tutorials
+[Setup Windows for specific version of Swift 5.10 (not recommended)](documentation/windows-swift-5.10.x.md)
 
 [Tutorial by Matt](https://cricut.sharepoint.com/:v:/r/sites/softwareteam/Shared%20Documents/Team-Enablement-Client/Cross-Platform%20Code%20Introduction.mp4?csf=1&web=1&e=vSEVMc)
 

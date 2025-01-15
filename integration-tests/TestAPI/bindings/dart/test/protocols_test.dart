@@ -71,7 +71,7 @@ void main() {
 
         expect(testProtocolClass.spqr(AssociatedDataEnum.thing(23947889)), equals(23947889));
         expect(testProtocolClass.spqr(AssociatedDataEnum.other("zxc", 89708973)), equals(89708973));
-        expect(testProtocolClass.spqr(AssociatedDataEnum.bar("shme", AssociatedDataEnum.noValue())), equals(45));
+        expect(testProtocolClass.spqr(AssociatedDataEnum.bar("shme", AssociatedDataEnum.noValue(), true)), equals(45));
         expect(testProtocolClass.spqr(AssociatedDataEnum.noValue()), equals(42));
         expect(testProtocolClass.spqr(AssociatedDataEnum.simpleEnum(SimpleEnum.blue())), equals(1));
 

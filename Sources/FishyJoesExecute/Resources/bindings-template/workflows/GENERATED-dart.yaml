@@ -59,7 +59,7 @@ jobs:
     name: "Ubuntu: Build and test dart bindings"
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cricut/android-swift-runtime:2.0.2
+      image: ghcr.io/cricut/android-swift-runtime:3.0.1
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
@@ -228,11 +228,6 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
-
-          tar -cvzf __MODULE_NAME__-dart-binaries.tgz -C bindings/dart/generated \
-              macos/native/lib__MODULE_NAME__{,-iota}.dylib \
-              linux/native/lib__MODULE_NAME__{,-iota}.so \
-              windows/native/__MODULE_NAME__{,-iota}.dll
 
           swift run fishy-joes pack --dart --version=$VERSION
 

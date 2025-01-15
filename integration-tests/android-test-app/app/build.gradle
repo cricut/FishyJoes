@@ -7,7 +7,7 @@ plugins {
 android {
     namespace 'com.cricut.testapitestapp'
     compileSdk 34
-    ndkVersion "25.1.8937393"
+    ndkVersion "27.1.12297006"
 
     defaultConfig {
         applicationId "com.cricut.testapitestapp"
@@ -34,6 +34,7 @@ android {
     }
     packagingOptions {
         jniLibs.useLegacyPackaging = true
+        jniLibs.keepDebugSymbols += '**/libdispatch.so'
         resources.excludes += "linux/*"
         resources.excludes += "windows/*"
         resources.excludes += "mac/*"

@@ -30,7 +30,7 @@ class EnumTests {
     @Test
     fun testAssociatedDataEnum() {
         fun shape1(x: Long) = AssociatedDataEnum.Thing(x)
-        fun shape2(x: String, y: String, z: Long) = AssociatedDataEnum.Bar(x, AssociatedDataEnum.Other(y, z))
+        fun shape2(x: String, y: String, z: Long) = AssociatedDataEnum.Bar(x, AssociatedDataEnum.Other(y, z), true)
 
         assertEquals(4, shape1(4).intValue)
         assertEquals(11, shape2("hello", "world", 8).intValue)

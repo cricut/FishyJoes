@@ -7,7 +7,7 @@ class KotlinPhases: BasePhases, Phases {
         let libs = [options.config.module] + options.config.requiredModules
         try platform.build(
             product: "\(options.config.module)-java",
-            libs: libs.flatMap { [$0, "\($0)-java"] } + ["FishyJoesJavaRuntime"],
+            libs: options.config.extraDynamicLibraries + libs.flatMap { [$0, "\($0)-java"] } + ["FishyJoesJavaRuntime"],
             configuration: options.buildConfig
         )
     }
@@ -16,6 +16,7 @@ class KotlinPhases: BasePhases, Phases {
         // Install the module library and interfacing JNI library
         try installLibrary(options.config.module)
         try installLibrary("\(options.config.module)-java")
+        try options.config.extraDynamicLibraries.forEach { try installLibrary($0) }
     }
 
     func compileHostLanguagePhase() throws {

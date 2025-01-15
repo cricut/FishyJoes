@@ -40,6 +40,7 @@ import './Structs_MemberwiseStruct.dart' as TestAPI;
 import './Structs_MutableStruct.dart' as TestAPI;
 import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Structs_ReferenceStruct.dart' as TestAPI;
+import './Structs_TwentyOneItemStruct.dart' as TestAPI;
 import './TestAsyncForeignSideFunctionsStruct.dart' as TestAPI;
 import './TestAsyncFunctions.dart' as TestAPI;
 import './TestAsyncSwiftSideFunctionsClass.dart' as TestAPI;
@@ -695,6 +696,28 @@ class Primitives {
         )
     ;
 
+    /// <!-- FishyJoes.export(boolOverflow) -->
+    static int boolOverflow(
+        bool b0,
+        bool b1,
+        bool b2,
+        bool b3,
+        bool b4,
+        bool b5,
+        bool b6,
+        bool b7,
+        bool b8,
+        bool b9,
+        bool ba,
+        bool bb,
+        bool bc,
+        bool bd,
+        bool be,
+        bool bf,
+    ) =>
+        check((OutCreatedRef _exn) => f__iota_TestAPI_Primitives_boolOverflow(Loader.shared.env, b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, ba, bb, bc, bd, be, bf, _exn))
+    ;
+
     /// <!-- FishyJoes.export(valueMapper) -->
     static int? valueMapper(
         int? value,
@@ -707,6 +730,26 @@ class Primitives {
         )
     ;
 
+    static late int Function(
+        Env env,
+        bool b0,
+        bool b1,
+        bool b2,
+        bool b3,
+        bool b4,
+        bool b5,
+        bool b6,
+        bool b7,
+        bool b8,
+        bool b9,
+        bool ba,
+        bool bb,
+        bool bc,
+        bool bd,
+        bool be,
+        bool bf,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_Primitives_boolOverflow;
     static late bool Function(
         Env env,
         bool value,

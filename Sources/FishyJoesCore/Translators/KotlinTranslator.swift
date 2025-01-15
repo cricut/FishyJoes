@@ -380,7 +380,13 @@ final class KotlinTranslator: Translator {
 
         ktFragment.outputBlock("public object \(repName): LibraryLoader.LibraryRepresentative {") {
             ktFragment.output("override fun ensureLoaded() {}")
-            ktFragment.output("override val nativeLibs = listOf(\"\(module.name)\", \"\(module.name)-java\")")
+
+            var nativeLibs = [String]()
+            nativeLibs.append(contentsOf: module.extraDynamicLibraries)
+            nativeLibs.append(contentsOf: [module.name, "\(module.name)-java"])
+            let listOfStr = nativeLibs.map { "\"\($0)\"" }.joined(separator: ", ")
+
+            ktFragment.output("override val nativeLibs = listOf(\(listOfStr))")
             let deps = ["FishyJoesRuntimeRepresentative"] + module.dependencies.map { "\($0)LoaderRepresentative" }
             ktFragment.outputBlock("override val dependencies: List<LibraryLoader.LibraryRepresentative> = listOf(") {
                 ktFragment.outputMap(deps, separator: ",", { $0 })

@@ -65,6 +65,7 @@ namespace Cricut.TestAPI {
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool __iota_get_TestAPI_Primitives_falseBool(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
@@ -779,6 +780,7 @@ namespace Cricut.TestAPI {
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool __iota_get_TestAPI_Primitives_trueBool(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
@@ -959,9 +961,10 @@ namespace Cricut.TestAPI {
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool __iota_TestAPI_Primitives_echoBool(
             IntPtr envRef,
-            bool value,
+            [MarshalAs(UnmanagedType.I1)] bool value,
             out CreatedRef exn
         );
 
@@ -1375,6 +1378,52 @@ namespace Cricut.TestAPI {
         private static extern CreatedRef __iota_TestAPI_Primitives_maybeEchoDouble(
             IntPtr envRef,
             UnownedRef value,
+            out CreatedRef exn
+        );
+
+        /// <summary>
+        /// <!-- FishyJoes.export(boolOverflow) -->
+        /// </summary>
+        public static nint BoolOverflow(
+            bool b0,
+            bool b1,
+            bool b2,
+            bool b3,
+            bool b4,
+            bool b5,
+            bool b6,
+            bool b7,
+            bool b8,
+            bool b9,
+            bool ba,
+            bool bb,
+            bool bc,
+            bool bd,
+            bool be,
+            bool bf
+        ) {
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_boolOverflow(Loader.env, b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, ba, bb, bc, bd, be, bf, out _exn));
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __iota_TestAPI_Primitives_boolOverflow(
+            IntPtr envRef,
+            [MarshalAs(UnmanagedType.I1)] bool b0,
+            [MarshalAs(UnmanagedType.I1)] bool b1,
+            [MarshalAs(UnmanagedType.I1)] bool b2,
+            [MarshalAs(UnmanagedType.I1)] bool b3,
+            [MarshalAs(UnmanagedType.I1)] bool b4,
+            [MarshalAs(UnmanagedType.I1)] bool b5,
+            [MarshalAs(UnmanagedType.I1)] bool b6,
+            [MarshalAs(UnmanagedType.I1)] bool b7,
+            [MarshalAs(UnmanagedType.I1)] bool b8,
+            [MarshalAs(UnmanagedType.I1)] bool b9,
+            [MarshalAs(UnmanagedType.I1)] bool ba,
+            [MarshalAs(UnmanagedType.I1)] bool bb,
+            [MarshalAs(UnmanagedType.I1)] bool bc,
+            [MarshalAs(UnmanagedType.I1)] bool bd,
+            [MarshalAs(UnmanagedType.I1)] bool be,
+            [MarshalAs(UnmanagedType.I1)] bool bf,
             out CreatedRef exn
         );
 

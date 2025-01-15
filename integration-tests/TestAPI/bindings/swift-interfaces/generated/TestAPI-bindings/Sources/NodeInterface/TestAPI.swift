@@ -789,9 +789,11 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
         if try env.instanceof(value, NodeClass.constructor(for: "AssociatedDataEnum.Bar", module: "TestAPI", env: env)) {
             let _named = try env.getNamedProperty(value, "named")
             let __1 = try env.getNamedProperty(value, "_1")
+            let _toggled = try env.getNamedProperty(value, "toggled")
             return Self.bar(
                 named: try Swift.String.fromNode(_named, env: env),
-                try TestAPI.AssociatedDataEnum.fromNode(__1, env: env)
+                try TestAPI.AssociatedDataEnum.fromNode(__1, env: env),
+                toggled: try Swift.Bool.fromNode(_toggled, env: env)
             )
         }
 
@@ -826,12 +828,13 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
                     Swift.Int.toNode(_1, env: env),
                 ]
             )
-        case let .bar(named, _1):
+        case let .bar(named, _1, toggled):
             return try env.newInstance(
                 NodeClass.constructor(for: "AssociatedDataEnum.Bar", module: "TestAPI", env: env),
                 [
                     Swift.String.toNode(named, env: env),
                     TestAPI.AssociatedDataEnum.toNode(_1, env: env),
+                    Swift.Bool.toNode(toggled, env: env),
                 ]
             )
         case .noValue:
@@ -972,16 +975,18 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
             properties: [
                 "named": (.stored(mutable: true), isStatic: false),
                 "_1": (.stored(mutable: true), isStatic: false),
+                "toggled": (.stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in
                 FishyJoesNodeRuntime.callbackBody(
                     env, info,
                     name: "AssociatedDataEnum.Bar_constructor",
-                    expectedArgumentCount: 2
+                    expectedArgumentCount: 3
                 ) { env in
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "named", env.argument(at: 0))
                     try env.env.setNamedProperty(this, "_1", env.argument(at: 1))
+                    try env.env.setNamedProperty(this, "toggled", env.argument(at: 2))
                     return this
                 }
             }
@@ -4455,6 +4460,35 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
+                "boolOverflow": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "boolOverflow", expectedArgumentCount: 16, hasNamedOptions: false) { env in
+                            let result = try Swift.Int.toNode(
+                                TestAPI.Primitives.boolOverflow(
+                                    try env.argument(at: 0, converter: Swift.Bool.self),
+                                    try env.argument(at: 1, converter: Swift.Bool.self),
+                                    try env.argument(at: 2, converter: Swift.Bool.self),
+                                    try env.argument(at: 3, converter: Swift.Bool.self),
+                                    try env.argument(at: 4, converter: Swift.Bool.self),
+                                    try env.argument(at: 5, converter: Swift.Bool.self),
+                                    try env.argument(at: 6, converter: Swift.Bool.self),
+                                    try env.argument(at: 7, converter: Swift.Bool.self),
+                                    try env.argument(at: 8, converter: Swift.Bool.self),
+                                    try env.argument(at: 9, converter: Swift.Bool.self),
+                                    try env.argument(at: 10, converter: Swift.Bool.self),
+                                    try env.argument(at: 11, converter: Swift.Bool.self),
+                                    try env.argument(at: 12, converter: Swift.Bool.self),
+                                    try env.argument(at: 13, converter: Swift.Bool.self),
+                                    try env.argument(at: 14, converter: Swift.Bool.self),
+                                    try env.argument(at: 15, converter: Swift.Bool.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
                 "valueMapper": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "valueMapper", expectedArgumentCount: 2, hasNamedOptions: false) { env in
@@ -6050,6 +6084,21 @@ extension TestAPI.Strings: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
+                "split": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "split", expectedArgumentCount: 2, hasNamedOptions: false) { env in
+                            let result = try ArrayConverter<Swift.String>.toNode(
+                                TestAPI.Strings.split(
+                                    try env.argument(at: 0, converter: Swift.String.self),
+                                    by: try env.argument(at: 1, converter: Swift.String.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
                 "accent": (
                     .accessor(
                         getter: { env, info in
@@ -6652,6 +6701,215 @@ extension TestAPI.Structs.ReferenceStruct: FishyJoesNodeRuntime.NodeConverter {
             env: env,
             module: module,
             path: "Structs.ReferenceStruct",
+            nodeClass: nodeClass.constructor.value(env: env)
+        )
+    }
+}
+
+
+// MARK: - NodeInterface/TestAPI.Structs.TwentyOneItemStruct+node.swift
+
+extension TestAPI.Structs.TwentyOneItemStruct: NodeMutator {
+    public typealias SwiftType = Self
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
+        Self(
+            a: try { () -> Swift.String in
+                let fieldValue = try env.getNamedProperty(value, "a")
+                return try Swift.String.fromNode(fieldValue, env: env)
+            }(),
+            b: try { () -> Swift.String in
+                let fieldValue = try env.getNamedProperty(value, "b")
+                return try Swift.String.fromNode(fieldValue, env: env)
+            }(),
+            c: try { () -> Swift.String in
+                let fieldValue = try env.getNamedProperty(value, "c")
+                return try Swift.String.fromNode(fieldValue, env: env)
+            }(),
+            d: try { () -> Swift.String in
+                let fieldValue = try env.getNamedProperty(value, "d")
+                return try Swift.String.fromNode(fieldValue, env: env)
+            }(),
+            e: try { () -> Swift.String in
+                let fieldValue = try env.getNamedProperty(value, "e")
+                return try Swift.String.fromNode(fieldValue, env: env)
+            }(),
+            f: try { () -> Swift.String in
+                let fieldValue = try env.getNamedProperty(value, "f")
+                return try Swift.String.fromNode(fieldValue, env: env)
+            }(),
+            g: try { () -> Swift.String in
+                let fieldValue = try env.getNamedProperty(value, "g")
+                return try Swift.String.fromNode(fieldValue, env: env)
+            }(),
+            h: try { () -> Swift.String in
+                let fieldValue = try env.getNamedProperty(value, "h")
+                return try Swift.String.fromNode(fieldValue, env: env)
+            }(),
+            i: try { () -> Swift.String in
+                let fieldValue = try env.getNamedProperty(value, "i")
+                return try Swift.String.fromNode(fieldValue, env: env)
+            }(),
+            j: try { () -> Swift.String in
+                let fieldValue = try env.getNamedProperty(value, "j")
+                return try Swift.String.fromNode(fieldValue, env: env)
+            }(),
+            k: try { () -> Swift.String in
+                let fieldValue = try env.getNamedProperty(value, "k")
+                return try Swift.String.fromNode(fieldValue, env: env)
+            }(),
+            l: try { () -> Swift.String in
+                let fieldValue = try env.getNamedProperty(value, "l")
+                return try Swift.String.fromNode(fieldValue, env: env)
+            }(),
+            m: try { () -> Swift.String in
+                let fieldValue = try env.getNamedProperty(value, "m")
+                return try Swift.String.fromNode(fieldValue, env: env)
+            }(),
+            n: try { () -> Swift.String in
+                let fieldValue = try env.getNamedProperty(value, "n")
+                return try Swift.String.fromNode(fieldValue, env: env)
+            }(),
+            o: try { () -> Swift.String in
+                let fieldValue = try env.getNamedProperty(value, "o")
+                return try Swift.String.fromNode(fieldValue, env: env)
+            }(),
+            p: try { () -> Swift.String in
+                let fieldValue = try env.getNamedProperty(value, "p")
+                return try Swift.String.fromNode(fieldValue, env: env)
+            }(),
+            q: try { () -> Swift.String in
+                let fieldValue = try env.getNamedProperty(value, "q")
+                return try Swift.String.fromNode(fieldValue, env: env)
+            }(),
+            r: try { () -> Swift.String in
+                let fieldValue = try env.getNamedProperty(value, "r")
+                return try Swift.String.fromNode(fieldValue, env: env)
+            }(),
+            s: try { () -> Swift.String in
+                let fieldValue = try env.getNamedProperty(value, "s")
+                return try Swift.String.fromNode(fieldValue, env: env)
+            }(),
+            t: try { () -> Swift.String in
+                let fieldValue = try env.getNamedProperty(value, "t")
+                return try Swift.String.fromNode(fieldValue, env: env)
+            }(),
+            u: try { () -> Swift.String in
+                let fieldValue = try env.getNamedProperty(value, "u")
+                return try Swift.String.fromNode(fieldValue, env: env)
+            }()
+        )
+    }
+    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
+        let constructor = try NodeClass.constructor(for: "Structs.TwentyOneItemStruct", module: "TestAPI", env: env)
+        let args: [NAPI.Value] = [
+            try Swift.String.toNode(value.a, env: env),
+            try Swift.String.toNode(value.b, env: env),
+            try Swift.String.toNode(value.c, env: env),
+            try Swift.String.toNode(value.d, env: env),
+            try Swift.String.toNode(value.e, env: env),
+            try Swift.String.toNode(value.f, env: env),
+            try Swift.String.toNode(value.g, env: env),
+            try Swift.String.toNode(value.h, env: env),
+            try Swift.String.toNode(value.i, env: env),
+            try Swift.String.toNode(value.j, env: env),
+            try Swift.String.toNode(value.k, env: env),
+            try Swift.String.toNode(value.l, env: env),
+            try Swift.String.toNode(value.m, env: env),
+            try Swift.String.toNode(value.n, env: env),
+            try Swift.String.toNode(value.o, env: env),
+            try Swift.String.toNode(value.p, env: env),
+            try Swift.String.toNode(value.q, env: env),
+            try Swift.String.toNode(value.r, env: env),
+            try Swift.String.toNode(value.s, env: env),
+            try Swift.String.toNode(value.t, env: env),
+            try Swift.String.toNode(value.u, env: env),
+        ]
+        return try env.newInstance(constructor, args)
+    }
+    public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {
+        try env.setNamedProperty(this, "a", Swift.String.toNode(value.a, env: env))
+        try env.setNamedProperty(this, "b", Swift.String.toNode(value.b, env: env))
+        try env.setNamedProperty(this, "c", Swift.String.toNode(value.c, env: env))
+        try env.setNamedProperty(this, "d", Swift.String.toNode(value.d, env: env))
+        try env.setNamedProperty(this, "e", Swift.String.toNode(value.e, env: env))
+        try env.setNamedProperty(this, "f", Swift.String.toNode(value.f, env: env))
+        try env.setNamedProperty(this, "g", Swift.String.toNode(value.g, env: env))
+        try env.setNamedProperty(this, "h", Swift.String.toNode(value.h, env: env))
+        try env.setNamedProperty(this, "i", Swift.String.toNode(value.i, env: env))
+        try env.setNamedProperty(this, "j", Swift.String.toNode(value.j, env: env))
+        try env.setNamedProperty(this, "k", Swift.String.toNode(value.k, env: env))
+        try env.setNamedProperty(this, "l", Swift.String.toNode(value.l, env: env))
+        try env.setNamedProperty(this, "m", Swift.String.toNode(value.m, env: env))
+        try env.setNamedProperty(this, "n", Swift.String.toNode(value.n, env: env))
+        try env.setNamedProperty(this, "o", Swift.String.toNode(value.o, env: env))
+        try env.setNamedProperty(this, "p", Swift.String.toNode(value.p, env: env))
+        try env.setNamedProperty(this, "q", Swift.String.toNode(value.q, env: env))
+        try env.setNamedProperty(this, "r", Swift.String.toNode(value.r, env: env))
+        try env.setNamedProperty(this, "s", Swift.String.toNode(value.s, env: env))
+        try env.setNamedProperty(this, "t", Swift.String.toNode(value.t, env: env))
+        try env.setNamedProperty(this, "u", Swift.String.toNode(value.u, env: env))
+    }
+    @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        let nodeClass = try NodeClass(
+            env: env,
+            module: "TestAPI",
+            name: "Structs.TwentyOneItemStruct",
+            properties: [
+                "a": (.stored(mutable: true), isStatic: false),
+                "b": (.stored(mutable: true), isStatic: false),
+                "c": (.stored(mutable: true), isStatic: false),
+                "d": (.stored(mutable: true), isStatic: false),
+                "e": (.stored(mutable: true), isStatic: false),
+                "f": (.stored(mutable: true), isStatic: false),
+                "g": (.stored(mutable: true), isStatic: false),
+                "h": (.stored(mutable: true), isStatic: false),
+                "i": (.stored(mutable: true), isStatic: false),
+                "j": (.stored(mutable: true), isStatic: false),
+                "k": (.stored(mutable: true), isStatic: false),
+                "l": (.stored(mutable: true), isStatic: false),
+                "m": (.stored(mutable: true), isStatic: false),
+                "n": (.stored(mutable: true), isStatic: false),
+                "o": (.stored(mutable: true), isStatic: false),
+                "p": (.stored(mutable: true), isStatic: false),
+                "q": (.stored(mutable: true), isStatic: false),
+                "r": (.stored(mutable: true), isStatic: false),
+                "s": (.stored(mutable: true), isStatic: false),
+                "t": (.stored(mutable: true), isStatic: false),
+                "u": (.stored(mutable: true), isStatic: false),
+            ],
+            constructor: { env, info in
+                callbackBody(env, info, name: "Structs.TwentyOneItemStruct_constructor", expectedArgumentCount: 21) { env in
+                    let this = try env.this()
+                    try env.env.setNamedProperty(this, "a", env.argument(at: 0))
+                    try env.env.setNamedProperty(this, "b", env.argument(at: 1))
+                    try env.env.setNamedProperty(this, "c", env.argument(at: 2))
+                    try env.env.setNamedProperty(this, "d", env.argument(at: 3))
+                    try env.env.setNamedProperty(this, "e", env.argument(at: 4))
+                    try env.env.setNamedProperty(this, "f", env.argument(at: 5))
+                    try env.env.setNamedProperty(this, "g", env.argument(at: 6))
+                    try env.env.setNamedProperty(this, "h", env.argument(at: 7))
+                    try env.env.setNamedProperty(this, "i", env.argument(at: 8))
+                    try env.env.setNamedProperty(this, "j", env.argument(at: 9))
+                    try env.env.setNamedProperty(this, "k", env.argument(at: 10))
+                    try env.env.setNamedProperty(this, "l", env.argument(at: 11))
+                    try env.env.setNamedProperty(this, "m", env.argument(at: 12))
+                    try env.env.setNamedProperty(this, "n", env.argument(at: 13))
+                    try env.env.setNamedProperty(this, "o", env.argument(at: 14))
+                    try env.env.setNamedProperty(this, "p", env.argument(at: 15))
+                    try env.env.setNamedProperty(this, "q", env.argument(at: 16))
+                    try env.env.setNamedProperty(this, "r", env.argument(at: 17))
+                    try env.env.setNamedProperty(this, "s", env.argument(at: 18))
+                    try env.env.setNamedProperty(this, "t", env.argument(at: 19))
+                    try env.env.setNamedProperty(this, "u", env.argument(at: 20))
+                    return this
+                }
+            }
+        )
+        try mergeDefinitionInto(
+            env: env,
+            module: module,
+            path: "Structs.TwentyOneItemStruct",
             nodeClass: nodeClass.constructor.value(env: env)
         )
     }

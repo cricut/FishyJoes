@@ -39,7 +39,7 @@ public struct DownloadNodeLib: ParsableCommand {
 
         if force || !cmd("test", "-f", firstDestination).runBool() {
             try makeDirectory(for: firstDestination)
-            try cmd("curl", url, "--output", firstDestination).run()
+            try cmd("curl", "--fail", "--location", url, "--output", firstDestination).run()
         }
 
         for destination in remainingDestinations {

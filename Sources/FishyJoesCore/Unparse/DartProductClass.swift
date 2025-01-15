@@ -173,8 +173,7 @@ class DartProductClass: DartClass {
                 if storedFields.isEmpty {
                     fragment.output("runtimeType.hashCode;")
                 } else {
-                    fragment.output("Object.hash", newLineTerminated: false)
-                    fragment.outputBlock("(", closeWith: ");") {
+                    fragment.outputBlock("Object.hash(", closeWith: ");") {
                         fragment.output("runtimeType,")
                         let maxPositionalParamsPerObjectHashCall = 20
                         if storedFields.count < maxPositionalParamsPerObjectHashCall - 1 {
@@ -187,11 +186,15 @@ class DartProductClass: DartClass {
                                 if fieldGroupStartIndex != storedFields.indices.lowerBound {
                                     fragment.output(",")
                                 }
-                                fragment.output("Object.hash", newLineTerminated: false)
-                                fragment.outputBlock("(", closeWith: ")", newLineTerminated: false) {
-                                    let fieldGroup = Array(storedFields[fieldGroupStartIndex..<min(storedFields.indices.upperBound, fieldGroupStartIndex + maxPositionalParamsPerObjectHashCall)])
-                                    fragment.outputMap(fieldGroup, separator: ", ") { field in
-                                        "const DeepCollectionEquality().hash(\(DartClass.deforbidify(field.name)))"
+                                let fieldGroup = Array(storedFields[fieldGroupStartIndex..<min(storedFields.indices.upperBound, fieldGroupStartIndex + maxPositionalParamsPerObjectHashCall)])
+                                if fieldGroup.count == 1 {
+                                    fragment.output("const DeepCollectionEquality().hash(\(DartClass.deforbidify(fieldGroup[0].name)))")
+                                } else {
+                                    fragment.output("Object.hash", newLineTerminated: false)
+                                    fragment.outputBlock("(", closeWith: ")", newLineTerminated: false) {
+                                        fragment.outputMap(fieldGroup, separator: ", ") { field in
+                                            "const DeepCollectionEquality().hash(\(DartClass.deforbidify(field.name)))"
+                                        }
                                     }
                                 }
                             }

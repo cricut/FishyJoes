@@ -116,7 +116,7 @@ namespace Cricut.TestAPI {
         );
 
         delegate CreatedRef _TestAPI_Primitives_PrimitiveHolderConstructor(
-            bool b,
+            [MarshalAs(UnmanagedType.I1)] bool b,
             ConsumedRef bq,
             byte ui8,
             ConsumedRef ui8q,
@@ -144,8 +144,9 @@ namespace Cricut.TestAPI {
             ConsumedRef dq,
             out CreatedRef exn
         );
+        [return: MarshalAs(UnmanagedType.I1)]
         delegate bool _TestAPI_Primitives_PrimitiveHolder_bGetter(UnownedRef obj, out CreatedRef exn);
-        delegate void _TestAPI_Primitives_PrimitiveHolder_bSetter(UnownedRef obj, bool newValue, out CreatedRef exn);
+        delegate void _TestAPI_Primitives_PrimitiveHolder_bSetter(UnownedRef obj, [MarshalAs(UnmanagedType.I1)] bool newValue, out CreatedRef exn);
         delegate CreatedRef _TestAPI_Primitives_PrimitiveHolder_bqGetter(UnownedRef obj, out CreatedRef exn);
         delegate void _TestAPI_Primitives_PrimitiveHolder_bqSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
         delegate byte _TestAPI_Primitives_PrimitiveHolder_ui8Getter(UnownedRef obj, out CreatedRef exn);
@@ -317,10 +318,126 @@ namespace Cricut.TestAPI {
             out CreatedRef _exn
         );
 
+        delegate CreatedRef _TestAPI_Structs_TwentyOneItemStructConstructor(
+            ConsumedRef a,
+            ConsumedRef b,
+            ConsumedRef c,
+            ConsumedRef d,
+            ConsumedRef e,
+            ConsumedRef f,
+            ConsumedRef g,
+            ConsumedRef h,
+            ConsumedRef i,
+            ConsumedRef j,
+            ConsumedRef k,
+            ConsumedRef l,
+            ConsumedRef m,
+            ConsumedRef n,
+            ConsumedRef o,
+            ConsumedRef p,
+            ConsumedRef q,
+            ConsumedRef r,
+            ConsumedRef s,
+            ConsumedRef t,
+            ConsumedRef u,
+            out CreatedRef exn
+        );
+        delegate CreatedRef _TestAPI_Structs_TwentyOneItemStruct_aGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Structs_TwentyOneItemStruct_aSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_Structs_TwentyOneItemStruct_bGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Structs_TwentyOneItemStruct_bSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_Structs_TwentyOneItemStruct_cGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Structs_TwentyOneItemStruct_cSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_Structs_TwentyOneItemStruct_dGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Structs_TwentyOneItemStruct_dSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_Structs_TwentyOneItemStruct_eGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Structs_TwentyOneItemStruct_eSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_Structs_TwentyOneItemStruct_fGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Structs_TwentyOneItemStruct_fSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_Structs_TwentyOneItemStruct_gGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Structs_TwentyOneItemStruct_gSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_Structs_TwentyOneItemStruct_hGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Structs_TwentyOneItemStruct_hSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_Structs_TwentyOneItemStruct_iGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Structs_TwentyOneItemStruct_iSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_Structs_TwentyOneItemStruct_jGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Structs_TwentyOneItemStruct_jSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_Structs_TwentyOneItemStruct_kGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Structs_TwentyOneItemStruct_kSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_Structs_TwentyOneItemStruct_lGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Structs_TwentyOneItemStruct_lSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_Structs_TwentyOneItemStruct_mGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Structs_TwentyOneItemStruct_mSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_Structs_TwentyOneItemStruct_nGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Structs_TwentyOneItemStruct_nSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_Structs_TwentyOneItemStruct_oGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Structs_TwentyOneItemStruct_oSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_Structs_TwentyOneItemStruct_pGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Structs_TwentyOneItemStruct_pSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_Structs_TwentyOneItemStruct_qGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Structs_TwentyOneItemStruct_qSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_Structs_TwentyOneItemStruct_rGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Structs_TwentyOneItemStruct_rSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_Structs_TwentyOneItemStruct_sGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Structs_TwentyOneItemStruct_sSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_Structs_TwentyOneItemStruct_tGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Structs_TwentyOneItemStruct_tSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_Structs_TwentyOneItemStruct_uGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Structs_TwentyOneItemStruct_uSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_Structs_TwentyOneItemStruct_setup(
+            IntPtr envRef,
+            _TestAPI_Structs_TwentyOneItemStructConstructor constructor,
+            _TestAPI_Structs_TwentyOneItemStruct_aGetter get_a,
+            _TestAPI_Structs_TwentyOneItemStruct_aSetter set_a,
+            _TestAPI_Structs_TwentyOneItemStruct_bGetter get_b,
+            _TestAPI_Structs_TwentyOneItemStruct_bSetter set_b,
+            _TestAPI_Structs_TwentyOneItemStruct_cGetter get_c,
+            _TestAPI_Structs_TwentyOneItemStruct_cSetter set_c,
+            _TestAPI_Structs_TwentyOneItemStruct_dGetter get_d,
+            _TestAPI_Structs_TwentyOneItemStruct_dSetter set_d,
+            _TestAPI_Structs_TwentyOneItemStruct_eGetter get_e,
+            _TestAPI_Structs_TwentyOneItemStruct_eSetter set_e,
+            _TestAPI_Structs_TwentyOneItemStruct_fGetter get_f,
+            _TestAPI_Structs_TwentyOneItemStruct_fSetter set_f,
+            _TestAPI_Structs_TwentyOneItemStruct_gGetter get_g,
+            _TestAPI_Structs_TwentyOneItemStruct_gSetter set_g,
+            _TestAPI_Structs_TwentyOneItemStruct_hGetter get_h,
+            _TestAPI_Structs_TwentyOneItemStruct_hSetter set_h,
+            _TestAPI_Structs_TwentyOneItemStruct_iGetter get_i,
+            _TestAPI_Structs_TwentyOneItemStruct_iSetter set_i,
+            _TestAPI_Structs_TwentyOneItemStruct_jGetter get_j,
+            _TestAPI_Structs_TwentyOneItemStruct_jSetter set_j,
+            _TestAPI_Structs_TwentyOneItemStruct_kGetter get_k,
+            _TestAPI_Structs_TwentyOneItemStruct_kSetter set_k,
+            _TestAPI_Structs_TwentyOneItemStruct_lGetter get_l,
+            _TestAPI_Structs_TwentyOneItemStruct_lSetter set_l,
+            _TestAPI_Structs_TwentyOneItemStruct_mGetter get_m,
+            _TestAPI_Structs_TwentyOneItemStruct_mSetter set_m,
+            _TestAPI_Structs_TwentyOneItemStruct_nGetter get_n,
+            _TestAPI_Structs_TwentyOneItemStruct_nSetter set_n,
+            _TestAPI_Structs_TwentyOneItemStruct_oGetter get_o,
+            _TestAPI_Structs_TwentyOneItemStruct_oSetter set_o,
+            _TestAPI_Structs_TwentyOneItemStruct_pGetter get_p,
+            _TestAPI_Structs_TwentyOneItemStruct_pSetter set_p,
+            _TestAPI_Structs_TwentyOneItemStruct_qGetter get_q,
+            _TestAPI_Structs_TwentyOneItemStruct_qSetter set_q,
+            _TestAPI_Structs_TwentyOneItemStruct_rGetter get_r,
+            _TestAPI_Structs_TwentyOneItemStruct_rSetter set_r,
+            _TestAPI_Structs_TwentyOneItemStruct_sGetter get_s,
+            _TestAPI_Structs_TwentyOneItemStruct_sSetter set_s,
+            _TestAPI_Structs_TwentyOneItemStruct_tGetter get_t,
+            _TestAPI_Structs_TwentyOneItemStruct_tSetter set_t,
+            _TestAPI_Structs_TwentyOneItemStruct_uGetter get_u,
+            _TestAPI_Structs_TwentyOneItemStruct_uSetter set_u,
+            out CreatedRef _exn
+        );
+
         delegate CreatedRef _TestAPI_CommonInterface__AProtocolConverterConstructor(
             ConsumedRef ptr,
             out CreatedRef exn
         );
+        [return: MarshalAs(UnmanagedType.I1)]
         delegate bool _TestAPI_CommonInterface__AProtocolConverter_Getbaz(UnownedRef obj, out CreatedRef exn);
         delegate CreatedRef _TestAPI_CommonInterface__AProtocolConverter_Getfoo(UnownedRef obj, out CreatedRef exn);
         delegate CreatedRef _TestAPI_CommonInterface__AProtocolConverter_bar(UnownedRef obj, nint x, nint y, out CreatedRef exn);
@@ -340,13 +457,14 @@ namespace Cricut.TestAPI {
 
         delegate CreatedRef _TestAPI_AProtocolImplementationConstructor(
             ConsumedRef foo,
-            bool baz,
+            [MarshalAs(UnmanagedType.I1)] bool baz,
             out CreatedRef exn
         );
         delegate CreatedRef _TestAPI_AProtocolImplementation_fooGetter(UnownedRef obj, out CreatedRef exn);
         delegate void _TestAPI_AProtocolImplementation_fooSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        [return: MarshalAs(UnmanagedType.I1)]
         delegate bool _TestAPI_AProtocolImplementation_bazGetter(UnownedRef obj, out CreatedRef exn);
-        delegate void _TestAPI_AProtocolImplementation_bazSetter(UnownedRef obj, bool newValue, out CreatedRef exn);
+        delegate void _TestAPI_AProtocolImplementation_bazSetter(UnownedRef obj, [MarshalAs(UnmanagedType.I1)] bool newValue, out CreatedRef exn);
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_AProtocolImplementation_setup(
             IntPtr envRef,
@@ -387,12 +505,14 @@ namespace Cricut.TestAPI {
         delegate CreatedRef Cricut_TestAPI_AssociatedDataEnum_new_bar(
             ConsumedRef named,
             ConsumedRef _1,
+            [MarshalAs(UnmanagedType.I1)] bool toggled,
             out CreatedRef _exn
         );
         unsafe delegate void Cricut_TestAPI_AssociatedDataEnum_extract_bar(
             UnownedRef obj,
             ref CreatedRef named,
             ref CreatedRef _1,
+            [MarshalAs(UnmanagedType.I1)] ref bool toggled,
             out CreatedRef _exn
         );
         delegate CreatedRef Cricut_TestAPI_AssociatedDataEnum_new_noValue(
@@ -738,12 +858,13 @@ namespace Cricut.TestAPI {
         );
 
         delegate CreatedRef _TestAPI_TestDefaultComputedPropertiesStructConstructor(
-            bool spam,
+            [MarshalAs(UnmanagedType.I1)] bool spam,
             nint noot,
             out CreatedRef exn
         );
+        [return: MarshalAs(UnmanagedType.I1)]
         delegate bool _TestAPI_TestDefaultComputedPropertiesStruct_spamGetter(UnownedRef obj, out CreatedRef exn);
-        delegate void _TestAPI_TestDefaultComputedPropertiesStruct_spamSetter(UnownedRef obj, bool newValue, out CreatedRef exn);
+        delegate void _TestAPI_TestDefaultComputedPropertiesStruct_spamSetter(UnownedRef obj, [MarshalAs(UnmanagedType.I1)] bool newValue, out CreatedRef exn);
         delegate nint _TestAPI_TestDefaultComputedPropertiesStruct_nootGetter(UnownedRef obj, out CreatedRef exn);
         delegate void _TestAPI_TestDefaultComputedPropertiesStruct_nootSetter(UnownedRef obj, nint newValue, out CreatedRef exn);
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -818,6 +939,7 @@ namespace Cricut.TestAPI {
             out CreatedRef exn
         );
         delegate void _TestAPI_CommonInterface__TestMethodsProtocolConverter_foo(UnownedRef obj, out CreatedRef exn);
+        [return: MarshalAs(UnmanagedType.I1)]
         delegate bool _TestAPI_CommonInterface__TestMethodsProtocolConverter_bar(UnownedRef obj, out CreatedRef exn);
         delegate void _TestAPI_CommonInterface__TestMethodsProtocolConverter_baz(UnownedRef obj, bool qux, out CreatedRef exn);
         delegate CreatedRef _TestAPI_CommonInterface__TestMethodsProtocolConverter_garply(UnownedRef obj, string _0, out CreatedRef exn);
@@ -2289,7 +2411,7 @@ namespace Cricut.TestAPI {
                 Console.WriteLine("setting up TestAPI.Primitives.PrimitiveHolder...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Primitives_PrimitiveHolder_setup(
                     Loader.env,
-                    bag<_TestAPI_Primitives_PrimitiveHolderConstructor>((bool b, ConsumedRef bq, byte ui8, ConsumedRef ui8q, ushort ui16, ConsumedRef ui16q, uint ui32, ConsumedRef ui32q, ulong ui64, ConsumedRef ui64q, nuint ui, ConsumedRef uiq, sbyte i8, ConsumedRef i8q, short i16, ConsumedRef i16q, int i32, ConsumedRef i32q, long i64, ConsumedRef i64q, nint i, ConsumedRef iq, float f, ConsumedRef fq, double d, ConsumedRef dq, out CreatedRef exn) => Catching(out exn, () => {
+                    bag<_TestAPI_Primitives_PrimitiveHolderConstructor>(([MarshalAs(UnmanagedType.I1)] bool b, ConsumedRef bq, byte ui8, ConsumedRef ui8q, ushort ui16, ConsumedRef ui16q, uint ui32, ConsumedRef ui32q, ulong ui64, ConsumedRef ui64q, nuint ui, ConsumedRef uiq, sbyte i8, ConsumedRef i8q, short i16, ConsumedRef i16q, int i32, ConsumedRef i32q, long i64, ConsumedRef i64q, nint i, ConsumedRef iq, float f, ConsumedRef fq, double d, ConsumedRef dq, out CreatedRef exn) => Catching(out exn, () => {
                         return new CreatedRef(new Cricut.TestAPI.Primitives.PrimitiveHolder(
                             b,
                             bq.Consume<bool?>(),
@@ -2322,7 +2444,7 @@ namespace Cricut.TestAPI {
                     bag<_TestAPI_Primitives_PrimitiveHolder_bGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().B
                     )),
-                    bag<_TestAPI_Primitives_PrimitiveHolder_bSetter>((UnownedRef obj, bool newValue, out CreatedRef exn) => Catching(out exn, () => {
+                    bag<_TestAPI_Primitives_PrimitiveHolder_bSetter>((UnownedRef obj, [MarshalAs(UnmanagedType.I1)] bool newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().B = newValue;
                     })),
                     bag<_TestAPI_Primitives_PrimitiveHolder_bqGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
@@ -2556,6 +2678,164 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_TestAPI.Structs.TwentyOneItemStruct", () => {
+                Console.WriteLine("setting up TestAPI.Structs.TwentyOneItemStruct...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_Structs_TwentyOneItemStruct_setup(
+                    Loader.env,
+                    bag<_TestAPI_Structs_TwentyOneItemStructConstructor>((ConsumedRef a, ConsumedRef b, ConsumedRef c, ConsumedRef d, ConsumedRef e, ConsumedRef f, ConsumedRef g, ConsumedRef h, ConsumedRef i, ConsumedRef j, ConsumedRef k, ConsumedRef l, ConsumedRef m, ConsumedRef n, ConsumedRef o, ConsumedRef p, ConsumedRef q, ConsumedRef r, ConsumedRef s, ConsumedRef t, ConsumedRef u, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.Structs.TwentyOneItemStruct(
+                            a.Consume<string>(),
+                            b.Consume<string>(),
+                            c.Consume<string>(),
+                            d.Consume<string>(),
+                            e.Consume<string>(),
+                            f.Consume<string>(),
+                            g.Consume<string>(),
+                            h.Consume<string>(),
+                            i.Consume<string>(),
+                            j.Consume<string>(),
+                            k.Consume<string>(),
+                            l.Consume<string>(),
+                            m.Consume<string>(),
+                            n.Consume<string>(),
+                            o.Consume<string>(),
+                            p.Consume<string>(),
+                            q.Consume<string>(),
+                            r.Consume<string>(),
+                            s.Consume<string>(),
+                            t.Consume<string>(),
+                            u.Consume<string>()
+                        ));
+                    })),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_aGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().A)
+                    )),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_aSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().A = newValue.Consume<string>();
+                    })),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_bGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().B)
+                    )),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_bSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().B = newValue.Consume<string>();
+                    })),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_cGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().C)
+                    )),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_cSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().C = newValue.Consume<string>();
+                    })),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_dGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().D)
+                    )),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_dSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().D = newValue.Consume<string>();
+                    })),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_eGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().E)
+                    )),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_eSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().E = newValue.Consume<string>();
+                    })),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_fGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().F)
+                    )),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_fSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().F = newValue.Consume<string>();
+                    })),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_gGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().G)
+                    )),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_gSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().G = newValue.Consume<string>();
+                    })),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_hGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().H)
+                    )),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_hSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().H = newValue.Consume<string>();
+                    })),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_iGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().I)
+                    )),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_iSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().I = newValue.Consume<string>();
+                    })),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_jGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().J)
+                    )),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_jSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().J = newValue.Consume<string>();
+                    })),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_kGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().K)
+                    )),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_kSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().K = newValue.Consume<string>();
+                    })),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_lGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().L)
+                    )),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_lSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().L = newValue.Consume<string>();
+                    })),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_mGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().M)
+                    )),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_mSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().M = newValue.Consume<string>();
+                    })),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_nGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().N)
+                    )),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_nSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().N = newValue.Consume<string>();
+                    })),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_oGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().O)
+                    )),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_oSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().O = newValue.Consume<string>();
+                    })),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_pGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().P)
+                    )),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_pSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().P = newValue.Consume<string>();
+                    })),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_qGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().Q)
+                    )),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_qSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().Q = newValue.Consume<string>();
+                    })),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_rGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().R)
+                    )),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_rSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().R = newValue.Consume<string>();
+                    })),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_sGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().S)
+                    )),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_sSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().S = newValue.Consume<string>();
+                    })),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_tGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().T)
+                    )),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_tSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().T = newValue.Consume<string>();
+                    })),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_uGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().U)
+                    )),
+                    bag<_TestAPI_Structs_TwentyOneItemStruct_uSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().U = newValue.Consume<string>();
+                    })),
+                    out exn
+                ));
+            });
             Once("setup_TestAPI_CommonInterface._AProtocolConverter", () => {
                 Console.WriteLine("setting up TestAPI.AProtocol...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_CommonInterface__AProtocolConverter_setup(
@@ -2585,7 +2865,7 @@ namespace Cricut.TestAPI {
                 Console.WriteLine("setting up TestAPI.AProtocolImplementation...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_AProtocolImplementation_setup(
                     Loader.env,
-                    bag<_TestAPI_AProtocolImplementationConstructor>((ConsumedRef foo, bool baz, out CreatedRef exn) => Catching(out exn, () => {
+                    bag<_TestAPI_AProtocolImplementationConstructor>((ConsumedRef foo, [MarshalAs(UnmanagedType.I1)] bool baz, out CreatedRef exn) => Catching(out exn, () => {
                         return new CreatedRef(new Cricut.TestAPI.AProtocolImplementation(
                             foo.Consume<string>(),
                             baz
@@ -2600,7 +2880,7 @@ namespace Cricut.TestAPI {
                     bag<_TestAPI_AProtocolImplementation_bazGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         obj.Peek<Cricut.TestAPI.AProtocolImplementation>().Baz
                     )),
-                    bag<_TestAPI_AProtocolImplementation_bazSetter>((UnownedRef obj, bool newValue, out CreatedRef exn) => Catching(out exn, () => {
+                    bag<_TestAPI_AProtocolImplementation_bazSetter>((UnownedRef obj, [MarshalAs(UnmanagedType.I1)] bool newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.AProtocolImplementation>().Baz = newValue;
                     })),
                     out exn
@@ -2684,11 +2964,13 @@ namespace Cricut.TestAPI {
                         (
                             ConsumedRef _named,
                             ConsumedRef __1,
+                            [MarshalAs(UnmanagedType.I1)] bool _toggled,
                             out CreatedRef exn
                         ) => Catching(out exn, () => 
                             new CreatedRef(new Cricut.TestAPI.AssociatedDataEnum.Bar(
                                 _named.Consume<string>(),
-                                __1.Consume<Cricut.TestAPI.AssociatedDataEnum>()
+                                __1.Consume<Cricut.TestAPI.AssociatedDataEnum>(),
+                                _toggled
                             ))
                         )
                     ),
@@ -2697,12 +2979,14 @@ namespace Cricut.TestAPI {
                             UnownedRef obj,
                             ref CreatedRef _named,
                             ref CreatedRef __1,
+                            [MarshalAs(UnmanagedType.I1)] ref bool _toggled,
                             out CreatedRef exn
                         ) => {
                             try {
                                 var enumeration = obj.Peek<Cricut.TestAPI.AssociatedDataEnum.Bar>();
                                 _named = new CreatedRef(enumeration.Named);
                                 __1 = new CreatedRef(enumeration._1);
+                                _toggled = enumeration.Toggled;
                                 exn = CreatedRef.Null;
                             } catch (Exception e) {
                                 exn = new CreatedRef(e);
@@ -3197,7 +3481,7 @@ namespace Cricut.TestAPI {
                 Console.WriteLine("setting up TestAPI.TestDefaultComputedPropertiesStruct...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_TestDefaultComputedPropertiesStruct_setup(
                     Loader.env,
-                    bag<_TestAPI_TestDefaultComputedPropertiesStructConstructor>((bool spam, nint noot, out CreatedRef exn) => Catching(out exn, () => {
+                    bag<_TestAPI_TestDefaultComputedPropertiesStructConstructor>(([MarshalAs(UnmanagedType.I1)] bool spam, nint noot, out CreatedRef exn) => Catching(out exn, () => {
                         return new CreatedRef(new Cricut.TestAPI.TestDefaultComputedPropertiesStruct(
                             spam,
                             noot
@@ -3206,7 +3490,7 @@ namespace Cricut.TestAPI {
                     bag<_TestAPI_TestDefaultComputedPropertiesStruct_spamGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         obj.Peek<Cricut.TestAPI.TestDefaultComputedPropertiesStruct>().Spam
                     )),
-                    bag<_TestAPI_TestDefaultComputedPropertiesStruct_spamSetter>((UnownedRef obj, bool newValue, out CreatedRef exn) => Catching(out exn, () => {
+                    bag<_TestAPI_TestDefaultComputedPropertiesStruct_spamSetter>((UnownedRef obj, [MarshalAs(UnmanagedType.I1)] bool newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.TestDefaultComputedPropertiesStruct>().Spam = newValue;
                     })),
                     bag<_TestAPI_TestDefaultComputedPropertiesStruct_nootGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>

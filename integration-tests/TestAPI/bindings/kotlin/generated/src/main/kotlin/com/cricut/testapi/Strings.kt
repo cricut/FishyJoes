@@ -95,6 +95,20 @@ sealed class Strings {
             string: kotlin.String
         ): kotlin.String
 
+        /**
+         * <!-- FishyJoes.export(split) -->
+         */
+        fun split(
+            string: kotlin.String,
+            by: kotlin.String
+        ): kotlin.collections.List<kotlin.String> = __jni_split(string, by)
+        @JvmStatic
+        @JvmName("__jni_split")
+        private external fun __jni_split(
+            string: kotlin.String,
+            by: kotlin.String
+        ): kotlin.collections.List<kotlin.String>
+
         init { loadNativeLibs() }
     }
 }

@@ -25,7 +25,7 @@ class NodePhases: BasePhases, Phases {
         case .node:
             try platform.build(
                 product: "\(options.config.module)-node",
-                libs: libs.flatMap { [$0, "\($0)-node"] } + ["FishyJoesNodeRuntime"],
+                libs: options.config.extraDynamicLibraries + libs.flatMap { [$0, "\($0)-node"] } + ["FishyJoesNodeRuntime"],
                 configuration: options.buildConfig
             )
         default:
@@ -164,6 +164,7 @@ class NodePhases: BasePhases, Phases {
             // Install the module library and Node interfacing library
             try installLibrary(nodeModule.name)
             try installLibrary(nodeModule.nativeLibName)
+            try options.config.extraDynamicLibraries.forEach { try installLibrary($0) }
 
             // For node to load a library correctly, the file must be ".cjs.node", so compile a shim to load the actual Node interfacing library
             // and copy it into the build directory so it can be installed like any other library

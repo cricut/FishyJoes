@@ -18,7 +18,8 @@ sealed class AssociatedDataEnum {
     ) : AssociatedDataEnum()
     data class Bar(
         var named: kotlin.String,
-        var _1: com.cricut.testapi.AssociatedDataEnum
+        var _1: com.cricut.testapi.AssociatedDataEnum,
+        var toggled: Boolean
     ) : AssociatedDataEnum()
     object NoValue : AssociatedDataEnum()
     data class SimpleEnum(

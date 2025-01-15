@@ -10,6 +10,7 @@ import org.junit.runner.RunWith
 import org.junit.Assert.*
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
+import com.cricut.fishyjoes.runtime.FishyJoesRuntimeRepresentative
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -42,5 +43,16 @@ class ExampleInstrumentedTest {
     fun testEchoBytes() {
         assertEquals(Bytes.echoBytes(Bytes.bytes), Bytes.bytes)
         assert(Bytes.echoData(Bytes.data).contentEquals(Bytes.data))
+    }
+
+    @Test
+    fun testStringSplit() {
+        assertEquals(Strings.split("foo bar baz", " "), listOf("foo", "bar", "baz"))
+    }
+
+    @Test
+    fun testFoundationXMLLoads() {
+        FishyJoesRuntimeRepresentative.ensureLoaded()
+        System.loadLibrary("FoundationXML")
     }
 }

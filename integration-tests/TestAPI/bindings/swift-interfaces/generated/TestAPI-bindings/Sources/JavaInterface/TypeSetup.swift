@@ -537,6 +537,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(TestAPI.Structs.ReferenceStruct._javaEquals, to: UnsafeMutableRawPointer.self)
             )
         )
+        // print("setting up TestAPI.Structs.TwentyOneItemStruct...")
+        try TestAPI.Structs.TwentyOneItemStruct.javaSetup(env: env)
         // print("setting up TestAPI_CommonInterface._AProtocolConverter...")
         try TestAPI_CommonInterface._AProtocolConverter.javaSetup(env: env)
         try env.RegisterNatives(
@@ -1472,6 +1474,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try env.RegisterNatives(
             TestAPI.Primitives.javaClass,
             JNINativeMethod(
+                name: bag.add("__jni_boolOverflow"),
+                signature: bag.add("(ZZZZZZZZZZZZZZZZ)J"),
+                fnPtr: unsafeBitCast(java_TestAPI_Primitives_boolOverflow, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_echoBool"),
                 signature: bag.add("(Z)Z"),
                 fnPtr: unsafeBitCast(java_TestAPI_Primitives_echoBool, to: UnsafeMutableRawPointer.self)
@@ -2150,6 +2157,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_get_simple"),
                 signature: bag.add("()Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_Strings_simple, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_split"),
+                signature: bag.add("(Ljava/lang/String;Ljava/lang/String;)Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Strings_split, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.Structs...")

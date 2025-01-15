@@ -23,12 +23,11 @@ for platformStr in $androidsStupidPlatforms; do
     arch=${platform[1]}
     ndkArch=${platform[2]}
 
-    toolchainPath=/swift-android
     swift-build \
         --scratch-path .build/android-build \
         --configuration $CONFIGURATION \
         --product FishyJoesJavaRuntime \
-        --destination $toolchainPath/usr/swiftpm-android-$arch.json
+        --destination /swift-android-$arch/usr/swiftpm-android-$arch.json
     installDir=$libdir/lib/$ndkArch
     mkdir -p $installDir/
     cp .build/android-build/$arch-unknown-linux-android$androidAPIVersion/$CONFIGURATION/libFishyJoesJavaRuntime.so $installDir/

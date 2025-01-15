@@ -60,10 +60,17 @@ public class FishyJoesContext {
         else {
             fatalErr("must provide `requiredModules` as argument to sourcery")
         }
+        guard let extraDynamicLibrariesBase64 = argument["extraDynamicLibraries"] as? String,
+              let extraDynamicLibrariesJSON = Data(base64Encoded: extraDynamicLibrariesBase64),
+              let extraDynamicLibraries = try? JSONDecoder().decode([String].self, from: extraDynamicLibrariesJSON)
+        else {
+            fatalErr("must provide `extraDynamicLibraries` as argument to sourcery")
+        }
         self.templateContext = context
         self.module = Module(
             name: module,
-            dependencies: requiredModulePaths.map { (($0 as NSString).lastPathComponent as NSString).deletingPathExtension }
+            dependencies: requiredModulePaths.map { (($0 as NSString).lastPathComponent as NSString).deletingPathExtension },
+            extraDynamicLibraries: extraDynamicLibraries
         )
         self.requiredModulePaths = requiredModulePaths
         self.tsAnnotations = TypeScriptAnnotations(
@@ -395,8 +402,7 @@ public class FishyJoesContext {
         if
             case .named(var name) = type,
             name.module == nil,
-            let module = name.namespace.first
-        {
+            let module = name.namespace.first {
             name.module = module
             name.namespace.removeFirst()
             typeNameAsModuleQualified = BetterType.named(name)

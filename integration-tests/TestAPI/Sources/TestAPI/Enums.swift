@@ -55,7 +55,7 @@ public enum SimpleEnum: Int, Hashable {
 public enum AssociatedDataEnum: Hashable {
     case thing(value: Int)
     case other(_ unnamed: String, Int)
-    indirect case bar(named: String, AssociatedDataEnum)
+    indirect case bar(named: String, AssociatedDataEnum, toggled: Bool)
     case noValue
     case simpleEnum(value: SimpleEnum)
 
@@ -67,7 +67,7 @@ public enum AssociatedDataEnum: Hashable {
         switch self {
         case .thing(let value), .other(_, let value):
             return value
-        case .bar(named: _, let nested):
+        case .bar(named: _, let nested, _):
             return nested.intValue + 3
         case .noValue:
             return 42
@@ -83,8 +83,8 @@ public enum AssociatedDataEnum: Hashable {
             return .thing(value: value + other.intValue)
         case .other(let name, let value):
             return .other(name, value + other.intValue)
-        case .bar(let name, let nested):
-            return .bar(named: name, nested.plus(other))
+        case .bar(let name, let nested, let toggled):
+            return .bar(named: name, nested.plus(other), toggled: toggled)
         case .noValue:
             return .noValue
         case .simpleEnum(let value):

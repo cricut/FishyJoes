@@ -2,7 +2,9 @@ extension TranslatedEnum {
     func cSharpSetupDelegates(in context: FishyJoesContext) -> [String] {
         var lines: [String] = []
         for enumCase in cases {
-            lines.append("delegate \(cSharpType.pInvokeCreatedName) \(cSharpType.name.mangled)_new_\(enumCase.name.mangled)(")
+            let created = cSharpType.pInvokeCreatedName
+            lines += created.returnMark
+            lines.append("delegate \(created.name) \(cSharpType.name.mangled)_new_\(enumCase.name.mangled)(")
             for value in enumCase.associatedValues {
                 let resolved = context.resolve(type: value.type)
                 lines.append("    \(resolved.cSharpType.pInvokeConsumedName) \(value.bindingName),")
@@ -13,7 +15,7 @@ extension TranslatedEnum {
             lines.append("    \(cSharpType.pInvokeUnownedName) obj,")
             for value in enumCase.associatedValues {
                 let resolved = context.resolve(type: value.type)
-                lines.append("    ref \(resolved.cSharpType.pInvokeCreatedName) \(value.bindingName),")
+                lines.append("    \(resolved.cSharpType.pInvokeCreatedName.asRefArg) \(value.bindingName),")
             }
             lines.append("    out CreatedRef _exn")
             lines.append(");")
@@ -71,7 +73,7 @@ extension TranslatedEnum {
                             fragment.output("\(cSharpType.pInvokeUnownedName) obj,")
                             for value in enumCase.associatedValues {
                                 let resolved = context.resolve(type: value.type)
-                                fragment.output("ref \(resolved.cSharpType.pInvokeCreatedName) _\(value.bindingName),")
+                                fragment.output("\(resolved.cSharpType.pInvokeCreatedName.asRefArg) _\(value.bindingName),")
                             }
                             fragment.output("out CreatedRef exn")
                         }

@@ -176,7 +176,9 @@ class CSharpClass: NestedClass {
 
         fragment.blankLine()
         fragment.output(module.dllImportMark)
-        fragment.output("private static extern \(field.type.pInvokeCreatedName) \(getterName)(IntPtr envRef, \(selfFormal)out CreatedRef exn);")
+        let created = field.type.pInvokeCreatedName
+        created.outputReturnMark(to: fragment)
+        fragment.output("private static extern \(created.name) \(getterName)(IntPtr envRef, \(selfFormal)out CreatedRef exn);")
         if field.isPubliclyWritable {
             fragment.blankLine()
             fragment.output(module.dllImportMark)
@@ -239,7 +241,9 @@ class CSharpClass: NestedClass {
         if method.body == nil {
             fragment.blankLine()
             fragment.output(module.dllImportMark)
-            fragment.outputBlock("private static extern \(method.returnType.pInvokeCreatedName) __iota_\(method.mangledName)(", closeWith: ");") {
+            let created = method.returnType.pInvokeCreatedName
+            created.outputReturnMark(to: fragment)
+            fragment.outputBlock("private static extern \(created.name) __iota_\(method.mangledName)(", closeWith: ");") {
                 fragment.output("IntPtr envRef,")
                 if !method.isStatic {
                     fragment.output("\(CSType.object.pInvokeUnownedName) self,")
@@ -254,7 +258,7 @@ class CSharpClass: NestedClass {
     }
 }
 
-extension CSharpClass.CSType: CustomStringConvertible {
+extension CSharpClass.CSType: Equatable, CustomStringConvertible {
     static var object: Self {
         return .named(package: nil, name: "object")
     }
@@ -289,33 +293,78 @@ extension CSharpClass.CSType: CustomStringConvertible {
         }
     }
 
-    var pInvokeConsumedName: String {
-        if isObject {
-            return "ConsumedRef"
-        } else if self == .unit {
-            return "void"
-        } else {
-            return name
+    static let bool: CSharpClass.CSType = .primitive("bool")
+
+    /// A CSharp type with an optional annotation specifying how it should be marshalled through the FFI.
+    /// Currently only Bool uses this customization
+    struct MarshalledType: CustomStringConvertible {
+        let name: String
+        let marshalAsType: String?
+
+        /// Annotation for marking an FFI function that returns this type
+        var returnMark: [String] {
+            if let marshalType = marshalAsType {
+                return ["[return: MarshalAs(\(marshalType))]"]
+            } else {
+                return []
+            }
+        }
+
+        /// Output the annotation for marking an FFI function that returns this type to fragment
+        func outputReturnMark(to fragment: SourceFragment) {
+            returnMark.forEach { fragment.output($0) }
+        }
+
+        var description: String {
+            if let marshalType = marshalAsType {
+                return "[MarshalAs(\(marshalType))] \(name)"
+            } else {
+                return name
+            }
+        }
+
+        var asRefArg: String {
+            if let marshalType = marshalAsType {
+                return "[MarshalAs(\(marshalType))] ref \(name)"
+            } else {
+                return "ref \(name)"
+            }
         }
     }
 
-    var pInvokeCreatedName: String {
-        if isObject {
-            return "CreatedRef"
-        } else if self == .unit {
-            return "void"
+    var pInvokeConsumedName: MarshalledType {
+        if self == .unit {
+            return MarshalledType(name: "void", marshalAsType: nil)
+        } else if self == .bool {
+            return MarshalledType(name: name, marshalAsType: "UnmanagedType.I1")
+        } else if isObject {
+            return MarshalledType(name: "ConsumedRef", marshalAsType: nil)
         } else {
-            return name
+            return MarshalledType(name: name, marshalAsType: nil)
         }
     }
 
-    var pInvokeUnownedName: String {
-        if isObject {
-            return "UnownedRef"
-        } else if self == .unit {
-            return "void"
+    var pInvokeCreatedName: MarshalledType {
+        if self == .unit {
+            return MarshalledType(name: "void", marshalAsType: nil)
+        } else if self == .bool {
+            return MarshalledType(name: name, marshalAsType: "UnmanagedType.I1")
+        } else if isObject {
+            return MarshalledType(name: "CreatedRef", marshalAsType: nil)
         } else {
-            return name
+            return MarshalledType(name: name, marshalAsType: nil)
+        }
+    }
+
+    var pInvokeUnownedName: MarshalledType {
+        if self == .unit {
+            return MarshalledType(name: "void", marshalAsType: nil)
+        } else if self == .bool {
+            return MarshalledType(name: name, marshalAsType: "UnmanagedType.I1")
+        } else if isObject {
+            return MarshalledType(name: "UnownedRef", marshalAsType: nil)
+        } else {
+            return MarshalledType(name: name, marshalAsType: nil)
         }
     }
 
