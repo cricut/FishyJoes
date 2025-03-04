@@ -268,7 +268,7 @@ jobs:
           (cd bindings/kotlin/generated && ./gradlew publishToMavenLocal)
 
       - name: Upload artifacts for use by Android later
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: maven-local
           path: ~/.m2/repository
@@ -430,7 +430,7 @@ jobs:
           java-version: 17
 
       - name: Retrieve artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
 
       - name: Build android test app
         shell: zsh {0}

@@ -43,7 +43,7 @@ jobs:
           ./scripts/compile-iota-runtime.sh
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: mac_generated
           path: .build/apple/release/libFishyJoesIotaRuntime.dylib
@@ -125,7 +125,7 @@ jobs:
           popd
 
       - name: Upload library
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ubuntu_generated
           path: .build/linux-iota-libs
@@ -178,7 +178,7 @@ jobs:
           cp -R "$binPath/FishyJoesIotaRuntime.dll" "$LIB_DIR"
 
       - name: Upload library
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: windows_generated
           path: .build/windows-iota-libs
@@ -186,7 +186,10 @@ jobs:
   iota-publish:
     name: "Publish C# Package and Dart Binaries"
     runs-on: ubuntu-latest
-    needs: [build-iota-mac, build-iota-ubuntu, build-iota-windows]
+    needs:
+      - build-iota-mac
+      - build-iota-ubuntu
+      # - build-iota-windows
     env:
       GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
@@ -216,7 +219,7 @@ jobs:
           sudo apt-get install zsh
 
       - name: Retrieve Artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
 
       - name: Install Artifacts
         shell: zsh {0}
@@ -229,7 +232,7 @@ jobs:
           mkdir -p c-sharp-runtime/runtimes/{osx,linux,win}/native
           cp -dv mac_generated/* c-sharp-runtime/runtimes/osx/native/
           cp -dv ubuntu_generated/* c-sharp-runtime/runtimes/linux/native/
-          cp -dv windows_generated/* c-sharp-runtime/runtimes/win/native/
+          cp -dv windows_generated/* c-sharp-runtime/runtimes/win/native/ || true
 
           ls -R c-sharp-runtime/
 
@@ -237,7 +240,7 @@ jobs:
           mkdir -p dart-runtime/{macos,linux,windows}/native
           cp -dv mac_generated/* dart-runtime/macos/native/
           cp -dv ubuntu_generated/* dart-runtime/linux/native/
-          cp -dv windows_generated/* dart-runtime/windows/native/
+          cp -dv windows_generated/* dart-runtime/windows/native/ || true
 
           ls -R dart-runtime
 
@@ -284,13 +287,13 @@ jobs:
           tar -tf cricut-flutter-fishyjoes-runtime-*.tgz
 
       - name: Upload Nuget Package
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: nuget-package
           path: c-sharp-runtime/nupkgs/*.*nupkg
 
       - name: Upload Dart Tarball
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: FishyJoes-dart-binaries
           path: FishyJoes-dart-binaries.tgz

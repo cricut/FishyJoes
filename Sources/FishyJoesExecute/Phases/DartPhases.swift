@@ -52,7 +52,6 @@ class DartPhases: IotaPhases, Phases {
         ]
         try cmd("tar", arguments: tarCmdArgs).run()
 
-
         // Generate flutter package from dart package
         try withDirectory("bindings/dart") {
             try cmd("rm", "-rf", "generated/flutter-package").run()

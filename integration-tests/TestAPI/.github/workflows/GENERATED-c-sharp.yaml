@@ -57,7 +57,7 @@ jobs:
           swift run -- fishy-joes --c-sharp --fat test
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: mac_generated
           path: bindings/c-sharp/generated/Cricut.TestAPI/runtimes
@@ -113,7 +113,7 @@ jobs:
           swift run -- fishy-joes --c-sharp test
 
       - name: Upload library
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ubuntu_generated
           path: bindings/c-sharp/generated/Cricut.TestAPI/runtimes
@@ -172,7 +172,7 @@ jobs:
           "$SWIFT_WINDOWS_BASH" run -- fishy-joes --c-sharp test
 
       - name: Upload library
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: windows_generated
           path: bindings/c-sharp/generated/Cricut.TestAPI/runtimes
@@ -183,7 +183,7 @@ jobs:
     needs:
       - build-test-c-sharp-mac
       - build-test-c-sharp-linux
-      - build-test-c-sharp-windows
+      # - build-test-c-sharp-windows
     env:
       GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
@@ -211,7 +211,7 @@ jobs:
           sudo apt-get install zsh
 
       - name: Retrieve Artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
 
       - name: Install Artifacts
         shell: zsh {0}
@@ -224,7 +224,7 @@ jobs:
           mkdir -p bindings/c-sharp/generated/Cricut.TestAPI/runtimes
           mv mac_generated/osx bindings/c-sharp/generated/Cricut.TestAPI/runtimes/
           mv ubuntu_generated/linux bindings/c-sharp/generated/Cricut.TestAPI/runtimes/
-          mv windows_generated/win bindings/c-sharp/generated/Cricut.TestAPI/runtimes/
+          mv windows_generated/win bindings/c-sharp/generated/Cricut.TestAPI/runtimes/ || true
 
           ls -R bindings/c-sharp/
 
@@ -252,7 +252,7 @@ jobs:
               --output bindings/c-sharp/nupkgs
 
       - name:  result
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: nuget-package
           path: c-sharp/Cricut.TestAPI/nupkgs/*.nupkg

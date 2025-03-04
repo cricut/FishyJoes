@@ -50,7 +50,7 @@ jobs:
           swift run -- fishy-joes --dart --fat test
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: mac_lib
           path: bindings/dart/generated/macos/native/
@@ -103,7 +103,7 @@ jobs:
           swift run -- fishy-joes --dart test
 
       - name: Upload library
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ubuntu_lib
           path: bindings/dart/generated/linux/native/
@@ -164,7 +164,7 @@ jobs:
           "$SWIFT_WINDOWS_BASH" run -- fishy-joes --dart test
 
       - name: Upload library
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: windows_lib
           path: bindings/dart/generated/windows/native/
@@ -175,7 +175,7 @@ jobs:
     needs:
       - build-test-dart-mac
       - build-test-dart-linux
-      - build-test-dart-windows
+      # - build-test-dart-windows
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -199,7 +199,7 @@ jobs:
           sudo apt-get install zsh
 
       - name: Retrieve Artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
 
       - name: Install Artifacts
         shell: zsh {0}
@@ -210,7 +210,7 @@ jobs:
           # mkdir -p bindings/dart/generated/{macos,linux,windows}/native
           mv mac_lib bindings/dart/generated/macos/native
           mv ubuntu_lib bindings/dart/generated/linux/native
-          mv windows_lib bindings/dart/generated/windows/native
+          mv windows_lib bindings/dart/generated/windows/native || true
 
       - name: Determine version
         shell: zsh {0}
@@ -234,7 +234,7 @@ jobs:
           tar -tf bindings/packed-npm-packages/cricut-flutter-*.tgz
 
       - name: Upload result
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: TestAPI-dart-binaries.tgz
           path: TestAPI-dart-binaries.tgz

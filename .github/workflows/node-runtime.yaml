@@ -67,7 +67,7 @@ jobs:
           (cd $LIB_DIR; npm pack)
 
       - name: Upload NPM Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: mac_npm_package
           path: ${{ env.LIB_DIR }}/*.tgz
@@ -182,7 +182,7 @@ jobs:
           (cd $LIB_DIR; npm pack)
 
       - name: Upload NPM Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ubuntu_npm_package
           path: ${{ env.LIB_DIR }}/*.tgz
@@ -207,7 +207,7 @@ jobs:
           (cd $WASM_LIB_DIR; npm pack)
 
       - name: Upload Wasm NPM Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: wasm_npm_package
           path: ${{ env.WASM_LIB_DIR }}/*.tgz
@@ -298,7 +298,7 @@ jobs:
           (cd $LIB_DIR; npm pack)
 
       - name: Upload NPM Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: windows_npm_package
           path: ${{ env.LIB_DIR }}/*.tgz

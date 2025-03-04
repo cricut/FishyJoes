@@ -56,7 +56,7 @@ jobs:
           swift run -- fishy-joes --kotlin-fast --fat test
 
       - name: Upload library
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: mac_libs
           path: bindings/kotlin/generated/src/main/resources
@@ -99,7 +99,7 @@ jobs:
           swift run -- fishy-joes --kotlin test --no-use-docker
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ubuntu_libs
           path: bindings/kotlin/generated/src/main/resources
@@ -156,7 +156,7 @@ jobs:
           "$SWIFT_WINDOWS_BASH" run -- fishy-joes --kotlin-fast test
 
       - name: Upload library
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: windows_libs
           path: bindings/kotlin/generated/src/main/resources
@@ -167,7 +167,7 @@ jobs:
     needs:
       - build-test-kotlin-mac
       - build-test-kotlin-linux
-      - build-test-kotlin-windows
+      # - build-test-kotlin-windows
     if: success()
     env:
       GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -193,7 +193,7 @@ jobs:
           sudo apt-get install zsh
 
       - name: Retrieve Artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
 
       - name: Install Artifacts
         shell: zsh {0}
@@ -205,7 +205,7 @@ jobs:
           mkdir -p bindings/kotlin/generated/src/main/resources/
 
           mv mac_libs/mac bindings/kotlin/generated/src/main/resources/
-          mv windows_libs/windows bindings/kotlin/generated/src/main/resources/
+          mv windows_libs/windows bindings/kotlin/generated/src/main/resources/ || true
           mv ubuntu_libs/linux bindings/kotlin/generated/src/main/resources/
           mv ubuntu_libs/lib bindings/kotlin/generated/src/main/resources/
 

@@ -71,7 +71,7 @@ jobs:
           (cd Tests/NAPITests/node-tests; npm install)
 
           if [[ ! -f $HOME/.dotnet/tools/dotnet-coverage ]]; then
-            dotnet tool install --global dotnet-coverage
+            dotnet tool install --global dotnet-coverage --version 17.13.1
           fi
           echo $HOME/.dotnet/tools >> $GITHUB_PATH
 

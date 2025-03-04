@@ -67,7 +67,7 @@ jobs:
           swift run -- fishy-joes --nodejs --fat --version $VERSION pack
 
       - name: Upload NPM Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: npm_mac_packages
           path: cricut-*.tgz
@@ -145,7 +145,7 @@ jobs:
           swift run -- fishy-joes --nodejs --wasm --version $VERSION pack
 
       - name: Upload NPM Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: npm_linux_packages
           path: cricut-*.tgz
@@ -225,7 +225,7 @@ jobs:
           "$SWIFT_WINDOWS_BASH" run -- fishy-joes --nodejs --version $VERSION pack
 
       - name: Upload NPM Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: npm_mac_packages
           path: cricut-*.tgz
