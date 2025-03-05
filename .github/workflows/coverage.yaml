@@ -65,6 +65,7 @@ jobs:
                   https://github.com/swiftwasm/swift/releases/download/swift-wasm-$SWIFT_WASM_VERSION/swift-wasm-$SWIFT_WASM_VERSION-macos_arm64.artifactbundle.zip
               tar xf swift-wasm.artifactbundle.zip
               mv swift-wasm-$SWIFT_WASM_VERSION-macos_arm64.artifactbundle ~/swift-wasm-toolchains
+              rm swift-wasm.artifactbundle.zip
           }
 
           (cd integration-tests/TestAPI/bindings/ts/tests; npm install)
