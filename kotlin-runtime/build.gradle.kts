@@ -104,14 +104,12 @@ tasks.test {
 }
 
 tasks.jacocoTestReport {
-    reports {
-        xml.required.set(true)
-    }
+    reports.xml.required = true
 }
 
 jacoco {
     toolVersion = "0.8.10"
-    reportsDirectory.set(layout.buildDirectory.dir("../../coverage-data/jacoco-unit"))
+    reportsDirectory = layout.buildDirectory.dir("../../coverage-data/jacoco-unit")
 }
 
 tasks {

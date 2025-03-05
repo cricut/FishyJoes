@@ -166,27 +166,13 @@ class DartEnumClass: DartClass {
                 fragment.blankLine()
 
                 fragment.output("@override")
-                fragment.output("bool operator ==(Object other)", newLineTerminated: false)
-                fragment.outputBlock(" {") {
-                    fragment.output("return identical(other, this) ||")
-                    fragment.output("(")
-                    fragment.currentIndent += 1
-                    fragment.output("other.runtimeType == runtimeType &&")
-                    fragment.output("other is \(className)", newLineTerminated: false)
-
-                    if enumCase.values.isEmpty {
-                        fragment.blankLine()
-                    } else {
-                        fragment.output(" &&")
-                        fragment.outputBlock("(") {
-                            fragment.outputMap(enumCase.values, separator: " &&") { value in
-                                let valueName = "\(DartClass.deforbidify(value.name))"
-                                return "const DeepCollectionEquality().equals(other.\(valueName), \(valueName))"
-                            }
-                        }
+                fragment.outputBlock("bool operator ==(Object other) => identical(other, this) || (", closeWith: ");") {
+                    fragment.output("other.runtimeType == runtimeType")
+                    fragment.output("&& other is \(className)")
+                    for value in enumCase.values {
+                        let valueName = "\(DartClass.deforbidify(value.name))"
+                        fragment.output("&& const DeepCollectionEquality().equals(other.\(valueName), \(valueName))")
                     }
-                    fragment.currentIndent -= 1
-                    fragment.output(");")
                 }
 
                 fragment.blankLine()
@@ -197,10 +183,9 @@ class DartEnumClass: DartClass {
                 if enumCase.values.isEmpty {
                     fragment.output("runtimeType.hashCode;")
                 } else {
-                    // TODO: This will fail if there are more than 20 items
                     fragment.outputBlock("Object.hash(", closeWith: ");") {
                         fragment.output("runtimeType,")
-                        fragment.outputMap(enumCase.values, separator: ", ") { value in
+                        fragment.outputMap(enumCase.values, separator: ",") { value in
                             "const DeepCollectionEquality().hash(\(DartClass.deforbidify(value.name)))"
                         }
                     }

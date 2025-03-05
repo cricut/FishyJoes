@@ -61,10 +61,7 @@ struct TranslatedReference: TranslatedType {
     func neutralDefinitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
         guard context.dumpDebugRepresentation else { return [] }
 
-        let fragment = SourceFragment(
-            sourceryDestination: "file:../../DebugGenerated/\(sourceType.name)+ReferenceInfo.txt",
-            sortKey: sourceType.name
-        )
+        let fragment = SourceFragment(sourceryDestination: "file:../../DebugGenerated/\(sourceType.name)+ReferenceInfo.txt")
         fragment.outputBlock("TranslatedReference for \(sourceType.name) {") {
             fragment.output("Equatable: \(equatable)")
             fragment.output("Hashable: \(hashable)")
@@ -89,15 +86,13 @@ struct TranslatedReference: TranslatedType {
 
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "NodeInterface/\(context.module.name)+node.swift",
-            sortKey: sourceType.name,
+            "NodeInterface/\(sourceType.name)+node.swift",
             additionalImports: [
                 "Foundation",
                 "FishyJoesNodeRuntime",
                 "\(context.module.name)_CommonInterface"
             ]
         )
-        fragment.output("// MARK: - \(sourceType.name)+node.swift")
 
         fragment.outputBlock("extension \(sourceType.name): FishyJoesNodeRuntime.NodeConverter {") {
             fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> \(sourceType.name) {") {
@@ -187,13 +182,11 @@ struct TranslatedReference: TranslatedType {
 
     func jniDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "JavaInterface/\(context.module.name)+java.swift",
-            sortKey: sourceType.name,
+            "JavaInterface/\(sourceType.name)+java-type.swift",
             additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
         )
-        fragment.output("// MARK: - \(sourceType.name)+java-type.swift")
 
-        fragment.outputBlock("extension \(sourceType.name): JavaMutator {") {
+        fragment.outputBlock("extension \(sourceType.name): FishyJoesJavaRuntime.JavaMutator {") {
             fragment.output("public static var javaClass: jclass?")
             fragment.output("private static var _constructorMethodID: jmethodID!")
 
@@ -377,11 +370,9 @@ struct TranslatedReference: TranslatedType {
 
     func iotaDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "IotaInterface/\(context.module.name)+iota.swift",
-            sortKey: sourceType.name,
+            "IotaInterface/\(sourceType.name)+iota-type.swift",
             additionalImports: ["Foundation", "FishyJoesIotaRuntime"]
         )
-        fragment.output("// MARK: - \(sourceType.name)+iota-type.swift")
 
         fragment.output("@_cdecl(\"\(iotaSetupName)\")")
         fragment.outputBlock("public func \(iotaSetupName)(", newLineTerminated: false) {
@@ -396,7 +387,7 @@ struct TranslatedReference: TranslatedType {
         }
         fragment.blankLine()
 
-        fragment.outputBlock("extension \(converterType.name): IotaReferenceMutator {") {
+        fragment.outputBlock("extension \(converterType.name): FishyJoesIotaRuntime.IotaReferenceMutator {") {
             fragment.output("fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject>()")
             fragment.blankLine()
 

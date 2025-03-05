@@ -1,11 +1,11 @@
-// swift-tools-version:5.6
+// swift-tools-version:5.7
 
 import Foundation
 import PackageDescription
 
 let package = Package(
     name: "Runtime-node-shim",
-    platforms: [.macOS(.v12), .iOS(.v15)],
+    platforms: [.macOS(.v13), .iOS(.v15)],
     products: [
         .library(
             name: "NodeNativeShim",

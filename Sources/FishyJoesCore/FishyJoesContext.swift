@@ -86,38 +86,49 @@ public class FishyJoesContext {
         }
     }
 
-    func swiftFragment(_ name: String, sortKey: String, additionalImports: [String] = []) -> SourceFragment {
+    func swiftFragment(_ name: String, withDedicatedFile: Bool = false, additionalImports: [String] = []) -> SourceFragment {
+        var fileName = name
+        if !withDedicatedFile {
+            fileName = (name.components(separatedBy: "/").dropLast() + ["\(module.name).swift"]).joined(separator: "/")
+        }
         for dependency in module.dependencies + [module.name] + additionalImports {
-            addHeader(file: name, "import \(dependency)")
+            addHeader(file: fileName, "import \(dependency)")
         }
         // These need to be in order, so add them with higher priority
         addHeader(
-            file: name,
+            file: fileName,
             priority: 2,
             "// swiftlint:disable:next blanket_disable_command superfluous_disable_command"
         )
         addHeader(
-            file: name,
+            file: fileName,
             priority: 1,
             "// swiftlint:disable unused_closure_parameter syntactic_sugar attributes"
         )
-        return SourceFragment(sourceryDestination: "file:\(name)", sortKey: sortKey)
+        let fragment = SourceFragment(sourceryDestination: "file:\(fileName)")
+        if !withDedicatedFile {
+            fragment.blankLine()
+            fragment.output("// MARK: - \(name)")
+            fragment.blankLine()
+        }
+        return fragment
     }
 
-    func kotlinFragment(_ name: String) -> SourceFragment {
-        let fileName = "../../kotlin/src/generated/kotlin/com/cricut/\(module.name.lowercased())/\(name)"
+    func kotlinFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
+        let fileName = "../../../../kotlin/generated/src/main/kotlin/com/cricut/\(module.name.lowercased())/\(name)"
         // Package must go before imports, use higher priority
         addHeader(file: fileName, priority: 1, "package \(module.kotlinPackage)\n")
         addHeader(file: fileName, "import kotlinx.coroutines.*")
         addHeader(file: fileName, "import java.lang.Exception")
+        addHeader(file: fileName, "import com.cricut.fishyjoes.runtime.*")
         for dependency in module.dependencies {
             addHeader(file: fileName, "import com.cricut.\(dependency.lowercased()).*")
         }
-        return SourceFragment(sourceryDestination: "file:\(fileName)", sortKey: fileName)
+        return SourceFragment(sourceryDestination: "file:\(fileName)")
     }
 
     func cSharpFragment(_ name: String) -> SourceFragment {
-        let fileName = "../../c-sharp/Cricut.\(module.name)/generated/\(name)"
+        let fileName = "../../../../c-sharp/generated/Cricut.\(module.name)/\(name)"
         addHeader(file: fileName, "using System;")
         addHeader(file: fileName, "using System.Runtime.InteropServices;")
         addHeader(file: fileName, "using System.Collections.Generic;")
@@ -126,11 +137,11 @@ public class FishyJoesContext {
         for dependency in module.dependencies {
             addHeader(file: fileName, "using Cricut.\(dependency);")
         }
-        return SourceFragment(sourceryDestination: "file:\(fileName)", sortKey: fileName)
+        return SourceFragment(sourceryDestination: "file:\(fileName)")
     }
 
     func dartFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
-        let fileName = "../../dart/lib/src/generated/\(name)"
+        let fileName = "../../../../dart/generated/lib/src/\(name)"
 
         addHeader(file: fileName, "import 'dart:ffi' as ffi;")
         addHeader(file: fileName, "import 'package:ffi/ffi.dart' as ffi;")
@@ -152,7 +163,7 @@ public class FishyJoesContext {
             addHeader(file: fileName, additionalImport)
         }
 
-        return SourceFragment(sourceryDestination: "file:\(fileName)", sortKey: fileName)
+        return SourceFragment(sourceryDestination: "file:\(fileName)")
     }
 
     public func translateAll() -> String {
@@ -278,7 +289,7 @@ public class FishyJoesContext {
         )
 
         // Output moduleInfo for FishyJoes packages that depend on this one
-        let moduleInfoFragment = SourceFragment(sourceryDestination: "file:\(module).fishyjoesmodule", sortKey: module.name)
+        let moduleInfoFragment = SourceFragment(sourceryDestination: "file:../../\(module).fishyjoesmodule")
         let moduleInfo = ModuleInfo(
             types: moduleDefinedTypes,
             typeScriptAnnotations: tsAnnotations
@@ -286,17 +297,26 @@ public class FishyJoesContext {
         collectedFragments.append(moduleInfoFragment)
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]
-        moduleInfoFragment.output(String(data: try! encoder.encode(moduleInfo), encoding: .utf8)!)
+        var jsonData = try! encoder.encode(moduleInfo)
+
+        // Do an extra round trip using JSONSerialization.
+        // This is needed because of some weird environment-dependent key-sorting behavior was happening with JSONEncoder.
+        jsonData = try! JSONSerialization.data(
+            withJSONObject: JSONSerialization.jsonObject(with: jsonData),
+            options: [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]
+        )
+
+        moduleInfoFragment.output(String(data: jsonData, encoding: .utf8)!)
 
         let headerFragments = fileHeaders.keys.map { fileName -> SourceFragment in
-            let fragment = SourceFragment(sourceryDestination: "file:\(fileName)", sortKey: fileName)
+            let fragment = SourceFragment(sourceryDestination: "file:\(fileName)")
             for headerLine in fileHeaders[fileName, default: []].sorted() {
                 fragment.output(headerLine.contents)
             }
             return fragment
         }
 
-        return (headerFragments.sorted(by: { $0.sortKey < $1.sortKey }) + collectedFragments.sorted(by: { $0.sortKey < $1.sortKey })).map(\.contents).joined()
+        return (headerFragments.map(\.contents) + collectedFragments.map(\.contents).sorted()).joined()
     }
 
     /// Process a set of classes to nest their inner classes properly for generation.

@@ -157,10 +157,7 @@ final class DartTranslator: Translator {
             fragment.output("arena.releaseAll();")
         }
 
-        let exportsFragment = SourceFragment(
-            sourceryDestination: "file:../../dart/lib/src/generated/_exports.dart",
-            sortKey: "file:../../dart/lib/src/generated/_exports.dart"
-        )
+        let exportsFragment = context.dartFragment("_exports.dart")
         for dartClass in context.dartClasses {
             exportsFragment.output("export './\(dartClass.unqualifiedName).dart';")
         }

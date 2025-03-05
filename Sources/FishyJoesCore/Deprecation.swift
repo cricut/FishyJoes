@@ -13,9 +13,14 @@ extension Deprecation {
         else {
             return nil
         }
-        message = attr.arguments["message"] as? String ??
-            (attr.arguments["renamed"] as? String).map { "replace with `\($0)` ( <-- swift name, sorry )" } ??
-            attr.description
+        if let message = attr.arguments["message"] as? String {
+            self.message = message.trimmingCharacters(in: ["\""])
+        } else if let renamed = attr.arguments["renamed"] as? String {
+            self.message = "replace with `\(renamed.trimmingCharacters(in: ["\""]))`" +
+                " (This is the swift name of the replacement function, due to technical limitations)"
+        } else {
+            self.message = attr.description
+        }
         swiftDeprecation = attr.description
     }
 

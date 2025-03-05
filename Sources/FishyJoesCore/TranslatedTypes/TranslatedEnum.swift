@@ -106,10 +106,7 @@ struct TranslatedEnum: TranslatedType {
     func neutralDefinitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
         guard context.dumpDebugRepresentation else { return [] }
 
-        let fragment = SourceFragment(
-            sourceryDestination: "file:../../DebugGenerated/\(sourceType.name)+EnumInfo.txt",
-            sortKey: sourceType.name
-        )
+        let fragment = SourceFragment(sourceryDestination: "file:../../DebugGenerated/\(sourceType.name)+EnumInfo.txt")
         fragment.outputBlock("TranslatedEnum for \(sourceType.name) {") {
             fragment.outputBlock("Documentation {") {
                 for doc in documentation {
@@ -152,15 +149,13 @@ struct TranslatedEnum: TranslatedType {
 
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "NodeInterface/\(context.module.name)+node.swift",
-            sortKey: sourceType.name,
+            "NodeInterface/\(sourceType.name)+node.swift",
             additionalImports: [
                 "Foundation",
                 "FishyJoesNodeRuntime",
                 "\(context.module.name)_CommonInterface"
             ]
         )
-        fragment.output("// MARK: - \(sourceType.name)+node.swift")
 
         if cases.allSatisfy({ $0.associatedValues.isEmpty }), !cases.isEmpty {
             // Simple enum, export as strings
@@ -443,14 +438,12 @@ struct TranslatedEnum: TranslatedType {
 
     func jniDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "JavaInterface/\(context.module.name)+java.swift",
-            sortKey: sourceType.name,
+            "JavaInterface/\(sourceType.name)+java-type.swift",
             additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
         )
-        fragment.output("// MARK: - \(sourceType.name)+java-type.swift")
 
         let className = context.kotlinTranslator.javaClassName(nodeName, in: context)
-        fragment.outputBlock("extension \(sourceType.name): JavaConverter {") {
+        fragment.outputBlock("extension \(sourceType.name): FishyJoesJavaRuntime.JavaConverter {") {
             fragment.output("public typealias SwiftType = Self")
             fragment.output("public typealias CType = jobject?")
             fragment.blankLine()

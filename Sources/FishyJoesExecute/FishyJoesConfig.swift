@@ -10,20 +10,20 @@ struct FishyJoesConfig: Codable {
     let excludeSources: [String]
 
     static func readFromFile(basePath: String) throws -> FishyJoesConfig {
-        guard let configData = try? cmd("cat", "\(basePath)fishy-joes.yaml").runString() else {
-            throw ValidationError("missing config file fishy-joes.yaml")
+        guard let configData = try? cmd("cat", "\(basePath)/bindings/fishy-joes.yaml").runString() else {
+            throw ValidationError("missing config file \(basePath)/bindings/fishy-joes.yaml")
         }
         guard let configObject = try? Yams.load(yaml: configData),
               let configDictionary = configObject as? [String: Any]
         else {
-            print("fishy-joes.yaml root object must be a dictionary. Should be something like:")
-            print("---")
-            print("module: MyModule")
-            print("requiredModules:")
-            print("  - othermodule.fishyjoesmodule")
-            print("excludeSources:")
-            print("  - SomeFile.swift")
-            print("  - Some/Directory/")
+            Log.error("fishy-joes.yaml root object must be a dictionary. Should be something like:")
+            Log.error("---")
+            Log.error("module: CriMyModule")
+            Log.error("requiredModules:")
+            Log.error("  - CriOtherModule")
+            Log.error("excludeSources:")
+            Log.error("  - SomeFile.swift")
+            Log.error("  - Some/Directory/")
             throw ValidationError("invalid YAML")
         }
         guard let moduleObj = configDictionary["module"] else {

@@ -1,28 +1,6 @@
 import Foundation
+@_exported import GenerationHelpers
 import SourceryRuntime
-
-extension Optional {
-    var asArray: [Wrapped] { map { [$0] } ?? [] }
-}
-
-func debug(file: StaticString = #file, line: UInt = #line, _ msgs: Any? ...) {
-    let message = "\(file):\(line): " + msgs.map { "\($0 ?? "<null>")" }.joined(separator: " ") + "\n"
-    _ = message.withCString { fputs($0, stderr) }
-}
-
-infix operator ||=
-func ||= (left: inout Bool, right: Bool) { left = left || right }
-
-public func fatalErr(_ message: String = "", file: StaticString = #file, line: UInt = #line) -> Never {
-    fatalError("\n\(file):\(line): \(message)\n\(Thread.callStackSymbols.joined(separator: "\n"))\n")
-}
-
-extension FileHandle: TextOutputStream {
-    public func write(_ string: String) {
-        let data = Data(string.utf8)
-        self.write(data)
-    }
-}
 
 func snakify<S: StringProtocol>(_ camel: S) -> String {
     camel
@@ -50,15 +28,6 @@ extension RandomAccessCollection {
     }
     var first4: (Element?, Element?, Element?, Element?) {
         (self[safeOffsetBy: 0], self[safeOffsetBy: 1], self[safeOffsetBy: 2], self[safeOffsetBy: 3])
-    }
-}
-
-extension Result where Failure == Never {
-    var neverFails: Success {
-        switch self {
-        case .success(let success):
-            return success
-        }
     }
 }
 

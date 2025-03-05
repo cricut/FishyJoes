@@ -38,6 +38,7 @@ enum Log {
             items.map(String.init(describing:)).joined(separator: separator),
             terminator: terminator
         )
+        fflush(stdout)
     }
 
     static func warn(_ items: Any..., separator: String = " ", terminator: String = "\n") {
@@ -46,6 +47,7 @@ enum Log {
             items.map(String.init(describing:)).joined(separator: separator),
             terminator: terminator
         )
+        fflush(stdout)
     }
 
     static func error(_ items: Any..., separator: String = " ", terminator: String = "\n") {
@@ -54,6 +56,7 @@ enum Log {
             items.map(String.init(describing:)).joined(separator: separator),
             terminator: terminator
         )
+        fflush(stdout)
     }
 
     static func success(_ items: Any..., separator: String = " ", terminator: String = "\n") {
@@ -62,6 +65,7 @@ enum Log {
             items.map(String.init(describing:)).joined(separator: separator),
             terminator: terminator
         )
+        fflush(stdout)
     }
 }
 
@@ -101,7 +105,11 @@ enum Interactive {
     static func confirmCommand(description: String, _ command: Command) throws {
         Log.info()
         Log.info("\(description)? Will run:")
-        Log.info("    \(command)")
+        if let describableCommand = command as? CustomStringConvertible {
+            Log.info("    \(describableCommand.description)")
+        } else {
+            Log.info("    \(command)")
+        }
         if try promptYesNo() {
             try command.run()
             Log.success("SUCCESS: \(description)")
@@ -115,6 +123,10 @@ struct Lazy<T> {
     private let box: Box
 
     init(_ thunk: @escaping @autoclosure () -> T) {
+        box = Box(.thunk(thunk))
+    }
+
+    init(_ thunk: @escaping () -> T) {
         box = Box(.thunk(thunk))
     }
 
@@ -157,7 +169,13 @@ func printAndFlush(_ items: Any..., separator: String = " ", terminator: String 
     fflush(stdout)
 }
 
-class PrettyJSONEncoder: JSONEncoder {
+extension JSONEncoder {
+    func encodeToString<T: Encodable>(_ value: T) throws -> String {
+        String(data: try encode(value), encoding: .utf8)!
+    }
+}
+
+class PrettyJSONEncoder: JSONEncoder, @unchecked Sendable {
     override init() {
         super.init()
         outputFormatting = [
@@ -168,7 +186,7 @@ class PrettyJSONEncoder: JSONEncoder {
 
     override func encode<E: Encodable>(_ object: E) throws -> Data {
         var data = try super.encode(object)
-        data.append("\n".data(using: .utf8)!)
+        data.append(Data("\n".utf8))
         return data
     }
 }
@@ -182,4 +200,75 @@ extension Optional {
             self = newValue
         }
     }
+}
+
+extension Sequence {
+    // like filter, but returns filtered items in separate array
+    func partition(_ isIncluded: (Element) throws -> Bool) rethrows -> (included: [Element], excluded: [Element]) {
+        var included: [Element] = []
+        var excluded: [Element] = []
+        for item in self {
+            if try isIncluded(item) {
+                included.append(item)
+            } else {
+                excluded.append(item)
+            }
+        }
+        return (included, excluded)
+    }
+}
+
+extension String {
+    func trimmingIfPrefixed(_ prefix: any StringProtocol) -> Substring? {
+        guard hasPrefix(prefix) else { return nil }
+        return dropFirst(prefix.count)
+    }
+
+    func trimmingIfSuffixed(_ suffix: any StringProtocol) -> Substring? {
+        guard hasSuffix(suffix) else { return nil }
+        return dropLast(suffix.count)
+    }
+}
+
+extension NSRange {
+    var asOptional: NSRange? {
+        location == NSNotFound ? nil : self
+    }
+}
+
+func withDirectory<R>(_ dirName: String, body: () throws -> R) throws -> R {
+    func printDir() {
+        printAndFlush("Entering directory `\(FileManager.default.currentDirectoryPath)'")
+    }
+    var changedDirectory = false
+    defer {
+        if changedDirectory {
+            printDir()
+        } else {
+            Log.error("Failed to enter directory `\(dirName)' (from `\(FileManager.default.currentDirectoryPath)')")
+        }
+    }
+    return try FileManager.default.withCurrentDirectoryPath(dirName) {
+        changedDirectory = true
+        printDir()
+        return try body()
+    }
+}
+
+// Use this function with extreme hesitance.
+// It's almost always better to construct relative paths from other relative paths.
+// Sometimes (I'm looking at you, SPM) absolute paths are given as input and a workaround is needed.
+func relativePath(of targetPath: String, relativeTo sourcePath: String) -> String {
+    var targetComponents = (URL(fileURLWithPath: targetPath).standardized.path as NSString).pathComponents
+    var sourceComponents = (URL(fileURLWithPath: sourcePath).standardized.path as NSString).pathComponents
+    while
+        let sourceHead = sourceComponents.first,
+        let targetHead = targetComponents.first,
+        sourceHead == targetHead
+    {
+        // quadratic, but not worth speeding up
+        sourceComponents.removeFirst()
+        targetComponents.removeFirst()
+    }
+    return (sourceComponents.map { _ in ".." } + targetComponents).joined(separator: "/")
 }

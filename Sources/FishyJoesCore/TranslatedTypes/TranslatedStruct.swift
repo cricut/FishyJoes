@@ -57,10 +57,7 @@ struct TranslatedStruct: TranslatedType {
     func neutralDefinitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
         guard context.dumpDebugRepresentation else { return [] }
 
-        let fragment = SourceFragment(
-            sourceryDestination: "file:../../DebugGenerated/\(sourceType.name)+StructInfo.txt",
-            sortKey: sourceType.name
-        )
+        let fragment = SourceFragment(sourceryDestination: "file:../../DebugGenerated/\(sourceType.name)+StructInfo.txt")
         fragment.outputBlock("TranslatedStruct for \(sourceType.name) {") {
             fragment.outputBlock("Documentation {") {
                 for doc in documentation {
@@ -88,15 +85,13 @@ struct TranslatedStruct: TranslatedType {
 
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "NodeInterface/\(context.module.name)+node.swift",
-            sortKey: sourceType.name,
+            "NodeInterface/\(sourceType.name)+node.swift",
             additionalImports: [
                 "Foundation",
                 "FishyJoesNodeRuntime",
                 "\(context.module.name)_CommonInterface"
             ]
         )
-        fragment.output("// MARK: - \(sourceType.name)+node.swift")
 
         fragment.outputBlock("extension \(sourceType.name): NodeMutator {") {
             fragment.output("public typealias SwiftType = Self")
@@ -199,14 +194,12 @@ struct TranslatedStruct: TranslatedType {
 
     func jniDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "JavaInterface/\(context.module.name)+java.swift",
-            sortKey: sourceType.name,
+            "JavaInterface/\(sourceType.name)+java-type.swift",
             additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
         )
-        fragment.output("// MARK: - \(sourceType.name)+java-type.swift")
 
         let className = context.kotlinTranslator.javaClassName(kotlinName, in: context)
-        fragment.outputBlock("extension \(sourceType.name): JavaMutator {") {
+        fragment.outputBlock("extension \(sourceType.name): FishyJoesJavaRuntime.JavaMutator {") {
             fragment.output("public typealias SwiftType = Self")
             fragment.output("public typealias CType = jobject?")
             fragment.blankLine()
@@ -292,18 +285,6 @@ struct TranslatedStruct: TranslatedType {
         let generateMethodsForEmptyStruct = storedVariables.isEmpty
 
         if generateMethodsForEmptyStruct {
-            var bodyBuilder = [String]()
-
-            bodyBuilder.append("if (this === other) {")
-            bodyBuilder.append("    return true")
-            bodyBuilder.append("}")
-            bodyBuilder.append("if (other !is \(kotlinName)) {")
-            bodyBuilder.append("    return false")
-            bodyBuilder.append("}")
-            bodyBuilder.append("return true")
-
-            let equalsBody = bodyBuilder.joined(separator: "\n")
-
             fieldsAndMethods.append(
                 .method(
                     KotlinClass.Method(
@@ -319,15 +300,10 @@ struct TranslatedStruct: TranslatedType {
                         compatibilityOrder: [],
                         returnType: .named(package: nil, name: "kotlin.Boolean"),
                         deprecation: nil,
-                        body: equalsBody,
-                        isBodyInline: true
+                        body: "other is \(kotlinName)"
                     )
                 )
             )
-
-            bodyBuilder.removeAll()
-            bodyBuilder.append("return (\(kotlinName)::class.java.name).hashCode()")
-            let hashCodeBody = bodyBuilder.joined(separator: "\n")
 
             fieldsAndMethods.append(
                 .method(
@@ -342,8 +318,7 @@ struct TranslatedStruct: TranslatedType {
                         compatibilityOrder: [],
                         returnType: .named(package: nil, name: "kotlin.Int"),
                         deprecation: nil,
-                        body: hashCodeBody,
-                        isBodyInline: true
+                        body: "(\(kotlinName)::class.java.name).hashCode()"
                     )
                 )
             )
@@ -361,8 +336,7 @@ struct TranslatedStruct: TranslatedType {
                         compatibilityOrder: [],
                         returnType: .named(package: nil, name: "kotlin.String"),
                         deprecation: nil,
-                        body: "return \"\(kotlinName)()\"",
-                        isBodyInline: true
+                        body: "\"\(kotlinName)()\""
                     )
                 )
             )
@@ -566,11 +540,9 @@ struct TranslatedStruct: TranslatedType {
 
     func iotaDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "IotaInterface/\(context.module.name)+iota.swift",
-            sortKey: sourceType.name,
+            "IotaInterface/\(sourceType.name)+iota-type.swift",
             additionalImports: ["Foundation", "FishyJoesIotaRuntime"]
         )
-        fragment.output("// MARK: - \(sourceType.name)+iota-type.swift")
 
         fragment.output("@_cdecl(\"\(iotaSetupName)\")")
         fragment.outputBlock("public func \(iotaSetupName)(", newLineTerminated: false) {
@@ -598,7 +570,7 @@ struct TranslatedStruct: TranslatedType {
         }
         fragment.blankLine()
 
-        fragment.outputBlock("extension \(converterType.name): IotaMutator {") {
+        fragment.outputBlock("extension \(converterType.name): FishyJoesIotaRuntime.IotaMutator {") {
             for storedVar in storedVariables {
                 let resolved = context.resolve(type: storedVar.type)
                 fragment.output("fileprivate static let _\(storedVar.name)Getter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolved.converterType.name).CType>()")

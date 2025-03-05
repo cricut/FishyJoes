@@ -12,6 +12,7 @@ fi
 
 CONFIGURATION="${CONFIGURATION:-release}"
 SKIP_LIPO="${SKIP_LIPO:-0}"
+VERSION="${VERSION:-0.0.1-unknown}"
 commonOptions=("$@" --configuration "$CONFIGURATION")
 if [[ "${SWIFT_PACKAGE_RESOLVE:-1}" == 0 ]]; then
     commonOptions+=(--disable-automatic-resolution)
@@ -53,3 +54,13 @@ function install-lib {
 install-lib "FishyJoesIotaRuntime.dll" "c-sharp-runtime/runtimes/win/native" "dart-runtime/windows/native" ||
     install-lib "libFishyJoesIotaRuntime.dylib" "c-sharp-runtime/runtimes/osx/native" "dart-runtime/macos/native" ||
     install-lib "libFishyJoesIotaRuntime.so" "c-sharp-runtime/runtimes/linux/native" "dart-runtime/linux/native"
+
+if dotnet --version >/dev/null 2>&1; then
+    MSYS_NO_PATHCONV=1 dotnet pack \
+           -c "$CONFIGURATION" \
+           c-sharp-runtime/Cricut.FishyJoesRuntime.csproj \
+           "/p:Version=$VERSION" \
+           --output c-sharp-runtime/nupkgs
+else
+    echo "dotnet executable not found, skipping creation of nuget package"
+fi

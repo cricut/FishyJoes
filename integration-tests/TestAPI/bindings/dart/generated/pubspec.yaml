@@ -1,0 +1,17 @@
+name: cricut_testapi
+description: "A Dart wrapper for TestAPI"
+version: 0.0.1
+
+environment:
+  sdk: '>=3.1.5 <4.0.0'
+
+dependencies:
+  fishyjoes_dart:
+    path: ../../../../../dart-runtime
+
+  tuple: ^2.0.2
+  path: ^1.8.0
+
+dev_dependencies:
+  lints: ^2.0.0
+  test: ^1.16.0

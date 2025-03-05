@@ -1,4 +1,4 @@
-// swift-tools-version:5.6
+// swift-tools-version:5.7
 
 import Foundation
 import PackageDescription
@@ -28,7 +28,7 @@ typealias T = Target
 
 let package = Package(
     name: "FishyJoes",
-    platforms: [.macOS(.v12), .iOS(.v15)],
+    platforms: [.macOS(.v13), .iOS(.v15)],
     products: [
         P.library(
             name: "FishyJoesNodeRuntime",
@@ -53,7 +53,7 @@ let package = Package(
     dependencies: generationEnabled(
         [
             D.package(
-                url: "https://github.com/krzysztofzablocki/Sourcery", branch: "2.0.2"
+                url: "https://github.com/krzysztofzablocki/Sourcery", revision: "2.2.5"
             ),
         ]
     ) + wasmIncompatible(
@@ -278,6 +278,7 @@ let package = Package(
             T.target(
                 name: "FishyJoesCore",
                 dependencies: [
+                    .target(name: "GenerationHelpers"),
                     .product(name: "SourceryRuntime", package: "Sourcery"),
                 ]
             ),
@@ -309,11 +310,22 @@ let package = Package(
     ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] : [
         T.executableTarget(
             name: "FishyJoesExecuteMain",
-            dependencies: ["FishyJoesExecute"]
+            dependencies: ["FishyJoesExecute"],
+            linkerSettings: [
+                .unsafeFlags(
+                    ["-Xlinker", "/IGNORE:4217"],
+                    .when(platforms: [.windows])
+                )
+            ]
+        ),
+        T.target(
+            // TODO: better name for this target
+            name: "GenerationHelpers"
         ),
         T.target(
             name: "FishyJoesExecute",
             dependencies: [
+                .target(name: "GenerationHelpers"),
                 .product(name: "swsh", package: "swsh"),
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
                 .product(name: "Yams", package: "Yams"),

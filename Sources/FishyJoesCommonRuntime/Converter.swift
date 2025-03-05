@@ -1,3 +1,5 @@
+import Foundation
+
 /// These are proxy types for hanging protocols off of. They do conversions to/from their associated SwiftType. See also the `NodeConverter` and `JavaConverter` subprotocols.
 public protocol Converter {
     associatedtype SwiftType = Self
@@ -18,6 +20,20 @@ extension Int: Converter {}
 extension Float: Converter {}
 extension Double: Converter {}
 extension String: Converter {}
+
+extension Data: Converter {}
+extension URL: Converter {}
+
+extension AttributeContainer: Converter {}
+extension AttributeContainer.FoundationAttributes: Converter {}
+extension AttributedString: Converter {}
+extension AttributedString.CharacterView: Converter {}
+extension AttributedString.Index: Converter {}
+extension AttributedString.Runs: Converter {}
+extension AttributedString.Runs.Index: Converter {}
+extension AttributedString.Runs.Run: Converter {}
+extension AttributedString.UnicodeScalarView: Converter {}
+extension AttributedSubstring: Converter {}
 
 // Void, tuples, and functions are unextendable; they need separate converters
 public enum VoidConverter: Converter {

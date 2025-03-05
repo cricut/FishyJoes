@@ -66,32 +66,32 @@ struct TranslatedProtocol: TranslatedType {
 
     func enforceProtocolThrows() {
         if let method = methods.first(where: { !$0.isThrowing }) {
-            fatalError("☠️ Error on \(sourceType.name).\(method.name): All Protocol methods exported through FishyJoes must be throwing, it's the law 👮!")
+            fatalErr("☠️ Error on \(sourceType.name).\(method.name): All Protocol methods exported through FishyJoes must be throwing, it's the law 👮!")
         }
 
         if let field = fields.first(where: { !$0.isThrowing }) {
-            fatalError("☠️ Error on \(sourceType.name).\(field.name): All Protocol properties exported through FishyJoes must be throwing, it's the law 👮!")
+            fatalErr("☠️ Error on \(sourceType.name).\(field.name): All Protocol properties exported through FishyJoes must be throwing, it's the law 👮!")
         }
     }
 
     func enforceNoProtocolSetters() {
         if let field = fields.first(where: { $0.isMutable }) {
-            fatalError("☠️ Error on \(sourceType.name).\(field.name): No setters allowed in protocols because the Swift language does not allow them to throw, it's the law 👮! Use a function instead.")
+            fatalErr("☠️ Error on \(sourceType.name).\(field.name): No setters allowed in protocols because the Swift language does not allow them to throw, it's the law 👮! Use a function instead.")
         }
     }
 
     func enforceNoProtocolStatics() {
         if let field = fields.first(where: { $0.isStatic }) {
-            fatalError("☠️ Error on \(sourceType.name).\(field.name): No static properties allowed in protocols because other languages do not generally support them, it's the law 👮!")
+            fatalErr("☠️ Error on \(sourceType.name).\(field.name): No static properties allowed in protocols because other languages do not generally support them, it's the law 👮!")
         }
         if let method = methods.first(where: { $0.isStatic }) {
-            fatalError("☠️ Error on \(sourceType.name).\(method.name): No static methods allowed in protocols because other languages do not generally support them, it's the law 👮!")
+            fatalErr("☠️ Error on \(sourceType.name).\(method.name): No static methods allowed in protocols because other languages do not generally support them, it's the law 👮!")
         }
     }
 
     func enforceNoProtocolMutatingFunctions() {
         if let method = methods.first(where: { $0.isMutating }) {
-            fatalError("☠️ Error on \(sourceType).\(method.name): No mutating functions on protocols because there are some edge cases that we don't want to support, it's the law 👮!")
+            fatalErr("☠️ Error on \(sourceType).\(method.name): No mutating functions on protocols because there are some edge cases that we don't want to support, it's the law 👮!")
         }
     }
 
@@ -283,7 +283,6 @@ struct TranslatedProtocol: TranslatedType {
     func commonDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
             "CommonInterface/\(converterType.name).swift",
-            sortKey: converterType.nonNamespacedName,
             additionalImports: ["Foundation"]
         )
 
@@ -369,8 +368,7 @@ struct TranslatedProtocol: TranslatedType {
 
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "NodeInterface/\(context.module.name)+node.swift",
-            sortKey: sourceType.name,
+            "NodeInterface/\(sourceType.name)+node.swift",
             additionalImports: [
                 "Foundation",
                 "FishyJoesNodeRuntime",
@@ -378,7 +376,6 @@ struct TranslatedProtocol: TranslatedType {
                 "NodeAPI"
             ]
         )
-        fragment.output("// MARK: - \(sourceType.name)+node.swift")
 
         fragment.outputBlock("struct _Node\(sourceType.nonNamespacedName): \(sourceType.name) {") {
             fragment.output("let _nodeWitness: NodeReference")
@@ -596,11 +593,9 @@ struct TranslatedProtocol: TranslatedType {
 
     func iotaDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "IotaInterface/\(context.module.name)+iota.swift",
-            sortKey: sourceType.name,
+            "IotaInterface/\(sourceType.name)+iota-type.swift",
             additionalImports: ["Foundation", "FishyJoesIotaRuntime", "\(context.module.name)_CommonInterface"]
         )
-        fragment.output("// MARK: - \(sourceType.name)+iota-type.swift")
 
         let foreignProtocolType = "_Iota\(sourceType.nonNamespacedName)"
 
@@ -696,7 +691,7 @@ struct TranslatedProtocol: TranslatedType {
         }
         fragment.blankLine()
 
-        fragment.outputBlock("extension \(converterType.name): IotaConverter {") {
+        fragment.outputBlock("extension \(converterType.name): FishyJoesIotaRuntime.IotaConverter {") {
             fragment.output("public typealias CType = foreignObject")
 
             fragment.outputBlock("public typealias _ConstructorMethod = @convention(c) (", closeWith: ") -> foreignObject") {
@@ -754,11 +749,9 @@ struct TranslatedProtocol: TranslatedType {
 
     func jniDefinitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
         let fragment = context.swiftFragment(
-            "JavaInterface/\(context.module.name)+java.swift",
-            sortKey: sourceType.name,
+            "JavaInterface/\(sourceType.name)+java-type.swift",
             additionalImports: ["Foundation", "FishyJoesJavaRuntime", "\(context.module.name)_CommonInterface"]
         )
-        fragment.output("// MARK: - \(sourceType.name)+java-type.swift")
 
         let foreignProtocolType = "_Java\(sourceType.nonNamespacedName)"
 

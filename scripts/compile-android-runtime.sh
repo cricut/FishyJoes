@@ -1,10 +1,14 @@
 #!/bin/zsh
 
-set -euxo pipefail
+set -euo pipefail
 
-# Expects to run in android-swift-runtime docker image
-source /VERSIONS
+source /VERSIONS || { echo "This script expects to run in android-swift-runtime docker image"; exit 1 }
 
+set -x
+
+git config --global --add safe.directory '*'
+
+CONFIGURATION="${CONFIGURATION:-release}"
 libdir=kotlin-runtime/src/generated/resources
 
 androidsStupidPlatforms=(
@@ -20,12 +24,13 @@ for platformStr in $androidsStupidPlatforms; do
     ndkArch=${platform[2]}
 
     swift-build \
-        --configuration release \
+        --scratch-path .build/android-build \
+        --configuration $CONFIGURATION \
         --product FishyJoesJavaRuntime \
         --destination /swift-android-$arch/usr/swiftpm-android-$arch.json
     installDir=$libdir/lib/$ndkArch
     mkdir -p $installDir/
-    cp .build/$arch-unknown-linux-android$androidAPIVersion/release/libFishyJoesJavaRuntime.so $installDir/
+    cp .build/android-build/$arch-unknown-linux-android$androidAPIVersion/$CONFIGURATION/libFishyJoesJavaRuntime.so $installDir/
 done
 
 cp /VERSIONS $libdir/FishyJoesAndroidVersions.txt

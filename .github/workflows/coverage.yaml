@@ -44,12 +44,15 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
+          node-version: '18.x'
 
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '6'
+
+      - name: Force clear nuget cache
+        run: "dotnet nuget locals all --clear"
 
       - name: Configure build environment
         shell: zsh {0}
@@ -62,13 +65,14 @@ jobs:
                   https://github.com/swiftwasm/swift/releases/download/swift-wasm-$SWIFT_WASM_VERSION/swift-wasm-$SWIFT_WASM_VERSION-macos_arm64.artifactbundle.zip
               tar xf swift-wasm.artifactbundle.zip
               mv swift-wasm-$SWIFT_WASM_VERSION-macos_arm64.artifactbundle ~/swift-wasm-toolchains
+              rm swift-wasm.artifactbundle.zip
           }
 
-          (cd integration-tests/TestAPI-bindings/node-test; npm install)
+          (cd integration-tests/TestAPI/bindings/ts/tests; npm install)
           (cd Tests/NAPITests/node-tests; npm install)
 
           if [[ ! -f $HOME/.dotnet/tools/dotnet-coverage ]]; then
-            dotnet tool install --global dotnet-coverage
+            dotnet tool install --global dotnet-coverage --version 17.13.1
           fi
           echo $HOME/.dotnet/tools >> $GITHUB_PATH
 
@@ -87,8 +91,6 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
-
-          brew install sonar-scanner
 
           sonar-scanner \
             '-Dsonar.sources=.' \

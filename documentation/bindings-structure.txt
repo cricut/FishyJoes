@@ -1,0 +1,78 @@
+// TODO: ensure no intermidiatae build folders are inside a "generated" directory
+CriGeo/bindings/
+├── fishy-joes.yaml
+├── swift-interfaces/
+│   ├── Package.part.swift
+│   └── generated/
+│       ├── CriGeo-bindings/
+│       │   ├── Package.swift
+│       │   └── Sources/
+│       │       ├── CommonInterface/
+│       │       ├── IotaInterface/
+│       │       ├── JavaInterface/
+│       │       ├── NodeInterface/
+│       │       │   └── CriGeo.d.ts.part
+│       │       └── WasmMainShim/
+│       ├── NodeNativeShim/
+│       │   └── NAPIRegisterModule.c
+│       └── CriGeo.fishyjoesmodule
+├── kotlin/
+│   ├── generated/
+│   │   ├── build.gradle.kts
+│   │   └── src/main/kotlin/
+│   │       └── com/cricut/crigeo/
+│   │           └── CriGeoLoaderRepresentative.kt
+│   └── tests/kotlin/com/cricut/crigeo/
+│       └── PathTest.kt
+├── ts/
+│   ├── package.override.json
+│   ├── generated/packages/
+│   │   ├── node-native-macos/
+│   │   └── wasm/
+│   └── tests/
+│       ├── example.test.ts
+│       ├── package-lock.json
+│       ├── package.override.json
+│       ├── package.json -> generated/package.generated.json
+│       ├── test.ts
+│       ├── tsconfig.json // '{ "extends": "./generated/tsconfig.json" }'
+│       └── generated/
+│           ├── CriGeo.d.ts
+│           ├── jest.config.common.cjs
+│           ├── jest.config.native-macos.cjs
+│           ├── jest.config.native-ubuntu.cjs
+│           ├── jest.config.native-windows.cjs
+│           ├── jest.config.wasm.cjs
+│           ├── package.generated.json
+│           └── tsconfig.json
+├── c-sharp/
+│   ├── Cricut.CriGeo.Tests/
+│   │   ├── Cricut.CriGeo.Tests.csproj
+│   │   └── PathTests.cs
+│   ├── generated/
+│   │   ├── Cricut.CriGeo.sln
+│   │   └── Cricut.CriGeo/
+│   │       ├── Cricut.CriGeo.csproj
+│   │       ├── Path.cs
+│   │       └── runtimes/osx/native/
+│   │           ├── libCriGeo-iota.dylib
+│   │           └── libCriGeo.dylib
+│   └── nupkgs/
+│       └── Cricut.CriGeo.0.0.1-unknown.nupkg
+├── dart/
+│   ├── generated/
+│   │   ├── lib/
+│   │   │   └── crigeo.dart
+│   │   ├── test -> ../test
+│   │   ├── pubspec.yaml
+│   │   ├── npm_flutter_pubspec.yaml
+│   │   ├── linux/CMakeLists.txt
+│   │   ├── macos/cricut_crigeo.podspec
+│   │   └── windows/CMakeLists.txt
+│   └── test/
+│       └── example_test.dart
+└── workflows/
+    ├── GENERATED-c-sharp.yaml
+    ├── GENERATED-dart.yaml
+    ├── GENERATED-kotlin.yaml
+    └── GENERATED-typescript.yaml
