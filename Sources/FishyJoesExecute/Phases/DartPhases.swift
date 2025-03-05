@@ -40,15 +40,17 @@ class DartPhases: IotaPhases, Phases {
             [
                 "macos/native/lib\($0).dylib",
                 "linux/native/lib\($0).so",
-                "windows/native/\($0).dll"
+                // TODO: re-enable when windows is re-enabled
+                // "windows/native/\($0).dll",
             ]
         } + [
             "macos/native/lib\(options.config.module).dylib",
             "macos/native/lib\(options.config.module)-iota.dylib",
             "linux/native/lib\(options.config.module).so",
             "linux/native/lib\(options.config.module)-iota.so",
-            "windows/native/\(options.config.module).dll",
-            "windows/native/\(options.config.module)-iota.dll"
+            // TODO: re-enable when windows is re-enabled
+            // "windows/native/\(options.config.module).dll",
+            // "windows/native/\(options.config.module)-iota.dll",
         ]
         try cmd("tar", arguments: tarCmdArgs).run()
 
