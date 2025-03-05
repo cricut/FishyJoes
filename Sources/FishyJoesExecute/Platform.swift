@@ -164,7 +164,7 @@ enum Platform: CustomStringConvertible, Hashable {
             scratchPath = "\(scratchPath)/android-build"
             args.append(
                 contentsOf: [
-                    "--destination", "/swift-android/usr/swiftpm-android-\(arch).json",
+                    "--destination", "/swift-android-\(arch)/usr/swiftpm-android-\(arch).json",
                 ]
             )
             env["ANDROID_COMPATIBLE_ONLY"] = "1"
