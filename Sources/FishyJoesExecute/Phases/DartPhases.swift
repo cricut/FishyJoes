@@ -35,7 +35,7 @@ class DartPhases: IotaPhases, Phases {
 
     func packPhase() throws {
         let tarCmdArgs = [
-            "-cvzf", "\(options.config.module)-bindings-dart-binaries.tgz", "-C", "dart"
+            "-cvzf", "\(options.config.module)-bindings-dart-binaries.tgz", "-C", "bindings/dart/generated"
         ] + options.config.extraDynamicLibraries.flatMap {
             [
                 "macos/native/lib\($0).dylib",
