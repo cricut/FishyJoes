@@ -8,7 +8,7 @@
     <Nullable>enable</Nullable>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <RepositoryUrl>https://github.com/cricut/TestAPI-bindings.git</RepositoryUrl>
+    <RepositoryUrl>__BINDINGS_REPO__</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 

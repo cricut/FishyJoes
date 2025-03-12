@@ -244,7 +244,7 @@ public struct PackageInit: ParsableCommand {
     func promptForConfig() throws -> FishyJoesConfig {
         Log.warn("No fishy-joes.yaml found. Will create one in \(FileManager.default.currentDirectoryPath)")
         let module = try Interactive.prompt("Name of swift product you're generating bindings for (e.g. CriGeo): ")
-        let defaultRepository = "github.com/cricut/\(module)-bindings"
+        let defaultRepository = "github.com/cricut/\(module)"
         var publishRepository: String? = try Interactive.prompt(
             "url of repository to publish bindings to, or \"nil\". Default [\(defaultRepository)]: ",
             allowEmpty: true
