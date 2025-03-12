@@ -8,7 +8,7 @@
     <Nullable>enable</Nullable>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <RepositoryUrl>__BINDINGS_REPO__</RepositoryUrl>
+    <RepositoryUrl>https://__BINDINGS_REPO__</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
