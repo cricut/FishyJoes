@@ -207,7 +207,7 @@ jobs:
     needs:
       - build-test-c-sharp-mac
       - build-test-c-sharp-linux
-      # - build-test-c-sharp-windows
+      - build-test-c-sharp-windows
     env:
       GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
