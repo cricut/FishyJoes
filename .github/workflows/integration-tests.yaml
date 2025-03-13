@@ -61,33 +61,12 @@ jobs:
         run: |
           set -euxo pipefail
 
-          echo "gonna ls -lat"
-          ls -lat
-
-          echo "gonna pwd"
-          pwd
-
-          cd integration-tests
-
-          echo "2 gonna ls -lat"
-          ls -lat
-
-          echo "2 gonna pwd"
-          pwd
-
-          cd TestAPI
-
-          echo "3 gonna ls -lat"
-          ls -lat
-
-          echo "3 gonna pwd"
-          pwd
-
+          cd integration-tests/TestAPI
           FISHYJOES=1 swift run -- fishy-joes generate
 
-          if [ ! -z "$(cd integration-tests/TestAPI-bindings; git status --porcelain .)" ]; then
+          if [ ! -z "$(cd integration-tests/TestAPI; git status --porcelain .)" ]; then
             echo '::error:: generation modified sources'
-            echo '::error::   run `FISHYJOES=1 swift run fishy-joes generate` from integration-tests/TestAPI-bindings and re-commit'
+            echo '::error::   run `FISHYJOES=1 swift run fishy-joes generate` from integration-tests/TestAPI and re-commit'
             git status
             exit 1
           fi
@@ -104,7 +83,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          cd integration-tests/TestAPI-bindings
+          cd integration-tests/TestAPI
           FISHYJOES=1 swift run -- fishy-joes --nodejs build test
 
       - name: Build FishyJoesIotaRuntime
@@ -119,7 +98,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          cd integration-tests/TestAPI-bindings
+          cd integration-tests/TestAPI
           FISHYJOES=1 swift run -- fishy-joes --c-sharp build test
 
       - name: Test Dart from dart via fishy-joes
@@ -127,7 +106,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          cd integration-tests/TestAPI-bindings
+          cd integration-tests/TestAPI
           FISHYJOES=1 swift run -- fishy-joes --dart build test
 
       - name: Build FishyJoesJavaRuntime
@@ -146,7 +125,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          cd integration-tests/TestAPI-bindings
+          cd integration-tests/TestAPI
           FISHYJOES=1 swift run -- fishy-joes --kotlin-fast build test
 
   integration-tests-ubuntu:
@@ -220,7 +199,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          cd integration-tests/TestAPI-bindings
+          cd integration-tests/TestAPI
           FISHYJOES=1 swift run -- fishy-joes --nodejs --wasm build test
 
       - name: Build FishyJoesIotaRuntime
@@ -235,7 +214,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          cd integration-tests/TestAPI-bindings
+          cd integration-tests/TestAPI
           FISHYJOES=1 swift run -- fishy-joes --c-sharp build test
 
       - name: Test Dart from dart via fishy-joes
@@ -243,7 +222,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          cd integration-tests/TestAPI-bindings
+          cd integration-tests/TestAPI
           FISHYJOES=1 swift run -- fishy-joes --dart build test
 
       - name: Build linux FishyJoesJavaRuntime
@@ -281,7 +260,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          cd integration-tests/TestAPI-bindings
+          cd integration-tests/TestAPI
           FISHYJOES=1 swift run -- fishy-joes --kotlin build test
 
           # Publish test-api for the android tests to use later
@@ -351,7 +330,7 @@ jobs:
           swift package resolve
           swift package resolve
 
-          cd integration-tests/TestAPI-bindings
+          cd integration-tests/TestAPI
           swift package resolve
           swift package resolve
           swift package resolve
@@ -377,7 +356,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          cd integration-tests/TestAPI-bindings
+          cd integration-tests/TestAPI
           "$SWIFT" run -- fishy-joes --nodejs build test
 
       - name: Build FishyJoesIotaRuntime
@@ -392,7 +371,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          cd integration-tests/TestAPI-bindings
+          cd integration-tests/TestAPI
           "$SWIFT" run -- fishy-joes --c-sharp build test
 
       - name: Test Dart from dart via fishy-joes
@@ -400,7 +379,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          cd integration-tests/TestAPI-bindings
+          cd integration-tests/TestAPI
 
           # Add dart DLLs to path
           # Someone who understands windows better than I do is welcome to fix this in a better way
@@ -421,7 +400,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          cd integration-tests/TestAPI-bindings
+          cd integration-tests/TestAPI
           "$SWIFT" run -- fishy-joes --kotlin-fast build test
 
   integration-tests-android:
