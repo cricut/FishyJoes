@@ -67,7 +67,7 @@ jobs:
           echo "gonna pwd"
           pwd
 
-          cd integration-tests/TestAPI-bindings
+          cd integration-tests
 
           echo "2 gonna ls -lat"
           ls -lat
@@ -75,7 +75,14 @@ jobs:
           echo "2 gonna pwd"
           pwd
 
-          mkdir Sources/Generated/NodeInterface
+          cd TestAPI
+
+          echo "3 gonna ls -lat"
+          ls -lat
+
+          echo "3 gonna pwd"
+          pwd
+
           FISHYJOES=1 swift run -- fishy-joes generate
 
           if [ ! -z "$(cd integration-tests/TestAPI-bindings; git status --porcelain .)" ]; then
