@@ -62,6 +62,7 @@ jobs:
           set -euxo pipefail
 
           cd integration-tests/TestAPI
+
           FISHYJOES=1 swift run -- fishy-joes generate
 
           if [ ! -z "$(cd integration-tests/TestAPI; git status --porcelain .)" ]; then
