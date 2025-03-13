@@ -69,6 +69,13 @@ jobs:
 
           cd integration-tests/TestAPI-bindings
 
+          echo "2 gonna ls -lat"
+          ls -lat
+
+          echo "2 gonna pwd"
+          pwd
+
+          mkdir Sources/Generated/NodeInterface
           FISHYJOES=1 swift run -- fishy-joes generate
 
           if [ ! -z "$(cd integration-tests/TestAPI-bindings; git status --porcelain .)" ]; then
