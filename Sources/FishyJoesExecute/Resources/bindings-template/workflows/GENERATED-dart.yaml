@@ -35,7 +35,7 @@ jobs:
 
       - uses: dart-lang/setup-dart@v1
 
-      - name: Pre build hook
+      - name: Pre-build hook
         shell: bash
         run: __PRE_BUILD_HOOK_YAML__
 
@@ -78,7 +78,7 @@ jobs:
 
       - uses: dart-lang/setup-dart@v1
 
-      - name: Pre build hook
+      - name: Pre-build hook
         shell: bash
         run: __PRE_BUILD_HOOK_YAML__
 
@@ -153,7 +153,7 @@ jobs:
           swift package resolve
           echo SWIFT_WINDOWS_BASH=".build/checkouts/FishyJoes/scripts/swift-shim.ps1" >> $env:GITHUB_ENV
 
-      - name: Pre build hook
+      - name: Pre-build hook
         shell: bash
         run: __PRE_BUILD_HOOK_YAML__
 
