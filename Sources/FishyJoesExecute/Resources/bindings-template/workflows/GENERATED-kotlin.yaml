@@ -41,6 +41,10 @@ jobs:
           distribution: zulu
           java-version: ${{ env.JAVA_VERSION }}
 
+      - name: Pre build hook
+        shell: bash
+        run: __PRE_BUILD_HOOK_YAML__
+
       - name: Build library
         shell: zsh {0}
         run: |
@@ -83,6 +87,10 @@ jobs:
         with:
           distribution: zulu
           java-version: ${{ env.JAVA_VERSION }}
+
+      - name: Pre build hook
+        shell: bash
+        run: __PRE_BUILD_HOOK_YAML__
 
       - name: Build library
         shell: zsh {0}
@@ -133,6 +141,10 @@ jobs:
           swift package resolve
           swift package resolve
           echo SWIFT_WINDOWS_BASH=".build/checkouts/FishyJoes/scripts/swift-shim.ps1" >> $env:GITHUB_ENV
+
+      - name: Pre build hook
+        shell: bash
+        run: __PRE_BUILD_HOOK_YAML__
 
       - name: Build library
         shell: bash
