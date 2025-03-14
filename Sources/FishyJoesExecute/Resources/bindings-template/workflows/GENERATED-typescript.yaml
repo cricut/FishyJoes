@@ -18,6 +18,8 @@ concurrency:
 env:
   NODE_AUTH_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
   NODE_VERSION: "18.x"
+  GITHUB_USER: cricut-builduser
+  GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
   SWIFT_WASM_VERSION: "5.10-SNAPSHOT-2024-04-26-a"
   FISHYJOES: 1
 
