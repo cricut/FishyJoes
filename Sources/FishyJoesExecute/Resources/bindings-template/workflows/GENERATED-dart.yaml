@@ -130,34 +130,10 @@ jobs:
           cd bindings/dart/generated
           dart pub get
 
-      - name: Install winget
-        uses: Cyberboss/install-winget@v1
-
-      - name: Install specific MSVC build tools and Win SDK version
-        shell: pwsh
-        run: |
-          winget install --id Microsoft.VisualStudio.2022.Professional --exact --force --custom "--add Microsoft.VisualStudio.Component.Windows11SDK.22000 --add Microsoft.VisualStudio.Component.VC.14.36.17.6.x86.x64 --add Microsoft.VisualStudio.Component.VC.Tools.x86.x64 --add Microsoft.VisualStudio.Component.VC.Tools.ARM64" --accept-source-agreements --accept-package-agreements
-
-      - name: vsdevcmd
-        uses: seanmiddleditch/gha-setup-vsdevenv@master
-        with:
-          host_arch: x64
-          winsdk: 10.0.22000.0
-          toolset_version: 14.36.32532
-
       - uses: compnerd/gha-setup-swift@main
         with:
           branch: swift-5.10.1-release
           tag: 5.10.1-RELEASE
-
-      - name: Copy module maps
-        continue-on-error: true
-        shell: cmd
-        run: |
-          copy "%SDKROOT%\usr\share\ucrt.modulemap" "%UniversalCRTSdkDir%\Include\10.0.22000.0\ucrt\module.modulemap"
-          copy "%SDKROOT%\usr\share\vcruntime.modulemap" "%VCToolsInstallDir%\include\module.modulemap"
-          copy "%SDKROOT%\usr\share\vcruntime.apinotes" "%VCToolsInstallDir%\include\vcruntime.apinotes"
-          copy "%SDKROOT%\usr\share\winsdk.modulemap" "%UniversalCRTSdkDir%\Include\10.0.22000.0\um\module.modulemap"
 
       - name: Pre-resolve Required SwiftPM Packages & Fetch FishyJoes Scripts
         continue-on-error: true
