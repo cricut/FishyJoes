@@ -27,6 +27,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
       - name: Setup Git Credentials
         uses: de-vri-es/setup-git-credentials@v2
@@ -71,13 +74,16 @@ jobs:
     name: "Ubuntu: Build and test C# bindings"
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cricut/android-swift-runtime:2.0.2
+      image: ghcr.io/cricut/android-swift-runtime:3.0.1
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
       - name: Setup Git Credentials
         uses: de-vri-es/setup-git-credentials@v2
@@ -137,6 +143,9 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
       - name: Setup Git Credentials
         uses: de-vri-es/setup-git-credentials@v2
@@ -204,6 +213,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
       - name: Setup Git Credentials
         uses: de-vri-es/setup-git-credentials@v2

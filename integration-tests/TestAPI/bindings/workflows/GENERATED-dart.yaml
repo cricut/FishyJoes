@@ -27,6 +27,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
       - name: Setup Git Credentials
         uses: de-vri-es/setup-git-credentials@v2
@@ -71,6 +74,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
       - name: Setup Git Credentials
         uses: de-vri-es/setup-git-credentials@v2
@@ -127,6 +133,9 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
       - name: Setup Git Credentials
         uses: de-vri-es/setup-git-credentials@v2
@@ -195,6 +204,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
       - name: Setup Git Credentials
         uses: de-vri-es/setup-git-credentials@v2
