@@ -267,7 +267,7 @@ extension CodeGen {
                 }
             }
 
-            fragment.output(#"// swift-tools-version:5.7"#)
+            fragment.output(#"// swift-tools-version:5.10"#)
             fragment.output(#"// BEGIN GENERATED CODE"#)
             fragment.blankLine()
 
