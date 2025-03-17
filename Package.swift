@@ -1,509 +1,348 @@
-// swift-tools-version:6.0
+// swift-tools-version:5.10
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import Foundation
 import PackageDescription
 
-let strictConcurrencyFlags: [SwiftSetting] = [
-    .swiftLanguageMode(.v6)
-]
+let strictConcurrencyFlags: [SwiftSetting] = [SwiftSetting.enableExperimentalFeature("StrictConcurrency"), .enableUpcomingFeature("InferSendableFromCaptures")]
 
-// Enable slow type-check warnings by opening xcode via command-line with an environment variable
-// `export WARN_SLOW_TYPE_CHECKS=1 && open /Applications/Xcode.app`
-let warnSlowTypeCheckFlags: [SwiftSetting] = if ProcessInfo.processInfo.environment["WARN_SLOW_TYPE_CHECKS"] == "1" {
-    [
-        SwiftSetting.unsafeFlags([
-            "-driver-time-compilation",
-            "-Xfrontend",
-            "-debug-time-function-bodies",
-            "-Xfrontend",
-            "-debug-time-expression-type-checking",
-            "-Xfrontend",
-            "-warn-long-function-bodies=100",
-            "-Xfrontend",
-            "-warn-long-expression-type-checking=100"
-        ])
-    ]
-} else {
-    []
+let env = ProcessInfo.processInfo.environment
+let disableGeneration = env["DISABLE_GENERATION"] == "1"
+let wasmCompatibleOnly = env["WASM_ONLY"] == "1"
+let androidCompatibleOnly = env["ANDROID_COMPATIBLE_ONLY"] == "1"
+let javaHome = env["JAVA_HOME_11_X64"] ?? env["JAVA_HOME"]
+let extraLibPath = env["EXTRA_LIBPATH"]?.split(separator: ";") ?? []
+
+func generationEnabled<T>(_ things: @autoclosure () -> [T]) -> [T] {
+    #if os(macOS)
+    return (disableGeneration || wasmCompatibleOnly || androidCompatibleOnly) ? [] : things()
+    #else
+    return []
+    #endif
 }
 
-let package = Package(
-    name: "ArtCanvasPod",
-    defaultLocalization: "en-us",
-    platforms: [.iOS(.v16)],
-    products: [
-        .library(name: "ArtBasicShapes", targets: ["ArtBasicShapes"]),
-        .library(name: "ArtBasicShapesFeature", targets: ["ArtBasicShapesFeature"]),
-        .library(name: "ArtBasicShapesLive", targets: ["ArtBasicShapesLive"]),
-        .library(name: "ArtCanvas", targets: ["ArtCanvas"]),
-        .library(name: "ArtCanvasFeature", targets: ["ArtCanvasFeature"]),
-        .library(name: "ArtCreateLayers", targets: ["ArtCreateLayers"]),
-        .library(name: "ArtImageUpload", targets: ["ArtImageUpload"]),
-        .library(name: "ArtStickerize", targets: ["ArtStickerize"]),
-        .library(name: "ArtText", targets: ["ArtText"]),
-        .library(name: "ArtWarp", targets: ["ArtWarp"]),
-        .library(name: "ArtLabs", targets: ["ArtLabs"]),
-        .library(name: "ArtTemplates", targets: ["ArtTemplates"]),
-        .library(name: "ArtDesignArea", targets: ["ArtDesignArea"]),
-    ],
-    dependencies: [
-        /// Pods,
-        .package(url: "https://github.com/cricut/ArtFontSearch", from: "87.0.0"),
-        .package(url: "https://github.com/cricut/ArtGraphics", from: "19.0.0"),
-        .package(url: "https://github.com/cricut/ArtPlatform", from: "70.0.0"),
-        .package(url: "https://github.com/cricut/ArtProjectLoad", from: "84.0.0"),
-        .package(url: "https://github.com/cricut/CriCanvas", exact: "0.10.24"),
-        .package(url: "https://github.com/cricut/ArtSubscriptionsPod", from: "73.0.0"),
-        .package(url: "https://github.com/cricut/CriSVG", from: "1.7.0"),
-        .package(url: "https://github.com/cricut/CriText", from: "1.5.0"),
-        /// APIs
-        .package(url: "https://github.com/cricut/CanvasAPI-Swift", from: "15.0.0"),
-        .package(url: "https://github.com/cricut/ContentAPI-Swift", from: "9.0.0"),
-        .package(url: "https://github.com/cricut/FeedbackAPI-Swift", from: "3.0.0"),
-        .package(url: "https://github.com/cricut/FontSearchAPI-Swift", from: "9.1.0"),
-        .package(url: "https://github.com/cricut/ImageBackgroundAPI-Swift", from: "3.0.0"),
-        .package(url: "https://github.com/cricut/ImageGenerationAPI-Swift", from: "3.1.0"),
-        .package(url: "https://github.com/cricut/ImageUploadAPI-Swift", from: "3.0.0"),
-        .package(url: "https://github.com/cricut/ImagesAPI-Swift", from: "14.1.0"),
-        .package(url: "https://github.com/cricut/PensAPI-Swift", from: "4.0.0"),
-        .package(url: "https://github.com/cricut/TemplatesAPI-Swift", from: "8.0.0"),
-        .package(url: "https://github.com/cricut/UsersAPI-Swift", from: "6.0.0"),
-        /// Cricut deps
-        .package(url: "https://github.com/cricut/CTextFreestack", exact: "3.0.1"),
-        .package(url: "https://github.com/cricut/CriPlug", .upToNextMinor(from: "0.3.0")),
-        .package(url: "https://github.com/cricut/CriTrace", exact: "1.2.3"),
-        .package(url: "https://github.com/cricut/shared-effects", exact: "0.0.11"),
-        /// 3rd party
-        .package(url: "https://github.com/TimOliver/TOCropViewController", exact: "2.7.4"),
-        .package(url: "https://github.com/siteline/swiftui-introspect", from: "1.3.0")
-    ],
-    targets: [
-        .target(
-            name: "ArtBasicShapes",
-            dependencies: [
-                .product(name: "ArtComposableArchitectureUtilities", package: "ArtPlatform"),
-                .product(name: "ArtGraphics", package: "ArtGraphics"),
-                .product(name: "ArtGraphicsFeature", package: "ArtGraphics"),
-                .target(name: "ArtCanvasCommon"),
-            ],
-            path: "ArtBasicShapes/Sources",
-            swiftSettings: strictConcurrencyFlags + warnSlowTypeCheckFlags
-        ),
-        .target(
-            name: "ArtBasicShapesFeature",
-            dependencies: [
-                .product(name: "ArtAnalytics", package: "ArtPlatform"),
-                .product(name: "ArtComposableArchitectureUtilities", package: "ArtPlatform"),
-                .product(name: "ArtGraphics", package: "ArtGraphics"),
-                .target(name: "ArtBasicShapes"),
-            ],
-            path: "ArtBasicShapes/Feature/Sources",
-            swiftSettings: strictConcurrencyFlags + warnSlowTypeCheckFlags
-        ),
-        .testTarget(
-            name: "ArtBasicShapesFeatureTests",
-            dependencies: [
-                .target(name: "ArtBasicShapesFeature")
-            ],
-            path: "ArtBasicShapes/Feature/Tests",
-            swiftSettings: strictConcurrencyFlags + warnSlowTypeCheckFlags
-        ),
-        .target(
-            name: "ArtBasicShapesLive",
-            dependencies: [
-                .product(name: "ArtComposableArchitectureUtilities", package: "ArtPlatform"),
-                .target(name: "ArtBasicShapes"),
-            ],
-            path: "ArtBasicShapes/Live/Sources",
-            swiftSettings: strictConcurrencyFlags + warnSlowTypeCheckFlags
-        ),
+func wasmIncompatible<T>(_ things: @autoclosure () -> [T]) -> [T] {
+    wasmCompatibleOnly ? [] : things()
+}
 
-        .target(
-            name: "ArtCanvas",
+typealias P = Product
+typealias D = Package.Dependency
+typealias T = Target
+
+let package = Package(
+    name: "FishyJoes",
+    platforms: [.macOS(.v13), .iOS(.v15)],
+    products: [
+        P.library(
+            name: "FishyJoesNodeRuntime",
+            type: wasmCompatibleOnly ? nil : .dynamic,
+            targets: ["FishyJoesNodeRuntime"]
+        ),
+    ] + wasmIncompatible(
+        [
+            P.library(name: "FishyJoesJavaRuntime", type: .dynamic, targets: ["FishyJoesJavaRuntime"]),
+            P.library(name: "FishyJoesIotaRuntime", type: .dynamic, targets: ["FishyJoesIotaRuntime"]),
+            P.library(name: "JavaRuntimeTestHarness", type: .dynamic, targets: ["JavaRuntimeTestHarness"]),
+        ]
+    ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] :
+        [
+            P.executable(name: "fishy-joes", targets: ["FishyJoesExecuteMain"]),
+        ]
+    ) + generationEnabled(
+        [
+            P.executable(name: "helper-fishy-joes-core", targets: ["FishyJoesExecutionHelper"]),
+        ]
+    ),
+    dependencies: generationEnabled(
+        [
+            D.package(
+                url: "https://github.com/krzysztofzablocki/Sourcery", revision: "2.2.5"
+            ),
+        ]
+    ) + wasmIncompatible(
+        [
+            D.package(url: "https://github.com/mstokercricut/swsh", exact: "5.0.0-alpha0"),
+            D.package(url: "https://github.com/apple/swift-argument-parser", from: "1.2.2"),
+        ]
+    ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] : [
+        D.package(url: "https://github.com/jpsim/Yams", .upToNextMinor(from: "5.0.3")),
+    ]),
+    targets: [
+        T.target(name: "FishyJoesCommonRuntime"),
+        // Kotlin / Java
+        T.systemLibrary(name: "JNI"),
+        T.target(
+            name: "FishyJoesJavaRuntime",
             dependencies: [
-                .product(name: "ArtComponents", package: "ArtPlatform"),
-                .product(name: "ArtComposableArchitectureUtilities", package: "ArtPlatform"),
-                .product(name: "ArtDeepLinking", package: "ArtPlatform"),
-                .product(name: "ArtFontSearch", package: "ArtFontSearch"),
-                .product(name: "ArtFontSearchFeature", package: "ArtFontSearch"),
-                .product(name: "ArtGraphicComponents", package: "ArtGraphics"),
-                .product(name: "ArtGraphics", package: "ArtGraphics"),
-                .product(name: "ArtGraphicsFeature", package: "ArtGraphics"),
-                .product(name: "ArtMachineFamilyModels", package: "ArtProjectLoad"),
-                .product(name: "ArtPersistence", package: "ArtPlatform"),
-                .product(name: "ArtProjectLoad", package: "ArtProjectLoad"),
-                .product(name: "ArtProjectLoadPersistence", package: "ArtProjectLoad"),
-                .product(name: "ArtSettings", package: "ArtPlatform"),
-                .product(name: "CanvasAPI", package: "CanvasAPI-Swift"),
-                .product(name: "CanvasLegacy", package: "ArtGraphics"),
-                .product(name: "CanvasLegacyPersistence", package: "ArtGraphics"),
-                .product(name: "CriCanvas", package: "CriCanvas"),
-                .product(name: "CriText", package: "CriText"),
-                .product(name: "FeedbackAPI", package: "FeedbackAPI-Swift"),
-                .product(name: "ImagesAPI", package: "ImagesAPI-Swift"),
-                .product(name: "PTCPreferencesClient", package: "ArtPlatform"),
-                .product(name: "PensAPI", package: "PensAPI-Swift"),
-                .product(name: "SwiftUIIntrospect", package: "swiftui-introspect"),
-                .product(name: "TemplatesAPI", package: "TemplatesAPI-Swift"),
-                .target(name: "ArtBasicShapes"),
-                .target(name: "ArtBasicShapesFeature"),
-                .target(name: "ArtCanvasCommon"),
-                .target(name: "ArtCreateLayers"),
-                .target(name: "ArtDesignArea"),
-                .target(name: "ArtImageUpload"),
-                .target(name: "ArtLabs"),
-                .target(name: "ArtLabsLive"),
-                .target(name: "ArtStickerize"),
-                .target(name: "ArtTemplates"),
-                .target(name: "ArtTemplatesLive"),
-                .target(name: "ArtText"),
-                .target(name: "ArtWarp"),
-            ],
-            path: "ArtCanvas/Sources/Canvas",
-            swiftSettings: strictConcurrencyFlags + warnSlowTypeCheckFlags,
-            linkerSettings: [
-                .linkedFramework("SwiftUI")
+                .target(name: "JNI"),
+                .target(name: "FishyJoesCommonRuntime"),
             ]
         ),
-        .target(
-            name: "ArtCanvasFeature",
+        T.target(
+            name: "JavaRuntimeTestHarness",
             dependencies: [
-                .product(name: "ArtFontSearchFeature", package: "ArtFontSearch"),
-                .product(name: "ArtFontSearchPersistence", package: "ArtFontSearch"),
-                .product(name: "ContentAPI", package: "ContentAPI-Swift"),
-                .product(name: "ContentLegacy", package: "ArtGraphics"),
-                .target(name: "ArtCanvas"),
-                .target(name: "ArtCanvasCommonLive"),
-            ],
-            path: "ArtCanvas/Sources/Feature",
-            swiftSettings: strictConcurrencyFlags + warnSlowTypeCheckFlags,
-            linkerSettings: [
-                .linkedFramework("SwiftUI", .when(platforms: [.iOS, .macOS])),
-                .linkedFramework("AVFoundation")
+                .target(name: "FishyJoesJavaRuntime"),
             ]
         ),
-        .testTarget(
-            name: "ArtCanvasTests",
+        // C# / Dart
+        T.target(
+            name: "FishyJoesIotaRuntime",
             dependencies: [
-                .product(name: "ArtGraphicsFeature", package: "ArtGraphics"),
-                .product(name: "ArtMachineFamilyModels", package: "ArtProjectLoad"),
-                .product(name: "ArtTesting", package: "ArtPlatform"),
-                .target(name: "ArtCanvas"),
+                .target(name: "FishyJoesCommonRuntime"),
+            ]
+        ),
+        // TypeScript Node.js / Wasm
+        T.target(
+            name: "NodeAPI",
+            linkerSettings: [
+                // On Windows, node.lib must be in the library path list when building FishyJoes, the runtime, or bindings libraries
+                // Use the EXTRA_LIBPATH environment variable to cause "swift build" to add paths to the library path list when envoked
+                // When invoked via "fishy-joes build", node.lib will be downloaded and put in an accessible directory as part of the build process
+                .linkedLibrary("node.lib", .when(platforms: [.windows])),
+                .linkedLibrary("delayimp.lib", .when(platforms: [.windows])),
+                .unsafeFlags(
+                    extraLibPath.flatMap { ["-Xlinker", "/LIBPATH:\($0)"] },
+                    .when(platforms: [.windows])
+                )
+            ]
+        ),
+        T.target(
+            name: "FishyJoesNodeRuntime",
+            dependencies: [
+                .target(name: "NodeAPI"),
+                .target(name: "FishyJoesCommonRuntime"),
             ],
-            path: "ArtCanvas/Tests",
+            exclude: [
+                "Templates",
+            ],
+            linkerSettings: [
+                .unsafeFlags(
+                    // These symbols must be defined by the node process that loads the N-API addon.
+                    // See ld(1) for full details.
+                    [
+                        "napi_add_env_cleanup_hook",
+                        "napi_add_finalizer",
+                        "napi_adjust_external_memory",
+                        "napi_call_function",
+                        "napi_check_object_type_tag",
+                        "napi_close_escapable_handle_scope",
+                        "napi_close_handle_scope",
+                        "napi_coerce_to_bool",
+                        "napi_coerce_to_number",
+                        "napi_coerce_to_object",
+                        "napi_coerce_to_string",
+                        "napi_create_array",
+                        "napi_create_array_with_length",
+                        "napi_create_arraybuffer",
+                        "napi_create_bigint_int64",
+                        "napi_create_bigint_uint64",
+                        "napi_create_bigint_words",
+                        "napi_create_buffer",
+                        "napi_create_buffer_copy",
+                        "napi_create_dataview",
+                        "napi_create_date",
+                        "napi_create_double",
+                        "napi_create_error",
+                        "napi_create_external",
+                        "napi_create_external_arraybuffer",
+                        "napi_create_external_buffer",
+                        "napi_create_function",
+                        "napi_create_threadsafe_function",
+                        "napi_get_threadsafe_function_context",
+                        "napi_call_threadsafe_function",
+                        "napi_acquire_threadsafe_function",
+                        "napi_release_threadsafe_function",
+                        "napi_create_int32",
+                        "napi_create_int64",
+                        "napi_create_object",
+                        "napi_create_promise",
+                        "napi_create_reference",
+                        "napi_create_string_utf8",
+                        "napi_create_symbol",
+                        "napi_create_typedarray",
+                        "napi_create_uint32",
+                        "napi_define_class",
+                        "napi_define_properties",
+                        "napi_delete_element",
+                        "napi_delete_property",
+                        "napi_delete_reference",
+                        "napi_detach_arraybuffer",
+                        "napi_escape_handle",
+                        "napi_fatal_exception",
+                        "napi_get_all_property_names",
+                        "napi_get_and_clear_last_exception",
+                        "napi_get_array_length",
+                        "napi_get_arraybuffer_info",
+                        "napi_get_boolean",
+                        "napi_get_buffer_info",
+                        "napi_get_cb_info",
+                        "napi_get_dataview_info",
+                        "napi_get_date_value",
+                        "napi_get_element",
+                        "napi_get_global",
+                        "napi_get_instance_data",
+                        "napi_get_last_error_info",
+                        "napi_get_named_property",
+                        "napi_get_new_target",
+                        "napi_get_node_version",
+                        "napi_get_null",
+                        "napi_get_property",
+                        "napi_get_property_names",
+                        "napi_get_prototype",
+                        "napi_get_reference_value",
+                        "napi_get_typedarray_info",
+                        "napi_get_undefined",
+                        "napi_get_value_bigint_int64",
+                        "napi_get_value_bigint_uint64",
+                        "napi_get_value_bigint_words",
+                        "napi_get_value_bool",
+                        "napi_get_value_double",
+                        "napi_get_value_external",
+                        "napi_get_value_int32",
+                        "napi_get_value_int64",
+                        "napi_get_value_string_utf8",
+                        "napi_get_value_uint32",
+                        "napi_get_version",
+                        "napi_has_element",
+                        "napi_has_named_property",
+                        "napi_has_own_property",
+                        "napi_has_property",
+                        "napi_instanceof",
+                        "napi_is_array",
+                        "napi_is_arraybuffer",
+                        "napi_is_buffer",
+                        "napi_is_dataview",
+                        "napi_is_date",
+                        "napi_is_detached_arraybuffer",
+                        "napi_is_error",
+                        "napi_is_exception_pending",
+                        "napi_is_promise",
+                        "napi_is_typedarray",
+                        "napi_new_instance",
+                        "napi_object_freeze",
+                        "napi_object_seal",
+                        "napi_open_escapable_handle_scope",
+                        "napi_open_handle_scope",
+                        "napi_reference_ref",
+                        "napi_reference_unref",
+                        "napi_reject_deferred",
+                        "napi_remove_env_cleanup_hook",
+                        "napi_remove_wrap",
+                        "napi_resolve_deferred",
+                        "napi_run_script",
+                        "napi_set_element",
+                        "napi_set_instance_data",
+                        "napi_set_named_property",
+                        "napi_set_property",
+                        "napi_strict_equals",
+                        "napi_throw",
+                        "napi_throw_error",
+                        "napi_type_tag_object",
+                        "napi_typeof",
+                        "napi_unwrap",
+                        "napi_wrap",
+                        "node_api_get_module_file_name",
+                        "node_api_symbol_for",
+                    ].flatMap {
+                        #if os(Linux)
+                        return ["-Xlinker", "-u", "-Xlinker", "_\($0)"]
+                        #else
+                        return ["-Xlinker", "-U", "-Xlinker", "_\($0)"]
+                        #endif
+                    },
+                    .when(
+                        platforms: [
+                            // all but .wasi and .windows
+                            .iOS, .macOS, .tvOS, .watchOS,
+                            .android, .linux,
+                        ]
+                    )
+                ),
+                .unsafeFlags(
+                    [
+                        "-Xlinker", "--allow-undefined",
+                        "-Xlinker", "--export-table",
+                        "-Xlinker", "--export=napi_register_module_v1",
+                        "-Xlinker", "--export=malloc",
+                        "-Xlinker", "--export=free",
+                    ],
+                    .when(platforms: [.wasi])
+                ),
+                .unsafeFlags(
+                    [
+                        "-Xlinker", "/DELAYLOAD:node.exe",
+                    ],
+                    .when(platforms: [.windows])
+                ),
+            ]
+        ),
+    ] + generationEnabled(
+        [
+            T.target(
+                name: "FishyJoesCore",
+                dependencies: [
+                    .target(name: "GenerationHelpers"),
+                    .product(name: "SourceryRuntime", package: "Sourcery"),
+                ]
+            ),
+            T.executableTarget(
+                name: "FishyJoesExecutionHelper",
+                dependencies: [
+                    .target(name: "FishyJoesCore"),
+                ],
+                resources: [
+                    .copy("FishyJoes.swifttemplate"),
+                ]
+            ),
+            T.testTarget(
+                name: "FishyJoesCoreTests",
+                dependencies: [
+                    .target(name: "FishyJoesCore"),
+                ]
+            ),
+            T.testTarget(
+                name: "FishyJoesExecuteTests",
+                dependencies: [
+                    .target(name: "FishyJoesExecute"),
+                ],
+                resources: [
+                    .copy("Resources"),
+                ]
+            ),
+        ]
+    ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] : [
+        T.executableTarget(
+            name: "FishyJoesExecuteMain",
+            dependencies: ["FishyJoesExecute"],
+            linkerSettings: [
+                .unsafeFlags(
+                    ["-Xlinker", "/IGNORE:4217"],
+                    .when(platforms: [.windows])
+                )
+            ]
+        ),
+        T.target(
+            // TODO: better name for this target
+            name: "GenerationHelpers"
+        ),
+        T.target(
+            name: "FishyJoesExecute",
+            dependencies: [
+                .target(name: "GenerationHelpers"),
+                .product(name: "swsh", package: "swsh"),
+                .product(name: "ArgumentParser", package: "swift-argument-parser"),
+                .product(name: "Yams", package: "Yams"),
+            ],
             resources: [
-                // CSAT Trigger based drivers
-                .copy("Resources/CSAT-370a782f-26b8-4114-b38f-7eba66942f88.json"),
-                // Old Satisfaction Survey
-                .copy("Resources/CSAT-c051e47d-5ab3-4697-b5c3-7653af422981.json"),
-                // Canvas data with text
-                .copy("Resources/canvas_v5_images_960424354_cb1cb929-968b-47cf-9e85-1a3689d3b175"),
-                // Canvas data without text
-                .copy("Resources/canvas_v5_images_865282140_5bb0b1a4-2bc2-499e-9fda-f4e70a875cd9"),
-                // Eagle image
-                .copy("Resources/canvas_v5_images_312694162_00000000-0000-0000-0000-000000000000"),
-                // Canvas for alignment tests
-                .copy("Resources/canvas_v5_canvases_4D07D8B0-1111-1111-1111-6735199F6EA6"),
-                // Canvas to test Action Bar (Nested Groups)
-                .copy("Resources/canvas_v5_canvases_F70E80BD-C4CB-4BBF-9D43-AB72EB363C6A"),
-                // Canvas to test Action Bar (Groups)
-                .copy("Resources/canvas_v5_canvases_06D3A4FD-CA1C-4B36-8807-2119E5AF095D"),
-                // Canvas to test Action Bar (Contours)
-                .copy("Resources/canvas_v5_canvases_265983EA-6650-4BF4-B55A-BCE21E5B3BE4"),
-                // Canvas to test the Distribute feature
-                .copy("Resources/canvas_v5_canvases_02FE03C5-F1B8-42C5-B24E-3FDABFF688D2"),
-                // Canvas to test the ColorSync feature (Attached Group)
-                .copy("Resources/canvas_v5_canvases_D2D20972-D703-4A88-8635-9D308B5596BB"),
-                // Canvas to test the ColorSync feature (Multigraphic Group)
-                .copy("Resources/canvas_v5_canvases_130874F5-EDD0-4D83-BF73-7E0FEDC6B92D"),
-                // Canvas to test the ColorSync feature (RegularGroupWithShapes)
-                .copy("Resources/canvas_v5_canvases_447EBB64-EAC9-43FF-B084-42E51AEA964E"),
-                // Canvas to test the Curve Text feature
-                .copy("Resources/canvas_v5_canvases_6EDAE921-EFA0-4915-8ADB-7F854D91024B"),
-                // Font data for font insertion
-                .copy("Resources/fontsearch_v1_fontFamilies.json"),
-                // Font file
-                .copy("Resources/fontcontent_Fonts_v2_GetFontFile.json"),
-                .copy("Resources/twoSquares_4A035DAD-01CB-4334-AB46-49616CC271D4"),
-                .copy("Resources/CaptainVegetableNdbText_EBA2F2E0-CDBB-45A7-9727-FB68BF2685AF"),
-                .copy("Resources/CaptainVegetableNoBooleanGroupCachedPathNdbText_3D324B57-FAE1-4AA8-B0FF-8FEF3CD47A53")
-            ],
-            swiftSettings: strictConcurrencyFlags + warnSlowTypeCheckFlags
-        ),
-        .target(
-            name: "ArtCanvasCommon",
-            dependencies: [
-                .product(name: "ArtComponents", package: "ArtPlatform"),
-                .product(name: "ArtComposableArchitectureUtilities", package: "ArtPlatform"),
-                .product(name: "FeatureFlags", package: "ArtPlatform")
-            ],
-            path: "ArtCanvasCommon/Sources",
-            swiftSettings: strictConcurrencyFlags + warnSlowTypeCheckFlags
-        ),
-        .target(
-            name: "ArtCanvasCommonLive",
-            dependencies: [
-                .target(name: "ArtCanvasCommon"),
-                .product(name: "UsersAPI", package: "UsersAPI-Swift"),
-            ],
-            path: "ArtCanvasCommon/Live",
-            swiftSettings: strictConcurrencyFlags + warnSlowTypeCheckFlags,
-            linkerSettings: [
-                .linkedFramework("AVFoundation")
+                .copy("Resources"),
             ]
         ),
-        .testTarget(
-            name: "ArtCanvasCommonTests",
+        T.testTarget(
+            name: "NAPITests",
             dependencies: [
-                .target(name: "ArtCanvasCommon")
+                .product(name: "swsh", package: "swsh"),
             ],
-            path: "ArtCanvasCommon/Tests",
-            swiftSettings: strictConcurrencyFlags + warnSlowTypeCheckFlags
+            exclude: ["node-tests"]
         ),
-        .target(
-            name: "ArtText",
-            dependencies: [
-                .product(name: "ArtComponents", package: "ArtPlatform"),
-                .product(name: "ArtFontSearch", package: "ArtFontSearch"),
-                .product(name: "ArtFontSearchFeature", package: "ArtFontSearch"),
-                .product(name: "ArtFoundation", package: "ArtPlatform"),
-                .product(name: "ArtGraphics", package: "ArtGraphics"),
-                .product(name: "CriCanvas", package: "CriCanvas"),
-                .product(name: "CriText", package: "CriText"),
-                .product(name: "FontSearchAPI", package: "FontSearchAPI-Swift"),
-                .product(name: "freetype", package: "CTextFreestack"),
-            ],
-            path: "ArtText/Sources",
-            swiftSettings: strictConcurrencyFlags + warnSlowTypeCheckFlags,
-            linkerSettings: [
-                .linkedFramework("CoreText"),
-                .linkedLibrary("bz2", .when(platforms: [.iOS])),
-                .linkedLibrary("z", .when(platforms: [.iOS])),
-            ]
-        ),
-        .testTarget(
-            name: "ArtTextTests",
-            dependencies: [
-                .product(name: "ArtFontSearch", package: "ArtFontSearch"),
-                .product(name: "ArtGraphics", package: "ArtGraphics"),
-                .product(name: "CriCanvas", package: "CriCanvas"),
-                .target(name: "ArtText")
-            ],
-            path: "ArtText/Tests",
-            swiftSettings: strictConcurrencyFlags + warnSlowTypeCheckFlags
-        ),
-        .target(
-            name: "ArtImageUpload",
-            dependencies: [
-                .product(name: "ArtExternalURLClient", package: "ArtPlatform"),
-                .product(name: "ArtFoundation", package: "ArtPlatform"),
-                .product(name: "ArtGraphicsFeature", package: "ArtGraphics"),
-                .product(name: "ArtImageSelection", package: "ArtPlatform"),
-                .product(name: "ArtPurchasingFeature", package: "ArtSubscriptionsPod"),
-                .product(name: "ContentAPI", package: "ContentAPI-Swift"),
-                .product(name: "ContentLegacy", package: "ArtGraphics"),
-                // comment out ImageMagick to run on arm64 (M1) simulator
-                .product(name: "CriTrace", package: "CriTrace"),
-                .product(name: "ImageBackgroundAPI", package: "ImageBackgroundAPI-Swift"),
-                .product(name: "ImageUploadAPI", package: "ImageUploadAPI-Swift"),
-                .product(name: "TOCropViewController", package: "TOCropViewController", condition: .when(platforms: [.iOS])),
-                .target(name: "ArtCanvasCommon"),
-                .target(name: "ArtCreateLayers"),
-                .target(name: "ArtTextToImage"),
-            ],
-            path: "ArtImageUpload/Sources",
-            swiftSettings: strictConcurrencyFlags + warnSlowTypeCheckFlags
-        ),
-        .target(
-            name: "ArtLabs",
-            dependencies: [
-                .product(name: "ArtAnalytics", package: "ArtPlatform"),
-                .product(name: "ArtComposableArchitectureUtilities", package: "ArtPlatform"),
-                .product(name: "CriCanvas", package: "CriCanvas"),
-                .product(name: "CriPlug", package: "CriPlug"),
-                .product(name: "CriPlugModels", package: "CriPlug"),
-                .product(name: "CriSVG", package: "CriSVG"),
-                .product(name: "FeatureFlags", package: "ArtPlatform"),
-                .product(name: "WasmProgram", package: "CriPlug"),
-                .target(name: "ArtCanvasCommon"),
-            ],
-            path: "ArtLabs/Sources",
-            swiftSettings: strictConcurrencyFlags + warnSlowTypeCheckFlags
-        ),
-        .target(
-            name: "ArtLabsLive",
-            dependencies: [
-                .product(name: "WebKitProgram", package: "CriPlug"),
-                .target(name: "ArtLabs"),
-            ],
-            path: "ArtLabs/Live",
-            resources: [
-                .copy("Resources/Plugins")
-            ],
-            swiftSettings: strictConcurrencyFlags + warnSlowTypeCheckFlags
-        ),
-        .testTarget(
-            name: "ArtLabsTests",
-            dependencies: [
-                "ArtLabs",
-                .product(name: "ArtComposableArchitectureUtilities", package: "ArtPlatform"),
-            ],
-            path: "ArtLabs/Tests",
-            swiftSettings: strictConcurrencyFlags + warnSlowTypeCheckFlags
-        ),
-        .testTarget(
-            name: "ArtImageUploadTests",
-            dependencies: [
-                .target(name: "ArtCanvasCommon"),
-                .target(name: "ArtImageUpload"),
-            ],
-            path: "ArtImageUpload/Tests",
-            swiftSettings: strictConcurrencyFlags + warnSlowTypeCheckFlags
-        ),
-        .target(
-            name: "ArtWarp",
-            dependencies: [
-                .product(name: "ArtGraphics", package: "ArtGraphics"),
-                .product(name: "ArtPersistence", package: "ArtPlatform"),
-                .product(name: "ArtPurchasing", package: "ArtSubscriptionsPod"),
-                .product(name: "ArtPurchasingFeature", package: "ArtSubscriptionsPod"),
-                .product(name: "CriCanvas", package: "CriCanvas"),
-                .product(name: "SharedEffects", package: "shared-effects"),
-                .target(name: "ArtCanvasCommon"),
-            ],
-            path: "ArtWarp/Sources",
-            resources: [
-                .copy("Resources/SVG/generic-warp.svg")
-            ],
-            swiftSettings: strictConcurrencyFlags + warnSlowTypeCheckFlags
-        ),
-        .testTarget(
-            name: "ArtWarpTests",
-            dependencies: [
-                .product(name: "ArtPurchasingFeature", package: "ArtSubscriptionsPod"),
-                .target(name: "ArtWarp"),
-            ],
-            path: "ArtWarp/Tests",
-            swiftSettings: strictConcurrencyFlags + warnSlowTypeCheckFlags
-        ),
-        .target(
-            name: "ArtStickerize",
-            dependencies: [
-                .product(name: "ArtGraphics", package: "ArtGraphics"),
-                .product(name: "ArtPurchasingFeature", package: "ArtSubscriptionsPod"),
-                .product(name: "CriCanvas", package: "CriCanvas"),
-                .target(name: "ArtCanvasCommon"),
-            ],
-            path: "ArtStickerize/Sources",
-            swiftSettings: strictConcurrencyFlags + warnSlowTypeCheckFlags
-        ),
-        .testTarget(
-            name: "ArtStickerizeTests",
-            dependencies: [
-                .target(name: "ArtStickerize"),
-            ],
-            path: "ArtStickerize/Tests",
-            swiftSettings: strictConcurrencyFlags + warnSlowTypeCheckFlags
-        ),
-        .target(
-            name: "ArtTemplates",
-            dependencies: [
-                .product(name: "ArtAnalytics", package: "ArtPlatform"),
-                .product(name: "ArtComponents", package: "ArtPlatform"),
-                .product(name: "ArtComposableArchitectureUtilities", package: "ArtPlatform"),
-                .product(name: "ArtNetworkConnectivity", package: "ArtPlatform"),
-                .product(name: "FeatureFlags", package: "ArtPlatform"),
-                .product(name: "TemplatesAPI", package: "TemplatesAPI-Swift"),
-                .target(name: "ArtCanvasCommon"),
-            ],
-            path: "ArtTemplates/Sources",
-            swiftSettings: strictConcurrencyFlags + warnSlowTypeCheckFlags
-        ),
-        .target(
-            name: "ArtTemplatesLive",
-            dependencies: [
-                .target(name: "ArtTemplates")
-            ],
-            path: "ArtTemplates/Live",
-            swiftSettings: strictConcurrencyFlags + warnSlowTypeCheckFlags
-        ),
-        .testTarget(
-            name: "ArtTemplatesTests",
-            dependencies: [
-                .target(name: "ArtTemplates")
-            ],
-            path: "ArtTemplates/Tests",
-            swiftSettings: strictConcurrencyFlags + warnSlowTypeCheckFlags
-        ),
-        .target(
-            name: "ArtTextToImage",
-            dependencies: [
-                .product(name: "ArtComposableArchitectureUtilities", package: "ArtPlatform"),
-                .product(name: "ArtGraphics", package: "ArtGraphics"),
-                .product(name: "ArtPersistence", package: "ArtPlatform"),
-                .product(name: "ImageGenerationAPI", package: "ImageGenerationAPI-Swift"),
-                .target(name: "ArtCreateLayers")
-            ],
-            path: "ArtTextToImage/Sources",
-            swiftSettings: strictConcurrencyFlags + warnSlowTypeCheckFlags,
-            linkerSettings: [
-                .linkedFramework("SwiftUI", .when(platforms: [.iOS, .macOS]))
-            ]
-        ),
-        .target(
-            name: "ArtCreateLayers",
-            dependencies: [
-                .product(name: "ArtComponents", package: "ArtPlatform"),
-                .product(name: "ArtPurchasingFeature", package: "ArtSubscriptionsPod"),
-                .product(name: "CanvasAPI", package: "CanvasAPI-Swift"),
-                .product(name: "CriTrace", package: "CriTrace"),
-                .target(name: "ArtCanvasCommon"),
-            ],
-            path: "ArtCreateLayers/Sources",
-            resources: [
-                .copy("Resources/create-layer-logo-dark.mp4"),
-                .copy("Resources/create-layer-logo.mp4"),
-                .copy("Resources/create-layers-config.json")
-            ],
-            swiftSettings: strictConcurrencyFlags + warnSlowTypeCheckFlags,
-            linkerSettings: [
-                .linkedFramework("SwiftUI", .when(platforms: [.iOS, .macOS]))
-            ]
-        ),
-        .testTarget(
-            name: "ArtCreateLayersTests",
-            dependencies: [
-                .target(name: "ArtCreateLayers"),
-            ],
-            path: "ArtCreateLayers/Tests",
-            swiftSettings: strictConcurrencyFlags + warnSlowTypeCheckFlags
-        ),
-        .target(
-            name: "ArtDesignArea",
-            dependencies: [
-                .product(name: "ArtAnalytics", package: "ArtPlatform"),
-                .product(name: "ArtComponents", package: "ArtPlatform"),
-                .product(name: "ArtComposableArchitectureUtilities", package: "ArtPlatform"),
-                .product(name: "ArtGraphics", package: "ArtGraphics"),
-                .product(name: "ArtGraphicsFeature", package: "ArtGraphics"),
-                .product(name: "ArtNetworkConnectivity", package: "ArtPlatform"),
-                .product(name: "FeatureFlags", package: "ArtPlatform"),
-                .target(name: "ArtCanvasCommon"),
-            ],
-            path: "ArtDesignArea/Sources",
-            swiftSettings: strictConcurrencyFlags + warnSlowTypeCheckFlags
-        ),
-        .testTarget(
-            name: "ArtDesignAreaTests",
-            dependencies: [
-                .target(name: "ArtDesignArea"),
-            ],
-            path: "ArtDesignArea/Tests",
-            swiftSettings: strictConcurrencyFlags + warnSlowTypeCheckFlags
-        ),
-    ],
-    swiftLanguageModes: [.version("6.0")],
-    cLanguageStandard: .c11,
-    cxxLanguageStandard: .cxx17
+    ])
 )
