@@ -229,6 +229,11 @@ public struct PackageInit: ParsableCommand {
         }
         replacements["__PUBSPEC_DART_DEPENDENCIES__"] = join(lines: dartDependencyLines, indent: 2)
 
+        // MARK: CI replacements
+        let ciPreBuildHook = config.ciPreBuildHook ?? "# Build customization can be added here with the `CIPreBuildHook` key in fishy-joes.yaml"
+        let lines = ciPreBuildHook.split(separator: "\n").map(String.init)
+        replacements["__PRE_BUILD_HOOK_YAML__"] = "|" + join(lines: lines, indent: 10)
+
         return replacements
     }
 
@@ -275,7 +280,8 @@ public struct PackageInit: ParsableCommand {
             publishRepository: publishRepository,
             requiredModules: requiredModules.split(separator: " ").map(String.init),
             extraDynamicLibraries: extraDynamicLibraries.split(separator: " ").map(String.init),
-            excludeSources: excludeSources.split(separator: " ").map(String.init)
+            excludeSources: excludeSources.split(separator: " ").map(String.init),
+            ciPreBuildHook: nil
         )
 
         let encoder = YAMLEncoder()

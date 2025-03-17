@@ -8,6 +8,7 @@ struct FishyJoesConfig: Codable {
     let requiredModules: [String]
     let extraDynamicLibraries: [String]
     let excludeSources: [String]
+    let ciPreBuildHook: String?
 
     static func readFromFile(basePath: String) throws -> FishyJoesConfig {
         guard let configData = try? cmd("cat", "\(basePath)/bindings/fishy-joes.yaml").runString() else {
@@ -56,12 +57,19 @@ struct FishyJoesConfig: Codable {
             }
             return list
         }
+        let ciPreBuildHook = try configDictionary["CIPreBuildHook"].map { obj -> String in
+            guard let hook = obj as? String else {
+                throw ValidationError("fishy-joes.yaml value for key `CIPreBuildHook` is not a (string) bash script")
+            }
+            return hook
+        }
         return FishyJoesConfig(
             module: module,
             publishRepository: publishRepository,
             requiredModules: requiredModules ?? [],
             extraDynamicLibraries: extraDynamicLibraries ?? [],
-            excludeSources: excludeSources ?? []
+            excludeSources: excludeSources ?? [],
+            ciPreBuildHook: ciPreBuildHook
         )
     }
 }

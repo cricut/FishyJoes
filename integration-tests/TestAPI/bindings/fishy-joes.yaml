@@ -1,2 +1,6 @@
 ---
 module: TestAPI
+CIPostCheckoutHook: |
+  set -euxo pipefail
+
+  echo "this is the post-checkout hook"
