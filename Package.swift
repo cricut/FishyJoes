@@ -1,7 +1,9 @@
-// swift-tools-version:5.7
+// swift-tools-version:5.10
 
 import Foundation
 import PackageDescription
+
+let strictConcurrencyFlags: [SwiftSetting] = [SwiftSetting.enableUpcomingFeature("StrictConcurrency"), .enableUpcomingFeature("InferSendableFromCaptures")]
 
 let env = ProcessInfo.processInfo.environment
 let disableGeneration = env["DISABLE_GENERATION"] == "1"
@@ -73,24 +75,28 @@ let package = Package(
             dependencies: [
                 .target(name: "JNI"),
                 .target(name: "FishyJoesCommonRuntime"),
-            ]
+            ],
+            swiftSettings: strictConcurrencyFlags
         ),
         T.target(
             name: "JavaRuntimeTestHarness",
             dependencies: [
                 .target(name: "FishyJoesJavaRuntime"),
-            ]
+            ],
+            swiftSettings: strictConcurrencyFlags
         ),
         // C# / Dart
         T.target(
             name: "FishyJoesIotaRuntime",
             dependencies: [
                 .target(name: "FishyJoesCommonRuntime"),
-            ]
+            ],
+            swiftSettings: strictConcurrencyFlags
         ),
         // TypeScript Node.js / Wasm
         T.target(
             name: "NodeAPI",
+            swiftSettings: strictConcurrencyFlags,
             linkerSettings: [
                 // On Windows, node.lib must be in the library path list when building FishyJoes, the runtime, or bindings libraries
                 // Use the EXTRA_LIBPATH environment variable to cause "swift build" to add paths to the library path list when envoked
@@ -112,6 +118,7 @@ let package = Package(
             exclude: [
                 "Templates",
             ],
+            swiftSettings: strictConcurrencyFlags,
             linkerSettings: [
                 .unsafeFlags(
                     // These symbols must be defined by the node process that loads the N-API addon.
@@ -280,7 +287,8 @@ let package = Package(
                 dependencies: [
                     .target(name: "GenerationHelpers"),
                     .product(name: "SourceryRuntime", package: "Sourcery"),
-                ]
+                ],
+                swiftSettings: strictConcurrencyFlags
             ),
             T.executableTarget(
                 name: "FishyJoesExecutionHelper",
@@ -289,13 +297,15 @@ let package = Package(
                 ],
                 resources: [
                     .copy("FishyJoes.swifttemplate"),
-                ]
+                ],
+                swiftSettings: strictConcurrencyFlags
             ),
             T.testTarget(
                 name: "FishyJoesCoreTests",
                 dependencies: [
                     .target(name: "FishyJoesCore"),
-                ]
+                ],
+                swiftSettings: strictConcurrencyFlags
             ),
             T.testTarget(
                 name: "FishyJoesExecuteTests",
@@ -304,13 +314,15 @@ let package = Package(
                 ],
                 resources: [
                     .copy("Resources"),
-                ]
+                ],
+                swiftSettings: strictConcurrencyFlags
             ),
         ]
     ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] : [
         T.executableTarget(
             name: "FishyJoesExecuteMain",
             dependencies: ["FishyJoesExecute"],
+            swiftSettings: strictConcurrencyFlags,
             linkerSettings: [
                 .unsafeFlags(
                     ["-Xlinker", "/IGNORE:4217"],
@@ -332,14 +344,16 @@ let package = Package(
             ],
             resources: [
                 .copy("Resources"),
-            ]
+            ],
+            swiftSettings: strictConcurrencyFlags
         ),
         T.testTarget(
             name: "NAPITests",
             dependencies: [
                 .product(name: "swsh", package: "swsh"),
             ],
-            exclude: ["node-tests"]
+            exclude: ["node-tests"],
+            swiftSettings: strictConcurrencyFlags
         ),
     ])
 )
