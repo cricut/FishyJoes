@@ -358,6 +358,9 @@ extension CodeGen {
                             for module in config.requiredModules {
                                 fragment.output(#".linkedLibrary("\#(module)", .when(platforms: [.macOS, .linux, .windows])),"#)
                             }
+                            for extraLibrary in config.extraDynamicLibraries {
+                                fragment.output(#".linkedLibrary("\#(extraLibrary)", .when(platforms: [.macOS, .linux, .windows])),"#)
+                            }
                         }
                     }
                 }
@@ -385,6 +388,9 @@ extension CodeGen {
                                 for module in config.requiredModules {
                                     fragment.output(#".linkedLibrary("\#(module)"),"#)
                                 }
+                                for extraLibrary in config.extraDynamicLibraries {
+                                    fragment.output(#".linkedLibrary("\#(extraLibrary)"),"#)
+                                }
                             }
                         }
                         fragment.outputBlock(#".target("#, closeWith: "),") {
@@ -400,6 +406,9 @@ extension CodeGen {
                             fragment.outputBlock(#"linkerSettings: ["#, closeWith: #"]"#) {
                                 for module in config.requiredModules {
                                     fragment.output(#".linkedLibrary("\#(module)"),"#)
+                                }
+                                for extraLibrary in config.extraDynamicLibraries {
+                                    fragment.output(#".linkedLibrary("\#(extraLibrary)"),"#)
                                 }
                             }
                         }
