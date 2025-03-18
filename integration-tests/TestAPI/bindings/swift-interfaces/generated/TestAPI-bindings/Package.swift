@@ -1,8 +1,10 @@
-// swift-tools-version:5.7
+// swift-tools-version:5.10
 // BEGIN GENERATED CODE
 
 import PackageDescription
 import Foundation
+
+let strictConcurrencyFlags: [SwiftSetting] = [SwiftSetting.enableExperimentalFeature("StrictConcurrency"), .enableUpcomingFeature("InferSendableFromCaptures")]
 
 let env = ProcessInfo.processInfo.environment
 let wasmCompatibleOnly = env["WASM_ONLY"] == "1"
@@ -58,7 +60,8 @@ var package = Package(
         .target(
             name: "TestAPI_CommonInterface",
             dependencies: [.product(name: "TestAPI", package: "TestAPI")],
-            path: "Sources/CommonInterface"
+            path: "Sources/CommonInterface",
+            swiftSettings: strictConcurrencyFlags
         ),
         .target(
             name: "TestAPI_NodeInterface",
@@ -69,6 +72,7 @@ var package = Package(
             ],
             path: "Sources/NodeInterface",
             resources: [.copy("TestAPI.d.ts.part")],
+            swiftSettings: strictConcurrencyFlags,
             linkerSettings: [
             ]
         ),
@@ -78,7 +82,7 @@ var package = Package(
                 name: "TestAPI_WasmMainShim",
                 dependencies: [.target(name: "TestAPI_NodeInterface")],
                 path: "Sources/WasmMainShim",
-                swiftSettings: [.unsafeFlags(["-warn-concurrency"])]
+                swiftSettings: [.unsafeFlags(["-warn-concurrency"])] + strictConcurrencyFlags
             ),
         ] : [
             .target(
@@ -89,6 +93,7 @@ var package = Package(
                     .product(name: "FishyJoesJavaRuntime", package: "FishyJoes"),
                 ],
                 path: "Sources/JavaInterface",
+                swiftSettings: strictConcurrencyFlags,
                 linkerSettings: [
                 ]
             ),
@@ -100,6 +105,7 @@ var package = Package(
                     .product(name: "FishyJoesIotaRuntime", package: "FishyJoes"),
                 ],
                 path: "Sources/IotaInterface",
+                swiftSettings: strictConcurrencyFlags,
                 linkerSettings: [
                 ]
             ),
