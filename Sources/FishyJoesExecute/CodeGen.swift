@@ -274,7 +274,7 @@ extension CodeGen {
             fragment.output(#"import PackageDescription"#)
             fragment.output(#"import Foundation"#)
             fragment.blankLine()
-            
+
             fragment.output(#"let strictConcurrencyFlags: [SwiftSetting] = [SwiftSetting.enableExperimentalFeature("StrictConcurrency"), .enableUpcomingFeature("InferSendableFromCaptures")]"#)
             fragment.blankLine()
 
