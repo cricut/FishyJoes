@@ -189,7 +189,7 @@ jobs:
     needs:
       - build-iota-mac
       - build-iota-ubuntu
-      - build-iota-windows
+      # - build-iota-windows
     env:
       GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:

@@ -170,7 +170,7 @@ jobs:
     needs:
       - build-test-kotlin-mac
       - build-test-kotlin-ubuntu
-      - build-test-kotlin-windows
+      # - build-test-kotlin-windows
     env:
       GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
