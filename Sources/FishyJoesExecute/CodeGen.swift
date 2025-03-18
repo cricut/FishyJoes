@@ -340,8 +340,8 @@ extension CodeGen {
                     fragment.outputBlock(".target(", closeWith: "),") {
                         fragment.output(#"name: "\#(config.module)_CommonInterface","#)
                         fragment.output(#"dependencies: [.product(name: "\#(config.module)", package: "\#(config.module)")],"#)
-                        fragment.output(#"path: "Sources/CommonInterface""#)
-                        fragment.output(#"swiftSettings: strictConcurrencyFlag"#)
+                        fragment.output(#"path: "Sources/CommonInterface","#)
+                        fragment.output(#"swiftSettings: strictConcurrencyFlags"#)
                     }
                     fragment.outputBlock(#".target("#, closeWith: "),") {
                         fragment.output(#"name: "\#(config.module)_NodeInterface","#)
@@ -353,7 +353,7 @@ extension CodeGen {
                         }
                         fragment.output(#"path: "Sources/NodeInterface","#)
                         fragment.output(#"resources: [.copy("\#(config.module).d.ts.part")],"#)
-                        fragment.output(#"swiftSettings: strictConcurrencyFlag"#)
+                        fragment.output(#"swiftSettings: strictConcurrencyFlags,"#)
                         fragment.outputBlock(#"linkerSettings: ["#, closeWith: #"]"#) {
                             for module in config.requiredModules {
                                 fragment.output(#".linkedLibrary("\#(module)", .when(platforms: [.macOS, .linux, .windows])),"#)
@@ -367,7 +367,7 @@ extension CodeGen {
                             fragment.output(#"name: "\#(config.module)_WasmMainShim","#)
                             fragment.output(#"dependencies: [.target(name: "\#(config.module)_NodeInterface")],"#)
                             fragment.output(#"path: "Sources/WasmMainShim","#)
-                            fragment.output(#"swiftSettings: [.unsafeFlags(["-warn-concurrency"])] + strictConcurrencyFlag"#)
+                            fragment.output(#"swiftSettings: [.unsafeFlags(["-warn-concurrency"])] + strictConcurrencyFlags"#)
                         }
                     }
                     fragment.outputBlock(#" : ["#) {
@@ -380,7 +380,7 @@ extension CodeGen {
                                 fragment.output(#".product(name: "FishyJoesJavaRuntime", package: "FishyJoes"),"#)
                             }
                             fragment.output(#"path: "Sources/JavaInterface","#)
-                            fragment.output(#"swiftSettings: strictConcurrencyFlag"#)
+                            fragment.output(#"swiftSettings: strictConcurrencyFlags,"#)
                             fragment.outputBlock(#"linkerSettings: ["#, closeWith: #"]"#) {
                                 for module in config.requiredModules {
                                     fragment.output(#".linkedLibrary("\#(module)"),"#)
@@ -396,7 +396,7 @@ extension CodeGen {
                                 fragment.output(#".product(name: "FishyJoesIotaRuntime", package: "FishyJoes"),"#)
                             }
                             fragment.output(#"path: "Sources/IotaInterface","#)
-                            fragment.output(#"swiftSettings: strictConcurrencyFlag"#)
+                            fragment.output(#"swiftSettings: strictConcurrencyFlags,"#)
                             fragment.outputBlock(#"linkerSettings: ["#, closeWith: #"]"#) {
                                 for module in config.requiredModules {
                                     fragment.output(#".linkedLibrary("\#(module)"),"#)
