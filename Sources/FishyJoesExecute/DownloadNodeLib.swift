@@ -3,6 +3,7 @@ import Foundation
 import swsh
 
 public struct DownloadNodeLib: ParsableCommand {
+    // CommandConfiguration is from swift-argument-parser and is not marked as Sendable. swift-argument-parser is tied to swift-package-manager exact version in Sourcery dependencies.
     public static var configuration = CommandConfiguration(abstract: "download node.lib for use in compiling the NodeAPI target on Windows")
 
     @Option(name: .long, help: "location of the node lib to download")
