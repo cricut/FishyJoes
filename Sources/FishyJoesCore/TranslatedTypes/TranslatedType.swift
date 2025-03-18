@@ -197,6 +197,7 @@ enum ForeignSetupParameter<Typ> {
 
 extension Type {
     // Used both for efficiency and to break cycles
+    // Type is not Sendable because it is not a final class
     fileprivate static var inhabitedCache: [Type: Bool] = [:]
     var isInhabited: Bool {
         if let inhabited = Type.inhabitedCache[self] { return inhabited }
