@@ -235,7 +235,7 @@ jobs:
           set -euxo pipefail
 
           rm -rf bindings/dart/generated/{macos,linux,windows}/native
-          mkdir -p bindings/dart/generated/{macos,linux,windows}/native
+          # mkdir -p bindings/dart/generated/{macos,linux,windows}/native
           mv mac_lib bindings/dart/generated/macos/native
           mv ubuntu_lib bindings/dart/generated/linux/native
           mv windows_lib bindings/dart/generated/windows/native || true
