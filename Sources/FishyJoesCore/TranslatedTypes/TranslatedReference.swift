@@ -187,7 +187,21 @@ struct TranslatedReference: TranslatedType {
         )
 
         fragment.outputBlock("extension \(sourceType.name): FishyJoesJavaRuntime.JavaMutator {") {
-            fragment.output("public static var javaClass: jclass?")
+            fragment.outputBlock("public static private(set) var javaClass: jclass? {") {
+                fragment.outputBlock("get {") {
+                    fragment.output("_javaClassLock.lock()")
+                    fragment.output("defer { _javaClassLock.unlock() }")
+                    fragment.output("return _javaClass")
+                }
+                fragment.outputBlock("set {") {
+                    fragment.output("_javaClassLock.lock()")
+                    fragment.output("defer { _javaClassLock.unlock() }")
+                    fragment.output("_javaClass = newValue")
+                }
+            }
+            fragment.output("nonisolated(unsafe) private static var _javaClass: jclass?")
+            fragment.output("private static let _javaClassLock = NSRecursiveLock()")
+            fragment.blankLine()
             fragment.output("nonisolated(unsafe) private static var _constructorMethodIDBox = AtomicBox<jmethodID?>(nil)")
 
             fragment.outputBlock("public static func fromJava(_ value: jobject?, env: Env) throws -> \(sourceType.name) {") {
@@ -195,11 +209,13 @@ struct TranslatedReference: TranslatedType {
             }
 
             fragment.outputBlock("public static func toJava(_ value: \(sourceType.name), env: Env) throws -> jobject? {") {
+                fragment.output("_javaClassLock.lock()")
+                fragment.output("defer { _javaClassLock.unlock() }")
                 if !isInhabited {
                     fragment.output("// Uninhabited type")
                 } else {
                     fragment.output("let ptr = jvalue(pointer: Box(value).retainedOpaque())")
-                    fragment.output("return try env.NewObject(javaClass, _constructorMethodIDBox.value!, ptr)")
+                    fragment.output("return try env.NewObject(_javaClass, _constructorMethodIDBox.value!, ptr)")
                 }
             }
 
@@ -208,10 +224,12 @@ struct TranslatedReference: TranslatedType {
             }
 
             fragment.outputBlock("public static func javaSetup(env: Env) throws {") {
-                fragment.output("guard javaClass == nil else { return }")
+                fragment.output("_javaClassLock.lock()")
+                fragment.output("defer { _javaClassLock.unlock() }")
+                fragment.output("guard _javaClass == nil else { return }")
                 fragment.output("try AnyBox.javaSetup(env: env)")
-                fragment.output("javaClass = try env.globalRef(env.FindClass(\"\(className)\"))")
-                fragment.output("_constructorMethodIDBox.value = try env.GetMethodID(javaClass, \"<init>\", \"(J)V\")")
+                fragment.output("_javaClass = try env.globalRef(env.FindClass(\"\(className)\"))")
+                fragment.output("_constructorMethodIDBox.value = try env.GetMethodID(_javaClass, \"<init>\", \"(J)V\")")
             }
 
             fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout \(sourceType.name)) throws -> R) throws -> R {") {
