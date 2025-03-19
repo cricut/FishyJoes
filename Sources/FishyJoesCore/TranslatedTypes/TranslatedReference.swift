@@ -183,12 +183,12 @@ struct TranslatedReference: TranslatedType {
     func jniDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
             "JavaInterface/\(sourceType.name)+java-type.swift",
-            additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
+            additionalImports: ["Foundation", "FishyJoesCommonRuntime", "FishyJoesJavaRuntime"]
         )
 
         fragment.outputBlock("extension \(sourceType.name): FishyJoesJavaRuntime.JavaMutator {") {
             fragment.output("public static var javaClass: jclass?")
-            fragment.output("private static var _constructorMethodID: jmethodID!")
+            fragment.output("nonisolated(unsafe) private static var _constructorMethodIDBox = AtomicBox<jmethodID?>(nil)")
 
             fragment.outputBlock("public static func fromJava(_ value: jobject?, env: Env) throws -> \(sourceType.name) {") {
                 fragment.output("try Box<\(sourceType.name)>.fromJava(value, env: env).value")
@@ -199,7 +199,7 @@ struct TranslatedReference: TranslatedType {
                     fragment.output("// Uninhabited type")
                 } else {
                     fragment.output("let ptr = jvalue(pointer: Box(value).retainedOpaque())")
-                    fragment.output("return try env.NewObject(javaClass, _constructorMethodID, ptr)")
+                    fragment.output("return try env.NewObject(javaClass, _constructorMethodIDBox.value!, ptr)")
                 }
             }
 
@@ -211,7 +211,7 @@ struct TranslatedReference: TranslatedType {
                 fragment.output("guard javaClass == nil else { return }")
                 fragment.output("try AnyBox.javaSetup(env: env)")
                 fragment.output("javaClass = try env.globalRef(env.FindClass(\"\(className)\"))")
-                fragment.output("_constructorMethodID = try env.GetMethodID(javaClass, \"<init>\", \"(J)V\")")
+                fragment.output("_constructorMethodID.value = try env.GetMethodID(javaClass, \"<init>\", \"(J)V\")")
             }
 
             fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout \(sourceType.name)) throws -> R) throws -> R {") {
