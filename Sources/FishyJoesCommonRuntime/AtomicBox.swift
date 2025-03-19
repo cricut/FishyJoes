@@ -38,7 +38,7 @@ extension AtomicBox: @unchecked Sendable where T: Sendable {}
 /// The speed is about the same as with inline locks and accessors in RELEASE scheme, which has compiler optimizations turned on. In DEBUG mode, which has compiler optimizations turned off, AtomicBox is significantly slower than inline locks and accessors, but not so much that it is a huge unit test slowness burden. Since Apple heavily discourages testing in Release mode, as we must use unsafe flags to enable testability in Release mode, this is a tradeoff that was deemed acceptable.
 ///
 /// _read/_modify, though officially undocumented, was found to be significantly faster than using get/set during tests because they allow direct access to values without copies. https://github.com/swiftlang/swift/blob/main/docs/OwnershipManifesto.md#generalized-accessors
-public final class LazyAtomicBox<T: Sendable>: @unchecked Sendable {
+public final class LazyAtomicBox<T> {
     private var _value: T?
     private let _lock = NSRecursiveLock()
     private var lazyInit: (() -> T)?
@@ -74,3 +74,5 @@ public final class LazyAtomicBox<T: Sendable>: @unchecked Sendable {
         }
     }
 }
+
+extension LazyAtomicBox: @unchecked Sendable where T: Sendable {}
