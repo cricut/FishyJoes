@@ -27,6 +27,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
       - name: Setup Git Credentials
         uses: de-vri-es/setup-git-credentials@v2
@@ -41,6 +44,11 @@ jobs:
           owner: cricut-builduser
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
+
+      - name: Pre-build hook
+        shell: bash
+        run: |
+          # Build customization can be added here with the `CIPreBuildHook` key in fishy-joes.yaml
 
       - name: Build library
         shell: zsh {0}
@@ -73,6 +81,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
       - name: Setup Git Credentials
         uses: de-vri-es/setup-git-credentials@v2
@@ -87,6 +98,11 @@ jobs:
           owner: cricut-builduser
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
+
+      - name: Pre-build hook
+        shell: bash
+        run: |
+          # Build customization can be added here with the `CIPreBuildHook` key in fishy-joes.yaml
 
       - name: Build library
         shell: zsh {0}
@@ -127,6 +143,9 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
       - name: Setup Git Credentials
         uses: de-vri-es/setup-git-credentials@v2
@@ -181,6 +200,11 @@ jobs:
           swift package resolve
           echo SWIFT_WINDOWS_BASH=".build/checkouts/FishyJoes/scripts/swift-shim.ps1" >> $env:GITHUB_ENV
 
+      - name: Pre-build hook
+        shell: bash
+        run: |
+          # Build customization can be added here with the `CIPreBuildHook` key in fishy-joes.yaml
+
       - name: Build library
         shell: bash
         run: |
@@ -213,6 +237,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
       - name: Setup Git Credentials
         uses: de-vri-es/setup-git-credentials@v2

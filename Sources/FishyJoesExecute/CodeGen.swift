@@ -267,12 +267,15 @@ extension CodeGen {
                 }
             }
 
-            fragment.output(#"// swift-tools-version:5.7"#)
+            fragment.output(#"// swift-tools-version:5.10"#)
             fragment.output(#"// BEGIN GENERATED CODE"#)
             fragment.blankLine()
 
             fragment.output(#"import PackageDescription"#)
             fragment.output(#"import Foundation"#)
+            fragment.blankLine()
+
+            fragment.output(#"let strictConcurrencyFlags: [SwiftSetting] = [SwiftSetting.enableExperimentalFeature("StrictConcurrency"), .enableUpcomingFeature("InferSendableFromCaptures")]"#)
             fragment.blankLine()
 
             fragment.output(#"let env = ProcessInfo.processInfo.environment"#)
@@ -337,7 +340,8 @@ extension CodeGen {
                     fragment.outputBlock(".target(", closeWith: "),") {
                         fragment.output(#"name: "\#(config.module)_CommonInterface","#)
                         fragment.output(#"dependencies: [.product(name: "\#(config.module)", package: "\#(config.module)")],"#)
-                        fragment.output(#"path: "Sources/CommonInterface""#)
+                        fragment.output(#"path: "Sources/CommonInterface","#)
+                        fragment.output(#"swiftSettings: strictConcurrencyFlags"#)
                     }
                     fragment.outputBlock(#".target("#, closeWith: "),") {
                         fragment.output(#"name: "\#(config.module)_NodeInterface","#)
@@ -349,9 +353,13 @@ extension CodeGen {
                         }
                         fragment.output(#"path: "Sources/NodeInterface","#)
                         fragment.output(#"resources: [.copy("\#(config.module).d.ts.part")],"#)
+                        fragment.output(#"swiftSettings: strictConcurrencyFlags,"#)
                         fragment.outputBlock(#"linkerSettings: ["#, closeWith: #"]"#) {
                             for module in config.requiredModules {
                                 fragment.output(#".linkedLibrary("\#(module)", .when(platforms: [.macOS, .linux, .windows])),"#)
+                            }
+                            for extraLibrary in config.extraDynamicLibraries {
+                                fragment.output(#".linkedLibrary("\#(extraLibrary)", .when(platforms: [.macOS, .linux, .windows])),"#)
                             }
                         }
                     }
@@ -362,7 +370,7 @@ extension CodeGen {
                             fragment.output(#"name: "\#(config.module)_WasmMainShim","#)
                             fragment.output(#"dependencies: [.target(name: "\#(config.module)_NodeInterface")],"#)
                             fragment.output(#"path: "Sources/WasmMainShim","#)
-                            fragment.output(#"swiftSettings: [.unsafeFlags(["-warn-concurrency"])]"#)
+                            fragment.output(#"swiftSettings: [.unsafeFlags(["-warn-concurrency"])] + strictConcurrencyFlags"#)
                         }
                     }
                     fragment.outputBlock(#" : ["#) {
@@ -375,9 +383,13 @@ extension CodeGen {
                                 fragment.output(#".product(name: "FishyJoesJavaRuntime", package: "FishyJoes"),"#)
                             }
                             fragment.output(#"path: "Sources/JavaInterface","#)
+                            fragment.output(#"swiftSettings: strictConcurrencyFlags,"#)
                             fragment.outputBlock(#"linkerSettings: ["#, closeWith: #"]"#) {
                                 for module in config.requiredModules {
                                     fragment.output(#".linkedLibrary("\#(module)"),"#)
+                                }
+                                for extraLibrary in config.extraDynamicLibraries {
+                                    fragment.output(#".linkedLibrary("\#(extraLibrary)"),"#)
                                 }
                             }
                         }
@@ -390,9 +402,13 @@ extension CodeGen {
                                 fragment.output(#".product(name: "FishyJoesIotaRuntime", package: "FishyJoes"),"#)
                             }
                             fragment.output(#"path: "Sources/IotaInterface","#)
+                            fragment.output(#"swiftSettings: strictConcurrencyFlags,"#)
                             fragment.outputBlock(#"linkerSettings: ["#, closeWith: #"]"#) {
                                 for module in config.requiredModules {
                                     fragment.output(#".linkedLibrary("\#(module)"),"#)
+                                }
+                                for extraLibrary in config.extraDynamicLibraries {
+                                    fragment.output(#".linkedLibrary("\#(extraLibrary)"),"#)
                                 }
                             }
                         }

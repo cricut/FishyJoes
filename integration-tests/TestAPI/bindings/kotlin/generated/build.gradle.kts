@@ -62,6 +62,11 @@ publishing {
 
             from(components["java"])
             artifact(sourcesJar.get())
+
+            pom {
+                name.set("TestAPI")
+                url.set("https://__BINDINGS_REPO__")
+            }
         }
     }
 }
