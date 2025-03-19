@@ -208,7 +208,7 @@ struct TranslatedStruct: TranslatedType {
             for storedVar in storedVariables {
                 fragment.output("private static var _java_\(storedVar.name)_id: jfieldID!")
             }
-            fragment.output("private static var _constructorMethodID: jmethodID!")
+            fragment.output("private static var _constructorMethodIDBox = AtomicBox<jmethodID?>(nil)")
 
             fragment.outputBlock("public static func fromJava(_ value: jobject?, env: Env) throws -> Self {") {
                 fragment.outputBlock("Self(") {
@@ -228,7 +228,7 @@ struct TranslatedStruct: TranslatedType {
                 fragment.outputBlock("try env.NewObject(") {
                     let args = [
                         "Self.javaClass",
-                        "Self._constructorMethodID",
+                        "Self._constructorMethodIDBox.value!",
                     ] + storedVariables.map { storedVar in
                         let resolved = context.resolve(type: storedVar.type)
                         return "jvalue(\(resolved.converterType.name).toJava(value.\(storedVar.name), env: env))"
@@ -246,7 +246,7 @@ struct TranslatedStruct: TranslatedType {
                     fragment.output("_java_\(storedVar.name)_id = try env.GetFieldID(javaClass, \"\(storedVar.name)\", \"\(resolved.jniType.asSignature)\")")
                     constructorDescriptor += resolved.jniType.asSignature
                 }
-                fragment.output("_constructorMethodID = try env.GetMethodID(javaClass, \"<init>\", \"(\(constructorDescriptor))V\")")
+                fragment.output("_constructorMethodIDBox.value = try env.GetMethodID(javaClass, \"<init>\", \"(\(constructorDescriptor))V\")")
             }
 
             fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout Self) throws -> R) throws -> R {") {
