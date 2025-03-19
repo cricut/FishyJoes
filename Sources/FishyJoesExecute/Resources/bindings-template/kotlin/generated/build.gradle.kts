@@ -73,6 +73,7 @@ publishing {
 
 sourceSets.test {
     java.srcDir("../src/test/kotlin")
+    resources.srcDir("../src/test/resources")
 }
 
 tasks.test {
