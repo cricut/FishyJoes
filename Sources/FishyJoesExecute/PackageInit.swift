@@ -157,9 +157,12 @@ public struct PackageInit: ParsableCommand {
         ] + config.requiredModules.map {
             (swift: $0, groupId: "com.cricut.\($0)", artifactId: $0.lowercased())
         }
-        let gradleDependencyLines = gradleDependencies.map {
-            let version = swiftPackage?.dependencyMap[$0.swift]?.versionInGradleFormat ?? "local"
-            return "api(\"\($0.groupId):\($0.artifactId):\(version)\")"
+        let gradleDependencyLines = gradleDependencies.map { dependency in
+            let resolved = swiftPackageResolved?.state(for: dependency.swift)
+            var version = resolved?.version ?? resolved?.branch ?? resolved?.revision ?? "local"
+            // Convert anything like "user/branch" into things gradle can parse, even if it probably won't find a release by that name
+            version = version.replacingOccurrences(of: "/", with: "-")
+            return "api(\"\(dependency.groupId):\(dependency.artifactId):\(version)\")"
         }
         replacements["__GRADLE_DEPENDENCIES__"] = join(lines: gradleDependencyLines, indent: 4)
 

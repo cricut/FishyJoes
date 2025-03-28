@@ -103,29 +103,32 @@ extension SwiftPackage.Dependency {
         return url.scheme == "file" || url.scheme == nil ? url.path : ".build/checkouts/\(url.lastPathComponent)"
     }
 
-    var versionInGradleFormat: String {
-        // https://docs.gradle.org/current/userguide/single_versions.html
-        let spec: String
-        switch self {
-        case .sourceControl(_, _, .branch(let name)):
-            spec = name
-        case .sourceControl(_, _, .revision(let name)):
-            spec = name
-        case .sourceControl(_, _, .upToNextMajor(let baseVersion)):
-            spec = "[\(baseVersion),\(baseVersion.nextMajor))"
-        case .sourceControl(_, _, .upToNextMinor(let baseVersion)):
-            spec = "[\(baseVersion),\(baseVersion.nextMinor))"
-        case .sourceControl(_, _, .range(let lowerBound, let upperBound)):
-            spec = "[\(lowerBound),\(upperBound))"
-        case .sourceControl(_, _, .exact(let version)):
-            spec = version.versionString
-        case .fileSystem:
-            spec = "local"
-        }
+    // Currently unused, kotlin is pinned to an exact version
+    // TODO: figure out how to use gradle version ranges. The solver may not be good enough for this to work properly.
+    // See for example: https://github.com/gradle/gradle/issues/8126
+    // var versionInGradleFormat: String {
+    //     // https://docs.gradle.org/current/userguide/single_versions.html
+    //     let spec: String
+    //     switch self {
+    //     case .sourceControl(_, _, .branch(let name)):
+    //         spec = name
+    //     case .sourceControl(_, _, .revision(let name)):
+    //         spec = name
+    //     case .sourceControl(_, _, .upToNextMajor(let baseVersion)):
+    //         spec = "[\(baseVersion),\(baseVersion.nextMajor))"
+    //     case .sourceControl(_, _, .upToNextMinor(let baseVersion)):
+    //         spec = "[\(baseVersion),\(baseVersion.nextMinor))"
+    //     case .sourceControl(_, _, .range(let lowerBound, let upperBound)):
+    //         spec = "[\(lowerBound),\(upperBound))"
+    //     case .sourceControl(_, _, .exact(let version)):
+    //         spec = version.versionString
+    //     case .fileSystem:
+    //         spec = "local"
+    //     }
 
-        // Convert anything like "user/branch" into things gradle can parse, even if it probably won't find a release by that name
-        return spec.replacingOccurrences(of: "/", with: "-")
-    }
+    //     // Convert anything like "user/branch" into things gradle can parse, even if it probably won't find a release by that name
+    //     return spec.replacingOccurrences(of: "/", with: "-")
+    // }
 
     var versionInNugetFormat: String? {
         // https://learn.microsoft.com/en-us/nuget/concepts/package-versioning

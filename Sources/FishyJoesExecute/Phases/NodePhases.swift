@@ -280,8 +280,15 @@ class NodePhases: BasePhases, Phases {
         // Generate the package.json file
         let packageVersion = options.version ?? "0.0.1" // If no version is provided, use a dummy version to build the package
         var npmDependencies: [String: String] = [:]
-        for dependency in nodeDependencies {
-            npmDependencies["@cricut/\(dependency.npmPackageName)"] = dependency.npmModuleVersion
+        if platform == .node {
+            for dependency in nodeDependencies {
+                npmDependencies["@cricut/\(dependency.npmPackageName)"] = dependency.npmModuleVersion
+            }
+        } else if platform == .wasm {
+            npmDependencies["@wasmer/wasi"] = "^0.12.0"
+            npmDependencies["@wasmer/wasmfs"] = "^0.12.0"
+        } else {
+            preconditionFailure("unexpected platform \(platform)")
         }
         var package = NPMPackage(
             config: options.config,
