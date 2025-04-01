@@ -13,6 +13,5 @@
   "types" : "Runtime.d.ts",
   "type" : "module",
   "dependencies" : {
-    "buffer" : "^5.7.1"
   }
 }

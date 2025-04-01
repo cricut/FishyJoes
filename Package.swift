@@ -4,7 +4,8 @@
 import Foundation
 import PackageDescription
 
-let strictConcurrencyFlags: [SwiftSetting] = [SwiftSetting.enableExperimentalFeature("StrictConcurrency"), .enableUpcomingFeature("InferSendableFromCaptures")]
+let strictConcurrencyFlags: [SwiftSetting] = []
+// [.enableExperimentalFeature("StrictConcurrency"), .enableUpcomingFeature("InferSendableFromCaptures")]
 
 let env = ProcessInfo.processInfo.environment
 let disableGeneration = env["DISABLE_GENERATION"] == "1"
