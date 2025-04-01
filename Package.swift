@@ -57,7 +57,7 @@ let package = Package(
     dependencies: generationEnabled(
         [
             D.package(
-                url: "https://github.com/krzysztofzablocki/Sourcery", revision: "2.2.5"
+                url: "https://github.com/cricut/Sourcery", branch: "wasm-compatible"
             ),
         ]
     ) + wasmIncompatible(
