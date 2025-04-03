@@ -1,4 +1,3 @@
-// TODO: ensure no intermidiatae build folders are inside a "generated" directory
 CriGeo/bindings/
 ├── fishy-joes.yaml
 ├── swift-interfaces/
@@ -35,7 +34,7 @@ CriGeo/bindings/
 │       ├── package.override.json
 │       ├── package.json -> generated/package.generated.json
 │       ├── test.ts
-│       ├── tsconfig.json // '{ "extends": "./generated/tsconfig.json" }'
+│       ├── tsconfig.json    // '{ "extends": "./generated/tsconfig.json" }'
 │       └── generated/
 │           ├── CriGeo.d.ts
 │           ├── jest.config.common.cjs
@@ -60,12 +59,16 @@ CriGeo/bindings/
 │   └── nupkgs/
 │       └── Cricut.CriGeo.0.0.1-unknown.nupkg
 ├── dart/
+│   ├── pubspec.override.yaml
+│   ├── flutter-pubspec.override.yaml
 │   ├── generated/
 │   │   ├── lib/
 │   │   │   └── crigeo.dart
 │   │   ├── test -> ../test
 │   │   ├── pubspec.yaml
-│   │   ├── npm_flutter_pubspec.yaml
+│   │   ├── flutter-package/    // This directory is not committed to git
+│   │   │   ├── package.json
+│   │   │   └── pubspec.yaml
 │   │   ├── linux/CMakeLists.txt
 │   │   ├── macos/cricut_crigeo.podspec
 │   │   └── windows/CMakeLists.txt

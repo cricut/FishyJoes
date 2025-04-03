@@ -206,37 +206,6 @@ public struct PackageInit: ParsableCommand {
         }()
         replacements["__CSPROJ_DEPENDENCIES__"] = join(lines: csProjDependencyLines, indent: 2)
 
-        // MARK: dart replacements
-        let dartDependencies = [
-            (swift: "FishyJoes", dart: "fishyjoes_dart", path: "dart-runtime", flutter: "flutter-fishyjoes-runtime")
-        ] + config.requiredModules.map {
-            (swift: $0, dart: "cricut_\($0.lowercased())", path: "bindings/dart/generated", flutter: "flutter-cricut_\($0.lowercased())")
-        }
-        let dartDependencyLines = dartDependencies.flatMap {
-            guard let dependency = swiftPackage?.dependencyMap[$0.swift] else {
-                return [
-                    "\($0.dart):",
-                    "  path: DEPENDENCY_NOT_FOUND",
-                ]
-            }
-            var lines = ["\($0.dart):"]
-            if let resolvedState = swiftPackageResolved?.state(for: $0.swift) {
-                lines.append(
-                    contentsOf: [
-                        #"  git:"#,
-                        #"    url: "https://github.com/cricut/\#($0.swift).git""#,
-                        #"    ref: "\#(resolvedState.version ?? resolvedState.branch ?? resolvedState.revision)""#,
-                        #"    path: "\#($0.path)""#,
-                    ]
-                )
-            } else {
-                let dependencyPath = relativePath(of: dependency.localPath, relativeTo: "bindings/dart/generated")
-                lines.append("  path: \(dependencyPath)/\($0.path)")
-            }
-            return lines
-        }
-        replacements["__PUBSPEC_DART_DEPENDENCIES__"] = join(lines: dartDependencyLines, indent: 2)
-
         // MARK: CI replacements
         let ciPreBuildHook = config.ciPreBuildHook ?? "# Build customization can be added here with the `CIPreBuildHook` key in fishy-joes.yaml"
         let lines = ciPreBuildHook.split(separator: "\n").map(String.init)
