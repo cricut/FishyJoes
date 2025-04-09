@@ -1,0 +1,26 @@
+{
+  "name": "@cricut/testapi-native-ubuntu",
+  "version": "0.0.1",
+  "description": "TypeScript bindings for TestAPI on node-native-ubuntu",
+  "type": "module",
+  "types": "TestAPI.d.ts",
+  "main": "TestAPI.js",
+  "dependencies": {
+    "@cricut/fishyjoes-runtime-native-ubuntu": "file:/Users/acobb/src/FishyJoes/node-runtime/fishyjoes-runtime-native-ubuntu"
+  },
+  "scripts": {
+    "postinstall": "./postinstall.native-ubuntu.sh"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "repository": {
+    "directory": "packages",
+    "type": "git",
+    "url": "ssh://git@__BINDINGS_REPO__.git"
+  },
+  "this should appear in": [
+    "the generated package.PLATFORM.json files",
+    true
+  ]
+}

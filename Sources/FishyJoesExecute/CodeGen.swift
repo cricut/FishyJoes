@@ -217,6 +217,9 @@ extension CodeGen {
         // "bindings/swift-interfaces/generated/\(config.module)-bindings"
         let swiftBindingsRoot = buildConfig.packagePath
 
+        // Whenever any code generation takes place, generate for every language and platform
+        let generationPhases: [any Phases] = Platform.allCases.map(phases(for:))
+
         // MARK: - Generate Step
         if buildStep.contains(.generate) {
             #if os(Windows)
@@ -479,8 +482,9 @@ extension CodeGen {
 
             try errorReporter.succeed()
 
-            let packageInit = PackageInit(
+            let packageInit = try PackageInit(
                 config: config,
+                phasesList: generationPhases,
                 swiftPackage: packageInfo,
                 swiftPackageResolved: packageResolved,
                 includeFilesNotMarkedAsGenerated: false
@@ -501,36 +505,38 @@ extension CodeGen {
 
         // MARK: - Build Step
 
-        let allPhases = platforms.map { platform -> any Phases in
-            switch platform {
-            case .wasm, .node:
-                return NodePhases(platform: platform, options: self)
-            case .kotlinSystem, .kotlinAndroid:
-                return KotlinPhases(platform: platform, options: self)
-            case .cSharp:
-                return CSharpPhases(platform: platform, options: self)
-            case .dart:
-                return DartPhases(platform: platform, options: self)
-            }
-        }
+        let allBuildPhases = platforms.map(phases(for:))
 
         if buildStep.contains(.build) {
-            try allPhases.forEach { try $0.preBuildPhase() }
-            try allPhases.forEach { try $0.buildSwiftPhase() }
-            try allPhases.forEach { try $0.preInstallPhase() }
-            try allPhases.forEach { try $0.installPhase() }
-            try allPhases.forEach { try $0.compileHostLanguagePhase() }
+            try allBuildPhases.forEach { try $0.preBuildPhase() }
+            try allBuildPhases.forEach { try $0.buildSwiftPhase() }
+            try allBuildPhases.forEach { try $0.preInstallPhase() }
+            try allBuildPhases.forEach { try $0.installPhase() }
+            try allBuildPhases.forEach { try $0.compileHostLanguagePhase() }
         }
 
         // MARK: - Test Step
         if buildStep.contains(.test) {
-            try allPhases.forEach { try $0.preTestPhase() }
-            try allPhases.forEach { try $0.testPhase() }
+            try allBuildPhases.forEach { try $0.preTestPhase() }
+            try allBuildPhases.forEach { try $0.testPhase() }
         }
 
         // MARK: - Pack Step
         if buildStep.contains(.pack) {
-            try allPhases.forEach { try $0.packPhase() }
+            try allBuildPhases.forEach { try $0.packPhase() }
+        }
+    }
+
+    func phases(for platform: Platform) -> any Phases {
+        switch platform {
+        case .wasm, .node:
+            return NodePhases(platform: platform, options: self)
+        case .kotlinSystem, .kotlinAndroid:
+            return KotlinPhases(platform: platform, options: self)
+        case .cSharp:
+            return CSharpPhases(platform: platform, options: self)
+        case .dart:
+            return DartPhases(platform: platform, options: self)
         }
     }
 }

@@ -1,0 +1,26 @@
+{
+  "name": "@cricut/testapi-native-windows",
+  "version": "0.0.1",
+  "description": "TypeScript bindings for TestAPI on node-native-windows",
+  "type": "module",
+  "types": "TestAPI.d.ts",
+  "main": "TestAPI.js",
+  "dependencies": {
+    "@cricut/fishyjoes-runtime-native-windows": "file:/Users/acobb/src/FishyJoes/node-runtime/fishyjoes-runtime-native-windows"
+  },
+  "scripts": {
+    "postinstall": "postinstall.native-windows.cmd"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "repository": {
+    "directory": "packages",
+    "type": "git",
+    "url": "ssh://git@__BINDINGS_REPO__.git"
+  },
+  "this should appear in": [
+    "the generated package.PLATFORM.json files",
+    true
+  ]
+}

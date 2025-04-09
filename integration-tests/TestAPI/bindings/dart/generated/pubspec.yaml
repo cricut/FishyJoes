@@ -1,6 +1,6 @@
 name: cricut_testapi
 description: "A Dart wrapper for TestAPI"
-version: 0.0.1
+version: "0.0.1-unknown"
 environment:
   sdk: '>=3.1.5 <4.0.0'
 dependencies:

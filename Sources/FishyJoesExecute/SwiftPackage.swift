@@ -168,7 +168,7 @@ extension SwiftPackage.Dependency {
         case .sourceControl(_, _, .exact(let version)):
             return version.versionString
         case .fileSystem:
-            return "file:\(localPath)\(addIfLocalPath)"
+            return "file:\(localPath)/\(addIfLocalPath)"
         }
     }
 

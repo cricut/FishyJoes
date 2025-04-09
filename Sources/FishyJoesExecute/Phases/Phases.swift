@@ -2,6 +2,8 @@ import Foundation
 import swsh
 
 protocol Phases {
+    func generationPhaseTemplateReplacements() throws -> [String: String]
+
     // Build phases
     func preBuildPhase() throws
     func buildSwiftPhase() throws

@@ -272,3 +272,7 @@ func relativePath(of targetPath: String, relativeTo sourcePath: String) -> Strin
     }
     return (sourceComponents.map { _ in ".." } + targetComponents).joined(separator: "/")
 }
+
+func join(lines: [String], indent: Int) -> String {
+    lines.map { "\n\(String(repeating: " ", count: indent))\($0)" }.joined()
+}

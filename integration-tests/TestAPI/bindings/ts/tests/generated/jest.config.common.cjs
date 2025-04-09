@@ -12,10 +12,6 @@ module.exports = {
   modulePaths: [
     "<rootDir>/node_modules",
   ],
-  moduleNameMapper: {
-    "^@wasmer/wasi$": "<rootDir>/node_modules/@wasmer/wasi",
-    "^@wasmer/wasmfs$": "<rootDir>/node_modules/@wasmer/wasmfs",
-  },
   transformIgnorePatterns: [
     "node_modules",
   ],
