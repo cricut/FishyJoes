@@ -1,0 +1,7 @@
+{
+  "version" : "0.0.1",
+  "name" : "@cricut/flutter-__LOWERCASE_MODULE_NAME__",
+  "dependencies" : {
+    __NPM_FLUTTER_DEPENDENCIES__
+  }
+}

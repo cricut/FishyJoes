@@ -9,14 +9,16 @@ class DartPhases: IotaPhases, Phases {
                 swift: "FishyJoes",
                 path: "dart-runtime",
                 dart: "fishyjoes_dart",
-                npm: "flutter-fishyjoes-runtime"
+                npm: "flutter-fishyjoes-runtime",
+                npmSubPath: "dart-runtime/flutter-package"
             )
         ] + options.config.requiredModules.map {
             (
                 swift: $0,
                 path: "bindings/dart/generated",
                 dart: "cricut_\($0.lowercased())",
-                npm: "flutter-cricut_\($0.lowercased())"
+                npm: "flutter-cricut_\($0.lowercased())",
+                npmSubPath: "bindings/dart/generated/flutter-package"
             )
         }
 
@@ -49,9 +51,17 @@ class DartPhases: IotaPhases, Phases {
             ]
         }
 
+        let npmFlutterDependencyLines = dartDependencies.map { dependency in
+            let version = options.packageInfo?.dependencyMap[dependency.swift]?
+                .versionInNpmFormat(addIfLocalPath: dependency.npmSubPath)
+                ?? "0.0.1-unknown"
+            return #""@cricut/\#(dependency.npm)": "\#(version)""#
+        }
+
         return [
             "__PUBSPEC_DART_DEPENDENCIES__": join(lines: pureDartDependencyLines, indent: 2),
             "__PUBSPEC_FLUTTER_DEPENDENCIES__": join(lines: flutterDependencyLines, indent: 2),
+            "__NPM_FLUTTER_DEPENDENCIES__": npmFlutterDependencyLines.joined(separator: ",\n    ")
         ]
     }
 
@@ -117,7 +127,7 @@ class DartPhases: IotaPhases, Phases {
             try cmd("mkdir", "-p", "generated/flutter-package/windows/native").run()
 
             try cmd("yq", ".version = strenv(VERSION)", addEnv: ["VERSION": options.version ?? "0.0.1-unknown"])
-                .input(fromFile: "generated/npm_flutter_pubspec.yaml")
+                .input(fromFile: "generated/flutter-pubspec.yaml")
                 .output(overwritingFile: "generated/flutter-package/pubspec.yaml")
                 .run()
 

@@ -66,6 +66,8 @@ CriGeo/bindings/
 │   │   │   └── crigeo.dart
 │   │   ├── test -> ../test
 │   │   ├── pubspec.yaml
+│   │   ├── flutter-pubspec.yaml
+│   │   ├── flutter-package.json
 │   │   ├── flutter-package/    // This directory is not committed to git
 │   │   │   ├── package.json
 │   │   │   └── pubspec.yaml

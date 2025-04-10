@@ -95,7 +95,7 @@ public struct PackageInit: ParsableCommand {
         // Mapping from paths of customizable files to the path of the override file
         let overridablePaths = [
             "./dart/generated/pubspec.yaml": "bindings/dart/pubspec.override.yaml",
-            "./dart/generated/npm_flutter_pubspec.yaml": "bindings/dart/npm_flutter_pubspec.override.yaml",
+            "./dart/generated/flutter-pubspec.yaml": "bindings/dart/flutter-pubspec.override.yaml",
             "./ts/generated/package.wasm.json": "bindings/ts/package.override.json",
             "./ts/generated/package.native-macos.json": "bindings/ts/package.override.json",
             "./ts/generated/package.native-ubuntu.json": "bindings/ts/package.override.json",
