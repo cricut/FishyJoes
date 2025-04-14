@@ -16,6 +16,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
+  NODE_AUTH_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
   GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
   GITHUB_USER: cricut-builduser
   FISHYJOES: 1
@@ -31,12 +32,24 @@ jobs:
           submodules: recursive
           token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
-      - name: Setup Git Credentials
+      - name: Setup git credentials
         uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - uses: dart-lang/setup-dart@v1
+
+      - name: Install generation tools
+        shell: zsh {0}
+        run: |
+          yq --version || brew install yq
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          registry-url: 'https://npm.pkg.github.com/'
+          scope: '@cricut'
 
       - name: Pre-build hook
         shell: bash
@@ -84,6 +97,13 @@ jobs:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - uses: dart-lang/setup-dart@v1
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          registry-url: 'https://npm.pkg.github.com/'
+          scope: '@cricut'
 
       - name: Pre-build hook
         shell: bash
@@ -137,7 +157,7 @@ jobs:
           submodules: recursive
           token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
-      - name: Setup Git Credentials
+      - name: Setup git credentials
         uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
@@ -154,7 +174,7 @@ jobs:
           branch: swift-5.10.1-release
           tag: 5.10.1-RELEASE
 
-      - name: Pre-resolve Required SwiftPM Packages & Fetch FishyJoes Scripts
+      - name: Pre-resolve required swiftpm packages & fetch fishyjoes scripts
         continue-on-error: true
         shell: pwsh
         run: |
@@ -163,6 +183,13 @@ jobs:
           swift package resolve
           swift package resolve
           echo SWIFT_WINDOWS_BASH=".build/checkouts/FishyJoes/scripts/swift-shim.ps1" >> $env:GITHUB_ENV
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          registry-url: 'https://npm.pkg.github.com/'
+          scope: '@cricut'
 
       - name: Pre-build hook
         shell: bash
@@ -208,12 +235,12 @@ jobs:
           submodules: recursive
           token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
-      - name: Setup Git Credentials
+      - name: Setup git credentials
         uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
-      - name: Setup Node
+      - name: Setup node
         uses: actions/setup-node@v3
         with:
           node-version: '18.x'
@@ -226,10 +253,10 @@ jobs:
 
           sudo apt-get install zsh
 
-      - name: Retrieve Artifacts
+      - name: Retrieve artifacts
         uses: actions/download-artifact@v4
 
-      - name: Install Artifacts
+      - name: Install artifacts
         shell: zsh {0}
         run: |
           set -euxo pipefail

@@ -34,12 +34,17 @@ jobs:
           submodules: recursive
           token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
-      - name: Setup Git Credentials
+      - name: Setup git credentials
         uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
-      - name: Setup Node
+      - name: Install generation tools
+        shell: zsh {0}
+        run: |
+          yq --version || brew install yq
+
+      - name: Setup node
         uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
@@ -76,13 +81,13 @@ jobs:
           fi
           swift run -- fishy-joes --nodejs --fat --version $VERSION pack
 
-      - name: Upload NPM Artifact
+      - name: Upload NPM artifact
         uses: actions/upload-artifact@v4
         with:
           name: npm_mac_packages
           path: bindings/packed-npm-packages/cricut-*.tgz
 
-      - name: Publish NPM Package
+      - name: Publish NPM package
         if: success() && github.event_name == 'release'
         shell: zsh {0}
         env:
@@ -109,12 +114,12 @@ jobs:
           submodules: recursive
           token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
-      - name: Setup Git Credentials
+      - name: Setup git credentials
         uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
-      - name: Setup Node
+      - name: Setup node
         uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
@@ -162,13 +167,13 @@ jobs:
           fi
           swift run -- fishy-joes --nodejs --wasm --version $VERSION pack
 
-      - name: Upload NPM Artifact
+      - name: Upload NPM artifact
         uses: actions/upload-artifact@v4
         with:
           name: npm_linux_packages
           path: bindings/packed-npm-packages/cricut-*.tgz
 
-      - name: Publish NPM Package
+      - name: Publish NPM package
         if: success() && github.event_name == 'release'
         shell: zsh {0}
         env:
@@ -193,12 +198,12 @@ jobs:
           submodules: recursive
           token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
-      - name: Setup Git Credentials
+      - name: Setup git credentials
         uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
-      - name: Setup Node
+      - name: Setup node
         uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
@@ -210,7 +215,7 @@ jobs:
           branch: swift-5.10.1-release
           tag: 5.10.1-RELEASE
 
-      - name: Pre-resolve Required SwiftPM Packages & Fetch FishyJoes Scripts
+      - name: Pre-resolve required swiftpm packages & fetch fishyjoes scripts
         continue-on-error: true
         shell: pwsh
         run: |
@@ -250,13 +255,13 @@ jobs:
           fi
           "$SWIFT_WINDOWS_BASH" run -- fishy-joes --nodejs --version $VERSION pack
 
-      - name: Upload NPM Artifact
+      - name: Upload NPM artifact
         uses: actions/upload-artifact@v4
         with:
           name: npm_windows_packages
           path: bindings/packed-npm-packages/cricut-*.tgz
 
-      - name: Publish NPM Package
+      - name: Publish NPM package
         if: success() && github.event_name == 'release'
         shell: bash
         env:
