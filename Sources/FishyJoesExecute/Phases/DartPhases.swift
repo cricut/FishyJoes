@@ -2,7 +2,6 @@ import Foundation
 import swsh
 
 class DartPhases: IotaPhases, Phases {
-
     func generationPhaseTemplateReplacements() throws -> [String: String] {
         let dartDependencies = [
             (

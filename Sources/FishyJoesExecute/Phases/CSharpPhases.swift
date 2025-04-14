@@ -2,7 +2,6 @@ import Foundation
 import swsh
 
 class CSharpPhases: IotaPhases, Phases {
-
     func generationPhaseTemplateReplacements() throws -> [String: String] {
         var replacements: [String: String] = [:]
         replacements["__LIBRARY_CSPROJ_UUID__"] = UUID(deterministicFrom: "Cricut.\(options.config.module).csproj").uuidString

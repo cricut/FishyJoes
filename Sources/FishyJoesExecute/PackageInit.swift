@@ -12,7 +12,7 @@ public struct PackageInit: ParsableCommand {
 
     var includeFilesNotMarkedAsGenerated = true
     var config: FishyJoesConfig!
-    @NilDecode var phasesList: [any Phases]? = nil
+    @NilDecode var phasesList: [any Phases]?
     var templateReplacements: [String: String]!
     var swiftPackage: SwiftPackage?
     var swiftPackageResolved: SwiftPackageResolved?

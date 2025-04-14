@@ -2,7 +2,6 @@ import Foundation
 import swsh
 
 class NodePhases: BasePhases, Phases {
-
     func generationPhaseTemplateReplacements() throws -> [String: String] {
         var replacements: [String: String] = [:]
 
