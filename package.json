@@ -1,0 +1,4 @@
+{
+  "//": "This package.json file is needed for strange reasons, or the unit tests fail with 'SyntaxError: Cannot use import statement outside a module'",
+  "type": "module"
+}
