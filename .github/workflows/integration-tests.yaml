@@ -51,6 +51,11 @@ jobs:
         with:
           dotnet-version: '6'
 
+      - name: Install generation tools
+        shell: zsh {0}
+        run: |
+          yq --version || brew install yq
+
       - name: Force clear nuget cache
         run: "dotnet nuget locals all --clear"
 
