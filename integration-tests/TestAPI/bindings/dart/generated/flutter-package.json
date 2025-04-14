@@ -1,7 +1,0 @@
-{
-  "version" : "0.0.1",
-  "name" : "@cricut/flutter-testapi",
-  "dependencies" : {
-    "@cricut/flutter-fishyjoes-runtime": "file:/Users/acobb/src/FishyJoes/dart-runtime/flutter-package"
-  }
-}

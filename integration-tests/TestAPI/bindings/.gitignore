@@ -21,3 +21,9 @@ package-lock.json
 DebugGenerated
 .idea
 *.DotSettings.user
+
+# These will include absolute paths, so not safe to commit. Not a concern in downstream repos that depend on a versioned FishyJoes release
+/dart/generated/flutter-package.json
+/ts/generated/package.native-macos.json
+/ts/generated/package.native-ubuntu.json
+/ts/generated/package.native-windows.json
