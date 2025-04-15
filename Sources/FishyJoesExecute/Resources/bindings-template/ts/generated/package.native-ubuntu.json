@@ -1,0 +1,28 @@
+{
+  "name" : "@cricut/__LOWERCASE_MODULE_NAME__-native-ubuntu",
+  "version" : "0.0.1",
+  "description": "TypeScript bindings for __MODULE_NAME__ on node-native-ubuntu",
+
+  "type" : "module",
+
+  "types" : "__MODULE_NAME__.d.ts",
+  "main" : "__MODULE_NAME__.js",
+
+  "dependencies" : {
+    __NPM_DEPENDENCIES_ubuntu__
+  },
+
+  "scripts" : {
+    "postinstall" : "./postinstall.native-ubuntu.sh"
+  },
+
+  "publishConfig" : {
+    "registry" : "https://npm.pkg.github.com/"
+  },
+
+  "repository" : {
+    "directory" : "packages",
+    "type" : "git",
+    "url" : "ssh://git@__BINDINGS_REPO__.git"
+  }
+}

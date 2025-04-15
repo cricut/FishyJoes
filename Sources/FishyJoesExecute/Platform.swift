@@ -21,7 +21,7 @@ struct BuildConfiguration: Hashable {
     var injectedSwiftDependencies: [String: PackageDotSwiftDependency.Dependency]
 }
 
-enum Platform: CustomStringConvertible, Hashable {
+enum Platform: CustomStringConvertible, Hashable, CaseIterable {
     case wasm
     case node
     case kotlinSystem
@@ -29,7 +29,7 @@ enum Platform: CustomStringConvertible, Hashable {
     case cSharp
     case dart
 
-    enum AndroidArchitecture: String, Equatable, CaseIterable {
+    enum AndroidArchitecture: String, Hashable, CaseIterable {
         case armv7, x86_64, aarch64
 
         static let apiVersion = 24
@@ -45,6 +45,12 @@ enum Platform: CustomStringConvertible, Hashable {
             case .aarch64: return "arm64-v8a"
             }
         }
+    }
+
+    static var allCases: [Platform] {
+        [.wasm, .node, .kotlinSystem]
+            + AndroidArchitecture.allCases.map { .kotlinAndroid($0) }
+            + [.cSharp, .dart]
     }
 
     var description: String {
@@ -217,7 +223,26 @@ enum Platform: CustomStringConvertible, Hashable {
             try! dockerContext.cmd("env", arguments: []).run()
             return dockerContext.cmd("swift-build", arguments: args)
         } else {
-            Log.info("swiftBuild addEnv = \(env)")
+            func escape(_ str: String) -> String {
+                let safeCharacters = CharacterSet(
+                    charactersIn: "/%+-.0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz="
+                )
+                if str.isEmpty {
+                    return "''"
+                } else if str.unicodeScalars.allSatisfy(safeCharacters.contains) {
+                    return str
+                } else {
+                    return "'\(str.replacingOccurrences(of: "'", with: #"'\''"#))'"
+                }
+            }
+
+            if !env.isEmpty {
+                let envStr = env.map {
+                    escape("\($0.key)=\($0.value)")
+                }.joined(separator: " ")
+                print()
+                print("env \(envStr) \\")
+            }
             return cmd(path, arguments: args, addEnv: env)
         }
     }

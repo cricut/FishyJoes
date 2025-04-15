@@ -8,14 +8,14 @@ namespace Cricut.FishyJoesRuntime {
     /// <remarks>
     ///     Use this type to initialize an instance of AttributedString with preset attributes,
     ///     and to set, merge, or replace attributes in existing attributed strings.
-    /// 
+    ///
     ///     Libraries that depend on `AttributeContainer` are free to define their own attributes to be associated with attributed strings.
     ///     As a result of this flexibility, the actual values of attributes can only be obtained using types defined in those libraries.
-    /// 
+    ///
     ///     The runtime itself defines one such type, `AttributeContainer.FoundationAttributes`.
     ///     To obtain the values of attributes from that type, such as the `link` attribute or `languageIdentifier` attribute,
     ///     one must construct an instance passing the container:
-    /// 
+    ///
     ///     `link = AttributeContainer.FoundationAttributes(someContainer).link`
     /// </remarks>
     /// <!-- FishyJoes.exportReference(AttributeContainer) -->
@@ -42,7 +42,7 @@ namespace Cricut.FishyJoesRuntime {
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern void __iota_FishyJoesCommonRuntime_AttributeContainer_merge(
-            IntPtr envRef, 
+            IntPtr envRef,
             UnownedRef self,
             UnownedRef other,
             bool keepCurrent,
@@ -58,8 +58,9 @@ namespace Cricut.FishyJoesRuntime {
         }
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool __iota_FishyJoesCommonRuntime_AttributeContainer_equals(
-            IntPtr envRef, 
+            IntPtr envRef,
             UnownedRef lhs,
             UnownedRef rhs,
             out CreatedRef exn
@@ -73,7 +74,7 @@ namespace Cricut.FishyJoesRuntime {
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern int __iota_get_FishyJoesCommonRuntime_AttributeContainer_hash(
-            IntPtr envRef, 
+            IntPtr envRef,
             UnownedRef self,
             out CreatedRef exn
         );
@@ -87,7 +88,7 @@ namespace Cricut.FishyJoesRuntime {
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_FishyJoesCommonRuntime_AttributeContainer_createEmpty(
-            IntPtr envRef, 
+            IntPtr envRef,
             out CreatedRef exn
         );
     }
@@ -95,7 +96,7 @@ namespace Cricut.FishyJoesRuntime {
     // Convenience Interface
     public partial class AttributeContainer {
         /// <summary>Synonym for `AttributeContainer.CreateEmpty()`.</summary>
-        public AttributeContainer(): base(new ConsumedRef(IntPtr.Zero)) { 
+        public AttributeContainer(): base(new ConsumedRef(IntPtr.Zero)) {
             var empty = AttributeContainer.CreateEmpty();
             reference = empty.reference;
             empty.reference = IntPtr.Zero;
@@ -107,10 +108,10 @@ namespace Cricut.FishyJoesRuntime {
         /// <remarks>
         ///     This type (and the ones like it defined in other libraries) allow features similar to those
         ///     offered by Swift dynamic member lookup in ``AttributeScope`` to be exported to other languages.
-        /// 
+        ///
         ///     An attribute container can be asked to fill in the fields defined by this structure using `AttributeContainerFoundationAttributes(AttributeContainer)`.
         ///     This type can be asked to fill in an attribute container using `AttributeContainer(FoundationAttributes)`.
-        /// 
+        ///
         ///     Combining these calls with `AttributedString.setAttributes(_:)` and `AttributedString.mergeAttributes(_:)` allows expansion
         ///     of attributed strings with new attributes in other languages analogously to how it is done in ``AttributeScopes`` using Swift dynamic member lookup.
         /// </remarks>
@@ -139,16 +140,16 @@ namespace Cricut.FishyJoesRuntime {
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __iota_get_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_link(
-                IntPtr envRef, 
-                UnownedRef self, 
+                IntPtr envRef,
+                UnownedRef self,
                 out CreatedRef exn
             );
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern void __iota_set_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_link(
-                IntPtr envRef, 
-                UnownedRef self, 
-                UnownedRef value, 
+                IntPtr envRef,
+                UnownedRef self,
+                UnownedRef value,
                 out CreatedRef exn
             );
 
@@ -172,16 +173,16 @@ namespace Cricut.FishyJoesRuntime {
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __iota_get_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_languageIdentifier(
-                IntPtr envRef, 
-                UnownedRef self, 
+                IntPtr envRef,
+                UnownedRef self,
                 out CreatedRef exn
             );
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern void __iota_set_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_languageIdentifier(
-                IntPtr envRef, 
-                UnownedRef self, 
-                UnownedRef value, 
+                IntPtr envRef,
+                UnownedRef self,
+                UnownedRef value,
                 out CreatedRef exn
             );
 
@@ -194,8 +195,9 @@ namespace Cricut.FishyJoesRuntime {
             }
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [return: MarshalAs(UnmanagedType.I1)]
             private static extern bool __iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_equals(
-                IntPtr envRef, 
+                IntPtr envRef,
                 UnownedRef lhs,
                 UnownedRef rhs,
                 out CreatedRef exn
@@ -209,7 +211,7 @@ namespace Cricut.FishyJoesRuntime {
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern int __iota_get_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_hash(
-                IntPtr envRef, 
+                IntPtr envRef,
                 UnownedRef self,
                 out CreatedRef exn
             );
@@ -222,7 +224,7 @@ namespace Cricut.FishyJoesRuntime {
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_asContainer(
-                IntPtr envRef, 
+                IntPtr envRef,
                 UnownedRef self,
                 out CreatedRef exn
             );
@@ -236,7 +238,7 @@ namespace Cricut.FishyJoesRuntime {
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_createEmpty(
-                IntPtr envRef, 
+                IntPtr envRef,
                 out CreatedRef exn
             );
 
@@ -251,7 +253,7 @@ namespace Cricut.FishyJoesRuntime {
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_createFromContainer(
-                IntPtr envRef, 
+                IntPtr envRef,
                 UnownedRef container,
                 out CreatedRef exn
             );
@@ -262,7 +264,7 @@ namespace Cricut.FishyJoesRuntime {
         // Convenience Interface
         public partial class FoundationAttributes {
             /// <summary>Creates attributes with the provided attribute fields populated.</summary>
-            public FoundationAttributes(Uri? link = null, string? languageIdentifier = null): base(new ConsumedRef(IntPtr.Zero)) { 
+            public FoundationAttributes(Uri? link = null, string? languageIdentifier = null): base(new ConsumedRef(IntPtr.Zero)) {
                 var temp = FoundationAttributes.CreateEmpty();
                 reference = temp.reference;
                 temp.reference = IntPtr.Zero;
@@ -272,7 +274,7 @@ namespace Cricut.FishyJoesRuntime {
             }
 
             /// <summary>Synonym for `FoundationAttributes.CreateFromContainer()`.</summary>
-            public FoundationAttributes(AttributeContainer container): base(new ConsumedRef(IntPtr.Zero)) { 
+            public FoundationAttributes(AttributeContainer container): base(new ConsumedRef(IntPtr.Zero)) {
                 var temp = FoundationAttributes.CreateFromContainer(container);
                 reference = temp.reference;
                 temp.reference = IntPtr.Zero;

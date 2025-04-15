@@ -1,0 +1,26 @@
+{
+  "name": "@cricut/testapi-wasm",
+  "version": "0.0.1",
+  "description": "TestAPI packaged as a typescript library using WebAssembly",
+  "type": "module",
+  "types": "TestAPI.d.ts",
+  "main": "TestAPI.js",
+  "browser": "TestAPI.browser.js",
+  "dependencies": {
+    "@wasmer/wasi": "^0.12.0",
+    "@wasmer/wasmfs": "^0.12.0",
+    "buffer": "^5.7.1"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@__BINDINGS_REPO__.git",
+    "directory": "packages"
+  },
+  "this should appear in": [
+    "the generated package.PLATFORM.json files",
+    true
+  ]
+}

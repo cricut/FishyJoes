@@ -1,20 +1,4 @@
 {
-  "name": "fishyjoes-runtime",
-  "version": "0.0.1",
-  "description": "Runtime component to fishyjoes swift/js bridge",
-  "type": "module",
-  "main": "Sources/FishyJoesNodeRuntime/Templates/wasm-napi.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/cricut/FishyJoes.git"
-  },
-  "author": "acobb@cricut.com",
-  "license": "UNLICENSED",
-  "bugs": {
-    "url": "https://github.com/cricut/FishyJoes/issues"
-  },
-  "homepage": "https://github.com/cricut/FishyJoes#readme"
+  "//": "This package.json file is needed for strange reasons, or the unit tests fail with 'SyntaxError: Cannot use import statement outside a module'",
+  "type": "module"
 }

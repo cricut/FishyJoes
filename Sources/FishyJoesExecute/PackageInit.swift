@@ -1,5 +1,6 @@
 import ArgumentParser
 import Foundation
+import GenerationHelpers
 import swsh
 import Yams
 
@@ -11,6 +12,7 @@ public struct PackageInit: ParsableCommand {
 
     var includeFilesNotMarkedAsGenerated = true
     var config: FishyJoesConfig!
+    @NilDecode var phasesList: [any Phases]?
     var templateReplacements: [String: String]!
     var swiftPackage: SwiftPackage?
     var swiftPackageResolved: SwiftPackageResolved?
@@ -20,15 +22,17 @@ public struct PackageInit: ParsableCommand {
     public init() {}
     init(
         config: FishyJoesConfig,
+        phasesList: [any Phases],
         swiftPackage: SwiftPackage,
         swiftPackageResolved: SwiftPackageResolved,
         includeFilesNotMarkedAsGenerated: Bool
-    ) {
+    ) throws {
         self.config = config
+        self.phasesList = phasesList
         self.swiftPackage = swiftPackage
         self.swiftPackageResolved = swiftPackageResolved
         self.includeFilesNotMarkedAsGenerated = includeFilesNotMarkedAsGenerated
-        self.templateReplacements = generateTemplateReplacements()
+        self.templateReplacements = try generateTemplateReplacements()
     }
 
     public mutating func run() throws {
@@ -43,7 +47,7 @@ public struct PackageInit: ParsableCommand {
         }
         if config == nil {
             config = try (try? FishyJoesConfig.readFromFile(basePath: ".")) ?? promptForConfig()
-            self.templateReplacements = generateTemplateReplacements()
+            self.templateReplacements = try generateTemplateReplacements()
         }
 
         try installTemplate()
@@ -52,8 +56,8 @@ public struct PackageInit: ParsableCommand {
     }
 
     func installTemplate() throws {
-        let sourcePath = Bundle.module.resourceURL!.appendingPathComponent("bindings-template", isDirectory: true).path
-        try install(sourcePath, to: "bindings")
+        let templateRoot = Bundle.module.resourceURL!.appendingPathComponent("bindings-template", isDirectory: true).path
+        try install(".", in: templateRoot, to: "bindings")
     }
 
     func setupKotlin(config: FishyJoesConfig) throws {
@@ -73,16 +77,33 @@ public struct PackageInit: ParsableCommand {
     enum InstallBehavior {
         case skip, copy, template
         case symlink(installName: String)
+
+        // When installing a file marked with this, PackageInit should template first, then merge the resulting JSON or YAML file with a user customization file
+        case templateAndMergeWithOverride(overridePath: String)
     }
 
-    func installBehavior(for fileName: String, in directory: String) throws -> InstallBehavior {
-        let path = "\(directory)/\(fileName)"
+    func installBehavior(for fileName: String, in directory: String, templateRoot: String) throws -> InstallBehavior {
+        let path = "\(templateRoot)/\(directory)/\(fileName)"
         if [".DS_Store", ".gradle"].contains(fileName) {
             return .skip
         }
 
         if let installName = fileName.trimmingIfSuffixed(".symlink") {
             return .symlink(installName: String(installName))
+        }
+
+        // Mapping from paths of customizable files to the path of the override file
+        let overridablePaths = [
+            "./dart/generated/pubspec.yaml": "bindings/dart/pubspec.override.yaml",
+            "./dart/generated/flutter-pubspec.yaml": "bindings/dart/flutter-pubspec.override.yaml",
+            "./ts/generated/package.wasm.json": "bindings/ts/package.override.json",
+            "./ts/generated/package.native-macos.json": "bindings/ts/package.override.json",
+            "./ts/generated/package.native-ubuntu.json": "bindings/ts/package.override.json",
+            "./ts/generated/package.native-windows.json": "bindings/ts/package.override.json",
+            "./ts/tests/generated/package.generated.json": "bindings/ts/tests/package.override.json",
+        ]
+        if let overridePath = overridablePaths["\(directory)/\(fileName)"] {
+            return .templateAndMergeWithOverride(overridePath: overridePath)
         }
 
         let fileType = try FileManager.default.attributesOfItem(atPath: path)[.type] as! FileAttributeType
@@ -101,47 +122,92 @@ public struct PackageInit: ParsableCommand {
         return .template
     }
 
-    func install(_ sourcePath: String, to destPath: String) throws {
+    func install(_ localSourcePath: String, in templateRoot: String, to destPath: String) throws {
         // Log.info("installing \(sourcePath) -> \(destPath)")
+        let absoluteSourcePath = "\(templateRoot)/\(localSourcePath)"
         let manager = FileManager.default
         var isDirectory: ObjCBool = false
-        guard manager.fileExists(atPath: sourcePath, isDirectory: &isDirectory) else {
-            fatalError("Internal error. I was sure that path existed... \(sourcePath)")
+        guard manager.fileExists(atPath: absoluteSourcePath, isDirectory: &isDirectory) else {
+            fatalError("Internal error. I was sure that path existed... \(absoluteSourcePath)")
         }
         if isDirectory.boolValue {
             try manager.createDirectory(atPath: destPath, withIntermediateDirectories: true)
-            for sourceName in try manager.contentsOfDirectory(atPath: sourcePath) {
+            for sourceName in try manager.contentsOfDirectory(atPath: absoluteSourcePath) {
                 let destName = processString(sourceName)
-                switch try installBehavior(for: sourceName, in: sourcePath) {
+                switch try installBehavior(for: sourceName, in: localSourcePath, templateRoot: templateRoot) {
                 case .skip: continue
                 case .copy:
                     try cmd(
                         "cp", "-Rfp",
-                        "\(sourcePath)/\(sourceName)",
+                        "\(absoluteSourcePath)/\(sourceName)",
                         "\(destPath)/\(destName)"
                     ).run()
                 case .template:
                     try install(
-                        "\(sourcePath)/\(sourceName)",
+                        "\(localSourcePath)/\(sourceName)",
+                        in: templateRoot,
                         to: "\(destPath)/\(destName)"
                     )
                 case .symlink(let installName):
-                    let linkDestination = try cmd("cat", "\(sourcePath)/\(sourceName)").runString()
-                    // TODO: different command for windows?
+                    let linkDestination = try cmd("cat", "\(absoluteSourcePath)/\(sourceName)").runString()
                     try cmd("ln", "-sf", linkDestination, "\(destPath)/\(installName)").run()
+                case .templateAndMergeWithOverride(let overridePath):
+                    if FileManager.default.fileExists(atPath: overridePath) {
+                        Log.info("Applying customiziations from \(overridePath) to \(destPath)/\(destName)")
+                    }
+                    let contents = processString(try String(contentsOfFile: "\(absoluteSourcePath)/\(sourceName)"))
+                    if sourceName.hasSuffix(".json") {
+                        try outputMergedJSON(
+                            baseJSON: contents,
+                            overridePath: overridePath,
+                            overwritingFile: "\(destPath)/\(destName)"
+                        )
+                    } else if sourceName.hasSuffix(".yaml") {
+                        try outputMergedYAML(
+                            baseYAML: contents,
+                            overridePath: overridePath,
+                            overwritingFile: "\(destPath)/\(destName)"
+                        )
+                    } else {
+                        fatalError("Internal error. Don't know how to apply overrides to template file '\(sourceName)'")
+                    }
                 }
             }
         } else {
-            let contents = processString(try String(contentsOfFile: sourcePath))
+            let contents = processString(try String(contentsOfFile: absoluteSourcePath))
             try contents.write(toFile: destPath, atomically: true, encoding: .utf8)
         }
     }
 
-    func join(lines: [String], indent: Int) -> String {
-        lines.map { "\n\(String(repeating: " ", count: indent))\($0)" }.joined()
+    private func outputMergedJSON(baseJSON: String, overridePath: String, overwritingFile: String) throws {
+        let command: any Command
+        if FileManager.default.fileExists(atPath: overridePath) {
+            // Recursively merge 2 JSON files, preferring entries in the 2nd
+            command = cmd("jq", "-e", "-s", ".[0] * .[1]", "-", overridePath)
+        } else {
+            command = cmd("cat")
+        }
+        try command
+            .input(baseJSON)
+            .output(overwritingFile: overwritingFile)
+            .run()
     }
 
-    func generateTemplateReplacements() -> [String: String] {
+    private func outputMergedYAML(baseYAML: String, overridePath: String, overwritingFile: String) throws {
+        let command: any Command
+        if FileManager.default.fileExists(atPath: overridePath) {
+            // Recursively merge 2 yaml files, preferring entries in the 2nd
+            command = cmd("yq", "-e", "-p=yaml", "-o=yaml", #". * load("\#(overridePath)")"#)
+        } else {
+            command = cmd("cat")
+        }
+        try command
+            .input(baseYAML)
+            .output(overwritingFile: overwritingFile)
+            .run()
+    }
+
+    func generateTemplateReplacements() throws -> [String: String] {
         var replacements: [String: String] = [:]
 
         // MARK: generic replacements
@@ -151,91 +217,15 @@ public struct PackageInit: ParsableCommand {
         replacements["__AUTOGEN_WARNING__"] = "THIS FILE IS AUTOMATICALLY GENERATED, AND WILL BE OVERWRITTEN. DO NOT EDIT."
         replacements["__BINDINGS_REPO__"] = config.publishRepository
 
-        // MARK: kotlin replacements
-        let gradleDependencies = [
-            (swift: "FishyJoes", groupId: "com.cricut.fishyjoes", artifactId: "runtime")
-        ] + config.requiredModules.map {
-            (swift: $0, groupId: "com.cricut.\($0)", artifactId: $0.lowercased())
-        }
-        let gradleDependencyLines = gradleDependencies.map { dependency in
-            // TODO: figure out how to use gradle version ranges. The solver may not be good enough for this to work properly.
-            // See for example: https://github.com/gradle/gradle/issues/8126
-
-            // let version = swiftPackage?.dependencyMap[$0.swift]?.versionInGradleFormat ?? "local"
-
-            let resolved = swiftPackageResolved?.state(for: dependency.swift)
-            var version = resolved?.version ?? resolved?.branch ?? resolved?.revision ?? "local"
-            // Convert anything like "user/branch" into things gradle can parse, even if it probably won't find a release by that name
-            version = version.replacingOccurrences(of: "/", with: "-")
-            return "api(\"\(dependency.groupId):\(dependency.artifactId):\(version)\")"
-        }
-        replacements["__GRADLE_DEPENDENCIES__"] = join(lines: gradleDependencyLines, indent: 4)
-
-        // MARK: C# replacements
-        replacements["__LIBRARY_CSPROJ_UUID__"] = UUID(deterministicFrom: "Cricut.\(config.module).csproj").uuidString
-        replacements["__TESTS_CSPROJ_UUID__"] = UUID(deterministicFrom: "Cricut.\(config.module).Tests.csproj").uuidString
-
-        let csProjDependencies = [
-            (swift: "FishyJoes", nupkgsPath: "c-sharp-runtime/nupkgs", nuget: "Cricut.FishyJoesRuntime")
-        ] + config.requiredModules.map {
-            (swift: $0, nupkgsPath: "bindings/c-sharp/nupkgs", nuget: "Cricut.\($0)")
-        }
-        let csProjDependencyLines = {
-            var dependencyPaths: [String] = []
-            let deps = csProjDependencies.map {
-                guard let dependency = swiftPackage?.dependencyMap[$0.swift] else {
-                    return #"<ItemGroup><PackageReference Include="\#($0.nuget)" Version="[0.0.1-unknown]" /></ItemGroup>"#
+        // Collect language-specific replacements from phases
+        for phases in phasesList ?? [] {
+            for (key, value) in try phases.generationPhaseTemplateReplacements() {
+                if let oldValue = replacements[key], oldValue != value {
+                    fatalError("Conflicting templates for key '\(key)':\n  \(oldValue)\n  \(value)")
                 }
-                if let version = dependency.versionInNugetFormat {
-                    return #"<ItemGroup><PackageReference Include="\#($0.nuget)" Version="\#(version)" /></ItemGroup>"#
-                } else {
-                    let path = relativePath(of: dependency.localPath, relativeTo: "bindings/c-sharp/generated/Cricut.\(config.module)/")
-                    dependencyPaths.append("$(MSBuildThisFileDirectory)\(path)/\($0.nupkgsPath)")
-                    return #"<ItemGroup><PackageReference Include="\#($0.nuget)" Version="[0.0.1-unknown]" /></ItemGroup>"#
-                }
+                replacements[key] = value
             }
-
-            if dependencyPaths.isEmpty {
-                return deps
-            } else {
-                return [
-                    // Note: All these being in one line as one item seems to be important, even though ugly
-                    #"<PropertyGroup><RestoreAdditionalProjectSources>\#(dependencyPaths.joined(separator: ";"))</RestoreAdditionalProjectSources></PropertyGroup>"#,
-                ] + deps
-            }
-        }()
-        replacements["__CSPROJ_DEPENDENCIES__"] = join(lines: csProjDependencyLines, indent: 2)
-
-        // MARK: dart replacements
-        let dartDependencies = [
-            (swift: "FishyJoes", dart: "fishyjoes_dart", path: "dart-runtime", flutter: "flutter-fishyjoes-runtime")
-        ] + config.requiredModules.map {
-            (swift: $0, dart: "cricut_\($0.lowercased())", path: "bindings/dart/generated", flutter: "flutter-cricut_\($0.lowercased())")
         }
-        let dartDependencyLines = dartDependencies.flatMap {
-            guard let dependency = swiftPackage?.dependencyMap[$0.swift] else {
-                return [
-                    "\($0.dart):",
-                    "  path: DEPENDENCY_NOT_FOUND",
-                ]
-            }
-            var lines = ["\($0.dart):"]
-            if let resolvedState = swiftPackageResolved?.state(for: $0.swift) {
-                lines.append(
-                    contentsOf: [
-                        #"  git:"#,
-                        #"    url: "https://github.com/cricut/\#($0.swift).git""#,
-                        #"    ref: "\#(resolvedState.version ?? resolvedState.branch ?? resolvedState.revision)""#,
-                        #"    path: "\#($0.path)""#,
-                    ]
-                )
-            } else {
-                let dependencyPath = relativePath(of: dependency.localPath, relativeTo: "bindings/dart/generated")
-                lines.append("  path: \(dependencyPath)/\($0.path)")
-            }
-            return lines
-        }
-        replacements["__PUBSPEC_DART_DEPENDENCIES__"] = join(lines: dartDependencyLines, indent: 2)
 
         // MARK: CI replacements
         let ciPreBuildHook = config.ciPreBuildHook ?? "# Build customization can be added here with the `CIPreBuildHook` key in fishy-joes.yaml"

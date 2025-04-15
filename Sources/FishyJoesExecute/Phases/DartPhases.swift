@@ -2,6 +2,71 @@ import Foundation
 import swsh
 
 class DartPhases: IotaPhases, Phases {
+    func generationPhaseTemplateReplacements() throws -> [String: String] {
+        let dartDependencies = [
+            (
+                swift: "FishyJoes",
+                path: "dart-runtime",
+                dart: "fishyjoes_dart",
+                npm: "flutter-fishyjoes-runtime",
+                npmSubPath: "dart-runtime/flutter-package"
+            )
+        ] + options.config.requiredModules.map {
+            (
+                swift: $0,
+                path: "bindings/dart/generated",
+                dart: "cricut_\($0.lowercased())",
+                npm: "flutter-cricut_\($0.lowercased())",
+                npmSubPath: "bindings/dart/generated/flutter-package"
+            )
+        }
+
+        let pureDartDependencyLines = dartDependencies.flatMap { depNames in
+            let lines = ["\(depNames.dart):"]
+            guard let dependency = options.packageInfo.dependencyMap[depNames.swift] else {
+                return lines + [
+                    "  path: DEPENDENCY_NOT_FOUND",
+                ]
+            }
+            if let resolvedState = options.packageResolved?.state(for: depNames.swift) {
+                return lines + [
+                    #"  git:"#,
+                    #"    url: "https://github.com/cricut/\#(depNames.swift).git""#,
+                    #"    ref: "\#(resolvedState.version ?? resolvedState.branch ?? resolvedState.revision)""#,
+                    #"    path: "\#(depNames.path)""#,
+                ]
+            } else {
+                let dependencyPath = relativePath(of: dependency.localPath, relativeTo: "bindings/dart/generated")
+                return lines + [
+                    "  path: \(dependencyPath)/\(depNames.path)"
+                ]
+            }
+        }
+
+        let flutterDependencyLines = dartDependencies.flatMap { depNames in
+            [
+                "\(depNames.dart):",
+                "  path: ../\(depNames.npm)",
+            ]
+        }
+
+        let npmFlutterDependencyLines = dartDependencies.map { dependency in
+            let version = options.packageInfo?.dependencyMap[dependency.swift]?
+                .versionInNpmFormat(
+                    relativeTo: "bindings/dart/generated/flutter-package/",
+                    addIfLocalPath: dependency.npmSubPath
+                )
+                ?? "0.0.1-unknown"
+            return #""@cricut/\#(dependency.npm)": "\#(version)""#
+        }
+
+        return [
+            "__PUBSPEC_DART_DEPENDENCIES__": join(lines: pureDartDependencyLines, indent: 2),
+            "__PUBSPEC_FLUTTER_DEPENDENCIES__": join(lines: flutterDependencyLines, indent: 2),
+            "__NPM_FLUTTER_DEPENDENCIES__": npmFlutterDependencyLines.joined(separator: ",\n    ")
+        ]
+    }
+
     func installPhase() throws {
         // Install the module library and interfacing library
         try installLibrary(options.config.module)
@@ -34,25 +99,27 @@ class DartPhases: IotaPhases, Phases {
     }
 
     func packPhase() throws {
-        let tarCmdArgs = [
-            "-cvzf", "\(options.config.module)-dart-binaries.tgz", "-C", "bindings/dart/generated"
-        ] + options.config.extraDynamicLibraries.flatMap {
+        let tarBaseDirectory = "bindings/dart/generated"
+        let binariesToPack = (
+            [options.config.module, options.config.module + "-iota"] +
+                options.config.extraDynamicLibraries
+        ).flatMap {
             [
                 "macos/native/lib\($0).dylib",
                 "linux/native/lib\($0).so",
-                // TODO: re-enable when windows is re-enabled
-                // "windows/native/\($0).dll",
+                "windows/native/\($0).dll",
             ]
-        } + [
-            "macos/native/lib\(options.config.module).dylib",
-            "macos/native/lib\(options.config.module)-iota.dylib",
-            "linux/native/lib\(options.config.module).so",
-            "linux/native/lib\(options.config.module)-iota.so",
-            // TODO: re-enable when windows is re-enabled
-            // "windows/native/\(options.config.module).dll",
-            // "windows/native/\(options.config.module)-iota.dll",
-        ]
-        try cmd("tar", arguments: tarCmdArgs).run()
+        }.filter {
+            FileManager.default.fileExists(atPath: "\(tarBaseDirectory)/\($0)")
+        }
+
+        try cmd(
+            "tar",
+            arguments: [
+                "-cvzf", "\(options.config.module)-dart-binaries.tgz",
+                "-C", tarBaseDirectory,
+            ] + binariesToPack
+        ).run()
 
         // Generate flutter package from dart package
         try withDirectory("bindings/dart") {
@@ -62,7 +129,7 @@ class DartPhases: IotaPhases, Phases {
             try cmd("mkdir", "-p", "generated/flutter-package/windows/native").run()
 
             try cmd("yq", ".version = strenv(VERSION)", addEnv: ["VERSION": options.version ?? "0.0.1-unknown"])
-                .input(fromFile: "generated/npm_flutter_pubspec.yaml")
+                .input(fromFile: "generated/flutter-pubspec.yaml")
                 .output(overwritingFile: "generated/flutter-package/pubspec.yaml")
                 .run()
 
@@ -96,25 +163,9 @@ class DartPhases: IotaPhases, Phases {
                 }
             }
 
-            var package = NPMPackage(name: "@cricut/flutter-\(options.config.module.lowercased())")
-            package.version = options.version ?? "0.0.1" // If no version is provided, use a dummy version to package
-
-            // If fishy-joes is file-local, use a file-local runtime too
-            let runtimeVersion = options.fishyJoesDependency.versionInNpmFormat(addIfLocalPath: "/dart-runtime/flutter-package")
-
-            var dependencies = ["@cricut/flutter-fishyjoes-runtime": runtimeVersion]
-            for module in options.config.requiredModules {
-                guard let dependency = options.packageInfo.dependencyMap[module] else {
-                    fatalError("Could not locate dependency \(module) in Package.swift")
-                }
-
-                // If dependency is file-local, use a file-local dependency too
-                let moduleVersion = dependency.versionInNpmFormat(addIfLocalPath: "/bindings/dart/generated/flutter-package")
-                dependencies["@cricut/flutter-\(module.lowercased())"] = moduleVersion
-            }
-            package.dependencies = dependencies
-            try cmd("cat")
-                .inputJSON(from: package, encoder: PrettyJSONEncoder())
+            // If no version is provided, use a dummy version to package
+            try cmd("jq", "-e", ".version = env.VERSION", addEnv: ["VERSION": options.version ?? "0.0.1"])
+                .input(fromFile: "generated/flutter-package.json")
                 .output(overwritingFile: "generated/flutter-package/package.json")
                 .run()
 

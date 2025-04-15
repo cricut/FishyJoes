@@ -2,6 +2,56 @@ import Foundation
 import swsh
 
 class NodePhases: BasePhases, Phases {
+    func generationPhaseTemplateReplacements() throws -> [String: String] {
+        var replacements: [String: String] = [:]
+
+        // Possible TODO: should the `Platform` type be able to describe node-native on windows when building on a mac?
+        for platform in ["macos", "ubuntu", "windows"] {
+            let npmDependencies = [
+                (
+                    swift: "FishyJoes",
+                    libName: "FishyJoesNodeRuntime",
+                    npm: "fishyjoes-runtime-native-\(platform)",
+                    subPath: "node-runtime/fishyjoes-runtime-native-\(platform)"
+                ),
+            ] + options.config.requiredModules.map { module in
+                (
+                    swift: module,
+                    libName: "\(module)-node",
+                    npm: "\(module.lowercased())-native-\(platform)",
+                    subPath: "bindings/ts/generated/packages/node-native-\(platform)"
+                )
+            }
+            let npmDependencyLines = npmDependencies.map { dependency in
+                let version = options.packageInfo?.dependencyMap[dependency.swift]?
+                    .versionInNpmFormat(
+                        relativeTo: "bindings/ts/generated/packages/node-native\(platform)",
+                        addIfLocalPath: dependency.subPath
+                    )
+                    ?? "0.0.1-unknown"
+                return #""@cricut/\#(dependency.npm)": "\#(version)""#
+            }
+            replacements["__NPM_DEPENDENCIES_\(platform)__"] = npmDependencyLines.joined(separator: ",\n    ")
+
+            if platform == "windows" {
+                let postinstallLines = npmDependencies.map { dependency in
+                    let libName = "\(dependency.libName).dll"
+                    // TODO: Should copy?!? How to establish this link with only one file?
+                    return #"COPY "%package_directory%\\#(dependency.npm)\\#(libName)" "\#(libName)""#
+                }
+                replacements["__NODE_POSTINSTALL_\(platform)__"] = join(lines: postinstallLines, indent: 0)
+            } else {
+                let postinstallLines = npmDependencies.map { dependency in
+                    let libName = "lib\(dependency.libName).\(platform == "macos" ? "dylib" : "so")"
+                    return #"ln -sf "$(realpath "$package_directory/\#(dependency.npm)/\#(libName)")" "\#(libName)""#
+                }
+                replacements["__NODE_POSTINSTALL_\(platform)__"] = join(lines: postinstallLines, indent: 0)
+            }
+        }
+
+        return replacements
+    }
+
     override func preBuildPhase() throws {
         try super.preBuildPhase()
         // When building a node native target on Windows, node.lib must be downloaded and put in the LIBPATH in order to build the NodeAPI dependency
@@ -54,7 +104,6 @@ class NodePhases: BasePhases, Phases {
             let tsExports: [String]
             let nativeLibName: String
             let npmPackageName: String
-            let npmModuleVersion: String
 
             var wasmMainShimName: String { "\(name)_WasmMainShim.wasm" }
             var nodeShimLibName: String { "\(name)-node-shim" }
@@ -70,10 +119,7 @@ class NodePhases: BasePhases, Phases {
                 jsExports: ["Runtime"],
                 tsExports: ["Optional", "Runtime"],
                 nativeLibName: "FishyJoesNodeRuntime",
-                npmPackageName: "fishyjoes-runtime-\(platform.nodeExecutionEnvironment)",
-                npmModuleVersion: fishyJoesDependency.versionInNpmFormat(
-                    addIfLocalPath: "/node-runtime/fishyjoes-runtime-\(platform.nodeExecutionEnvironment)"
-                )
+                npmPackageName: "fishyjoes-runtime-\(platform.nodeExecutionEnvironment)"
             )
         ] + options.config.requiredModules.map { requiredModule in
             guard let dependency = options.packageInfo.dependencyMap[requiredModule] else {
@@ -87,8 +133,7 @@ class NodePhases: BasePhases, Phases {
                 jsExports: [requiredModule],
                 tsExports: [requiredModule],
                 nativeLibName: "\(requiredModule)-node",
-                npmPackageName: "\(requiredModule.lowercased())-\(platform.nodeExecutionEnvironment)",
-                npmModuleVersion: dependency.versionInNpmFormat(addIfLocalPath: "/\(outputDir)")
+                npmPackageName: "\(requiredModule.lowercased())-\(platform.nodeExecutionEnvironment)"
             )
         }
 
@@ -100,8 +145,7 @@ class NodePhases: BasePhases, Phases {
             jsExports: [module],
             tsExports: [module],
             nativeLibName: "\(module)-node",
-            npmPackageName: "\(module)-\(platform.nodeExecutionEnvironment)",
-            npmModuleVersion: "file:\(outputDir)"
+            npmPackageName: "\(module)-\(platform.nodeExecutionEnvironment)"
         )
         let nodeModules = nodeDependencies + [nodeModule]
 
@@ -278,133 +322,20 @@ class NodePhases: BasePhases, Phases {
         try cmd("cp", "\(outputDir)/\(nodeModule.name).d.ts", "bindings/ts/tests/generated/").run()
 
         // Generate the package.json file
-        let packageVersion = options.version ?? "0.0.1" // If no version is provided, use a dummy version to build the package
-        var npmDependencies: [String: String] = [:]
-        if platform == .node {
-            for dependency in nodeDependencies {
-                npmDependencies["@cricut/\(dependency.npmPackageName)"] = dependency.npmModuleVersion
-            }
-        } else if platform == .wasm {
-            npmDependencies["@wasmer/wasi"] = "^0.12.0"
-            npmDependencies["@wasmer/wasmfs"] = "^0.12.0"
-        } else {
-            preconditionFailure("unexpected platform \(platform)")
-        }
-        var package = NPMPackage(
-            config: options.config,
-            platform: platform,
-            version: packageVersion,
-            dependencies: npmDependencies
-        )
         if platform.platform == "node-native-macos" || platform.platform == "node-native-ubuntu" {
             // When on macOS & Ubuntu, dlopen() needs file-relative native libraries, so add a post-install script to the package to setup symlinks to dependency DYLIBs / SOs
-            var postinstall = """
-                #!/bin/bash
-                #
-
-                set -ex
-                if [[ "$npm_package_version" == "0.0.1" ]]; then
-                # We are installed as a file local package
-                package_directory="node_modules/@cricut"
-                else
-                # We are installed as a published package
-                package_directory=".."
-                fi
-
-
-                """
-
-            for dependency in nodeDependencies {
-                let nativeLibFilename = platform.dylibName(for: dependency.nativeLibName)
-                postinstall += """
-                    ln -sf "$(realpath \"$package_directory/\(dependency.npmPackageName)/\(nativeLibFilename)\")" "\"\(nativeLibFilename)\""
-
-                    """
-            }
-
-            try cmd("cat")
-                .input(postinstall)
-                .output(overwritingFile: "\(outputDir)/postinstall.sh")
-                .run()
-            try cmd("chmod", "+x", "\(outputDir)/postinstall.sh").run()
-            package.scripts[default: [:]]["postinstall"] = "./postinstall.sh"
-        }
-        if platform.platform == "node-native-windows" {
+            let scriptName = "postinstall.\(platform.nodeExecutionEnvironment).sh"
+            try cmd("cp", "bindings/ts/generated/\(scriptName)", outputDir).run()
+            try cmd("chmod", "+x", "\(outputDir)/\(scriptName)").run()
+        } else if platform.platform == "node-native-windows" {
             // When on Windows, LoadLibrary() needs file-relative native libraries, so add a post-install script to the package to copy dependency DLLs
-            var postinstall = """
-                @ECHO ON
-                IF %npm_package_version%==0.0.1 (SET package_directory=node_modules\\@cricut) ELSE (SET package_directory=..)
-
-                """
-
-            for dependency in nodeDependencies {
-                let nativeLibFilename = platform.dylibName(for: dependency.nativeLibName)
-                // TODO: Should copy?!? How to establish this link with only one file?
-                postinstall += """
-                    COPY "%package_directory%\\\(dependency.npmPackageName)\\\(nativeLibFilename)" "\(nativeLibFilename)"
-
-                    """
-            }
-
-            try cmd("cat")
-                .input(postinstall)
-                .output(overwritingFile: "\(outputDir)/postinstall.cmd")
-                .run()
-            package.scripts[default: [:]]["postinstall"] = "postinstall.cmd"
+            try cmd("cp", "bindings/ts/generated/postinstall.\(platform.nodeExecutionEnvironment).cmd", outputDir).run()
         }
 
-        // Merge template file into package.json, overriding with template if both are present
-        try outputMergedJSON(
-            baseJSON: PrettyJSONEncoder().encodeToString(package),
-            overridePath: "bindings/ts/package.override.json",
-            overwritingFile: "\(outputDir)/package.json"
-        )
-
-        // Generate package.json file for the tests package
-        let lowercaseModuleName = nodeModule.name.lowercased()
-        let testsPackageJson = """
-            {
-                "//": "THIS FILE IS AUTOMATICALLY GENERATED, AND WILL BE OVERWRITTEN. DO NOT EDIT.",
-                "name": "\(lowercaseModuleName)-test",
-                "version": "0.0.1",
-                "description": "Node.js tests for \(nodeModule.name)",
-                "main": "index.js",
-                "scripts": {
-                    "test": "npm run test-wasm",
-                    "test-wasm": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band -c generated/jest.config.wasm.cjs",
-                    "test-native-windows": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band -c generated/jest.config.native-windows.cjs",
-                    "test-native-windows-lldb": "lldb -- node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band -c generated/jest.config.native-windows.cjs",
-                    "test-native-macos": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band -c generated/jest.config.native-macos.cjs",
-                    "test-native-macos-lldb": "lldb -- node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band -c generated/jest.config.native-macos.cjs",
-                    "test-native-ubuntu": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band -c generated/jest.config.native-ubuntu.cjs",
-                    "test-native-ubuntu-lldb": "lldb -- node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band -c generated/jest.config.native-ubuntu.cjs",
-                    "clear-cache": "node node_modules/jest/bin/jest.js --clear-cache"
-                },
-                "devDependencies": {
-                    "@babel/preset-env": "^7.18.2",
-                    "@types/jest": "^28.1.1",
-                    "jest": "^28.1.1",
-                    "ts-jest": "^28.0.4"
-                },
-                "type": "module",
-                "optionalDependencies": {
-                    "@cricut/\(lowercaseModuleName)-wasm": "file:../generated/packages/wasm",
-                    "@cricut/\(lowercaseModuleName)-native-macos": "file:../generated/packages/node-native-macos",
-                    "@cricut/\(lowercaseModuleName)-native-ubuntu": "file:../generated/packages/node-native-ubuntu",
-                    "@cricut/\(lowercaseModuleName)-native-windows": "file:../generated/packages/node-native-windows"
-                },
-                "dependencies": {
-                    "@wasmer/wasi": "^0.12.0",
-                    "@wasmer/wasmfs": "^0.12.0",
-                    "buffer": "^5.7.1"
-                }
-            }
-            """
-        try outputMergedJSON(
-            baseJSON: testsPackageJson,
-            overridePath: "bindings/ts/tests/package.override.json",
-            overwritingFile: "bindings/ts/tests/generated/package.generated.json"
-        )
+        try cmd("jq", "-e", ".version = env.VERSION", addEnv: ["VERSION": options.version ?? "0.0.1"])
+            .input(fromFile: "bindings/ts/generated/package.\(platform.nodeExecutionEnvironment).json")
+            .output(overwritingFile: "\(outputDir)/package.json")
+            .run()
     }
 
     func compileHostLanguagePhase() throws {}
@@ -591,19 +522,5 @@ class NodePhases: BasePhases, Phases {
         #else
         fatalError("unknown host OS")
         #endif
-    }
-
-    private func outputMergedJSON(baseJSON: String, overridePath: String, overwritingFile: String) throws {
-        let command: any Command
-        if cmd("test", "-f", overridePath).runBool() {
-            // Recursively merge 2 JSON files, preferring entries in the 2nd
-            command = cmd("jq", "-e", "-s", ".[0] * .[1]", "-", overridePath)
-        } else {
-            command = cmd("cat")
-        }
-        try command
-            .input(baseJSON)
-            .output(overwritingFile: overwritingFile)
-            .run()
     }
 }

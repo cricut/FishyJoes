@@ -1,0 +1,26 @@
+{
+  "name": "@cricut/testapi-native-macos",
+  "version": "0.0.1",
+  "description": "TypeScript bindings for TestAPI on node-native-macos",
+  "type": "module",
+  "types": "TestAPI.d.ts",
+  "main": "TestAPI.js",
+  "dependencies": {
+    "@cricut/fishyjoes-runtime-native-macos": "file:../../../../../../../node-runtime/fishyjoes-runtime-native-macos"
+  },
+  "scripts": {
+    "postinstall": "./postinstall.native-macos.sh"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "repository": {
+    "directory": "packages",
+    "type": "git",
+    "url": "ssh://git@__BINDINGS_REPO__.git"
+  },
+  "this should appear in": [
+    "the generated package.PLATFORM.json files",
+    true
+  ]
+}

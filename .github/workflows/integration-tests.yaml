@@ -51,6 +51,11 @@ jobs:
         with:
           dotnet-version: '6'
 
+      - name: Install generation tools
+        shell: zsh {0}
+        run: |
+          yq --version || brew install yq
+
       - name: Force clear nuget cache
         run: "dotnet nuget locals all --clear"
 
@@ -68,6 +73,7 @@ jobs:
           if [ ! -z "$(cd integration-tests/TestAPI; git status --porcelain .)" ]; then
             echo '::error:: generation modified sources'
             echo '::error::   run `FISHYJOES=1 swift run fishy-joes generate` from integration-tests/TestAPI and re-commit'
+            git diff
             git status
             exit 1
           fi

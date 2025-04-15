@@ -2,6 +2,45 @@ import Foundation
 import swsh
 
 class CSharpPhases: IotaPhases, Phases {
+    func generationPhaseTemplateReplacements() throws -> [String: String] {
+        var replacements: [String: String] = [:]
+        replacements["__LIBRARY_CSPROJ_UUID__"] = UUID(deterministicFrom: "Cricut.\(options.config.module).csproj").uuidString
+        replacements["__TESTS_CSPROJ_UUID__"] = UUID(deterministicFrom: "Cricut.\(options.config.module).Tests.csproj").uuidString
+
+        let csProjDependencies = [
+            (swift: "FishyJoes", nupkgsPath: "c-sharp-runtime/nupkgs", nuget: "Cricut.FishyJoesRuntime")
+        ] + options.config.requiredModules.map {
+            (swift: $0, nupkgsPath: "bindings/c-sharp/nupkgs", nuget: "Cricut.\($0)")
+        }
+        let csProjDependencyLines = {
+            var dependencyPaths: [String] = []
+            let deps = csProjDependencies.map {
+                guard let dependency = options.packageInfo?.dependencyMap[$0.swift] else {
+                    return #"<ItemGroup><PackageReference Include="\#($0.nuget)" Version="[0.0.1-unknown]" /></ItemGroup>"#
+                }
+                if let version = dependency.versionInNugetFormat {
+                    return #"<ItemGroup><PackageReference Include="\#($0.nuget)" Version="\#(version)" /></ItemGroup>"#
+                } else {
+                    let path = relativePath(of: dependency.localPath, relativeTo: "bindings/c-sharp/generated/Cricut.\(options.config.module)/")
+                    dependencyPaths.append("$(MSBuildThisFileDirectory)\(path)/\($0.nupkgsPath)")
+                    return #"<ItemGroup><PackageReference Include="\#($0.nuget)" Version="[0.0.1-unknown]" /></ItemGroup>"#
+                }
+            }
+
+            if dependencyPaths.isEmpty {
+                return deps
+            } else {
+                return [
+                    // Note: All these being in one line as one item seems to be important, even though ugly
+                    #"<PropertyGroup><RestoreAdditionalProjectSources>\#(dependencyPaths.joined(separator: ";"))</RestoreAdditionalProjectSources></PropertyGroup>"#,
+                ] + deps
+            }
+        }()
+        replacements["__CSPROJ_DEPENDENCIES__"] = join(lines: csProjDependencyLines, indent: 2)
+
+        return replacements
+    }
+
     func installPhase() throws {
         // Install the module library and interfacing library
         try installLibrary(options.config.module)

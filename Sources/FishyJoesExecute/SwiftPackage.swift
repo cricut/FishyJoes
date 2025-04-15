@@ -147,7 +147,7 @@ extension SwiftPackage.Dependency {
         }
     }
 
-    func versionInNpmFormat(addIfLocalPath: String = "") -> String {
+    func versionInNpmFormat(relativeTo: String?, addIfLocalPath: String = "") -> String {
         // These examples are the most authoritative source I could find without digging into the code of npm itself...
         // https://semver.npmjs.com/#syntax-examples
         switch self {
@@ -167,8 +167,9 @@ extension SwiftPackage.Dependency {
             return ">=\(lowerBound) <\(upperBound)"
         case .sourceControl(_, _, .exact(let version)):
             return version.versionString
-        case .fileSystem:
-            return "file:\(localPath)\(addIfLocalPath)"
+        case .fileSystem(_, let absolutePath):
+            let localPath = relativeTo.map { relativePath(of: absolutePath, relativeTo: $0) } ?? absolutePath
+            return "file:\(localPath)/\(addIfLocalPath)"
         }
     }
 
