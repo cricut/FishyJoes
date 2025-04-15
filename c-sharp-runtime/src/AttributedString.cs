@@ -32,18 +32,18 @@ namespace Cricut.FishyJoesRuntime {
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_get_Foundation_AttributedString_string(
-            IntPtr envRef, 
-            UnownedRef self, 
+            IntPtr envRef,
+            UnownedRef self,
             out CreatedRef exn
         );
 
         /// <summary>The attributed runs of the attributed string, as a view into the underlying string.</summary>
         /// <remarks>
         ///     This view provides access to the attribute information associated with the attributed string.
-        /// 
+        ///
         ///     See `runs.elementAtPosition()` or its `get()` operator for a way to access the attributes that
         ///     are associated with a particular position in the attributed string.
-        /// 
+        ///
         ///     For example, `s.runs.first().attributes` yields the attributes in the first run of `s`
         ///     and `s.runs[index].attributes` yields the attributes associated with the position `index` in `s`.
         /// </remarks>
@@ -59,8 +59,8 @@ namespace Cricut.FishyJoesRuntime {
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_get_Foundation_AttributedString_runs(
-            IntPtr envRef, 
-            UnownedRef self, 
+            IntPtr envRef,
+            UnownedRef self,
             out CreatedRef exn
         );
 
@@ -77,8 +77,8 @@ namespace Cricut.FishyJoesRuntime {
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_get_Foundation_AttributedString_characters(
-            IntPtr envRef, 
-            UnownedRef self, 
+            IntPtr envRef,
+            UnownedRef self,
             out CreatedRef exn
         );
 
@@ -95,8 +95,8 @@ namespace Cricut.FishyJoesRuntime {
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_get_Foundation_AttributedString_unicodeScalars(
-            IntPtr envRef, 
-            UnownedRef self, 
+            IntPtr envRef,
+            UnownedRef self,
             out CreatedRef exn
         );
 
@@ -113,8 +113,8 @@ namespace Cricut.FishyJoesRuntime {
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_get_Foundation_AttributedString_substring(
-            IntPtr envRef, 
-            UnownedRef self, 
+            IntPtr envRef,
+            UnownedRef self,
             out CreatedRef exn
         );
 
@@ -134,8 +134,8 @@ namespace Cricut.FishyJoesRuntime {
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_get_Foundation_AttributedString_startIndex(
-            IntPtr envRef, 
-            UnownedRef self, 
+            IntPtr envRef,
+            UnownedRef self,
             out CreatedRef exn
         );
 
@@ -155,8 +155,8 @@ namespace Cricut.FishyJoesRuntime {
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_get_Foundation_AttributedString_endIndex(
-            IntPtr envRef, 
-            UnownedRef self, 
+            IntPtr envRef,
+            UnownedRef self,
             out CreatedRef exn
         );
 
@@ -173,7 +173,7 @@ namespace Cricut.FishyJoesRuntime {
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_Foundation_AttributedString_substringForRange(
-            IntPtr envRef, 
+            IntPtr envRef,
             UnownedRef self,
             UnownedRef range,
             out CreatedRef exn
@@ -192,7 +192,7 @@ namespace Cricut.FishyJoesRuntime {
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern void __iota_Foundation_AttributedString_append(
-            IntPtr envRef, 
+            IntPtr envRef,
             UnownedRef self,
             UnownedRef attributedString,
             out CreatedRef exn
@@ -211,7 +211,7 @@ namespace Cricut.FishyJoesRuntime {
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern void __iota_Foundation_AttributedString_appendSubstring(
-            IntPtr envRef, 
+            IntPtr envRef,
             UnownedRef self,
             UnownedRef substring,
             out CreatedRef exn
@@ -237,7 +237,7 @@ namespace Cricut.FishyJoesRuntime {
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern void __iota_Foundation_AttributedString_insert(
-            IntPtr envRef, 
+            IntPtr envRef,
             UnownedRef self,
             UnownedRef attributedString,
             UnownedRef index,
@@ -264,7 +264,7 @@ namespace Cricut.FishyJoesRuntime {
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern void __iota_Foundation_AttributedString_insertSubstring(
-            IntPtr envRef, 
+            IntPtr envRef,
             UnownedRef self,
             UnownedRef substring,
             UnownedRef index,
@@ -287,7 +287,7 @@ namespace Cricut.FishyJoesRuntime {
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern void __iota_Foundation_AttributedString_replaceSubrange(
-            IntPtr envRef, 
+            IntPtr envRef,
             UnownedRef self,
             UnownedRef range,
             UnownedRef attributedString,
@@ -310,7 +310,7 @@ namespace Cricut.FishyJoesRuntime {
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern void __iota_Foundation_AttributedString_replaceSubrangeWithSubstring(
-            IntPtr envRef, 
+            IntPtr envRef,
             UnownedRef self,
             UnownedRef range,
             UnownedRef substring,
@@ -330,7 +330,7 @@ namespace Cricut.FishyJoesRuntime {
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern void __iota_Foundation_AttributedString_removeSubrange(
-            IntPtr envRef, 
+            IntPtr envRef,
             UnownedRef self,
             UnownedRef range,
             out CreatedRef exn
@@ -349,7 +349,7 @@ namespace Cricut.FishyJoesRuntime {
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern void __iota_Foundation_AttributedString_setAttributes(
-            IntPtr envRef, 
+            IntPtr envRef,
             UnownedRef self,
             UnownedRef attributes,
             out CreatedRef exn
@@ -371,7 +371,7 @@ namespace Cricut.FishyJoesRuntime {
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern void __iota_Foundation_AttributedString_setAttributesForRange(
-            IntPtr envRef, 
+            IntPtr envRef,
             UnownedRef self,
             UnownedRef range,
             UnownedRef attributes,
@@ -397,7 +397,7 @@ namespace Cricut.FishyJoesRuntime {
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern void __iota_Foundation_AttributedString_mergeAttributes(
-            IntPtr envRef, 
+            IntPtr envRef,
             UnownedRef self,
             UnownedRef attributes,
             bool keepCurrent,
@@ -426,7 +426,7 @@ namespace Cricut.FishyJoesRuntime {
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern void __iota_Foundation_AttributedString_mergeAttributesForRange(
-            IntPtr envRef, 
+            IntPtr envRef,
             UnownedRef self,
             UnownedRef range,
             UnownedRef attributes,
@@ -450,7 +450,7 @@ namespace Cricut.FishyJoesRuntime {
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern void __iota_Foundation_AttributedString_replaceAttributes(
-            IntPtr envRef, 
+            IntPtr envRef,
             UnownedRef self,
             UnownedRef attributes,
             UnownedRef others,
@@ -476,7 +476,7 @@ namespace Cricut.FishyJoesRuntime {
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern void __iota_Foundation_AttributedString_replaceAttributesForRange(
-            IntPtr envRef, 
+            IntPtr envRef,
             UnownedRef self,
             UnownedRef range,
             UnownedRef attributes,
@@ -493,8 +493,9 @@ namespace Cricut.FishyJoesRuntime {
         }
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool __iota_Foundation_AttributedString_equals(
-            IntPtr envRef, 
+            IntPtr envRef,
             UnownedRef lhs,
             UnownedRef rhs,
             out CreatedRef exn
@@ -508,7 +509,7 @@ namespace Cricut.FishyJoesRuntime {
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern int __iota_get_Foundation_AttributedString_hash(
-            IntPtr envRef, 
+            IntPtr envRef,
             UnownedRef self,
             out CreatedRef exn
         );
@@ -522,7 +523,7 @@ namespace Cricut.FishyJoesRuntime {
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_Foundation_AttributedString_createEmpty(
-            IntPtr envRef, 
+            IntPtr envRef,
             out CreatedRef exn
         );
 
@@ -541,7 +542,7 @@ namespace Cricut.FishyJoesRuntime {
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_Foundation_AttributedString_create(
-            IntPtr envRef, 
+            IntPtr envRef,
             UnownedRef _string,
             UnownedRef attributes,
             out CreatedRef exn
@@ -559,7 +560,7 @@ namespace Cricut.FishyJoesRuntime {
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_Foundation_AttributedString_createFromSubstring(
-            IntPtr envRef, 
+            IntPtr envRef,
             UnownedRef substring,
             out CreatedRef exn
         );
@@ -568,21 +569,21 @@ namespace Cricut.FishyJoesRuntime {
     // Convenience Interface
     public partial class AttributedString : ICloneable {
         /// <summary>Synonym for `AttributedString.CreateEmpty()`.</summary>
-        public AttributedString(): base(new ConsumedRef(IntPtr.Zero)) { 
+        public AttributedString(): base(new ConsumedRef(IntPtr.Zero)) {
             var temp = AttributedString.CreateEmpty();
             reference = temp.reference;
             temp.reference = IntPtr.Zero;
         }
 
         /// <summary>Synonym for `AttributedString.Create()`.</summary>
-        public AttributedString(string _string, AttributeContainer? attributes = null): base(new ConsumedRef(IntPtr.Zero)) { 
+        public AttributedString(string _string, AttributeContainer? attributes = null): base(new ConsumedRef(IntPtr.Zero)) {
             var temp = AttributedString.Create(_string, attributes);
             reference = temp.reference;
             temp.reference = IntPtr.Zero;
         }
 
         /// <summary>Synonym for `AttributedString.CreateFromSubstring()`.</summary>
-        public AttributedString(AttributedSubstring substring): base(new ConsumedRef(IntPtr.Zero)) { 
+        public AttributedString(AttributedSubstring substring): base(new ConsumedRef(IntPtr.Zero)) {
             var temp = AttributedString.CreateFromSubstring(substring);
             reference = temp.reference;
             temp.reference = IntPtr.Zero;
@@ -592,7 +593,7 @@ namespace Cricut.FishyJoesRuntime {
         public AttributedString(AttributedString attributedString): base(new ConsumedRef(IntPtr.Zero)) {
             // TODO: Faster! private cloneBox function inside SwiftReference?
             var clone = AttributedString.CreateEmpty();
-            foreach (var run in attributedString.Runs) { 
+            foreach (var run in attributedString.Runs) {
                 clone.Append(AttributedString.CreateFromSubstring(attributedString.SubstringForRange(run.Range)));
             }
             reference = clone.reference;
@@ -663,8 +664,9 @@ namespace Cricut.FishyJoesRuntime {
             public override bool Equals(object? other) => Equals(other as Index);
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [return: MarshalAs(UnmanagedType.I1)]
             private static extern bool __iota_Foundation_AttributedString_Index_equals(
-                IntPtr envRef, 
+                IntPtr envRef,
                 UnownedRef lhs,
                 UnownedRef rhs,
                 out CreatedRef exn
@@ -678,7 +680,7 @@ namespace Cricut.FishyJoesRuntime {
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern int __iota_get_Foundation_AttributedString_Index_hash(
-                IntPtr envRef, 
+                IntPtr envRef,
                 UnownedRef self,
                 out CreatedRef exn
             );
@@ -690,10 +692,10 @@ namespace Cricut.FishyJoesRuntime {
                 using var otherHandle = new GCRef(other as Cricut.FishyJoesRuntime.AttributedString.Index);
                 return Check((out CreatedRef _exn) => __iota_Foundation_AttributedString_Index_compare(Loader.env, _thisHandle.ptr, otherHandle.ptr, out _exn));
             }
-            
+
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern int __iota_Foundation_AttributedString_Index_compare(
-                IntPtr envRef, 
+                IntPtr envRef,
                 UnownedRef lhs,
                 UnownedRef rhs,
                 out CreatedRef exn
@@ -712,7 +714,7 @@ namespace Cricut.FishyJoesRuntime {
             public static bool operator != (Index lhs, Index rhs) => !(lhs == rhs);
         }
     }
-    
+
     public partial class AttributedString {
         /// <summary>An iterable view into segments of the attributed string or substring, each of which indicates where a run of identical attributes begins or ends.</summary>
         /// <!-- FishyJoes.exportReference(AttributedString.Runs) -->
@@ -733,8 +735,8 @@ namespace Cricut.FishyJoesRuntime {
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __iota_get_Foundation_AttributedString_Runs_startIndex(
-                IntPtr envRef, 
-                UnownedRef self, 
+                IntPtr envRef,
+                UnownedRef self,
                 out CreatedRef exn
             );
 
@@ -751,8 +753,8 @@ namespace Cricut.FishyJoesRuntime {
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __iota_get_Foundation_AttributedString_Runs_endIndex(
-                IntPtr envRef, 
-                UnownedRef self, 
+                IntPtr envRef,
+                UnownedRef self,
                 out CreatedRef exn
             );
 
@@ -774,7 +776,7 @@ namespace Cricut.FishyJoesRuntime {
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __iota_Foundation_AttributedString_Runs_indexBefore(
-                IntPtr envRef, 
+                IntPtr envRef,
                 UnownedRef self,
                 UnownedRef index,
                 out CreatedRef exn
@@ -798,7 +800,7 @@ namespace Cricut.FishyJoesRuntime {
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __iota_Foundation_AttributedString_Runs_indexAfter(
-                IntPtr envRef, 
+                IntPtr envRef,
                 UnownedRef self,
                 UnownedRef index,
                 out CreatedRef exn
@@ -822,7 +824,7 @@ namespace Cricut.FishyJoesRuntime {
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __iota_Foundation_AttributedString_Runs_elementAt(
-                IntPtr envRef, 
+                IntPtr envRef,
                 UnownedRef self,
                 UnownedRef index,
                 out CreatedRef exn
@@ -849,7 +851,7 @@ namespace Cricut.FishyJoesRuntime {
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __iota_Foundation_AttributedString_Runs_elementAtPosition(
-                IntPtr envRef, 
+                IntPtr envRef,
                 UnownedRef self,
                 UnownedRef index,
                 out CreatedRef exn
@@ -864,8 +866,9 @@ namespace Cricut.FishyJoesRuntime {
             }
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [return: MarshalAs(UnmanagedType.I1)]
             private static extern bool __iota_Foundation_AttributedString_Runs_equals(
-                IntPtr envRef, 
+                IntPtr envRef,
                 UnownedRef lhs,
                 UnownedRef rhs,
                 out CreatedRef exn
@@ -879,7 +882,7 @@ namespace Cricut.FishyJoesRuntime {
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern int __iota_get_Foundation_AttributedString_Runs_hash(
-                IntPtr envRef, 
+                IntPtr envRef,
                 UnownedRef self,
                 out CreatedRef exn
             );
@@ -922,8 +925,9 @@ namespace Cricut.FishyJoesRuntime {
                 public override bool Equals(object? other) => Equals(other as Index);
 
                 [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+                [return: MarshalAs(UnmanagedType.I1)]
                 private static extern bool __iota_Foundation_AttributedString_Runs_Index_equals(
-                    IntPtr envRef, 
+                    IntPtr envRef,
                     UnownedRef lhs,
                     UnownedRef rhs,
                     out CreatedRef exn
@@ -937,7 +941,7 @@ namespace Cricut.FishyJoesRuntime {
 
                 [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
                 private static extern int __iota_get_Foundation_AttributedString_Runs_Index_hash(
-                    IntPtr envRef, 
+                    IntPtr envRef,
                     UnownedRef self,
                     out CreatedRef exn
                 );
@@ -949,10 +953,10 @@ namespace Cricut.FishyJoesRuntime {
                     using var otherHandle = new GCRef(other as Cricut.FishyJoesRuntime.AttributedString.RunsView.Index);
                     return Check((out CreatedRef _exn) => __iota_Foundation_AttributedString_Runs_Index_compare(Loader.env, _thisHandle.ptr, otherHandle.ptr, out _exn));
                 }
-                
+
                 [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
                 private static extern int __iota_Foundation_AttributedString_Runs_Index_compare(
-                    IntPtr envRef, 
+                    IntPtr envRef,
                     UnownedRef lhs,
                     UnownedRef rhs,
                     out CreatedRef exn
@@ -993,8 +997,8 @@ namespace Cricut.FishyJoesRuntime {
 
                 [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
                 private static extern CreatedRef __iota_get_Foundation_AttributedString_Runs_Run_range(
-                    IntPtr envRef, 
-                    UnownedRef self, 
+                    IntPtr envRef,
+                    UnownedRef self,
                     out CreatedRef exn
                 );
 
@@ -1011,8 +1015,8 @@ namespace Cricut.FishyJoesRuntime {
 
                 [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
                 private static extern CreatedRef __iota_get_Foundation_AttributedString_Runs_Run_attributes(
-                    IntPtr envRef, 
-                    UnownedRef self, 
+                    IntPtr envRef,
+                    UnownedRef self,
                     out CreatedRef exn
                 );
 
@@ -1025,8 +1029,9 @@ namespace Cricut.FishyJoesRuntime {
                 }
 
                 [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+                [return: MarshalAs(UnmanagedType.I1)]
                 private static extern bool __iota_Foundation_AttributedString_Runs_Run_equals(
-                    IntPtr envRef, 
+                    IntPtr envRef,
                     UnownedRef lhs,
                     UnownedRef rhs,
                     out CreatedRef exn
@@ -1040,7 +1045,7 @@ namespace Cricut.FishyJoesRuntime {
 
                 [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
                 private static extern int __iota_get_Foundation_AttributedString_Runs_Run_hash(
-                    IntPtr envRef, 
+                    IntPtr envRef,
                     UnownedRef self,
                     out CreatedRef exn
                 );
@@ -1068,8 +1073,8 @@ namespace Cricut.FishyJoesRuntime {
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __iota_get_Foundation_AttributedString_CharacterView_startIndex(
-                IntPtr envRef, 
-                UnownedRef self, 
+                IntPtr envRef,
+                UnownedRef self,
                 out CreatedRef exn
             );
 
@@ -1086,8 +1091,8 @@ namespace Cricut.FishyJoesRuntime {
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __iota_get_Foundation_AttributedString_CharacterView_endIndex(
-                IntPtr envRef, 
-                UnownedRef self, 
+                IntPtr envRef,
+                UnownedRef self,
                 out CreatedRef exn
             );
 
@@ -1109,7 +1114,7 @@ namespace Cricut.FishyJoesRuntime {
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __iota_Foundation_AttributedString_CharacterView_indexBefore(
-                IntPtr envRef, 
+                IntPtr envRef,
                 UnownedRef self,
                 UnownedRef index,
                 out CreatedRef exn
@@ -1133,7 +1138,7 @@ namespace Cricut.FishyJoesRuntime {
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __iota_Foundation_AttributedString_CharacterView_indexAfter(
-                IntPtr envRef, 
+                IntPtr envRef,
                 UnownedRef self,
                 UnownedRef index,
                 out CreatedRef exn
@@ -1157,7 +1162,7 @@ namespace Cricut.FishyJoesRuntime {
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __iota_Foundation_AttributedString_CharacterView_elementAt(
-                IntPtr envRef, 
+                IntPtr envRef,
                 UnownedRef self,
                 UnownedRef index,
                 out CreatedRef exn
@@ -1201,8 +1206,8 @@ namespace Cricut.FishyJoesRuntime {
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __iota_get_Foundation_AttributedString_UnicodeScalarView_startIndex(
-                IntPtr envRef, 
-                UnownedRef self, 
+                IntPtr envRef,
+                UnownedRef self,
                 out CreatedRef exn
             );
 
@@ -1219,8 +1224,8 @@ namespace Cricut.FishyJoesRuntime {
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __iota_get_Foundation_AttributedString_UnicodeScalarView_endIndex(
-                IntPtr envRef, 
-                UnownedRef self, 
+                IntPtr envRef,
+                UnownedRef self,
                 out CreatedRef exn
             );
 
@@ -1242,7 +1247,7 @@ namespace Cricut.FishyJoesRuntime {
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __iota_Foundation_AttributedString_UnicodeScalarView_indexBefore(
-                IntPtr envRef, 
+                IntPtr envRef,
                 UnownedRef self,
                 UnownedRef index,
                 out CreatedRef exn
@@ -1266,7 +1271,7 @@ namespace Cricut.FishyJoesRuntime {
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __iota_Foundation_AttributedString_UnicodeScalarView_indexAfter(
-                IntPtr envRef, 
+                IntPtr envRef,
                 UnownedRef self,
                 UnownedRef index,
                 out CreatedRef exn
@@ -1290,7 +1295,7 @@ namespace Cricut.FishyJoesRuntime {
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern uint __iota_Foundation_AttributedString_UnicodeScalarView_elementAt(
-                IntPtr envRef, 
+                IntPtr envRef,
                 UnownedRef self,
                 UnownedRef index,
                 out CreatedRef exn
@@ -1298,7 +1303,7 @@ namespace Cricut.FishyJoesRuntime {
         }
     }
 
-    
+
     public partial class AttributedString {
         // Convenience Interface
         public partial class UnicodeScalarView : IEnumerable<UInt32> {
