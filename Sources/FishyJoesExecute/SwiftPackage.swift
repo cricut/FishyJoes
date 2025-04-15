@@ -103,15 +103,6 @@ extension SwiftPackage.Dependency {
         return url.scheme == "file" || url.scheme == nil ? url.path : ".build/checkouts/\(url.lastPathComponent)"
     }
 
-    func relative(to referencePath: String) -> SwiftPackage.Dependency {
-        switch self {
-        case .sourceControl:
-            return self
-        case .fileSystem(let identity, let path):
-            return .fileSystem(identity: identity, path: relativePath(of: path, relativeTo: referencePath))
-        }
-    }
-
     var versionInGradleFormat: String {
         // https://docs.gradle.org/current/userguide/single_versions.html
         let spec: String
@@ -159,8 +150,7 @@ extension SwiftPackage.Dependency {
     func versionInNpmFormat(relativeTo: String?, addIfLocalPath: String = "") -> String {
         // These examples are the most authoritative source I could find without digging into the code of npm itself...
         // https://semver.npmjs.com/#syntax-examples
-        let relativePath = relativeTo.map(self.relative(to:)) ?? self
-        switch relativePath {
+        switch self {
         case .sourceControl(_, _, .branch(let name)):
             return name
         case .sourceControl(_, _, .revision(let name)):
@@ -177,8 +167,9 @@ extension SwiftPackage.Dependency {
             return ">=\(lowerBound) <\(upperBound)"
         case .sourceControl(_, _, .exact(let version)):
             return version.versionString
-        case .fileSystem(_, let path):
-            return "file:\(path)/\(addIfLocalPath)"
+        case .fileSystem(_, let absolutePath):
+            let localPath = relativeTo.map { relativePath(of: absolutePath, relativeTo: $0) } ?? absolutePath
+            return "file:\(localPath)/\(addIfLocalPath)"
         }
     }
 
