@@ -327,8 +327,7 @@ class NodePhases: BasePhases, Phases {
             let scriptName = "postinstall.\(platform.nodeExecutionEnvironment).sh"
             try cmd("cp", "bindings/ts/generated/\(scriptName)", outputDir).run()
             try cmd("chmod", "+x", "\(outputDir)/\(scriptName)").run()
-        }
-        if platform.platform == "node-native-windows" {
+        } else if platform.platform == "node-native-windows" {
             // When on Windows, LoadLibrary() needs file-relative native libraries, so add a post-install script to the package to copy dependency DLLs
             try cmd("cp", "bindings/ts/generated/postinstall.\(platform.nodeExecutionEnvironment).cmd", outputDir).run()
         }

@@ -59,6 +59,8 @@ jobs:
         run: |
           set -euxo pipefail
 
+          yq --version || brew install yq
+
           [[ -d ~/swift-wasm-toolchains/swift-wasm-$SWIFT_WASM_VERSION-macos_arm64.artifactbundle ]] || {
               mkdir -p ~/swift-wasm-toolchains
               curl -LJo swift-wasm.artifactbundle.zip \
