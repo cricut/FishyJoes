@@ -24,7 +24,10 @@ class NodePhases: BasePhases, Phases {
             }
             let npmDependencyLines = npmDependencies.map { dependency in
                 let version = options.packageInfo?.dependencyMap[dependency.swift]?
-                    .versionInNpmFormat(addIfLocalPath: dependency.subPath)
+                    .versionInNpmFormat(
+                        relativeTo: "bindings/ts/generated/packages/node-native\(platform)",
+                        addIfLocalPath: dependency.subPath
+                    )
                     ?? "0.0.1-unknown"
                 return #""@cricut/\#(dependency.npm)": "\#(version)""#
             }
@@ -101,7 +104,6 @@ class NodePhases: BasePhases, Phases {
             let tsExports: [String]
             let nativeLibName: String
             let npmPackageName: String
-            let npmModuleVersion: String
 
             var wasmMainShimName: String { "\(name)_WasmMainShim.wasm" }
             var nodeShimLibName: String { "\(name)-node-shim" }
@@ -117,10 +119,7 @@ class NodePhases: BasePhases, Phases {
                 jsExports: ["Runtime"],
                 tsExports: ["Optional", "Runtime"],
                 nativeLibName: "FishyJoesNodeRuntime",
-                npmPackageName: "fishyjoes-runtime-\(platform.nodeExecutionEnvironment)",
-                npmModuleVersion: fishyJoesDependency.versionInNpmFormat(
-                    addIfLocalPath: "node-runtime/fishyjoes-runtime-\(platform.nodeExecutionEnvironment)"
-                )
+                npmPackageName: "fishyjoes-runtime-\(platform.nodeExecutionEnvironment)"
             )
         ] + options.config.requiredModules.map { requiredModule in
             guard let dependency = options.packageInfo.dependencyMap[requiredModule] else {
@@ -134,8 +133,7 @@ class NodePhases: BasePhases, Phases {
                 jsExports: [requiredModule],
                 tsExports: [requiredModule],
                 nativeLibName: "\(requiredModule)-node",
-                npmPackageName: "\(requiredModule.lowercased())-\(platform.nodeExecutionEnvironment)",
-                npmModuleVersion: dependency.versionInNpmFormat(addIfLocalPath: outputDir)
+                npmPackageName: "\(requiredModule.lowercased())-\(platform.nodeExecutionEnvironment)"
             )
         }
 
@@ -147,8 +145,7 @@ class NodePhases: BasePhases, Phases {
             jsExports: [module],
             tsExports: [module],
             nativeLibName: "\(module)-node",
-            npmPackageName: "\(module)-\(platform.nodeExecutionEnvironment)",
-            npmModuleVersion: "file:\(outputDir)"
+            npmPackageName: "\(module)-\(platform.nodeExecutionEnvironment)"
         )
         let nodeModules = nodeDependencies + [nodeModule]
 

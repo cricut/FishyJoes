@@ -52,7 +52,10 @@ class DartPhases: IotaPhases, Phases {
 
         let npmFlutterDependencyLines = dartDependencies.map { dependency in
             let version = options.packageInfo?.dependencyMap[dependency.swift]?
-                .versionInNpmFormat(addIfLocalPath: dependency.npmSubPath)
+                .versionInNpmFormat(
+                    relativeTo: "bindings/dart/generated/flutter-package/",
+                    addIfLocalPath: dependency.npmSubPath
+                )
                 ?? "0.0.1-unknown"
             return #""@cricut/\#(dependency.npm)": "\#(version)""#
         }
@@ -160,25 +163,9 @@ class DartPhases: IotaPhases, Phases {
                 }
             }
 
-            var package = NPMPackage(name: "@cricut/flutter-\(options.config.module.lowercased())")
-            package.version = options.version ?? "0.0.1" // If no version is provided, use a dummy version to package
-
-            // If fishy-joes is file-local, use a file-local runtime too
-            let runtimeVersion = options.fishyJoesDependency.versionInNpmFormat(addIfLocalPath: "dart-runtime/flutter-package")
-
-            var dependencies = ["@cricut/flutter-fishyjoes-runtime": runtimeVersion]
-            for module in options.config.requiredModules {
-                guard let dependency = options.packageInfo.dependencyMap[module] else {
-                    fatalError("Could not locate dependency \(module) in Package.swift")
-                }
-
-                // If dependency is file-local, use a file-local dependency too
-                let moduleVersion = dependency.versionInNpmFormat(addIfLocalPath: "bindings/dart/generated/flutter-package")
-                dependencies["@cricut/flutter-\(module.lowercased())"] = moduleVersion
-            }
-            package.dependencies = dependencies
-            try cmd("cat")
-                .inputJSON(from: package, encoder: PrettyJSONEncoder())
+            // If no version is provided, use a dummy version to package
+            try cmd("jq", "-e", ".version = env.VERSION", addEnv: ["VERSION": options.version ?? "0.0.1"])
+                .input(fromFile: "generated/flutter-package.json")
                 .output(overwritingFile: "generated/flutter-package/package.json")
                 .run()
 
