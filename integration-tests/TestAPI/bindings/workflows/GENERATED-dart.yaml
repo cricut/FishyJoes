@@ -146,7 +146,7 @@ jobs:
 
   build-test-dart-windows:
     name: "Windows: Build and test dart bindings"
-    runs-on: windows-latest
+    runs-on: windows-2019
     steps:
       - name: Enable git longpaths
         run: "git config --system core.longpaths true"
