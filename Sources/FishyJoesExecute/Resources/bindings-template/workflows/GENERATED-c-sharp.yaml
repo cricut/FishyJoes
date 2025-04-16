@@ -154,7 +154,7 @@ jobs:
 
   build-test-c-sharp-windows:
     name: "Windows: Build and test C# bindings"
-    runs-on: windows-latest
+    runs-on: windows-2019
     steps:
       - name: Enable git longpaths
         run: "git config --system core.longpaths true"
@@ -231,7 +231,7 @@ jobs:
     needs:
       - build-test-c-sharp-mac
       - build-test-c-sharp-linux
-      # - build-test-c-sharp-windows
+      - build-test-c-sharp-windows
     env:
       GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
@@ -275,7 +275,7 @@ jobs:
           mkdir -p bindings/c-sharp/generated/Cricut.__MODULE_NAME__/runtimes
           mv mac_generated/osx bindings/c-sharp/generated/Cricut.__MODULE_NAME__/runtimes/
           mv ubuntu_generated/linux bindings/c-sharp/generated/Cricut.__MODULE_NAME__/runtimes/
-          mv windows_generated/win bindings/c-sharp/generated/Cricut.__MODULE_NAME__/runtimes/ || true
+          mv windows_generated/win bindings/c-sharp/generated/Cricut.__MODULE_NAME__/runtimes/
 
           ls -R bindings/c-sharp/
 

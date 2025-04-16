@@ -132,7 +132,7 @@ jobs:
 
   build-iota-windows:
     name: "Windows: Build Iota Runtime"
-    runs-on: windows-latest
+    runs-on: windows-2019
     env:
       LIB_DIR: .build/windows-iota-libs
     steps:
@@ -189,7 +189,7 @@ jobs:
     needs:
       - build-iota-mac
       - build-iota-ubuntu
-      # - build-iota-windows
+      - build-iota-windows
     env:
       GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
@@ -232,7 +232,7 @@ jobs:
           mkdir -p c-sharp-runtime/runtimes/{osx,linux,win}/native
           cp -dv mac_generated/* c-sharp-runtime/runtimes/osx/native/
           cp -dv ubuntu_generated/* c-sharp-runtime/runtimes/linux/native/
-          cp -dv windows_generated/* c-sharp-runtime/runtimes/win/native/ || true
+          cp -dv windows_generated/* c-sharp-runtime/runtimes/win/native/
 
           ls -R c-sharp-runtime/
 
@@ -240,7 +240,7 @@ jobs:
           mkdir -p dart-runtime/{macos,linux,windows}/native
           cp -dv mac_generated/* dart-runtime/macos/native/
           cp -dv ubuntu_generated/* dart-runtime/linux/native/
-          cp -dv windows_generated/* dart-runtime/windows/native/ || true
+          cp -dv windows_generated/* dart-runtime/windows/native/
 
           ls -R dart-runtime
 
