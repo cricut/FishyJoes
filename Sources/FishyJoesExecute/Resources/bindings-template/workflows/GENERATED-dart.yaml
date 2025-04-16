@@ -223,8 +223,7 @@ jobs:
     needs:
       - build-test-dart-mac
       - build-test-dart-linux
-      # TODO: when re-enabled, also fix DartPhases.swift:43
-      # - build-test-dart-windows
+      - build-test-dart-windows
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -262,7 +261,7 @@ jobs:
           # mkdir -p bindings/dart/generated/{macos,linux,windows}/native
           mv mac_lib bindings/dart/generated/macos/native
           mv ubuntu_lib bindings/dart/generated/linux/native
-          mv windows_lib bindings/dart/generated/windows/native || true
+          mv windows_lib bindings/dart/generated/windows/native
 
       - name: Determine version
         shell: zsh {0}
