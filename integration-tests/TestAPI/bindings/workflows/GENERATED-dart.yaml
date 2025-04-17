@@ -148,8 +148,11 @@ jobs:
     name: "Windows: Build and test dart bindings"
     runs-on: windows-2019
     steps:
-      - name: Enable git longpaths
-        run: "git config --system core.longpaths true"
+      - name: Configure git and vcpkg
+        shell: pwsh
+        run: |
+          git config --system core.longpaths true
+          echo "VCPKG_ROOT=$(Split-Path -Parent $((gcm vcpkg).Path))" >> $env:GITHUB_ENV
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -163,11 +166,6 @@ jobs:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - uses: dart-lang/setup-dart@v1
-
-      - name: Fetch remote dart stuff before swift gets installed and confuses dart for some reason
-        run: |
-          cd bindings/dart/generated
-          dart pub get
 
       - uses: compnerd/gha-setup-swift@main
         with:
