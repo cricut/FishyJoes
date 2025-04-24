@@ -3,9 +3,6 @@ name: "Node Runtime"
 
 "on":
   workflow_dispatch:
-  push:
-    branches:
-      - main
   label:
     types:
       - created
@@ -101,12 +98,23 @@ jobs:
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          registry-url: 'https://npm.pkg.github.com/'
+          scope: '@cricut'
+
       - name: Configure build environment
         run: |
           set -eux
           apt-get -y update
           apt-get -y install patchelf jq
           git config --global --add safe.directory '*'
+
+          # Use wasm version of wasm-opt because ubuntu version can be very old
+          npm install -g binaryen
+          wasm-opt --version
 
       - name: Build FishyJoesNodeRuntime
         shell: zsh {0}
@@ -164,13 +172,6 @@ jobs:
               VERSION="0.0.1-$(git rev-parse --short HEAD)"
           fi
           echo VERSION=$VERSION >> $GITHUB_ENV
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18.x'
-          registry-url: 'https://npm.pkg.github.com/'
-          scope: '@cricut'
 
       - name: NPM Pack
         shell: zsh {0}

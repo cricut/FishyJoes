@@ -5,8 +5,6 @@ name: "TypeScript"
 
 "on":
   workflow_dispatch:
-  push:
-    branches: [main]
   label:
     types: [created]
   pull_request:
@@ -137,6 +135,10 @@ jobs:
           curl -Lo swift-wasm.tgz "https://github.com/swiftwasm/swift/releases/download/swift-wasm-$SWIFT_WASM_VERSION/swift-wasm-$SWIFT_WASM_VERSION-ubuntu20.04_x86_64.tar.gz"
           mkdir -p /Library/Developer/Toolchains/swift-wasm-$SWIFT_WASM_VERSION.xctoolchain
           tar -xf swift-wasm.tgz -C /Library/Developer/Toolchains/swift-wasm-$SWIFT_WASM_VERSION.xctoolchain --strip-components 1
+
+          # Use wasm version of wasm-opt because ubuntu version can be very old
+          npm install -g binaryen
+          wasm-opt --version
 
       - name: Pre-build hook
         shell: bash

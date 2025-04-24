@@ -5,8 +5,6 @@ name: "C#"
 
 "on":
   workflow_dispatch:
-  push:
-    branches: [main]
   label:
     types: [created]
   pull_request:
