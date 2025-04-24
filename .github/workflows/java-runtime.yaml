@@ -3,9 +3,6 @@ name: "Java Runtime"
 
 "on":
   workflow_dispatch:
-  push:
-    branches:
-      - main
   label:
     types:
       - created
