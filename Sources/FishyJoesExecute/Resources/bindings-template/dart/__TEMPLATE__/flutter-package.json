@@ -1,4 +1,5 @@
 {
+  "//": "__AUTOGEN_WARNING__",
   "version" : "0.0.1",
   "name" : "@cricut/flutter-__LOWERCASE_MODULE_NAME__",
   "dependencies" : {

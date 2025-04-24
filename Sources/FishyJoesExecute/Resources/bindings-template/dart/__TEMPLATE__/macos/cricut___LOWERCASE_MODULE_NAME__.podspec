@@ -1,3 +1,5 @@
+# __AUTOGEN_WARNING__
+
 #
 # To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html.
 # Run `pod lib lint __LOWERCASE_MODULE_NAME___flutter.podspec` to validate before publishing.

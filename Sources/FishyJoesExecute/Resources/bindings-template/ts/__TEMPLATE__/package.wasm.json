@@ -1,4 +1,5 @@
 {
+  "//": "__AUTOGEN_WARNING__",
   "name" : "@cricut/__LOWERCASE_MODULE_NAME__-wasm",
   "version" : "0.0.1",
   "description" : "__MODULE_NAME__ packaged as a typescript library using WebAssembly",

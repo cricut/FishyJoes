@@ -1,3 +1,5 @@
+// __AUTOGEN_WARNING__
+
 /** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 
 const common = require("./jest.config.common.cjs")

@@ -1,3 +1,5 @@
+// __AUTOGEN_WARNING__
+
 import org.jetbrains.kotlin.konan.properties.loadProperties
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 

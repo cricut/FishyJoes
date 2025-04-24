@@ -1,4 +1,5 @@
 {
+  "//": "__AUTOGEN_WARNING__",
   "name" : "@cricut/__LOWERCASE_MODULE_NAME__-native-windows",
   "version" : "0.0.1",
   "description": "TypeScript bindings for __MODULE_NAME__ on node-native-windows",
