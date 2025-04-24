@@ -110,7 +110,7 @@ public struct PackageInit: ParsableCommand {
         if
             !includeFilesNotMarkedAsGenerated,
             fileType == .typeRegular,
-            path.range(of: #"\b(generated|__template__)\b"#, options: [.regularExpression, .caseInsensitive]) == nil
+            path.range(of: #"\b(generated|__template__|__template_caps__)\b"#, options: [.regularExpression, .caseInsensitive]) == nil
         {
             return .skip
         }
