@@ -105,6 +105,10 @@ jobs:
           apt-get -y install patchelf jq
           git config --global --add safe.directory '*'
 
+          # Use wasm version of wasm-opt because ubuntu version can be very old
+          npm install -g binaryen
+          wasm-opt --version
+
       - name: Build FishyJoesNodeRuntime
         shell: zsh {0}
         run: |

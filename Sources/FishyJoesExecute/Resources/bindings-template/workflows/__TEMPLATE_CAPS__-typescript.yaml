@@ -136,6 +136,10 @@ jobs:
           mkdir -p /Library/Developer/Toolchains/swift-wasm-$SWIFT_WASM_VERSION.xctoolchain
           tar -xf swift-wasm.tgz -C /Library/Developer/Toolchains/swift-wasm-$SWIFT_WASM_VERSION.xctoolchain --strip-components 1
 
+          # Use wasm version of wasm-opt because ubuntu version can be very old
+          npm install -g binaryen
+          wasm-opt --version
+
       - name: Pre-build hook
         shell: bash
         run: __PRE_BUILD_HOOK_YAML__
