@@ -16,7 +16,7 @@ class DartPhases: IotaPhases, Phases {
                 swift: $0,
                 path: "bindings/dart/generated",
                 dart: "cricut_\($0.lowercased())",
-                npm: "flutter-cricut_\($0.lowercased())",
+                npm: "flutter-\($0.lowercased())",
                 npmSubPath: "bindings/dart/generated/flutter-package"
             )
         }
