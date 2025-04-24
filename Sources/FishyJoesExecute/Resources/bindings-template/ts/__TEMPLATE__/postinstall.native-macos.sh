@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -ex
+
+# __AUTOGEN_WARNING__
+
+if [[ "$npm_package_version" == "0.0.1" ]]; then
+    # We are installed as a file local package
+    package_directory="node_modules/@cricut"
+else
+    # We are installed as a published package
+    package_directory=".."
+fi
+__NODE_POSTINSTALL_macos__

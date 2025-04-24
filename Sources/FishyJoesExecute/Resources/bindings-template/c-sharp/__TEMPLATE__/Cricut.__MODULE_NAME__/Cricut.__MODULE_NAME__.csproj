@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- __AUTOGEN_WARNING__ -->
+<Project Sdk="Microsoft.NET.Sdk">__CSPROJ_DEPENDENCIES__
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <RepositoryUrl>https://__BINDINGS_REPO__</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ContentWithTargetPath Include="runtimes\**\*" >
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <TargetPath>runtimes\%(RecursiveDir)\%(Filename)%(Extension)</TargetPath>
+    </ContentWithTargetPath>
+  </ItemGroup>
+
+  <Target Name="Runtimes" AfterTargets="Build">
+    <ItemGroup>
+      <Content Include="runtimes\**">
+        <PackagePath>runtimes</PackagePath>
+        <Visible>false</Visible>
+      </Content>
+      <Content Include="build\**">
+        <PackagePath>build</PackagePath>
+      </Content>
+    </ItemGroup>
+  </Target>
+</Project>
