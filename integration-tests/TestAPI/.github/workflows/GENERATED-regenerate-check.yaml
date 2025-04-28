@@ -5,11 +5,7 @@ name: "regenerate-check"
 
 "on":
   workflow_dispatch:
-  label:
-    types: [created]
   pull_request:
-  release:
-    types: [published]
 
 concurrency:
   group: build-${{ github.event.pull_request.number || github.ref }}-${{ github.workflow }}
