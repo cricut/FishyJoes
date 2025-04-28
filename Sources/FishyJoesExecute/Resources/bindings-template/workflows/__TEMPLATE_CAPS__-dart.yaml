@@ -286,7 +286,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: __MODULE_NAME__-dart-binaries.tgz
-          path: __MODULE_NAME__-dart-binaries.tgz
+          path: bindings/dart/generated/packages/__MODULE_NAME__-dart-binaries.tgz
 
       - name: Publish
         shell: zsh {0}
@@ -307,15 +307,17 @@ jobs:
               -q .id
           )
 
-          file=__MODULE_NAME__-dart-binaries.tgz
+          tarballName=__MODULE_NAME__-dart-binaries.tgz
+          tarballPath=bindings/dart/generated/packages/$tarballName
 
+          # Publish pure-dart tarball as a release artifact
           # https://docs.github.com/en/rest/releases/assets#upload-a-release-asset
           curl -f -u "$GITHUB_USER:$GITHUB_PUBLISH_TOKEN" \
             -X POST \
             -H 'Content-Type: application/gzip' \
             -H 'Accept: application/vnd.github.v3+json' \
-            "https://uploads.github.com/repos/$OWNER/$REPO/releases/$releaseID/assets?name=$file" \
-            --data-binary @$file
+            "https://uploads.github.com/repos/$OWNER/$REPO/releases/$releaseID/assets?name=$tarballName" \
+            --data-binary @$tarballPath
 
           # publish flutter NPM package
           npm publish bindings/packed-npm-packages/cricut-flutter-*.tgz

@@ -25,7 +25,7 @@ CriGeo/bindings/
 │       └── PathTest.kt
 ├── ts/
 │   ├── package.override.json
-│   ├── generated/packages/
+│   ├── generated/packages/    // Not committed
 │   │   ├── node-native-macos/
 │   │   └── wasm/
 │   └── tests/
@@ -73,7 +73,8 @@ CriGeo/bindings/
 │   │   │   └── pubspec.yaml
 │   │   ├── linux/CMakeLists.txt
 │   │   ├── macos/cricut_crigeo.podspec
-│   │   └── windows/CMakeLists.txt
+│   │   ├── windows/CMakeLists.txt
+│   │   └── packages/    // Not committed
 │   └── test/
 │       └── example_test.dart
 └── workflows/

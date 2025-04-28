@@ -113,10 +113,12 @@ class DartPhases: IotaPhases, Phases {
             FileManager.default.fileExists(atPath: "\(tarBaseDirectory)/\($0)")
         }
 
+        let packageDirectory = "bindings/dart/generated/packages"
+        try cmd("mkdir", "-p", packageDirectory)
         try cmd(
             "tar",
             arguments: [
-                "-cvzf", "\(options.config.module)-dart-binaries.tgz",
+                "-cvzf", "\(packageDirectory)/\(options.config.module)-dart-binaries.tgz",
                 "-C", tarBaseDirectory,
             ] + binariesToPack
         ).run()
