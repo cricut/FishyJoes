@@ -114,7 +114,7 @@ class DartPhases: IotaPhases, Phases {
         }
 
         let packageDirectory = "bindings/dart/generated/packages"
-        try cmd("mkdir", "-p", packageDirectory)
+        try cmd("mkdir", "-p", packageDirectory).run()
         try cmd(
             "tar",
             arguments: [
