@@ -156,9 +156,7 @@ public class FishyJoesContext {
             addHeader(file: fileName, "import 'package:cricut_\(dependency.lowercased())/\(dependency.lowercased()).dart' as \(dependency);")
             addHeader(file: fileName, "import 'package:cricut_\(dependency.lowercased())/\(dependency.lowercased()).dart';")
         }
-        for cls in dartClasses {
-            addHeader(file: fileName, "import './\(cls.unqualifiedName).dart' as \(module);")
-        }
+        addHeader(file: fileName, "import './_exports.dart' as \(module);")
         for additionalImport in additionalImports {
             addHeader(file: fileName, additionalImport)
         }
