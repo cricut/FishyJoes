@@ -656,6 +656,12 @@ namespace Cricut.TestAPI {
         );
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_ReferenceEmptyEnum_setup(
+            IntPtr envRef,
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Results_setup(
             IntPtr envRef,
             out CreatedRef _exn
@@ -3167,6 +3173,13 @@ namespace Cricut.TestAPI {
             Once("setup_TestAPI.Ranges", () => {
                 Console.WriteLine("setting up TestAPI.Ranges...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Ranges_setup(
+                    Loader.env,
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.ReferenceEmptyEnum", () => {
+                Console.WriteLine("setting up TestAPI.ReferenceEmptyEnum...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_ReferenceEmptyEnum_setup(
                     Loader.env,
                     out exn
                 ));

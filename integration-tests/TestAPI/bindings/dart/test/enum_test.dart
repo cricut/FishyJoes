@@ -9,8 +9,14 @@ void main() {
   group('EnumTests', () {
       test('testEmptyEnum', () {
           expect(EmptyEnum.notGoingToHappen, throwsA(isA<Exception>()));
-          expect(EmptyEnum.noot, equals(54546));
-          expect(EmptyEnum.mies(), equals(62645));
+          expect(EmptyEnum.aStaticProperty, equals(54546));
+          expect(EmptyEnum.aStaticMethod(), equals(62645));
+      });
+
+      test('testReferenceEmptyEnum', () {
+          expect(ReferenceEmptyEnum.notGoingToHappen, throwsA(isA<Exception>()));
+          expect(ReferenceEmptyEnum.aStaticProperty, equals(5));
+          expect(ReferenceEmptyEnum.aStaticMethod(), equals(6));
       });
 
       test('testSimpleEnum', () {

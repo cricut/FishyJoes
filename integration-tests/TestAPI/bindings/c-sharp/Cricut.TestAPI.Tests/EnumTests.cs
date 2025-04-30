@@ -7,8 +7,15 @@ namespace Cricut.TestAPI.Tests {
         [Fact]
         void testEmptyEnum() {
             Assert.Throws<Exception>(() => EmptyEnum.NotGoingToHappen());
-            Assert.Equal(54546, EmptyEnum.GetNoot());
-            Assert.Equal(62645, EmptyEnum.Mies());
+            Assert.Equal(54546, EmptyEnum.GetAStaticProperty());
+            Assert.Equal(62645, EmptyEnum.AStaticMethod());
+        }
+
+        [Fact]
+        void testReferenceEmptyEnum() {
+            Assert.Throws<Exception>(() => ReferenceEmptyEnum.NotGoingToHappen());
+            Assert.Equal(5, ReferenceEmptyEnum.GetAStaticProperty());
+            Assert.Equal(6, ReferenceEmptyEnum.AStaticMethod());
         }
 
         [Fact]

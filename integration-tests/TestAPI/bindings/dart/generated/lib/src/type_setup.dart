@@ -1115,6 +1115,16 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_Ranges_setup');
+    final TestAPI_ReferenceEmptyEnum_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            OutCreatedRef exn
+        )
+    >('TestAPI_ReferenceEmptyEnum_setup');
     final TestAPI_Results_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -2317,7 +2327,7 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_EmptyClass_shme");
-    TestAPI.EmptyEnum.f__iota_TestAPI_EmptyEnum_mies = dylib.lookupFunction<
+    TestAPI.EmptyEnum.f__iota_TestAPI_EmptyEnum_aStaticMethod = dylib.lookupFunction<
         ffi.IntPtr Function(
             Env env,
             OutCreatedRef _exn
@@ -2326,7 +2336,7 @@ final ensureLoaded = (() {
             Env env,
             OutCreatedRef _exn
         )
-    >("__iota_TestAPI_EmptyEnum_mies");
+    >("__iota_TestAPI_EmptyEnum_aStaticMethod");
     TestAPI.EmptyEnum.f__iota_TestAPI_EmptyEnum_notGoingToHappen = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -3217,6 +3227,26 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Ranges_echoUIntRange");
+    TestAPI.ReferenceEmptyEnum.f__iota_TestAPI_ReferenceEmptyEnum_aStaticMethod = dylib.lookupFunction<
+        ffi.IntPtr Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_ReferenceEmptyEnum_aStaticMethod");
+    TestAPI.ReferenceEmptyEnum.f__iota_TestAPI_ReferenceEmptyEnum_notGoingToHappen = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_ReferenceEmptyEnum_notGoingToHappen");
     TestAPI.Results.f__iota_TestAPI_Results_processResult = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -5007,7 +5037,7 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_EmptyClass_wibbledyWobbledyTimeyWhimey");
-    TestAPI.EmptyEnum.f__iota_get_TestAPI_EmptyEnum_noot = dylib.lookupFunction<
+    TestAPI.EmptyEnum.f__iota_get_TestAPI_EmptyEnum_aStaticProperty = dylib.lookupFunction<
         ffi.IntPtr Function(
             Env env,
             OutCreatedRef _exn
@@ -5016,7 +5046,7 @@ final ensureLoaded = (() {
             Env env,
             OutCreatedRef _exn
         )
-    >("__iota_get_TestAPI_EmptyEnum_noot");
+    >("__iota_get_TestAPI_EmptyEnum_aStaticProperty");
     TestAPI.EmptyStruct2.f__iota_get_TestAPI_EmptyStruct2_tatiana = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -6025,6 +6055,16 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_Ranges_uIntRange");
+    TestAPI.ReferenceEmptyEnum.f__iota_get_TestAPI_ReferenceEmptyEnum_aStaticProperty = dylib.lookupFunction<
+        ffi.IntPtr Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_ReferenceEmptyEnum_aStaticProperty");
     TestAPI.Results.f__iota_get_TestAPI_Results_aFailure = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -8929,6 +8969,16 @@ final ensureLoaded = (() {
         // print("setting up TestAPI.Ranges (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             TestAPI_Ranges_setup(
+                Loader.shared.env,
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.ReferenceEmptyEnum", () {
+        // print("setting up TestAPI.ReferenceEmptyEnum (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_ReferenceEmptyEnum_setup(
                 Loader.shared.env,
                 exn
             );

@@ -1325,6 +1325,61 @@
         "named" : {
           "_0" : {
             "module" : "TestAPI",
+            "name" : "ReferenceEmptyEnum",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "ReferenceEmptyEnum",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "ReferenceEmptyEnum",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/ReferenceEmptyEnum"
+        }
+      },
+      "kotlinName" : "ReferenceEmptyEnum",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=ReferenceEmptyEnum>>",
+      "nodeName" : "TestAPI.ReferenceEmptyEnum",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "ReferenceEmptyEnum",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
             "name" : "Results",
             "namespace" : [
 
@@ -10796,11 +10851,11 @@
             "fields" : [
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(noot) -->"
+                  "<!-- FishyJoes.export(aStaticProperty) -->"
                 ],
                 "hasDefaultImplementation" : false,
                 "isStatic" : true,
-                "name" : "noot",
+                "name" : "aStaticProperty",
                 "readOnly" : true,
                 "type" : {
                   "named" : {
@@ -10832,12 +10887,12 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(mies) -->"
+                  "<!-- FishyJoes.export(aStaticMethod) -->"
                 ],
                 "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : true,
-                "name" : "mies",
+                "name" : "aStaticMethod",
                 "parameters" : [
 
                 ],
@@ -14126,6 +14181,73 @@
 
             ]
           },
+          "ReferenceEmptyEnum" : {
+            "classes" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(aStaticProperty) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "aStaticProperty",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "notGoingToHappen",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.ReferenceEmptyEnum"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(aStaticMethod) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "aStaticMethod",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
+            ],
+            "name" : "ReferenceEmptyEnum",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
+          },
           "Results" : {
             "classes" : [
               {
@@ -16170,6 +16292,19 @@
               "<!-- FishyJoes.export(Ranges) -->"
             ],
             "name" : "Ranges",
+            "value" : {
+              "union" : {
+                "_0" : [
+
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(ReferenceEmptyEnum) -->"
+            ],
+            "name" : "ReferenceEmptyEnum",
             "value" : {
               "union" : {
                 "_0" : [

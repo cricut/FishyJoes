@@ -356,7 +356,6 @@ extension CodeGen {
                             fragment.output(#".product(name: "FishyJoesNodeRuntime", package: "FishyJoes"),"#)
                         }
                         fragment.output(#"path: "Sources/NodeInterface","#)
-                        fragment.output(#"resources: [.copy("\#(config.module).d.ts.part")],"#)
                         fragment.output(#"swiftSettings: strictConcurrencyFlags,"#)
                         fragment.outputBlock(#"linkerSettings: ["#, closeWith: #"]"#) {
                             for module in config.requiredModules {
