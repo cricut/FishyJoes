@@ -72,7 +72,6 @@ var package = Package(
                 .product(name: "FishyJoesNodeRuntime", package: "FishyJoes"),
             ],
             path: "Sources/NodeInterface",
-            resources: [.copy("TestAPI.d.ts.part")],
             swiftSettings: strictConcurrencyFlags,
             linkerSettings: [
             ]
@@ -115,3 +114,5 @@ var package = Package(
 )
 // END GENERATED CODE
 // Below is copied from bindings/swift-interfaces/Package.part.swift
+
+
