@@ -284,9 +284,7 @@ class NodePhases: BasePhases, Phases {
         definitions.append("")
 
         // Splat in the module's own definitions
-        // let moduleDefinitionsPath = "Sources/Generated/NodeInterface/\(nodeModule.name).d.ts.part"
-        let moduleDefinitionsPath = "\(buildConfig.packagePath)/Sources/NodeInterface/\(nodeModule.name).d.ts.part"
-        let moduleDefinitions = try String(contentsOfFile: moduleDefinitionsPath)
+        let moduleDefinitions = try String(contentsOfFile: nodeModule.definitionsPath)
         definitions.append(contentsOf: moduleDefinitions.split(separator: "\n").map(String.init))
         definitions.append("")
 
