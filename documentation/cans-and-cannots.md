@@ -17,11 +17,11 @@ FishyJoes exposes a subset of swift interfaces to several other languages. This 
  - :white_check_mark: `Array<T>`
  - :white_check_mark: `Dictionary<K, V>`
  - :white_check_mark: `Set<T>`
- - Functions
+ - Closures
     - :white_check_mark: throwing functions
     - :x: non-throwing functions
         (most languages don't have a distinction, and exceptions can be thrown anywhere)
-    - :construction: async functions
+    - :white_check_mark: async functions
 
 ## User defined types
  - :white_check_mark: Enums
@@ -51,18 +51,20 @@ FishyJoes exposes a subset of swift interfaces to several other languages. This 
        public func process<C: Collection, S: StringProtocol>(collection: C, name: S)
         where C.Element == Int
        ```
- - :x: Associated Types
-   - Most languages don't even have these
-
- - :x: Protocols
-   - Partial support was implemented, but never merged. Will probably implement in the future
-
- - :construction: Actors
+ 
+ - :white_check_mark: Protocols
+   - :x: Associated Types
+     - Most languages don't even have these
+      
+ - :white_check_mark: Actors
 
 ## Methods
  - :white_check_mark: static methods on all types
  - :white_check_mark: instance methods on all types
  - :white_check_mark: getters and setters
+ - :x: inout parameters (no equivalent feature in many languages)
+ - :white_check_mark: Async
+
  - Extensions
    - :white_check_mark: extensions to types defined in the same library
    - :x: extensions to standard library types
@@ -75,7 +77,6 @@ FishyJoes exposes a subset of swift interfaces to several other languages. This 
       Prefer using `x: TheEnum? = nil` over `x: TheEnum = .foo`
 
  - :x: Top level methods
- - :construction: Async
 
 ## Misc
  - :white_check_mark: documentation comments
