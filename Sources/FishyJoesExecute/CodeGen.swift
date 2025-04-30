@@ -482,7 +482,7 @@ extension CodeGen {
 
             try errorReporter.succeed()
 
-            let packageInit = try PackageInit(
+            let packageInit = try FileTemplater(
                 config: config,
                 phasesList: generationPhases,
                 swiftPackage: packageInfo,
