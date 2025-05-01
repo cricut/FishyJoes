@@ -7,11 +7,19 @@ let swiftWasmToolchainVersion = "6.1"
 // The wasm component of the swift-wasm toolchain
 let swiftWasmSDKVersion = "6.1-RELEASE"
 
+#if os(Linux)
+let defaultSwiftlyPath = "~/.local/share/swiftly/bin"
+#else
+let defaultSwiftlyPath = "~/.swiftly/bin"
+#endif
+
 class NAPITests: XCTestCase {
     lazy var testDirectory = "Tests/NAPITests/node-tests/js-native-api"
+
     lazy var swiftlyBinPath: String =
         ProcessInfo.processInfo.environment["SWIFTLY_BIN_DIR"] ??
-        ("~/.swiftly/bin" as NSString).expandingTildeInPath
+        (defaultSwiftlyPath as NSString).expandingTildeInPath
+
     lazy var wasiSDKPath = ProcessInfo.processInfo.environment["WASI_SDK"] ?? (
         "~/.swiftpm/swift-sdks/swift-wasm-\(swiftWasmSDKVersion)-wasm32-unknown-wasi.artifactbundle/\(swiftWasmSDKVersion)-wasm32-unknown-wasi/wasm32-unknown-wasi/WASI.sdk"
             as NSString
