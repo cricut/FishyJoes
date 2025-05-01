@@ -10,7 +10,6 @@ CriGeo/bindings/
 │       │       ├── IotaInterface/
 │       │       ├── JavaInterface/
 │       │       ├── NodeInterface/
-│       │       │   └── CriGeo.d.ts.part
 │       │       └── WasmMainShim/
 │       ├── NodeNativeShim/
 │       │   └── NAPIRegisterModule.c
@@ -25,9 +24,13 @@ CriGeo/bindings/
 │       └── PathTest.kt
 ├── ts/
 │   ├── package.override.json
-│   ├── generated/packages/    // Not committed
-│   │   ├── node-native-macos/
-│   │   └── wasm/
+│   ├── CriGeo.extensions.d.ts.part
+│   ├── CriGeo.extensions.js
+│   ├── generated/
+│   │   ├── CriGeo.d.ts.part
+│   │   └── packages/    // Not committed
+│   │       ├── node-native-macos/
+│   │       └── wasm/
 │   └── tests/
 │       ├── example.test.ts
 │       ├── package-lock.json
@@ -36,7 +39,7 @@ CriGeo/bindings/
 │       ├── test.ts
 │       ├── tsconfig.json    // '{ "extends": "./generated/tsconfig.json" }'
 │       └── generated/
-│           ├── CriGeo.d.ts
+│           ├── CriGeo.d.ts    // not committed
 │           ├── jest.config.common.cjs
 │           ├── jest.config.native-macos.cjs
 │           ├── jest.config.native-ubuntu.cjs
@@ -53,10 +56,10 @@ CriGeo/bindings/
 │   │   └── Cricut.CriGeo/
 │   │       ├── Cricut.CriGeo.csproj
 │   │       ├── Path.cs
-│   │       └── runtimes/osx/native/
+│   │       └── runtimes/osx/native/    // not committed
 │   │           ├── libCriGeo-iota.dylib
 │   │           └── libCriGeo.dylib
-│   └── nupkgs/
+│   └── nupkgs/    // not committed
 │       └── Cricut.CriGeo.0.0.1-unknown.nupkg
 ├── dart/
 │   ├── pubspec.override.yaml

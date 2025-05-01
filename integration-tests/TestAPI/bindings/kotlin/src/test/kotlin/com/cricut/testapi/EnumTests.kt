@@ -13,8 +13,20 @@ class EnumTests {
             }
         }
 
-        assertEquals(54546, EmptyEnum.noot)
-        assertEquals(62645, EmptyEnum.mies())
+        assertEquals(54546, EmptyEnum.aStaticProperty)
+        assertEquals(62645, EmptyEnum.aStaticMethod())
+    }
+
+    @Test
+    fun testReferenceEmptyEnum() {
+        assertThrows<Error> {
+            when (ReferenceEmptyEnum.notGoingToHappen()) {
+                else -> assert(false)
+            }
+        }
+
+        assertEquals(5, ReferenceEmptyEnum.aStaticProperty)
+        assertEquals(6, ReferenceEmptyEnum.aStaticMethod())
     }
 
     @Test

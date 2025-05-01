@@ -2,8 +2,14 @@ import { TestAPI } from 'TestAPI';
 
 test('testEmptyEnum', () => {
     expect(() => TestAPI.EmptyEnum.notGoingToHappen()).toThrow()
-    expect(54546).toEqual(TestAPI.EmptyEnum.noot)
-    expect(62645).toEqual(TestAPI.EmptyEnum.mies())
+    expect(54546).toEqual(TestAPI.EmptyEnum.aStaticProperty)
+    expect(62645).toEqual(TestAPI.EmptyEnum.aStaticMethod())
+});
+
+test('testReferenceEmptyEnum', () => {
+    expect(() => TestAPI.ReferenceEmptyEnum.notGoingToHappen()).toThrow()
+    expect(5).toEqual(TestAPI.ReferenceEmptyEnum.aStaticProperty)
+    expect(6).toEqual(TestAPI.ReferenceEmptyEnum.aStaticMethod())
 });
 
 test('testSimpleEnum', () => {

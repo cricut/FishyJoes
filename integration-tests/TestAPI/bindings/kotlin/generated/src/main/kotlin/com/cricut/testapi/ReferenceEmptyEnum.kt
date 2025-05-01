@@ -5,10 +5,10 @@ import java.lang.Exception
 import kotlinx.coroutines.*
 
 /**
- * <!-- FishyJoes.export(EmptyEnum) -->
+ * <!-- FishyJoes.export(ReferenceEmptyEnum) -->
  */
 @OptIn(ExperimentalCoroutinesApi::class)
-sealed class EmptyEnum {
+sealed class ReferenceEmptyEnum {
 
     companion object {
         /**
@@ -24,11 +24,11 @@ sealed class EmptyEnum {
          * <!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->
          */
         fun notGoingToHappen(
-        ): com.cricut.testapi.EmptyEnum = __jni_notGoingToHappen()
+        ): com.cricut.testapi.ReferenceEmptyEnum = __jni_notGoingToHappen()
         @JvmStatic
         @JvmName("__jni_notGoingToHappen")
         private external fun __jni_notGoingToHappen(
-        ): com.cricut.testapi.EmptyEnum
+        ): com.cricut.testapi.ReferenceEmptyEnum
 
         /**
          * <!-- FishyJoes.export(aStaticMethod) -->

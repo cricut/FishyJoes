@@ -2890,11 +2890,11 @@ extension TestAPI.EmptyEnum: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "mies": (
+                "aStaticMethod": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "mies", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "aStaticMethod", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.Int.toNode(
-                                TestAPI.EmptyEnum.mies(
+                                TestAPI.EmptyEnum.aStaticMethod(
                                 ),
                                 env: env.env
                             )
@@ -2903,11 +2903,11 @@ extension TestAPI.EmptyEnum: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "noot": (
+                "aStaticProperty": (
                     .accessor(
                         getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "noot", expectedArgumentCount: 0) { env in
-                                return try Swift.Int.toNode(TestAPI.EmptyEnum.noot, env: env.env)
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "aStaticProperty", expectedArgumentCount: 0) { env in
+                                return try Swift.Int.toNode(TestAPI.EmptyEnum.aStaticProperty, env: env.env)
                             }
                         },
                         setter: nil
@@ -5821,6 +5821,81 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
             env: env,
             module: module,
             path: "Ranges",
+            nodeClass: superclass.constructor.value(env: env)
+        )
+    }
+}
+
+
+// MARK: - NodeInterface/TestAPI.ReferenceEmptyEnum+node.swift
+
+extension TestAPI.ReferenceEmptyEnum: FishyJoesNodeRuntime.NodeConverter {
+    public typealias SwiftType = Self
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
+        fatalError("invalid enum for TestAPI.ReferenceEmptyEnum")
+    }
+
+    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
+        // Uninhabited type
+    }
+
+    @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        let superclass = try NodeClass(
+            env: env,
+            module: "TestAPI",
+            name: "ReferenceEmptyEnum",
+            properties: [
+                "notGoingToHappen": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "notGoingToHappen", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            try (
+                                TestAPI.ReferenceEmptyEnum.notGoingToHappen(
+                                )
+                            )
+                        }
+                    },
+                    isStatic: true
+                ),
+                "aStaticMethod": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "aStaticMethod", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try Swift.Int.toNode(
+                                TestAPI.ReferenceEmptyEnum.aStaticMethod(
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
+                "aStaticProperty": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "aStaticProperty", expectedArgumentCount: 0) { env in
+                                return try Swift.Int.toNode(TestAPI.ReferenceEmptyEnum.aStaticProperty, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+            ],
+            constructor: { env, info in
+                FishyJoesNodeRuntime.callbackBody(
+                    env, info,
+                    name: "ReferenceEmptyEnum_constructor",
+                    expectedArgumentCount: 0
+                ) { env in
+                    return try env.this()
+                }
+            }
+        )
+        try FishyJoesNodeRuntime.mergeDefinitionInto(
+            env: env,
+            module: module,
+            path: "ReferenceEmptyEnum",
             nodeClass: superclass.constructor.value(env: env)
         )
     }

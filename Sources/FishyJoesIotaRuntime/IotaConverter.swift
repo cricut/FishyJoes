@@ -480,11 +480,9 @@ extension String: IotaConverter {
         guard let units = UnsafeMutablePointer<unichar>(OpaquePointer(malloc(len16 * 2))) else {
             throw AllocationError()
         }
-        var deferred: (() -> Void)? = { free(units) }
-        defer { deferred?() }
+        defer { free(units) }
         try env.check { exn in getUtf16Method[env](value, units, exn) }
-        deferred = nil
-        return String(utf16CodeUnitsNoCopy: units, count: len16, freeWhenDone: true)
+        return String(utf16CodeUnits: units, count: len16)
     }
 
     public static func toIota(_ value: Self, env: Env) throws -> foreignObject {

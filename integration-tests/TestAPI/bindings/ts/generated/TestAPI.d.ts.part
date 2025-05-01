@@ -884,15 +884,15 @@ export declare namespace TestAPI {
     export type EmptyEnum = never;
     export namespace EmptyEnum {
         /**
-         * <!-- FishyJoes.export(mies) -->
+         * <!-- FishyJoes.export(aStaticMethod) -->
          */
-        function mies(
+        function aStaticMethod(
         ): number;
 
         /**
-         * <!-- FishyJoes.export(noot) -->
+         * <!-- FishyJoes.export(aStaticProperty) -->
          */
-        const noot: number;
+        const aStaticProperty: number;
 
         /**
          * <!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->
@@ -2256,6 +2256,26 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(uIntRange) -->
          */
         const uIntRange: Runtime.SwiftRange<number>;
+    }
+
+    export type ReferenceEmptyEnum = never;
+    export namespace ReferenceEmptyEnum {
+        /**
+         * <!-- FishyJoes.export(aStaticMethod) -->
+         */
+        function aStaticMethod(
+        ): number;
+
+        /**
+         * <!-- FishyJoes.export(aStaticProperty) -->
+         */
+        const aStaticProperty: number;
+
+        /**
+         * <!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->
+         */
+        function notGoingToHappen(
+        ): TestAPI.ReferenceEmptyEnum;
     }
 
     export type Results = never;

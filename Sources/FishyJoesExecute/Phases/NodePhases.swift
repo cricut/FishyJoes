@@ -114,7 +114,7 @@ class NodePhases: BasePhases, Phases {
         let nodeDependencies = [
             NodeModule(
                 name: "Runtime",
-                definitionsPath: "\(runtimePath)/fishyjoes-runtime-common",
+                definitionsPath: "\(runtimePath)/fishyjoes-runtime-common/Runtime.d.ts.part",
                 extensionsPath: "\(runtimePath)/fishyjoes-runtime-common",
                 jsExports: ["Runtime"],
                 tsExports: ["Optional", "Runtime"],
@@ -125,10 +125,9 @@ class NodePhases: BasePhases, Phases {
             guard let dependency = options.packageInfo.dependencyMap[requiredModule] else {
                 fatalError("Could not locate dependency \(requiredModule) in Package.swift")
             }
-            let swiftBindingsRoot = "\(dependency.localPath)/bindings/swift-interfaces/generated/\(requiredModule)-bindings"
             return NodeModule(
                 name: requiredModule,
-                definitionsPath: "\(swiftBindingsRoot)/Sources/NodeInterface",
+                definitionsPath: "\(dependency.localPath)/bindings/ts/generated/\(requiredModule).d.ts.part",
                 extensionsPath: "\(dependency.localPath)/bindings/ts",
                 jsExports: [requiredModule],
                 tsExports: [requiredModule],
@@ -140,7 +139,7 @@ class NodePhases: BasePhases, Phases {
         let swiftBindingsRoot = "bindings/swift-interfaces/generated/\(module)-bindings"
         let nodeModule = NodeModule(
             name: module,
-            definitionsPath: "\(swiftBindingsRoot)Sources/NodeInterface",
+            definitionsPath: "bindings/ts/generated/\(module).d.ts.part",
             extensionsPath: "bindings/ts",
             jsExports: [module],
             tsExports: [module],
@@ -264,13 +263,12 @@ class NodePhases: BasePhases, Phases {
         for dependency in nodeDependencies {
             if platform == .wasm {
                 // Splat in depenency definitions
-                let dependencyDefinitionsPath = "\(dependency.definitionsPath)/\(dependency.name).d.ts.part"
-                let dependencyDefintions = try String(contentsOfFile: dependencyDefinitionsPath)
+                let dependencyDefintions = try String(contentsOfFile: dependency.definitionsPath)
                 definitions.append(contentsOf: dependencyDefintions.split(separator: "\n").map(String.init))
                 definitions.append("")
 
                 // Splat in dependency extension definitions, if present
-                let dependencyExtensionDefinitionsPath = "\(dependency.definitionsPath)/\(dependency.name).extensions.d.ts.part"
+                let dependencyExtensionDefinitionsPath = "\(dependency.extensionsPath)/\(dependency.name).extensions.d.ts.part"
                 if cmd("test", "-f", dependencyExtensionDefinitionsPath).runBool() {
                     let dependencyExtensionDefintions = try String(contentsOfFile: dependencyExtensionDefinitionsPath)
                     definitions.append(contentsOf: dependencyExtensionDefintions.split(separator: "\n").map(String.init))
@@ -286,9 +284,7 @@ class NodePhases: BasePhases, Phases {
         definitions.append("")
 
         // Splat in the module's own definitions
-        // let moduleDefinitionsPath = "Sources/Generated/NodeInterface/\(nodeModule.name).d.ts.part"
-        let moduleDefinitionsPath = "\(buildConfig.packagePath)/Sources/NodeInterface/\(nodeModule.name).d.ts.part"
-        let moduleDefinitions = try String(contentsOfFile: moduleDefinitionsPath)
+        let moduleDefinitions = try String(contentsOfFile: nodeModule.definitionsPath)
         definitions.append(contentsOf: moduleDefinitions.split(separator: "\n").map(String.init))
         definitions.append("")
 

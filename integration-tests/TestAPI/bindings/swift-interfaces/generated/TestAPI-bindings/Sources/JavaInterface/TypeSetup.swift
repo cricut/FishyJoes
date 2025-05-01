@@ -1149,14 +1149,14 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try env.RegisterNatives(
             TestAPI.EmptyEnum.javaClass,
             JNINativeMethod(
-                name: bag.add("__jni_get_noot"),
+                name: bag.add("__jni_aStaticMethod"),
                 signature: bag.add("()J"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_EmptyEnum_noot, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_TestAPI_EmptyEnum_aStaticMethod, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_mies"),
+                name: bag.add("__jni_get_aStaticProperty"),
                 signature: bag.add("()J"),
-                fnPtr: unsafeBitCast(java_TestAPI_EmptyEnum_mies, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_get_TestAPI_EmptyEnum_aStaticProperty, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_notGoingToHappen"),
@@ -2052,6 +2052,26 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_get_uIntRange"),
                 signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_Ranges_uIntRange, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        // print("setting up TestAPI.ReferenceEmptyEnum...")
+        try TestAPI.ReferenceEmptyEnum.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI.ReferenceEmptyEnum.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_aStaticMethod"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_TestAPI_ReferenceEmptyEnum_aStaticMethod, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_aStaticProperty"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_ReferenceEmptyEnum_aStaticProperty, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_notGoingToHappen"),
+                signature: bag.add("()Lcom/cricut/testapi/ReferenceEmptyEnum;"),
+                fnPtr: unsafeBitCast(java_TestAPI_ReferenceEmptyEnum_notGoingToHappen, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.Results...")

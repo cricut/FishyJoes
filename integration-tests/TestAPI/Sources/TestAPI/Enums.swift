@@ -9,13 +9,34 @@ public enum EmptyEnum: Hashable {
 
     private struct NotImportantError: Error {}
 
-    /// <!-- FishyJoes.export(noot) -->
-    public static var noot: Int {
+    /// <!-- FishyJoes.export(aStaticProperty) -->
+    public static var aStaticProperty: Int {
         54546
     }
-    /// <!-- FishyJoes.export(mies) -->
-    public static func mies() throws -> Int {
+
+    /// <!-- FishyJoes.export(aStaticMethod) -->
+    public static func aStaticMethod() throws -> Int {
         62645
+    }
+}
+
+/// <!-- FishyJoes.export(ReferenceEmptyEnum) -->
+public enum ReferenceEmptyEnum: Hashable {
+    /// <!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->
+    public static func notGoingToHappen() throws -> ReferenceEmptyEnum {
+        throw NotImportantError()
+    }
+
+    private struct NotImportantError: Error {}
+
+    /// <!-- FishyJoes.export(aStaticProperty) -->
+    public static var aStaticProperty: Int {
+        5
+    }
+
+    /// <!-- FishyJoes.export(aStaticMethod) -->
+    public static func aStaticMethod() -> Int {
+        6
     }
 }
 

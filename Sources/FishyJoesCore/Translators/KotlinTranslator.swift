@@ -157,28 +157,36 @@ final class KotlinTranslator: Translator {
                     }
 
                     mutateBlock {
-                        fragment.outputBlock("return try \(returnType.converterType.name).toJava(") {
+                        let body = {
                             if resolved is TranslatedProtocol,
                                method.isDefaultImplementation {
                                 fragment.outputBlock("\(method.isThrowing ? "try " : "")\(betterType.nonNamespacedName)_sans_\(method.callName)(wrapped:", closeWith: ")", newLineTerminated: false) {
                                     fragment.output("try \(selfExpression)")
                                 }
-                                fragment.outputBlock("\(callName)(", closeWith: "),") {
+                                fragment.outputBlock("\(callName)(", newLineTerminated: false) {
                                     fragment.outputMap(method.parameters, separator: ",") { formal in
                                         let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
                                         return (formal.label.map { "\($0): " } ?? "") +
                                         "try \(resolved.converterType.name).fromJava(\(formal.name), env: _javaEnv)"
                                     }
                                 }
-                                fragment.output("env: _javaEnv")
                             } else {
-                                fragment.outputBlock("\(method.isThrowing ? "try " : "")\(method.isAsync ? "await ": "")\(selfExpression)\(callName)(", closeWith: "),") {
+                                fragment.outputBlock("\(method.isThrowing ? "try " : "")\(method.isAsync ? "await ": "")\(selfExpression)\(callName)(", newLineTerminated: false) {
                                     fragment.outputMap(method.parameters, separator: ",") { formal in
                                         let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
                                         return (formal.label.map { "\($0): " } ?? "") +
                                         "try \(resolved.converterType.name).fromJava(\(formal.name), env: _javaEnv)"
                                     }
                                 }
+                            }
+                        }
+                        if exportAnnotation.noReturn {
+                            body()
+                            fragment.output()
+                        } else {
+                            fragment.outputBlock("return try \(returnType.converterType.name).toJava(") {
+                                body()
+                                fragment.output(",")
                                 fragment.output("env: _javaEnv")
                             }
                         }

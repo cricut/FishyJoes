@@ -137,17 +137,21 @@ struct TranslatedReference: TranslatedType {
                         var hasProperties = false
                         hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment, converterName: converterType.name)
                         hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment, converterName: converterType.name)
-                        fragment.outputBlock(#""toString": ("#) {
-                            fragment.outputBlock(".method { env, info in", closeWith: "},") {
-                                fragment.outputBlock(#"FishyJoesNodeRuntime.callbackBody(env, info, name: "toString", expectedArgumentCount: 0, hasNamedOptions: false) { env in"#, closeWith: "}") {
-                                    fragment.outputBlock("let result = try Swift.String.toNode(") {
-                                        fragment.output("\"\\(env.this(converter: \(converterType.name).self))\",")
-                                        fragment.output("env: env.env")
+                        if !isInhabited {
+                            fragment.output("// Uninhabited type")
+                        } else {
+                            fragment.outputBlock(#""toString": ("#) {
+                                fragment.outputBlock(".method { env, info in", closeWith: "},") {
+                                    fragment.outputBlock(#"FishyJoesNodeRuntime.callbackBody(env, info, name: "toString", expectedArgumentCount: 0, hasNamedOptions: false) { env in"#, closeWith: "}") {
+                                        fragment.outputBlock("let result = try Swift.String.toNode(") {
+                                            fragment.output("\"\\(env.this(converter: \(converterType.name).self))\",")
+                                            fragment.output("env: env.env")
+                                        }
+                                        fragment.output("return result")
                                     }
-                                    fragment.output("return result")
                                 }
+                                fragment.output("isStatic: false")
                             }
-                            fragment.output("isStatic: false")
                         }
                     }
                     fragment.outputBlock("constructor: { env, info in", closeWith: "}") {
