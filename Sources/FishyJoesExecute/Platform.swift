@@ -1,12 +1,17 @@
 import Foundation
 import swsh
 
-#if os(macOS)
-let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.10-SNAPSHOT-2024-04-26-a.xctoolchain"
-#elseif os(Linux)
-let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.10-SNAPSHOT-2024-04-26-a.xctoolchain"
+// The native component of the swift-wasm toolchain
+let swiftWasmToolchainVersion = "6.1"
+// The wasm component of the swift-wasm toolchain
+let swiftWasmSDKVersion = "6.1-RELEASE"
+
+#if os(macOS) || os(Linux)
+let swiftlyBinPath: String =
+    ProcessInfo.processInfo.environment["SWIFTLY_BIN_DIR"] ??
+    ("~/.swiftly/bin" as NSString).expandingTildeInPath
 #else
-let wasmToolchain: String = { fatalError("wasm compilation is currently only supported on mac and linux") }()
+let swiftlyBinPath: String = { fatalError("wasm compilation is currently only supported on mac and linux") }()
 #endif
 
 struct BuildConfiguration: Hashable {
@@ -149,8 +154,8 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
         var scratchPath = configuration.scratchPath
         switch self {
         case .wasm:
-            swiftBuild = ["\(wasmToolchain)/usr/bin/swift-build"]
-            args.append(contentsOf: ["--triple", "wasm32-unknown-wasi"])
+            swiftBuild = ["\(swiftlyBinPath)/swiftly", "run", "+\(swiftWasmToolchainVersion)", "++", "swift", "build"]
+            args.append(contentsOf: ["--swift-sdk", "\(swiftWasmSDKVersion)-wasm32-unknown-wasi"])
             // custom build paths to avoid different versions of spm destroying each other's caches
             scratchPath = "\(scratchPath)/wasm-build"
             args.append(contentsOf: ["-Xswiftc", "-Xclang-linker", "-Xswiftc", "-mexec-model=reactor"])

@@ -2,24 +2,35 @@ import Foundation
 import swsh
 import XCTest
 
+// The native component of the swift-wasm toolchain
+let swiftWasmToolchainVersion = "6.1"
+// The wasm component of the swift-wasm toolchain
+let swiftWasmSDKVersion = "6.1-RELEASE"
+
 class NAPITests: XCTestCase {
     lazy var testDirectory = "Tests/NAPITests/node-tests/js-native-api"
-    lazy var wasmToolchainPath = ProcessInfo.processInfo.environment["SWIFT_WASM_TOOLCHAIN"] ??
-        "/Library/Developer/Toolchains/swift-wasm-5.10-SNAPSHOT-2024-04-26-a.xctoolchain"
-    lazy var wasiSDKPath = ProcessInfo.processInfo.environment["WASI_SDK"] ?? "\(wasmToolchainPath)/usr/share/wasi-sysroot"
-    lazy var CC = "\(wasmToolchainPath)/usr/bin/clang"
-    lazy var LD = "\(wasmToolchainPath)/usr/bin/swiftc"
-    lazy var CFLAGS = [
+    lazy var swiftlyBinPath: String =
+        ProcessInfo.processInfo.environment["SWIFTLY_BIN_DIR"] ??
+        ("~/.swiftly/bin" as NSString).expandingTildeInPath
+    lazy var wasiSDKPath = ProcessInfo.processInfo.environment["WASI_SDK"] ?? (
+        "~/.swiftpm/swift-sdks/swift-wasm-\(swiftWasmSDKVersion)-wasm32-unknown-wasi.artifactbundle/\(swiftWasmSDKVersion)-wasm32-unknown-wasi/wasm32-unknown-wasi/WASI.sdk"
+            as NSString
+    ).expandingTildeInPath
+
+    lazy var CC = "clang"
+    lazy var LD = "clang"
+    lazy var CFLAGS: [String] = [
         "-target", "wasm32-unknown-wasi",
         "--sysroot", wasiSDKPath,
         "-ISources/NodeAPI/include",
     ]
-    lazy var LDFLAGS = [
-        "-L\(wasmToolchainPath)/usr/lib",
-        "-sdk", wasiSDKPath,
-        "-lswiftCore",
-        "-emit-executable",
+    lazy var LDFLAGS: [String] = [
         "-target", "wasm32-unknown-wasi",
+        "-resource-dir", "\(wasiSDKPath)/../swift.xctoolchain/usr/lib/swift_static/clang",
+        "--sysroot", wasiSDKPath,
+        "-lc++abi",
+
+        "-mexec-model=reactor",
         "-Xlinker", "--export=napi_register_wasm_v1",
         "-Xlinker", "--export=malloc",
         "-Xlinker", "--export=free",
@@ -32,6 +43,11 @@ class NAPITests: XCTestCase {
         "\(testDirectory)/entry_point.c",
     ]
 
+    lazy var testEnv: [String: String] = [
+        // This check gets out of date with node
+        "NODE_TEST_KNOWN_GLOBALS": "0",
+    ]
+
     override func setUpWithError() throws {
         super.setUp()
         ExternalCommand.verbose = false
@@ -40,6 +56,10 @@ class NAPITests: XCTestCase {
             struct BadWorkingDirectory: Error {}
             throw BadWorkingDirectory()
         }
+    }
+
+    func swiftly(_ command: String, arguments: [String]) -> Command {
+        cmd("\(swiftlyBinPath)/swiftly", arguments: ["run", "+\(swiftWasmToolchainVersion)", "++", command] + arguments)
     }
 
     func testNative(_ testName: String, js: [String] = ["test.js"], fixups: [String] = []) throws {
@@ -57,10 +77,10 @@ class NAPITests: XCTestCase {
         defer { try? cmd("rm", arguments: ["-f"] + sources.map(\.object)).run() }
 
         for (source, object) in sources {
-            try cmd(CC, arguments: CFLAGS + ["-o", object, "-c", source]).run()
+            try swiftly(CC, arguments: CFLAGS + ["-o", object, "-c", source]).run()
         }
 
-        try cmd(LD, arguments: LDFLAGS + sources.map(\.object) + ["-o", "\(path)/build/release/out.wasm"]).run()
+        try swiftly(LD, arguments: LDFLAGS + sources.map(\.object) + ["-o", "\(path)/build/release/out.wasm"]).run()
 
         try cmd("cp", "\(testDirectory)/../runner.js", "\(path)/build/release/\(testName).js").run()
 
@@ -77,7 +97,7 @@ class NAPITests: XCTestCase {
                     "\(path)/\(testSource)",
                 ]
             ).output(overwritingFile: "\(path)/fishyjoes_\(testSource)").run()
-            try cmd("node", "--expose-gc", "--unhandled-rejections=strict", "\(path)/fishyjoes_\(testSource)").run()
+            try cmd("node", "--expose-gc", "--unhandled-rejections=strict", "\(path)/fishyjoes_\(testSource)", addEnv: testEnv).run()
         }
     }
 

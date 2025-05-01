@@ -20,7 +20,6 @@ env:
   NODE_VERSION: "18.x"
   GITHUB_USER: cricut-builduser
   GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
-  SWIFT_WASM_VERSION: "5.10-SNAPSHOT-2024-04-26-a"
   FISHYJOES: 1
 
 jobs:
@@ -133,9 +132,7 @@ jobs:
 
           git config --global --add safe.directory '*'
 
-          curl -Lo swift-wasm.tgz "https://github.com/swiftwasm/swift/releases/download/swift-wasm-$SWIFT_WASM_VERSION/swift-wasm-$SWIFT_WASM_VERSION-ubuntu20.04_x86_64.tar.gz"
-          mkdir -p /Library/Developer/Toolchains/swift-wasm-$SWIFT_WASM_VERSION.xctoolchain
-          tar -xf swift-wasm.tgz -C /Library/Developer/Toolchains/swift-wasm-$SWIFT_WASM_VERSION.xctoolchain --strip-components 1
+          ./scripts/install-swift-wasm.sh
 
           # Use wasm version of wasm-opt because ubuntu version can be very old
           npm install -g binaryen
