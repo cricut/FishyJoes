@@ -20,14 +20,17 @@ class NAPITests: XCTestCase {
     lazy var CC = "clang"
     lazy var LD = "clang"
     lazy var CFLAGS: [String] = [
+        "--verbose",
         "-target", "wasm32-unknown-wasi",
         "--sysroot", wasiSDKPath,
         "-ISources/NodeAPI/include",
     ]
     lazy var LDFLAGS: [String] = [
+        "--verbose",
         "-target", "wasm32-unknown-wasi",
         "-resource-dir", "\(wasiSDKPath)/../swift.xctoolchain/usr/lib/swift_static/clang",
         "--sysroot", wasiSDKPath,
+
         "-lc++abi",
 
         "-mexec-model=reactor",
