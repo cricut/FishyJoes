@@ -61,7 +61,7 @@ class NAPITests: XCTestCase {
 
     override func setUpWithError() throws {
         super.setUp()
-        ExternalCommand.verbose = false
+        ExternalCommand.verbose = true
         guard FileManager.default.fileExists(atPath: "Package.swift") else {
             XCTFail("These tests expect to run in the root of the FishyJoes package. Use `swift test`.")
             struct BadWorkingDirectory: Error {}
