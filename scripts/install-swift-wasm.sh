@@ -9,8 +9,8 @@ SWIFT_WASM_CHECKSUM=7550b4c77a55f4b637c376f5d192f297fe185607003a6212ad608276928d
 if ! swiftly --version; then
     if [[ "$(uname -s)" == "Darwin" ]]; then
         tempdir="$(mktemp -d)"
-        curl -o $tmpdir/swiftly.pkg https://download.swift.org/swiftly/darwin/swiftly.pkg
-        installer -pkg $tmpdir/swiftly.pkg -target CurrentUserHomeDirectory
+        curl -o $tempdir/swiftly.pkg https://download.swift.org/swiftly/darwin/swiftly.pkg
+        installer -pkg $tempdir/swiftly.pkg -target CurrentUserHomeDirectory
         rm -f $package
         ~/.swiftly/bin/swiftly init --assume-yes --no-modify-profile --skip-install
     elif [[ "$(uname -s)" == *_NT* ]]; then
