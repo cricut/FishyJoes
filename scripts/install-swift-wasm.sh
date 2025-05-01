@@ -11,16 +11,17 @@ if ! swiftly --version; then
         tempdir="$(mktemp -d)"
         curl -o $tempdir/swiftly.pkg https://download.swift.org/swiftly/darwin/swiftly.pkg
         installer -pkg $tempdir/swiftly.pkg -target CurrentUserHomeDirectory
-        rm -f $package
+        rm -rf $tempdir
         ~/.swiftly/bin/swiftly init --assume-yes --no-modify-profile --skip-install
     elif [[ "$(uname -s)" == *_NT* ]]; then
         echo "wasm compilation is currently only supported on mac and linux"
         exit 1
     else
         tempdir="$(mktemp -d)"
-        curl -o tempdir/swiftly.tgz "https://download.swift.org/swiftly/linux/swiftly-$(uname -m).tar.gz"
+        curl -o $tempdir/swiftly.tgz "https://download.swift.org/swiftly/linux/swiftly-$(uname -m).tar.gz"
         tar -xzf $tempdir/swiftly.tgz -C $tempdir
         $tempdir/swiftly init --assume-yes --no-modify-profile --skip-install
+        rm -rf $tempdir
     fi
 fi
 
