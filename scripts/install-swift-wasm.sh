@@ -29,7 +29,7 @@ if ! swiftly --version; then
     if [[ "$(uname -s)" == "Darwin" ]]; then
         tempdir="$(mktemp -d)"
         curl -o $tempdir/swiftly.pkg https://download.swift.org/swiftly/darwin/swiftly.pkg
-        installer -pkg $tempdir/swiftly.pkg -target CurrentUserHomeDirectory
+        installer -pkg $tempdir/swiftly.pkg -target CurrentUserHomeDirectory -verbose
         rm -rf $tempdir
         ~/.swiftly/bin/swiftly init --assume-yes --no-modify-profile --skip-install
     elif [[ "$(uname -s)" == *_NT* ]]; then
