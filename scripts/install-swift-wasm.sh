@@ -2,9 +2,15 @@
 
 set -euxo pipefail
 
-SWIFT_WASM_HOST_VERSION=6.1
-SWIFT_WASM_VERSION=6.1-RELEASE
-SWIFT_WASM_CHECKSUM=7550b4c77a55f4b637c376f5d192f297fe185607003a6212ad608276928db992
+toolVersionsFile=Sources/FishyJoesConfig/tool-versions.json
+if [[ ! -f $toolVersionsFile ]]; then
+    echo "script must be executed in root of FishyJoes repo"
+    exit 1
+fi
+
+SWIFT_WASM_HOST_VERSION=$(jq -r .swiftWasm.toolchain <$toolVersionsFile)
+SWIFT_WASM_VERSION=$(jq -r .swiftWasm.sdk <$toolVersionsFile)
+SWIFT_WASM_CHECKSUM=$(jq -r .swiftWasm.sdkChecksum <$toolVersionsFile)
 
 if ! swiftly --version; then
     if [[ "$(uname -s)" == "Darwin" ]]; then

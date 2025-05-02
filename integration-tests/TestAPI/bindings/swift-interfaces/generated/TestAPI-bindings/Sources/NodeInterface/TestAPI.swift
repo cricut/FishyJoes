@@ -11,7 +11,7 @@ import TestAPI_CommonInterface
 
 // MARK: - NodeInterface/Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces+node.swift
 
-extension Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces: NodeMutator {
+extension Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces: FishyJoesNodeRuntime.NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(
@@ -72,7 +72,7 @@ extension Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces: NodeMu
 
 // MARK: - NodeInterface/Swift.String.PuttingTypesIntoQuestionablePlaces+node.swift
 
-extension Swift.String.PuttingTypesIntoQuestionablePlaces: NodeMutator {
+extension Swift.String.PuttingTypesIntoQuestionablePlaces: FishyJoesNodeRuntime.NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(
@@ -411,7 +411,7 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
 
 // MARK: - NodeInterface/TestAPI.AProtocolImplementation+node.swift
 
-extension TestAPI.AProtocolImplementation: NodeMutator {
+extension TestAPI.AProtocolImplementation: FishyJoesNodeRuntime.NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(
@@ -2363,7 +2363,7 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
 
 // MARK: - NodeInterface/TestAPI.Collections.CollectionHolder+node.swift
 
-extension TestAPI.Collections.CollectionHolder: NodeMutator {
+extension TestAPI.Collections.CollectionHolder: FishyJoesNodeRuntime.NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(
@@ -2937,7 +2937,7 @@ extension TestAPI.EmptyEnum: FishyJoesNodeRuntime.NodeConverter {
 
 // MARK: - NodeInterface/TestAPI.EmptyStruct+node.swift
 
-extension TestAPI.EmptyStruct: NodeMutator {
+extension TestAPI.EmptyStruct: FishyJoesNodeRuntime.NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(
@@ -3039,7 +3039,7 @@ extension TestAPI.EmptyStruct: NodeMutator {
 
 // MARK: - NodeInterface/TestAPI.EmptyStruct2+node.swift
 
-extension TestAPI.EmptyStruct2: NodeMutator {
+extension TestAPI.EmptyStruct2: FishyJoesNodeRuntime.NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(
@@ -5264,7 +5264,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
 
 // MARK: - NodeInterface/TestAPI.Primitives.PrimitiveHolder+node.swift
 
-extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
+extension TestAPI.Primitives.PrimitiveHolder: FishyJoesNodeRuntime.NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(
@@ -5980,7 +5980,7 @@ extension TestAPI.Results: FishyJoesNodeRuntime.NodeConverter {
 
 // MARK: - NodeInterface/TestAPI.Results.Error+node.swift
 
-extension TestAPI.Results.Error: NodeMutator {
+extension TestAPI.Results.Error: FishyJoesNodeRuntime.NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(
@@ -6326,7 +6326,7 @@ extension TestAPI.Structs: FishyJoesNodeRuntime.NodeConverter {
 
 // MARK: - NodeInterface/TestAPI.Structs.MemberwiseStruct+node.swift
 
-extension TestAPI.Structs.MemberwiseStruct: NodeMutator {
+extension TestAPI.Structs.MemberwiseStruct: FishyJoesNodeRuntime.NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(
@@ -6426,7 +6426,7 @@ extension TestAPI.Structs.MemberwiseStruct: NodeMutator {
 
 // MARK: - NodeInterface/TestAPI.Structs.MutableStruct+node.swift
 
-extension TestAPI.Structs.MutableStruct: NodeMutator {
+extension TestAPI.Structs.MutableStruct: FishyJoesNodeRuntime.NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(
@@ -6784,7 +6784,7 @@ extension TestAPI.Structs.ReferenceStruct: FishyJoesNodeRuntime.NodeConverter {
 
 // MARK: - NodeInterface/TestAPI.Structs.TwentyOneItemStruct+node.swift
 
-extension TestAPI.Structs.TwentyOneItemStruct: NodeMutator {
+extension TestAPI.Structs.TwentyOneItemStruct: FishyJoesNodeRuntime.NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(
@@ -6993,7 +6993,7 @@ extension TestAPI.Structs.TwentyOneItemStruct: NodeMutator {
 
 // MARK: - NodeInterface/TestAPI.TestAsyncForeignSideFunctionsStruct+node.swift
 
-extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
+extension TestAPI.TestAsyncForeignSideFunctionsStruct: FishyJoesNodeRuntime.NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(
@@ -8851,7 +8851,7 @@ extension TestAPI.TestDefaultComputedPropertiesEnum: FishyJoesNodeRuntime.NodeCo
 
 // MARK: - NodeInterface/TestAPI.TestDefaultComputedPropertiesStruct+node.swift
 
-extension TestAPI.TestDefaultComputedPropertiesStruct: NodeMutator {
+extension TestAPI.TestDefaultComputedPropertiesStruct: FishyJoesNodeRuntime.NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(
@@ -9016,7 +9016,7 @@ extension TestAPI_CommonInterface._TestDifferingExportNameProtocolConverter: Nod
 
 // MARK: - NodeInterface/TestAPI.TestDifferingExportNameStruct+node.swift
 
-extension TestAPI.TestDifferingExportNameStruct: NodeMutator {
+extension TestAPI.TestDifferingExportNameStruct: FishyJoesNodeRuntime.NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(
@@ -9162,7 +9162,7 @@ extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: NodeConv
 
 // MARK: - NodeInterface/TestAPI.TestLeadingUnderscoredPropStruct+node.swift
 
-extension TestAPI.TestLeadingUnderscoredPropStruct: NodeMutator {
+extension TestAPI.TestLeadingUnderscoredPropStruct: FishyJoesNodeRuntime.NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(
@@ -10073,7 +10073,7 @@ extension TestAPI.TestProtocolEnum: FishyJoesNodeRuntime.NodeConverter {
 
 // MARK: - NodeInterface/TestAPI.TestProtocolStruct+node.swift
 
-extension TestAPI.TestProtocolStruct: NodeMutator {
+extension TestAPI.TestProtocolStruct: FishyJoesNodeRuntime.NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(

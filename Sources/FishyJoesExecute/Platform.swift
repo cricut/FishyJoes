@@ -1,10 +1,6 @@
+import FishyJoesConfig
 import Foundation
 import swsh
-
-// The native component of the swift-wasm toolchain
-let swiftWasmToolchainVersion = "6.1"
-// The wasm component of the swift-wasm toolchain
-let swiftWasmSDKVersion = "6.1-RELEASE"
 
 #if os(macOS) || os(Linux)
 let swiftlyBinPath: String =
@@ -154,8 +150,12 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
         var scratchPath = configuration.scratchPath
         switch self {
         case .wasm:
-            swiftBuild = ["\(swiftlyBinPath)/swiftly", "run", "+\(swiftWasmToolchainVersion)", "++", "swift", "build"]
-            args.append(contentsOf: ["--swift-sdk", "\(swiftWasmSDKVersion)-wasm32-unknown-wasi"])
+            swiftBuild = [
+                "\(swiftlyBinPath)/swiftly", "run",
+                "+\(ToolVersions.shared.swiftWasm.toolchain)", "++",
+                "swift", "build"
+            ]
+            args.append(contentsOf: ["--swift-sdk", "\(ToolVersions.shared.swiftWasm.sdk)-wasm32-unknown-wasi"])
             // custom build paths to avoid different versions of spm destroying each other's caches
             scratchPath = "\(scratchPath)/wasm-build"
             args.append(contentsOf: ["-Xswiftc", "-Xclang-linker", "-Xswiftc", "-mexec-model=reactor"])
