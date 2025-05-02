@@ -15,11 +15,11 @@ SWIFT_WASM_CHECKSUM=$(jq -r .swiftWasm.sdkChecksum <$toolVersionsFile)
 function sourceSwiftlyEnv {
     if [[ -v SWIFTLY_HOME_DIR && -f $SWIFTLY_HOME_DIR/env.sh ]]; then
         source $SWIFTLY_HOME_DIR/env.sh
-    elif [[ -v XDG_DATA_HOME && -f $XDG_DATA_HOME/.swifly/env.sh ]]; then
-        source $XDG_DATA_HOME/.swifly/env.sh
-    elif [[ -f ~/.swifly/env.sh ]]; then
-        source ~/.swifly/env.sh
-    elif [[ -f ~/.local/share//env.sh ]]; then
+    elif [[ -v XDG_DATA_HOME && -f $XDG_DATA_HOME/.swiftly/env.sh ]]; then
+        source $XDG_DATA_HOME/.swiftly/env.sh
+    elif [[ -f ~/.swiftly/env.sh ]]; then
+        source ~/.swiftly/env.sh
+    elif [[ -f ~/.local/share/swiftly/env.sh ]]; then
         source ~/.local/share/swiftly/env.sh
     fi
 }
