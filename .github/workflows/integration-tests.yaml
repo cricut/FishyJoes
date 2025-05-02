@@ -184,7 +184,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          sudo apt-get install zsh
+          sudo apt-get install zsh libcurl4-openssl-dev
 
           # Sadly, Ubuntu LTS doesn't have an up-to-date binaryen, so use a wasm version instead
           npm -g install binaryen@111.0.0

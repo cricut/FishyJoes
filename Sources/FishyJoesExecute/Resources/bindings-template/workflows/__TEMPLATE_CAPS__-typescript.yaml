@@ -101,7 +101,7 @@ jobs:
     name: "Ubuntu: Build and test typescript bindings"
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cricut/android-swift-runtime:3.0.1
+      image: __LINUX_CONTAINER_SPEC__
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}

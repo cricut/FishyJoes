@@ -1,3 +1,4 @@
+import FishyJoesConfig
 import Foundation
 import swsh
 
@@ -5,7 +6,7 @@ struct DockerContext {
     var hostDockerBinary: String
     let passGitAuth: Bool
 
-    var image = "ghcr.io/cricut/android-swift-runtime:3.0.1"
+    var image = ToolVersions.shared.linuxContainer.imageSpec
     var platform = "linux/amd64"
     var mountMappings: [String: String]
     var startDirectory: String
