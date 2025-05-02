@@ -2,10 +2,18 @@ import FishyJoesConfig
 import Foundation
 import swsh
 
-#if os(macOS) || os(Linux)
+// Mirrors logic from
+// - https://github.com/swiftlang/swiftly/blob/bd30c0590e3d575478e2f02d4b364f292a3507dd/Sources/MacOSPlatform/MacOS.swift#L20
+// - https://github.com/swiftlang/swiftly/blob/bd30c0590e3d575478e2f02d4b364f292a3507dd/Sources/LinuxPlatform/Linux.swift#L25
+#if os(macOS)
 let swiftlyBinPath: String =
     ProcessInfo.processInfo.environment["SWIFTLY_BIN_DIR"] ??
     ("~/.swiftly/bin" as NSString).expandingTildeInPath
+#elseif os(Linux)
+let swiftlyBinPath: String =
+    ProcessInfo.processInfo.environment["SWIFTLY_BIN_DIR"] ??
+    ProcessInfo.processInfo.environment["XDG_DATA_HOME"].map { "\($0)/.swifly/bin" } ??
+    ("~/.local/share/swiftly/bin" as NSString).expandingTildeInPath
 #else
 let swiftlyBinPath: String = { fatalError("wasm compilation is currently only supported on mac and linux") }()
 #endif
