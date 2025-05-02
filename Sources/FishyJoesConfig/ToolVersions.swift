@@ -1,5 +1,4 @@
 import Foundation
-import ArgumentParser
 
 /// A centralized place for versions of build tools. Sourced from tool-versions.json
 public struct ToolVersions: Codable {
