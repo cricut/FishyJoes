@@ -1,8 +1,8 @@
 {
   "swiftWasm": {
-    "toolchain": "main-snapshot-2025-04-12",
-    "sdk": "DEVELOPMENT-SNAPSHOT-2025-04-12-a",
-    "sdkChecksum": "4b8f1e8346003cf2c3dd5b545a24c54a80d8492a7c719a50500f6056a99cc9d4"
+    "toolchain": "6.1",
+    "sdk": "6.1-RELEASE",
+    "sdkChecksum": "7550b4c77a55f4b637c376f5d192f297fe185607003a6212ad608276928db992"
   },
   "linuxContainer": {
     "//": "NOTE WHEN UPDATING: This value is also hard-coded in .github/workflows/*.yaml and kotlin-runtime/build.gradle.kts",
