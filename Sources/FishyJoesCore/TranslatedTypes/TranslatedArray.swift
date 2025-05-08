@@ -1,4 +1,4 @@
-import SourceryRuntime
+import SourceryDataModel
 
 struct TranslatedArray: TranslatedType {
     let elementType: TranslatedType

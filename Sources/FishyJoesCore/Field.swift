@@ -1,5 +1,5 @@
 import Foundation
-import SourceryRuntime
+import SourceryDataModel
 
 struct Field: Hashable {
     let name: String
@@ -20,7 +20,7 @@ struct Field: Hashable {
     let deprecation: Deprecation?
     let isDefaultImplementation: Bool
 
-    init?(_ variable: SourceryVariable, type: Type?) {
+    init?(_ variable: SourceryVariable, inType containingType: SourceryType?, context: FishyJoesContext) {
         self.name = variable.name
         self.exportAnnotation = variable.exportAnnotation
         self.type = variable.typeName.better
@@ -28,14 +28,16 @@ struct Field: Hashable {
         self.definedIn = variable.definedInTypeName?.better
         self.isStatic = variable.isStatic
         self.isMutable = variable.isMutable
-        self.isThrowing = variable.throws
+        self.isThrowing = variable.isThrowing
         self.deprecation = variable.deprecation
         self.isPubliclyWritable =
-            variable.isMutable && variable.accessLevel.write == .public
+            variable.isMutable && variable.writeAccessLevel == .public
         self.isComputed = variable.isComputed
-        self.isDefaultImplementation = (type is SourceryProtocol) && (variable.definedInType?.isExtension == true)
+        self.isDefaultImplementation =
+            containingType?.kind == .protocol &&
+            variable.definedInTypeName.flatMap { context.sourceryTypes[$0] }?.kind == .extension
 
-        let isIsolated = type is Actor && !variable.isNonisolated
+        let isIsolated = containingType?.kind == .actor && !variable.isNonisolated
         self.isAsync = isIsolated || variable.isAsync
     }
 }
@@ -101,13 +103,15 @@ extension Field {
         return preferredFields
     }
 
-    static func fields(type: Type) -> [Field] {
+    static func fields(type: SourceryType, context: FishyJoesContext) -> [Field] {
         var defaultFields = [Field]()
-        let protocols = type.implements.values.compactMap { $0 as? SourceryProtocol }
+        let protocols = type.implements
+            .compactMap { context.sourceryTypes[$0] }
+            .filter { $0.kind == .protocol }
         for prot in protocols {
-            let protDefaultFields = prot.rawVariables.compactMap {
-                if $0.definedInType?.isExtension == true {
-                    return Field($0, type: prot)
+            let protDefaultFields: [Field] = prot.rawVariables.compactMap { field in
+                if field.definedInTypeName.flatMap({ context.sourceryTypes[$0]?.kind }) == .extension {
+                    return Field(field, inType: prot, context: context)
                 } else {
                     return nil
                 }
@@ -117,10 +121,10 @@ extension Field {
         }
 
         let normalFields = type.rawVariables.compactMap {
-            return Field($0, type: type)
+            return Field($0, inType: type, context: context)
         }
 
-        let isDefinedInProtocol = type is SourceryProtocol
+        let isDefinedInProtocol = type.kind == .protocol
         let fields = Field.fieldsPreferring(isDefinedInProtocol ? .defaultImplementation : .normal, fields: normalFields + defaultFields)
         return fields.sorted(by: { $0.name < $1.name })
     }

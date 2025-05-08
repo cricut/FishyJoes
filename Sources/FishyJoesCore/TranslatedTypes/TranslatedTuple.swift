@@ -1,4 +1,4 @@
-import SourceryRuntime
+import SourceryDataModel
 
 struct TranslatedTuple: TranslatedType {
     struct Element {

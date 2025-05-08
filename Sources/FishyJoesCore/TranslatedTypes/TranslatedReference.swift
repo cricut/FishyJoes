@@ -1,4 +1,4 @@
-import SourceryRuntime
+import SourceryDataModel
 
 struct TranslatedReference: TranslatedType {
     let sourceType: BetterType
@@ -21,7 +21,7 @@ struct TranslatedReference: TranslatedType {
     let definingModule: Module
     let conformances: Set<BetterType>
 
-    init(context: FishyJoesContext, type: Type) {
+    init(context: FishyJoesContext, type: SourceryType) {
         guard let exportAnnotation = type.exportAnnotation else {
             fatalErr("c symbol not specified")
         }
@@ -35,53 +35,25 @@ struct TranslatedReference: TranslatedType {
         self.kotlinPackage = context.module.kotlinPackage
         self.cSharpType = .named(package: context.module.cSharpNamespace, name: exportAnnotation.cSharpName)
         self.dartType = .named(package: context.module.dartNamespace, name: context.dartTranslator.fakeNamespace(exportAnnotation.name))
-        self.methods = Method.methods(type: type)
-        self.computedVariables = Field.fields(type: type)
+        self.methods = Method.methods(type: type, context: context)
+        self.computedVariables = Field.fields(type: type, context: context)
         self.documentation = type.documentation
         self.className = context.kotlinTranslator.javaClassName(kotlinName, in: context)
         self.jniType = .object(className)
         self.equatable = type.equatable
         self.hashable = type.hashable
-        self.isInhabited = type.isInhabited
+        self.isInhabited = context.isTypeInhabited(type)
         self.definingModule = context.module
 
-        self.conformances = Set(type.implements.compactMap {
-            return .init(named: $0.value, context: context)
-        })
+        self.conformances = Set(type.implements.map(\.better))
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
-        return [
+        [
             nodeDefinitionFragment(in: context),
             jniDefinitionFragment(in: context),
             iotaDefinitionFragment(in: context),
-        ] + neutralDefinitionFragments(in: context)
-    }
-
-    func neutralDefinitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
-        guard context.dumpDebugRepresentation else { return [] }
-
-        let fragment = SourceFragment(sourceryDestination: "file:../../DebugGenerated/\(sourceType.name)+ReferenceInfo.txt")
-        fragment.outputBlock("TranslatedReference for \(sourceType.name) {") {
-            fragment.output("Equatable: \(equatable)")
-            fragment.output("Hashable: \(hashable)")
-            fragment.outputBlock("Documentation {") {
-                for doc in documentation {
-                    fragment.output(doc)
-                }
-            }
-            fragment.outputBlock("Methods {") {
-                for method in methods {
-                    context.neutralTranslator.output(method: method, context: context, fragment: fragment)
-                }
-            }
-            fragment.outputBlock("Variables {") {
-                for variable in computedVariables {
-                    context.neutralTranslator.output(variable: variable, context: context, fragment: fragment)
-                }
-            }
-        }
-        return [fragment]
+        ]
     }
 
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {

@@ -1,5 +1,5 @@
 import Foundation
-import SourceryRuntime
+import SourceryDataModel
 
 private enum AttributeName: String, Hashable, CaseIterable {
     case omitParameters

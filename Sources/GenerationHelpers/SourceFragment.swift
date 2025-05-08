@@ -1,3 +1,5 @@
+import Foundation
+
 public class SourceFragment {
     private let spacesPerIndent = 4
     public var sourceryDestination: String?
@@ -14,16 +16,10 @@ public class SourceFragment {
     }
 
     public var contents: String {
-        if let sourceryDestination = sourceryDestination {
-            return """
-                // sourcery:\(sourceryDestination)
-                \(stringBuilder.joined())
-                // sourcery:end
-
-                """
-        } else {
-            return "\(stringBuilder.joined())\n"
-        }
+        stringBuilder
+            .joined()
+            .trimmingCharacters(in: CharacterSet(charactersIn: "\n"))
+            + "\n"
     }
 
     public func blankLine() {
@@ -108,5 +104,31 @@ public class SourceFragment {
         currentIndent -= 1
         defer { currentIndent += 1 }
         return try body()
+    }
+
+    // Concatenate SourceFragments and group by destination
+    public static func combine(fragments: [SourceFragment]) -> [(path: String?, contents: String)] {
+        var collated: [String?: [String]] = [:]
+        for fragment in fragments {
+            collated[fragment.sourceryDestination, default: []].append(fragment.contents)
+        }
+        return collated.map {
+            let (destination, contentFragments) = $0
+            return (path: destination, contents: contentFragments.joined(separator: "\n"))
+        }.sorted { $0.path ?? "" < $1.path ?? "" }
+    }
+}
+
+extension SourceFragment: Comparable {
+    public static func == (lhs: SourceFragment, rhs: SourceFragment) -> Bool {
+        (lhs.sourceryDestination, lhs.stringBuilder) ==
+            (rhs.sourceryDestination, rhs.stringBuilder)
+    }
+
+    public static func < (lhs: SourceFragment, rhs: SourceFragment) -> Bool {
+        guard lhs.sourceryDestination == rhs.sourceryDestination else {
+            return lhs.sourceryDestination ?? "" < rhs.sourceryDestination ?? ""
+        }
+        return lhs.contents < rhs.contents
     }
 }

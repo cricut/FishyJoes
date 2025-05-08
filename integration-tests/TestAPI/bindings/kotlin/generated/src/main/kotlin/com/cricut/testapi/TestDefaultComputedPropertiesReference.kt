@@ -20,14 +20,6 @@ class TestDefaultComputedPropertiesReference private constructor(_swiftReference
     private external fun __jni_set_noot(newValue: Long)
 
     /**
-     * <!-- FishyJoes.export(plutonic) -->
-     */
-    override val plutonic: kotlin.String
-      get() = __jni_get_plutonic()
-    @JvmName("__jni_get_plutonic")
-    private external fun __jni_get_plutonic(): kotlin.String
-
-    /**
      * <!-- FishyJoes.export(spam) -->
      */
     var spam: Boolean

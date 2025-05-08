@@ -1,4 +1,4 @@
-import SourceryRuntime
+import SourceryDataModel
 
 struct TranslatedURL: TranslatedType {
     let sourceType = BetterType.named(.foundation("URL"))

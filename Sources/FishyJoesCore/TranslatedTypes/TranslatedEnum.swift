@@ -1,4 +1,4 @@
-import SourceryRuntime
+import SourceryDataModel
 
 struct TranslatedEnum: TranslatedType {
     let sourceType: BetterType
@@ -50,8 +50,9 @@ struct TranslatedEnum: TranslatedType {
         }
     }
 
-    init(context: FishyJoesContext, type: Enum) {
+    init(context: FishyJoesContext, type: SourceryType) {
         guard let exportAnnotation = type.exportAnnotation else { fatalErr("export symbol not specified") }
+        guard type.kind == .enum else { fatalErr("not an enum") }
         let name = exportAnnotation.name
 
         self.sourceType = BetterType(named: type, context: context)
@@ -85,66 +86,20 @@ struct TranslatedEnum: TranslatedType {
         self.jniType = .object(context.kotlinTranslator.javaClassName(nodeName, in: context))
         self.documentation = type.documentation
 
-        self.methods = Method.methods(type: type)
-        self.fields = Field.fields(type: type)
-        self.isInhabited = type.isInhabited
+        self.methods = Method.methods(type: type, context: context)
+        self.fields = Field.fields(type: type, context: context)
+        self.isInhabited = context.isTypeInhabited(type)
         self.definingModule = context.module
 
-        self.conformances = Set(type.implements.compactMap {
-            return .init(named: $0.value, context: context)
-        })
+        self.conformances = Set(type.implements.map(\.better))
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
-        return [
+        [
             nodeDefinitionFragment(in: context),
             jniDefinitionFragment(in: context),
             iotaDefinitionFragment(in: context),
-        ] + neutralDefinitionFragments(in: context)
-    }
-
-    func neutralDefinitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
-        guard context.dumpDebugRepresentation else { return [] }
-
-        let fragment = SourceFragment(sourceryDestination: "file:../../DebugGenerated/\(sourceType.name)+EnumInfo.txt")
-        fragment.outputBlock("TranslatedEnum for \(sourceType.name) {") {
-            fragment.outputBlock("Documentation {") {
-                for doc in documentation {
-                    fragment.output(doc)
-                }
-            }
-            fragment.outputBlock("Cases {") {
-                for singleCase in cases {
-                    fragment.outputBlock("Case \(singleCase.name) {") {
-                        fragment.outputBlock("Documentation {") {
-                            for doc in singleCase.documentation {
-                                fragment.output(doc)
-                            }
-                        }
-                        fragment.outputBlock("Values {") {
-                            for value in singleCase.associatedValues {
-                                fragment.outputBlock("Value \(value.name ?? "(nil)") {") {
-                                    fragment.output("Index: \(value.index)")
-                                    fragment.output("Label: \(value.label ?? "(nil)")")
-                                    fragment.output("Type: \(context.resolve(type: value.type).neutralName)")
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            fragment.outputBlock("Methods {") {
-                for method in methods {
-                    context.neutralTranslator.output(method: method, context: context, fragment: fragment)
-                }
-            }
-            fragment.outputBlock("Computed Variables {") {
-                for variable in fields {
-                    context.neutralTranslator.output(variable: variable, context: context, fragment: fragment)
-                }
-            }
-        }
-        return [fragment]
+        ]
     }
 
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {

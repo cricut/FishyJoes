@@ -1,6 +1,6 @@
 import Foundation
 @_exported import GenerationHelpers
-import SourceryRuntime
+import SourceryDataModel
 
 func snakify<S: StringProtocol>(_ camel: S) -> String {
     camel
@@ -42,8 +42,8 @@ extension String {
     }
 }
 
-extension Variable {
+extension SourceryVariable {
     var isPubliclyWritable: Bool {
-        isMutable && accessLevel.write == .public
+        isMutable && writeAccessLevel == .public
     }
 }

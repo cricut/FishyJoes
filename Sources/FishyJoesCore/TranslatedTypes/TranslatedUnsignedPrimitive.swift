@@ -1,4 +1,4 @@
-import SourceryRuntime
+import SourceryDataModel
 
 struct TranslatedUnsignedPrimitive: TranslatedType {
     let sourceType: BetterType

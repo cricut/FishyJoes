@@ -1,4 +1,4 @@
-import SourceryRuntime
+import SourceryDataModel
 
 let translatedAttributedString = ExternalTranslatedType(
     sourceType: BetterType.named(.foundation("AttributedString")),

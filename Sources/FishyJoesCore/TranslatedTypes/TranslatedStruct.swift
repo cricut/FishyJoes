@@ -1,4 +1,4 @@
-import SourceryRuntime
+import SourceryDataModel
 
 struct TranslatedStruct: TranslatedType {
     let sourceType: BetterType
@@ -18,11 +18,11 @@ struct TranslatedStruct: TranslatedType {
     let definingModule: Module
     let conformances: Set<BetterType>
 
-    init(context: FishyJoesContext, type: Type) {
+    init(context: FishyJoesContext, type: SourceryType) {
         guard let exportAnnotation = type.exportAnnotation else {
             fatalErr("c symbol not specified")
         }
-        guard type.kind == "struct" else { fatalErr("not a struct") }
+        guard type.kind == .struct else { fatalErr("not a struct") }
 
         self.sourceType = BetterType(named: type, context: context)
         self.nodeName = exportAnnotation.name
@@ -33,17 +33,15 @@ struct TranslatedStruct: TranslatedType {
         self.dartType = .named(package: context.module.dartNamespace, name: context.dartTranslator.fakeNamespace(exportAnnotation.name))
         self.jniType = .object(context.kotlinTranslator.javaClassName(nodeName, in: context))
 
-        self.storedVariables = type.storedVariables.compactMap { Field($0, type: type) }
-        self.computedVariables = Field.fields(type: type)
+        self.storedVariables = type.storedVariables.compactMap { Field($0, inType: type, context: context) }
+        self.computedVariables = Field.fields(type: type, context: context)
 
-        self.methods = Method.methods(type: type)
+        self.methods = Method.methods(type: type, context: context)
         self.documentation = type.documentation
-        self.isInhabited = type.isInhabited
+        self.isInhabited = context.isTypeInhabited(type)
         self.definingModule = context.module
 
-        self.conformances = Set(type.implements.compactMap {
-            return .init(named: $0.value, context: context)
-        })
+        self.conformances = Set(type.implements.map(\.better))
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
@@ -51,36 +49,7 @@ struct TranslatedStruct: TranslatedType {
             nodeDefinitionFragment(in: context),
             jniDefinitionFragment(in: context),
             iotaDefinitionFragment(in: context),
-        ] + neutralDefinitionFragments(in: context)
-    }
-
-    func neutralDefinitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
-        guard context.dumpDebugRepresentation else { return [] }
-
-        let fragment = SourceFragment(sourceryDestination: "file:../../DebugGenerated/\(sourceType.name)+StructInfo.txt")
-        fragment.outputBlock("TranslatedStruct for \(sourceType.name) {") {
-            fragment.outputBlock("Documentation {") {
-                for doc in documentation {
-                    fragment.output(doc)
-                }
-            }
-            fragment.outputBlock("Methods {") {
-                for method in methods {
-                    context.neutralTranslator.output(method: method, context: context, fragment: fragment)
-                }
-            }
-            fragment.outputBlock("Stored Variables {") {
-                for variable in storedVariables {
-                    context.neutralTranslator.output(variable: variable, context: context, fragment: fragment)
-                }
-            }
-            fragment.outputBlock("Computed Variables {") {
-                for variable in computedVariables {
-                    context.neutralTranslator.output(variable: variable, context: context, fragment: fragment)
-                }
-            }
-        }
-        return [fragment]
+        ]
     }
 
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {

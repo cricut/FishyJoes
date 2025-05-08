@@ -1,5 +1,5 @@
 import Foundation
-import SourceryRuntime
+import SourceryDataModel
 
 /*
  * Helps generate psuedocode-ish files showing internal details used by FishyJoes during code generation

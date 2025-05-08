@@ -136,7 +136,7 @@ class NodePhases: BasePhases, Phases {
             )
         }
 
-        let swiftBindingsRoot = "bindings/swift-interfaces/generated/\(module)-bindings"
+        // let swiftBindingsRoot = "bindings/swift-interfaces/generated/\(module)-bindings"
         let nodeModule = NodeModule(
             name: module,
             definitionsPath: "bindings/ts/generated/\(module).d.ts.part",

@@ -1,5 +1,3 @@
-// Generated using Sourcery 2.2.6 — https://github.com/krzysztofzablocki/Sourcery
-// DO NOT EDIT
 // swiftlint:disable:next blanket_disable_command superfluous_disable_command
 // swiftlint:disable unused_closure_parameter syntactic_sugar attributes
 import FishyJoesJavaRuntime
@@ -542,19 +540,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up TestAPI_CommonInterface._AProtocolConverter...")
         try TestAPI_CommonInterface._AProtocolConverter.javaSetup(env: env)
         try env.RegisterNatives(
-            TestAPI_CommonInterface._AProtocolConverter.externalCompanionClass,
-            JNINativeMethod(
-                name: bag.add("__jni__default_hasADefaultImplementation"),
-                signature: bag.add("(Lcom/cricut/testapi/AProtocol;JD)Ljava/lang/String;"),
-                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__AProtocolConverter__default_hasADefaultImplementation, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni__default_hasADefaultImplementation2"),
-                signature: bag.add("(Lcom/cricut/testapi/AProtocol;Ljava/lang/String;ZLjava/lang/String;)Ljava/lang/String;"),
-                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__AProtocolConverter__default_hasADefaultImplementation2, to: UnsafeMutableRawPointer.self)
-            )
-        )
-        try env.RegisterNatives(
             TestAPI_CommonInterface._AProtocolConverter.externalWitnessClass!,
             JNINativeMethod(
                 name: bag.add("__jni_bar"),
@@ -570,6 +555,16 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_get_foo"),
                 signature: bag.add("()Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_AProtocol_foo, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_hasADefaultImplementation"),
+                signature: bag.add("(JD)Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__AProtocolConverter_hasADefaultImplementation, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_hasADefaultImplementation2"),
+                signature: bag.add("(Ljava/lang/String;ZLjava/lang/String;)Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__AProtocolConverter_hasADefaultImplementation2, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.AProtocolImplementation...")
@@ -580,16 +575,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_bar"),
                 signature: bag.add("(JJ)Lcom/cricut/testapi/AProtocol;"),
                 fnPtr: unsafeBitCast(java_TestAPI_AProtocolImplementation_bar, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni__default_hasADefaultImplementation"),
-                signature: bag.add("(JD)Ljava/lang/String;"),
-                fnPtr: unsafeBitCast(java_TestAPI_AProtocolImplementation__default_hasADefaultImplementation, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni__default_hasADefaultImplementation2"),
-                signature: bag.add("(Ljava/lang/String;ZLjava/lang/String;)Ljava/lang/String;"),
-                fnPtr: unsafeBitCast(java_TestAPI_AProtocolImplementation__default_hasADefaultImplementation2, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.Actors...")
@@ -2234,25 +2219,17 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_witness"),
                 signature: bag.add("()Lcom/cricut/testapi/TestAsyncFunctions;"),
                 fnPtr: unsafeBitCast(java_TestAPI_TestAsyncForeignSideFunctionsStruct_witness, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni__default_defaultExercise6"),
-                signature: bag.add("(Lkotlin/jvm/functions/Function7;)Lkotlinx/coroutines/Deferred;"),
-                fnPtr: unsafeBitCast(java_TestAPI_TestAsyncForeignSideFunctionsStruct__default_defaultExercise6, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI_CommonInterface._TestAsyncFunctionsConverter...")
         try TestAPI_CommonInterface._TestAsyncFunctionsConverter.javaSetup(env: env)
         try env.RegisterNatives(
-            TestAPI_CommonInterface._TestAsyncFunctionsConverter.externalCompanionClass,
-            JNINativeMethod(
-                name: bag.add("__jni__default_defaultExercise6"),
-                signature: bag.add("(Lcom/cricut/testapi/TestAsyncFunctions;Lkotlin/jvm/functions/Function7;)Lkotlinx/coroutines/Deferred;"),
-                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestAsyncFunctionsConverter__default_defaultExercise6, to: UnsafeMutableRawPointer.self)
-            )
-        )
-        try env.RegisterNatives(
             TestAPI_CommonInterface._TestAsyncFunctionsConverter.externalWitnessClass!,
+            JNINativeMethod(
+                name: bag.add("__jni_defaultExercise6"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function7;)Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_CommonInterface__TestAsyncFunctionsConverter_defaultExercise6, to: UnsafeMutableRawPointer.self)
+            ),
             JNINativeMethod(
                 name: bag.add("__jni_exercise0"),
                 signature: bag.add("(Lkotlin/jvm/functions/Function1;)Lkotlinx/coroutines/Deferred;"),
@@ -2432,30 +2409,22 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_witness"),
                 signature: bag.add("()Lcom/cricut/testapi/TestAsyncFunctions;"),
                 fnPtr: unsafeBitCast(java_TestAPI_TestAsyncSwiftSideFunctionsClass_witness, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni__default_defaultExercise6"),
-                signature: bag.add("(Lkotlin/jvm/functions/Function7;)Lkotlinx/coroutines/Deferred;"),
-                fnPtr: unsafeBitCast(java_TestAPI_TestAsyncSwiftSideFunctionsClass__default_defaultExercise6, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter...")
         try TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter.javaSetup(env: env)
         try env.RegisterNatives(
-            TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter.externalCompanionClass,
+            TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter.externalWitnessClass!,
             JNINativeMethod(
-                name: bag.add("__jni__default_noot"),
-                signature: bag.add("(Lcom/cricut/testapi/TestDefaultComputedProperties;)J"),
+                name: bag.add("__jni_get_noot"),
+                signature: bag.add("()J"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_TestDefaultComputedProperties_noot, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni__default_plutonic"),
-                signature: bag.add("(Lcom/cricut/testapi/TestDefaultComputedProperties;)Ljava/lang/String;"),
+                name: bag.add("__jni_get_plutonic"),
+                signature: bag.add("()Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_TestDefaultComputedProperties_plutonic, to: UnsafeMutableRawPointer.self)
             )
-        )
-        try env.RegisterNatives(
-            TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter.externalWitnessClass!
         )
         // print("setting up TestAPI.TestDefaultComputedPropertiesClass...")
         try TestAPI.TestDefaultComputedPropertiesClass.javaSetup(env: env)
@@ -2465,11 +2434,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_get_noot"),
                 signature: bag.add("()J"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_TestDefaultComputedPropertiesClass_noot, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_plutonic"),
-                signature: bag.add("()Ljava/lang/String;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_TestDefaultComputedPropertiesClass_plutonic, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_spam"),
@@ -2502,11 +2466,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_get_TestAPI_TestDefaultComputedPropertiesEnum_noot, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_plutonic"),
-                signature: bag.add("()Ljava/lang/String;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_TestDefaultComputedPropertiesEnum_plutonic, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
                 name: bag.add("__jni_get_spam"),
                 signature: bag.add("()Z"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_TestDefaultComputedPropertiesEnum_spam, to: UnsafeMutableRawPointer.self)
@@ -2514,14 +2473,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         )
         // print("setting up TestAPI.TestDefaultComputedPropertiesStruct...")
         try TestAPI.TestDefaultComputedPropertiesStruct.javaSetup(env: env)
-        try env.RegisterNatives(
-            TestAPI.TestDefaultComputedPropertiesStruct.javaClass,
-            JNINativeMethod(
-                name: bag.add("__jni_get_plutonic"),
-                signature: bag.add("()Ljava/lang/String;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_TestDefaultComputedPropertiesStruct_plutonic, to: UnsafeMutableRawPointer.self)
-            )
-        )
         // print("setting up TestAPI_CommonInterface._TestDifferingExportNameProtocolConverter...")
         try TestAPI_CommonInterface._TestDifferingExportNameProtocolConverter.javaSetup(env: env)
         try env.RegisterNatives(

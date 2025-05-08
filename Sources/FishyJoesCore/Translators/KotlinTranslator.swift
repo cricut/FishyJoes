@@ -1,5 +1,5 @@
 import Foundation
-import SourceryRuntime
+import SourceryDataModel
 
 final class KotlinTranslator: Translator {
     required init() {}
@@ -198,7 +198,7 @@ final class KotlinTranslator: Translator {
         return [fragment]
     }
 
-    func translate(field: Field, context: FishyJoesContext, type: Type) -> [SourceFragment] {
+    func translate(field: Field, context: FishyJoesContext, type: SourceryType) -> [SourceFragment] {
         guard let exportAnnotation = field.exportAnnotation else {
             return []
         }
@@ -210,7 +210,7 @@ final class KotlinTranslator: Translator {
         let sourceTypeName = sourceResolved.sourceType.name
         let converterTypeName = sourceResolved.converterType.name
 
-        let shouldWrap = type is SourceryProtocol && field.isDefaultImplementation
+        let shouldWrap = type.kind == .protocol && field.isDefaultImplementation
 
         let kotlinName = exportAnnotation.name
         let jvmGetName = shouldWrap ? "__jni__default_\(kotlinName)" : "__jni_\(exportAnnotation.kind == .asMethod ? "" : "get_")\(kotlinName)"

@@ -1,5 +1,3 @@
-// Generated using Sourcery 2.2.6 — https://github.com/krzysztofzablocki/Sourcery
-// DO NOT EDIT
 // swiftlint:disable:next blanket_disable_command superfluous_disable_command
 // swiftlint:disable unused_closure_parameter syntactic_sugar attributes
 import FishyJoesNodeRuntime
@@ -7,7 +5,6 @@ import Foundation
 import NodeAPI
 import TestAPI
 import TestAPI_CommonInterface
-
 
 // MARK: - NodeInterface/Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces+node.swift
 
@@ -69,7 +66,6 @@ extension Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces: NodeMu
     }
 }
 
-
 // MARK: - NodeInterface/Swift.String.PuttingTypesIntoQuestionablePlaces+node.swift
 
 extension Swift.String.PuttingTypesIntoQuestionablePlaces: NodeMutator {
@@ -130,7 +126,6 @@ extension Swift.String.PuttingTypesIntoQuestionablePlaces: NodeMutator {
     }
 }
 
-
 // MARK: - NodeInterface/Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces+node.swift
 
 extension Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces: FishyJoesNodeRuntime.NodeConverter {
@@ -173,7 +168,6 @@ extension Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces: FishyJoesNodeR
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.AProtocol+node.swift
 
@@ -259,51 +253,6 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
 
                 let result = try env.callFunction(object, create, [coreArg])
 
-                let hasADefaultImplementationFunctionCallback: NAPI.Callback = { env, info in
-                    FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation", expectedArgumentCount: 2, hasNamedOptions: false) { env in
-                        let _wrappedSwiftSelf = TestAPI_CommonInterface.AProtocol_sans_hasADefaultImplementation(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self)))
-                        let result = try Swift.String.toNode(
-                            _wrappedSwiftSelf.hasADefaultImplementation(
-                                x: try env.argument(at: 0, converter: Swift.Int.self),
-                                y: try env.argument(at: 1, converter: Swift.Double.self)
-                            ),
-                            env: env.env
-                        )
-                        return result
-                    }
-                }
-                let hasADefaultImplementationFunction = try env.createFunction(
-                    "hasADefaultImplementation",
-                    hasADefaultImplementationFunctionCallback,
-                    nil
-                )
-                if !(try env.hasNamedProperty(result, "hasADefaultImplementation")) {
-                    try env.setNamedProperty(result, "hasADefaultImplementation", hasADefaultImplementationFunction)
-                }
-
-                let hasADefaultImplementation2FunctionCallback: NAPI.Callback = { env, info in
-                    FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation2", expectedArgumentCount: 3, hasNamedOptions: false) { env in
-                        let _wrappedSwiftSelf = TestAPI_CommonInterface.AProtocol_sans_hasADefaultImplementation2(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self)))
-                        let result = try Swift.String.toNode(
-                            _wrappedSwiftSelf.hasADefaultImplementation2(
-                                try env.argument(at: 0, converter: Swift.String.self),
-                                b: try env.argument(at: 1, converter: Swift.Bool.self),
-                                try env.argument(at: 2, converter: Swift.String.self)
-                            ),
-                            env: env.env
-                        )
-                        return result
-                    }
-                }
-                let hasADefaultImplementation2Function = try env.createFunction(
-                    "hasADefaultImplementation2",
-                    hasADefaultImplementation2FunctionCallback,
-                    nil
-                )
-                if !(try env.hasNamedProperty(result, "hasADefaultImplementation2")) {
-                    try env.setNamedProperty(result, "hasADefaultImplementation2", hasADefaultImplementation2Function)
-                }
-
                 return result
             }
         }
@@ -340,9 +289,8 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
                 "hasADefaultImplementation": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation", expectedArgumentCount: 2, hasNamedOptions: false) { env in
-                            let _wrappedSwiftSelf = TestAPI_CommonInterface.AProtocol_sans_hasADefaultImplementation(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self)))
                             let result = try Swift.String.toNode(
-                                _wrappedSwiftSelf.hasADefaultImplementation(
+                                env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self).hasADefaultImplementation(
                                     x: try env.argument(at: 0, converter: Swift.Int.self),
                                     y: try env.argument(at: 1, converter: Swift.Double.self)
                                 ),
@@ -356,9 +304,8 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
                 "hasADefaultImplementation2": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation2", expectedArgumentCount: 3, hasNamedOptions: false) { env in
-                            let _wrappedSwiftSelf = TestAPI_CommonInterface.AProtocol_sans_hasADefaultImplementation2(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self)))
                             let result = try Swift.String.toNode(
-                                _wrappedSwiftSelf.hasADefaultImplementation2(
+                                env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self).hasADefaultImplementation2(
                                     try env.argument(at: 0, converter: Swift.String.self),
                                     b: try env.argument(at: 1, converter: Swift.Bool.self),
                                     try env.argument(at: 2, converter: Swift.String.self)
@@ -407,7 +354,6 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.AProtocolImplementation+node.swift
 
@@ -459,37 +405,6 @@ extension TestAPI.AProtocolImplementation: NodeMutator {
                     },
                     isStatic: false
                 ),
-                "hasADefaultImplementation": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation", expectedArgumentCount: 2, hasNamedOptions: false) { env in
-                            let result = try Swift.String.toNode(
-                                env.this(converter: TestAPI.AProtocolImplementation.self).hasADefaultImplementation(
-                                    x: try env.argument(at: 0, converter: Swift.Int.self),
-                                    y: try env.argument(at: 1, converter: Swift.Double.self)
-                                ),
-                                env: env.env
-                            )
-                            return result
-                        }
-                    },
-                    isStatic: false
-                ),
-                "hasADefaultImplementation2": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation2", expectedArgumentCount: 3, hasNamedOptions: false) { env in
-                            let result = try Swift.String.toNode(
-                                env.this(converter: TestAPI.AProtocolImplementation.self).hasADefaultImplementation2(
-                                    try env.argument(at: 0, converter: Swift.String.self),
-                                    b: try env.argument(at: 1, converter: Swift.Bool.self),
-                                    try env.argument(at: 2, converter: Swift.String.self)
-                                ),
-                                env: env.env
-                            )
-                            return result
-                        }
-                    },
-                    isStatic: false
-                ),
                 "foo": (.stored(mutable: true), isStatic: false),
                 "baz": (.stored(mutable: true), isStatic: false),
             ],
@@ -510,7 +425,6 @@ extension TestAPI.AProtocolImplementation: NodeMutator {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.Actors+node.swift
 
@@ -551,7 +465,6 @@ extension TestAPI.Actors: FishyJoesNodeRuntime.NodeConverter {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.Actors.TemperatureLogger+node.swift
 
@@ -763,7 +676,6 @@ extension TestAPI.Actors.TemperatureLogger: FishyJoesNodeRuntime.NodeConverter {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.AssociatedDataEnum+node.swift
 
@@ -1048,7 +960,6 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.AsyncFunctions+node.swift
 
@@ -1408,7 +1319,6 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.AttributedStrings+node.swift
 
 extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
@@ -1645,7 +1555,6 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.Bytes+node.swift
 
 extension TestAPI.Bytes: FishyJoesNodeRuntime.NodeConverter {
@@ -1734,7 +1643,6 @@ extension TestAPI.Bytes: FishyJoesNodeRuntime.NodeConverter {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.ClosedRanges+node.swift
 
@@ -2100,7 +2008,6 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.Collections+node.swift
 
 extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
@@ -2360,7 +2267,6 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.Collections.CollectionHolder+node.swift
 
 extension TestAPI.Collections.CollectionHolder: NodeMutator {
@@ -2499,7 +2405,6 @@ extension TestAPI.Collections.CollectionHolder: NodeMutator {
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.DefaultArguments+node.swift
 
 extension TestAPI.DefaultArguments: FishyJoesNodeRuntime.NodeConverter {
@@ -2554,7 +2459,6 @@ extension TestAPI.DefaultArguments: FishyJoesNodeRuntime.NodeConverter {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.Deprecations+node.swift
 
@@ -2618,7 +2522,6 @@ extension TestAPI.Deprecations: FishyJoesNodeRuntime.NodeConverter {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.EmptyClass+node.swift
 
@@ -2739,7 +2642,6 @@ extension TestAPI.EmptyClass: FishyJoesNodeRuntime.NodeConverter {
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.EmptyClass2+node.swift
 
 extension TestAPI.EmptyClass2: FishyJoesNodeRuntime.NodeConverter {
@@ -2859,7 +2761,6 @@ extension TestAPI.EmptyClass2: FishyJoesNodeRuntime.NodeConverter {
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.EmptyEnum+node.swift
 
 extension TestAPI.EmptyEnum: FishyJoesNodeRuntime.NodeConverter {
@@ -2933,7 +2834,6 @@ extension TestAPI.EmptyEnum: FishyJoesNodeRuntime.NodeConverter {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.EmptyStruct+node.swift
 
@@ -3036,7 +2936,6 @@ extension TestAPI.EmptyStruct: NodeMutator {
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.EmptyStruct2+node.swift
 
 extension TestAPI.EmptyStruct2: NodeMutator {
@@ -3137,7 +3036,6 @@ extension TestAPI.EmptyStruct2: NodeMutator {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.Functions+node.swift
 
@@ -3379,7 +3277,6 @@ extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.Methods+node.swift
 
@@ -4075,7 +3972,6 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.Primitives+node.swift
 
@@ -5261,7 +5157,6 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.Primitives.PrimitiveHolder+node.swift
 
 extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
@@ -5535,7 +5430,6 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.Ranges+node.swift
 
@@ -5826,7 +5720,6 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.ReferenceEmptyEnum+node.swift
 
 extension TestAPI.ReferenceEmptyEnum: FishyJoesNodeRuntime.NodeConverter {
@@ -5900,7 +5793,6 @@ extension TestAPI.ReferenceEmptyEnum: FishyJoesNodeRuntime.NodeConverter {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.Results+node.swift
 
@@ -5977,7 +5869,6 @@ extension TestAPI.Results: FishyJoesNodeRuntime.NodeConverter {
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.Results.Error+node.swift
 
 extension TestAPI.Results.Error: NodeMutator {
@@ -6024,7 +5915,6 @@ extension TestAPI.Results.Error: NodeMutator {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.SimpleEnum+node.swift
 
@@ -6124,7 +6014,6 @@ extension TestAPI.SimpleEnum: FishyJoesNodeRuntime.NodeConverter {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.Strings+node.swift
 
@@ -6282,7 +6171,6 @@ extension TestAPI.Strings: FishyJoesNodeRuntime.NodeConverter {
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.Structs+node.swift
 
 extension TestAPI.Structs: FishyJoesNodeRuntime.NodeConverter {
@@ -6322,7 +6210,6 @@ extension TestAPI.Structs: FishyJoesNodeRuntime.NodeConverter {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.Structs.MemberwiseStruct+node.swift
 
@@ -6422,7 +6309,6 @@ extension TestAPI.Structs.MemberwiseStruct: NodeMutator {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.Structs.MutableStruct+node.swift
 
@@ -6565,7 +6451,6 @@ extension TestAPI.Structs.MutableStruct: NodeMutator {
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.Structs.PuttingTypesIntoQuestionablePlaces+node.swift
 
 extension TestAPI.Structs.PuttingTypesIntoQuestionablePlaces: FishyJoesNodeRuntime.NodeConverter {
@@ -6649,7 +6534,6 @@ extension TestAPI.Structs.PuttingTypesIntoQuestionablePlaces: FishyJoesNodeRunti
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.Structs.ReferenceStruct+node.swift
 
@@ -6780,7 +6664,6 @@ extension TestAPI.Structs.ReferenceStruct: FishyJoesNodeRuntime.NodeConverter {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.Structs.TwentyOneItemStruct+node.swift
 
@@ -6989,7 +6872,6 @@ extension TestAPI.Structs.TwentyOneItemStruct: NodeMutator {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.TestAsyncForeignSideFunctionsStruct+node.swift
 
@@ -7345,38 +7227,6 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
                     },
                     isStatic: false
                 ),
-                "defaultExercise6": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "defaultExercise6", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let (deferred, promise) = try env.env.createPromise()
-                            let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.self))
-                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.TestAsyncForeignSideFunctionsStruct.self))
-                            Task {
-                                do {
-                                    let taskResult: String = try await swiftSelf.value.defaultExercise6(
-                                        arg0.value
-                                    )
-                                    try onMainThread { env in
-                                        let convertedTaskResult: NAPI.Value
-                                        do {
-                                            convertedTaskResult = try Swift.String.toNode(taskResult, env: env)
-                                        } catch {
-                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
-                                            return
-                                        }
-                                        try env.resolveDeferred(deferred, convertedTaskResult)
-                                    }
-                                } catch {
-                                    try onMainThread { env in
-                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
-                                    }
-                                }
-                            }
-                            return promise
-                        }
-                    },
-                    isStatic: false
-                ),
                 "const42": (.stored(mutable: true), isStatic: false),
                 "iabs": (.stored(mutable: true), isStatic: false),
                 "intCompose": (.stored(mutable: true), isStatic: false),
@@ -7425,7 +7275,6 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.TestAsyncFunctions+node.swift
 
@@ -7620,45 +7469,6 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                 let create = try env.getNamedProperty(object, "create")
 
                 let result = try env.callFunction(object, create, [coreArg])
-
-                let defaultExercise6FunctionCallback: NAPI.Callback = { env, info in
-                    FishyJoesNodeRuntime.callbackBody(env, info, name: "defaultExercise6", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                        let (deferred, promise) = try env.env.createPromise()
-                        let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.self))
-                        let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self))
-                        let _wrappedSwiftSelf = TestAPI_CommonInterface.TestAsyncFunctions_sans_defaultExercise6(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(swiftSelf.value))
-                        Task {
-                            do {
-                                let taskResult: String = try await _wrappedSwiftSelf.defaultExercise6(
-                                    arg0.value
-                                )
-                                try onMainThread { env in
-                                    let convertedTaskResult: NAPI.Value
-                                    do {
-                                        convertedTaskResult = try Swift.String.toNode(taskResult, env: env)
-                                    } catch {
-                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
-                                        return
-                                    }
-                                    try env.resolveDeferred(deferred, convertedTaskResult)
-                                }
-                            } catch {
-                                try onMainThread { env in
-                                    try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
-                                }
-                            }
-                        }
-                        return promise
-                    }
-                }
-                let defaultExercise6Function = try env.createFunction(
-                    "defaultExercise6",
-                    defaultExercise6FunctionCallback,
-                    nil
-                )
-                if !(try env.hasNamedProperty(result, "defaultExercise6")) {
-                    try env.setNamedProperty(result, "defaultExercise6", defaultExercise6Function)
-                }
 
                 return result
             }
@@ -7922,10 +7732,9 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.self))
                             let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self))
-                            let _wrappedSwiftSelf = TestAPI_CommonInterface.TestAsyncFunctions_sans_defaultExercise6(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(swiftSelf.value))
                             Task {
                                 do {
-                                    let taskResult: String = try await _wrappedSwiftSelf.defaultExercise6(
+                                    let taskResult: String = try await swiftSelf.value.defaultExercise6(
                                         arg0.value
                                     )
                                     try onMainThread { env in
@@ -8065,7 +7874,6 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.TestAsyncSwiftSideFunctionsClass+node.swift
 
@@ -8361,38 +8169,6 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                     },
                     isStatic: true
                 ),
-                "defaultExercise6": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "defaultExercise6", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let (deferred, promise) = try env.env.createPromise()
-                            let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.self))
-                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self))
-                            Task {
-                                do {
-                                    let taskResult: String = try await swiftSelf.value.defaultExercise6(
-                                        arg0.value
-                                    )
-                                    try onMainThread { env in
-                                        let convertedTaskResult: NAPI.Value
-                                        do {
-                                            convertedTaskResult = try Swift.String.toNode(taskResult, env: env)
-                                        } catch {
-                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
-                                            return
-                                        }
-                                        try env.resolveDeferred(deferred, convertedTaskResult)
-                                    }
-                                } catch {
-                                    try onMainThread { env in
-                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
-                                    }
-                                }
-                            }
-                            return promise
-                        }
-                    },
-                    isStatic: false
-                ),
                 "add3Things": (
                     .accessor(
                         getter: { env, info in
@@ -8509,7 +8285,6 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.TestDefaultComputedProperties+node.swift
 
 struct _NodeTestDefaultComputedProperties: TestAPI.TestDefaultComputedProperties {
@@ -8570,50 +8345,6 @@ extension TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter: NodeC
 
                 let result = try env.callFunction(object, create, [coreArg])
 
-                let nootGetterCallback: NAPI.Callback = { env, info in
-                    FishyJoesNodeRuntime.callbackBody(env, info, name: "noot", expectedArgumentCount: 0) { env in
-                        let _wrappedSwiftSelf = TestAPI_CommonInterface.TestDefaultComputedProperties_sans_noot(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(env.this(converter: TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter.self)))
-                        return try Swift.Int.toNode(_wrappedSwiftSelf.noot, env: env.env)
-                    }
-                }
-                let nootNodeName = try String.toNode("noot", env: env)
-                let nootPropertyDesc = napi_property_descriptor(
-                    utf8name: nil,
-                    name: nootNodeName.ptr,
-                    method: nil,
-                    getter: nootGetterCallback,
-                    setter: nil,
-                    value: nil,
-                    attributes: napi_default,
-                    data: nil
-                )
-
-                if !(try env.hasNamedProperty(result, "noot")) {
-                    try env.defineProperties(result, properties: [nootPropertyDesc])
-                }
-
-                let plutonicGetterCallback: NAPI.Callback = { env, info in
-                    FishyJoesNodeRuntime.callbackBody(env, info, name: "plutonic", expectedArgumentCount: 0) { env in
-                        let _wrappedSwiftSelf = TestAPI_CommonInterface.TestDefaultComputedProperties_sans_pluto(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(env.this(converter: TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter.self)))
-                        return try Swift.String.toNode(_wrappedSwiftSelf.pluto, env: env.env)
-                    }
-                }
-                let plutonicNodeName = try String.toNode("plutonic", env: env)
-                let plutonicPropertyDesc = napi_property_descriptor(
-                    utf8name: nil,
-                    name: plutonicNodeName.ptr,
-                    method: nil,
-                    getter: plutonicGetterCallback,
-                    setter: nil,
-                    value: nil,
-                    attributes: napi_default,
-                    data: nil
-                )
-
-                if !(try env.hasNamedProperty(result, "plutonic")) {
-                    try env.defineProperties(result, properties: [plutonicPropertyDesc])
-                }
-
                 return result
             }
         }
@@ -8636,8 +8367,7 @@ extension TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter: NodeC
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "noot", expectedArgumentCount: 0) { env in
-                                let _wrappedSwiftSelf = TestAPI_CommonInterface.TestDefaultComputedProperties_sans_noot(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(env.this(converter: TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter.self)))
-                                return try Swift.Int.toNode(_wrappedSwiftSelf.noot, env: env.env)
+                                return try Swift.Int.toNode(env.this(converter: TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter.self).noot, env: env.env)
                             }
                         },
                         setter: nil
@@ -8648,8 +8378,7 @@ extension TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter: NodeC
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "plutonic", expectedArgumentCount: 0) { env in
-                                let _wrappedSwiftSelf = TestAPI_CommonInterface.TestDefaultComputedProperties_sans_pluto(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(env.this(converter: TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter.self)))
-                                return try Swift.String.toNode(_wrappedSwiftSelf.pluto, env: env.env)
+                                return try Swift.String.toNode(env.this(converter: TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter.self).pluto, env: env.env)
                             }
                         },
                         setter: nil
@@ -8671,7 +8400,6 @@ extension TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter: NodeC
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.TestDefaultComputedPropertiesClass+node.swift
 
@@ -8736,17 +8464,6 @@ extension TestAPI.TestDefaultComputedPropertiesClass: FishyJoesNodeRuntime.NodeC
                         }),
                     isStatic: false
                 ),
-                "plutonic": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "plutonic", expectedArgumentCount: 0) { env in
-                                return try Swift.String.toNode(env.this(converter: TestAPI.TestDefaultComputedPropertiesClass.self).pluto, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: false
-                ),
                 "spam": (
                     .accessor(
                         getter: { env, info in
@@ -8793,7 +8510,6 @@ extension TestAPI.TestDefaultComputedPropertiesClass: FishyJoesNodeRuntime.NodeC
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.TestDefaultComputedPropertiesEnum+node.swift
 
 extension TestAPI.TestDefaultComputedPropertiesEnum: FishyJoesNodeRuntime.NodeConverter {
@@ -8821,14 +8537,6 @@ extension TestAPI.TestDefaultComputedPropertiesEnum: FishyJoesNodeRuntime.NodeCo
                 },
                 isStatic: true
             ),
-            "getPlutonic": (
-                .method { env, info in
-                    FishyJoesNodeRuntime.callbackBody(env, info, name: "plutonic", expectedArgumentCount: 1) { env in
-                        return try Swift.String.toNode(env.argument(at: 0, converter: TestAPI.TestDefaultComputedPropertiesEnum.self).pluto, env: env.env)
-                    }
-                },
-                isStatic: true
-            ),
             "getSpam": (
                 .method { env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "spam", expectedArgumentCount: 1) { env in
@@ -8847,7 +8555,6 @@ extension TestAPI.TestDefaultComputedPropertiesEnum: FishyJoesNodeRuntime.NodeCo
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.TestDefaultComputedPropertiesStruct+node.swift
 
@@ -8884,17 +8591,6 @@ extension TestAPI.TestDefaultComputedPropertiesStruct: NodeMutator {
             module: "TestAPI",
             name: "TestDefaultComputedPropertiesStruct",
             properties: [
-                "plutonic": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "plutonic", expectedArgumentCount: 0) { env in
-                                return try Swift.String.toNode(env.this(converter: TestAPI.TestDefaultComputedPropertiesStruct.self).pluto, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: false
-                ),
                 "spam": (.stored(mutable: true), isStatic: false),
                 "noot": (.stored(mutable: true), isStatic: false),
             ],
@@ -8915,7 +8611,6 @@ extension TestAPI.TestDefaultComputedPropertiesStruct: NodeMutator {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.TestDifferingExportNameProtocol+node.swift
 
@@ -9013,7 +8708,6 @@ extension TestAPI_CommonInterface._TestDifferingExportNameProtocolConverter: Nod
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.TestDifferingExportNameStruct+node.swift
 
 extension TestAPI.TestDifferingExportNameStruct: NodeMutator {
@@ -9061,7 +8755,6 @@ extension TestAPI.TestDifferingExportNameStruct: NodeMutator {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.TestLeadingUnderscoredProp+node.swift
 
@@ -9159,7 +8852,6 @@ extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: NodeConv
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.TestLeadingUnderscoredPropStruct+node.swift
 
 extension TestAPI.TestLeadingUnderscoredPropStruct: NodeMutator {
@@ -9207,7 +8899,6 @@ extension TestAPI.TestLeadingUnderscoredPropStruct: NodeMutator {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.TestMethodsProtocol+node.swift
 
@@ -9414,7 +9105,6 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.TestNonExportedProtocolEnum+node.swift
 
 extension TestAPI.TestNonExportedProtocolEnum: FishyJoesNodeRuntime.NodeConverter {
@@ -9465,7 +9155,6 @@ extension TestAPI.TestNonExportedProtocolEnum: FishyJoesNodeRuntime.NodeConverte
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.TestOptionalsProtocol+node.swift
 
@@ -9607,7 +9296,6 @@ extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: NodeConverter
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.TestPropertiesProtocol+node.swift
 
 struct _NodeTestPropertiesProtocol: TestAPI.TestPropertiesProtocol {
@@ -9723,7 +9411,6 @@ extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: NodeConverte
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.TestProtocolClass+node.swift
 
@@ -9956,7 +9643,6 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.TestProtocolEnum+node.swift
 
 extension TestAPI.TestProtocolEnum: FishyJoesNodeRuntime.NodeConverter {
@@ -10069,7 +9755,6 @@ extension TestAPI.TestProtocolEnum: FishyJoesNodeRuntime.NodeConverter {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.TestProtocolStruct+node.swift
 
@@ -10213,7 +9898,6 @@ extension TestAPI.TestProtocolStruct: NodeMutator {
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.Tuples+node.swift
 
 extension TestAPI.Tuples: FishyJoesNodeRuntime.NodeConverter {
@@ -10325,7 +10009,6 @@ extension TestAPI.Tuples: FishyJoesNodeRuntime.NodeConverter {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.URLs+node.swift
 

@@ -1,11 +1,11 @@
 import Foundation
-import SourceryRuntime
+import SourceryDataModel
 import System
 
 public class FishyJoesContext {
     let module: Module
-    let requiredModulePaths: [String]
-    let templateContext: TemplateContext
+    let requiredModulePaths: [String: String]
+    let templateContext: SourceryTemplateContext
     var typeCache: [BetterType: TranslatedTypeOrAlias] = [:]
 
     var fileHeaders: [String: Set<FileHeader>] = [:]
@@ -14,8 +14,6 @@ public class FishyJoesContext {
     }
 
     var debugContext = ""
-
-    let dumpDebugRepresentation: Bool
 
     var tsAnnotations: TypeScriptAnnotations
     private(set) var kotlinClasses: [KotlinClass] = []
@@ -49,27 +47,16 @@ public class FishyJoesContext {
         let message: String
     }
 
-    public init(context: TemplateContext, stderrFifo: String? = nil) {
-        let argument = context.argument
-        guard let module = argument["module"] as? String else {
-            fatalErr("must provide module name as `module` argument to sourcery")
-        }
-        guard let requiredModulesBase64 = argument["requiredModules"] as? String,
-              let requiredModulesJSON = Data(base64Encoded: requiredModulesBase64),
-              let requiredModulePaths = try? JSONDecoder().decode([String].self, from: requiredModulesJSON)
-        else {
-            fatalErr("must provide `requiredModules` as argument to sourcery")
-        }
-        guard let extraDynamicLibrariesBase64 = argument["extraDynamicLibraries"] as? String,
-              let extraDynamicLibrariesJSON = Data(base64Encoded: extraDynamicLibrariesBase64),
-              let extraDynamicLibraries = try? JSONDecoder().decode([String].self, from: extraDynamicLibrariesJSON)
-        else {
-            fatalErr("must provide `extraDynamicLibraries` as argument to sourcery")
-        }
+    public init(
+        context: SourceryTemplateContext,
+        module: String,
+        requiredModulePaths: [String: String],
+        extraDynamicLibraries: [String]
+    ) {
         self.templateContext = context
         self.module = Module(
             name: module,
-            dependencies: requiredModulePaths.map { (($0 as NSString).lastPathComponent as NSString).deletingPathExtension },
+            dependencies: requiredModulePaths.values.map { (($0 as NSString).lastPathComponent as NSString).deletingPathExtension },
             extraDynamicLibraries: extraDynamicLibraries
         )
         self.requiredModulePaths = requiredModulePaths
@@ -77,19 +64,12 @@ public class FishyJoesContext {
             rootNamespaces: [.init(name: module, typealiases: [])],
             defaultNamespace: module
         )
-        self.dumpDebugRepresentation = argument["debugRepresentation"] as? String == "true"
-        if let stderrFifo = stderrFifo {
-            // Re-open the real stderr, and bypass sourcery
-            let errDescriptor = try! FileDescriptor.open(stderrFifo, .writeOnly)
-            precondition(dup2(errDescriptor.rawValue, 2) >= 0)
-            try! errDescriptor.close()
-        }
     }
 
     func swiftFragment(_ name: String, withDedicatedFile: Bool = false, additionalImports: [String] = []) -> SourceFragment {
-        var fileName = name
+        var fileName = "swift-interfaces/generated/\(module.name)-bindings/Sources/\(name)"
         if !withDedicatedFile {
-            fileName = (name.components(separatedBy: "/").dropLast() + ["\(module.name).swift"]).joined(separator: "/")
+            fileName = (fileName.components(separatedBy: "/").dropLast() + ["\(module.name).swift"]).joined(separator: "/")
         }
         for dependency in module.dependencies + [module.name] + additionalImports {
             addHeader(file: fileName, "import \(dependency)")
@@ -105,7 +85,7 @@ public class FishyJoesContext {
             priority: 1,
             "// swiftlint:disable unused_closure_parameter syntactic_sugar attributes"
         )
-        let fragment = SourceFragment(sourceryDestination: "file:\(fileName)")
+        let fragment = SourceFragment(sourceryDestination: fileName)
         if !withDedicatedFile {
             fragment.blankLine()
             fragment.output("// MARK: - \(name)")
@@ -115,7 +95,7 @@ public class FishyJoesContext {
     }
 
     func kotlinFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
-        let fileName = "../../../../kotlin/generated/src/main/kotlin/com/cricut/\(module.name.lowercased())/\(name)"
+        let fileName = "kotlin/generated/src/main/kotlin/com/cricut/\(module.name.lowercased())/\(name)"
         // Package must go before imports, use higher priority
         addHeader(file: fileName, priority: 1, "package \(module.kotlinPackage)\n")
         addHeader(file: fileName, "import kotlinx.coroutines.*")
@@ -124,11 +104,11 @@ public class FishyJoesContext {
         for dependency in module.dependencies {
             addHeader(file: fileName, "import com.cricut.\(dependency.lowercased()).*")
         }
-        return SourceFragment(sourceryDestination: "file:\(fileName)")
+        return SourceFragment(sourceryDestination: fileName)
     }
 
     func cSharpFragment(_ name: String) -> SourceFragment {
-        let fileName = "../../../../c-sharp/generated/Cricut.\(module.name)/\(name)"
+        let fileName = "c-sharp/generated/Cricut.\(module.name)/\(name)"
         addHeader(file: fileName, "using System;")
         addHeader(file: fileName, "using System.Runtime.InteropServices;")
         addHeader(file: fileName, "using System.Collections.Generic;")
@@ -137,11 +117,11 @@ public class FishyJoesContext {
         for dependency in module.dependencies {
             addHeader(file: fileName, "using Cricut.\(dependency);")
         }
-        return SourceFragment(sourceryDestination: "file:\(fileName)")
+        return SourceFragment(sourceryDestination: fileName)
     }
 
     func dartFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
-        let fileName = "../../../../dart/generated/lib/src/\(name)"
+        let fileName = "dart/generated/lib/src/\(name)"
 
         addHeader(file: fileName, "import 'dart:ffi' as ffi;")
         addHeader(file: fileName, "import 'package:ffi/ffi.dart' as ffi;")
@@ -161,15 +141,15 @@ public class FishyJoesContext {
             addHeader(file: fileName, additionalImport)
         }
 
-        return SourceFragment(sourceryDestination: "file:\(fileName)")
+        return SourceFragment(sourceryDestination: fileName)
     }
 
-    public func translateAll() -> String {
+    public func translateAll() -> [SourceFragment] {
         var collectedFragments: [SourceFragment] = []
         var moduleDefinedTypes: [ExternalTranslatedType] = []
 
         // Import any required FishyJoes modules
-        for path in requiredModulePaths {
+        for path in requiredModulePaths.values {
             let moduleInfo = Result {
                 try JSONDecoder().decode(ModuleInfo.self, from: Data(contentsOf: URL(fileURLWithPath: path)))
             }.mapError { error in
@@ -186,7 +166,7 @@ public class FishyJoesContext {
 
         // Collect type information before starting translation
         // This collects the named types possible for use later in resolve().
-        let translatedTypes = templateContext.types.types.compactMap { type -> TranslatedType? in
+        let translatedTypes = templateContext.types.compactMap { type -> TranslatedType? in
             debugContext = "Translating type \(type.name)"
             return translate(typeDefinition: type)
         }
@@ -199,9 +179,9 @@ public class FishyJoesContext {
         }
 
         // Translate
-        var methodsToTranslateForTypeDict = [Type: [Method]]()
-        for type in templateContext.types.types {
-            methodsToTranslateForTypeDict[type] = Method.methods(type: type)
+        var methodsToTranslateForTypeDict = [SourceryType: [Method]]()
+        for type in templateContext.types {
+            methodsToTranslateForTypeDict[type] = Method.methods(type: type, context: self)
         }
 
         for (type, methods) in methodsToTranslateForTypeDict {
@@ -213,9 +193,9 @@ public class FishyJoesContext {
             }
         }
 
-        var fieldsToTranslateForTypeDict = [Type: [Field]]()
-        for type in templateContext.types.types {
-            fieldsToTranslateForTypeDict[type] = Field.fields(type: type)
+        var fieldsToTranslateForTypeDict = [SourceryType: [Field]]()
+        for type in sourceryTypes.values {
+            fieldsToTranslateForTypeDict[type] = Field.fields(type: type, context: self)
         }
 
         for (type, fields) in fieldsToTranslateForTypeDict {
@@ -228,7 +208,7 @@ public class FishyJoesContext {
             }
         }
         // Translate any top level functions
-        let topLevelFunctions = templateContext.functions.compactMap { Method($0, type: nil, protocolName: nil) }
+        let topLevelFunctions = templateContext.functions.compactMap { Method($0, inType: nil, context: self) }
         guard topLevelFunctions.isEmpty else {
             fatalErr("Support for exporting top level functions has been removed for now")
         }
@@ -287,7 +267,7 @@ public class FishyJoesContext {
         )
 
         // Output moduleInfo for FishyJoes packages that depend on this one
-        let moduleInfoFragment = SourceFragment(sourceryDestination: "file:../../\(module).fishyjoesmodule")
+        let moduleInfoFragment = SourceFragment(sourceryDestination: "swift-interfaces/generated/\(module).fishyjoesmodule")
         let moduleInfo = ModuleInfo(
             types: moduleDefinedTypes,
             typeScriptAnnotations: tsAnnotations
@@ -307,14 +287,14 @@ public class FishyJoesContext {
         moduleInfoFragment.output(String(data: jsonData, encoding: .utf8)!)
 
         let headerFragments = fileHeaders.keys.map { fileName -> SourceFragment in
-            let fragment = SourceFragment(sourceryDestination: "file:\(fileName)")
+            let fragment = SourceFragment(sourceryDestination: fileName)
             for headerLine in fileHeaders[fileName, default: []].sorted() {
                 fragment.output(headerLine.contents)
             }
             return fragment
         }
 
-        return (headerFragments.map(\.contents) + collectedFragments.map(\.contents).sorted()).joined()
+        return headerFragments + collectedFragments.sorted()
     }
 
     /// Process a set of classes to nest their inner classes properly for generation.
@@ -359,7 +339,7 @@ public class FishyJoesContext {
         return rootClass.innerClasses.map { $0.fragment(context: self) }
     }
 
-    func translate(typeDefinition type: Type) -> TranslatedType? {
+    func translate(typeDefinition type: SourceryType) -> TranslatedType? {
         guard let annotation = type.exportAnnotation else {
             // Not annotated for export
             return nil
@@ -367,17 +347,17 @@ public class FishyJoesContext {
 
         if annotation.kind == .asReference {
             return TranslatedReference(context: self, type: type)
-        } else if type.kind == "struct" {
+        }
+        switch type.kind {
+        case .struct:
             return TranslatedStruct(context: self, type: type)
-        } else if let type = type as? Enum {
+        case .enum:
             return TranslatedEnum(context: self, type: type)
-        } else if let type = type as? SourceryProtocol {
+        case .protocol:
             return TranslatedProtocol(context: self, type: type)
-        } else if let type = type as? Actor {
+        case .class, .actor:
             return TranslatedReference(context: self, type: type)
-        } else if let type = type as? Class {
-            return TranslatedReference(context: self, type: type)
-        } else {
+        default:
             fatalErr("TODO: annotation on unknown kind \"\(type.kind)\" on type `\(type.globalName)`")
         }
     }
@@ -640,5 +620,38 @@ public class FishyJoesContext {
         static func < (lhs: FileHeader, rhs: FileHeader) -> Bool {
             (-lhs.priority, lhs.contents) < (-rhs.priority, rhs.contents)
         }
+    }
+
+    lazy var sourceryTypes: [SourceryTypeName: SourceryType] =
+        Dictionary(uniqueKeysWithValues: templateContext.types.map { ($0.name, $0) })
+
+    // Used both for efficiency and to break cycles
+    private var inhabitedCache: [SourceryType: Bool] = [:]
+    func isTypeInhabited(_ type: SourceryType) -> Bool {
+        if let inhabited = inhabitedCache[type] { return inhabited }
+
+        // This will miss some uninhabited, cyclic types, but that's not super important
+        inhabitedCache[type] = true
+        let result: Bool
+        switch type.kind {
+        case .enum:
+            // An enum must have at least one inhabited case to be inhabited
+            result = type.cases.contains { enumCase in
+                enumCase.associatedValues.allSatisfy {
+                    sourceryTypes[$0.typeName].map(isTypeInhabited) ?? true
+                }
+            }
+        case .protocol:
+            // A protocol can always be inhabited
+            result = true
+        default:
+            // A product must have all components inhabited to be inhabited
+            result = type.storedVariables.allSatisfy {
+                $0.isStatic || sourceryTypes[$0.typeName].map(isTypeInhabited) ?? true
+            }
+        }
+
+        inhabitedCache[type] = result
+        return result
     }
 }

@@ -1,7 +1,7 @@
 import Foundation
-import SourceryRuntime
+import SourceryDataModel
 
-// SourceryRuntime.TypeName is bad; Types are trees, not structs full of booleans.
+// SourceryDataModel.TypeName is bad; Types are trees, not structs full of booleans.
 // An Optional<Int> isn't a Int that happens to be optional, it's an Optional that may contain an Int!
 indirect enum BetterType: Codable, Hashable {
     struct Name: Codable, Hashable {
@@ -49,19 +49,19 @@ extension BetterType {
     }
 }
 
-extension SourceryRuntime.`Type` {
+extension SourceryType {
     var namespace: [String] {
         globalName.split(separator: ".").dropLast().map(String.init)
     }
     var hashable: Bool {
-        based["Hashable"] != nil
+        based.contains("Hashable")
     }
     var equatable: Bool {
-        hashable || based["Equatable"] != nil
+        hashable || based.contains("Equatable")
     }
 }
 
-extension TypeName {
+extension SourceryTypeName {
     // Unless I want to do my own parsing, I don't see a way to handle cases like `Int??` correctly...
     var better: BetterType {
         var name = self
@@ -73,28 +73,28 @@ extension TypeName {
         if name.isVoid {
             better = .void
         } else if let tuple = name.tuple {
-            better = .tuple(tuple.elements.map { .init(label: $0.name!, type: $0.typeName.better) })
+            better = .tuple(tuple.elements.map { .init(label: $0.name, type: $0.typeName.better) })
         } else if let array = name.array {
             better = .array(array.elementTypeName.better)
         } else if let dictionary = name.dictionary {
             better = .dictionary(dictionary.keyTypeName.better, dictionary.valueTypeName.better)
         } else if let closure = name.closure {
             better = .function(
-                closure.parameters.map(\.typeName.better),
+                closure.parameters.map(\.better),
                 closure.returnTypeName.better,
                 isAsync: closure.isAsync,
-                isThrowing: closure.throws
+                isThrowing: closure.isThrowing
             )
         } else if name.unwrappedTypeName == "Self" {
             better = .selfType
         } else if let generic = name.generic {
-            better = .generic(base: .init(name: generic.name, module: nil), args: generic.typeParameters.map(\.typeName.better))
+            better = .generic(base: .init(name: generic.name, module: nil), args: generic.typeParameters.map(\.better))
         } else {
             // TODO: is there a way to know what the module is?
             better = .named(.init(name: name.unwrappedTypeName, module: nil))
         }
 
-        if name.isOptional || name.isImplicitlyUnwrappedOptional {
+        if name.isOptional {
             better = .optional(better)
         }
 
@@ -136,7 +136,7 @@ extension BetterType.Name {
 }
 
 extension BetterType {
-    init(named type: SourceryRuntime.`Type`, context: FishyJoesContext) {
+    init(named type: SourceryType, context: FishyJoesContext) {
         // All this extra logic is to handle the case where an extension to some other library's type contains an exported type
         // (Looking at you, UnicodeScalar.Script)
         let parts = type.globalName.split(separator: ".").map(String.init)
@@ -169,7 +169,7 @@ extension BetterType {
         }
     }
 
-    init(named type: SourceryRuntime.`Type`, module: String?) {
+    init(named type: SourceryType, module: String?) {
         self = .named(Name(name: type.globalName, module: module))
     }
 

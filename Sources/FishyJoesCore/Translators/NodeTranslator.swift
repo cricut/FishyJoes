@@ -1,6 +1,6 @@
 import Darwin
 import Foundation
-import SourceryRuntime
+import SourceryDataModel
 
 struct NodeTranslator: Translator {
     func output(getter variable: Field, explicitThis: Bool = false, context: FishyJoesContext, fragment: SourceFragment, converterName: String, shouldWrapDefaultImpl: Bool = false) {
@@ -308,13 +308,14 @@ struct NodeTranslator: Translator {
             }
         }
 
-        let exportFragment = SourceFragment(sourceryDestination: "file:NodeInterface/@_exported.swift")
+        let bindingsDir = "swift-interfaces/generated"
+        let exportFragment = SourceFragment(sourceryDestination: "\(bindingsDir)/\(context.module.name)-bindings/Sources/NodeInterface/@_exported.swift")
         exportFragment.output("@_exported import \(context.module.name)")
         for dependency in context.module.dependencies {
             exportFragment.output("@_exported import \(dependency)_NodeInterface")
         }
 
-        let nodeNativeShimFragment = SourceFragment(sourceryDestination: "file:../../NodeNativeShim/NAPIRegisterModule.c")
+        let nodeNativeShimFragment = SourceFragment(sourceryDestination: "\(bindingsDir)/NodeNativeShim/NAPIRegisterModule.c")
         nodeNativeShimFragment.output("#include <node_api.h>")
         nodeNativeShimFragment.blankLine()
         nodeNativeShimFragment.output("extern napi_value registerModule\(context.module.name)(napi_env env, napi_value exports);")
@@ -404,8 +405,7 @@ struct NodeTranslator: Translator {
             name: exportAnnotation.name,
             parameters: parameters,
             returnType: method.isAsync ? .promise(returnType) : returnType,
-            hasDefaultImplementation: method.isDefaultImplementation,
-            protocolName: method.protocolName
+            hasDefaultImplementation: method.isDefaultImplementation
         )
     }
 
@@ -463,8 +463,7 @@ struct NodeTranslator: Translator {
                 name: "get\(name)",
                 parameters: parameters,
                 returnType: resolved.nodeType,
-                hasDefaultImplementation: false,
-                protocolName: nil
+                hasDefaultImplementation: false
             )
         ] + (
             field.isPubliclyWritable ? [
@@ -482,8 +481,7 @@ struct NodeTranslator: Translator {
                         )
                     ],
                     returnType: .void,
-                    hasDefaultImplementation: false,
-                    protocolName: nil
+                    hasDefaultImplementation: false
                 )
             ] : []
         )

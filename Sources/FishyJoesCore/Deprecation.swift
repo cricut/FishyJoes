@@ -1,5 +1,5 @@
 import Foundation
-import SourceryRuntime
+import SourceryDataModel
 
 struct Deprecation: Hashable {
     let message: String
@@ -7,15 +7,13 @@ struct Deprecation: Hashable {
 }
 
 extension Deprecation {
-    init?(from attributes: AttributeList) {
-        guard let attr = attributes["available"]?.first,
-              attr.arguments.values.contains("deprecated" as NSString)
-        else {
+    init?(from attributes: [SourceryAttribute]) {
+        guard let attr = attributes.first(where: { $0.name == "available" && $0.arguments.values.contains("deprecated") }) else {
             return nil
         }
-        if let message = attr.arguments["message"] as? String {
+        if let message = attr.arguments["message"] {
             self.message = message.trimmingCharacters(in: ["\""])
-        } else if let renamed = attr.arguments["renamed"] as? String {
+        } else if let renamed = attr.arguments["renamed"] {
             self.message = "replace with `\(renamed.trimmingCharacters(in: ["\""]))`" +
                 " (This is the swift name of the replacement function, due to technical limitations)"
         } else {
@@ -31,13 +29,13 @@ extension Deprecation {
     }
 }
 
-extension SourceryRuntime.Method {
+extension SourceryMethod {
     var deprecation: Deprecation? {
         Deprecation(from: attributes)
     }
 }
 
-extension SourceryRuntime.Variable {
+extension SourceryVariable {
     var deprecation: Deprecation? {
         Deprecation(from: attributes)
     }

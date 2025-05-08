@@ -1,4 +1,4 @@
-import SourceryRuntime
+import SourceryDataModel
 
 struct TranslatedString: TranslatedType {
     let sourceType = BetterType.named(.swift("String"))

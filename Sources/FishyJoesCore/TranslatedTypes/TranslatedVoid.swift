@@ -1,4 +1,4 @@
-import SourceryRuntime
+import SourceryDataModel
 
 struct TranslatedVoid: TranslatedType {
     let sourceType = BetterType.void

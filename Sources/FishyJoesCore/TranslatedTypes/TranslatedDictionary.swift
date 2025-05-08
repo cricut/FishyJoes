@@ -1,4 +1,4 @@
-import SourceryRuntime
+import SourceryDataModel
 
 struct TranslatedDictionary: TranslatedType {
     let keyType: TranslatedType

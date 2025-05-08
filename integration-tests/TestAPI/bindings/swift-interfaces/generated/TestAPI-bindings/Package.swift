@@ -114,5 +114,3 @@ var package = Package(
 )
 // END GENERATED CODE
 // Below is copied from bindings/swift-interfaces/Package.part.swift
-
-

@@ -10,40 +10,15 @@ import 'package:tuple/tuple.dart' as tuple;
 
 /// <!-- FishyJoes.export(TestDefaultComputedProperties) -->
 abstract class TestDefaultComputedProperties {
+
+    /// <!-- FishyJoes.export(noot) -->
+    int get noot;
+
+    /// <!-- FishyJoes.export(plutonic) -->
+    String get plutonic;
 }
 
 extension TestDefaultComputedProperties_DefaultImplementations on TestDefaultComputedProperties {
-
-    /// <!-- FishyJoes.export(noot) -->
-    /// <!-- FishyJoes.export(noot) -->
-    int get noot =>
-        GCRef.using(this, (_thisHandle) =>
-            check((exn) =>
-                f__iota__default_TestAPI_TestDefaultComputedProperties_noot(Loader.shared.env, _thisHandle.ptr, exn)
-            )
-        )
-    ;
-
-    /// <!-- FishyJoes.export(plutonic) -->
-    /// <!-- FishyJoes.export(plutonic) -->
-    String get plutonic =>
-        GCRef.using(this, (_thisHandle) =>
-            check((exn) =>
-                consumeCreatedRef<String>(f__iota__default_TestAPI_TestDefaultComputedProperties_plutonic(Loader.shared.env, _thisHandle.ptr, exn))
-            )
-        )
-    ;
-
-    static late int Function(
-        Env env,
-        UnownedRef _this,
-        OutCreatedRef _exn
-    ) f__iota__default_TestAPI_TestDefaultComputedProperties_noot;
-    static late CreatedRef Function(
-        Env env,
-        UnownedRef _this,
-        OutCreatedRef _exn
-    ) f__iota__default_TestAPI_TestDefaultComputedProperties_plutonic;
 }
 
 extension TestDefaultComputedProperties_FfiHooks on TestDefaultComputedProperties {

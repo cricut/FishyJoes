@@ -30,7 +30,7 @@ interface AProtocol {
     fun hasADefaultImplementation(
         x: Long,
         y: Double
-    ): kotlin.String = __jni__default_hasADefaultImplementation(this, x, y)
+    ): kotlin.String
 
     /**
      * <!-- FishyJoes.export(hasADefaultImplementation2) -->
@@ -39,30 +39,9 @@ interface AProtocol {
         a: kotlin.String,
         b: Boolean,
         c: kotlin.String
-    ): kotlin.String = __jni__default_hasADefaultImplementation2(this, a, b, c)
+    ): kotlin.String
 
     companion object {
-        /**
-         * <!-- FishyJoes.export(hasADefaultImplementation) -->
-         */
-        @JvmName("__jni__default_hasADefaultImplementation")
-        private external fun __jni__default_hasADefaultImplementation(
-            self: AProtocol,
-            x: Long,
-            y: Double
-        ): kotlin.String
-
-        /**
-         * <!-- FishyJoes.export(hasADefaultImplementation2) -->
-         */
-        @JvmName("__jni__default_hasADefaultImplementation2")
-        private external fun __jni__default_hasADefaultImplementation2(
-            self: AProtocol,
-            a: kotlin.String,
-            b: Boolean,
-            c: kotlin.String
-        ): kotlin.String
-
         init {
             loadNativeLibs()
         }

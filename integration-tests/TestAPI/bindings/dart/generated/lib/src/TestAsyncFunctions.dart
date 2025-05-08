@@ -42,6 +42,10 @@ abstract class TestAsyncFunctions {
         Future<void> Function() thunk
     );
 
+    Future<String> defaultExercise6(
+        Future<int> Function(String, int, double, String, Future<int> Function(), int) fn
+    );
+
     TestAPI.TestAsyncFunctions witness(
     );
 
@@ -71,34 +75,6 @@ abstract class TestAsyncFunctions {
 }
 
 extension TestAsyncFunctions_DefaultImplementations on TestAsyncFunctions {
-    Future<String> defaultExercise6(
-        Future<int> Function(String, int, double, String, Future<int> Function(), int) fn
-    ) =>
-        GCRef.using(this, (_thisHandle) =>
-            GCRef.using(fn, (_fnHandle) =>
-                consumeCreatedRef<Future<String>>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestAsyncFunctions_defaultExercise6(Loader.shared.env, _thisHandle.ptr, _fnHandle.ptr, _exn)))
-            )
-        )
-    ;
-
-    static CreatedRef ffi_defaultExercise6(
-        UnownedRef obj,
-        UnownedRef fn,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<TestAsyncFunctions>(obj).defaultExercise6(
-                peekRef<Future<int> Function(String, int, double, String, Future<int> Function(), int)>(fn)
-            )
-        )
-    );
-
-    static late CreatedRef Function(
-        Env env,
-        UnownedRef _this,
-        UnownedRef fn,
-        OutCreatedRef _exn
-    ) f__iota_TestAPI_TestAsyncFunctions_defaultExercise6;
 }
 
 extension TestAsyncFunctions_FfiHooks on TestAsyncFunctions {
@@ -266,6 +242,18 @@ extension TestAsyncFunctions_FfiHooks on TestAsyncFunctions {
         createRef(
             peekRef<TestAsyncFunctions>(obj).thunkTwiceMaker(
                 peekRef(thunk)
+            )
+        )
+    );
+
+    static CreatedRef ffi_defaultExercise6(
+        UnownedRef obj,
+        UnownedRef fn,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<TestAsyncFunctions>(obj).defaultExercise6(
+                peekRef(fn)
             )
         )
     );

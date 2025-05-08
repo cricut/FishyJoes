@@ -1,4 +1,4 @@
-import SourceryRuntime
+import SourceryDataModel
 
 struct TranslatedProtocol: TranslatedType {
     let sourceType: BetterType
@@ -23,10 +23,11 @@ struct TranslatedProtocol: TranslatedType {
     let iotaExternalWitnessClassName: String
     let nodeExternalWitnessClassName: String
 
-    init(context: FishyJoesContext, type: SourceryProtocol) {
+    init(context: FishyJoesContext, type: SourceryType) {
         guard let exportAnnotation = type.exportAnnotation else {
             fatalErr("type not annotated for export")
         }
+        guard type.kind == .protocol else { fatalErr("not a protocol") }
         let typeName = exportAnnotation.name
 
         self.sourceType = BetterType(named: type, context: context)
@@ -43,14 +44,12 @@ struct TranslatedProtocol: TranslatedType {
 
         self.definingModule = context.module
         self.definingTSNamespace = context.module.name
-        self.isInhabited = type.isInhabited
+        self.isInhabited = true
 
-        self.conformances = Set(type.implements.compactMap {
-            return .init(named: $0.value, context: context)
-        })
+        self.conformances = Set(type.implements.map(\.better))
 
-        self.methods = Method.methods(type: type)
-        self.fields = Field.fields(type: type)
+        self.methods = Method.methods(type: type, context: context)
+        self.fields = Field.fields(type: type, context: context)
 
         self.documentation = type.documentation
         self.className = context.kotlinTranslator.javaClassName(kotlinName, in: context)

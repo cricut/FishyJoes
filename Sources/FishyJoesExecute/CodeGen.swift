@@ -2,6 +2,8 @@ import ArgumentParser
 import Foundation
 import GenerationHelpers
 import swsh
+import FishyJoesCore
+import SourceryDataModel
 
 public class CodeGen: ParsableCommand {
     @Flag(name: .shortAndLong, help: "suppress verbose output")
@@ -233,15 +235,18 @@ extension CodeGen {
             translateeSources = "Sources/"
 
             // Locate dependency module configuration files
-            let fishyJoesModuleFiles: [String] = dependencyBindingsPaths.compactMap {
-                $0.key == config.module ? nil : "\($0.value)/swift-interfaces/generated/\($0.key).fishyjoesmodule"
-            }
+            let fishyJoesModuleFiles: [String: String] = Dictionary(
+                uniqueKeysWithValues: dependencyBindingsPaths.compactMap {
+                    $0.key == config.module ? nil : ($0.key, "\($0.value)/swift-interfaces/generated/\($0.key).fishyjoesmodule")
+                }
+            )
 
             // Create / clean directories used by Sourcery to generate Swift and foreign language code files for the translated foreign languages
             let generatedSwiftTargets = ["WasmMainShim", "IotaInterface", "NodeInterface", "JavaInterface", "CommonInterface"]
             let sourceLocations = generatedSwiftTargets.map {
                 "\(swiftBindingsRoot)/Sources/\($0)"
             } + [
+                "bindings/swift-interfaces/generated/NodeNativeShim",
                 "bindings/ts/generated",
                 "bindings/ts/tests/generated",
                 "bindings/kotlin/generated/src/main/kotlin/com/cricut/\(config.module.lowercased())",
@@ -428,10 +433,10 @@ extension CodeGen {
                 .input(fragment.contents).run()
 
             // Build the Sourcery tool itself
-            try cmd("swift", "build", "--product", "sourcery").run()
+            // try cmd("mint", "install", "krzysztofzablocki/Sourcery@2.2.6").run()
 
             // Build the FishyJoes internal execution helper product
-            try cmd("swift", arguments: ["build"] + (codeCoveragePath == nil ? [] : Platform.coverageFlags) + ["--product", "helper-fishy-joes-core"]).run()
+            // try cmd("swift", arguments: ["build"] + (codeCoveragePath == nil ? [] : Platform.coverageFlags) + ["--product", "helper-fishy-joes-core"]).run()
 
             // Trampoline into fishy-joes-execution-helper via Sourcery
             var sourceryEnv: [String: String] = [:]
@@ -442,32 +447,33 @@ extension CodeGen {
                 sourceryEnv["LLVM_PROFILE_FILE"] = "\(codeCoveragePath)/fishy-joes-execution-helper-\(UUID()).profraw"
             }
 
-            // Provide access to stderr for the fishy-joes core by creating a temporary named pipe
-            // This is necessary because sourcery intercepts stderr and fails if it is used at all
-            // https://unix.stackexchange.com/a/29918/5471
-            let errorFifoPath = try cmd("mktemp", "-u").runString()
-            try cmd("mkfifo", errorFifoPath).run()
-            defer { try? cmd("rm", errorFifoPath).run() }
-            let errorReporter = cmd("cat", errorFifoPath).async(stdout: .stderr)
+            let sourceryDataModelSwift = try cmd("cat", "/Users/acobb/src/FishyJoes/Sources/SourceryDataModel/SourceryDataModel.swift").runString()
 
-            // Execute Sourcery to generate the Swift-side and foreign-side source files for all supported language targets
-            let base64RequiredModules = try! JSONEncoder().encode(fishyJoesModuleFiles).base64EncodedString()
-            let base64ExtraDynamicLibraries = try! JSONEncoder().encode(config.extraDynamicLibraries).base64EncodedString()
+            let sourceryTemplate = """
+                <%
+                \(sourceryDataModelSwift)
+                try SourceryTemplateContext(context).dump()
+                %>
+
+                """
+            let templatePath = "\(NSTemporaryDirectory())/\(UUID())-fishyjoes.swifttemplate"
+            try cmd("cat")
+                .input(sourceryTemplate)
+                .output(overwritingFile: templatePath)
+                .run()
+            defer { try? FileManager.default.removeItem(atPath: templatePath) }
+
             try cmd(
-                ".build/debug/sourcery",
+                "mint",
                 arguments: [
+                    "run", "krzysztofzablocki/Sourcery@2.2.6",
                     quiet ? "-q" : nil,
                     "--disableCache",
                     "--parseDocumentation",
                     "--sources", translateeSources,
-                    "--templates", ".build/debug/FishyJoes_FishyJoesExecutionHelper.bundle/FishyJoes.swifttemplate",
-                    "--args", "module=\(config.module)",
-                    "--args", "debugRepresentation=\(dumpDebugRepresentation)",
-                    "--args", "requiredModules=\"\(base64RequiredModules)\"",
-                    "--args", "extraDynamicLibraries=\"\(base64ExtraDynamicLibraries)\"",
-                    "--args", "fishyJoesExecutable=.build/debug/helper-fishy-joes-core",
-                    "--args", "stderrFifo=\(errorFifoPath)",
-                    "--output", "\(swiftBindingsRoot)/Sources/"
+                    // "--templates", ".build/debug/FishyJoes_FishyJoesExecutionHelper.bundle/FishyJoes.swifttemplate",
+                    "--templates", templatePath,
+                    "--output", ".build/sourcery-dump/"
                 ].compactMap { $0 } + config.excludeSources.flatMap { exclude in
                     var basePath = translateeSources
                     if !basePath.hasSuffix("/") {
@@ -479,7 +485,29 @@ extension CodeGen {
                 addEnv: sourceryEnv
             ).run()
 
-            try errorReporter.succeed()
+            // Read the sourcery dump, and do type-directed code generation
+            let sourceryDump = try cmd("cat")
+                .input(fromFile: ".build/sourcery-dump/sourcery-dump.json")
+                .runJSON(SourceryTemplateContext.self)
+            let context = FishyJoesContext(
+                context: sourceryDump,
+                module: config.module,
+                requiredModulePaths: fishyJoesModuleFiles,
+                extraDynamicLibraries: config.extraDynamicLibraries
+            )
+
+            for (path, contents) in SourceFragment.combine(fragments: context.translateAll()) {
+                guard let path = path else {
+                    fatalError("generated source fragment with no output path. Contents: \(contents)")
+                }
+                let outputPath = "bindings/\(path)"
+                print("writing \(outputPath)")
+                try contents.write(
+                    to: URL(fileURLWithPath: outputPath),
+                    atomically: false,
+                    encoding: .utf8
+                )
+            }
 
             let packageInit = try FileTemplater(
                 config: config,

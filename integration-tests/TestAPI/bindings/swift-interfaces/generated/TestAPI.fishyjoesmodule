@@ -3391,7 +3391,6 @@
                     }
                   }
                 ],
-                "protocolName" : "AProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "TestAPI.AProtocol"
@@ -3402,7 +3401,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(hasADefaultImplementation) -->"
                 ],
-                "hasDefaultImplementation" : true,
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "hasADefaultImplementation",
@@ -3424,7 +3423,6 @@
                     }
                   }
                 ],
-                "protocolName" : "AProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "string"
@@ -3435,7 +3433,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(hasADefaultImplementation2) -->"
                 ],
-                "hasDefaultImplementation" : true,
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "hasADefaultImplementation2",
@@ -3465,7 +3463,6 @@
                     }
                   }
                 ],
-                "protocolName" : "AProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "string"
@@ -3569,80 +3566,6 @@
                 "returnType" : {
                   "named" : {
                     "_0" : "TestAPI.AProtocol"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(hasADefaultImplementation) -->"
-                ],
-                "hasDefaultImplementation" : true,
-                "isAsync" : false,
-                "isStatic" : false,
-                "name" : "hasADefaultImplementation",
-                "parameters" : [
-                  {
-                    "name" : "x",
-                    "type" : {
-                      "named" : {
-                        "_0" : "number"
-                      }
-                    }
-                  },
-                  {
-                    "name" : "y",
-                    "type" : {
-                      "named" : {
-                        "_0" : "number"
-                      }
-                    }
-                  }
-                ],
-                "protocolName" : "AProtocol",
-                "returnType" : {
-                  "named" : {
-                    "_0" : "string"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(hasADefaultImplementation2) -->"
-                ],
-                "hasDefaultImplementation" : true,
-                "isAsync" : false,
-                "isStatic" : false,
-                "name" : "hasADefaultImplementation2",
-                "parameters" : [
-                  {
-                    "name" : "a",
-                    "type" : {
-                      "named" : {
-                        "_0" : "string"
-                      }
-                    }
-                  },
-                  {
-                    "name" : "b",
-                    "type" : {
-                      "named" : {
-                        "_0" : "boolean"
-                      }
-                    }
-                  },
-                  {
-                    "name" : "c",
-                    "type" : {
-                      "named" : {
-                        "_0" : "string"
-                      }
-                    }
-                  }
-                ],
-                "protocolName" : "AProtocol",
-                "returnType" : {
-                  "named" : {
-                    "_0" : "string"
                   }
                 }
               }
@@ -5230,35 +5153,6 @@
                     "_0" : "TestAPI.TestAsyncFunctions"
                   }
                 }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(defaultExercise6) -->"
-                ],
-                "hasDefaultImplementation" : true,
-                "isAsync" : true,
-                "isStatic" : false,
-                "name" : "defaultExercise6",
-                "parameters" : [
-                  {
-                    "name" : "fn",
-                    "type" : {
-                      "named" : {
-                        "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
-                      }
-                    }
-                  }
-                ],
-                "protocolName" : "TestAsyncFunctions",
-                "returnType" : {
-                  "promise" : {
-                    "_0" : {
-                      "named" : {
-                        "_0" : "string"
-                      }
-                    }
-                  }
-                }
               }
             ],
             "name" : "TestAsyncForeignSideFunctionsStruct"
@@ -5411,7 +5305,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -5440,7 +5333,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -5469,7 +5361,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -5498,7 +5389,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -5527,7 +5417,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -5556,7 +5445,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -5585,7 +5473,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -5614,7 +5501,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "named" : {
                     "_0" : "() => Promise<void>"
@@ -5625,7 +5511,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(defaultExercise6) -->"
                 ],
-                "hasDefaultImplementation" : true,
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "defaultExercise6",
@@ -5639,7 +5525,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -5661,7 +5546,6 @@
                 "parameters" : [
 
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "named" : {
                     "_0" : "TestAPI.TestAsyncFunctions"
@@ -6058,35 +5942,6 @@
                     "_0" : "TestAPI.TestAsyncSwiftSideFunctionsClass"
                   }
                 }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(defaultExercise6) -->"
-                ],
-                "hasDefaultImplementation" : true,
-                "isAsync" : true,
-                "isStatic" : false,
-                "name" : "defaultExercise6",
-                "parameters" : [
-                  {
-                    "name" : "fn",
-                    "type" : {
-                      "named" : {
-                        "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
-                      }
-                    }
-                  }
-                ],
-                "protocolName" : "TestAsyncFunctions",
-                "returnType" : {
-                  "promise" : {
-                    "_0" : {
-                      "named" : {
-                        "_0" : "string"
-                      }
-                    }
-                  }
-                }
               }
             ],
             "name" : "TestAsyncSwiftSideFunctionsClass"
@@ -6108,7 +5963,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(noot) -->"
                 ],
-                "hasDefaultImplementation" : true,
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "noot",
                 "readOnly" : true,
@@ -6122,7 +5977,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(plutonic) -->"
                 ],
-                "hasDefaultImplementation" : true,
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "plutonic",
                 "readOnly" : true,
@@ -6165,20 +6020,6 @@
                 "type" : {
                   "named" : {
                     "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(plutonic) -->"
-                ],
-                "hasDefaultImplementation" : true,
-                "isStatic" : false,
-                "name" : "plutonic",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "string"
                   }
                 }
               },
@@ -6293,20 +6134,6 @@
                 "type" : {
                   "named" : {
                     "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(plutonic) -->"
-                ],
-                "hasDefaultImplementation" : true,
-                "isStatic" : false,
-                "name" : "plutonic",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "string"
                   }
                 }
               }
@@ -6523,7 +6350,6 @@
                 "parameters" : [
 
                 ],
-                "protocolName" : "TestMethodsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "void"
@@ -6541,7 +6367,6 @@
                 "parameters" : [
 
                 ],
-                "protocolName" : "TestMethodsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "boolean"
@@ -6566,7 +6391,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestMethodsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "void"
@@ -6591,7 +6415,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestMethodsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "string"
@@ -6624,7 +6447,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestMethodsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "string"
@@ -6649,7 +6471,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestMethodsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "[boolean, number, string]"
@@ -6717,7 +6538,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestOptionalsProtocol",
                 "returnType" : {
                   "optional" : {
                     "_0" : {
@@ -6746,7 +6566,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestOptionalsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "number"
@@ -7390,7 +7209,6 @@
                     }
                   }
                 ],
-                "protocolName" : "AProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "TestAPI.AProtocol"
@@ -7401,7 +7219,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(hasADefaultImplementation) -->"
                 ],
-                "hasDefaultImplementation" : true,
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "hasADefaultImplementation",
@@ -7423,7 +7241,6 @@
                     }
                   }
                 ],
-                "protocolName" : "AProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "string"
@@ -7434,7 +7251,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(hasADefaultImplementation2) -->"
                 ],
-                "hasDefaultImplementation" : true,
+                "hasDefaultImplementation" : false,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "hasADefaultImplementation2",
@@ -7464,7 +7281,6 @@
                     }
                   }
                 ],
-                "protocolName" : "AProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "string"
@@ -7661,7 +7477,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -7690,7 +7505,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -7719,7 +7533,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -7748,7 +7561,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -7777,7 +7589,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -7806,7 +7617,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -7835,7 +7645,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -7864,7 +7673,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "named" : {
                     "_0" : "() => Promise<void>"
@@ -7875,7 +7683,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(defaultExercise6) -->"
                 ],
-                "hasDefaultImplementation" : true,
+                "hasDefaultImplementation" : false,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "defaultExercise6",
@@ -7889,7 +7697,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -7911,7 +7718,6 @@
                 "parameters" : [
 
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "named" : {
                     "_0" : "TestAPI.TestAsyncFunctions"
@@ -7930,7 +7736,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(noot) -->"
                 ],
-                "hasDefaultImplementation" : true,
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "noot",
                 "readOnly" : true,
@@ -7944,7 +7750,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(plutonic) -->"
                 ],
-                "hasDefaultImplementation" : true,
+                "hasDefaultImplementation" : false,
                 "isStatic" : false,
                 "name" : "plutonic",
                 "readOnly" : true,
@@ -8033,7 +7839,6 @@
                 "parameters" : [
 
                 ],
-                "protocolName" : "TestMethodsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "void"
@@ -8051,7 +7856,6 @@
                 "parameters" : [
 
                 ],
-                "protocolName" : "TestMethodsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "boolean"
@@ -8076,7 +7880,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestMethodsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "void"
@@ -8101,7 +7904,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestMethodsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "string"
@@ -8134,7 +7936,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestMethodsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "string"
@@ -8159,7 +7960,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestMethodsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "[boolean, number, string]"
@@ -8217,7 +8017,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestOptionalsProtocol",
                 "returnType" : {
                   "optional" : {
                     "_0" : {
@@ -8246,7 +8045,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestOptionalsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "number"
@@ -15482,30 +15280,6 @@
                 "returnType" : {
                   "named" : {
                     "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(plutonic) -->"
-                ],
-                "hasDefaultImplementation" : false,
-                "isAsync" : false,
-                "isStatic" : true,
-                "name" : "getPlutonic",
-                "parameters" : [
-                  {
-                    "name" : "self",
-                    "type" : {
-                      "named" : {
-                        "_0" : "TestAPI.TestDefaultComputedProperties"
-                      }
-                    }
-                  }
-                ],
-                "returnType" : {
-                  "named" : {
-                    "_0" : "string"
                   }
                 }
               },

@@ -36,19 +36,6 @@ namespace Cricut.TestAPI {
         private static extern void __iota_set_TestAPI_TestDefaultComputedPropertiesClass_noot(IntPtr envRef, UnownedRef self, nint value, out CreatedRef exn);
 
         /// <summary>
-        /// <!-- FishyJoes.export(plutonic) -->
-        /// </summary>
-        public string GetPlutonic() {
-            using var thisHandle = new GCRef(this);
-            return Check((out CreatedRef exn) =>
-                __iota__default_TestAPI_TestDefaultComputedPropertiesClass_plutonic(Loader.env, thisHandle.ptr, out exn).Consume<string>()
-            );
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota__default_TestAPI_TestDefaultComputedPropertiesClass_plutonic(IntPtr envRef, UnownedRef self, out CreatedRef exn);
-
-        /// <summary>
         /// <!-- FishyJoes.export(spam) -->
         /// </summary>
         public bool Spam {

@@ -49,18 +49,8 @@ let package = Package(
         [
             P.executable(name: "fishy-joes", targets: ["FishyJoesExecuteMain"]),
         ]
-    ) + generationEnabled(
-        [
-            P.executable(name: "helper-fishy-joes-core", targets: ["FishyJoesExecutionHelper"]),
-        ]
     ),
-    dependencies: generationEnabled(
-        [
-            D.package(
-                url: "https://github.com/cricut/Sourcery", branch: "wasm-compatible"
-            ),
-        ]
-    ) + wasmIncompatible(
+    dependencies: wasmIncompatible(
         [
             D.package(url: "https://github.com/mstokercricut/swsh", exact: "5.0.0-alpha0"),
             D.package(url: "https://github.com/apple/swift-argument-parser", from: "1.2.2"),
@@ -69,6 +59,7 @@ let package = Package(
         D.package(url: "https://github.com/jpsim/Yams", .upToNextMinor(from: "5.0.3")),
     ]),
     targets: [
+        T.target(name: "SourceryDataModel"),
         T.target(name: "FishyJoesCommonRuntime"),
         // Kotlin / Java
         T.systemLibrary(name: "JNI"),
@@ -288,17 +279,7 @@ let package = Package(
                 name: "FishyJoesCore",
                 dependencies: [
                     .target(name: "GenerationHelpers"),
-                    .product(name: "SourceryRuntime", package: "Sourcery"),
-                ],
-                swiftSettings: strictConcurrencyFlags
-            ),
-            T.executableTarget(
-                name: "FishyJoesExecutionHelper",
-                dependencies: [
-                    .target(name: "FishyJoesCore"),
-                ],
-                resources: [
-                    .copy("FishyJoes.swifttemplate"),
+                    .target(name: "SourceryDataModel"),
                 ],
                 swiftSettings: strictConcurrencyFlags
             ),
@@ -339,6 +320,7 @@ let package = Package(
         T.target(
             name: "FishyJoesExecute",
             dependencies: [
+                .target(name: "FishyJoesCore"),
                 .target(name: "GenerationHelpers"),
                 .product(name: "swsh", package: "swsh"),
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),

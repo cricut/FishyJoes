@@ -15,12 +15,12 @@ namespace Cricut.TestAPI {
         public nint GetNoot() {
             using var thisHandle = new GCRef(this);
             return Check((out CreatedRef exn) =>
-                __iota__default_TestAPI_TestDefaultComputedProperties_noot(Loader.env, thisHandle.ptr, out exn)
+                __iota_get_TestAPI_TestDefaultComputedProperties_noot(Loader.env, thisHandle.ptr, out exn)
             );
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __iota__default_TestAPI_TestDefaultComputedProperties_noot(IntPtr envRef, UnownedRef self, out CreatedRef exn);
+        private static extern nint __iota_get_TestAPI_TestDefaultComputedProperties_noot(IntPtr envRef, UnownedRef self, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(plutonic) -->
@@ -28,12 +28,12 @@ namespace Cricut.TestAPI {
         public string GetPlutonic() {
             using var thisHandle = new GCRef(this);
             return Check((out CreatedRef exn) =>
-                __iota__default_TestAPI_TestDefaultComputedProperties_plutonic(Loader.env, thisHandle.ptr, out exn).Consume<string>()
+                __iota_get_TestAPI_TestDefaultComputedProperties_plutonic(Loader.env, thisHandle.ptr, out exn).Consume<string>()
             );
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota__default_TestAPI_TestDefaultComputedProperties_plutonic(IntPtr envRef, UnownedRef self, out CreatedRef exn);
+        private static extern CreatedRef __iota_get_TestAPI_TestDefaultComputedProperties_plutonic(IntPtr envRef, UnownedRef self, out CreatedRef exn);
 
         static TestDefaultComputedProperties() { _TypeSetup._ensureLoaded(); }
     }
