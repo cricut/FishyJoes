@@ -5,7 +5,6 @@ struct TranslatedEnum: TranslatedType {
     let nodeName: String
     let definingTSNamespace: String?
     let kotlinName: String
-    let neutralName: String
     var containedNamedTypes: [TranslatedType] { [self] }
     let kotlinPackage: String?
     let jniType: JNIType
@@ -56,7 +55,6 @@ struct TranslatedEnum: TranslatedType {
         let name = exportAnnotation.name
 
         self.sourceType = BetterType(named: type, context: context)
-        self.neutralName = "Enum<TranslatedFrom=\(name)>"
         self.nodeName = name
         self.definingTSNamespace = context.module.name
         self.kotlinName = name

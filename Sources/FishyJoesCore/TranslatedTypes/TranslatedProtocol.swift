@@ -3,7 +3,6 @@ import SourceryDataModel
 struct TranslatedProtocol: TranslatedType {
     let sourceType: BetterType
     let converterType: BetterType
-    var neutralName: String
     let nodeName: String
     let kotlinPackage: String?
     let kotlinName: String
@@ -33,7 +32,6 @@ struct TranslatedProtocol: TranslatedType {
         self.sourceType = BetterType(named: type, context: context)
         let module = "\(context.module)_CommonInterface"
         self.converterType = .named(.init(name: "_\(sourceType.nonNamespacedName)Converter", module: module))
-        self.neutralName = "Struct<Named=\(exportAnnotation.name)>"
         self.nodeName = typeName
         self.kotlinPackage = context.module.kotlinPackage
         self.kotlinName = typeName

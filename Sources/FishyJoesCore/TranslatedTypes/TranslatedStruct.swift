@@ -4,7 +4,6 @@ struct TranslatedStruct: TranslatedType {
     let sourceType: BetterType
     let nodeName: String
     let kotlinName: String
-    let neutralName: String
     var containedNamedTypes: [TranslatedType] { [self] }
     let kotlinPackage: String?
     let cSharpType: CSharpClass.CSType
@@ -27,7 +26,6 @@ struct TranslatedStruct: TranslatedType {
         self.sourceType = BetterType(named: type, context: context)
         self.nodeName = exportAnnotation.name
         self.kotlinName = exportAnnotation.name
-        self.neutralName = "Struct<Named=\(exportAnnotation.name)>"
         self.kotlinPackage = context.module.kotlinPackage
         self.cSharpType = .named(package: context.module.cSharpNamespace, name: exportAnnotation.cSharpName)
         self.dartType = .named(package: context.module.dartNamespace, name: context.dartTranslator.fakeNamespace(exportAnnotation.name))

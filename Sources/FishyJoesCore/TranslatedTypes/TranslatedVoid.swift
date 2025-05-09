@@ -5,7 +5,6 @@ struct TranslatedVoid: TranslatedType {
     let converterType = BetterType.named(.runtime("VoidConverter"))
     let cName = "void"
     let nodeName = "void"
-    let neutralName = "Void"
     let containedNamedTypes: [TranslatedType] = []
     let kotlinName = "Unit"
     let kotlinPackage: String? = "kotlin"

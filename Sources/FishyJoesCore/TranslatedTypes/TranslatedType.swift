@@ -3,7 +3,6 @@ import SourceryDataModel
 protocol TranslatedType {
     var sourceType: BetterType { get }
     var converterType: BetterType { get }
-    var neutralName: String { get }
     var nodeName: String { get }
     var kotlinPackage: String? { get }
     var kotlinName: String { get }

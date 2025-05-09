@@ -5,7 +5,6 @@ struct TranslatedReference: TranslatedType {
     let nodeName: String
     let definingTSNamespace: String?
     let kotlinName: String
-    let neutralName: String
     var containedNamedTypes: [TranslatedType] { [self] }
     let kotlinPackage: String?
     let cSharpType: CSharpClass.CSType
@@ -30,7 +29,6 @@ struct TranslatedReference: TranslatedType {
         self.sourceType = BetterType(named: type, context: context)
         self.nodeName = typeName
         self.definingTSNamespace = context.module.name
-        self.neutralName = "Reference<To=\(typeName)>"
         self.kotlinName = typeName
         self.kotlinPackage = context.module.kotlinPackage
         self.cSharpType = .named(package: context.module.cSharpNamespace, name: exportAnnotation.cSharpName)

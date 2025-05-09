@@ -22,7 +22,6 @@ public class FishyJoesContext {
 
     let nodeTranslator = NodeTranslator()
     let kotlinTranslator = KotlinTranslator()
-    let neutralTranslator = NeutralTranslate()
 
     let iotaTranslator = IotaTranslator()
     let cSharpTranslator = CSharpTranslator()
@@ -31,7 +30,6 @@ public class FishyJoesContext {
     lazy var translators: [Translator] = [
         nodeTranslator,
         kotlinTranslator,
-        // neutralTranslator,
 
         iotaTranslator,
         cSharpTranslator,

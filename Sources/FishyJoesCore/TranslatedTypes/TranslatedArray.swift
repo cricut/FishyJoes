@@ -7,7 +7,6 @@ struct TranslatedArray: TranslatedType {
     let converterType: BetterType
     let nodeName: String
     let kotlinName: String
-    let neutralName: String
     let containedNamedTypes: [TranslatedType]
     let kotlinPackage: String? = "kotlin.collections"
     let jniType = JNIType.object("java/util/List")
@@ -22,7 +21,6 @@ struct TranslatedArray: TranslatedType {
         self.converterType = .generic(base: .runtime("ArrayConverter"), args: [element.converterType])
         self.nodeName = "\(element.nodeType)[]"
         self.kotlinName = "List<\(element.kotlinPackageQualifiedName)>"
-        self.neutralName = "List<V=\(element.neutralName)>"
         self.containedNamedTypes = element.containedNamedTypes
         self.cSharpType = .named(package: "System.Collections.Generic", name: "IList<\(element.cSharpType.name)>")
         self.dartType = .named(package: nil, name: "List", genericArgs: [element.dartType])
