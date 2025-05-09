@@ -158,17 +158,6 @@ private class _ExternalWitness_TestAsyncFunctions private constructor(_swiftRefe
     ): (suspend () -> kotlin.Unit)
 
     /**
-     * <!-- FishyJoes.export(defaultExercise6) -->
-     */
-    override suspend fun defaultExercise6(
-        fn: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)
-    ): kotlin.String = __jni_defaultExercise6(fn).await()
-    @JvmName("__jni_defaultExercise6")
-    private external fun __jni_defaultExercise6(
-        fn: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)
-    ): kotlinx.coroutines.Deferred<kotlin.String>
-
-    /**
      * <!-- FishyJoes.export(witness) -->
      */
     override fun witness(

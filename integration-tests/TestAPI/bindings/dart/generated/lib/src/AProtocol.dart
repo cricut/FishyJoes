@@ -15,17 +15,6 @@ abstract class AProtocol {
         int y
     );
 
-    String hasADefaultImplementation(
-        int x,
-        double y
-    );
-
-    String hasADefaultImplementation2(
-        String a,
-        bool b,
-        String c
-    );
-
     /// <!-- FishyJoes.export(baz) -->
     bool get baz;
 
@@ -34,6 +23,74 @@ abstract class AProtocol {
 }
 
 extension AProtocol_DefaultImplementations on AProtocol {
+    String hasADefaultImplementation(
+        int x,
+        double y
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_AProtocol_hasADefaultImplementation(Loader.shared.env, _thisHandle.ptr, x, y, _exn)))
+        )
+    ;
+
+    static CreatedRef ffi_hasADefaultImplementation(
+        UnownedRef obj,
+        int x,
+        double y,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<AProtocol>(obj).hasADefaultImplementation(
+                x,
+                y
+            )
+        )
+    );
+
+    String hasADefaultImplementation2(
+        String a,
+        bool b,
+        String c
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            GCRef.using(a, (_aHandle) =>
+                GCRef.using(c, (_cHandle) =>
+                    consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_AProtocol_hasADefaultImplementation2(Loader.shared.env, _thisHandle.ptr, _aHandle.ptr, b, _cHandle.ptr, _exn)))
+                )
+            )
+        )
+    ;
+
+    static CreatedRef ffi_hasADefaultImplementation2(
+        UnownedRef obj,
+        UnownedRef a,
+        bool b,
+        UnownedRef c,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<AProtocol>(obj).hasADefaultImplementation2(
+                peekRef<String>(a),
+                b,
+                peekRef<String>(c)
+            )
+        )
+    );
+
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        int x,
+        double y,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_AProtocol_hasADefaultImplementation;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        UnownedRef a,
+        bool b,
+        UnownedRef c,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_AProtocol_hasADefaultImplementation2;
 }
 
 extension AProtocol_FfiHooks on AProtocol {
@@ -63,36 +120,6 @@ extension AProtocol_FfiHooks on AProtocol {
             peekRef<AProtocol>(obj).bar(
                 x,
                 y
-            )
-        )
-    );
-
-    static CreatedRef ffi_hasADefaultImplementation(
-        UnownedRef obj,
-        int x,
-        double y,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<AProtocol>(obj).hasADefaultImplementation(
-                x,
-                y
-            )
-        )
-    );
-
-    static CreatedRef ffi_hasADefaultImplementation2(
-        UnownedRef obj,
-        UnownedRef a,
-        bool b,
-        UnownedRef c,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<AProtocol>(obj).hasADefaultImplementation2(
-                peekRef(a),
-                b,
-                peekRef(c)
             )
         )
     );

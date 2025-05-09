@@ -122,6 +122,17 @@ data class TestAsyncForeignSideFunctionsStruct(
     private external fun __jni_witness(
     ): com.cricut.testapi.TestAsyncFunctions
 
+    /**
+     * <!-- FishyJoes.export(defaultExercise6) -->
+     */
+    override suspend fun defaultExercise6(
+        fn: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)
+    ): kotlin.String = __jni__default_defaultExercise6(fn).await()
+    @JvmName("__jni__default_defaultExercise6")
+    private external fun __jni__default_defaultExercise6(
+        fn: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)
+    ): kotlinx.coroutines.Deferred<kotlin.String>
+
     companion object {
         init { loadNativeLibs() }
     }

@@ -95,4 +95,19 @@ class TestDefaultComputedPropertiesStruct implements TestAPI.TestDefaultComputed
         spam: spam ?? this.spam,
         noot: noot ?? this.noot
     );
+
+    /// <!-- FishyJoes.export(plutonic) -->
+    String get plutonic =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                consumeCreatedRef<String>(f__iota__default_TestAPI_TestDefaultComputedPropertiesStruct_plutonic(Loader.shared.env, _thisHandle.ptr, exn))
+            )
+        )
+    ;
+
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota__default_TestAPI_TestDefaultComputedPropertiesStruct_plutonic;
 }

@@ -38,6 +38,14 @@ class TestDefaultComputedPropertiesReference extends SwiftReference implements T
         )
         ;
     }
+    /// <!-- FishyJoes.export(plutonic) -->
+    String get plutonic =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                consumeCreatedRef<String>(f__iota__default_TestAPI_TestDefaultComputedPropertiesClass_plutonic(Loader.shared.env, _thisHandle.ptr, exn))
+            )
+        )
+    ;
     /// <!-- FishyJoes.export(spam) -->
     bool get spam =>
         GCRef.using(this, (_thisHandle) =>
@@ -68,6 +76,11 @@ class TestDefaultComputedPropertiesReference extends SwiftReference implements T
         int noot,
         OutCreatedRef _exn
     ) f__iota_TestAPI_TestDefaultComputedPropertiesClass_init;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota__default_TestAPI_TestDefaultComputedPropertiesClass_plutonic;
     static late int Function(
         Env env,
         UnownedRef _this,

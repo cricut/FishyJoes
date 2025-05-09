@@ -25,7 +25,7 @@ struct Field: Hashable {
         self.exportAnnotation = variable.exportAnnotation
         self.type = variable.typeName.better
         self.documentation = variable.documentation
-        self.definedIn = variable.definedInTypeName?.better
+        self.definedIn = containingType?.name.better
         self.isStatic = variable.isStatic
         self.isMutable = variable.isMutable
         self.isThrowing = variable.isThrowing
@@ -33,9 +33,7 @@ struct Field: Hashable {
         self.isPubliclyWritable =
             variable.isMutable && variable.writeAccessLevel == .public
         self.isComputed = variable.isComputed
-        self.isDefaultImplementation =
-            containingType?.kind == .protocol &&
-            variable.definedInTypeName.flatMap { context.sourceryTypes[$0] }?.kind == .extension
+        self.isDefaultImplementation = containingType?.kind == .protocol && variable.definedInExtension
 
         let isIsolated = containingType?.kind == .actor && !variable.isNonisolated
         self.isAsync = isIsolated || variable.isAsync
@@ -110,7 +108,7 @@ extension Field {
             .filter { $0.kind == .protocol }
         for prot in protocols {
             let protDefaultFields: [Field] = prot.rawVariables.compactMap { field in
-                if field.definedInTypeName.flatMap({ context.sourceryTypes[$0]?.kind }) == .extension {
+                if field.definedInExtension {
                     return Field(field, inType: prot, context: context)
                 } else {
                     return nil

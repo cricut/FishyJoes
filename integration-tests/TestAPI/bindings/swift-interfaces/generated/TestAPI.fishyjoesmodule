@@ -3401,7 +3401,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(hasADefaultImplementation) -->"
                 ],
-                "hasDefaultImplementation" : false,
+                "hasDefaultImplementation" : true,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "hasADefaultImplementation",
@@ -3433,7 +3433,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(hasADefaultImplementation2) -->"
                 ],
-                "hasDefaultImplementation" : false,
+                "hasDefaultImplementation" : true,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "hasADefaultImplementation2",
@@ -3566,6 +3566,78 @@
                 "returnType" : {
                   "named" : {
                     "_0" : "TestAPI.AProtocol"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(hasADefaultImplementation) -->"
+                ],
+                "hasDefaultImplementation" : true,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "hasADefaultImplementation",
+                "parameters" : [
+                  {
+                    "name" : "x",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "y",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(hasADefaultImplementation2) -->"
+                ],
+                "hasDefaultImplementation" : true,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "hasADefaultImplementation2",
+                "parameters" : [
+                  {
+                    "name" : "a",
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "b",
+                    "type" : {
+                      "named" : {
+                        "_0" : "boolean"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "c",
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
                   }
                 }
               }
@@ -5153,6 +5225,34 @@
                     "_0" : "TestAPI.TestAsyncFunctions"
                   }
                 }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(defaultExercise6) -->"
+                ],
+                "hasDefaultImplementation" : true,
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "defaultExercise6",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
               }
             ],
             "name" : "TestAsyncForeignSideFunctionsStruct"
@@ -5511,7 +5611,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(defaultExercise6) -->"
                 ],
-                "hasDefaultImplementation" : false,
+                "hasDefaultImplementation" : true,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "defaultExercise6",
@@ -5942,6 +6042,34 @@
                     "_0" : "TestAPI.TestAsyncSwiftSideFunctionsClass"
                   }
                 }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(defaultExercise6) -->"
+                ],
+                "hasDefaultImplementation" : true,
+                "isAsync" : true,
+                "isStatic" : false,
+                "name" : "defaultExercise6",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
               }
             ],
             "name" : "TestAsyncSwiftSideFunctionsClass"
@@ -5963,7 +6091,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(noot) -->"
                 ],
-                "hasDefaultImplementation" : false,
+                "hasDefaultImplementation" : true,
                 "isStatic" : false,
                 "name" : "noot",
                 "readOnly" : true,
@@ -5977,7 +6105,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(plutonic) -->"
                 ],
-                "hasDefaultImplementation" : false,
+                "hasDefaultImplementation" : true,
                 "isStatic" : false,
                 "name" : "plutonic",
                 "readOnly" : true,
@@ -6020,6 +6148,20 @@
                 "type" : {
                   "named" : {
                     "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(plutonic) -->"
+                ],
+                "hasDefaultImplementation" : true,
+                "isStatic" : false,
+                "name" : "plutonic",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
                   }
                 }
               },
@@ -6134,6 +6276,20 @@
                 "type" : {
                   "named" : {
                     "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(plutonic) -->"
+                ],
+                "hasDefaultImplementation" : true,
+                "isStatic" : false,
+                "name" : "plutonic",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
                   }
                 }
               }
@@ -7219,7 +7375,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(hasADefaultImplementation) -->"
                 ],
-                "hasDefaultImplementation" : false,
+                "hasDefaultImplementation" : true,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "hasADefaultImplementation",
@@ -7251,7 +7407,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(hasADefaultImplementation2) -->"
                 ],
-                "hasDefaultImplementation" : false,
+                "hasDefaultImplementation" : true,
                 "isAsync" : false,
                 "isStatic" : false,
                 "name" : "hasADefaultImplementation2",
@@ -7683,7 +7839,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(defaultExercise6) -->"
                 ],
-                "hasDefaultImplementation" : false,
+                "hasDefaultImplementation" : true,
                 "isAsync" : true,
                 "isStatic" : false,
                 "name" : "defaultExercise6",
@@ -7736,7 +7892,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(noot) -->"
                 ],
-                "hasDefaultImplementation" : false,
+                "hasDefaultImplementation" : true,
                 "isStatic" : false,
                 "name" : "noot",
                 "readOnly" : true,
@@ -7750,7 +7906,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(plutonic) -->"
                 ],
-                "hasDefaultImplementation" : false,
+                "hasDefaultImplementation" : true,
                 "isStatic" : false,
                 "name" : "plutonic",
                 "readOnly" : true,
@@ -15280,6 +15436,30 @@
                 "returnType" : {
                   "named" : {
                     "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(plutonic) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "getPlutonic",
+                "parameters" : [
+                  {
+                    "name" : "self",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.TestDefaultComputedProperties"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
                   }
                 }
               },

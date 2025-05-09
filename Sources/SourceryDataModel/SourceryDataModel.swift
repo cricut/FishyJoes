@@ -148,7 +148,7 @@ public struct SourceryMethod: Documented, Hashable, Codable {
     public let documentation: [String]
     public let accessLevel: SourceryAccessLevel
     public let modifiers: [SourceryModifier]
-    public let definedInTypeName: SourceryTypeName?
+    public let definedInExtension: Bool
     public let isStatic: Bool
     public let isThrowing: Bool
     public let isAsync: Bool
@@ -173,7 +173,7 @@ public struct SourceryVariable: Documented, Hashable, Codable {
     public let readAccessLevel: SourceryAccessLevel
     public let writeAccessLevel: SourceryAccessLevel
     public let modifiers: [SourceryModifier]
-    public let definedInTypeName: SourceryTypeName?
+    public let definedInExtension: Bool
     public let isStatic: Bool
     public let isThrowing: Bool // or rethrows
     public let isAsync: Bool
@@ -343,7 +343,7 @@ extension SourceryMethod {
         self.documentation = method.documentation
         self.accessLevel = SourceryAccessLevel(rawValue: method.accessLevel)!
         self.modifiers = method.modifiers.map { SourceryModifier($0) }
-        self.definedInTypeName = method.definedInTypeName.map { SourceryTypeName($0) }
+        self.definedInExtension = method.definedInType?.isExtension == true
         self.isStatic = method.isStatic
         self.isThrowing = method.throws || method.rethrows
         self.isAsync = method.isAsync
@@ -372,7 +372,7 @@ extension SourceryVariable {
         self.readAccessLevel = SourceryAccessLevel(variable.accessLevel.read)
         self.writeAccessLevel = SourceryAccessLevel(variable.accessLevel.write)
         self.modifiers = variable.modifiers.map { SourceryModifier($0) }
-        self.definedInTypeName = variable.definedInTypeName.map { SourceryTypeName($0) }
+        self.definedInExtension = variable.definedInType?.isExtension == true
         self.isStatic = variable.isStatic
         self.isThrowing = variable.throws
         self.isAsync = variable.isAsync

@@ -297,6 +297,25 @@ namespace Cricut.TestAPI {
             out CreatedRef exn
         );
 
+        /// <summary>
+        /// <!-- FishyJoes.export(defaultExercise6) -->
+        /// </summary>
+        public System.Threading.Tasks.Task<string> DefaultExercise6(
+            System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, nint, System.Threading.Tasks.Task<nint>> fn
+        ) {
+            using var _thisHandle = new GCRef(this);
+            using var _fnHandle = new GCRef(fn);
+            return Check((out CreatedRef _exn) => __iota_TestAPI_TestAsyncSwiftSideFunctionsClass_defaultExercise6(Loader.env, _thisHandle.ptr, _fnHandle.ptr, out _exn)).Consume<System.Threading.Tasks.Task<string>>();
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_TestAPI_TestAsyncSwiftSideFunctionsClass_defaultExercise6(
+            IntPtr envRef,
+            UnownedRef self,
+            UnownedRef fn,
+            out CreatedRef exn
+        );
+
         static TestAsyncSwiftSideFunctionsClass() { _TypeSetup._ensureLoaded(); }
     }
 }

@@ -19,6 +19,14 @@ sealed class TestDefaultComputedPropertiesEnum: com.cricut.testapi.TestDefaultCo
     private external fun __jni_get_noot(): Long
 
     /**
+     * <!-- FishyJoes.export(plutonic) -->
+     */
+    override val plutonic: kotlin.String
+      get() = __jni_get_plutonic()
+    @JvmName("__jni_get_plutonic")
+    private external fun __jni_get_plutonic(): kotlin.String
+
+    /**
      * <!-- FishyJoes.export(spam) -->
      */
     val spam: Boolean

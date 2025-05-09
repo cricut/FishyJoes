@@ -24,6 +24,34 @@ data class AProtocolImplementation(
         y: Long
     ): com.cricut.testapi.AProtocol
 
+    /**
+     * <!-- FishyJoes.export(hasADefaultImplementation) -->
+     */
+    override fun hasADefaultImplementation(
+        x: Long,
+        y: Double
+    ): kotlin.String = __jni__default_hasADefaultImplementation(x, y)
+    @JvmName("__jni__default_hasADefaultImplementation")
+    private external fun __jni__default_hasADefaultImplementation(
+        x: Long,
+        y: Double
+    ): kotlin.String
+
+    /**
+     * <!-- FishyJoes.export(hasADefaultImplementation2) -->
+     */
+    override fun hasADefaultImplementation2(
+        a: kotlin.String,
+        b: Boolean,
+        c: kotlin.String
+    ): kotlin.String = __jni__default_hasADefaultImplementation2(a, b, c)
+    @JvmName("__jni__default_hasADefaultImplementation2")
+    private external fun __jni__default_hasADefaultImplementation2(
+        a: kotlin.String,
+        b: Boolean,
+        c: kotlin.String
+    ): kotlin.String
+
     companion object {
         init { loadNativeLibs() }
     }

@@ -253,6 +253,51 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
 
                 let result = try env.callFunction(object, create, [coreArg])
 
+                let hasADefaultImplementationFunctionCallback: NAPI.Callback = { env, info in
+                    FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation", expectedArgumentCount: 2, hasNamedOptions: false) { env in
+                        let _wrappedSwiftSelf = TestAPI_CommonInterface.AProtocol_sans_hasADefaultImplementation(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self)))
+                        let result = try Swift.String.toNode(
+                            _wrappedSwiftSelf.hasADefaultImplementation(
+                                x: try env.argument(at: 0, converter: Swift.Int.self),
+                                y: try env.argument(at: 1, converter: Swift.Double.self)
+                            ),
+                            env: env.env
+                        )
+                        return result
+                    }
+                }
+                let hasADefaultImplementationFunction = try env.createFunction(
+                    "hasADefaultImplementation",
+                    hasADefaultImplementationFunctionCallback,
+                    nil
+                )
+                if !(try env.hasNamedProperty(result, "hasADefaultImplementation")) {
+                    try env.setNamedProperty(result, "hasADefaultImplementation", hasADefaultImplementationFunction)
+                }
+
+                let hasADefaultImplementation2FunctionCallback: NAPI.Callback = { env, info in
+                    FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation2", expectedArgumentCount: 3, hasNamedOptions: false) { env in
+                        let _wrappedSwiftSelf = TestAPI_CommonInterface.AProtocol_sans_hasADefaultImplementation2(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self)))
+                        let result = try Swift.String.toNode(
+                            _wrappedSwiftSelf.hasADefaultImplementation2(
+                                try env.argument(at: 0, converter: Swift.String.self),
+                                b: try env.argument(at: 1, converter: Swift.Bool.self),
+                                try env.argument(at: 2, converter: Swift.String.self)
+                            ),
+                            env: env.env
+                        )
+                        return result
+                    }
+                }
+                let hasADefaultImplementation2Function = try env.createFunction(
+                    "hasADefaultImplementation2",
+                    hasADefaultImplementation2FunctionCallback,
+                    nil
+                )
+                if !(try env.hasNamedProperty(result, "hasADefaultImplementation2")) {
+                    try env.setNamedProperty(result, "hasADefaultImplementation2", hasADefaultImplementation2Function)
+                }
+
                 return result
             }
         }
@@ -289,8 +334,9 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
                 "hasADefaultImplementation": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation", expectedArgumentCount: 2, hasNamedOptions: false) { env in
+                            let _wrappedSwiftSelf = TestAPI_CommonInterface.AProtocol_sans_hasADefaultImplementation(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self)))
                             let result = try Swift.String.toNode(
-                                env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self).hasADefaultImplementation(
+                                _wrappedSwiftSelf.hasADefaultImplementation(
                                     x: try env.argument(at: 0, converter: Swift.Int.self),
                                     y: try env.argument(at: 1, converter: Swift.Double.self)
                                 ),
@@ -304,8 +350,9 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
                 "hasADefaultImplementation2": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation2", expectedArgumentCount: 3, hasNamedOptions: false) { env in
+                            let _wrappedSwiftSelf = TestAPI_CommonInterface.AProtocol_sans_hasADefaultImplementation2(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self)))
                             let result = try Swift.String.toNode(
-                                env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self).hasADefaultImplementation2(
+                                _wrappedSwiftSelf.hasADefaultImplementation2(
                                     try env.argument(at: 0, converter: Swift.String.self),
                                     b: try env.argument(at: 1, converter: Swift.Bool.self),
                                     try env.argument(at: 2, converter: Swift.String.self)
@@ -397,6 +444,37 @@ extension TestAPI.AProtocolImplementation: NodeMutator {
                                 env.this(converter: TestAPI.AProtocolImplementation.self).bar(
                                     x: try env.argument(at: 0, converter: Swift.Int.self),
                                     y: try env.argument(at: 1, converter: Swift.Int.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                ),
+                "hasADefaultImplementation": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation", expectedArgumentCount: 2, hasNamedOptions: false) { env in
+                            let result = try Swift.String.toNode(
+                                env.this(converter: TestAPI.AProtocolImplementation.self).hasADefaultImplementation(
+                                    x: try env.argument(at: 0, converter: Swift.Int.self),
+                                    y: try env.argument(at: 1, converter: Swift.Double.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                ),
+                "hasADefaultImplementation2": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation2", expectedArgumentCount: 3, hasNamedOptions: false) { env in
+                            let result = try Swift.String.toNode(
+                                env.this(converter: TestAPI.AProtocolImplementation.self).hasADefaultImplementation2(
+                                    try env.argument(at: 0, converter: Swift.String.self),
+                                    b: try env.argument(at: 1, converter: Swift.Bool.self),
+                                    try env.argument(at: 2, converter: Swift.String.self)
                                 ),
                                 env: env.env
                             )
@@ -7227,6 +7305,38 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: NodeMutator {
                     },
                     isStatic: false
                 ),
+                "defaultExercise6": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "defaultExercise6", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.self))
+                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.TestAsyncForeignSideFunctionsStruct.self))
+                            Task {
+                                do {
+                                    let taskResult: String = try await swiftSelf.value.defaultExercise6(
+                                        arg0.value
+                                    )
+                                    try onMainThread { env in
+                                        let convertedTaskResult: NAPI.Value
+                                        do {
+                                            convertedTaskResult = try Swift.String.toNode(taskResult, env: env)
+                                        } catch {
+                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                            return
+                                        }
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
+                                    }
+                                } catch {
+                                    try onMainThread { env in
+                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                    }
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: false
+                ),
                 "const42": (.stored(mutable: true), isStatic: false),
                 "iabs": (.stored(mutable: true), isStatic: false),
                 "intCompose": (.stored(mutable: true), isStatic: false),
@@ -7469,6 +7579,45 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                 let create = try env.getNamedProperty(object, "create")
 
                 let result = try env.callFunction(object, create, [coreArg])
+
+                let defaultExercise6FunctionCallback: NAPI.Callback = { env, info in
+                    FishyJoesNodeRuntime.callbackBody(env, info, name: "defaultExercise6", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                        let (deferred, promise) = try env.env.createPromise()
+                        let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.self))
+                        let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self))
+                        let _wrappedSwiftSelf = TestAPI_CommonInterface.TestAsyncFunctions_sans_defaultExercise6(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(swiftSelf.value))
+                        Task {
+                            do {
+                                let taskResult: String = try await _wrappedSwiftSelf.defaultExercise6(
+                                    arg0.value
+                                )
+                                try onMainThread { env in
+                                    let convertedTaskResult: NAPI.Value
+                                    do {
+                                        convertedTaskResult = try Swift.String.toNode(taskResult, env: env)
+                                    } catch {
+                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                        return
+                                    }
+                                    try env.resolveDeferred(deferred, convertedTaskResult)
+                                }
+                            } catch {
+                                try onMainThread { env in
+                                    try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                }
+                            }
+                        }
+                        return promise
+                    }
+                }
+                let defaultExercise6Function = try env.createFunction(
+                    "defaultExercise6",
+                    defaultExercise6FunctionCallback,
+                    nil
+                )
+                if !(try env.hasNamedProperty(result, "defaultExercise6")) {
+                    try env.setNamedProperty(result, "defaultExercise6", defaultExercise6Function)
+                }
 
                 return result
             }
@@ -7732,9 +7881,10 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.self))
                             let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self))
+                            let _wrappedSwiftSelf = TestAPI_CommonInterface.TestAsyncFunctions_sans_defaultExercise6(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(swiftSelf.value))
                             Task {
                                 do {
-                                    let taskResult: String = try await swiftSelf.value.defaultExercise6(
+                                    let taskResult: String = try await _wrappedSwiftSelf.defaultExercise6(
                                         arg0.value
                                     )
                                     try onMainThread { env in
@@ -8169,6 +8319,38 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                     },
                     isStatic: true
                 ),
+                "defaultExercise6": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "defaultExercise6", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.self))
+                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self))
+                            Task {
+                                do {
+                                    let taskResult: String = try await swiftSelf.value.defaultExercise6(
+                                        arg0.value
+                                    )
+                                    try onMainThread { env in
+                                        let convertedTaskResult: NAPI.Value
+                                        do {
+                                            convertedTaskResult = try Swift.String.toNode(taskResult, env: env)
+                                        } catch {
+                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                            return
+                                        }
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
+                                    }
+                                } catch {
+                                    try onMainThread { env in
+                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                    }
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: false
+                ),
                 "add3Things": (
                     .accessor(
                         getter: { env, info in
@@ -8345,6 +8527,50 @@ extension TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter: NodeC
 
                 let result = try env.callFunction(object, create, [coreArg])
 
+                let nootGetterCallback: NAPI.Callback = { env, info in
+                    FishyJoesNodeRuntime.callbackBody(env, info, name: "noot", expectedArgumentCount: 0) { env in
+                        let _wrappedSwiftSelf = TestAPI_CommonInterface.TestDefaultComputedProperties_sans_noot(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(env.this(converter: TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter.self)))
+                        return try Swift.Int.toNode(_wrappedSwiftSelf.noot, env: env.env)
+                    }
+                }
+                let nootNodeName = try String.toNode("noot", env: env)
+                let nootPropertyDesc = napi_property_descriptor(
+                    utf8name: nil,
+                    name: nootNodeName.ptr,
+                    method: nil,
+                    getter: nootGetterCallback,
+                    setter: nil,
+                    value: nil,
+                    attributes: napi_default,
+                    data: nil
+                )
+
+                if !(try env.hasNamedProperty(result, "noot")) {
+                    try env.defineProperties(result, properties: [nootPropertyDesc])
+                }
+
+                let plutonicGetterCallback: NAPI.Callback = { env, info in
+                    FishyJoesNodeRuntime.callbackBody(env, info, name: "plutonic", expectedArgumentCount: 0) { env in
+                        let _wrappedSwiftSelf = TestAPI_CommonInterface.TestDefaultComputedProperties_sans_pluto(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(env.this(converter: TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter.self)))
+                        return try Swift.String.toNode(_wrappedSwiftSelf.pluto, env: env.env)
+                    }
+                }
+                let plutonicNodeName = try String.toNode("plutonic", env: env)
+                let plutonicPropertyDesc = napi_property_descriptor(
+                    utf8name: nil,
+                    name: plutonicNodeName.ptr,
+                    method: nil,
+                    getter: plutonicGetterCallback,
+                    setter: nil,
+                    value: nil,
+                    attributes: napi_default,
+                    data: nil
+                )
+
+                if !(try env.hasNamedProperty(result, "plutonic")) {
+                    try env.defineProperties(result, properties: [plutonicPropertyDesc])
+                }
+
                 return result
             }
         }
@@ -8367,7 +8593,8 @@ extension TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter: NodeC
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "noot", expectedArgumentCount: 0) { env in
-                                return try Swift.Int.toNode(env.this(converter: TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter.self).noot, env: env.env)
+                                let _wrappedSwiftSelf = TestAPI_CommonInterface.TestDefaultComputedProperties_sans_noot(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(env.this(converter: TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter.self)))
+                                return try Swift.Int.toNode(_wrappedSwiftSelf.noot, env: env.env)
                             }
                         },
                         setter: nil
@@ -8378,7 +8605,8 @@ extension TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter: NodeC
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "plutonic", expectedArgumentCount: 0) { env in
-                                return try Swift.String.toNode(env.this(converter: TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter.self).pluto, env: env.env)
+                                let _wrappedSwiftSelf = TestAPI_CommonInterface.TestDefaultComputedProperties_sans_pluto(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(env.this(converter: TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter.self)))
+                                return try Swift.String.toNode(_wrappedSwiftSelf.pluto, env: env.env)
                             }
                         },
                         setter: nil
@@ -8464,6 +8692,17 @@ extension TestAPI.TestDefaultComputedPropertiesClass: FishyJoesNodeRuntime.NodeC
                         }),
                     isStatic: false
                 ),
+                "plutonic": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "plutonic", expectedArgumentCount: 0) { env in
+                                return try Swift.String.toNode(env.this(converter: TestAPI.TestDefaultComputedPropertiesClass.self).pluto, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: false
+                ),
                 "spam": (
                     .accessor(
                         getter: { env, info in
@@ -8537,6 +8776,14 @@ extension TestAPI.TestDefaultComputedPropertiesEnum: FishyJoesNodeRuntime.NodeCo
                 },
                 isStatic: true
             ),
+            "getPlutonic": (
+                .method { env, info in
+                    FishyJoesNodeRuntime.callbackBody(env, info, name: "plutonic", expectedArgumentCount: 1) { env in
+                        return try Swift.String.toNode(env.argument(at: 0, converter: TestAPI.TestDefaultComputedPropertiesEnum.self).pluto, env: env.env)
+                    }
+                },
+                isStatic: true
+            ),
             "getSpam": (
                 .method { env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "spam", expectedArgumentCount: 1) { env in
@@ -8591,6 +8838,17 @@ extension TestAPI.TestDefaultComputedPropertiesStruct: NodeMutator {
             module: "TestAPI",
             name: "TestDefaultComputedPropertiesStruct",
             properties: [
+                "plutonic": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "plutonic", expectedArgumentCount: 0) { env in
+                                return try Swift.String.toNode(env.this(converter: TestAPI.TestDefaultComputedPropertiesStruct.self).pluto, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: false
+                ),
                 "spam": (.stored(mutable: true), isStatic: false),
                 "noot": (.stored(mutable: true), isStatic: false),
             ],

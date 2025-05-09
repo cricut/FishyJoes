@@ -52,6 +52,14 @@ sealed class TestDefaultComputedPropertiesEnum implements TestAPI.TestDefaultCom
             )
         )
     ;
+    /// <!-- FishyJoes.export(plutonic) -->
+    String get plutonic =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                consumeCreatedRef<String>(f__iota__default_TestAPI_TestDefaultComputedPropertiesEnum_plutonic(Loader.shared.env, _thisHandle.ptr, exn))
+            )
+        )
+    ;
     /// <!-- FishyJoes.export(spam) -->
     bool get spam =>
         GCRef.using(this, (_thisHandle) =>
@@ -61,6 +69,11 @@ sealed class TestDefaultComputedPropertiesEnum implements TestAPI.TestDefaultCom
         )
     ;
 
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota__default_TestAPI_TestDefaultComputedPropertiesEnum_plutonic;
     static late int Function(
         Env env,
         UnownedRef _this,

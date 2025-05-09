@@ -37,7 +37,7 @@ struct Method: Hashable {
         self.exportAnnotation = exportAnnotation
         self.returnType = method.returnTypeName.better
         self.documentation = method.documentation
-        self.definedIn = method.definedInTypeName?.better
+        self.definedIn = containingType?.name.better
         self.sourceKind = method.isInitializer ? .initializer : .method
         self.isStatic = method.isStatic
         // SourceryMethod.isMutating seems to be a bit buggy...
@@ -76,9 +76,7 @@ struct Method: Hashable {
 
         precondition(omitParameters.isEmpty, "Can't find parameters \(omitParameters) to omit")
         self.parameters = parameters
-        self.isDefaultImplementation =
-            containingType?.kind == .protocol &&
-            method.definedInTypeName.flatMap { context.sourceryTypes[$0] }?.kind == .extension
+        self.isDefaultImplementation = containingType?.kind == .protocol && method.definedInExtension
     }
 }
 
@@ -188,7 +186,7 @@ extension Method {
             .filter { $0.kind == .protocol }
         for prot in protocols {
             let protocolDefaultMethods: [Method] = prot.rawMethods.compactMap { method in
-                if method.definedInTypeName.map({ context.sourceryTypes[$0]?.kind }) == .extension {
+                if method.definedInExtension {
                     return Method(method, inType: prot, context: context)
                 } else {
                     return nil

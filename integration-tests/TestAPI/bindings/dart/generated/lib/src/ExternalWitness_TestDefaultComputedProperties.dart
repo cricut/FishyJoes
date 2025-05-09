@@ -26,7 +26,7 @@ class ExternalWitness_TestDefaultComputedProperties extends SwiftReference imple
     int get noot =>
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
-                f__iota_get_TestAPI_TestDefaultComputedProperties_noot(Loader.shared.env, _thisHandle.ptr, exn)
+                f__iota__default_TestAPI_TestDefaultComputedProperties_noot(Loader.shared.env, _thisHandle.ptr, exn)
             )
         )
     ;
@@ -34,7 +34,7 @@ class ExternalWitness_TestDefaultComputedProperties extends SwiftReference imple
     String get plutonic =>
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
-                consumeCreatedRef<String>(f__iota_get_TestAPI_TestDefaultComputedProperties_plutonic(Loader.shared.env, _thisHandle.ptr, exn))
+                consumeCreatedRef<String>(f__iota__default_TestAPI_TestDefaultComputedProperties_plutonic(Loader.shared.env, _thisHandle.ptr, exn))
             )
         )
     ;
@@ -43,10 +43,10 @@ class ExternalWitness_TestDefaultComputedProperties extends SwiftReference imple
         Env env,
         UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_get_TestAPI_TestDefaultComputedProperties_noot;
+    ) f__iota__default_TestAPI_TestDefaultComputedProperties_noot;
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_get_TestAPI_TestDefaultComputedProperties_plutonic;
+    ) f__iota__default_TestAPI_TestDefaultComputedProperties_plutonic;
 }
