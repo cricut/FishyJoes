@@ -4,7 +4,6 @@ struct TranslatedString: TranslatedType {
     let sourceType = BetterType.named(.swift("String"))
     let nodeName = "string"
     let kotlinName = "String"
-    let neutralName = "String"
     let containedNamedTypes: [TranslatedType] = []
     let kotlinPackage: String? = "kotlin"
     let jniType = JNIType.object("java/lang/String")
