@@ -1,4 +1,11 @@
-// Protocols
+// THIS FILE IS SPECIAL!
+// It is a normal swift file built as part of the package.
+// It is *also* inserted verbatim into the sourcery template.
+// This file is kept dependency free to work well in both contexts.
+// Moving things into or out of this file may break generation.
+
+// TODO: documentation
+// TODO: sort in a logical manner
 
 public protocol Documented {
     var documentation: [String] { get }

@@ -16,8 +16,8 @@ let package = Package(
         ),
     ],
     dependencies : [
-        .package(name: "FishyJoes", path: "../.."),
-    ],
+        ProcessInfo.processInfo.environment["FISHYJOES"] == "1" ? .package(name: "FishyJoes", path: "../..") : nil,
+    ].compactMap { $0 },
     targets: [
         .target(
             name: "TestAPI",

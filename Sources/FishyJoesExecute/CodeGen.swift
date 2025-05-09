@@ -447,14 +447,16 @@ extension CodeGen {
                 sourceryEnv["LLVM_PROFILE_FILE"] = "\(codeCoveragePath)/fishy-joes-execution-helper-\(UUID()).profraw"
             }
 
-            let sourceryDataModelSwift = try cmd("cat", "/Users/acobb/src/FishyJoes/Sources/SourceryDataModel/SourceryDataModel.swift").runString()
+            let localFishyJoesPath = packageInfo.dependencyMap["FishyJoes"]!.localPath
+            let sourceryDataModelSwift = try String(
+                contentsOfFile: "\(localFishyJoesPath)/Sources/SourceryDataModel/SourceryDataModel.swift"
+            )
 
             let sourceryTemplate = """
                 <%
                 \(sourceryDataModelSwift)
                 try SourceryTemplateContext(context).dump()
                 %>
-
                 """
             let templatePath = "\(NSTemporaryDirectory())/\(UUID())-fishyjoes.swifttemplate"
             try cmd("cat")
