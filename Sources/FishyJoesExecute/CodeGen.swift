@@ -432,12 +432,6 @@ extension CodeGen {
                 .output(overwritingFile: "\(swiftBindingsRoot)/Package.swift")
                 .input(fragment.contents).run()
 
-            // Build the Sourcery tool itself
-            // try cmd("mint", "install", "krzysztofzablocki/Sourcery@2.2.6").run()
-
-            // Build the FishyJoes internal execution helper product
-            // try cmd("swift", arguments: ["build"] + (codeCoveragePath == nil ? [] : Platform.coverageFlags) + ["--product", "helper-fishy-joes-core"]).run()
-
             // Trampoline into fishy-joes-execution-helper via Sourcery
             var sourceryEnv: [String: String] = [:]
             if let sourceryDumpPath = sourceryDumpPath {
