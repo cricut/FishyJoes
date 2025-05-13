@@ -42,8 +42,8 @@ let package = Package(
     ] + wasmIncompatible(
         [
             P.library(name: "FishyJoesJavaRuntime", type: .dynamic, targets: ["FishyJoesJavaRuntime", "FishyJoesCommonRuntime"]),
-            P.library(name: "FishyJoesIotaRuntime", type: .dynamic, targets: ["FishyJoesJavaRuntime", "FishyJoesCommonRuntime"]),
-            P.library(name: "JavaRuntimeTestHarness", type: .dynamic, targets: ["JaFishyJoesJavaRuntime", "FishyJoesCommonRuntime"]),
+            P.library(name: "FishyJoesIotaRuntime", type: .dynamic, targets: ["FishyJoesIotaRuntime", "FishyJoesCommonRuntime"]),
+            P.library(name: "JavaRuntimeTestHarness", type: .dynamic, targets: ["JavaRuntimeTestHarness"]),
         ]
     ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] :
         [
