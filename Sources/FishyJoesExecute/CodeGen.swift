@@ -45,9 +45,6 @@ public class CodeGen: ParsableCommand {
     @Flag(name: .long, help: "Pass git credentials into docker container via file .secrets/git-credentials")
     var passGitAuthToDocker = false
 
-    @Option(help: "Used for debugging fishy-joes code generation")
-    var sourceryDumpPath: String?
-
     @Option(name: .long, help: "Update version number of generated package.")
     var version: String?
 
@@ -83,7 +80,6 @@ public class CodeGen: ParsableCommand {
         case wasmOpt
         case useDocker
         case passGitAuthToDocker
-        case sourceryDumpPath
         case version
         case buildStep
         case debug
@@ -432,15 +428,6 @@ extension CodeGen {
                 .output(overwritingFile: "\(swiftBindingsRoot)/Package.swift")
                 .input(fragment.contents).run()
 
-            // Trampoline into fishy-joes-execution-helper via Sourcery
-            var sourceryEnv: [String: String] = [:]
-            if let sourceryDumpPath = sourceryDumpPath {
-                sourceryEnv["DUMP_SOURCERY_DATA"] = URL(fileURLWithPath: (sourceryDumpPath as NSString).expandingTildeInPath, isDirectory: false).path
-            }
-            if let codeCoveragePath = codeCoveragePath {
-                sourceryEnv["LLVM_PROFILE_FILE"] = "\(codeCoveragePath)/fishy-joes-execution-helper-\(UUID()).profraw"
-            }
-
             let localFishyJoesPath = packageInfo.dependencyMap["FishyJoes"]!.localPath
             let sourceryDataModelSwift = try String(
                 contentsOfFile: "\(localFishyJoesPath)/Sources/SourceryDataModel/SourceryDataModel.swift"
@@ -452,7 +439,7 @@ extension CodeGen {
                 try SourceryTemplateContext(context).dump()
                 %>
                 """
-            let templatePath = "\(NSTemporaryDirectory())/\(UUID())-fishyjoes.swifttemplate"
+            let templatePath = "\(NSTemporaryDirectory())/fishyjoes-\(UUID()).swifttemplate"
             try cmd("cat")
                 .input(sourceryTemplate)
                 .output(overwritingFile: templatePath)
@@ -467,7 +454,6 @@ extension CodeGen {
                     "--disableCache",
                     "--parseDocumentation",
                     "--sources", translateeSources,
-                    // "--templates", ".build/debug/FishyJoes_FishyJoesExecutionHelper.bundle/FishyJoes.swifttemplate",
                     "--templates", templatePath,
                     "--output", ".build/sourcery-dump/"
                 ].compactMap { $0 } + config.excludeSources.flatMap { exclude in
@@ -477,8 +463,7 @@ extension CodeGen {
                     }
                     let path = basePath + exclude
                     return ["--exclude-sources", path]
-                },
-                addEnv: sourceryEnv
+                }
             ).run()
 
             // Read the sourcery dump, and do type-directed code generation
