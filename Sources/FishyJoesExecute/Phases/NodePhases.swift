@@ -252,8 +252,11 @@ class NodePhases: BasePhases, Phases {
             Log.info(#file, #line)
             moduleDotJS.append("export default \(nodeModule.name);")
             Log.info(#file, #line)
-            try cmd("echo", moduleDotJS.joined(separator: "\n")).output(overwritingFile: "\(outputDir)/\(module).js").run()
-            print(#file, #line)
+            try cmd("cat")
+                .input(moduleDotJS.joined(separator: "\n"))
+                .output(overwritingFile: "\(outputDir)/\(module).js")
+                .run()
+            Log.info(#file, #line)
 
             // Configure loading of Javascript extensions when the module is loaded by node, if provided
             let outPath = "\(outputDir)/\(nodeModule.name).extensions.js"
