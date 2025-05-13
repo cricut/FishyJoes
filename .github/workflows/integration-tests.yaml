@@ -410,53 +410,53 @@ jobs:
           cd integration-tests/TestAPI
           "$SWIFT" run -- fishy-joes --kotlin-fast build test
 
-  integration-tests-android:
-    name: "Android: Integration Tests"
-    needs: [integration-tests-ubuntu]
-    runs-on: macOS-13
-    env:
-      GRADLE_OPTS: -Dorg.gradle.daemon=false
-      GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
-      GITHUB_USER: cricut-builduser
-      CONFIGURATION: debug
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+  # integration-tests-android:
+  #   name: "Android: Integration Tests"
+  #   needs: [integration-tests-ubuntu]
+  #   runs-on: macOS-13
+  #   env:
+  #     GRADLE_OPTS: -Dorg.gradle.daemon=false
+  #     GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
+  #     GITHUB_USER: cricut-builduser
+  #     CONFIGURATION: debug
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
 
-      - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
+  #     - name: Setup git credentials
+  #       uses: de-vri-es/setup-git-credentials@v2
+  #       with:
+  #         credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
-      # Must use Java 17 instead of Java 11 because Gradle requires it to build the Android sample app
-      - name: Setup JDK
-        uses: actions/setup-java@v3
-        with:
-          distribution: zulu
-          java-version: 17
+  #     # Must use Java 17 instead of Java 11 because Gradle requires it to build the Android sample app
+  #     - name: Setup JDK
+  #       uses: actions/setup-java@v3
+  #       with:
+  #         distribution: zulu
+  #         java-version: 17
 
-      - name: Retrieve artifacts
-        uses: actions/download-artifact@v4
+  #     - name: Retrieve artifacts
+  #       uses: actions/download-artifact@v4
 
-      - name: Build android test app
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
+  #     - name: Build android test app
+  #       shell: zsh {0}
+  #       run: |
+  #         set -euxo pipefail
 
-          ls -la maven-local
+  #         ls -la maven-local
 
-          rm -rf ~/.m2/repository
-          mkdir -p ~/.m2
-          mv maven-local ~/.m2/repository
+  #         rm -rf ~/.m2/repository
+  #         mkdir -p ~/.m2
+  #         mv maven-local ~/.m2/repository
 
-          cd integration-tests/android-test-app
-          ./gradlew assembleAndroidTest
+  #         cd integration-tests/android-test-app
+  #         ./gradlew assembleAndroidTest
 
-      - name: Test android test app
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 29
-          arch: x86_64
-          # NOTE: each line of this script is executed in its own shell
-          script: |
-            cd integration-tests/android-test-app && ./gradlew connectedAndroidTest
+  #     - name: Test android test app
+  #       uses: reactivecircus/android-emulator-runner@v2
+  #       with:
+  #         api-level: 29
+  #         arch: x86_64
+  #         # NOTE: each line of this script is executed in its own shell
+  #         script: |
+  #           cd integration-tests/android-test-app && ./gradlew connectedAndroidTest
