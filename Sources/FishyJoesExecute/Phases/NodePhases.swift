@@ -223,43 +223,43 @@ class NodePhases: BasePhases, Phases {
                 configuration: buildConfig
             )
             try installLibrary(nodeModule.nodeShimLibName, installName: nodeModule.nodeShimCJSName)
-            print(#file, #line)
+            Log.info(#file, #line)
             for intermediateBuildResult in ["NAPIRegisterModule.exp", "NAPIRegisterModule.lib"] {
-            print(#file, #line)
+                Log.info(#file, #line)
                 if cmd("test", "-f", intermediateBuildResult).runBool() {
-            print(#file, #line)
+                    Log.info(#file, #line)
                     try? cmd("rm", intermediateBuildResult).run()
-            print(#file, #line)
+                    Log.info(#file, #line)
                 }
-            print(#file, #line)
+                Log.info(#file, #line)
             }
-            print(#file, #line)
+            Log.info(#file, #line)
 
             // Create the required Javascript files for loading the module's native library from node
             var moduleDotJS: [String] = []
-            print(#file, #line)
+            Log.info(#file, #line)
             for dependency in nodeDependencies {
-            print(#file, #line)
+                Log.info(#file, #line)
                 moduleDotJS.append("export { \(dependency.jsExports.joined(separator: ", ")) } from '@cricut/\(dependency.npmPackageName)';")
-            print(#file, #line)
+                Log.info(#file, #line)
             }
-            print(#file, #line)
+            Log.info(#file, #line)
             moduleDotJS.append("import { createRequire } from 'module';")
-            print(#file, #line)
+            Log.info(#file, #line)
             moduleDotJS.append("const require = createRequire(import.meta.url);")
-            print(#file, #line)
+            Log.info(#file, #line)
             moduleDotJS.append("export const { \(nodeModule.name) } = require('./\(nodeModule.name).cjs');")
-            print(#file, #line)
+            Log.info(#file, #line)
             moduleDotJS.append("export default \(nodeModule.name);")
-            print(#file, #line)
+            Log.info(#file, #line)
             try cmd("echo", moduleDotJS.joined(separator: "\n")).output(overwritingFile: "\(outputDir)/\(module).js").run()
             print(#file, #line)
 
             // Configure loading of Javascript extensions when the module is loaded by node, if provided
             let outPath = "\(outputDir)/\(nodeModule.name).extensions.js"
-            print(#file, #line)
+            Log.info(#file, #line)
             if !cmd("cp", "\(nodeModule.extensionsPath)/\(module).extensions.js", outPath).runBool() {
-            print(#file, #line)
+                Log.info(#file, #line)
                 // No extensions found. Generate a no-op extension file for the module
                 try cmd("cat", "-")
                     .input(
@@ -271,9 +271,9 @@ class NodePhases: BasePhases, Phases {
                     )
                     .output(overwritingFile: outPath)
                     .run()
-            print(#file, #line)
+                Log.info(#file, #line)
             }
-            print(#file, #line)
+            Log.info(#file, #line)
         }
 
         // Assemble a TypeScript definitions file for the module from its dependencies, its own definitions, and its extensions
