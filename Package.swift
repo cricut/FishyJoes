@@ -37,13 +37,13 @@ let package = Package(
         P.library(
             name: "FishyJoesNodeRuntime",
             type: wasmCompatibleOnly ? nil : .dynamic,
-            targets: ["FishyJoesNodeRuntime"]
+            targets: ["FishyJoesNodeRuntime", "FishyJoesCommonRuntime"]
         ),
     ] + wasmIncompatible(
         [
-            P.library(name: "FishyJoesJavaRuntime", type: .dynamic, targets: ["FishyJoesJavaRuntime"]),
-            P.library(name: "FishyJoesIotaRuntime", type: .dynamic, targets: ["FishyJoesIotaRuntime"]),
-            P.library(name: "JavaRuntimeTestHarness", type: .dynamic, targets: ["JavaRuntimeTestHarness"]),
+            P.library(name: "FishyJoesJavaRuntime", type: .dynamic, targets: ["FishyJoesJavaRuntime", "FishyJoesCommonRuntime"]),
+            P.library(name: "FishyJoesIotaRuntime", type: .dynamic, targets: ["FishyJoesJavaRuntime", "FishyJoesCommonRuntime"]),
+            P.library(name: "JavaRuntimeTestHarness", type: .dynamic, targets: ["JaFishyJoesJavaRuntime", "FishyJoesCommonRuntime"]),
         ]
     ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] :
         [
