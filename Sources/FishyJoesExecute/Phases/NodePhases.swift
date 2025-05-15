@@ -223,46 +223,29 @@ class NodePhases: BasePhases, Phases {
                 configuration: buildConfig
             )
             try installLibrary(nodeModule.nodeShimLibName, installName: nodeModule.nodeShimCJSName)
-            Log.info(#file, #line)
             for intermediateBuildResult in ["NAPIRegisterModule.exp", "NAPIRegisterModule.lib"] {
-                Log.info(#file, #line)
                 if cmd("test", "-f", intermediateBuildResult).runBool() {
-                    Log.info(#file, #line)
                     try? cmd("rm", intermediateBuildResult).run()
-                    Log.info(#file, #line)
                 }
-                Log.info(#file, #line)
             }
-            Log.info(#file, #line)
 
             // Create the required Javascript files for loading the module's native library from node
             var moduleDotJS: [String] = []
-            Log.info(#file, #line)
             for dependency in nodeDependencies {
-                Log.info(#file, #line)
                 moduleDotJS.append("export { \(dependency.jsExports.joined(separator: ", ")) } from '@cricut/\(dependency.npmPackageName)';")
-                Log.info(#file, #line)
             }
-            Log.info(#file, #line)
             moduleDotJS.append("import { createRequire } from 'module';")
-            Log.info(#file, #line)
             moduleDotJS.append("const require = createRequire(import.meta.url);")
-            Log.info(#file, #line)
             moduleDotJS.append("export const { \(nodeModule.name) } = require('./\(nodeModule.name).cjs');")
-            Log.info(#file, #line)
             moduleDotJS.append("export default \(nodeModule.name);")
-            Log.info(#file, #line)
             try cmd("cat")
                 .input(moduleDotJS.joined(separator: "\n"))
                 .output(overwritingFile: "\(outputDir)/\(module).js")
                 .run()
-            Log.info(#file, #line)
 
             // Configure loading of Javascript extensions when the module is loaded by node, if provided
             let outPath = "\(outputDir)/\(nodeModule.name).extensions.js"
-            Log.info(#file, #line)
             if !cmd("cp", "\(nodeModule.extensionsPath)/\(module).extensions.js", outPath).runBool() {
-                Log.info(#file, #line)
                 // No extensions found. Generate a no-op extension file for the module
                 try cmd("cat", "-")
                     .input(
@@ -274,9 +257,7 @@ class NodePhases: BasePhases, Phases {
                     )
                     .output(overwritingFile: outPath)
                     .run()
-                Log.info(#file, #line)
             }
-            Log.info(#file, #line)
         }
 
         // Assemble a TypeScript definitions file for the module from its dependencies, its own definitions, and its extensions
