@@ -62,7 +62,7 @@ let package = Package(
         ]
     ) + wasmIncompatible(
         [
-            D.package(url: "https://github.com/mstokercricut/swsh", exact: "5.0.0-alpha0"),
+            D.package(url: "https://github.com/mstokercricut/swsh", exact: "5.0.0-alpha1"),
             D.package(url: "https://github.com/apple/swift-argument-parser", from: "1.2.2"),
         ]
     ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] : [
