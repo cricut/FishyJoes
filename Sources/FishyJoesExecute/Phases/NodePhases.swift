@@ -238,7 +238,10 @@ class NodePhases: BasePhases, Phases {
             moduleDotJS.append("const require = createRequire(import.meta.url);")
             moduleDotJS.append("export const { \(nodeModule.name) } = require('./\(nodeModule.name).cjs');")
             moduleDotJS.append("export default \(nodeModule.name);")
-            try cmd("echo", moduleDotJS.joined(separator: "\n")).output(overwritingFile: "\(outputDir)/\(module).js").run()
+            try cmd("cat")
+                .input(moduleDotJS.joined(separator: "\n"))
+                .output(overwritingFile: "\(outputDir)/\(module).js")
+                .run()
 
             // Configure loading of Javascript extensions when the module is loaded by node, if provided
             let outPath = "\(outputDir)/\(nodeModule.name).extensions.js"

@@ -37,12 +37,12 @@ let package = Package(
         P.library(
             name: "FishyJoesNodeRuntime",
             type: wasmCompatibleOnly ? nil : .dynamic,
-            targets: ["FishyJoesNodeRuntime"]
+            targets: ["FishyJoesNodeRuntime", "FishyJoesCommonRuntime"]
         ),
     ] + wasmIncompatible(
         [
-            P.library(name: "FishyJoesJavaRuntime", type: .dynamic, targets: ["FishyJoesJavaRuntime"]),
-            P.library(name: "FishyJoesIotaRuntime", type: .dynamic, targets: ["FishyJoesIotaRuntime"]),
+            P.library(name: "FishyJoesJavaRuntime", type: .dynamic, targets: ["FishyJoesJavaRuntime", "FishyJoesCommonRuntime"]),
+            P.library(name: "FishyJoesIotaRuntime", type: .dynamic, targets: ["FishyJoesIotaRuntime", "FishyJoesCommonRuntime"]),
             P.library(name: "JavaRuntimeTestHarness", type: .dynamic, targets: ["JavaRuntimeTestHarness"]),
         ]
     ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] :
@@ -62,7 +62,7 @@ let package = Package(
         ]
     ) + wasmIncompatible(
         [
-            D.package(url: "https://github.com/mstokercricut/swsh", exact: "5.0.0-alpha0"),
+            D.package(url: "https://github.com/mstokercricut/swsh", exact: "5.0.0-alpha1"),
             D.package(url: "https://github.com/apple/swift-argument-parser", from: "1.2.2"),
         ]
     ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] : [
