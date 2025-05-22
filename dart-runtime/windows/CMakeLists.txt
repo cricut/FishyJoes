@@ -16,9 +16,12 @@ set(FISHYJOES_SHARED_LIB_PATH "${CMAKE_CURRENT_SOURCE_DIR}/native/${FISHYJOES_SH
 # external build triggered from this build file.
 set(fishyjoes_dart_bundled_libraries
   ${FISHYJOES_SHARED_LIB_PATH}
+  ${CMAKE_CURRENT_SOURCE_DIR}/native/_FoundationICU.dll
   ${CMAKE_CURRENT_SOURCE_DIR}/native/BlocksRuntime.dll
   ${CMAKE_CURRENT_SOURCE_DIR}/native/dispatch.dll
   ${CMAKE_CURRENT_SOURCE_DIR}/native/Foundation.dll
+  ${CMAKE_CURRENT_SOURCE_DIR}/native/FoundationEssentials.dll
+  ${CMAKE_CURRENT_SOURCE_DIR}/native/FoundationInternationalization.dll
   ${CMAKE_CURRENT_SOURCE_DIR}/native/FoundationNetworking.dll
   ${CMAKE_CURRENT_SOURCE_DIR}/native/FoundationXML.dll
   ${CMAKE_CURRENT_SOURCE_DIR}/native/swift_Concurrency.dll
