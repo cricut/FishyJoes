@@ -26,6 +26,7 @@ function sourceSwiftlyEnv {
 
 sourceSwiftlyEnv
 if ! swiftly --version; then
+    echo "Installing swiftly for current user"
     if [[ "$(uname -s)" == "Darwin" ]]; then
         tempdir="$(mktemp -d)"
         curl -o $tempdir/swiftly.pkg https://download.swift.org/swiftly/darwin/swiftly.pkg
