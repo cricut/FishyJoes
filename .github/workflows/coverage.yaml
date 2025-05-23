@@ -60,7 +60,7 @@ jobs:
 
           yq --version || brew install yq
 
-          ./scripts/install-swift-wasm.sh
+          swift run fishy-joes install-toolchains --swiftly --wasm
 
           (cd integration-tests/TestAPI/bindings/ts/tests; npm install)
           (cd Tests/NAPITests/node-tests; npm install)

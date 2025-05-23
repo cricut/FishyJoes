@@ -131,7 +131,7 @@ jobs:
 
           git config --global --add safe.directory '*'
 
-          ./scripts/install-swift-wasm.sh
+          swift run fishy-joes install-toolchains --swiftly --wasm
 
           # Use wasm version of wasm-opt because ubuntu version can be very old
           npm install -g binaryen

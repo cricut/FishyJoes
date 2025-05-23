@@ -1,0 +1,89 @@
+import ArgumentParser
+import swsh
+import Foundation
+import FishyJoesConfig
+
+struct InstallToolchainsCommand: ParsableCommand {
+    static var configuration = CommandConfiguration(
+        commandName: "install-toolchains",
+        abstract: "Script to install swiftly, swift, and swift toolchains"
+    )
+    struct Error: Swift.Error {}
+
+    @Flag(name: .customLong("swiftly"), inversion: .prefixedNo, help: "install https://github.com/swiftlang/swiftly into the default location if not present")
+    var installSwiftly = true
+
+    @Flag(name: .customLong("wasm"), inversion: .prefixedNo, help: "install the swift wasm SDK and toolchain")
+    var installWasm = true
+
+    @Flag(name: .long, inversion: .prefixedNo, help: "Attempt to modify the profile file to set environment variables (e.g. PATH) on login.")
+    var modifyProfile = false
+
+    func run() throws {
+        swsh.ExternalCommand.verbose = true
+
+        if !Swiftly.swiftly("--version").runBool() {
+            guard installSwiftly else {
+                Log.error("swiftly not found, and install was not requested. Can't continue.")
+                throw Error()
+            }
+
+            #if os(Windows)
+            Log.error("wasm compilation is currently only supported on mac and linux")
+            throw Error()
+            #endif
+
+            Log.info("Installing swiftly for current user")
+            let tempDir = try cmd("mktemp", "-d").runString()
+            defer { try? cmd("rm", "-rf", tempDir).run() }
+            let swiftlyBootstrapPath: String
+            #if os(macOS)
+            let pkgPath = "\(tempDir)/swiftly.pkg"
+            try cmd("curl", "-o", pkgPath, "https://download.swift.org/swiftly/darwin/swiftly.pkg").run()
+            try cmd("installer", "-pkg", pkgPath, "-target", "CurrentUserHomeDirectory", "-verbose").run()
+            swiftlyBootstrapPath = "\(Swiftly.binPath)/swiftly"
+            #else
+            let tarballPath = "\(tempDir)/swiftly.tgz"
+            let uname = try cmd("uname", "-m").runString()
+            try cmd("curl", "-o", tarballPath, "https://download.swift.org/swiftly/linux/swiftly-\(uname).tar.gz").run()
+            try cmd("tar", "-xzf", tarballPath, "-C", tempDir).run()
+            swiftlyBootstrapPath = "\(tempDir)/swiftly"
+            #endif
+            try cmd(swiftlyBootstrapPath,
+                arguments: [
+                    "init",
+                    "--assume-yes",
+                    "--skip-install",
+                ] + (modifyProfile ? [] : ["--no-modify-profile"])
+            ).run()
+        }
+
+        if installWasm {
+            let toolchain = ToolVersions.shared.swiftWasm.toolchain
+            let sdk = ToolVersions.shared.swiftWasm.sdk
+
+            Log.info("Installing swift-wasm toolchain \(toolchain)")
+            try Swiftly.swiftly("install", "--assume-yes", toolchain).run()
+
+            let sdkInstalled = Swiftly.run(
+                toolchain: toolchain,
+                "swift", "sdk", "configure", "--show-configuration",
+                "\(sdk)-wasm32-unknown-wasi",
+                "wasm32-unknown-wasi"
+            )
+                .output(overwritingFile: FileManager.nullDevicePath)
+                .runBool()
+
+            if sdkInstalled {
+                Log.info("swift-wasm \(sdk) already installed")
+            } else {
+                Log.info("Installing swift-wasm sdk \(sdk)")
+                try Swiftly.run(
+                    toolchain: toolchain, "swift", "sdk", "install",
+                    "https://github.com/swiftwasm/swift/releases/download/swift-wasm-\(sdk)/swift-wasm-\(sdk)-wasm32-unknown-wasi.artifactbundle.zip",
+                    "--checksum", ToolVersions.shared.swiftWasm.sdkChecksum
+                ).run()
+            }
+        }
+    }
+}
