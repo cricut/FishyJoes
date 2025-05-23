@@ -1,7 +1,7 @@
 import ArgumentParser
-import swsh
-import Foundation
 import FishyJoesConfig
+import Foundation
+import swsh
 
 struct InstallToolchainsCommand: ParsableCommand {
     static var configuration = CommandConfiguration(
