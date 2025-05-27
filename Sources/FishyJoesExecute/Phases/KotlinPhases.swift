@@ -11,15 +11,7 @@ class KotlinPhases: BasePhases, Phases {
             (swift: $0, groupId: "com.cricut.\($0)", artifactId: $0.lowercased())
         }
         let gradleDependencyLines = gradleDependencies.map { dependency in
-            // TODO: figure out how to use gradle version ranges. The solver may not be good enough for this to work properly.
-            // See for example: https://github.com/gradle/gradle/issues/8126
-
-            // let version = swiftPackage?.dependencyMap[$0.swift]?.versionInGradleFormat ?? "local"
-
-            let resolved = options.packageResolved?.state(for: dependency.swift)
-            var version = resolved?.version ?? resolved?.branch ?? resolved?.revision ?? "local"
-            // Convert anything like "user/branch" into things gradle can parse, even if it probably won't find a release by that name
-            version = version.replacingOccurrences(of: "/", with: "-")
+            let version = options.packageInfo?.dependencyMap[dependency.swift]?.versionInGradleFormat ?? "local"
             return "api(\"\(dependency.groupId):\(dependency.artifactId):\(version)\")"
         }
         replacements["__GRADLE_DEPENDENCIES__"] = join(lines: gradleDependencyLines, indent: 4)

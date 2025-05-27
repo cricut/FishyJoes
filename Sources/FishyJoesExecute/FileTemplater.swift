@@ -8,7 +8,6 @@ public struct FileTemplater {
     let config: FishyJoesConfig
     let phasesList: [any Phases]
     let swiftPackage: SwiftPackage?
-    let swiftPackageResolved: SwiftPackageResolved?
     let includeFilesNotMarkedAsGenerated: Bool
     let applyCustomizations: Bool
 
@@ -18,13 +17,11 @@ public struct FileTemplater {
         config: FishyJoesConfig,
         phasesList: [any Phases],
         swiftPackage: SwiftPackage?,
-        swiftPackageResolved: SwiftPackageResolved?,
         includeFilesNotMarkedAsGenerated: Bool
     ) throws {
         self.config = config
         self.phasesList = phasesList
         self.swiftPackage = swiftPackage
-        self.swiftPackageResolved = swiftPackageResolved
         self.includeFilesNotMarkedAsGenerated = includeFilesNotMarkedAsGenerated
 
         // If the generation phases aren't present, the replacement list is incomplete

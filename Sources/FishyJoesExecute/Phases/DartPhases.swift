@@ -21,24 +21,24 @@ class DartPhases: IotaPhases, Phases {
             )
         }
 
-        let pureDartDependencyLines = dartDependencies.flatMap { depNames in
+        let pureDartDependencyLines = dartDependencies.flatMap { depNames -> [String] in
             let lines = ["\(depNames.dart):"]
             guard let dependency = options.packageInfo.dependencyMap[depNames.swift] else {
                 return lines + [
                     "  path: DEPENDENCY_NOT_FOUND",
                 ]
             }
-            if let resolvedState = options.packageResolved?.state(for: depNames.swift) {
+            if let version = dependency.versionInPubspecFormat {
                 return lines + [
                     #"  git:"#,
                     #"    url: "https://github.com/cricut/\#(depNames.swift).git""#,
-                    #"    ref: "\#(resolvedState.version ?? resolvedState.branch ?? resolvedState.revision)""#,
+                    #"    ref: "\#(version)""#,
                     #"    path: "\#(depNames.path)""#,
                 ]
             } else {
                 let dependencyPath = relativePath(of: dependency.localPath, relativeTo: "bindings/dart/generated")
                 return lines + [
-                    "  path: \(dependencyPath)/\(depNames.path)"
+                    "  path: \(dependencyPath)/\(depNames.path)",
                 ]
             }
         }
