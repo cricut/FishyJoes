@@ -131,6 +131,7 @@ tasks {
 
 dependencies {
     implementation(kotlin("stdlib:1.9.10"))
+    // TODO: can we read this from tool-versions.json?
     implementation("com.cricut:android-swift-runtime:3.0.2")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
