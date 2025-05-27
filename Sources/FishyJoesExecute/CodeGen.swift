@@ -92,7 +92,6 @@ public class CodeGen: ParsableCommand {
 
     var config: FishyJoesConfig!
     var packageInfo: SwiftPackage!
-    var packageResolved: SwiftPackageResolved!
 
     lazy var buildConfig: BuildConfiguration = {
         // the "module-bindings" subdirectory is needed to avoid this: https://stackoverflow.com/a/71759561
@@ -171,12 +170,6 @@ extension CodeGen {
             packageInfo = try JSONDecoder().decode(SwiftPackage.self, from: packageJSON)
         } catch let error {
             Log.error("Couldn't parse swift package: \(error)")
-            fatalError()
-        }
-        do {
-            packageResolved = try cmd("cat", "Package.resolved").runJSON(SwiftPackageResolved.self)
-        } catch let error {
-            Log.error("Failed to parse Package.resolved: \(error)")
             fatalError()
         }
 
@@ -485,7 +478,6 @@ extension CodeGen {
                 config: config,
                 phasesList: generationPhases,
                 swiftPackage: packageInfo,
-                swiftPackageResolved: packageResolved,
                 includeFilesNotMarkedAsGenerated: false
             )
             try packageInit.installTemplate()
