@@ -11,12 +11,14 @@ void main() {
           expect(Uri.parse("https://www.google.com"), equals(URLs.simple));
           expect(Uri.parse("https://www.google.com/images/branding/googlelogo/2x/googlelogo_light_color_272x92dp.png"), equals(URLs.remoteFile));
           expect(Uri.parse("file:///Users/someuser/Desktop/a.png"), equals(URLs.localFile));
+          expect("data", equals(URLs.dataImage.scheme));
       });
 
       test('testURLEcho', () {
           expect(URLs.simple, equals(URLs.echo(URLs.simple)));
           expect(URLs.remoteFile, equals(URLs.echo(URLs.remoteFile)));
           expect(URLs.localFile, equals(URLs.echo(URLs.localFile)));
+          expect(URLs.dataImage, equals(URLs.echo(URLs.dataImage)));
       });
   });
 }

@@ -2832,22 +2832,27 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
             TestAPI.URLs.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_echo"),
-                signature: bag.add("(Ljava/net/URL;)Ljava/net/URL;"),
+                signature: bag.add("(Ljava/net/URI;)Ljava/net/URI;"),
                 fnPtr: unsafeBitCast(java_TestAPI_URLs_echo, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_get_dataImage"),
+                signature: bag.add("()Ljava/net/URI;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_URLs_dataImage, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_get_localFile"),
-                signature: bag.add("()Ljava/net/URL;"),
+                signature: bag.add("()Ljava/net/URI;"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_URLs_localFile, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_remoteFile"),
-                signature: bag.add("()Ljava/net/URL;"),
+                signature: bag.add("()Ljava/net/URI;"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_URLs_remoteFile, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_simple"),
-                signature: bag.add("()Ljava/net/URL;"),
+                signature: bag.add("()Ljava/net/URI;"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_URLs_simple, to: UnsafeMutableRawPointer.self)
             )
         )

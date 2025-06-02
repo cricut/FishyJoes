@@ -32,13 +32,13 @@ class AttributeContainerFoundationAttributes private constructor(swiftReference:
     /**
      * A link attribute.
      */
-    var link: java.net.URL?
+    var link: java.net.URI?
         get() = __jni_get_link()
-        set(link: java.net.URL?) = __jni_set_link(link)
+        set(link: java.net.URI?) = __jni_set_link(link)
     @JvmName("__jni_get_link")
-    private external fun __jni_get_link(): java.net.URL?
+    private external fun __jni_get_link(): java.net.URI?
     @JvmName("__jni_set_link")
-    private external fun __jni_set_link(link: java.net.URL?)
+    private external fun __jni_set_link(link: java.net.URI?)
 
     /**
      * A language identifier attribute.

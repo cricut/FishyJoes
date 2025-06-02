@@ -10360,6 +10360,17 @@ extension TestAPI.URLs: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
+                "dataImage": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "dataImage", expectedArgumentCount: 0) { env in
+                                return try Foundation.URL.toNode(TestAPI.URLs.dataImage, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
                 "localFile": (
                     .accessor(
                         getter: { env, info in
