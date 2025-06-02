@@ -8,7 +8,7 @@ import com.cricut.fishyjoes.runtime.SwiftRange
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
-import java.net.URL
+import java.net.URI
 
 internal class AttributedStringTests {
     companion object {
@@ -25,8 +25,8 @@ internal class AttributedStringTests {
         val pt = AttributeContainerFoundationAttributes().apply { languageIdentifier = "pt" }.asContainer()
         val ja = AttributeContainerFoundationAttributes().apply { languageIdentifier = "ja" }.asContainer()
         val zh = AttributeContainerFoundationAttributes().apply { languageIdentifier = "zh" }.asContainer()
-        val ea = AttributeContainerFoundationAttributes().apply { link = URL("https://home.unicode.org/emoji") }.asContainer()
-        val ef = AttributeContainerFoundationAttributes().apply { link = URL("https://home.unicode.org/emoji/emoji-frequency") }.asContainer()
+        val ea = AttributeContainerFoundationAttributes().apply { link = URI("https://home.unicode.org/emoji") }.asContainer()
+        val ef = AttributeContainerFoundationAttributes().apply { link = URI("https://home.unicode.org/emoji/emoji-frequency") }.asContainer()
 
         val enAttributes = AttributeContainerFoundationAttributes(en)
         assertEquals(enAttributes.languageIdentifier, "en")
@@ -34,7 +34,7 @@ internal class AttributedStringTests {
 
         val eaAttributes = AttributeContainerFoundationAttributes(ea)
         assertNull(eaAttributes.languageIdentifier)
-        assertEquals(eaAttributes.link, URL("https://home.unicode.org/emoji"))
+        assertEquals(eaAttributes.link, URI("https://home.unicode.org/emoji"))
 
         assertEquals(en, AttributeContainerFoundationAttributes().apply{  languageIdentifier = "en" }.asContainer())
         assertNotEquals(en, pt)
@@ -45,7 +45,7 @@ internal class AttributedStringTests {
         enea.mergeAttributes(ea)
         val eneaAttributes = AttributeContainerFoundationAttributes.createFromContainer(enea)
         assertEquals(eneaAttributes.languageIdentifier, "en")
-        assertEquals(eneaAttributes.link, URL("https://home.unicode.org/emoji"))
+        assertEquals(eneaAttributes.link, URI("https://home.unicode.org/emoji"))
 
         assertEquals(AttributedStrings.simple, AttributedString("Hello", en))
         assertEquals(AttributedStrings.accent, AttributedString("Olá", pt))
@@ -393,7 +393,7 @@ internal class AttributedStringTests {
         assertEquals(attributedString[runRanges[1]], AttributedString("ello Olá こんにち", empty).substring)
         assertEquals(attributedString[runRanges[2]], AttributedString("は", ja).substring)
 
-        val linkAttribute = AttributeContainerFoundationAttributes().apply { link = URL("https://www.google.com") }
+        val linkAttribute = AttributeContainerFoundationAttributes().apply { link = URI("https://www.google.com") }
         val enLink = linkAttribute.apply { languageIdentifier = "en" }.asContainer()
         attributedString.mergeAttributesForRange(runRanges[0], linkAttribute.asContainer())
         runRanges = attributedString.runs.rangeIterator().asSequence().toList()
@@ -432,7 +432,7 @@ internal class AttributedStringTests {
         assertEquals(attributedString[runRanges[3]], AttributedString.create(" ", empty).substring)
         assertEquals(attributedString[runRanges[4]], AttributedString.create("こんにちは", ja).substring)
 
-        val uri = URL("http://www.google.com")
+        val uri = URI("http://www.google.com")
         val justLink = AttributeContainerFoundationAttributes().apply { link = uri }.asContainer()
         val enLink = AttributeContainerFoundationAttributes().apply { languageIdentifier = "en"; link = uri }.asContainer()
         val ptLink = AttributeContainerFoundationAttributes().apply { languageIdentifier = "pt"; link = uri }.asContainer()
@@ -447,7 +447,7 @@ internal class AttributedStringTests {
         assertEquals(attributedString[runRanges[3]], AttributedString.create(" ", justLink).substring)
         assertEquals(attributedString[runRanges[4]], AttributedString.create("こんにちは", jaLink).substring)
 
-        val otherURI = URL("http://www.bing.com")
+        val otherURI = URI("http://www.bing.com")
         val otherLink = AttributeContainerFoundationAttributes().apply { link = otherURI }.asContainer()
         val enOtherLink = AttributeContainerFoundationAttributes().apply { languageIdentifier = "en"; link = otherURI }.asContainer()
         val ptOtherLink = AttributeContainerFoundationAttributes().apply { languageIdentifier = "pt"; link = otherURI }.asContainer()

@@ -12,43 +12,52 @@ sealed class URLs {
 
     companion object {
         /**
+         * <!-- FishyJoes.export(dataImage) -->
+         */
+        val dataImage: java.net.URI
+          get() = __jni_get_dataImage()
+        @JvmStatic
+        @JvmName("__jni_get_dataImage")
+        private external fun __jni_get_dataImage(): java.net.URI
+
+        /**
          * <!-- FishyJoes.export(localFile) -->
          */
-        val localFile: java.net.URL
+        val localFile: java.net.URI
           get() = __jni_get_localFile()
         @JvmStatic
         @JvmName("__jni_get_localFile")
-        private external fun __jni_get_localFile(): java.net.URL
+        private external fun __jni_get_localFile(): java.net.URI
 
         /**
          * <!-- FishyJoes.export(remoteFile) -->
          */
-        val remoteFile: java.net.URL
+        val remoteFile: java.net.URI
           get() = __jni_get_remoteFile()
         @JvmStatic
         @JvmName("__jni_get_remoteFile")
-        private external fun __jni_get_remoteFile(): java.net.URL
+        private external fun __jni_get_remoteFile(): java.net.URI
 
         /**
          * <!-- FishyJoes.export(simple) -->
          */
-        val simple: java.net.URL
+        val simple: java.net.URI
           get() = __jni_get_simple()
         @JvmStatic
         @JvmName("__jni_get_simple")
-        private external fun __jni_get_simple(): java.net.URL
+        private external fun __jni_get_simple(): java.net.URI
 
         /**
          * <!-- FishyJoes.export(echo) -->
          */
         fun echo(
-            url: java.net.URL
-        ): java.net.URL = __jni_echo(url)
+            url: java.net.URI
+        ): java.net.URI = __jni_echo(url)
         @JvmStatic
         @JvmName("__jni_echo")
         private external fun __jni_echo(
-            url: java.net.URL
-        ): java.net.URL
+            url: java.net.URI
+        ): java.net.URI
 
         init { loadNativeLibs() }
     }

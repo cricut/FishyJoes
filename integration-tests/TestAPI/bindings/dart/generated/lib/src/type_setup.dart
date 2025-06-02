@@ -6645,6 +6645,16 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_Tuples_tuple6");
+    TestAPI.URLs.f__iota_get_TestAPI_URLs_dataImage = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_URLs_dataImage");
     TestAPI.URLs.f__iota_get_TestAPI_URLs_localFile = dylib.lookupFunction<
         CreatedRef Function(
             Env env,

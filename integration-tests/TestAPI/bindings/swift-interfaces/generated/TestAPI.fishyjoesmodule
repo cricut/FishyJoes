@@ -16010,6 +16010,20 @@
             "fields" : [
               {
                 "documentation" : [
+                  "<!-- FishyJoes.export(dataImage) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "dataImage",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "URL"
+                  }
+                }
+              },
+              {
+                "documentation" : [
                   "<!-- FishyJoes.export(localFile) -->"
                 ],
                 "hasDefaultImplementation" : false,

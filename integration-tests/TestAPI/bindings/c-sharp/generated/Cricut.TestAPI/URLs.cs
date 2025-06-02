@@ -12,6 +12,20 @@ namespace Cricut.TestAPI {
         private URLs() {}
 
         /// <summary>
+        /// <!-- FishyJoes.export(dataImage) -->
+        /// </summary>
+        public static System.Uri DataImage {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_URLs_dataImage(Loader.env, out exn).Consume<System.Uri>()
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_URLs_dataImage(IntPtr envRef, out CreatedRef exn);
+
+        /// <summary>
         /// <!-- FishyJoes.export(localFile) -->
         /// </summary>
         public static System.Uri LocalFile {
