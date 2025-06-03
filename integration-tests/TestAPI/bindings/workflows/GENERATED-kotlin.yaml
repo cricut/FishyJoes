@@ -142,7 +142,7 @@ jobs:
 
   build-test-kotlin-windows:
     name: "Windows: Build and test kotlin bindings"
-    runs-on: windows-2019
+    runs-on: windows-2025
     steps:
       - name: Configure git and vcpkg
         shell: pwsh

@@ -129,7 +129,7 @@ jobs:
 
   build-iota-windows:
     name: "Windows: Build Iota Runtime"
-    runs-on: windows-2019
+    runs-on: windows-2025
     env:
       LIB_DIR: .build/windows-iota-libs
     steps:

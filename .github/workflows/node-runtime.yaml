@@ -225,7 +225,7 @@ jobs:
 
   build-test-node-windows:
     name: "Windows: Build and Test Node.js Runtime"
-    runs-on: windows-2019
+    runs-on: windows-2025
     env:
       LIB_DIR: node-runtime/fishyjoes-runtime-native-windows
     steps:

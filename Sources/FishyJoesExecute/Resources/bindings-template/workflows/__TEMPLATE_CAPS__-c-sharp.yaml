@@ -154,7 +154,7 @@ jobs:
 
   build-test-c-sharp-windows:
     name: "Windows: Build and test C# bindings"
-    runs-on: windows-2019
+    runs-on: windows-2025
     steps:
       - name: Configure git and vcpkg
         shell: pwsh
