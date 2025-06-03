@@ -225,7 +225,7 @@ jobs:
 
   build-test-node-windows:
     name: "Windows: Build and Test Node.js Runtime"
-    runs-on: windows-2019
+    runs-on: windows-2025
     env:
       LIB_DIR: node-runtime/fishyjoes-runtime-native-windows
     steps:
@@ -239,8 +239,8 @@ jobs:
 
       - uses: compnerd/gha-setup-swift@main
         with:
-          branch: swift-6.1-release
-          tag: 6.1-RELEASE
+          branch: swift-6.1.2-release
+          tag: 6.1.2-RELEASE
 
       - name: Pre-resolve Required SwiftPM Packages
         continue-on-error: true

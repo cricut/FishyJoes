@@ -278,7 +278,7 @@ jobs:
 
   integration-tests-windows:
     name: "Windows: Integration tests"
-    runs-on: windows-2019
+    runs-on: windows-2025
     env:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
@@ -299,8 +299,8 @@ jobs:
 
       - uses: compnerd/gha-setup-swift@main
         with:
-          branch: swift-6.1-release
-          tag: 6.1-RELEASE
+          branch: swift-6.1.2-release
+          tag: 6.1.2-RELEASE
 
       - name: Setup JDK
         uses: actions/setup-java@v3

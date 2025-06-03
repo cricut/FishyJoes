@@ -115,7 +115,7 @@ jobs:
 
   build-test-kotlin-windows:
     name: "Windows: Build and test kotlin runtime"
-    runs-on: windows-2019
+    runs-on: windows-2025
     env:
       LIB_DIR: kotlin-runtime/src/generated/resources/windows
     steps:
@@ -129,8 +129,8 @@ jobs:
 
       - uses: compnerd/gha-setup-swift@main
         with:
-          branch: swift-6.1-release
-          tag: 6.1-RELEASE
+          branch: swift-6.1.2-release
+          tag: 6.1.2-RELEASE
 
       - name: Setup JDK
         uses: actions/setup-java@v3
