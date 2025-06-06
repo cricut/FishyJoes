@@ -26,7 +26,7 @@ env:
 jobs:
   build-test-kotlin-mac:
     name: "macOS: Build and test kotlin bindings"
-    runs-on: [macOS, self-hosted, ARM64]
+    runs-on: sojo-macos
     steps:
       - name: Checkout
         uses: actions/checkout@v4

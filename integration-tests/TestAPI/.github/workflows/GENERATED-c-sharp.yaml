@@ -24,7 +24,7 @@ env:
 jobs:
   build-test-c-sharp-mac:
     name: "macOS: Build and test C# bindings"
-    runs-on: [macOS, self-hosted, ARM64]
+    runs-on: sojo-macos
     steps:
       - name: Checkout
         uses: actions/checkout@v4

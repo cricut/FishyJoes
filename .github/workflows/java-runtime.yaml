@@ -22,7 +22,7 @@ env:
 jobs:
   build-test-kotlin-mac:
     name: "macOS: Build and test kotlin runtime"
-    runs-on: [macOS, self-hosted, ARM64]
+    runs-on: sojo-macos
 
     steps:
       - name: Checkout
