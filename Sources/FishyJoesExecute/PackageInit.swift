@@ -25,7 +25,7 @@ public struct PackageInit: ParsableCommand {
             Log.warn("Uncommitted changes present. Continuing anyway.")
         }
 
-        let config = try (try? FishyJoesConfig.readFromFile(basePath: ".")) ?? promptForConfig()
+        let config: FishyJoesConfig = try (try? FishyJoesConfig.readFromFile(basePath: ".")) ?? promptForConfig()
         let fileTemplater = try FileTemplater(
             config: config,
             phasesList: [],
@@ -35,6 +35,7 @@ public struct PackageInit: ParsableCommand {
         try fileTemplater.installTemplate()
         try setupKotlin(config: config)
         try setupCSharp(config: config)
+        try setupPython(config: config)
     }
 
     func setupKotlin(config: FishyJoesConfig) throws {
@@ -48,6 +49,13 @@ public struct PackageInit: ParsableCommand {
         // Install dotnet
         if !cmd("dotnet", "--version").runBool() {
             try Interactive.confirmCommand(description: "Install dotnet", cmd("brew", "install", "dotnet"))
+        }
+    }
+
+    func setupPython(config: FishyJoesConfig) throws {
+        // install python
+        if !cmd("python", "--version").runBool() {
+            try Interactive.confirmCommand(description: "Install python 3.12", cmd("brew", "install", "python@3.12"))
         }
     }
 

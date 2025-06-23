@@ -21,6 +21,7 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
     case kotlinAndroid(AndroidArchitecture)
     case cSharp
     case dart
+    case python
 
     enum AndroidArchitecture: String, Hashable, CaseIterable {
         case armv7, x86_64, aarch64
@@ -60,6 +61,8 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
             return "cSharp"
         case .dart:
             return "dart"
+        case .python:
+            return "python"
         }
     }
 
@@ -75,7 +78,7 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
         switch self {
         case .wasm, .kotlinAndroid:
             return false
-        case .node, .kotlinSystem, .cSharp, .dart:
+        case .node, .kotlinSystem, .cSharp, .dart, .python:
             return true
         }
     }
@@ -153,7 +156,7 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
             args.append(contentsOf: ["-Xswiftc", "-Xclang-linker", "-Xswiftc", "-mexec-model=reactor"])
 
             env = ["WASM_ONLY": "1"]
-        case .node, .kotlinSystem, .dart:
+        case .node, .kotlinSystem, .dart, .python:
             #if os(macOS)
             swiftBuild = [Platform.nativeMacSwiftBuild]
             args.append(contentsOf: ["-Xlinker", "-rpath", "-Xlinker", "@loader_path"])
@@ -254,7 +257,7 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
             fatalError("dynamic linking is currently unsupported in wasm")
         case .kotlinAndroid:
             return "lib\(lib).so"
-        case .node, .kotlinSystem, .cSharp, .dart:
+        case .node, .kotlinSystem, .cSharp, .dart, .python:
             #if os(macOS)
             return "lib\(lib).dylib"
             #elseif os(Linux)
@@ -274,7 +277,7 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
     var platform: String {
         switch self {
         case .wasm: return "wasm"
-        case .node:
+        case .node, .python:
             #if os(macOS)
             return "node-native-macos"
             #elseif os(Linux)
@@ -352,6 +355,16 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
             #else
             fatalError("unknown host OS")
             #endif
+        case .python:
+            #if os(macOS)
+            return "bindings/python/generated/macos/native"
+            #elseif os(Linux)
+            return "bindings/python/generated/linux/native"
+            #elseif os(Windows)
+            return "bindings/python/generated/windows/native"
+            #else
+            fatalError("unknown host OS")
+            #endif
         }
     }
 
@@ -362,6 +375,7 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
         case .kotlinSystem, .kotlinAndroid: return "Kotlin JNI bindings for \(config.module)"
         case .cSharp: return "C# bindings for \(config.module)"
         case .dart: return "Dart bindings for \(config.module)"
+        case .python: return "Python bindings for \(config.module)"
         }
     }
 
