@@ -119,6 +119,9 @@ export declare namespace TestAPI {
         ): string;
     }
 
+    /**
+     * <!-- FishyJoes.export(Actors) -->
+     */
     export type Actors = never;
     export namespace Actors {
         /**
@@ -178,9 +181,15 @@ export declare namespace TestAPI {
         }
     }
 
+    /**
+     * <!-- FishyJoes.export(AssociatedDataEnum) -->
+     */
     export type AssociatedDataEnum = AssociatedDataEnum.Thing | AssociatedDataEnum.Other | AssociatedDataEnum.Bar | AssociatedDataEnum.NoValue | AssociatedDataEnum.SimpleEnum;
     export namespace AssociatedDataEnum {
         interface Bar extends AssociatedDataEnum_Common {}
+        /**
+         * Documentation about bar
+         */
         export class Bar {
             constructor(named: string, _1: TestAPI.AssociatedDataEnum, toggled: boolean)
 
@@ -192,6 +201,9 @@ export declare namespace TestAPI {
         }
 
         interface NoValue extends AssociatedDataEnum_Common {}
+        /**
+         * Documentation about noValue
+         */
         export class NoValue {
             constructor()
         }
@@ -213,6 +225,9 @@ export declare namespace TestAPI {
         }
 
         interface Thing extends AssociatedDataEnum_Common {}
+        /**
+         * Documentation about thing
+         */
         export class Thing {
             constructor(value: number)
 
@@ -239,6 +254,9 @@ export declare namespace TestAPI {
         ): TestAPI.AssociatedDataEnum;
     }
 
+    /**
+     * <!-- FishyJoes.export(AsyncFunctions) -->
+     */
     export type AsyncFunctions = never;
     export namespace AsyncFunctions {
         /**
@@ -353,6 +371,9 @@ export declare namespace TestAPI {
         ): number;
     }
 
+    /**
+     * <!-- FishyJoes.export(AttributedStrings) -->
+     */
     export type AttributedStrings = never;
     export namespace AttributedStrings {
         /**
@@ -450,6 +471,9 @@ export declare namespace TestAPI {
         const simple: Runtime.AttributedString;
     }
 
+    /**
+     * <!-- FishyJoes.export(Bytes) -->
+     */
     export type Bytes = never;
     export namespace Bytes {
         /**
@@ -477,6 +501,9 @@ export declare namespace TestAPI {
         ): ArrayBuffer;
     }
 
+    /**
+     * <!-- FishyJoes.export(ClosedRanges) -->
+     */
     export type ClosedRanges = never;
     export namespace ClosedRanges {
         /**
@@ -636,6 +663,9 @@ export declare namespace TestAPI {
         const uIntRange: Runtime.SwiftClosedRange<number>;
     }
 
+    /**
+     * <!-- FishyJoes.export(Collections) -->
+     */
     export type Collections = never;
     export namespace Collections {
         /**
@@ -779,6 +809,9 @@ export declare namespace TestAPI {
         const setOfInt: Set<number>;
     }
 
+    /**
+     * <!-- FishyJoes.export(DefaultArguments) -->
+     */
     export type DefaultArguments = never;
     export namespace DefaultArguments {
         /**
@@ -793,6 +826,9 @@ export declare namespace TestAPI {
         ): string;
     }
 
+    /**
+     * <!-- FishyJoes.export(Deprecations) -->
+     */
     export type Deprecations = never;
     export namespace Deprecations {
         /**
@@ -881,6 +917,9 @@ export declare namespace TestAPI {
         ): string;
     }
 
+    /**
+     * <!-- FishyJoes.export(EmptyEnum) -->
+     */
     export type EmptyEnum = never;
     export namespace EmptyEnum {
         /**
@@ -1245,6 +1284,9 @@ export declare namespace TestAPI {
         readonly frobby: number[];
     }
 
+    /**
+     * <!-- FishyJoes.export(Functions) -->
+     */
     export type Functions = never;
     export namespace Functions {
         /**
@@ -1516,6 +1558,9 @@ export declare namespace TestAPI {
         ): Promise<number>;
     }
 
+    /**
+     * <!-- FishyJoes.export(Primitives) -->
+     */
     export type Primitives = never;
     export namespace Primitives {
         /**
@@ -2135,6 +2180,9 @@ export declare namespace TestAPI {
         const zeroUInt8: number;
     }
 
+    /**
+     * <!-- FishyJoes.export(Ranges) -->
+     */
     export type Ranges = never;
     export namespace Ranges {
         /**
@@ -2258,6 +2306,9 @@ export declare namespace TestAPI {
         const uIntRange: Runtime.SwiftRange<number>;
     }
 
+    /**
+     * <!-- FishyJoes.export(ReferenceEmptyEnum) -->
+     */
     export type ReferenceEmptyEnum = never;
     export namespace ReferenceEmptyEnum {
         /**
@@ -2278,6 +2329,9 @@ export declare namespace TestAPI {
         ): TestAPI.ReferenceEmptyEnum;
     }
 
+    /**
+     * <!-- FishyJoes.export(Results) -->
+     */
     export type Results = never;
     export namespace Results {
         /**
@@ -2307,6 +2361,14 @@ export declare namespace TestAPI {
         ): string;
     }
 
+    /**
+     * This is an enum with no associated values
+     * <!-- FishyJoes.export(SimpleEnum) -->
+     *  - "red": red is a nice color
+     *  - "blue":
+     *     blue is less good
+     *     opinions may vary
+     */
     export type SimpleEnum = "red" | "green" | "blue";
     export namespace SimpleEnum {
         /**
@@ -2357,6 +2419,9 @@ export declare namespace TestAPI {
         ): number;
     }
 
+    /**
+     * <!-- FishyJoes.export(Strings) -->
+     */
     export type Strings = never;
     export namespace Strings {
         /**
@@ -2415,6 +2480,9 @@ export declare namespace TestAPI {
         ): string[];
     }
 
+    /**
+     * <!-- FishyJoes.export(Structs) -->
+     */
     export type Structs = never;
     export namespace Structs {
         /**
@@ -3074,6 +3142,9 @@ export declare namespace TestAPI {
         function fromCore(core: TestDefaultComputedPropertiesCore): TestDefaultComputedProperties
     }
 
+    /**
+     * <!-- FishyJoes.export(TestDefaultComputedPropertiesEnum) -->
+     */
     export type TestDefaultComputedPropertiesEnum = "qux";
     export namespace TestDefaultComputedPropertiesEnum {
         /**
@@ -3229,6 +3300,9 @@ export declare namespace TestAPI {
         ): [boolean, number, string];
     }
 
+    /**
+     * <!-- FishyJoes.export(TestNonExportedProtocolEnum) -->
+     */
     export type TestNonExportedProtocolEnum = "hogehoge";
     export namespace TestNonExportedProtocolEnum {
         /**
@@ -3373,6 +3447,9 @@ export declare namespace TestAPI {
         ): number;
     }
 
+    /**
+     * <!-- FishyJoes.export(TestProtocolEnum) -->
+     */
     export type TestProtocolEnum = "qux";
     export namespace TestProtocolEnum {
         /**
@@ -3478,6 +3555,9 @@ export declare namespace TestAPI {
         ): [boolean, number, string];
     }
 
+    /**
+     * <!-- FishyJoes.export(Tuples) -->
+     */
     export type Tuples = never;
     export namespace Tuples {
         /**
@@ -3517,6 +3597,9 @@ export declare namespace TestAPI {
         const tuple6: [string, number, number, [[number, string], [string, number, string], string, boolean], [string, number, [[number, string], [string, number, string], string, boolean], [string, number, string], [number, string]], boolean];
     }
 
+    /**
+     * <!-- FishyJoes.export(URLs) -->
+     */
     export type URLs = never;
     export namespace URLs {
         /**
@@ -3547,6 +3630,9 @@ export declare namespace TestAPI {
         const simple: URL;
     }
 
+    /**
+     * <!-- FishyJoes.export(UnicodeScalar_PuttingTypesIntoQuestionablePlaces) -->
+     */
     export type UnicodeScalar_PuttingTypesIntoQuestionablePlaces = "thing";
     export namespace UnicodeScalar_PuttingTypesIntoQuestionablePlaces {
         /**

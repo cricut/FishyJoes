@@ -8523,7 +8523,7 @@
                   }
                 },
                 "documentation" : [
-
+                  "Documentation about thing"
                 ],
                 "extends" : [
                   "AssociatedDataEnum_Common"
@@ -8645,7 +8645,7 @@
                   }
                 },
                 "documentation" : [
-
+                  "Documentation about bar"
                 ],
                 "extends" : [
                   "AssociatedDataEnum_Common"
@@ -8714,7 +8714,7 @@
                   }
                 },
                 "documentation" : [
-
+                  "Documentation about noValue"
                 ],
                 "extends" : [
                   "AssociatedDataEnum_Common"
@@ -16342,7 +16342,12 @@
           },
           {
             "documentation" : [
-              "<!-- FishyJoes.export(SimpleEnum) -->"
+              "This is an enum with no associated values",
+              "<!-- FishyJoes.export(SimpleEnum) -->",
+              " - \"red\": red is a nice color",
+              " - \"blue\":",
+              "    blue is less good",
+              "    opinions may vary"
             ],
             "name" : "SimpleEnum",
             "value" : {

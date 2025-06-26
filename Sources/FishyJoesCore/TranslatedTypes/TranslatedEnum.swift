@@ -96,55 +96,11 @@ struct TranslatedEnum: TranslatedType {
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
-        return [
+        [
             nodeDefinitionFragment(in: context),
             jniDefinitionFragment(in: context),
             iotaDefinitionFragment(in: context),
-        ] + neutralDefinitionFragments(in: context)
-    }
-
-    func neutralDefinitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
-        guard context.dumpDebugRepresentation else { return [] }
-
-        let fragment = SourceFragment(sourceryDestination: "file:../../DebugGenerated/\(sourceType.name)+EnumInfo.txt")
-        fragment.outputBlock("TranslatedEnum for \(sourceType.name) {") {
-            fragment.outputBlock("Documentation {") {
-                for doc in documentation {
-                    fragment.output(doc)
-                }
-            }
-            fragment.outputBlock("Cases {") {
-                for singleCase in cases {
-                    fragment.outputBlock("Case \(singleCase.name) {") {
-                        fragment.outputBlock("Documentation {") {
-                            for doc in singleCase.documentation {
-                                fragment.output(doc)
-                            }
-                        }
-                        fragment.outputBlock("Values {") {
-                            for value in singleCase.associatedValues {
-                                fragment.outputBlock("Value \(value.name ?? "(nil)") {") {
-                                    fragment.output("Index: \(value.index)")
-                                    fragment.output("Label: \(value.label ?? "(nil)")")
-                                    fragment.output("Type: \(context.resolve(type: value.type).neutralName)")
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            fragment.outputBlock("Methods {") {
-                for method in methods {
-                    context.neutralTranslator.output(method: method, context: context, fragment: fragment)
-                }
-            }
-            fragment.outputBlock("Computed Variables {") {
-                for variable in fields {
-                    context.neutralTranslator.output(variable: variable, context: context, fragment: fragment)
-                }
-            }
-        }
-        return [fragment]
+        ]
     }
 
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
@@ -212,9 +168,20 @@ struct TranslatedEnum: TranslatedType {
                     }
                 }
             }
+            let caseDocumentation = cases.flatMap { (enumCase) -> [String] in
+                let caseLabel = " - \"\(enumCase.name)\":"
+                switch enumCase.documentation.count {
+                case 0:
+                    return []
+                case 1:
+                    return ["\(caseLabel) \(enumCase.documentation[0])"]
+                default:
+                    return [caseLabel] + enumCase.documentation.map { "    \($0)" }
+                }
+            }
             context.tsAnnotations.add(
                 typealias: .init(
-                    documentation: documentation,
+                    documentation: documentation + caseDocumentation,
                     name: nodeName,
                     value: .union(cases.map { .exactString($0.name) })
                 )
@@ -558,7 +525,7 @@ struct TranslatedEnum: TranslatedType {
                 cases: cases.map { enumCase in
                     let name = upperCaseFirst(enumCase.name)
                     if enumCase.associatedValues.isEmpty {
-                        return .object(name: name)
+                        return .object(documentation: enumCase.documentation, name: name)
                     } else {
                         return .dataClass(
                             documentation: enumCase.documentation,

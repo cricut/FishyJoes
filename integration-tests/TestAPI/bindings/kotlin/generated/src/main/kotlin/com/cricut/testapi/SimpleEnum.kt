@@ -5,12 +5,20 @@ import java.lang.Exception
 import kotlinx.coroutines.*
 
 /**
+ * This is an enum with no associated values
  * <!-- FishyJoes.export(SimpleEnum) -->
  */
 @OptIn(ExperimentalCoroutinesApi::class)
 sealed class SimpleEnum {
+    /**
+     * red is a nice color
+     */
     object Red : SimpleEnum()
     object Green : SimpleEnum()
+    /**
+     * blue is less good
+     * opinions may vary
+     */
     object Blue : SimpleEnum()
     /**
      * <!-- FishyJoes.export(hex) -->

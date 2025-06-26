@@ -40,9 +40,15 @@ public enum ReferenceEmptyEnum: Hashable {
     }
 }
 
+/// This is an enum with no associated values
 /// <!-- FishyJoes.export(SimpleEnum) -->
 public enum SimpleEnum: Int, Hashable {
-    case red, green, blue
+    /// red is a nice color
+    case red
+    case green
+    /// blue is less good
+    /// opinions may vary
+    case blue
 
     /// <!-- FishyJoes.export(pickAColor) -->
     public static func pickAColor(_ rawValue: Int) -> SimpleEnum? {
@@ -74,9 +80,12 @@ public enum SimpleEnum: Int, Hashable {
 
 /// <!-- FishyJoes.export(AssociatedDataEnum) -->
 public enum AssociatedDataEnum: Hashable {
+    /// Documentation about thing
     case thing(value: Int)
     case other(_ unnamed: String, Int)
+    /// Documentation about bar
     indirect case bar(named: String, AssociatedDataEnum, toggled: Bool)
+    /// Documentation about noValue
     case noValue
     case simpleEnum(value: SimpleEnum)
 

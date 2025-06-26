@@ -6,15 +6,23 @@ using static Cricut.FishyJoesRuntime.Utilities;
 
 namespace Cricut.TestAPI {
     /// <summary>
+    /// <para>This is an enum with no associated values</para>
     /// <!-- FishyJoes.export(SimpleEnum) -->
     /// </summary>
     public record SimpleEnum {
         private SimpleEnum() {}
 
+        /// <summary>
+        /// <para>red is a nice color</para>
+        /// </summary>
         public sealed record Red : SimpleEnum;
 
         public sealed record Green : SimpleEnum;
 
+        /// <summary>
+        /// <para>blue is less good</para>
+        /// <para>opinions may vary</para>
+        /// </summary>
         public sealed record Blue : SimpleEnum;
 
         /// <summary>

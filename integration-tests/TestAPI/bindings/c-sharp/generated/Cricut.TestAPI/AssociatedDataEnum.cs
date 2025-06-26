@@ -11,6 +11,9 @@ namespace Cricut.TestAPI {
     public record AssociatedDataEnum {
         private AssociatedDataEnum() {}
 
+        /// <summary>
+        /// <para>Documentation about thing</para>
+        /// </summary>
         public sealed record Thing(
             nint Value
         ) : AssociatedDataEnum;
@@ -20,12 +23,18 @@ namespace Cricut.TestAPI {
             nint _1
         ) : AssociatedDataEnum;
 
+        /// <summary>
+        /// <para>Documentation about bar</para>
+        /// </summary>
         public sealed record Bar(
             string Named,
             Cricut.TestAPI.AssociatedDataEnum _1,
             bool Toggled
         ) : AssociatedDataEnum;
 
+        /// <summary>
+        /// <para>Documentation about noValue</para>
+        /// </summary>
         public sealed record NoValue : AssociatedDataEnum;
 
         public sealed record SimpleEnum(
