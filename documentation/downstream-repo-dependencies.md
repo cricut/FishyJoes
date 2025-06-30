@@ -6,8 +6,8 @@ CriGeo --> CriText;
 CriGeo --> CriSVG;
 CriGeo & CriRaster --> CriTrace;
 CriGeo & CriRaster  --> Tesseract;
-CriGeo & Tesseract --> Bifrost;
+Tesseract & CriSVG --> Bifrost;
 CriSVG --> CriCanvas;
-CriGeo & CriText --> CriCanvas;
+CriText & CriRaster --> CriCanvas;
 end
 ```
