@@ -2,7 +2,7 @@ class KotlinEnumClass: KotlinClass {
     let cases: [Case]
 
     enum Case {
-        case object(name: String)
+        case object(documentation: [String], name: String)
         case dataClass(documentation: [String], name: String, values: [(name: String, type: KType)])
     }
 
@@ -43,7 +43,8 @@ class KotlinEnumClass: KotlinClass {
         fragment.outputBlock(" {") {
             for enumCase in cases {
                 switch enumCase {
-                case let .object(name):
+                case let .object(documentation, name):
+                    document(documentation, fragment: fragment)
                     fragment.output("object \(name) : \(unqualifiedName)()")
                 case let .dataClass(documentation, name, values):
                     document(documentation, fragment: fragment)

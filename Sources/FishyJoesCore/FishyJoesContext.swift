@@ -15,8 +15,6 @@ public class FishyJoesContext {
 
     var debugContext = ""
 
-    let dumpDebugRepresentation: Bool
-
     var tsAnnotations: TypeScriptAnnotations
     private(set) var kotlinClasses: [KotlinClass] = []
     private(set) var cSharpClasses: [CSharpClass] = []
@@ -77,7 +75,6 @@ public class FishyJoesContext {
             rootNamespaces: [.init(name: module, typealiases: [])],
             defaultNamespace: module
         )
-        self.dumpDebugRepresentation = argument["debugRepresentation"] as? String == "true"
         if let stderrFifo = stderrFifo {
             // Re-open the real stderr, and bypass sourcery
             let errDescriptor = try! FileDescriptor.open(stderrFifo, .writeOnly)

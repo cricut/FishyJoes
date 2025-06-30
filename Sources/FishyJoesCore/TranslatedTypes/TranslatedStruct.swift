@@ -51,36 +51,7 @@ struct TranslatedStruct: TranslatedType {
             nodeDefinitionFragment(in: context),
             jniDefinitionFragment(in: context),
             iotaDefinitionFragment(in: context),
-        ] + neutralDefinitionFragments(in: context)
-    }
-
-    func neutralDefinitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
-        guard context.dumpDebugRepresentation else { return [] }
-
-        let fragment = SourceFragment(sourceryDestination: "file:../../DebugGenerated/\(sourceType.name)+StructInfo.txt")
-        fragment.outputBlock("TranslatedStruct for \(sourceType.name) {") {
-            fragment.outputBlock("Documentation {") {
-                for doc in documentation {
-                    fragment.output(doc)
-                }
-            }
-            fragment.outputBlock("Methods {") {
-                for method in methods {
-                    context.neutralTranslator.output(method: method, context: context, fragment: fragment)
-                }
-            }
-            fragment.outputBlock("Stored Variables {") {
-                for variable in storedVariables {
-                    context.neutralTranslator.output(variable: variable, context: context, fragment: fragment)
-                }
-            }
-            fragment.outputBlock("Computed Variables {") {
-                for variable in computedVariables {
-                    context.neutralTranslator.output(variable: variable, context: context, fragment: fragment)
-                }
-            }
-        }
-        return [fragment]
+        ]
     }
 
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
