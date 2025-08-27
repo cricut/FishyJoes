@@ -1,7 +1,8 @@
 ```mermaid
-graph TD;
+graph TB;
 FishyJoes --> -bindings;
-subgraph -bindings
+subgraph -bindings;
+direction TB;
 CriGeo --> CriText;
 CriGeo --> CriSVG;
 CriGeo & CriRaster --> CriTrace;
