@@ -292,6 +292,18 @@ class Methods private constructor(_swiftReference: Long): com.cricut.fishyjoes.r
             callback: (suspend () -> Long)
         ): kotlinx.coroutines.Deferred<Long>
 
+        /**
+         * <!-- FishyJoes.export(methodWithNewlinesInTypes) -->
+         */
+        fun methodWithNewlinesInTypes(
+            thing: (suspend (Long, kotlin.ByteArray, Boolean) -> com.cricut.fishyjoes.runtime.TypedResult<Long, com.cricut.testapi.TheMethodError>)
+        ): kotlin.Unit = __jni_methodWithNewlinesInTypes(thing)
+        @JvmStatic
+        @JvmName("__jni_methodWithNewlinesInTypes")
+        private external fun __jni_methodWithNewlinesInTypes(
+            thing: (suspend (Long, kotlin.ByteArray, Boolean) -> com.cricut.fishyjoes.runtime.TypedResult<Long, com.cricut.testapi.TheMethodError>)
+        ): kotlin.Unit
+
         init { loadNativeLibs() }
     }
 }

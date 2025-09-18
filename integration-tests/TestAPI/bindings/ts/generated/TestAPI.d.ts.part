@@ -1556,6 +1556,13 @@ export declare namespace TestAPI {
         static staticAsyncCallbackFunc0(
             callback: () => Promise<number>
         ): Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(methodWithNewlinesInTypes) -->
+         */
+        static methodWithNewlinesInTypes(
+            thing: (_0: number, _1: ArrayBuffer, _2: boolean) => Promise<Runtime.Result<number, TheMethodError>>
+        ): void;
     }
 
     /**
@@ -3553,6 +3560,14 @@ export declare namespace TestAPI {
         plugh(
             fred: [boolean, number, string[]]
         ): [boolean, number, string];
+    }
+
+    /**
+     * <!-- FishyJoes.exportReference(TheMethodError) -->
+     */
+    export class TheMethodError {
+        private constructor()
+        private _inhibitStructuralTyping: any
     }
 
     /**

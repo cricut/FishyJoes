@@ -13,6 +13,7 @@ export './String_PuttingTypesIntoQuestionablePlaces.dart';
 export './UnicodeScalar_PuttingTypesIntoQuestionablePlaces.dart';
 export './Actors_TemperatureLogger.dart';
 export './Collections_CollectionHolder.dart';
+export './TheMethodError.dart';
 export './Primitives_PrimitiveHolder.dart';
 export './Results_Error.dart';
 export './Structs_MemberwiseStruct.dart';
