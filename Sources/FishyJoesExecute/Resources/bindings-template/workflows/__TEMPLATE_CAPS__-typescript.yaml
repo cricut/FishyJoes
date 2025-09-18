@@ -51,7 +51,7 @@ jobs:
           scope: '@cricut'
 
       - name: Pre-build hook
-        shell: bash
+        shell: zsh {0}
         run: __PRE_BUILD_HOOK_YAML__
 
       - name: Build library
@@ -138,7 +138,7 @@ jobs:
           wasm-opt --version
 
       - name: Pre-build hook
-        shell: bash
+        shell: zsh {0}
         run: __PRE_BUILD_HOOK_YAML__
 
       - name: Build library

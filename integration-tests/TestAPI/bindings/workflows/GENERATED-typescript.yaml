@@ -51,7 +51,7 @@ jobs:
           scope: '@cricut'
 
       - name: Pre-build hook
-        shell: bash
+        shell: zsh {0}
         run: |
           # Build customization can be added here with the `CIPreBuildHook` key in fishy-joes.yaml
 
@@ -139,7 +139,7 @@ jobs:
           wasm-opt --version
 
       - name: Pre-build hook
-        shell: bash
+        shell: zsh {0}
         run: |
           # Build customization can be added here with the `CIPreBuildHook` key in fishy-joes.yaml
 
