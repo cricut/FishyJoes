@@ -258,6 +258,15 @@ class Methods extends SwiftReference {
         )
     ;
 
+    /// <!-- FishyJoes.export(methodWithNewlinesInTypes) -->
+    static void methodWithNewlinesInTypes(
+        Future<Result<int, TestAPI.TheMethodError>> Function(int, typed_data.Uint8List, bool) thing,
+    ) =>
+        GCRef.using(thing, (_thingHandle) =>
+            check((OutCreatedRef _exn) => f__iota_TestAPI_Methods_methodWithNewlinesInTypes(Loader.shared.env, _thingHandle.ptr, _exn))
+        )
+    ;
+
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,
@@ -313,6 +322,11 @@ class Methods extends SwiftReference {
         double b,
         OutCreatedRef _exn
     ) f__iota_TestAPI_Methods_doublePlusGood;
+    static late void Function(
+        Env env,
+        UnownedRef thing,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_Methods_methodWithNewlinesInTypes;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn

@@ -67,6 +67,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try Function3Converter<Swift.Float, Swift.Double, Swift.Int, FutureConverter<Swift.Double>>.javaSetup(env: env)
         // print("setting up Function3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>...")
         try Function3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.javaSetup(env: env)
+        // print("setting up Function3Converter<Swift.Int, Foundation.Data, Swift.Bool, FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>...")
+        try Function3Converter<Swift.Int, Foundation.Data, Swift.Bool, FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>.javaSetup(env: env)
         // print("setting up Function1Converter<Swift.Int, FutureConverter<Swift.Int>>...")
         try Function1Converter<Swift.Int, FutureConverter<Swift.Int>>.javaSetup(env: env)
         // print("setting up Function1Converter<Swift.Int, Swift.Int>...")
@@ -87,6 +89,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try Function3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.javaSetup(env: env)
         // print("setting up AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>...")
         try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.javaSetup(env: env)
+        // print("setting up AsyncFunction3Converter<Swift.Int, Foundation.Data, Swift.Bool, ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>...")
+        try AsyncFunction3Converter<Swift.Int, Foundation.Data, Swift.Bool, ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>.javaSetup(env: env)
         // print("setting up Function1Converter<Swift.Int, Swift.Int>...")
         try Function1Converter<Swift.Int, Swift.Int>.javaSetup(env: env)
         // print("setting up AsyncFunction1Converter<Swift.Int, Swift.Int>...")
@@ -131,6 +135,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try FutureConverter<FutureConverter<AsyncFunction0Converter<Swift.Int>>>.javaSetup(env: env)
         // print("setting up FutureConverter<FutureConverter<ArrayConverter<Swift.String>>>...")
         try FutureConverter<FutureConverter<ArrayConverter<Swift.String>>>.javaSetup(env: env)
+        // print("setting up FutureConverter<FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>...")
+        try FutureConverter<FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>.javaSetup(env: env)
         // print("setting up FutureConverter<FutureConverter<Swift.Double>>...")
         try FutureConverter<FutureConverter<Swift.Double>>.javaSetup(env: env)
         // print("setting up FutureConverter<FutureConverter<Swift.Int>>...")
@@ -145,6 +151,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try FutureConverter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>.javaSetup(env: env)
         // print("setting up FutureConverter<OptionalConverter<Swift.UInt8>>...")
         try FutureConverter<OptionalConverter<Swift.UInt8>>.javaSetup(env: env)
+        // print("setting up FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>...")
+        try FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>.javaSetup(env: env)
         // print("setting up FutureConverter<Swift.Double>...")
         try FutureConverter<Swift.Double>.javaSetup(env: env)
         // print("setting up FutureConverter<Swift.Int>...")
@@ -313,6 +321,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try RangeConverter<Swift.UInt64>.javaSetup(env: env)
         // print("setting up RangeConverter<Swift.UInt8>...")
         try RangeConverter<Swift.UInt8>.javaSetup(env: env)
+        // print("setting up ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>...")
+        try ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>.javaSetup(env: env)
         // print("setting up ResultConverter<Swift.Int, TestAPI.Results.Error>...")
         try ResultConverter<Swift.Int, TestAPI.Results.Error>.javaSetup(env: env)
         // print("setting up ResultConverter<Swift.String, TestAPI.Results.Error>...")
@@ -420,6 +430,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_set_TestAPI_Collections_CollectionHolder_staticMutableProperty, to: UnsafeMutableRawPointer.self)
             )
         )
+        // print("setting up TestAPI.Methods.TheMethodError...")
+        try TestAPI.Methods.TheMethodError.javaSetup(env: env)
         // print("setting up TestAPI.Primitives.PrimitiveHolder...")
         try TestAPI.Primitives.PrimitiveHolder.javaSetup(env: env)
         try env.RegisterNatives(
@@ -1402,6 +1414,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_instanceGetMethod"),
                 signature: bag.add("()J"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_Methods_instanceGetMethod, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_methodWithNewlinesInTypes"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function4;)V"),
+                fnPtr: unsafeBitCast(java_TestAPI_Methods_methodWithNewlinesInTypes, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_set_instanceModifiable"),

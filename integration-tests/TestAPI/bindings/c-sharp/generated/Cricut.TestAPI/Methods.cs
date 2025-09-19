@@ -456,6 +456,23 @@ namespace Cricut.TestAPI {
             out CreatedRef exn
         );
 
+        /// <summary>
+        /// <!-- FishyJoes.export(methodWithNewlinesInTypes) -->
+        /// </summary>
+        public static void MethodWithNewlinesInTypes(
+            System.Func<nint, byte[], bool, System.Threading.Tasks.Task<Cricut.FishyJoesRuntime.Result<nint, Cricut.TestAPI.TheMethodError>>> thing
+        ) {
+            using var _thingHandle = new GCRef(thing);
+            Check((out CreatedRef _exn) => __iota_TestAPI_Methods_methodWithNewlinesInTypes(Loader.env, _thingHandle.ptr, out _exn));
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern void __iota_TestAPI_Methods_methodWithNewlinesInTypes(
+            IntPtr envRef,
+            UnownedRef thing,
+            out CreatedRef exn
+        );
+
         static Methods() { _TypeSetup._ensureLoaded(); }
     }
 }

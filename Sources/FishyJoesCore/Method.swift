@@ -29,7 +29,8 @@ struct Method: Hashable {
 
     init?(_ method: SourceryMethod, type: Type?, protocolName: String?) {
         guard let exportAnnotation = method.exportAnnotation else { return nil }
-        self.name = method.name
+        // Sourcery very rarely will end up putting a newline into the method name. Strip any out.
+        self.name = method.name.replacingOccurrences(of: #"\s*[\n\r]+\s*"#, with: " ", options: .regularExpression)
         self.callName = method.callName
         self.exportAnnotation = exportAnnotation
         self.returnType = method.returnTypeName.better

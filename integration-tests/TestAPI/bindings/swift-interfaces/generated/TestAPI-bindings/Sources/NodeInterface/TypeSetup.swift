@@ -23,6 +23,7 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces.nodeSetup(env: env, module: module)
     try TestAPI.Actors.TemperatureLogger.nodeSetup(env: env, module: module)
     try TestAPI.Collections.CollectionHolder.nodeSetup(env: env, module: module)
+    try TestAPI.Methods.TheMethodError.nodeSetup(env: env, module: module)
     try TestAPI.Primitives.PrimitiveHolder.nodeSetup(env: env, module: module)
     try TestAPI.Results.Error.nodeSetup(env: env, module: module)
     try TestAPI.Structs.MemberwiseStruct.nodeSetup(env: env, module: module)

@@ -575,6 +575,18 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_Collections_CollectionHolder_setup');
+    final TestAPI_Methods_TheMethodError_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
+            OutCreatedRef exn
+        )
+    >('TestAPI_Methods_TheMethodError_setup');
     final TestAPI_Primitives_PrimitiveHolder_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -2651,6 +2663,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Methods_doublePlusGood");
+    TestAPI.Methods.f__iota_TestAPI_Methods_methodWithNewlinesInTypes = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            UnownedRef thing,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            UnownedRef thing,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_Methods_methodWithNewlinesInTypes");
     TestAPI.Methods.f__iota_TestAPI_Methods_staticAsync42 = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -7112,6 +7136,17 @@ final ensureLoaded = (() {
         });
     });
 
+    Loader.shared.once("setup_Function3Converter<Swift.Int, Foundation.Data, Swift.Bool, FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>", () {
+        // print("setting up (Swift.Int, Foundation.Data, Swift.Bool) throws -> Future<Result<Swift.Int, TestAPI.Methods.TheMethodError>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_Function3Converter_setup<Future<Result<int, TestAPI.TheMethodError>>, int, typed_data.Uint8List, bool>(
+                Loader.shared.env,
+                "Function3Converter<Swift.Int, Foundation.Data, Swift.Bool, FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>",
+                exn
+            );
+        });
+    });
+
     Loader.shared.once("setup_Function1Converter<Swift.Int, FutureConverter<Swift.Int>>", () {
         // print("setting up (Swift.Int) throws -> Future<Swift.Int> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
@@ -7213,6 +7248,16 @@ final ensureLoaded = (() {
 
     Loader.shared.once("setup_AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>", () {
         // print("setting up (Float, Double, Int) async throws -> Double (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_AsyncFunction3Converter_setup(
+                Loader.shared.env,
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_AsyncFunction3Converter<Swift.Int, Foundation.Data, Swift.Bool, ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>", () {
+        // print("setting up (Int, Data, Bool) async throws -> Result<Int, Methods.TheMethodError> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_AsyncFunction3Converter_setup(
                 Loader.shared.env,
@@ -7457,6 +7502,17 @@ final ensureLoaded = (() {
         });
     });
 
+    Loader.shared.once("setup_FutureConverter<FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>", () {
+        // print("setting up Future<Future<Result<Swift.Int, TestAPI.Methods.TheMethodError>>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_FutureConverter_setup<Future<Result<int, TestAPI.TheMethodError>>>(
+                Loader.shared.env,
+                "FutureConverter<FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>",
+                exn
+            );
+        });
+    });
+
     Loader.shared.once("setup_FutureConverter<FutureConverter<Swift.Double>>", () {
         // print("setting up Future<Future<Swift.Double>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
@@ -7529,6 +7585,17 @@ final ensureLoaded = (() {
             Loader.shared.FishyJoesCommonRuntime_FutureConverter_setup<int?>(
                 Loader.shared.env,
                 "FutureConverter<OptionalConverter<Swift.UInt8>>",
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>", () {
+        // print("setting up Future<Result<Swift.Int, TestAPI.Methods.TheMethodError>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_FutureConverter_setup<Result<int, TestAPI.TheMethodError>>(
+                Loader.shared.env,
+                "FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>",
                 exn
             );
         });
@@ -8437,6 +8504,17 @@ final ensureLoaded = (() {
         });
     });
 
+    Loader.shared.once("setup_ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>", () {
+        // print("setting up Result<Int, Methods.TheMethodError> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_ResultConverter_setup<int, TestAPI.TheMethodError>(
+                Loader.shared.env,
+                "ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>",
+                exn
+            );
+        });
+    });
+
     Loader.shared.once("setup_ResultConverter<Swift.Int, TestAPI.Results.Error>", () {
         // print("setting up Result<Int, Results.Error> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
@@ -8575,6 +8653,17 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_set_stringSet),
                 ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_get_stringDictionary),
                 ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_set_stringDictionary),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.Methods.TheMethodError", () {
+        // print("setting up TestAPI.Methods.TheMethodError (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_Methods_TheMethodError_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.TheMethodError.ffi_new),
                 exn
             );
         });

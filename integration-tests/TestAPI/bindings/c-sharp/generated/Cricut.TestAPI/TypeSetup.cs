@@ -115,6 +115,13 @@ namespace Cricut.TestAPI {
             out CreatedRef _exn
         );
 
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_Methods_TheMethodError_setup(
+            IntPtr envRef,
+            SwiftReference.ConstructorDelegate constructorMethod,
+            out CreatedRef _exn
+        );
+
         delegate CreatedRef _TestAPI_Primitives_PrimitiveHolderConstructor(
             [MarshalAs(UnmanagedType.I1)] bool b,
             ConsumedRef bq,
@@ -1262,6 +1269,14 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_Function3Converter<Swift.Int, Foundation.Data, Swift.Bool, FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>", () => {
+                Console.WriteLine("setting up (Swift.Int, Foundation.Data, Swift.Bool) throws -> Future<Result<Swift.Int, TestAPI.Methods.TheMethodError>>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function3Converter_setup<System.Threading.Tasks.Task<Cricut.FishyJoesRuntime.Result<nint, Cricut.TestAPI.TheMethodError>>, nint, byte[], bool>(
+                    Loader.env,
+                    "Function3Converter<Swift.Int, Foundation.Data, Swift.Bool, FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>",
+                    out exn
+                ));
+            });
             Once("setup_Function1Converter<Swift.Int, FutureConverter<Swift.Int>>", () => {
                 Console.WriteLine("setting up (Swift.Int) throws -> Future<Swift.Int>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function1Converter_setup<System.Threading.Tasks.Task<nint>, nint>(
@@ -1336,6 +1351,13 @@ namespace Cricut.TestAPI {
             });
             Once("setup_AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>", () => {
                 Console.WriteLine("setting up (Float, Double, Int) async throws -> Double...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_AsyncFunction3Converter_setup(
+                    Loader.env,
+                    out exn
+                ));
+            });
+            Once("setup_AsyncFunction3Converter<Swift.Int, Foundation.Data, Swift.Bool, ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>", () => {
+                Console.WriteLine("setting up (Int, Data, Bool) async throws -> Result<Int, Methods.TheMethodError>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_AsyncFunction3Converter_setup(
                     Loader.env,
                     out exn
@@ -1511,6 +1533,14 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_FutureConverter<FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>", () => {
+                Console.WriteLine("setting up Future<Future<Result<Swift.Int, TestAPI.Methods.TheMethodError>>>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<System.Threading.Tasks.Task<Cricut.FishyJoesRuntime.Result<nint, Cricut.TestAPI.TheMethodError>>>(
+                    Loader.env,
+                    "FutureConverter<FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>",
+                    out exn
+                ));
+            });
             Once("setup_FutureConverter<FutureConverter<Swift.Double>>", () => {
                 Console.WriteLine("setting up Future<Future<Swift.Double>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<System.Threading.Tasks.Task<double>>(
@@ -1564,6 +1594,14 @@ namespace Cricut.TestAPI {
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<byte?>(
                     Loader.env,
                     "FutureConverter<OptionalConverter<Swift.UInt8>>",
+                    out exn
+                ));
+            });
+            Once("setup_FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>", () => {
+                Console.WriteLine("setting up Future<Result<Swift.Int, TestAPI.Methods.TheMethodError>>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<Cricut.FishyJoesRuntime.Result<nint, Cricut.TestAPI.TheMethodError>>(
+                    Loader.env,
+                    "FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>",
                     out exn
                 ));
             });
@@ -2218,6 +2256,14 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>", () => {
+                Console.WriteLine("setting up Result<Int, Methods.TheMethodError>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ResultConverter_setup<nint, Cricut.TestAPI.TheMethodError>(
+                    Loader.env,
+                    "ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>",
+                    out exn
+                ));
+            });
             Once("setup_ResultConverter<Swift.Int, TestAPI.Results.Error>", () => {
                 Console.WriteLine("setting up Result<Int, Results.Error>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ResultConverter_setup<nint, Cricut.TestAPI.Results.Error>(
@@ -2409,6 +2455,16 @@ namespace Cricut.TestAPI {
                     )),
                     bag<_TestAPI_Collections_CollectionHolder_stringDictionarySetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().StringDictionary = newValue.Consume<System.Collections.Generic.IDictionary<string, string>>();
+                    })),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.Methods.TheMethodError", () => {
+                Console.WriteLine("setting up TestAPI.Methods.TheMethodError...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_Methods_TheMethodError_setup(
+                    Loader.env,
+                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.TheMethodError(ptr));
                     })),
                     out exn
                 ));

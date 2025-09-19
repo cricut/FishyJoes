@@ -3927,6 +3927,20 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
+                "methodWithNewlinesInTypes": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "methodWithNewlinesInTypes", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
+                                TestAPI.Methods.methodWithNewlinesInTypes(
+                                    thing: try env.argument(at: 0, converter: AsyncFunction3Converter<Swift.Int, Foundation.Data, Swift.Bool, ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
                 "garply": (
                     .accessor(
                         getter: { env, info in
@@ -4071,6 +4085,65 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
             env: env,
             module: module,
             path: "Methods",
+            nodeClass: nodeClass.constructor.value(env: env)
+        )
+    }
+}
+
+
+// MARK: - NodeInterface/TestAPI.Methods.TheMethodError+node.swift
+
+extension TestAPI.Methods.TheMethodError: FishyJoesNodeRuntime.NodeConverter {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> TestAPI.Methods.TheMethodError {
+        guard let nonNilPointer = try env.unwrap(value) else {
+            throw JSException(message: "expected TestAPI.Methods.TheMethodError, got nil")
+        }
+        return try Box<TestAPI.Methods.TheMethodError>.takeUnretainedOpaque(nonNilPointer).value
+    }
+
+    public static func toNode(_ value: TestAPI.Methods.TheMethodError, env: NAPI.Env) throws -> NAPI.Value {
+        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "TheMethodError", module: "TestAPI", env: env)
+        let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
+        return try env.newInstance(constructor, [arg])
+    }
+
+    public static func mutateNode(_ value: TestAPI.Methods.TheMethodError, this: NAPI.Value, env: NAPI.Env) throws {
+        guard let pointer = try env.unwrap(this) else {
+            throw JSException(message: "expected TestAPI.Methods.TheMethodError, got nil")
+        }
+        try Box<TestAPI.Methods.TheMethodError>.takeUnretainedOpaque(pointer).value = value
+    }
+
+    @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        let nodeClass = try NodeClass(
+            env: env,
+            module: "TestAPI",
+            name: "TheMethodError",
+            properties: [
+                "toString": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "toString", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try Swift.String.toNode(
+                                "\(env.this(converter: TestAPI.Methods.TheMethodError.self))",
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                )
+            ],
+            constructor: { env, info in
+                FishyJoesNodeRuntime.callbackBody(env, info, name: "TheMethodError_constructor", expectedArgumentCount: 1) { env in
+                    try FishyJoesNodeRuntime.Box<TestAPI.Methods.TheMethodError>.construct(env: env)
+                }
+            }
+        )
+        try FishyJoesNodeRuntime.mergeDefinitionInto(
+            env: env,
+            module: module,
+            path: "TheMethodError",
             nodeClass: nodeClass.constructor.value(env: env)
         )
     }
