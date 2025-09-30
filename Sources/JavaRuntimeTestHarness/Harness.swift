@@ -61,7 +61,7 @@ let java_fun1: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject) -> jobjec
 
 let java_ref_make: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject) -> jobject? = { env, _ in
     FishyJoesJavaRuntime.callbackBody(env) { env in
-        let ptr = jvalue(pointer: Box<[Int64]>([]).retainedOpaque())
+        let ptr = JVALUE.from(pointer: Box<[Int64]>([]).retainedOpaque())
         return try env.NewObject(refClass, refConstructorID, ptr)
     }
 }

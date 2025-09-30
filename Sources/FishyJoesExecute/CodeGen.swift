@@ -34,12 +34,6 @@ public class CodeGen: ParsableCommand {
     @Flag(name: .long, help: "Build library in debug mode")
     var debug = false
 
-    @Flag(name: .long, inversion: .prefixedNo, help: "Use docker")
-    var useDocker = true
-
-    @Flag(name: .long, help: "Pass git credentials into docker container via file .secrets/git-credentials")
-    var passGitAuthToDocker = false
-
     @Option(help: "Used for debugging fishy-joes code generation")
     var sourceryDumpPath: String?
 
@@ -76,8 +70,6 @@ public class CodeGen: ParsableCommand {
         case cSharp
         case dart
         case wasmOpt
-        case useDocker
-        case passGitAuthToDocker
         case sourceryDumpPath
         case version
         case buildStep
@@ -95,15 +87,6 @@ public class CodeGen: ParsableCommand {
 
         // Assemble a build configuration from passed arguments
         let localPathsNeeded = packageInfo.dependencyMap.entries.values.map(\.localPath)
-        let makeDockerContext = useDocker ? { [passGitAuthToDocker] in
-            let context = DockerContext(withAvailablePaths: localPathsNeeded, passGitAuth: passGitAuthToDocker)
-            if let context = context {
-                Log.info("found docker binary: \(context.hostDockerBinary)")
-            } else {
-                Log.info("not using docker")
-            }
-            return context
-        } : { nil }
 
         var injectedDependencies: [String: PackageDotSwiftDependency.Dependency] = [
             "FishyJoes": .init(from: fishyJoesDependency)
@@ -130,7 +113,6 @@ public class CodeGen: ParsableCommand {
             debug: debug,
             fat: fat,
             codeCoveragePath: codeCoveragePath,
-            baseDockerContext: Lazy(makeDockerContext()),
             disableParallelism: disableParallelism,
             injectedSwiftDependencies: injectedDependencies
         )

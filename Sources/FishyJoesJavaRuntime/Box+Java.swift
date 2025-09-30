@@ -23,7 +23,7 @@ extension AnyBox {
     }
 
     public func toJava(env: Env) throws -> jobject? {
-        let ptr = jvalue(pointer: retainedOpaque())
+        let ptr = JVALUE.from(pointer: retainedOpaque())
         return try env.NewObject(AnyBox.javaClass, AnyBox.initMethodID, ptr)
     }
 

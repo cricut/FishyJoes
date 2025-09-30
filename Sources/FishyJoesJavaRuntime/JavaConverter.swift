@@ -40,38 +40,6 @@ public protocol JavaMutator: JavaConverter {
     static func mutateJava<R>(_ this: CType, env: inout Env, body: (inout SwiftType, inout Env) async throws -> R) async throws -> R
 }
 
-// MARK: - Java Value Convenience
-
-extension jvalue {
-    public init(_ value: jboolean) {
-        self.init(z: value)
-    }
-    public init(_ value: jbyte) {
-        self.init(b: value)
-    }
-    public init(_ value: jchar) {
-        self.init(c: value)
-    }
-    public init(_ value: jshort) {
-        self.init(s: value)
-    }
-    public init(_ value: jint) {
-        self.init(i: value)
-    }
-    public init(_ value: jlong) {
-        self.init(j: value)
-    }
-    public init(_ value: jfloat) {
-        self.init(f: value)
-    }
-    public init(_ value: jdouble) {
-        self.init(d: value)
-    }
-    public init(_ value: jobject?) {
-        self.init(l: value)
-    }
-}
-
 // MARK: - Primitive Type Conversions
 
 extension VoidConverter: JavaConverter {
@@ -138,13 +106,13 @@ extension UInt8: JavaConverter {
     public static func toJava(_ value: Self, env: Env) throws -> CType { .init(bitPattern: value) }
 
     public static func fromJava(object: jobject?, env: Env) throws -> Self {
-        let signed = try env.CallStaticByteMethod(unsignedConverterClass, Self.coerceUnsigned, jvalue(object))
+        let signed = try env.CallStaticByteMethod(unsignedConverterClass, Self.coerceUnsigned, JVALUE.from(object))
         return .init(bitPattern: signed)
     }
 
     public static func toJavaObject(_ value: Self, env: Env) throws -> jobject? {
         let signed = CType(bitPattern: value)
-        return try env.CallStaticObjectMethod(unsignedConverterClass, Self.coerceSigned, jvalue(signed))
+        return try env.CallStaticObjectMethod(unsignedConverterClass, Self.coerceSigned, JVALUE.from(signed))
     }
 
     public static func javaSetup(env: Env) throws {
@@ -168,13 +136,13 @@ extension UInt16: JavaConverter {
     public static func toJava(_ value: Self, env: Env) throws -> CType { .init(bitPattern: value) }
 
     public static func fromJava(object: jobject?, env: Env) throws -> Self {
-        let signed = try env.CallStaticShortMethod(unsignedConverterClass, Self.coerceUnsigned, jvalue(object))
+        let signed = try env.CallStaticShortMethod(unsignedConverterClass, Self.coerceUnsigned, JVALUE.from(object))
         return .init(bitPattern: signed)
     }
 
     public static func toJavaObject(_ value: Self, env: Env) throws -> jobject? {
         let signed = CType(bitPattern: value)
-        return try env.CallStaticObjectMethod(unsignedConverterClass, Self.coerceSigned, jvalue(signed))
+        return try env.CallStaticObjectMethod(unsignedConverterClass, Self.coerceSigned, JVALUE.from(signed))
     }
 
     public static func javaSetup(env: Env) throws {
@@ -198,13 +166,13 @@ extension UInt32: JavaConverter {
     public static func toJava(_ value: Self, env: Env) throws -> CType { .init(bitPattern: value) }
 
     public static func fromJava(object: jobject?, env: Env) throws -> Self {
-        let signed = try env.CallStaticIntMethod(unsignedConverterClass, Self.coerceUnsigned, jvalue(object))
+        let signed = try env.CallStaticIntMethod(unsignedConverterClass, Self.coerceUnsigned, JVALUE.from(object))
         return .init(bitPattern: signed)
     }
 
     public static func toJavaObject(_ value: Self, env: Env) throws -> jobject? {
         let signed = CType(bitPattern: value)
-        return try env.CallStaticObjectMethod(unsignedConverterClass, Self.coerceSigned, jvalue(signed))
+        return try env.CallStaticObjectMethod(unsignedConverterClass, Self.coerceSigned, JVALUE.from(signed))
     }
 
     public static func javaSetup(env: Env) throws {
@@ -229,13 +197,13 @@ extension UInt64: JavaConverter {
     public static func toJava(_ value: Self, env: Env) throws -> CType { CType(Int64(bitPattern: value)) }
 
     public static func fromJava(object: jobject?, env: Env) throws -> Self {
-        let signed = try env.CallStaticLongMethod(unsignedConverterClass, Self.coerceUnsigned, jvalue(object))
+        let signed = try env.CallStaticLongMethod(unsignedConverterClass, Self.coerceUnsigned, JVALUE.from(object))
         return .init(bitPattern: Int64(signed))
     }
 
     public static func toJavaObject(_ value: Self, env: Env) throws -> jobject? {
         let signed = Int64(bitPattern: value)
-        return try env.CallStaticObjectMethod(unsignedConverterClass, Self.coerceSigned, jvalue(CType(signed)))
+        return try env.CallStaticObjectMethod(unsignedConverterClass, Self.coerceSigned, JVALUE.from(CType(signed)))
     }
 
     public static func javaSetup(env: Env) throws {
@@ -288,7 +256,7 @@ extension Int8: JavaConverter {
     }
 
     public static func toJavaObject(_ value: Self, env: Env) throws -> jobject? {
-        try env.NewObject(Self.javaClass, Self._constructorMethodID, jvalue(value))
+        try env.NewObject(Self.javaClass, Self._constructorMethodID, JVALUE.from(value))
     }
 
     public static func javaSetup(env: Env) throws {
@@ -314,7 +282,7 @@ extension Int16: JavaConverter {
     }
 
     public static func toJavaObject(_ value: Self, env: Env) throws -> jobject? {
-        try env.NewObject(Self.javaClass, Self._constructorMethodID, jvalue(value))
+        try env.NewObject(Self.javaClass, Self._constructorMethodID, JVALUE.from(value))
     }
 
     public static func javaSetup(env: Env) throws {
@@ -340,7 +308,7 @@ extension Int32: JavaConverter {
     }
 
     public static func toJavaObject(_ value: Self, env: Env) throws -> jobject? {
-        try env.NewObject(Self.javaClass, Self._constructorMethodID, jvalue(value))
+        try env.NewObject(Self.javaClass, Self._constructorMethodID, JVALUE.from(value))
     }
 
     public static func javaSetup(env: Env) throws {
@@ -367,7 +335,7 @@ extension Int64: JavaConverter {
     }
 
     public static func toJavaObject(_ value: Self, env: Env) throws -> jobject? {
-        try env.NewObject(Self.javaClass, Self._constructorMethodID, jvalue(CType(value)))
+        try env.NewObject(Self.javaClass, Self._constructorMethodID, JVALUE.from(CType(value)))
     }
 
     public static func javaSetup(env: Env) throws {
@@ -932,10 +900,10 @@ extension ResultConverter: JavaConverter where SuccessConverter: JavaConverter, 
         switch value {
         case .success(let success):
             let successValue = try SuccessConverter.toJavaObject(success, env: env)
-            return try env.NewObject(KotlinResult.successClass, KotlinResult.successConstructor, jvalue(successValue))
+            return try env.NewObject(KotlinResult.successClass, KotlinResult.successConstructor, JVALUE.from(successValue))
         case .failure(let failure):
             let failureValue = try FailureConverter.toJavaObject(failure, env: env)
-            return try env.NewObject(KotlinResult.failureClass, KotlinResult.failureConstructor, jvalue(failureValue))
+            return try env.NewObject(KotlinResult.failureClass, KotlinResult.failureConstructor, JVALUE.from(failureValue))
         }
     }
 }

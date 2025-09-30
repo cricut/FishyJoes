@@ -9,7 +9,7 @@ extension AttributeContainer: JavaMutator {
     }
 
     public static func toJava(_ value: AttributeContainer, env: Env) throws -> jobject? {
-        let ptr = jvalue(pointer: Box(value).retainedOpaque())
+        let ptr = JVALUE.from(pointer: Box(value).retainedOpaque())
         return try env.NewObject(javaClass, _constructorMethodID, ptr)
     }
 

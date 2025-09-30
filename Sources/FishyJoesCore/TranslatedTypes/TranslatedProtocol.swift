@@ -797,7 +797,7 @@ struct TranslatedProtocol: TranslatedType {
                                 fragment.output("try? Env.relinquishJVMThread(on: _javaWitness.vm)")
                             }
                             fragment.output("let javaNewValue = try! \(resolved.converterType.name).toJava(newValue, env: env)")
-                            fragment.output("try! env.CallVoidMethod(_javaWitness.object, Self._\(name)SetMethodID, jvalue(javaNewValue))")
+                            fragment.output("try! env.CallVoidMethod(_javaWitness.object, Self._\(name)SetMethodID, JVALUE.from(javaNewValue))")
                         }
                     }
                 }
@@ -829,7 +829,7 @@ struct TranslatedProtocol: TranslatedType {
                             for param in method.parameters {
                                 fragment.output(",")
                                 let resolved = context.resolve(type: param.type)
-                                fragment.output("jvalue(try \(resolved.converterType.name).toJava(\(param.name), env: env))", newLineTerminated: false)
+                                fragment.output("JVALUE.from(try \(resolved.converterType.name).toJava(\(param.name), env: env))", newLineTerminated: false)
                             }
                             fragment.output()
                         }
@@ -860,7 +860,7 @@ struct TranslatedProtocol: TranslatedType {
                 fragment.outputBlock("try env.NewObject(") {
                     fragment.output("externalWitnessClass,")
                     fragment.output("externalWitnessConstructor,")
-                    fragment.output("jvalue(pointer: Box(value).retainedOpaque())")
+                    fragment.output("JVALUE.from(pointer: Box(value).retainedOpaque())")
                 }
             }
 

@@ -168,20 +168,51 @@ public class CStringBag {
     }
 }
 
-public extension jlong {
-    init(pointer: UnsafeRawPointer) {
-        self = jlong(Int64(bitPattern: UInt64(UInt(bitPattern: pointer))))
+extension jlong {
+    public static func from(pointer: UnsafeRawPointer) -> jlong {
+        jlong(Int64(bitPattern: UInt64(UInt(bitPattern: pointer))))
     }
 }
 
-public extension jvalue {
-    init(pointer: UnsafeRawPointer) {
-        self = jvalue(j: jlong(pointer: pointer))
+// HACK: These used to be in an extension of the `jvalue` type, but there's a bug in swift-android 6.2:
+// C types, extended in one module, aren't visible from a different module (U+1F937 SHRUG).
+// Type name is extra ugly on purpose.
+public enum JVALUE {
+    public static func from(_ value: jboolean) -> jvalue {
+        jvalue(z: value)
+    }
+    public static func from(_ value: jbyte) -> jvalue {
+        jvalue(b: value)
+    }
+    public static func from(_ value: jchar) -> jvalue {
+        jvalue(c: value)
+    }
+    public static func from(_ value: jshort) -> jvalue {
+        jvalue(s: value)
+    }
+    public static func from(_ value: jint) -> jvalue {
+        jvalue(i: value)
+    }
+    public static func from(_ value: jlong) -> jvalue {
+        jvalue(j: value)
+    }
+    public static func from(_ value: jfloat) -> jvalue {
+        jvalue(f: value)
+    }
+    public static func from(_ value: jdouble) -> jvalue {
+        jvalue(d: value)
+    }
+    public static func from(_ value: jobject?) -> jvalue {
+        jvalue(l: value)
+    }
+
+    public static func from(pointer: UnsafeRawPointer) -> jvalue {
+        jvalue(j: jlong.from(pointer: pointer))
     }
 }
 
-public extension UInt {
-    init(pointerValue: jlong) {
+extension UInt {
+    public init(pointerValue: jlong) {
         self = UInt(UInt64(bitPattern: Int64(pointerValue)))
     }
 }

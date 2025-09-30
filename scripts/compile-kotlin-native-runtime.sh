@@ -24,7 +24,7 @@ if [[ "$(uname -s)" == "Darwin" && $SKIP_LIPO == "0" ]]; then
          .build/{arm64,x86_64}-apple-macosx/"$CONFIGURATION"/libFishyJoesJavaRuntime.dylib
 elif [[ "$(uname -s)" == *_NT* ]]; then
     ./scripts/swift-shim.ps1 build "${commonOptions[@]}" --product FishyJoesJavaRuntime
-    BIN_DIR="$(./scripts/swift-shim.ps1 build ${commonOptions[@]} --show-bin-path)"
+    BIN_DIR="$(./scripts/swift-shim.ps1 build "${commonOptions[@]}" --show-bin-path)"
 else
     swift build "${commonOptions[@]}" --product FishyJoesJavaRuntime
     BIN_DIR="$(swift build "${commonOptions[@]}" --show-bin-path)"
