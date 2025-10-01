@@ -102,18 +102,6 @@ jobs:
             patchelf --set-rpath $SWIFT_RUN_PATH $LIB
           done
 
-      - name: rename swift runtime dependencies
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-
-          # Add links
-          pushd $LIB_DIR
-            mv libicudataswift.so.69.1 libicudataswift.so.69
-            mv libicui18nswift.so.69.1 libicui18nswift.so.69
-            mv libicuucswift.so.69.1 libicuucswift.so.69
-          popd
-
       - name: Upload library
         uses: actions/upload-artifact@v4
         with:

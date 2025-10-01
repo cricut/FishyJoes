@@ -34,6 +34,9 @@ public class CodeGen: ParsableCommand {
     @Flag(name: .long, help: "Build library in debug mode")
     var debug = false
 
+    @Flag(name: .long, inversion: .prefixedNo, help: "Use swiftly to select correct toolchain version when building for relevant platforms (wasm and android currently)")
+    var swiftly = true
+
     @Option(help: "Used for debugging fishy-joes code generation")
     var sourceryDumpPath: String?
 
@@ -74,6 +77,7 @@ public class CodeGen: ParsableCommand {
         case version
         case buildStep
         case debug
+        case swiftly
         case fat
         case disableParallelism
     }
@@ -113,6 +117,7 @@ public class CodeGen: ParsableCommand {
             debug: debug,
             fat: fat,
             codeCoveragePath: codeCoveragePath,
+            disableSwiftly: !swiftly,
             disableParallelism: disableParallelism,
             injectedSwiftDependencies: injectedDependencies
         )

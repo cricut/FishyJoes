@@ -144,6 +144,11 @@ jobs:
       CONFIGURATION: debug
 
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/cricut/android-swift-runtime:4.0.0-alpha1
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -152,19 +157,6 @@ jobs:
         uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
-
-      - name: Login to github registry
-        uses: docker/login-action@v2
-        with:
-          username: cricut-builduser
-          password:  ${{ secrets.CRICUT_GPR_TOKEN }}
-          registry: ghcr.io
-
-      - name: Setup JDK
-        uses: actions/setup-java@v3
-        with:
-          distribution: zulu
-          java-version: 20
 
       - name: Setup node
         uses: actions/setup-node@v3
@@ -183,8 +175,6 @@ jobs:
       - name: Configure build environment
         run: |
           set -euxo pipefail
-
-          sudo apt-get install zsh libcurl4-openssl-dev
 
           # Sadly, Ubuntu LTS doesn't have an up-to-date binaryen, so use a wasm version instead
           npm -g install binaryen@111.0.0
@@ -229,7 +219,7 @@ jobs:
           cd integration-tests/TestAPI
           FISHYJOES=1 swift run -- fishy-joes --dart build test
 
-      - name: Build linux FishyJoesJavaRuntime
+      - name: Build FishyJoesJavaRuntime
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -238,18 +228,7 @@ jobs:
           rm -rf $libdir
           mkdir -p $libdir
           ./scripts/compile-kotlin-native-runtime.sh
-
-      # Running this step messes with permissions significantly,
-      # in particular causing subsequent git checkouts to fail, so testing of Kotlin / Java is being done last
-      - name: Build android FishyJoesJavaRuntime
-        uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185
-        with:
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          registry: ghcr.io
-          image: ghcr.io/cricut/android-swift-runtime:4.0.0-alpha1
-          options: -v ${{ github.workspace }}:/work -w /work
-          run: /work/scripts/compile-android-runtime.sh
+          ./scripts/compile-android-runtime.sh
 
       - name: Locally publish kotlin native & android runtimes
         shell: zsh {0}

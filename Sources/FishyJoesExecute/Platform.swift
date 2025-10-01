@@ -8,6 +8,7 @@ struct BuildConfiguration: Hashable {
     let debug: Bool
     let fat: Bool
     let codeCoveragePath: String?
+    let disableSwiftly: Bool
     let disableParallelism: Bool
     var codeCoverage: Bool { codeCoveragePath != nil }
     var injectedSwiftDependencies: [String: PackageDotSwiftDependency.Dependency]
@@ -106,7 +107,22 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
         }
     }
 
-    func swiftBuild(arguments: [String], configuration: BuildConfiguration, addEnv: [String: String] = [:]) -> Command {
+    private func swiftlyRunSwiftCommand(toolchainVersion: String, configuration: BuildConfiguration) throws -> [String] {
+        if configuration.disableSwiftly {
+            // Try to use the system default version of swift, but first check to make sure the version looks right
+            let installedSwiftVersionString = try cmd("swift", "--version").runString()
+            // It would be nice to make this a more precice check, but there doesn't seem to be a way to get a more structured swift-version
+            guard installedSwiftVersionString.contains("swiftlang-\(toolchainVersion).") else {
+                fatalError("Expected swift toolchain \(toolchainVersion) to be installed. Got: \(installedSwiftVersionString)")
+            }
+            return ["swift"]
+        } else {
+            // Use swiftly to get the exact needed toolchain
+            return ["\(Swiftly.binPath)/swiftly", "run", "+\(toolchainVersion)", "++", "swift"]
+        }
+    }
+
+    func swiftBuild(arguments: [String], configuration: BuildConfiguration, addEnv: [String: String] = [:]) throws -> Command {
         var args = arguments
 
         // Read "SWIFT_PACKAGE_RESOLVE" from our environment variables, and pass as flag to swift compiler
@@ -131,11 +147,10 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
         var scratchPath = configuration.scratchPath
         switch self {
         case .wasm:
-            swiftBuild = [
-                "\(Swiftly.binPath)/swiftly", "run",
-                "+\(ToolVersions.shared.swiftWasm.toolchain)", "++",
-                "swift", "build"
-            ]
+            swiftBuild = try swiftlyRunSwiftCommand(
+                toolchainVersion: ToolVersions.shared.swiftWasm.toolchain,
+                configuration: configuration
+            ) + ["build"]
             args.append(contentsOf: ["--swift-sdk", "\(ToolVersions.shared.swiftWasm.sdk)-\(ToolVersions.shared.swiftWasm.triple)"])
             // custom build paths to avoid different versions of spm destroying each other's caches
             scratchPath = "\(scratchPath)/wasm-build"
@@ -152,11 +167,10 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
             fatalError("unknown host OS")
             #endif
         case let .kotlinAndroid(arch):
-            swiftBuild = [
-                "\(Swiftly.binPath)/swiftly", "run",
-                "+\(ToolVersions.shared.swiftAndroid.toolchain)", "++",
-                "swift", "build"
-            ]
+            swiftBuild = try swiftlyRunSwiftCommand(
+                toolchainVersion: ToolVersions.shared.swiftAndroid.toolchain,
+                configuration: configuration
+            ) + ["build"]
             args.append(contentsOf: ["--swift-sdk", arch.triple])
             scratchPath = "\(scratchPath)/android-build"
             env["ANDROID_COMPATIBLE_ONLY"] = "1"
@@ -214,8 +228,8 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
         return cmd(path, arguments: args, addEnv: env)
     }
 
-    func swiftBuild(_ arguments: String..., configuration: BuildConfiguration, addEnv: [String: String] = [:]) -> Command {
-        swiftBuild(arguments: arguments, configuration: configuration, addEnv: addEnv)
+    func swiftBuild(_ arguments: String..., configuration: BuildConfiguration, addEnv: [String: String] = [:]) throws -> Command {
+        try swiftBuild(arguments: arguments, configuration: configuration, addEnv: addEnv)
     }
 
     func dylibName(for lib: String) -> String {
