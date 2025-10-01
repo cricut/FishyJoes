@@ -108,7 +108,8 @@ jobs:
       - name: Configure build environment
         shell: zsh {0}
         run: |
-          set -eux
+          set -euxo pipefail
+          git config --global --add safe.directory '*'
 
           # Use wasm version of wasm-opt because ubuntu version can be very old
           npm install -g binaryen
