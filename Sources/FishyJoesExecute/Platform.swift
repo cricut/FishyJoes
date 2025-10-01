@@ -1,7 +1,7 @@
 import FishyJoesConfig
 import Foundation
-import swsh
 import RegexBuilder
+import swsh
 
 struct BuildConfiguration: Hashable {
     let packagePath: String

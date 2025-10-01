@@ -74,6 +74,7 @@ jobs:
         with:
           name: mac_lib
           path: bindings/dart/generated/macos/native/
+          if-no-files-found: error
 
   build-test-dart-linux:
     name: "Ubuntu: Build and test dart bindings"
@@ -141,6 +142,7 @@ jobs:
         with:
           name: ubuntu_lib
           path: bindings/dart/generated/linux/native/
+          if-no-files-found: error
 
   build-test-dart-windows:
     name: "Windows: Build and test dart bindings"
@@ -214,6 +216,7 @@ jobs:
         with:
           name: windows_lib
           path: bindings/dart/generated/windows/native/
+          if-no-files-found: error
 
   dart-publish:
     name: "Publish dart packages"
@@ -287,6 +290,7 @@ jobs:
         with:
           name: __MODULE_NAME__-dart-binaries.tgz
           path: bindings/dart/generated/packages/__MODULE_NAME__-dart-binaries.tgz
+          if-no-files-found: error
 
       - name: Publish
         shell: zsh {0}

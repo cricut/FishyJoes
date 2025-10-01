@@ -238,6 +238,7 @@ jobs:
 
           # Publish runtime for the native linux test and the android tests
           (cd kotlin-runtime && ./gradlew publishToMavenLocal)
+          ls ~/.m2 || true
 
       - name: Test kotlin from gradle via fishy-joes
         shell: zsh {0}
@@ -249,12 +250,14 @@ jobs:
 
           # Publish test-api for the android tests to use later
           (cd bindings/kotlin/generated && ./gradlew publishToMavenLocal)
+          ls ~/.m2 || true
 
       - name: Upload artifacts for use by Android later
         uses: actions/upload-artifact@v4
         with:
           name: maven-local
           path: ~/.m2/repository
+          if-no-files-found: error
 
   integration-tests-windows:
     name: "Windows: Integration tests"

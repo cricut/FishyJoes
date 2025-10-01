@@ -73,6 +73,7 @@ jobs:
         with:
           name: mac_libs
           path: bindings/kotlin/generated/src/main/resources
+          if-no-files-found: error
 
   build-test-kotlin-linux:
     name: "Ubuntu: Build and test kotlin bindings"
@@ -124,6 +125,7 @@ jobs:
         with:
           name: ubuntu_libs
           path: bindings/kotlin/generated/src/main/resources
+          if-no-files-found: error
 
   build-test-kotlin-windows:
     name: "Windows: Build and test kotlin bindings"
@@ -192,6 +194,7 @@ jobs:
         with:
           name: windows_libs
           path: bindings/kotlin/generated/src/main/resources
+          if-no-files-found: error
 
   kotlin-publish:
     name: Publish kotlin package

@@ -82,6 +82,7 @@ jobs:
         with:
           name: mac_generated
           path: bindings/c-sharp/generated/Cricut.TestAPI/runtimes
+          if-no-files-found: error
 
   build-test-c-sharp-linux:
     name: "Ubuntu: Build and test C# bindings"
@@ -153,6 +154,7 @@ jobs:
         with:
           name: ubuntu_generated
           path: bindings/c-sharp/generated/Cricut.TestAPI/runtimes
+          if-no-files-found: error
 
   build-test-c-sharp-windows:
     name: "Windows: Build and test C# bindings"
@@ -230,6 +232,7 @@ jobs:
         with:
           name: windows_generated
           path: bindings/c-sharp/generated/Cricut.TestAPI/runtimes
+          if-no-files-found: error
 
   c-sharp-publish:
     name: "Publish C# package"
@@ -313,6 +316,7 @@ jobs:
         with:
           name: nuget-package
           path: c-sharp/Cricut.TestAPI/nupkgs/*.nupkg
+          if-no-files-found: error
 
       - name: Publish
         shell: zsh {0}

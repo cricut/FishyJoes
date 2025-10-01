@@ -44,6 +44,7 @@ jobs:
         with:
           name: mac_generated
           path: .build/apple/release/libFishyJoesIotaRuntime.dylib
+          if-no-files-found: error
 
   build-iota-ubuntu:
     name: "Ubuntu: Build Iota Runtime"
@@ -107,6 +108,7 @@ jobs:
         with:
           name: ubuntu_generated
           path: .build/linux-iota-libs
+          if-no-files-found: error
 
   build-iota-windows:
     name: "Windows: Build Iota Runtime"
@@ -160,6 +162,7 @@ jobs:
         with:
           name: windows_generated
           path: .build/windows-iota-libs
+          if-no-files-found: error
 
   iota-publish:
     name: "Publish C# Package and Dart Binaries"
@@ -269,12 +272,14 @@ jobs:
         with:
           name: nuget-package
           path: c-sharp-runtime/nupkgs/*.*nupkg
+          if-no-files-found: error
 
       - name: Upload Dart Tarball
         uses: actions/upload-artifact@v4
         with:
           name: FishyJoes-dart-binaries
           path: FishyJoes-dart-binaries.tgz
+          if-no-files-found: error
 
       - name: Publish
         shell: zsh {0}
