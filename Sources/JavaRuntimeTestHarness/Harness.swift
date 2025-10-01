@@ -76,6 +76,6 @@ let java_ref_addr: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject) -> jl
     FishyJoesJavaRuntime.callbackBody(env) { env in
         let box = try Box<[Int64]>.fromJava(this, env: env)
         let storage = { (x: UnsafeRawPointer) in x }(box.value)
-        return jlong(pointer: storage)
+        return jlong.from(pointer: storage)
     }
 }
