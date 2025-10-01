@@ -1,6 +1,7 @@
 import FishyJoesConfig
 import Foundation
 import swsh
+import RegexBuilder
 
 struct BuildConfiguration: Hashable {
     let packagePath: String
@@ -112,7 +113,11 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
             // Try to use the system default version of swift, but first check to make sure the version looks right
             let installedSwiftVersionString = try cmd("swift", "--version").runString()
             // It would be nice to make this a more precice check, but there doesn't seem to be a way to get a more structured swift-version
-            guard installedSwiftVersionString.contains("swiftlang-\(toolchainVersion).") else {
+            let versionMatcher = Regex {
+                "Swift version \(toolchainVersion)"
+                Anchor.wordBoundary
+            }
+            if try versionMatcher.firstMatch(in: installedSwiftVersionString) == nil {
                 fatalError("Expected swift toolchain \(toolchainVersion) to be installed. Got: \(installedSwiftVersionString)")
             }
             return ["swift"]
