@@ -21,14 +21,21 @@ jq -r '.swiftAndroid.targets[] | .triple + " " +  .ndkArchName' Sources/FishyJoe
         triple=${pair[1]}
         ndkArch=${pair[2]}
 
-    swiftly run +$swiftAndroidToolchain ++ swift build \
-        --swift-sdk $triple \
-        --scratch-path .build/android-build \
-        --configuration $CONFIGURATION \
-        --product FishyJoesJavaRuntime
-    installDir=$libdir/lib/$ndkArch
-    mkdir -p $installDir/
-    cp .build/android-build/$triple/$CONFIGURATION/libFishyJoesJavaRuntime.so $installDir/
-done
+        swiftBuild=(swiftly run +$swiftAndroidToolchain ++ swift build)
+        if !swiftly --version; then
+            echo "No swiftly found. Hoping that system swift version is $swiftAndroidToolchain"
+            swift --version
+            swiftBuild=(swift build)
+        fi
+
+        $swiftBuild \
+            --swift-sdk $triple \
+            --scratch-path .build/android-build \
+            --configuration $CONFIGURATION \
+            --product FishyJoesJavaRuntime
+        installDir=$libdir/lib/$ndkArch
+        mkdir -p $installDir/
+        cp .build/android-build/$triple/$CONFIGURATION/libFishyJoesJavaRuntime.so $installDir/
+    done
 
 # cp /VERSIONS $libdir/FishyJoesAndroidVersions.txt
