@@ -22,7 +22,7 @@ jq -r '.swiftAndroid.targets[] | .triple + " " +  .ndkArchName' Sources/FishyJoe
         ndkArch=${pair[2]}
 
         swiftBuild=(swiftly run +$swiftAndroidToolchain ++ swift build)
-        if !swiftly --version; then
+        if ! swiftly --version; then
             echo "No swiftly found. Hoping that system swift version is $swiftAndroidToolchain"
             swift --version
             swiftBuild=(swift build)

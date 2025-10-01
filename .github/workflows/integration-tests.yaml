@@ -173,6 +173,7 @@ jobs:
       - uses: dart-lang/setup-dart@v1
 
       - name: Configure build environment
+        shell: zsh {0}
         run: |
           set -euxo pipefail
 

@@ -106,11 +106,9 @@ jobs:
           scope: '@cricut'
 
       - name: Configure build environment
+        shell: zsh {0}
         run: |
           set -eux
-          apt-get -y update
-          apt-get -y install patchelf jq
-          git config --global --add safe.directory '*'
 
           # Use wasm version of wasm-opt because ubuntu version can be very old
           npm install -g binaryen
