@@ -238,6 +238,7 @@ jobs:
 
           # Publish runtime for the native linux test and the android tests
           (cd kotlin-runtime && ./gradlew publishToMavenLocal)
+          mvn help:evaluate -Dexpression=settings.localRepository
           ls ~/.m2 || true
 
       - name: Test kotlin from gradle via fishy-joes
