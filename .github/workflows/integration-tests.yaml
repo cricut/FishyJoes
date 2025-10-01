@@ -245,7 +245,7 @@ jobs:
           set -euxo pipefail
 
           cd integration-tests/TestAPI
-          FISHYJOES=1 swift run -- fishy-joes --kotlin build test
+          FISHYJOES=1 swift run -- fishy-joes --kotlin --no-swiftly build test
 
           # Publish test-api for the android tests to use later
           (cd bindings/kotlin/generated && ./gradlew publishToMavenLocal)
