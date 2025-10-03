@@ -15,14 +15,18 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
+/// This is an enum with no associated values
 /// <!-- FishyJoes.export(SimpleEnum) -->
 sealed class SimpleEnum {
+    /// red is a nice color
     const factory SimpleEnum.red(
     ) = SimpleEnum_Red;
 
     const factory SimpleEnum.green(
     ) = SimpleEnum_Green;
 
+    /// blue is less good
+    /// opinions may vary
     const factory SimpleEnum.blue(
     ) = SimpleEnum_Blue;
 

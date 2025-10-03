@@ -1139,6 +1139,60 @@
         "named" : {
           "_0" : {
             "module" : "TestAPI",
+            "name" : "TheMethodError",
+            "namespace" : [
+              "Methods"
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "TheMethodError",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TheMethodError",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TheMethodError"
+        }
+      },
+      "kotlinName" : "TheMethodError",
+      "kotlinPackage" : "com.cricut.testapi",
+      "nodeName" : "TestAPI.TheMethodError",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TheMethodError",
+            "namespace" : [
+              "Methods"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
             "name" : "Primitives",
             "namespace" : [
 
@@ -3213,6 +3267,29 @@
               }
             },
             "documentation" : [
+              "<!-- FishyJoes.exportReference(TheMethodError) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+
+            ],
+            "implements" : [
+
+            ],
+            "methods" : [
+
+            ],
+            "name" : "TheMethodError"
+          },
+          {
+            "constructor" : {
+              "hidden" : {
+
+              }
+            },
+            "documentation" : [
               "<!-- FishyJoes.exportReference(Structs_PuttingTypesIntoQuestionablePlaces) -->"
             ],
             "extends" : [
@@ -4581,6 +4658,30 @@
                         "_0" : "number"
                       }
                     }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(methodWithNewlinesInTypes) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "methodWithNewlinesInTypes",
+                "parameters" : [
+                  {
+                    "name" : "thing",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: number, _1: ArrayBuffer, _2: boolean) => Promise<Runtime.Result<number, TheMethodError>>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
                   }
                 }
               }
@@ -8420,7 +8521,7 @@
                   }
                 },
                 "documentation" : [
-
+                  "Documentation about thing"
                 ],
                 "extends" : [
                   "AssociatedDataEnum_Common"
@@ -8542,7 +8643,7 @@
                   }
                 },
                 "documentation" : [
-
+                  "Documentation about bar"
                 ],
                 "extends" : [
                   "AssociatedDataEnum_Common"
@@ -8611,7 +8712,7 @@
                   }
                 },
                 "documentation" : [
-
+                  "Documentation about noValue"
                 ],
                 "extends" : [
                   "AssociatedDataEnum_Common"
@@ -15907,6 +16008,20 @@
             "fields" : [
               {
                 "documentation" : [
+                  "<!-- FishyJoes.export(dataImage) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "dataImage",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "URL"
+                  }
+                }
+              },
+              {
+                "documentation" : [
                   "<!-- FishyJoes.export(localFile) -->"
                 ],
                 "hasDefaultImplementation" : false,
@@ -16225,7 +16340,12 @@
           },
           {
             "documentation" : [
-              "<!-- FishyJoes.export(SimpleEnum) -->"
+              "This is an enum with no associated values",
+              "<!-- FishyJoes.export(SimpleEnum) -->",
+              " - \"red\": red is a nice color",
+              " - \"blue\":",
+              "    blue is less good",
+              "    opinions may vary"
             ],
             "name" : "SimpleEnum",
             "value" : {

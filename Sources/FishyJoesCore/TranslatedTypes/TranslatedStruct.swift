@@ -60,7 +60,7 @@ struct TranslatedStruct: TranslatedType {
             ]
         )
 
-        fragment.outputBlock("extension \(sourceType.name): NodeMutator {") {
+        fragment.outputBlock("extension \(sourceType.name): FishyJoesNodeRuntime.NodeMutator {") {
             fragment.output("public typealias SwiftType = Self")
             fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {") {
                 fragment.outputBlock("Self(") {

@@ -165,9 +165,20 @@ struct TranslatedEnum: TranslatedType {
                     }
                 }
             }
+            let caseDocumentation = cases.flatMap { (enumCase) -> [String] in
+                let caseLabel = " - \"\(enumCase.name)\":"
+                switch enumCase.documentation.count {
+                case 0:
+                    return []
+                case 1:
+                    return ["\(caseLabel) \(enumCase.documentation[0])"]
+                default:
+                    return [caseLabel] + enumCase.documentation.map { "    \($0)" }
+                }
+            }
             context.tsAnnotations.add(
                 typealias: .init(
-                    documentation: documentation,
+                    documentation: documentation + caseDocumentation,
                     name: nodeName,
                     value: .union(cases.map { .exactString($0.name) })
                 )
@@ -511,7 +522,7 @@ struct TranslatedEnum: TranslatedType {
                 cases: cases.map { enumCase in
                     let name = upperCaseFirst(enumCase.name)
                     if enumCase.associatedValues.isEmpty {
-                        return .object(name: name)
+                        return .object(documentation: enumCase.documentation, name: name)
                     } else {
                         return .dataClass(
                             documentation: enumCase.documentation,

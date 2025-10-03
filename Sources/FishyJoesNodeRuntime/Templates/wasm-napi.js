@@ -1438,15 +1438,6 @@ export class NAPI {
         this.writeU32(resultPtr, this.store(func));
         return NAPI_OK;
       }),
-      napi_create_reference: this.wrap((envPtr, valueIdx, initialRefcount, resultPtr) => {
-        const value = this.load(valueIdx);
-        this.writeU32(resultPtr, this.createReference(value, initialRefcount));
-        return NAPI_OK;
-      }),
-      napi_delete_reference: (envPtr, refIdx) => {
-        delete this.references[refIdx];
-        return NAPI_OK;
-      },
       napi_create_threadsafe_function: this.wrap((envPtr, funcIdx, asyncResourceIdx, asyncResourceNameIdx, maxQueueSize, initialThreadCount, finalizeData, finalizeCallback, callJavascriptCallbackContext, callJavascriptCallback, resultPtr) => {
        if (funcIdx === null && callJavascriptCallback === null) {
          return NAPI_INVALID_ARG;

@@ -1,3 +1,4 @@
+import FishyJoesConfig
 import Foundation
 import GenerationHelpers
 import swsh
@@ -7,7 +8,6 @@ public struct FileTemplater {
     let config: FishyJoesConfig
     let phasesList: [any Phases]
     let swiftPackage: SwiftPackage?
-    let swiftPackageResolved: SwiftPackageResolved?
     let includeFilesNotMarkedAsGenerated: Bool
     let applyCustomizations: Bool
 
@@ -17,13 +17,11 @@ public struct FileTemplater {
         config: FishyJoesConfig,
         phasesList: [any Phases],
         swiftPackage: SwiftPackage?,
-        swiftPackageResolved: SwiftPackageResolved?,
         includeFilesNotMarkedAsGenerated: Bool
     ) throws {
         self.config = config
         self.phasesList = phasesList
         self.swiftPackage = swiftPackage
-        self.swiftPackageResolved = swiftPackageResolved
         self.includeFilesNotMarkedAsGenerated = includeFilesNotMarkedAsGenerated
 
         // If the generation phases aren't present, the replacement list is incomplete
@@ -37,6 +35,7 @@ public struct FileTemplater {
         replacements["__LOWERCASE_MODULE_NAME__"] = config.module.lowercased()
         replacements["__LOWERCASE_FIRST_MODULE_NAME__"] = (config.module.first?.lowercased() ?? "") + config.module.dropFirst()
         replacements["__BINDINGS_REPO__"] = config.publishRepository
+        replacements["__LINUX_CONTAINER_SPEC__"] = ToolVersions.shared.linuxContainer.imageSpec
 
         // A template file is hand-crafted, and then it turns into a generated file, which should not be modified
         replacements["__TEMPLATE__"] = "generated"

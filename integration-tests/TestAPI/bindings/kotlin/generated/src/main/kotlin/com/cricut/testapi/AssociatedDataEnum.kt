@@ -9,6 +9,9 @@ import kotlinx.coroutines.*
  */
 @OptIn(ExperimentalCoroutinesApi::class)
 sealed class AssociatedDataEnum {
+    /**
+     * Documentation about thing
+     */
     data class Thing(
         var value: Long
     ) : AssociatedDataEnum()
@@ -16,11 +19,17 @@ sealed class AssociatedDataEnum {
         var unnamed: kotlin.String,
         var _1: Long
     ) : AssociatedDataEnum()
+    /**
+     * Documentation about bar
+     */
     data class Bar(
         var named: kotlin.String,
         var _1: com.cricut.testapi.AssociatedDataEnum,
         var toggled: Boolean
     ) : AssociatedDataEnum()
+    /**
+     * Documentation about noValue
+     */
     object NoValue : AssociatedDataEnum()
     data class SimpleEnum(
         var value: com.cricut.testapi.SimpleEnum

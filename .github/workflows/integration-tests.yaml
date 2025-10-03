@@ -18,7 +18,7 @@ concurrency:
 jobs:
   integration-tests-mac:
     name: "macOS: Integration tests"
-    runs-on: [macOS, self-hosted, ARM64]
+    runs-on: sojo-macos
     env:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
@@ -184,15 +184,12 @@ jobs:
         run: |
           set -euxo pipefail
 
-          sudo apt-get install zsh
+          sudo apt-get install zsh libcurl4-openssl-dev
 
           # Sadly, Ubuntu LTS doesn't have an up-to-date binaryen, so use a wasm version instead
           npm -g install binaryen@111.0.0
 
-          SWIFT_WASM_VERSION="5.10-SNAPSHOT-2024-04-26-a"
-          curl -Lo swift-wasm.tgz "https://github.com/swiftwasm/swift/releases/download/swift-wasm-$SWIFT_WASM_VERSION/swift-wasm-$SWIFT_WASM_VERSION-ubuntu20.04_x86_64.tar.gz"
-          sudo mkdir -p "/Library/Developer/Toolchains/swift-wasm-$SWIFT_WASM_VERSION.xctoolchain"
-          sudo tar -xf swift-wasm.tgz -C "/Library/Developer/Toolchains/swift-wasm-$SWIFT_WASM_VERSION.xctoolchain" --strip-components 1
+          swift run fishy-joes install-toolchains --swiftly --wasm
 
       - name: Build FishyJoesNodeRuntime
         shell: zsh {0}
@@ -250,7 +247,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ghcr.io
-          image: ghcr.io/cricut/android-swift-runtime:3.0.1
+          image: ghcr.io/cricut/android-swift-runtime:3.0.2
           options: -v ${{ github.workspace }}:/work -w /work
           run: /work/scripts/compile-android-runtime.sh
 
@@ -281,7 +278,7 @@ jobs:
 
   integration-tests-windows:
     name: "Windows: Integration tests"
-    runs-on: windows-2019
+    runs-on: windows-2025
     env:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
@@ -302,8 +299,8 @@ jobs:
 
       - uses: compnerd/gha-setup-swift@main
         with:
-          branch: swift-5.10.1-release
-          tag: 5.10.1-RELEASE
+          branch: swift-6.1-release
+          tag: 6.1-RELEASE
 
       - name: Setup JDK
         uses: actions/setup-java@v3

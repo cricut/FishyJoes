@@ -424,6 +424,7 @@ extension TypeScriptAnnotations {
                     case .method(let method):
                         output(method: method, inClass: false)
                     case .typealias(let alias):
+                        document(alias.documentation)
                         fragment.output("export type \(alias.name) = \(alias.value);")
                     case .namespace(let namespace):
                         output(namespace: namespace)

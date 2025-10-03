@@ -37,12 +37,12 @@ let package = Package(
         P.library(
             name: "FishyJoesNodeRuntime",
             type: wasmCompatibleOnly ? nil : .dynamic,
-            targets: ["FishyJoesNodeRuntime"]
+            targets: ["FishyJoesNodeRuntime", "FishyJoesCommonRuntime"]
         ),
     ] + wasmIncompatible(
         [
-            P.library(name: "FishyJoesJavaRuntime", type: .dynamic, targets: ["FishyJoesJavaRuntime"]),
-            P.library(name: "FishyJoesIotaRuntime", type: .dynamic, targets: ["FishyJoesIotaRuntime"]),
+            P.library(name: "FishyJoesJavaRuntime", type: .dynamic, targets: ["FishyJoesJavaRuntime", "FishyJoesCommonRuntime"]),
+            P.library(name: "FishyJoesIotaRuntime", type: .dynamic, targets: ["FishyJoesIotaRuntime", "FishyJoesCommonRuntime"]),
             P.library(name: "JavaRuntimeTestHarness", type: .dynamic, targets: ["JavaRuntimeTestHarness"]),
         ]
     ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] :
@@ -52,7 +52,7 @@ let package = Package(
     ),
     dependencies: wasmIncompatible(
         [
-            D.package(url: "https://github.com/mstokercricut/swsh", exact: "5.0.0-alpha0"),
+            D.package(url: "https://github.com/mstokercricut/swsh", exact: "5.0.0-alpha1"),
             D.package(url: "https://github.com/apple/swift-argument-parser", from: "1.2.2"),
         ]
     ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] : [
@@ -295,9 +295,7 @@ let package = Package(
                 dependencies: [
                     .target(name: "FishyJoesExecute"),
                 ],
-                resources: [
-                    .copy("Resources"),
-                ],
+                resources: [.copy("Resources")],
                 swiftSettings: strictConcurrencyFlags
             ),
         ]
@@ -314,26 +312,30 @@ let package = Package(
             ]
         ),
         T.target(
+            name: "FishyJoesConfig",
+            resources: [.copy("tool-versions.json")]
+        ),
+        T.target(
             // TODO: better name for this target
             name: "GenerationHelpers"
         ),
         T.target(
             name: "FishyJoesExecute",
             dependencies: [
+                .target(name: "FishyJoesConfig"),
                 .target(name: "FishyJoesCore"),
                 .target(name: "GenerationHelpers"),
                 .product(name: "swsh", package: "swsh"),
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
                 .product(name: "Yams", package: "Yams"),
             ],
-            resources: [
-                .copy("Resources"),
-            ],
+            resources: [.copy("Resources")],
             swiftSettings: strictConcurrencyFlags
         ),
         T.testTarget(
             name: "NAPITests",
             dependencies: [
+                .target(name: "FishyJoesConfig"),
                 .product(name: "swsh", package: "swsh"),
             ],
             exclude: ["node-tests"],

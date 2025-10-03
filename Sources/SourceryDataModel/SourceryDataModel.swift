@@ -59,16 +59,33 @@ public struct SourceryEnumCase: Documented, Hashable, Codable {
 
 // This type is terrible, but it matches Sourcery
 // Immutable class to avoid problems with infinite-sized struct
-public final class SourceryTypeName: Hashable {
-    public let actualTypeName: SourceryTypeName?
-    public let unwrappedTypeName: String
-    public let isVoid: Bool
-    public let tuple: Tuple?
-    public let array: Array?
-    public let dictionary: Dictionary?
-    public let closure: Closure?
-    public let generic: Generic?
-    public let isOptional: Bool
+public final class SourceryTypeName {
+    fileprivate struct Contents: Hashable, Codable {
+        let actualTypeName: SourceryTypeName?
+        let unwrappedTypeName: String
+        let isVoid: Bool
+        let tuple: Tuple?
+        let array: Array?
+        let dictionary: Dictionary?
+        let closure: Closure?
+        let generic: Generic?
+        let isOptional: Bool
+    }
+    private let contents: Contents
+
+    private init(_ contents: Contents) {
+        self.contents = contents
+    }
+
+    public var actualTypeName: SourceryTypeName? { contents.actualTypeName }
+    public var unwrappedTypeName: String { contents.unwrappedTypeName }
+    public var isVoid: Bool { contents.isVoid }
+    public var tuple: Tuple? { contents.tuple }
+    public var array: Array? { contents.array }
+    public var dictionary: Dictionary? { contents.dictionary }
+    public var closure: Closure? { contents.closure }
+    public var generic: Generic? { contents.generic }
+    public var isOptional: Bool { contents.isOptional }
 
     public struct Tuple: Hashable, Codable {
         public let elements: [Element]
@@ -100,7 +117,15 @@ public final class SourceryTypeName: Hashable {
     }
 }
 
-extension SourceryTypeName: Codable {
+extension SourceryTypeName: Hashable, Codable {
+    public static func == (lhs: SourceryTypeName, rhs: SourceryTypeName) -> Bool {
+        lhs.contents == rhs.contents
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        contents.hash(into: &hasher)
+    }
+
     public func encode(to encoder: any Encoder) throws {
         try contents.encode(to: encoder)
     }

@@ -30,7 +30,6 @@ public struct PackageInit: ParsableCommand {
             config: config,
             phasesList: [],
             swiftPackage: nil,
-            swiftPackageResolved: nil,
             includeFilesNotMarkedAsGenerated: true
         )
         try fileTemplater.installTemplate()

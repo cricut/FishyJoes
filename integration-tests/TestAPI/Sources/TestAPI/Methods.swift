@@ -140,5 +140,14 @@ public struct Methods {
         try await callback()
     }
 
+    /// <!-- FishyJoes.export(methodWithNewlinesInTypes) -->
+    public static func methodWithNewlinesInTypes(
+        thing: @escaping @Sendable (Int, Data, Bool) async throws -> Result<
+            Int, TheMethodError
+        >
+    ) {
+    }
+
+    /// <!-- FishyJoes.exportReference(TheMethodError) -->
     public struct TheMethodError: Error {}
 }

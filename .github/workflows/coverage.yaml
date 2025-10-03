@@ -17,13 +17,12 @@ concurrency:
 
 jobs:
   coverage:
-    runs-on: [macOS, self-hosted, ARM64]
+    runs-on: sojo-macos
     env:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      SWIFT_WASM_VERSION: 5.10-SNAPSHOT-2024-04-26-a
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -61,14 +60,7 @@ jobs:
 
           yq --version || brew install yq
 
-          [[ -d ~/swift-wasm-toolchains/swift-wasm-$SWIFT_WASM_VERSION-macos_arm64.artifactbundle ]] || {
-              mkdir -p ~/swift-wasm-toolchains
-              curl -LJo swift-wasm.artifactbundle.zip \
-                  https://github.com/swiftwasm/swift/releases/download/swift-wasm-$SWIFT_WASM_VERSION/swift-wasm-$SWIFT_WASM_VERSION-macos_arm64.artifactbundle.zip
-              tar xf swift-wasm.artifactbundle.zip
-              mv swift-wasm-$SWIFT_WASM_VERSION-macos_arm64.artifactbundle ~/swift-wasm-toolchains
-              rm swift-wasm.artifactbundle.zip
-          }
+          swift run fishy-joes install-toolchains --swiftly --wasm
 
           (cd integration-tests/TestAPI/bindings/ts/tests; npm install)
           (cd Tests/NAPITests/node-tests; npm install)
@@ -83,8 +75,10 @@ jobs:
         run: |
           set -euxo pipefail
 
-          export SWIFT_WASM_TOOLCHAIN=~/swift-wasm-toolchains/swift-wasm-$SWIFT_WASM_VERSION-macos_arm64.artifactbundle/$SWIFT_WASM_VERSION-wasm/wasm32-unknown-wasi/swift.xctoolchain
-          export WASI_SDK=~/swift-wasm-toolchains/swift-wasm-$SWIFT_WASM_VERSION-macos_arm64.artifactbundle/$SWIFT_WASM_VERSION-wasm/wasm32-unknown-wasi/WASI.sdk
+          export WASI_SDK="$(
+            swift sdk configure $SWIFT_WASM_VERSION-wasm32-unknown-wasi wasm32-unknown-wasi --show-configuration |
+              awk '$1 == "sdkRootPath:" { print $2 }'
+          )"
 
           ./scripts/generate-raw-coverage.sh
           ./scripts/gather-coverage.sh

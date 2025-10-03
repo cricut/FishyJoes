@@ -31,12 +31,12 @@ extension AttributeContainer.FoundationAttributes: JavaMutator {
             javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_get_link"),
-                signature: bag.add("()Ljava/net/URL;"),
+                signature: bag.add("()Ljava/net/URI;"),
                 fnPtr: unsafeBitCast(_java_get_link, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_set_link"),
-                signature: bag.add("(Ljava/net/URL;)V"),
+                signature: bag.add("(Ljava/net/URI;)V"),
                 fnPtr: unsafeBitCast(_java_set_link, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(

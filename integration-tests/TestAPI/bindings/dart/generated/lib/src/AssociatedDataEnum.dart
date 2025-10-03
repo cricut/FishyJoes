@@ -17,6 +17,7 @@ import 'package:tuple/tuple.dart' as tuple;
 
 /// <!-- FishyJoes.export(AssociatedDataEnum) -->
 sealed class AssociatedDataEnum {
+    /// Documentation about thing
     const factory AssociatedDataEnum.thing(
         int value
     ) = AssociatedDataEnum_Thing;
@@ -26,12 +27,14 @@ sealed class AssociatedDataEnum {
         int m_1
     ) = AssociatedDataEnum_Other;
 
+    /// Documentation about bar
     const factory AssociatedDataEnum.bar(
         String named,
         TestAPI.AssociatedDataEnum m_1,
         bool toggled
     ) = AssociatedDataEnum_Bar;
 
+    /// Documentation about noValue
     const factory AssociatedDataEnum.noValue(
     ) = AssociatedDataEnum_NoValue;
 

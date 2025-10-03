@@ -24,7 +24,7 @@ env:
 jobs:
   build-test-c-sharp-mac:
     name: "macOS: Build and test C# bindings"
-    runs-on: [macOS, self-hosted, ARM64]
+    runs-on: sojo-macos
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -87,7 +87,7 @@ jobs:
     name: "Ubuntu: Build and test C# bindings"
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cricut/android-swift-runtime:3.0.1
+      image: ghcr.io/cricut/android-swift-runtime:3.0.2
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
@@ -156,7 +156,7 @@ jobs:
 
   build-test-c-sharp-windows:
     name: "Windows: Build and test C# bindings"
-    runs-on: windows-2019
+    runs-on: windows-2025
     steps:
       - name: Configure git and vcpkg
         shell: pwsh
@@ -186,8 +186,8 @@ jobs:
 
       - uses: compnerd/gha-setup-swift@main
         with:
-          branch: swift-5.10.1-release
-          tag: 5.10.1-RELEASE
+          branch: swift-6.1-release
+          tag: 6.1-RELEASE
 
       - name: Pre-resolve required swiftpm packages & fetch fishyjoes scripts
         continue-on-error: true

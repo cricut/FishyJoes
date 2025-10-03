@@ -104,6 +104,9 @@ extension SwiftPackage.Dependency {
     }
 
     var versionInGradleFormat: String {
+        // TODO: figure out how to use gradle version ranges. The solver may not be good enough for this to work properly.
+        // See for example: https://github.com/gradle/gradle/issues/8126
+
         // https://docs.gradle.org/current/userguide/single_versions.html
         let spec: String
         switch self {
@@ -112,11 +115,14 @@ extension SwiftPackage.Dependency {
         case .sourceControl(_, _, .revision(let name)):
             spec = name
         case .sourceControl(_, _, .upToNextMajor(let baseVersion)):
-            spec = "[\(baseVersion),\(baseVersion.nextMajor))"
+            // spec = "[\(baseVersion),\(baseVersion.nextMajor))"
+            spec = baseVersion.versionString
         case .sourceControl(_, _, .upToNextMinor(let baseVersion)):
-            spec = "[\(baseVersion),\(baseVersion.nextMinor))"
-        case .sourceControl(_, _, .range(let lowerBound, let upperBound)):
-            spec = "[\(lowerBound),\(upperBound))"
+            // spec = "[\(baseVersion),\(baseVersion.nextMinor))"
+            spec = baseVersion.versionString
+        case .sourceControl(_, _, .range(let lowerBound, _)):
+            // spec = "[\(lowerBound),\(upperBound))"
+            spec = lowerBound.versionString
         case .sourceControl(_, _, .exact(let version)):
             spec = version.versionString
         case .fileSystem:
@@ -128,6 +134,7 @@ extension SwiftPackage.Dependency {
     }
 
     var versionInNugetFormat: String? {
+        // TODO: Enable nuget version ranges. Should be working, but not enabled to be consistent with other languages
         // https://learn.microsoft.com/en-us/nuget/concepts/package-versioning
         switch self {
         case .sourceControl(_, _, .branch(let name)):
@@ -135,11 +142,14 @@ extension SwiftPackage.Dependency {
         case .sourceControl(_, _, .revision(let name)):
             return "[\(name)]"
         case .sourceControl(_, _, .upToNextMajor(let baseVersion)):
-            return "[\(baseVersion),\(baseVersion.nextMajor))"
+            // return "[\(baseVersion),\(baseVersion.nextMajor))"
+            return "[\(baseVersion)]"
         case .sourceControl(_, _, .upToNextMinor(let baseVersion)):
-            return "[\(baseVersion),\(baseVersion.nextMinor))"
-        case .sourceControl(_, _, .range(let lowerBound, let upperBound)):
-            return "[\(lowerBound),\(upperBound))"
+            // return "[\(baseVersion),\(baseVersion.nextMinor))"
+            return "[\(baseVersion)]"
+        case .sourceControl(_, _, .range(let lowerBound, _)):
+            // return "[\(lowerBound),\(upperBound))"
+            return "[\(lowerBound)]"
         case .sourceControl(_, _, .exact(let version)):
             return "[\(version)]"
         case .fileSystem:
@@ -148,6 +158,8 @@ extension SwiftPackage.Dependency {
     }
 
     func versionInNpmFormat(relativeTo: String?, addIfLocalPath: String = "") -> String {
+        // TODO: Enable npm version ranges. Should be working, but not enabled to be consistent with other languages
+
         // These examples are the most authoritative source I could find without digging into the code of npm itself...
         // https://semver.npmjs.com/#syntax-examples
         switch self {
@@ -156,15 +168,18 @@ extension SwiftPackage.Dependency {
         case .sourceControl(_, _, .revision(let name)):
             return name
         case .sourceControl(_, _, .upToNextMajor(let baseVersion)):
-            if baseVersion.major > 0 {
-                return "^\(baseVersion)"
-            } else {
-                return ">=\(baseVersion) <\(baseVersion.nextMajor)"
-            }
+            // if baseVersion.major > 0 {
+            //     return "^\(baseVersion)"
+            // } else {
+            //     return ">=\(baseVersion) <\(baseVersion.nextMajor)"
+            // }
+            return baseVersion.versionString
         case .sourceControl(_, _, .upToNextMinor(let baseVersion)):
-            return "~\(baseVersion)"
-        case .sourceControl(_, _, .range(let lowerBound, let upperBound)):
-            return ">=\(lowerBound) <\(upperBound)"
+            // return "~\(baseVersion)"
+            return baseVersion.versionString
+        case .sourceControl(_, _, .range(let lowerBound, _)):
+            // return ">=\(lowerBound) <\(upperBound)"
+            return lowerBound.versionString
         case .sourceControl(_, _, .exact(let version)):
             return version.versionString
         case .fileSystem(_, let absolutePath):
@@ -173,30 +188,33 @@ extension SwiftPackage.Dependency {
         }
     }
 
-    // Currently unused, dart is pinned to an exact version
-    // var versionInPubspecFormat: String? {
-    //     // https://dart.dev/tools/pub/versioning
-    //     switch self {
-    //     case .sourceControl(_, _, .branch(let name)):
-    //         return name
-    //     case .sourceControl(_, _, .revision(let name)):
-    //         return name
-    //     case .sourceControl(_, _, .upToNextMajor(let baseVersion)):
-    //         if baseVersion.major > 0 {
-    //             return "^\(baseVersion)"
-    //         } else {
-    //             return ">=\(baseVersion) <\(baseVersion.nextMajor)"
-    //         }
-    //     case .sourceControl(_, _, .upToNextMinor(let baseVersion)):
-    //         return "~\(baseVersion)"
-    //     case .sourceControl(_, _, .range(let lowerBound, let upperBound)):
-    //         return ">=\(lowerBound) <\(upperBound)"
-    //     case .sourceControl(_, _, .exact(let version)):
-    //         return version.versionString
-    //     case .fileSystem:
-    //         return "file:\(localPath)\(addIfLocalPath)"
-    //     }
-    // }
+    var versionInPubspecFormat: String? {
+        // TODO: figure out how to use pubspec version ranges. Needs non-git hosting.
+        // https://dart.dev/tools/pub/versioning
+        switch self {
+        case .sourceControl(_, _, .branch(let name)):
+            return name
+        case .sourceControl(_, _, .revision(let name)):
+            return name
+        case .sourceControl(_, _, .upToNextMajor(let baseVersion)):
+            // if baseVersion.major > 0 {
+            //     return "^\(baseVersion)"
+            // } else {
+            //     return ">=\(baseVersion) <\(baseVersion.nextMajor)"
+            // }
+            return baseVersion.versionString
+        case .sourceControl(_, _, .upToNextMinor(let baseVersion)):
+            // return "~\(baseVersion)"
+            return baseVersion.versionString
+        case .sourceControl(_, _, .range(let lowerBound, _)):
+            // return ">=\(lowerBound) <\(upperBound)"
+            return lowerBound.versionString
+        case .sourceControl(_, _, .exact(let version)):
+            return version.versionString
+        case .fileSystem:
+            return nil
+        }
+    }
 }
 
 extension SwiftPackage.Dependency.Requirement: Decodable {
