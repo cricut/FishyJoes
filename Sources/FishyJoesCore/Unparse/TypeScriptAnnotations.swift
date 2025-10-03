@@ -270,7 +270,7 @@ extension TypeScriptAnnotations {
 
     var fragment: SourceFragment {
         // puts content in /bindings/ts/generated/__MODULE_NAME__.d.ts.part
-        let fragment = SourceFragment(sourceryDestination: "ts/generated/\(defaultNamespace).d.ts.part")
+        let fragment = SourceFragment(destinationPath: "ts/generated/\(defaultNamespace).d.ts.part")
 
         func document(_ documentation: [String]) {
             guard !documentation.isEmpty else { return }

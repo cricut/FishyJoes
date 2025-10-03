@@ -83,7 +83,7 @@ public class FishyJoesContext {
             priority: 1,
             "// swiftlint:disable unused_closure_parameter syntactic_sugar attributes"
         )
-        let fragment = SourceFragment(sourceryDestination: fileName)
+        let fragment = SourceFragment(destinationPath: fileName)
         if !withDedicatedFile {
             fragment.blankLine()
             fragment.output("// MARK: - \(name)")
@@ -102,7 +102,7 @@ public class FishyJoesContext {
         for dependency in module.dependencies {
             addHeader(file: fileName, "import com.cricut.\(dependency.lowercased()).*")
         }
-        return SourceFragment(sourceryDestination: fileName)
+        return SourceFragment(destinationPath: fileName)
     }
 
     func cSharpFragment(_ name: String) -> SourceFragment {
@@ -115,7 +115,7 @@ public class FishyJoesContext {
         for dependency in module.dependencies {
             addHeader(file: fileName, "using Cricut.\(dependency);")
         }
-        return SourceFragment(sourceryDestination: fileName)
+        return SourceFragment(destinationPath: fileName)
     }
 
     func dartFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
@@ -139,7 +139,7 @@ public class FishyJoesContext {
             addHeader(file: fileName, additionalImport)
         }
 
-        return SourceFragment(sourceryDestination: fileName)
+        return SourceFragment(destinationPath: fileName)
     }
 
     public func translateAll() -> [SourceFragment] {
@@ -265,7 +265,7 @@ public class FishyJoesContext {
         )
 
         // Output moduleInfo for FishyJoes packages that depend on this one
-        let moduleInfoFragment = SourceFragment(sourceryDestination: "swift-interfaces/generated/\(module).fishyjoesmodule")
+        let moduleInfoFragment = SourceFragment(destinationPath: "swift-interfaces/generated/\(module).fishyjoesmodule")
         let moduleInfo = ModuleInfo(
             types: moduleDefinedTypes,
             typeScriptAnnotations: tsAnnotations
@@ -285,7 +285,7 @@ public class FishyJoesContext {
         moduleInfoFragment.output(String(data: jsonData, encoding: .utf8)!)
 
         let headerFragments = fileHeaders.keys.map { fileName -> SourceFragment in
-            let fragment = SourceFragment(sourceryDestination: fileName)
+            let fragment = SourceFragment(destinationPath: fileName)
             for headerLine in fileHeaders[fileName, default: []].sorted() {
                 fragment.output(headerLine.contents)
             }

@@ -1,9 +1,9 @@
 import ArgumentParser
+import FishyJoesCore
 import Foundation
 import GenerationHelpers
-import swsh
-import FishyJoesCore
 import SourceryDataModel
+import swsh
 
 public class CodeGen: ParsableCommand {
     @Flag(name: .shortAndLong, help: "suppress verbose output")
@@ -263,7 +263,7 @@ extension CodeGen {
             let packageCustomization = try cmd("cat", "bindings/swift-interfaces/Package.part.swift").runString()
             // Create Package.swift for the bindings package
 
-            let fragment = SourceFragment(sourceryDestination: nil)
+            let fragment = SourceFragment(destinationPath: nil)
 
             func targetDeps(_ name: String) {
                 for module in config.requiredModules {
@@ -449,7 +449,7 @@ extension CodeGen {
             try cmd(
                 "mint",
                 arguments: [
-                    "run", "krzysztofzablocki/Sourcery@2.2.6",
+                    "run", "krzysztofzablocki/Sourcery@2.3.0",
                     quiet ? "-q" : nil,
                     "--disableCache",
                     "--parseDocumentation",

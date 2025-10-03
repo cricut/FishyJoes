@@ -1,17 +1,23 @@
 // THIS FILE IS SPECIAL!
 // It is a normal swift file built as part of the package.
 // It is *also* inserted verbatim into the sourcery template.
-// This file is kept dependency free to work well in both contexts.
+// This file is kept dependency-free to work well in both contexts.
 // Moving things into or out of this file may break generation.
 
-// TODO: documentation
-// TODO: sort in a logical manner
+// TODO: documentation, probably moslty copied from or linked to the sourcery docs
 
 public protocol Documented {
     var documentation: [String] { get }
 }
 
-// Types
+// MARK: Top level information
+
+public struct SourceryTemplateContext: Hashable, Codable {
+    public let types: [SourceryType]
+    public let functions: [SourceryMethod]
+}
+
+// MARK: Types
 
 public enum SourceryTypeKind: Hashable, Codable {
     case `struct`, `enum`, `class`, `actor`, `protocol`, `extension`
@@ -51,41 +57,18 @@ public struct SourceryEnumCase: Documented, Hashable, Codable {
     }
 }
 
-// Other
-
-public struct SourceryTemplateContext: Hashable, Codable {
-    public let types: [SourceryType]
-    public let functions: [SourceryMethod]
-}
-
 // This type is terrible, but it matches Sourcery
-public final class SourceryTypeName{
-    fileprivate struct Contents: Hashable, Codable {
-        let actualTypeName: SourceryTypeName?
-        let unwrappedTypeName: String
-        let isVoid: Bool
-        let tuple: Tuple?
-        let array: Array?
-        let dictionary: Dictionary?
-        let closure: Closure?
-        let generic: Generic?
-        let isOptional: Bool
-    }
-    private let contents: Contents
-
-    private init(_ contents: Contents) {
-        self.contents = contents
-    }
-
-    public var actualTypeName: SourceryTypeName? { contents.actualTypeName }
-    public var unwrappedTypeName: String { contents.unwrappedTypeName }
-    public var isVoid: Bool { contents.isVoid }
-    public var tuple: Tuple? { contents.tuple }
-    public var array: Array? { contents.array }
-    public var dictionary: Dictionary? { contents.dictionary }
-    public var closure: Closure? { contents.closure }
-    public var generic: Generic? { contents.generic }
-    public var isOptional: Bool { contents.isOptional }
+// Immutable class to avoid problems with infinite-sized struct
+public final class SourceryTypeName: Hashable {
+    public let actualTypeName: SourceryTypeName?
+    public let unwrappedTypeName: String
+    public let isVoid: Bool
+    public let tuple: Tuple?
+    public let array: Array?
+    public let dictionary: Dictionary?
+    public let closure: Closure?
+    public let generic: Generic?
+    public let isOptional: Bool
 
     public struct Tuple: Hashable, Codable {
         public let elements: [Element]
@@ -117,15 +100,7 @@ public final class SourceryTypeName{
     }
 }
 
-extension SourceryTypeName: Hashable, Codable {
-    public static func ==(lhs: SourceryTypeName, rhs: SourceryTypeName) -> Bool {
-        lhs.contents == rhs.contents
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        contents.hash(into: &hasher)
-    }
-
+extension SourceryTypeName: Codable {
     public func encode(to encoder: any Encoder) throws {
         try contents.encode(to: encoder)
     }
@@ -134,6 +109,8 @@ extension SourceryTypeName: Hashable, Codable {
         self.init(try Contents(from: decoder))
     }
 }
+
+// MARK: Methods and variables
 
 public struct SourceryMethod: Documented, Hashable, Codable {
     public let name: String
@@ -179,6 +156,7 @@ public struct SourceryVariable: Documented, Hashable, Codable {
     public let isAsync: Bool
     public let attributes: [SourceryAttribute]
 }
+
 public enum SourceryAccessLevel: String, Hashable, Codable {
     case `package` = "package"
     case `internal` = "internal"
@@ -199,6 +177,8 @@ public struct SourceryAttribute: Hashable, Codable {
     public let arguments: [String: String]
     public let description: String
 }
+
+// MARK: convertion from sourcery types to transport types
 
 #if canImport(SourceryRuntime)
 import SourceryRuntime
@@ -300,7 +280,7 @@ extension SourceryTypeName.Tuple.Element {
     }
 }
 
-extension SourceryTypeName.Array{
+extension SourceryTypeName.Array {
     init(_ array: SourceryRuntime.ArrayType) {
         self.elementTypeName = SourceryTypeName(array.elementTypeName)
     }

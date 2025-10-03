@@ -2,13 +2,13 @@ import Foundation
 
 public class SourceFragment {
     private let spacesPerIndent = 4
-    public var sourceryDestination: String?
+    public var destinationPath: String?
     private var stringBuilder: [String] = []
     private var isFreshLine = true
     private var currentIndent = 0
 
-    public init(sourceryDestination: String?) {
-        self.sourceryDestination = sourceryDestination
+    public init(destinationPath: String?) {
+        self.destinationPath = destinationPath
     }
 
     private func append(fragments: [String]) {
@@ -110,7 +110,7 @@ public class SourceFragment {
     public static func combine(fragments: [SourceFragment]) -> [(path: String?, contents: String)] {
         var collated: [String?: [String]] = [:]
         for fragment in fragments {
-            collated[fragment.sourceryDestination, default: []].append(fragment.contents)
+            collated[fragment.destinationPath, default: []].append(fragment.contents)
         }
         return collated.map {
             let (destination, contentFragments) = $0
@@ -121,13 +121,13 @@ public class SourceFragment {
 
 extension SourceFragment: Comparable {
     public static func == (lhs: SourceFragment, rhs: SourceFragment) -> Bool {
-        (lhs.sourceryDestination, lhs.stringBuilder) ==
-            (rhs.sourceryDestination, rhs.stringBuilder)
+        (lhs.destinationPath, lhs.stringBuilder) ==
+            (rhs.destinationPath, rhs.stringBuilder)
     }
 
     public static func < (lhs: SourceFragment, rhs: SourceFragment) -> Bool {
-        guard lhs.sourceryDestination == rhs.sourceryDestination else {
-            return lhs.sourceryDestination ?? "" < rhs.sourceryDestination ?? ""
+        guard lhs.destinationPath == rhs.destinationPath else {
+            return lhs.destinationPath ?? "" < rhs.destinationPath ?? ""
         }
         return lhs.contents < rhs.contents
     }
