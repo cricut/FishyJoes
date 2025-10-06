@@ -8,19 +8,8 @@ let strictConcurrencyFlags: [SwiftSetting] = []
 // [.enableExperimentalFeature("StrictConcurrency"), .enableUpcomingFeature("InferSendableFromCaptures")]
 
 let env = ProcessInfo.processInfo.environment
-let disableGeneration = env["DISABLE_GENERATION"] == "1"
 let wasmCompatibleOnly = env["WASM_ONLY"] == "1"
-let androidCompatibleOnly = env["ANDROID_COMPATIBLE_ONLY"] == "1"
-let javaHome = env["JAVA_HOME_11_X64"] ?? env["JAVA_HOME"]
 let extraLibPath = env["EXTRA_LIBPATH"]?.split(separator: ";") ?? []
-
-func generationEnabled<T>(_ things: @autoclosure () -> [T]) -> [T] {
-    #if os(macOS)
-    return (disableGeneration || wasmCompatibleOnly || androidCompatibleOnly) ? [] : things()
-    #else
-    return []
-    #endif
-}
 
 func wasmIncompatible<T>(_ things: @autoclosure () -> [T]) -> [T] {
     wasmCompatibleOnly ? [] : things()
@@ -44,9 +33,6 @@ let package = Package(
             P.library(name: "FishyJoesJavaRuntime", type: .dynamic, targets: ["FishyJoesJavaRuntime", "FishyJoesCommonRuntime"]),
             P.library(name: "FishyJoesIotaRuntime", type: .dynamic, targets: ["FishyJoesIotaRuntime", "FishyJoesCommonRuntime"]),
             P.library(name: "JavaRuntimeTestHarness", type: .dynamic, targets: ["JavaRuntimeTestHarness"]),
-        ]
-    ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] :
-        [
             P.executable(name: "fishy-joes", targets: ["FishyJoesExecuteMain"]),
         ]
     ),
@@ -54,10 +40,9 @@ let package = Package(
         [
             D.package(url: "https://github.com/mstokercricut/swsh", exact: "5.0.0-alpha1"),
             D.package(url: "https://github.com/apple/swift-argument-parser", from: "1.2.2"),
+            D.package(url: "https://github.com/jpsim/Yams", .upToNextMinor(from: "5.0.3")),
         ]
-    ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] : [
-        D.package(url: "https://github.com/jpsim/Yams", .upToNextMinor(from: "5.0.3")),
-    ]),
+    ),
     targets: [
         T.target(name: "SourceryDataModel"),
         T.target(name: "FishyJoesCommonRuntime"),
@@ -273,12 +258,11 @@ let package = Package(
                 ),
             ]
         ),
-    ] + generationEnabled(
+    ] + wasmIncompatible(
         [
             T.target(
                 name: "FishyJoesCore",
                 dependencies: [
-                    .target(name: "GenerationHelpers"),
                     .target(name: "SourceryDataModel"),
                 ],
                 swiftSettings: strictConcurrencyFlags
@@ -298,48 +282,42 @@ let package = Package(
                 resources: [.copy("Resources")],
                 swiftSettings: strictConcurrencyFlags
             ),
+            T.executableTarget(
+                name: "FishyJoesExecuteMain",
+                dependencies: ["FishyJoesExecute"],
+                swiftSettings: strictConcurrencyFlags,
+                linkerSettings: [
+                    .unsafeFlags(
+                        ["-Xlinker", "/IGNORE:4217"],
+                        .when(platforms: [.windows])
+                    )
+                ]
+            ),
+            T.target(
+                name: "FishyJoesConfig",
+                resources: [.copy("tool-versions.json")]
+            ),
+            T.target(
+                name: "FishyJoesExecute",
+                dependencies: [
+                    .target(name: "FishyJoesConfig"),
+                    .target(name: "FishyJoesCore"),
+                    .product(name: "swsh", package: "swsh"),
+                    .product(name: "ArgumentParser", package: "swift-argument-parser"),
+                    .product(name: "Yams", package: "Yams")
+                ],
+                resources: [.copy("Resources")],
+                swiftSettings: strictConcurrencyFlags
+            ),
+            T.testTarget(
+                name: "NAPITests",
+                dependencies: [
+                    .target(name: "FishyJoesConfig"),
+                    .product(name: "swsh", package: "swsh"),
+                ],
+                exclude: ["node-tests"],
+                swiftSettings: strictConcurrencyFlags
+            ),
         ]
-    ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] : [
-        T.executableTarget(
-            name: "FishyJoesExecuteMain",
-            dependencies: ["FishyJoesExecute"],
-            swiftSettings: strictConcurrencyFlags,
-            linkerSettings: [
-                .unsafeFlags(
-                    ["-Xlinker", "/IGNORE:4217"],
-                    .when(platforms: [.windows])
-                )
-            ]
-        ),
-        T.target(
-            name: "FishyJoesConfig",
-            resources: [.copy("tool-versions.json")]
-        ),
-        T.target(
-            // TODO: better name for this target
-            name: "GenerationHelpers"
-        ),
-        T.target(
-            name: "FishyJoesExecute",
-            dependencies: [
-                .target(name: "FishyJoesConfig"),
-                .target(name: "FishyJoesCore"),
-                .target(name: "GenerationHelpers"),
-                .product(name: "swsh", package: "swsh"),
-                .product(name: "ArgumentParser", package: "swift-argument-parser"),
-                .product(name: "Yams", package: "Yams"),
-            ],
-            resources: [.copy("Resources")],
-            swiftSettings: strictConcurrencyFlags
-        ),
-        T.testTarget(
-            name: "NAPITests",
-            dependencies: [
-                .target(name: "FishyJoesConfig"),
-                .product(name: "swsh", package: "swsh"),
-            ],
-            exclude: ["node-tests"],
-            swiftSettings: strictConcurrencyFlags
-        ),
-    ])
+    )
 )

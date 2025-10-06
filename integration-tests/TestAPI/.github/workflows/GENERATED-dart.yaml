@@ -43,6 +43,7 @@ jobs:
         shell: zsh {0}
         run: |
           yq --version || brew install yq
+          mint --version || brew install mint
 
       - name: Setup node
         uses: actions/setup-node@v3

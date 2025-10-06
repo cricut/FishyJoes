@@ -36,6 +36,7 @@ jobs:
         shell: zsh {0}
         run: |
           yq --version || brew install yq
+          mint --version || brew install mint
 
       - name: Ensure re-generating does not change committed generated code
         shell: zsh {0}
