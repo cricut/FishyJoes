@@ -43,6 +43,7 @@ let package = Package(
         [
             P.library(name: "FishyJoesJavaRuntime", type: .dynamic, targets: ["FishyJoesJavaRuntime", "FishyJoesCommonRuntime"]),
             P.library(name: "FishyJoesIotaRuntime", type: .dynamic, targets: ["FishyJoesIotaRuntime", "FishyJoesCommonRuntime"]),
+            P.library(name: "FishyJoesPythonRuntime", type: .dynamic, targets: ["FishyJoesPythonRuntime", "FishyJoesCommonRuntime"]),
             P.library(name: "JavaRuntimeTestHarness", type: .dynamic, targets: ["JavaRuntimeTestHarness"]),
         ]
     ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] :
@@ -76,6 +77,16 @@ let package = Package(
             name: "FishyJoesJavaRuntime",
             dependencies: [
                 .target(name: "JNI"),
+                .target(name: "FishyJoesCommonRuntime"),
+            ],
+            swiftSettings: strictConcurrencyFlags
+        ),
+        // Python
+        T.systemLibrary(name: "Python"),
+        T.target(
+            name: "FishyJoesPythonRuntime",
+            dependencies: [
+                .target(name: "Python"),
                 .target(name: "FishyJoesCommonRuntime"),
             ],
             swiftSettings: strictConcurrencyFlags

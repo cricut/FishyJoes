@@ -1,0 +1,13 @@
+module Python [system] {
+    #if os(macOS)
+    header "/Library/Frameworks/Python.framework/Versions/3.12/include/python3.12/Python.h"
+    #elseif os(Linux)
+    header "/usr/include/python3.12/Python.h"
+    #elseif os(Windows)
+    // Windows Python header path - adjust based on installation
+    header "C:/Python312/include/Python.h"
+    #endif
+    
+    link "python3.12"
+    export *
+}
