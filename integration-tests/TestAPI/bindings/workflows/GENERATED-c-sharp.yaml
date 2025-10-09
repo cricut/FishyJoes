@@ -38,7 +38,7 @@ jobs:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '6.0.x'
           source-url: https://nuget.pkg.github.com/cricut/index.json
@@ -105,7 +105,7 @@ jobs:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '6.0.x'
           source-url: https://nuget.pkg.github.com/cricut/index.json
@@ -178,7 +178,7 @@ jobs:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '6.0.x'
           source-url: https://nuget.pkg.github.com/cricut/index.json
@@ -256,7 +256,7 @@ jobs:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '6.0.x'
           source-url: https://nuget.pkg.github.com/cricut/index.json

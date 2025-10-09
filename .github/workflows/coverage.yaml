@@ -46,7 +46,7 @@ jobs:
           node-version: '18.x'
 
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '6'
 

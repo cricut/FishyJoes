@@ -47,7 +47,7 @@ jobs:
           scope: '@cricut'
 
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '6'
 
@@ -166,7 +166,7 @@ jobs:
           scope: '@cricut'
 
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '6'
 
@@ -299,7 +299,7 @@ jobs:
           scope: '@cricut'
 
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '6'
 
