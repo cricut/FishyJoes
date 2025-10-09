@@ -533,19 +533,8 @@ struct TranslatedProtocol: TranslatedType {
                     fragment.output(#"module: "\#(context.module)","#)
                     fragment.output(#"name: "\#(nodeExternalWitnessClassName)","#)
                     fragment.outputBlock("properties: [", closeWith: "],") {
-                        var hasProperties = false
-                        hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment, converterName: converterType.name, shouldWrapDefaultImpl: true)
-                        hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: fields, context: context, fragment: fragment, converterName: converterType.name, shouldWrapDefaultImpl: true)
-//                        for field in fields {
-//                            // Limitation in wasm implementation of napi_create_class doesn't allow constructors to assign to non-mutable property.
-//                            // let mutable = field.isPubliclyWritable
-//                            let mutable = true
-//                            fragment.output("\"\(field.name)\": (.stored(mutable: \(mutable)), isStatic: \(field.isStatic)),")
-//                            hasProperties = true
-//                        }
-                        if !hasProperties {
-                            fragment.output(":")
-                        }
+                        context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment, converterName: converterType.name, shouldWrapDefaultImpl: true)
+                        context.nodeTranslator.outputProperties(computedVariables: fields, context: context, fragment: fragment, converterName: converterType.name, shouldWrapDefaultImpl: true)
                     }
                     fragment.outputBlock("constructor: { env, info in", closeWith: "}") {
                         fragment.outputBlock("callbackBody(env, info, name: \"\(nodeExternalWitnessClassName)_constructor\", expectedArgumentCount: 1) { env in", closeWith: "}") {

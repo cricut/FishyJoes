@@ -216,7 +216,7 @@ extension SourceryTemplateContext {
 
     func dump() throws {
         let encoder = JSONEncoder()
-        encoder.outputFormatting = [.prettyPrinted, .withoutEscapingSlashes]
+        encoder.outputFormatting = [.prettyPrinted, .withoutEscapingSlashes, .sortedKeys]
         print("// sourcery:file:sourcery-dump.json")
         print(String(data: try encoder.encode(self), encoding: .utf8)!)
         print("// sourcery:end")

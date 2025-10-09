@@ -27,7 +27,8 @@ extension AttributedSubstring: FishyJoesNodeRuntime.NodeConverter {
             module: "FishyJoesCommonRuntime",
             name: "AttributedSubstring",
             properties: [
-                "base": (
+                (
+                    name: "base",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "base", expectedArgumentCount: 0) { env in
@@ -38,7 +39,8 @@ extension AttributedSubstring: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "string": (
+                (
+                    name: "string",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "string", expectedArgumentCount: 0) { env in
@@ -49,7 +51,8 @@ extension AttributedSubstring: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "runs": (
+                (
+                    name: "runs",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "runs", expectedArgumentCount: 0) { env in
@@ -60,7 +63,8 @@ extension AttributedSubstring: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "characters": (
+                (
+                    name: "characters",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "characters", expectedArgumentCount: 0) { env in
@@ -71,7 +75,8 @@ extension AttributedSubstring: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "unicodeScalars": (
+                (
+                    name: "unicodeScalars",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "unicodeScalars", expectedArgumentCount: 0) { env in
@@ -82,7 +87,8 @@ extension AttributedSubstring: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "startIndex": (
+                (
+                    name: "startIndex",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "startIndex", expectedArgumentCount: 0) { env in
@@ -93,7 +99,8 @@ extension AttributedSubstring: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "endIndex": (
+                (
+                    name: "endIndex",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "endIndex", expectedArgumentCount: 0) { env in
@@ -104,7 +111,8 @@ extension AttributedSubstring: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "substring": (
+                (
+                    name: "substring",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "substring", expectedArgumentCount: 0) { env in
@@ -115,7 +123,8 @@ extension AttributedSubstring: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "substringForRange": (
+                (
+                    name: "substringForRange",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "substringForRange", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try AttributedSubstring.toNode(
@@ -129,7 +138,8 @@ extension AttributedSubstring: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "equals": (
+                (
+                    name: "equals",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "equals", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             guard let lhsSubstring = try? env.this(converter: AttributedSubstring.self),
@@ -144,7 +154,8 @@ extension AttributedSubstring: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "hashCode": (
+                (
+                    name: "hashCode",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hashCode", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let hash = Int32(truncatingIfNeeded: try env.this(converter: AttributedSubstring.self).hashValue)
@@ -153,7 +164,8 @@ extension AttributedSubstring: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "createEmpty": (
+                (
+                    name: "createEmpty",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "createEmpty", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try AttributedSubstring.toNode(

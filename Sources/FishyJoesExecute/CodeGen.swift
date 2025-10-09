@@ -434,10 +434,8 @@ extension CodeGen {
                 .run()
             defer { try? FileManager.default.removeItem(atPath: templatePath) }
 
-            try cmd(
-                "mint",
-                arguments: [
-                    "run", "krzysztofzablocki/Sourcery@2.3.0",
+            try sourceryCommand(
+                [
                     quiet ? "-q" : nil,
                     "--disableCache",
                     "--parseDocumentation",
@@ -519,6 +517,17 @@ extension CodeGen {
         // MARK: - Pack Step
         if buildStep.contains(.pack) {
             try allBuildPhases.forEach { try $0.packPhase() }
+        }
+    }
+
+    private func sourceryCommand(_ arguments: [String]) -> Command {
+        switch config.sourceryOverride {
+        case .none:
+            return cmd("mint", arguments: ["run", "krzysztofzablocki/Sourcery@2.3.0"] + arguments)
+        case .some(.remote(let remoteSpec)):
+            return cmd("mint", arguments: ["run", remoteSpec] + arguments)
+        case .some(.local(let path)):
+            return cmd(path ?? "sourcery", arguments: arguments)
         }
     }
 

@@ -10,9 +10,6 @@ public func debug(file: StaticString = #file, line: UInt = #line, _ msgs: Any? .
     _ = message.withCString { fputs($0, stderr) }
 }
 
-infix operator ||=
-public func ||= (left: inout Bool, right: @autoclosure () throws -> Bool) rethrows { left = try left || right() }
-
 public func fatalErr(_ message: String = "", file: StaticString = #file, line: UInt = #line) -> Never {
     fatalError("\n\(file):\(line): \(message)\n\(Thread.callStackSymbols.joined(separator: "\n"))\n")
 }

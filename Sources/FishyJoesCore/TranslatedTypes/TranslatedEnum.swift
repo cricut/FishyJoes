@@ -136,24 +136,20 @@ struct TranslatedEnum: TranslatedType {
                 fragment.outputBlock("public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {") {
                     fragment.output("let object = try env.createObject()")
                     fragment.outputBlock("let props = try NodeClass.descriptorsFor(properties: [", closeWith: "], env: env)") {
-                        var hasProperties = false
-                        hasProperties ||= context.nodeTranslator.outputProperties(
+                        context.nodeTranslator.outputProperties(
                             methods: methods,
                             explicitThis: true,
                             context: context,
                             fragment: fragment,
                             converterName: converterType.name
                         )
-                        hasProperties ||= context.nodeTranslator.outputProperties(
+                        context.nodeTranslator.outputProperties(
                             computedVariables: fields,
                             explicitThis: true,
                             context: context,
                             fragment: fragment,
                             converterName: converterType.name
                         )
-                        if !hasProperties {
-                            fragment.output(":")
-                        }
                     }
                     fragment.output("try env.defineProperties(object, properties: props)")
 
@@ -263,22 +259,18 @@ struct TranslatedEnum: TranslatedType {
                         fragment.output(#"module: "\#(context.module)","#)
                         fragment.output(#"name: "\#(nodeName)","#)
                         fragment.outputBlock("properties: [", closeWith: "],") {
-                            var hasProperties = false
-                            hasProperties ||= context.nodeTranslator.outputProperties(
+                            context.nodeTranslator.outputProperties(
                                 methods: methods,
                                 context: context,
                                 fragment: fragment,
                                 converterName: converterType.name
                             )
-                            hasProperties ||= context.nodeTranslator.outputProperties(
+                            context.nodeTranslator.outputProperties(
                                 computedVariables: fields,
                                 context: context,
                                 fragment: fragment,
                                 converterName: converterType.name
                             )
-                            if !hasProperties {
-                                fragment.output(":")
-                            }
                         }
                         fragment.outputBlock("constructor: { env, info in", closeWith: "}") {
                             fragment.outputBlock("FishyJoesNodeRuntime.callbackBody(", newLineTerminated: false) {
@@ -307,14 +299,10 @@ struct TranslatedEnum: TranslatedType {
                             fragment.output(#"module: "\#(context.module)","#)
                             fragment.output(#"name: "\#(className)","#)
                             fragment.output("superclass: superclass,")
-                            if enumCase.associatedValues.isEmpty {
-                                fragment.output("properties: [:],")
-                            } else {
-                                fragment.outputBlock("properties: [", closeWith: "],") {
-                                    for value in enumCase.associatedValues {
-                                        // Limitation is wasm implementation of napi_create_class doesn't allow constructors to assign to non-mutable property.
-                                        fragment.output("\"\(value.bindingName)\": (.stored(mutable: true), isStatic: false),")
-                                    }
+                            fragment.outputBlock("properties: [", closeWith: "],") {
+                                for value in enumCase.associatedValues {
+                                    // Limitation is wasm implementation of napi_create_class doesn't allow constructors to assign to non-mutable property.
+                                    fragment.output("(name: \"\(value.bindingName)\", .stored(mutable: true), isStatic: false),")
                                 }
                             }
                             fragment.outputBlock("constructor: { env, info in", closeWith: "}") {

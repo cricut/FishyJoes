@@ -27,7 +27,8 @@ extension AttributeContainer.FoundationAttributes: FishyJoesNodeRuntime.NodeConv
             module: "FishyJoesCommonRuntime",
             name: "AttributeContainer.FoundationAttributes",
             properties: [
-                "link": (
+                (
+                    name: "link",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "link", expectedArgumentCount: 0) { env in
@@ -44,7 +45,8 @@ extension AttributeContainer.FoundationAttributes: FishyJoesNodeRuntime.NodeConv
                         }),
                     isStatic: false
                 ),
-                "languageIdentifier": (
+                (
+                    name: "languageIdentifier",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "languageIdentifier", expectedArgumentCount: 0) { env in
@@ -61,7 +63,8 @@ extension AttributeContainer.FoundationAttributes: FishyJoesNodeRuntime.NodeConv
                         }),
                     isStatic: false
                 ),
-                "equals": (
+                (
+                    name: "equals",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "equals", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             guard let lhs = try? env.this(converter: AttributeContainer.FoundationAttributes.self),
@@ -74,7 +77,8 @@ extension AttributeContainer.FoundationAttributes: FishyJoesNodeRuntime.NodeConv
                     },
                     isStatic: false
                 ),
-                "hashCode": (
+                (
+                    name: "hashCode",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hashCode", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let hashValue = try env.this(converter: AttributeContainer.FoundationAttributes.self).hashValue
@@ -83,7 +87,8 @@ extension AttributeContainer.FoundationAttributes: FishyJoesNodeRuntime.NodeConv
                     },
                     isStatic: false
                 ),
-                "createEmpty": (
+                (
+                    name: "createEmpty",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "createEmpty", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try AttributeContainer.FoundationAttributes.toNode(
@@ -96,7 +101,8 @@ extension AttributeContainer.FoundationAttributes: FishyJoesNodeRuntime.NodeConv
                     },
                     isStatic: true
                 ),
-                "createFromContainer": (
+                (
+                    name: "createFromContainer",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "createFromContainer", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try AttributeContainer.FoundationAttributes.toNode(
@@ -110,7 +116,8 @@ extension AttributeContainer.FoundationAttributes: FishyJoesNodeRuntime.NodeConv
                     },
                     isStatic: true
                 ),
-                "asContainer": (
+                (
+                    name: "asContainer",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "asContainer", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try AttributeContainer.toNode(

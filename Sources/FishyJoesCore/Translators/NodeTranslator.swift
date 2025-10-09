@@ -223,30 +223,30 @@ struct NodeTranslator: Translator {
         }
     }
 
-    func outputProperties(methods: [Method], explicitThis: Bool = false, context: FishyJoesContext, fragment: SourceFragment, converterName: String, shouldWrapDefaultImpl: Bool = false) -> Bool {
+    func outputProperties(methods: [Method], explicitThis: Bool = false, context: FishyJoesContext, fragment: SourceFragment, converterName: String, shouldWrapDefaultImpl: Bool = false) {
         for method in methods {
             let isStatic = explicitThis || method.isStatic
             let explicitThis = explicitThis && !method.isStatic
 
-            fragment.outputBlock("\"\(method.exportAnnotation.name)\": (", closeWith: "),") {
+            fragment.outputBlock("(", closeWith: "),") {
+                fragment.output("name: \"\(method.exportAnnotation.name)\",")
                 fragment.output(".method ", newLineTerminated: false)
                 output(method: method, explicitThis: explicitThis, context: context, fragment: fragment, newLineTerminated: false, converterName: converterName, shouldWrapDefaultImpl: shouldWrapDefaultImpl)
                 fragment.output(",")
                 fragment.output("isStatic: \(isStatic)")
             }
         }
-        return !methods.isEmpty
     }
 
-    func outputProperties(computedVariables: [Field], explicitThis: Bool = false, context: FishyJoesContext, fragment: SourceFragment, converterName: String, shouldWrapDefaultImpl: Bool = false) -> Bool {
-        var didOutput = false
+    func outputProperties(computedVariables: [Field], explicitThis: Bool = false, context: FishyJoesContext, fragment: SourceFragment, converterName: String, shouldWrapDefaultImpl: Bool = false) {
         for variable in computedVariables {
             guard let exportAnnotation = variable.exportAnnotation else {
                 continue
             }
             let nodeName = exportAnnotation.name
             if explicitThis, !variable.isStatic {
-                fragment.outputBlock("\"get\(upperCaseFirst(nodeName))\": (", closeWith: "),") {
+                fragment.outputBlock("(", closeWith: "),") {
+                    fragment.output("name: \"get\(upperCaseFirst(nodeName))\",")
                     fragment.output(".method ", newLineTerminated: false)
                     output(getter: variable, explicitThis: true, context: context, fragment: fragment, converterName: converterName, shouldWrapDefaultImpl: shouldWrapDefaultImpl)
                     fragment.output(",")
@@ -254,7 +254,8 @@ struct NodeTranslator: Translator {
                 }
                 assert(!variable.isMutable, "mutating enum variables not supported, which I think is the only way to get here")
             } else {
-                fragment.outputBlock("\"\(nodeName)\": (", closeWith: "),") {
+                fragment.outputBlock("(", closeWith: "),") {
+                    fragment.output("name: \"\(nodeName)\",")
                     fragment.outputBlock(".accessor(", closeWith: "),") {
                         fragment.output("getter: ", newLineTerminated: false)
                         output(getter: variable, context: context, fragment: fragment, converterName: converterName, shouldWrapDefaultImpl: shouldWrapDefaultImpl)
@@ -265,9 +266,7 @@ struct NodeTranslator: Translator {
                     fragment.output("isStatic: \(variable.isStatic)")
                 }
             }
-            didOutput = true
         }
-        return didOutput
     }
 
     func setupFragments(context: FishyJoesContext, generatedTypes: [BetterType]) -> [SourceFragment] {

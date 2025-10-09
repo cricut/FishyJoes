@@ -104,13 +104,13 @@ struct TranslatedReference: TranslatedType {
                     fragment.output(#"module: "\#(context.module)","#)
                     fragment.output(#"name: "\#(nodeName)","#)
                     fragment.outputBlock("properties: [", closeWith: "],") {
-                        var hasProperties = false
-                        hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment, converterName: converterType.name)
-                        hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment, converterName: converterType.name)
+                        context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment, converterName: converterType.name)
+                        context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment, converterName: converterType.name)
                         if !isInhabited {
                             fragment.output("// Uninhabited type")
                         } else {
-                            fragment.outputBlock(#""toString": ("#) {
+                            fragment.outputBlock("(") {
+                                fragment.output(#"name: "toString","#)
                                 fragment.outputBlock(".method { env, info in", closeWith: "},") {
                                     fragment.outputBlock(#"FishyJoesNodeRuntime.callbackBody(env, info, name: "toString", expectedArgumentCount: 0, hasNamedOptions: false) { env in"#, closeWith: "}") {
                                         fragment.outputBlock("let result = try Swift.String.toNode(") {

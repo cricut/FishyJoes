@@ -103,19 +103,14 @@ struct TranslatedStruct: TranslatedType {
                     fragment.output(#"module: "\#(context.module)","#)
                     fragment.output(#"name: "\#(nodeName)","#)
                     fragment.outputBlock("properties: [", closeWith: "],") {
-                        var hasProperties = false
-                        hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment, converterName: converterType.name)
-                        hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment, converterName: converterType.name)
+                        context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment, converterName: converterType.name) 
+                        context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment, converterName: converterType.name)
 
                         for storedVar in storedVariables {
                             // Limitation in wasm implementation of napi_create_class doesn't allow constructors to assign to non-mutable property.
                             // let mutable = storedVar.isPubliclyWritable
                             let mutable = true
-                            fragment.output("\"\(storedVar.name)\": (.stored(mutable: \(mutable)), isStatic: \(storedVar.isStatic)),")
-                            hasProperties = true
-                        }
-                        if !hasProperties {
-                            fragment.output(":")
+                            fragment.output("(name: \"\(storedVar.name)\", .stored(mutable: \(mutable)), isStatic: \(storedVar.isStatic)),")
                         }
                     }
                     fragment.outputBlock("constructor: { env, info in", closeWith: "}") {

@@ -27,7 +27,8 @@ extension AttributedString.Runs.Run: FishyJoesNodeRuntime.NodeConverter {
             module: "FishyJoesCommonRuntime",
             name: "AttributedString.Runs.Run",
             properties: [
-                "range": (
+                (
+                    name: "range",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "range", expectedArgumentCount: 0) { env in
@@ -38,7 +39,8 @@ extension AttributedString.Runs.Run: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "attributes": (
+                (
+                    name: "attributes",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "attributes", expectedArgumentCount: 0) { env in
@@ -49,7 +51,8 @@ extension AttributedString.Runs.Run: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "equals": (
+                (
+                    name: "equals",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "equals", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             guard let lhs = try? env.this(converter: AttributedString.Runs.Run.self),
@@ -62,7 +65,8 @@ extension AttributedString.Runs.Run: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "hashCode": (
+                (
+                    name: "hashCode",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hashCode", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let hashValue = AttributedString("HASH", attributes: try env.this(converter: AttributedString.Runs.Run.self).attributes).hashValue
