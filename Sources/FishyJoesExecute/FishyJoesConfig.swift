@@ -8,6 +8,7 @@ struct FishyJoesConfig: Codable {
     let requiredModules: [String]
     let extraDynamicLibraries: [String]
     let excludeSources: [String]
+    let ciGenerateWorkflowFiles: Bool?
     let ciPreBuildHook: String?
 
     static func readFromFile(basePath: String) throws -> FishyJoesConfig {
@@ -57,6 +58,12 @@ struct FishyJoesConfig: Codable {
             }
             return list
         }
+        let ciGenerateWorkflowFiles = try configDictionary["CIGenerateWorkflowFiles"].map { obj -> Bool in
+            guard let hook = obj as? Bool else {
+                throw ValidationError("fishy-joes.yaml value for key `CIGenerateWorkflowFiles` is not a bool")
+            }
+            return hook
+        }
         let ciPreBuildHook = try configDictionary["CIPreBuildHook"].map { obj -> String in
             guard let hook = obj as? String else {
                 throw ValidationError("fishy-joes.yaml value for key `CIPreBuildHook` is not a (string) bash script")
@@ -69,6 +76,7 @@ struct FishyJoesConfig: Codable {
             requiredModules: requiredModules ?? [],
             extraDynamicLibraries: extraDynamicLibraries ?? [],
             excludeSources: excludeSources ?? [],
+            ciGenerateWorkflowFiles: ciGenerateWorkflowFiles,
             ciPreBuildHook: ciPreBuildHook
         )
     }

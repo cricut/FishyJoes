@@ -476,15 +476,18 @@ extension CodeGen {
                 includeFilesNotMarkedAsGenerated: false
             )
             try packageInit.installTemplate()
-            try cmd("mkdir", "-p", ".github/workflows").run()
-            for workflow in try FileManager.default.contentsOfDirectory(atPath: ".github/workflows") {
-                if workflow.hasPrefix("GENERATED-") {
-                    try cmd("rm", ".github/workflows/\(workflow)").run()
+
+            if config.ciGenerateWorkflowFiles ?? true {
+                try cmd("mkdir", "-p", ".github/workflows").run()
+                for workflow in try FileManager.default.contentsOfDirectory(atPath: ".github/workflows") {
+                    if workflow.hasPrefix("GENERATED-") {
+                        try cmd("rm", ".github/workflows/\(workflow)").run()
+                    }
                 }
-            }
-            for workflow in try FileManager.default.contentsOfDirectory(atPath: "bindings/workflows") {
-                if workflow.hasPrefix("GENERATED-"), workflow.hasSuffix(".yaml") {
-                    try cmd("cp", "bindings/workflows/\(workflow)", ".github/workflows/\(workflow)").run()
+                for workflow in try FileManager.default.contentsOfDirectory(atPath: "bindings/workflows") {
+                    if workflow.hasPrefix("GENERATED-"), workflow.hasSuffix(".yaml") {
+                        try cmd("cp", "bindings/workflows/\(workflow)", ".github/workflows/\(workflow)").run()
+                    }
                 }
             }
         }
