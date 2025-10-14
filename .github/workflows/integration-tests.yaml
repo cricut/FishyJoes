@@ -58,12 +58,7 @@ jobs:
           mint --version || brew install mint
 
       - name: Force clear nuget cache
-        run: |
-          set -euo pipefail
-          dotnet nuget locals all --clear || {
-              echo "dotnet install is borked, nuking ~/.dotnet"
-              rm -rf ~/.dotnet
-          }
+        run: "dotnet nuget locals all --clear"
 
       - uses: dart-lang/setup-dart@v1
 
