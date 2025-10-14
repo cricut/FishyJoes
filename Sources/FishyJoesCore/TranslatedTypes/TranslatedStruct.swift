@@ -103,7 +103,7 @@ struct TranslatedStruct: TranslatedType {
                     fragment.output(#"module: "\#(context.module)","#)
                     fragment.output(#"name: "\#(nodeName)","#)
                     fragment.outputBlock("properties: [", closeWith: "],") {
-                        context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment, converterName: converterType.name) 
+                        context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment, converterName: converterType.name)
                         context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment, converterName: converterType.name)
 
                         for storedVar in storedVariables {
