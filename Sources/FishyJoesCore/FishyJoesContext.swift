@@ -1,6 +1,5 @@
 import Foundation
 import SourceryDataModel
-import System
 
 public class FishyJoesContext {
     let module: Module

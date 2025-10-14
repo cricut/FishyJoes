@@ -51,7 +51,12 @@ jobs:
           dotnet-version: '6'
 
       - name: Force clear nuget cache
-        run: "dotnet nuget locals all --clear"
+        run: |
+          set -euo pipefail
+          dotnet nuget locals all --clear || {
+              echo "dotnet install is borked, nuking ~/.dotnet"
+              rm -rf ~/.dotnet
+          }
 
       - name: Configure build environment
         shell: zsh {0}
