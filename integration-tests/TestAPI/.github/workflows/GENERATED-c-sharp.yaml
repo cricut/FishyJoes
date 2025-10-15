@@ -316,7 +316,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: nuget-package
-          path: c-sharp/Cricut.TestAPI/nupkgs/*.nupkg
+          path: bindings/c-sharp/Cricut.TestAPI/nupkgs/*.nupkg
           if-no-files-found: error
 
       - name: Publish
