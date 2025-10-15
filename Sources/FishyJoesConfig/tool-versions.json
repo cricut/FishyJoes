@@ -13,7 +13,7 @@
   "swiftAndroid": {
     "//": "values taken from https://github.com/swift-android-sdk/swift-android-sdk/releases. Should match version in cricut/android-swift-runtime",
     "toolchain": "6.2",
-    "sdk": "6.2-RELEASE-android-0.1",
+    "sdk": "6.2-RELEASE-android-0.2",
     "sdkChecksum": "ca7e09f09a591b6a661a39134aaf53b1b59d5e3a193b271ab1f20effdfc6e88e",
     "targets": [
       {
