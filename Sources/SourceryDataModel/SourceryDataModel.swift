@@ -206,6 +206,7 @@ public struct SourceryAttribute: Hashable, Codable {
 // MARK: convertion from sourcery types to transport types
 
 #if canImport(SourceryRuntime)
+import Foundation
 import SourceryRuntime
 
 extension SourceryTemplateContext {

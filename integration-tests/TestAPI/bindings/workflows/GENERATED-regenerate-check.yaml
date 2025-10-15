@@ -46,9 +46,18 @@ jobs:
           swift run -- fishy-joes generate
 
           if [ ! -z "$(git status --porcelain .)" ]; then
-            git diff
+            git diff | tee regenerated.patch
             git status
             echo '::error:: generation modified sources'
             echo '::error::   run `FISHYJOES=1 swift run fishy-joes generate` from root of repository and re-commit'
+            echo '::error::   (alternatively, download patch attached to this workflow and run `git apply regenerated.patch`)'
             exit 1
           fi
+
+      - name: Upload patch if needed
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: regenerated.patch
+          path: regenerated.patch
+          if-no-files-found: ignore
