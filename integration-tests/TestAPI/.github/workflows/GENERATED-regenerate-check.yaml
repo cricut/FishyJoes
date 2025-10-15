@@ -55,6 +55,7 @@ jobs:
           fi
 
       - name: Upload patch if needed
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: regenerated.patch
