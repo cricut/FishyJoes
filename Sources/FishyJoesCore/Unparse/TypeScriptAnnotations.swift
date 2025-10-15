@@ -30,7 +30,6 @@ struct TypeScriptAnnotations: Codable {
         let parameters: [Parameter]
         let returnType: TSType
         let hasDefaultImplementation: Bool
-        let protocolName: String?
     }
 
     struct Typealias: Codable {
@@ -271,7 +270,7 @@ extension TypeScriptAnnotations {
 
     var fragment: SourceFragment {
         // puts content in /bindings/ts/generated/__MODULE_NAME__.d.ts.part
-        let fragment = SourceFragment(sourceryDestination: "file:../../../../ts/generated/\(defaultNamespace).d.ts.part")
+        let fragment = SourceFragment(destinationPath: "ts/generated/\(defaultNamespace).d.ts.part")
 
         func document(_ documentation: [String]) {
             guard !documentation.isEmpty else { return }
@@ -282,7 +281,7 @@ extension TypeScriptAnnotations {
             fragment.output(" */")
         }
 
-        func output(method: Method, inClass: Bool, optionalForDefaults: Bool = false, isCore: Bool = false) {
+        func output(method: Method, inClass: Bool, optionalForDefaults: Bool = false, inCoreOfProtocol: String? = nil) {
             document(method.documentation)
             if !inClass {
                 fragment.output("function ", newLineTerminated: false)
@@ -298,8 +297,7 @@ extension TypeScriptAnnotations {
                     isFirst = false
                 }
 
-                if isCore,
-                   let protocolName = method.protocolName {
+                if let protocolName = inCoreOfProtocol {
                     outputComma()
                     fragment.output("this: \(protocolName)", newLineTerminated: false)
                 }
@@ -328,7 +326,7 @@ extension TypeScriptAnnotations {
             fragment.blankLine()
         }
 
-        func output(field: Variable, inClass: Bool, optionalForDefaults: Bool = false, isCore: Bool = false) {
+        func output(field: Variable, inClass: Bool, optionalForDefaults: Bool = false, inCoreOfProtocol: String? = nil) {
             document(field.documentation)
 
             let optionalOptionalMark = (field.hasDefaultImplementation && optionalForDefaults) ? "?" : ""
@@ -407,10 +405,10 @@ extension TypeScriptAnnotations {
                             interface.fields.contains(where: { $0.hasDefaultImplementation }) {
                             fragment.outputBlock("interface \(interface.name)Core {") {
                                 for field in interface.fields {
-                                    output(field: field, inClass: true, optionalForDefaults: true, isCore: true)
+                                    output(field: field, inClass: true, optionalForDefaults: true, inCoreOfProtocol: interface.name)
                                 }
                                 for method in interface.methods {
-                                    output(method: method, inClass: true, optionalForDefaults: true, isCore: true)
+                                    output(method: method, inClass: true, optionalForDefaults: true, inCoreOfProtocol: interface.name)
                                 }
                             }
                             fragment.blankLine()

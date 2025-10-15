@@ -5,7 +5,6 @@ struct TranslatedRange: TranslatedType {
 
     let bound: TranslatedType
     let containedNamedTypes: [TranslatedType]
-    let neutralName: String
     let nodeName: String
     let kotlinPackage: String?
     let kotlinName: String
@@ -20,7 +19,6 @@ struct TranslatedRange: TranslatedType {
         self.name = isClosedRange ? "ClosedRange" : "Range"
         self.bound = bound
         self.containedNamedTypes = bound.containedNamedTypes
-        self.neutralName = "\(name)<B=\(bound.neutralName)>"
         self.nodeName = "Swift\(name)<\(bound.nodeName)>"
         self.kotlinPackage = "com.cricut.fishyjoes.runtime"
         self.kotlinName = "Swift\(name)<\(bound.kotlinPackageQualifiedName)>"

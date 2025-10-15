@@ -1,4 +1,4 @@
-import SourceryRuntime
+import SourceryDataModel
 
 struct TranslatedSet: TranslatedType {
     let elementType: TranslatedType
@@ -7,7 +7,6 @@ struct TranslatedSet: TranslatedType {
     let converterType: BetterType
     let nodeName: String
     let kotlinName: String
-    let neutralName: String
     let containedNamedTypes: [TranslatedType]
     let kotlinPackage: String? = "kotlin.collections"
     let jniType = JNIType.object("java/util/Set")
@@ -21,7 +20,6 @@ struct TranslatedSet: TranslatedType {
         self.converterType = .generic(base: .runtime("SetConverter"), args: [element.converterType])
         self.nodeName = "Set<\(element.nodeType)>"
         self.kotlinName = "Set<\(element.kotlinPackageQualifiedName)>"
-        self.neutralName = "Set<K=\(element.neutralName)>"
         self.containedNamedTypes = element.containedNamedTypes
         self.cSharpType = .named(package: "System.Collections.Generic", name: "ISet<\(element.cSharpType.name)>")
         self.dartType = .named(package: nil, name: "Set", genericArgs: [element.dartType])

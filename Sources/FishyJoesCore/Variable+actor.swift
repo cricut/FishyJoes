@@ -1,4 +1,4 @@
-import SourceryRuntime
+import SourceryDataModel
 
 extension SourceryVariable {
     var isNonisolated: Bool {

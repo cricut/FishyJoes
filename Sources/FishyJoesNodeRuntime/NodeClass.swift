@@ -29,14 +29,14 @@ public struct NodeClass {
     }
 
     public static func descriptorsFor(
-        properties: [String: (Property, isStatic: Bool)],
+        properties: [(name: String, Property, isStatic: Bool)],
         callbackData: UnsafeMutableRawPointer? = nil,
         env: NAPI.Env
     ) throws -> [napi_property_descriptor] {
         let undefined = try env.getUndefined()
         var nodeProperties: [napi_property_descriptor] = []
 
-        for (name, (prop, isStatic)) in properties {
+        for (name, prop, isStatic) in properties {
             let nodeName = try String.toNode(name, env: env)
             var attributes = isStatic ? napi_static : napi_default
             switch prop {
@@ -82,13 +82,18 @@ public struct NodeClass {
         name: String,
         superclass: NodeClass? = nil,
         callbackData: UnsafeMutableRawPointer? = nil,
-        properties: [String: (Property, isStatic: Bool)],
+        properties: [(name: String, Property, isStatic: Bool)],
         constructor: @escaping napi_callback
     ) throws {
         if let existingConstructor = Self.registeredConstructors[module]?[name] {
             // TODO: I don't really like this solution. Some other method should ensure this isn't called more than once like we do in other languages
             self.constructor = existingConstructor
             return
+        }
+
+        let duplicateCheck = Dictionary(grouping: properties, by: \.name)
+        if let duplicate = duplicateCheck.values.first(where: { $0.count > 1 }) {
+            fatalError("In JS class '\(name)', found duplicate property name '\(duplicate[0].name)'")
         }
 
         let nodeConstructor = try env.defineClassViaFunction(

@@ -1,10 +1,7 @@
-// Generated using Sourcery 2.2.6 — https://github.com/krzysztofzablocki/Sourcery
-// DO NOT EDIT
 // swiftlint:disable:next blanket_disable_command superfluous_disable_command
 // swiftlint:disable unused_closure_parameter syntactic_sugar attributes
 import Foundation
 import TestAPI
-
 
 // MARK: - CommonInterface/TestAPI_CommonInterface._AProtocolConverter.swift
 
@@ -67,7 +64,6 @@ public struct AProtocol_sans_hasADefaultImplementation2: TestAPI.AProtocol {
         try wrapped.hasADefaultImplementation(x: x, y: y)
     }
 }
-
 
 // MARK: - CommonInterface/TestAPI_CommonInterface._TestAsyncFunctionsConverter.swift
 
@@ -167,7 +163,6 @@ public struct TestAsyncFunctions_sans_defaultExercise6: TestAPI.TestAsyncFunctio
     }
 }
 
-
 // MARK: - CommonInterface/TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter.swift
 
 public enum _TestDefaultComputedPropertiesConverter {
@@ -202,13 +197,11 @@ public struct TestDefaultComputedProperties_sans_pluto: TestAPI.TestDefaultCompu
     }
 }
 
-
 // MARK: - CommonInterface/TestAPI_CommonInterface._TestDifferingExportNameProtocolConverter.swift
 
 public enum _TestDifferingExportNameProtocolConverter {
     public typealias SwiftType = TestAPI.TestDifferingExportNameProtocol
 }
-
 
 // MARK: - CommonInterface/TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter.swift
 
@@ -216,20 +209,17 @@ public enum _TestLeadingUnderscoredPropConverter {
     public typealias SwiftType = TestAPI.TestLeadingUnderscoredProp
 }
 
-
 // MARK: - CommonInterface/TestAPI_CommonInterface._TestMethodsProtocolConverter.swift
 
 public enum _TestMethodsProtocolConverter {
     public typealias SwiftType = TestAPI.TestMethodsProtocol
 }
 
-
 // MARK: - CommonInterface/TestAPI_CommonInterface._TestOptionalsProtocolConverter.swift
 
 public enum _TestOptionalsProtocolConverter {
     public typealias SwiftType = TestAPI.TestOptionalsProtocol
 }
-
 
 // MARK: - CommonInterface/TestAPI_CommonInterface._TestPropertiesProtocolConverter.swift
 

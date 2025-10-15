@@ -55,6 +55,7 @@ jobs:
         shell: zsh {0}
         run: |
           yq --version || brew install yq
+          mint --version || brew install mint
 
       - name: Force clear nuget cache
         run: "dotnet nuget locals all --clear"

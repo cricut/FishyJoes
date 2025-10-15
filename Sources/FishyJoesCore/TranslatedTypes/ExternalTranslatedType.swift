@@ -1,7 +1,6 @@
 struct ExternalTranslatedType: Codable {
     var sourceType: BetterType
     var converterType: BetterType
-    var neutralName: String
     var nodeName: String
     var kotlinPackage: String?
     var kotlinName: String
@@ -14,7 +13,6 @@ struct ExternalTranslatedType: Codable {
     internal init(
         sourceType: BetterType,
         converterType: BetterType?,
-        neutralName: String,
         nodeName: String,
         kotlinPackage: String?,
         kotlinName: String,
@@ -26,7 +24,6 @@ struct ExternalTranslatedType: Codable {
     ) {
         self.sourceType = sourceType
         self.converterType = converterType ?? sourceType
-        self.neutralName = neutralName
         self.nodeName = nodeName
         self.kotlinPackage = kotlinPackage
         self.kotlinName = kotlinName
@@ -50,7 +47,6 @@ extension TranslatedType {
         ExternalTranslatedType(
             sourceType: sourceType,
             converterType: converterType,
-            neutralName: "ExternalTranslatedType<of=\(neutralName)>",
             nodeName: "\(definingModule.name).\(nodeName)",
             kotlinPackage: kotlinPackage,
             kotlinName: kotlinName,

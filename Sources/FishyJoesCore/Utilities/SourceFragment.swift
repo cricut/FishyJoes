@@ -1,12 +1,14 @@
+import Foundation
+
 public class SourceFragment {
     private let spacesPerIndent = 4
-    public var sourceryDestination: String?
+    public var destinationPath: String?
     private var stringBuilder: [String] = []
     private var isFreshLine = true
     private var currentIndent = 0
 
-    public init(sourceryDestination: String?) {
-        self.sourceryDestination = sourceryDestination
+    public init(destinationPath: String?) {
+        self.destinationPath = destinationPath
     }
 
     private func append(fragments: [String]) {
@@ -14,16 +16,10 @@ public class SourceFragment {
     }
 
     public var contents: String {
-        if let sourceryDestination = sourceryDestination {
-            return """
-                // sourcery:\(sourceryDestination)
-                \(stringBuilder.joined())
-                // sourcery:end
-
-                """
-        } else {
-            return "\(stringBuilder.joined())\n"
-        }
+        stringBuilder
+            .joined()
+            .trimmingCharacters(in: CharacterSet(charactersIn: "\n"))
+            + "\n"
     }
 
     public func blankLine() {
@@ -108,5 +104,31 @@ public class SourceFragment {
         currentIndent -= 1
         defer { currentIndent += 1 }
         return try body()
+    }
+
+    // Concatenate SourceFragments and group by destination
+    public static func combine(fragments: [SourceFragment]) -> [(path: String?, contents: String)] {
+        var collated: [String?: [String]] = [:]
+        for fragment in fragments {
+            collated[fragment.destinationPath, default: []].append(fragment.contents)
+        }
+        return collated.map {
+            let (destination, contentFragments) = $0
+            return (path: destination, contents: contentFragments.joined(separator: "\n"))
+        }.sorted { $0.path ?? "" < $1.path ?? "" }
+    }
+}
+
+extension SourceFragment: Comparable {
+    public static func == (lhs: SourceFragment, rhs: SourceFragment) -> Bool {
+        (lhs.destinationPath, lhs.stringBuilder) ==
+            (rhs.destinationPath, rhs.stringBuilder)
+    }
+
+    public static func < (lhs: SourceFragment, rhs: SourceFragment) -> Bool {
+        guard lhs.destinationPath == rhs.destinationPath else {
+            return lhs.destinationPath ?? "" < rhs.destinationPath ?? ""
+        }
+        return lhs.contents < rhs.contents
     }
 }

@@ -27,7 +27,8 @@ extension AttributedString.Runs.Index: FishyJoesNodeRuntime.NodeConverter {
             module: "FishyJoesCommonRuntime",
             name: "AttributedString.Runs.Index",
             properties: [
-                "equals": (
+                (
+                    name: "equals",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "equals", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             guard let lhs = try? env.this(converter: AttributedString.Runs.Index.self),
@@ -40,7 +41,8 @@ extension AttributedString.Runs.Index: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "hashCode": (
+                (
+                    name: "hashCode",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hashCode", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             var index = try env.this(converter: AttributedString.Runs.Index.self)
@@ -56,7 +58,8 @@ extension AttributedString.Runs.Index: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "compare": (
+                (
+                    name: "compare",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "compare", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             guard let lhs = try? env.this(converter: AttributedString.Runs.Index.self),

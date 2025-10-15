@@ -1,5 +1,5 @@
 import Foundation
-import SourceryRuntime
+import SourceryDataModel
 
 struct Method: Hashable {
     let name: String
@@ -17,7 +17,6 @@ struct Method: Hashable {
     let isThrowing: Bool
     let isAsync: Bool
     let deprecation: Deprecation?
-    let protocolName: String?
     let isDefaultImplementation: Bool
 
     enum SourceKind: Hashable {
@@ -27,7 +26,11 @@ struct Method: Hashable {
     }
     let sourceKind: SourceKind
 
-    init?(_ method: SourceryMethod, type: Type?, protocolName: String?) {
+    init?(
+        _ method: SourceryMethod,
+        inType containingType: SourceryType?,
+        context: FishyJoesContext
+    ) {
         guard let exportAnnotation = method.exportAnnotation else { return nil }
         // Sourcery very rarely will end up putting a newline into the method name. Strip any out.
         self.name = method.name.replacingOccurrences(of: #"\s*[\n\r]+\s*"#, with: " ", options: .regularExpression)
@@ -35,15 +38,15 @@ struct Method: Hashable {
         self.exportAnnotation = exportAnnotation
         self.returnType = method.returnTypeName.better
         self.documentation = method.documentation
-        self.definedIn = method.definedInTypeName?.better
+        self.definedIn = containingType?.name.better
         self.sourceKind = method.isInitializer ? .initializer : .method
         self.isStatic = method.isStatic
         // SourceryMethod.isMutating seems to be a bit buggy...
         self.isMutating = method.isMutating || method.modifiers.contains { $0.name == "mutating" }
-        self.isThrowing = method.throws || method.rethrows
+        self.isThrowing = method.isThrowing
         self.deprecation = method.deprecation
 
-        let isIsolated = type is Actor && !method.isNonisolated && !method.isInitializer
+        let isIsolated = containingType?.kind == .actor && !method.isNonisolated && !method.isInitializer
         self.isAsync = isIsolated || method.isAsync
 
         var parameters: [SwiftFormal] = []
@@ -74,8 +77,7 @@ struct Method: Hashable {
 
         precondition(omitParameters.isEmpty, "Can't find parameters \(omitParameters) to omit")
         self.parameters = parameters
-        self.protocolName = protocolName
-        self.isDefaultImplementation = (type is SourceryProtocol) && (method.definedInType?.isExtension == true)
+        self.isDefaultImplementation = containingType?.kind == .protocol && method.definedInExtension
     }
 }
 
@@ -178,25 +180,26 @@ extension Method {
         return preferredMethods
     }
 
-    static func methods(type: Type) -> [Method] {
+    static func methods(type: SourceryType, context: FishyJoesContext) -> [Method] {
         var defaultMethods = [Method]()
-        let protocols = type.implements.values.compactMap { $0 as? SourceryProtocol }
+        let protocols = type.implements
+            .compactMap { context.sourceryTypes[$0] }
+            .filter { $0.kind == .protocol }
         for prot in protocols {
-            let protDefaultMethods = prot.rawMethods.compactMap {
-                if $0.definedInType?.isExtension == true {
-                    return Method($0, type: prot, protocolName: prot.name)
+            let protocolDefaultMethods: [Method] = prot.rawMethods.compactMap { method in
+                if method.definedInExtension {
+                    return Method(method, inType: prot, context: context)
                 } else {
                     return nil
                 }
             }
 
-            defaultMethods.append(contentsOf: protDefaultMethods)
+            defaultMethods.append(contentsOf: protocolDefaultMethods)
         }
 
-        let isDefinedInProtocol = type is SourceryProtocol
-        let protocolName = isDefinedInProtocol ? type.name : nil
+        let isDefinedInProtocol = type.kind == .protocol
         let normalMethods = type.rawMethods.compactMap {
-            return Method($0, type: type, protocolName: protocolName)
+            return Method($0, inType: type, context: context)
         }
 
         let methods = Method.methodsPreferring(isDefinedInProtocol ? .defaultImplementation : .normal, methods: normalMethods + defaultMethods)

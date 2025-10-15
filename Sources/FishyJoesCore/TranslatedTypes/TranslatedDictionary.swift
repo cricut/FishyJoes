@@ -1,4 +1,4 @@
-import SourceryRuntime
+import SourceryDataModel
 
 struct TranslatedDictionary: TranslatedType {
     let keyType: TranslatedType
@@ -8,7 +8,6 @@ struct TranslatedDictionary: TranslatedType {
     let converterType: BetterType
     let nodeName: String
     let kotlinName: String
-    let neutralName: String
     let containedNamedTypes: [TranslatedType]
     let kotlinPackage: String? = "kotlin.collections"
     let jniType = JNIType.object("java/util/Map")
@@ -24,7 +23,6 @@ struct TranslatedDictionary: TranslatedType {
         self.converterType = .generic(base: .runtime("DictionaryConverter"), args: [key.converterType, value.converterType])
         self.nodeName = "Map<\(key.nodeType), \(value.nodeType)>"
         self.kotlinName = "Map<\(key.kotlinPackageQualifiedName), \(value.kotlinPackageQualifiedName)>"
-        self.neutralName = "Dictionary<K=\(key.neutralName), V=\(value.neutralName)>"
         self.containedNamedTypes = key.containedNamedTypes + value.containedNamedTypes
         self.cSharpType = .named(
             package: "System.Collections.Generic",
