@@ -6,13 +6,13 @@ plugins {
 // version info comes from https://github.com/cricut/Platform-Documentation/blob/main/platform/version_documentation.md#android
 android {
     namespace 'com.cricut.testapitestapp'
-    compileSdk 34
-    ndkVersion "27.1.12297006"
+    compileSdk 36
+    ndkVersion "27.3.13750724"
 
     defaultConfig {
         applicationId "com.cricut.testapitestapp"
         minSdk 28
-        targetSdk 34
+        targetSdk 35
         versionCode 1
         versionName "1.0"
 
@@ -35,6 +35,7 @@ android {
     packagingOptions {
         jniLibs.useLegacyPackaging = true
         jniLibs.keepDebugSymbols += '**/libdispatch.so'
+        jniLibs.keepDebugSymbols += '**/libFoundationXML.so'
         resources.excludes += "linux/*"
         resources.excludes += "windows/*"
         resources.excludes += "mac/*"
@@ -42,6 +43,7 @@ android {
 }
 
 dependencies {
+    implementation "com.cricut:android-swift-runtime:4.0.0"
     implementation 'com.cricut.TestAPI:testapi:local'
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'

@@ -1,36 +1,41 @@
 #!/bin/zsh
 
-set -euo pipefail
+set -euxo pipefail
 
-source /VERSIONS || { echo "This script expects to run in android-swift-runtime docker image"; exit 1 }
-
-set -x
-
-git config --global --add safe.directory '*'
+if [[ ! -d kotlin-runtime ]]; then
+    echo "Not in root of FishyJoes"
+    exit 1
+fi
 
 CONFIGURATION="${CONFIGURATION:-release}"
 libdir=kotlin-runtime/src/generated/resources
 
-androidsStupidPlatforms=(
-    "armv7 armeabi-v7a"
-    "aarch64 arm64-v8a"
-    "x86_64 x86_64"
-)
 export ANDROID_COMPATIBLE_ONLY=1
 
-for platformStr in $androidsStupidPlatforms; do
-    platform=(${(z)platformStr})
-    arch=${platform[1]}
-    ndkArch=${platform[2]}
+swiftAndroidToolchain=$(jq -r .swiftAndroid.toolchain Sources/FishyJoesConfig/tool-versions.json)
+swiftAndroidSDK=$(jq -r .swiftAndroid.sdk Sources/FishyJoesConfig/tool-versions.json)
 
-    swift-build \
-        --scratch-path .build/android-build \
-        --configuration $CONFIGURATION \
-        --product FishyJoesJavaRuntime \
-        --destination /swift-android-$arch/usr/swiftpm-android-$arch.json
-    installDir=$libdir/lib/$ndkArch
-    mkdir -p $installDir/
-    cp .build/android-build/$arch-unknown-linux-android$androidAPIVersion/$CONFIGURATION/libFishyJoesJavaRuntime.so $installDir/
-done
+jq -r '.swiftAndroid.targets[] | .triple + " " +  .ndkArchName' Sources/FishyJoesConfig/tool-versions.json |
+    while IFS= read -r line; do
+        pair=(${(z)line})
+        triple=${pair[1]}
+        ndkArch=${pair[2]}
 
-cp /VERSIONS $libdir/FishyJoesAndroidVersions.txt
+        swiftBuild=(swiftly run +$swiftAndroidToolchain ++ swift build)
+        if ! swiftly --version; then
+            echo "No swiftly found. Hoping that system swift version is $swiftAndroidToolchain"
+            swift --version
+            swiftBuild=(swift build)
+        fi
+
+        $swiftBuild \
+            --swift-sdk $triple \
+            --scratch-path .build/android-build \
+            --configuration $CONFIGURATION \
+            --product FishyJoesJavaRuntime
+        installDir=$libdir/lib/$ndkArch
+        mkdir -p $installDir/
+        cp .build/android-build/$triple/$CONFIGURATION/libFishyJoesJavaRuntime.so $installDir/
+    done
+
+# cp /VERSIONS $libdir/FishyJoesAndroidVersions.txt

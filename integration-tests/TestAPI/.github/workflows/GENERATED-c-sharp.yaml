@@ -38,7 +38,7 @@ jobs:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '6.0.x'
           source-url: https://nuget.pkg.github.com/cricut/index.json
@@ -83,12 +83,13 @@ jobs:
         with:
           name: mac_generated
           path: bindings/c-sharp/generated/Cricut.TestAPI/runtimes
+          if-no-files-found: error
 
   build-test-c-sharp-linux:
     name: "Ubuntu: Build and test C# bindings"
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cricut/android-swift-runtime:3.0.2
+      image: ghcr.io/cricut/android-swift-runtime:4.0.0
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
@@ -105,7 +106,7 @@ jobs:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '6.0.x'
           source-url: https://nuget.pkg.github.com/cricut/index.json
@@ -154,6 +155,7 @@ jobs:
         with:
           name: ubuntu_generated
           path: bindings/c-sharp/generated/Cricut.TestAPI/runtimes
+          if-no-files-found: error
 
   build-test-c-sharp-windows:
     name: "Windows: Build and test C# bindings"
@@ -177,7 +179,7 @@ jobs:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '6.0.x'
           source-url: https://nuget.pkg.github.com/cricut/index.json
@@ -231,6 +233,7 @@ jobs:
         with:
           name: windows_generated
           path: bindings/c-sharp/generated/Cricut.TestAPI/runtimes
+          if-no-files-found: error
 
   c-sharp-publish:
     name: "Publish C# package"
@@ -254,7 +257,7 @@ jobs:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '6.0.x'
           source-url: https://nuget.pkg.github.com/cricut/index.json
@@ -314,6 +317,7 @@ jobs:
         with:
           name: nuget-package
           path: c-sharp/Cricut.TestAPI/nupkgs/*.nupkg
+          if-no-files-found: error
 
       - name: Publish
         shell: zsh {0}

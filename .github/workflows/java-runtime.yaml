@@ -60,12 +60,13 @@ jobs:
         with:
           name: mac_lib
           path: kotlin-runtime/src/generated/resources/mac/
+          if-no-files-found: error
 
   build-test-kotlin-ubuntu:
     name: "Ubuntu: Build and test kotlin runtime"
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cricut/android-swift-runtime:3.0.2
+      image: ghcr.io/cricut/android-swift-runtime:4.0.0
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
@@ -112,6 +113,7 @@ jobs:
         with:
           name: ubuntu_generated
           path: kotlin-runtime/src/generated
+          if-no-files-found: error
 
   build-test-kotlin-windows:
     name: "Windows: Build and test kotlin runtime"
@@ -160,6 +162,7 @@ jobs:
         with:
           name: windows_lib
           path: kotlin-runtime/src/generated/resources/windows
+          if-no-files-found: error
 
   kotlin-publish:
     name: Publish kotlin package

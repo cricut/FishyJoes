@@ -455,7 +455,7 @@ struct TranslatedEnum: TranslatedType {
                                     for value in enumCase.associatedValues {
                                         let resolved = context.resolve(type: value.type)
                                         fragment.output(",")
-                                        fragment.output("jvalue(\(resolved.converterType.name).toJava(\(value.bindingName), env: env))", newLineTerminated: false)
+                                        fragment.output("JVALUE.from(\(resolved.converterType.name).toJava(\(value.bindingName), env: env))", newLineTerminated: false)
                                     }
                                     fragment.blankLine()
                                 }

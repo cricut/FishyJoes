@@ -42,7 +42,7 @@ extension Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces: FishyJ
         try env.NewObject(
             Self.javaClass,
             Self._constructorMethodID,
-            jvalue(Swift.String.toJava(value.x, env: env))
+            JVALUE.from(Swift.String.toJava(value.x, env: env))
         )
     }
     public static func javaSetup(env: Env) throws {
@@ -108,7 +108,7 @@ extension Swift.String.PuttingTypesIntoQuestionablePlaces: FishyJoesJavaRuntime.
         try env.NewObject(
             Self.javaClass,
             Self._constructorMethodID,
-            jvalue(Swift.String.toJava(value.x, env: env))
+            JVALUE.from(Swift.String.toJava(value.x, env: env))
         )
     }
     public static func javaSetup(env: Env) throws {
@@ -320,8 +320,8 @@ struct _JavaAProtocol: TestAPI.AProtocol {
             env.CallObjectMethod(
                 _javaWitness.object,
                 Self._barMethodID,
-                jvalue(try Swift.Int.toJava(x, env: env)),
-                jvalue(try Swift.Int.toJava(y, env: env))
+                JVALUE.from(try Swift.Int.toJava(x, env: env)),
+                JVALUE.from(try Swift.Int.toJava(y, env: env))
             ),
             env: env
         )
@@ -337,8 +337,8 @@ struct _JavaAProtocol: TestAPI.AProtocol {
             env.CallObjectMethod(
                 _javaWitness.object,
                 Self._hasADefaultImplementationMethodID,
-                jvalue(try Swift.Int.toJava(x, env: env)),
-                jvalue(try Swift.Double.toJava(y, env: env))
+                JVALUE.from(try Swift.Int.toJava(x, env: env)),
+                JVALUE.from(try Swift.Double.toJava(y, env: env))
             ),
             env: env
         )
@@ -354,9 +354,9 @@ struct _JavaAProtocol: TestAPI.AProtocol {
             env.CallObjectMethod(
                 _javaWitness.object,
                 Self._hasADefaultImplementation2MethodID,
-                jvalue(try Swift.String.toJava(a, env: env)),
-                jvalue(try Swift.Bool.toJava(b, env: env)),
-                jvalue(try Swift.String.toJava(c, env: env))
+                JVALUE.from(try Swift.String.toJava(a, env: env)),
+                JVALUE.from(try Swift.Bool.toJava(b, env: env)),
+                JVALUE.from(try Swift.String.toJava(c, env: env))
             ),
             env: env
         )
@@ -379,7 +379,7 @@ extension TestAPI_CommonInterface._AProtocolConverter: JavaConverter {
         try env.NewObject(
             externalWitnessClass,
             externalWitnessConstructor,
-            jvalue(pointer: Box(value).retainedOpaque())
+            JVALUE.from(pointer: Box(value).retainedOpaque())
         )
     }
     public static func javaSetup(env: Env) throws {
@@ -483,8 +483,8 @@ extension TestAPI.AProtocolImplementation: FishyJoesJavaRuntime.JavaMutator {
         try env.NewObject(
             Self.javaClass,
             Self._constructorMethodID,
-            jvalue(Swift.String.toJava(value.foo, env: env)),
-            jvalue(Swift.Bool.toJava(value.baz, env: env))
+            JVALUE.from(Swift.String.toJava(value.foo, env: env)),
+            JVALUE.from(Swift.Bool.toJava(value.baz, env: env))
         )
     }
     public static func javaSetup(env: Env) throws {
@@ -694,7 +694,7 @@ extension TestAPI.Actors.TemperatureLogger: FishyJoesJavaRuntime.JavaMutator {
         try Box<TestAPI.Actors.TemperatureLogger>.fromJava(value, env: env).value
     }
     public static func toJava(_ value: TestAPI.Actors.TemperatureLogger, env: Env) throws -> jobject? {
-        let ptr = jvalue(pointer: Box(value).retainedOpaque())
+        let ptr = JVALUE.from(pointer: Box(value).retainedOpaque())
         return try env.NewObject(javaClass, _constructorMethodID, ptr)
     }
     public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout TestAPI.Actors.TemperatureLogger, inout Env) async throws -> R) async throws -> R {
@@ -814,22 +814,22 @@ extension TestAPI.AssociatedDataEnum: FishyJoesJavaRuntime.JavaConverter {
             return try env.NewObject(
                 Self._java_thing,
                 Self._java_thing_init,
-                jvalue(Swift.Int.toJava(value, env: env))
+                JVALUE.from(Swift.Int.toJava(value, env: env))
             )
         case let .other(unnamed, _1):
             return try env.NewObject(
                 Self._java_other,
                 Self._java_other_init,
-                jvalue(Swift.String.toJava(unnamed, env: env)),
-                jvalue(Swift.Int.toJava(_1, env: env))
+                JVALUE.from(Swift.String.toJava(unnamed, env: env)),
+                JVALUE.from(Swift.Int.toJava(_1, env: env))
             )
         case let .bar(named, _1, toggled):
             return try env.NewObject(
                 Self._java_bar,
                 Self._java_bar_init,
-                jvalue(Swift.String.toJava(named, env: env)),
-                jvalue(TestAPI.AssociatedDataEnum.toJava(_1, env: env)),
-                jvalue(Swift.Bool.toJava(toggled, env: env))
+                JVALUE.from(Swift.String.toJava(named, env: env)),
+                JVALUE.from(TestAPI.AssociatedDataEnum.toJava(_1, env: env)),
+                JVALUE.from(Swift.Bool.toJava(toggled, env: env))
             )
         case .noValue:
             return env.GetStaticObjectField(Self._java_noValue, Self._java_noValue_INSTANCE)
@@ -837,7 +837,7 @@ extension TestAPI.AssociatedDataEnum: FishyJoesJavaRuntime.JavaConverter {
             return try env.NewObject(
                 Self._java_simpleEnum,
                 Self._java_simpleEnum_init,
-                jvalue(TestAPI.SimpleEnum.toJava(value, env: env))
+                JVALUE.from(TestAPI.SimpleEnum.toJava(value, env: env))
             )
         }
     }
@@ -2288,15 +2288,15 @@ extension TestAPI.Collections.CollectionHolder: FishyJoesJavaRuntime.JavaMutator
         try env.NewObject(
             Self.javaClass,
             Self._constructorMethodID,
-            jvalue(ArrayConverter<Swift.Bool>.toJava(value.boolArray, env: env)),
-            jvalue(SetConverter<Swift.Bool>.toJava(value.boolSet, env: env)),
-            jvalue(DictionaryConverter<Swift.Bool, Swift.Bool>.toJava(value.boolDictionary, env: env)),
-            jvalue(ArrayConverter<Swift.Int>.toJava(value.integerArray, env: env)),
-            jvalue(SetConverter<Swift.Int>.toJava(value.integerSet, env: env)),
-            jvalue(DictionaryConverter<Swift.Int, Swift.Int>.toJava(value.integerDictionary, env: env)),
-            jvalue(ArrayConverter<Swift.String>.toJava(value.stringArray, env: env)),
-            jvalue(SetConverter<Swift.String>.toJava(value.stringSet, env: env)),
-            jvalue(DictionaryConverter<Swift.String, Swift.String>.toJava(value.stringDictionary, env: env))
+            JVALUE.from(ArrayConverter<Swift.Bool>.toJava(value.boolArray, env: env)),
+            JVALUE.from(SetConverter<Swift.Bool>.toJava(value.boolSet, env: env)),
+            JVALUE.from(DictionaryConverter<Swift.Bool, Swift.Bool>.toJava(value.boolDictionary, env: env)),
+            JVALUE.from(ArrayConverter<Swift.Int>.toJava(value.integerArray, env: env)),
+            JVALUE.from(SetConverter<Swift.Int>.toJava(value.integerSet, env: env)),
+            JVALUE.from(DictionaryConverter<Swift.Int, Swift.Int>.toJava(value.integerDictionary, env: env)),
+            JVALUE.from(ArrayConverter<Swift.String>.toJava(value.stringArray, env: env)),
+            JVALUE.from(SetConverter<Swift.String>.toJava(value.stringSet, env: env)),
+            JVALUE.from(DictionaryConverter<Swift.String, Swift.String>.toJava(value.stringDictionary, env: env))
         )
     }
     public static func javaSetup(env: Env) throws {
@@ -2574,7 +2574,7 @@ extension TestAPI.EmptyClass: FishyJoesJavaRuntime.JavaMutator {
         try Box<TestAPI.EmptyClass>.fromJava(value, env: env).value
     }
     public static func toJava(_ value: TestAPI.EmptyClass, env: Env) throws -> jobject? {
-        let ptr = jvalue(pointer: Box(value).retainedOpaque())
+        let ptr = JVALUE.from(pointer: Box(value).retainedOpaque())
         return try env.NewObject(javaClass, _constructorMethodID, ptr)
     }
     public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout TestAPI.EmptyClass, inout Env) async throws -> R) async throws -> R {
@@ -2696,7 +2696,7 @@ extension TestAPI.EmptyClass2: FishyJoesJavaRuntime.JavaMutator {
         try Box<TestAPI.EmptyClass2>.fromJava(value, env: env).value
     }
     public static func toJava(_ value: TestAPI.EmptyClass2, env: Env) throws -> jobject? {
-        let ptr = jvalue(pointer: Box(value).retainedOpaque())
+        let ptr = JVALUE.from(pointer: Box(value).retainedOpaque())
         return try env.NewObject(javaClass, _constructorMethodID, ptr)
     }
     public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout TestAPI.EmptyClass2, inout Env) async throws -> R) async throws -> R {
@@ -3851,7 +3851,7 @@ extension TestAPI.Methods: FishyJoesJavaRuntime.JavaMutator {
         try Box<TestAPI.Methods>.fromJava(value, env: env).value
     }
     public static func toJava(_ value: TestAPI.Methods, env: Env) throws -> jobject? {
-        let ptr = jvalue(pointer: Box(value).retainedOpaque())
+        let ptr = JVALUE.from(pointer: Box(value).retainedOpaque())
         return try env.NewObject(javaClass, _constructorMethodID, ptr)
     }
     public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout TestAPI.Methods, inout Env) async throws -> R) async throws -> R {
@@ -3877,7 +3877,7 @@ extension TestAPI.Methods.TheMethodError: FishyJoesJavaRuntime.JavaMutator {
         try Box<TestAPI.Methods.TheMethodError>.fromJava(value, env: env).value
     }
     public static func toJava(_ value: TestAPI.Methods.TheMethodError, env: Env) throws -> jobject? {
-        let ptr = jvalue(pointer: Box(value).retainedOpaque())
+        let ptr = JVALUE.from(pointer: Box(value).retainedOpaque())
         return try env.NewObject(javaClass, _constructorMethodID, ptr)
     }
     public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout TestAPI.Methods.TheMethodError, inout Env) async throws -> R) async throws -> R {
@@ -5435,32 +5435,32 @@ extension TestAPI.Primitives.PrimitiveHolder: FishyJoesJavaRuntime.JavaMutator {
         try env.NewObject(
             Self.javaClass,
             Self._constructorMethodID,
-            jvalue(Swift.Bool.toJava(value.b, env: env)),
-            jvalue(OptionalConverter<Swift.Bool>.toJava(value.bq, env: env)),
-            jvalue(Swift.UInt8.toJava(value.ui8, env: env)),
-            jvalue(OptionalConverter<Swift.UInt8>.toJava(value.ui8q, env: env)),
-            jvalue(Swift.UInt16.toJava(value.ui16, env: env)),
-            jvalue(OptionalConverter<Swift.UInt16>.toJava(value.ui16q, env: env)),
-            jvalue(Swift.UInt32.toJava(value.ui32, env: env)),
-            jvalue(OptionalConverter<Swift.UInt32>.toJava(value.ui32q, env: env)),
-            jvalue(Swift.UInt64.toJava(value.ui64, env: env)),
-            jvalue(OptionalConverter<Swift.UInt64>.toJava(value.ui64q, env: env)),
-            jvalue(Swift.UInt.toJava(value.ui, env: env)),
-            jvalue(OptionalConverter<Swift.UInt>.toJava(value.uiq, env: env)),
-            jvalue(Swift.Int8.toJava(value.i8, env: env)),
-            jvalue(OptionalConverter<Swift.Int8>.toJava(value.i8q, env: env)),
-            jvalue(Swift.Int16.toJava(value.i16, env: env)),
-            jvalue(OptionalConverter<Swift.Int16>.toJava(value.i16q, env: env)),
-            jvalue(Swift.Int32.toJava(value.i32, env: env)),
-            jvalue(OptionalConverter<Swift.Int32>.toJava(value.i32q, env: env)),
-            jvalue(Swift.Int64.toJava(value.i64, env: env)),
-            jvalue(OptionalConverter<Swift.Int64>.toJava(value.i64q, env: env)),
-            jvalue(Swift.Int.toJava(value.i, env: env)),
-            jvalue(OptionalConverter<Swift.Int>.toJava(value.iq, env: env)),
-            jvalue(Swift.Float.toJava(value.f, env: env)),
-            jvalue(OptionalConverter<Swift.Float>.toJava(value.fq, env: env)),
-            jvalue(Swift.Double.toJava(value.d, env: env)),
-            jvalue(OptionalConverter<Swift.Double>.toJava(value.dq, env: env))
+            JVALUE.from(Swift.Bool.toJava(value.b, env: env)),
+            JVALUE.from(OptionalConverter<Swift.Bool>.toJava(value.bq, env: env)),
+            JVALUE.from(Swift.UInt8.toJava(value.ui8, env: env)),
+            JVALUE.from(OptionalConverter<Swift.UInt8>.toJava(value.ui8q, env: env)),
+            JVALUE.from(Swift.UInt16.toJava(value.ui16, env: env)),
+            JVALUE.from(OptionalConverter<Swift.UInt16>.toJava(value.ui16q, env: env)),
+            JVALUE.from(Swift.UInt32.toJava(value.ui32, env: env)),
+            JVALUE.from(OptionalConverter<Swift.UInt32>.toJava(value.ui32q, env: env)),
+            JVALUE.from(Swift.UInt64.toJava(value.ui64, env: env)),
+            JVALUE.from(OptionalConverter<Swift.UInt64>.toJava(value.ui64q, env: env)),
+            JVALUE.from(Swift.UInt.toJava(value.ui, env: env)),
+            JVALUE.from(OptionalConverter<Swift.UInt>.toJava(value.uiq, env: env)),
+            JVALUE.from(Swift.Int8.toJava(value.i8, env: env)),
+            JVALUE.from(OptionalConverter<Swift.Int8>.toJava(value.i8q, env: env)),
+            JVALUE.from(Swift.Int16.toJava(value.i16, env: env)),
+            JVALUE.from(OptionalConverter<Swift.Int16>.toJava(value.i16q, env: env)),
+            JVALUE.from(Swift.Int32.toJava(value.i32, env: env)),
+            JVALUE.from(OptionalConverter<Swift.Int32>.toJava(value.i32q, env: env)),
+            JVALUE.from(Swift.Int64.toJava(value.i64, env: env)),
+            JVALUE.from(OptionalConverter<Swift.Int64>.toJava(value.i64q, env: env)),
+            JVALUE.from(Swift.Int.toJava(value.i, env: env)),
+            JVALUE.from(OptionalConverter<Swift.Int>.toJava(value.iq, env: env)),
+            JVALUE.from(Swift.Float.toJava(value.f, env: env)),
+            JVALUE.from(OptionalConverter<Swift.Float>.toJava(value.fq, env: env)),
+            JVALUE.from(Swift.Double.toJava(value.d, env: env)),
+            JVALUE.from(OptionalConverter<Swift.Double>.toJava(value.dq, env: env))
         )
     }
     public static func javaSetup(env: Env) throws {
@@ -6184,7 +6184,7 @@ extension TestAPI.Results.Error: FishyJoesJavaRuntime.JavaMutator {
         try env.NewObject(
             Self.javaClass,
             Self._constructorMethodID,
-            jvalue(Swift.String.toJava(value.message, env: env))
+            JVALUE.from(Swift.String.toJava(value.message, env: env))
         )
     }
     public static func javaSetup(env: Env) throws {
@@ -6588,8 +6588,8 @@ extension TestAPI.Structs.MemberwiseStruct: FishyJoesJavaRuntime.JavaMutator {
         try env.NewObject(
             Self.javaClass,
             Self._constructorMethodID,
-            jvalue(Swift.String.toJava(value.immutable, env: env)),
-            jvalue(Swift.String.toJava(value.mutable, env: env))
+            JVALUE.from(Swift.String.toJava(value.immutable, env: env)),
+            JVALUE.from(Swift.String.toJava(value.mutable, env: env))
         )
     }
     public static func javaSetup(env: Env) throws {
@@ -6727,7 +6727,7 @@ extension TestAPI.Structs.MutableStruct: FishyJoesJavaRuntime.JavaMutator {
         try env.NewObject(
             Self.javaClass,
             Self._constructorMethodID,
-            jvalue(Swift.Int.toJava(value.i, env: env))
+            JVALUE.from(Swift.Int.toJava(value.i, env: env))
         )
     }
     public static func javaSetup(env: Env) throws {
@@ -6797,7 +6797,7 @@ extension TestAPI.Structs.PuttingTypesIntoQuestionablePlaces: FishyJoesJavaRunti
         try Box<TestAPI.Structs.PuttingTypesIntoQuestionablePlaces>.fromJava(value, env: env).value
     }
     public static func toJava(_ value: TestAPI.Structs.PuttingTypesIntoQuestionablePlaces, env: Env) throws -> jobject? {
-        let ptr = jvalue(pointer: Box(value).retainedOpaque())
+        let ptr = JVALUE.from(pointer: Box(value).retainedOpaque())
         return try env.NewObject(javaClass, _constructorMethodID, ptr)
     }
     public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout TestAPI.Structs.PuttingTypesIntoQuestionablePlaces, inout Env) async throws -> R) async throws -> R {
@@ -6896,7 +6896,7 @@ extension TestAPI.Structs.ReferenceStruct: FishyJoesJavaRuntime.JavaMutator {
         try Box<TestAPI.Structs.ReferenceStruct>.fromJava(value, env: env).value
     }
     public static func toJava(_ value: TestAPI.Structs.ReferenceStruct, env: Env) throws -> jobject? {
-        let ptr = jvalue(pointer: Box(value).retainedOpaque())
+        let ptr = JVALUE.from(pointer: Box(value).retainedOpaque())
         return try env.NewObject(javaClass, _constructorMethodID, ptr)
     }
     public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout TestAPI.Structs.ReferenceStruct, inout Env) async throws -> R) async throws -> R {
@@ -7058,27 +7058,27 @@ extension TestAPI.Structs.TwentyOneItemStruct: FishyJoesJavaRuntime.JavaMutator 
         try env.NewObject(
             Self.javaClass,
             Self._constructorMethodID,
-            jvalue(Swift.String.toJava(value.a, env: env)),
-            jvalue(Swift.String.toJava(value.b, env: env)),
-            jvalue(Swift.String.toJava(value.c, env: env)),
-            jvalue(Swift.String.toJava(value.d, env: env)),
-            jvalue(Swift.String.toJava(value.e, env: env)),
-            jvalue(Swift.String.toJava(value.f, env: env)),
-            jvalue(Swift.String.toJava(value.g, env: env)),
-            jvalue(Swift.String.toJava(value.h, env: env)),
-            jvalue(Swift.String.toJava(value.i, env: env)),
-            jvalue(Swift.String.toJava(value.j, env: env)),
-            jvalue(Swift.String.toJava(value.k, env: env)),
-            jvalue(Swift.String.toJava(value.l, env: env)),
-            jvalue(Swift.String.toJava(value.m, env: env)),
-            jvalue(Swift.String.toJava(value.n, env: env)),
-            jvalue(Swift.String.toJava(value.o, env: env)),
-            jvalue(Swift.String.toJava(value.p, env: env)),
-            jvalue(Swift.String.toJava(value.q, env: env)),
-            jvalue(Swift.String.toJava(value.r, env: env)),
-            jvalue(Swift.String.toJava(value.s, env: env)),
-            jvalue(Swift.String.toJava(value.t, env: env)),
-            jvalue(Swift.String.toJava(value.u, env: env))
+            JVALUE.from(Swift.String.toJava(value.a, env: env)),
+            JVALUE.from(Swift.String.toJava(value.b, env: env)),
+            JVALUE.from(Swift.String.toJava(value.c, env: env)),
+            JVALUE.from(Swift.String.toJava(value.d, env: env)),
+            JVALUE.from(Swift.String.toJava(value.e, env: env)),
+            JVALUE.from(Swift.String.toJava(value.f, env: env)),
+            JVALUE.from(Swift.String.toJava(value.g, env: env)),
+            JVALUE.from(Swift.String.toJava(value.h, env: env)),
+            JVALUE.from(Swift.String.toJava(value.i, env: env)),
+            JVALUE.from(Swift.String.toJava(value.j, env: env)),
+            JVALUE.from(Swift.String.toJava(value.k, env: env)),
+            JVALUE.from(Swift.String.toJava(value.l, env: env)),
+            JVALUE.from(Swift.String.toJava(value.m, env: env)),
+            JVALUE.from(Swift.String.toJava(value.n, env: env)),
+            JVALUE.from(Swift.String.toJava(value.o, env: env)),
+            JVALUE.from(Swift.String.toJava(value.p, env: env)),
+            JVALUE.from(Swift.String.toJava(value.q, env: env)),
+            JVALUE.from(Swift.String.toJava(value.r, env: env)),
+            JVALUE.from(Swift.String.toJava(value.s, env: env)),
+            JVALUE.from(Swift.String.toJava(value.t, env: env)),
+            JVALUE.from(Swift.String.toJava(value.u, env: env))
         )
     }
     public static func javaSetup(env: Env) throws {
@@ -7617,22 +7617,22 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: FishyJoesJavaRuntime.Java
         try env.NewObject(
             Self.javaClass,
             Self._constructorMethodID,
-            jvalue(AsyncFunction0Converter<Swift.Int>.toJava(value.const42, env: env)),
-            jvalue(AsyncFunction1Converter<Swift.Int, Swift.Int>.toJava(value.iabs, env: env)),
-            jvalue(Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.toJava(value.intCompose, env: env)),
-            jvalue(AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.toJava(value.add3Things, env: env)),
-            jvalue(AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.toJava(value.makeList, env: env)),
-            jvalue(AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.toJava(value.fifthThing, env: env)),
-            jvalue(AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.toJava(value.six, env: env)),
-            jvalue(AsyncFunction0Converter<Swift.Int>.toJava(value.willThrow, env: env)),
-            jvalue(AsyncFunction1Converter<AsyncFunction0Converter<Swift.Int>, Swift.String>.toJava(value.exercise0Fun, env: env)),
-            jvalue(AsyncFunction1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, Swift.String>.toJava(value.exercise1Fun, env: env)),
-            jvalue(AsyncFunction1Converter<Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>, Swift.String>.toJava(value.exercise2Fun, env: env)),
-            jvalue(AsyncFunction1Converter<AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>, Swift.String>.toJava(value.exercise3Fun, env: env)),
-            jvalue(AsyncFunction1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, Swift.String>.toJava(value.exercise4Fun, env: env)),
-            jvalue(AsyncFunction1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, Swift.String>.toJava(value.exercise5Fun, env: env)),
-            jvalue(AsyncFunction1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, Swift.String>.toJava(value.exercise6Fun, env: env)),
-            jvalue(Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>.toJava(value.thunkTwiceMakerFun, env: env))
+            JVALUE.from(AsyncFunction0Converter<Swift.Int>.toJava(value.const42, env: env)),
+            JVALUE.from(AsyncFunction1Converter<Swift.Int, Swift.Int>.toJava(value.iabs, env: env)),
+            JVALUE.from(Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.toJava(value.intCompose, env: env)),
+            JVALUE.from(AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.toJava(value.add3Things, env: env)),
+            JVALUE.from(AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.toJava(value.makeList, env: env)),
+            JVALUE.from(AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.toJava(value.fifthThing, env: env)),
+            JVALUE.from(AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.toJava(value.six, env: env)),
+            JVALUE.from(AsyncFunction0Converter<Swift.Int>.toJava(value.willThrow, env: env)),
+            JVALUE.from(AsyncFunction1Converter<AsyncFunction0Converter<Swift.Int>, Swift.String>.toJava(value.exercise0Fun, env: env)),
+            JVALUE.from(AsyncFunction1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, Swift.String>.toJava(value.exercise1Fun, env: env)),
+            JVALUE.from(AsyncFunction1Converter<Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>, Swift.String>.toJava(value.exercise2Fun, env: env)),
+            JVALUE.from(AsyncFunction1Converter<AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>, Swift.String>.toJava(value.exercise3Fun, env: env)),
+            JVALUE.from(AsyncFunction1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, Swift.String>.toJava(value.exercise4Fun, env: env)),
+            JVALUE.from(AsyncFunction1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, Swift.String>.toJava(value.exercise5Fun, env: env)),
+            JVALUE.from(AsyncFunction1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, Swift.String>.toJava(value.exercise6Fun, env: env)),
+            JVALUE.from(Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>.toJava(value.thunkTwiceMakerFun, env: env))
         )
     }
     public static func javaSetup(env: Env) throws {
@@ -8256,7 +8256,7 @@ struct _JavaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
             env.CallObjectMethod(
                 _javaWitness.object,
                 Self._exercise0MethodID,
-                jvalue(try AsyncFunction0Converter<Swift.Int>.toJava(fn, env: env))
+                JVALUE.from(try AsyncFunction0Converter<Swift.Int>.toJava(fn, env: env))
             ),
             env: env
         )
@@ -8272,7 +8272,7 @@ struct _JavaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
             env.CallObjectMethod(
                 _javaWitness.object,
                 Self._exercise1MethodID,
-                jvalue(try AsyncFunction1Converter<Swift.Int, Swift.Int>.toJava(fn, env: env))
+                JVALUE.from(try AsyncFunction1Converter<Swift.Int, Swift.Int>.toJava(fn, env: env))
             ),
             env: env
         )
@@ -8288,7 +8288,7 @@ struct _JavaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
             env.CallObjectMethod(
                 _javaWitness.object,
                 Self._exercise2MethodID,
-                jvalue(try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.toJava(fn, env: env))
+                JVALUE.from(try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.toJava(fn, env: env))
             ),
             env: env
         )
@@ -8304,7 +8304,7 @@ struct _JavaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
             env.CallObjectMethod(
                 _javaWitness.object,
                 Self._exercise3MethodID,
-                jvalue(try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.toJava(fn, env: env))
+                JVALUE.from(try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.toJava(fn, env: env))
             ),
             env: env
         )
@@ -8320,7 +8320,7 @@ struct _JavaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
             env.CallObjectMethod(
                 _javaWitness.object,
                 Self._exercise4MethodID,
-                jvalue(try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.toJava(fn, env: env))
+                JVALUE.from(try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.toJava(fn, env: env))
             ),
             env: env
         )
@@ -8336,7 +8336,7 @@ struct _JavaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
             env.CallObjectMethod(
                 _javaWitness.object,
                 Self._exercise5MethodID,
-                jvalue(try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.toJava(fn, env: env))
+                JVALUE.from(try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.toJava(fn, env: env))
             ),
             env: env
         )
@@ -8352,7 +8352,7 @@ struct _JavaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
             env.CallObjectMethod(
                 _javaWitness.object,
                 Self._exercise6MethodID,
-                jvalue(try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.toJava(fn, env: env))
+                JVALUE.from(try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.toJava(fn, env: env))
             ),
             env: env
         )
@@ -8368,7 +8368,7 @@ struct _JavaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
             env.CallObjectMethod(
                 _javaWitness.object,
                 Self._thunkTwiceMakerMethodID,
-                jvalue(try AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.toJava(thunk, env: env))
+                JVALUE.from(try AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.toJava(thunk, env: env))
             ),
             env: env
         )
@@ -8384,7 +8384,7 @@ struct _JavaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
             env.CallObjectMethod(
                 _javaWitness.object,
                 Self._defaultExercise6MethodID,
-                jvalue(try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.toJava(fn, env: env))
+                JVALUE.from(try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.toJava(fn, env: env))
             ),
             env: env
         )
@@ -8422,7 +8422,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: JavaConverter {
         try env.NewObject(
             externalWitnessClass,
             externalWitnessConstructor,
-            jvalue(pointer: Box(value).retainedOpaque())
+            JVALUE.from(pointer: Box(value).retainedOpaque())
         )
     }
     public static func javaSetup(env: Env) throws {
@@ -8806,7 +8806,7 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesJavaRuntime.JavaMut
         try Box<TestAPI.TestAsyncSwiftSideFunctionsClass>.fromJava(value, env: env).value
     }
     public static func toJava(_ value: TestAPI.TestAsyncSwiftSideFunctionsClass, env: Env) throws -> jobject? {
-        let ptr = jvalue(pointer: Box(value).retainedOpaque())
+        let ptr = JVALUE.from(pointer: Box(value).retainedOpaque())
         return try env.NewObject(javaClass, _constructorMethodID, ptr)
     }
     public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout TestAPI.TestAsyncSwiftSideFunctionsClass, inout Env) async throws -> R) async throws -> R {
@@ -8899,7 +8899,7 @@ extension TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter: JavaC
         try env.NewObject(
             externalWitnessClass,
             externalWitnessConstructor,
-            jvalue(pointer: Box(value).retainedOpaque())
+            JVALUE.from(pointer: Box(value).retainedOpaque())
         )
     }
     public static func javaSetup(env: Env) throws {
@@ -8999,7 +8999,7 @@ extension TestAPI.TestDefaultComputedPropertiesClass: FishyJoesJavaRuntime.JavaM
         try Box<TestAPI.TestDefaultComputedPropertiesClass>.fromJava(value, env: env).value
     }
     public static func toJava(_ value: TestAPI.TestDefaultComputedPropertiesClass, env: Env) throws -> jobject? {
-        let ptr = jvalue(pointer: Box(value).retainedOpaque())
+        let ptr = JVALUE.from(pointer: Box(value).retainedOpaque())
         return try env.NewObject(javaClass, _constructorMethodID, ptr)
     }
     public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout TestAPI.TestDefaultComputedPropertiesClass, inout Env) async throws -> R) async throws -> R {
@@ -9122,8 +9122,8 @@ extension TestAPI.TestDefaultComputedPropertiesStruct: FishyJoesJavaRuntime.Java
         try env.NewObject(
             Self.javaClass,
             Self._constructorMethodID,
-            jvalue(Swift.Bool.toJava(value.spam, env: env)),
-            jvalue(Swift.Int.toJava(value.noot, env: env))
+            JVALUE.from(Swift.Bool.toJava(value.spam, env: env)),
+            JVALUE.from(Swift.Int.toJava(value.noot, env: env))
         )
     }
     public static func javaSetup(env: Env) throws {
@@ -9209,7 +9209,7 @@ extension TestAPI_CommonInterface._TestDifferingExportNameProtocolConverter: Jav
         try env.NewObject(
             externalWitnessClass,
             externalWitnessConstructor,
-            jvalue(pointer: Box(value).retainedOpaque())
+            JVALUE.from(pointer: Box(value).retainedOpaque())
         )
     }
     public static func javaSetup(env: Env) throws {
@@ -9242,7 +9242,7 @@ extension TestAPI.TestDifferingExportNameStruct: FishyJoesJavaRuntime.JavaMutato
         try env.NewObject(
             Self.javaClass,
             Self._constructorMethodID,
-            jvalue(Swift.Int.toJava(value.tata, env: env))
+            JVALUE.from(Swift.Int.toJava(value.tata, env: env))
         )
     }
     public static func javaSetup(env: Env) throws {
@@ -9319,7 +9319,7 @@ extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: JavaConv
         try env.NewObject(
             externalWitnessClass,
             externalWitnessConstructor,
-            jvalue(pointer: Box(value).retainedOpaque())
+            JVALUE.from(pointer: Box(value).retainedOpaque())
         )
     }
     public static func javaSetup(env: Env) throws {
@@ -9352,7 +9352,7 @@ extension TestAPI.TestLeadingUnderscoredPropStruct: FishyJoesJavaRuntime.JavaMut
         try env.NewObject(
             Self.javaClass,
             Self._constructorMethodID,
-            jvalue(Swift.String.toJava(value._leadingUnderscoreProp, env: env))
+            JVALUE.from(Swift.String.toJava(value._leadingUnderscoreProp, env: env))
         )
     }
     public static func javaSetup(env: Env) throws {
@@ -9532,7 +9532,7 @@ struct _JavaTestMethodsProtocol: TestAPI.TestMethodsProtocol {
             env.CallVoidMethod(
                 _javaWitness.object,
                 Self._bazMethodID,
-                jvalue(try Swift.Bool.toJava(qux, env: env))
+                JVALUE.from(try Swift.Bool.toJava(qux, env: env))
             ),
             env: env
         )
@@ -9548,7 +9548,7 @@ struct _JavaTestMethodsProtocol: TestAPI.TestMethodsProtocol {
             env.CallObjectMethod(
                 _javaWitness.object,
                 Self._garplyMethodID,
-                jvalue(try Swift.String.toJava(_0, env: env))
+                JVALUE.from(try Swift.String.toJava(_0, env: env))
             ),
             env: env
         )
@@ -9564,8 +9564,8 @@ struct _JavaTestMethodsProtocol: TestAPI.TestMethodsProtocol {
             env.CallObjectMethod(
                 _javaWitness.object,
                 Self._xyzzyMethodID,
-                jvalue(try Swift.Int.toJava(thud, env: env)),
-                jvalue(try ArrayConverter<Swift.Double>.toJava(grault, env: env))
+                JVALUE.from(try Swift.Int.toJava(thud, env: env)),
+                JVALUE.from(try ArrayConverter<Swift.Double>.toJava(grault, env: env))
             ),
             env: env
         )
@@ -9581,7 +9581,7 @@ struct _JavaTestMethodsProtocol: TestAPI.TestMethodsProtocol {
             env.CallObjectMethod(
                 _javaWitness.object,
                 Self._plughMethodID,
-                jvalue(try Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>.toJava(fred, env: env))
+                JVALUE.from(try Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>.toJava(fred, env: env))
             ),
             env: env
         )
@@ -9604,7 +9604,7 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: JavaConverter {
         try env.NewObject(
             externalWitnessClass,
             externalWitnessConstructor,
-            jvalue(pointer: Box(value).retainedOpaque())
+            JVALUE.from(pointer: Box(value).retainedOpaque())
         )
     }
     public static func javaSetup(env: Env) throws {
@@ -9758,7 +9758,7 @@ struct _JavaTestOptionalsProtocol: TestAPI.TestOptionalsProtocol {
             env.CallObjectMethod(
                 _javaWitness.object,
                 Self._wombatMethodID,
-                jvalue(try OptionalConverter<Swift.Int>.toJava(zxc, env: env))
+                JVALUE.from(try OptionalConverter<Swift.Int>.toJava(zxc, env: env))
             ),
             env: env
         )
@@ -9774,7 +9774,7 @@ struct _JavaTestOptionalsProtocol: TestAPI.TestOptionalsProtocol {
             env.CallLongMethod(
                 _javaWitness.object,
                 Self._spqrMethodID,
-                jvalue(try TestAPI.AssociatedDataEnum.toJava(pippo, env: env))
+                JVALUE.from(try TestAPI.AssociatedDataEnum.toJava(pippo, env: env))
             ),
             env: env
         )
@@ -9797,7 +9797,7 @@ extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: JavaConverter
         try env.NewObject(
             externalWitnessClass,
             externalWitnessConstructor,
-            jvalue(pointer: Box(value).retainedOpaque())
+            JVALUE.from(pointer: Box(value).retainedOpaque())
         )
     }
     public static func javaSetup(env: Env) throws {
@@ -9885,7 +9885,7 @@ extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: JavaConverte
         try env.NewObject(
             externalWitnessClass,
             externalWitnessConstructor,
-            jvalue(pointer: Box(value).retainedOpaque())
+            JVALUE.from(pointer: Box(value).retainedOpaque())
         )
     }
     public static func javaSetup(env: Env) throws {
@@ -10127,7 +10127,7 @@ extension TestAPI.TestProtocolClass: FishyJoesJavaRuntime.JavaMutator {
         try Box<TestAPI.TestProtocolClass>.fromJava(value, env: env).value
     }
     public static func toJava(_ value: TestAPI.TestProtocolClass, env: Env) throws -> jobject? {
-        let ptr = jvalue(pointer: Box(value).retainedOpaque())
+        let ptr = JVALUE.from(pointer: Box(value).retainedOpaque())
         return try env.NewObject(javaClass, _constructorMethodID, ptr)
     }
     public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout TestAPI.TestProtocolClass, inout Env) async throws -> R) async throws -> R {
@@ -10445,7 +10445,7 @@ extension TestAPI.TestProtocolStruct: FishyJoesJavaRuntime.JavaMutator {
         try env.NewObject(
             Self.javaClass,
             Self._constructorMethodID,
-            jvalue(Swift.String.toJava(value.corge, env: env))
+            JVALUE.from(Swift.String.toJava(value.corge, env: env))
         )
     }
     public static func javaSetup(env: Env) throws {

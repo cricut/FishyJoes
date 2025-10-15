@@ -61,7 +61,7 @@ let java_fun1: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject) -> jobjec
 
 let java_ref_make: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject) -> jobject? = { env, _ in
     FishyJoesJavaRuntime.callbackBody(env) { env in
-        let ptr = jvalue(pointer: Box<[Int64]>([]).retainedOpaque())
+        let ptr = JVALUE.from(pointer: Box<[Int64]>([]).retainedOpaque())
         return try env.NewObject(refClass, refConstructorID, ptr)
     }
 }
@@ -76,6 +76,6 @@ let java_ref_addr: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject) -> jl
     FishyJoesJavaRuntime.callbackBody(env) { env in
         let box = try Box<[Int64]>.fromJava(this, env: env)
         let storage = { (x: UnsafeRawPointer) in x }(box.value)
-        return jlong(pointer: storage)
+        return jlong.from(pointer: storage)
     }
 }

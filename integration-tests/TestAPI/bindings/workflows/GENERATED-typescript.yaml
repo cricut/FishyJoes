@@ -86,6 +86,7 @@ jobs:
         with:
           name: npm_mac_packages
           path: bindings/packed-npm-packages/cricut-*.tgz
+          if-no-files-found: error
 
       - name: Publish NPM package
         if: success() && github.event_name == 'release'
@@ -103,7 +104,7 @@ jobs:
     name: "Ubuntu: Build and test typescript bindings"
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cricut/android-swift-runtime:3.0.2
+      image: ghcr.io/cricut/android-swift-runtime:4.0.0
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
@@ -174,6 +175,7 @@ jobs:
         with:
           name: npm_linux_packages
           path: bindings/packed-npm-packages/cricut-*.tgz
+          if-no-files-found: error
 
       - name: Publish NPM package
         if: success() && github.event_name == 'release'
@@ -265,6 +267,7 @@ jobs:
         with:
           name: npm_windows_packages
           path: bindings/packed-npm-packages/cricut-*.tgz
+          if-no-files-found: error
 
       - name: Publish NPM package
         if: success() && github.event_name == 'release'

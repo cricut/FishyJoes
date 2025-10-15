@@ -61,6 +61,7 @@ struct InstallToolchainsCommand: ParsableCommand {
         if installWasm {
             let toolchain = ToolVersions.shared.swiftWasm.toolchain
             let sdk = ToolVersions.shared.swiftWasm.sdk
+            let triple = ToolVersions.shared.swiftWasm.triple
 
             Log.info("Installing swift-wasm toolchain \(toolchain)")
             try Swiftly.swiftly("install", "--assume-yes", toolchain).run()
@@ -68,8 +69,8 @@ struct InstallToolchainsCommand: ParsableCommand {
             let sdkInstalled = Swiftly.run(
                 toolchain: toolchain,
                 "swift", "sdk", "configure", "--show-configuration",
-                "\(sdk)-wasm32-unknown-wasi",
-                "wasm32-unknown-wasi"
+                "\(sdk)-\(triple)",
+                triple
             )
                 .output(overwritingFile: FileManager.nullDevicePath)
                 .runBool()
@@ -80,7 +81,7 @@ struct InstallToolchainsCommand: ParsableCommand {
                 Log.info("Installing swift-wasm sdk \(sdk)")
                 try Swiftly.run(
                     toolchain: toolchain, "swift", "sdk", "install",
-                    "https://github.com/swiftwasm/swift/releases/download/swift-wasm-\(sdk)/swift-wasm-\(sdk)-wasm32-unknown-wasi.artifactbundle.zip",
+                    "https://github.com/swiftwasm/swift/releases/download/swift-wasm-\(sdk)/swift-wasm-\(sdk)-\(triple).artifactbundle.zip",
                     "--checksum", ToolVersions.shared.swiftWasm.sdkChecksum
                 ).run()
             }

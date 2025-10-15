@@ -193,7 +193,7 @@ struct TranslatedStruct: TranslatedType {
                         "Self._constructorMethodID",
                     ] + storedVariables.map { storedVar in
                         let resolved = context.resolve(type: storedVar.type)
-                        return "jvalue(\(resolved.converterType.name).toJava(value.\(storedVar.name), env: env))"
+                        return "JVALUE.from(\(resolved.converterType.name).toJava(value.\(storedVar.name), env: env))"
                     }
                     fragment.outputMap(args, separator: ",") { $0 }
                 }

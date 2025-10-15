@@ -68,6 +68,7 @@ jobs:
         with:
           name: mac_npm_package
           path: ${{ env.LIB_DIR }}/*.tgz
+          if-no-files-found: error
 
       - name: Publish NPM Package
         if: github.event_name == 'release'
@@ -82,7 +83,7 @@ jobs:
     name: "Ubuntu: Build and test node runtime"
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cricut/android-swift-runtime:3.0.2
+      image: ghcr.io/cricut/android-swift-runtime:4.0.0
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
@@ -106,10 +107,9 @@ jobs:
           scope: '@cricut'
 
       - name: Configure build environment
+        shell: zsh {0}
         run: |
-          set -eux
-          apt-get -y update
-          apt-get -y install patchelf jq
+          set -euxo pipefail
           git config --global --add safe.directory '*'
 
           # Use wasm version of wasm-opt because ubuntu version can be very old
@@ -128,14 +128,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          cp -dv /usr/lib/swift/linux/libswift*.so* $LIB_DIR
-          cp -dv /usr/lib/swift/linux/libicu*.so* $LIB_DIR
-          cp -dv /usr/lib/swift/linux/libFoundation*.so $LIB_DIR
-          cp -dv /usr/lib/swift/linux/libBlocksRuntime.so $LIB_DIR
-          cp -dv /usr/lib/swift/linux/libdispatch.so $LIB_DIR
-          cp -dv /usr/lib/x86_64-linux-gnu/libicui18n.so* $LIB_DIR
-          cp -dv /usr/lib/x86_64-linux-gnu/libicuuc.so* $LIB_DIR
-          cp -dv /usr/lib/x86_64-linux-gnu/libicudata.so* $LIB_DIR
+          cp -dv /usr/lib/swift/linux/*.so $LIB_DIR
           cp -dv /usr/lib/x86_64-linux-gnu/libxml2.so* $LIB_DIR
 
       - name: Patch system swift runtime SOs to use relative libraries
@@ -149,18 +142,6 @@ jobs:
           for LIB in lib*.so*; do
             patchelf --set-rpath $SWIFT_RUN_PATH $LIB
           done
-
-      - name: rename swift runtime dependencies
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-
-          # Add links
-          pushd $LIB_DIR
-            mv libicudataswift.so.69.1 libicudataswift.so.69
-            mv libicui18nswift.so.69.1 libicui18nswift.so.69
-            mv libicuucswift.so.69.1 libicuucswift.so.69
-          popd
 
       - name: Determine version
         shell: zsh {0}
@@ -187,6 +168,7 @@ jobs:
         with:
           name: ubuntu_npm_package
           path: ${{ env.LIB_DIR }}/*.tgz
+          if-no-files-found: error
 
       - name: Publish NPM Package
         if: github.event_name == 'release'
@@ -212,6 +194,7 @@ jobs:
         with:
           name: wasm_npm_package
           path: ${{ env.WASM_LIB_DIR }}/*.tgz
+          if-no-files-found: error
 
       - name: Publish Wasm NPM Package
         shell: zsh {0}
@@ -303,6 +286,7 @@ jobs:
         with:
           name: windows_npm_package
           path: ${{ env.LIB_DIR }}/*.tgz
+          if-no-files-found: error
 
       - name: Publish NPM Package
         if: github.event_name == 'release'

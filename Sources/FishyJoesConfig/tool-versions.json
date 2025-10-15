@@ -1,12 +1,38 @@
 {
   "swiftWasm": {
+    "//": "values taken from https://github.com/swiftwasm/swift/releases",
     "toolchain": "6.1",
     "sdk": "6.1-RELEASE",
-    "sdkChecksum": "7550b4c77a55f4b637c376f5d192f297fe185607003a6212ad608276928db992"
+    "sdkChecksum": "7550b4c77a55f4b637c376f5d192f297fe185607003a6212ad608276928db992",
+    "targets": [
+      {
+        "triple": "wasm32-unknown-wasi"
+      }
+    ]
+  },
+  "swiftAndroid": {
+    "//": "values taken from https://github.com/swift-android-sdk/swift-android-sdk/releases. Should match version in cricut/android-swift-runtime",
+    "toolchain": "6.2",
+    "sdk": "6.2-RELEASE-android-0.1",
+    "sdkChecksum": "ca7e09f09a591b6a661a39134aaf53b1b59d5e3a193b271ab1f20effdfc6e88e",
+    "targets": [
+      {
+        "triple": "armv7-unknown-linux-android28",
+        "ndkArchName": "armeabi-v7a"
+      },
+      {
+        "triple": "aarch64-unknown-linux-android28",
+        "ndkArchName": "arm64-v8a"
+      },
+      {
+        "triple": "x86_64-unknown-linux-android28",
+        "ndkArchName": "x86_64"
+      }
+    ]
   },
   "linuxContainer": {
     "//": "NOTE WHEN UPDATING: This value is also hard-coded in .github/workflows/*.yaml and kotlin-runtime/build.gradle.kts",
     "image": "ghcr.io/cricut/android-swift-runtime",
-    "version": "3.0.2"
+    "version": "4.0.0"
   }
 }

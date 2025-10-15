@@ -44,12 +44,13 @@ jobs:
         with:
           name: mac_generated
           path: .build/apple/release/libFishyJoesIotaRuntime.dylib
+          if-no-files-found: error
 
   build-iota-ubuntu:
     name: "Ubuntu: Build Iota Runtime"
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cricut/android-swift-runtime:3.0.2
+      image: ghcr.io/cricut/android-swift-runtime:4.0.0
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
@@ -89,14 +90,7 @@ jobs:
           binPath="$(swift build --configuration release --show-bin-path)"
           cp -dv $binPath/libFishyJoesIotaRuntime.so $LIB_DIR
 
-          cp -dv /usr/lib/swift/linux/libswift*.so* $LIB_DIR
-          cp -dv /usr/lib/swift/linux/libicu*.so* $LIB_DIR
-          cp -dv /usr/lib/swift/linux/libFoundation*.so $LIB_DIR
-          cp -dv /usr/lib/swift/linux/libBlocksRuntime.so $LIB_DIR
-          cp -dv /usr/lib/swift/linux/libdispatch.so $LIB_DIR
-          cp -dv /usr/lib/x86_64-linux-gnu/libicui18n.so* $LIB_DIR
-          cp -dv /usr/lib/x86_64-linux-gnu/libicuuc.so* $LIB_DIR
-          cp -dv /usr/lib/x86_64-linux-gnu/libicudata.so* $LIB_DIR
+          cp -dv /usr/lib/swift/linux/*.so $LIB_DIR
           cp -dv /usr/lib/x86_64-linux-gnu/libxml2.so* $LIB_DIR
 
       - name: Patch libraries to use relative dependencies
@@ -109,23 +103,12 @@ jobs:
             patchelf --set-rpath $SWIFT_RUN_PATH $LIB
           done
 
-      - name: rename swift runtime dependencies
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-
-          # Add links
-          pushd $LIB_DIR
-            mv libicudataswift.so.69.1 libicudataswift.so.69
-            mv libicui18nswift.so.69.1 libicui18nswift.so.69
-            mv libicuucswift.so.69.1 libicuucswift.so.69
-          popd
-
       - name: Upload library
         uses: actions/upload-artifact@v4
         with:
           name: ubuntu_generated
           path: .build/linux-iota-libs
+          if-no-files-found: error
 
   build-iota-windows:
     name: "Windows: Build Iota Runtime"
@@ -179,6 +162,7 @@ jobs:
         with:
           name: windows_generated
           path: .build/windows-iota-libs
+          if-no-files-found: error
 
   iota-publish:
     name: "Publish C# Package and Dart Binaries"
@@ -199,7 +183,7 @@ jobs:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '6.0.x'
 
@@ -288,12 +272,14 @@ jobs:
         with:
           name: nuget-package
           path: c-sharp-runtime/nupkgs/*.*nupkg
+          if-no-files-found: error
 
       - name: Upload Dart Tarball
         uses: actions/upload-artifact@v4
         with:
           name: FishyJoes-dart-binaries
           path: FishyJoes-dart-binaries.tgz
+          if-no-files-found: error
 
       - name: Publish
         shell: zsh {0}

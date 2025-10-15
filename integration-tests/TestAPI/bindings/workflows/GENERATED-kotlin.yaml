@@ -16,7 +16,6 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  NODE_AUTH_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
   GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
   GITHUB_USER: cricut-builduser
   GRADLE_OPTS: -Dorg.gradle.daemon=false
@@ -51,13 +50,6 @@ jobs:
           yq --version || brew install yq
           mint --version || brew install mint
 
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18.x'
-          registry-url: 'https://npm.pkg.github.com/'
-          scope: '@cricut'
-
       - name: Pre-build hook
         shell: bash
         run: |
@@ -82,12 +74,13 @@ jobs:
         with:
           name: mac_libs
           path: bindings/kotlin/generated/src/main/resources
+          if-no-files-found: error
 
   build-test-kotlin-linux:
     name: "Ubuntu: Build and test kotlin bindings"
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cricut/android-swift-runtime:3.0.2
+      image: ghcr.io/cricut/android-swift-runtime:4.0.0
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
@@ -109,13 +102,6 @@ jobs:
           distribution: zulu
           java-version: ${{ env.JAVA_VERSION }}
 
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18.x'
-          registry-url: 'https://npm.pkg.github.com/'
-          scope: '@cricut'
-
       - name: Pre-build hook
         shell: bash
         run: |
@@ -126,20 +112,21 @@ jobs:
         run: |
           set -euxo pipefail
 
-          swift run -- fishy-joes --kotlin build --no-use-docker
+          swift run -- fishy-joes --kotlin build --no-swiftly
 
       - name: Test from gradle
         shell: zsh {0}
         run: |
           set -euxo pipefail
 
-          swift run -- fishy-joes --kotlin test --no-use-docker
+          swift run -- fishy-joes --kotlin test --no-swiftly
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: ubuntu_libs
           path: bindings/kotlin/generated/src/main/resources
+          if-no-files-found: error
 
   build-test-kotlin-windows:
     name: "Windows: Build and test kotlin bindings"
@@ -177,13 +164,6 @@ jobs:
           swift package resolve
           echo SWIFT_WINDOWS_BASH=".build/checkouts/FishyJoes/scripts/swift-shim.ps1" >> $env:GITHUB_ENV
 
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18.x'
-          registry-url: 'https://npm.pkg.github.com/'
-          scope: '@cricut'
-
       - name: Pre-build hook
         shell: bash
         run: |
@@ -215,6 +195,7 @@ jobs:
         with:
           name: windows_libs
           path: bindings/kotlin/generated/src/main/resources
+          if-no-files-found: error
 
   kotlin-publish:
     name: Publish kotlin package
