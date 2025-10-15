@@ -188,7 +188,7 @@ jobs:
           set -euo pipefail
 
           source /VERSIONS
-          jsonSDK="$(jq -r <  Sources/FishyJoesConfig/tool-versions.json .swiftAndroid.sdk)"
+          jsonSDK="swift-$(jq -r <  Sources/FishyJoesConfig/tool-versions.json .swiftAndroid.sdk)"
 
           if [[ $swiftAndroidSDKName != $jsonSDK ]]; then
               echo "swift toolchain SDK mismatch. android-swift-runtime ($swiftAndroidSDKName) != tool-versions.json ($jsonSDK)"
