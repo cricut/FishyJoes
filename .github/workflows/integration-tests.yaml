@@ -182,6 +182,19 @@ jobs:
 
           swift run fishy-joes install-toolchains --swiftly --wasm
 
+      - name: Check SDK version matches android-swift-runtime
+        shell: zsh {0}
+        run: |
+          set -euo pipefail
+
+          source /VERSIONS
+          jsonSDK="$(jq -r <  Sources/FishyJoesConfig/tool-versions.json .swiftAndroid.sdk)"
+
+          if [[ $swiftAndroidSDKName != $jsonSDK ]]; then
+              echo "swift toolchain SDK mismatch. android-swift-runtime ($swiftAndroidSDKName) != tool-versions.json ($jsonSDK)"
+              exit 1
+          fi
+
       - name: Build FishyJoesNodeRuntime
         shell: zsh {0}
         run: |
