@@ -16,6 +16,9 @@ struct InstallToolchainsCommand: ParsableCommand {
     @Flag(name: .customLong("wasm"), inversion: .prefixedNo, help: "install the swift wasm SDK and toolchain")
     var installWasm = true
 
+    @Flag(name: .customLong("android"), inversion: .prefixedNo, help: "install the android SDK and toolchain")
+    var installAndroid = true
+
     @Flag(name: .long, inversion: .prefixedNo, help: "Attempt to modify the profile file to set environment variables (e.g. PATH) on login.")
     var modifyProfile = false
 
@@ -84,6 +87,45 @@ struct InstallToolchainsCommand: ParsableCommand {
                     "https://github.com/swiftwasm/swift/releases/download/swift-wasm-\(sdk)/swift-wasm-\(sdk)-\(triple).artifactbundle.zip",
                     "--checksum", ToolVersions.shared.swiftWasm.sdkChecksum
                 ).run()
+            }
+        }
+
+        if installAndroid {
+            let toolchain = ToolVersions.shared.swiftAndroid.toolchain
+            let sdk = ToolVersions.shared.swiftAndroid.sdk
+            let triple = ToolVersions.shared.swiftAndroid.targets[0].triple
+
+            Log.info("Installing swift-android toolchain \(toolchain)")
+            try Swiftly.swiftly("install", "--assume-yes", toolchain).run()
+
+            let sdkInstalled = Swiftly.run(
+                toolchain: toolchain,
+                "swift", "sdk", "configure", "--show-configuration",
+                "swift-\(sdk)",
+                triple
+            )
+                .output(overwritingFile: FileManager.nullDevicePath)
+                .runBool()
+
+            if sdkInstalled {
+                Log.info("swift-android \(sdk) already installed")
+            } else {
+                Log.info("Installing swift-android sdk \(sdk)")
+                try Swiftly.run(
+                    toolchain: toolchain, "swift", "sdk", "install",
+                    "https://github.com/swift-android-sdk/swift-android-sdk/releases/download/\(toolchain)/swift-\(sdk).artifactbundle.tar.gz",
+                    "--checksum", ToolVersions.shared.swiftAndroid.sdkChecksum
+                ).run()
+            }
+
+            if ProcessInfo.processInfo.environment["ANDROID_NDK_HOME"] != nil {
+                Log.info("Linking android NDK to swift SDK")
+                try cmd(
+                    "\(NSHomeDirectory())/.swiftpm/swift-sdks/swift-\(sdk).artifactbundle/swift-android/scripts/setup-android-sdk.sh"
+                ).run()
+            } else {
+                Log.warn("ANDROID_NDK_HOME is unset, skipping linking of NDK. Android compilation may not work.")
+                Log.warn("running 'sdkmanager --list_installed --verbose' may have the path")
             }
         }
     }

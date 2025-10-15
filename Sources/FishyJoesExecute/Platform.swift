@@ -199,7 +199,6 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.withoutEscapingSlashes]
         for (module, dependency) in configuration.injectedSwiftDependencies {
-            var dependency = dependency
             env["FISHYJOES_DEPENDENCY_\(module)"] = try! encoder.encodeToString(dependency)
         }
 
