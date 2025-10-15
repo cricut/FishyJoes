@@ -1,5 +1,5 @@
 import Foundation
-import SourceryRuntime
+import SourceryDataModel
 
 final class DartTranslator: Translator {
     required init() {}

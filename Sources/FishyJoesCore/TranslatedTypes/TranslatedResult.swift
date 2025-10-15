@@ -4,7 +4,6 @@ struct TranslatedResult: TranslatedType {
     let nodeName: String
     let kotlinName: String
     let kotlinPackage: String? = "com.cricut.fishyjoes.runtime"
-    let neutralName: String
     let containedNamedTypes: [TranslatedType]
     let cSharpType: CSharpClass.CSType
     let dartType: DartClass.DartType
@@ -15,7 +14,6 @@ struct TranslatedResult: TranslatedType {
         self.success = success
         self.failure = failure
         self.nodeName = "Runtime.Result<\(success.nodeName), \(failure.nodeName)>"
-        self.neutralName = "Result<success=\(success.neutralName), failure=\(failure.neutralName)>"
         self.containedNamedTypes = [success, failure]
         self.kotlinName = "TypedResult<\(success.kotlinPackageQualifiedName), \(failure.kotlinPackageQualifiedName)>"
         self.cSharpType = .named(

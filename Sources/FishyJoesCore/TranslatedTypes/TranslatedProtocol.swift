@@ -1,9 +1,8 @@
-import SourceryRuntime
+import SourceryDataModel
 
 struct TranslatedProtocol: TranslatedType {
     let sourceType: BetterType
     let converterType: BetterType
-    var neutralName: String
     let nodeName: String
     let kotlinPackage: String?
     let kotlinName: String
@@ -23,16 +22,16 @@ struct TranslatedProtocol: TranslatedType {
     let iotaExternalWitnessClassName: String
     let nodeExternalWitnessClassName: String
 
-    init(context: FishyJoesContext, type: SourceryProtocol) {
+    init(context: FishyJoesContext, type: SourceryType) {
         guard let exportAnnotation = type.exportAnnotation else {
             fatalErr("type not annotated for export")
         }
+        guard type.kind == .protocol else { fatalErr("not a protocol") }
         let typeName = exportAnnotation.name
 
         self.sourceType = BetterType(named: type, context: context)
         let module = "\(context.module)_CommonInterface"
         self.converterType = .named(.init(name: "_\(sourceType.nonNamespacedName)Converter", module: module))
-        self.neutralName = "Struct<Named=\(exportAnnotation.name)>"
         self.nodeName = typeName
         self.kotlinPackage = context.module.kotlinPackage
         self.kotlinName = typeName
@@ -43,14 +42,12 @@ struct TranslatedProtocol: TranslatedType {
 
         self.definingModule = context.module
         self.definingTSNamespace = context.module.name
-        self.isInhabited = type.isInhabited
+        self.isInhabited = true
 
-        self.conformances = Set(type.implements.compactMap {
-            return .init(named: $0.value, context: context)
-        })
+        self.conformances = Set(type.implements.map(\.better))
 
-        self.methods = Method.methods(type: type)
-        self.fields = Field.fields(type: type)
+        self.methods = Method.methods(type: type, context: context)
+        self.fields = Field.fields(type: type, context: context)
 
         self.documentation = type.documentation
         self.className = context.kotlinTranslator.javaClassName(kotlinName, in: context)
@@ -536,19 +533,8 @@ struct TranslatedProtocol: TranslatedType {
                     fragment.output(#"module: "\#(context.module)","#)
                     fragment.output(#"name: "\#(nodeExternalWitnessClassName)","#)
                     fragment.outputBlock("properties: [", closeWith: "],") {
-                        var hasProperties = false
-                        hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment, converterName: converterType.name, shouldWrapDefaultImpl: true)
-                        hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: fields, context: context, fragment: fragment, converterName: converterType.name, shouldWrapDefaultImpl: true)
-//                        for field in fields {
-//                            // Limitation in wasm implementation of napi_create_class doesn't allow constructors to assign to non-mutable property.
-//                            // let mutable = field.isPubliclyWritable
-//                            let mutable = true
-//                            fragment.output("\"\(field.name)\": (.stored(mutable: \(mutable)), isStatic: \(field.isStatic)),")
-//                            hasProperties = true
-//                        }
-                        if !hasProperties {
-                            fragment.output(":")
-                        }
+                        context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment, converterName: converterType.name, shouldWrapDefaultImpl: true)
+                        context.nodeTranslator.outputProperties(computedVariables: fields, context: context, fragment: fragment, converterName: converterType.name, shouldWrapDefaultImpl: true)
                     }
                     fragment.outputBlock("constructor: { env, info in", closeWith: "}") {
                         fragment.outputBlock("callbackBody(env, info, name: \"\(nodeExternalWitnessClassName)_constructor\", expectedArgumentCount: 1) { env in", closeWith: "}") {

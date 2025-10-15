@@ -461,7 +461,7 @@ class NodePhases: BasePhases, Phases {
             args.append(contentsOf: ["-shared", "-undefined", "dynamic_lookup"])
         }
         if optimize {
-            args.append("-Ofast")
+            args.append("-O3")
         }
         for headerSearchPath in headerSearchPaths {
             args.append("-I\(headerSearchPath)")

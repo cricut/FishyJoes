@@ -27,7 +27,8 @@ extension AttributedString.Runs: FishyJoesNodeRuntime.NodeConverter {
             module: "FishyJoesCommonRuntime",
             name: "AttributedString.Runs",
             properties: [
-                "startIndex": (
+                (
+                    name: "startIndex",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "startIndex", expectedArgumentCount: 0) { env in
@@ -38,7 +39,8 @@ extension AttributedString.Runs: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "endIndex": (
+                (
+                    name: "endIndex",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "endIndex", expectedArgumentCount: 0) { env in
@@ -49,7 +51,8 @@ extension AttributedString.Runs: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "indexBefore": (
+                (
+                    name: "indexBefore",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "indexBefore", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try AttributedString.Runs.Index.toNode(
@@ -63,7 +66,8 @@ extension AttributedString.Runs: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "indexAfter": (
+                (
+                    name: "indexAfter",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "indexAfter", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try AttributedString.Runs.Index.toNode(
@@ -77,7 +81,8 @@ extension AttributedString.Runs: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "elementAt": (
+                (
+                    name: "elementAt",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "elementAt", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try AttributedString.Runs.Run.toNode(
@@ -91,7 +96,8 @@ extension AttributedString.Runs: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "elementAtPosition": (
+                (
+                    name: "elementAtPosition",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "elementAtPosition", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try AttributedString.Runs.Run.toNode(
@@ -105,7 +111,8 @@ extension AttributedString.Runs: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "equals": (
+                (
+                    name: "equals",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "equals", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             guard let lhs = try? env.this(converter: AttributedString.Runs.self),
@@ -118,7 +125,8 @@ extension AttributedString.Runs: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "hashCode": (
+                (
+                    name: "hashCode",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hashCode", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let runHashes = try env.this(converter: AttributedString.Runs.self)

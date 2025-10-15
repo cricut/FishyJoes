@@ -27,7 +27,8 @@ extension AttributedString: FishyJoesNodeRuntime.NodeConverter {
             module: "FishyJoesCommonRuntime",
             name: "AttributedString",
             properties: [
-                "string": (
+                (
+                    name: "string",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "string", expectedArgumentCount: 0) { env in
@@ -38,7 +39,8 @@ extension AttributedString: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "runs": (
+                (
+                    name: "runs",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "runs", expectedArgumentCount: 0) { env in
@@ -49,7 +51,8 @@ extension AttributedString: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "characters": (
+                (
+                    name: "characters",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "characters", expectedArgumentCount: 0) { env in
@@ -60,7 +63,8 @@ extension AttributedString: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "unicodeScalars": (
+                (
+                    name: "unicodeScalars",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "unicodeScalars", expectedArgumentCount: 0) { env in
@@ -71,7 +75,8 @@ extension AttributedString: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "substring": (
+                (
+                    name: "substring",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "substring", expectedArgumentCount: 0) { env in
@@ -83,7 +88,8 @@ extension AttributedString: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "substringForRange": (
+                (
+                    name: "substringForRange",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "substringForRange", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try AttributedSubstring.toNode(
@@ -97,7 +103,8 @@ extension AttributedString: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "startIndex": (
+                (
+                    name: "startIndex",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "startIndex", expectedArgumentCount: 0) { env in
@@ -108,7 +115,8 @@ extension AttributedString: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "endIndex": (
+                (
+                    name: "endIndex",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "endIndex", expectedArgumentCount: 0) { env in
@@ -119,7 +127,8 @@ extension AttributedString: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "append": (
+                (
+                    name: "append",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "append", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             var mutatingSelf = try env.this(converter: AttributedString.self)
@@ -135,7 +144,8 @@ extension AttributedString: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "appendSubstring": (
+                (
+                    name: "appendSubstring",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "appendSubstring", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             var mutatingSelf = try env.this(converter: AttributedString.self)
@@ -151,7 +161,8 @@ extension AttributedString: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "insert": (
+                (
+                    name: "insert",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "insert", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             var mutatingSelf = try env.this(converter: AttributedString.self)
@@ -168,7 +179,8 @@ extension AttributedString: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "insertSubstring": (
+                (
+                    name: "insertSubstring",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "insertSubstring", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             var mutatingSelf = try env.this(converter: AttributedString.self)
@@ -185,7 +197,8 @@ extension AttributedString: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "replaceSubrange": (
+                (
+                    name: "replaceSubrange",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "replaceSubrange", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             var mutatingSelf = try env.this(converter: AttributedString.self)
@@ -202,7 +215,8 @@ extension AttributedString: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "replaceSubrangeWithSubstring": (
+                (
+                    name: "replaceSubrangeWithSubstring",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "replaceSubrangeWithSubstring", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             var mutatingSelf = try env.this(converter: AttributedString.self)
@@ -219,7 +233,8 @@ extension AttributedString: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "removeSubrange": (
+                (
+                    name: "removeSubrange",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "removeSubrange", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             var mutatingSelf = try env.this(converter: AttributedString.self)
@@ -235,7 +250,8 @@ extension AttributedString: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "setAttributes": (
+                (
+                    name: "setAttributes",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "setAttributes", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             var mutatingSelf = try env.this(converter: AttributedString.self)
@@ -251,7 +267,8 @@ extension AttributedString: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "setAttributesForRange": (
+                (
+                    name: "setAttributesForRange",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "setAttributesForRange", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             var mutatingSelf = try env.this(converter: AttributedString.self)
@@ -268,7 +285,8 @@ extension AttributedString: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "mergeAttributes": (
+                (
+                    name: "mergeAttributes",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "mergeAttributes", expectedArgumentCount: 1, hasNamedOptions: true) { env in
                             var mutatingSelf = try env.this(converter: AttributedString.self)
@@ -286,7 +304,8 @@ extension AttributedString: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "mergeAttributesForRange": (
+                (
+                    name: "mergeAttributesForRange",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "mergeAttributesForRange", expectedArgumentCount: 2, hasNamedOptions: true) { env in
                             var mutatingSelf = try env.this(converter: AttributedString.self)
@@ -305,7 +324,8 @@ extension AttributedString: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "replaceAttributes": (
+                (
+                    name: "replaceAttributes",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "replaceAttributes", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             var mutatingSelf = try env.this(converter: AttributedString.self)
@@ -322,7 +342,8 @@ extension AttributedString: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "replaceAttributesForRange": (
+                (
+                    name: "replaceAttributesForRange",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "replaceAttributesForRange", expectedArgumentCount: 3, hasNamedOptions: false) { env in
                             var mutatingSelf = try env.this(converter: AttributedString.self)
@@ -340,7 +361,8 @@ extension AttributedString: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "equals": (
+                (
+                    name: "equals",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "equals", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             guard let lhs = try? env.this(converter: AttributedString.self),
@@ -353,7 +375,8 @@ extension AttributedString: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "hashCode": (
+                (
+                    name: "hashCode",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hashCode", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let hash = Int32(truncatingIfNeeded: try env.this(converter: AttributedString.self).hashValue)
@@ -362,7 +385,8 @@ extension AttributedString: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "createEmpty": (
+                (
+                    name: "createEmpty",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "createEmpty", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try AttributedString.toNode(
@@ -375,7 +399,8 @@ extension AttributedString: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "create": (
+                (
+                    name: "create",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 1, hasNamedOptions: true) { env in
                             let result = try AttributedString.toNode(
@@ -390,7 +415,8 @@ extension AttributedString: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "createFromSubstring": (
+                (
+                    name: "createFromSubstring",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "createFromSubstring", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try AttributedString.toNode(

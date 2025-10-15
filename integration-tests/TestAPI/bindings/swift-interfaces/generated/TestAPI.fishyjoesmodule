@@ -41,7 +41,6 @@
       },
       "kotlinName" : "AProtocol",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=AProtocol>>",
       "nodeName" : "TestAPI.AProtocol",
       "sourceType" : {
         "named" : {
@@ -96,7 +95,6 @@
       },
       "kotlinName" : "AProtocolImplementation",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=AProtocolImplementation>>",
       "nodeName" : "TestAPI.AProtocolImplementation",
       "sourceType" : {
         "named" : {
@@ -151,7 +149,6 @@
       },
       "kotlinName" : "Actors",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Actors>>",
       "nodeName" : "TestAPI.Actors",
       "sourceType" : {
         "named" : {
@@ -206,7 +203,6 @@
       },
       "kotlinName" : "Actors.TemperatureLogger",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Reference<To=Actors.TemperatureLogger>>",
       "nodeName" : "TestAPI.Actors.TemperatureLogger",
       "sourceType" : {
         "named" : {
@@ -261,7 +257,6 @@
       },
       "kotlinName" : "AssociatedDataEnum",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=AssociatedDataEnum>>",
       "nodeName" : "TestAPI.AssociatedDataEnum",
       "sourceType" : {
         "named" : {
@@ -316,7 +311,6 @@
       },
       "kotlinName" : "AsyncFunctions",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=AsyncFunctions>>",
       "nodeName" : "TestAPI.AsyncFunctions",
       "sourceType" : {
         "named" : {
@@ -371,7 +365,6 @@
       },
       "kotlinName" : "AttributedStrings",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=AttributedStrings>>",
       "nodeName" : "TestAPI.AttributedStrings",
       "sourceType" : {
         "named" : {
@@ -426,7 +419,6 @@
       },
       "kotlinName" : "Bytes",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Bytes>>",
       "nodeName" : "TestAPI.Bytes",
       "sourceType" : {
         "named" : {
@@ -481,7 +473,6 @@
       },
       "kotlinName" : "ClosedRanges",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=ClosedRanges>>",
       "nodeName" : "TestAPI.ClosedRanges",
       "sourceType" : {
         "named" : {
@@ -536,7 +527,6 @@
       },
       "kotlinName" : "Collections",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Collections>>",
       "nodeName" : "TestAPI.Collections",
       "sourceType" : {
         "named" : {
@@ -591,7 +581,6 @@
       },
       "kotlinName" : "Collections.CollectionHolder",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=Collections.CollectionHolder>>",
       "nodeName" : "TestAPI.Collections.CollectionHolder",
       "sourceType" : {
         "named" : {
@@ -646,7 +635,6 @@
       },
       "kotlinName" : "DefaultArguments",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=DefaultArguments>>",
       "nodeName" : "TestAPI.DefaultArguments",
       "sourceType" : {
         "named" : {
@@ -701,7 +689,6 @@
       },
       "kotlinName" : "Deprecations",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Deprecations>>",
       "nodeName" : "TestAPI.Deprecations",
       "sourceType" : {
         "named" : {
@@ -756,7 +743,6 @@
       },
       "kotlinName" : "EmptyClass1",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Reference<To=EmptyClass1>>",
       "nodeName" : "TestAPI.EmptyClass1",
       "sourceType" : {
         "named" : {
@@ -811,7 +797,6 @@
       },
       "kotlinName" : "EmptyClass2",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Reference<To=EmptyClass2>>",
       "nodeName" : "TestAPI.EmptyClass2",
       "sourceType" : {
         "named" : {
@@ -866,7 +851,6 @@
       },
       "kotlinName" : "EmptyEnum",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=EmptyEnum>>",
       "nodeName" : "TestAPI.EmptyEnum",
       "sourceType" : {
         "named" : {
@@ -921,7 +905,6 @@
       },
       "kotlinName" : "EmptyStruct",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=EmptyStruct>>",
       "nodeName" : "TestAPI.EmptyStruct",
       "sourceType" : {
         "named" : {
@@ -976,7 +959,6 @@
       },
       "kotlinName" : "EmptyStruct2",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=EmptyStruct2>>",
       "nodeName" : "TestAPI.EmptyStruct2",
       "sourceType" : {
         "named" : {
@@ -1031,7 +1013,6 @@
       },
       "kotlinName" : "AttributedString_PuttingTypesIntoQuestionablePlaces",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=AttributedString_PuttingTypesIntoQuestionablePlaces>>",
       "nodeName" : "TestAPI.AttributedString_PuttingTypesIntoQuestionablePlaces",
       "sourceType" : {
         "named" : {
@@ -1086,7 +1067,6 @@
       },
       "kotlinName" : "Functions",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Functions>>",
       "nodeName" : "TestAPI.Functions",
       "sourceType" : {
         "named" : {
@@ -1141,7 +1121,6 @@
       },
       "kotlinName" : "Methods",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Reference<To=Methods>>",
       "nodeName" : "TestAPI.Methods",
       "sourceType" : {
         "named" : {
@@ -1196,7 +1175,6 @@
       },
       "kotlinName" : "TheMethodError",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Reference<To=TheMethodError>>",
       "nodeName" : "TestAPI.TheMethodError",
       "sourceType" : {
         "named" : {
@@ -1251,7 +1229,6 @@
       },
       "kotlinName" : "Primitives",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Primitives>>",
       "nodeName" : "TestAPI.Primitives",
       "sourceType" : {
         "named" : {
@@ -1306,7 +1283,6 @@
       },
       "kotlinName" : "Primitives.PrimitiveHolder",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=Primitives.PrimitiveHolder>>",
       "nodeName" : "TestAPI.Primitives.PrimitiveHolder",
       "sourceType" : {
         "named" : {
@@ -1361,7 +1337,6 @@
       },
       "kotlinName" : "Ranges",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Ranges>>",
       "nodeName" : "TestAPI.Ranges",
       "sourceType" : {
         "named" : {
@@ -1416,7 +1391,6 @@
       },
       "kotlinName" : "ReferenceEmptyEnum",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=ReferenceEmptyEnum>>",
       "nodeName" : "TestAPI.ReferenceEmptyEnum",
       "sourceType" : {
         "named" : {
@@ -1471,7 +1445,6 @@
       },
       "kotlinName" : "Results",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Results>>",
       "nodeName" : "TestAPI.Results",
       "sourceType" : {
         "named" : {
@@ -1526,7 +1499,6 @@
       },
       "kotlinName" : "Results.Error",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=Results.Error>>",
       "nodeName" : "TestAPI.Results.Error",
       "sourceType" : {
         "named" : {
@@ -1581,7 +1553,6 @@
       },
       "kotlinName" : "SimpleEnum",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=SimpleEnum>>",
       "nodeName" : "TestAPI.SimpleEnum",
       "sourceType" : {
         "named" : {
@@ -1636,7 +1607,6 @@
       },
       "kotlinName" : "Strings",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Strings>>",
       "nodeName" : "TestAPI.Strings",
       "sourceType" : {
         "named" : {
@@ -1691,7 +1661,6 @@
       },
       "kotlinName" : "Structs",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Structs>>",
       "nodeName" : "TestAPI.Structs",
       "sourceType" : {
         "named" : {
@@ -1746,7 +1715,6 @@
       },
       "kotlinName" : "Structs.MemberwiseStruct",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=Structs.MemberwiseStruct>>",
       "nodeName" : "TestAPI.Structs.MemberwiseStruct",
       "sourceType" : {
         "named" : {
@@ -1801,7 +1769,6 @@
       },
       "kotlinName" : "Structs.MutableStruct",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=Structs.MutableStruct>>",
       "nodeName" : "TestAPI.Structs.MutableStruct",
       "sourceType" : {
         "named" : {
@@ -1856,7 +1823,6 @@
       },
       "kotlinName" : "Structs_PuttingTypesIntoQuestionablePlaces",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Reference<To=Structs_PuttingTypesIntoQuestionablePlaces>>",
       "nodeName" : "TestAPI.Structs_PuttingTypesIntoQuestionablePlaces",
       "sourceType" : {
         "named" : {
@@ -1911,7 +1877,6 @@
       },
       "kotlinName" : "Structs.ReferenceStruct",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Reference<To=Structs.ReferenceStruct>>",
       "nodeName" : "TestAPI.Structs.ReferenceStruct",
       "sourceType" : {
         "named" : {
@@ -1966,7 +1931,6 @@
       },
       "kotlinName" : "Structs.TwentyOneItemStruct",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=Structs.TwentyOneItemStruct>>",
       "nodeName" : "TestAPI.Structs.TwentyOneItemStruct",
       "sourceType" : {
         "named" : {
@@ -2021,7 +1985,6 @@
       },
       "kotlinName" : "String_PuttingTypesIntoQuestionablePlaces",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=String_PuttingTypesIntoQuestionablePlaces>>",
       "nodeName" : "TestAPI.String_PuttingTypesIntoQuestionablePlaces",
       "sourceType" : {
         "named" : {
@@ -2076,7 +2039,6 @@
       },
       "kotlinName" : "TestAsyncForeignSideFunctionsStruct",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestAsyncForeignSideFunctionsStruct>>",
       "nodeName" : "TestAPI.TestAsyncForeignSideFunctionsStruct",
       "sourceType" : {
         "named" : {
@@ -2131,7 +2093,6 @@
       },
       "kotlinName" : "TestAsyncFunctions",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestAsyncFunctions>>",
       "nodeName" : "TestAPI.TestAsyncFunctions",
       "sourceType" : {
         "named" : {
@@ -2186,7 +2147,6 @@
       },
       "kotlinName" : "TestAsyncSwiftSideFunctionsClass",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Reference<To=TestAsyncSwiftSideFunctionsClass>>",
       "nodeName" : "TestAPI.TestAsyncSwiftSideFunctionsClass",
       "sourceType" : {
         "named" : {
@@ -2241,7 +2201,6 @@
       },
       "kotlinName" : "TestDefaultComputedProperties",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestDefaultComputedProperties>>",
       "nodeName" : "TestAPI.TestDefaultComputedProperties",
       "sourceType" : {
         "named" : {
@@ -2296,7 +2255,6 @@
       },
       "kotlinName" : "TestDefaultComputedPropertiesReference",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Reference<To=TestDefaultComputedPropertiesReference>>",
       "nodeName" : "TestAPI.TestDefaultComputedPropertiesReference",
       "sourceType" : {
         "named" : {
@@ -2351,7 +2309,6 @@
       },
       "kotlinName" : "TestDefaultComputedPropertiesEnum",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=TestDefaultComputedPropertiesEnum>>",
       "nodeName" : "TestAPI.TestDefaultComputedPropertiesEnum",
       "sourceType" : {
         "named" : {
@@ -2406,7 +2363,6 @@
       },
       "kotlinName" : "TestDefaultComputedPropertiesStruct",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestDefaultComputedPropertiesStruct>>",
       "nodeName" : "TestAPI.TestDefaultComputedPropertiesStruct",
       "sourceType" : {
         "named" : {
@@ -2461,7 +2417,6 @@
       },
       "kotlinName" : "TestDifferingExportNameProtocolDiffy",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestDifferingExportNameProtocolDiffy>>",
       "nodeName" : "TestAPI.TestDifferingExportNameProtocolDiffy",
       "sourceType" : {
         "named" : {
@@ -2516,7 +2471,6 @@
       },
       "kotlinName" : "TestDifferingExportNameStruct",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestDifferingExportNameStruct>>",
       "nodeName" : "TestAPI.TestDifferingExportNameStruct",
       "sourceType" : {
         "named" : {
@@ -2571,7 +2525,6 @@
       },
       "kotlinName" : "TestLeadingUnderscoredProp",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestLeadingUnderscoredProp>>",
       "nodeName" : "TestAPI.TestLeadingUnderscoredProp",
       "sourceType" : {
         "named" : {
@@ -2626,7 +2579,6 @@
       },
       "kotlinName" : "TestLeadingUnderscoredPropStruct",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestLeadingUnderscoredPropStruct>>",
       "nodeName" : "TestAPI.TestLeadingUnderscoredPropStruct",
       "sourceType" : {
         "named" : {
@@ -2681,7 +2633,6 @@
       },
       "kotlinName" : "TestMethodsProtocol",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestMethodsProtocol>>",
       "nodeName" : "TestAPI.TestMethodsProtocol",
       "sourceType" : {
         "named" : {
@@ -2736,7 +2687,6 @@
       },
       "kotlinName" : "TestNonExportedProtocolEnum",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=TestNonExportedProtocolEnum>>",
       "nodeName" : "TestAPI.TestNonExportedProtocolEnum",
       "sourceType" : {
         "named" : {
@@ -2791,7 +2741,6 @@
       },
       "kotlinName" : "TestOptionalsProtocol",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestOptionalsProtocol>>",
       "nodeName" : "TestAPI.TestOptionalsProtocol",
       "sourceType" : {
         "named" : {
@@ -2846,7 +2795,6 @@
       },
       "kotlinName" : "TestPropertiesProtocol",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestPropertiesProtocol>>",
       "nodeName" : "TestAPI.TestPropertiesProtocol",
       "sourceType" : {
         "named" : {
@@ -2901,7 +2849,6 @@
       },
       "kotlinName" : "TestProtocolClass",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Reference<To=TestProtocolClass>>",
       "nodeName" : "TestAPI.TestProtocolClass",
       "sourceType" : {
         "named" : {
@@ -2956,7 +2903,6 @@
       },
       "kotlinName" : "TestProtocolEnum",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=TestProtocolEnum>>",
       "nodeName" : "TestAPI.TestProtocolEnum",
       "sourceType" : {
         "named" : {
@@ -3011,7 +2957,6 @@
       },
       "kotlinName" : "TestProtocolStruct",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Struct<Named=TestProtocolStruct>>",
       "nodeName" : "TestAPI.TestProtocolStruct",
       "sourceType" : {
         "named" : {
@@ -3066,7 +3011,6 @@
       },
       "kotlinName" : "Tuples",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Tuples>>",
       "nodeName" : "TestAPI.Tuples",
       "sourceType" : {
         "named" : {
@@ -3121,7 +3065,6 @@
       },
       "kotlinName" : "URLs",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=URLs>>",
       "nodeName" : "TestAPI.URLs",
       "sourceType" : {
         "named" : {
@@ -3176,7 +3119,6 @@
       },
       "kotlinName" : "UnicodeScalar_PuttingTypesIntoQuestionablePlaces",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=UnicodeScalar_PuttingTypesIntoQuestionablePlaces>>",
       "nodeName" : "TestAPI.UnicodeScalar_PuttingTypesIntoQuestionablePlaces",
       "sourceType" : {
         "named" : {
@@ -3469,7 +3411,6 @@
                     }
                   }
                 ],
-                "protocolName" : "AProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "TestAPI.AProtocol"
@@ -3502,7 +3443,6 @@
                     }
                   }
                 ],
-                "protocolName" : "AProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "string"
@@ -3543,7 +3483,6 @@
                     }
                   }
                 ],
-                "protocolName" : "AProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "string"
@@ -3676,7 +3615,6 @@
                     }
                   }
                 ],
-                "protocolName" : "AProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "string"
@@ -3717,7 +3655,6 @@
                     }
                   }
                 ],
-                "protocolName" : "AProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "string"
@@ -5351,7 +5288,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -5513,7 +5449,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -5542,7 +5477,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -5571,7 +5505,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -5600,7 +5533,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -5629,7 +5561,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -5658,7 +5589,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -5687,7 +5617,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -5716,7 +5645,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "named" : {
                     "_0" : "() => Promise<void>"
@@ -5741,7 +5669,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -5763,7 +5690,6 @@
                 "parameters" : [
 
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "named" : {
                     "_0" : "TestAPI.TestAsyncFunctions"
@@ -6179,7 +6105,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -6625,7 +6550,6 @@
                 "parameters" : [
 
                 ],
-                "protocolName" : "TestMethodsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "void"
@@ -6643,7 +6567,6 @@
                 "parameters" : [
 
                 ],
-                "protocolName" : "TestMethodsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "boolean"
@@ -6668,7 +6591,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestMethodsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "void"
@@ -6693,7 +6615,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestMethodsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "string"
@@ -6726,7 +6647,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestMethodsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "string"
@@ -6751,7 +6671,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestMethodsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "[boolean, number, string]"
@@ -6819,7 +6738,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestOptionalsProtocol",
                 "returnType" : {
                   "optional" : {
                     "_0" : {
@@ -6848,7 +6766,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestOptionalsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "number"
@@ -7492,7 +7409,6 @@
                     }
                   }
                 ],
-                "protocolName" : "AProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "TestAPI.AProtocol"
@@ -7525,7 +7441,6 @@
                     }
                   }
                 ],
-                "protocolName" : "AProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "string"
@@ -7566,7 +7481,6 @@
                     }
                   }
                 ],
-                "protocolName" : "AProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "string"
@@ -7763,7 +7677,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -7792,7 +7705,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -7821,7 +7733,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -7850,7 +7761,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -7879,7 +7789,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -7908,7 +7817,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -7937,7 +7845,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -7966,7 +7873,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "named" : {
                     "_0" : "() => Promise<void>"
@@ -7991,7 +7897,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "promise" : {
                     "_0" : {
@@ -8013,7 +7918,6 @@
                 "parameters" : [
 
                 ],
-                "protocolName" : "TestAsyncFunctions",
                 "returnType" : {
                   "named" : {
                     "_0" : "TestAPI.TestAsyncFunctions"
@@ -8135,7 +8039,6 @@
                 "parameters" : [
 
                 ],
-                "protocolName" : "TestMethodsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "void"
@@ -8153,7 +8056,6 @@
                 "parameters" : [
 
                 ],
-                "protocolName" : "TestMethodsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "boolean"
@@ -8178,7 +8080,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestMethodsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "void"
@@ -8203,7 +8104,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestMethodsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "string"
@@ -8236,7 +8136,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestMethodsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "string"
@@ -8261,7 +8160,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestMethodsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "[boolean, number, string]"
@@ -8319,7 +8217,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestOptionalsProtocol",
                 "returnType" : {
                   "optional" : {
                     "_0" : {
@@ -8348,7 +8245,6 @@
                     }
                   }
                 ],
-                "protocolName" : "TestOptionalsProtocol",
                 "returnType" : {
                   "named" : {
                     "_0" : "number"
