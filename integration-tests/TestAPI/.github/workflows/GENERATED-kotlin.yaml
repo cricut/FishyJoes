@@ -16,6 +16,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
+  NODE_AUTH_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
   GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
   GITHUB_USER: cricut-builduser
   GRADLE_OPTS: -Dorg.gradle.daemon=false
@@ -49,6 +50,14 @@ jobs:
         run: |
           yq --version || brew install yq
           mint --version || brew install mint
+
+      # NOTE: don't delete this. Even if it looks unused, some downsteam pre-build hooks rely on it.
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          registry-url: 'https://npm.pkg.github.com/'
+          scope: '@cricut'
 
       - name: Pre-build hook
         shell: bash
@@ -101,6 +110,14 @@ jobs:
         with:
           distribution: zulu
           java-version: ${{ env.JAVA_VERSION }}
+
+      # NOTE: don't delete this. Even if it looks unused, some downsteam pre-build hooks rely on it.
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          registry-url: 'https://npm.pkg.github.com/'
+          scope: '@cricut'
 
       - name: Pre-build hook
         shell: bash
@@ -163,6 +180,14 @@ jobs:
           swift package resolve
           swift package resolve
           echo SWIFT_WINDOWS_BASH=".build/checkouts/FishyJoes/scripts/swift-shim.ps1" >> $env:GITHUB_ENV
+
+      # NOTE: don't delete this. Even if it looks unused, some downsteam pre-build hooks rely on it.
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          registry-url: 'https://npm.pkg.github.com/'
+          scope: '@cricut'
 
       - name: Pre-build hook
         shell: bash
