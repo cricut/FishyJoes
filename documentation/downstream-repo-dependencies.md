@@ -3,6 +3,7 @@ graph TB;
 FishyJoes --> -bindings;
 subgraph -bindings;
 direction TB;
+CriAnalytics;
 CriGeo --> CriText;
 CriGeo --> CriSVG;
 CriGeo & CriRaster --> CriTrace;
