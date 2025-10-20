@@ -146,7 +146,7 @@ jobs:
 
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cricut/android-swift-runtime:4.0.0
+      image: ghcr.io/cricut/android-swift-runtime:4.0.1-alpha0
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
@@ -181,7 +181,7 @@ jobs:
           # Sadly, Ubuntu LTS doesn't have an up-to-date binaryen, so use a wasm version instead
           npm -g install binaryen@111.0.0
 
-          swift run fishy-joes install-toolchains --swiftly --wasm
+          swift run fishy-joes install-toolchains --swiftly --wasm --android
 
       - name: Check SDK version matches android-swift-runtime
         shell: zsh {0}

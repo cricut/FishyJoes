@@ -133,7 +133,7 @@ jobs:
 
           git config --global --add safe.directory '*'
 
-          swift run fishy-joes install-toolchains --swiftly --wasm
+          swift run fishy-joes install-toolchains --swiftly --wasm --no-android
 
           # Use wasm version of wasm-opt because ubuntu version can be very old
           npm install -g binaryen
