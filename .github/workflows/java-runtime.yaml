@@ -68,7 +68,7 @@ jobs:
     env:
       LIB_DIR: kotlin-runtime/src/generated/resources/linux
     container:
-      image: ghcr.io/cricut/android-swift-runtime:4.0.1-alpha0
+      image: ghcr.io/cricut/android-swift-runtime:4.0.1
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}

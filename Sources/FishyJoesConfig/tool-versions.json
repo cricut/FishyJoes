@@ -33,6 +33,6 @@
   "linuxContainer": {
     "//": "NOTE WHEN UPDATING: This value is also hard-coded in .github/workflows/*.yaml and kotlin-runtime/build.gradle.kts",
     "image": "ghcr.io/cricut/android-swift-runtime",
-    "version": "4.0.1-alpha0"
+    "version": "4.0.1"
   }
 }
