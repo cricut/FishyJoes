@@ -138,9 +138,7 @@ jobs:
 
           SWIFT_RUN_PATH='$ORIGIN:/usr/lib/swift/linux:'
           for LIB in lib*.so*; do
-            echo "$LIB: rpath = $(readelf --print-rpath $LIB)"
             patchelf --set-rpath $SWIFT_RUN_PATH $LIB
-            echo "$LIB: rpath = $(readelf --print-rpath $LIB)"
           done
 
       - name: Test from gradle
