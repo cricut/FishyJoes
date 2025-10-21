@@ -136,7 +136,7 @@ jobs:
         run: |
           cd bindings/c-sharp/generated/Cricut.__MODULE_NAME__/runtimes/linux/native
 
-          SWIFT_RUN_PATH='/usr/lib/swift/linux:./:$ORIGIN'
+          SWIFT_RUN_PATH='$ORIGIN:/usr/lib/swift/linux:./'
           for LIB in lib*.so*; do
             patchelf --set-rpath $SWIFT_RUN_PATH $LIB
           done
