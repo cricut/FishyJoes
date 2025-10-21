@@ -115,7 +115,7 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
             // It would be nice to make this a more precice check, but there doesn't seem to be a way to get a more structured swift-version
             let versionMatcher = Regex {
                 "Swift version \(toolchainVersion)"
-                Anchor.wordBoundary
+                ChoiceOf { Anchor.wordBoundary; "."; "-" }
             }
             if try versionMatcher.firstMatch(in: installedSwiftVersionString) == nil {
                 fatalError("Expected swift toolchain \(toolchainVersion) to be installed. Got: \(installedSwiftVersionString)")

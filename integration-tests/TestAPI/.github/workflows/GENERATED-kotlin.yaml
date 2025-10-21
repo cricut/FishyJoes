@@ -89,7 +89,7 @@ jobs:
     name: "Ubuntu: Build and test kotlin bindings"
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cricut/android-swift-runtime:4.0.0
+      image: ghcr.io/cricut/android-swift-runtime:4.0.1
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
@@ -130,6 +130,18 @@ jobs:
           set -euxo pipefail
 
           swift run -- fishy-joes --kotlin build --no-swiftly
+
+      - name: Patch libraries to use relative dependencies
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          cd bindings/kotlin/generated/src/main/resources/linux
+
+          SWIFT_RUN_PATH='$ORIGIN:/usr/lib/swift/linux:'
+          for LIB in lib*.so*; do
+            patchelf --set-rpath $SWIFT_RUN_PATH $LIB
+          done
 
       - name: Test from gradle
         shell: zsh {0}

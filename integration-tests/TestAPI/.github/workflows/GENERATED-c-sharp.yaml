@@ -89,7 +89,7 @@ jobs:
     name: "Ubuntu: Build and test C# bindings"
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cricut/android-swift-runtime:4.0.0
+      image: ghcr.io/cricut/android-swift-runtime:4.0.1
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
@@ -138,7 +138,7 @@ jobs:
         run: |
           cd bindings/c-sharp/generated/Cricut.TestAPI/runtimes/linux/native
 
-          SWIFT_RUN_PATH='/usr/lib/swift/linux:./:$ORIGIN'
+          SWIFT_RUN_PATH='$ORIGIN:/usr/lib/swift/linux:./'
           for LIB in lib*.so*; do
             patchelf --set-rpath $SWIFT_RUN_PATH $LIB
           done

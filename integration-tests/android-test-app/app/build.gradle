@@ -43,7 +43,7 @@ android {
 }
 
 dependencies {
-    implementation "com.cricut:android-swift-runtime:4.0.0"
+    implementation "com.cricut:android-swift-runtime:4.0.1"
     implementation 'com.cricut.TestAPI:testapi:local'
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
