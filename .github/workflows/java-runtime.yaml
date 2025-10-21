@@ -65,6 +65,8 @@ jobs:
   build-test-kotlin-ubuntu:
     name: "Ubuntu: Build and test kotlin runtime"
     runs-on: ubuntu-latest
+    env:
+      LIB_DIR: kotlin-runtime/src/generated/resources/linux
     container:
       image: ghcr.io/cricut/android-swift-runtime:4.0.1-alpha0
       credentials:
@@ -107,6 +109,16 @@ jobs:
           set -euxo pipefail
 
           ./scripts/compile-android-runtime.sh
+
+      - name: Patch libraries to use relative dependencies
+        shell: zsh {0}
+        run: |
+          cd $LIB_DIR
+
+          SWIFT_RUN_PATH='$ORIGIN:/usr/lib/swift/linux'
+          for LIB in lib*.so*; do
+            patchelf --set-rpath $SWIFT_RUN_PATH $LIB
+          done
 
       - name: Upload library
         uses: actions/upload-artifact@v4
