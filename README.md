@@ -106,6 +106,32 @@ git diff
 
 These are recommendations only, take or leave the changes.
 
+## Command Line Options
+
+### Dependency version control
+
+By default, FishyJoes translates Swift Package Manager dependency versions to exact versions in generated packages. Use `--flexible-versions` to generate flexible version constraints instead.
+
+Without `--flexible-versions`:
+- NuGet: `[2.19.4]`
+- NPM/Dart: `2.19.4`
+- Gradle: `2.19.4`
+
+With `--flexible-versions`:
+- NuGet: `[2.19.4,3.0.0)` for upToNextMajor constraints
+- NPM/Dart: `^2.19.4` for upToNextMajor, `~1.2.3` for upToNextMinor
+- Gradle: `2.19.4` (always exact)
+
+Example:
+```
+swift run fishy-joes --kotlin-fast --flexible-versions generate build test
+```
+
+The `--flexible-versions` flag translates Swift Package Manager version constraints:
+- `.upToNextMajor` to caret notation (`^`) or bracket ranges
+- `.upToNextMinor` to tilde notation (`~`) or bracket ranges
+- `.exact`, `.revision`, `.branch` remain exact regardless of flag
+
 ## Updating exported library
 
 0. Update version in Package.swift

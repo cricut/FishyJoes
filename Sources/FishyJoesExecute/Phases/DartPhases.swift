@@ -28,7 +28,7 @@ class DartPhases: IotaPhases, Phases {
                     "  path: DEPENDENCY_NOT_FOUND",
                 ]
             }
-            if let version = dependency.versionInPubspecFormat {
+            if let version = dependency.versionInPubspecFormat(flexibleVersions: options.flexibleVersions) {
                 return lines + [
                     #"  git:"#,
                     #"    url: "https://github.com/cricut/\#(depNames.swift).git""#,
@@ -54,7 +54,8 @@ class DartPhases: IotaPhases, Phases {
             let version = options.packageInfo?.dependencyMap[dependency.swift]?
                 .versionInNpmFormat(
                     relativeTo: "bindings/dart/generated/flutter-package/",
-                    addIfLocalPath: dependency.npmSubPath
+                    addIfLocalPath: dependency.npmSubPath,
+                    flexibleVersions: options.flexibleVersions
                 )
                 ?? "0.0.1-unknown"
             return #""@cricut/\#(dependency.npm)": "\#(version)""#
