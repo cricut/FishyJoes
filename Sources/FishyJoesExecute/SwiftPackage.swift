@@ -104,6 +104,12 @@ extension SwiftPackage.Dependency {
     }
 
     func versionInGradleFormat(flexibleVersions: Bool = false) -> String {
+        // The flexibleVersions parameter is intentionally unused for Gradle.
+        // Gradle's version constraint solver has limitations with complex range constraints
+        // (see https://github.com/gradle/gradle/issues/8126). For consistency and reliability
+        // across build environments, we always use exact versions for Gradle, regardless of the flag.
+        // As a temporary solution for Android, the cri-next-major-resolver plugin
+        // (https://github.com/cricut/cri-next-major-resolver) can be used to resolve version constraints.
         let spec: String
         switch self {
         case .sourceControl(_, _, .branch(let name)):
@@ -122,6 +128,7 @@ extension SwiftPackage.Dependency {
             spec = "local"
         }
 
+        // Convert anything like "user/branch" into things gradle can parse, even if it probably won't find a release by that name
         return spec.replacingOccurrences(of: "/", with: "-")
     }
 

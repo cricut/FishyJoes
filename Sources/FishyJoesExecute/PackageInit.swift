@@ -86,6 +86,7 @@ public struct PackageInit: ParsableCommand {
             extraDynamicLibraries: extraDynamicLibraries.split(separator: " ").map(String.init),
             excludeSources: excludeSources.split(separator: " ").map(String.init),
             ciPreBuildHook: nil,
+            flexibleVersions: false,
             sourceryOverride: nil
         )
 

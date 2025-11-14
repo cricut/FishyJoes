@@ -44,9 +44,6 @@ public class CodeGen: ParsableCommand {
     @Flag(name: .long, help: #"Disable parallelism for swift build. (If you get a "FishyJoesCommonRuntime-Swift.h" or "TestAPI-Swift.h" file not found error, try this option)"#)
     var disableParallelism = false
 
-    @Flag(name: .long, help: "Translate Swift Package.swift dependency version ranges to flexible versions (^, ~, >=) in generated packages")
-    var flexibleVersions = false
-
     enum BuildStep: String, CaseIterable, ExpressibleByArgument {
         case generate, build, test, pack
     }
@@ -80,7 +77,6 @@ public class CodeGen: ParsableCommand {
         case swiftly
         case fat
         case disableParallelism
-        case flexibleVersions
     }
 
     var config: FishyJoesConfig!
