@@ -140,11 +140,7 @@ extension SwiftPackage.Dependency {
             return "[\(name)]"
         case .sourceControl(_, _, .upToNextMajor(let baseVersion)):
             if flexibleVersions {
-                if baseVersion.major > 0 {
-                    return "[\(baseVersion),\(baseVersion.nextMajor))"
-                } else {
-                    return "[\(baseVersion),\(baseVersion.nextMajor))"
-                }
+                return "[\(baseVersion),\(baseVersion.nextMajor))"
             } else {
                 return "[\(baseVersion)]"
             }
