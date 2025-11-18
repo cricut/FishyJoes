@@ -81,7 +81,7 @@ jobs:
 
   build-test-node-ubuntu:
     name: "Ubuntu: Build and test node runtime"
-    runs-on: ubuntu-latest
+    runs-on: k8s
     container:
       image: ghcr.io/cricut/android-swift-runtime:4.0.2
       credentials:

@@ -64,7 +64,7 @@ jobs:
 
   build-test-kotlin-ubuntu:
     name: "Ubuntu: Build and test kotlin runtime"
-    runs-on: ubuntu-latest
+    runs-on: k8s
     env:
       LIB_DIR: kotlin-runtime/src/generated/resources/linux
     container:
@@ -204,7 +204,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          sudo apt-get install zsh
+          sudo apt-get install -y zsh
 
       - name: Retrieve artifacts
         uses: actions/download-artifact@v4

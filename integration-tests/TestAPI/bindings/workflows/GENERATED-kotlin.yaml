@@ -87,7 +87,7 @@ jobs:
 
   build-test-kotlin-linux:
     name: "Ubuntu: Build and test kotlin bindings"
-    runs-on: ubuntu-latest
+    runs-on: k8s
     container:
       image: ghcr.io/cricut/android-swift-runtime:4.0.2
       credentials:
@@ -266,7 +266,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          sudo apt-get install zsh
+          sudo apt-get install -y zsh
 
       - name: Retrieve artifacts
         uses: actions/download-artifact@v4

@@ -38,7 +38,7 @@ jobs:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '6.0.x'
           source-url: https://nuget.pkg.github.com/cricut/index.json
@@ -87,7 +87,7 @@ jobs:
 
   build-test-c-sharp-linux:
     name: "Ubuntu: Build and test C# bindings"
-    runs-on: ubuntu-latest
+    runs-on: k8s
     container:
       image: ghcr.io/cricut/android-swift-runtime:4.0.2
       credentials:
@@ -106,7 +106,7 @@ jobs:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '6.0.x'
           source-url: https://nuget.pkg.github.com/cricut/index.json
@@ -179,7 +179,7 @@ jobs:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '6.0.x'
           source-url: https://nuget.pkg.github.com/cricut/index.json
@@ -257,7 +257,7 @@ jobs:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '6.0.x'
           source-url: https://nuget.pkg.github.com/cricut/index.json
@@ -269,7 +269,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          sudo apt-get install zsh
+          sudo apt-get install -y zsh
 
       - name: Retrieve artifacts
         uses: actions/download-artifact@v4
