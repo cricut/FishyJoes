@@ -47,7 +47,7 @@ jobs:
           scope: '@cricut'
 
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '6'
 
@@ -144,7 +144,7 @@ jobs:
       GITHUB_USER: cricut-builduser
       CONFIGURATION: debug
 
-    runs-on: ubuntu-latest
+    runs-on: k8s
     container:
       image: ghcr.io/cricut/android-swift-runtime:4.0.2
       credentials:
@@ -167,7 +167,7 @@ jobs:
           scope: '@cricut'
 
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '6'
 
@@ -313,7 +313,7 @@ jobs:
           scope: '@cricut'
 
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '6'
 

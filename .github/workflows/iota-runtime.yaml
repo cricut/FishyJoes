@@ -48,7 +48,7 @@ jobs:
 
   build-iota-ubuntu:
     name: "Ubuntu: Build Iota Runtime"
-    runs-on: ubuntu-latest
+    runs-on: k8s
     container:
       image: ghcr.io/cricut/android-swift-runtime:4.0.2
       credentials:
@@ -183,7 +183,7 @@ jobs:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '6.0.x'
 
@@ -197,7 +197,7 @@ jobs:
       - name: Configure build environment
         run: |
           set -euxo pipefail
-          sudo apt-get install zsh
+          sudo apt-get install -y zsh
 
       - name: Retrieve Artifacts
         uses: actions/download-artifact@v4
