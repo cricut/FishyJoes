@@ -101,7 +101,7 @@ jobs:
 
   build-test-pack-ts-linux:
     name: "Ubuntu: Build and test typescript bindings"
-    runs-on: ubuntu-latest
+    runs-on: k8s
     container:
       image: __LINUX_CONTAINER_SPEC__
       credentials:

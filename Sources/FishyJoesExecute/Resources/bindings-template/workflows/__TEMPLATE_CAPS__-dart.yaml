@@ -79,7 +79,7 @@ jobs:
 
   build-test-dart-linux:
     name: "Ubuntu: Build and test dart bindings"
-    runs-on: ubuntu-latest
+    runs-on: k8s
     container:
       image: __LINUX_CONTAINER_SPEC__
       credentials:
@@ -247,7 +247,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          sudo apt-get install zsh
+          sudo apt-get install -y zsh
 
       - name: Retrieve artifacts
         uses: actions/download-artifact@v4
