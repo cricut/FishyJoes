@@ -6,7 +6,7 @@ direction TB;
 CriGeo --> CriText;
 CriGeo --> CriSVG;
 CriGeo & CriRaster --> CriTrace;
-CriGeo & CriRaster  --> Tesseract;
+CriGeo  --> Tesseract;
 Tesseract & CriSVG & CriText --> Bifrost;
 CriSVG --> CriCanvas;
 CriText & CriRaster --> CriCanvas;
