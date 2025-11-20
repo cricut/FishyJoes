@@ -10,6 +10,7 @@ struct FishyJoesConfig: Codable {
     let extraDynamicLibraries: [String]
     let excludeSources: [String]
     let ciPreBuildHook: String?
+    let flexibleVersions: Bool
 
     // Sometimes sourcery has conflicts with a particular macos or xcode
     // version, so while not recommended normally, this can be used to work
@@ -86,6 +87,7 @@ struct FishyJoesConfig: Codable {
                 throw ValidationError(#"fishy-joes.yaml value for key `sourceryOverride` is \#(obj), not e.g. `{"remote": "krzysztofzablocki/Sourcery@x.y.z"}`, `{"local": "/path/to/sourcery"}`, or `{"local": null}`"#)
             }
         }
+        let flexibleVersions = (configDictionary["flexibleVersions"] as? Bool) ?? false
 
         return FishyJoesConfig(
             module: module,
@@ -94,6 +96,7 @@ struct FishyJoesConfig: Codable {
             extraDynamicLibraries: extraDynamicLibraries ?? [],
             excludeSources: excludeSources ?? [],
             ciPreBuildHook: ciPreBuildHook,
+            flexibleVersions: flexibleVersions,
             sourceryOverride: sourceryOverride
         )
     }

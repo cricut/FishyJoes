@@ -18,7 +18,7 @@ class CSharpPhases: IotaPhases, Phases {
                 guard let dependency = options.packageInfo?.dependencyMap[$0.swift] else {
                     return #"<ItemGroup><PackageReference Include="\#($0.nuget)" Version="[0.0.1-unknown]" /></ItemGroup>"#
                 }
-                if let version = dependency.versionInNugetFormat {
+                if let version = dependency.versionInNugetFormat(flexibleVersions: options.config.flexibleVersions) {
                     return #"<ItemGroup><PackageReference Include="\#($0.nuget)" Version="\#(version)" /></ItemGroup>"#
                 } else {
                     let path = relativePath(of: dependency.localPath, relativeTo: "bindings/c-sharp/generated/Cricut.\(options.config.module)/")

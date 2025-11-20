@@ -26,7 +26,8 @@ class NodePhases: BasePhases, Phases {
                 let version = options.packageInfo?.dependencyMap[dependency.swift]?
                     .versionInNpmFormat(
                         relativeTo: "bindings/ts/generated/packages/node-native\(platform)",
-                        addIfLocalPath: dependency.subPath
+                        addIfLocalPath: dependency.subPath,
+                        flexibleVersions: options.config.flexibleVersions
                     )
                     ?? "0.0.1-unknown"
                 return #""@cricut/\#(dependency.npm)": "\#(version)""#

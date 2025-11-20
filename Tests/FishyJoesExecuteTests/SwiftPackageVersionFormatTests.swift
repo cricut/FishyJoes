@@ -1,0 +1,132 @@
+@testable import FishyJoesExecute
+import XCTest
+
+class SwiftPackageVersionFormatTests: XCTestCase {
+    let testURL = URL(string: "https://example.com")!
+
+    func testVersionFormatNuget() throws {
+        let upToNextMajor = SwiftPackage.Dependency.sourceControl(
+            identity: "test",
+            location: testURL,
+            requirement: .upToNextMajor(baseVersion: SemanticVersion(major: 2, minor: 19, patch: 4))
+        )
+        let upToNextMinor = SwiftPackage.Dependency.sourceControl(
+            identity: "test",
+            location: testURL,
+            requirement: .upToNextMinor(baseVersion: SemanticVersion(major: 1, minor: 2, patch: 3))
+        )
+        let exact = SwiftPackage.Dependency.sourceControl(
+            identity: "test",
+            location: testURL,
+            requirement: .exact(version: SemanticVersion(major: 1, minor: 11, patch: 11))
+        )
+        let revision = SwiftPackage.Dependency.sourceControl(
+            identity: "test",
+            location: testURL,
+            requirement: .revision(name: "abc123")
+        )
+        let range = SwiftPackage.Dependency.sourceControl(
+            identity: "test",
+            location: testURL,
+            requirement: .range(
+                lowerBound: SemanticVersion(major: 1, minor: 0, patch: 0),
+                upperBound: SemanticVersion(major: 2, minor: 0, patch: 0)
+            )
+        )
+
+        XCTAssertEqual(upToNextMajor.versionInNugetFormat(flexibleVersions: false), "[2.19.4]")
+        XCTAssertEqual(upToNextMajor.versionInNugetFormat(flexibleVersions: true), "[2.19.4,3.0.0)")
+        XCTAssertEqual(upToNextMinor.versionInNugetFormat(flexibleVersions: false), "[1.2.3]")
+        XCTAssertEqual(upToNextMinor.versionInNugetFormat(flexibleVersions: true), "[1.2.3,1.3.0)")
+        XCTAssertEqual(exact.versionInNugetFormat(flexibleVersions: false), "[1.11.11]")
+        XCTAssertEqual(exact.versionInNugetFormat(flexibleVersions: true), "[1.11.11]")
+        XCTAssertEqual(revision.versionInNugetFormat(flexibleVersions: false), "[abc123]")
+        XCTAssertEqual(revision.versionInNugetFormat(flexibleVersions: true), "[abc123]")
+        XCTAssertEqual(range.versionInNugetFormat(flexibleVersions: false), "[1.0.0]")
+        XCTAssertEqual(range.versionInNugetFormat(flexibleVersions: true), "[1.0.0,2.0.0)")
+    }
+
+    func testVersionFormatNpm() throws {
+        let upToNextMajor = SwiftPackage.Dependency.sourceControl(
+            identity: "test",
+            location: testURL,
+            requirement: .upToNextMajor(baseVersion: SemanticVersion(major: 2, minor: 19, patch: 4))
+        )
+        let upToNextMajorZero = SwiftPackage.Dependency.sourceControl(
+            identity: "test",
+            location: testURL,
+            requirement: .upToNextMajor(baseVersion: SemanticVersion(major: 0, minor: 5, patch: 0))
+        )
+        let upToNextMinor = SwiftPackage.Dependency.sourceControl(
+            identity: "test",
+            location: testURL,
+            requirement: .upToNextMinor(baseVersion: SemanticVersion(major: 1, minor: 2, patch: 3))
+        )
+        let exact = SwiftPackage.Dependency.sourceControl(
+            identity: "test",
+            location: testURL,
+            requirement: .exact(version: SemanticVersion(major: 1, minor: 11, patch: 11))
+        )
+        let revision = SwiftPackage.Dependency.sourceControl(
+            identity: "test",
+            location: testURL,
+            requirement: .revision(name: "abc123")
+        )
+        let range = SwiftPackage.Dependency.sourceControl(
+            identity: "test",
+            location: testURL,
+            requirement: .range(
+                lowerBound: SemanticVersion(major: 1, minor: 0, patch: 0),
+                upperBound: SemanticVersion(major: 2, minor: 0, patch: 0)
+            )
+        )
+
+        XCTAssertEqual(upToNextMajor.versionInNpmFormat(relativeTo: nil, flexibleVersions: false), "2.19.4")
+        XCTAssertEqual(upToNextMajor.versionInNpmFormat(relativeTo: nil, flexibleVersions: true), "^2.19.4")
+        XCTAssertEqual(upToNextMajorZero.versionInNpmFormat(relativeTo: nil, flexibleVersions: true), ">=0.5.0 <1.0.0")
+        XCTAssertEqual(upToNextMinor.versionInNpmFormat(relativeTo: nil, flexibleVersions: false), "1.2.3")
+        XCTAssertEqual(upToNextMinor.versionInNpmFormat(relativeTo: nil, flexibleVersions: true), "~1.2.3")
+        XCTAssertEqual(exact.versionInNpmFormat(relativeTo: nil, flexibleVersions: false), "1.11.11")
+        XCTAssertEqual(exact.versionInNpmFormat(relativeTo: nil, flexibleVersions: true), "1.11.11")
+        XCTAssertEqual(revision.versionInNpmFormat(relativeTo: nil, flexibleVersions: false), "abc123")
+        XCTAssertEqual(revision.versionInNpmFormat(relativeTo: nil, flexibleVersions: true), "abc123")
+        XCTAssertEqual(range.versionInNpmFormat(relativeTo: nil, flexibleVersions: false), "1.0.0")
+        XCTAssertEqual(range.versionInNpmFormat(relativeTo: nil, flexibleVersions: true), ">=1.0.0 <2.0.0")
+    }
+
+    func testVersionFormatPubspec() throws {
+        let upToNextMajor = SwiftPackage.Dependency.sourceControl(
+            identity: "test",
+            location: testURL,
+            requirement: .upToNextMajor(baseVersion: SemanticVersion(major: 2, minor: 19, patch: 4))
+        )
+        let upToNextMinor = SwiftPackage.Dependency.sourceControl(
+            identity: "test",
+            location: testURL,
+            requirement: .upToNextMinor(baseVersion: SemanticVersion(major: 1, minor: 2, patch: 3))
+        )
+        let exact = SwiftPackage.Dependency.sourceControl(
+            identity: "test",
+            location: testURL,
+            requirement: .exact(version: SemanticVersion(major: 1, minor: 11, patch: 11))
+        )
+
+        XCTAssertEqual(upToNextMajor.versionInPubspecFormat(flexibleVersions: false), "2.19.4")
+        XCTAssertEqual(upToNextMajor.versionInPubspecFormat(flexibleVersions: true), "^2.19.4")
+        XCTAssertEqual(upToNextMinor.versionInPubspecFormat(flexibleVersions: false), "1.2.3")
+        XCTAssertEqual(upToNextMinor.versionInPubspecFormat(flexibleVersions: true), "~1.2.3")
+        XCTAssertEqual(exact.versionInPubspecFormat(flexibleVersions: false), "1.11.11")
+        XCTAssertEqual(exact.versionInPubspecFormat(flexibleVersions: true), "1.11.11")
+    }
+
+    func testVersionFormatGradle() throws {
+        let upToNextMajor = SwiftPackage.Dependency.sourceControl(
+            identity: "test",
+            location: testURL,
+            requirement: .upToNextMajor(baseVersion: SemanticVersion(major: 2, minor: 19, patch: 4))
+        )
+
+        XCTAssertEqual(upToNextMajor.versionInGradleFormat(flexibleVersions: false), "2.19.4")
+        XCTAssertEqual(upToNextMajor.versionInGradleFormat(flexibleVersions: true), "2.19.4")
+    }
+}
