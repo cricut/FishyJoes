@@ -242,7 +242,9 @@ extension JavaScriptEventLoop: ExecutorFactory {
 
         private init() {}
 
-        func checkIsolated() {}
+        func checkIsolated() {
+            // No-op: JavaScript is single-threaded, so isolation is always satisfied
+        }
 
         func enqueue(_ job: consuming ExecutorJob) {
             JavaScriptEventLoop.shared.enqueue(UnownedJob(job))
