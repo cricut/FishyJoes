@@ -1,12 +1,12 @@
 {
   "swiftWasm": {
     "//": "values taken from https://github.com/swiftwasm/swift/releases",
-    "toolchain": "6.1",
-    "sdk": "6.1-RELEASE",
-    "sdkChecksum": "7550b4c77a55f4b637c376f5d192f297fe185607003a6212ad608276928db992",
+    "toolchain": "6.3-snapshot-2026-01-16",
+    "sdk": "6.3-SNAPSHOT-2026-01-16-a",
+    "sdkChecksum": "2fbc3577e2f360eb61f27f42247de6971e6193dd4a2c9373e2d3dd00ff8af9ef",
     "targets": [
       {
-        "triple": "wasm32-unknown-wasi"
+        "triple": "wasm32-unknown-wasip1"
       }
     ]
   },

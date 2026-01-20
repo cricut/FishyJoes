@@ -91,44 +91,47 @@ public final class JavaScriptEventLoop: SerialExecutor, @unchecked Sendable {
 
     private static var didInstallGlobalExecutor = false
 
-    /// Set JavaScript event loop based executor to be the global executor
-    /// Note that this should be called before any of the jobs are created.
-    /// This installation step will be unnecessary after custom executor are
-    /// introduced officially. See also [a draft proposal for custom
-    /// executors](https://github.com/rjmccall/swift-evolution/blob/custom-executors/proposals/0000-custom-executors.md#the-default-global-concurrent-executor)
+    /// Install ExecutorFactory and delay hooks for Swift 6.3 concurrency integration.
+    ///
+    /// Sets the JavaScript event loop as the global executor. This must be called before any async jobs are created.
+    ///
+    /// The ExecutorFactory API handles immediate job enqueueing, while delay hooks are still needed
+    /// for Task.sleep and other time-based scheduling operations.
     public static func installGlobalExecutor(env: NAPI.Env) throws {
         guard !didInstallGlobalExecutor else { return }
 
         try setupShared(env: env)
 
-        typealias swift_task_enqueueGlobal_hook_Fn = @convention(thin) (UnownedJob, swift_task_enqueueGlobal_original) -> Void
-        let swift_task_enqueueGlobal_hook_impl: swift_task_enqueueGlobal_hook_Fn = { job, _ in
-            JavaScriptEventLoop.shared.enqueue(job)
-        }
-        swift_task_enqueueGlobal_hook = unsafeBitCast(swift_task_enqueueGlobal_hook_impl, to: UnsafeMutableRawPointer?.self)
+        _Concurrency._createExecutors(factory: JavaScriptEventLoop.self)
+        installDelayHooks()
 
+        didInstallGlobalExecutor = true
+    }
+
+    /// Install delay-related hooks for time-based async operations.
+    ///
+    /// The ExecutorFactory handles immediate job enqueueing, but delay hooks are still needed
+    /// for Task.sleep and other time-based scheduling operations.
+    private static func installDelayHooks() {
         typealias swift_task_enqueueGlobalWithDelay_hook_Fn = @convention(thin) (UInt64, UnownedJob, swift_task_enqueueGlobalWithDelay_original) -> Void
         let swift_task_enqueueGlobalWithDelay_hook_impl: swift_task_enqueueGlobalWithDelay_hook_Fn = { delay, job, _ in
             JavaScriptEventLoop.shared.enqueue(job, withDelay: delay)
         }
-        swift_task_enqueueGlobalWithDelay_hook = unsafeBitCast(swift_task_enqueueGlobalWithDelay_hook_impl, to: UnsafeMutableRawPointer?.self)
+        swift_task_enqueueGlobalWithDelay_hook = unsafeBitCast(
+            swift_task_enqueueGlobalWithDelay_hook_impl,
+            to: UnsafeMutableRawPointer?.self
+        )
 
         #if os(WASI)
-        // This doesn't work with Xcode 14.0 so it always requires WASI
         typealias swift_task_enqueueGlobalWithDeadline_hook_Fn = @convention(thin) (Int64, Int64, Int64, Int64, Int32, UnownedJob, swift_task_enqueueGlobalWithDelay_original) -> Void
         let swift_task_enqueueGlobalWithDeadline_hook_impl: swift_task_enqueueGlobalWithDeadline_hook_Fn = { sec, nsec, tsec, tnsec, clock, job, _ in
             JavaScriptEventLoop.shared.enqueue(job, withDelay: sec, nsec, tsec, tnsec, clock)
         }
-        swift_task_enqueueGlobalWithDeadline_hook = unsafeBitCast(swift_task_enqueueGlobalWithDeadline_hook_impl, to: UnsafeMutableRawPointer?.self)
+        swift_task_enqueueGlobalWithDeadline_hook = unsafeBitCast(
+            swift_task_enqueueGlobalWithDeadline_hook_impl,
+            to: UnsafeMutableRawPointer?.self
+        )
         #endif
-
-        typealias swift_task_enqueueMainExecutor_hook_Fn = @convention(thin) (UnownedJob, swift_task_enqueueMainExecutor_original) -> Void
-        let swift_task_enqueueMainExecutor_hook_impl: swift_task_enqueueMainExecutor_hook_Fn = { job, _ in
-            JavaScriptEventLoop.shared.enqueue(job)
-        }
-        swift_task_enqueueMainExecutor_hook = unsafeBitCast(swift_task_enqueueMainExecutor_hook_impl, to: UnsafeMutableRawPointer?.self)
-
-        didInstallGlobalExecutor = true
     }
 
     static func setupShared(env: NAPI.Env) throws {
@@ -227,6 +230,43 @@ extension JavaScriptEventLoop {
         swift_get_time(&nowSec, &nowNSec, clock)
         let delayNanosec = (seconds - nowSec) * 1_000_000_000 + (nanoseconds - nowNSec)
         enqueue(job, withDelay: delayNanosec <= 0 ? 0 : UInt64(delayNanosec))
+    }
+}
+
+// MARK: - ExecutorFactory Support
+
+extension JavaScriptEventLoop: ExecutorFactory {
+    /// Bridges Swift concurrency to the JavaScript event loop by delegating all jobs to JavaScriptEventLoop.shared.
+    final class EventLoopExecutor: TaskExecutor, MainExecutor, SerialExecutor {
+        static let shared = EventLoopExecutor()
+
+        private init() {}
+
+        func checkIsolated() {}
+
+        func enqueue(_ job: consuming ExecutorJob) {
+            JavaScriptEventLoop.shared.enqueue(UnownedJob(job))
+        }
+
+        func asUnownedSerialExecutor() -> UnownedSerialExecutor {
+            UnownedSerialExecutor(ordinary: self)
+        }
+
+        func run() throws {
+            // No-op for JavaScript event loop - JavaScript controls the run loop
+        }
+
+        func stop() {
+            // No-op for JavaScript event loop
+        }
+    }
+
+    public static var mainExecutor: any MainExecutor {
+        EventLoopExecutor.shared
+    }
+
+    public static var defaultExecutor: any TaskExecutor {
+        EventLoopExecutor.shared
     }
 }
 
