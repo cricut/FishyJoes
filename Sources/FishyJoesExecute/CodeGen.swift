@@ -246,7 +246,7 @@ extension CodeGen {
                 }
             }
 
-            fragment.output(#"// swift-tools-version:5.10"#)
+            fragment.output(#"// swift-tools-version:6.0"#)
             fragment.output(#"// BEGIN GENERATED CODE"#)
             fragment.blankLine()
 
@@ -262,7 +262,7 @@ extension CodeGen {
             fragment.output(#"let wasmCompatibleOnly = env["WASM_ONLY"] == "1""#)
             fragment.blankLine()
 
-            // This enum should be kept in sync with the one PackageDotSwiftDependency.swift"#)
+            // This enum should be kept in sync with the one PackageDotSwiftDependency.swift
             fragment.outputBlock(#"enum Dependency: Codable {"#) {
                 fragment.output(#"case local(path: String)"#)
                 fragment.output(#"case remote(url: String, _ refSpec: RefSpec)"#)
@@ -343,7 +343,7 @@ extension CodeGen {
                         }
                     }
                 }
-                fragment.outputBlock(#" + ("#) {
+                fragment.outputBlock(#" + ("#, closeWith: #"),"#) {
                     fragment.outputBlock(#"wasmCompatibleOnly ? ["#, newLineTerminated: false) {
                         fragment.outputBlock(#".executableTarget("#, closeWith: "),") {
                             fragment.output(#"name: "\#(config.module)_WasmMainShim","#)
@@ -393,6 +393,7 @@ extension CodeGen {
                         }
                     }
                 }
+                fragment.output(#"swiftLanguageModes: [.v5]"#)
             }
             fragment.output(#"// END GENERATED CODE"#)
             fragment.output(#"// Below is copied from bindings/swift-interfaces/Package.part.swift"#)

@@ -1,4 +1,4 @@
-// swift-tools-version:5.10
+// swift-tools-version:6.0
 // BEGIN GENERATED CODE
 
 import PackageDescription
@@ -110,7 +110,8 @@ var package = Package(
                 ]
             ),
         ]
-    )
+    ),
+    swiftLanguageModes: [.v5]
 )
 // END GENERATED CODE
 // Below is copied from bindings/swift-interfaces/Package.part.swift
