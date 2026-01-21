@@ -28,11 +28,12 @@ class NAPITests: XCTestCase {
             ]
         ).runLines()
         return Dictionary(
-            uniqueKeysWithValues: lines.map { line in
-                let keyValue = line.split(separator: ": ").map(String.init)
+            lines.compactMap { line in
+                let keyValue = line.split(separator: ": ", maxSplits: 1).map(String.init)
+                guard keyValue.count == 2 else { return nil }
                 return (keyValue[0], keyValue[1])
             }
-        )
+        ) { value0, _ in value0 }
     }()
 
     lazy var wasiSDKPath = sdkConfig["sdkRootPath"]!

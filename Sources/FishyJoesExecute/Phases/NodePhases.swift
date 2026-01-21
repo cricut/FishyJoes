@@ -209,6 +209,8 @@ class NodePhases: BasePhases, Phases {
             try installLibrary(nodeModule.nativeLibName)
             try options.config.extraDynamicLibraries.forEach { try installLibrary($0) }
 
+            try cmd("mkdir", "-p", platform.extraLibPathDir()).run()
+
             // For node to load a library correctly, the file must be ".cjs.node", so compile a shim to load the actual Node interfacing library
             // and copy it into the build directory so it can be installed like any other library
             // and also remove intermediate files that MSVC makes but we don't need
