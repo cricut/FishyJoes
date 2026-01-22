@@ -120,7 +120,7 @@ Without `--flexible-versions`:
 With `--flexible-versions`:
 - NuGet: `[2.19.4,3.0.0)` for upToNextMajor constraints
 - NPM/Dart: `^2.19.4` for upToNextMajor, `~1.2.3` for upToNextMinor
-- Gradle: `2.19.4` (always exact)
+- Gradle: `[2.19.4,3.0.0)` for upToNextMajor, `[1.2.3,1.3.0)` for upToNextMinor
 
 Example:
 ```
