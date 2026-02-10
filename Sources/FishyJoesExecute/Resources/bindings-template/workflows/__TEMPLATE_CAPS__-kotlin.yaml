@@ -35,7 +35,7 @@ jobs:
           token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
       - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
+        uses: de-vri-es/setup-git-credentials@5e1f18da68b7039c7f824408d170811aaec93ca8 # v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
@@ -111,7 +111,7 @@ jobs:
           token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
       - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
+        uses: de-vri-es/setup-git-credentials@5e1f18da68b7039c7f824408d170811aaec93ca8 # v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
@@ -194,7 +194,7 @@ jobs:
           token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
       - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
+        uses: de-vri-es/setup-git-credentials@5e1f18da68b7039c7f824408d170811aaec93ca8 # v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
@@ -288,7 +288,7 @@ jobs:
           token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
       - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
+        uses: de-vri-es/setup-git-credentials@5e1f18da68b7039c7f824408d170811aaec93ca8 # v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
