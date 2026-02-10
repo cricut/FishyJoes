@@ -38,6 +38,17 @@ jobs:
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
+      - name: Cache SPM dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            .build/checkouts
+            .build/repositories
+            .build/workspace-state.json
+          key: ${{ runner.os }}-spm-${{ hashFiles('Package.swift') }}
+          restore-keys: |
+            ${{ runner.os }}-spm-
+
       - name: Install generation tools
         shell: zsh {0}
         run: |
@@ -118,6 +129,17 @@ jobs:
         uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
+
+      - name: Cache SPM dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            .build/checkouts
+            .build/repositories
+            .build/workspace-state.json
+          key: ${{ runner.os }}-spm-${{ hashFiles('Package.swift') }}
+          restore-keys: |
+            ${{ runner.os }}-spm-
 
       - name: Setup node
         uses: actions/setup-node@v3
@@ -220,14 +242,31 @@ jobs:
           branch: swift-6.1-release
           tag: 6.1-RELEASE
 
+      - name: Cache SPM dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            .build/checkouts
+            .build/repositories
+            .build/workspace-state.json
+          key: ${{ runner.os }}-spm-${{ hashFiles('Package.swift') }}
+          restore-keys: |
+            ${{ runner.os }}-spm-
+
       - name: Pre-resolve required swiftpm packages & fetch fishyjoes scripts
         continue-on-error: true
         shell: pwsh
         run: |
           $ErrorActionPreference = 'SilentlyContinue'
-          swift package resolve
-          swift package resolve
-          swift package resolve
+          $maxRetries = 3
+          for ($i = 1; $i -le $maxRetries; $i++) {
+              swift package resolve
+              if ($LASTEXITCODE -eq 0) { break }
+              if ($i -lt $maxRetries) {
+                  Write-Host "Resolve attempt $i failed, retrying in 5s..."
+                  Start-Sleep -Seconds 5
+              }
+          }
           echo SWIFT_WINDOWS_BASH=".build/checkouts/FishyJoes/scripts/swift-shim.ps1" >> $env:GITHUB_ENV
 
       - name: Pre-build hook
