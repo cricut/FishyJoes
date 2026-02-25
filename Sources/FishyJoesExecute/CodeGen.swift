@@ -246,7 +246,6 @@ extension CodeGen {
                 }
             }
 
-
             fragment.output(#"// swift-tools-version:6.2"#)
             fragment.output(#"// BEGIN GENERATED CODE"#)
             fragment.blankLine()
