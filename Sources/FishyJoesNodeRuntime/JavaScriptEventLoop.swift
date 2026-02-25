@@ -31,6 +31,7 @@
 #if os(WASI)
 
 import NodeAPI
+@_spi(ExperimentalCustomExecutors) import _Concurrency
 
 // NOTE: `@available` annotations are semantically wrong, but they make it easier to develop applications targeting WebAssembly in Xcode.
 
@@ -235,6 +236,7 @@ extension JavaScriptEventLoop {
 
 // MARK: - ExecutorFactory Support
 
+@_spi(ExperimentalCustomExecutors)
 extension JavaScriptEventLoop: ExecutorFactory {
     /// Bridges Swift concurrency to the JavaScript event loop by delegating all jobs to JavaScriptEventLoop.shared.
     final class EventLoopExecutor: TaskExecutor, MainExecutor, SerialExecutor {
