@@ -126,8 +126,8 @@ jobs:
 
       - uses: compnerd/gha-setup-swift@main
         with:
-          branch: swift-6.2-release
-          tag: 6.2-RELEASE
+          branch: swift-6.1-release
+          tag: 6.1-RELEASE
 
       - name: Pre-resolve Required SwiftPM Packages
         continue-on-error: true

@@ -1,4 +1,4 @@
-// swift-tools-version:6.2
+// swift-tools-version:6.1
 // BEGIN GENERATED CODE
 
 import PackageDescription
@@ -82,7 +82,7 @@ var package = Package(
                 name: "TestAPI_WasmMainShim",
                 dependencies: [.target(name: "TestAPI_NodeInterface")],
                 path: "Sources/WasmMainShim",
-                swiftSettings: [.unsafeFlags(["-warn-concurrency"])] + strictConcurrencyFlags
+                swiftSettings: strictConcurrencyFlags
             ),
         ] : [
             .target(

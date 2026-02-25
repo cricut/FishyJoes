@@ -246,7 +246,7 @@ extension CodeGen {
                 }
             }
 
-            fragment.output(#"// swift-tools-version:6.2"#)
+            fragment.output(#"// swift-tools-version:6.1"#)
             fragment.output(#"// BEGIN GENERATED CODE"#)
             fragment.blankLine()
 
@@ -349,7 +349,7 @@ extension CodeGen {
                             fragment.output(#"name: "\#(config.module)_WasmMainShim","#)
                             fragment.output(#"dependencies: [.target(name: "\#(config.module)_NodeInterface")],"#)
                             fragment.output(#"path: "Sources/WasmMainShim","#)
-                            fragment.output(#"swiftSettings: [.unsafeFlags(["-warn-concurrency"])] + strictConcurrencyFlags"#)
+                            fragment.output(#"swiftSettings: strictConcurrencyFlags"#)
                         }
                     }
                     fragment.outputBlock(#" : ["#) {
