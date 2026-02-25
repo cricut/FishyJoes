@@ -1,10 +1,10 @@
-// swift-tools-version:6.0
+// swift-tools-version:6.2
 // BEGIN GENERATED CODE
 
 import PackageDescription
 import Foundation
 
-let strictConcurrencyFlags: [SwiftSetting] = []
+let strictConcurrencyFlags: [SwiftSetting] = [.swiftLanguageMode(.v5)]
 // [.enableExperimentalFeature("StrictConcurrency"), .enableUpcomingFeature("InferSendableFromCaptures")]
 
 let env = ProcessInfo.processInfo.environment
