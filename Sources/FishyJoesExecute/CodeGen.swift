@@ -246,7 +246,8 @@ extension CodeGen {
                 }
             }
 
-            fragment.output(#"// swift-tools-version:6.0"#)
+
+            fragment.output(#"// swift-tools-version:6.2"#)
             fragment.output(#"// BEGIN GENERATED CODE"#)
             fragment.blankLine()
 
@@ -254,7 +255,7 @@ extension CodeGen {
             fragment.output(#"import Foundation"#)
             fragment.blankLine()
 
-            fragment.output(#"let strictConcurrencyFlags: [SwiftSetting] = []"#)
+            fragment.output(#"let strictConcurrencyFlags: [SwiftSetting] = [.swiftLanguageMode(.v5)]"#)
             fragment.output(#"// [.enableExperimentalFeature("StrictConcurrency"), .enableUpcomingFeature("InferSendableFromCaptures")]"#)
             fragment.blankLine()
 

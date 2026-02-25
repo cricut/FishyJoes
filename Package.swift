@@ -1,10 +1,11 @@
-// swift-tools-version:6.0
+
+// swift-tools-version:6.2
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import Foundation
 import PackageDescription
 
-let strictConcurrencyFlags: [SwiftSetting] = []
+let strictConcurrencyFlags: [SwiftSetting] = [.swiftLanguageMode(.v5)]
 // [.enableExperimentalFeature("StrictConcurrency"), .enableUpcomingFeature("InferSendableFromCaptures")]
 
 let env = ProcessInfo.processInfo.environment
@@ -295,7 +296,8 @@ let package = Package(
             ),
             T.target(
                 name: "FishyJoesConfig",
-                resources: [.copy("tool-versions.json")]
+                resources: [.copy("tool-versions.json")],
+                swiftSettings: strictConcurrencyFlags
             ),
             T.target(
                 name: "FishyJoesExecute",
