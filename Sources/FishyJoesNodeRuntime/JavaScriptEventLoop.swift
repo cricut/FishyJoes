@@ -30,8 +30,8 @@
 
 #if os(WASI)
 
-import NodeAPI
 @_spi(ExperimentalCustomExecutors) import _Concurrency
+import NodeAPI
 
 // NOTE: `@available` annotations are semantically wrong, but they make it easier to develop applications targeting WebAssembly in Xcode.
 
