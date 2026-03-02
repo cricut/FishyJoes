@@ -81,6 +81,7 @@ let package = Package(
                 // When invoked via "fishy-joes build", node.lib will be downloaded and put in an accessible directory as part of the build process
                 .linkedLibrary("node.lib", .when(platforms: [.windows])),
                 .linkedLibrary("delayimp.lib", .when(platforms: [.windows])),
+                .linkedLibrary("_FoundationCollections", .when(platforms: [.windows])),
                 .unsafeFlags(
                     extraLibPath.flatMap { ["-Xlinker", "/LIBPATH:\($0)"] },
                     .when(platforms: [.windows])
