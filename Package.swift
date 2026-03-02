@@ -10,6 +10,14 @@ let strictConcurrencyFlags: [SwiftSetting] = [.swiftLanguageMode(.v5)]
 let env = ProcessInfo.processInfo.environment
 let wasmCompatibleOnly = env["WASM_ONLY"] == "1"
 let extraLibPath = env["EXTRA_LIBPATH"]?.split(separator: ";") ?? []
+// On Windows debug builds, the Swift compiler emits type metadata references to
+// _FoundationCollections.BigString.Index (an internal Foundation backing type for
+// AttributedString.Runs.Index) that lld-link cannot resolve because the SDK does not
+// ship _FoundationCollections.lib. -Osize enables sufficient optimization to eliminate
+// these unused metadata references while preserving a reasonable level of debugger fidelity.
+let windowsDebugSwiftSettings: [SwiftSetting] = [
+    .unsafeFlags(["-Osize"], .when(platforms: [.windows], configuration: .debug))
+]
 
 func wasmIncompatible<T>(_ things: @autoclosure () -> [T]) -> [T] {
     wasmCompatibleOnly ? [] : things()
@@ -45,7 +53,7 @@ let package = Package(
     ),
     targets: [
         T.target(name: "SourceryDataModel"),
-        T.target(name: "FishyJoesCommonRuntime"),
+        T.target(name: "FishyJoesCommonRuntime", swiftSettings: windowsDebugSwiftSettings),
         // Kotlin / Java
         T.systemLibrary(name: "JNI"),
         T.target(
@@ -54,10 +62,7 @@ let package = Package(
                 .target(name: "JNI"),
                 .target(name: "FishyJoesCommonRuntime"),
             ],
-            swiftSettings: strictConcurrencyFlags,
-            linkerSettings: [
-                .unsafeFlags(["-Xlinker", "/FORCE:UNRESOLVED"], .when(platforms: [.windows], configuration: .debug)),
-            ]
+            swiftSettings: strictConcurrencyFlags + windowsDebugSwiftSettings
         ),
         T.target(
             name: "JavaRuntimeTestHarness",
@@ -72,10 +77,7 @@ let package = Package(
             dependencies: [
                 .target(name: "FishyJoesCommonRuntime"),
             ],
-            swiftSettings: strictConcurrencyFlags,
-            linkerSettings: [
-                .unsafeFlags(["-Xlinker", "/FORCE:UNRESOLVED"], .when(platforms: [.windows], configuration: .debug)),
-            ]
+            swiftSettings: strictConcurrencyFlags + windowsDebugSwiftSettings
         ),
         // TypeScript Node.js / Wasm
         T.target(
@@ -102,7 +104,7 @@ let package = Package(
             exclude: [
                 "Templates",
             ],
-            swiftSettings: strictConcurrencyFlags,
+            swiftSettings: strictConcurrencyFlags + windowsDebugSwiftSettings,
             linkerSettings: [
                 .unsafeFlags(
                     // These symbols must be defined by the node process that loads the N-API addon.
@@ -262,7 +264,6 @@ let package = Package(
                     ],
                     .when(platforms: [.windows])
                 ),
-                .unsafeFlags(["-Xlinker", "/FORCE:UNRESOLVED"], .when(platforms: [.windows], configuration: .debug)),
             ]
         ),
     ] + wasmIncompatible(
