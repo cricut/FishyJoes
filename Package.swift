@@ -250,6 +250,7 @@ let package = Package(
                     ],
                     .when(platforms: [.wasi])
                 ),
+                .linkedLibrary("_FoundationCollections", .when(platforms: [.windows])),
                 .unsafeFlags(
                     [
                         "-Xlinker", "/DELAYLOAD:node.exe",
