@@ -62,7 +62,7 @@ let package = Package(
                 .target(name: "JNI"),
                 .target(name: "FishyJoesCommonRuntime"),
             ],
-            swiftSettings: strictConcurrencyFlags
+            swiftSettings: strictConcurrencyFlags + windowsDebugSwiftSettings
         ),
         T.target(
             name: "JavaRuntimeTestHarness",
@@ -77,7 +77,7 @@ let package = Package(
             dependencies: [
                 .target(name: "FishyJoesCommonRuntime"),
             ],
-            swiftSettings: strictConcurrencyFlags
+            swiftSettings: strictConcurrencyFlags + windowsDebugSwiftSettings
         ),
         // TypeScript Node.js / Wasm
         T.target(
@@ -104,7 +104,7 @@ let package = Package(
             exclude: [
                 "Templates",
             ],
-            swiftSettings: strictConcurrencyFlags,
+            swiftSettings: strictConcurrencyFlags + windowsDebugSwiftSettings,
             linkerSettings: [
                 .unsafeFlags(
                     // These symbols must be defined by the node process that loads the N-API addon.
