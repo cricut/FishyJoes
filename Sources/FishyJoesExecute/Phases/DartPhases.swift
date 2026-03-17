@@ -28,7 +28,9 @@ class DartPhases: IotaPhases, Phases {
                     "  path: DEPENDENCY_NOT_FOUND",
                 ]
             }
-            if let version = dependency.versionInPubspecFormat(flexibleVersions: options.config.flexibleVersions) {
+            // Always use exact version for git ref: git does not support semver range syntax.
+            // Flexible versions for Dart are expressed via flutter-package.json (npm), not pubspec.yaml.
+            if let version = dependency.versionInPubspecFormat(flexibleVersions: false) {
                 return lines + [
                     #"  git:"#,
                     #"    url: "https://github.com/cricut/\#(depNames.swift).git""#,

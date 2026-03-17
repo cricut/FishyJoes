@@ -180,8 +180,8 @@ jobs:
 
       - uses: compnerd/gha-setup-swift@main
         with:
-          branch: swift-6.1-release
-          tag: 6.1-RELEASE
+          branch: swift-6.2-release
+          tag: 6.2-RELEASE
 
       - name: Pre-resolve required swiftpm packages & fetch fishyjoes scripts
         continue-on-error: true

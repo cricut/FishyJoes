@@ -22,8 +22,8 @@ class NAPITests: XCTestCase {
             "swift",
             arguments: [
                 "sdk", "configure",
-                "\(ToolVersions.shared.swiftWasm.sdk)-wasm32-unknown-wasi",
-                "wasm32-unknown-wasi",
+                "\(ToolVersions.shared.swiftWasm.sdk)-wasm32-unknown-wasip1",
+                "wasm32-unknown-wasip1",
                 "--show-configuration",
             ]
         ).runLines()
@@ -41,12 +41,12 @@ class NAPITests: XCTestCase {
     lazy var CC = "clang"
     lazy var LD = "clang"
     lazy var CFLAGS: [String] = [
-        "-target", "wasm32-unknown-wasi",
+        "-target", "wasm32-unknown-wasip1",
         "--sysroot", wasiSDKPath,
         "-ISources/NodeAPI/include",
     ]
     lazy var LDFLAGS: [String] = [
-        "-target", "wasm32-unknown-wasi",
+        "-target", "wasm32-unknown-wasip1",
         "-resource-dir", "\(wasiSDKPath)/../swift.xctoolchain/usr/lib/swift_static/clang",
         "--sysroot", wasiSDKPath,
 

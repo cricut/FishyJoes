@@ -125,8 +125,39 @@ class SwiftPackageVersionFormatTests: XCTestCase {
             location: testURL,
             requirement: .upToNextMajor(baseVersion: SemanticVersion(major: 2, minor: 19, patch: 4))
         )
+        let upToNextMinor = SwiftPackage.Dependency.sourceControl(
+            identity: "test",
+            location: testURL,
+            requirement: .upToNextMinor(baseVersion: SemanticVersion(major: 1, minor: 2, patch: 3))
+        )
+        let exact = SwiftPackage.Dependency.sourceControl(
+            identity: "test",
+            location: testURL,
+            requirement: .exact(version: SemanticVersion(major: 1, minor: 11, patch: 11))
+        )
+        let revision = SwiftPackage.Dependency.sourceControl(
+            identity: "test",
+            location: testURL,
+            requirement: .revision(name: "abc123")
+        )
+        let range = SwiftPackage.Dependency.sourceControl(
+            identity: "test",
+            location: testURL,
+            requirement: .range(
+                lowerBound: SemanticVersion(major: 1, minor: 0, patch: 0),
+                upperBound: SemanticVersion(major: 2, minor: 0, patch: 0)
+            )
+        )
 
         XCTAssertEqual(upToNextMajor.versionInGradleFormat(flexibleVersions: false), "2.19.4")
-        XCTAssertEqual(upToNextMajor.versionInGradleFormat(flexibleVersions: true), "2.19.4")
+        XCTAssertEqual(upToNextMajor.versionInGradleFormat(flexibleVersions: true), "[2.19.4,3.0.0)")
+        XCTAssertEqual(upToNextMinor.versionInGradleFormat(flexibleVersions: false), "1.2.3")
+        XCTAssertEqual(upToNextMinor.versionInGradleFormat(flexibleVersions: true), "[1.2.3,1.3.0)")
+        XCTAssertEqual(exact.versionInGradleFormat(flexibleVersions: false), "1.11.11")
+        XCTAssertEqual(exact.versionInGradleFormat(flexibleVersions: true), "1.11.11")
+        XCTAssertEqual(revision.versionInGradleFormat(flexibleVersions: false), "abc123")
+        XCTAssertEqual(revision.versionInGradleFormat(flexibleVersions: true), "abc123")
+        XCTAssertEqual(range.versionInGradleFormat(flexibleVersions: false), "1.0.0")
+        XCTAssertEqual(range.versionInGradleFormat(flexibleVersions: true), "[1.0.0,2.0.0)")
     }
 }
