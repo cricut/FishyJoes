@@ -89,7 +89,232 @@ final class PythonTranslator: Translator {
             .map { "\"\($0.unqualifiedName)\"" }
         exportsFragment.output("__all__ = [\(exports.joined(separator: ", "))]")
 
-        return [fragment, exportsFragment]
+        let headerFragment = declarationsHeader(context: context, generatedTypes: generatedTypes)
+
+        return [fragment, exportsFragment, headerFragment]
+    }
+
+    // MARK: - _declarations.h
+
+    /// Returns the C type string for a given FFIType, used in the cffi `cdef()` header.
+    private func cType(for ffiType: PythonClass.FFIType) -> String {
+        switch ffiType {
+        case .void:   return "void"
+        case .bool:   return "uint8_t"
+        case .int8:   return "int8_t"
+        case .int16:  return "int16_t"
+        case .int32:  return "int32_t"
+        case .int64:  return "int64_t"
+        case .int:    return "intptr_t"
+        case .uint8:  return "uint8_t"
+        case .uint16: return "uint16_t"
+        case .uint32: return "uint32_t"
+        case .uint64: return "uint64_t"
+        case .uint:   return "uintptr_t"
+        case .float:  return "float"
+        case .double: return "double"
+        case .object: return "void*"
+        }
+    }
+
+    /// Builds a `_declarations.h` fragment with C declarations for every @_cdecl symbol the
+    /// Python runtime needs to call via cffi.
+    private func declarationsHeader(context: FishyJoesContext, generatedTypes: [BetterType]) -> SourceFragment {
+        let fragment = context.pythonRawFragment("_declarations.h")
+
+        // Standard integer types used in the header
+        fragment.output("#include <stdint.h>")
+        fragment.output("#include <stddef.h>")
+        fragment.blankLine()
+
+        // Module-level registerTypes function
+        let registerFn = "FishyJoes_\(context.module.name.mangled)_registerTypes"
+        fragment.output("void \(registerFn)(void);")
+        fragment.blankLine()
+
+        for type in generatedTypes {
+            let resolved = context.resolve(type: type)
+            guard resolved.definingModule == context.module else { continue }
+
+            switch resolved {
+            case let reference as TranslatedReference:
+                emitReferenceDeclarations(reference, context: context, fragment: fragment)
+            case let enumType as TranslatedEnum:
+                emitEnumDeclarations(enumType, context: context, fragment: fragment)
+            case let valueType as TranslatedStruct:
+                emitStructDeclarations(valueType, context: context, fragment: fragment)
+            case let proto as TranslatedProtocol:
+                emitProtocolDeclarations(proto, context: context, fragment: fragment)
+            default:
+                continue
+            }
+            fragment.blankLine()
+        }
+
+        return fragment
+    }
+
+    // MARK: Reference type
+
+    private func emitReferenceDeclarations(_ ref: TranslatedReference, context: FishyJoesContext, fragment: SourceFragment) {
+        let setupName = ref.iotaSetupName
+        // setup: (void* env, void* constructor, void** exn)
+        fragment.output("void \(setupName)(void* env, void* constructor, void** exn);")
+
+        // method shims
+        for method in ref.methods {
+            emitMethodShim(method: method, typeName: ref.sourceType.name, context: context, fragment: fragment)
+        }
+
+        // field shims (computed variables only; stored handled by setup)
+        for field in ref.computedVariables {
+            guard field.exportAnnotation != nil else { continue }
+            emitFieldShims(field: field, typeName: ref.sourceType.name, isStatic: field.isStatic, context: context, fragment: fragment)
+        }
+    }
+
+    // MARK: Struct type
+
+    private func emitStructDeclarations(_ s: TranslatedStruct, context: FishyJoesContext, fragment: SourceFragment) {
+        let setupName = s.iotaSetupName
+        // setup: (void* env, void* constructor, getter/setter per stored field, void** exn)
+        var setupParams = "void* env, void* constructor"
+        for storedVar in s.storedVariables {
+            let resolved = context.resolve(type: storedVar.type)
+            let ffiType = cType(for: resolved.pythonFFIType)
+            setupParams += ", void* get_\(storedVar.name)"
+            if storedVar.isMutable {
+                setupParams += ", void* set_\(storedVar.name)"
+            }
+            _ = ffiType // type info used at runtime, not in the setup signature (all callbacks are void*)
+        }
+        setupParams += ", void** exn"
+        fragment.output("void \(setupName)(\(setupParams));")
+
+        // method shims
+        for method in s.methods {
+            emitMethodShim(method: method, typeName: s.sourceType.name, context: context, fragment: fragment)
+        }
+
+        // stored variable field shims (getter always; setter if mutable)
+        for storedVar in s.storedVariables {
+            emitFieldShims(field: storedVar, typeName: s.sourceType.name, isStatic: storedVar.isStatic, context: context, fragment: fragment, isStoredVar: true)
+        }
+
+        // computed variable field shims
+        for field in s.computedVariables {
+            guard field.exportAnnotation != nil else { continue }
+            emitFieldShims(field: field, typeName: s.sourceType.name, isStatic: field.isStatic, context: context, fragment: fragment)
+        }
+    }
+
+    // MARK: Enum type
+
+    private func emitEnumDeclarations(_ e: TranslatedEnum, context: FishyJoesContext, fragment: SourceFragment) {
+        let setupName = e.iotaSetupName
+        // Build setup params. All callbacks are void*.
+        var setupParams = "void* env"
+        if e.isInhabited {
+            setupParams += ", void* discriminator"
+        }
+        for enumCase in e.cases {
+            setupParams += ", void* \(enumCase.name)_constructor"
+            setupParams += ", void* \(enumCase.name)_extractor"
+        }
+        setupParams += ", void** exn"
+        fragment.output("void \(setupName)(\(setupParams));")
+
+        // Discriminator shim: int32_t __iota_discriminator_TypeName(void* env, void* self, void** exn)
+        // (Discriminator is a setup callback, not a standalone @_cdecl — no separate shim needed)
+
+        // Case constructor shims: __iota_TypeName_caseName_constructor emitted by iota translator? No —
+        // the enum setup function registers callbacks. The actual shims called from Python are the
+        // per-method/field shims for the enum's exported methods/fields.
+        for method in e.methods {
+            emitMethodShim(method: method, typeName: e.sourceType.name, context: context, fragment: fragment)
+        }
+        for field in e.fields {
+            guard field.exportAnnotation != nil else { continue }
+            emitFieldShims(field: field, typeName: e.sourceType.name, isStatic: field.isStatic, context: context, fragment: fragment)
+        }
+    }
+
+    // MARK: Protocol type
+
+    private func emitProtocolDeclarations(_ proto: TranslatedProtocol, context: FishyJoesContext, fragment: SourceFragment) {
+        let setupName = proto.iotaSetupName
+        // setup: (void* env, void* constructor, getter per field (no setters), callback per non-default method, void** exn)
+        var setupParams = "void* env, void* constructor"
+        for field in proto.fields {
+            setupParams += ", void* get_\(field.name)"
+        }
+        for method in proto.methods where !method.isDefaultImplementation {
+            setupParams += ", void* \(method.callName)"
+        }
+        setupParams += ", void** exn"
+        fragment.output("void \(setupName)(\(setupParams));")
+
+        // method shims
+        for method in proto.methods {
+            emitMethodShim(method: method, typeName: proto.sourceType.name, context: context, fragment: fragment)
+        }
+
+        // field shims (read-only in protocols)
+        for field in proto.fields {
+            guard field.exportAnnotation != nil else { continue }
+            emitFieldShims(field: field, typeName: proto.sourceType.name, isStatic: false, context: context, fragment: fragment)
+        }
+    }
+
+    // MARK: Shared helpers
+
+    /// Emits: `ReturnCType __iota_TypeName_methodName(void* env[, void* self], params..., void** exn);`
+    private func emitMethodShim(method: Method, typeName: String, context: FishyJoesContext, fragment: SourceFragment) {
+        let exportAnnotation = method.exportAnnotation
+        let mangledName = "__iota_\(typeName)_\(exportAnnotation.name)".mangled
+        let resolvedReturn = context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides)
+        let returnCType = method.isAsync ? "void*" : cType(for: resolvedReturn.pythonFFIType)
+
+        var params = "void* env"
+        if !method.isStatic {
+            params += ", void* self"
+        }
+        for param in method.parameters {
+            let resolvedParam = context.resolve(type: param.type, generics: exportAnnotation.genericOverrides)
+            params += ", \(cType(for: resolvedParam.pythonFFIType)) \(param.name)"
+        }
+        params += ", void** exn"
+
+        fragment.output("\(returnCType) \(mangledName)(\(params));")
+    }
+
+    /// Emits getter (and optionally setter) shim declarations for a field.
+    private func emitFieldShims(field: Field, typeName: String, isStatic: Bool, context: FishyJoesContext, fragment: SourceFragment, isStoredVar: Bool = false) {
+        let fieldName: String
+        if isStoredVar {
+            fieldName = field.name
+        } else {
+            guard let ann = field.exportAnnotation else { return }
+            fieldName = ann.name
+        }
+        let resolvedField = context.resolve(type: field.type)
+        let fieldCType = cType(for: resolvedField.pythonFFIType)
+
+        let getterName = "__iota_get_\(typeName)_\(fieldName)".mangled
+        if isStatic {
+            fragment.output("\(fieldCType) \(getterName)(void* env, void** exn);")
+        } else {
+            fragment.output("\(fieldCType) \(getterName)(void* env, void* self, void** exn);")
+        }
+
+        if field.isPubliclyWritable {
+            let setterName = "__iota_set_\(typeName)_\(fieldName)".mangled
+            if isStatic {
+                fragment.output("void \(setterName)(void* env, \(fieldCType) newValue, void** exn);")
+            } else {
+                fragment.output("void \(setterName)(void* env, void* self, \(fieldCType) newValue, void** exn);")
+            }
+        }
     }
 
     func python(method: Method, of type: TranslatedType, context: FishyJoesContext) -> PythonClass.Method? {

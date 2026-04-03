@@ -144,6 +144,12 @@ public class FishyJoesContext {
         return SourceFragment(destinationPath: fileName)
     }
 
+    func pythonRawFragment(_ name: String) -> SourceFragment {
+        let packageName = "cricut_\(module.name.lowercased())"
+        let fileName = "python/generated/src/\(packageName)/\(name)"
+        return SourceFragment(destinationPath: fileName)
+    }
+
     func pythonFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
         let packageName = "cricut_\(module.name.lowercased())"
         let fileName = "python/generated/src/\(packageName)/\(name)"
