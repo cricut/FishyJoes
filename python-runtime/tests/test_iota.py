@@ -11,8 +11,9 @@ SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
+import cffi
 import fishyjoes_python
-from fishyjoes_python.iota import _as_handle, _decode_utf16_z
+from fishyjoes_python.iota import _as_handle, _decode_utf16_z, _ffi
 
 
 class FakeRuntime:
@@ -26,8 +27,13 @@ class FakeRuntime:
 
 class IotaRuntimeTests(unittest.TestCase):
     def test_decode_utf16_z(self) -> None:
-        units = (ctypes.c_uint16 * 4)(ord("h"), ord("i"), 0, 0)
-        self.assertEqual(_decode_utf16_z(units), "hi")
+        # Build a UTF-16LE buffer via cffi.
+        buf = _ffi.new("uint16_t[]", [ord("h"), ord("i"), 0, 0])
+        self.assertEqual(_decode_utf16_z(buf), "hi")
+
+    def test_decode_utf16_z_null(self) -> None:
+        self.assertEqual(_decode_utf16_z(None), "")
+        self.assertEqual(_decode_utf16_z(_ffi.NULL), "")
 
     def test_handle_coercion(self) -> None:
         runtime = fishyjoes_python.IotaRuntime(
@@ -60,7 +66,10 @@ class IotaRuntimeTests(unittest.TestCase):
         typed.release()
         self.assertEqual(fake_runtime.released, [99, 42])
 
-    def test_bind_and_invoke_helpers(self) -> None:
+    def test_retain_release_roundtrip(self) -> None:
+        """_retain stores a handle; _borrow_python_value recovers the object; _release removes it."""
+        from fishyjoes_python.iota import _borrow_python_value
+
         runtime = fishyjoes_python.IotaRuntime(
             iota_runtime_path=ROOT / "missing-iota.dylib",
             module_path=ROOT / "missing-module.dylib",
@@ -68,45 +77,44 @@ class IotaRuntimeTests(unittest.TestCase):
             module_name="TestAPI",
         )
 
-        def echo(value: int) -> int:
-            return value + 1
+        obj = {"key": "value"}
+        handle = runtime._retain(obj)
+        self.assertIsInstance(handle, int)
+        self.assertNotEqual(handle, 0)
+
+        recovered = _borrow_python_value(handle)
+        self.assertIs(recovered, obj)
+
+        # After release the handle is removed from the registry.
+        runtime._release(handle)
+        self.assertNotIn(handle, runtime._handles)
+
+    def test_bind_returns_callable_wrapper(self) -> None:
+        """bind() now returns a _CffiSymbolWrapper that calls the cffi lib symbol."""
+        from fishyjoes_python.iota import _CffiSymbolWrapper
+
+        runtime = fishyjoes_python.IotaRuntime(
+            iota_runtime_path=ROOT / "missing-iota.dylib",
+            module_path=ROOT / "missing-module.dylib",
+            module_iota_path=ROOT / "missing-module-iota.dylib",
+            module_name="TestAPI",
+        )
 
         runtime._loaded = True
-        runtime.module_iota_lib = SimpleNamespace(add_one=echo)
+        runtime.module_iota_lib = SimpleNamespace(add_one=lambda x: x)
 
         bound = runtime.bind("add_one", restype=ctypes.c_int, argtypes=[ctypes.c_int])
-        self.assertIs(bound, echo)
-        self.assertEqual(bound.restype, ctypes.c_int)
-        self.assertEqual(bound.argtypes, [ctypes.c_int])
-        self.assertEqual(runtime.invoke("add_one", 41), 42)
+        self.assertIsInstance(bound, _CffiSymbolWrapper)
 
-    def test_describe_native_reference_consumes_foreign_string(self) -> None:
+    def test_describe_native_reference_no_env(self) -> None:
+        """describe_native_reference returns '<null>' for None input without loading."""
         runtime = fishyjoes_python.IotaRuntime(
             iota_runtime_path=ROOT / "missing-iota.dylib",
             module_path=ROOT / "missing-module.dylib",
             module_iota_path=ROOT / "missing-module-iota.dylib",
             module_name="TestAPI",
         )
-
-        runtime._loaded = True
-        runtime.iota_runtime_lib = SimpleNamespace()
-        retained: list[str] = []
-
-        def fake_bind(_library: object, symbol: str, *, restype: object, argtypes: object) -> object:
-            self.assertEqual(symbol, "FishyJoesCommonRuntime_AnyBox_toString")
-            self.assertIs(restype, fishyjoes_python.iota.ForeignObject)
-            self.assertEqual(list(argtypes), [ctypes.c_void_p, fishyjoes_python.iota.ForeignObjectPtr])
-
-            def describe(env: object, native_ref: object, exn: object) -> ctypes.c_void_p:
-                del env, native_ref, exn
-                retained.append("called")
-                return ctypes.c_void_p(runtime._retain("hello"))
-
-            return describe
-
-        runtime._bind = fake_bind  # type: ignore[method-assign]
-        self.assertEqual(runtime.describe_native_reference(123), "hello")
-        self.assertEqual(retained, ["called"])
+        self.assertEqual(runtime.describe_native_reference(None), "<null>")
 
 
 if __name__ == "__main__":

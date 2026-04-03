@@ -5,45 +5,55 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Iterable, Protocol, TypeAlias
 
+import cffi
+
 from .exceptions import NativeCallError, TypeMismatchError
 from .runtime import ensure_cpython
 
 
-ForeignObject: TypeAlias = ctypes.c_void_p
-ForeignObjectPtr: TypeAlias = ctypes.POINTER(ForeignObject)
-Utf16Ptr: TypeAlias = ctypes.POINTER(ctypes.c_uint16)
+# A single shared FFI instance for all Iota ABI operations.
+_ffi = cffi.FFI()
+
+# Base declarations needed before any library is loaded.
+_ffi.cdef("""
+    typedef unsigned char uint8_t;
+    typedef unsigned short uint16_t;
+    typedef unsigned int uint32_t;
+    typedef unsigned long long uint64_t;
+    typedef signed char int8_t;
+    typedef short int16_t;
+    typedef int int32_t;
+    typedef long long int64_t;
+    typedef size_t uintptr_t;
+    typedef ssize_t intptr_t;
+""")
+
+# Public type aliases kept for compatibility with generated code.
+ForeignObject: TypeAlias = Any  # cffi cdata void*
+ForeignObjectPtr: TypeAlias = Any  # cffi cdata void**
 
 
-def _decode_utf16_z(ptr: Utf16Ptr | None) -> str:
+def _decode_utf16_z(ptr: Any) -> str:
     if not ptr:
         return ""
-
     units: list[int] = []
     index = 0
     while True:
-        unit = int(ptr[index])
+        unit = int(_ffi.cast("uint16_t*", ptr)[index])
         if unit == 0:
             break
         units.append(unit)
         index += 1
-
     raw = bytearray()
     for unit in units:
         raw.extend(unit.to_bytes(2, "little"))
     return raw.decode("utf-16-le")
 
 
-def _decode_utf16_buffer(ptr: Utf16Ptr | None, length_in_bytes: int) -> str:
-    if not ptr or length_in_bytes <= 0:
-        return ""
-    raw = ctypes.string_at(ctypes.cast(ptr, ctypes.c_void_p), length_in_bytes)
-    return raw.decode("utf-16-le")
-
-
 def _borrow_python_value(handle: int | None) -> object | None:
     if not handle:
         return None
-    return ctypes.cast(ctypes.c_void_p(handle), ctypes.py_object).value
+    return _ffi.from_handle(_ffi.cast("void*", handle))
 
 
 def _value_type_name(value: object | None) -> str:
@@ -124,37 +134,8 @@ class IotaReference:
 
 
 class IotaRuntime:
-    """Shared host runtime for FishyJoes Python bindings."""
+    """Shared host runtime for FishyJoes Python bindings, backed by cffi."""
 
-    _EnvNewRefFn = ctypes.CFUNCTYPE(ForeignObject, ForeignObject)
-    _EnvDeleteRefFn = ctypes.CFUNCTYPE(None, ForeignObject)
-    _EnvNewErrorFn = ctypes.CFUNCTYPE(ForeignObject, Utf16Ptr)
-    _EnvDescribeFn = ctypes.CFUNCTYPE(ctypes.c_void_p, ForeignObject)
-    _EnvScheduleThreadWorkFn = ctypes.CFUNCTYPE(None, ctypes.c_void_p, ctypes.c_void_p)
-
-    _BoolValueMethod = ctypes.CFUNCTYPE(ctypes.c_uint8, ForeignObject, ForeignObjectPtr)
-    _IntValueMethod = ctypes.CFUNCTYPE(ctypes.c_longlong, ForeignObject, ForeignObjectPtr)
-    _UIntValueMethod = ctypes.CFUNCTYPE(ctypes.c_ulonglong, ForeignObject, ForeignObjectPtr)
-    _FloatValueMethod = ctypes.CFUNCTYPE(ctypes.c_float, ForeignObject, ForeignObjectPtr)
-    _DoubleValueMethod = ctypes.CFUNCTYPE(ctypes.c_double, ForeignObject, ForeignObjectPtr)
-    _IntConstructor = ctypes.CFUNCTYPE(ForeignObject, ctypes.c_longlong)
-    _UIntConstructor = ctypes.CFUNCTYPE(ForeignObject, ctypes.c_ulonglong)
-    _FloatConstructor = ctypes.CFUNCTYPE(ForeignObject, ctypes.c_float)
-    _DoubleConstructor = ctypes.CFUNCTYPE(ForeignObject, ctypes.c_double)
-    _StringLengthMethod = ctypes.CFUNCTYPE(ctypes.c_long, ForeignObject, ForeignObjectPtr)
-    _StringUtf16Method = ctypes.CFUNCTYPE(None, ForeignObject, Utf16Ptr, ForeignObjectPtr)
-    _StringConstructor = ctypes.CFUNCTYPE(ForeignObject, Utf16Ptr, ctypes.c_long, ForeignObjectPtr)
-    # UTF-8 variants (used when Swift_String_utf8_setup is available)
-    _StringUtf8LengthMethod = ctypes.CFUNCTYPE(ctypes.c_long, ForeignObject, ForeignObjectPtr)
-    _StringUtf8GetMethod = ctypes.CFUNCTYPE(None, ForeignObject, ctypes.c_char_p, ForeignObjectPtr)
-    _StringUtf8Constructor = ctypes.CFUNCTYPE(ForeignObject, ctypes.c_char_p, ctypes.c_long, ForeignObjectPtr)
-    _DataLengthMethod = ctypes.CFUNCTYPE(ctypes.c_int32, ForeignObject, ForeignObjectPtr)
-    _DataBytesMethod = ctypes.CFUNCTYPE(None, ForeignObject, ctypes.c_void_p, ForeignObjectPtr)
-    _DataConstructor = ctypes.CFUNCTYPE(ForeignObject, ctypes.c_void_p, ctypes.c_int32, ForeignObjectPtr)
-    _URLAbsoluteURIMethod = ctypes.CFUNCTYPE(ForeignObject, ForeignObject, ForeignObjectPtr)
-    _URLConstructor = ctypes.CFUNCTYPE(ForeignObject, ForeignObject, ForeignObjectPtr)
-    _AnyBoxConstructor = ctypes.CFUNCTYPE(ForeignObject, ctypes.c_void_p, ForeignObjectPtr)
-    _AnyBoxRefGetter = ctypes.CFUNCTYPE(ctypes.c_void_p, ForeignObject, ForeignObjectPtr)
     def __init__(
         self,
         *,
@@ -169,61 +150,52 @@ class IotaRuntime:
         self.module_iota_path = Path(module_iota_path)
         self.module_name = module_name
 
-        self._pythonapi = ctypes.pythonapi
-        self._pythonapi.Py_IncRef.argtypes = [ctypes.py_object]
-        self._pythonapi.Py_IncRef.restype = None
-        self._pythonapi.Py_DecRef.argtypes = [ctypes.py_object]
-        self._pythonapi.Py_DecRef.restype = None
+        # Live Python-object handles: int address → cffi handle cdata.
+        # Keeping the cdata alive keeps the Python object alive.
+        self._handles: dict[int, Any] = {}
 
-        self._libc = ctypes.CDLL(None)
-        self._libc.malloc.argtypes = [ctypes.c_size_t]
-        self._libc.malloc.restype = ctypes.c_void_p
-        self._libc.free.argtypes = [ctypes.c_void_p]
-        self._libc.free.restype = None
+        # cffi callback objects must be kept alive.
+        self._callbacks: list[Any] = []
 
-        self._callbacks: list[object] = []
         self._loaded = False
 
-        self.iota_runtime_lib: ctypes.CDLL | None = None
-        self.module_lib: ctypes.CDLL | None = None
-        self.module_iota_lib: ctypes.CDLL | None = None
+        self.iota_runtime_lib: Any = None
+        self.module_lib: Any = None
+        self.module_iota_lib: Any = None
         self.env: int | None = None
 
     def ensure_loaded(self) -> None:
         if self._loaded:
             return
 
-        mode = getattr(ctypes, "RTLD_GLOBAL", 0)
-        self.iota_runtime_lib = ctypes.CDLL(str(self.iota_runtime_path), mode=mode)
-        self.module_lib = ctypes.CDLL(str(self.module_path), mode=mode)
-        self.module_iota_lib = ctypes.CDLL(str(self.module_iota_path), mode=mode)
+        # Load shared libraries via cffi.
+        mode = ctypes.RTLD_GLOBAL if hasattr(ctypes, "RTLD_GLOBAL") else 0
+        self.iota_runtime_lib = _ffi.dlopen(str(self.iota_runtime_path))
+        self.module_lib = _ffi.dlopen(str(self.module_path))
+        self.module_iota_lib = _ffi.dlopen(str(self.module_iota_path))
 
-        env_setup = self._bind(
-            self.iota_runtime_lib,
-            "FishyJoesCommonRuntime_Env_setup",
-            restype=ctypes.c_void_p,
-            argtypes=[ctypes.c_void_p] * 5,
-        )
+        # Declare and call FishyJoesCommonRuntime_Env_setup.
+        _ffi.cdef("""
+            void* FishyJoesCommonRuntime_Env_setup(void*, void*, void*, void*, void*);
+        """, override=True)
 
-        self._callbacks.extend(
-            [
-                self._EnvNewRefFn(self._new_ref),
-                self._EnvDeleteRefFn(self._delete_ref),
-                self._EnvNewErrorFn(self._new_error),
-                self._EnvDescribeFn(self._describe),
-                self._EnvScheduleThreadWorkFn(self._schedule_thread_work),
-            ]
-        )
+        env_cb_new_ref = _ffi.callback("void*(void*)", self._new_ref)
+        env_cb_delete_ref = _ffi.callback("void(void*)", self._delete_ref)
+        env_cb_new_error = _ffi.callback("void*(uint16_t*)", self._new_error)
+        env_cb_describe = _ffi.callback("void*(void*)", self._describe)
+        env_cb_schedule = _ffi.callback("void(void*, void*)", self._schedule_thread_work)
+        self._callbacks.extend([env_cb_new_ref, env_cb_delete_ref, env_cb_new_error,
+                                 env_cb_describe, env_cb_schedule])
 
-        self.env = int(
-            env_setup(
-                self._callbacks[0],
-                self._callbacks[1],
-                self._callbacks[2],
-                self._callbacks[3],
-                self._callbacks[4],
-            )
+        env_ptr = self.iota_runtime_lib.FishyJoesCommonRuntime_Env_setup(
+            env_cb_new_ref,
+            env_cb_delete_ref,
+            env_cb_new_error,
+            env_cb_describe,
+            env_cb_schedule,
         )
+        self.env = int(_ffi.cast("uintptr_t", env_ptr))
+
         self._setup_any_box()
         self._setup_core_converters()
         self._register_module_types()
@@ -237,8 +209,11 @@ class IotaRuntime:
         restype: Any = None,
         argtypes: Iterable[Any] = (),
     ) -> Any:
+        """Return a ctypes-compatible callable for the symbol (compatibility shim)."""
         self.ensure_loaded()
-        return self._bind(self._library(library), symbol, restype=restype, argtypes=argtypes)
+        lib = self._library(library)
+        # Build a cffi function pointer by casting to the right ctype.
+        return _CffiSymbolWrapper(lib, symbol, restype=restype, argtypes=list(argtypes))
 
     def invoke(
         self,
@@ -273,7 +248,7 @@ class IotaRuntime:
         if handle:
             self._raise_exception_handle(handle)
 
-    def store_exception(self, out_exn: ForeignObjectPtr, error: BaseException) -> None:
+    def store_exception(self, out_exn: Any, error: BaseException) -> None:
         self._ensure_loaded()
         self._set_exn(out_exn, error)
 
@@ -303,15 +278,16 @@ class IotaRuntime:
             return
         self._ensure_loaded()
         assert self.iota_runtime_lib is not None
-        release = self._bind(
-            self.iota_runtime_lib,
-            "FishyJoesCommonRuntime_AnyBox_releaseRef",
-            restype=None,
-            argtypes=[ctypes.c_void_p, ForeignObjectPtr],
+        assert self.env is not None
+        exn_holder = _ffi.new("void*[1]")
+        self.iota_runtime_lib.FishyJoesCommonRuntime_AnyBox_releaseRef(
+            _ffi.cast("void*", self.env),
+            _ffi.cast("void*", native_ref),
+            exn_holder,
         )
-        exn = ForeignObject()
-        release(ctypes.c_void_p(self.env or 0), ctypes.c_void_p(native_ref), ctypes.byref(exn))
-        self._raise_from_out(exn)
+        exn_val = int(_ffi.cast("uintptr_t", exn_holder[0]))
+        if exn_val:
+            self._raise_exception_handle(exn_val)
 
     def release_native_ref(self, native_ref: int | None) -> None:
         """Alias for release_native_reference; used by weakref.finalize()."""
@@ -322,24 +298,30 @@ class IotaRuntime:
             return "<null>"
         self._ensure_loaded()
         assert self.iota_runtime_lib is not None
-        describe = self._bind(
-            self.iota_runtime_lib,
-            "FishyJoesCommonRuntime_AnyBox_toString",
-            restype=ForeignObject,
-            argtypes=[ctypes.c_void_p, ForeignObjectPtr],
+        assert self.env is not None
+        exn_holder = _ffi.new("void*[1]")
+        result_ptr = self.iota_runtime_lib.FishyJoesCommonRuntime_AnyBox_toString(
+            _ffi.cast("void*", self.env),
+            _ffi.cast("void*", native_ref),
+            exn_holder,
         )
-        exn = ForeignObject()
-        result = describe(ctypes.c_void_p(self.env or 0), ctypes.c_void_p(native_ref), ctypes.byref(exn))
-        self._raise_from_out(exn)
-        if not result.value:
+        exn_val = int(_ffi.cast("uintptr_t", exn_holder[0]))
+        if exn_val:
+            self._raise_exception_handle(exn_val)
+        result_addr = int(_ffi.cast("uintptr_t", result_ptr))
+        if not result_addr:
             return "<null description>"
         try:
-            value = _borrow_python_value(int(result.value))
+            value = _borrow_python_value(result_addr)
             return str(value)
         finally:
-            self._release(int(result.value))
+            self._release(result_addr)
 
-    def _library(self, name: str) -> ctypes.CDLL:
+    # ------------------------------------------------------------------
+    # Internal helpers
+    # ------------------------------------------------------------------
+
+    def _library(self, name: str) -> Any:
         if name == "iota_runtime":
             assert self.iota_runtime_lib is not None
             return self.iota_runtime_lib
@@ -349,38 +331,32 @@ class IotaRuntime:
         assert self.module_iota_lib is not None
         return self.module_iota_lib
 
-    def _bind(self, library: ctypes.CDLL, symbol: str, *, restype: Any, argtypes: Iterable[Any]) -> Any:
-        function = getattr(library, symbol)
-        function.restype = restype
-        function.argtypes = list(argtypes)
-        return function
-
     def _ensure_loaded(self) -> None:
         if not self._loaded:
             self.ensure_loaded()
 
     def _register_module_types(self) -> None:
         assert self.module_iota_lib is not None
-        register_types = self._bind(
-            self.module_iota_lib,
-            f"FishyJoes_{self.module_name}_registerTypes",
-            restype=None,
-            argtypes=[],
-        )
-        register_types()
+        _ffi.cdef(f"void FishyJoes_{self.module_name}_registerTypes(void);", override=True)
+        getattr(self.module_iota_lib, f"FishyJoes_{self.module_name}_registerTypes")()
 
     def _retain(self, value: object) -> int:
-        self._pythonapi.Py_IncRef(ctypes.py_object(value))
-        return id(value)
+        """Retain a Python object and return its opaque handle address."""
+        handle_cdata = _ffi.new_handle(value)
+        addr = int(_ffi.cast("uintptr_t", handle_cdata))
+        self._handles[addr] = handle_cdata
+        return addr
 
     def _release(self, handle: int | None) -> None:
-        value = _borrow_python_value(handle)
-        if value is None:
+        """Release a previously retained Python object."""
+        if handle is None or handle == 0:
             return
-        self._pythonapi.Py_DecRef(ctypes.py_object(value))
+        self._handles.pop(handle, None)
 
-    def _set_exn(self, out_exn: ForeignObjectPtr, error: BaseException) -> None:
-        out_exn[0] = ForeignObject(self._retain(error))
+    def _set_exn(self, out_exn: Any, error: BaseException) -> None:
+        """Write an exception into a void** out-parameter."""
+        addr = self._retain(error)
+        out_exn[0] = _ffi.cast("void*", addr)
 
     def _raise_exception_handle(self, handle: int) -> None:
         value = _borrow_python_value(handle)
@@ -389,87 +365,96 @@ class IotaRuntime:
             raise value
         raise NativeCallError(str(value))
 
-    def _raise_from_out(self, out_exn: ForeignObject) -> None:
-        if out_exn.value:
-            self._raise_exception_handle(int(out_exn.value))
+    def _new_ref(self, obj: Any) -> Any:
+        addr = int(_ffi.cast("uintptr_t", obj))
+        value = _borrow_python_value(addr)
+        if value is None:
+            return _ffi.NULL
+        new_addr = self._retain(value)
+        return _ffi.cast("void*", new_addr)
+
+    def _delete_ref(self, obj: Any) -> None:
+        addr = int(_ffi.cast("uintptr_t", obj))
+        self._release(addr)
+
+    def _new_error(self, message_ptr: Any) -> Any:
+        addr_int = int(_ffi.cast("uintptr_t", message_ptr))
+        message = _decode_utf16_z(message_ptr) if addr_int else ""
+        new_addr = self._retain(NativeCallError(message))
+        return _ffi.cast("void*", new_addr)
+
+    def _describe(self, obj: Any) -> Any:
+        addr = int(_ffi.cast("uintptr_t", obj))
+        value = _borrow_python_value(addr)
+        encoded = str(value).encode("utf-8")
+        buf = _ffi.new("char[]", len(encoded) + 1)
+        _ffi.memmove(buf, encoded, len(encoded))
+        buf[len(encoded)] = 0
+        # Keep the buffer alive — caller is responsible; for describe this is
+        # best-effort (the runtime copies the string before returning).
+        self._callbacks.append(buf)
+        return buf
+
+    def _schedule_thread_work(self, _env: Any, context: Any) -> None:
+        ctx_int = int(_ffi.cast("uintptr_t", context))
+        self._run_scheduled_work(ctx_int)
 
     def _run_scheduled_work(self, context: int) -> None:
         assert self.iota_runtime_lib is not None
         assert self.env is not None
-
-        run_work = self._bind(
-            self.iota_runtime_lib,
-            "FishyJoesCommonRuntime_runScheduledWork",
-            restype=None,
-            argtypes=[ctypes.c_void_p, ctypes.c_void_p, ForeignObjectPtr],
+        exn_holder = _ffi.new("void*[1]")
+        self.iota_runtime_lib.FishyJoesCommonRuntime_runScheduledWork(
+            _ffi.cast("void*", self.env),
+            _ffi.cast("void*", context),
+            exn_holder,
         )
-        exn = ForeignObject()
-        run_work(ctypes.c_void_p(self.env), ctypes.c_void_p(context), ctypes.byref(exn))
-        self._raise_from_out(exn)
-
-    def _new_ref(self, obj: int | None) -> int | None:
-        value = _borrow_python_value(obj)
-        if value is None:
-            return None
-        return self._retain(value)
-
-    def _delete_ref(self, obj: int | None) -> None:
-        self._release(obj)
-
-    def _new_error(self, message_ptr: Utf16Ptr | None) -> int:
-        return self._retain(NativeCallError(_decode_utf16_z(message_ptr)))
-
-    def _describe(self, obj: int | None) -> int:
-        value = _borrow_python_value(obj)
-        encoded = str(value).encode("utf-8")
-        buffer = self._libc.malloc(len(encoded) + 1)
-        if not buffer:
-            raise MemoryError("failed to allocate UTF-8 description")
-        ctypes.memmove(buffer, encoded, len(encoded))
-        ctypes.memset(ctypes.c_void_p(buffer + len(encoded)), 0, 1)
-        return int(buffer)
-
-    def _schedule_thread_work(self, _env: int, context: int) -> None:
-        self._run_scheduled_work(context)
+        exn_val = int(_ffi.cast("uintptr_t", exn_holder[0]))
+        if exn_val:
+            self._raise_exception_handle(exn_val)
 
     def _setup_any_box(self) -> None:
         assert self.iota_runtime_lib is not None
         assert self.env is not None
 
-        constructor = self._AnyBoxConstructor(self._anybox_constructor)
-        ref_getter = self._AnyBoxRefGetter(self._anybox_ref_getter)
-        self._callbacks.extend([constructor, ref_getter])
+        @_ffi.callback("void*(void*, void**)")
+        def anybox_constructor(ptr: Any, exn: Any) -> Any:
+            try:
+                ptr_int = int(_ffi.cast("uintptr_t", ptr))
+                instance = self.make_native_reference(ptr_int or 0, "AnyBox")
+                new_addr = self._retain(instance)
+                return _ffi.cast("void*", new_addr)
+            except BaseException as error:
+                self._set_exn(exn, error)
+                return _ffi.NULL
 
-        setup = self._bind(
-            self.iota_runtime_lib,
-            "FishyJoesCommonRuntime_AnyBox_setup",
-            restype=None,
-            argtypes=[ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p],
+        @_ffi.callback("void*(void*, void**)")
+        def anybox_ref_getter(obj: Any, exn: Any) -> Any:
+            try:
+                addr = int(_ffi.cast("uintptr_t", obj))
+                value = _borrow_python_value(addr)
+                native_ref = self.coerce_native_ref(value)
+                if native_ref is None:
+                    raise TypeError(f"expected native reference wrapper, got {_value_type_name(value)}")
+                return _ffi.cast("void*", native_ref)
+            except BaseException as error:
+                self._set_exn(exn, error)
+                return _ffi.NULL
+
+        self._callbacks.extend([anybox_constructor, anybox_ref_getter])
+
+        _ffi.cdef("""
+            void FishyJoesCommonRuntime_AnyBox_setup(void* env, void* constructor, void* ref_getter);
+            void FishyJoesCommonRuntime_AnyBox_releaseRef(void* env, void* ref, void** exn);
+            void* FishyJoesCommonRuntime_AnyBox_toString(void* env, void* ref, void** exn);
+        """, override=True)
+
+        self.iota_runtime_lib.FishyJoesCommonRuntime_AnyBox_setup(
+            _ffi.cast("void*", self.env),
+            anybox_constructor,
+            anybox_ref_getter,
         )
-        setup(ctypes.c_void_p(self.env), constructor, ref_getter)
-
-    def _anybox_constructor(self, ptr: int | None, exn: ForeignObjectPtr) -> int | None:
-        try:
-            return self._retain(self.make_native_reference(int(ptr or 0), "AnyBox"))
-        except BaseException as error:
-            self._set_exn(exn, error)
-            return None
-
-    def _anybox_ref_getter(self, obj: int | None, exn: ForeignObjectPtr) -> int:
-        try:
-            value = _borrow_python_value(obj)
-            native_ref = self.coerce_native_ref(value)
-            if native_ref is None:
-                raise TypeError(f"expected native reference wrapper, got {_value_type_name(value)}")
-            return int(native_ref)
-        except BaseException as error:
-            self._set_exn(exn, error)
-            return 0
 
     def _setup_core_converters(self) -> None:
-        assert self.iota_runtime_lib is not None
-        assert self.env is not None
-
         self._setup_bool()
         self._setup_integers()
         self._setup_floats()
@@ -481,234 +466,338 @@ class IotaRuntime:
         assert self.iota_runtime_lib is not None
         assert self.env is not None
 
-        def bool_value(obj: int | None, exn: ForeignObjectPtr) -> int:
+        @_ffi.callback("uint8_t(void*, void**)")
+        def bool_value(obj: Any, exn: Any) -> int:
             try:
-                return 1 if bool(_borrow_python_value(obj)) else 0
+                addr = int(_ffi.cast("uintptr_t", obj))
+                return 1 if bool(_borrow_python_value(addr)) else 0
             except BaseException as error:
                 self._set_exn(exn, error)
                 return 0
 
-        callback = self._BoolValueMethod(bool_value)
-        self._callbacks.append(callback)
+        self._callbacks.append(bool_value)
 
-        setup = self._bind(
-            self.iota_runtime_lib,
-            "Swift_Bool_setup",
-            restype=None,
-            argtypes=[ctypes.c_void_p, ForeignObject, ForeignObject, ctypes.c_void_p],
-        )
-        setup(
-            ctypes.c_void_p(self.env),
-            self._retain(True),
-            self._retain(False),
-            callback,
+        _ffi.cdef("""
+            void Swift_Bool_setup(void* env, void* true_obj, void* false_obj, void* value_fn);
+        """, override=True)
+
+        true_addr = self._retain(True)
+        false_addr = self._retain(False)
+        self.iota_runtime_lib.Swift_Bool_setup(
+            _ffi.cast("void*", self.env),
+            _ffi.cast("void*", true_addr),
+            _ffi.cast("void*", false_addr),
+            bool_value,
         )
 
-    def _integer_value(self, obj: int | None, exn: ForeignObjectPtr) -> int:
+    def _integer_value(self, obj: Any, exn: Any) -> int:
         try:
-            value = _borrow_python_value(obj)
+            addr = int(_ffi.cast("uintptr_t", obj))
+            value = _borrow_python_value(addr)
             return int(value if value is not None else 0)
         except BaseException as error:
             self._set_exn(exn, error)
             return 0
 
-    def _integer_constructor(self, value: int) -> int:
-        return self._retain(int(value))
+    def _integer_constructor(self, value: int) -> Any:
+        addr = self._retain(int(value))
+        return _ffi.cast("void*", addr)
 
-    def _unsigned_constructor(self, value: int) -> int:
-        return self._retain(int(value))
+    def _unsigned_constructor(self, value: int) -> Any:
+        addr = self._retain(int(value))
+        return _ffi.cast("void*", addr)
 
     def _setup_integers(self) -> None:
         assert self.iota_runtime_lib is not None
         assert self.env is not None
 
-        signed_value = self._IntValueMethod(self._integer_value)
-        unsigned_value = self._UIntValueMethod(self._integer_value)
-        signed_constructor = self._IntConstructor(self._integer_constructor)
-        unsigned_constructor = self._UIntConstructor(self._unsigned_constructor)
-        self._callbacks.extend([signed_value, unsigned_value, signed_constructor, unsigned_constructor])
+        signed_value_cb = _ffi.callback("intptr_t(void*, void**)", self._integer_value)
+        unsigned_value_cb = _ffi.callback("uintptr_t(void*, void**)", self._integer_value)
+        signed_ctor_cb = _ffi.callback("void*(intptr_t)", self._integer_constructor)
+        unsigned_ctor_cb = _ffi.callback("void*(uintptr_t)", self._unsigned_constructor)
+        self._callbacks.extend([signed_value_cb, unsigned_value_cb, signed_ctor_cb, unsigned_ctor_cb])
 
         for symbol in [
-            "Swift_Int8_setup",
-            "Swift_Int16_setup",
-            "Swift_Int32_setup",
-            "Swift_Int64_setup",
-            "Swift_Int_setup",
+            "Swift_Int8_setup", "Swift_Int16_setup", "Swift_Int32_setup",
+            "Swift_Int64_setup", "Swift_Int_setup",
         ]:
-            setup = self._bind(
-                self.iota_runtime_lib,
-                symbol,
-                restype=None,
-                argtypes=[ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p],
+            _ffi.cdef(f"void {symbol}(void* env, void* value_fn, void* ctor_fn);", override=True)
+            getattr(self.iota_runtime_lib, symbol)(
+                _ffi.cast("void*", self.env), signed_value_cb, signed_ctor_cb
             )
-            setup(ctypes.c_void_p(self.env), signed_value, signed_constructor)
 
         for symbol in [
-            "Swift_UInt8_setup",
-            "Swift_UInt16_setup",
-            "Swift_UInt32_setup",
-            "Swift_UInt64_setup",
-            "Swift_UInt_setup",
+            "Swift_UInt8_setup", "Swift_UInt16_setup", "Swift_UInt32_setup",
+            "Swift_UInt64_setup", "Swift_UInt_setup",
         ]:
-            setup = self._bind(
-                self.iota_runtime_lib,
-                symbol,
-                restype=None,
-                argtypes=[ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p],
+            _ffi.cdef(f"void {symbol}(void* env, void* value_fn, void* ctor_fn);", override=True)
+            getattr(self.iota_runtime_lib, symbol)(
+                _ffi.cast("void*", self.env), unsigned_value_cb, unsigned_ctor_cb
             )
-            setup(ctypes.c_void_p(self.env), unsigned_value, unsigned_constructor)
 
-    def _float_value(self, obj: int | None, exn: ForeignObjectPtr) -> float:
+    def _float_value(self, obj: Any, exn: Any) -> float:
         try:
-            return float(_borrow_python_value(obj) or 0.0)
+            addr = int(_ffi.cast("uintptr_t", obj))
+            return float(_borrow_python_value(addr) or 0.0)
         except BaseException as error:
             self._set_exn(exn, error)
             return 0.0
 
-    def _float_constructor(self, value: float) -> int:
-        return self._retain(float(value))
+    def _float_constructor(self, value: float) -> Any:
+        addr = self._retain(float(value))
+        return _ffi.cast("void*", addr)
 
     def _setup_floats(self) -> None:
         assert self.iota_runtime_lib is not None
         assert self.env is not None
 
-        float_value = self._FloatValueMethod(self._float_value)
-        double_value = self._DoubleValueMethod(self._float_value)
-        float_constructor = self._FloatConstructor(self._float_constructor)
-        double_constructor = self._DoubleConstructor(self._float_constructor)
-        self._callbacks.extend([float_value, double_value, float_constructor, double_constructor])
+        float_value_cb = _ffi.callback("float(void*, void**)", self._float_value)
+        double_value_cb = _ffi.callback("double(void*, void**)", self._float_value)
+        float_ctor_cb = _ffi.callback("void*(float)", self._float_constructor)
+        double_ctor_cb = _ffi.callback("void*(double)", self._float_constructor)
+        self._callbacks.extend([float_value_cb, double_value_cb, float_ctor_cb, double_ctor_cb])
 
-        setup = self._bind(
-            self.iota_runtime_lib,
-            "Swift_Float_setup",
-            restype=None,
-            argtypes=[ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p],
+        _ffi.cdef("""
+            void Swift_Float_setup(void* env, void* value_fn, void* ctor_fn);
+            void Swift_Double_setup(void* env, void* value_fn, void* ctor_fn);
+        """, override=True)
+
+        self.iota_runtime_lib.Swift_Float_setup(
+            _ffi.cast("void*", self.env), float_value_cb, float_ctor_cb
         )
-        setup(ctypes.c_void_p(self.env), float_value, float_constructor)
-
-        setup = self._bind(
-            self.iota_runtime_lib,
-            "Swift_Double_setup",
-            restype=None,
-            argtypes=[ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p],
+        self.iota_runtime_lib.Swift_Double_setup(
+            _ffi.cast("void*", self.env), double_value_cb, double_ctor_cb
         )
-        setup(ctypes.c_void_p(self.env), double_value, double_constructor)
 
-    def _string_byte_length(self, obj: int | None, exn: ForeignObjectPtr) -> int:
+    def _string_byte_length(self, obj: Any, exn: Any) -> int:
         try:
-            value = str(_borrow_python_value(obj) or "")
+            addr = int(_ffi.cast("uintptr_t", obj))
+            value = str(_borrow_python_value(addr) or "")
             return len(value.encode("utf-8"))
         except BaseException as error:
             self._set_exn(exn, error)
             return 0
 
-    def _string_utf8_fill(self, obj: int | None, out_buf: int, exn: ForeignObjectPtr) -> None:
+    def _string_utf8_fill(self, obj: Any, out_buf: Any, exn: Any) -> None:
         try:
-            value = str(_borrow_python_value(obj) or "")
+            addr = int(_ffi.cast("uintptr_t", obj))
+            value = str(_borrow_python_value(addr) or "")
             encoded = value.encode("utf-8")
-            ctypes.memmove(out_buf, encoded, len(encoded))
+            _ffi.memmove(out_buf, encoded, len(encoded))
         except BaseException as error:
             self._set_exn(exn, error)
 
-    def _string_utf8_constructor(
-        self,
-        in_bytes: int,
-        length: int,
-        exn: ForeignObjectPtr,
-    ) -> int | None:
+    def _string_utf8_constructor(self, in_bytes: Any, length: int, exn: Any) -> Any:
         try:
-            raw = ctypes.string_at(in_bytes, int(length))
+            raw = bytes(_ffi.buffer(in_bytes, int(length)))
             text = raw.decode("utf-8")
-            return self._retain(text)
+            addr = self._retain(text)
+            return _ffi.cast("void*", addr)
         except BaseException as error:
             self._set_exn(exn, error)
-            return None
+            return _ffi.NULL
 
     def _setup_string(self) -> None:
         assert self.iota_runtime_lib is not None
         assert self.env is not None
 
-        byte_length = self._StringUtf8LengthMethod(self._string_byte_length)
-        utf8_fill = self._StringUtf8GetMethod(self._string_utf8_fill)
-        utf8_constructor = self._StringUtf8Constructor(self._string_utf8_constructor)
-        self._callbacks.extend([byte_length, utf8_fill, utf8_constructor])
+        byte_len_cb = _ffi.callback("intptr_t(void*, void**)", self._string_byte_length)
+        utf8_fill_cb = _ffi.callback("void(void*, char*, void**)", self._string_utf8_fill)
+        utf8_ctor_cb = _ffi.callback("void*(char*, intptr_t, void**)", self._string_utf8_constructor)
+        self._callbacks.extend([byte_len_cb, utf8_fill_cb, utf8_ctor_cb])
 
-        setup = self._bind(
-            self.iota_runtime_lib,
-            "Swift_String_utf8_setup",
-            restype=None,
-            argtypes=[ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p],
+        _ffi.cdef("""
+            void Swift_String_utf8_setup(void* env, void* byte_len_fn, void* fill_fn, void* ctor_fn);
+        """, override=True)
+
+        self.iota_runtime_lib.Swift_String_utf8_setup(
+            _ffi.cast("void*", self.env), byte_len_cb, utf8_fill_cb, utf8_ctor_cb
         )
-        setup(ctypes.c_void_p(self.env), byte_length, utf8_fill, utf8_constructor)
 
-    def _data_length(self, obj: int | None, exn: ForeignObjectPtr) -> int:
+    def _data_length(self, obj: Any, exn: Any) -> int:
         try:
-            return len(bytes(_borrow_python_value(obj) or b""))
+            addr = int(_ffi.cast("uintptr_t", obj))
+            return len(bytes(_borrow_python_value(addr) or b""))
         except BaseException as error:
             self._set_exn(exn, error)
             return 0
 
-    def _data_bytes(self, obj: int | None, out_values: int, exn: ForeignObjectPtr) -> None:
+    def _data_bytes(self, obj: Any, out_values: Any, exn: Any) -> None:
         try:
-            value = bytes(_borrow_python_value(obj) or b"")
+            addr = int(_ffi.cast("uintptr_t", obj))
+            value = bytes(_borrow_python_value(addr) or b"")
             if value:
-                ctypes.memmove(out_values, value, len(value))
+                _ffi.memmove(out_values, value, len(value))
         except BaseException as error:
             self._set_exn(exn, error)
 
-    def _data_constructor(self, data_ptr: int, length: int, exn: ForeignObjectPtr) -> int | None:
+    def _data_constructor(self, data_ptr: Any, length: int, exn: Any) -> Any:
         try:
-            value = ctypes.string_at(data_ptr, int(length))
-            return self._retain(value)
+            raw = bytes(_ffi.buffer(data_ptr, int(length)))
+            addr = self._retain(raw)
+            return _ffi.cast("void*", addr)
         except BaseException as error:
             self._set_exn(exn, error)
-            return None
+            return _ffi.NULL
 
     def _setup_data(self) -> None:
         assert self.iota_runtime_lib is not None
         assert self.env is not None
 
-        length = self._DataLengthMethod(self._data_length)
-        bytes_method = self._DataBytesMethod(self._data_bytes)
-        constructor = self._DataConstructor(self._data_constructor)
-        self._callbacks.extend([length, bytes_method, constructor])
+        len_cb = _ffi.callback("int32_t(void*, void**)", self._data_length)
+        bytes_cb = _ffi.callback("void(void*, void*, void**)", self._data_bytes)
+        ctor_cb = _ffi.callback("void*(void*, int32_t, void**)", self._data_constructor)
+        self._callbacks.extend([len_cb, bytes_cb, ctor_cb])
 
-        setup = self._bind(
-            self.iota_runtime_lib,
-            "Foundation_Data_setup",
-            restype=None,
-            argtypes=[ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p],
+        _ffi.cdef("""
+            void Foundation_Data_setup(void* env, void* len_fn, void* bytes_fn, void* ctor_fn);
+        """, override=True)
+
+        self.iota_runtime_lib.Foundation_Data_setup(
+            _ffi.cast("void*", self.env), len_cb, bytes_cb, ctor_cb
         )
-        setup(ctypes.c_void_p(self.env), length, bytes_method, constructor)
 
-    def _url_absolute_uri(self, obj: int | None, exn: ForeignObjectPtr) -> int | None:
+    def _url_absolute_uri(self, obj: Any, exn: Any) -> Any:
         try:
-            value = str(_borrow_python_value(obj) or "")
-            return self._retain(value)
+            addr = int(_ffi.cast("uintptr_t", obj))
+            value = str(_borrow_python_value(addr) or "")
+            new_addr = self._retain(value)
+            return _ffi.cast("void*", new_addr)
         except BaseException as error:
             self._set_exn(exn, error)
-            return None
+            return _ffi.NULL
 
-    def _url_constructor(self, string_ref: int | None, exn: ForeignObjectPtr) -> int | None:
+    def _url_constructor(self, string_ref: Any, exn: Any) -> Any:
         try:
-            value = str(_borrow_python_value(string_ref) or "")
-            return self._retain(value)
+            addr = int(_ffi.cast("uintptr_t", string_ref))
+            value = str(_borrow_python_value(addr) or "")
+            new_addr = self._retain(value)
+            return _ffi.cast("void*", new_addr)
         except BaseException as error:
             self._set_exn(exn, error)
-            return None
+            return _ffi.NULL
 
     def _setup_url(self) -> None:
         assert self.iota_runtime_lib is not None
         assert self.env is not None
 
-        absolute_uri = self._URLAbsoluteURIMethod(self._url_absolute_uri)
-        constructor = self._URLConstructor(self._url_constructor)
-        self._callbacks.extend([absolute_uri, constructor])
+        uri_cb = _ffi.callback("void*(void*, void**)", self._url_absolute_uri)
+        ctor_cb = _ffi.callback("void*(void*, void**)", self._url_constructor)
+        self._callbacks.extend([uri_cb, ctor_cb])
 
-        setup = self._bind(
-            self.iota_runtime_lib,
-            "Foundation_URL_setup",
-            restype=None,
-            argtypes=[ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p],
+        _ffi.cdef("""
+            void Foundation_URL_setup(void* env, void* uri_fn, void* ctor_fn);
+        """, override=True)
+
+        self.iota_runtime_lib.Foundation_URL_setup(
+            _ffi.cast("void*", self.env), uri_cb, ctor_cb
         )
-        setup(ctypes.c_void_p(self.env), absolute_uri, constructor)
+
+
+class _CffiSymbolWrapper:
+    """Wraps a cffi library symbol with ctypes-compatible call semantics.
+
+    This is a compatibility shim so that GeneratedRuntime (which uses ctypes
+    argtypes/restype conventions) can delegate to cffi-backed symbols without
+    requiring every generated file to be updated at once.
+    """
+
+    _CTYPES_TO_CFFI: dict[Any, str] = {
+        ctypes.c_void_p: "void*",
+        ctypes.c_uint8: "uint8_t",
+        ctypes.c_int8: "int8_t",
+        ctypes.c_uint16: "uint16_t",
+        ctypes.c_int16: "int16_t",
+        ctypes.c_uint32: "uint32_t",
+        ctypes.c_int32: "int32_t",
+        ctypes.c_uint64: "uint64_t",
+        ctypes.c_int64: "int64_t",
+        ctypes.c_size_t: "uintptr_t",
+        ctypes.c_ssize_t: "intptr_t",
+        ctypes.c_float: "float",
+        ctypes.c_double: "double",
+        ctypes.c_long: "intptr_t",
+        ctypes.c_longlong: "int64_t",
+        ctypes.c_ulonglong: "uint64_t",
+        ctypes.c_char_p: "char*",
+        None: "void",
+    }
+
+    def __init__(self, lib: Any, symbol: str, *, restype: Any, argtypes: list[Any]) -> None:
+        self._lib = lib
+        self._symbol = symbol
+        self._restype = restype
+        self._argtypes = argtypes
+
+    def _cffi_type(self, ct: Any) -> str:
+        # Handle POINTER types.
+        if hasattr(ct, "_type_") and hasattr(ctypes, "POINTER"):
+            inner = getattr(ct, "_type_", None)
+            if inner is ctypes.c_void_p:
+                return "void**"
+            if inner is not None:
+                inner_name = self._CTYPES_TO_CFFI.get(inner)
+                if inner_name:
+                    return f"{inner_name}*"
+        return self._CTYPES_TO_CFFI.get(ct, "void*")
+
+    def __call__(self, *args: Any) -> Any:
+        ret_cffi = self._cffi_type(self._restype)
+        arg_cffis = [self._cffi_type(t) for t in self._argtypes]
+        sig = f"{ret_cffi}({', '.join(arg_cffis)})"
+        try:
+            _ffi.cdef(f"{ret_cffi} {self._symbol}({', '.join(arg_cffis)});", override=True)
+        except Exception:
+            pass  # Already declared or not declarable; proceed via cast.
+
+        fn = getattr(self._lib, self._symbol)
+        converted: list[Any] = []
+        for arg, ct in zip(args, self._argtypes):
+            converted.append(self._convert_arg(arg, ct))
+
+        result = fn(*converted)
+        return self._convert_result(result, self._restype)
+
+    def _convert_arg(self, arg: Any, ct: Any) -> Any:
+        if arg is None:
+            return _ffi.NULL
+        # Handle ctypes.byref(c_void_p) — used for void** out-params.
+        if hasattr(arg, "_obj"):
+            obj = arg._obj
+            ptr = _ffi.cast("void**", ctypes.addressof(obj))
+            return ptr
+        if hasattr(arg, "value"):
+            # ctypes c_void_p / c_int / etc.
+            raw = arg.value
+            if raw is None:
+                return _ffi.NULL
+            return _ffi.cast("void*", raw)
+        if isinstance(arg, int):
+            return _ffi.cast("void*", arg)
+        # ctypes function pointer (CFUNCTYPE callback) — cast through c_void_p.
+        if isinstance(arg, ctypes.c_void_p.__class__.__mro__[0]):
+            # Fallback: try ctypes.cast to c_void_p.
+            pass
+        try:
+            raw_ptr = ctypes.cast(arg, ctypes.c_void_p).value
+            if raw_ptr is not None:
+                return _ffi.cast("void*", raw_ptr)
+        except (TypeError, ctypes.ArgumentError):
+            pass
+        # cffi cdata or other passthrough.
+        return arg
+
+    def _convert_result(self, result: Any, ct: Any) -> Any:
+        if ct is None:
+            return None
+        if result is None or result == _ffi.NULL:
+            if ct is ctypes.c_void_p:
+                return ctypes.c_void_p(None)
+            return None
+        try:
+            addr = int(_ffi.cast("uintptr_t", result))
+        except Exception:
+            return result
+        if ct is ctypes.c_void_p:
+            return ctypes.c_void_p(addr)
+        return addr

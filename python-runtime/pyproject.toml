@@ -11,6 +11,7 @@ requires-python = ">=3.11"
 license = { text = "MIT" }
 authors = [{ name = "Cricut Inc." }]
 keywords = ["fishyjoes", "bindings", "ffi", "iota", "python"]
+dependencies = ["cffi>=1.15"]
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Intended Audience :: Developers",
