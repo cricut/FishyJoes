@@ -5,7 +5,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Iterable, Protocol, TypeAlias
 
-from .exceptions import NativeCallError
+from .exceptions import NativeCallError, TypeMismatchError
 from .runtime import ensure_cpython
 
 
@@ -144,6 +144,10 @@ class IotaRuntime:
     _StringLengthMethod = ctypes.CFUNCTYPE(ctypes.c_long, ForeignObject, ForeignObjectPtr)
     _StringUtf16Method = ctypes.CFUNCTYPE(None, ForeignObject, Utf16Ptr, ForeignObjectPtr)
     _StringConstructor = ctypes.CFUNCTYPE(ForeignObject, Utf16Ptr, ctypes.c_long, ForeignObjectPtr)
+    # UTF-8 variants (used when Swift_String_utf8_setup is available)
+    _StringUtf8LengthMethod = ctypes.CFUNCTYPE(ctypes.c_long, ForeignObject, ForeignObjectPtr)
+    _StringUtf8GetMethod = ctypes.CFUNCTYPE(None, ForeignObject, ctypes.c_char_p, ForeignObjectPtr)
+    _StringUtf8Constructor = ctypes.CFUNCTYPE(ForeignObject, ctypes.c_char_p, ctypes.c_long, ForeignObjectPtr)
     _DataLengthMethod = ctypes.CFUNCTYPE(ctypes.c_int32, ForeignObject, ForeignObjectPtr)
     _DataBytesMethod = ctypes.CFUNCTYPE(None, ForeignObject, ctypes.c_void_p, ForeignObjectPtr)
     _DataConstructor = ctypes.CFUNCTYPE(ForeignObject, ctypes.c_void_p, ctypes.c_int32, ForeignObjectPtr)
@@ -308,6 +312,10 @@ class IotaRuntime:
         exn = ForeignObject()
         release(ctypes.c_void_p(self.env or 0), ctypes.c_void_p(native_ref), ctypes.byref(exn))
         self._raise_from_out(exn)
+
+    def release_native_ref(self, native_ref: int | None) -> None:
+        """Alias for release_native_reference; used by weakref.finalize()."""
+        self.release_native_reference(native_ref)
 
     def describe_native_reference(self, native_ref: int | None) -> str:
         if native_ref is None:
@@ -586,30 +594,31 @@ class IotaRuntime:
         )
         setup(ctypes.c_void_p(self.env), double_value, double_constructor)
 
-    def _string_length(self, obj: int | None, exn: ForeignObjectPtr) -> int:
+    def _string_byte_length(self, obj: int | None, exn: ForeignObjectPtr) -> int:
         try:
             value = str(_borrow_python_value(obj) or "")
-            return len(value.encode("utf-16-le")) // 2
+            return len(value.encode("utf-8"))
         except BaseException as error:
             self._set_exn(exn, error)
             return 0
 
-    def _string_utf16(self, obj: int | None, out_values: Utf16Ptr, exn: ForeignObjectPtr) -> None:
+    def _string_utf8_fill(self, obj: int | None, out_buf: int, exn: ForeignObjectPtr) -> None:
         try:
             value = str(_borrow_python_value(obj) or "")
-            encoded = value.encode("utf-16-le")
-            ctypes.memmove(out_values, encoded, len(encoded))
+            encoded = value.encode("utf-8")
+            ctypes.memmove(out_buf, encoded, len(encoded))
         except BaseException as error:
             self._set_exn(exn, error)
 
-    def _string_constructor(
+    def _string_utf8_constructor(
         self,
-        in_values: Utf16Ptr,
-        length_in_bytes: int,
+        in_bytes: int,
+        length: int,
         exn: ForeignObjectPtr,
     ) -> int | None:
         try:
-            text = _decode_utf16_buffer(in_values, max(int(length_in_bytes), 0))
+            raw = ctypes.string_at(in_bytes, int(length))
+            text = raw.decode("utf-8")
             return self._retain(text)
         except BaseException as error:
             self._set_exn(exn, error)
@@ -619,18 +628,18 @@ class IotaRuntime:
         assert self.iota_runtime_lib is not None
         assert self.env is not None
 
-        length = self._StringLengthMethod(self._string_length)
-        utf16 = self._StringUtf16Method(self._string_utf16)
-        constructor = self._StringConstructor(self._string_constructor)
-        self._callbacks.extend([length, utf16, constructor])
+        byte_length = self._StringUtf8LengthMethod(self._string_byte_length)
+        utf8_fill = self._StringUtf8GetMethod(self._string_utf8_fill)
+        utf8_constructor = self._StringUtf8Constructor(self._string_utf8_constructor)
+        self._callbacks.extend([byte_length, utf8_fill, utf8_constructor])
 
         setup = self._bind(
             self.iota_runtime_lib,
-            "Swift_String_setup",
+            "Swift_String_utf8_setup",
             restype=None,
             argtypes=[ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p],
         )
-        setup(ctypes.c_void_p(self.env), length, utf16, constructor)
+        setup(ctypes.c_void_p(self.env), byte_length, utf8_fill, utf8_constructor)
 
     def _data_length(self, obj: int | None, exn: ForeignObjectPtr) -> int:
         try:

@@ -468,12 +468,29 @@ public func String_iota_setup(
     String.constructor[env] = constructor
 }
 
+@_cdecl("Swift_String_utf8_setup")
+public func String_iota_utf8_setup(
+    envRef: EnvRef,
+    getByteLength: @escaping @convention(c) (foreignObject, foreignOutExn) -> Int,
+    getUtf8: @escaping @convention(c) (foreignObject, UnsafeMutablePointer<UInt8>, foreignOutExn) -> Void,
+    constructor: @escaping @convention(c) (UnsafePointer<UInt8>, Int, foreignOutExn) -> foreignObject
+) {
+    let env = Env(envRef)
+    if String.utf8ByteLength.isInitialized(env) { return }
+    String.utf8ByteLength[env] = getByteLength
+    String.getUtf8Method[env] = getUtf8
+    String.utf8Constructor[env] = constructor
+}
+
 struct AllocationError: Error {}
 
 extension String: IotaConverter {
     fileprivate static var getLengthMethod = Env.CallbackMap<(@convention(c) (foreignObject, foreignOutExn) -> Int)>()
     fileprivate static var getUtf16Method = Env.CallbackMap<(@convention(c) (foreignObject, UnsafeMutablePointer<unichar>, foreignOutExn) -> Void)>()
     fileprivate static var constructor = Env.CallbackMap<(@convention(c) (UnsafePointer<unichar>, Int, foreignOutExn) -> foreignObject)>()
+    fileprivate static var utf8ByteLength = Env.CallbackMap<(@convention(c) (foreignObject, foreignOutExn) -> Int)>()
+    fileprivate static var getUtf8Method = Env.CallbackMap<(@convention(c) (foreignObject, UnsafeMutablePointer<UInt8>, foreignOutExn) -> Void)>()
+    fileprivate static var utf8Constructor = Env.CallbackMap<(@convention(c) (UnsafePointer<UInt8>, Int, foreignOutExn) -> foreignObject)>()
 
     public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
         let len16 = try env.check { exn in getLengthMethod[env](value, exn) }

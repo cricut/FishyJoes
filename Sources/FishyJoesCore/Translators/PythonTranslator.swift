@@ -31,6 +31,17 @@ final class PythonTranslator: Translator {
                 switch resolved {
                 case let reference as TranslatedReference where reference.definingModule == context.module:
                     fragment.output("_runtime.setup_reference_type(\"\(reference.iotaSetupName)\", \(reference.sourceType.nonNamespacedName))")
+                case let enumType as TranslatedEnum where enumType.definingModule == context.module:
+                    let caseSpecs = enumType.cases.map { enumCase in
+                        let valueFFITypes = enumCase.associatedValues.map { value in
+                            let resolvedValue = context.resolve(type: value.type)
+                            return "\"\(resolvedValue.pythonFFIType.rawValue)\""
+                        }.joined(separator: ", ")
+                        return "(\"\(enumCase.name)\", [\(valueFFITypes)])"
+                    }.joined(separator: ", ")
+                    fragment.output(
+                        "_runtime.setup_enum_type(\"\(enumType.iotaSetupName)\", \(enumType.sourceType.nonNamespacedName), \(enumType.isInhabited ? "True" : "False"), [\(caseSpecs)])"
+                    )
                 case let valueType as TranslatedStruct where valueType.definingModule == context.module:
                     let mutableFields = valueType.storedVariables
                         .filter(\.isMutable)

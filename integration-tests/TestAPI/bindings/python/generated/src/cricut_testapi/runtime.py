@@ -130,6 +130,141 @@ class GeneratedRuntime:
         setup(ctypes.c_void_p(self.env), callback, ctypes.byref(exn))
         self._runtime.raise_if_exception(exn.value)
 
+    def setup_enum_type(
+        self,
+        setup_symbol: str,
+        cls: type,
+        is_inhabited: bool,
+        case_specs: list[tuple[str, list[str]]],
+    ) -> None:
+        """Register an enum type with the Iota ABI.
+
+        Args:
+            setup_symbol: The @_cdecl symbol name for the enum's setup function.
+            cls: The Python enum/sum-type class.
+            is_inhabited: True if the enum has at least one case (False for empty enums).
+            case_specs: List of (case_name, [ffi_type_per_associated_value]) tuples.
+        """
+        self.ensure_loaded()
+        assert self._runtime is not None
+
+        if not is_inhabited:
+            # Uninhabited enums: only constructors+extractors per case, no discriminator.
+            # The setup function still expects callbacks for each case.
+            pass
+
+        callback_args: list[typing.Any] = []
+        function_argtypes: list[typing.Any] = [ctypes.c_void_p]
+
+        if is_inhabited:
+            # discriminator: (foreignObject, foreignOutExn) -> Int
+            discriminator_type = ctypes.CFUNCTYPE(ctypes.c_ssize_t, ctypes.c_void_p, ctypes.POINTER(ctypes.c_void_p))
+
+            case_names = [name for name, _ in case_specs]
+
+            def discriminator(obj: int | None, exn: ctypes.POINTER(ctypes.c_void_p)) -> int:
+                try:
+                    value = ctypes.cast(ctypes.c_void_p(obj or 0), ctypes.py_object).value
+                    # Support both enum.Enum members and dataclass-style case instances.
+                    for idx, case_name in enumerate(case_names):
+                        case_cls = getattr(cls, case_name, None)
+                        if case_cls is not None:
+                            # enum.Enum style: value IS the member
+                            if value is case_cls:
+                                return idx
+                            # dataclass style: isinstance check
+                            case_type = type(case_cls) if isinstance(case_cls, cls) else case_cls
+                            if isinstance(value, case_type):
+                                return idx
+                    raise TypeError(f"value {value!r} is not a case of {cls.__name__}")
+                except BaseException as error:
+                    self._runtime.store_exception(exn, error)
+                    return -1
+
+            disc_cb = discriminator_type(discriminator)
+            self._callbacks.append(disc_cb)
+            callback_args.append(disc_cb)
+            function_argtypes.append(ctypes.c_void_p)
+
+        for case_name, value_ffi_types in case_specs:
+            ctypes_value_types = [_ffi_ctypes_type(t) for t in value_ffi_types]
+
+            # constructor: (value_types..., foreignOutExn) -> foreignObject
+            constructor_type = ctypes.CFUNCTYPE(ctypes.c_void_p, *ctypes_value_types, ctypes.POINTER(ctypes.c_void_p))
+
+            def make_constructor(cname: str, ffi_types: list[str]) -> typing.Any:
+                def constructor(*raw: typing.Any) -> int:
+                    exn = raw[-1]
+                    try:
+                        field_values = [
+                            self._convert_from_ffi(v, ft) for v, ft in zip(raw[:-1], ffi_types, strict=True)
+                        ]
+                        # Locate the case class/factory on cls.
+                        case_attr = getattr(cls, cname, None)
+                        if case_attr is None:
+                            # Try pascal-case subclass: AssociatedDataEnum_SomeName
+                            subname = f"{cls.__name__}_{cname[0].upper()}{cname[1:]}"
+                            import sys
+                            frame = sys._getframe(1)
+                            case_attr = frame.f_globals.get(subname) or frame.f_builtins.get(subname)
+                        if field_values:
+                            instance = case_attr(*field_values) if callable(case_attr) else case_attr
+                        else:
+                            # No-payload case: use the sentinel value directly
+                            instance = case_attr
+                        return self._runtime.retain_foreign_object(instance)
+                    except BaseException as error:
+                        self._runtime.store_exception(exn, error)
+                        return 0
+                return constructor
+
+            ctor_cb = constructor_type(make_constructor(case_name, value_ffi_types))
+            self._callbacks.append(ctor_cb)
+            callback_args.append(ctor_cb)
+            function_argtypes.append(ctypes.c_void_p)
+
+            # extractor: (foreignObject, UnsafePointer<value_types>..., foreignOutExn) -> Void
+            extractor_type = ctypes.CFUNCTYPE(
+                None, ctypes.c_void_p, *[ctypes.c_void_p] * len(ctypes_value_types), ctypes.POINTER(ctypes.c_void_p)
+            )
+
+            def make_extractor(cname: str, ffi_types: list[str]) -> typing.Any:
+                def extractor(obj: int | None, *raw: typing.Any) -> None:
+                    exn = raw[-1]
+                    out_ptrs = raw[:-1]
+                    try:
+                        value = ctypes.cast(ctypes.c_void_p(obj or 0), ctypes.py_object).value
+                        # Extract field values from the case instance.
+                        for i, (out_ptr, ffi_type) in enumerate(zip(out_ptrs, ffi_types, strict=True)):
+                            field_val: typing.Any
+                            if hasattr(value, f"_{i}"):
+                                field_val = getattr(value, f"_{i}")
+                            elif hasattr(value, "__iter__") and not isinstance(value, str):
+                                field_val = list(value)[i]
+                            else:
+                                field_val = value
+                            native_val = self._convert_to_ffi(field_val, ffi_type)
+                            ctypes.cast(out_ptr, ctypes.POINTER(_ffi_ctypes_type(ffi_type)))[0] = native_val
+                    except BaseException as error:
+                        self._runtime.store_exception(exn, error)
+                return extractor
+
+            ext_cb = extractor_type(make_extractor(case_name, value_ffi_types))
+            self._callbacks.append(ext_cb)
+            callback_args.append(ext_cb)
+            function_argtypes.append(ctypes.c_void_p)
+
+        function_argtypes.append(ctypes.POINTER(ctypes.c_void_p))
+        setup = self.get_iota_function(setup_symbol, restype=None, argtypes=function_argtypes)
+        exn = ctypes.c_void_p()
+        setup(ctypes.c_void_p(self.env), *callback_args, ctypes.byref(exn))
+        self._runtime.raise_if_exception(exn.value)
+
+    def release_native_ref(self, native_ref: int | None) -> None:
+        """Release a native reference; called by weakref.finalize() in generated __init__."""
+        if self._runtime is not None:
+            self._runtime.release_native_reference(native_ref)
+
     def setup_struct_type(
         self,
         setup_symbol: str,

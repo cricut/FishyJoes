@@ -52,6 +52,10 @@ class PythonProductClass: PythonClass {
 
                 fragment.outputBlock("def __init__(self, native_ref: int | None = None) -> None:", closeWith: "") {
                     fragment.output("super().__init__(native_ref=native_ref)")
+                    fragment.outputBlock("if native_ref is not None:", closeWith: "") {
+                        fragment.output("import weakref")
+                        fragment.output("weakref.finalize(self, _get_runtime().release_native_ref, native_ref)")
+                    }
                 }
 
                 if !(fields.isEmpty && methods.isEmpty) {
@@ -145,7 +149,14 @@ class PythonProductClass: PythonClass {
             if let body = method.body {
                 body.forEach { fragment.output($0) }
             } else if method.isAsync {
-                outputNotImplemented(fragment: fragment, symbol: method.mangledName)
+                let args = (method.isStatic ? [] : [(expression: "self", type: PythonClass.FFIType.object)]) + method.parameters.map {
+                    (expression: $0.name, type: $0.ffiType)
+                }
+                let argString = args.map { "(\"\($0.type.rawValue)\", \($0.expression))" }.joined(separator: ", ")
+                let invocation = "_get_runtime().invoke(\"__iota_\(method.mangledName)\", \"\(method.ffiReturnType.rawValue)\"\(argString.isEmpty ? "" : ", \(argString)"))"
+                fragment.output("_ensure_runtime_loaded()")
+                fragment.output("import asyncio")
+                fragment.output("return await asyncio.to_thread(lambda: \(invocation))")
             } else {
                 outputRuntimeCall(
                     fragment: fragment,
