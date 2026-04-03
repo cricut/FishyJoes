@@ -1,0 +1,191 @@
+---
+# __AUTOGEN_WARNING__
+
+name: "Python"
+
+"on":
+  workflow_dispatch:
+  label:
+    types: [created]
+  pull_request:
+  release:
+    types: [published]
+
+concurrency:
+  group: build-${{ github.event.pull_request.number || github.ref }}-${{ github.workflow }}
+  cancel-in-progress: true
+
+env:
+  GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
+  GITHUB_USER: cricut-builduser
+  FISHYJOES: 1
+
+jobs:
+  build-test-python-mac:
+    name: "macOS: Build and test python bindings"
+    runs-on: sojo-macos
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          token: ${{ secrets.CRICUT_GPR_TOKEN }}
+
+      - name: Setup git credentials
+        uses: de-vri-es/setup-git-credentials@v2
+        with:
+          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install generation tools
+        shell: zsh {0}
+        run: |
+          yq --version || brew install yq
+          mint --version || brew install mint
+
+      - name: Pre-build hook
+        shell: bash
+        run: __PRE_BUILD_HOOK_YAML__
+
+      - name: Build library
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          swift run -- fishy-joes --python generate build
+
+      - name: Test from pytest
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          swift run -- fishy-joes --python test
+
+      - name: Pack
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          VERSION=${GITHUB_REF#refs/*/}
+          if [[ ! $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)*$ ]]; then
+              VERSION="0.0.1-$(git rev-parse --short HEAD)"
+          fi
+          swift run -- fishy-joes --python --version $VERSION pack
+
+      - name: Upload Python packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: python_mac_packages
+          path: bindings/packed-python-packages/*
+          if-no-files-found: error
+
+  build-test-python-windows:
+    name: "Windows: Build and test python bindings"
+    runs-on: windows-2025
+    steps:
+      - name: Configure git and long paths
+        shell: pwsh
+        run: |
+          git config --system core.longpaths true
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          token: ${{ secrets.CRICUT_GPR_TOKEN }}
+
+      - name: Setup git credentials
+        uses: de-vri-es/setup-git-credentials@v2
+        with:
+          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - uses: compnerd/gha-setup-swift@main
+        with:
+          branch: swift-6.2-release
+          tag: 6.2-RELEASE
+
+      - name: Pre-resolve required swiftpm packages & fetch fishyjoes scripts
+        continue-on-error: true
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'SilentlyContinue'
+          swift package resolve
+          swift package resolve
+          swift package resolve
+          echo SWIFT_WINDOWS_BASH=".build/checkouts/FishyJoes/scripts/swift-shim.ps1" >> $env:GITHUB_ENV
+
+      - name: Pre-build hook
+        shell: bash
+        run: __PRE_BUILD_HOOK_YAML__
+
+      - name: Build library
+        shell: bash
+        run: |
+          set -euxo pipefail
+
+          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --python generate build
+
+      - name: Test from pytest
+        shell: bash
+        run: |
+          set -euxo pipefail
+
+          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --python test
+
+      - name: Pack
+        shell: bash
+        run: |
+          set -euxo pipefail
+
+          VERSION=${GITHUB_REF#refs/*/}
+          if [[ ! $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)*$ ]]; then
+              VERSION="0.0.1-$(git rev-parse --short HEAD)"
+          fi
+          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --python --version $VERSION pack
+
+      - name: Upload Python packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: python_windows_packages
+          path: bindings/packed-python-packages/*
+          if-no-files-found: error
+
+  python-publish:
+    name: "Publish Python package"
+    runs-on: ubuntu-latest
+    needs:
+      - build-test-python-mac
+      - build-test-python-windows
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          token: ${{ secrets.CRICUT_GPR_TOKEN }}
+
+      - name: Retrieve artifacts
+        uses: actions/download-artifact@v4
+
+      - name: Stage packages for publish
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          mkdir -p bindings/packed-python-packages
+          cp -R python_mac_packages/* bindings/packed-python-packages/
+          cp -R python_windows_packages/* bindings/packed-python-packages/
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
+          packages-dir: bindings/packed-python-packages

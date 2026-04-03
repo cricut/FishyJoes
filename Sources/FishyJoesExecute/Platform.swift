@@ -22,6 +22,7 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
     case kotlinAndroid(AndroidArchitecture)
     case cSharp
     case dart
+    case python
 
     struct AndroidArchitecture: Hashable, CaseIterable {
         let name: String
@@ -42,7 +43,7 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
     static var allCases: [Platform] {
         [.wasm, .node, .kotlinSystem]
             + AndroidArchitecture.allCases.map { .kotlinAndroid($0) }
-            + [.cSharp, .dart]
+            + [.cSharp, .dart, .python]
     }
 
     var description: String {
@@ -59,6 +60,8 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
             return "cSharp"
         case .dart:
             return "dart"
+        case .python:
+            return "python"
         }
     }
 
@@ -74,7 +77,7 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
         switch self {
         case .wasm, .kotlinAndroid:
             return false
-        case .node, .kotlinSystem, .cSharp, .dart:
+        case .node, .kotlinSystem, .cSharp, .dart, .python:
             return true
         }
     }
@@ -162,7 +165,7 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
             args.append(contentsOf: ["-Xswiftc", "-Xclang-linker", "-Xswiftc", "-mexec-model=reactor"])
 
             env = ["WASM_ONLY": "1"]
-        case .node, .kotlinSystem, .dart:
+        case .node, .kotlinSystem, .dart, .python:
             #if os(macOS)
             swiftBuild = [Platform.nativeMacSwiftBuild]
             args.append(contentsOf: ["-Xlinker", "-rpath", "-Xlinker", "@loader_path"])
@@ -242,7 +245,7 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
             fatalError("dynamic linking is currently unsupported in wasm")
         case .kotlinAndroid:
             return "lib\(lib).so"
-        case .node, .kotlinSystem, .cSharp, .dart:
+        case .node, .kotlinSystem, .cSharp, .dart, .python:
             #if os(macOS)
             return "lib\(lib).dylib"
             #elseif os(Linux)
@@ -294,6 +297,16 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
             fatalError("unknown host OS")
             #endif
         case .dart: return "dart"
+        case .python:
+            #if os(macOS)
+            return "python-macos"
+            #elseif os(Linux)
+            return "python-ubuntu"
+            #elseif os(Windows)
+            return "python-windows"
+            #else
+            fatalError("unknown host OS")
+            #endif
         }
     }
 
@@ -340,6 +353,8 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
             #else
             fatalError("unknown host OS")
             #endif
+        case .python:
+            return "bindings/python/generated/src/cricut_\(config.module.lowercased())"
         }
     }
 
@@ -350,6 +365,7 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
         case .kotlinSystem, .kotlinAndroid: return "Kotlin JNI bindings for \(config.module)"
         case .cSharp: return "C# bindings for \(config.module)"
         case .dart: return "Dart bindings for \(config.module)"
+        case .python: return "Python bindings for \(config.module)"
         }
     }
 

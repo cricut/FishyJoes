@@ -18,6 +18,7 @@ public class FishyJoesContext {
     private(set) var kotlinClasses: [KotlinClass] = []
     private(set) var cSharpClasses: [CSharpClass] = []
     private(set) var dartClasses: [DartClass] = []
+    private(set) var pythonClasses: [PythonClass] = []
 
     let nodeTranslator = NodeTranslator()
     let kotlinTranslator = KotlinTranslator()
@@ -25,6 +26,7 @@ public class FishyJoesContext {
     let iotaTranslator = IotaTranslator()
     let cSharpTranslator = CSharpTranslator()
     let dartTranslator = DartTranslator()
+    let pythonTranslator = PythonTranslator()
 
     lazy var translators: [Translator] = [
         nodeTranslator,
@@ -33,6 +35,7 @@ public class FishyJoesContext {
         iotaTranslator,
         cSharpTranslator,
         dartTranslator,
+        pythonTranslator,
     ]
 
     enum TranslatedTypeOrAlias {
@@ -138,6 +141,25 @@ public class FishyJoesContext {
             addHeader(file: fileName, additionalImport)
         }
 
+        return SourceFragment(destinationPath: fileName)
+    }
+
+    func pythonFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
+        let packageName = "cricut_\(module.name.lowercased())"
+        let fileName = "python/generated/src/\(packageName)/\(name)"
+
+        addHeader(file: fileName, priority: 100, "from __future__ import annotations")
+        addHeader(file: fileName, priority: 20, "from dataclasses import dataclass")
+        addHeader(file: fileName, priority: 20, "import enum")
+        addHeader(file: fileName, priority: 20, "import typing")
+        addHeader(
+            file: fileName,
+            priority: 10,
+            "from .runtime import NativeReference, ensure_loaded as _ensure_runtime_loaded, get_runtime as _get_runtime, not_implemented as _not_implemented"
+        )
+        for additionalImport in additionalImports {
+            addHeader(file: fileName, priority: 10, additionalImport)
+        }
         return SourceFragment(destinationPath: fileName)
     }
 
@@ -261,6 +283,9 @@ public class FishyJoesContext {
         )
         collectedFragments.append(
             contentsOf: dartClasses.map { $0.fragment(context: self) }
+        )
+        collectedFragments.append(
+            contentsOf: pythonClasses.map { $0.fragment(context: self) }
         )
 
         // Output moduleInfo for FishyJoes packages that depend on this one
@@ -562,6 +587,14 @@ public class FishyJoesContext {
         dartTranslator.dart(field: field, of: type, context: self, useNativeName: useNativeName)
     }
 
+    func python(method: Method, of type: TranslatedType) -> PythonClass.MethodOrVariable? {
+        pythonTranslator.python(method: method, of: type, context: self).map(PythonClass.MethodOrVariable.method)
+    }
+
+    func python(field: Field, of type: TranslatedType, useNativeName: Bool = false) -> PythonClass.MethodOrVariable? {
+        pythonTranslator.python(field: field, of: type, context: self, useNativeName: useNativeName)
+    }
+
     // MARK: warnings
 
     var warningsPrintedOnce: Set<String> = []
@@ -602,6 +635,10 @@ public class FishyJoesContext {
 
     func add(cSharpClass: CSharpClass) {
         cSharpClasses.append(cSharpClass)
+    }
+
+    func add(pythonClass: PythonClass) {
+        pythonClasses.append(pythonClass)
     }
 
     struct FileHeader: Hashable, Comparable {

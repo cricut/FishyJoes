@@ -1,0 +1,40 @@
+from __future__ import annotations
+from dataclasses import dataclass
+import enum
+import typing
+from .runtime import NativeReference, ensure_loaded as _ensure_runtime_loaded, get_runtime as _get_runtime, not_implemented as _not_implemented
+
+class ExternalWitness_AProtocol(NativeReference):
+    """
+    <!-- FishyJoes.export(AProtocol) -->
+    Generated FishyJoes Python reference wrapper.
+    """
+    def __init__(self, native_ref: int | None = None) -> None:
+        super().__init__(native_ref=native_ref)
+    
+
+    @property
+    def baz(self) -> int:
+        """
+        <!-- FishyJoes.export(baz) -->
+        """
+        _ensure_runtime_loaded()
+        return _get_runtime().invoke("__iota_get_TestAPI_AProtocol_baz", "object", ("object", self))
+    
+
+    @property
+    def foo(self) -> str:
+        """
+        <!-- FishyJoes.export(foo) -->
+        """
+        _ensure_runtime_loaded()
+        return _get_runtime().invoke("__iota_get_TestAPI_AProtocol_foo", "object", ("object", self))
+    
+
+    def bar(self, x: int, y: int) -> AProtocol:
+        """
+        <!-- FishyJoes.export(bar) -->
+        """
+        _ensure_runtime_loaded()
+        return _get_runtime().invoke("__iota_TestAPI_AProtocol_bar", "object", ("object", self), ("object", x), ("object", y))
+    

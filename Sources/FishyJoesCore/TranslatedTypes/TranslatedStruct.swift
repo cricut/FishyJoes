@@ -593,6 +593,7 @@ struct TranslatedStruct: TranslatedType {
 
         registerDartClass(context: context)
         registerCSharpClass(context: context)
+        registerPythonClass(context: context)
 
         return fragment
     }
@@ -660,6 +661,38 @@ struct TranslatedStruct: TranslatedType {
                 fields: fields,
                 methods: methods,
                 conformances: Set(exportedConformances(in: context).map { $0.dartType})
+            )
+        )
+    }
+
+    func registerPythonClass(context: FishyJoesContext) {
+        let fieldsAndMethods =
+            computedVariables.compactMap {
+                context.python(field: $0, of: self, useNativeName: false)
+            } + methods.compactMap {
+                context.python(method: $0, of: self)
+            }
+
+        let storedFields: [PythonClass.Variable] = storedVariables.compactMap {
+            switch context.python(field: $0, of: self, useNativeName: true) {
+            case .method:
+                fatalErr("Can't export stored variable `\(self.sourceType.name).\($0.name)` as a method")
+            case .variable(let field):
+                return field
+            case nil:
+                return nil
+            }
+        }
+
+        let (fields, methods) = PythonClass.separate(fieldsAndMethods: fieldsAndMethods)
+        context.add(
+            pythonClass: PythonProductClass(
+                module: context.module,
+                documentation: documentation,
+                name: sourceType.nonNamespacedName,
+                constructor: .public(fields: storedFields),
+                fields: fields,
+                methods: methods
             )
         )
     }

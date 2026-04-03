@@ -9,6 +9,8 @@ protocol TranslatedType {
     var jniType: JNIType { get }
     var cSharpType: CSharpClass.CSType { get }
     var dartType: DartClass.DartType { get }
+    var pythonType: PythonClass.PyType { get }
+    var pythonFFIType: PythonClass.FFIType { get }
     var definingModule: Module { get }
     var definingTSNamespace: String? { get }
     var isInhabited: Bool { get }
@@ -18,6 +20,8 @@ protocol TranslatedType {
     func cSharpSetupDelegates(in context: FishyJoesContext) -> [String]
     func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>]
     func dartSetupDelegates(in context: FishyJoesContext) -> [String]
+    func pythonSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<PythonClass.PyType>]
+    func pythonSetupDelegates(in context: FishyJoesContext) -> [String]
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment]
 }
 
@@ -80,6 +84,8 @@ extension TranslatedType {
     func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>] { [] }
     func dartSetupDelegates(in context: FishyJoesContext) -> [String] { [] }
     func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>] { [] }
+    func pythonSetupDelegates(in context: FishyJoesContext) -> [String] { [] }
+    func pythonSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<PythonClass.PyType>] { [] }
 
     var iotaSetupName: String {
         "\(converterType.genericBaseName.mangledName)_setup"
@@ -88,6 +94,106 @@ extension TranslatedType {
     var isInhabited: Bool { true }
 
     var conformances: Set<BetterType> { [] }
+
+    var pythonType: PythonClass.PyType {
+        switch self {
+        case is TranslatedVoid:
+            return .none
+        case is TranslatedString, is TranslatedURL:
+            return .primitive("str")
+        case is TranslatedData:
+            return .primitive("bytes")
+        case is TranslatedPrimitive:
+            switch sourceType.name {
+            case "Bool":
+                return .primitive("bool")
+            case "Float", "Double":
+                return .primitive("float")
+            default:
+                return .primitive("int")
+            }
+        case is TranslatedUnsignedPrimitive:
+            return .primitive("int")
+        case let optional as TranslatedOptional:
+            return .optional(optional.wrapped.pythonType)
+        case let array as TranslatedArray:
+            return .list(array.elementType.pythonType)
+        case let set as TranslatedSet:
+            return .set(set.elementType.pythonType)
+        case let dictionary as TranslatedDictionary:
+            return .dict(dictionary.keyType.pythonType, dictionary.valueType.pythonType)
+        case let tuple as TranslatedTuple:
+            return .tuple(tuple.elements.map(\.type.pythonType))
+        case let function as TranslatedFunction:
+            return .callable(
+                args: function.parameters.map(\.pythonType),
+                return: function.isAsync ? .awaitable(function.returnType.pythonType) : function.returnType.pythonType
+            )
+        case let future as TranslatedFuture:
+            return .awaitable(future.output.pythonType)
+        case is TranslatedResult:
+            return .any
+        default:
+            return .named(module: nil, name: sourceType.nonNamespacedName)
+        }
+    }
+
+    var pythonFFIType: PythonClass.FFIType {
+        switch self {
+        case is TranslatedVoid:
+            return .void
+        case is TranslatedString,
+             is TranslatedData,
+             is TranslatedURL,
+             is TranslatedOptional,
+             is TranslatedArray,
+             is TranslatedSet,
+             is TranslatedDictionary,
+             is TranslatedTuple,
+             is TranslatedFunction,
+             is TranslatedFuture,
+             is TranslatedResult:
+            return .object
+        case is TranslatedPrimitive:
+            switch sourceType.name {
+            case "Bool":
+                return .bool
+            case "Int8":
+                return .int8
+            case "Int16":
+                return .int16
+            case "Int32":
+                return .int32
+            case "Int64":
+                return .int64
+            case "Int":
+                return .int
+            case "Float":
+                return .float
+            case "Double":
+                return .double
+            default:
+                return .object
+            }
+        case is TranslatedUnsignedPrimitive:
+            switch sourceType.name {
+            case "UInt8":
+                return .uint8
+            case "UInt16":
+                return .uint16
+            case "UInt32":
+                return .uint32
+            case "UInt64":
+                return .uint64
+            case "UInt":
+                return .uint
+            default:
+                return .object
+            }
+        default:
+            return .object
+        }
+    }
 }
 
 extension TranslatedType {

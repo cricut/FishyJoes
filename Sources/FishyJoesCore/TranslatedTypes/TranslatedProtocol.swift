@@ -729,6 +729,7 @@ struct TranslatedProtocol: TranslatedType {
 
         registerDartClass(context: context)
         registerCSharpClass(context: context)
+        registerPythonClass(context: context)
 
         return fragment
     }
@@ -1048,6 +1049,47 @@ struct TranslatedProtocol: TranslatedType {
                 fields: externalWitnessFields,
                 methods: externalWitnessMethods,
                 conformances: [dartType]
+            )
+        )
+    }
+
+    func registerPythonClass(context: FishyJoesContext) {
+        let (protocolFields, protocolMethods) = PythonClass.separate(
+            fieldsAndMethods:
+                fields.compactMap {
+                    context.python(field: $0, of: self, useNativeName: false)
+                } + methods.compactMap {
+                    context.python(method: $0, of: self)
+                }
+        )
+
+        context.add(
+            pythonClass: PythonProtocolClass(
+                module: context.module,
+                documentation: documentation,
+                name: sourceType.nonNamespacedName,
+                fields: protocolFields,
+                methods: protocolMethods
+            )
+        )
+
+        let (externalWitnessFields, externalWitnessMethods) = PythonClass.separate(
+            fieldsAndMethods:
+                fields.compactMap {
+                    context.python(field: $0, of: self, useNativeName: false)
+                } + methods.filter { !$0.isDefaultImplementation }.compactMap {
+                    context.python(method: $0, of: self)
+                }
+        )
+
+        context.add(
+            pythonClass: PythonProductClass(
+                module: context.module,
+                documentation: documentation,
+                name: iotaExternalWitnessClassName,
+                constructor: .reference,
+                fields: externalWitnessFields,
+                methods: externalWitnessMethods
             )
         )
     }

@@ -26,6 +26,9 @@ public class CodeGen: ParsableCommand {
     @Flag(name: .long, inversion: .prefixedNo, help: "Generate a Dart package")
     var dart = false
 
+    @Flag(name: .long, inversion: .prefixedNo, help: "Generate a Python package")
+    var python = false
+
     @Flag(name: [.long, .customLong("wasmopt")], inversion: .prefixedNo, help: "Additional wasm optimizations (takes some time)")
     var wasmOpt = true
 
@@ -70,6 +73,7 @@ public class CodeGen: ParsableCommand {
         case kotlinFast
         case cSharp
         case dart
+        case python
         case wasmOpt
         case version
         case buildStep
@@ -171,6 +175,9 @@ extension CodeGen {
         if dart {
             platforms.append(.dart)
         }
+        if python {
+            platforms.append(.python)
+        }
 
         if !Set(buildStep).isDisjoint(with: [.build, .test, .pack]) && platforms.isEmpty {
             throw ValidationError("Must specify at least one platform when building, testing, or packing")
@@ -223,11 +230,13 @@ extension CodeGen {
                 "bindings/kotlin/generated/src/main/kotlin/com/cricut/\(config.module.lowercased())",
                 "bindings/c-sharp/generated/Cricut.\(config.module)",
                 "bindings/dart/generated/lib/src",
+                "bindings/python/generated/src/cricut_\(config.module.lowercased())",
             ]
             try cmd("rm", "-rf", "bindings/swift-interfaces/generated").run()
             try cmd("rm", "-rf", "bindings/kotlin/generated").run()
             try cmd("rm", "-rf", "bindings/c-sharp/generated").run()
             try cmd("rm", "-rf", "bindings/dart/generated").run()
+            try cmd("rm", "-rf", "bindings/python/generated").run()
             try cmd("mkdir", arguments: ["-p"] + sourceLocations).run()
             for target in generatedSwiftTargets {
                 try cmd("echo")
@@ -529,6 +538,8 @@ extension CodeGen {
             return CSharpPhases(platform: platform, options: self)
         case .dart:
             return DartPhases(platform: platform, options: self)
+        case .python:
+            return PythonPhases(platform: platform, options: self)
         }
     }
 }

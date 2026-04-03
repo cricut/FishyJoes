@@ -412,6 +412,7 @@ struct TranslatedReference: TranslatedType {
 
         registerDartClass(in: context)
         registerCSharpClass(in: context)
+        registerPythonClass(in: context)
 
         return fragment
     }
@@ -575,6 +576,28 @@ struct TranslatedReference: TranslatedType {
             conformances: Set(exportedConformances(in: context).map { $0.dartType})
         )
         context.add(dartClass: dartProduct)
+    }
+
+    func registerPythonClass(in context: FishyJoesContext) {
+        let (fields, methods) = PythonClass.separate(
+            fieldsAndMethods:
+                computedVariables.compactMap {
+                    context.python(field: $0, of: self, useNativeName: false)
+                } + methods.compactMap {
+                    context.python(method: $0, of: self)
+                }
+        )
+
+        context.add(
+            pythonClass: PythonProductClass(
+                module: context.module,
+                documentation: documentation,
+                name: sourceType.nonNamespacedName,
+                constructor: .reference,
+                fields: fields,
+                methods: methods
+            )
+        )
     }
 
     func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>] {

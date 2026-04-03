@@ -242,6 +242,39 @@ extension SwiftPackage.Dependency {
             return nil
         }
     }
+
+    func versionInPythonFormat(flexibleVersions: Bool = false) -> String? {
+        switch self {
+        case .sourceControl(_, _, .branch(let name)):
+            return " @ git+\(url.absoluteString)@\(name)"
+        case .sourceControl(_, _, .revision(let name)):
+            return " @ git+\(url.absoluteString)@\(name)"
+        case .sourceControl(_, _, .upToNextMajor(let baseVersion)):
+            if flexibleVersions {
+                return baseVersion.major > 0
+                    ? ">=\(baseVersion),<\(baseVersion.nextMajor)"
+                    : ">=\(baseVersion),<\(baseVersion.nextMajor)"
+            } else {
+                return "==\(baseVersion)"
+            }
+        case .sourceControl(_, _, .upToNextMinor(let baseVersion)):
+            if flexibleVersions {
+                return ">=\(baseVersion),<\(baseVersion.nextMinor)"
+            } else {
+                return "==\(baseVersion)"
+            }
+        case .sourceControl(_, _, .range(let lowerBound, let upperBound)):
+            if flexibleVersions {
+                return ">=\(lowerBound),<\(upperBound)"
+            } else {
+                return "==\(lowerBound)"
+            }
+        case .sourceControl(_, _, .exact(let version)):
+            return "==\(version)"
+        case .fileSystem:
+            return nil
+        }
+    }
 }
 
 extension SwiftPackage.Dependency.Requirement: Decodable {
