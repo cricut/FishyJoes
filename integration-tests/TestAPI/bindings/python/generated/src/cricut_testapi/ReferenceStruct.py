@@ -11,6 +11,10 @@ class ReferenceStruct(NativeReference):
     """
     def __init__(self, native_ref: int | None = None) -> None:
         super().__init__(native_ref=native_ref)
+        if native_ref is not None:
+            import weakref
+            weakref.finalize(self, _get_runtime().release_native_ref, native_ref)
+        
     
 
     @property
@@ -51,5 +55,6 @@ class ReferenceStruct(NativeReference):
         <!-- FishyJoes.export(asyncGetMutable) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_Structs_ReferenceStruct_asyncGetMutable")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_Structs_ReferenceStruct_asyncGetMutable", "object", ("object", self)))
     

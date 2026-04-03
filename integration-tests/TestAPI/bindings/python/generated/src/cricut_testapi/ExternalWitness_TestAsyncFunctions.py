@@ -11,6 +11,10 @@ class ExternalWitness_TestAsyncFunctions(NativeReference):
     """
     def __init__(self, native_ref: int | None = None) -> None:
         super().__init__(native_ref=native_ref)
+        if native_ref is not None:
+            import weakref
+            weakref.finalize(self, _get_runtime().release_native_ref, native_ref)
+        
     
 
     @property
@@ -90,7 +94,8 @@ class ExternalWitness_TestAsyncFunctions(NativeReference):
         <!-- FishyJoes.export(exercise0) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_TestAsyncFunctions_exercise0")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_TestAsyncFunctions_exercise0", "object", ("object", self), ("object", fn)))
     
 
     async def exercise1(self, fn: typing.Callable[[int], typing.Awaitable[int]]) -> typing.Awaitable[str]:
@@ -98,7 +103,8 @@ class ExternalWitness_TestAsyncFunctions(NativeReference):
         <!-- FishyJoes.export(exercise1) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_TestAsyncFunctions_exercise1")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_TestAsyncFunctions_exercise1", "object", ("object", self), ("object", fn)))
     
 
     async def exercise2(self, fn: typing.Callable[[typing.Callable[[int], typing.Awaitable[int]], typing.Callable[[int], typing.Awaitable[int]]], typing.Callable[[int], typing.Awaitable[int]]]) -> typing.Awaitable[str]:
@@ -106,7 +112,8 @@ class ExternalWitness_TestAsyncFunctions(NativeReference):
         <!-- FishyJoes.export(exercise2) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_TestAsyncFunctions_exercise2")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_TestAsyncFunctions_exercise2", "object", ("object", self), ("object", fn)))
     
 
     async def exercise3(self, fn: typing.Callable[[int, int, int], typing.Awaitable[int]]) -> typing.Awaitable[str]:
@@ -114,7 +121,8 @@ class ExternalWitness_TestAsyncFunctions(NativeReference):
         <!-- FishyJoes.export(exercise3) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_TestAsyncFunctions_exercise3")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_TestAsyncFunctions_exercise3", "object", ("object", self), ("object", fn)))
     
 
     async def exercise4(self, fn: typing.Callable[[str, str, str, str], typing.Awaitable[list[str]]]) -> typing.Awaitable[str]:
@@ -122,7 +130,8 @@ class ExternalWitness_TestAsyncFunctions(NativeReference):
         <!-- FishyJoes.export(exercise4) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_TestAsyncFunctions_exercise4")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_TestAsyncFunctions_exercise4", "object", ("object", self), ("object", fn)))
     
 
     async def exercise5(self, fn: typing.Callable[[str, int, int, str, typing.Callable[[], typing.Awaitable[int]]], typing.Awaitable[typing.Callable[[], typing.Awaitable[int]]]]) -> typing.Awaitable[str]:
@@ -130,7 +139,8 @@ class ExternalWitness_TestAsyncFunctions(NativeReference):
         <!-- FishyJoes.export(exercise5) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_TestAsyncFunctions_exercise5")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_TestAsyncFunctions_exercise5", "object", ("object", self), ("object", fn)))
     
 
     async def exercise6(self, fn: typing.Callable[[str, int, int, str, typing.Callable[[], typing.Awaitable[int]], int], typing.Awaitable[int]]) -> typing.Awaitable[str]:
@@ -138,7 +148,8 @@ class ExternalWitness_TestAsyncFunctions(NativeReference):
         <!-- FishyJoes.export(exercise6) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_TestAsyncFunctions_exercise6")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_TestAsyncFunctions_exercise6", "object", ("object", self), ("object", fn)))
     
 
     def thunkTwiceMaker(self, thunk: typing.Callable[[], typing.Awaitable[None]]) -> typing.Callable[[], typing.Awaitable[None]]:

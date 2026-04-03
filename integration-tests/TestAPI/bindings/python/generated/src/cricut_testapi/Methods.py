@@ -11,6 +11,10 @@ class Methods(NativeReference):
     """
     def __init__(self, native_ref: int | None = None) -> None:
         super().__init__(native_ref=native_ref)
+        if native_ref is not None:
+            import weakref
+            weakref.finalize(self, _get_runtime().release_native_ref, native_ref)
+        
     
 
     @property
@@ -139,7 +143,8 @@ class Methods(NativeReference):
         <!-- FishyJoes.export(async42) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_Methods_async42")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_Methods_async42", "object", ("object", self)))
     
 
     async def asyncYield(self) -> typing.Awaitable[int]:
@@ -147,7 +152,8 @@ class Methods(NativeReference):
         <!-- FishyJoes.export(asyncYield) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_Methods_asyncYield")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_Methods_asyncYield", "object", ("object", self)))
     
 
     async def asyncSleep(self) -> typing.Awaitable[int]:
@@ -155,7 +161,8 @@ class Methods(NativeReference):
         <!-- FishyJoes.export(asyncSleep) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_Methods_asyncSleep")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_Methods_asyncSleep", "object", ("object", self)))
     
 
     async def asyncVoid(self) -> typing.Awaitable[None]:
@@ -163,7 +170,8 @@ class Methods(NativeReference):
         <!-- FishyJoes.export(asyncVoid) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_Methods_asyncVoid")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_Methods_asyncVoid", "object", ("object", self)))
     
 
     async def asyncDouble(self, d: int) -> typing.Awaitable[int]:
@@ -171,7 +179,8 @@ class Methods(NativeReference):
         <!-- FishyJoes.export(asyncDouble) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_Methods_asyncDouble")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_Methods_asyncDouble", "object", ("object", self), ("object", d)))
     
 
     async def asyncMultipleArgs(self, i: int, j: typing.Callable[[], typing.Awaitable[int]]) -> typing.Awaitable[int]:
@@ -179,7 +188,8 @@ class Methods(NativeReference):
         <!-- FishyJoes.export(asyncMultipleArgs) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_Methods_asyncMultipleArgs")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_Methods_asyncMultipleArgs", "object", ("object", self), ("object", i), ("object", j)))
     
 
     async def asyncThrowing(self) -> typing.Awaitable[None]:
@@ -187,7 +197,8 @@ class Methods(NativeReference):
         <!-- FishyJoes.export(asyncThrowing) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_Methods_asyncThrowing")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_Methods_asyncThrowing", "object", ("object", self)))
     
 
     async def asyncCallbackFunc0(self, callback: typing.Callable[[], typing.Awaitable[int]]) -> typing.Awaitable[int]:
@@ -195,7 +206,8 @@ class Methods(NativeReference):
         <!-- FishyJoes.export(asyncCallbackFunc0) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_Methods_asyncCallbackFunc0")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_Methods_asyncCallbackFunc0", "object", ("object", self), ("object", callback)))
     
 
     @staticmethod
@@ -204,7 +216,8 @@ class Methods(NativeReference):
         <!-- FishyJoes.export(staticAsync42) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_Methods_staticAsync42")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_Methods_staticAsync42", "object"))
     
 
     @staticmethod
@@ -213,7 +226,8 @@ class Methods(NativeReference):
         <!-- FishyJoes.export(staticAsyncYield) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_Methods_staticAsyncYield")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_Methods_staticAsyncYield", "object"))
     
 
     @staticmethod
@@ -222,7 +236,8 @@ class Methods(NativeReference):
         <!-- FishyJoes.export(staticAsyncSleep) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_Methods_staticAsyncSleep")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_Methods_staticAsyncSleep", "object"))
     
 
     @staticmethod
@@ -231,7 +246,8 @@ class Methods(NativeReference):
         <!-- FishyJoes.export(staticAsyncVoid) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_Methods_staticAsyncVoid")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_Methods_staticAsyncVoid", "object"))
     
 
     @staticmethod
@@ -240,7 +256,8 @@ class Methods(NativeReference):
         <!-- FishyJoes.export(staticAsyncDouble) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_Methods_staticAsyncDouble")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_Methods_staticAsyncDouble", "object", ("object", d)))
     
 
     @staticmethod
@@ -249,7 +266,8 @@ class Methods(NativeReference):
         <!-- FishyJoes.export(staticAsyncMultipleArgs) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_Methods_staticAsyncMultipleArgs")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_Methods_staticAsyncMultipleArgs", "object", ("object", i), ("object", j)))
     
 
     @staticmethod
@@ -258,7 +276,8 @@ class Methods(NativeReference):
         <!-- FishyJoes.export(staticAsyncThrowing) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_Methods_staticAsyncThrowing")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_Methods_staticAsyncThrowing", "object"))
     
 
     @staticmethod
@@ -267,7 +286,8 @@ class Methods(NativeReference):
         <!-- FishyJoes.export(staticAsyncCallbackFunc0) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_Methods_staticAsyncCallbackFunc0")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_Methods_staticAsyncCallbackFunc0", "object", ("object", callback)))
     
 
     @staticmethod

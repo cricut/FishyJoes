@@ -265,6 +265,108 @@ class GeneratedRuntime:
         if self._runtime is not None:
             self._runtime.release_native_reference(native_ref)
 
+    def setup_protocol_type(
+        self,
+        setup_symbol: str,
+        external_witness_cls: type[NativeReference],
+        field_specs: list[tuple[str, str]],
+        method_specs: list[tuple[str, list[str], str]],
+    ) -> None:
+        """Register a protocol type with the Iota ABI (both directions).
+
+        Args:
+            setup_symbol: The @_cdecl symbol name for the protocol's setup function.
+            external_witness_cls: The ExternalWitness_* NativeReference subclass that wraps
+                Swift-side protocol conformers when Swift passes them to Python.
+            field_specs: List of (field_name, ffi_return_type) tuples for protocol properties.
+            method_specs: List of (method_name, [param_ffi_types], return_ffi_type) tuples.
+        """
+        self.ensure_loaded()
+        assert self._runtime is not None
+
+        callback_args: list[typing.Any] = []
+        # argtypes: env, constructor, per-field getter, per-method callback, exn
+        function_argtypes: list[typing.Any] = [ctypes.c_void_p, ctypes.c_void_p]
+
+        # constructor: (UnsafeMutableRawPointer, foreignOutExn) -> foreignObject
+        # Called by Swift when it wants to hand a Swift-side protocol conformer to Python.
+        # We wrap the opaque pointer in an ExternalWitness_* NativeReference instance.
+        constructor_type = ctypes.CFUNCTYPE(ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_void_p))
+
+        def constructor(pointer: int | None, exn: ctypes.POINTER(ctypes.c_void_p)) -> int:
+            try:
+                instance = external_witness_cls(
+                    native_ref=int(pointer or 0),
+                    native_type=external_witness_cls.__name__,
+                    _runtime=self._runtime,
+                )
+                return self._runtime.retain_foreign_object(instance)
+            except BaseException as error:
+                self._runtime.store_exception(exn, error)
+                return 0
+
+        ctor_cb = constructor_type(constructor)
+        self._callbacks.append(ctor_cb)
+        callback_args.append(ctor_cb)
+
+        # Per-field getter: (foreignObject, foreignOutExn) -> CType
+        # Called by Swift when it needs a field value from a Python-side protocol implementor.
+        for field_name, ffi_return_type in field_specs:
+            getter_type = ctypes.CFUNCTYPE(
+                _ffi_ctypes_type(ffi_return_type), ctypes.c_void_p, ctypes.POINTER(ctypes.c_void_p)
+            )
+
+            def make_getter(fname: str, ffi_ret: str) -> typing.Any:
+                def getter(obj: int | None, exn: ctypes.POINTER(ctypes.c_void_p)) -> typing.Any:
+                    try:
+                        instance = ctypes.cast(ctypes.c_void_p(obj or 0), ctypes.py_object).value
+                        return self._convert_to_ffi(getattr(instance, fname), ffi_ret)
+                    except BaseException as error:
+                        self._runtime.store_exception(exn, error)
+                        return _ffi_default_value(ffi_ret)
+                return getter
+
+            getter_cb = getter_type(make_getter(field_name, ffi_return_type))
+            self._callbacks.append(getter_cb)
+            callback_args.append(getter_cb)
+            function_argtypes.append(ctypes.c_void_p)
+
+        # Per-method callback: (foreignObject, param_ctypes..., foreignOutExn) -> ReturnCType
+        # Called by Swift when it invokes a method on a Python-side protocol implementor.
+        for method_name, param_ffi_types, return_ffi_type in method_specs:
+            param_ctypes = [_ffi_ctypes_type(t) for t in param_ffi_types]
+            ret_ctype = None if return_ffi_type == "void" else _ffi_ctypes_type(return_ffi_type)
+            method_type = ctypes.CFUNCTYPE(
+                ret_ctype, ctypes.c_void_p, *param_ctypes, ctypes.POINTER(ctypes.c_void_p)
+            )
+
+            def make_method(mname: str, pffi: list[str], rffi: str) -> typing.Any:
+                def method_cb(obj: int | None, *raw: typing.Any) -> typing.Any:
+                    exn = raw[-1]
+                    params = raw[:-1]
+                    try:
+                        instance = ctypes.cast(ctypes.c_void_p(obj or 0), ctypes.py_object).value
+                        converted = [self._convert_from_ffi(v, t) for v, t in zip(params, pffi, strict=True)]
+                        result = getattr(instance, mname)(*converted)
+                        if rffi == "void":
+                            return None
+                        return self._convert_to_ffi(result, rffi)
+                    except BaseException as error:
+                        self._runtime.store_exception(exn, error)
+                        return _ffi_default_value(rffi) if rffi != "void" else None
+                return method_cb
+
+            method_cb_obj = method_type(make_method(method_name, param_ffi_types, return_ffi_type))
+            self._callbacks.append(method_cb_obj)
+            callback_args.append(method_cb_obj)
+            function_argtypes.append(ctypes.c_void_p)
+
+        function_argtypes.append(ctypes.POINTER(ctypes.c_void_p))
+        setup = self.get_iota_function(setup_symbol, restype=None, argtypes=function_argtypes)
+        exn = ctypes.c_void_p()
+        setup(ctypes.c_void_p(self.env), *callback_args, ctypes.byref(exn))
+        self._runtime.raise_if_exception(exn.value)
+
     def setup_struct_type(
         self,
         setup_symbol: str,

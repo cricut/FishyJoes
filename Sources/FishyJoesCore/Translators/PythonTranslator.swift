@@ -54,6 +54,23 @@ final class PythonTranslator: Translator {
                     fragment.output(
                         "_runtime.setup_struct_type(\"\(valueType.iotaSetupName)\", \(valueType.sourceType.nonNamespacedName), [\(fieldSpecs)], {\(mutableFields)})"
                     )
+                case let proto as TranslatedProtocol where proto.definingModule == context.module:
+                    let fieldSpecs = proto.fields.map { field in
+                        let resolvedField = context.resolve(type: field.type)
+                        return "(\"\(field.name)\", \"\(resolvedField.pythonFFIType.rawValue)\")"
+                    }.joined(separator: ", ")
+                    // Only non-default-implementation methods are part of the witness ABI
+                    let methodSpecs = proto.methods.filter { !$0.isDefaultImplementation }.map { method in
+                        let paramFFITypes = method.parameters.map { param in
+                            let resolvedParam = context.resolve(type: param.type)
+                            return "\"\(resolvedParam.pythonFFIType.rawValue)\""
+                        }.joined(separator: ", ")
+                        let resolvedReturn = context.resolve(type: method.returnType)
+                        return "(\"\(method.callName)\", [\(paramFFITypes)], \"\(resolvedReturn.pythonFFIType.rawValue)\")"
+                    }.joined(separator: ", ")
+                    fragment.output(
+                        "_runtime.setup_protocol_type(\"\(proto.iotaSetupName)\", \(proto.iotaExternalWitnessClassName), [\(fieldSpecs)], [\(methodSpecs)])"
+                    )
                 default:
                     continue
                 }

@@ -11,6 +11,10 @@ class TestProtocolClass(NativeReference):
     """
     def __init__(self, native_ref: int | None = None) -> None:
         super().__init__(native_ref=native_ref)
+        if native_ref is not None:
+            import weakref
+            weakref.finalize(self, _get_runtime().release_native_ref, native_ref)
+        
     
 
     @property

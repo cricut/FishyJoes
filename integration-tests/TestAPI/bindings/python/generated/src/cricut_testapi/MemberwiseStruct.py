@@ -27,5 +27,6 @@ class MemberwiseStruct:
         <!-- FishyJoes.export(asyncGetMutable) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_Structs_MemberwiseStruct_asyncGetMutable")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_Structs_MemberwiseStruct_asyncGetMutable", "object", ("object", self)))
     

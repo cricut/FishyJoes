@@ -87,7 +87,8 @@ class AsyncFunctions:
         <!-- FishyJoes.export(exercise0) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_AsyncFunctions_exercise0")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_AsyncFunctions_exercise0", "object", ("object", fn)))
     
 
     @staticmethod
@@ -96,7 +97,8 @@ class AsyncFunctions:
         <!-- FishyJoes.export(exercise1) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_AsyncFunctions_exercise1")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_AsyncFunctions_exercise1", "object", ("object", fn)))
     
 
     @staticmethod
@@ -105,7 +107,8 @@ class AsyncFunctions:
         <!-- FishyJoes.export(exercise2) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_AsyncFunctions_exercise2")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_AsyncFunctions_exercise2", "object", ("object", fn)))
     
 
     @staticmethod
@@ -114,7 +117,8 @@ class AsyncFunctions:
         <!-- FishyJoes.export(exercise3) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_AsyncFunctions_exercise3")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_AsyncFunctions_exercise3", "object", ("object", fn)))
     
 
     @staticmethod
@@ -123,7 +127,8 @@ class AsyncFunctions:
         <!-- FishyJoes.export(exercise4) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_AsyncFunctions_exercise4")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_AsyncFunctions_exercise4", "object", ("object", fn)))
     
 
     @staticmethod
@@ -132,7 +137,8 @@ class AsyncFunctions:
         <!-- FishyJoes.export(exercise5) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_AsyncFunctions_exercise5")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_AsyncFunctions_exercise5", "object", ("object", fn)))
     
 
     @staticmethod
@@ -141,7 +147,8 @@ class AsyncFunctions:
         <!-- FishyJoes.export(exercise6) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_AsyncFunctions_exercise6")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_AsyncFunctions_exercise6", "object", ("object", fn)))
     
 
     @staticmethod

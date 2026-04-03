@@ -32,7 +32,8 @@ class TestAsyncForeignSideFunctionsStruct:
         <!-- FishyJoes.export(exercise0) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_TestAsyncForeignSideFunctionsStruct_exercise0")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise0", "object", ("object", self), ("object", fn)))
     
 
     async def exercise1(self, fn: typing.Callable[[int], typing.Awaitable[int]]) -> typing.Awaitable[str]:
@@ -40,7 +41,8 @@ class TestAsyncForeignSideFunctionsStruct:
         <!-- FishyJoes.export(exercise1) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_TestAsyncForeignSideFunctionsStruct_exercise1")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise1", "object", ("object", self), ("object", fn)))
     
 
     async def exercise2(self, fn: typing.Callable[[typing.Callable[[int], typing.Awaitable[int]], typing.Callable[[int], typing.Awaitable[int]]], typing.Callable[[int], typing.Awaitable[int]]]) -> typing.Awaitable[str]:
@@ -48,7 +50,8 @@ class TestAsyncForeignSideFunctionsStruct:
         <!-- FishyJoes.export(exercise2) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_TestAsyncForeignSideFunctionsStruct_exercise2")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise2", "object", ("object", self), ("object", fn)))
     
 
     async def exercise3(self, fn: typing.Callable[[int, int, int], typing.Awaitable[int]]) -> typing.Awaitable[str]:
@@ -56,7 +59,8 @@ class TestAsyncForeignSideFunctionsStruct:
         <!-- FishyJoes.export(exercise3) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_TestAsyncForeignSideFunctionsStruct_exercise3")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise3", "object", ("object", self), ("object", fn)))
     
 
     async def exercise4(self, fn: typing.Callable[[str, str, str, str], typing.Awaitable[list[str]]]) -> typing.Awaitable[str]:
@@ -64,7 +68,8 @@ class TestAsyncForeignSideFunctionsStruct:
         <!-- FishyJoes.export(exercise4) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_TestAsyncForeignSideFunctionsStruct_exercise4")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise4", "object", ("object", self), ("object", fn)))
     
 
     async def exercise5(self, fn: typing.Callable[[str, int, int, str, typing.Callable[[], typing.Awaitable[int]]], typing.Awaitable[typing.Callable[[], typing.Awaitable[int]]]]) -> typing.Awaitable[str]:
@@ -72,7 +77,8 @@ class TestAsyncForeignSideFunctionsStruct:
         <!-- FishyJoes.export(exercise5) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_TestAsyncForeignSideFunctionsStruct_exercise5")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise5", "object", ("object", self), ("object", fn)))
     
 
     async def exercise6(self, fn: typing.Callable[[str, int, int, str, typing.Callable[[], typing.Awaitable[int]], int], typing.Awaitable[int]]) -> typing.Awaitable[str]:
@@ -80,7 +86,8 @@ class TestAsyncForeignSideFunctionsStruct:
         <!-- FishyJoes.export(exercise6) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_TestAsyncForeignSideFunctionsStruct_exercise6")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise6", "object", ("object", self), ("object", fn)))
     
 
     def thunkTwiceMaker(self, thunk: typing.Callable[[], typing.Awaitable[None]]) -> typing.Callable[[], typing.Awaitable[None]]:
@@ -104,5 +111,6 @@ class TestAsyncForeignSideFunctionsStruct:
         <!-- FishyJoes.export(defaultExercise6) -->
         """
         _ensure_runtime_loaded()
-        _not_implemented("TestAPI_TestAsyncForeignSideFunctionsStruct_defaultExercise6")
+        import asyncio
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_defaultExercise6", "object", ("object", self), ("object", fn)))
     
