@@ -493,6 +493,15 @@ extension String: IotaConverter {
     fileprivate static var utf8Constructor = Env.CallbackMap<(@convention(c) (UnsafePointer<UInt8>, Int, foreignOutExn) -> foreignObject)>()
 
     public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+        if utf8ByteLength.isInitialized(env) {
+            let byteLen = try env.check { exn in utf8ByteLength[env](value, exn) }
+            guard let buf = UnsafeMutablePointer<UInt8>(OpaquePointer(malloc(byteLen))) else {
+                throw AllocationError()
+            }
+            defer { free(buf) }
+            try env.check { exn in getUtf8Method[env](value, buf, exn) }
+            return String(bytes: UnsafeBufferPointer(start: buf, count: byteLen), encoding: .utf8) ?? ""
+        }
         let len16 = try env.check { exn in getLengthMethod[env](value, exn) }
         guard let units = UnsafeMutablePointer<unichar>(OpaquePointer(malloc(len16 * 2))) else {
             throw AllocationError()
@@ -503,6 +512,12 @@ extension String: IotaConverter {
     }
 
     public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+        if utf8Constructor.isInitialized(env) {
+            let encoded = Array(value.utf8)
+            return try encoded.withUnsafeBufferPointer { buffer in
+                try env.check { exn in utf8Constructor[env](buffer.baseAddress!, encoded.count, exn) }
+            }
+        }
         let array = Array(value.utf16)
         return try array.withUnsafeBufferPointer { buffer in
             try env.check { exn in constructor[env](buffer.baseAddress!, array.count * 2, exn) }
