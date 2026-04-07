@@ -79,12 +79,13 @@ class GeneratedRuntime:
             for ffi_name, value in args:
                 argtypes.append(_ffi_ctypes_type(ffi_name))
                 if ffi_name == "object":
-                    native_ref = self._runtime.coerce_native_ref(value)
-                    if native_ref is not None:
-                        converted_args.append(ctypes.c_void_p(native_ref))
-                    elif value is None:
+                    if value is None:
                         converted_args.append(ctypes.c_void_p())
                     else:
+                        # Always wrap the Python object in a cffi handle so that
+                        # the Swift iota ABI can call back via anybox_ref_getter
+                        # to extract the native pointer (for NativeReference) or
+                        # the object fields (for value types / protocol conformers).
                         handle = self._runtime.retain_foreign_object(value)
                         retained_handles.append(handle)
                         converted_args.append(ctypes.c_void_p(handle))
@@ -112,7 +113,7 @@ class GeneratedRuntime:
 
         def constructor(pointer: int | None, exn: ctypes.POINTER(ctypes.c_void_p)) -> int:
             try:
-                instance = cls(native_ref=int(pointer or 0), native_type=cls.__name__, _runtime=self._runtime)
+                instance = cls(native_ref=int(pointer or 0))
                 return self._runtime.retain_foreign_object(instance)
             except BaseException as error:
                 self._runtime.store_exception(exn, error)
@@ -162,20 +163,37 @@ class GeneratedRuntime:
 
             case_names = [name for name, _ in case_specs]
 
+            # Build per-case matchers at setup time (not per-call).
+            # Each matcher returns True iff the value belongs to that case.
+            import sys as _sys
+            case_matchers: list[typing.Callable[[typing.Any], bool]] = []
+            for case_name in case_names:
+                case_attr = getattr(cls, case_name, None)
+                if case_attr is not None and isinstance(case_attr, cls):
+                    # enum.Enum member: use identity only.
+                    _member = case_attr
+                    case_matchers.append(lambda v, m=_member: v is m)
+                else:
+                    # Dataclass-style subclass: look up {ClassName}_{CaseName} across loaded modules.
+                    subname = f"{cls.__name__}_{case_name[0].upper()}{case_name[1:]}"
+                    subclass: type | None = None
+                    for mod in list(_sys.modules.values()):
+                        sc = getattr(mod, subname, None)
+                        if sc is not None and isinstance(sc, type):
+                            subclass = sc
+                            break
+                    if subclass is not None:
+                        case_matchers.append(lambda v, t=subclass: isinstance(v, t))
+                    else:
+                        # Fallback: never matches (unrecognised case).
+                        case_matchers.append(lambda v: False)
+
             def discriminator(obj: int | None, exn: ctypes.POINTER(ctypes.c_void_p)) -> int:
                 try:
-                    value = ctypes.cast(ctypes.c_void_p(obj or 0), ctypes.py_object).value
-                    # Support both enum.Enum members and dataclass-style case instances.
-                    for idx, case_name in enumerate(case_names):
-                        case_cls = getattr(cls, case_name, None)
-                        if case_cls is not None:
-                            # enum.Enum style: value IS the member
-                            if value is case_cls:
-                                return idx
-                            # dataclass style: isinstance check
-                            case_type = type(case_cls) if isinstance(case_cls, cls) else case_cls
-                            if isinstance(value, case_type):
-                                return idx
+                    value = self._runtime.borrow_foreign_object(obj)
+                    for idx, matches in enumerate(case_matchers):
+                        if matches(value):
+                            return idx
                     raise TypeError(f"value {value!r} is not a case of {cls.__name__}")
                 except BaseException as error:
                     self._runtime.store_exception(exn, error)
@@ -195,7 +213,20 @@ class GeneratedRuntime:
             # constructor: (value_types..., foreignOutExn) -> foreignObject
             constructor_type = ctypes.CFUNCTYPE(ctypes.c_void_p, *ctypes_value_types, ctypes.POINTER(ctypes.c_void_p))
 
-            def make_constructor(cname: str, fnames: list[str], ftypes: list[str]) -> typing.Any:
+            # Resolve the case class at setup time (not at call time) to avoid
+            # fragile sys._getframe() usage.
+            import sys as _sys
+            _case_cls: type | object | None = getattr(cls, case_name, None)
+            if _case_cls is None or (_case_cls is not None and not isinstance(_case_cls, type) and not callable(_case_cls)):
+                # Try pascal-case dataclass-style subclass: MyEnum_CaseName
+                _subname = f"{cls.__name__}_{case_name[0].upper()}{case_name[1:]}"
+                for _mod in list(_sys.modules.values()):
+                    _sc = getattr(_mod, _subname, None)
+                    if _sc is not None and isinstance(_sc, type):
+                        _case_cls = _sc
+                        break
+
+            def make_constructor(fnames: list[str], ftypes: list[str], case_cls: typing.Any) -> typing.Any:
                 def constructor(*raw: typing.Any) -> int:
                     exn = raw[-1]
                     try:
@@ -203,26 +234,18 @@ class GeneratedRuntime:
                             fname: self._convert_from_ffi(v, ft)
                             for fname, v, ft in zip(fnames, raw[:-1], ftypes, strict=True)
                         }
-                        # Locate the case class/factory on cls.
-                        case_attr = getattr(cls, cname, None)
-                        if case_attr is None:
-                            # Try pascal-case subclass: MyEnum_SomeName
-                            subname = f"{cls.__name__}_{cname[0].upper()}{cname[1:]}"
-                            import sys
-                            frame = sys._getframe(1)
-                            case_attr = frame.f_globals.get(subname) or frame.f_builtins.get(subname)
-                        if kwargs:
-                            instance = case_attr(**kwargs) if callable(case_attr) else case_attr
+                        if callable(case_cls):
+                            instance = case_cls(**kwargs)
                         else:
-                            # No-payload case: use the sentinel value directly
-                            instance = case_attr
+                            # Non-callable sentinel (e.g. a plain enum member): use directly.
+                            instance = case_cls
                         return self._runtime.retain_foreign_object(instance)
                     except BaseException as error:
                         self._runtime.store_exception(exn, error)
                         return 0
                 return constructor
 
-            ctor_cb = constructor_type(make_constructor(case_name, field_names, ffi_types_only))
+            ctor_cb = constructor_type(make_constructor(field_names, ffi_types_only, _case_cls))
             self._callbacks.append(ctor_cb)
             callback_args.append(ctor_cb)
             function_argtypes.append(ctypes.c_void_p)
@@ -237,7 +260,7 @@ class GeneratedRuntime:
                     exn = raw[-1]
                     out_ptrs = raw[:-1]
                     try:
-                        value = ctypes.cast(ctypes.c_void_p(obj or 0), ctypes.py_object).value
+                        value = self._runtime.borrow_foreign_object(obj)
                         # Extract named field values from the case instance.
                         for out_ptr, fname, ffi_type in zip(out_ptrs, fnames, ftypes, strict=True):
                             field_val = getattr(value, fname)
@@ -295,8 +318,6 @@ class GeneratedRuntime:
             try:
                 instance = external_witness_cls(
                     native_ref=int(pointer or 0),
-                    native_type=external_witness_cls.__name__,
-                    _runtime=self._runtime,
                 )
                 return self._runtime.retain_foreign_object(instance)
             except BaseException as error:
@@ -317,7 +338,7 @@ class GeneratedRuntime:
             def make_getter(fname: str, ffi_ret: str) -> typing.Any:
                 def getter(obj: int | None, exn: ctypes.POINTER(ctypes.c_void_p)) -> typing.Any:
                     try:
-                        instance = ctypes.cast(ctypes.c_void_p(obj or 0), ctypes.py_object).value
+                        instance = self._runtime.borrow_foreign_object(obj)
                         return self._convert_to_ffi(getattr(instance, fname), ffi_ret)
                     except BaseException as error:
                         self._runtime.store_exception(exn, error)
@@ -343,7 +364,7 @@ class GeneratedRuntime:
                     exn = raw[-1]
                     params = raw[:-1]
                     try:
-                        instance = ctypes.cast(ctypes.c_void_p(obj or 0), ctypes.py_object).value
+                        instance = self._runtime.borrow_foreign_object(obj)
                         converted = [self._convert_from_ffi(v, t) for v, t in zip(params, pffi, strict=True)]
                         result = getattr(instance, mname)(*converted)
                         if rffi == "void":
@@ -401,7 +422,7 @@ class GeneratedRuntime:
 
             def getter(obj: int | None, exn: ctypes.POINTER(ctypes.c_void_p), *, _field=field_name, _ffi=ffi_name) -> typing.Any:
                 try:
-                    instance = ctypes.cast(ctypes.c_void_p(obj or 0), ctypes.py_object).value
+                    instance = self._runtime.borrow_foreign_object(obj)
                     return self._convert_to_ffi(getattr(instance, _field), _ffi)
                 except BaseException as error:
                     self._runtime.store_exception(exn, error)
@@ -424,7 +445,7 @@ class GeneratedRuntime:
                     _ffi=ffi_name,
                 ) -> None:
                     try:
-                        instance = ctypes.cast(ctypes.c_void_p(obj or 0), ctypes.py_object).value
+                        instance = self._runtime.borrow_foreign_object(obj)
                         setattr(instance, _field, self._convert_from_ffi(value, _ffi))
                     except BaseException as error:
                         self._runtime.store_exception(exn, error)
