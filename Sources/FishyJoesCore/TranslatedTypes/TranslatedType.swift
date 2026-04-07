@@ -104,7 +104,7 @@ extension TranslatedType {
         case is TranslatedData:
             return .primitive("bytes")
         case is TranslatedPrimitive:
-            switch sourceType.name {
+            switch sourceType.nonNamespacedName {
             case "Bool":
                 return .primitive("bool")
             case "Float", "Double":
@@ -155,7 +155,7 @@ extension TranslatedType {
              is TranslatedResult:
             return .object
         case is TranslatedPrimitive:
-            switch sourceType.name {
+            switch sourceType.nonNamespacedName {
             case "Bool":
                 return .bool
             case "Int8":
@@ -176,7 +176,7 @@ extension TranslatedType {
                 return .object
             }
         case is TranslatedUnsignedPrimitive:
-            switch sourceType.name {
+            switch sourceType.nonNamespacedName {
             case "UInt8":
                 return .uint8
             case "UInt16":
