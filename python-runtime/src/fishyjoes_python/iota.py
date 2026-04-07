@@ -50,7 +50,20 @@ def _decode_utf16_z(ptr: Any) -> str:
     return raw.decode("utf-16-le")
 
 
-def _borrow_python_value(handle: int | None) -> object | None:
+def _borrow_python_value(handle: Any) -> object | None:
+    """Return the Python object for *handle* without releasing it.
+
+    *handle* may be an ``int``, a ``ctypes.c_void_p`` (from the ctypes
+    compatibility shim), or a cffi cdata pointer.  ``None`` or zero means
+    "no object".
+    """
+    if handle is None:
+        return None
+    # Unwrap ctypes.c_void_p wrapper produced by _CffiSymbolWrapper.
+    if hasattr(handle, "value"):
+        handle = handle.value
+        if handle is None:
+            return None
     if not handle:
         return None
     return _ffi.from_handle(_ffi.cast("void*", handle))
@@ -237,6 +250,16 @@ class IotaRuntime:
         self._ensure_loaded()
         self._release(handle)
 
+    def borrow_foreign_object(self, handle: int | None) -> object | None:
+        """Return the Python object for *handle* without releasing it.
+
+        Use this when Swift calls a getter/discriminator callback that must
+        inspect the object but must NOT consume (release) the handle, since
+        Swift still holds a reference.
+        """
+        self._ensure_loaded()
+        return _borrow_python_value(handle)
+
     def consume_foreign_object(self, handle: int | None) -> object | None:
         self._ensure_loaded()
         value = _borrow_python_value(handle)
@@ -349,14 +372,30 @@ class IotaRuntime:
 
     def _release(self, handle: int | None) -> None:
         """Release a previously retained Python object."""
-        if handle is None or handle == 0:
+        if handle is None:
             return
-        self._handles.pop(handle, None)
+        # Unwrap ctypes.c_void_p (produced by the ctypes shim in runtime.py).
+        if hasattr(handle, "value"):
+            handle = handle.value
+        if not handle:
+            return
+        self._handles.pop(int(handle), None)
 
     def _set_exn(self, out_exn: Any, error: BaseException) -> None:
-        """Write an exception into a void** out-parameter."""
+        """Write an exception into a void** out-parameter.
+
+        ``out_exn`` may be either a cffi ``void*[1]`` pointer or a ctypes
+        ``POINTER(c_void_p)`` (when called from a ctypes CFUNCTYPE callback in
+        the generated ``runtime.py``).  We handle both.
+        """
         addr = self._retain(error)
-        out_exn[0] = _ffi.cast("void*", addr)
+        try:
+            # cffi path: out_exn is a cdata void*[1]
+            out_exn[0] = _ffi.cast("void*", addr)
+        except TypeError:
+            # ctypes path: out_exn is ctypes.POINTER(ctypes.c_void_p)
+            import ctypes as _ctypes
+            out_exn[0] = _ctypes.c_void_p(addr)
 
     def _raise_exception_handle(self, handle: int) -> None:
         value = _borrow_python_value(handle)
@@ -387,13 +426,18 @@ class IotaRuntime:
         addr = int(_ffi.cast("uintptr_t", obj))
         value = _borrow_python_value(addr)
         encoded = str(value).encode("utf-8")
-        buf = _ffi.new("char[]", len(encoded) + 1)
-        _ffi.memmove(buf, encoded, len(encoded))
-        buf[len(encoded)] = 0
-        # Keep the buffer alive — caller is responsible; for describe this is
-        # best-effort (the runtime copies the string before returning).
-        self._callbacks.append(buf)
-        return buf
+        # Swift calls free() on the returned pointer, so we must allocate with
+        # the C malloc that Swift's libc will free.  Use ctypes to get a real
+        # heap-allocated buffer instead of a cffi-managed one.
+        n = len(encoded) + 1
+        raw = ctypes.create_string_buffer(encoded, n)
+        # Allocate a real C-heap buffer via ctypes and copy into it.
+        libc_malloc = ctypes.pythonapi.malloc
+        libc_malloc.restype = ctypes.c_void_p
+        libc_malloc.argtypes = [ctypes.c_size_t]
+        ptr_int = libc_malloc(n)
+        ctypes.memmove(ptr_int, raw, n)
+        return _ffi.cast("void*", ptr_int)
 
     def _schedule_thread_work(self, _env: Any, context: Any) -> None:
         ctx_int = int(_ffi.cast("uintptr_t", context))
@@ -759,6 +803,15 @@ class _CffiSymbolWrapper:
         return self._convert_result(result, self._restype)
 
     def _convert_arg(self, arg: Any, ct: Any) -> Any:
+        # Determine whether ct is a pointer-like type (c_void_p or POINTER(X)).
+        # NOTE: do NOT use hasattr(ct, "_type_") — all Simple ctypes types have
+        # _type_, so that check incorrectly treats c_longlong etc. as pointers.
+        is_ptr_type = (
+            ct is ctypes.c_void_p
+            or ct is None
+            or (isinstance(ct, type) and issubclass(ct, ctypes._Pointer))
+        )
+
         if arg is None:
             return _ffi.NULL
         # Handle ctypes.byref(c_void_p) — used for void** out-params.
@@ -767,17 +820,20 @@ class _CffiSymbolWrapper:
             ptr = _ffi.cast("void**", ctypes.addressof(obj))
             return ptr
         if hasattr(arg, "value"):
-            # ctypes c_void_p / c_int / etc.
+            # ctypes c_void_p / c_int / etc. wrapper object.
             raw = arg.value
             if raw is None:
                 return _ffi.NULL
-            return _ffi.cast("void*", raw)
+            if is_ptr_type:
+                return _ffi.cast("void*", raw)
+            return raw
         if isinstance(arg, int):
-            return _ffi.cast("void*", arg)
+            if is_ptr_type:
+                return _ffi.cast("void*", arg)
+            return arg
+        if isinstance(arg, float):
+            return arg
         # ctypes function pointer (CFUNCTYPE callback) — cast through c_void_p.
-        if isinstance(arg, ctypes.c_void_p.__class__.__mro__[0]):
-            # Fallback: try ctypes.cast to c_void_p.
-            pass
         try:
             raw_ptr = ctypes.cast(arg, ctypes.c_void_p).value
             if raw_ptr is not None:
