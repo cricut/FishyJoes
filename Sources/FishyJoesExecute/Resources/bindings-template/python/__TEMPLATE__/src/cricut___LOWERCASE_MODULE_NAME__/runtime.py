@@ -135,7 +135,7 @@ class GeneratedRuntime:
         setup_symbol: str,
         cls: type,
         is_inhabited: bool,
-        case_specs: list[tuple[str, list[str]]],
+        case_specs: list[tuple[str, list[tuple[str, str]]]],
     ) -> None:
         """Register an enum type with the Iota ABI.
 
@@ -143,7 +143,7 @@ class GeneratedRuntime:
             setup_symbol: The @_cdecl symbol name for the enum's setup function.
             cls: The Python enum/sum-type class.
             is_inhabited: True if the enum has at least one case (False for empty enums).
-            case_specs: List of (case_name, [ffi_type_per_associated_value]) tuples.
+            case_specs: List of (case_name, [(field_name, ffi_type), ...]) tuples.
         """
         self.ensure_loaded()
         assert self._runtime is not None
@@ -186,29 +186,33 @@ class GeneratedRuntime:
             callback_args.append(disc_cb)
             function_argtypes.append(ctypes.c_void_p)
 
-        for case_name, value_ffi_types in case_specs:
-            ctypes_value_types = [_ffi_ctypes_type(t) for t in value_ffi_types]
+        for case_name, value_field_specs in case_specs:
+            # value_field_specs: list of (field_name, ffi_type) pairs
+            field_names = [fn for fn, _ in value_field_specs]
+            ffi_types_only = [ft for _, ft in value_field_specs]
+            ctypes_value_types = [_ffi_ctypes_type(t) for t in ffi_types_only]
 
             # constructor: (value_types..., foreignOutExn) -> foreignObject
             constructor_type = ctypes.CFUNCTYPE(ctypes.c_void_p, *ctypes_value_types, ctypes.POINTER(ctypes.c_void_p))
 
-            def make_constructor(cname: str, ffi_types: list[str]) -> typing.Any:
+            def make_constructor(cname: str, fnames: list[str], ftypes: list[str]) -> typing.Any:
                 def constructor(*raw: typing.Any) -> int:
                     exn = raw[-1]
                     try:
-                        field_values = [
-                            self._convert_from_ffi(v, ft) for v, ft in zip(raw[:-1], ffi_types, strict=True)
-                        ]
+                        kwargs = {
+                            fname: self._convert_from_ffi(v, ft)
+                            for fname, v, ft in zip(fnames, raw[:-1], ftypes, strict=True)
+                        }
                         # Locate the case class/factory on cls.
                         case_attr = getattr(cls, cname, None)
                         if case_attr is None:
-                            # Try pascal-case subclass: AssociatedDataEnum_SomeName
+                            # Try pascal-case subclass: MyEnum_SomeName
                             subname = f"{cls.__name__}_{cname[0].upper()}{cname[1:]}"
                             import sys
                             frame = sys._getframe(1)
                             case_attr = frame.f_globals.get(subname) or frame.f_builtins.get(subname)
-                        if field_values:
-                            instance = case_attr(*field_values) if callable(case_attr) else case_attr
+                        if kwargs:
+                            instance = case_attr(**kwargs) if callable(case_attr) else case_attr
                         else:
                             # No-payload case: use the sentinel value directly
                             instance = case_attr
@@ -218,7 +222,7 @@ class GeneratedRuntime:
                         return 0
                 return constructor
 
-            ctor_cb = constructor_type(make_constructor(case_name, value_ffi_types))
+            ctor_cb = constructor_type(make_constructor(case_name, field_names, ffi_types_only))
             self._callbacks.append(ctor_cb)
             callback_args.append(ctor_cb)
             function_argtypes.append(ctypes.c_void_p)
@@ -228,28 +232,22 @@ class GeneratedRuntime:
                 None, ctypes.c_void_p, *[ctypes.c_void_p] * len(ctypes_value_types), ctypes.POINTER(ctypes.c_void_p)
             )
 
-            def make_extractor(cname: str, ffi_types: list[str]) -> typing.Any:
+            def make_extractor(fnames: list[str], ftypes: list[str]) -> typing.Any:
                 def extractor(obj: int | None, *raw: typing.Any) -> None:
                     exn = raw[-1]
                     out_ptrs = raw[:-1]
                     try:
                         value = ctypes.cast(ctypes.c_void_p(obj or 0), ctypes.py_object).value
-                        # Extract field values from the case instance.
-                        for i, (out_ptr, ffi_type) in enumerate(zip(out_ptrs, ffi_types, strict=True)):
-                            field_val: typing.Any
-                            if hasattr(value, f"_{i}"):
-                                field_val = getattr(value, f"_{i}")
-                            elif hasattr(value, "__iter__") and not isinstance(value, str):
-                                field_val = list(value)[i]
-                            else:
-                                field_val = value
+                        # Extract named field values from the case instance.
+                        for out_ptr, fname, ffi_type in zip(out_ptrs, fnames, ftypes, strict=True):
+                            field_val = getattr(value, fname)
                             native_val = self._convert_to_ffi(field_val, ffi_type)
                             ctypes.cast(out_ptr, ctypes.POINTER(_ffi_ctypes_type(ffi_type)))[0] = native_val
                     except BaseException as error:
                         self._runtime.store_exception(exn, error)
                 return extractor
 
-            ext_cb = extractor_type(make_extractor(case_name, value_ffi_types))
+            ext_cb = extractor_type(make_extractor(field_names, ffi_types_only))
             self._callbacks.append(ext_cb)
             callback_args.append(ext_cb)
             function_argtypes.append(ctypes.c_void_p)

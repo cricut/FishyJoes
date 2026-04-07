@@ -97,7 +97,7 @@ def ensure_loaded() -> None:
     _runtime.setup_protocol_type("TestAPI_CommonInterface__AProtocolConverter_setup", ExternalWitness_AProtocol, [("baz", "object"), ("foo", "object")], [("bar", ["object", "object"], "object")])
     _runtime.setup_struct_type("TestAPI_AProtocolImplementation_setup", AProtocolImplementation, [("foo", "object"), ("baz", "object")], {"foo", "baz"})
     _runtime.setup_enum_type("TestAPI_Actors_setup", Actors, False, [])
-    _runtime.setup_enum_type("TestAPI_AssociatedDataEnum_setup", AssociatedDataEnum, True, [("thing", ["object"]), ("other", ["object", "object"]), ("bar", ["object", "object", "object"]), ("noValue", []), ("simpleEnum", ["object"])])
+    _runtime.setup_enum_type("TestAPI_AssociatedDataEnum_setup", AssociatedDataEnum, True, [("thing", [("value", "object")]), ("other", [("unnamed", "object"), ("_1", "object")]), ("bar", [("named", "object"), ("_1", "object"), ("toggled", "object")]), ("noValue", []), ("simpleEnum", [("value", "object")])])
     _runtime.setup_enum_type("TestAPI_AsyncFunctions_setup", AsyncFunctions, False, [])
     _runtime.setup_enum_type("TestAPI_AttributedStrings_setup", AttributedStrings, False, [])
     _runtime.setup_enum_type("TestAPI_Bytes_setup", Bytes, False, [])

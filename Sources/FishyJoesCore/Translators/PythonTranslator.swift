@@ -33,11 +33,11 @@ final class PythonTranslator: Translator {
                     fragment.output("_runtime.setup_reference_type(\"\(reference.iotaSetupName)\", \(reference.sourceType.nonNamespacedName))")
                 case let enumType as TranslatedEnum where enumType.definingModule == context.module:
                     let caseSpecs = enumType.cases.map { enumCase in
-                        let valueFFITypes = enumCase.associatedValues.map { value in
+                        let valueSpecs = enumCase.associatedValues.map { value in
                             let resolvedValue = context.resolve(type: value.type)
-                            return "\"\(resolvedValue.pythonFFIType.rawValue)\""
+                            return "(\"\(value.bindingName)\", \"\(resolvedValue.pythonFFIType.rawValue)\")"
                         }.joined(separator: ", ")
-                        return "(\"\(enumCase.name)\", [\(valueFFITypes)])"
+                        return "(\"\(enumCase.name)\", [\(valueSpecs)])"
                     }.joined(separator: ", ")
                     fragment.output(
                         "_runtime.setup_enum_type(\"\(enumType.iotaSetupName)\", \(enumType.sourceType.nonNamespacedName), \(enumType.isInhabited ? "True" : "False"), [\(caseSpecs)])"
