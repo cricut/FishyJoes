@@ -10,7 +10,7 @@ Bindings generator for Swift library code so it can be called from TypeScript, K
 
 [What FishyJoes Can and Cannot Do](documentation/cans-and-cannots.md)
 
-# Installing Dependencies on MacOS
+# Getting Started
 
 [FishyJoes Hello World](https://github.com/cricut/FishyJoes/blob/main/documentation/FishyJoes%20Hello%20World.txt)
 
@@ -75,105 +75,7 @@ public struct SomeSwiftType {
 }
 ```
 
-## Package Init
-
-TODO: Description
-
-To see if there are difference in how FishyJoes expects the bindings repository to be structured, commit/stash any changes and run
-```
-swift run fishy-joes package-init
-git diff
-```
-
-These are recommendations only, take or leave the changes.
-
-## Command Line Options
-
-### Dependency version control
-
-By default, FishyJoes translates Swift Package Manager dependency versions to exact versions in generated packages. Use `--flexible-versions` to generate flexible version constraints instead.
-
-Without `--flexible-versions`:
-- NuGet: `[2.19.4]`
-- NPM/Dart: `2.19.4`
-- Gradle: `2.19.4`
-
-With `--flexible-versions`:
-- NuGet: `[2.19.4,3.0.0)` for upToNextMajor constraints
-- NPM/Dart: `^2.19.4` for upToNextMajor, `~1.2.3` for upToNextMinor
-- Gradle: `[2.19.4,3.0.0)` for upToNextMajor, `[1.2.3,1.3.0)` for upToNextMinor
-
-Example:
-```
-swift run fishy-joes --kotlin-fast --flexible-versions generate build test
-```
-
-The `--flexible-versions` flag translates Swift Package Manager version constraints:
-- `.upToNextMajor` to caret notation (`^`) or bracket ranges
-- `.upToNextMinor` to tilde notation (`~`) or bracket ranges
-- `.exact`, `.revision`, `.branch` remain exact regardless of flag
-
-## Updating exported library
-
-0. Update version in Package.swift
-
-1. `swift run fishy-joes generate`
-
-2. (optional) Test locally. See pre-requisites in next section, then
-
-```
-swift run fishy-joes build test --wasm --nodejs --kotlin-fast
-```
-
-## Starting a new bindings repo
-
-0. prerequesites (macOS):
-
-   (See section "Installing Dependencies on MacOS" above)
-
-   Install mint: `brew install mint`
-
-   Note: Mint is a package manager that installs and runs Swift command line tool packages
-
-2. Optional, if need to test on android emulators/devices) Install Docker:
-
-   1. `brew install rancher`
-   2. create missing folder on macOS: `sudo mkdir -p /private/etc/sudoers.d`
-   3. open "Rancher Desktop.app"
-   4. click "accept"
-   5. enter password to finish install
-   6. authenticate with your github PAT: `nerdctl login ghcr.io`
-
-3. In a new git repository, named `YourAwesomeLibrary-bindings`:
-```
-mint run --executable fishy-joes cricut/FishyJoes package-init
-```
-Fill in a few details about the swift target and bindings repo when asked
-
-3. Annotate swift source symbols that you want exported. e.g.
-```swift
-/// <!-- FishyJoes.exportReference(Foo) -->
-public struct Foo {
-   ...
-
-   /// <!-- FishyJoes.export(bazFrom) -->
-   func baz(from:)
-}
-```
-
-4. Modify/create the test files at `node-test/*.test.ts` to exercise your library in typescript
-
-5. generate, build and test!
-`swift run fishy-joes --wasm --nodejs generate build test`
-
-6. Modify and probably rename the test files in `kotlin/src/test/**/*.kt` to exercise your library in kotlin
-
-7. generate, build and test!
-`swift run fishy-joes --kotlin-fast generate build test`
-
-8. Publish!
-
-## How to run on windows (you can't generate code on windows, but you can build and test)
+## How to run on Windows (you can't generate code on Windows, but you can build and test)
 
 0. Install VS with x64 tools:
 ```powershell
