@@ -265,13 +265,6 @@ cd kotlin-runtime
 ### Run fishy joes
 Now you should be able to run `swift run fishy-joes build test --node-js --dart --c-sharp --kotlin-fast --debug` as usual in the integration-tests\TestAPI-bindings directory.
 
-## Other tutorials
-[Setup Windows for specific version of Swift 5.10 (not recommended)](documentation/windows-swift-5.10.x.md)
-
-[Tutorial by Matt](https://cricut.sharepoint.com/:v:/r/sites/softwareteam/Shared%20Documents/Team-Enablement-Client/Cross-Platform%20Code%20Introduction.mp4?csf=1&web=1&e=vSEVMc)
-
-[Async Working Session](https://cricut-my.sharepoint.com/personal/jha_cricut_com/_layouts/15/stream.aspx?id=%2Fpersonal%2Fjha%5Fcricut%5Fcom%2FDocuments%2FRecordings%2FDart%20Async%20Work%20Session%2D20231214%5F080339%2DMeeting%20Recording%2Emp4&referrer=StreamWebApp%2EWeb&referrerScenario=AddressBarCopied%2Eview&ga=1)
-
 ## License
 
 Copyright 2026 Cricut, Inc. and the Cricut project contributors. Licensed under
