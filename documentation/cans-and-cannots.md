@@ -1,12 +1,10 @@
-<p align="center"><img src="logo.png" alt="FishyJoes" width="132" height="132"/></p>
-
 # FishyJoes Cans and Cannots
 
 FishyJoes exposes a subset of swift interfaces to several other languages. This is an incomplete subset for 3 primary reasons:
 
 1. No one has asked for it yet
-2. It is not equally-representable in all languages
-3. Andrew (or someone else :slightly_smiling_face:) hasn't gotten around to it yet
+2. No one has gotten around to it yet
+3. It is not equally-representable in all languages
 
 ## Standard Types
  - :white_check_mark: Void, Int, UInt, Int64, Float, Double, String, etc.
@@ -83,8 +81,7 @@ FishyJoes exposes a subset of swift interfaces to several other languages. This 
  - :white_check_mark: documentation comments
     - :x: cross-references within the comments
  - :white_check_mark: deprecations
- - :emojis and keywords can not be exported via FishyJoes
-
+ 
 ## WASM things
  - :white_check_mark: Swift, C, C++
  - :x: Using the file system
