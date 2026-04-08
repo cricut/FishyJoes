@@ -1,34 +1,23 @@
-<p align="center"><img src="documentation/logo.png" alt="FishyJoes" width="265" height="265"/></p>
-
 # Status
 
 [![Build & test](https://github.com/cricut/FishyJoes/actions/workflows/unit-tests.yaml/badge.svg?branch=main)](https://github.com/cricut/FishyJoes/actions/workflows/unit-tests.yaml)
 [![Integration tests](https://github.com/cricut/FishyJoes/actions/workflows/integration-tests.yaml/badge.svg?branch=main)](https://github.com/cricut/FishyJoes/actions/workflows/integration-tests.yaml)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=cricut_FishyJoes&metric=coverage&token=79e3bcd46a5eb309f9f0b2e8a5214fce0ce9bcb7)](https://sonarcloud.io/summary/new_code?id=cricut_FishyJoes)
 
-# Maintainer
-
-Client Enablement
-
 # Description
 
 Generates bindings for (some) swift library code that can be called from TypeScript and Kotlin.
 
+[What FishyJoes Can and Cannot Do](documentation/cans-and-cannots.md)
+
 # Installing Dependencies on MacOS
-
-The recommended way to ensure you have everything you will need for any FishyJoes project is to check that you can generate and build CriGeo-bindings:
-
-[Everything Needed To Generate And Compile (CriGeo-bindings)](https://github.com/cricut/CriGeo-bindings/blob/main/EverythingNeededToGenerateAndCompile.md)
-
-Once you can successfully run the code generation and test suite for CriGeo-bindings, consider creating a simple Hello World style project from scratch:
 
 [FishyJoes Hello World](https://github.com/cricut/FishyJoes/blob/main/documentation/FishyJoes%20Hello%20World.txt)
 
-# FAQ
-1. [What FishyJoes Can and Cannot Do](documentation/cans-and-cannots.md)
-2. Was that a question?
-   **No, but it was frequently asked**
-3. What annotations can be made to Swift code to mark it for FishyJoes to process?
+# Export Annotations
+
+Bindings are only generated for types which have been annotated for export. Examples of exports are given below:
+
 ```swift
 // Export a Swift named type for use in foreign languages
 // The way that type is expressed based on the Swift type (class, struct, enum, protocol)
@@ -86,17 +75,9 @@ public struct SomeSwiftType {
 }
 ```
 
-# Overview
+## Package Init
 
-## Pretty pictures
-
-[![Generation process](https://lucid.app/publicSegments/view/eaa9f26a-fbab-4b07-856d-dbcfb5722eec/image.png)](https://lucid.app/lucidchart/cac16522-9201-4b7d-9c23-1ad5bc83c8b5/edit)
-
-[![FishyJoesCore](https://lucid.app/publicSegments/view/8d45425b-0134-4142-adb0-ac1bf4c0d50f/image.png)](https://lucid.app/lucidchart/cac16522-9201-4b7d-9c23-1ad5bc83c8b5/edit)
-
-## Updating fishyjoes in a bindings repo
-
-Update `fishyJoesVersion` in Package.swift.
+TODO: Description
 
 To see if there are difference in how FishyJoes expects the bindings repository to be structured, commit/stash any changes and run
 ```
