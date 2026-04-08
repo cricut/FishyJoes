@@ -25,22 +25,25 @@ Bindings are only generated for Swift types which have been annotated for export
 ```swift
 // Export a Swift named type for use in foreign languages
 //
-// The way that type is expressed based on the Swift type (class, struct, enum, protocol)
-// * Class types are exported by-reference, with the foreign type only storing a pointer to the Swift instance
-// * Structure types are exported member-wise, the foreign type storing copies of the Swift instance stored properties
-// * Enumeration types are exported case-wise, with cases defined in an outer type in the foreign language
-// * Protocol types cannot be exported directly, but a type implementing a protocol may be exported
+// The way the type is expressed is based on the Swift type (class, struct, enum, protocol)
+// * Class types are exported by-reference; foreign type only stores a Swift instance pointer
+// * Structure types are exported member-wise; foreign type stores copies of stored properties
+// * Enumeration types are exported case-wise; foreign outer type defines each case
+// * Protocol types are exported using a compatible foreign language mechanism
 
 /// <!-- FishyJoes.export(DesiredForeignTypeNameForClass) -->
-public class SomeClassType { /* properties or methods that should also be available must be exported individually */ }
+public class SomeClassType { /* properties or methods must be exported individually */ }
 
 /// <!-- FishyJoes.export(DesiredForeignTypeNameForStruct) -->
-public struct SomeStructType { /* must have a public initializer taking all stored properties as parameters */ }
+public struct SomeStructType { /* needs a public initializer taking all stored properties */ }
 
 /// <!-- FishyJoes.export(DesiredForeignTypeNameForEnum) -->
-public enum SomeEnumType { /* cases are exported, but properties or methods must be exported individually */ }
+public enum SomeEnumType { /* cases are exported; methods must be exported individually */ }
 
-// Export a value type (a struct or enum) by reference, stored properties must be exported individually
+/// <!-- FishyJoes.export(DesiredForeignTypeNameForProtocol) -->
+public protocol SomeProtocolType { /* defined properties & methods appear in foreign type */ }
+
+// Export a value type by reference; stored properties & methods must be exported individually
 /// <!-- FishyJoes.exportReference(DesiredForeignTypeName) -->
 public struct SomeSwiftType {
     // Export a property of a type (the type of the property must also be exported)
@@ -51,23 +54,23 @@ public struct SomeSwiftType {
     /// <!-- FishyJoes.export(desiredForeignTypeLevelMethodName) -->
     public init(parameter: SomeOtherSwiftType) { \* ... *\ }
 
-    // Export a method of a type (the types of the parameters & return type must also be exported)
+    // Export a method of a type (types of the parameters & return type must also be exported)
     /// <!-- FishyJoes.export(desiredForeignMethodName) -->
     public func someMethod(parameter: SomeOtherSwiftType) -> YetAnotherSwiftType { \* ... *\ }
 
-    // Export a method that uses a generic, which requires mapping the generic to a concrete type in order to export it
-    /// <!-- FishyJoes.export(someGenericMethod, generic: [G: [SomeConcreteSwiftTypeSatisfyingG]) -->
+    // Export a method that uses a generic, which requires mapping the generic to a type
+    /// <!-- FishyJoes.export(someGenericMethod, generic: [G: [SomeTypeSatisfyingG]) -->
     public func someGenericMethod<G: Generic>(parameter: G) { \* ... *\ }
 
     // Export a method, then add parameters with defaults later, without breaking interface
-    /// <!-- FishyJoes.export(someMethodThatChanges, compatibilityOrder: [newParameterTwo]) -->
-    public func someMethodThatChanges(parameterOne: Int, newParameterTwo: SomeOtherSwiftType? = nil) { \* ... *\ }
+    /// <!-- FishyJoes.export(someMethodThatChanges, compatibilityOrder: [newParamTwo]) -->
+    public func someMethodThatChanges(paramOne: Int, newParamTwo: SomeOtherSwiftType? = nil) {}
 
-    // Export a method omitting one or more parameters that have default values from the foreign interface
-    /// <!-- FishyJoes.export(someMethodWithOptionals, omitParameters: [someDefaultedParameter]) -->
-    public func someMethodWithOptionals(parameter: SomeOtherSwiftType someDefaultedParameter: Int? = nil) { \* ... *\ }
+    // Export a method omitting one or more parameters that have default values
+    /// <!-- FishyJoes.export(someMethodWithOptionals, omitParameters: [defaultedParam]) -->
+    public func someMethodWithOptionals(param: Int, defaultedParam: Int? = nil) { \* ... *\ }
 
-    // Export a method overriding a method of a base type, annotating it as such in languages that support it
+    // Export a method overriding a method of a base type; annotates it in the foreign language
     /// <!-- FishyJoes.export(someExistingMethod, isOverride) -->
     public func someExistingMethod() { \* ... *\ }
 
@@ -77,7 +80,7 @@ public struct SomeSwiftType {
 
     // Export a method with a different name for C# than other foreign languages
     // The annotation can also be used on property and type exports
-    // This example would export as "AbcMethod" in C# without the annotation, following C# capitalization rules
+    // This example would export as "AbcMethod" in C# without the annotation
     /// <!-- FishyJoes.export(abcMethod, cSharp: ABCMethod) -->
     public func abcMethod() { \* ... *\ }
 }
