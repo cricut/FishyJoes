@@ -12,7 +12,7 @@ Bindings generator for Swift library code so it can be called from TypeScript, K
 
 # Getting Started
 
-[FishyJoes Hello World](https://github.com/cricut/FishyJoes/blob/main/documentation/FishyJoes%20Hello%20World.txt)
+TODO: EmojiExplorer example
 
 A system is setup if the following command succeeds: `swift run fishy-joes build test --wasm --kotlin-fast --c-sharp --dart --debug`
 
