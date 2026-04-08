@@ -14,7 +14,9 @@ Bindings generator for Swift library code so it can be called from TypeScript, K
 
 TODO: EmojiExplorer example
 
-A system is setup if the following command succeeds: `swift run fishy-joes build test --wasm --kotlin-fast --c-sharp --dart --debug`
+A system is setup if running the following command succeeds when run in the same directory as Package.swift: 
+
+`swift run fishy-joes build test --wasm --kotlin-fast --c-sharp --dart --debug`
 
 # Export Annotations
 
