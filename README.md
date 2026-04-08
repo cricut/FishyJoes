@@ -14,25 +14,31 @@ Bindings generator for Swift library code so it can be called from TypeScript, K
 
 [FishyJoes Hello World](https://github.com/cricut/FishyJoes/blob/main/documentation/FishyJoes%20Hello%20World.txt)
 
+A system is setup if the following command succeeds: `swift run fishy-joes build test --wasm --kotlin-fast --c-sharp --dart --debug`
+
 # Export Annotations
 
-Bindings are only generated for types which have been annotated for export. Examples of exports are given below:
+Bindings are only generated for Swift types which have been annotated for export. Examples of exports are given below:
 
 ```swift
 // Export a Swift named type for use in foreign languages
+//
 // The way that type is expressed based on the Swift type (class, struct, enum, protocol)
 // * Class types are exported by-reference, with the foreign type only storing a pointer to the Swift instance
 // * Structure types are exported member-wise, the foreign type storing copies of the Swift instance stored properties
 // * Enumeration types are exported case-wise, with cases defined in an outer type in the foreign language
 // * Protocol types cannot be exported directly, but a type implementing a protocol may be exported
+
 /// <!-- FishyJoes.export(DesiredForeignTypeNameForClass) -->
 public class SomeClassType { /* properties or methods that should also be available must be exported individually */ }
+
 /// <!-- FishyJoes.export(DesiredForeignTypeNameForStruct) -->
 public struct SomeStructType { /* must have a public initializer taking all stored properties as parameters */ }
+
 /// <!-- FishyJoes.export(DesiredForeignTypeNameForEnum) -->
 public enum SomeEnumType { /* cases are exported, but properties or methods must be exported individually */ }
 
-// Export a structure type (or enum type) by reference, stored properties must be exported individually
+// Export a value type (a struct or enum) by reference, stored properties must be exported individually
 /// <!-- FishyJoes.exportReference(DesiredForeignTypeName) -->
 public struct SomeSwiftType {
     // Export a property of a type (the type of the property must also be exported)
@@ -74,79 +80,6 @@ public struct SomeSwiftType {
     public func abcMethod() { \* ... *\ }
 }
 ```
-
-## How to run on Windows (you can't generate code on Windows, but you can build and test)
-
-0. Install VS with x64 tools:
-```powershell
-winget install --id Microsoft.VisualStudio.2022.Professional --exact --force --custom "--add Microsoft.VisualStudio.Component.Windows11SDK.22000 --add Microsoft.VisualStudio.Component.VC.Tools.x86.x64"
-```
-
-1. Install swift
-```powershell
-winget install --id Swift.Toolchain --exact --force --architecture x64
-```
-
-2. Authenticate with github
-```powershell
-winget install --id GitHub.cli
-gh auth login
-```
-
-3. (Optional) If building Bifrost, install vcpkg and openssl
-
-In powershell:
-```powershell
-git clone https://github.com/microsoft/vcpkg.git
-cd vcpkg; .\bootstrap-vcpkg.bat; [Environment]::SetEnvironmentVariable("VCPKG_ROOT", $PWD, "User")
-
-# (relaunch shell)
-
-& "$env:VCPKG_ROOT\vcpkg.exe" install openssl:x64-windows-static
-```
-
-4. In "x64 Native Tools Command Prompt"
-```
-swift build
-```
-
-### Install Flutter version 3.19.4 x64, which comes with Dart 3.3.2
-https://docs.flutter.dev/release/archive
-
-### Install dotnet version 6.0
-https://github.com/dotnet/core/blob/main/release-notes/6.0/README.md
-
-Add `c:\Program Files\dotnet\x64` to PATH environment variable
-
-Note: you may have to edit the c-sharp\*.sln file to use `Debug|x64` instead of `Debug|Any CPU` for it to work in the x64 native tools command prompt.
-
-### Install Android Studio Jellyfish 2023.3.1
-https://developer.android.com/studio/releases/past-releases/as-jellyfish-release-notes#android-studio-jellyfish-|-2023.3.1-patch-2-and-agp-8.4.2-june-2024
-
-### install nvm-windows
-
-install and select same node version as specified elsewhere with nvm
-
-Make a ~/.npmrc file (~ is `C:\Users\<yourUserName>`). It should be in this format (fill in your github personal access token):
-
-@cricut-plugin:registry=https://cricut.myget.org/F/cricut/npm/
-always-auth=true
-registry=https://registry.npmjs.org/
-@cricut:registry=https://npm.pkg.github.com/
-//npm.pkg.github.com/:_authToken=<put your github personal auth token here>
-//registry.npmjs.org/:_authToken=<put your npm token here>
-
-### Build fishy joes runtimes
-bash .\scripts\compile-node-runtime.sh
-bash .\scripts\compile-iota-runtime.sh
-bash .\scripts\compile-kotlin-native-runtime.sh
-cd kotlin-runtime
-.\gradlew publishToMavenLocal
-
-(you must build runtimes first before you can run tests in integration-tests\TestAPI-bindings)
-
-### Run fishy joes
-Now you should be able to run `swift run fishy-joes build test --node-js --dart --c-sharp --kotlin-fast --debug` as usual in the integration-tests\TestAPI-bindings directory.
 
 ## License
 
