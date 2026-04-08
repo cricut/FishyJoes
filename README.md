@@ -54,15 +54,15 @@ public struct SomeSwiftType {
 
     // Export an initializer of a type (creates a type-level method on the foreign type)
     /// <!-- FishyJoes.export(desiredForeignTypeLevelMethodName) -->
-    public init(parameter: SomeOtherSwiftType) { \* ... *\ }
+    public init(parameter: SomeOtherSwiftType) { /* ... */ }
 
     // Export a method of a type (types of the parameters & return type must also be exported)
     /// <!-- FishyJoes.export(desiredForeignMethodName) -->
-    public func someMethod(parameter: SomeOtherSwiftType) -> YetAnotherSwiftType { \* ... *\ }
+    public func someMethod(parameter: SomeOtherSwiftType) -> YetAnotherSwiftType { /* ... */ }
 
     // Export a method that uses a generic, which requires mapping the generic to a type
     /// <!-- FishyJoes.export(someGenericMethod, generic: [G: [SomeTypeSatisfyingG]) -->
-    public func someGenericMethod<G: Generic>(parameter: G) { \* ... *\ }
+    public func someGenericMethod<G: Generic>(parameter: G) { /* ... */ }
 
     // Export a method, then add parameters with defaults later, without breaking interface
     /// <!-- FishyJoes.export(someMethodThatChanges, compatibilityOrder: [newParamTwo]) -->
@@ -70,11 +70,11 @@ public struct SomeSwiftType {
 
     // Export a method omitting one or more parameters that have default values
     /// <!-- FishyJoes.export(someMethodWithOptionals, omitParameters: [defaultedParam]) -->
-    public func someMethodWithOptionals(param: Int, defaultedParam: Int? = nil) { \* ... *\ }
+    public func someMethodWithOptionals(param: Int, defaultedParam: Int? = nil) { /* ... */ }
 
     // Export a method overriding a method of a base type; annotates it in the foreign language
     /// <!-- FishyJoes.export(someExistingMethod, isOverride) -->
-    public func someExistingMethod() { \* ... *\ }
+    public func someExistingMethod() { /* ... */ }
 
     // Export a method that never returns, annotating it as such in languages that support it
     /// <!-- FishyJoes.export(kill, noReturn) -->
@@ -84,7 +84,7 @@ public struct SomeSwiftType {
     // The annotation can also be used on property and type exports
     // This example would export as "AbcMethod" in C# without the annotation
     /// <!-- FishyJoes.export(abcMethod, cSharp: ABCMethod) -->
-    public func abcMethod() { \* ... *\ }
+    public func abcMethod() { /* ... */ }
 }
 ```
 
