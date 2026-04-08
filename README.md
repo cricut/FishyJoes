@@ -6,7 +6,7 @@
 
 # Description
 
-Generates bindings for (some) swift library code that can be called from TypeScript and Kotlin.
+Bindings generator for Swift library code so it can be called from TypeScript, Kotlin, C#, and Dart.
 
 [What FishyJoes Can and Cannot Do](documentation/cans-and-cannots.md)
 

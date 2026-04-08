@@ -1,9 +1,9 @@
-CriGeo/bindings/
+MyGreatLibrary/bindings/
 ├── fishy-joes.yaml
 ├── swift-interfaces/
 │   ├── Package.part.swift
 │   └── generated/
-│       ├── CriGeo-bindings/
+│       ├── MyGreatLibrary-bindings/
 │       │   ├── Package.swift
 │       │   └── Sources/
 │       │       ├── CommonInterface/
@@ -13,21 +13,21 @@ CriGeo/bindings/
 │       │       └── WasmMainShim/
 │       ├── NodeNativeShim/
 │       │   └── NAPIRegisterModule.c
-│       └── CriGeo.fishyjoesmodule
+│       └── MyGreatLibrary.fishyjoesmodule
 ├── kotlin/
 │   ├── generated/
 │   │   ├── build.gradle.kts
 │   │   └── src/main/kotlin/
-│   │       └── com/cricut/crigeo/
-│   │           └── CriGeoLoaderRepresentative.kt
-│   └── tests/kotlin/com/cricut/crigeo/
+│   │       └── com/my-organization/my-great-library/
+│   │           └── MyGreatLibraryLoaderRepresentative.kt
+│   └── tests/kotlin/com/my-organization/my-great-library/
 │       └── PathTest.kt
 ├── ts/
 │   ├── package.override.json
-│   ├── CriGeo.extensions.d.ts.part
-│   ├── CriGeo.extensions.js
+│   ├── MyGreatLibrary.extensions.d.ts.part
+│   ├── MyGreatLibrary.extensions.js
 │   ├── generated/
-│   │   ├── CriGeo.d.ts.part
+│   │   ├── MyGreatLibrary.d.ts.part
 │   │   └── packages/    // Not committed
 │   │       ├── node-native-macos/
 │   │       └── wasm/
@@ -39,7 +39,7 @@ CriGeo/bindings/
 │       ├── test.ts
 │       ├── tsconfig.json    // '{ "extends": "./generated/tsconfig.json" }'
 │       └── generated/
-│           ├── CriGeo.d.ts    // not committed
+│           ├── MyGreatLibrary.d.ts    // not committed
 │           ├── jest.config.common.cjs
 │           ├── jest.config.native-macos.cjs
 │           ├── jest.config.native-ubuntu.cjs
@@ -48,25 +48,25 @@ CriGeo/bindings/
 │           ├── package.generated.json
 │           └── tsconfig.json
 ├── c-sharp/
-│   ├── Cricut.CriGeo.Tests/
-│   │   ├── Cricut.CriGeo.Tests.csproj
+│   ├── MyOrganization.MyGreatLibrary.Tests/
+│   │   ├── MyOrganization.MyGreatLibrary.Tests.csproj
 │   │   └── PathTests.cs
 │   ├── generated/
-│   │   ├── Cricut.CriGeo.sln
-│   │   └── Cricut.CriGeo/
-│   │       ├── Cricut.CriGeo.csproj
+│   │   ├── MyOrganization.MyGreatLibrary.sln
+│   │   └── MyOrganization.MyGreatLibrary/
+│   │       ├── MyOrganization.MyGreatLibrary.csproj
 │   │       ├── Path.cs
 │   │       └── runtimes/osx/native/    // not committed
-│   │           ├── libCriGeo-iota.dylib
-│   │           └── libCriGeo.dylib
+│   │           ├── libMyGreatLibrary-iota.dylib
+│   │           └── libMyGreatLibrary.dylib
 │   └── nupkgs/    // not committed
-│       └── Cricut.CriGeo.0.0.1-unknown.nupkg
+│       └── MyOrganization.MyGreatLibrary.0.0.1-unknown.nupkg
 ├── dart/
 │   ├── pubspec.override.yaml
 │   ├── flutter-pubspec.override.yaml
 │   ├── generated/
 │   │   ├── lib/
-│   │   │   └── crigeo.dart
+│   │   │   └── my-great-library.dart
 │   │   ├── test -> ../test
 │   │   ├── pubspec.yaml
 │   │   ├── flutter-pubspec.yaml
@@ -75,7 +75,7 @@ CriGeo/bindings/
 │   │   │   ├── package.json
 │   │   │   └── pubspec.yaml
 │   │   ├── linux/CMakeLists.txt
-│   │   ├── macos/cricut_crigeo.podspec
+│   │   ├── macos/my-organization_my-great-library.podspec
 │   │   ├── windows/CMakeLists.txt
 │   │   └── packages/    // Not committed
 │   └── test/
