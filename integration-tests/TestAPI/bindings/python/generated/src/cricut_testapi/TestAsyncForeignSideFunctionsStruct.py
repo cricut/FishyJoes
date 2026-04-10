@@ -13,18 +13,18 @@ class TestAsyncForeignSideFunctionsStruct:
     const42: typing.Callable[[], typing.Awaitable[int]]
     iabs: typing.Callable[[int], typing.Awaitable[int]]
     intCompose: typing.Callable[[typing.Callable[[int], typing.Awaitable[int]], typing.Callable[[int], typing.Awaitable[int]]], typing.Callable[[int], typing.Awaitable[int]]]
-    add3Things: typing.Callable[[int, int, int], typing.Awaitable[int]]
+    add3Things: typing.Callable[[float, float, int], typing.Awaitable[float]]
     makeList: typing.Callable[[str, str, str, str], typing.Awaitable[list[str]]]
-    fifthThing: typing.Callable[[str, int, int, str, typing.Callable[[], typing.Awaitable[int]]], typing.Awaitable[typing.Callable[[], typing.Awaitable[int]]]]
-    six: typing.Callable[[str, int, int, str, typing.Callable[[], typing.Awaitable[int]], int], typing.Awaitable[int]]
+    fifthThing: typing.Callable[[str, int, float, str, typing.Callable[[], typing.Awaitable[int]]], typing.Awaitable[typing.Callable[[], typing.Awaitable[int]]]]
+    six: typing.Callable[[str, int, float, str, typing.Callable[[], typing.Awaitable[int]], int], typing.Awaitable[int]]
     willThrow: typing.Callable[[], typing.Awaitable[int]]
     exercise0Fun: typing.Callable[[typing.Callable[[], typing.Awaitable[int]]], typing.Awaitable[str]]
     exercise1Fun: typing.Callable[[typing.Callable[[int], typing.Awaitable[int]]], typing.Awaitable[str]]
     exercise2Fun: typing.Callable[[typing.Callable[[typing.Callable[[int], typing.Awaitable[int]], typing.Callable[[int], typing.Awaitable[int]]], typing.Callable[[int], typing.Awaitable[int]]]], typing.Awaitable[str]]
-    exercise3Fun: typing.Callable[[typing.Callable[[int, int, int], typing.Awaitable[int]]], typing.Awaitable[str]]
+    exercise3Fun: typing.Callable[[typing.Callable[[float, float, int], typing.Awaitable[float]]], typing.Awaitable[str]]
     exercise4Fun: typing.Callable[[typing.Callable[[str, str, str, str], typing.Awaitable[list[str]]]], typing.Awaitable[str]]
-    exercise5Fun: typing.Callable[[typing.Callable[[str, int, int, str, typing.Callable[[], typing.Awaitable[int]]], typing.Awaitable[typing.Callable[[], typing.Awaitable[int]]]]], typing.Awaitable[str]]
-    exercise6Fun: typing.Callable[[typing.Callable[[str, int, int, str, typing.Callable[[], typing.Awaitable[int]], int], typing.Awaitable[int]]], typing.Awaitable[str]]
+    exercise5Fun: typing.Callable[[typing.Callable[[str, int, float, str, typing.Callable[[], typing.Awaitable[int]]], typing.Awaitable[typing.Callable[[], typing.Awaitable[int]]]]], typing.Awaitable[str]]
+    exercise6Fun: typing.Callable[[typing.Callable[[str, int, float, str, typing.Callable[[], typing.Awaitable[int]], int], typing.Awaitable[int]]], typing.Awaitable[str]]
     thunkTwiceMakerFun: typing.Callable[[typing.Callable[[], typing.Awaitable[None]]], typing.Callable[[], typing.Awaitable[None]]]
 
     async def exercise0(self, fn: typing.Callable[[], typing.Awaitable[int]]) -> typing.Awaitable[str]:
@@ -54,7 +54,7 @@ class TestAsyncForeignSideFunctionsStruct:
         return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise2", "object", ("object", self), ("object", fn)))
     
 
-    async def exercise3(self, fn: typing.Callable[[int, int, int], typing.Awaitable[int]]) -> typing.Awaitable[str]:
+    async def exercise3(self, fn: typing.Callable[[float, float, int], typing.Awaitable[float]]) -> typing.Awaitable[str]:
         """
         <!-- FishyJoes.export(exercise3) -->
         """
@@ -72,7 +72,7 @@ class TestAsyncForeignSideFunctionsStruct:
         return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise4", "object", ("object", self), ("object", fn)))
     
 
-    async def exercise5(self, fn: typing.Callable[[str, int, int, str, typing.Callable[[], typing.Awaitable[int]]], typing.Awaitable[typing.Callable[[], typing.Awaitable[int]]]]) -> typing.Awaitable[str]:
+    async def exercise5(self, fn: typing.Callable[[str, int, float, str, typing.Callable[[], typing.Awaitable[int]]], typing.Awaitable[typing.Callable[[], typing.Awaitable[int]]]]) -> typing.Awaitable[str]:
         """
         <!-- FishyJoes.export(exercise5) -->
         """
@@ -81,7 +81,7 @@ class TestAsyncForeignSideFunctionsStruct:
         return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise5", "object", ("object", self), ("object", fn)))
     
 
-    async def exercise6(self, fn: typing.Callable[[str, int, int, str, typing.Callable[[], typing.Awaitable[int]], int], typing.Awaitable[int]]) -> typing.Awaitable[str]:
+    async def exercise6(self, fn: typing.Callable[[str, int, float, str, typing.Callable[[], typing.Awaitable[int]], int], typing.Awaitable[int]]) -> typing.Awaitable[str]:
         """
         <!-- FishyJoes.export(exercise6) -->
         """
@@ -106,7 +106,7 @@ class TestAsyncForeignSideFunctionsStruct:
         return _get_runtime().invoke("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_witness", "object", ("object", self))
     
 
-    async def defaultExercise6(self, fn: typing.Callable[[str, int, int, str, typing.Callable[[], typing.Awaitable[int]], int], typing.Awaitable[int]]) -> typing.Awaitable[str]:
+    async def defaultExercise6(self, fn: typing.Callable[[str, int, float, str, typing.Callable[[], typing.Awaitable[int]], int], typing.Awaitable[int]]) -> typing.Awaitable[str]:
         """
         <!-- FishyJoes.export(defaultExercise6) -->
         """

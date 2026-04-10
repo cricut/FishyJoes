@@ -17,7 +17,7 @@ class TestOptionalsProtocol(typing.Protocol):
         ...
     
 
-    def wombat(self, zxc: int | None) -> int | None:
+    def wombat(self, zxc: int | None) -> float | None:
         """
         <!-- FishyJoes.export(wombat) -->
         """

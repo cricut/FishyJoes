@@ -10,7 +10,7 @@ class TestAsyncFunctions(typing.Protocol):
     Generated FishyJoes Python protocol surface.
     """
     @property
-    def add3Things(self) -> typing.Callable[[int, int, int], typing.Awaitable[int]]:
+    def add3Things(self) -> typing.Callable[[float, float, int], typing.Awaitable[float]]:
         """
         <!-- FishyJoes.export(add3Things) -->
         """
@@ -26,7 +26,7 @@ class TestAsyncFunctions(typing.Protocol):
     
 
     @property
-    def fifthThing(self) -> typing.Callable[[str, int, int, str, typing.Callable[[], typing.Awaitable[int]]], typing.Awaitable[typing.Callable[[], typing.Awaitable[int]]]]:
+    def fifthThing(self) -> typing.Callable[[str, int, float, str, typing.Callable[[], typing.Awaitable[int]]], typing.Awaitable[typing.Callable[[], typing.Awaitable[int]]]]:
         """
         <!-- FishyJoes.export(fifthThing) -->
         """
@@ -58,7 +58,7 @@ class TestAsyncFunctions(typing.Protocol):
     
 
     @property
-    def six(self) -> typing.Callable[[str, int, int, str, typing.Callable[[], typing.Awaitable[int]], int], typing.Awaitable[int]]:
+    def six(self) -> typing.Callable[[str, int, float, str, typing.Callable[[], typing.Awaitable[int]], int], typing.Awaitable[int]]:
         """
         <!-- FishyJoes.export(six) -->
         """
@@ -94,7 +94,7 @@ class TestAsyncFunctions(typing.Protocol):
         ...
     
 
-    async def exercise3(self, fn: typing.Callable[[int, int, int], typing.Awaitable[int]]) -> typing.Awaitable[str]:
+    async def exercise3(self, fn: typing.Callable[[float, float, int], typing.Awaitable[float]]) -> typing.Awaitable[str]:
         """
         <!-- FishyJoes.export(exercise3) -->
         """
@@ -108,14 +108,14 @@ class TestAsyncFunctions(typing.Protocol):
         ...
     
 
-    async def exercise5(self, fn: typing.Callable[[str, int, int, str, typing.Callable[[], typing.Awaitable[int]]], typing.Awaitable[typing.Callable[[], typing.Awaitable[int]]]]) -> typing.Awaitable[str]:
+    async def exercise5(self, fn: typing.Callable[[str, int, float, str, typing.Callable[[], typing.Awaitable[int]]], typing.Awaitable[typing.Callable[[], typing.Awaitable[int]]]]) -> typing.Awaitable[str]:
         """
         <!-- FishyJoes.export(exercise5) -->
         """
         ...
     
 
-    async def exercise6(self, fn: typing.Callable[[str, int, int, str, typing.Callable[[], typing.Awaitable[int]], int], typing.Awaitable[int]]) -> typing.Awaitable[str]:
+    async def exercise6(self, fn: typing.Callable[[str, int, float, str, typing.Callable[[], typing.Awaitable[int]], int], typing.Awaitable[int]]) -> typing.Awaitable[str]:
         """
         <!-- FishyJoes.export(exercise6) -->
         """
@@ -129,7 +129,7 @@ class TestAsyncFunctions(typing.Protocol):
         ...
     
 
-    async def defaultExercise6(self, fn: typing.Callable[[str, int, int, str, typing.Callable[[], typing.Awaitable[int]], int], typing.Awaitable[int]]) -> typing.Awaitable[str]:
+    async def defaultExercise6(self, fn: typing.Callable[[str, int, float, str, typing.Callable[[], typing.Awaitable[int]], int], typing.Awaitable[int]]) -> typing.Awaitable[str]:
         """
         <!-- FishyJoes.export(defaultExercise6) -->
         """

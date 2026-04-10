@@ -25,7 +25,7 @@ class EmptyStruct2:
         <!-- FishyJoes.export(tutu) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_EmptyStruct2_tutu", "object", ("object", self))
+        return _get_runtime().invoke("__iota_get_TestAPI_EmptyStruct2_tutu", "int", ("object", self))
     
 
     @staticmethod

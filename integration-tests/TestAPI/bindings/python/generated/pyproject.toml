@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
   "fishyjoes_python>=0.1.0",
-
+__PYPROJECT_DEPENDENCIES__
 ]
 authors = [
   { name = "Cricut Inc." },

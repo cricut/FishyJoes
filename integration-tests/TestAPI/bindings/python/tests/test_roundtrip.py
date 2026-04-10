@@ -25,6 +25,8 @@ from cricut_testapi.AssociatedDataEnum import (
 from cricut_testapi.EmptyClass import EmptyClass
 from cricut_testapi.MutableStruct import MutableStruct
 from cricut_testapi.MemberwiseStruct import MemberwiseStruct
+from cricut_testapi.AProtocolImplementation import AProtocolImplementation
+from cricut_testapi.ExternalWitness_AProtocol import ExternalWitness_AProtocol
 
 
 class TestSimpleEnum(unittest.TestCase):
@@ -152,6 +154,91 @@ class TestValueStruct(unittest.TestCase):
         self.assertIsInstance(s, MemberwiseStruct)
         self.assertEqual(s.immutable, "Eternal")
         self.assertEqual(s.mutable, "Fickle")
+
+
+class TestProtocolWitness(unittest.TestCase):
+    """Round-trip tests for protocol witnesses in both directions.
+
+    Covers:
+    - Python→Swift: pass a Python AProtocolImplementation to Swift via bar(); Swift
+      reads its fields (foo, baz) and returns a new AProtocol conformer.
+    - Swift→Python: the returned value is an ExternalWitness_AProtocol whose
+      properties (foo, baz) are retrieved from Swift.
+    - Default implementation: hasADefaultImplementation() exercises the Swift-side
+      extension default that calls bar() internally.
+    """
+
+    def setUp(self) -> None:
+        ensure_loaded()
+
+    # ------------------------------------------------------------------
+    # Python → Swift direction
+    # ------------------------------------------------------------------
+
+    def test_bar_returns_external_witness(self) -> None:
+        """bar() on a Python struct passes self to Swift; the result is wrapped in
+        ExternalWitness_AProtocol (Swift → Python direction)."""
+        impl = AProtocolImplementation(foo="hello", baz=False)
+        result = impl.bar(x=3, y=4)
+        # bar(x:y:) returns AProtocolImplementation(foo: "7", baz: x == 2)
+        # x=3, so baz=False; foo="7"
+        self.assertIsInstance(result, ExternalWitness_AProtocol)
+
+    def test_bar_result_foo_property(self) -> None:
+        """foo property of the returned ExternalWitness_AProtocol is correct."""
+        impl = AProtocolImplementation(foo="hello", baz=True)
+        result = impl.bar(x=10, y=5)
+        # foo = str(10+5) = "15"
+        self.assertEqual(result.foo, "15")
+
+    def test_bar_result_baz_property_true(self) -> None:
+        """baz is True when x == 2."""
+        impl = AProtocolImplementation(foo="hi", baz=False)
+        result = impl.bar(x=2, y=0)
+        # baz = (x == 2) = True
+        self.assertTrue(result.baz)
+
+    def test_bar_result_baz_property_false(self) -> None:
+        """baz is False when x != 2."""
+        impl = AProtocolImplementation(foo="hi", baz=True)
+        result = impl.bar(x=5, y=3)
+        # baz = (x == 2) = False
+        self.assertFalse(result.baz)
+
+    def test_bar_chained(self) -> None:
+        """Call bar() on the ExternalWitness_AProtocol returned by a first bar() call.
+        This exercises the Swift→Python→Swift round-trip chain."""
+        impl = AProtocolImplementation(foo="start", baz=False)
+        first = impl.bar(x=2, y=1)   # foo="3", baz=True
+        self.assertIsInstance(first, ExternalWitness_AProtocol)
+        self.assertEqual(first.foo, "3")
+        self.assertTrue(first.baz)
+        # Now call bar() on the ExternalWitness_AProtocol (Swift-side self)
+        second = first.bar(x=4, y=6)  # foo="10", baz=(4==2)=False
+        self.assertIsInstance(second, ExternalWitness_AProtocol)
+        self.assertEqual(second.foo, "10")
+        self.assertFalse(second.baz)
+
+    # ------------------------------------------------------------------
+    # Default-implementation path
+    # ------------------------------------------------------------------
+
+    def test_has_a_default_implementation_bazzy(self) -> None:
+        """hasADefaultImplementation calls bar() internally via the Swift extension default.
+
+        Swift default: bar(x=x, y=round(y*pi)) then if baz → "bazzy {foo}" else "{foo} notBazzed"
+        With x=2, y=0: bar(x=2, y=round(0*pi))=bar(2,0) → foo="2", baz=(2==2)=True
+        → "bazzy 2"
+        """
+        impl = AProtocolImplementation(foo="ignored", baz=False)
+        result = impl.hasADefaultImplementation(x=2, y=0)
+        self.assertEqual(result, "bazzy 2")
+
+    def test_has_a_default_implementation_not_bazzy(self) -> None:
+        """With x=3, y=0: bar(3,0) → foo="3", baz=(3==2)=False → "3 notBazzed"."""
+        impl = AProtocolImplementation(foo="ignored", baz=False)
+        result = impl.hasADefaultImplementation(x=3, y=0)
+        self.assertEqual(result, "3 notBazzed")
 
 
 if __name__ == "__main__":

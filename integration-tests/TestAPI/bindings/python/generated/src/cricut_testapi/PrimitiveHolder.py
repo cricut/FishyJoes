@@ -10,8 +10,8 @@ class PrimitiveHolder:
     <!-- FishyJoes.export(Primitives.PrimitiveHolder) -->
     Generated FishyJoes Python value type.
     """
-    b: int
-    bq: int | None
+    b: bool
+    bq: bool | None
     ui8: int
     ui8q: int | None
     ui16: int
@@ -32,10 +32,10 @@ class PrimitiveHolder:
     i64q: int | None
     i: int
     iq: int | None
-    f: int
-    fq: int | None
-    d: int
-    dq: int | None
+    f: float
+    fq: float | None
+    d: float
+    dq: float | None
 
     @staticmethod
     def staticMutableProperty() -> list[int | None]:

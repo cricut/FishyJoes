@@ -10,7 +10,7 @@ class Functions:
     Generated FishyJoes Python namespace type.
     """
     @staticmethod
-    def add3Things() -> typing.Callable[[int, int, int], int]:
+    def add3Things() -> typing.Callable[[float, float, int], float]:
         """
         <!-- FishyJoes.export(add3Things) -->
         """
@@ -28,7 +28,7 @@ class Functions:
     
 
     @staticmethod
-    def fifthThing() -> typing.Callable[[str, int, int, str, typing.Callable[[], int]], typing.Callable[[], int]]:
+    def fifthThing() -> typing.Callable[[str, int, float, str, typing.Callable[[], int]], typing.Callable[[], int]]:
         """
         <!-- FishyJoes.export(fifthThing) -->
         """
@@ -64,7 +64,7 @@ class Functions:
     
 
     @staticmethod
-    def sixthThing() -> typing.Callable[[str, int, int, str, typing.Callable[[], int], int], int]:
+    def sixthThing() -> typing.Callable[[str, int, float, str, typing.Callable[[], int], int], int]:
         """
         <!-- FishyJoes.export(sixthThing) -->
         """
@@ -100,7 +100,7 @@ class Functions:
     
 
     @staticmethod
-    def exercise3(fn: typing.Callable[[int, int, int], int]) -> str:
+    def exercise3(fn: typing.Callable[[float, float, int], float]) -> str:
         """
         <!-- FishyJoes.export(exercise3) -->
         """
@@ -118,7 +118,7 @@ class Functions:
     
 
     @staticmethod
-    def exercise5(fn: typing.Callable[[str, int, int, str, typing.Callable[[], int]], typing.Callable[[], int]]) -> str:
+    def exercise5(fn: typing.Callable[[str, int, float, str, typing.Callable[[], int]], typing.Callable[[], int]]) -> str:
         """
         <!-- FishyJoes.export(exercise5) -->
         """
@@ -127,7 +127,7 @@ class Functions:
     
 
     @staticmethod
-    def exercise6(fn: typing.Callable[[str, int, int, str, typing.Callable[[], int], int], int]) -> str:
+    def exercise6(fn: typing.Callable[[str, int, float, str, typing.Callable[[], int], int], int]) -> str:
         """
         <!-- FishyJoes.export(exercise6) -->
         """

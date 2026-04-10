@@ -15,7 +15,7 @@ class EmptyEnum:
         <!-- FishyJoes.export(aStaticProperty) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_EmptyEnum_aStaticProperty", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_EmptyEnum_aStaticProperty", "int")
     
 
     @staticmethod
@@ -33,5 +33,5 @@ class EmptyEnum:
         <!-- FishyJoes.export(aStaticMethod) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_EmptyEnum_aStaticMethod", "object")
+        return _get_runtime().invoke("__iota_TestAPI_EmptyEnum_aStaticMethod", "int")
     

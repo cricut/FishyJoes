@@ -16,14 +16,14 @@ class TestMethodsProtocol(typing.Protocol):
         ...
     
 
-    def bar(self) -> int:
+    def bar(self) -> bool:
         """
         <!-- FishyJoes.export(bar) -->
         """
         ...
     
 
-    def baz(self, qux: int) -> None:
+    def baz(self, qux: bool) -> None:
         """
         <!-- FishyJoes.export(baz) -->
         """
@@ -37,14 +37,14 @@ class TestMethodsProtocol(typing.Protocol):
         ...
     
 
-    def xyzzy(self, thud: int, grault: list[int]) -> str:
+    def xyzzy(self, thud: int, grault: list[float]) -> str:
         """
         <!-- FishyJoes.export(xyzzy) -->
         """
         ...
     
 
-    def plugh(self, fred: tuple[int, int, list[str]]) -> tuple[int, int, str]:
+    def plugh(self, fred: tuple[bool, float, list[str]]) -> tuple[bool, int, str]:
         """
         <!-- FishyJoes.export(plugh) -->
         """

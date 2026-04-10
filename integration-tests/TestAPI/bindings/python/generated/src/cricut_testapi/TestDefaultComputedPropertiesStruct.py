@@ -10,7 +10,7 @@ class TestDefaultComputedPropertiesStruct:
     <!-- FishyJoes.export(TestDefaultComputedPropertiesStruct) -->
     Generated FishyJoes Python value type.
     """
-    spam: int
+    spam: bool
     noot: int
 
     @property

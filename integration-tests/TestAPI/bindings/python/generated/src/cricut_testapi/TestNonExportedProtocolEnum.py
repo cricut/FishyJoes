@@ -12,18 +12,18 @@ class TestNonExportedProtocolEnum(enum.Enum):
     hogehoge = "hogehoge"
 
     @property
-    def fuga(self) -> int:
+    def fuga(self) -> float:
         """
         <!-- FishyJoes.export(fuga) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_TestNonExportedProtocolEnum_fuga", "object", ("object", self))
+        return _get_runtime().invoke("__iota_get_TestAPI_TestNonExportedProtocolEnum_fuga", "double", ("object", self))
     
 
-    def hoge(self) -> int:
+    def hoge(self) -> float:
         """
         <!-- FishyJoes.export(hoge) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_TestNonExportedProtocolEnum_hoge", "object", ("object", self))
+        return _get_runtime().invoke("__iota_TestAPI_TestNonExportedProtocolEnum_hoge", "double", ("object", self))
     

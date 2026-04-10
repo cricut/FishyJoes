@@ -50,7 +50,7 @@ class TemperatureLogger(NativeReference):
         <!-- FishyJoes.export(create) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Actors_TemperatureLogger_create", "object", ("object", label), ("object", measurement))
+        return _get_runtime().invoke("__iota_TestAPI_Actors_TemperatureLogger_create", "object", ("object", label), ("int", measurement))
     
 
     async def update(self, measurement: int) -> typing.Awaitable[None]:
@@ -59,7 +59,7 @@ class TemperatureLogger(NativeReference):
         """
         _ensure_runtime_loaded()
         import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_Actors_TemperatureLogger_update", "object", ("object", self), ("object", measurement)))
+        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_Actors_TemperatureLogger_update", "object", ("object", self), ("int", measurement)))
     
 
     async def min(self) -> typing.Awaitable[int]:

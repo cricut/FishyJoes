@@ -16,7 +16,7 @@ class Deprecations:
         Deprecated: replace with `deprecatedMethod` (This is the swift name of the replacement function, due to technical limitations)
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Deprecations_deprecatedVariable", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Deprecations_deprecatedVariable", "int")
     
 
     @staticmethod

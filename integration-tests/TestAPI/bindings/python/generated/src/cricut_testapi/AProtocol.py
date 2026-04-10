@@ -10,7 +10,7 @@ class AProtocol(typing.Protocol):
     Generated FishyJoes Python protocol surface.
     """
     @property
-    def baz(self) -> int:
+    def baz(self) -> bool:
         """
         <!-- FishyJoes.export(baz) -->
         """
@@ -32,14 +32,14 @@ class AProtocol(typing.Protocol):
         ...
     
 
-    def hasADefaultImplementation(self, x: int, y: int) -> str:
+    def hasADefaultImplementation(self, x: int, y: float) -> str:
         """
         <!-- FishyJoes.export(hasADefaultImplementation) -->
         """
         ...
     
 
-    def hasADefaultImplementation2(self, a: str, b: int, c: str) -> str:
+    def hasADefaultImplementation2(self, a: str, b: bool, c: str) -> str:
         """
         <!-- FishyJoes.export(hasADefaultImplementation2) -->
         """

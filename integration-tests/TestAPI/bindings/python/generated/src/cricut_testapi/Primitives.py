@@ -15,7 +15,7 @@ class Primitives:
         <!-- FishyJoes.export(bitCountInt) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_bitCountInt", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_bitCountInt", "int")
     
 
     @staticmethod
@@ -24,7 +24,7 @@ class Primitives:
         <!-- FishyJoes.export(bitCountUInt) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_bitCountUInt", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_bitCountUInt", "int")
     
 
     @staticmethod
@@ -37,16 +37,16 @@ class Primitives:
     
 
     @staticmethod
-    def falseBool() -> int:
+    def falseBool() -> bool:
         """
         <!-- FishyJoes.export(falseBool) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_falseBool", "object")
+        return bool(_get_runtime().invoke("__iota_get_TestAPI_Primitives_falseBool", "bool"))
     
 
     @staticmethod
-    def manyBool() -> list[int]:
+    def manyBool() -> list[bool]:
         """
         <!-- FishyJoes.export(manyBool) -->
         """
@@ -55,7 +55,7 @@ class Primitives:
     
 
     @staticmethod
-    def manyDouble() -> list[int]:
+    def manyDouble() -> list[float]:
         """
         <!-- FishyJoes.export(manyDouble) -->
         """
@@ -64,7 +64,7 @@ class Primitives:
     
 
     @staticmethod
-    def manyFloat() -> list[int]:
+    def manyFloat() -> list[float]:
         """
         <!-- FishyJoes.export(manyFloat) -->
         """
@@ -118,7 +118,7 @@ class Primitives:
     
 
     @staticmethod
-    def manyMaybeBool() -> list[int | None]:
+    def manyMaybeBool() -> list[bool | None]:
         """
         <!-- FishyJoes.export(manyMaybeBool) -->
         """
@@ -127,7 +127,7 @@ class Primitives:
     
 
     @staticmethod
-    def manyMaybeDouble() -> list[int | None]:
+    def manyMaybeDouble() -> list[float | None]:
         """
         <!-- FishyJoes.export(manyMaybeDouble) -->
         """
@@ -136,7 +136,7 @@ class Primitives:
     
 
     @staticmethod
-    def manyMaybeFloat() -> list[int | None]:
+    def manyMaybeFloat() -> list[float | None]:
         """
         <!-- FishyJoes.export(manyMaybeFloat) -->
         """
@@ -280,21 +280,21 @@ class Primitives:
     
 
     @staticmethod
-    def maxDouble() -> int:
+    def maxDouble() -> float:
         """
         <!-- FishyJoes.export(maxDouble) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_maxDouble", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_maxDouble", "double")
     
 
     @staticmethod
-    def maxFloat() -> int:
+    def maxFloat() -> float:
         """
         <!-- FishyJoes.export(maxFloat) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_maxFloat", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_maxFloat", "float")
     
 
     @staticmethod
@@ -303,7 +303,7 @@ class Primitives:
         <!-- FishyJoes.export(maxInt) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_maxInt", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_maxInt", "int")
     
 
     @staticmethod
@@ -312,7 +312,7 @@ class Primitives:
         <!-- FishyJoes.export(maxInt16) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_maxInt16", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_maxInt16", "int16")
     
 
     @staticmethod
@@ -321,7 +321,7 @@ class Primitives:
         <!-- FishyJoes.export(maxInt32) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_maxInt32", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_maxInt32", "int32")
     
 
     @staticmethod
@@ -330,7 +330,7 @@ class Primitives:
         <!-- FishyJoes.export(maxInt64) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_maxInt64", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_maxInt64", "int64")
     
 
     @staticmethod
@@ -339,7 +339,7 @@ class Primitives:
         <!-- FishyJoes.export(maxInt8) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_maxInt8", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_maxInt8", "int8")
     
 
     @staticmethod
@@ -348,7 +348,7 @@ class Primitives:
         <!-- FishyJoes.export(maxUInt) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_maxUInt", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_maxUInt", "uint")
     
 
     @staticmethod
@@ -357,7 +357,7 @@ class Primitives:
         <!-- FishyJoes.export(maxUInt16) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_maxUInt16", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_maxUInt16", "uint16")
     
 
     @staticmethod
@@ -366,7 +366,7 @@ class Primitives:
         <!-- FishyJoes.export(maxUInt32) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_maxUInt32", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_maxUInt32", "uint32")
     
 
     @staticmethod
@@ -375,7 +375,7 @@ class Primitives:
         <!-- FishyJoes.export(maxUInt64) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_maxUInt64", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_maxUInt64", "uint64")
     
 
     @staticmethod
@@ -384,25 +384,25 @@ class Primitives:
         <!-- FishyJoes.export(maxUInt8) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_maxUInt8", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_maxUInt8", "uint8")
     
 
     @staticmethod
-    def minDouble() -> int:
+    def minDouble() -> float:
         """
         <!-- FishyJoes.export(minDouble) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_minDouble", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_minDouble", "double")
     
 
     @staticmethod
-    def minFloat() -> int:
+    def minFloat() -> float:
         """
         <!-- FishyJoes.export(minFloat) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_minFloat", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_minFloat", "float")
     
 
     @staticmethod
@@ -411,7 +411,7 @@ class Primitives:
         <!-- FishyJoes.export(minInt) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_minInt", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_minInt", "int")
     
 
     @staticmethod
@@ -420,7 +420,7 @@ class Primitives:
         <!-- FishyJoes.export(minInt16) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_minInt16", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_minInt16", "int16")
     
 
     @staticmethod
@@ -429,7 +429,7 @@ class Primitives:
         <!-- FishyJoes.export(minInt32) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_minInt32", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_minInt32", "int32")
     
 
     @staticmethod
@@ -438,7 +438,7 @@ class Primitives:
         <!-- FishyJoes.export(minInt64) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_minInt64", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_minInt64", "int64")
     
 
     @staticmethod
@@ -447,7 +447,7 @@ class Primitives:
         <!-- FishyJoes.export(minInt8) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_minInt8", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_minInt8", "int8")
     
 
     @staticmethod
@@ -456,7 +456,7 @@ class Primitives:
         <!-- FishyJoes.export(minUInt) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_minUInt", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_minUInt", "uint")
     
 
     @staticmethod
@@ -465,7 +465,7 @@ class Primitives:
         <!-- FishyJoes.export(minUInt16) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_minUInt16", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_minUInt16", "uint16")
     
 
     @staticmethod
@@ -474,7 +474,7 @@ class Primitives:
         <!-- FishyJoes.export(minUInt32) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_minUInt32", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_minUInt32", "uint32")
     
 
     @staticmethod
@@ -483,7 +483,7 @@ class Primitives:
         <!-- FishyJoes.export(minUInt64) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_minUInt64", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_minUInt64", "uint64")
     
 
     @staticmethod
@@ -492,34 +492,34 @@ class Primitives:
         <!-- FishyJoes.export(minUInt8) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_minUInt8", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_minUInt8", "uint8")
     
 
     @staticmethod
-    def trueBool() -> int:
+    def trueBool() -> bool:
         """
         <!-- FishyJoes.export(trueBool) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_trueBool", "object")
+        return bool(_get_runtime().invoke("__iota_get_TestAPI_Primitives_trueBool", "bool"))
     
 
     @staticmethod
-    def zeroDouble() -> int:
+    def zeroDouble() -> float:
         """
         <!-- FishyJoes.export(zeroDouble) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_zeroDouble", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_zeroDouble", "double")
     
 
     @staticmethod
-    def zeroFloat() -> int:
+    def zeroFloat() -> float:
         """
         <!-- FishyJoes.export(zeroFloat) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_zeroFloat", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_zeroFloat", "float")
     
 
     @staticmethod
@@ -528,7 +528,7 @@ class Primitives:
         <!-- FishyJoes.export(zeroInt) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_zeroInt", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_zeroInt", "int")
     
 
     @staticmethod
@@ -537,7 +537,7 @@ class Primitives:
         <!-- FishyJoes.export(zeroInt16) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_zeroInt16", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_zeroInt16", "int16")
     
 
     @staticmethod
@@ -546,7 +546,7 @@ class Primitives:
         <!-- FishyJoes.export(zeroInt32) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_zeroInt32", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_zeroInt32", "int32")
     
 
     @staticmethod
@@ -555,7 +555,7 @@ class Primitives:
         <!-- FishyJoes.export(zeroInt64) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_zeroInt64", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_zeroInt64", "int64")
     
 
     @staticmethod
@@ -564,7 +564,7 @@ class Primitives:
         <!-- FishyJoes.export(zeroInt8) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_zeroInt8", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_zeroInt8", "int8")
     
 
     @staticmethod
@@ -573,7 +573,7 @@ class Primitives:
         <!-- FishyJoes.export(zeroUInt) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_zeroUInt", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_zeroUInt", "uint")
     
 
     @staticmethod
@@ -582,7 +582,7 @@ class Primitives:
         <!-- FishyJoes.export(zeroUInt16) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_zeroUInt16", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_zeroUInt16", "uint16")
     
 
     @staticmethod
@@ -591,7 +591,7 @@ class Primitives:
         <!-- FishyJoes.export(zeroUInt32) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_zeroUInt32", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_zeroUInt32", "uint32")
     
 
     @staticmethod
@@ -600,7 +600,7 @@ class Primitives:
         <!-- FishyJoes.export(zeroUInt64) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_zeroUInt64", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_zeroUInt64", "uint64")
     
 
     @staticmethod
@@ -609,16 +609,16 @@ class Primitives:
         <!-- FishyJoes.export(zeroUInt8) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_zeroUInt8", "object")
+        return _get_runtime().invoke("__iota_get_TestAPI_Primitives_zeroUInt8", "uint8")
     
 
     @staticmethod
-    def echoBool(value: int) -> int:
+    def echoBool(value: bool) -> bool:
         """
         <!-- FishyJoes.export(echoBool) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Primitives_echoBool", "object", ("object", value))
+        return bool(_get_runtime().invoke("__iota_TestAPI_Primitives_echoBool", "bool", ("bool", value)))
     
 
     @staticmethod
@@ -627,7 +627,7 @@ class Primitives:
         <!-- FishyJoes.export(echoUInt8) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Primitives_echoUInt8", "object", ("object", value))
+        return _get_runtime().invoke("__iota_TestAPI_Primitives_echoUInt8", "uint8", ("uint8", value))
     
 
     @staticmethod
@@ -636,7 +636,7 @@ class Primitives:
         <!-- FishyJoes.export(echoUInt16) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Primitives_echoUInt16", "object", ("object", value))
+        return _get_runtime().invoke("__iota_TestAPI_Primitives_echoUInt16", "uint16", ("uint16", value))
     
 
     @staticmethod
@@ -645,7 +645,7 @@ class Primitives:
         <!-- FishyJoes.export(echoUInt32) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Primitives_echoUInt32", "object", ("object", value))
+        return _get_runtime().invoke("__iota_TestAPI_Primitives_echoUInt32", "uint32", ("uint32", value))
     
 
     @staticmethod
@@ -654,7 +654,7 @@ class Primitives:
         <!-- FishyJoes.export(echoUInt64) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Primitives_echoUInt64", "object", ("object", value))
+        return _get_runtime().invoke("__iota_TestAPI_Primitives_echoUInt64", "uint64", ("uint64", value))
     
 
     @staticmethod
@@ -663,7 +663,7 @@ class Primitives:
         <!-- FishyJoes.export(echoUInt) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Primitives_echoUInt", "object", ("object", value))
+        return _get_runtime().invoke("__iota_TestAPI_Primitives_echoUInt", "uint", ("uint", value))
     
 
     @staticmethod
@@ -672,7 +672,7 @@ class Primitives:
         <!-- FishyJoes.export(echoInt8) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Primitives_echoInt8", "object", ("object", value))
+        return _get_runtime().invoke("__iota_TestAPI_Primitives_echoInt8", "int8", ("int8", value))
     
 
     @staticmethod
@@ -681,7 +681,7 @@ class Primitives:
         <!-- FishyJoes.export(echoInt16) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Primitives_echoInt16", "object", ("object", value))
+        return _get_runtime().invoke("__iota_TestAPI_Primitives_echoInt16", "int16", ("int16", value))
     
 
     @staticmethod
@@ -690,7 +690,7 @@ class Primitives:
         <!-- FishyJoes.export(echoInt32) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Primitives_echoInt32", "object", ("object", value))
+        return _get_runtime().invoke("__iota_TestAPI_Primitives_echoInt32", "int32", ("int32", value))
     
 
     @staticmethod
@@ -699,7 +699,7 @@ class Primitives:
         <!-- FishyJoes.export(echoInt64) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Primitives_echoInt64", "object", ("object", value))
+        return _get_runtime().invoke("__iota_TestAPI_Primitives_echoInt64", "int64", ("int64", value))
     
 
     @staticmethod
@@ -708,29 +708,29 @@ class Primitives:
         <!-- FishyJoes.export(echoInt) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Primitives_echoInt", "object", ("object", value))
+        return _get_runtime().invoke("__iota_TestAPI_Primitives_echoInt", "int", ("int", value))
     
 
     @staticmethod
-    def echoFloat(value: int) -> int:
+    def echoFloat(value: float) -> float:
         """
         <!-- FishyJoes.export(echoFloat) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Primitives_echoFloat", "object", ("object", value))
+        return _get_runtime().invoke("__iota_TestAPI_Primitives_echoFloat", "float", ("float", value))
     
 
     @staticmethod
-    def echoDouble(value: int) -> int:
+    def echoDouble(value: float) -> float:
         """
         <!-- FishyJoes.export(echoDouble) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Primitives_echoDouble", "object", ("object", value))
+        return _get_runtime().invoke("__iota_TestAPI_Primitives_echoDouble", "double", ("double", value))
     
 
     @staticmethod
-    def maybeEchoBool(value: int | None) -> int | None:
+    def maybeEchoBool(value: bool | None) -> bool | None:
         """
         <!-- FishyJoes.export(maybeEchoBool) -->
         """
@@ -829,7 +829,7 @@ class Primitives:
     
 
     @staticmethod
-    def maybeEchoFloat(value: int | None) -> int | None:
+    def maybeEchoFloat(value: float | None) -> float | None:
         """
         <!-- FishyJoes.export(maybeEchoFloat) -->
         """
@@ -838,7 +838,7 @@ class Primitives:
     
 
     @staticmethod
-    def maybeEchoDouble(value: int | None) -> int | None:
+    def maybeEchoDouble(value: float | None) -> float | None:
         """
         <!-- FishyJoes.export(maybeEchoDouble) -->
         """
@@ -847,12 +847,12 @@ class Primitives:
     
 
     @staticmethod
-    def boolOverflow(b0: int, b1: int, b2: int, b3: int, b4: int, b5: int, b6: int, b7: int, b8: int, b9: int, ba: int, bb: int, bc: int, bd: int, be: int, bf: int) -> int:
+    def boolOverflow(b0: bool, b1: bool, b2: bool, b3: bool, b4: bool, b5: bool, b6: bool, b7: bool, b8: bool, b9: bool, ba: bool, bb: bool, bc: bool, bd: bool, be: bool, bf: bool) -> int:
         """
         <!-- FishyJoes.export(boolOverflow) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Primitives_boolOverflow", "object", ("object", b0), ("object", b1), ("object", b2), ("object", b3), ("object", b4), ("object", b5), ("object", b6), ("object", b7), ("object", b8), ("object", b9), ("object", ba), ("object", bb), ("object", bc), ("object", bd), ("object", be), ("object", bf))
+        return _get_runtime().invoke("__iota_TestAPI_Primitives_boolOverflow", "int", ("bool", b0), ("bool", b1), ("bool", b2), ("bool", b3), ("bool", b4), ("bool", b5), ("bool", b6), ("bool", b7), ("bool", b8), ("bool", b9), ("bool", ba), ("bool", bb), ("bool", bc), ("bool", bd), ("bool", be), ("bool", bf))
     
 
     @staticmethod

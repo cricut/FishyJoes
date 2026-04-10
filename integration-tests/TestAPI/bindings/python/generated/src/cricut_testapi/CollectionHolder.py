@@ -10,9 +10,9 @@ class CollectionHolder:
     <!-- FishyJoes.export(Collections.CollectionHolder) -->
     Generated FishyJoes Python value type.
     """
-    boolArray: list[int]
-    boolSet: set[int]
-    boolDictionary: dict[int, int]
+    boolArray: list[bool]
+    boolSet: set[bool]
+    boolDictionary: dict[bool, bool]
     integerArray: list[int]
     integerSet: set[int]
     integerDictionary: dict[int, int]

@@ -19,7 +19,7 @@ class Tuples:
     
 
     @staticmethod
-    def tuple3() -> tuple[str, int, str]:
+    def tuple3() -> tuple[str, float, str]:
         """
         <!-- FishyJoes.export(tuple3) -->
         """
@@ -28,7 +28,7 @@ class Tuples:
     
 
     @staticmethod
-    def tuple4() -> tuple[tuple[int, str], tuple[str, int, str], str, int]:
+    def tuple4() -> tuple[tuple[int, str], tuple[str, float, str], str, bool]:
         """
         <!-- FishyJoes.export(tuple4) -->
         """
@@ -37,7 +37,7 @@ class Tuples:
     
 
     @staticmethod
-    def tuple5() -> tuple[str, int, tuple[tuple[int, str], tuple[str, int, str], str, int], tuple[str, int, str], tuple[int, str]]:
+    def tuple5() -> tuple[str, int, tuple[tuple[int, str], tuple[str, float, str], str, bool], tuple[str, float, str], tuple[int, str]]:
         """
         <!-- FishyJoes.export(tuple5) -->
         """
@@ -46,7 +46,7 @@ class Tuples:
     
 
     @staticmethod
-    def tuple6() -> tuple[str, int, int, tuple[tuple[int, str], tuple[str, int, str], str, int], tuple[str, int, tuple[tuple[int, str], tuple[str, int, str], str, int], tuple[str, int, str], tuple[int, str]], int]:
+    def tuple6() -> tuple[str, int, float, tuple[tuple[int, str], tuple[str, float, str], str, bool], tuple[str, int, tuple[tuple[int, str], tuple[str, float, str], str, bool], tuple[str, float, str], tuple[int, str]], bool]:
         """
         <!-- FishyJoes.export(tuple6) -->
         """
@@ -55,10 +55,10 @@ class Tuples:
     
 
     @staticmethod
-    def checkTuples(t2: tuple[int, str], t3: tuple[str, int, str], t4: tuple[tuple[int, str], tuple[str, int, str], str, int], t5: tuple[str, int, tuple[tuple[int, str], tuple[str, int, str], str, int], tuple[str, int, str], tuple[int, str]], t6: tuple[str, int, int, tuple[tuple[int, str], tuple[str, int, str], str, int], tuple[str, int, tuple[tuple[int, str], tuple[str, int, str], str, int], tuple[str, int, str], tuple[int, str]], int]) -> int:
+    def checkTuples(t2: tuple[int, str], t3: tuple[str, float, str], t4: tuple[tuple[int, str], tuple[str, float, str], str, bool], t5: tuple[str, int, tuple[tuple[int, str], tuple[str, float, str], str, bool], tuple[str, float, str], tuple[int, str]], t6: tuple[str, int, float, tuple[tuple[int, str], tuple[str, float, str], str, bool], tuple[str, int, tuple[tuple[int, str], tuple[str, float, str], str, bool], tuple[str, float, str], tuple[int, str]], bool]) -> bool:
         """
         <!-- FishyJoes.export(checkTuples) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Tuples_checkTuples", "object", ("object", t2), ("object", t3), ("object", t4), ("object", t5), ("object", t6))
+        return bool(_get_runtime().invoke("__iota_TestAPI_Tuples_checkTuples", "bool", ("object", t2), ("object", t3), ("object", t4), ("object", t5), ("object", t6)))
     

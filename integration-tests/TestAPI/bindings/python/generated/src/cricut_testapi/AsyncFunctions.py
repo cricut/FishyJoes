@@ -10,7 +10,7 @@ class AsyncFunctions:
     Generated FishyJoes Python namespace type.
     """
     @staticmethod
-    def add3Things() -> typing.Callable[[int, int, int], typing.Awaitable[int]]:
+    def add3Things() -> typing.Callable[[float, float, int], typing.Awaitable[float]]:
         """
         <!-- FishyJoes.export(add3Things) -->
         """
@@ -28,7 +28,7 @@ class AsyncFunctions:
     
 
     @staticmethod
-    def fifthThing() -> typing.Callable[[str, int, int, str, typing.Callable[[], typing.Awaitable[int]]], typing.Awaitable[typing.Callable[[], typing.Awaitable[int]]]]:
+    def fifthThing() -> typing.Callable[[str, int, float, str, typing.Callable[[], typing.Awaitable[int]]], typing.Awaitable[typing.Callable[[], typing.Awaitable[int]]]]:
         """
         <!-- FishyJoes.export(fifthThing) -->
         """
@@ -64,7 +64,7 @@ class AsyncFunctions:
     
 
     @staticmethod
-    def sixthThing() -> typing.Callable[[str, int, int, str, typing.Callable[[], typing.Awaitable[int]], int], typing.Awaitable[int]]:
+    def sixthThing() -> typing.Callable[[str, int, float, str, typing.Callable[[], typing.Awaitable[int]], int], typing.Awaitable[int]]:
         """
         <!-- FishyJoes.export(sixthThing) -->
         """
@@ -112,7 +112,7 @@ class AsyncFunctions:
     
 
     @staticmethod
-    async def exercise3(fn: typing.Callable[[int, int, int], typing.Awaitable[int]]) -> typing.Awaitable[str]:
+    async def exercise3(fn: typing.Callable[[float, float, int], typing.Awaitable[float]]) -> typing.Awaitable[str]:
         """
         <!-- FishyJoes.export(exercise3) -->
         """
@@ -132,7 +132,7 @@ class AsyncFunctions:
     
 
     @staticmethod
-    async def exercise5(fn: typing.Callable[[str, int, int, str, typing.Callable[[], typing.Awaitable[int]]], typing.Awaitable[typing.Callable[[], typing.Awaitable[int]]]]) -> typing.Awaitable[str]:
+    async def exercise5(fn: typing.Callable[[str, int, float, str, typing.Callable[[], typing.Awaitable[int]]], typing.Awaitable[typing.Callable[[], typing.Awaitable[int]]]]) -> typing.Awaitable[str]:
         """
         <!-- FishyJoes.export(exercise5) -->
         """
@@ -142,7 +142,7 @@ class AsyncFunctions:
     
 
     @staticmethod
-    async def exercise6(fn: typing.Callable[[str, int, int, str, typing.Callable[[], typing.Awaitable[int]], int], typing.Awaitable[int]]) -> typing.Awaitable[str]:
+    async def exercise6(fn: typing.Callable[[str, int, float, str, typing.Callable[[], typing.Awaitable[int]], int], typing.Awaitable[int]]) -> typing.Awaitable[str]:
         """
         <!-- FishyJoes.export(exercise6) -->
         """

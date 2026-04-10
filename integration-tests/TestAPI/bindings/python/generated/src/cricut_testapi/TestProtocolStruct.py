@@ -29,20 +29,20 @@ class TestProtocolStruct:
         _get_runtime().invoke("__iota_TestAPI_TestProtocolStruct_foo", "void", ("object", self))
     
 
-    def bar(self) -> int:
+    def bar(self) -> bool:
         """
         <!-- FishyJoes.export(bar) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_TestProtocolStruct_bar", "object", ("object", self))
+        return bool(_get_runtime().invoke("__iota_TestAPI_TestProtocolStruct_bar", "bool", ("object", self)))
     
 
-    def baz(self, qux: int) -> None:
+    def baz(self, qux: bool) -> None:
         """
         <!-- FishyJoes.export(baz) -->
         """
         _ensure_runtime_loaded()
-        _get_runtime().invoke("__iota_TestAPI_TestProtocolStruct_baz", "void", ("object", self), ("object", qux))
+        _get_runtime().invoke("__iota_TestAPI_TestProtocolStruct_baz", "void", ("object", self), ("bool", qux))
     
 
     def garply(self, str: str) -> str:
@@ -53,15 +53,15 @@ class TestProtocolStruct:
         return _get_runtime().invoke("__iota_TestAPI_TestProtocolStruct_garply", "object", ("object", self), ("object", str))
     
 
-    def xyzzy(self, thud: int, grault: list[int]) -> str:
+    def xyzzy(self, thud: int, grault: list[float]) -> str:
         """
         <!-- FishyJoes.export(xyzzy) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_TestProtocolStruct_xyzzy", "object", ("object", self), ("object", thud), ("object", grault))
+        return _get_runtime().invoke("__iota_TestAPI_TestProtocolStruct_xyzzy", "object", ("object", self), ("int", thud), ("object", grault))
     
 
-    def plugh(self, fred: tuple[int, int, list[str]]) -> tuple[int, int, str]:
+    def plugh(self, fred: tuple[bool, float, list[str]]) -> tuple[bool, int, str]:
         """
         <!-- FishyJoes.export(plugh) -->
         """

@@ -18,7 +18,7 @@ class ExternalWitness_TestAsyncFunctions(NativeReference):
     
 
     @property
-    def add3Things(self) -> typing.Callable[[int, int, int], typing.Awaitable[int]]:
+    def add3Things(self) -> typing.Callable[[float, float, int], typing.Awaitable[float]]:
         """
         <!-- FishyJoes.export(add3Things) -->
         """
@@ -36,7 +36,7 @@ class ExternalWitness_TestAsyncFunctions(NativeReference):
     
 
     @property
-    def fifthThing(self) -> typing.Callable[[str, int, int, str, typing.Callable[[], typing.Awaitable[int]]], typing.Awaitable[typing.Callable[[], typing.Awaitable[int]]]]:
+    def fifthThing(self) -> typing.Callable[[str, int, float, str, typing.Callable[[], typing.Awaitable[int]]], typing.Awaitable[typing.Callable[[], typing.Awaitable[int]]]]:
         """
         <!-- FishyJoes.export(fifthThing) -->
         """
@@ -72,7 +72,7 @@ class ExternalWitness_TestAsyncFunctions(NativeReference):
     
 
     @property
-    def six(self) -> typing.Callable[[str, int, int, str, typing.Callable[[], typing.Awaitable[int]], int], typing.Awaitable[int]]:
+    def six(self) -> typing.Callable[[str, int, float, str, typing.Callable[[], typing.Awaitable[int]], int], typing.Awaitable[int]]:
         """
         <!-- FishyJoes.export(six) -->
         """
@@ -116,7 +116,7 @@ class ExternalWitness_TestAsyncFunctions(NativeReference):
         return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_TestAsyncFunctions_exercise2", "object", ("object", self), ("object", fn)))
     
 
-    async def exercise3(self, fn: typing.Callable[[int, int, int], typing.Awaitable[int]]) -> typing.Awaitable[str]:
+    async def exercise3(self, fn: typing.Callable[[float, float, int], typing.Awaitable[float]]) -> typing.Awaitable[str]:
         """
         <!-- FishyJoes.export(exercise3) -->
         """
@@ -134,7 +134,7 @@ class ExternalWitness_TestAsyncFunctions(NativeReference):
         return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_TestAsyncFunctions_exercise4", "object", ("object", self), ("object", fn)))
     
 
-    async def exercise5(self, fn: typing.Callable[[str, int, int, str, typing.Callable[[], typing.Awaitable[int]]], typing.Awaitable[typing.Callable[[], typing.Awaitable[int]]]]) -> typing.Awaitable[str]:
+    async def exercise5(self, fn: typing.Callable[[str, int, float, str, typing.Callable[[], typing.Awaitable[int]]], typing.Awaitable[typing.Callable[[], typing.Awaitable[int]]]]) -> typing.Awaitable[str]:
         """
         <!-- FishyJoes.export(exercise5) -->
         """
@@ -143,7 +143,7 @@ class ExternalWitness_TestAsyncFunctions(NativeReference):
         return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_TestAsyncFunctions_exercise5", "object", ("object", self), ("object", fn)))
     
 
-    async def exercise6(self, fn: typing.Callable[[str, int, int, str, typing.Callable[[], typing.Awaitable[int]], int], typing.Awaitable[int]]) -> typing.Awaitable[str]:
+    async def exercise6(self, fn: typing.Callable[[str, int, float, str, typing.Callable[[], typing.Awaitable[int]], int], typing.Awaitable[int]]) -> typing.Awaitable[str]:
         """
         <!-- FishyJoes.export(exercise6) -->
         """

@@ -23,5 +23,5 @@ class ExternalWitness_TestDifferingExportNameProtocolDiffy(NativeReference):
         <!-- FishyJoes.export(tata) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_TestDifferingExportNameProtocol_tata", "object", ("object", self))
+        return _get_runtime().invoke("__iota_get_TestAPI_TestDifferingExportNameProtocol_tata", "int", ("object", self))
     

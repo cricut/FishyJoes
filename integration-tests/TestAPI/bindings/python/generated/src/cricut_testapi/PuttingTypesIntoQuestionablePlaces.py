@@ -17,7 +17,7 @@ class PuttingTypesIntoQuestionablePlaces:
         <!-- FishyJoes.export(testCall) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall", "object", ("object", self))
+        return _get_runtime().invoke("__iota_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall", "int", ("object", self))
     
 
 @dataclass(slots=True)
@@ -33,7 +33,7 @@ class PuttingTypesIntoQuestionablePlaces:
         <!-- FishyJoes.export(testCall) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_Swift_String_PuttingTypesIntoQuestionablePlaces_testCall", "object", ("object", self))
+        return _get_runtime().invoke("__iota_Swift_String_PuttingTypesIntoQuestionablePlaces_testCall", "int", ("object", self))
     
 
 class PuttingTypesIntoQuestionablePlaces(NativeReference):
@@ -63,7 +63,7 @@ class PuttingTypesIntoQuestionablePlaces(NativeReference):
         <!-- FishyJoes.export(testCall) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_testCall", "object", ("object", self))
+        return _get_runtime().invoke("__iota_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_testCall", "int", ("object", self))
     
 
 class PuttingTypesIntoQuestionablePlaces(enum.Enum):
@@ -78,5 +78,5 @@ class PuttingTypesIntoQuestionablePlaces(enum.Enum):
         <!-- FishyJoes.export(testCall) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_testCall", "object", ("object", self))
+        return _get_runtime().invoke("__iota_Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_testCall", "int", ("object", self))
     

@@ -23,13 +23,13 @@ class TestDefaultComputedPropertiesClass(NativeReference):
         <!-- FishyJoes.export(noot) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_TestDefaultComputedPropertiesClass_noot", "object", ("object", self))
+        return _get_runtime().invoke("__iota_get_TestAPI_TestDefaultComputedPropertiesClass_noot", "int", ("object", self))
     
 
     @noot.setter
     def noot(self, value: int) -> None:
         _ensure_runtime_loaded()
-        _get_runtime().invoke("__iota_set_TestAPI_TestDefaultComputedPropertiesClass_noot", "void", ("object", self), ("object", value))
+        _get_runtime().invoke("__iota_set_TestAPI_TestDefaultComputedPropertiesClass_noot", "void", ("object", self), ("int", value))
     
 
     @property
@@ -42,25 +42,25 @@ class TestDefaultComputedPropertiesClass(NativeReference):
     
 
     @property
-    def spam(self) -> int:
+    def spam(self) -> bool:
         """
         <!-- FishyJoes.export(spam) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_TestDefaultComputedPropertiesClass_spam", "object", ("object", self))
+        return bool(_get_runtime().invoke("__iota_get_TestAPI_TestDefaultComputedPropertiesClass_spam", "bool", ("object", self)))
     
 
     @spam.setter
-    def spam(self, value: int) -> None:
+    def spam(self, value: bool) -> None:
         _ensure_runtime_loaded()
-        _get_runtime().invoke("__iota_set_TestAPI_TestDefaultComputedPropertiesClass_spam", "void", ("object", self), ("object", value))
+        _get_runtime().invoke("__iota_set_TestAPI_TestDefaultComputedPropertiesClass_spam", "void", ("object", self), ("bool", value))
     
 
     @staticmethod
-    def init(spam: int, noot: int) -> TestDefaultComputedPropertiesClass:
+    def init(spam: bool, noot: int) -> TestDefaultComputedPropertiesClass:
         """
         <!-- FishyJoes.export(init) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_TestDefaultComputedPropertiesClass_init", "object", ("object", spam), ("object", noot))
+        return _get_runtime().invoke("__iota_TestAPI_TestDefaultComputedPropertiesClass_init", "object", ("bool", spam), ("int", noot))
     

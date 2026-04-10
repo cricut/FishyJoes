@@ -29,7 +29,7 @@ class SimpleEnum(enum.Enum):
         <!-- FishyJoes.export(hex) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_SimpleEnum_hex", "object", ("object", self))
+        return _get_runtime().invoke("__iota_get_TestAPI_SimpleEnum_hex", "int", ("object", self))
     
 
     @staticmethod
@@ -38,7 +38,7 @@ class SimpleEnum(enum.Enum):
         <!-- FishyJoes.export(pickAColor) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_SimpleEnum_pickAColor", "object", ("object", rawValue))
+        return _get_runtime().invoke("__iota_TestAPI_SimpleEnum_pickAColor", "object", ("int", rawValue))
     
 
     def hexMethod(self) -> str:

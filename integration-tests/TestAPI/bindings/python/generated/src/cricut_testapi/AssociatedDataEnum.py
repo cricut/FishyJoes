@@ -15,7 +15,7 @@ class AssociatedDataEnum:
         <!-- FishyJoes.export(intValue) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_AssociatedDataEnum_intValue", "object", ("object", self))
+        return _get_runtime().invoke("__iota_get_TestAPI_AssociatedDataEnum_intValue", "int", ("object", self))
     
 
     @staticmethod
@@ -57,7 +57,7 @@ class AssociatedDataEnum_Bar(AssociatedDataEnum):
     """
     named: str
     _1: AssociatedDataEnum
-    toggled: int
+    toggled: bool
 
 
 @dataclass(slots=True)

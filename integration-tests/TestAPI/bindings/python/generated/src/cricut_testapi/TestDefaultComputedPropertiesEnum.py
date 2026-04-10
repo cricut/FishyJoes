@@ -17,7 +17,7 @@ class TestDefaultComputedPropertiesEnum(enum.Enum):
         <!-- FishyJoes.export(noot) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_TestDefaultComputedPropertiesEnum_noot", "object", ("object", self))
+        return _get_runtime().invoke("__iota_get_TestAPI_TestDefaultComputedPropertiesEnum_noot", "int", ("object", self))
     
 
     @property
@@ -30,10 +30,10 @@ class TestDefaultComputedPropertiesEnum(enum.Enum):
     
 
     @property
-    def spam(self) -> int:
+    def spam(self) -> bool:
         """
         <!-- FishyJoes.export(spam) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_TestDefaultComputedPropertiesEnum_spam", "object", ("object", self))
+        return bool(_get_runtime().invoke("__iota_get_TestAPI_TestDefaultComputedPropertiesEnum_spam", "bool", ("object", self)))
     

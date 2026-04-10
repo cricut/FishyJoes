@@ -11,28 +11,28 @@ class AProtocolImplementation:
     Generated FishyJoes Python value type.
     """
     foo: str
-    baz: int
+    baz: bool
 
     def bar(self, x: int, y: int) -> AProtocol:
         """
         <!-- FishyJoes.export(bar) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_AProtocolImplementation_bar", "object", ("object", self), ("object", x), ("object", y))
+        return _get_runtime().invoke("__iota_TestAPI_AProtocolImplementation_bar", "object", ("object", self), ("int", x), ("int", y))
     
 
-    def hasADefaultImplementation(self, x: int, y: int) -> str:
+    def hasADefaultImplementation(self, x: int, y: float) -> str:
         """
         <!-- FishyJoes.export(hasADefaultImplementation) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_AProtocolImplementation_hasADefaultImplementation", "object", ("object", self), ("object", x), ("object", y))
+        return _get_runtime().invoke("__iota_TestAPI_AProtocolImplementation_hasADefaultImplementation", "object", ("object", self), ("int", x), ("double", y))
     
 
-    def hasADefaultImplementation2(self, a: str, b: int, c: str) -> str:
+    def hasADefaultImplementation2(self, a: str, b: bool, c: str) -> str:
         """
         <!-- FishyJoes.export(hasADefaultImplementation2) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_AProtocolImplementation_hasADefaultImplementation2", "object", ("object", self), ("object", a), ("object", b), ("object", c))
+        return _get_runtime().invoke("__iota_TestAPI_AProtocolImplementation_hasADefaultImplementation2", "object", ("object", self), ("object", a), ("bool", b), ("object", c))
     
