@@ -15,7 +15,7 @@ class ReferenceEmptyEnum:
         <!-- FishyJoes.export(aStaticProperty) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_ReferenceEmptyEnum_aStaticProperty", "int")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_ReferenceEmptyEnum_aStaticProperty", "int")
     
 
     @staticmethod
@@ -24,7 +24,7 @@ class ReferenceEmptyEnum:
         <!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_ReferenceEmptyEnum_notGoingToHappen", "object")
+        return _get_runtime().call_symbol("__iota_TestAPI_ReferenceEmptyEnum_notGoingToHappen", "object")
     
 
     @staticmethod
@@ -33,5 +33,5 @@ class ReferenceEmptyEnum:
         <!-- FishyJoes.export(aStaticMethod) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_ReferenceEmptyEnum_aStaticMethod", "int")
+        return _get_runtime().call_symbol("__iota_TestAPI_ReferenceEmptyEnum_aStaticMethod", "int")
     

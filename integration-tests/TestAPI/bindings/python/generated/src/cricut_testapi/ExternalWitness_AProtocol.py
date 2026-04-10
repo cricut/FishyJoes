@@ -23,7 +23,7 @@ class ExternalWitness_AProtocol(NativeReference):
         <!-- FishyJoes.export(baz) -->
         """
         _ensure_runtime_loaded()
-        return bool(_get_runtime().invoke("__iota_get_TestAPI_AProtocol_baz", "bool", ("object", self)))
+        return bool(_get_runtime().call_symbol("__iota_get_TestAPI_AProtocol_baz", "bool", ("object", self)))
     
 
     @property
@@ -32,7 +32,7 @@ class ExternalWitness_AProtocol(NativeReference):
         <!-- FishyJoes.export(foo) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_AProtocol_foo", "object", ("object", self))
+        return _get_runtime().call_symbol("__iota_get_TestAPI_AProtocol_foo", "object", ("object", self))
     
 
     def bar(self, x: int, y: int) -> AProtocol:
@@ -40,5 +40,5 @@ class ExternalWitness_AProtocol(NativeReference):
         <!-- FishyJoes.export(bar) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_AProtocol_bar", "object", ("object", self), ("int", x), ("int", y))
+        return _get_runtime().call_symbol("__iota_TestAPI_AProtocol_bar", "object", ("object", self), ("int", x), ("int", y))
     

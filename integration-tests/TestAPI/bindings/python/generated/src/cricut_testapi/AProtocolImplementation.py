@@ -18,7 +18,7 @@ class AProtocolImplementation:
         <!-- FishyJoes.export(bar) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_AProtocolImplementation_bar", "object", ("object", self), ("int", x), ("int", y))
+        return _get_runtime().call_symbol("__iota_TestAPI_AProtocolImplementation_bar", "object", ("object", self), ("int", x), ("int", y))
     
 
     def hasADefaultImplementation(self, x: int, y: float) -> str:
@@ -26,7 +26,7 @@ class AProtocolImplementation:
         <!-- FishyJoes.export(hasADefaultImplementation) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_AProtocolImplementation_hasADefaultImplementation", "object", ("object", self), ("int", x), ("double", y))
+        return _get_runtime().call_symbol("__iota_TestAPI_AProtocolImplementation_hasADefaultImplementation", "object", ("object", self), ("int", x), ("double", y))
     
 
     def hasADefaultImplementation2(self, a: str, b: bool, c: str) -> str:
@@ -34,5 +34,5 @@ class AProtocolImplementation:
         <!-- FishyJoes.export(hasADefaultImplementation2) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_AProtocolImplementation_hasADefaultImplementation2", "object", ("object", self), ("object", a), ("bool", b), ("object", c))
+        return _get_runtime().call_symbol("__iota_TestAPI_AProtocolImplementation_hasADefaultImplementation2", "object", ("object", self), ("object", a), ("bool", b), ("object", c))
     

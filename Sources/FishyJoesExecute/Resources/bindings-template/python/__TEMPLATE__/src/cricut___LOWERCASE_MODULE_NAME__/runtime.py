@@ -3,12 +3,16 @@
 from __future__ import annotations
 
 import ctypes
+import importlib.resources
 import platform
 import typing
+
+import cffi as _cffi_module
 
 from fishyjoes_python.iota import IotaRuntime, NativeReference as _SharedNativeReference
 from fishyjoes_python.loader import load_shared_library
 
+_ffi = _cffi_module.FFI()
 
 PACKAGE_NAME = __package__ or "cricut___LOWERCASE_MODULE_NAME__"
 MODULE_NAME = "__MODULE_NAME__"
@@ -26,7 +30,6 @@ class GeneratedRuntime:
         self.package = package
         self.module_name = module_name
         self._runtime: IotaRuntime | None = None
-        self._functions: dict[str, ctypes._CFuncPtr] = {}
         self._callbacks: list[object] = []
 
     def ensure_loaded(self) -> None:
@@ -45,6 +48,15 @@ class GeneratedRuntime:
         )
         self._runtime.ensure_loaded()
 
+        # Load the module's C declarations so cffi knows every iota symbol's
+        # signature — enabling direct calls without runtime cdef overhead.
+        try:
+            pkg_files = importlib.resources.files(self.package)
+            header_text = (pkg_files / "_declarations.h").read_text(encoding="utf-8")
+            self._runtime.load_module_declarations(header_text)
+        except (FileNotFoundError, ModuleNotFoundError, TypeError):
+            pass  # declarations file optional; symbols still callable via void* cast
+
     @property
     def env(self) -> int:
         self.ensure_loaded()
@@ -52,58 +64,65 @@ class GeneratedRuntime:
         assert self._runtime.env is not None
         return self._runtime.env
 
-    def get_iota_function(
-        self,
-        symbol: str,
-        *,
-        restype: typing.Any,
-        argtypes: list[typing.Any],
-    ) -> ctypes._CFuncPtr:
-        self.ensure_loaded()
-        function = self._functions.get(symbol)
-        if function is None:
-            assert self._runtime is not None
-            function = self._runtime.lookup_iota_symbol(symbol, restype=restype, argtypes=argtypes)
-            self._functions[symbol] = function
-        return function
+    def call_symbol(self, symbol: str, return_type: str, *args: tuple[str, typing.Any]) -> typing.Any:
+        """Call an iota ABI symbol directly via cffi.
 
-    def invoke(self, symbol: str, return_type: str, *args: tuple[str, typing.Any]) -> typing.Any:
+        Each element of *args* is a (ffi_type_name, python_value) pair.
+        The env pointer is prepended automatically; the exn out-param is
+        appended automatically.
+        """
         self.ensure_loaded()
         assert self._runtime is not None
 
-        converted_args: list[typing.Any] = [ctypes.c_void_p(self.env)]
+        lib = self._runtime.iota_lib
+        fn = getattr(lib, symbol)
+
         retained_handles: list[int] = []
-        argtypes: list[typing.Any] = [ctypes.c_void_p]
+        exn_holder = _ffi.new("void*[1]")
+        call_args: list[typing.Any] = [_ffi.cast("void*", self.env)]
 
         try:
             for ffi_name, value in args:
-                argtypes.append(_ffi_ctypes_type(ffi_name))
                 if ffi_name == "object":
                     if value is None:
-                        converted_args.append(ctypes.c_void_p())
+                        call_args.append(_ffi.NULL)
                     else:
-                        # Always wrap the Python object in a cffi handle so that
-                        # the Swift iota ABI can call back via anybox_ref_getter
-                        # to extract the native pointer (for NativeReference) or
-                        # the object fields (for value types / protocol conformers).
+                        # Wrap Python object in a cffi handle so Swift can call
+                        # back via anybox_ref_getter to extract native pointer or
+                        # object fields.
                         handle = self._runtime.retain_foreign_object(value)
                         retained_handles.append(handle)
-                        converted_args.append(ctypes.c_void_p(handle))
+                        call_args.append(_ffi.cast("void*", handle))
                 elif ffi_name == "bool":
-                    converted_args.append(1 if value else 0)
+                    call_args.append(1 if value else 0)
                 else:
-                    converted_args.append(value)
+                    call_args.append(value)
 
-            restype = None if return_type == "void" else _ffi_ctypes_type(return_type)
-            argtypes.append(ctypes.POINTER(ctypes.c_void_p))
-            function = self.get_iota_function(symbol, restype=restype, argtypes=argtypes)
-            exn = ctypes.c_void_p()
-            result = function(*converted_args, ctypes.byref(exn))
-            self._runtime.raise_if_exception(exn.value)
+            call_args.append(exn_holder)
+            result = fn(*call_args)
+            exn_val = int(_ffi.cast("uintptr_t", exn_holder[0]))
+            if exn_val:
+                self._runtime.raise_if_exception(exn_val)
             return self._convert_return(result, return_type)
         finally:
             for handle in retained_handles:
                 self._runtime.release_foreign_object(handle)
+
+    def _invoke_setup(self, setup_symbol: str, *callback_args: typing.Any) -> None:
+        """Call a setup symbol via cffi, converting ctypes callbacks to void* pointers."""
+        assert self._runtime is not None
+        lib = self._runtime.iota_lib
+        fn = getattr(lib, setup_symbol)
+        exn_holder = _ffi.new("void*[1]")
+        cffi_args: list[typing.Any] = [_ffi.cast("void*", self.env)]
+        for cb in callback_args:
+            raw = ctypes.cast(cb, ctypes.c_void_p).value
+            cffi_args.append(_ffi.cast("void*", raw) if raw is not None else _ffi.NULL)
+        cffi_args.append(exn_holder)
+        fn(*cffi_args)
+        exn_val = int(_ffi.cast("uintptr_t", exn_holder[0]))
+        if exn_val:
+            self._runtime.raise_if_exception(exn_val)
 
     def setup_reference_type(self, setup_symbol: str, cls: type[NativeReference]) -> None:
         self.ensure_loaded()
@@ -121,15 +140,7 @@ class GeneratedRuntime:
 
         callback = constructor_type(constructor)
         self._callbacks.append(callback)
-
-        setup = self.get_iota_function(
-            setup_symbol,
-            restype=None,
-            argtypes=[ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_void_p)],
-        )
-        exn = ctypes.c_void_p()
-        setup(ctypes.c_void_p(self.env), callback, ctypes.byref(exn))
-        self._runtime.raise_if_exception(exn.value)
+        self._invoke_setup(setup_symbol, callback)
 
     def setup_enum_type(
         self,
@@ -155,7 +166,6 @@ class GeneratedRuntime:
             pass
 
         callback_args: list[typing.Any] = []
-        function_argtypes: list[typing.Any] = [ctypes.c_void_p]
 
         if is_inhabited:
             # discriminator: (foreignObject, foreignOutExn) -> Int
@@ -202,7 +212,6 @@ class GeneratedRuntime:
             disc_cb = discriminator_type(discriminator)
             self._callbacks.append(disc_cb)
             callback_args.append(disc_cb)
-            function_argtypes.append(ctypes.c_void_p)
 
         for case_name, value_field_specs in case_specs:
             # value_field_specs: list of (field_name, ffi_type) pairs
@@ -248,7 +257,6 @@ class GeneratedRuntime:
             ctor_cb = constructor_type(make_constructor(field_names, ffi_types_only, _case_cls))
             self._callbacks.append(ctor_cb)
             callback_args.append(ctor_cb)
-            function_argtypes.append(ctypes.c_void_p)
 
             # extractor: (foreignObject, UnsafePointer<value_types>..., foreignOutExn) -> Void
             extractor_type = ctypes.CFUNCTYPE(
@@ -273,13 +281,8 @@ class GeneratedRuntime:
             ext_cb = extractor_type(make_extractor(field_names, ffi_types_only))
             self._callbacks.append(ext_cb)
             callback_args.append(ext_cb)
-            function_argtypes.append(ctypes.c_void_p)
 
-        function_argtypes.append(ctypes.POINTER(ctypes.c_void_p))
-        setup = self.get_iota_function(setup_symbol, restype=None, argtypes=function_argtypes)
-        exn = ctypes.c_void_p()
-        setup(ctypes.c_void_p(self.env), *callback_args, ctypes.byref(exn))
-        self._runtime.raise_if_exception(exn.value)
+        self._invoke_setup(setup_symbol, *callback_args)
 
     def release_native_ref(self, native_ref: int | None) -> None:
         """Release a native reference; called by weakref.finalize() in generated __init__."""
@@ -306,8 +309,6 @@ class GeneratedRuntime:
         assert self._runtime is not None
 
         callback_args: list[typing.Any] = []
-        # argtypes: env, constructor, per-field getter, per-method callback, exn
-        function_argtypes: list[typing.Any] = [ctypes.c_void_p, ctypes.c_void_p]
 
         # constructor: (UnsafeMutableRawPointer, foreignOutExn) -> foreignObject
         # Called by Swift when it wants to hand a Swift-side protocol conformer to Python.
@@ -348,7 +349,6 @@ class GeneratedRuntime:
             getter_cb = getter_type(make_getter(field_name, ffi_return_type))
             self._callbacks.append(getter_cb)
             callback_args.append(getter_cb)
-            function_argtypes.append(ctypes.c_void_p)
 
         # Per-method callback: (foreignObject, param_ctypes..., foreignOutExn) -> ReturnCType
         # Called by Swift when it invokes a method on a Python-side protocol implementor.
@@ -378,13 +378,8 @@ class GeneratedRuntime:
             method_cb_obj = method_type(make_method(method_name, param_ffi_types, return_ffi_type))
             self._callbacks.append(method_cb_obj)
             callback_args.append(method_cb_obj)
-            function_argtypes.append(ctypes.c_void_p)
 
-        function_argtypes.append(ctypes.POINTER(ctypes.c_void_p))
-        setup = self.get_iota_function(setup_symbol, restype=None, argtypes=function_argtypes)
-        exn = ctypes.c_void_p()
-        setup(ctypes.c_void_p(self.env), *callback_args, ctypes.byref(exn))
-        self._runtime.raise_if_exception(exn.value)
+        self._invoke_setup(setup_symbol, *callback_args)
 
     def setup_struct_type(
         self,
@@ -415,7 +410,6 @@ class GeneratedRuntime:
         constructor_callback = constructor_type(constructor)
         self._callbacks.append(constructor_callback)
         callback_args: list[typing.Any] = [constructor_callback]
-        function_argtypes: list[typing.Any] = [ctypes.c_void_p, ctypes.c_void_p]
 
         for field_name, ffi_name in field_specs:
             getter_type = ctypes.CFUNCTYPE(_ffi_ctypes_type(ffi_name), ctypes.c_void_p, ctypes.POINTER(ctypes.c_void_p))
@@ -431,7 +425,6 @@ class GeneratedRuntime:
             getter_callback = getter_type(getter)
             self._callbacks.append(getter_callback)
             callback_args.append(getter_callback)
-            function_argtypes.append(ctypes.c_void_p)
 
             if field_name in mutable_fields:
                 setter_type = ctypes.CFUNCTYPE(None, ctypes.c_void_p, _ffi_ctypes_type(ffi_name), ctypes.POINTER(ctypes.c_void_p))
@@ -453,13 +446,8 @@ class GeneratedRuntime:
                 setter_callback = setter_type(setter)
                 self._callbacks.append(setter_callback)
                 callback_args.append(setter_callback)
-                function_argtypes.append(ctypes.c_void_p)
 
-        function_argtypes.append(ctypes.POINTER(ctypes.c_void_p))
-        setup = self.get_iota_function(setup_symbol, restype=None, argtypes=function_argtypes)
-        exn = ctypes.c_void_p()
-        setup(ctypes.c_void_p(self.env), *callback_args, ctypes.byref(exn))
-        self._runtime.raise_if_exception(exn.value)
+        self._invoke_setup(setup_symbol, *callback_args)
 
     def _convert_return(self, value: typing.Any, ffi_name: str) -> typing.Any:
         if ffi_name == "void":

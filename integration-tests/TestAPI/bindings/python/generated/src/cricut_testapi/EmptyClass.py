@@ -23,7 +23,7 @@ class EmptyClass(NativeReference):
         <!-- FishyJoes.export(blarg) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_EmptyClass_blarg", "object", ("object", self))
+        return _get_runtime().call_symbol("__iota_get_TestAPI_EmptyClass_blarg", "object", ("object", self))
     
 
     @property
@@ -32,7 +32,7 @@ class EmptyClass(NativeReference):
         <!-- FishyJoes.export(wibbledyWobbledyTimeyWhimey) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_EmptyClass_wibbledyWobbledyTimeyWhimey", "object", ("object", self))
+        return _get_runtime().call_symbol("__iota_get_TestAPI_EmptyClass_wibbledyWobbledyTimeyWhimey", "object", ("object", self))
     
 
     @staticmethod
@@ -41,7 +41,7 @@ class EmptyClass(NativeReference):
         <!-- FishyJoes.export(create) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_EmptyClass_create", "object")
+        return _get_runtime().call_symbol("__iota_TestAPI_EmptyClass_create", "object")
     
 
     def shme(self) -> str:
@@ -49,7 +49,7 @@ class EmptyClass(NativeReference):
         <!-- FishyJoes.export(shme) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_EmptyClass_shme", "object", ("object", self))
+        return _get_runtime().call_symbol("__iota_TestAPI_EmptyClass_shme", "object", ("object", self))
     
 
     def Gorpers(self) -> str:
@@ -57,5 +57,5 @@ class EmptyClass(NativeReference):
         <!-- FishyJoes.export(Gorpers) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_EmptyClass_Gorpers", "object", ("object", self))
+        return _get_runtime().call_symbol("__iota_TestAPI_EmptyClass_Gorpers", "object", ("object", self))
     

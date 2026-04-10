@@ -15,7 +15,7 @@ class Collections:
         <!-- FishyJoes.export(arrayOfBigTuples) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Collections_arrayOfBigTuples", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Collections_arrayOfBigTuples", "object")
     
 
     @staticmethod
@@ -24,7 +24,7 @@ class Collections:
         <!-- FishyJoes.export(arrayOfInt) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Collections_arrayOfInt", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Collections_arrayOfInt", "object")
     
 
     @staticmethod
@@ -33,7 +33,7 @@ class Collections:
         <!-- FishyJoes.export(defaultCollectionHolder) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Collections_defaultCollectionHolder", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Collections_defaultCollectionHolder", "object")
     
 
     @staticmethod
@@ -42,7 +42,7 @@ class Collections:
         <!-- FishyJoes.export(dictionaryOfIntToInt) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Collections_dictionaryOfIntToInt", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Collections_dictionaryOfIntToInt", "object")
     
 
     @staticmethod
@@ -51,7 +51,7 @@ class Collections:
         <!-- FishyJoes.export(maybeArrayOfInt) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Collections_maybeArrayOfInt", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Collections_maybeArrayOfInt", "object")
     
 
     @staticmethod
@@ -60,7 +60,7 @@ class Collections:
         <!-- FishyJoes.export(maybeArrayOfMaybeInt) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Collections_maybeArrayOfMaybeInt", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Collections_maybeArrayOfMaybeInt", "object")
     
 
     @staticmethod
@@ -69,7 +69,7 @@ class Collections:
         <!-- FishyJoes.export(maybeDictionaryOfIntToInt) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Collections_maybeDictionaryOfIntToInt", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Collections_maybeDictionaryOfIntToInt", "object")
     
 
     @staticmethod
@@ -78,7 +78,7 @@ class Collections:
         <!-- FishyJoes.export(maybeDictionaryOfIntToMaybeInt) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Collections_maybeDictionaryOfIntToMaybeInt", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Collections_maybeDictionaryOfIntToMaybeInt", "object")
     
 
     @staticmethod
@@ -87,7 +87,7 @@ class Collections:
         <!-- FishyJoes.export(maybeSetOfInt) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Collections_maybeSetOfInt", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Collections_maybeSetOfInt", "object")
     
 
     @staticmethod
@@ -96,7 +96,7 @@ class Collections:
         <!-- FishyJoes.export(maybeSetOfMaybeInt) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Collections_maybeSetOfMaybeInt", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Collections_maybeSetOfMaybeInt", "object")
     
 
     @staticmethod
@@ -105,7 +105,7 @@ class Collections:
         <!-- FishyJoes.export(setOfInt) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Collections_setOfInt", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Collections_setOfInt", "object")
     
 
     @staticmethod
@@ -114,7 +114,7 @@ class Collections:
         <!-- FishyJoes.export(echoArrayOfInt) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Collections_echoArrayOfInt", "object", ("object", arrayOfInt))
+        return _get_runtime().call_symbol("__iota_TestAPI_Collections_echoArrayOfInt", "object", ("object", arrayOfInt))
     
 
     @staticmethod
@@ -123,7 +123,7 @@ class Collections:
         <!-- FishyJoes.export(echoSetOfInt) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Collections_echoSetOfInt", "object", ("object", setOfInt))
+        return _get_runtime().call_symbol("__iota_TestAPI_Collections_echoSetOfInt", "object", ("object", setOfInt))
     
 
     @staticmethod
@@ -132,7 +132,7 @@ class Collections:
         <!-- FishyJoes.export(echoDictionaryOfIntToInt) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Collections_echoDictionaryOfIntToInt", "object", ("object", dictionaryOfIntToInt))
+        return _get_runtime().call_symbol("__iota_TestAPI_Collections_echoDictionaryOfIntToInt", "object", ("object", dictionaryOfIntToInt))
     
 
     @staticmethod
@@ -141,7 +141,7 @@ class Collections:
         <!-- FishyJoes.export(echoMaybeArrayOfMaybeInt) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Collections_echoMaybeArrayOfMaybeInt", "object", ("object", maybeArrayOfMaybeInt))
+        return _get_runtime().call_symbol("__iota_TestAPI_Collections_echoMaybeArrayOfMaybeInt", "object", ("object", maybeArrayOfMaybeInt))
     
 
     @staticmethod
@@ -150,7 +150,7 @@ class Collections:
         <!-- FishyJoes.export(echoMaybeSetOfMaybeInt) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Collections_echoMaybeSetOfMaybeInt", "object", ("object", maybeSetOfMaybeInt))
+        return _get_runtime().call_symbol("__iota_TestAPI_Collections_echoMaybeSetOfMaybeInt", "object", ("object", maybeSetOfMaybeInt))
     
 
     @staticmethod
@@ -159,7 +159,7 @@ class Collections:
         <!-- FishyJoes.export(echoMaybeDictionaryOfIntToMaybeInt) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Collections_echoMaybeDictionaryOfIntToMaybeInt", "object", ("object", maybeDictionaryOfIntToMaybeInt))
+        return _get_runtime().call_symbol("__iota_TestAPI_Collections_echoMaybeDictionaryOfIntToMaybeInt", "object", ("object", maybeDictionaryOfIntToMaybeInt))
     
 
     @staticmethod
@@ -168,5 +168,5 @@ class Collections:
         <!-- FishyJoes.export(collectionMapper) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Collections_collectionMapper", "object", ("object", collection), ("object", mapper))
+        return _get_runtime().call_symbol("__iota_TestAPI_Collections_collectionMapper", "object", ("object", collection), ("object", mapper))
     

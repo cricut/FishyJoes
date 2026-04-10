@@ -15,7 +15,7 @@ class AssociatedDataEnum:
         <!-- FishyJoes.export(intValue) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_AssociatedDataEnum_intValue", "int", ("object", self))
+        return _get_runtime().call_symbol("__iota_get_TestAPI_AssociatedDataEnum_intValue", "int", ("object", self))
     
 
     @staticmethod
@@ -24,7 +24,7 @@ class AssociatedDataEnum:
         <!-- FishyJoes.export(staticThing) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_AssociatedDataEnum_staticThing", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_AssociatedDataEnum_staticThing", "object")
     
 
     def plus(self, other: AssociatedDataEnum) -> AssociatedDataEnum:
@@ -32,7 +32,7 @@ class AssociatedDataEnum:
         <!-- FishyJoes.export(plus) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_AssociatedDataEnum_plus", "object", ("object", self), ("object", other))
+        return _get_runtime().call_symbol("__iota_TestAPI_AssociatedDataEnum_plus", "object", ("object", self), ("object", other))
     
 
 

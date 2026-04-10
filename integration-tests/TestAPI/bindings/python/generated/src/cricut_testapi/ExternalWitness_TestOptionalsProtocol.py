@@ -23,7 +23,7 @@ class ExternalWitness_TestOptionalsProtocol(NativeReference):
         <!-- FishyJoes.export(flarp) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_TestOptionalsProtocol_flarp", "object", ("object", self))
+        return _get_runtime().call_symbol("__iota_get_TestAPI_TestOptionalsProtocol_flarp", "object", ("object", self))
     
 
     def wombat(self, zxc: int | None) -> float | None:
@@ -31,7 +31,7 @@ class ExternalWitness_TestOptionalsProtocol(NativeReference):
         <!-- FishyJoes.export(wombat) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_TestOptionalsProtocol_wombat", "object", ("object", self), ("object", zxc))
+        return _get_runtime().call_symbol("__iota_TestAPI_TestOptionalsProtocol_wombat", "object", ("object", self), ("object", zxc))
     
 
     def spqr(self, pippo: AssociatedDataEnum) -> int:
@@ -39,5 +39,5 @@ class ExternalWitness_TestOptionalsProtocol(NativeReference):
         <!-- FishyJoes.export(spqr) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_TestOptionalsProtocol_spqr", "int", ("object", self), ("object", pippo))
+        return _get_runtime().call_symbol("__iota_TestAPI_TestOptionalsProtocol_spqr", "int", ("object", self), ("object", pippo))
     

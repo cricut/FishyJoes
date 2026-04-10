@@ -15,7 +15,7 @@ class ClosedRanges:
         <!-- FishyJoes.export(doubleRange) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_ClosedRanges_doubleRange", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_ClosedRanges_doubleRange", "object")
     
 
     @staticmethod
@@ -24,7 +24,7 @@ class ClosedRanges:
         <!-- FishyJoes.export(floatRange) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_ClosedRanges_floatRange", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_ClosedRanges_floatRange", "object")
     
 
     @staticmethod
@@ -33,7 +33,7 @@ class ClosedRanges:
         <!-- FishyJoes.export(int16Range) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_ClosedRanges_int16Range", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_ClosedRanges_int16Range", "object")
     
 
     @staticmethod
@@ -42,7 +42,7 @@ class ClosedRanges:
         <!-- FishyJoes.export(int32Range) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_ClosedRanges_int32Range", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_ClosedRanges_int32Range", "object")
     
 
     @staticmethod
@@ -51,7 +51,7 @@ class ClosedRanges:
         <!-- FishyJoes.export(int64Range) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_ClosedRanges_int64Range", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_ClosedRanges_int64Range", "object")
     
 
     @staticmethod
@@ -60,7 +60,7 @@ class ClosedRanges:
         <!-- FishyJoes.export(int8Range) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_ClosedRanges_int8Range", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_ClosedRanges_int8Range", "object")
     
 
     @staticmethod
@@ -69,7 +69,7 @@ class ClosedRanges:
         <!-- FishyJoes.export(intRange) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_ClosedRanges_intRange", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_ClosedRanges_intRange", "object")
     
 
     @staticmethod
@@ -78,7 +78,7 @@ class ClosedRanges:
         <!-- FishyJoes.export(stringRange) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_ClosedRanges_stringRange", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_ClosedRanges_stringRange", "object")
     
 
     @staticmethod
@@ -87,7 +87,7 @@ class ClosedRanges:
         <!-- FishyJoes.export(uInt16Range) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_ClosedRanges_uInt16Range", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_ClosedRanges_uInt16Range", "object")
     
 
     @staticmethod
@@ -96,7 +96,7 @@ class ClosedRanges:
         <!-- FishyJoes.export(uInt32Range) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_ClosedRanges_uInt32Range", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_ClosedRanges_uInt32Range", "object")
     
 
     @staticmethod
@@ -105,7 +105,7 @@ class ClosedRanges:
         <!-- FishyJoes.export(uInt64Range) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_ClosedRanges_uInt64Range", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_ClosedRanges_uInt64Range", "object")
     
 
     @staticmethod
@@ -114,7 +114,7 @@ class ClosedRanges:
         <!-- FishyJoes.export(uInt8Range) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_ClosedRanges_uInt8Range", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_ClosedRanges_uInt8Range", "object")
     
 
     @staticmethod
@@ -123,7 +123,7 @@ class ClosedRanges:
         <!-- FishyJoes.export(uIntRange) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_ClosedRanges_uIntRange", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_ClosedRanges_uIntRange", "object")
     
 
     @staticmethod
@@ -132,7 +132,7 @@ class ClosedRanges:
         <!-- FishyJoes.export(echoUInt8Range) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_ClosedRanges_echoUInt8Range", "object", ("object", range))
+        return _get_runtime().call_symbol("__iota_TestAPI_ClosedRanges_echoUInt8Range", "object", ("object", range))
     
 
     @staticmethod
@@ -141,7 +141,7 @@ class ClosedRanges:
         <!-- FishyJoes.export(echoUInt16Range) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_ClosedRanges_echoUInt16Range", "object", ("object", range))
+        return _get_runtime().call_symbol("__iota_TestAPI_ClosedRanges_echoUInt16Range", "object", ("object", range))
     
 
     @staticmethod
@@ -150,7 +150,7 @@ class ClosedRanges:
         <!-- FishyJoes.export(echoUInt32Range) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_ClosedRanges_echoUInt32Range", "object", ("object", range))
+        return _get_runtime().call_symbol("__iota_TestAPI_ClosedRanges_echoUInt32Range", "object", ("object", range))
     
 
     @staticmethod
@@ -159,7 +159,7 @@ class ClosedRanges:
         <!-- FishyJoes.export(echoUInt64Range) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_ClosedRanges_echoUInt64Range", "object", ("object", range))
+        return _get_runtime().call_symbol("__iota_TestAPI_ClosedRanges_echoUInt64Range", "object", ("object", range))
     
 
     @staticmethod
@@ -168,7 +168,7 @@ class ClosedRanges:
         <!-- FishyJoes.export(echoUIntRange) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_ClosedRanges_echoUIntRange", "object", ("object", range))
+        return _get_runtime().call_symbol("__iota_TestAPI_ClosedRanges_echoUIntRange", "object", ("object", range))
     
 
     @staticmethod
@@ -177,7 +177,7 @@ class ClosedRanges:
         <!-- FishyJoes.export(echoInt8Range) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_ClosedRanges_echoInt8Range", "object", ("object", range))
+        return _get_runtime().call_symbol("__iota_TestAPI_ClosedRanges_echoInt8Range", "object", ("object", range))
     
 
     @staticmethod
@@ -186,7 +186,7 @@ class ClosedRanges:
         <!-- FishyJoes.export(echoInt16Range) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_ClosedRanges_echoInt16Range", "object", ("object", range))
+        return _get_runtime().call_symbol("__iota_TestAPI_ClosedRanges_echoInt16Range", "object", ("object", range))
     
 
     @staticmethod
@@ -195,7 +195,7 @@ class ClosedRanges:
         <!-- FishyJoes.export(echoInt32Range) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_ClosedRanges_echoInt32Range", "object", ("object", range))
+        return _get_runtime().call_symbol("__iota_TestAPI_ClosedRanges_echoInt32Range", "object", ("object", range))
     
 
     @staticmethod
@@ -204,7 +204,7 @@ class ClosedRanges:
         <!-- FishyJoes.export(echoInt64Range) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_ClosedRanges_echoInt64Range", "object", ("object", range))
+        return _get_runtime().call_symbol("__iota_TestAPI_ClosedRanges_echoInt64Range", "object", ("object", range))
     
 
     @staticmethod
@@ -213,7 +213,7 @@ class ClosedRanges:
         <!-- FishyJoes.export(echoIntRange) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_ClosedRanges_echoIntRange", "object", ("object", range))
+        return _get_runtime().call_symbol("__iota_TestAPI_ClosedRanges_echoIntRange", "object", ("object", range))
     
 
     @staticmethod
@@ -222,7 +222,7 @@ class ClosedRanges:
         <!-- FishyJoes.export(echoFloatRange) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_ClosedRanges_echoFloatRange", "object", ("object", range))
+        return _get_runtime().call_symbol("__iota_TestAPI_ClosedRanges_echoFloatRange", "object", ("object", range))
     
 
     @staticmethod
@@ -231,7 +231,7 @@ class ClosedRanges:
         <!-- FishyJoes.export(echoDoubleRange) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_ClosedRanges_echoDoubleRange", "object", ("object", range))
+        return _get_runtime().call_symbol("__iota_TestAPI_ClosedRanges_echoDoubleRange", "object", ("object", range))
     
 
     @staticmethod
@@ -240,5 +240,5 @@ class ClosedRanges:
         <!-- FishyJoes.export(echoStringRange) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_ClosedRanges_echoStringRange", "object", ("object", range))
+        return _get_runtime().call_symbol("__iota_TestAPI_ClosedRanges_echoStringRange", "object", ("object", range))
     

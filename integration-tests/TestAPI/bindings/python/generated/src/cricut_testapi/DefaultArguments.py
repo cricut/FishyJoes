@@ -15,5 +15,5 @@ class DefaultArguments:
         <!-- FishyJoes.export(echoDefaults, compatibilityOrder: [z, y]) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_DefaultArguments_echoDefaults", "object", ("object", y), ("object", x), ("double", z))
+        return _get_runtime().call_symbol("__iota_TestAPI_DefaultArguments_echoDefaults", "object", ("object", y), ("object", x), ("double", z))
     

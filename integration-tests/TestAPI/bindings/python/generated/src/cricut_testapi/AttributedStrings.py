@@ -15,7 +15,7 @@ class AttributedStrings:
         <!-- FishyJoes.export(accent) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_AttributedStrings_accent", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_AttributedStrings_accent", "object")
     
 
     @staticmethod
@@ -24,7 +24,7 @@ class AttributedStrings:
         <!-- FishyJoes.export(chinese) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_AttributedStrings_chinese", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_AttributedStrings_chinese", "object")
     
 
     @staticmethod
@@ -33,7 +33,7 @@ class AttributedStrings:
         <!-- FishyJoes.export(chineseBMP) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_AttributedStrings_chineseBMP", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_AttributedStrings_chineseBMP", "object")
     
 
     @staticmethod
@@ -42,7 +42,7 @@ class AttributedStrings:
         <!-- FishyJoes.export(chineseSIP) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_AttributedStrings_chineseSIP", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_AttributedStrings_chineseSIP", "object")
     
 
     @staticmethod
@@ -51,7 +51,7 @@ class AttributedStrings:
         <!-- FishyJoes.export(emoji) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_AttributedStrings_emoji", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_AttributedStrings_emoji", "object")
     
 
     @staticmethod
@@ -60,7 +60,7 @@ class AttributedStrings:
         <!-- FishyJoes.export(emojiMulti) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_AttributedStrings_emojiMulti", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_AttributedStrings_emojiMulti", "object")
     
 
     @staticmethod
@@ -69,7 +69,7 @@ class AttributedStrings:
         <!-- FishyJoes.export(polyglot) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_AttributedStrings_polyglot", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_AttributedStrings_polyglot", "object")
     
 
     @staticmethod
@@ -78,7 +78,7 @@ class AttributedStrings:
         <!-- FishyJoes.export(script) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_AttributedStrings_script", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_AttributedStrings_script", "object")
     
 
     @staticmethod
@@ -87,7 +87,7 @@ class AttributedStrings:
         <!-- FishyJoes.export(simple) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_AttributedStrings_simple", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_AttributedStrings_simple", "object")
     
 
     @staticmethod
@@ -96,7 +96,7 @@ class AttributedStrings:
         <!-- FishyJoes.export(echo) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_AttributedStrings_echo", "object", ("object", string))
+        return _get_runtime().call_symbol("__iota_TestAPI_AttributedStrings_echo", "object", ("object", string))
     
 
     @staticmethod
@@ -105,7 +105,7 @@ class AttributedStrings:
         <!-- FishyJoes.export(firstIndex) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_AttributedStrings_firstIndex", "object", ("object", string))
+        return _get_runtime().call_symbol("__iota_TestAPI_AttributedStrings_firstIndex", "object", ("object", string))
     
 
     @staticmethod
@@ -114,7 +114,7 @@ class AttributedStrings:
         <!-- FishyJoes.export(lastIndex) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_AttributedStrings_lastIndex", "object", ("object", string))
+        return _get_runtime().call_symbol("__iota_TestAPI_AttributedStrings_lastIndex", "object", ("object", string))
     
 
     @staticmethod
@@ -123,7 +123,7 @@ class AttributedStrings:
         <!-- FishyJoes.export(fullRange) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_AttributedStrings_fullRange", "object", ("object", string))
+        return _get_runtime().call_symbol("__iota_TestAPI_AttributedStrings_fullRange", "object", ("object", string))
     
 
     @staticmethod
@@ -132,7 +132,7 @@ class AttributedStrings:
         <!-- FishyJoes.export(attributedCharacters) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_AttributedStrings_attributedCharacters", "object", ("object", string))
+        return _get_runtime().call_symbol("__iota_TestAPI_AttributedStrings_attributedCharacters", "object", ("object", string))
     
 
     @staticmethod
@@ -141,7 +141,7 @@ class AttributedStrings:
         <!-- FishyJoes.export(attributesPreferringDuplicatesNearerStart) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_AttributedStrings_attributesPreferringDuplicatesNearerStart", "object", ("object", string))
+        return _get_runtime().call_symbol("__iota_TestAPI_AttributedStrings_attributesPreferringDuplicatesNearerStart", "object", ("object", string))
     
 
     @staticmethod
@@ -150,5 +150,5 @@ class AttributedStrings:
         <!-- FishyJoes.export(emptyAttributeRuns) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_AttributedStrings_emptyAttributeRuns", "object", ("object", string))
+        return _get_runtime().call_symbol("__iota_TestAPI_AttributedStrings_emptyAttributeRuns", "object", ("object", string))
     

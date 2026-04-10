@@ -15,7 +15,7 @@ class URLs:
         <!-- FishyJoes.export(dataImage) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_URLs_dataImage", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_URLs_dataImage", "object")
     
 
     @staticmethod
@@ -24,7 +24,7 @@ class URLs:
         <!-- FishyJoes.export(localFile) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_URLs_localFile", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_URLs_localFile", "object")
     
 
     @staticmethod
@@ -33,7 +33,7 @@ class URLs:
         <!-- FishyJoes.export(remoteFile) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_URLs_remoteFile", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_URLs_remoteFile", "object")
     
 
     @staticmethod
@@ -42,7 +42,7 @@ class URLs:
         <!-- FishyJoes.export(simple) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_URLs_simple", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_URLs_simple", "object")
     
 
     @staticmethod
@@ -51,5 +51,5 @@ class URLs:
         <!-- FishyJoes.export(echo) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_URLs_echo", "object", ("object", url))
+        return _get_runtime().call_symbol("__iota_TestAPI_URLs_echo", "object", ("object", url))
     

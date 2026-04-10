@@ -22,7 +22,7 @@ class ExternalWitness_TestMethodsProtocol(NativeReference):
         <!-- FishyJoes.export(foo) -->
         """
         _ensure_runtime_loaded()
-        _get_runtime().invoke("__iota_TestAPI_TestMethodsProtocol_foo", "void", ("object", self))
+        _get_runtime().call_symbol("__iota_TestAPI_TestMethodsProtocol_foo", "void", ("object", self))
     
 
     def bar(self) -> bool:
@@ -30,7 +30,7 @@ class ExternalWitness_TestMethodsProtocol(NativeReference):
         <!-- FishyJoes.export(bar) -->
         """
         _ensure_runtime_loaded()
-        return bool(_get_runtime().invoke("__iota_TestAPI_TestMethodsProtocol_bar", "bool", ("object", self)))
+        return bool(_get_runtime().call_symbol("__iota_TestAPI_TestMethodsProtocol_bar", "bool", ("object", self)))
     
 
     def baz(self, qux: bool) -> None:
@@ -38,7 +38,7 @@ class ExternalWitness_TestMethodsProtocol(NativeReference):
         <!-- FishyJoes.export(baz) -->
         """
         _ensure_runtime_loaded()
-        _get_runtime().invoke("__iota_TestAPI_TestMethodsProtocol_baz", "void", ("object", self), ("bool", qux))
+        _get_runtime().call_symbol("__iota_TestAPI_TestMethodsProtocol_baz", "void", ("object", self), ("bool", qux))
     
 
     def garply(self, _0: str) -> str:
@@ -46,7 +46,7 @@ class ExternalWitness_TestMethodsProtocol(NativeReference):
         <!-- FishyJoes.export(garply) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_TestMethodsProtocol_garply", "object", ("object", self), ("object", _0))
+        return _get_runtime().call_symbol("__iota_TestAPI_TestMethodsProtocol_garply", "object", ("object", self), ("object", _0))
     
 
     def xyzzy(self, thud: int, grault: list[float]) -> str:
@@ -54,7 +54,7 @@ class ExternalWitness_TestMethodsProtocol(NativeReference):
         <!-- FishyJoes.export(xyzzy) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_TestMethodsProtocol_xyzzy", "object", ("object", self), ("int", thud), ("object", grault))
+        return _get_runtime().call_symbol("__iota_TestAPI_TestMethodsProtocol_xyzzy", "object", ("object", self), ("int", thud), ("object", grault))
     
 
     def plugh(self, fred: tuple[bool, float, list[str]]) -> tuple[bool, int, str]:
@@ -62,5 +62,5 @@ class ExternalWitness_TestMethodsProtocol(NativeReference):
         <!-- FishyJoes.export(plugh) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_TestMethodsProtocol_plugh", "object", ("object", self), ("object", fred))
+        return _get_runtime().call_symbol("__iota_TestAPI_TestMethodsProtocol_plugh", "object", ("object", self), ("object", fred))
     

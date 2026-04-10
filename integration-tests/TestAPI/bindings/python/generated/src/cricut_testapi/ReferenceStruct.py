@@ -23,7 +23,7 @@ class ReferenceStruct(NativeReference):
         <!-- FishyJoes.export(immutable) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Structs_ReferenceStruct_immutable", "object", ("object", self))
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Structs_ReferenceStruct_immutable", "object", ("object", self))
     
 
     @property
@@ -32,13 +32,13 @@ class ReferenceStruct(NativeReference):
         <!-- FishyJoes.export(mutable) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Structs_ReferenceStruct_mutable", "object", ("object", self))
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Structs_ReferenceStruct_mutable", "object", ("object", self))
     
 
     @mutable.setter
     def mutable(self, value: str) -> None:
         _ensure_runtime_loaded()
-        _get_runtime().invoke("__iota_set_TestAPI_Structs_ReferenceStruct_mutable", "void", ("object", self), ("object", value))
+        _get_runtime().call_symbol("__iota_set_TestAPI_Structs_ReferenceStruct_mutable", "void", ("object", self), ("object", value))
     
 
     @staticmethod
@@ -47,7 +47,7 @@ class ReferenceStruct(NativeReference):
         <!-- FishyJoes.export(create) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Structs_ReferenceStruct_create", "object")
+        return _get_runtime().call_symbol("__iota_TestAPI_Structs_ReferenceStruct_create", "object")
     
 
     async def asyncGetMutable(self) -> typing.Awaitable[str]:
@@ -56,5 +56,5 @@ class ReferenceStruct(NativeReference):
         """
         _ensure_runtime_loaded()
         import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_Structs_ReferenceStruct_asyncGetMutable", "object", ("object", self)))
+        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_Structs_ReferenceStruct_asyncGetMutable", "object", ("object", self)))
     

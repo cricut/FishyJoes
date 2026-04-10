@@ -3,7 +3,7 @@ from __future__ import annotations
 import ctypes
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Iterable, Protocol, TypeAlias
+from typing import Any, Protocol, TypeAlias
 
 import cffi
 
@@ -215,33 +215,26 @@ class IotaRuntime:
         self._register_module_types()
         self._loaded = True
 
-    def bind(
-        self,
-        symbol: str,
-        *,
-        library: str = "module_iota",
-        restype: Any = None,
-        argtypes: Iterable[Any] = (),
-    ) -> Any:
-        """Return a ctypes-compatible callable for the symbol (compatibility shim)."""
-        self.ensure_loaded()
-        lib = self._library(library)
-        # Build a cffi function pointer by casting to the right ctype.
-        return _CffiSymbolWrapper(lib, symbol, restype=restype, argtypes=list(argtypes))
+    def load_module_declarations(self, header_text: str) -> None:
+        """cdef the module's _declarations.h into the shared _ffi instance.
 
-    def invoke(
-        self,
-        symbol: str,
-        *args: Any,
-        library: str = "module_iota",
-        restype: Any = None,
-        argtypes: Iterable[Any] = (),
-    ) -> Any:
-        function = self.bind(symbol, library=library, restype=restype, argtypes=argtypes)
-        return function(*args)
+        Must be called after ensure_loaded().  Subsequent call_symbol() calls on
+        GeneratedRuntime will resolve symbols from the already-opened iota lib.
+        """
+        self._ensure_loaded()
+        # Strip C preprocessor directives that cffi cannot parse.
+        cleaned_lines = [
+            line for line in header_text.splitlines()
+            if not line.lstrip().startswith("#")
+        ]
+        cleaned = "\n".join(cleaned_lines)
+        _ffi.cdef(cleaned, override=True)
 
-    def lookup_iota_symbol(self, symbol: str, *, restype: Any = None, argtypes: Iterable[Any] = ()) -> Any:
-        return self.bind(symbol, library="module_iota", restype=restype, argtypes=argtypes)
+    @property
+    def iota_lib(self) -> Any:
+        """The cffi library object for the module's iota dylib."""
+        assert self.module_iota_lib is not None, "IotaRuntime not loaded yet"
+        return self.module_iota_lib
 
     def retain_foreign_object(self, value: object) -> int:
         self._ensure_loaded()
@@ -380,7 +373,13 @@ class IotaRuntime:
             handle = handle.value
         if not handle:
             return
-        self._handles.pop(int(handle), None)
+        # cffi cdata (e.g. void*) — convert to int via uintptr_t cast.
+        if not isinstance(handle, int):
+            try:
+                handle = int(_ffi.cast("uintptr_t", handle))
+            except TypeError:
+                return
+        self._handles.pop(handle, None)
 
     def _set_exn(self, out_exn: Any, error: BaseException) -> None:
         """Write an exception into a void** out-parameter.
@@ -732,123 +731,3 @@ class IotaRuntime:
             _ffi.cast("void*", self.env), uri_cb, ctor_cb
         )
 
-
-class _CffiSymbolWrapper:
-    """Wraps a cffi library symbol with ctypes-compatible call semantics.
-
-    This is a compatibility shim so that GeneratedRuntime (which uses ctypes
-    argtypes/restype conventions) can delegate to cffi-backed symbols without
-    requiring every generated file to be updated at once.
-    """
-
-    _CTYPES_TO_CFFI: dict[Any, str] = {
-        ctypes.c_void_p: "void*",
-        ctypes.c_uint8: "uint8_t",
-        ctypes.c_int8: "int8_t",
-        ctypes.c_uint16: "uint16_t",
-        ctypes.c_int16: "int16_t",
-        ctypes.c_uint32: "uint32_t",
-        ctypes.c_int32: "int32_t",
-        ctypes.c_uint64: "uint64_t",
-        ctypes.c_int64: "int64_t",
-        ctypes.c_size_t: "uintptr_t",
-        ctypes.c_ssize_t: "intptr_t",
-        ctypes.c_float: "float",
-        ctypes.c_double: "double",
-        ctypes.c_long: "intptr_t",
-        ctypes.c_longlong: "int64_t",
-        ctypes.c_ulonglong: "uint64_t",
-        ctypes.c_char_p: "char*",
-        None: "void",
-    }
-
-    def __init__(self, lib: Any, symbol: str, *, restype: Any, argtypes: list[Any]) -> None:
-        self._lib = lib
-        self._symbol = symbol
-        self._restype = restype
-        self._argtypes = argtypes
-
-    def _cffi_type(self, ct: Any) -> str:
-        # Handle POINTER types.
-        if hasattr(ct, "_type_") and hasattr(ctypes, "POINTER"):
-            inner = getattr(ct, "_type_", None)
-            if inner is ctypes.c_void_p:
-                return "void**"
-            if inner is not None:
-                inner_name = self._CTYPES_TO_CFFI.get(inner)
-                if inner_name:
-                    return f"{inner_name}*"
-        return self._CTYPES_TO_CFFI.get(ct, "void*")
-
-    def __call__(self, *args: Any) -> Any:
-        ret_cffi = self._cffi_type(self._restype)
-        arg_cffis = [self._cffi_type(t) for t in self._argtypes]
-        sig = f"{ret_cffi}({', '.join(arg_cffis)})"
-        try:
-            _ffi.cdef(f"{ret_cffi} {self._symbol}({', '.join(arg_cffis)});", override=True)
-        except Exception:
-            pass  # Already declared or not declarable; proceed via cast.
-
-        fn = getattr(self._lib, self._symbol)
-        converted: list[Any] = []
-        for arg, ct in zip(args, self._argtypes):
-            converted.append(self._convert_arg(arg, ct))
-
-        result = fn(*converted)
-        return self._convert_result(result, self._restype)
-
-    def _convert_arg(self, arg: Any, ct: Any) -> Any:
-        # Determine whether ct is a pointer-like type (c_void_p or POINTER(X)).
-        # NOTE: do NOT use hasattr(ct, "_type_") — all Simple ctypes types have
-        # _type_, so that check incorrectly treats c_longlong etc. as pointers.
-        is_ptr_type = (
-            ct is ctypes.c_void_p
-            or ct is None
-            or (isinstance(ct, type) and issubclass(ct, ctypes._Pointer))
-        )
-
-        if arg is None:
-            return _ffi.NULL
-        # Handle ctypes.byref(c_void_p) — used for void** out-params.
-        if hasattr(arg, "_obj"):
-            obj = arg._obj
-            ptr = _ffi.cast("void**", ctypes.addressof(obj))
-            return ptr
-        if hasattr(arg, "value"):
-            # ctypes c_void_p / c_int / etc. wrapper object.
-            raw = arg.value
-            if raw is None:
-                return _ffi.NULL
-            if is_ptr_type:
-                return _ffi.cast("void*", raw)
-            return raw
-        if isinstance(arg, int):
-            if is_ptr_type:
-                return _ffi.cast("void*", arg)
-            return arg
-        if isinstance(arg, float):
-            return arg
-        # ctypes function pointer (CFUNCTYPE callback) — cast through c_void_p.
-        try:
-            raw_ptr = ctypes.cast(arg, ctypes.c_void_p).value
-            if raw_ptr is not None:
-                return _ffi.cast("void*", raw_ptr)
-        except (TypeError, ctypes.ArgumentError):
-            pass
-        # cffi cdata or other passthrough.
-        return arg
-
-    def _convert_result(self, result: Any, ct: Any) -> Any:
-        if ct is None:
-            return None
-        if result is None or result == _ffi.NULL:
-            if ct is ctypes.c_void_p:
-                return ctypes.c_void_p(None)
-            return None
-        try:
-            addr = int(_ffi.cast("uintptr_t", result))
-        except Exception:
-            return result
-        if ct is ctypes.c_void_p:
-            return ctypes.c_void_p(addr)
-        return addr

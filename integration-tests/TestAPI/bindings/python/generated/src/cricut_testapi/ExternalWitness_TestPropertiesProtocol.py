@@ -23,7 +23,7 @@ class ExternalWitness_TestPropertiesProtocol(NativeReference):
         <!-- FishyJoes.export(corge) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_TestPropertiesProtocol_corge", "object", ("object", self))
+        return _get_runtime().call_symbol("__iota_get_TestAPI_TestPropertiesProtocol_corge", "object", ("object", self))
     
 
     @property
@@ -32,5 +32,5 @@ class ExternalWitness_TestPropertiesProtocol(NativeReference):
         <!-- FishyJoes.export(frobby) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_TestPropertiesProtocol_frobby", "object", ("object", self))
+        return _get_runtime().call_symbol("__iota_get_TestAPI_TestPropertiesProtocol_frobby", "object", ("object", self))
     

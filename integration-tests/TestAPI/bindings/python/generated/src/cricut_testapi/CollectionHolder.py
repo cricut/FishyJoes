@@ -26,13 +26,13 @@ class CollectionHolder:
         <!-- FishyJoes.export(staticMutableProperty) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Collections_CollectionHolder_staticMutableProperty", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Collections_CollectionHolder_staticMutableProperty", "object")
     
 
     @staticmethod
     def set_staticMutableProperty(value: list[int | None]) -> None:
         _ensure_runtime_loaded()
-        _get_runtime().invoke("__iota_set_TestAPI_Collections_CollectionHolder_staticMutableProperty", "void", ("object", value))
+        _get_runtime().call_symbol("__iota_set_TestAPI_Collections_CollectionHolder_staticMutableProperty", "void", ("object", value))
     
 
     @staticmethod
@@ -41,5 +41,5 @@ class CollectionHolder:
         <!-- FishyJoes.export(staticProperty) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Collections_CollectionHolder_staticProperty", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Collections_CollectionHolder_staticProperty", "object")
     

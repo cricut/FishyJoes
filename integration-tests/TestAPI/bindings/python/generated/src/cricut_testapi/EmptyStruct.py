@@ -16,7 +16,7 @@ class EmptyStruct:
         <!-- FishyJoes.export(tatiana) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_EmptyStruct_tatiana", "object", ("object", self))
+        return _get_runtime().call_symbol("__iota_get_TestAPI_EmptyStruct_tatiana", "object", ("object", self))
     
 
     @property
@@ -25,7 +25,7 @@ class EmptyStruct:
         <!-- FishyJoes.export(tutu) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_EmptyStruct_tutu", "int", ("object", self))
+        return _get_runtime().call_symbol("__iota_get_TestAPI_EmptyStruct_tutu", "int", ("object", self))
     
 
     @staticmethod
@@ -34,7 +34,7 @@ class EmptyStruct:
         <!-- FishyJoes.export(create) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_EmptyStruct_create", "object")
+        return _get_runtime().call_symbol("__iota_TestAPI_EmptyStruct_create", "object")
     
 
     def aap(self) -> str:
@@ -42,7 +42,7 @@ class EmptyStruct:
         <!-- FishyJoes.export(aap) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_EmptyStruct_aap", "object", ("object", self))
+        return _get_runtime().call_symbol("__iota_TestAPI_EmptyStruct_aap", "object", ("object", self))
     
 
     def zxccxz(self) -> str:
@@ -50,5 +50,5 @@ class EmptyStruct:
         <!-- FishyJoes.export(zxccxz) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_EmptyStruct_zxccxz", "object", ("object", self))
+        return _get_runtime().call_symbol("__iota_TestAPI_EmptyStruct_zxccxz", "object", ("object", self))
     

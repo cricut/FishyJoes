@@ -33,7 +33,7 @@ class TestAsyncForeignSideFunctionsStruct:
         """
         _ensure_runtime_loaded()
         import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise0", "object", ("object", self), ("object", fn)))
+        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise0", "object", ("object", self), ("object", fn)))
     
 
     async def exercise1(self, fn: typing.Callable[[int], typing.Awaitable[int]]) -> typing.Awaitable[str]:
@@ -42,7 +42,7 @@ class TestAsyncForeignSideFunctionsStruct:
         """
         _ensure_runtime_loaded()
         import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise1", "object", ("object", self), ("object", fn)))
+        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise1", "object", ("object", self), ("object", fn)))
     
 
     async def exercise2(self, fn: typing.Callable[[typing.Callable[[int], typing.Awaitable[int]], typing.Callable[[int], typing.Awaitable[int]]], typing.Callable[[int], typing.Awaitable[int]]]) -> typing.Awaitable[str]:
@@ -51,7 +51,7 @@ class TestAsyncForeignSideFunctionsStruct:
         """
         _ensure_runtime_loaded()
         import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise2", "object", ("object", self), ("object", fn)))
+        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise2", "object", ("object", self), ("object", fn)))
     
 
     async def exercise3(self, fn: typing.Callable[[float, float, int], typing.Awaitable[float]]) -> typing.Awaitable[str]:
@@ -60,7 +60,7 @@ class TestAsyncForeignSideFunctionsStruct:
         """
         _ensure_runtime_loaded()
         import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise3", "object", ("object", self), ("object", fn)))
+        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise3", "object", ("object", self), ("object", fn)))
     
 
     async def exercise4(self, fn: typing.Callable[[str, str, str, str], typing.Awaitable[list[str]]]) -> typing.Awaitable[str]:
@@ -69,7 +69,7 @@ class TestAsyncForeignSideFunctionsStruct:
         """
         _ensure_runtime_loaded()
         import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise4", "object", ("object", self), ("object", fn)))
+        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise4", "object", ("object", self), ("object", fn)))
     
 
     async def exercise5(self, fn: typing.Callable[[str, int, float, str, typing.Callable[[], typing.Awaitable[int]]], typing.Awaitable[typing.Callable[[], typing.Awaitable[int]]]]) -> typing.Awaitable[str]:
@@ -78,7 +78,7 @@ class TestAsyncForeignSideFunctionsStruct:
         """
         _ensure_runtime_loaded()
         import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise5", "object", ("object", self), ("object", fn)))
+        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise5", "object", ("object", self), ("object", fn)))
     
 
     async def exercise6(self, fn: typing.Callable[[str, int, float, str, typing.Callable[[], typing.Awaitable[int]], int], typing.Awaitable[int]]) -> typing.Awaitable[str]:
@@ -87,7 +87,7 @@ class TestAsyncForeignSideFunctionsStruct:
         """
         _ensure_runtime_loaded()
         import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise6", "object", ("object", self), ("object", fn)))
+        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise6", "object", ("object", self), ("object", fn)))
     
 
     def thunkTwiceMaker(self, thunk: typing.Callable[[], typing.Awaitable[None]]) -> typing.Callable[[], typing.Awaitable[None]]:
@@ -95,7 +95,7 @@ class TestAsyncForeignSideFunctionsStruct:
         <!-- FishyJoes.export(thunkTwiceMaker) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_thunkTwiceMaker", "object", ("object", self), ("object", thunk))
+        return _get_runtime().call_symbol("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_thunkTwiceMaker", "object", ("object", self), ("object", thunk))
     
 
     def witness(self) -> TestAsyncFunctions:
@@ -103,7 +103,7 @@ class TestAsyncForeignSideFunctionsStruct:
         <!-- FishyJoes.export(witness) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_witness", "object", ("object", self))
+        return _get_runtime().call_symbol("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_witness", "object", ("object", self))
     
 
     async def defaultExercise6(self, fn: typing.Callable[[str, int, float, str, typing.Callable[[], typing.Awaitable[int]], int], typing.Awaitable[int]]) -> typing.Awaitable[str]:
@@ -112,5 +112,5 @@ class TestAsyncForeignSideFunctionsStruct:
         """
         _ensure_runtime_loaded()
         import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_defaultExercise6", "object", ("object", self), ("object", fn)))
+        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_defaultExercise6", "object", ("object", self), ("object", fn)))
     

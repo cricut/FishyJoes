@@ -15,7 +15,7 @@ class Results:
         <!-- FishyJoes.export(aFailure) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Results_aFailure", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Results_aFailure", "object")
     
 
     @staticmethod
@@ -24,7 +24,7 @@ class Results:
         <!-- FishyJoes.export(aSuccess) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Results_aSuccess", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Results_aSuccess", "object")
     
 
     @staticmethod
@@ -33,5 +33,5 @@ class Results:
         <!-- FishyJoes.export(processResult) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Results_processResult", "object", ("object", result))
+        return _get_runtime().call_symbol("__iota_TestAPI_Results_processResult", "object", ("object", result))
     

@@ -23,7 +23,7 @@ class TemperatureLogger(NativeReference):
         <!-- FishyJoes.export(backwardsLabel) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Actors_TemperatureLogger_backwardsLabel", "object", ("object", self))
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Actors_TemperatureLogger_backwardsLabel", "object", ("object", self))
     
 
     @property
@@ -32,7 +32,7 @@ class TemperatureLogger(NativeReference):
         <!-- FishyJoes.export(extensionNonisolatedVarLabel) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Actors_TemperatureLogger_extensionNonisolatedVarLabel", "object", ("object", self))
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Actors_TemperatureLogger_extensionNonisolatedVarLabel", "object", ("object", self))
     
 
     @property
@@ -41,7 +41,7 @@ class TemperatureLogger(NativeReference):
         <!-- FishyJoes.export(label) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Actors_TemperatureLogger_label", "object", ("object", self))
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Actors_TemperatureLogger_label", "object", ("object", self))
     
 
     @staticmethod
@@ -50,7 +50,7 @@ class TemperatureLogger(NativeReference):
         <!-- FishyJoes.export(create) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Actors_TemperatureLogger_create", "object", ("object", label), ("int", measurement))
+        return _get_runtime().call_symbol("__iota_TestAPI_Actors_TemperatureLogger_create", "object", ("object", label), ("int", measurement))
     
 
     async def update(self, measurement: int) -> typing.Awaitable[None]:
@@ -59,7 +59,7 @@ class TemperatureLogger(NativeReference):
         """
         _ensure_runtime_loaded()
         import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_Actors_TemperatureLogger_update", "object", ("object", self), ("int", measurement)))
+        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_Actors_TemperatureLogger_update", "object", ("object", self), ("int", measurement)))
     
 
     async def min(self) -> typing.Awaitable[int]:
@@ -68,7 +68,7 @@ class TemperatureLogger(NativeReference):
         """
         _ensure_runtime_loaded()
         import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_Actors_TemperatureLogger_min", "object", ("object", self)))
+        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_Actors_TemperatureLogger_min", "object", ("object", self)))
     
 
     async def extensionIsolatedGetLabel(self) -> typing.Awaitable[str]:
@@ -77,7 +77,7 @@ class TemperatureLogger(NativeReference):
         """
         _ensure_runtime_loaded()
         import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_Actors_TemperatureLogger_extensionIsolatedGetLabel", "object", ("object", self)))
+        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_Actors_TemperatureLogger_extensionIsolatedGetLabel", "object", ("object", self)))
     
 
     def extensionNonisolatedGetLabel(self) -> str:
@@ -85,5 +85,5 @@ class TemperatureLogger(NativeReference):
         <!-- FishyJoes.export(extensionNonisolatedGetLabel) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Actors_TemperatureLogger_extensionNonisolatedGetLabel", "object", ("object", self))
+        return _get_runtime().call_symbol("__iota_TestAPI_Actors_TemperatureLogger_extensionNonisolatedGetLabel", "object", ("object", self))
     

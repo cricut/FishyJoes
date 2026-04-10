@@ -15,7 +15,7 @@ class Strings:
         <!-- FishyJoes.export(accent) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Strings_accent", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Strings_accent", "object")
     
 
     @staticmethod
@@ -24,7 +24,7 @@ class Strings:
         <!-- FishyJoes.export(chinese) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Strings_chinese", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Strings_chinese", "object")
     
 
     @staticmethod
@@ -33,7 +33,7 @@ class Strings:
         <!-- FishyJoes.export(chineseBMP) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Strings_chineseBMP", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Strings_chineseBMP", "object")
     
 
     @staticmethod
@@ -42,7 +42,7 @@ class Strings:
         <!-- FishyJoes.export(chineseSIP) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Strings_chineseSIP", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Strings_chineseSIP", "object")
     
 
     @staticmethod
@@ -51,7 +51,7 @@ class Strings:
         <!-- FishyJoes.export(emoji) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Strings_emoji", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Strings_emoji", "object")
     
 
     @staticmethod
@@ -60,7 +60,7 @@ class Strings:
         <!-- FishyJoes.export(emojiMulti) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Strings_emojiMulti", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Strings_emojiMulti", "object")
     
 
     @staticmethod
@@ -69,7 +69,7 @@ class Strings:
         <!-- FishyJoes.export(script) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Strings_script", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Strings_script", "object")
     
 
     @staticmethod
@@ -78,7 +78,7 @@ class Strings:
         <!-- FishyJoes.export(simple) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Strings_simple", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Strings_simple", "object")
     
 
     @staticmethod
@@ -87,7 +87,7 @@ class Strings:
         <!-- FishyJoes.export(echo) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Strings_echo", "object", ("object", string))
+        return _get_runtime().call_symbol("__iota_TestAPI_Strings_echo", "object", ("object", string))
     
 
     @staticmethod
@@ -96,5 +96,5 @@ class Strings:
         <!-- FishyJoes.export(split) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Strings_split", "object", ("object", string), ("object", by))
+        return _get_runtime().call_symbol("__iota_TestAPI_Strings_split", "object", ("object", string), ("object", by))
     

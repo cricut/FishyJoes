@@ -23,7 +23,7 @@ class EmptyClass2(NativeReference):
         <!-- FishyJoes.export(blorg) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_EmptyClass2_blorg", "object", ("object", self))
+        return _get_runtime().call_symbol("__iota_get_TestAPI_EmptyClass2_blorg", "object", ("object", self))
     
 
     @property
@@ -32,7 +32,7 @@ class EmptyClass2(NativeReference):
         <!-- FishyJoes.export(wibble) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_EmptyClass2_wibble", "object", ("object", self))
+        return _get_runtime().call_symbol("__iota_get_TestAPI_EmptyClass2_wibble", "object", ("object", self))
     
 
     @staticmethod
@@ -41,7 +41,7 @@ class EmptyClass2(NativeReference):
         <!-- FishyJoes.export(make) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_EmptyClass2_make", "object")
+        return _get_runtime().call_symbol("__iota_TestAPI_EmptyClass2_make", "object")
     
 
     def shmee(self) -> str:
@@ -49,7 +49,7 @@ class EmptyClass2(NativeReference):
         <!-- FishyJoes.export(shmee) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_EmptyClass2_shmee", "object", ("object", self))
+        return _get_runtime().call_symbol("__iota_TestAPI_EmptyClass2_shmee", "object", ("object", self))
     
 
     def gorp(self) -> str:
@@ -57,5 +57,5 @@ class EmptyClass2(NativeReference):
         <!-- FishyJoes.export(gorp) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_EmptyClass2_gorp", "object", ("object", self))
+        return _get_runtime().call_symbol("__iota_TestAPI_EmptyClass2_gorp", "object", ("object", self))
     

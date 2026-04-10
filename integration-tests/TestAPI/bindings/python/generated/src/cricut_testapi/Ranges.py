@@ -15,7 +15,7 @@ class Ranges:
         <!-- FishyJoes.export(int16Range) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Ranges_int16Range", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Ranges_int16Range", "object")
     
 
     @staticmethod
@@ -24,7 +24,7 @@ class Ranges:
         <!-- FishyJoes.export(int32Range) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Ranges_int32Range", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Ranges_int32Range", "object")
     
 
     @staticmethod
@@ -33,7 +33,7 @@ class Ranges:
         <!-- FishyJoes.export(int64Range) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Ranges_int64Range", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Ranges_int64Range", "object")
     
 
     @staticmethod
@@ -42,7 +42,7 @@ class Ranges:
         <!-- FishyJoes.export(int8Range) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Ranges_int8Range", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Ranges_int8Range", "object")
     
 
     @staticmethod
@@ -51,7 +51,7 @@ class Ranges:
         <!-- FishyJoes.export(intRange) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Ranges_intRange", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Ranges_intRange", "object")
     
 
     @staticmethod
@@ -60,7 +60,7 @@ class Ranges:
         <!-- FishyJoes.export(uInt16Range) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Ranges_uInt16Range", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Ranges_uInt16Range", "object")
     
 
     @staticmethod
@@ -69,7 +69,7 @@ class Ranges:
         <!-- FishyJoes.export(uInt32Range) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Ranges_uInt32Range", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Ranges_uInt32Range", "object")
     
 
     @staticmethod
@@ -78,7 +78,7 @@ class Ranges:
         <!-- FishyJoes.export(uInt64Range) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Ranges_uInt64Range", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Ranges_uInt64Range", "object")
     
 
     @staticmethod
@@ -87,7 +87,7 @@ class Ranges:
         <!-- FishyJoes.export(uInt8Range) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Ranges_uInt8Range", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Ranges_uInt8Range", "object")
     
 
     @staticmethod
@@ -96,7 +96,7 @@ class Ranges:
         <!-- FishyJoes.export(uIntRange) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Ranges_uIntRange", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Ranges_uIntRange", "object")
     
 
     @staticmethod
@@ -105,7 +105,7 @@ class Ranges:
         <!-- FishyJoes.export(echoUInt8Range) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Ranges_echoUInt8Range", "object", ("object", range))
+        return _get_runtime().call_symbol("__iota_TestAPI_Ranges_echoUInt8Range", "object", ("object", range))
     
 
     @staticmethod
@@ -114,7 +114,7 @@ class Ranges:
         <!-- FishyJoes.export(echoUInt16Range) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Ranges_echoUInt16Range", "object", ("object", range))
+        return _get_runtime().call_symbol("__iota_TestAPI_Ranges_echoUInt16Range", "object", ("object", range))
     
 
     @staticmethod
@@ -123,7 +123,7 @@ class Ranges:
         <!-- FishyJoes.export(echoUInt32Range) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Ranges_echoUInt32Range", "object", ("object", range))
+        return _get_runtime().call_symbol("__iota_TestAPI_Ranges_echoUInt32Range", "object", ("object", range))
     
 
     @staticmethod
@@ -132,7 +132,7 @@ class Ranges:
         <!-- FishyJoes.export(echoUInt64Range) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Ranges_echoUInt64Range", "object", ("object", range))
+        return _get_runtime().call_symbol("__iota_TestAPI_Ranges_echoUInt64Range", "object", ("object", range))
     
 
     @staticmethod
@@ -141,7 +141,7 @@ class Ranges:
         <!-- FishyJoes.export(echoUIntRange) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Ranges_echoUIntRange", "object", ("object", range))
+        return _get_runtime().call_symbol("__iota_TestAPI_Ranges_echoUIntRange", "object", ("object", range))
     
 
     @staticmethod
@@ -150,7 +150,7 @@ class Ranges:
         <!-- FishyJoes.export(echoInt8Range) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Ranges_echoInt8Range", "object", ("object", range))
+        return _get_runtime().call_symbol("__iota_TestAPI_Ranges_echoInt8Range", "object", ("object", range))
     
 
     @staticmethod
@@ -159,7 +159,7 @@ class Ranges:
         <!-- FishyJoes.export(echoInt16Range) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Ranges_echoInt16Range", "object", ("object", range))
+        return _get_runtime().call_symbol("__iota_TestAPI_Ranges_echoInt16Range", "object", ("object", range))
     
 
     @staticmethod
@@ -168,7 +168,7 @@ class Ranges:
         <!-- FishyJoes.export(echoInt32Range) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Ranges_echoInt32Range", "object", ("object", range))
+        return _get_runtime().call_symbol("__iota_TestAPI_Ranges_echoInt32Range", "object", ("object", range))
     
 
     @staticmethod
@@ -177,7 +177,7 @@ class Ranges:
         <!-- FishyJoes.export(echoInt64Range) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Ranges_echoInt64Range", "object", ("object", range))
+        return _get_runtime().call_symbol("__iota_TestAPI_Ranges_echoInt64Range", "object", ("object", range))
     
 
     @staticmethod
@@ -186,5 +186,5 @@ class Ranges:
         <!-- FishyJoes.export(echoIntRange) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Ranges_echoIntRange", "object", ("object", range))
+        return _get_runtime().call_symbol("__iota_TestAPI_Ranges_echoIntRange", "object", ("object", range))
     

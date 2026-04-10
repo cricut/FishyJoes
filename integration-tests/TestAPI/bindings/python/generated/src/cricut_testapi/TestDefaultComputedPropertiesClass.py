@@ -23,13 +23,13 @@ class TestDefaultComputedPropertiesClass(NativeReference):
         <!-- FishyJoes.export(noot) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_TestDefaultComputedPropertiesClass_noot", "int", ("object", self))
+        return _get_runtime().call_symbol("__iota_get_TestAPI_TestDefaultComputedPropertiesClass_noot", "int", ("object", self))
     
 
     @noot.setter
     def noot(self, value: int) -> None:
         _ensure_runtime_loaded()
-        _get_runtime().invoke("__iota_set_TestAPI_TestDefaultComputedPropertiesClass_noot", "void", ("object", self), ("int", value))
+        _get_runtime().call_symbol("__iota_set_TestAPI_TestDefaultComputedPropertiesClass_noot", "void", ("object", self), ("int", value))
     
 
     @property
@@ -38,7 +38,7 @@ class TestDefaultComputedPropertiesClass(NativeReference):
         <!-- FishyJoes.export(plutonic) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_TestDefaultComputedPropertiesClass_plutonic", "object", ("object", self))
+        return _get_runtime().call_symbol("__iota_get_TestAPI_TestDefaultComputedPropertiesClass_plutonic", "object", ("object", self))
     
 
     @property
@@ -47,13 +47,13 @@ class TestDefaultComputedPropertiesClass(NativeReference):
         <!-- FishyJoes.export(spam) -->
         """
         _ensure_runtime_loaded()
-        return bool(_get_runtime().invoke("__iota_get_TestAPI_TestDefaultComputedPropertiesClass_spam", "bool", ("object", self)))
+        return bool(_get_runtime().call_symbol("__iota_get_TestAPI_TestDefaultComputedPropertiesClass_spam", "bool", ("object", self)))
     
 
     @spam.setter
     def spam(self, value: bool) -> None:
         _ensure_runtime_loaded()
-        _get_runtime().invoke("__iota_set_TestAPI_TestDefaultComputedPropertiesClass_spam", "void", ("object", self), ("bool", value))
+        _get_runtime().call_symbol("__iota_set_TestAPI_TestDefaultComputedPropertiesClass_spam", "void", ("object", self), ("bool", value))
     
 
     @staticmethod
@@ -62,5 +62,5 @@ class TestDefaultComputedPropertiesClass(NativeReference):
         <!-- FishyJoes.export(init) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_TestDefaultComputedPropertiesClass_init", "object", ("bool", spam), ("int", noot))
+        return _get_runtime().call_symbol("__iota_TestAPI_TestDefaultComputedPropertiesClass_init", "object", ("bool", spam), ("int", noot))
     

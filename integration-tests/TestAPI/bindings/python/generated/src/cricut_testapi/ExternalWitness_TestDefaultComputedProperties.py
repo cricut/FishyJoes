@@ -23,7 +23,7 @@ class ExternalWitness_TestDefaultComputedProperties(NativeReference):
         <!-- FishyJoes.export(noot) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_TestDefaultComputedProperties_noot", "int", ("object", self))
+        return _get_runtime().call_symbol("__iota_get_TestAPI_TestDefaultComputedProperties_noot", "int", ("object", self))
     
 
     @property
@@ -32,5 +32,5 @@ class ExternalWitness_TestDefaultComputedProperties(NativeReference):
         <!-- FishyJoes.export(plutonic) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_TestDefaultComputedProperties_plutonic", "object", ("object", self))
+        return _get_runtime().call_symbol("__iota_get_TestAPI_TestDefaultComputedProperties_plutonic", "object", ("object", self))
     

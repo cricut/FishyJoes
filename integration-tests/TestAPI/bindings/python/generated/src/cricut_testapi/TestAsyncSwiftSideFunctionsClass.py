@@ -23,7 +23,7 @@ class TestAsyncSwiftSideFunctionsClass(NativeReference):
         <!-- FishyJoes.export(add3Things) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_add3Things", "object", ("object", self))
+        return _get_runtime().call_symbol("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_add3Things", "object", ("object", self))
     
 
     @property
@@ -32,7 +32,7 @@ class TestAsyncSwiftSideFunctionsClass(NativeReference):
         <!-- FishyJoes.export(const42) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_const42", "object", ("object", self))
+        return _get_runtime().call_symbol("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_const42", "object", ("object", self))
     
 
     @property
@@ -41,7 +41,7 @@ class TestAsyncSwiftSideFunctionsClass(NativeReference):
         <!-- FishyJoes.export(fifthThing) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_fifthThing", "object", ("object", self))
+        return _get_runtime().call_symbol("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_fifthThing", "object", ("object", self))
     
 
     @property
@@ -50,7 +50,7 @@ class TestAsyncSwiftSideFunctionsClass(NativeReference):
         <!-- FishyJoes.export(iabs) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_iabs", "object", ("object", self))
+        return _get_runtime().call_symbol("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_iabs", "object", ("object", self))
     
 
     @property
@@ -59,7 +59,7 @@ class TestAsyncSwiftSideFunctionsClass(NativeReference):
         <!-- FishyJoes.export(intCompose) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_intCompose", "object", ("object", self))
+        return _get_runtime().call_symbol("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_intCompose", "object", ("object", self))
     
 
     @property
@@ -68,7 +68,7 @@ class TestAsyncSwiftSideFunctionsClass(NativeReference):
         <!-- FishyJoes.export(makeList) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_makeList", "object", ("object", self))
+        return _get_runtime().call_symbol("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_makeList", "object", ("object", self))
     
 
     @property
@@ -77,7 +77,7 @@ class TestAsyncSwiftSideFunctionsClass(NativeReference):
         <!-- FishyJoes.export(six) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_six", "object", ("object", self))
+        return _get_runtime().call_symbol("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_six", "object", ("object", self))
     
 
     @property
@@ -86,7 +86,7 @@ class TestAsyncSwiftSideFunctionsClass(NativeReference):
         <!-- FishyJoes.export(willThrow) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_willThrow", "object", ("object", self))
+        return _get_runtime().call_symbol("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_willThrow", "object", ("object", self))
     
 
     async def exercise0(self, fn: typing.Callable[[], typing.Awaitable[int]]) -> typing.Awaitable[str]:
@@ -95,7 +95,7 @@ class TestAsyncSwiftSideFunctionsClass(NativeReference):
         """
         _ensure_runtime_loaded()
         import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise0", "object", ("object", self), ("object", fn)))
+        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise0", "object", ("object", self), ("object", fn)))
     
 
     async def exercise1(self, fn: typing.Callable[[int], typing.Awaitable[int]]) -> typing.Awaitable[str]:
@@ -104,7 +104,7 @@ class TestAsyncSwiftSideFunctionsClass(NativeReference):
         """
         _ensure_runtime_loaded()
         import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise1", "object", ("object", self), ("object", fn)))
+        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise1", "object", ("object", self), ("object", fn)))
     
 
     async def exercise2(self, fn: typing.Callable[[typing.Callable[[int], typing.Awaitable[int]], typing.Callable[[int], typing.Awaitable[int]]], typing.Callable[[int], typing.Awaitable[int]]]) -> typing.Awaitable[str]:
@@ -113,7 +113,7 @@ class TestAsyncSwiftSideFunctionsClass(NativeReference):
         """
         _ensure_runtime_loaded()
         import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise2", "object", ("object", self), ("object", fn)))
+        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise2", "object", ("object", self), ("object", fn)))
     
 
     async def exercise3(self, fn: typing.Callable[[float, float, int], typing.Awaitable[float]]) -> typing.Awaitable[str]:
@@ -122,7 +122,7 @@ class TestAsyncSwiftSideFunctionsClass(NativeReference):
         """
         _ensure_runtime_loaded()
         import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise3", "object", ("object", self), ("object", fn)))
+        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise3", "object", ("object", self), ("object", fn)))
     
 
     async def exercise4(self, fn: typing.Callable[[str, str, str, str], typing.Awaitable[list[str]]]) -> typing.Awaitable[str]:
@@ -131,7 +131,7 @@ class TestAsyncSwiftSideFunctionsClass(NativeReference):
         """
         _ensure_runtime_loaded()
         import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise4", "object", ("object", self), ("object", fn)))
+        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise4", "object", ("object", self), ("object", fn)))
     
 
     async def exercise5(self, fn: typing.Callable[[str, int, float, str, typing.Callable[[], typing.Awaitable[int]]], typing.Awaitable[typing.Callable[[], typing.Awaitable[int]]]]) -> typing.Awaitable[str]:
@@ -140,7 +140,7 @@ class TestAsyncSwiftSideFunctionsClass(NativeReference):
         """
         _ensure_runtime_loaded()
         import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise5", "object", ("object", self), ("object", fn)))
+        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise5", "object", ("object", self), ("object", fn)))
     
 
     async def exercise6(self, fn: typing.Callable[[str, int, float, str, typing.Callable[[], typing.Awaitable[int]], int], typing.Awaitable[int]]) -> typing.Awaitable[str]:
@@ -149,7 +149,7 @@ class TestAsyncSwiftSideFunctionsClass(NativeReference):
         """
         _ensure_runtime_loaded()
         import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise6", "object", ("object", self), ("object", fn)))
+        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise6", "object", ("object", self), ("object", fn)))
     
 
     def thunkTwiceMaker(self, thunk: typing.Callable[[], typing.Awaitable[None]]) -> typing.Callable[[], typing.Awaitable[None]]:
@@ -157,7 +157,7 @@ class TestAsyncSwiftSideFunctionsClass(NativeReference):
         <!-- FishyJoes.export(thunkTwiceMaker) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_thunkTwiceMaker", "object", ("object", self), ("object", thunk))
+        return _get_runtime().call_symbol("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_thunkTwiceMaker", "object", ("object", self), ("object", thunk))
     
 
     def witness(self) -> TestAsyncFunctions:
@@ -165,7 +165,7 @@ class TestAsyncSwiftSideFunctionsClass(NativeReference):
         <!-- FishyJoes.export(witness) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_witness", "object", ("object", self))
+        return _get_runtime().call_symbol("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_witness", "object", ("object", self))
     
 
     @staticmethod
@@ -174,7 +174,7 @@ class TestAsyncSwiftSideFunctionsClass(NativeReference):
         <!-- FishyJoes.export(init) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_init", "object")
+        return _get_runtime().call_symbol("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_init", "object")
     
 
     async def defaultExercise6(self, fn: typing.Callable[[str, int, float, str, typing.Callable[[], typing.Awaitable[int]], int], typing.Awaitable[int]]) -> typing.Awaitable[str]:
@@ -183,5 +183,5 @@ class TestAsyncSwiftSideFunctionsClass(NativeReference):
         """
         _ensure_runtime_loaded()
         import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_defaultExercise6", "object", ("object", self), ("object", fn)))
+        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_defaultExercise6", "object", ("object", self), ("object", fn)))
     

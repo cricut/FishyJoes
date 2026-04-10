@@ -15,7 +15,7 @@ class Tuples:
         <!-- FishyJoes.export(tuple2) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Tuples_tuple2", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Tuples_tuple2", "object")
     
 
     @staticmethod
@@ -24,7 +24,7 @@ class Tuples:
         <!-- FishyJoes.export(tuple3) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Tuples_tuple3", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Tuples_tuple3", "object")
     
 
     @staticmethod
@@ -33,7 +33,7 @@ class Tuples:
         <!-- FishyJoes.export(tuple4) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Tuples_tuple4", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Tuples_tuple4", "object")
     
 
     @staticmethod
@@ -42,7 +42,7 @@ class Tuples:
         <!-- FishyJoes.export(tuple5) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Tuples_tuple5", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Tuples_tuple5", "object")
     
 
     @staticmethod
@@ -51,7 +51,7 @@ class Tuples:
         <!-- FishyJoes.export(tuple6) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Tuples_tuple6", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Tuples_tuple6", "object")
     
 
     @staticmethod
@@ -60,5 +60,5 @@ class Tuples:
         <!-- FishyJoes.export(checkTuples) -->
         """
         _ensure_runtime_loaded()
-        return bool(_get_runtime().invoke("__iota_TestAPI_Tuples_checkTuples", "bool", ("object", t2), ("object", t3), ("object", t4), ("object", t5), ("object", t6)))
+        return bool(_get_runtime().call_symbol("__iota_TestAPI_Tuples_checkTuples", "bool", ("object", t2), ("object", t3), ("object", t4), ("object", t5), ("object", t6)))
     

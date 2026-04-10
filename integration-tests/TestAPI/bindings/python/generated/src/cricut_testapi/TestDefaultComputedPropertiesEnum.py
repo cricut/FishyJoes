@@ -17,7 +17,7 @@ class TestDefaultComputedPropertiesEnum(enum.Enum):
         <!-- FishyJoes.export(noot) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_TestDefaultComputedPropertiesEnum_noot", "int", ("object", self))
+        return _get_runtime().call_symbol("__iota_get_TestAPI_TestDefaultComputedPropertiesEnum_noot", "int", ("object", self))
     
 
     @property
@@ -26,7 +26,7 @@ class TestDefaultComputedPropertiesEnum(enum.Enum):
         <!-- FishyJoes.export(plutonic) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_TestDefaultComputedPropertiesEnum_plutonic", "object", ("object", self))
+        return _get_runtime().call_symbol("__iota_get_TestAPI_TestDefaultComputedPropertiesEnum_plutonic", "object", ("object", self))
     
 
     @property
@@ -35,5 +35,5 @@ class TestDefaultComputedPropertiesEnum(enum.Enum):
         <!-- FishyJoes.export(spam) -->
         """
         _ensure_runtime_loaded()
-        return bool(_get_runtime().invoke("__iota_get_TestAPI_TestDefaultComputedPropertiesEnum_spam", "bool", ("object", self)))
+        return bool(_get_runtime().call_symbol("__iota_get_TestAPI_TestDefaultComputedPropertiesEnum_spam", "bool", ("object", self)))
     

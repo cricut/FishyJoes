@@ -15,7 +15,7 @@ class Functions:
         <!-- FishyJoes.export(add3Things) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Functions_add3Things", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Functions_add3Things", "object")
     
 
     @staticmethod
@@ -24,7 +24,7 @@ class Functions:
         <!-- FishyJoes.export(const42) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Functions_const42", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Functions_const42", "object")
     
 
     @staticmethod
@@ -33,7 +33,7 @@ class Functions:
         <!-- FishyJoes.export(fifthThing) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Functions_fifthThing", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Functions_fifthThing", "object")
     
 
     @staticmethod
@@ -42,7 +42,7 @@ class Functions:
         <!-- FishyJoes.export(abs) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Functions_abs", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Functions_abs", "object")
     
 
     @staticmethod
@@ -51,7 +51,7 @@ class Functions:
         <!-- FishyJoes.export(intCompose) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Functions_intCompose", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Functions_intCompose", "object")
     
 
     @staticmethod
@@ -60,7 +60,7 @@ class Functions:
         <!-- FishyJoes.export(makeList) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Functions_makeList", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Functions_makeList", "object")
     
 
     @staticmethod
@@ -69,7 +69,7 @@ class Functions:
         <!-- FishyJoes.export(sixthThing) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Functions_sixthThing", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Functions_sixthThing", "object")
     
 
     @staticmethod
@@ -78,7 +78,7 @@ class Functions:
         <!-- FishyJoes.export(exercise0) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Functions_exercise0", "object", ("object", fn))
+        return _get_runtime().call_symbol("__iota_TestAPI_Functions_exercise0", "object", ("object", fn))
     
 
     @staticmethod
@@ -87,7 +87,7 @@ class Functions:
         <!-- FishyJoes.export(exercise1) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Functions_exercise1", "object", ("object", fn))
+        return _get_runtime().call_symbol("__iota_TestAPI_Functions_exercise1", "object", ("object", fn))
     
 
     @staticmethod
@@ -96,7 +96,7 @@ class Functions:
         <!-- FishyJoes.export(exercise2) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Functions_exercise2", "object", ("object", fn))
+        return _get_runtime().call_symbol("__iota_TestAPI_Functions_exercise2", "object", ("object", fn))
     
 
     @staticmethod
@@ -105,7 +105,7 @@ class Functions:
         <!-- FishyJoes.export(exercise3) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Functions_exercise3", "object", ("object", fn))
+        return _get_runtime().call_symbol("__iota_TestAPI_Functions_exercise3", "object", ("object", fn))
     
 
     @staticmethod
@@ -114,7 +114,7 @@ class Functions:
         <!-- FishyJoes.export(exercise4) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Functions_exercise4", "object", ("object", fn))
+        return _get_runtime().call_symbol("__iota_TestAPI_Functions_exercise4", "object", ("object", fn))
     
 
     @staticmethod
@@ -123,7 +123,7 @@ class Functions:
         <!-- FishyJoes.export(exercise5) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Functions_exercise5", "object", ("object", fn))
+        return _get_runtime().call_symbol("__iota_TestAPI_Functions_exercise5", "object", ("object", fn))
     
 
     @staticmethod
@@ -132,7 +132,7 @@ class Functions:
         <!-- FishyJoes.export(exercise6) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Functions_exercise6", "object", ("object", fn))
+        return _get_runtime().call_symbol("__iota_TestAPI_Functions_exercise6", "object", ("object", fn))
     
 
     @staticmethod
@@ -141,7 +141,7 @@ class Functions:
         <!-- FishyJoes.export(willThrow) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Functions_willThrow", "object")
+        return _get_runtime().call_symbol("__iota_TestAPI_Functions_willThrow", "object")
     
 
     @staticmethod
@@ -150,5 +150,5 @@ class Functions:
         <!-- FishyJoes.export(thunkTwiceMaker) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Functions_thunkTwiceMaker", "object", ("object", thunk))
+        return _get_runtime().call_symbol("__iota_TestAPI_Functions_thunkTwiceMaker", "object", ("object", thunk))
     

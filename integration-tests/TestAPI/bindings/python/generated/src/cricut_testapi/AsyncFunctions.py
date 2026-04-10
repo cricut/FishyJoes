@@ -15,7 +15,7 @@ class AsyncFunctions:
         <!-- FishyJoes.export(add3Things) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_AsyncFunctions_add3Things", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_AsyncFunctions_add3Things", "object")
     
 
     @staticmethod
@@ -24,7 +24,7 @@ class AsyncFunctions:
         <!-- FishyJoes.export(const42) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_AsyncFunctions_const42", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_AsyncFunctions_const42", "object")
     
 
     @staticmethod
@@ -33,7 +33,7 @@ class AsyncFunctions:
         <!-- FishyJoes.export(fifthThing) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_AsyncFunctions_fifthThing", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_AsyncFunctions_fifthThing", "object")
     
 
     @staticmethod
@@ -42,7 +42,7 @@ class AsyncFunctions:
         <!-- FishyJoes.export(abs) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_AsyncFunctions_abs", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_AsyncFunctions_abs", "object")
     
 
     @staticmethod
@@ -51,7 +51,7 @@ class AsyncFunctions:
         <!-- FishyJoes.export(intCompose) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_AsyncFunctions_intCompose", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_AsyncFunctions_intCompose", "object")
     
 
     @staticmethod
@@ -60,7 +60,7 @@ class AsyncFunctions:
         <!-- FishyJoes.export(makeList) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_AsyncFunctions_makeList", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_AsyncFunctions_makeList", "object")
     
 
     @staticmethod
@@ -69,7 +69,7 @@ class AsyncFunctions:
         <!-- FishyJoes.export(sixthThing) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_AsyncFunctions_sixthThing", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_AsyncFunctions_sixthThing", "object")
     
 
     @staticmethod
@@ -78,7 +78,7 @@ class AsyncFunctions:
         <!-- FishyJoes.export(willThrow) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_AsyncFunctions_willThrow", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_AsyncFunctions_willThrow", "object")
     
 
     @staticmethod
@@ -88,7 +88,7 @@ class AsyncFunctions:
         """
         _ensure_runtime_loaded()
         import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_AsyncFunctions_exercise0", "object", ("object", fn)))
+        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_AsyncFunctions_exercise0", "object", ("object", fn)))
     
 
     @staticmethod
@@ -98,7 +98,7 @@ class AsyncFunctions:
         """
         _ensure_runtime_loaded()
         import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_AsyncFunctions_exercise1", "object", ("object", fn)))
+        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_AsyncFunctions_exercise1", "object", ("object", fn)))
     
 
     @staticmethod
@@ -108,7 +108,7 @@ class AsyncFunctions:
         """
         _ensure_runtime_loaded()
         import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_AsyncFunctions_exercise2", "object", ("object", fn)))
+        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_AsyncFunctions_exercise2", "object", ("object", fn)))
     
 
     @staticmethod
@@ -118,7 +118,7 @@ class AsyncFunctions:
         """
         _ensure_runtime_loaded()
         import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_AsyncFunctions_exercise3", "object", ("object", fn)))
+        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_AsyncFunctions_exercise3", "object", ("object", fn)))
     
 
     @staticmethod
@@ -128,7 +128,7 @@ class AsyncFunctions:
         """
         _ensure_runtime_loaded()
         import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_AsyncFunctions_exercise4", "object", ("object", fn)))
+        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_AsyncFunctions_exercise4", "object", ("object", fn)))
     
 
     @staticmethod
@@ -138,7 +138,7 @@ class AsyncFunctions:
         """
         _ensure_runtime_loaded()
         import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_AsyncFunctions_exercise5", "object", ("object", fn)))
+        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_AsyncFunctions_exercise5", "object", ("object", fn)))
     
 
     @staticmethod
@@ -148,7 +148,7 @@ class AsyncFunctions:
         """
         _ensure_runtime_loaded()
         import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().invoke("__iota_TestAPI_AsyncFunctions_exercise6", "object", ("object", fn)))
+        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_AsyncFunctions_exercise6", "object", ("object", fn)))
     
 
     @staticmethod
@@ -157,5 +157,5 @@ class AsyncFunctions:
         <!-- FishyJoes.export(thunkTwiceMaker) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_AsyncFunctions_thunkTwiceMaker", "object", ("object", thunk))
+        return _get_runtime().call_symbol("__iota_TestAPI_AsyncFunctions_thunkTwiceMaker", "object", ("object", thunk))
     

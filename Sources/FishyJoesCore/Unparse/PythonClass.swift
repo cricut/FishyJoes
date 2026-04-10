@@ -148,7 +148,7 @@ class PythonClass {
         fragment.output("_ensure_runtime_loaded()")
         let awaitPrefix = isAsync ? "await " : ""
         let argString = arguments.map { "(\"\($0.type.rawValue)\", \($0.expression))" }.joined(separator: ", ")
-        let invocation = "\(awaitPrefix)_get_runtime().invoke(\"\(symbol)\", \"\(returnType.rawValue)\"\(argString.isEmpty ? "" : ", \(argString)"))"
+        let invocation = "\(awaitPrefix)_get_runtime().call_symbol(\"\(symbol)\", \"\(returnType.rawValue)\"\(argString.isEmpty ? "" : ", \(argString)"))"
         if returnType == .void {
             fragment.output(invocation)
         } else if returnType == .bool {

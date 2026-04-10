@@ -15,7 +15,7 @@ class Bytes:
         <!-- FishyJoes.export(bytes, cSharp: TheBytes) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Bytes_bytes", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Bytes_bytes", "object")
     
 
     @staticmethod
@@ -24,7 +24,7 @@ class Bytes:
         <!-- FishyJoes.export(data) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_Bytes_data", "object")
+        return _get_runtime().call_symbol("__iota_get_TestAPI_Bytes_data", "object")
     
 
     @staticmethod
@@ -33,7 +33,7 @@ class Bytes:
         <!-- FishyJoes.export(echoBytes) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Bytes_echoBytes", "object", ("object", bytes))
+        return _get_runtime().call_symbol("__iota_TestAPI_Bytes_echoBytes", "object", ("object", bytes))
     
 
     @staticmethod
@@ -42,5 +42,5 @@ class Bytes:
         <!-- FishyJoes.export(echoData) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_TestAPI_Bytes_echoData", "object", ("object", data))
+        return _get_runtime().call_symbol("__iota_TestAPI_Bytes_echoData", "object", ("object", data))
     

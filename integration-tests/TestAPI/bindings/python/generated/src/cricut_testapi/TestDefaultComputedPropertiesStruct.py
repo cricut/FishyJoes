@@ -19,5 +19,5 @@ class TestDefaultComputedPropertiesStruct:
         <!-- FishyJoes.export(plutonic) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().invoke("__iota_get_TestAPI_TestDefaultComputedPropertiesStruct_plutonic", "object", ("object", self))
+        return _get_runtime().call_symbol("__iota_get_TestAPI_TestDefaultComputedPropertiesStruct_plutonic", "object", ("object", self))
     
