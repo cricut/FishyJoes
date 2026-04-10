@@ -30,3 +30,4 @@ package-lock.json
 *.swift.orig
 __pycache__/
 *.py[cod]
+*.egg-info/
