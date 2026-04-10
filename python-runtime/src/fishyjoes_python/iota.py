@@ -9,6 +9,7 @@ import cffi
 
 from .exceptions import NativeCallError, TypeMismatchError
 from .runtime import ensure_cpython
+from . import _native as _native_ext
 
 
 # A single shared FFI instance for all Iota ABI operations.
@@ -427,16 +428,10 @@ class IotaRuntime:
         value = _borrow_python_value(addr)
         encoded = str(value).encode("utf-8")
         # Swift calls free() on the returned pointer, so we must allocate with
-        # the C malloc that Swift's libc will free.  Use ctypes to get a real
-        # heap-allocated buffer instead of a cffi-managed one.
-        n = len(encoded) + 1
-        raw = ctypes.create_string_buffer(encoded, n)
-        # Allocate a real C-heap buffer via ctypes and copy into it.
-        libc_malloc = ctypes.pythonapi.malloc
-        libc_malloc.restype = ctypes.c_void_p
-        libc_malloc.argtypes = [ctypes.c_size_t]
-        ptr_int = libc_malloc(n)
-        ctypes.memmove(ptr_int, raw, n)
+        # the C malloc that Swift's libc will free.  _native.malloc_copy_bytes
+        # does exactly that: allocates via libc malloc, copies the bytes in,
+        # and returns the address as a Python int.
+        ptr_int = _native_ext.malloc_copy_bytes(encoded)
         return _ffi.cast("void*", ptr_int)
 
     def _schedule_thread_work(self, _env: Any, context: Any) -> None:
