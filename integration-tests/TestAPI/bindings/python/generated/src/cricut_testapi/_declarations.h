@@ -3,6 +3,12 @@
 
 void FishyJoes_TestAPI_registerTypes(void);
 
+/* Generic runtime setup symbols (FishyJoesCommonRuntime / FishyJoesIotaRuntime) */
+void FishyJoesCommonRuntime_collection_setup(void* env, uint16_t* name, void* lengthMethod, void* valuesMethod, void* constructor, void* context, void** exn);
+void FishyJoesCommonRuntime_TupleConverter_setup(void* env, uint16_t* name, void* get0, void* get1, void* get2, void* get3, void* get4, void* get5, void* ctor, void* context);
+void FishyJoesCommonRuntime_ResultConverter_setup(void* env, uint16_t* name, void* get_contents, void* ctor, void* context);
+void FishyJoesCommonRuntime_FunctionConverter_setup(void* env, uint16_t* name, void* ctor, void* invoke_fn, void* context, void** exn);
+
 void Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_setup(void* env, void* constructor, void* get_x, void** exn);
 intptr_t __iota_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall(void* env, void* self, void** exn);
 void* __iota_get_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_x(void* env, void* self, void** exn);

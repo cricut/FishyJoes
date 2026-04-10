@@ -36,7 +36,7 @@ class AssociatedDataEnum:
     
 
 
-@dataclass(slots=True)
+@dataclass(slots=True, frozen=True)
 class AssociatedDataEnum_Thing(AssociatedDataEnum):
     """
     Documentation about thing
@@ -44,13 +44,13 @@ class AssociatedDataEnum_Thing(AssociatedDataEnum):
     value: int
 
 
-@dataclass(slots=True)
+@dataclass(slots=True, frozen=True)
 class AssociatedDataEnum_Other(AssociatedDataEnum):
     unnamed: str
     _1: int
 
 
-@dataclass(slots=True)
+@dataclass(slots=True, frozen=True)
 class AssociatedDataEnum_Bar(AssociatedDataEnum):
     """
     Documentation about bar
@@ -60,7 +60,7 @@ class AssociatedDataEnum_Bar(AssociatedDataEnum):
     toggled: bool
 
 
-@dataclass(slots=True)
+@dataclass(slots=True, frozen=True)
 class AssociatedDataEnum_NoValue(AssociatedDataEnum):
     """
     Documentation about noValue
@@ -68,6 +68,6 @@ class AssociatedDataEnum_NoValue(AssociatedDataEnum):
     pass
 
 
-@dataclass(slots=True)
+@dataclass(slots=True, frozen=True)
 class AssociatedDataEnum_SimpleEnum(AssociatedDataEnum):
     value: SimpleEnum

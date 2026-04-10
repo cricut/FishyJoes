@@ -449,6 +449,345 @@ class GeneratedRuntime:
 
         self._invoke_setup(setup_symbol, *callback_args)
 
+    def _encode_utf16_name(self, name: str) -> typing.Any:
+        """Encode *name* as a null-terminated UTF-16-LE buffer and return a cffi cdata pointer."""
+        encoded = (name + "\x00").encode("utf-16-le")
+        buf = _ffi.new(f"uint16_t[{len(encoded) // 2}]")
+        for i, unit in enumerate(memoryview(encoded).cast("H")):
+            buf[i] = unit
+        return buf
+
+    def _invoke_generic_setup(self, setup_symbol: str, converter_name: str, *callback_args: typing.Any) -> None:
+        """Call a generic (collection/tuple/result/function/future) setup symbol.
+
+        Passes the converter type name as a null-terminated UTF-16 string (the
+        first argument after env), followed by the given ctypes callbacks as
+        void* pointers, and finally an exn out-parameter.
+        """
+        assert self._runtime is not None
+        lib = self._runtime.iota_lib
+        fn = getattr(lib, setup_symbol)
+        exn_holder = _ffi.new("void*[1]")
+        name_buf = self._encode_utf16_name(converter_name)
+        cffi_args: list[typing.Any] = [_ffi.cast("void*", self.env), _ffi.cast("unsigned short*", name_buf)]
+        for cb in callback_args:
+            if cb is None:
+                cffi_args.append(_ffi.NULL)
+            else:
+                raw = ctypes.cast(cb, ctypes.c_void_p).value
+                cffi_args.append(_ffi.cast("void*", raw) if raw is not None else _ffi.NULL)
+        cffi_args.append(exn_holder)
+        fn(*cffi_args)
+        exn_val = int(_ffi.cast("uintptr_t", exn_holder[0]))
+        if exn_val:
+            self._runtime.raise_if_exception(exn_val)
+
+    def _invoke_generic_setup_no_exn(self, setup_symbol: str, converter_name: str, *callback_args: typing.Any) -> None:
+        """Like _invoke_generic_setup but for setup symbols that have no exn parameter (Tuple, Result)."""
+        assert self._runtime is not None
+        lib = self._runtime.iota_lib
+        fn = getattr(lib, setup_symbol)
+        name_buf = self._encode_utf16_name(converter_name)
+        cffi_args: list[typing.Any] = [_ffi.cast("void*", self.env), _ffi.cast("unsigned short*", name_buf)]
+        for cb in callback_args:
+            if cb is None:
+                cffi_args.append(_ffi.NULL)
+            else:
+                raw = ctypes.cast(cb, ctypes.c_void_p).value
+                cffi_args.append(_ffi.cast("void*", raw) if raw is not None else _ffi.NULL)
+        fn(*cffi_args)
+
+    def setup_collection_type(
+        self,
+        converter_name: str,
+        element_ffi_type: str,
+    ) -> None:
+        """Register a collection (Array/Set) type with the Iota ABI.
+
+        Args:
+            converter_name: The converter type name (e.g. ``ArrayConverter<StringConverter>``),
+                used as the lookup key on the Swift side.
+            element_ffi_type: FFI type string for elements (e.g. ``"object"``, ``"int"``).
+        """
+        self.ensure_loaded()
+        assert self._runtime is not None
+
+        elem_ctype = _ffi_ctypes_type(element_ffi_type)
+
+        # length_fn: (context, array, exn) -> int32_t
+        # c_int is the 32-bit signed integer type in ctypes (matches Swift Int32).
+        length_type = ctypes.CFUNCTYPE(ctypes.c_int, ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_void_p))
+        # values_fn: (context, array, out_values, exn) -> void
+        values_type = ctypes.CFUNCTYPE(None, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_void_p))
+        # constructor_fn: (context, in_values, length, exn) -> foreignObject
+        ctor_type = ctypes.CFUNCTYPE(ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_int, ctypes.POINTER(ctypes.c_void_p))
+
+        runtime = self._runtime
+
+        def length_fn(ctx: int, obj: int, exn: typing.Any) -> int:
+            try:
+                value = runtime.borrow_foreign_object(obj)
+                return len(value) if value is not None else 0
+            except BaseException as error:
+                runtime.store_exception(exn, error)
+                return 0
+
+        def values_fn(ctx: int, obj: int, out_values: int, exn: typing.Any) -> None:
+            try:
+                value = runtime.borrow_foreign_object(obj)
+                items = list(value) if value is not None else []
+                ptr = _ffi.cast("void**", out_values)
+                for i, item in enumerate(items):
+                    handle = runtime.retain_foreign_object(item)
+                    ptr[i] = _ffi.cast("void*", handle)
+            except BaseException as error:
+                runtime.store_exception(exn, error)
+
+        def ctor_fn(ctx: int, in_values: int, length: int, exn: typing.Any) -> int:
+            try:
+                ptr = _ffi.cast("void**", in_values)
+                items = [
+                    runtime.consume_foreign_object(ptr[i])
+                    for i in range(int(length))
+                ]
+                handle = runtime.retain_foreign_object(items)
+                return handle
+            except BaseException as error:
+                runtime.store_exception(exn, error)
+                return 0
+
+        len_cb = length_type(length_fn)
+        val_cb = values_type(values_fn)
+        ctor_cb = ctor_type(ctor_fn)
+        self._callbacks.extend([len_cb, val_cb, ctor_cb])
+        self._invoke_generic_setup(
+            "FishyJoesCommonRuntime_collection_setup",
+            converter_name,
+            len_cb, val_cb, ctor_cb, None,
+        )
+
+    def setup_dictionary_type(
+        self,
+        converter_name: str,
+    ) -> None:
+        """Register a Dictionary type with the Iota ABI.
+
+        Dictionaries are represented on the Python side as dicts.
+        On the Iota ABI they are collections of key-value pair tuples, so we
+        use two separate collection registrations (keys + values) under the hood.
+        Instead, FishyJoes uses a single collection whose elements are opaque
+        boxed pairs that the Swift side provides.  We represent the dictionary as
+        a plain ``list`` at the collection level and rely on post-processing in
+        the generated bindings.
+
+        In practice the Iota ABI treats ``DictionaryConverter`` the same as
+        ``ArrayConverter``  — both go through ``FishyJoesCommonRuntime_collection_setup``
+        with element type ``object``.
+        """
+        self.setup_collection_type(converter_name, "object")
+
+    def setup_tuple_type(
+        self,
+        converter_name: str,
+        arity: int,
+    ) -> None:
+        """Register a tuple type with the Iota ABI.
+
+        Args:
+            converter_name: The converter type name (e.g. ``Tuple2Converter<StringConverter, IntConverter>``).
+            arity: Number of elements in the tuple (2–6).
+        """
+        self.ensure_loaded()
+        assert self._runtime is not None
+
+        runtime = self._runtime
+
+        # get_N callbacks: (context, tuple_obj, exn) -> foreignObject
+        get_type = ctypes.CFUNCTYPE(ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_void_p))
+
+        get_callbacks: list[typing.Any] = []
+        for i in range(arity):
+            def make_get(index: int) -> typing.Any:
+                def get_fn(ctx: int, obj: int, exn: typing.Any) -> int:
+                    try:
+                        tup = runtime.borrow_foreign_object(obj)
+                        item = tup[index]
+                        return runtime.retain_foreign_object(item)
+                    except BaseException as error:
+                        runtime.store_exception(exn, error)
+                        return 0
+                return get_type(get_fn)
+            cb = make_get(i)
+            get_callbacks.append(cb)
+            self._callbacks.append(cb)
+
+        # Pad to 6 slots with NULL (TupleConverter_setup expects exactly 6 get methods, nullable)
+        null_cbs: list[typing.Any] = [None] * (6 - arity)
+
+        # constructor: (context, values_ptr, exn) -> foreignObject
+        ctor_type = ctypes.CFUNCTYPE(ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_void_p))
+
+        def ctor_fn(ctx: int, values_ptr: int, exn: typing.Any) -> int:
+            try:
+                ptr = _ffi.cast("void**", values_ptr)
+                items = [runtime.consume_foreign_object(ptr[i]) for i in range(arity)]
+                tup = tuple(items)
+                return runtime.retain_foreign_object(tup)
+            except BaseException as error:
+                runtime.store_exception(exn, error)
+                return 0
+
+        ctor_cb = ctor_type(ctor_fn)
+        self._callbacks.append(ctor_cb)
+
+        # TupleConverter_setup has no exn parameter and requires a trailing context argument.
+        # Build the call manually: env, name, get0..get5 (nullable), ctor, context.
+        assert self._runtime is not None
+        lib = self._runtime.iota_lib
+        fn = getattr(lib, "FishyJoesCommonRuntime_TupleConverter_setup")
+        name_buf = self._encode_utf16_name(converter_name)
+        cffi_args: list[typing.Any] = [_ffi.cast("void*", self.env), _ffi.cast("unsigned short*", name_buf)]
+        for cb in get_callbacks + null_cbs:
+            if cb is None:
+                cffi_args.append(_ffi.NULL)
+            else:
+                raw = ctypes.cast(cb, ctypes.c_void_p).value
+                cffi_args.append(_ffi.cast("void*", raw) if raw is not None else _ffi.NULL)
+        raw_ctor = ctypes.cast(ctor_cb, ctypes.c_void_p).value
+        cffi_args.append(_ffi.cast("void*", raw_ctor) if raw_ctor is not None else _ffi.NULL)
+        # context: pass env (unused on the Python side, but required by the ABI).
+        cffi_args.append(_ffi.cast("void*", self.env))
+        fn(*cffi_args)
+
+    def setup_result_type(
+        self,
+        converter_name: str,
+    ) -> None:
+        """Register a Result<Success, Failure> type with the Iota ABI.
+
+        On the Python side, results are represented as either the success value
+        or an exception.  The Iota ABI passes (isSuccess: UInt8, contents: foreignObject).
+        """
+        self.ensure_loaded()
+        assert self._runtime is not None
+
+        runtime = self._runtime
+
+        # get_contents_fn: (context, result_obj, out_is_success, exn) -> foreignObject (contents)
+        get_contents_type = ctypes.CFUNCTYPE(
+            ctypes.c_void_p,
+            ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_void_p)
+        )
+
+        def get_contents_fn(ctx: int, obj: int, out_is_success: int, exn: typing.Any) -> int:
+            try:
+                value = runtime.borrow_foreign_object(obj)
+                # Python representation: (True, success_value) or (False, error_value)
+                if isinstance(value, tuple) and len(value) == 2:
+                    is_success, contents = value
+                elif isinstance(value, BaseException):
+                    is_success, contents = False, value
+                else:
+                    is_success, contents = True, value
+                flag_ptr = _ffi.cast("uint8_t*", out_is_success)
+                flag_ptr[0] = 1 if is_success else 0
+                return runtime.retain_foreign_object(contents)
+            except BaseException as error:
+                runtime.store_exception(exn, error)
+                return 0
+
+        # constructor_fn: (context, is_success, contents, exn) -> foreignObject
+        ctor_type = ctypes.CFUNCTYPE(
+            ctypes.c_void_p,
+            ctypes.c_void_p, ctypes.c_uint8, ctypes.c_void_p, ctypes.POINTER(ctypes.c_void_p)
+        )
+
+        def ctor_fn(ctx: int, is_success: int, contents: int, exn: typing.Any) -> int:
+            try:
+                contents_val = runtime.consume_foreign_object(contents)
+                result = (bool(is_success), contents_val)
+                return runtime.retain_foreign_object(result)
+            except BaseException as error:
+                runtime.store_exception(exn, error)
+                return 0
+
+        gc_cb = get_contents_type(get_contents_fn)
+        ctor_cb = ctor_type(ctor_fn)
+        self._callbacks.extend([gc_cb, ctor_cb])
+        # ResultConverter_setup has no exn parameter — use _invoke_generic_setup_no_exn.
+        self._invoke_generic_setup_no_exn(
+            "FishyJoesCommonRuntime_ResultConverter_setup",
+            converter_name,
+            gc_cb, ctor_cb, None,
+        )
+
+    def setup_function_type(
+        self,
+        converter_name: str,
+        arity: int,
+    ) -> None:
+        """Register a function type with the Iota ABI.
+
+        Args:
+            converter_name: The converter type name (e.g. ``Function1Converter<IntConverter, StringConverter>``).
+            arity: Number of parameters (0–6).
+        """
+        self.ensure_loaded()
+        assert self._runtime is not None
+
+        runtime = self._runtime
+
+        # constructor_fn: (context, opaque_ref, exn) -> foreignObject
+        # Called when Swift wraps a Swift-side closure to pass to Python.
+        # We create a Python callable that invokes the Swift closure via the invoke method.
+        ctor_type = ctypes.CFUNCTYPE(ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_void_p))
+
+        def ctor_fn(ctx: int, opaque_ref: int, exn: typing.Any) -> int:
+            try:
+                # Wrap the opaque Swift function ref in a Python callable.
+                # The callable will use invoke_fn to call into Swift.
+                swift_ref = opaque_ref  # retain as int
+
+                def swift_callable(*args: typing.Any) -> typing.Any:
+                    raise NotImplementedError(
+                        f"Swift-side closures of type {converter_name!r} cannot be called from Python yet."
+                    )
+
+                handle = runtime.retain_foreign_object(swift_callable)
+                return handle
+            except BaseException as error:
+                runtime.store_exception(exn, error)
+                return 0
+
+        # invoke_fn: (context, fn_obj, args_ptr, exn) -> foreignObject
+        # Called when Swift invokes a Python-side callable.
+        invoke_type = ctypes.CFUNCTYPE(
+            ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_void_p)
+        )
+
+        def invoke_fn(ctx: int, fn_obj: int, args_ptr: int, exn: typing.Any) -> int:
+            try:
+                callable_val = runtime.borrow_foreign_object(fn_obj)
+                if args_ptr and arity > 0:
+                    ptr = _ffi.cast("void**", args_ptr)
+                    args = [runtime.consume_foreign_object(ptr[i]) for i in range(arity)]
+                else:
+                    args = []
+                result = callable_val(*args)
+                return runtime.retain_foreign_object(result)
+            except BaseException as error:
+                runtime.store_exception(exn, error)
+                return 0
+
+        ctor_cb = ctor_type(ctor_fn)
+        invoke_cb = invoke_type(invoke_fn)
+        self._callbacks.extend([ctor_cb, invoke_cb])
+        self._invoke_generic_setup(
+            "FishyJoesCommonRuntime_FunctionConverter_setup",
+            converter_name,
+            ctor_cb, invoke_cb, None,
+        )
+
     def _convert_return(self, value: typing.Any, ffi_name: str) -> typing.Any:
         if ffi_name == "void":
             return None

@@ -71,6 +71,18 @@ final class PythonTranslator: Translator {
                     fragment.output(
                         "_runtime.setup_protocol_type(\"\(proto.iotaSetupName)\", \(proto.iotaExternalWitnessClassName), [\(fieldSpecs)], [\(methodSpecs)])"
                     )
+                case let array as TranslatedArray:
+                    fragment.output("_runtime.setup_collection_type(\"\(array.converterType.name)\", \"\(array.elementType.pythonFFIType.rawValue)\")")
+                case let set as TranslatedSet:
+                    fragment.output("_runtime.setup_collection_type(\"\(set.converterType.name)\", \"\(set.elementType.pythonFFIType.rawValue)\")")
+                case let dict as TranslatedDictionary:
+                    fragment.output("_runtime.setup_dictionary_type(\"\(dict.converterType.name)\")")
+                case let tuple as TranslatedTuple:
+                    fragment.output("_runtime.setup_tuple_type(\"\(tuple.converterType.name)\", \(tuple.elements.count))")
+                case let result as TranslatedResult:
+                    fragment.output("_runtime.setup_result_type(\"\(result.converterType.name)\")")
+                case let function as TranslatedFunction where !function.isAsync:
+                    fragment.output("_runtime.setup_function_type(\"\(function.converterType.name)\", \(function.parameters.count))")
                 default:
                     continue
                 }
@@ -132,6 +144,8 @@ final class PythonTranslator: Translator {
         fragment.output("void \(registerFn)(void);")
         fragment.blankLine()
 
+        var hasGenericTypes = false
+
         for type in generatedTypes {
             let resolved = context.resolve(type: type)
             guard resolved.definingModule == context.module else { continue }
@@ -145,9 +159,22 @@ final class PythonTranslator: Translator {
                 emitStructDeclarations(valueType, context: context, fragment: fragment)
             case let proto as TranslatedProtocol:
                 emitProtocolDeclarations(proto, context: context, fragment: fragment)
+            case is TranslatedArray, is TranslatedSet, is TranslatedDictionary,
+                 is TranslatedTuple, is TranslatedResult, is TranslatedFunction:
+                hasGenericTypes = true
+                continue
             default:
                 continue
             }
+            fragment.blankLine()
+        }
+
+        if hasGenericTypes {
+            fragment.output("// Generic runtime setup functions")
+            fragment.output("void FishyJoesCommonRuntime_collection_setup(void* env, uint16_t* name, void* lengthMethod, void* valuesMethod, void* constructor, void* context, void** exn);")
+            fragment.output("void FishyJoesCommonRuntime_TupleConverter_setup(void* env, uint16_t* name, void* get0, void* get1, void* get2, void* get3, void* get4, void* get5, void* ctor, void* context);")
+            fragment.output("void FishyJoesCommonRuntime_ResultConverter_setup(void* env, uint16_t* name, void* get_contents, void* ctor, void* context);")
+            fragment.output("void FishyJoesCommonRuntime_FunctionConverter_setup(void* env, uint16_t* name, void* ctor, void* invoke_fn, void* context, void** exn);")
             fragment.blankLine()
         }
 

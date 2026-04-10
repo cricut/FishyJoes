@@ -59,7 +59,7 @@ class PythonEnumClass: PythonClass {
 
         for enumCase in cases {
             fragment.blankLine()
-            fragment.output("@dataclass(slots=True)")
+            fragment.output("@dataclass(slots=True, frozen=True)")
             fragment.outputBlock("class \(unqualifiedName)_\(upperCaseFirst(enumCase.name))(\(unqualifiedName)):", closeWith: "") {
                 document(enumCase.documentation, fragment: fragment)
                 if enumCase.values.isEmpty {
@@ -140,7 +140,7 @@ class PythonEnumClass: PythonClass {
                     (expression: $0.name, type: $0.ffiType)
                 }
                 let argString = args.map { "(\"\($0.type.rawValue)\", \($0.expression))" }.joined(separator: ", ")
-                let invocation = "_get_runtime().invoke(\"__iota_\(method.mangledName)\", \"\(method.ffiReturnType.rawValue)\"\(argString.isEmpty ? "" : ", \(argString)"))"
+                let invocation = "_get_runtime().call_symbol(\"__iota_\(method.mangledName)\", \"\(method.ffiReturnType.rawValue)\"\(argString.isEmpty ? "" : ", \(argString)"))"
                 fragment.output("_ensure_runtime_loaded()")
                 fragment.output("import asyncio")
                 fragment.output("return await asyncio.to_thread(lambda: \(invocation))")
