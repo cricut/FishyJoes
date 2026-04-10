@@ -36,3 +36,20 @@ class NotImplementedInNativeError(FishyJoesError):
             f"but native-backed invocation is not wired yet."
         )
         self.symbol = symbol
+
+
+class ModuleError(FishyJoesError):
+    """Base class for module-specific typed exceptions raised by Swift code.
+
+    Generated modules should subclass this for their domain errors so that
+    callers can catch either the specific error or any ``ModuleError``.
+
+    Example::
+
+        class MyModuleError(ModuleError):
+            pass
+    """
+
+    def __init__(self, message: str) -> None:
+        super().__init__(message)
+        self.message = message

@@ -3,11 +3,11 @@ from __future__ import annotations
 import ctypes
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Protocol, TypeAlias
+from typing import Any, Callable, Protocol, TypeAlias
 
 import cffi
 
-from .exceptions import NativeCallError, TypeMismatchError
+from .exceptions import FishyJoesError, NativeCallError, TypeMismatchError
 from .runtime import ensure_cpython
 from . import _native as _native_ext
 
@@ -178,6 +178,11 @@ class IotaRuntime:
         self.module_iota_lib: Any = None
         self.env: int | None = None
 
+        # Error factory: called by _new_error to produce a Python exception from
+        # a Swift error description string.  Defaults to NativeCallError but can
+        # be replaced by generated modules to produce typed exceptions.
+        self._error_factory: Callable[[str], BaseException] = NativeCallError
+
     def ensure_loaded(self) -> None:
         if self._loaded:
             return
@@ -271,6 +276,24 @@ class IotaRuntime:
 
     def raise_native_error(self, message: str) -> None:
         raise NativeCallError(message)
+
+    def register_error_factory(self, factory: Callable[[str], BaseException]) -> None:
+        """Register a callable that converts a Swift error message string to a Python exception.
+
+        The factory receives the Swift error's description string and should return
+        a ``BaseException`` instance.  Use this to produce typed module-specific
+        exceptions instead of the default ``NativeCallError``.
+
+        Example::
+
+            def my_factory(message: str) -> BaseException:
+                if message.startswith("MyModule.MyError"):
+                    return MyError(message)
+                return NativeCallError(message)
+
+            runtime.register_error_factory(my_factory)
+        """
+        self._error_factory = factory
 
     def make_native_reference(self, native_ref: int | None, native_type: str = "AnyBox") -> NativeReference:
         return NativeReference(native_ref=native_ref, native_type=native_type, _runtime=self)
@@ -419,7 +442,8 @@ class IotaRuntime:
     def _new_error(self, message_ptr: Any) -> Any:
         addr_int = int(_ffi.cast("uintptr_t", message_ptr))
         message = _decode_utf16_z(message_ptr) if addr_int else ""
-        new_addr = self._retain(NativeCallError(message))
+        error = self._error_factory(message)
+        new_addr = self._retain(error)
         return _ffi.cast("void*", new_addr)
 
     def _describe(self, obj: Any) -> Any:
