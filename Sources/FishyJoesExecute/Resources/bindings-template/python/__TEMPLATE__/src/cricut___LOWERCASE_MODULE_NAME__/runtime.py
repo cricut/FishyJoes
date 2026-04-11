@@ -31,6 +31,7 @@ class GeneratedRuntime:
         self.module_name = module_name
         self._runtime: IotaRuntime | None = None
         self._callbacks: list[object] = []
+        self._symbol_cache: dict[str, typing.Any] = {}
 
     def ensure_loaded(self) -> None:
         if self._runtime is not None:
@@ -75,7 +76,10 @@ class GeneratedRuntime:
         assert self._runtime is not None
 
         lib = self._runtime.iota_lib
-        fn = getattr(lib, symbol)
+        fn = self._symbol_cache.get(symbol)
+        if fn is None:
+            fn = getattr(lib, symbol)
+            self._symbol_cache[symbol] = fn
 
         retained_handles: list[int] = []
         exn_holder = _ffi.new("void*[1]")
@@ -112,7 +116,10 @@ class GeneratedRuntime:
         """Call a setup symbol via cffi, converting ctypes callbacks to void* pointers."""
         assert self._runtime is not None
         lib = self._runtime.iota_lib
-        fn = getattr(lib, setup_symbol)
+        fn = self._symbol_cache.get(setup_symbol)
+        if fn is None:
+            fn = getattr(lib, setup_symbol)
+            self._symbol_cache[setup_symbol] = fn
         exn_holder = _ffi.new("void*[1]")
         cffi_args: list[typing.Any] = [_ffi.cast("void*", self.env)]
         for cb in callback_args:
@@ -466,7 +473,10 @@ class GeneratedRuntime:
         """
         assert self._runtime is not None
         lib = self._runtime.iota_lib
-        fn = getattr(lib, setup_symbol)
+        fn = self._symbol_cache.get(setup_symbol)
+        if fn is None:
+            fn = getattr(lib, setup_symbol)
+            self._symbol_cache[setup_symbol] = fn
         exn_holder = _ffi.new("void*[1]")
         name_buf = self._encode_utf16_name(converter_name)
         cffi_args: list[typing.Any] = [_ffi.cast("void*", self.env), _ffi.cast("unsigned short*", name_buf)]
@@ -486,7 +496,10 @@ class GeneratedRuntime:
         """Like _invoke_generic_setup but for setup symbols that have no exn parameter (Tuple, Result)."""
         assert self._runtime is not None
         lib = self._runtime.iota_lib
-        fn = getattr(lib, setup_symbol)
+        fn = self._symbol_cache.get(setup_symbol)
+        if fn is None:
+            fn = getattr(lib, setup_symbol)
+            self._symbol_cache[setup_symbol] = fn
         name_buf = self._encode_utf16_name(converter_name)
         cffi_args: list[typing.Any] = [_ffi.cast("void*", self.env), _ffi.cast("unsigned short*", name_buf)]
         for cb in callback_args:
