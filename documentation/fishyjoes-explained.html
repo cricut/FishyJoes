@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FishyJoes — Explained</title>
+<style>
+  :root {
+    --swift: #F05138;
+    --node: #68A063;
+    --kotlin: #7F52FF;
+    --csharp: #178600;
+    --dart: #0175C2;
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #21262d;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.6;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    text-align: center;
+    padding: 80px 20px 60px;
+    background: radial-gradient(ellipse at 50% 0%, #1c2a3a 0%, var(--bg) 70%);
+    border-bottom: 1px solid var(--border);
+  }
+  .hero h1 {
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    font-weight: 800;
+    letter-spacing: -1px;
+    background: linear-gradient(135deg, #58a6ff 0%, #bc8cff 50%, #ff7b72 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero .subtitle {
+    margin-top: 16px;
+    font-size: 1.15rem;
+    color: var(--muted);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero .tagline {
+    margin-top: 24px;
+    display: inline-block;
+    padding: 8px 20px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 0.85rem;
+    color: var(--muted);
+    background: var(--surface);
+  }
+  .lang-badges {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+  }
+  .badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: 1px solid;
+    animation: fadeUp 0.5s ease both;
+  }
+  .badge.swift  { color: var(--swift);  border-color: var(--swift);  background: rgba(240,81,56,.08); }
+  .badge.node   { color: var(--node);   border-color: var(--node);   background: rgba(104,160,99,.08); }
+  .badge.kotlin { color: var(--kotlin); border-color: var(--kotlin); background: rgba(127,82,255,.08); }
+  .badge.csharp { color: var(--csharp); border-color: var(--csharp); background: rgba(23,134,0,.08); }
+  .badge.dart   { color: var(--dart);   border-color: var(--dart);   background: rgba(1,117,194,.08); }
+  .badge:nth-child(1) { animation-delay: 0.0s; }
+  .badge:nth-child(2) { animation-delay: 0.1s; }
+  .badge:nth-child(3) { animation-delay: 0.2s; }
+  .badge:nth-child(4) { animation-delay: 0.3s; }
+  .badge:nth-child(5) { animation-delay: 0.4s; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── NAV ── */
+  .nav-tabs {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(13,17,23,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    padding: 10px 20px;
+    flex-wrap: wrap;
+  }
+  .nav-tab {
+    padding: 7px 18px;
+    border-radius: 6px;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  .nav-tab:hover { color: var(--text); background: var(--surface2); }
+  .nav-tab.active { color: var(--accent); background: rgba(88,166,255,0.1); }
+
+  /* ── SECTIONS ── */
+  .section { display: none; padding: 60px 20px; max-width: 1100px; margin: 0 auto; }
+  .section.active { display: block; }
+  .section-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .section-desc {
+    color: var(--muted);
+    max-width: 700px;
+    margin-bottom: 48px;
+  }
+
+  /* ── PIPELINE ── */
+  .pipeline {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    overflow-x: auto;
+    padding-bottom: 16px;
+  }
+  .pipe-stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 130px;
+    flex: 1;
+    cursor: pointer;
+  }
+  .pipe-box {
+    width: 100%;
+    padding: 18px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .pipe-box::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.03));
+  }
+  .pipe-stage:hover .pipe-box { border-color: var(--accent); transform: translateY(-3px); }
+  .pipe-stage.active .pipe-box {
+    border-color: var(--accent);
+    background: rgba(88,166,255,0.08);
+    box-shadow: 0 0 20px rgba(88,166,255,0.15);
+  }
+  .pipe-icon { font-size: 1.6rem; margin-bottom: 8px; display: block; }
+  .pipe-label { font-size: 0.78rem; color: var(--text); }
+  .pipe-sub { font-size: 0.68rem; color: var(--muted); margin-top: 4px; }
+  .pipe-arrow {
+    display: flex;
+    align-items: center;
+    padding: 0 4px;
+    color: var(--muted);
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    margin-top: -20px;
+  }
+  .animated-particle {
+    position: absolute;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    top: 50%;
+    left: -6px;
+    transform: translateY(-50%);
+    animation: flowParticle 2s linear infinite;
+    opacity: 0;
+  }
+  @keyframes flowParticle {
+    0%   { left: -8px; opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { left: calc(100% + 8px); opacity: 0; }
+  }
+
+  .detail-box {
+    margin-top: 40px;
+    padding: 28px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    animation: fadeUp 0.3s ease;
+    min-height: 140px;
+  }
+  .detail-box h3 { font-size: 1.1rem; margin-bottom: 10px; color: var(--accent); }
+  .detail-box p  { color: var(--muted); font-size: 0.9rem; line-height: 1.7; }
+  .detail-box code {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 12px 16px;
+    background: var(--bg);
+    border-radius: 8px;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.8rem;
+    border: 1px solid var(--border);
+    width: 100%;
+    white-space: pre;
+    overflow-x: auto;
+  }
+
+  /* ── TYPE SYSTEM ── */
+  .type-tree {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.82rem;
+    line-height: 2;
+    padding: 24px;
+    background: var(--surface);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .type-node {
+    cursor: pointer;
+    padding: 3px 10px;
+    border-radius: 5px;
+    display: inline-block;
+    transition: all 0.2s;
+  }
+  .type-node:hover, .type-node.open {
+    background: rgba(88,166,255,0.12);
+    color: var(--accent);
+  }
+  .type-children {
+    padding-left: 28px;
+    border-left: 1px solid var(--border);
+    margin-left: 14px;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.4s ease;
+  }
+  .type-children.open { max-height: 1000px; }
+  .kw  { color: #ff7b72; }
+  .ty  { color: #79c0ff; }
+  .st  { color: #a5d6ff; }
+  .cm  { color: var(--muted); }
+  .en  { color: #d2a8ff; }
+
+  /* ── LANGUAGES ── */
+  .lang-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+  .lang-card {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+    padding: 24px;
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+  .lang-card:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+  .lang-card.active { transform: translateY(-3px); }
+  .lang-card.node-card   { border-color: var(--node);   }
+  .lang-card.kotlin-card { border-color: var(--kotlin);  }
+  .lang-card.csharp-card { border-color: var(--csharp);  }
+  .lang-card.dart-card   { border-color: var(--dart);    }
+  .lang-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+  .lang-card p  { font-size: 0.8rem; color: var(--muted); }
+  .lang-icon { font-size: 2rem; margin-bottom: 12px; display: block; }
+
+  .code-preview {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    display: none;
+    animation: fadeUp 0.3s ease;
+  }
+  .code-preview.active { display: block; }
+  .code-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+  }
+  .code-tab {
+    padding: 10px 18px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    color: var(--muted);
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  .code-tab.active { color: var(--text); border-bottom-color: var(--accent); }
+  .code-panel { display: none; padding: 20px; font-family: 'SF Mono','Fira Code',monospace; font-size: 0.78rem; line-height: 1.7; overflow-x: auto; }
+  .code-panel.active { display: block; }
+
+  /* ── ARCHITECTURE ── */
+  .arch-diagram {
+    position: relative;
+    width: 100%;
+  }
+  .arch-layer {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+    padding: 20px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+  .arch-layer:hover { border-color: var(--accent); background: rgba(88,166,255,0.04); }
+  .arch-layer.expanded { border-color: var(--accent); }
+  .arch-layer-icon { font-size: 1.8rem; flex-shrink: 0; }
+  .arch-layer-title { font-weight: 700; font-size: 0.95rem; }
+  .arch-layer-desc { font-size: 0.82rem; color: var(--muted); }
+  .arch-expand {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    padding: 0 20px;
+  }
+  .arch-expand.open {
+    max-height: 500px;
+    padding: 0 20px 16px;
+  }
+  .arch-expand ul { list-style: none; }
+  .arch-expand li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.84rem;
+    color: var(--muted);
+    display: flex;
+    gap: 10px;
+  }
+  .arch-expand li:last-child { border-bottom: none; }
+  .arch-expand li span:first-child {
+    color: var(--accent);
+    font-family: monospace;
+    font-size: 0.78rem;
+    min-width: 220px;
+    flex-shrink: 0;
+  }
+  .arch-arrow {
+    text-align: center;
+    color: var(--muted);
+    font-size: 1.4rem;
+    line-height: 1;
+    margin: 2px 0;
+  }
+
+  /* ── RUNTIME ── */
+  .runtime-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+  }
+  .runtime-card {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    background: var(--surface);
+  }
+  .runtime-card h4 { font-size: 0.9rem; margin-bottom: 8px; }
+  .runtime-card ul { list-style: none; }
+  .runtime-card li { font-size: 0.78rem; color: var(--muted); padding: 3px 0; }
+  .runtime-card li::before { content: "→ "; color: var(--accent); }
+
+  /* ── DATA FLOW ANIMATION ── */
+  .flow-demo {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+    padding: 32px;
+    text-align: center;
+  }
+  .flow-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .flow-box {
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    font-size: 0.82rem;
+    font-weight: 600;
+    white-space: nowrap;
+    position: relative;
+  }
+  .flow-arrow-anim {
+    width: 60px;
+    height: 2px;
+    background: var(--border);
+    position: relative;
+    overflow: visible;
+    flex-shrink: 0;
+  }
+  .flow-arrow-anim::after {
+    content: '';
+    position: absolute;
+    right: -5px;
+    top: -4px;
+    border: 5px solid transparent;
+    border-left-color: var(--border);
+  }
+  .flow-particle {
+    position: absolute;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    top: -3px;
+    left: -4px;
+    animation: particleFlow 1.5s ease-in-out infinite;
+  }
+  @keyframes particleFlow {
+    0%   { left: -4px; opacity: 0; }
+    15%  { opacity: 1; }
+    85%  { opacity: 1; }
+    100% { left: calc(100% + 4px); opacity: 0; }
+  }
+  .flow-langs {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  .flow-lang-box {
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    border: 1px solid;
+    opacity: 0;
+    animation: popIn 0.4s ease both;
+  }
+  .flow-lang-box.node   { color:var(--node);   border-color:var(--node);   background:rgba(104,160,99,.08); animation-delay:0.6s; }
+  .flow-lang-box.kotlin { color:var(--kotlin); border-color:var(--kotlin); background:rgba(127,82,255,.08); animation-delay:0.9s; }
+  .flow-lang-box.csharp { color:var(--csharp); border-color:var(--csharp); background:rgba(23,134,0,.08);   animation-delay:1.2s; }
+  .flow-lang-box.dart   { color:var(--dart);   border-color:var(--dart);   background:rgba(1,117,194,.08);  animation-delay:1.5s; }
+  @keyframes popIn {
+    0%   { opacity: 0; transform: scale(0.7); }
+    60%  { transform: scale(1.05); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+
+  /* ── ANNOTATION DEMO ── */
+  .annotation-demo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 700px) {
+    .annotation-demo { grid-template-columns: 1fr; }
+    .pipeline { flex-direction: column; }
+    .pipe-arrow { transform: rotate(90deg); margin: 0 auto; }
+  }
+  .code-block {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    font-family: 'SF Mono','Fira Code',monospace;
+    font-size: 0.78rem;
+    line-height: 1.8;
+    overflow-x: auto;
+    white-space: pre;
+  }
+  .highlight-line {
+    background: rgba(88,166,255,0.1);
+    border-left: 2px solid var(--accent);
+    margin: 0 -20px;
+    padding: 0 20px;
+    display: block;
+  }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* footer */
+  footer {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--muted);
+    font-size: 0.82rem;
+    border-top: 1px solid var(--border);
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+
+  .pill {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    background: rgba(88,166,255,0.15);
+    color: var(--accent);
+    margin-left: 8px;
+  }
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .info-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .info-card .num { font-size: 2rem; font-weight: 800; color: var(--accent); }
+  .info-card .lbl { font-size: 0.8rem; color: var(--muted); margin-top: 4px; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <h1>FishyJoes</h1>
+  <p class="subtitle">A Swift bindings generator that lets you call native Swift libraries from TypeScript, Kotlin, C#, and Dart — without writing glue code by hand.</p>
+  <span class="tagline">Maintained by Cricut's Front-end Enablement Team</span>
+  <div class="lang-badges">
+    <span class="badge swift">🍎 Swift (source)</span>
+    <span class="badge node">⬡ TypeScript / Node.js</span>
+    <span class="badge kotlin">🎯 Kotlin / Android</span>
+    <span class="badge csharp">♟ C# / .NET</span>
+    <span class="badge dart">🎱 Dart / Flutter</span>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav class="nav-tabs">
+  <button class="nav-tab active" onclick="showSection('overview')">Overview</button>
+  <button class="nav-tab" onclick="showSection('pipeline')">Pipeline</button>
+  <button class="nav-tab" onclick="showSection('annotations')">Annotations</button>
+  <button class="nav-tab" onclick="showSection('types')">Type System</button>
+  <button class="nav-tab" onclick="showSection('languages')">Languages</button>
+  <button class="nav-tab" onclick="showSection('architecture')">Architecture</button>
+  <button class="nav-tab" onclick="showSection('runtime')">Runtime</button>
+</nav>
+
+<!-- ══════════════════════════════════ OVERVIEW ══════════════════════════════════ -->
+<section id="overview" class="section active">
+  <h2 class="section-title">What is FishyJoes?</h2>
+  <p class="section-desc">FishyJoes solves a real-world problem at Cricut: Swift libraries need to be callable from JavaScript, Android, .NET, and Flutter apps — without rewriting the same logic four times.</p>
+
+  <div class="flow-demo">
+    <div class="flow-row">
+      <div class="flow-box" style="border-color:var(--swift);color:var(--swift);">🍎 Swift Library</div>
+      <div class="flow-arrow-anim"><div class="flow-particle" style="background:var(--swift);"></div></div>
+      <div class="flow-box" style="border-color:var(--accent);color:var(--accent);">⚙️ FishyJoes CLI</div>
+      <div class="flow-arrow-anim"><div class="flow-particle" style="background:var(--accent);animation-delay:0.3s"></div></div>
+      <div class="flow-box" style="border-color:var(--muted);color:var(--muted);">📦 Native .dylib / .so</div>
+    </div>
+    <div class="flow-langs">
+      <div class="flow-lang-box node">⬡ npm package</div>
+      <div class="flow-lang-box kotlin">🎯 Maven artifact</div>
+      <div class="flow-lang-box csharp">♟ NuGet package</div>
+      <div class="flow-lang-box dart">🎱 pub package</div>
+    </div>
+  </div>
+
+  <div class="info-grid">
+    <div class="info-card">
+      <div class="num">4</div>
+      <div class="lbl">Target languages generated from one Swift source</div>
+    </div>
+    <div class="info-card">
+      <div class="num">0</div>
+      <div class="lbl">Lines of hand-written glue code needed</div>
+    </div>
+    <div class="info-card">
+      <div class="num">7</div>
+      <div class="lbl">CI/CD workflows covering every platform</div>
+    </div>
+    <div class="info-card">
+      <div class="num">~30</div>
+      <div class="lbl">Swift type categories supported (struct, enum, protocol, generics…)</div>
+    </div>
+  </div>
+
+  <div style="margin-top:40px;">
+    <h3 style="margin-bottom:16px;font-size:1.1rem;">How it fits into a Cricut product</h3>
+    <div class="arch-layer" style="cursor:default;border-color:var(--swift);">
+      <span class="arch-layer-icon">🍎</span>
+      <div>
+        <div class="arch-layer-title" style="color:var(--swift);">Swift Business Logic</div>
+        <div class="arch-layer-desc">Core algorithms, models, services — written once</div>
+      </div>
+    </div>
+    <div class="arch-arrow">↓ FishyJoes generates ↓</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:6px;">
+      <div class="arch-layer" style="cursor:default;border-color:var(--node);">
+        <span class="arch-layer-icon">⬡</span>
+        <div><div class="arch-layer-title" style="color:var(--node);">TypeScript / Node</div><div class="arch-layer-desc">Via N-API or WASM</div></div>
+      </div>
+      <div class="arch-layer" style="cursor:default;border-color:var(--kotlin);">
+        <span class="arch-layer-icon">🎯</span>
+        <div><div class="arch-layer-title" style="color:var(--kotlin);">Kotlin / Android</div><div class="arch-layer-desc">Via JNI</div></div>
+      </div>
+      <div class="arch-layer" style="cursor:default;border-color:var(--csharp);">
+        <span class="arch-layer-icon">♟</span>
+        <div><div class="arch-layer-title" style="color:var(--csharp);">C# / .NET</div><div class="arch-layer-desc">Via FFI (Iota)</div></div>
+      </div>
+      <div class="arch-layer" style="cursor:default;border-color:var(--dart);">
+        <span class="arch-layer-icon">🎱</span>
+        <div><div class="arch-layer-title" style="color:var(--dart);">Dart / Flutter</div><div class="arch-layer-desc">Via FFI (Iota)</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════ PIPELINE ══════════════════════════════════ -->
+<section id="pipeline" class="section">
+  <h2 class="section-title">The Generation Pipeline</h2>
+  <p class="section-desc">When you run <code style="background:var(--surface);padding:2px 8px;border-radius:4px;font-family:monospace;">fishyjoes codegen</code>, your Swift source goes through 8 distinct phases. Click each stage to learn more.</p>
+
+  <div class="pipeline" id="pipeline-row">
+    <div class="pipe-stage" onclick="selectStage(0)" id="stage-0">
+      <div class="pipe-box">
+        <div class="animated-particle"></div>
+        <span class="pipe-icon">📝</span>
+        <div class="pipe-label">Swift Source</div>
+        <div class="pipe-sub">Annotated .swift files</div>
+      </div>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-stage" onclick="selectStage(1)" id="stage-1">
+      <div class="pipe-box">
+        <div class="animated-particle" style="animation-delay:0.2s"></div>
+        <span class="pipe-icon">🔍</span>
+        <div class="pipe-label">Sourcery</div>
+        <div class="pipe-sub">AST reflection</div>
+      </div>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-stage" onclick="selectStage(2)" id="stage-2">
+      <div class="pipe-box">
+        <div class="animated-particle" style="animation-delay:0.4s"></div>
+        <span class="pipe-icon">🏷</span>
+        <div class="pipe-label">Annotations</div>
+        <div class="pipe-sub">Export directives</div>
+      </div>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-stage" onclick="selectStage(3)" id="stage-3">
+      <div class="pipe-box">
+        <div class="animated-particle" style="animation-delay:0.6s"></div>
+        <span class="pipe-icon">🌳</span>
+        <div class="pipe-label">BetterType</div>
+        <div class="pipe-sub">Type resolution</div>
+      </div>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-stage" onclick="selectStage(4)" id="stage-4">
+      <div class="pipe-box">
+        <div class="animated-particle" style="animation-delay:0.8s"></div>
+        <span class="pipe-icon">🔄</span>
+        <div class="pipe-label">TranslatedTypes</div>
+        <div class="pipe-sub">IR per type</div>
+      </div>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-stage" onclick="selectStage(5)" id="stage-5">
+      <div class="pipe-box">
+        <div class="animated-particle" style="animation-delay:1.0s"></div>
+        <span class="pipe-icon">✍️</span>
+        <div class="pipe-label">Code Gen</div>
+        <div class="pipe-sub">SourceFragments</div>
+      </div>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-stage" onclick="selectStage(6)" id="stage-6">
+      <div class="pipe-box">
+        <div class="animated-particle" style="animation-delay:1.2s"></div>
+        <span class="pipe-icon">🔨</span>
+        <div class="pipe-label">Build</div>
+        <div class="pipe-sub">Native + targets</div>
+      </div>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-stage" onclick="selectStage(7)" id="stage-7">
+      <div class="pipe-box">
+        <div class="animated-particle" style="animation-delay:1.4s"></div>
+        <span class="pipe-icon">📦</span>
+        <div class="pipe-label">Pack</div>
+        <div class="pipe-sub">npm / maven / …</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="detail-box" id="stage-detail">
+    <h3>Click a stage above to explore it</h3>
+    <p>Each stage in the pipeline is implemented as a distinct phase. Stages can be run independently — for example, you can pack without re-generating.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════ ANNOTATIONS ══════════════════════════════════ -->
+<section id="annotations" class="section">
+  <h2 class="section-title">Annotation-Driven Exports</h2>
+  <p class="section-desc">FishyJoes uses an elegant trick: export directives are written as HTML comments inside Swift doc comments. This keeps them co-located with the code and doesn't require new language features.</p>
+
+  <div class="annotation-demo">
+    <div>
+      <h3 style="margin-bottom:12px;font-size:0.9rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;">Swift Source</h3>
+      <div class="code-block">
+<span class="cm">/// Represents a design element.</span>
+<span class="cm">///</span>
+<span class="highlight-line"><span class="cm">/// &lt;!-- FishyJoes.export(DesignElement) --&gt;</span></span>
+<span class="kw">public struct</span> <span class="ty">DesignElement</span> {
+    <span class="kw">public let</span> id: <span class="ty">UUID</span>
+    <span class="kw">public let</span> name: <span class="ty">String</span>
+    <span class="kw">public var</span> width: <span class="ty">Double</span>
+    <span class="kw">public var</span> height: <span class="ty">Double</span>
+
+    <span class="cm">/// &lt;!-- FishyJoes.export() --&gt;</span>
+    <span class="kw">public func</span> <span class="ty">scale</span>(by factor: <span class="ty">Double</span>)
+        -&gt; <span class="ty">DesignElement</span> { ... }
+}
+      </div>
+    </div>
+    <div>
+      <h3 style="margin-bottom:12px;font-size:0.9rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;">What FishyJoes Sees</h3>
+      <div class="code-block">
+<span class="cm">// ExportAnnotation parsed from doc comment:</span>
+ExportAnnotation(
+  name: <span class="st">"DesignElement"</span>,
+  exportedType: .struct,
+  genericOverrides: [],
+  isPublic: <span class="kw">true</span>
+)
+
+<span class="cm">// Method also exported (has annotation):</span>
+Method(
+  name: <span class="st">"scale"</span>,
+  params: [(<span class="st">"factor"</span>, .double)],
+  returns: .named(<span class="st">"DesignElement"</span>),
+  isStatic: <span class="kw">false</span>,
+  isThrowing: <span class="kw">false</span>,
+  isAsync: <span class="kw">false</span>
+)
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:32px;">
+    <h3 style="font-size:1rem;margin-bottom:16px;">Annotation Options</h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;">
+      <div class="info-card">
+        <div style="font-family:monospace;color:var(--accent);font-size:0.82rem;margin-bottom:8px;">&lt;!-- FishyJoes.export(Name) --&gt;</div>
+        <div style="font-size:0.82rem;color:var(--muted);">Export a type with an explicit public name for generated bindings.</div>
+      </div>
+      <div class="info-card">
+        <div style="font-family:monospace;color:var(--accent);font-size:0.82rem;margin-bottom:8px;">&lt;!-- FishyJoes.export() --&gt;</div>
+        <div style="font-size:0.82rem;color:var(--muted);">Export a method/property, inheriting name from Swift declaration.</div>
+      </div>
+      <div class="info-card">
+        <div style="font-family:monospace;color:var(--accent);font-size:0.82rem;margin-bottom:8px;">Generic overrides</div>
+        <div style="font-size:0.82rem;color:var(--muted);">Specify concrete types for generic parameters when generating bindings (e.g. Array&lt;String&gt; instead of Array&lt;T&gt;).</div>
+      </div>
+      <div class="info-card">
+        <div style="font-family:monospace;color:var(--accent);font-size:0.82rem;margin-bottom:8px;">Doc-comment placement</div>
+        <div style="font-size:0.82rem;color:var(--muted);">Annotations live inside /// comments so they appear in Xcode documentation and are easy to search.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════ TYPES ══════════════════════════════════ -->
+<section id="types" class="section">
+  <h2 class="section-title">The BetterType System</h2>
+  <p class="section-desc">Sourcery gives FishyJoes a flat representation of Swift type names. FishyJoes converts these into <strong>BetterType</strong> — a recursive enum that models type trees correctly, enabling proper handling of deeply-nested generics. Click nodes to explore.</p>
+
+  <div class="type-tree">
+    <div>
+      <span class="kw">indirect enum</span> <span class="ty">BetterType</span> {
+    </div>
+    <div style="padding-left:20px;">
+
+      <div onclick="toggleNode('n1')" class="type-node" id="n1">▶ <span class="en">.named</span>(<span class="ty">String</span>, [<span class="ty">BetterType</span>]) <span class="cm">// e.g. "Array" with element types</span></div>
+      <div class="type-children" id="n1-children">
+        <div style="padding:8px 12px;color:var(--muted);font-size:0.8rem;">A named Swift type with optional generic arguments.<br>
+        Examples: <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">.named("String", [])</code>, <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">.named("Array", [.named("UUID", [])])</code><br>
+        This handles the full depth of nesting that Sourcery's flat <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">TypeName</code> cannot express cleanly.</div>
+      </div>
+
+      <div onclick="toggleNode('n2')" class="type-node" id="n2">▶ <span class="en">.optional</span>(<span class="ty">BetterType</span>) <span class="cm">// Optional&lt;T&gt;</span></div>
+      <div class="type-children" id="n2-children">
+        <div style="padding:8px 12px;color:var(--muted);font-size:0.8rem;">Wraps any type to make it optional. Recursion allows <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">Optional&lt;Array&lt;Optional&lt;String&gt;&gt;&gt;</code> to be represented correctly.</div>
+      </div>
+
+      <div onclick="toggleNode('n3')" class="type-node" id="n3">▶ <span class="en">.tuple</span>([(<span class="ty">String</span>?, <span class="ty">BetterType</span>)]) <span class="cm">// labeled tuples</span></div>
+      <div class="type-children" id="n3-children">
+        <div style="padding:8px 12px;color:var(--muted);font-size:0.8rem;">Swift tuples with optional labels. Each element is itself a <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">BetterType</code>, so nested tuples work too.</div>
+      </div>
+
+      <div onclick="toggleNode('n4')" class="type-node" id="n4">▶ <span class="en">.function</span>([<span class="ty">BetterType</span>], <span class="ty">BetterType</span>) <span class="cm">// closure types</span></div>
+      <div class="type-children" id="n4-children">
+        <div style="padding:8px 12px;color:var(--muted);font-size:0.8rem;">Closure/function types: a list of parameter types → a return type. Used when Swift APIs accept callbacks that need to be marshalled across the language boundary.</div>
+      </div>
+
+      <div onclick="toggleNode('n5')" class="type-node" id="n5">▶ <span class="en">.void</span> <span class="cm">// no return value</span></div>
+      <div class="type-children" id="n5-children">
+        <div style="padding:8px 12px;color:var(--muted);font-size:0.8rem;">Maps to <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">void</code> / <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">Unit</code> / <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">Nothing</code> in target languages.</div>
+      </div>
+
+      <div onclick="toggleNode('n6')" class="type-node" id="n6">▶ <span class="en">.genericParam</span>(<span class="ty">String</span>) <span class="cm">// T, U, etc.</span></div>
+      <div class="type-children" id="n6-children">
+        <div style="padding:8px 12px;color:var(--muted);font-size:0.8rem;">An unresolved generic parameter. FishyJoes resolves these when export annotations provide concrete overrides, enabling specialised bindings like <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">List&lt;String&gt;</code> in Kotlin.</div>
+      </div>
+    </div>
+    <div>}</div>
+  </div>
+
+  <div style="margin-top:32px;">
+    <h3 style="font-size:1rem;margin-bottom:16px;">Why not just use Sourcery's TypeName?</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <div class="info-card" style="border-color:rgba(255,123,114,0.4);">
+        <div style="color:#ff7b72;font-weight:700;margin-bottom:8px;">❌ Sourcery TypeName (flat)</div>
+        <div class="code-block" style="font-size:0.75rem;padding:12px;">
+          name: "Optional&lt;Array&lt;UUID&gt;&gt;"
+          <span class="cm">// Just a string — you must</span>
+          <span class="cm">// parse it yourself to find</span>
+          <span class="cm">// the nested structure</span>
+        </div>
+      </div>
+      <div class="info-card" style="border-color:rgba(63,185,80,0.4);">
+        <div style="color:#3fb950;font-weight:700;margin-bottom:8px;">✅ BetterType (recursive)</div>
+        <div class="code-block" style="font-size:0.75rem;padding:12px;">
+          .optional(
+            .named("Array", [
+              .named("UUID", [])
+            ])
+          )
+          <span class="cm">// A real tree — pattern match</span>
+          <span class="cm">// at any depth</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════ LANGUAGES ══════════════════════════════════ -->
+<section id="languages" class="section">
+  <h2 class="section-title">Generated Language Bindings</h2>
+  <p class="section-desc">For the same annotated Swift struct, FishyJoes generates idiomatic bindings in each target language. Click a language to see what gets produced.</p>
+
+  <div class="lang-grid">
+    <div class="lang-card node-card" onclick="selectLang('node')">
+      <span class="lang-icon">⬡</span>
+      <h3 style="color:var(--node)">TypeScript / Node.js</h3>
+      <p>N-API native addon or WebAssembly. Full TypeScript types, async/await support.</p>
+    </div>
+    <div class="lang-card kotlin-card" onclick="selectLang('kotlin')">
+      <span class="lang-icon">🎯</span>
+      <h3 style="color:var(--kotlin)">Kotlin / Android</h3>
+      <p>JNI bridge with idiomatic Kotlin data classes, coroutines for async, null-safety.</p>
+    </div>
+    <div class="lang-card csharp-card" onclick="selectLang('csharp')">
+      <span class="lang-icon">♟</span>
+      <h3 style="color:var(--csharp)">C# / .NET</h3>
+      <p>P/Invoke FFI via the Iota layer. C# classes with async Task<T> for Swift async methods.</p>
+    </div>
+    <div class="lang-card dart-card" onclick="selectLang('dart')">
+      <span class="lang-icon">🎱</span>
+      <h3 style="color:var(--dart)">Dart / Flutter</h3>
+      <p>dart:ffi bindings via Iota. Dart classes with Future<T> for async Swift methods.</p>
+    </div>
+  </div>
+
+  <div class="code-preview" id="lang-preview">
+    <div class="code-tabs" id="lang-tabs"></div>
+    <div id="lang-panels"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════ ARCHITECTURE ══════════════════════════════════ -->
+<section id="architecture" class="section">
+  <h2 class="section-title">Architecture Layers</h2>
+  <p class="section-desc">FishyJoes is organised into distinct Swift packages. Click each layer to see the key files and their responsibilities.</p>
+
+  <div class="arch-diagram">
+
+    <div class="arch-layer" onclick="toggleArch('a1')" id="a1">
+      <span class="arch-layer-icon">⚙️</span>
+      <div style="flex:1;">
+        <div class="arch-layer-title">FishyJoesExecuteMain <span class="pill">CLI Entry Point</span></div>
+        <div class="arch-layer-desc">Parses arguments, routes to sub-commands</div>
+      </div>
+      <span style="color:var(--muted);">▼</span>
+    </div>
+    <div class="arch-expand" id="a1-exp">
+      <ul>
+        <li><span>FishyJoes.swift</span><span>Routes: PackageInit | CodeGen | DownloadNodeLib | InstallToolchains</span></li>
+        <li><span>swift-argument-parser</span><span>Dependency for @Argument, @Flag, @Option</span></li>
+      </ul>
+    </div>
+    <div class="arch-arrow">↓</div>
+
+    <div class="arch-layer" onclick="toggleArch('a2')" id="a2">
+      <span class="arch-layer-icon">🏗</span>
+      <div style="flex:1;">
+        <div class="arch-layer-title">FishyJoesExecute <span class="pill">Orchestration</span></div>
+        <div class="arch-layer-desc">Multi-phase build pipeline, platform-specific phases</div>
+      </div>
+      <span style="color:var(--muted);">▼</span>
+    </div>
+    <div class="arch-expand" id="a2-exp">
+      <ul>
+        <li><span>CodeGen.swift</span><span>Main command: runs Generate → Build → Test → Pack per platform</span></li>
+        <li><span>Platform.swift</span><span>Per-platform config: WASM, Node, Kotlin, C#, Dart build settings</span></li>
+        <li><span>Phases/</span><span>GeneratePhase, BuildPhase, TestPhase, PackPhase for each target</span></li>
+        <li><span>Resources/</span><span>Template projects for each language's binding scaffold</span></li>
+        <li><span>swsh</span><span>Shell command wrapper for running gradle, npm, dotnet, etc.</span></li>
+      </ul>
+    </div>
+    <div class="arch-arrow">↓</div>
+
+    <div class="arch-layer" onclick="toggleArch('a3')" id="a3">
+      <span class="arch-layer-icon">🧠</span>
+      <div style="flex:1;">
+        <div class="arch-layer-title">FishyJoesCore <span class="pill">Code Analysis & Generation</span></div>
+        <div class="arch-layer-desc">Type resolution, IR, language translators, code emission</div>
+      </div>
+      <span style="color:var(--muted);">▼</span>
+    </div>
+    <div class="arch-expand" id="a3-exp">
+      <ul>
+        <li><span>FishyJoesContext.swift</span><span>Central context: type registry, translator instances, module metadata</span></li>
+        <li><span>ExportAnnotation.swift</span><span>Parses &lt;!-- FishyJoes.export() --&gt; from doc comments</span></li>
+        <li><span>BetterType.swift</span><span>Recursive type enum; converts Sourcery's flat TypeName to a tree</span></li>
+        <li><span>TranslatedTypes/ (27 files)</span><span>One per Swift type category: struct, enum, protocol, array, optional, future…</span></li>
+        <li><span>Translators/</span><span>NodeTranslator, KotlinTranslator, IotaTranslator, CSharpTranslator, DartTranslator</span></li>
+        <li><span>Unparse/</span><span>SourceFragment builder — assembles final source files with proper imports/headers</span></li>
+      </ul>
+    </div>
+    <div class="arch-arrow">↓</div>
+
+    <div class="arch-layer" onclick="toggleArch('a4')" id="a4">
+      <span class="arch-layer-icon">🔌</span>
+      <div style="flex:1;">
+        <div class="arch-layer-title">Runtime Packages <span class="pill">4 runtimes</span></div>
+        <div class="arch-layer-desc">Type marshalling between Swift and each target language at runtime</div>
+      </div>
+      <span style="color:var(--muted);">▼</span>
+    </div>
+    <div class="arch-expand" id="a4-exp">
+      <ul>
+        <li><span>FishyJoesCommonRuntime</span><span>Shared Converter protocol; utilities used by all runtimes</span></li>
+        <li><span>FishyJoesNodeRuntime</span><span>N-API integration: JS ↔ Swift type conversion, event loop</span></li>
+        <li><span>FishyJoesJavaRuntime</span><span>JNI wrapping: Kotlin ↔ Swift, jobject marshalling</span></li>
+        <li><span>FishyJoesIotaRuntime</span><span>FFI for C# and Dart via Iota layer</span></li>
+      </ul>
+    </div>
+    <div class="arch-arrow">↓</div>
+
+    <div class="arch-layer" onclick="toggleArch('a5')" id="a5">
+      <span class="arch-layer-icon">🗂</span>
+      <div style="flex:1;">
+        <div class="arch-layer-title">Support Packages</div>
+        <div class="arch-layer-desc">External bridging layers and configuration</div>
+      </div>
+      <span style="color:var(--muted);">▼</span>
+    </div>
+    <div class="arch-expand" id="a5-exp">
+      <ul>
+        <li><span>SourceryDataModel</span><span>Sourcery's AST types — the input to FishyJoesCore's analysis</span></li>
+        <li><span>NodeAPI/</span><span>N-API C headers for the Node.js native addon layer</span></li>
+        <li><span>JNI/</span><span>Java Native Interface system library headers</span></li>
+        <li><span>FishyJoesConfig</span><span>YAML-based configuration (module names, dependencies, namespace mappings)</span></li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════ RUNTIME ══════════════════════════════════ -->
+<section id="runtime" class="section">
+  <h2 class="section-title">Runtime Type Marshalling</h2>
+  <p class="section-desc">Generated bindings don't just call Swift — they convert every value across the language boundary. Each runtime implements a <strong>Converter</strong> protocol to handle this translation.</p>
+
+  <div style="margin-bottom:32px;">
+    <div class="code-block">
+<span class="cm">// FishyJoesCommonRuntime — the shared contract</span>
+<span class="kw">public protocol</span> <span class="ty">Converter</span> {
+    <span class="kw">associatedtype</span> <span class="ty">ForeignValue</span>
+
+    <span class="kw">static func</span> toForeign(<span class="ty">_</span>: <span class="ty">Self</span>) <span class="kw">throws</span> -&gt; <span class="ty">ForeignValue</span>
+    <span class="kw">static func</span> fromForeign(<span class="ty">_</span>: <span class="ty">ForeignValue</span>) <span class="kw">throws</span> -&gt; <span class="ty">Self</span>
+}
+    </div>
+  </div>
+
+  <div class="runtime-grid">
+    <div class="runtime-card" style="border-color:rgba(104,160,99,0.4);">
+      <h4 style="color:var(--node);">⬡ Node Runtime</h4>
+      <ul>
+        <li>N-API (native) or WASM</li>
+        <li>napi_value ↔ Swift</li>
+        <li>Event loop bridging</li>
+        <li>Promise / async support</li>
+        <li>Buffer / ArrayBuffer</li>
+      </ul>
+    </div>
+    <div class="runtime-card" style="border-color:rgba(127,82,255,0.4);">
+      <h4 style="color:var(--kotlin);">🎯 Java Runtime</h4>
+      <ul>
+        <li>JNI (Java Native Interface)</li>
+        <li>jobject ↔ Swift</li>
+        <li>jstring, jarray bridging</li>
+        <li>JVM thread safety</li>
+        <li>Coroutine bridge</li>
+      </ul>
+    </div>
+    <div class="runtime-card" style="border-color:rgba(23,134,0,0.4);">
+      <h4 style="color:var(--csharp);">♟ Iota Runtime (C#)</h4>
+      <ul>
+        <li>P/Invoke FFI</li>
+        <li>Pointer marshalling</li>
+        <li>Struct layout mapping</li>
+        <li>Task&lt;T&gt; async bridge</li>
+        <li>GC-safe pinned memory</li>
+      </ul>
+    </div>
+    <div class="runtime-card" style="border-color:rgba(1,117,194,0.4);">
+      <h4 style="color:var(--dart);">🎱 Iota Runtime (Dart)</h4>
+      <ul>
+        <li>dart:ffi</li>
+        <li>Pointer&lt;T&gt; bridging</li>
+        <li>Struct alignment</li>
+        <li>Future&lt;T&gt; async bridge</li>
+        <li>Isolate safety</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="margin-top:40px;">
+    <h3 style="font-size:1rem;margin-bottom:20px;">Call path: TypeScript calls a Swift method</h3>
+    <div style="display:flex;flex-direction:column;gap:0;">
+      <div style="padding:14px 20px;border-radius:8px 8px 0 0;border:1px solid var(--node);background:rgba(104,160,99,0.06);font-size:0.82rem;">
+        <strong style="color:var(--node);">1. JS/TS</strong> &nbsp; <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">const result = await element.scale(2.0)</code>
+      </div>
+      <div style="padding:14px 20px;border:1px solid var(--border);border-top:none;background:rgba(88,166,255,0.04);font-size:0.82rem;">
+        <strong style="color:var(--accent);">2. N-API</strong> &nbsp; Generated C++ addon unpacks <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">napi_value</code> → calls Swift via FFI
+      </div>
+      <div style="padding:14px 20px;border:1px solid var(--border);border-top:none;background:rgba(88,166,255,0.04);font-size:0.82rem;">
+        <strong style="color:var(--accent);">3. NodeConverter</strong> &nbsp; <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">Double.fromForeign(napiValue)</code> → Swift <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">Double</code>
+      </div>
+      <div style="padding:14px 20px;border:1px solid var(--border);border-top:none;background:rgba(240,81,56,0.06);font-size:0.82rem;">
+        <strong style="color:var(--swift);">4. Swift</strong> &nbsp; <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">DesignElement.scale(by: 2.0)</code> executes natively
+      </div>
+      <div style="padding:14px 20px;border:1px solid var(--border);border-top:none;background:rgba(88,166,255,0.04);font-size:0.82rem;">
+        <strong style="color:var(--accent);">5. NodeConverter</strong> &nbsp; <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">DesignElement.toForeign(result)</code> → <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">napi_value</code>
+      </div>
+      <div style="padding:14px 20px;border-radius:0 0 8px 8px;border:1px solid var(--node);border-top:none;background:rgba(104,160,99,0.06);font-size:0.82rem;">
+        <strong style="color:var(--node);">6. JS/TS</strong> &nbsp; Promise resolves with a fully-typed <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">DesignElement</code> object
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  FishyJoes — maintained by Cricut's Front-end Enablement Team
+</footer>
+
+<script>
+// ── Section navigation ──
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(t => {
+    if (t.getAttribute('onclick').includes(id)) t.classList.add('active');
+  });
+}
+
+// ── Pipeline stages ──
+const stageData = [
+  {
+    title: "Bindings Package — fishy-joes.yaml + Package.swift",
+    body: "FishyJoes is run from inside a dedicated <em>bindings package</em> — a separate Swift package whose only job is to hold the generated bindings. That package must contain a <code>bindings/fishy-joes.yaml</code> config file. The <code>module</code> key names the Swift library target to export. Optional keys like <code>requiredModules</code> list other FishyJoes-wrapped libraries this one depends on, and <code>excludeSources</code> lets you omit files from Sourcery's scan.",
+    code: `# bindings/fishy-joes.yaml
+# (lives inside the consumer's bindings Swift package)
+---
+module: DesignEngine
+
+# other FishyJoes-wrapped libs this module depends on:
+requiredModules:
+  - CriFoundation
+
+# files/dirs to hide from Sourcery:
+excludeSources:
+  - InternalHelpers.swift
+
+# optional CI hook that runs before the build:
+CIPreBuildHook: |
+  set -euxo pipefail
+  echo "pre-build hook"`
+  },
+  {
+    title: "Sourcery — AST Reflection",
+    body: "Sourcery (a popular Swift code generation tool) parses the Swift source into an AST. FishyJoes feeds this AST into its own pipeline as SourceryType objects. Sourcery handles the hard part of understanding Swift syntax — FishyJoes takes over from there.",
+    code: `// Sourcery produces SourceryType objects:
+struct SourceryType {
+  let name: String
+  let kind: TypeKind  // struct, class, enum, protocol
+  let variables: [Variable]
+  let methods: [Method]
+  let documentation: String?  // ← FishyJoes reads annotations here
+}`
+  },
+  {
+    title: "Export Annotations — Selective opt-in",
+    body: "FishyJoes reads the documentation strings from Sourcery's AST and parses <!-- FishyJoes.export() --> HTML comments. Only annotated types and members are exported — everything else is ignored. This gives developers fine-grained control over the public surface.",
+    code: `// ExportAnnotation.swift
+struct ExportAnnotation {
+  let name: String           // public binding name
+  let exportedType: TypeKind
+  let genericOverrides: [String: BetterType]
+  let isPublic: Bool
+}`
+  },
+  {
+    title: "BetterType — Recursive type resolution",
+    body: "Sourcery's TypeName is a flat string like 'Optional<Array<UUID>>'. FishyJoes converts these into BetterType — a proper recursive enum that represents the type as a tree. This allows pattern matching at any depth, which is essential for generating correct code in all target languages.",
+    code: `// "Optional<Array<UUID>>" becomes:
+let t: BetterType = .optional(
+  .named("Array", [
+    .named("UUID", [])
+  ])
+)
+// Now you can pattern-match deeply:
+if case .optional(.named("Array", let elements)) = t { ... }`
+  },
+  {
+    title: "TranslatedTypes — Language-neutral IR",
+    body: "Each exported Swift type is converted into a TranslatedType subclass — the intermediate representation. TranslatedStruct, TranslatedProtocol, TranslatedEnum, etc. These are language-agnostic: they capture all the semantic information needed to generate idiomatic code in any target language.",
+    code: `// ~27 TranslatedType subclasses, one per Swift type category
+TranslatedStruct     // value types
+TranslatedClass      // reference types
+TranslatedProtocol   // interfaces / protocols
+TranslatedEnum       // enumerations
+TranslatedArray      // Array<T>
+TranslatedOptional   // Optional<T>
+TranslatedFuture     // async → Promise/Future/Task
+TranslatedResult     // Result<S,F> → throws`
+  },
+  {
+    title: "Code Generation — SourceFragments",
+    body: "Each language translator (NodeTranslator, KotlinTranslator, etc.) walks the TranslatedTypes and emits SourceFragment objects. Fragments are a builder pattern that tracks file headers, imports, and code sections, then assembles them into proper source files with correct formatting.",
+    code: `// SourceFragment builder pattern
+var fragment = SourceFragment()
+fragment.addImport("Foundation")
+fragment.addHeader(swiftLintDirectives)
+fragment.append("""
+  public class DesignElement {
+    \(generatedBody)
+  }
+""")
+let file = fragment.render(for: .kotlin)`
+  },
+  {
+    title: "Build — Native + language packages",
+    body: "FishyJoes orchestrates a multi-step build: first it compiles the Swift code to a native dynamic library (.dylib on macOS, .so on Linux). Then it runs the language-specific build tool (npm, gradle, dotnet, dart pub) to compile the generated bindings against that library.",
+    code: `# FishyJoes runs these for you:
+swift build -c release          # native .dylib
+npm install && npm run build    # TypeScript
+./gradlew build                 # Kotlin
+dotnet build                    # C#
+dart pub get && dart build      # Dart`
+  },
+  {
+    title: "Pack — Publishable packages",
+    body: "The final step packages everything for distribution. Each language gets its standard package format: npm tarball, Maven artifact, NuGet package, or pub package. The native library is bundled inside. CI publishes these to GitHub Package Registry automatically.",
+    code: `# Output packages per language:
+dist/
+├── npm/         → @cricut/design-engine@1.0.0.tgz
+├── maven/       → com.cricut:design-engine:1.0.0
+├── nuget/       → Cricut.DesignEngine.1.0.0.nupkg
+└── pub/         → cricut_design_engine-1.0.0.tar.gz`
+  },
+];
+
+function selectStage(idx) {
+  document.querySelectorAll('.pipe-stage').forEach((s,i) => {
+    s.classList.toggle('active', i === idx);
+  });
+  const d = stageData[idx];
+  document.getElementById('stage-detail').innerHTML = `
+    <h3>${d.title}</h3>
+    <p>${d.body}</p>
+    <code>${d.code}</code>
+  `;
+}
+
+// ── Type tree toggles ──
+function toggleNode(id) {
+  const node = document.getElementById(id);
+  const children = document.getElementById(id + '-children');
+  const isOpen = children.classList.toggle('open');
+  node.classList.toggle('open', isOpen);
+  node.textContent = node.textContent.replace(/^[▶▼]/, isOpen ? '▼' : '▶');
+}
+
+// ── Architecture layers ──
+function toggleArch(id) {
+  const layer = document.getElementById(id);
+  const exp = document.getElementById(id + '-exp');
+  const isOpen = exp.classList.toggle('open');
+  layer.classList.toggle('expanded', isOpen);
+  layer.querySelector('span:last-child').textContent = isOpen ? '▲' : '▼';
+}
+
+// ── Language bindings ──
+const langData = {
+  node: {
+    color: 'var(--node)',
+    tabs: ['TypeScript Types', 'N-API Glue', 'Usage'],
+    panels: [
+`<span class="cm">// Generated TypeScript types</span>
+<span class="kw">export interface</span> <span class="ty">DesignElement</span> {
+  <span class="kw">readonly</span> id: <span class="ty">string</span>;        <span class="cm">// UUID → string</span>
+  <span class="kw">readonly</span> name: <span class="ty">string</span>;
+  width: <span class="ty">number</span>;              <span class="cm">// Double → number</span>
+  height: <span class="ty">number</span>;
+  scale(factor: <span class="ty">number</span>): <span class="ty">DesignElement</span>;
+}
+
+<span class="kw">export declare function</span> createDesignElement(
+  name: <span class="ty">string</span>, width: <span class="ty">number</span>, height: <span class="ty">number</span>
+): <span class="ty">DesignElement</span>;`,
+
+`<span class="cm">// Generated N-API glue (C++)</span>
+Napi::Value Scale(const Napi::CallbackInfo& info) {
+  auto env = info.Env();
+  auto* self = NodeConverter::fromNode&lt;DesignElement&gt;(info.This());
+  double factor = info[0].As&lt;Napi::Number&gt;().DoubleValue();
+  auto result = self->scale(factor);
+  return NodeConverter::toNode(env, result);
+}`,
+
+`<span class="cm">// TypeScript usage</span>
+<span class="kw">import</span> { createDesignElement } <span class="kw">from</span> <span class="st">'@cricut/design-engine'</span>;
+
+<span class="kw">const</span> el = createDesignElement(<span class="st">'logo'</span>, 200, 100);
+<span class="kw">const</span> scaled = el.scale(2.0);
+console.log(scaled.width); <span class="cm">// 400</span>`
+    ]
+  },
+  kotlin: {
+    color: 'var(--kotlin)',
+    tabs: ['Kotlin Data Class', 'JNI Bridge', 'Usage'],
+    panels: [
+`<span class="cm">// Generated Kotlin data class</span>
+<span class="kw">data class</span> <span class="ty">DesignElement</span>(
+  <span class="kw">val</span> id: <span class="ty">String</span>,          <span class="cm">// UUID → String</span>
+  <span class="kw">val</span> name: <span class="ty">String</span>,
+  <span class="kw">var</span> width: <span class="ty">Double</span>,
+  <span class="kw">var</span> height: <span class="ty">Double</span>
+) {
+  <span class="kw">external fun</span> <span class="ty">scale</span>(factor: <span class="ty">Double</span>): <span class="ty">DesignElement</span>
+}`,
+
+`<span class="cm">// Generated JNI bridge</span>
+JNIEXPORT jobject JNICALL
+Java_com_cricut_DesignElement_scale(
+    JNIEnv* env, jobject thiz, jdouble factor) {
+  auto* self = JavaConverter::fromJava&lt;DesignElement&gt;(env, thiz);
+  auto result = self->scale(factor);
+  return JavaConverter::toJava(env, result);
+}`,
+
+`<span class="cm">// Kotlin usage</span>
+<span class="kw">val</span> el = DesignElement(<span class="st">"logo"</span>, 200.0, 100.0)
+<span class="kw">val</span> scaled = el.scale(2.0)
+println(scaled.width) <span class="cm">// 400.0</span>
+
+<span class="cm">// Coroutine-friendly async methods:</span>
+<span class="kw">suspend fun</span> processAsync() {
+  <span class="kw">val</span> result = el.processAsync()
+}`
+    ]
+  },
+  csharp: {
+    color: 'var(--csharp)',
+    tabs: ['C# Class', 'P/Invoke', 'Usage'],
+    panels: [
+`<span class="cm">// Generated C# class</span>
+<span class="kw">public class</span> <span class="ty">DesignElement</span> {
+  <span class="kw">public</span> <span class="ty">string</span> Id { <span class="kw">get</span>; }
+  <span class="kw">public</span> <span class="ty">string</span> Name { <span class="kw">get</span>; }
+  <span class="kw">public double</span> Width { <span class="kw">get</span>; <span class="kw">set</span>; }
+  <span class="kw">public double</span> Height { <span class="kw">get</span>; <span class="kw">set</span>; }
+
+  <span class="kw">public</span> <span class="ty">DesignElement</span> Scale(<span class="kw">double</span> factor) {
+    <span class="kw">return</span> IotaRuntime.Scale(_handle, factor);
+  }
+}`,
+
+`<span class="cm">// Generated P/Invoke declaration</span>
+[<span class="ty">DllImport</span>(<span class="st">"DesignEngine"</span>)]
+<span class="kw">private static extern</span> <span class="ty">IntPtr</span> FJ_DesignElement_scale(
+    <span class="ty">IntPtr</span> handle, <span class="kw">double</span> factor);`,
+
+`<span class="cm">// C# usage</span>
+<span class="kw">var</span> el = <span class="kw">new</span> <span class="ty">DesignElement</span>(<span class="st">"logo"</span>, 200.0, 100.0);
+<span class="kw">var</span> scaled = el.Scale(2.0);
+Console.WriteLine(scaled.Width); <span class="cm">// 400.0</span>
+
+<span class="cm">// Async methods become Task&lt;T&gt;:</span>
+<span class="kw">var</span> result = <span class="kw">await</span> el.ProcessAsync();`
+    ]
+  },
+  dart: {
+    color: 'var(--dart)',
+    tabs: ['Dart Class', 'dart:ffi', 'Usage'],
+    panels: [
+`<span class="cm">// Generated Dart class</span>
+<span class="kw">class</span> <span class="ty">DesignElement</span> {
+  <span class="kw">final</span> <span class="ty">String</span> id;
+  <span class="kw">final</span> <span class="ty">String</span> name;
+  <span class="ty">double</span> width;
+  <span class="ty">double</span> height;
+
+  <span class="ty">DesignElement</span> scale(<span class="ty">double</span> factor) {
+    <span class="kw">return</span> _bindings.designElement_scale(_handle, factor);
+  }
+}`,
+
+`<span class="cm">// Generated dart:ffi binding</span>
+<span class="kw">typedef</span> _ScaleNative = Pointer&lt;Void&gt; Function(
+    Pointer&lt;Void&gt;, Double);
+<span class="kw">typedef</span> _ScaleDart = Pointer&lt;Void&gt; Function(
+    Pointer&lt;Void&gt;, double);
+
+<span class="kw">final</span> _scale = _lib.lookupFunction&lt;
+    _ScaleNative, _ScaleDart&gt;(<span class="st">'FJ_DesignElement_scale'</span>);`,
+
+`<span class="cm">// Dart / Flutter usage</span>
+<span class="kw">final</span> el = DesignElement(<span class="st">'logo'</span>, 200.0, 100.0);
+<span class="kw">final</span> scaled = el.scale(2.0);
+print(scaled.width); <span class="cm">// 400.0</span>
+
+<span class="cm">// Async methods become Future&lt;T&gt;:</span>
+<span class="kw">final</span> result = <span class="kw">await</span> el.processAsync();`
+    ]
+  }
+};
+
+let activeLang = null;
+let activeLangTab = 0;
+
+function selectLang(lang) {
+  activeLang = lang;
+  activeLangTab = 0;
+  const d = langData[lang];
+  const preview = document.getElementById('lang-preview');
+  preview.classList.add('active');
+
+  // tabs
+  document.getElementById('lang-tabs').innerHTML = d.tabs.map((t,i) =>
+    `<div class="code-tab ${i===0?'active':''}" onclick="selectLangTab(${i})">${t}</div>`
+  ).join('');
+
+  // panels
+  document.getElementById('lang-panels').innerHTML = d.panels.map((p,i) =>
+    `<pre class="code-panel ${i===0?'active':''}" id="lp${i}">${p}</pre>`
+  ).join('');
+
+  document.querySelectorAll('.lang-card').forEach(c => c.classList.remove('active'));
+  document.querySelector(`.${lang}-card`).classList.add('active');
+}
+
+function selectLangTab(i) {
+  activeLangTab = i;
+  document.querySelectorAll('.code-tab').forEach((t,j) => t.classList.toggle('active', j===i));
+  document.querySelectorAll('.code-panel').forEach((p,j) => p.classList.toggle('active', j===i));
+}
+
+// auto-select first stage on page load
+document.addEventListener('DOMContentLoaded', () => {
+  selectStage(0);
+});
+selectStage(0);
+</script>
+</body>
+</html>
