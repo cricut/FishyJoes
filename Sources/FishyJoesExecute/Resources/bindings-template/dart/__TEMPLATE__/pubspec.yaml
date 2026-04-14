@@ -5,7 +5,7 @@ description: "A Dart wrapper for __MODULE_NAME__"
 version: "0.0.1-unknown"
 
 environment:
-  sdk: '>=3.1.5 <4.0.0'
+  sdk: '^3.9.0'
 
 dependencies:__PUBSPEC_DART_DEPENDENCIES__
 

@@ -4,7 +4,7 @@ name: cricut_testapi
 description: "A Flutter wrapper for TestAPI"
 version: "0.0.1-unknown"
 environment:
-  sdk: '>=3.1.5 <4.0.0'
+  sdk: '^3.9.0'
   flutter: '>=3.3.0'
 dependencies:
   fishyjoes_dart:
