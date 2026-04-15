@@ -53,6 +53,73 @@ native_malloc_copy_bytes(PyObject *self, PyObject *arg)
 
 
 /* -------------------------------------------------------------------------
+ * retain(obj: object) -> int
+ *
+ * Increments the reference count of *obj* and returns its id (PyObject*
+ * address) as a Python int.  CPython never moves objects (no compacting GC),
+ * so the address is stable for the lifetime of the extra reference.
+ *
+ * The caller is responsible for pairing every retain() with a release().
+ * ------------------------------------------------------------------------- */
+static PyObject *
+native_retain(PyObject *self, PyObject *obj)
+{
+    (void)self;
+    Py_INCREF(obj);
+    return PyLong_FromVoidPtr((void *)obj);
+}
+
+
+/* -------------------------------------------------------------------------
+ * release(handle: int) -> None
+ *
+ * Decrements the reference count of the object identified by *handle*
+ * (an address previously returned by retain()).  After this call the handle
+ * is invalid; the caller must not use it again.
+ * ------------------------------------------------------------------------- */
+static PyObject *
+native_release(PyObject *self, PyObject *arg)
+{
+    (void)self;
+
+    void *ptr = PyLong_AsVoidPtr(arg);
+    if (!ptr && PyErr_Occurred())
+        return NULL;
+
+    if (ptr) {
+        Py_DECREF((PyObject *)ptr);
+    }
+    Py_RETURN_NONE;
+}
+
+
+/* -------------------------------------------------------------------------
+ * borrow(handle: int) -> object
+ *
+ * Returns the Python object identified by *handle* without changing its
+ * reference count.  The returned object is only valid as long as the caller
+ * holds a retain on the handle.
+ * ------------------------------------------------------------------------- */
+static PyObject *
+native_borrow(PyObject *self, PyObject *arg)
+{
+    (void)self;
+
+    void *ptr = PyLong_AsVoidPtr(arg);
+    if (!ptr && PyErr_Occurred())
+        return NULL;
+
+    if (!ptr) {
+        Py_RETURN_NONE;
+    }
+
+    PyObject *obj = (PyObject *)ptr;
+    Py_INCREF(obj);  /* caller gets a new reference */
+    return obj;
+}
+
+
+/* -------------------------------------------------------------------------
  * native_runtime_version() -> str
  * ------------------------------------------------------------------------- */
 static PyObject *
@@ -75,6 +142,30 @@ static PyMethodDef module_methods[] = {
         "Allocate a null-terminated C string on the libc heap and copy *data* "
         "into it.  Returns the address as an int.  The caller (Swift) is "
         "responsible for calling free() on the returned pointer.",
+    },
+    {
+        "retain",
+        native_retain,
+        METH_O,
+        "retain(obj: object) -> int\n\n"
+        "Increment the reference count of *obj* and return its CPython address "
+        "as an int.  Every retain() must be paired with a release().",
+    },
+    {
+        "release",
+        native_release,
+        METH_O,
+        "release(handle: int) -> None\n\n"
+        "Decrement the reference count of the object at *handle*.  The handle "
+        "must not be used after this call.",
+    },
+    {
+        "borrow",
+        native_borrow,
+        METH_O,
+        "borrow(handle: int) -> object\n\n"
+        "Return the object at *handle* without changing its reference count.  "
+        "Only valid while a retain is held on the handle.",
     },
     {
         "native_runtime_version",

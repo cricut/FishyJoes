@@ -68,7 +68,14 @@ def _borrow_python_value(handle: Any) -> object | None:
             return None
     if not handle:
         return None
-    return _ffi.from_handle(_ffi.cast("void*", handle))
+    if not isinstance(handle, int):
+        try:
+            handle = int(_ffi.cast("uintptr_t", handle))
+        except TypeError:
+            return None
+    if not handle:
+        return None
+    return _native_ext.borrow(handle)
 
 
 def _value_type_name(value: object | None) -> str:
@@ -164,10 +171,6 @@ class IotaRuntime:
         self.module_path = Path(module_path)
         self.module_iota_path = Path(module_iota_path)
         self.module_name = module_name
-
-        # Live Python-object handles: int address → cffi handle cdata.
-        # Keeping the cdata alive keeps the Python object alive.
-        self._handles: dict[int, Any] = {}
 
         # cffi callback objects must be kept alive.
         self._callbacks: list[Any] = []
@@ -383,10 +386,7 @@ class IotaRuntime:
 
     def _retain(self, value: object) -> int:
         """Retain a Python object and return its opaque handle address."""
-        handle_cdata = _ffi.new_handle(value)
-        addr = int(_ffi.cast("uintptr_t", handle_cdata))
-        self._handles[addr] = handle_cdata
-        return addr
+        return _native_ext.retain(value)
 
     def _release(self, handle: int | None) -> None:
         """Release a previously retained Python object."""
@@ -403,7 +403,9 @@ class IotaRuntime:
                 handle = int(_ffi.cast("uintptr_t", handle))
             except TypeError:
                 return
-        self._handles.pop(handle, None)
+        if not handle:
+            return
+        _native_ext.release(handle)
 
     def _set_exn(self, out_exn: Any, error: BaseException) -> None:
         """Write an exception into a void** out-parameter.
