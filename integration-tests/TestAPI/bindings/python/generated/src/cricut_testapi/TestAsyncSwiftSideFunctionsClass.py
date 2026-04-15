@@ -185,3 +185,5 @@ class TestAsyncSwiftSideFunctionsClass(NativeReference):
         import asyncio
         return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_defaultExercise6", "object", ("object", self), ("object", fn)))
     
+
+_cls_TestAPI_TestAsyncSwiftSideFunctionsClass_setup = TestAsyncSwiftSideFunctionsClass

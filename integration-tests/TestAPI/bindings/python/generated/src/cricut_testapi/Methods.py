@@ -298,3 +298,5 @@ class Methods(NativeReference):
         _ensure_runtime_loaded()
         _get_runtime().call_symbol("__iota_TestAPI_Methods_methodWithNewlinesInTypes", "void", ("object", thing))
     
+
+_cls_TestAPI_Methods_setup = Methods

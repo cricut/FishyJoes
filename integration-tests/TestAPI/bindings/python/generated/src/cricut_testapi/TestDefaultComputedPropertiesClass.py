@@ -64,3 +64,5 @@ class TestDefaultComputedPropertiesClass(NativeReference):
         _ensure_runtime_loaded()
         return _get_runtime().call_symbol("__iota_TestAPI_TestDefaultComputedPropertiesClass_init", "object", ("bool", spam), ("int", noot))
     
+
+_cls_TestAPI_TestDefaultComputedPropertiesClass_setup = TestDefaultComputedPropertiesClass

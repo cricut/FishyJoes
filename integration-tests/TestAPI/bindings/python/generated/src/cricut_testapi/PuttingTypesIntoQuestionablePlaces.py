@@ -66,6 +66,8 @@ class PuttingTypesIntoQuestionablePlaces(NativeReference):
         return _get_runtime().call_symbol("__iota_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_testCall", "int", ("object", self))
     
 
+_cls_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_setup = PuttingTypesIntoQuestionablePlaces
+
 class PuttingTypesIntoQuestionablePlaces(enum.Enum):
     """
     <!-- FishyJoes.export(UnicodeScalar_PuttingTypesIntoQuestionablePlaces) -->

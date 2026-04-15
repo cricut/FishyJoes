@@ -134,6 +134,8 @@ void* __iota_TestAPI_Structs_ReferenceStruct_asyncGetMutable(void* env, void* se
 void* __iota_get_TestAPI_Structs_ReferenceStruct_immutable(void* env, void* self, void** exn);
 void* __iota_get_TestAPI_Structs_ReferenceStruct_mutable(void* env, void* self, void** exn);
 void __iota_set_TestAPI_Structs_ReferenceStruct_mutable(void* env, void* self, void* newValue, void** exn);
+uint8_t __iota_TestAPI_Structs_ReferenceStruct_equals(void* env, void* lhs, void* rhs, void** exn);
+int32_t __iota_get_TestAPI_Structs_ReferenceStruct_hash(void* env, void* self, void** exn);
 
 void TestAPI_Structs_TwentyOneItemStruct_setup(void* env, void* constructor, void* get_a, void* set_a, void* get_b, void* set_b, void* get_c, void* set_c, void* get_d, void* set_d, void* get_e, void* set_e, void* get_f, void* set_f, void* get_g, void* set_g, void* get_h, void* set_h, void* get_i, void* set_i, void* get_j, void* set_j, void* get_k, void* set_k, void* get_l, void* set_l, void* get_m, void* set_m, void* get_n, void* set_n, void* get_o, void* set_o, void* get_p, void* set_p, void* get_q, void* set_q, void* get_r, void* set_r, void* get_s, void* set_s, void* get_t, void* set_t, void* get_u, void* set_u, void** exn);
 void* __iota_get_TestAPI_Structs_TwentyOneItemStruct_a(void* env, void* self, void** exn);
@@ -305,6 +307,8 @@ void* __iota_TestAPI_EmptyClass_shme(void* env, void* self, void** exn);
 void* __iota_TestAPI_EmptyClass_Gorpers(void* env, void* self, void** exn);
 void* __iota_get_TestAPI_EmptyClass_blarg(void* env, void* self, void** exn);
 void* __iota_get_TestAPI_EmptyClass_wibbledyWobbledyTimeyWhimey(void* env, void* self, void** exn);
+uint8_t __iota_TestAPI_EmptyClass_equals(void* env, void* lhs, void* rhs, void** exn);
+int32_t __iota_get_TestAPI_EmptyClass_hash(void* env, void* self, void** exn);
 
 void TestAPI_EmptyClass2_setup(void* env, void* constructor, void** exn);
 void* __iota_TestAPI_EmptyClass2_make(void* env, void** exn);
@@ -312,6 +316,8 @@ void* __iota_TestAPI_EmptyClass2_shmee(void* env, void* self, void** exn);
 void* __iota_TestAPI_EmptyClass2_gorp(void* env, void* self, void** exn);
 void* __iota_get_TestAPI_EmptyClass2_blorg(void* env, void* self, void** exn);
 void* __iota_get_TestAPI_EmptyClass2_wibble(void* env, void* self, void** exn);
+uint8_t __iota_TestAPI_EmptyClass2_equals(void* env, void* lhs, void* rhs, void** exn);
+int32_t __iota_get_TestAPI_EmptyClass2_hash(void* env, void* self, void** exn);
 
 void TestAPI_EmptyEnum_setup(void* env, void** exn);
 void* __iota_TestAPI_EmptyEnum_notGoingToHappen(void* env, void** exn);
@@ -675,6 +681,8 @@ void __iota_set_TestAPI_TestProtocolClass_corge(void* env, void* self, void* new
 void* __iota_get_TestAPI_TestProtocolClass_flarp(void* env, void* self, void** exn);
 void __iota_set_TestAPI_TestProtocolClass_flarp(void* env, void* self, void* newValue, void** exn);
 void* __iota_get_TestAPI_TestProtocolClass_frobby(void* env, void* self, void** exn);
+uint8_t __iota_TestAPI_TestProtocolClass_equals(void* env, void* lhs, void* rhs, void** exn);
+int32_t __iota_get_TestAPI_TestProtocolClass_hash(void* env, void* self, void** exn);
 
 void TestAPI_TestProtocolEnum_setup(void* env, void* discriminator, void* qux_constructor, void* qux_extractor, void** exn);
 void __iota_TestAPI_TestProtocolEnum_foo(void* env, void* self, void** exn);

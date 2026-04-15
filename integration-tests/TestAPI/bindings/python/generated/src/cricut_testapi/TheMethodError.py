@@ -16,3 +16,5 @@ class TheMethodError(NativeReference):
             weakref.finalize(self, _get_runtime().release_native_ref, native_ref)
         
     
+
+_cls_TestAPI_Methods_TheMethodError_setup = TheMethodError

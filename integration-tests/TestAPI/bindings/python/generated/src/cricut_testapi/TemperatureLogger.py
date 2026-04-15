@@ -87,3 +87,5 @@ class TemperatureLogger(NativeReference):
         _ensure_runtime_loaded()
         return _get_runtime().call_symbol("__iota_TestAPI_Actors_TemperatureLogger_extensionNonisolatedGetLabel", "object", ("object", self))
     
+
+_cls_TestAPI_Actors_TemperatureLogger_setup = TemperatureLogger

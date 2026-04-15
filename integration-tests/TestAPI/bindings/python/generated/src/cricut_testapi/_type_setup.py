@@ -18,7 +18,9 @@ from .Collections import Collections
 from .DefaultArguments import DefaultArguments
 from .Deprecations import Deprecations
 from .EmptyClass import EmptyClass
+from .EmptyClass import _cls_TestAPI_EmptyClass_setup
 from .EmptyClass2 import EmptyClass2
+from .EmptyClass2 import _cls_TestAPI_EmptyClass2_setup
 from .EmptyEnum import EmptyEnum
 from .EmptyStruct import EmptyStruct
 from .EmptyStruct2 import EmptyStruct2
@@ -34,6 +36,7 @@ from .ExternalWitness_TestPropertiesProtocol import ExternalWitness_TestProperti
 from .Functions import Functions
 from .MemberwiseStruct import MemberwiseStruct
 from .Methods import Methods
+from .Methods import _cls_TestAPI_Methods_setup
 from .MutableStruct import MutableStruct
 from .PrimitiveHolder import PrimitiveHolder
 from .Primitives import Primitives
@@ -41,19 +44,24 @@ from .PuttingTypesIntoQuestionablePlaces import PuttingTypesIntoQuestionablePlac
 from .PuttingTypesIntoQuestionablePlaces import PuttingTypesIntoQuestionablePlaces
 from .PuttingTypesIntoQuestionablePlaces import PuttingTypesIntoQuestionablePlaces
 from .PuttingTypesIntoQuestionablePlaces import PuttingTypesIntoQuestionablePlaces
+from .PuttingTypesIntoQuestionablePlaces import _cls_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_setup
 from .Ranges import Ranges
 from .ReferenceEmptyEnum import ReferenceEmptyEnum
 from .ReferenceStruct import ReferenceStruct
+from .ReferenceStruct import _cls_TestAPI_Structs_ReferenceStruct_setup
 from .Results import Results
 from .SimpleEnum import SimpleEnum
 from .Strings import Strings
 from .Structs import Structs
 from .TemperatureLogger import TemperatureLogger
+from .TemperatureLogger import _cls_TestAPI_Actors_TemperatureLogger_setup
 from .TestAsyncForeignSideFunctionsStruct import TestAsyncForeignSideFunctionsStruct
 from .TestAsyncFunctions import TestAsyncFunctions
 from .TestAsyncSwiftSideFunctionsClass import TestAsyncSwiftSideFunctionsClass
+from .TestAsyncSwiftSideFunctionsClass import _cls_TestAPI_TestAsyncSwiftSideFunctionsClass_setup
 from .TestDefaultComputedProperties import TestDefaultComputedProperties
 from .TestDefaultComputedPropertiesClass import TestDefaultComputedPropertiesClass
+from .TestDefaultComputedPropertiesClass import _cls_TestAPI_TestDefaultComputedPropertiesClass_setup
 from .TestDefaultComputedPropertiesEnum import TestDefaultComputedPropertiesEnum
 from .TestDefaultComputedPropertiesStruct import TestDefaultComputedPropertiesStruct
 from .TestDifferingExportNameProtocol import TestDifferingExportNameProtocol
@@ -65,9 +73,11 @@ from .TestNonExportedProtocolEnum import TestNonExportedProtocolEnum
 from .TestOptionalsProtocol import TestOptionalsProtocol
 from .TestPropertiesProtocol import TestPropertiesProtocol
 from .TestProtocolClass import TestProtocolClass
+from .TestProtocolClass import _cls_TestAPI_TestProtocolClass_setup
 from .TestProtocolEnum import TestProtocolEnum
 from .TestProtocolStruct import TestProtocolStruct
 from .TheMethodError import TheMethodError
+from .TheMethodError import _cls_TestAPI_Methods_TheMethodError_setup
 from .Tuples import Tuples
 from .TwentyOneItemStruct import TwentyOneItemStruct
 from .URLs import URLs
@@ -222,15 +232,15 @@ def ensure_loaded() -> None:
     _runtime.setup_struct_type("Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_setup", PuttingTypesIntoQuestionablePlaces, [("x", "object")], {})
     _runtime.setup_struct_type("Swift_String_PuttingTypesIntoQuestionablePlaces_setup", PuttingTypesIntoQuestionablePlaces, [("x", "object")], {})
     _runtime.setup_enum_type("Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_setup", PuttingTypesIntoQuestionablePlaces, True, [("thing", [])])
-    _runtime.setup_reference_type("TestAPI_Actors_TemperatureLogger_setup", TemperatureLogger)
+    _runtime.setup_reference_type("TestAPI_Actors_TemperatureLogger_setup", _cls_TestAPI_Actors_TemperatureLogger_setup)
     _runtime.setup_struct_type("TestAPI_Collections_CollectionHolder_setup", CollectionHolder, [("boolArray", "object"), ("boolSet", "object"), ("boolDictionary", "object"), ("integerArray", "object"), ("integerSet", "object"), ("integerDictionary", "object"), ("stringArray", "object"), ("stringSet", "object"), ("stringDictionary", "object")], {"boolArray", "boolSet", "boolDictionary", "integerArray", "integerSet", "integerDictionary", "stringArray", "stringSet", "stringDictionary"})
-    _runtime.setup_reference_type("TestAPI_Methods_TheMethodError_setup", TheMethodError)
+    _runtime.setup_reference_type("TestAPI_Methods_TheMethodError_setup", _cls_TestAPI_Methods_TheMethodError_setup)
     _runtime.setup_struct_type("TestAPI_Primitives_PrimitiveHolder_setup", PrimitiveHolder, [("b", "bool"), ("bq", "object"), ("ui8", "uint8"), ("ui8q", "object"), ("ui16", "uint16"), ("ui16q", "object"), ("ui32", "uint32"), ("ui32q", "object"), ("ui64", "uint64"), ("ui64q", "object"), ("ui", "uint"), ("uiq", "object"), ("i8", "int8"), ("i8q", "object"), ("i16", "int16"), ("i16q", "object"), ("i32", "int32"), ("i32q", "object"), ("i64", "int64"), ("i64q", "object"), ("i", "int"), ("iq", "object"), ("f", "float"), ("fq", "object"), ("d", "double"), ("dq", "object")], {"b", "bq", "ui8", "ui8q", "ui16", "ui16q", "ui32", "ui32q", "ui64", "ui64q", "ui", "uiq", "i8", "i8q", "i16", "i16q", "i32", "i32q", "i64", "i64q", "i", "iq", "f", "fq", "d", "dq"})
     _runtime.setup_struct_type("TestAPI_Results_Error_setup", Error, [("message", "object")], {})
     _runtime.setup_struct_type("TestAPI_Structs_MemberwiseStruct_setup", MemberwiseStruct, [("immutable", "object"), ("mutable", "object")], {"immutable", "mutable"})
     _runtime.setup_struct_type("TestAPI_Structs_MutableStruct_setup", MutableStruct, [("i", "int")], {"i"})
-    _runtime.setup_reference_type("TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_setup", PuttingTypesIntoQuestionablePlaces)
-    _runtime.setup_reference_type("TestAPI_Structs_ReferenceStruct_setup", ReferenceStruct)
+    _runtime.setup_reference_type("TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_setup", _cls_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_setup)
+    _runtime.setup_reference_type("TestAPI_Structs_ReferenceStruct_setup", _cls_TestAPI_Structs_ReferenceStruct_setup)
     _runtime.setup_struct_type("TestAPI_Structs_TwentyOneItemStruct_setup", TwentyOneItemStruct, [("a", "object"), ("b", "object"), ("c", "object"), ("d", "object"), ("e", "object"), ("f", "object"), ("g", "object"), ("h", "object"), ("i", "object"), ("j", "object"), ("k", "object"), ("l", "object"), ("m", "object"), ("n", "object"), ("o", "object"), ("p", "object"), ("q", "object"), ("r", "object"), ("s", "object"), ("t", "object"), ("u", "object")], {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u"})
     _runtime.setup_protocol_type("TestAPI_CommonInterface__AProtocolConverter_setup", ExternalWitness_AProtocol, [("baz", "bool"), ("foo", "object")], [("bar", ["int", "int"], "object")])
     _runtime.setup_struct_type("TestAPI_AProtocolImplementation_setup", AProtocolImplementation, [("foo", "object"), ("baz", "bool")], {"foo", "baz"})
@@ -243,13 +253,13 @@ def ensure_loaded() -> None:
     _runtime.setup_enum_type("TestAPI_Collections_setup", Collections, False, [])
     _runtime.setup_enum_type("TestAPI_DefaultArguments_setup", DefaultArguments, False, [])
     _runtime.setup_enum_type("TestAPI_Deprecations_setup", Deprecations, False, [])
-    _runtime.setup_reference_type("TestAPI_EmptyClass_setup", EmptyClass)
-    _runtime.setup_reference_type("TestAPI_EmptyClass2_setup", EmptyClass2)
+    _runtime.setup_reference_type("TestAPI_EmptyClass_setup", _cls_TestAPI_EmptyClass_setup)
+    _runtime.setup_reference_type("TestAPI_EmptyClass2_setup", _cls_TestAPI_EmptyClass2_setup)
     _runtime.setup_enum_type("TestAPI_EmptyEnum_setup", EmptyEnum, False, [])
     _runtime.setup_struct_type("TestAPI_EmptyStruct_setup", EmptyStruct, [], {})
     _runtime.setup_struct_type("TestAPI_EmptyStruct2_setup", EmptyStruct2, [], {})
     _runtime.setup_enum_type("TestAPI_Functions_setup", Functions, False, [])
-    _runtime.setup_reference_type("TestAPI_Methods_setup", Methods)
+    _runtime.setup_reference_type("TestAPI_Methods_setup", _cls_TestAPI_Methods_setup)
     _runtime.setup_enum_type("TestAPI_Primitives_setup", Primitives, False, [])
     _runtime.setup_enum_type("TestAPI_Ranges_setup", Ranges, False, [])
     _runtime.setup_enum_type("TestAPI_ReferenceEmptyEnum_setup", ReferenceEmptyEnum, False, [])
@@ -259,9 +269,9 @@ def ensure_loaded() -> None:
     _runtime.setup_enum_type("TestAPI_Structs_setup", Structs, False, [])
     _runtime.setup_struct_type("TestAPI_TestAsyncForeignSideFunctionsStruct_setup", TestAsyncForeignSideFunctionsStruct, [("const42", "object"), ("iabs", "object"), ("intCompose", "object"), ("add3Things", "object"), ("makeList", "object"), ("fifthThing", "object"), ("six", "object"), ("willThrow", "object"), ("exercise0Fun", "object"), ("exercise1Fun", "object"), ("exercise2Fun", "object"), ("exercise3Fun", "object"), ("exercise4Fun", "object"), ("exercise5Fun", "object"), ("exercise6Fun", "object"), ("thunkTwiceMakerFun", "object")], {})
     _runtime.setup_protocol_type("TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup", ExternalWitness_TestAsyncFunctions, [("add3Things", "object"), ("const42", "object"), ("fifthThing", "object"), ("iabs", "object"), ("intCompose", "object"), ("makeList", "object"), ("six", "object"), ("willThrow", "object")], [("exercise0", ["object"], "object"), ("exercise1", ["object"], "object"), ("exercise2", ["object"], "object"), ("exercise3", ["object"], "object"), ("exercise4", ["object"], "object"), ("exercise5", ["object"], "object"), ("exercise6", ["object"], "object"), ("thunkTwiceMaker", ["object"], "object"), ("witness", [], "object")])
-    _runtime.setup_reference_type("TestAPI_TestAsyncSwiftSideFunctionsClass_setup", TestAsyncSwiftSideFunctionsClass)
+    _runtime.setup_reference_type("TestAPI_TestAsyncSwiftSideFunctionsClass_setup", _cls_TestAPI_TestAsyncSwiftSideFunctionsClass_setup)
     _runtime.setup_protocol_type("TestAPI_CommonInterface__TestDefaultComputedPropertiesConverter_setup", ExternalWitness_TestDefaultComputedProperties, [("noot", "int"), ("pluto", "object")], [])
-    _runtime.setup_reference_type("TestAPI_TestDefaultComputedPropertiesClass_setup", TestDefaultComputedPropertiesClass)
+    _runtime.setup_reference_type("TestAPI_TestDefaultComputedPropertiesClass_setup", _cls_TestAPI_TestDefaultComputedPropertiesClass_setup)
     _runtime.setup_enum_type("TestAPI_TestDefaultComputedPropertiesEnum_setup", TestDefaultComputedPropertiesEnum, True, [("qux", [])])
     _runtime.setup_struct_type("TestAPI_TestDefaultComputedPropertiesStruct_setup", TestDefaultComputedPropertiesStruct, [("spam", "bool"), ("noot", "int")], {"spam", "noot"})
     _runtime.setup_protocol_type("TestAPI_CommonInterface__TestDifferingExportNameProtocolConverter_setup", ExternalWitness_TestDifferingExportNameProtocolDiffy, [("tata", "int")], [])
@@ -272,7 +282,7 @@ def ensure_loaded() -> None:
     _runtime.setup_enum_type("TestAPI_TestNonExportedProtocolEnum_setup", TestNonExportedProtocolEnum, True, [("hogehoge", [])])
     _runtime.setup_protocol_type("TestAPI_CommonInterface__TestOptionalsProtocolConverter_setup", ExternalWitness_TestOptionalsProtocol, [("flarp", "object")], [("wombat", ["object"], "object"), ("spqr", ["object"], "int")])
     _runtime.setup_protocol_type("TestAPI_CommonInterface__TestPropertiesProtocolConverter_setup", ExternalWitness_TestPropertiesProtocol, [("corge", "object"), ("frob", "object")], [])
-    _runtime.setup_reference_type("TestAPI_TestProtocolClass_setup", TestProtocolClass)
+    _runtime.setup_reference_type("TestAPI_TestProtocolClass_setup", _cls_TestAPI_TestProtocolClass_setup)
     _runtime.setup_enum_type("TestAPI_TestProtocolEnum_setup", TestProtocolEnum, True, [("qux", [])])
     _runtime.setup_struct_type("TestAPI_TestProtocolStruct_setup", TestProtocolStruct, [("corge", "object")], {"corge"})
     _runtime.setup_enum_type("TestAPI_Tuples_setup", Tuples, False, [])
