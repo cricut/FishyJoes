@@ -60,7 +60,8 @@ def _borrow_python_value(handle: Any) -> object | None:
     """
     if handle is None:
         return None
-    # Unwrap ctypes.c_void_p wrapper produced by _CffiSymbolWrapper.
+    # Unwrap ctypes.c_void_p from the ctypes compatibility shim (handle may
+    # arrive as a ctypes integer type with a .value attribute).
     if hasattr(handle, "value"):
         handle = handle.value
         if handle is None:
