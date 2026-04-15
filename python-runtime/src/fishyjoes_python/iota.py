@@ -578,17 +578,29 @@ class IotaRuntime:
 
         signed_value_cb = _ffi.callback("intptr_t(void*, void**)", self._integer_value)
         unsigned_value_cb = _ffi.callback("uintptr_t(void*, void**)", self._integer_value)
-        signed_ctor_cb = _ffi.callback("void*(intptr_t)", self._integer_constructor)
         unsigned_ctor_cb = _ffi.callback("void*(uintptr_t)", self._unsigned_constructor)
-        self._callbacks.extend([signed_value_cb, unsigned_value_cb, signed_ctor_cb, unsigned_ctor_cb])
+        # Per-type signed constructors: each uses the exact C type Swift passes,
+        # so that CFFI sign-extends correctly (e.g. int8_t -128 stays -128).
+        int8_ctor_cb  = _ffi.callback("void*(int8_t)",  self._integer_constructor)
+        int16_ctor_cb = _ffi.callback("void*(int16_t)", self._integer_constructor)
+        int32_ctor_cb = _ffi.callback("void*(int32_t)", self._integer_constructor)
+        int64_ctor_cb = _ffi.callback("void*(int64_t)", self._integer_constructor)
+        self._callbacks.extend([
+            signed_value_cb, unsigned_value_cb,
+            int8_ctor_cb, int16_ctor_cb, int32_ctor_cb, int64_ctor_cb,
+            unsigned_ctor_cb,
+        ])
 
-        for symbol in [
-            "Swift_Int8_setup", "Swift_Int16_setup", "Swift_Int32_setup",
-            "Swift_Int64_setup", "Swift_Int_setup",
+        for symbol, ctor_cb in [
+            ("Swift_Int8_setup",  int8_ctor_cb),
+            ("Swift_Int16_setup", int16_ctor_cb),
+            ("Swift_Int32_setup", int32_ctor_cb),
+            ("Swift_Int64_setup", int64_ctor_cb),
+            ("Swift_Int_setup",   int64_ctor_cb),
         ]:
             _ffi.cdef(f"void {symbol}(void* env, void* value_fn, void* ctor_fn);", override=True)
             getattr(self.iota_runtime_lib, symbol)(
-                _ffi.cast("void*", self.env), signed_value_cb, signed_ctor_cb
+                _ffi.cast("void*", self.env), signed_value_cb, ctor_cb
             )
 
         for symbol in [

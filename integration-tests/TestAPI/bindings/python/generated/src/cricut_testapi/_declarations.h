@@ -6,6 +6,7 @@ void FishyJoes_TestAPI_registerTypes(void);
 /* Generic runtime setup symbols (FishyJoesCommonRuntime / FishyJoesIotaRuntime) */
 void FishyJoesCommonRuntime_collection_setup(void* env, uint16_t* name, void* lengthMethod, void* valuesMethod, void* constructor, void* context, void** exn);
 void FishyJoesCommonRuntime_TupleConverter_setup(void* env, uint16_t* name, void* get0, void* get1, void* get2, void* get3, void* get4, void* get5, void* ctor, void* context);
+void FishyJoesCommonRuntime_RangeConverter_setup(void* env, uint16_t* name, void* getLowerBound, void* getUpperBound, void* ctor, void* context);
 void FishyJoesCommonRuntime_ResultConverter_setup(void* env, uint16_t* name, void* get_contents, void* ctor, void* context);
 void FishyJoesCommonRuntime_FunctionConverter_setup(void* env, uint16_t* name, void* ctor, void* invoke_fn, void* context, void** exn);
 void FishyJoesCommonRuntime_FutureConverter_setup(void* env, uint16_t* name, void* constructor, void* sinkFutureMethod, void* resolveMethod, void* rejectMethod, void* context, void** exn);

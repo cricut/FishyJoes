@@ -672,6 +672,81 @@ class GeneratedRuntime:
         cffi_args.append(_ffi.cast("void*", self.env))
         fn(*cffi_args)
 
+    def setup_range_type(
+        self,
+        converter_name: str,
+        closed: bool = False,
+    ) -> None:
+        """Register a Range<T> or ClosedRange<T> type with the Iota ABI.
+
+        On the Python side, ranges are represented as a 2-tuple (lowerBound, upperBound).
+
+        Args:
+            converter_name: The converter type name (e.g. ``RangeConverter<Swift.Int>``).
+            closed: If True, register as a ClosedRange (same ABI symbol as Range).
+        """
+        self.ensure_loaded()
+        assert self._runtime is not None
+
+        runtime = self._runtime
+
+        # getLowerBound: (context, range_obj, exn) -> foreignObject
+        bound_type = ctypes.CFUNCTYPE(
+            ctypes.c_void_p,
+            ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_void_p)
+        )
+
+        def get_lower_fn(ctx: int, obj: int, exn: typing.Any) -> int:
+            try:
+                tup = runtime.borrow_foreign_object(obj)
+                return runtime.retain_foreign_object(tup[0])
+            except BaseException as error:
+                runtime.store_exception(exn, error)
+                return 0
+
+        def get_upper_fn(ctx: int, obj: int, exn: typing.Any) -> int:
+            try:
+                tup = runtime.borrow_foreign_object(obj)
+                return runtime.retain_foreign_object(tup[1])
+            except BaseException as error:
+                runtime.store_exception(exn, error)
+                return 0
+
+        # constructor: (context, lowerBound, upperBound, exn) -> foreignObject
+        ctor_type = ctypes.CFUNCTYPE(
+            ctypes.c_void_p,
+            ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_void_p)
+        )
+
+        def ctor_fn(ctx: int, lower: int, upper: int, exn: typing.Any) -> int:
+            try:
+                lo = runtime.borrow_foreign_object(lower)
+                hi = runtime.borrow_foreign_object(upper)
+                return runtime.retain_foreign_object((lo, hi))
+            except BaseException as error:
+                runtime.store_exception(exn, error)
+                return 0
+
+        get_lo_cb = bound_type(get_lower_fn)
+        get_hi_cb = bound_type(get_upper_fn)
+        ctor_cb = ctor_type(ctor_fn)
+        self._callbacks.extend([get_lo_cb, get_hi_cb, ctor_cb])
+
+        # RangeConverter_setup: envRef, name, getLowerBound, getUpperBound, ctor, context (no exn)
+        assert self._runtime is not None
+        lib = self._runtime.iota_lib
+        fn = getattr(lib, "FishyJoesCommonRuntime_RangeConverter_setup")
+        name_buf = self._encode_utf16_name(converter_name)
+        cffi_args: list[typing.Any] = [
+            _ffi.cast("void*", self.env),
+            _ffi.cast("unsigned short*", name_buf),
+        ]
+        for cb in [get_lo_cb, get_hi_cb, ctor_cb]:
+            raw = ctypes.cast(cb, ctypes.c_void_p).value
+            cffi_args.append(_ffi.cast("void*", raw) if raw is not None else _ffi.NULL)
+        cffi_args.append(_ffi.cast("void*", self.env))
+        fn(*cffi_args)
+
     def setup_result_type(
         self,
         converter_name: str,
