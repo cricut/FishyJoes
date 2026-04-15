@@ -8,6 +8,8 @@ void FishyJoesCommonRuntime_collection_setup(void* env, uint16_t* name, void* le
 void FishyJoesCommonRuntime_TupleConverter_setup(void* env, uint16_t* name, void* get0, void* get1, void* get2, void* get3, void* get4, void* get5, void* ctor, void* context);
 void FishyJoesCommonRuntime_ResultConverter_setup(void* env, uint16_t* name, void* get_contents, void* ctor, void* context);
 void FishyJoesCommonRuntime_FunctionConverter_setup(void* env, uint16_t* name, void* ctor, void* invoke_fn, void* context, void** exn);
+void FishyJoesCommonRuntime_FutureConverter_setup(void* env, uint16_t* name, void* constructor, void* sinkFutureMethod, void* resolveMethod, void* rejectMethod, void* context, void** exn);
+void FishyJoesCommonRuntime_FutureConverter_invokeSinkHandler(void* env, void* context, uint32_t success, void* result, void** exn);
 
 void Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_setup(void* env, void* constructor, void* get_x, void** exn);
 intptr_t __iota_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall(void* env, void* self, void** exn);
@@ -614,25 +616,25 @@ void TestAPI_CommonInterface__TestDefaultComputedPropertiesConverter_setup(void*
 intptr_t __iota_get_TestAPI_TestDefaultComputedProperties_noot(void* env, void* self, void** exn);
 void* __iota_get_TestAPI_TestDefaultComputedProperties_plutonic(void* env, void* self, void** exn);
 
-void TestAPI_TestDefaultComputedPropertiesClass_setup(void* env, void* constructor, void** exn);
-void* __iota_TestAPI_TestDefaultComputedPropertiesClass_init(void* env, uint8_t spam, intptr_t noot, void** exn);
-intptr_t __iota_get_TestAPI_TestDefaultComputedPropertiesClass_noot(void* env, void* self, void** exn);
-void __iota_set_TestAPI_TestDefaultComputedPropertiesClass_noot(void* env, void* self, intptr_t newValue, void** exn);
-void* __iota_get_TestAPI_TestDefaultComputedPropertiesClass_plutonic(void* env, void* self, void** exn);
-uint8_t __iota_get_TestAPI_TestDefaultComputedPropertiesClass_spam(void* env, void* self, void** exn);
-void __iota_set_TestAPI_TestDefaultComputedPropertiesClass_spam(void* env, void* self, uint8_t newValue, void** exn);
+ void TestAPI_TestDefaultComputedPropertiesClass_setup(void* env, void* constructor, void** exn);
+ void* __iota_TestAPI_TestDefaultComputedPropertiesClass_init(void* env, uint8_t spam, intptr_t noot, void** exn);
+ intptr_t __iota_get_TestAPI_TestDefaultComputedPropertiesClass_noot(void* env, void* self, void** exn);
+ void __iota_set_TestAPI_TestDefaultComputedPropertiesClass_noot(void* env, void* self, intptr_t newValue, void** exn);
+ void* __iota__default_TestAPI_TestDefaultComputedPropertiesClass_plutonic(void* env, void* self, void** exn);
+ uint8_t __iota_get_TestAPI_TestDefaultComputedPropertiesClass_spam(void* env, void* self, void** exn);
+ void __iota_set_TestAPI_TestDefaultComputedPropertiesClass_spam(void* env, void* self, uint8_t newValue, void** exn);
 
-void TestAPI_TestDefaultComputedPropertiesEnum_setup(void* env, void* discriminator, void* qux_constructor, void* qux_extractor, void** exn);
-intptr_t __iota_get_TestAPI_TestDefaultComputedPropertiesEnum_noot(void* env, void* self, void** exn);
-void* __iota_get_TestAPI_TestDefaultComputedPropertiesEnum_plutonic(void* env, void* self, void** exn);
-uint8_t __iota_get_TestAPI_TestDefaultComputedPropertiesEnum_spam(void* env, void* self, void** exn);
+ void TestAPI_TestDefaultComputedPropertiesEnum_setup(void* env, void* discriminator, void* qux_constructor, void* qux_extractor, void** exn);
+ intptr_t __iota_get_TestAPI_TestDefaultComputedPropertiesEnum_noot(void* env, void* self, void** exn);
+ void* __iota__default_TestAPI_TestDefaultComputedPropertiesEnum_plutonic(void* env, void* self, void** exn);
+ uint8_t __iota_get_TestAPI_TestDefaultComputedPropertiesEnum_spam(void* env, void* self, void** exn);
 
-void TestAPI_TestDefaultComputedPropertiesStruct_setup(void* env, void* constructor, void* get_spam, void* set_spam, void* get_noot, void* set_noot, void** exn);
-uint8_t __iota_get_TestAPI_TestDefaultComputedPropertiesStruct_spam(void* env, void* self, void** exn);
-void __iota_set_TestAPI_TestDefaultComputedPropertiesStruct_spam(void* env, void* self, uint8_t newValue, void** exn);
-intptr_t __iota_get_TestAPI_TestDefaultComputedPropertiesStruct_noot(void* env, void* self, void** exn);
-void __iota_set_TestAPI_TestDefaultComputedPropertiesStruct_noot(void* env, void* self, intptr_t newValue, void** exn);
-void* __iota_get_TestAPI_TestDefaultComputedPropertiesStruct_plutonic(void* env, void* self, void** exn);
+ void TestAPI_TestDefaultComputedPropertiesStruct_setup(void* env, void* constructor, void* get_spam, void* set_spam, void* get_noot, void* set_noot, void** exn);
+ uint8_t __iota_get_TestAPI_TestDefaultComputedPropertiesStruct_spam(void* env, void* self, void** exn);
+ void __iota_set_TestAPI_TestDefaultComputedPropertiesStruct_spam(void* env, void* self, uint8_t newValue, void** exn);
+ intptr_t __iota_get_TestAPI_TestDefaultComputedPropertiesStruct_noot(void* env, void* self, void** exn);
+ void __iota_set_TestAPI_TestDefaultComputedPropertiesStruct_noot(void* env, void* self, intptr_t newValue, void** exn);
+ void* __iota__default_TestAPI_TestDefaultComputedPropertiesStruct_plutonic(void* env, void* self, void** exn);
 
 void TestAPI_CommonInterface__TestDifferingExportNameProtocolConverter_setup(void* env, void* constructor, void* get_tata, void** exn);
 intptr_t __iota_get_TestAPI_TestDifferingExportNameProtocol_tata(void* env, void* self, void** exn);
@@ -683,7 +685,9 @@ void* __iota_get_TestAPI_TestProtocolClass_corge(void* env, void* self, void** e
 void __iota_set_TestAPI_TestProtocolClass_corge(void* env, void* self, void* newValue, void** exn);
 void* __iota_get_TestAPI_TestProtocolClass_flarp(void* env, void* self, void** exn);
 void __iota_set_TestAPI_TestProtocolClass_flarp(void* env, void* self, void* newValue, void** exn);
-void* __iota_get_TestAPI_TestProtocolClass_frobby(void* env, void* self, void** exn);
+ void* __iota_get_TestAPI_TestProtocolClass_frobby(void* env, void* self, void** exn);
+ uint8_t __iota_TestAPI_TestProtocolClass_equals(void* env, void* self, void* other, void** exn);
+ int32_t __iota_get_TestAPI_TestProtocolClass_hash(void* env, void* self, void** exn);
 
 void TestAPI_TestProtocolEnum_setup(void* env, void* discriminator, void* qux_constructor, void* qux_extractor, void** exn);
 void __iota_TestAPI_TestProtocolEnum_foo(void* env, void* self, void** exn);

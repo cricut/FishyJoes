@@ -127,4 +127,14 @@ class TestProtocolClass(NativeReference):
         """
         _ensure_runtime_loaded()
         return _get_runtime().call_symbol("__iota_TestAPI_TestProtocolClass_spqr", "int", ("object", self), ("object", pippo))
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, TestProtocolClass):
+            return NotImplemented
+        _ensure_runtime_loaded()
+        return bool(_get_runtime().call_symbol("__iota_TestAPI_TestProtocolClass_equals", "bool", ("object", self), ("object", other)))
+
+    def __hash__(self) -> int:
+        _ensure_runtime_loaded()
+        return int(_get_runtime().call_symbol("__iota_get_TestAPI_TestProtocolClass_hash", "int32", ("object", self)))
     

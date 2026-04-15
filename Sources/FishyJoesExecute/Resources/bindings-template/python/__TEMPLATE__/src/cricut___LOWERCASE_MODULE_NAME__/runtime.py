@@ -643,7 +643,7 @@ class GeneratedRuntime:
         def ctor_fn(ctx: int, values_ptr: int, exn: typing.Any) -> int:
             try:
                 ptr = _ffi.cast("void**", values_ptr)
-                items = [runtime.consume_foreign_object(ptr[i]) for i in range(arity)]
+                items = [runtime.borrow_foreign_object(ptr[i]) for i in range(arity)]
                 tup = tuple(items)
                 return runtime.retain_foreign_object(tup)
             except BaseException as error:
