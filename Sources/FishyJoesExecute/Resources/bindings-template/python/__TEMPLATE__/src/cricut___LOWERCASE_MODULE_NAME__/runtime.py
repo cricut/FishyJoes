@@ -1,3 +1,4 @@
+# __AUTOGEN_WARNING__
 """Runtime helpers for FishyJoes-generated Python bindings."""
 
 from __future__ import annotations
