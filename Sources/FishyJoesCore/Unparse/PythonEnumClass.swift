@@ -99,7 +99,7 @@ class PythonEnumClass: PythonClass {
                 document(field.documentation, fragment: fragment, extra: field.deprecation.map { ["Deprecated: \($0.quotedMessage)"] } ?? [])
                 outputRuntimeCall(
                     fragment: fragment,
-                    symbol: "__iota_get_\(field.mangledName)",
+                    symbol: field.getterSymbol,
                     returnType: field.ffiType,
                     arguments: field.isStatic ? [] : [(expression: "self", type: .object)]
                 )
@@ -111,7 +111,7 @@ class PythonEnumClass: PythonClass {
             fragment.output("@staticmethod")
             fragment.outputBlock("def \(field.name)() -> \(field.type.name):", closeWith: "") {
                 document(field.documentation, fragment: fragment, extra: field.deprecation.map { ["Deprecated: \($0.quotedMessage)"] } ?? [])
-                outputRuntimeCall(fragment: fragment, symbol: "__iota_get_\(field.mangledName)", returnType: field.ffiType, arguments: [])
+                outputRuntimeCall(fragment: fragment, symbol: field.getterSymbol, returnType: field.ffiType, arguments: [])
             }
         } else {
             fragment.output("@property")
@@ -119,7 +119,7 @@ class PythonEnumClass: PythonClass {
                 document(field.documentation, fragment: fragment, extra: field.deprecation.map { ["Deprecated: \($0.quotedMessage)"] } ?? [])
                 outputRuntimeCall(
                     fragment: fragment,
-                    symbol: "__iota_get_\(field.mangledName)",
+                    symbol: field.getterSymbol,
                     returnType: field.ffiType,
                     arguments: [(expression: "self", type: .object)]
                 )

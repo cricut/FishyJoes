@@ -545,25 +545,36 @@ class GeneratedRuntime:
                 runtime.store_exception(exn, error)
                 return 0
 
+        is_set = converter_name.startswith("SetConverter<")
+
         def values_fn(ctx: int, obj: int, out_values: int, exn: typing.Any) -> None:
             try:
                 value = runtime.borrow_foreign_object(obj)
                 items = list(value) if value is not None else []
                 ptr = _ffi.cast("void**", out_values)
                 for i, item in enumerate(items):
-                    handle = runtime.retain_foreign_object(item)
-                    ptr[i] = _ffi.cast("void*", handle)
+                    # Send None as a null pointer so Swift sees Optional.none.
+                    if item is None:
+                        ptr[i] = _ffi.NULL
+                    else:
+                        handle = runtime.retain_foreign_object(item)
+                        ptr[i] = _ffi.cast("void*", handle)
             except BaseException as error:
                 runtime.store_exception(exn, error)
 
         def ctor_fn(ctx: int, in_values: int, length: int, exn: typing.Any) -> int:
             try:
                 ptr = _ffi.cast("void**", in_values)
+                # Swift owns the handles in ptr[i] and will call _delete_ref on
+                # them after ctor_fn returns.  We must NOT release them here
+                # (consume would double-free); borrow gives us the Python object
+                # without touching the reference count.
                 items = [
-                    runtime.consume_foreign_object(ptr[i])
+                    runtime.borrow_foreign_object(ptr[i])
                     for i in range(int(length))
                 ]
-                handle = runtime.retain_foreign_object(items)
+                result: typing.Any = set(items) if is_set else items
+                handle = runtime.retain_foreign_object(result)
                 return handle
             except BaseException as error:
                 runtime.store_exception(exn, error)
@@ -585,19 +596,65 @@ class GeneratedRuntime:
     ) -> None:
         """Register a Dictionary type with the Iota ABI.
 
-        Dictionaries are represented on the Python side as dicts.
-        On the Iota ABI they are collections of key-value pair tuples, so we
-        use two separate collection registrations (keys + values) under the hood.
-        Instead, FishyJoes uses a single collection whose elements are opaque
-        boxed pairs that the Swift side provides.  We represent the dictionary as
-        a plain ``list`` at the collection level and rely on post-processing in
-        the generated bindings.
-
-        In practice the Iota ABI treats ``DictionaryConverter`` the same as
-        ``ArrayConverter``  — both go through ``FishyJoesCommonRuntime_collection_setup``
-        with element type ``object``.
+        The Iota ABI uses the same collection_setup symbol as arrays/sets.
+        Swift packs the dict as interleaved key/value handles in a buffer of
+        size 2*length, and calls construct with length = number of pairs (not 2*).
+        On the Python side we represent it as a plain dict.
         """
-        self.setup_collection_type(converter_name, "object")
+        self.ensure_loaded()
+        assert self._runtime is not None
+
+        length_type = ctypes.CFUNCTYPE(ctypes.c_int, ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_void_p))
+        values_type = ctypes.CFUNCTYPE(None, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_void_p))
+        ctor_type = ctypes.CFUNCTYPE(ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_int, ctypes.POINTER(ctypes.c_void_p))
+
+        runtime = self._runtime
+
+        def length_fn(ctx: int, obj: int, exn: typing.Any) -> int:
+            try:
+                value = runtime.borrow_foreign_object(obj)
+                return len(value) if value is not None else 0
+            except BaseException as error:
+                runtime.store_exception(exn, error)
+                return 0
+
+        def values_fn(ctx: int, obj: int, out_values: int, exn: typing.Any) -> None:
+            try:
+                d = runtime.borrow_foreign_object(obj)
+                pairs = list(d.items()) if d is not None else []
+                ptr = _ffi.cast("void**", out_values)
+                i = 0
+                for k, v in pairs:
+                    ptr[i] = _ffi.cast("void*", runtime.retain_foreign_object(k)) if k is not None else _ffi.NULL
+                    ptr[i + 1] = _ffi.cast("void*", runtime.retain_foreign_object(v)) if v is not None else _ffi.NULL
+                    i += 2
+            except BaseException as error:
+                runtime.store_exception(exn, error)
+
+        def ctor_fn(ctx: int, in_values: int, length: int, exn: typing.Any) -> int:
+            try:
+                ptr = _ffi.cast("void**", in_values)
+                n = int(length)
+                d = {}
+                for i in range(n):
+                    # Swift owns the handles; borrow without releasing.
+                    k = runtime.borrow_foreign_object(ptr[2 * i])
+                    v = runtime.borrow_foreign_object(ptr[2 * i + 1])
+                    d[k] = v
+                return runtime.retain_foreign_object(d)
+            except BaseException as error:
+                runtime.store_exception(exn, error)
+                return 0
+
+        len_cb = length_type(length_fn)
+        val_cb = values_type(values_fn)
+        ctor_cb = ctor_type(ctor_fn)
+        self._callbacks.extend([len_cb, val_cb, ctor_cb])
+        self._invoke_generic_setup(
+            "FishyJoesCommonRuntime_collection_setup",
+            converter_name,
+            len_cb, val_cb, ctor_cb, None,
+        )
 
     def setup_tuple_type(
         self,
@@ -808,6 +865,204 @@ class GeneratedRuntime:
             converter_name,
             gc_cb, ctor_cb, None,
         )
+
+    def setup_future_type(
+        self,
+        converter_name: str,
+    ) -> None:
+        """Register a future/async type with the Iota ABI.
+
+        Args:
+            converter_name: The converter type name (e.g. ``FutureConverter<Swift.Int>``).
+        """
+        import asyncio
+        import threading
+
+        self.ensure_loaded()
+        assert self._runtime is not None
+
+        runtime = self._runtime
+
+        # Map promise_handle -> asyncio.Future so resolve/reject can deliver the result.
+        promise_map: dict[int, asyncio.Future] = {}  # type: ignore[type-arg]
+        promise_map_lock = threading.Lock()
+
+        # constructor: (context, outPromise: void**, exn: void**) -> void* (future handle)
+        # Called by Swift to create a Python future/promise pair.
+        # Returns the Python asyncio.Future wrapped in a foreign object handle.
+        # Writes a promise handle into *outPromise.
+        ctor_type = ctypes.CFUNCTYPE(
+            ctypes.c_void_p,
+            ctypes.c_void_p,                   # context
+            ctypes.POINTER(ctypes.c_void_p),   # outPromise
+            ctypes.POINTER(ctypes.c_void_p),   # exn
+        )
+
+        def ctor_fn(ctx: int, out_promise: typing.Any, exn: typing.Any) -> int:
+            try:
+                loop = asyncio.new_event_loop()
+
+                future: asyncio.Future = loop.create_future()  # type: ignore[type-arg]
+
+                # Retain future as a foreign object handle.
+                future_handle = runtime.retain_foreign_object(future)
+
+                # The "promise" is represented as the same handle so resolve/reject
+                # can look it up in the map.
+                promise_handle = future_handle
+                with promise_map_lock:
+                    promise_map[promise_handle] = future
+
+                out_promise[0] = ctypes.c_void_p(promise_handle)
+                return future_handle
+            except BaseException as error:
+                runtime.store_exception(exn, error)
+                return 0
+
+        # sinkFutureMethod: (context, future, handlerContext: void*, exn: void**) -> void
+        # Called by Swift to attach a completion handler to the Python future.
+        # When the future completes, call FishyJoesCommonRuntime_FutureConverter_invokeSinkHandler.
+        sink_type = ctypes.CFUNCTYPE(
+            None,
+            ctypes.c_void_p,   # context
+            ctypes.c_void_p,   # future (foreign object handle)
+            ctypes.c_void_p,   # handlerContext
+            ctypes.POINTER(ctypes.c_void_p),  # exn
+        )
+
+        def sink_fn(ctx: int, future_handle: int, handler_ctx: int, exn: typing.Any) -> None:
+            try:
+                future_obj = runtime.borrow_foreign_object(future_handle)
+                if future_obj is None:
+                    return
+
+                # Store handler_ctx for use in callback.
+                _handler_ctx = handler_ctx
+
+                lib = runtime.iota_runtime_lib
+                env_ptr = runtime.env
+
+                def on_done(fut: asyncio.Future) -> None:  # type: ignore[type-arg]
+                    exn_holder = _ffi.new("void*[1]")
+                    try:
+                        exc = fut.exception()
+                    except asyncio.CancelledError as ce:
+                        exc = ce
+                    except Exception as e:
+                        exc = e
+                    else:
+                        exc = None
+
+                    if exc is not None:
+                        error_handle = runtime.retain_foreign_object(exc)
+                        lib.FishyJoesCommonRuntime_FutureConverter_invokeSinkHandler(
+                            _ffi.cast("void*", env_ptr),
+                            _ffi.cast("void*", _handler_ctx),
+                            0,   # success=0 means failure
+                            _ffi.cast("void*", error_handle),
+                            exn_holder,
+                        )
+                    else:
+                        result_val = fut.result()
+                        result_handle = runtime.retain_foreign_object(result_val)
+                        lib.FishyJoesCommonRuntime_FutureConverter_invokeSinkHandler(
+                            _ffi.cast("void*", env_ptr),
+                            _ffi.cast("void*", _handler_ctx),
+                            1,   # success=1
+                            _ffi.cast("void*", result_handle),
+                            exn_holder,
+                        )
+
+                if isinstance(future_obj, asyncio.Future):
+                    future_obj.add_done_callback(on_done)
+            except BaseException as error:
+                runtime.store_exception(exn, error)
+
+        # resolveMethod: (context, promise, value: void*, exn: void**) -> void
+        # Called by Swift to resolve the Python future with a success value.
+        resolve_type = ctypes.CFUNCTYPE(
+            None,
+            ctypes.c_void_p,   # context
+            ctypes.c_void_p,   # promise handle
+            ctypes.c_void_p,   # value (foreign object handle)
+            ctypes.POINTER(ctypes.c_void_p),  # exn
+        )
+
+        def resolve_fn(ctx: int, promise_handle: int, value_handle: int, exn: typing.Any) -> None:
+            try:
+                with promise_map_lock:
+                    future_obj = promise_map.pop(promise_handle, None)
+                if future_obj is None:
+                    return
+                value = runtime.consume_foreign_object(value_handle)
+                if not future_obj.done():
+                    loop = future_obj.get_loop()
+                    loop.call_soon_threadsafe(future_obj.set_result, value)
+            except BaseException as error:
+                runtime.store_exception(exn, error)
+
+        # rejectMethod: (context, promise, error: void*, exn: void**) -> void
+        # Called by Swift to reject the Python future with an error.
+        reject_type = ctypes.CFUNCTYPE(
+            None,
+            ctypes.c_void_p,   # context
+            ctypes.c_void_p,   # promise handle
+            ctypes.c_void_p,   # error (foreign object handle)
+            ctypes.POINTER(ctypes.c_void_p),  # exn
+        )
+
+        def reject_fn(ctx: int, promise_handle: int, error_handle: int, exn: typing.Any) -> None:
+            try:
+                with promise_map_lock:
+                    future_obj = promise_map.pop(promise_handle, None)
+                if future_obj is None:
+                    return
+                error_val = runtime.consume_foreign_object(error_handle)
+                if isinstance(error_val, BaseException):
+                    exc = error_val
+                else:
+                    from fishyjoes_python.exceptions import NativeCallError
+                    exc = NativeCallError(str(error_val))
+                if not future_obj.done():
+                    loop = future_obj.get_loop()
+                    loop.call_soon_threadsafe(future_obj.set_exception, exc)
+            except BaseException as error:
+                runtime.store_exception(exn, error)
+
+        ctor_cb = ctor_type(ctor_fn)
+        sink_cb = sink_type(sink_fn)
+        resolve_cb = resolve_type(resolve_fn)
+        reject_cb = reject_type(reject_fn)
+        self._callbacks.extend([ctor_cb, sink_cb, resolve_cb, reject_cb])
+
+        # Call FishyJoesCommonRuntime_FutureConverter_setup via _invoke_generic_setup
+        # Signature: env, name, constructor, sinkFutureMethod, resolveMethod, rejectMethod, context, exn
+        assert self._runtime is not None
+        lib = self._runtime.iota_lib
+        fn = self._symbol_cache.get("FishyJoesCommonRuntime_FutureConverter_setup")
+        if fn is None:
+            fn = getattr(lib, "FishyJoesCommonRuntime_FutureConverter_setup")
+            self._symbol_cache["FishyJoesCommonRuntime_FutureConverter_setup"] = fn
+        exn_holder = _ffi.new("void*[1]")
+        name_buf = self._encode_utf16_name(converter_name)
+
+        def _cb_to_ptr(cb: typing.Any) -> typing.Any:
+            raw = ctypes.cast(cb, ctypes.c_void_p).value
+            return _ffi.cast("void*", raw) if raw is not None else _ffi.NULL
+
+        fn(
+            _ffi.cast("void*", self.env),
+            _ffi.cast("unsigned short*", name_buf),
+            _cb_to_ptr(ctor_cb),
+            _cb_to_ptr(sink_cb),
+            _cb_to_ptr(resolve_cb),
+            _cb_to_ptr(reject_cb),
+            _ffi.cast("void*", self.env),  # context = env (unused)
+            exn_holder,
+        )
+        exn_val = int(_ffi.cast("uintptr_t", exn_holder[0]))
+        if exn_val:
+            self._runtime.raise_if_exception(exn_val)
 
     def setup_function_type(
         self,

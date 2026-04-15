@@ -26,7 +26,7 @@ class TestDefaultComputedPropertiesEnum(enum.Enum):
         <!-- FishyJoes.export(plutonic) -->
         """
         _ensure_runtime_loaded()
-        return _get_runtime().call_symbol("__iota__default_TestAPI_TestDefaultComputedPropertiesEnum_plutonic", "object", ("object", self))
+        return _get_runtime().call_symbol("__iota__default_TestAPI_TestDefaultComputedProperties_plutonic", "object", ("object", self))
     
 
     @property

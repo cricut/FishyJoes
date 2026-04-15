@@ -70,6 +70,20 @@ class PythonClass {
         let type: PyType
         let ffiType: FFIType
         let deprecation: Deprecation?
+        /// True when this field comes from a protocol default implementation.
+        /// When true, the iota symbol is `__iota__default_<protocolMangledName>_<fieldName>`
+        /// rather than `__iota_get_<concreteMangledName>_<fieldName>`.
+        let isDefaultImplementation: Bool
+        /// The protocol's mangled name, used to build the correct symbol when `isDefaultImplementation` is true.
+        let defaultImplProtocolMangledName: String?
+
+        /// Returns the getter symbol name for use in `call_symbol`.
+        var getterSymbol: String {
+            if isDefaultImplementation, let proto = defaultImplProtocolMangledName {
+                return "__iota__default_\(proto)_\(name.mangled)"
+            }
+            return "__iota_get_\(mangledName)"
+        }
     }
 
     let module: Module

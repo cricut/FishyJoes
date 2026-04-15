@@ -12,6 +12,13 @@ final class PythonTranslator: Translator {
         }
         for pythonClass in context.pythonClasses.sorted(by: { $0.unqualifiedName < $1.unqualifiedName }) {
             fragment.output("from .\(pythonClass.unqualifiedName) import \(pythonClass.unqualifiedName)")
+            // Also import the unique alias for reference types, so that setup_reference_type
+            // receives the correct class even when multiple types share the same Python name.
+            if let productClass = pythonClass as? PythonProductClass,
+               case .reference = productClass.constructor,
+               let setupName = productClass.iotaSetupName {
+                fragment.output("from .\(pythonClass.unqualifiedName) import _cls_\(setupName)")
+            }
         }
         fragment.blankLine()
         fragment.output("_runtime = get_runtime()")
@@ -30,7 +37,7 @@ final class PythonTranslator: Translator {
                 let resolved = context.resolve(type: type)
                 switch resolved {
                 case let reference as TranslatedReference where reference.definingModule == context.module:
-                    fragment.output("_runtime.setup_reference_type(\"\(reference.iotaSetupName)\", \(reference.sourceType.nonNamespacedName))")
+                    fragment.output("_runtime.setup_reference_type(\"\(reference.iotaSetupName)\", _cls_\(reference.iotaSetupName))")
                 case let enumType as TranslatedEnum where enumType.definingModule == context.module:
                     let caseSpecs = enumType.cases.map { enumCase in
                         let valueSpecs = enumCase.associatedValues.map { value in
@@ -81,7 +88,11 @@ final class PythonTranslator: Translator {
                     fragment.output("_runtime.setup_tuple_type(\"\(tuple.converterType.name)\", \(tuple.elements.count))")
                 case let result as TranslatedResult:
                     fragment.output("_runtime.setup_result_type(\"\(result.converterType.name)\")")
-                case let function as TranslatedFunction where !function.isAsync:
+                case let range as TranslatedRange:
+                    fragment.output("_runtime.setup_range_type(\"\(range.converterType.name)\")")
+                case let future as TranslatedFuture:
+                    fragment.output("_runtime.setup_future_type(\"\(future.converterType.name)\")")
+                case let function as TranslatedFunction:
                     fragment.output("_runtime.setup_function_type(\"\(function.converterType.name)\", \(function.parameters.count))")
                 default:
                     continue
@@ -144,7 +155,27 @@ final class PythonTranslator: Translator {
         fragment.output("void \(registerFn)(void);")
         fragment.blankLine()
 
+        // Detect which categories of runtime-generic types are used.
+        // These types have definingModule = Module.runtime, so they won't pass
+        // the per-module guard below — we must detect them in a separate pass.
         var hasGenericTypes = false
+        var hasRangeTypes = false
+        var hasFutureTypes = false
+
+        for type in generatedTypes {
+            let resolved = context.resolve(type: type)
+            switch resolved {
+            case is TranslatedArray, is TranslatedSet, is TranslatedDictionary,
+                 is TranslatedTuple, is TranslatedResult, is TranslatedFunction:
+                hasGenericTypes = true
+            case is TranslatedRange:
+                hasRangeTypes = true
+            case is TranslatedFuture:
+                hasFutureTypes = true
+            default:
+                break
+            }
+        }
 
         for type in generatedTypes {
             let resolved = context.resolve(type: type)
@@ -159,22 +190,29 @@ final class PythonTranslator: Translator {
                 emitStructDeclarations(valueType, context: context, fragment: fragment)
             case let proto as TranslatedProtocol:
                 emitProtocolDeclarations(proto, context: context, fragment: fragment)
-            case is TranslatedArray, is TranslatedSet, is TranslatedDictionary,
-                 is TranslatedTuple, is TranslatedResult, is TranslatedFunction:
-                hasGenericTypes = true
-                continue
             default:
                 continue
             }
             fragment.blankLine()
         }
 
-        if hasGenericTypes {
+        if hasGenericTypes || hasRangeTypes || hasFutureTypes {
             fragment.output("// Generic runtime setup functions")
+        }
+        if hasGenericTypes {
             fragment.output("void FishyJoesCommonRuntime_collection_setup(void* env, uint16_t* name, void* lengthMethod, void* valuesMethod, void* constructor, void* context, void** exn);")
             fragment.output("void FishyJoesCommonRuntime_TupleConverter_setup(void* env, uint16_t* name, void* get0, void* get1, void* get2, void* get3, void* get4, void* get5, void* ctor, void* context);")
             fragment.output("void FishyJoesCommonRuntime_ResultConverter_setup(void* env, uint16_t* name, void* get_contents, void* ctor, void* context);")
             fragment.output("void FishyJoesCommonRuntime_FunctionConverter_setup(void* env, uint16_t* name, void* ctor, void* invoke_fn, void* context, void** exn);")
+        }
+        if hasRangeTypes {
+            fragment.output("void FishyJoesCommonRuntime_RangeConverter_setup(void* env, uint16_t* name, void* getLowerBound, void* getUpperBound, void* ctor, void* context);")
+        }
+        if hasFutureTypes {
+            fragment.output("void FishyJoesCommonRuntime_FutureConverter_setup(void* env, uint16_t* name, void* constructor, void* sinkFutureMethod, void* resolveMethod, void* rejectMethod, void* context, void** exn);")
+            fragment.output("void FishyJoesCommonRuntime_FutureConverter_invokeSinkHandler(void* env, void* context, uint32_t success, void* result, void** exn);")
+        }
+        if hasGenericTypes || hasRangeTypes || hasFutureTypes {
             fragment.blankLine()
         }
 
@@ -197,6 +235,17 @@ final class PythonTranslator: Translator {
         for field in ref.computedVariables {
             guard field.exportAnnotation != nil else { continue }
             emitFieldShims(field: field, typeName: ref.sourceType.name, isStatic: field.isStatic, context: context, fragment: fragment)
+        }
+
+        // equals/hash shims (when the Swift type conforms to Equatable/Hashable)
+        let mangledName = ref.sourceType.name.mangled
+        if ref.equatable {
+            // uint8_t __iota_TypeName_equals(void* env, void* lhs, void* rhs, void** exn);
+            fragment.output("uint8_t __iota_\(mangledName)_equals(void* env, void* lhs, void* rhs, void** exn);")
+        }
+        if ref.hashable {
+            // int32_t __iota_get_TypeName_hash(void* env, void* self, void** exn);
+            fragment.output("int32_t __iota_get_\(mangledName)_hash(void* env, void* self, void** exn);")
         }
     }
 
@@ -289,7 +338,16 @@ final class PythonTranslator: Translator {
         // field shims (read-only in protocols)
         for field in proto.fields {
             guard field.exportAnnotation != nil else { continue }
-            emitFieldShims(field: field, typeName: proto.sourceType.name, isStatic: false, context: context, fragment: fragment)
+            if field.isDefaultImplementation {
+                // Default implementation fields use __iota__default_<ProtocolName>_<fieldName>
+                guard let ann = field.exportAnnotation else { continue }
+                let resolvedField = context.resolve(type: field.type)
+                let fieldCType = cType(for: resolvedField.pythonFFIType)
+                let getterName = "__iota__default_\(proto.sourceType.name)_\(ann.name)".mangled
+                fragment.output("\(fieldCType) \(getterName)(void* env, void* self, void** exn);")
+            } else {
+                emitFieldShims(field: field, typeName: proto.sourceType.name, isStatic: false, context: context, fragment: fragment)
+            }
         }
     }
 
@@ -326,6 +384,13 @@ final class PythonTranslator: Translator {
         }
         let resolvedField = context.resolve(type: field.type)
         let fieldCType = cType(for: resolvedField.pythonFFIType)
+
+        // For protocol default implementations the actual @_cdecl symbol is
+        // __iota__default_<ProtocolName>_<fieldName> and lives on the protocol type, not
+        // the concrete type.  The per-concrete-type getter does NOT exist in the dylib.
+        // We skip emitting a redundant (and wrong) declaration here; the protocol's own
+        // emitProtocolDeclarations call already emits the correct __iota__default_ declaration.
+        guard !field.isDefaultImplementation else { return }
 
         let getterName = "__iota_get_\(typeName)_\(fieldName)".mangled
         if isStatic {
@@ -404,6 +469,15 @@ final class PythonTranslator: Translator {
         }
 
         let resolved = context.resolve(type: field.type)
+
+        // For protocol default implementations, the iota symbol uses the protocol type's mangled name,
+        // not the concrete type's mangled name. Resolve it from field.definedIn.
+        var defaultImplProtocolMangledName: String? = nil
+        if field.isDefaultImplementation, let definedIn = field.definedIn {
+            let protoResolved = context.resolve(type: definedIn)
+            defaultImplProtocolMangledName = protoResolved.mangledName
+        }
+
         return .variable(
             PythonClass.Variable(
                 documentation: field.documentation,
@@ -415,7 +489,9 @@ final class PythonTranslator: Translator {
                 mangledName: "\(type.mangledName)_\(pythonName.mangled)",
                 type: resolved.pythonType,
                 ffiType: resolved.pythonFFIType,
-                deprecation: field.deprecation
+                deprecation: field.deprecation,
+                isDefaultImplementation: field.isDefaultImplementation,
+                defaultImplProtocolMangledName: defaultImplProtocolMangledName
             )
         )
     }

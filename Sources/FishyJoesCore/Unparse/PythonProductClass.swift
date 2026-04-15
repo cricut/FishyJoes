@@ -5,6 +5,15 @@ class PythonProductClass: PythonClass {
     }
 
     let constructor: Constructor
+    /// The iota setup function name (e.g. "TestAPI_Structs_Foo_setup").
+    /// Only meaningful for `.reference` constructor; nil for value types.
+    let iotaSetupName: String?
+    /// Whether the Swift type conforms to Equatable (reference types only).
+    let equatable: Bool
+    /// Whether the Swift type conforms to Hashable (reference types only).
+    let hashable: Bool
+    /// The Swift type's mangled name, used to build iota symbol names.
+    let mangledTypeName: String
 
     init(
         module: Module,
@@ -12,9 +21,17 @@ class PythonProductClass: PythonClass {
         name: String,
         constructor: Constructor,
         fields: [Variable],
-        methods: [Method]
+        methods: [Method],
+        iotaSetupName: String? = nil,
+        equatable: Bool = false,
+        hashable: Bool = false,
+        mangledTypeName: String = ""
     ) {
         self.constructor = constructor
+        self.iotaSetupName = iotaSetupName
+        self.equatable = equatable
+        self.hashable = hashable
+        self.mangledTypeName = mangledTypeName
         super.init(
             module: module,
             documentation: documentation,
@@ -58,10 +75,42 @@ class PythonProductClass: PythonClass {
                     }
                 }
 
+                if equatable {
+                    fragment.blankLine()
+                    fragment.outputBlock("def __eq__(self, other: object) -> bool:", closeWith: "") {
+                        outputRuntimeCall(
+                            fragment: fragment,
+                            symbol: "__iota_\(mangledTypeName)_equals",
+                            returnType: .bool,
+                            arguments: [
+                                (expression: "self", type: .object),
+                                (expression: "other", type: .object)
+                            ]
+                        )
+                    }
+                }
+
+                if hashable {
+                    fragment.blankLine()
+                    fragment.outputBlock("def __hash__(self) -> int:", closeWith: "") {
+                        outputRuntimeCall(
+                            fragment: fragment,
+                            symbol: "__iota_get_\(mangledTypeName)_hash",
+                            returnType: .int32,
+                            arguments: [(expression: "self", type: .object)]
+                        )
+                    }
+                }
+
                 if !(fields.isEmpty && methods.isEmpty) {
                     fragment.blankLine()
                 }
                 outputComputedMembers(fragment: fragment)
+            }
+            // Emit a unique alias to avoid name-shadowing when multiple types share
+            // the same unqualified Python name (e.g. PuttingTypesIntoQuestionablePlaces).
+            if let setupName = iotaSetupName {
+                fragment.output("_cls_\(setupName) = \(unqualifiedName)")
             }
         }
     }
@@ -87,7 +136,7 @@ class PythonProductClass: PythonClass {
                 document(field.documentation, fragment: fragment, extra: field.deprecation.map { ["Deprecated: \($0.quotedMessage)"] } ?? [])
                 outputRuntimeCall(
                     fragment: fragment,
-                    symbol: "__iota_get_\(field.mangledName)",
+                    symbol: field.getterSymbol,
                     returnType: field.ffiType,
                     arguments: field.isStatic ? [] : [(expression: "self", type: .object)]
                 )
@@ -98,7 +147,7 @@ class PythonProductClass: PythonClass {
             fragment.output("@staticmethod")
             fragment.outputBlock("def \(field.name)() -> \(field.type.name):", closeWith: "") {
                 document(field.documentation, fragment: fragment, extra: field.deprecation.map { ["Deprecated: \($0.quotedMessage)"] } ?? [])
-                outputRuntimeCall(fragment: fragment, symbol: "__iota_get_\(field.mangledName)", returnType: field.ffiType, arguments: [])
+                outputRuntimeCall(fragment: fragment, symbol: field.getterSymbol, returnType: field.ffiType, arguments: [])
             }
             if field.isPubliclyWritable {
                 fragment.blankLine()
@@ -119,7 +168,7 @@ class PythonProductClass: PythonClass {
             document(field.documentation, fragment: fragment, extra: field.deprecation.map { ["Deprecated: \($0.quotedMessage)"] } ?? [])
             outputRuntimeCall(
                 fragment: fragment,
-                symbol: "__iota_get_\(field.mangledName)",
+                symbol: field.getterSymbol,
                 returnType: field.ffiType,
                 arguments: field.isStatic ? [] : [(expression: "self", type: .object)]
             )

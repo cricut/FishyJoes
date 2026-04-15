@@ -545,25 +545,36 @@ class GeneratedRuntime:
                 runtime.store_exception(exn, error)
                 return 0
 
+        is_set = converter_name.startswith("SetConverter<")
+
         def values_fn(ctx: int, obj: int, out_values: int, exn: typing.Any) -> None:
             try:
                 value = runtime.borrow_foreign_object(obj)
                 items = list(value) if value is not None else []
                 ptr = _ffi.cast("void**", out_values)
                 for i, item in enumerate(items):
-                    handle = runtime.retain_foreign_object(item)
-                    ptr[i] = _ffi.cast("void*", handle)
+                    # Send None as a null pointer so Swift sees Optional.none.
+                    if item is None:
+                        ptr[i] = _ffi.NULL
+                    else:
+                        handle = runtime.retain_foreign_object(item)
+                        ptr[i] = _ffi.cast("void*", handle)
             except BaseException as error:
                 runtime.store_exception(exn, error)
 
         def ctor_fn(ctx: int, in_values: int, length: int, exn: typing.Any) -> int:
             try:
                 ptr = _ffi.cast("void**", in_values)
+                # Swift owns the handles in ptr[i] and will call _delete_ref on
+                # them after ctor_fn returns.  We must NOT release them here
+                # (consume would double-free); borrow gives us the Python object
+                # without touching the reference count.
                 items = [
-                    runtime.consume_foreign_object(ptr[i])
+                    runtime.borrow_foreign_object(ptr[i])
                     for i in range(int(length))
                 ]
-                handle = runtime.retain_foreign_object(items)
+                result: typing.Any = set(items) if is_set else items
+                handle = runtime.retain_foreign_object(result)
                 return handle
             except BaseException as error:
                 runtime.store_exception(exn, error)
@@ -585,19 +596,65 @@ class GeneratedRuntime:
     ) -> None:
         """Register a Dictionary type with the Iota ABI.
 
-        Dictionaries are represented on the Python side as dicts.
-        On the Iota ABI they are collections of key-value pair tuples, so we
-        use two separate collection registrations (keys + values) under the hood.
-        Instead, FishyJoes uses a single collection whose elements are opaque
-        boxed pairs that the Swift side provides.  We represent the dictionary as
-        a plain ``list`` at the collection level and rely on post-processing in
-        the generated bindings.
-
-        In practice the Iota ABI treats ``DictionaryConverter`` the same as
-        ``ArrayConverter``  — both go through ``FishyJoesCommonRuntime_collection_setup``
-        with element type ``object``.
+        The Iota ABI uses the same collection_setup symbol as arrays/sets.
+        Swift packs the dict as interleaved key/value handles in a buffer of
+        size 2*length, and calls construct with length = number of pairs (not 2*).
+        On the Python side we represent it as a plain dict.
         """
-        self.setup_collection_type(converter_name, "object")
+        self.ensure_loaded()
+        assert self._runtime is not None
+
+        length_type = ctypes.CFUNCTYPE(ctypes.c_int, ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_void_p))
+        values_type = ctypes.CFUNCTYPE(None, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_void_p))
+        ctor_type = ctypes.CFUNCTYPE(ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_int, ctypes.POINTER(ctypes.c_void_p))
+
+        runtime = self._runtime
+
+        def length_fn(ctx: int, obj: int, exn: typing.Any) -> int:
+            try:
+                value = runtime.borrow_foreign_object(obj)
+                return len(value) if value is not None else 0
+            except BaseException as error:
+                runtime.store_exception(exn, error)
+                return 0
+
+        def values_fn(ctx: int, obj: int, out_values: int, exn: typing.Any) -> None:
+            try:
+                d = runtime.borrow_foreign_object(obj)
+                pairs = list(d.items()) if d is not None else []
+                ptr = _ffi.cast("void**", out_values)
+                i = 0
+                for k, v in pairs:
+                    ptr[i] = _ffi.cast("void*", runtime.retain_foreign_object(k)) if k is not None else _ffi.NULL
+                    ptr[i + 1] = _ffi.cast("void*", runtime.retain_foreign_object(v)) if v is not None else _ffi.NULL
+                    i += 2
+            except BaseException as error:
+                runtime.store_exception(exn, error)
+
+        def ctor_fn(ctx: int, in_values: int, length: int, exn: typing.Any) -> int:
+            try:
+                ptr = _ffi.cast("void**", in_values)
+                n = int(length)
+                d = {}
+                for i in range(n):
+                    # Swift owns the handles; borrow without releasing.
+                    k = runtime.borrow_foreign_object(ptr[2 * i])
+                    v = runtime.borrow_foreign_object(ptr[2 * i + 1])
+                    d[k] = v
+                return runtime.retain_foreign_object(d)
+            except BaseException as error:
+                runtime.store_exception(exn, error)
+                return 0
+
+        len_cb = length_type(length_fn)
+        val_cb = values_type(values_fn)
+        ctor_cb = ctor_type(ctor_fn)
+        self._callbacks.extend([len_cb, val_cb, ctor_cb])
+        self._invoke_generic_setup(
+            "FishyJoesCommonRuntime_collection_setup",
+            converter_name,
+            len_cb, val_cb, ctor_cb, None,
+        )
 
     def setup_tuple_type(
         self,
@@ -683,8 +740,7 @@ class GeneratedRuntime:
 
         Args:
             converter_name: The converter type name (e.g. ``RangeConverter<Swift.Int>``).
-            closed: If True, use ``FishyJoesCommonRuntime_RangeConverter_setup`` for
-                    ClosedRange types (same symbol — Swift uses the same setup fn for both).
+            closed: If True, register as a ClosedRange (same ABI symbol as Range).
         """
         self.ensure_loaded()
         assert self._runtime is not None

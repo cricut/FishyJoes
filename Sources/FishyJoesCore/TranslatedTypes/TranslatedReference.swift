@@ -595,7 +595,11 @@ struct TranslatedReference: TranslatedType {
                 name: sourceType.nonNamespacedName,
                 constructor: .reference,
                 fields: fields,
-                methods: methods
+                methods: methods,
+                iotaSetupName: iotaSetupName,
+                equatable: equatable,
+                hashable: hashable,
+                mangledTypeName: sourceType.name.mangled
             )
         )
     }
