@@ -1,7 +1,7 @@
 name: fishyjoes_dart
 description: The common dart component for fishyjoes-translated swift libraries
 
-version: "7.1.0-alpha1"
+version: "7.1.0"
 environment:
   sdk: '^3.9.0'
 
