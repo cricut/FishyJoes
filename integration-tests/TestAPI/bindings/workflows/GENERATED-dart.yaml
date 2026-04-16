@@ -278,6 +278,13 @@ jobs:
           echo "Detected Version is '$VERSION'"
           echo VERSION=$VERSION >> $GITHUB_ENV
 
+      - name: Bake pubspec version
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          swift run fishy-joes bake-version --version=$VERSION
+
       - name: Pack
         shell: zsh {0}
         run: |
