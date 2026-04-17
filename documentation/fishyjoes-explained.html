@@ -234,6 +234,13 @@
     white-space: pre;
     overflow-x: auto;
   }
+  .detail-box .block-label {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-top: 20px;
+    margin-bottom: 4px;
+  }
+  .detail-box .block-label code,
   .detail-box p code {
     font-family: 'SF Mono', 'Fira Code', monospace;
     font-size: 0.82em;
@@ -1123,13 +1130,16 @@ function showSection(id) {
 const stageData = [
   {
     title: "Your Swift Library — annotated source + fishy-joes.yaml",
-    body: "FishyJoes is run from the root of your own Swift library (the same directory as its <code>Package.swift</code>). You add FishyJoes as a dependency, create a <code>bindings/fishy-joes.yaml</code> config naming your module, and annotate the Swift types you want to expose with <code>/// &lt;!-- FishyJoes.export(Name) --&gt;</code> doc comments. Then kick off the whole pipeline with one command.",
-    code: `# Run from your library root (same dir as Package.swift):
-swift run fishy-joes generate build test \\
-  --wasm --kotlin-fast --c-sharp --dart
-
-# bindings/fishy-joes.yaml — minimal config:
----
+    body: "FishyJoes is run from the root of your own Swift library (the same directory as its <code>Package.swift</code>). You add FishyJoes as a dependency, annotate the Swift types you want to expose with <code>/// &lt;!-- FishyJoes.export(Name) --&gt;</code> doc comments, and create a <code>bindings/fishy-joes.yaml</code> config naming your module. Then kick off the whole pipeline:",
+    blocks: [
+      {
+        text: "Run from your library root (same directory as <code>Package.swift</code>):",
+        code: `swift run fishy-joes generate build test \\
+  --wasm --kotlin-fast --c-sharp --dart`
+      },
+      {
+        text: "Minimal <code>bindings/fishy-joes.yaml</code>:",
+        code: `---
 module: DesignEngine
 
 # other FishyJoes-wrapped libs this one depends on:
@@ -1139,6 +1149,8 @@ requiredModules:
 # files/dirs to hide from Sourcery's scan:
 excludeSources:
   - InternalHelpers.swift`
+      }
+    ]
   },
   {
     title: "Sourcery — AST Reflection",
@@ -1229,10 +1241,13 @@ function selectStage(idx) {
     s.classList.toggle('active', i === idx);
   });
   const d = stageData[idx];
+  const codeHtml = d.blocks
+    ? d.blocks.map(b => `<p class="block-label">${b.text}</p><code>${b.code}</code>`).join('')
+    : `<code>${d.code}</code>`;
   document.getElementById('stage-detail').innerHTML = `
     <h3>${d.title}</h3>
     <p>${d.body}</p>
-    <code>${d.code}</code>
+    ${codeHtml}
   `;
 }
 
