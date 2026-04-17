@@ -594,7 +594,7 @@
 <!-- ══════════════════════════════════ OVERVIEW ══════════════════════════════════ -->
 <section id="overview" class="section active">
   <h2 class="section-title">What is FishyJoes?</h2>
-  <p class="section-desc">FishyJoes solves a real-world problem at Cricut: Swift libraries need to be callable from JavaScript, Android, .NET, and Flutter apps — without rewriting the same logic four times.</p>
+  <p class="section-desc">FishyJoes is a bindings generator that allows Swift libraries to be callable from JavaScript, Android, .NET, and Flutter apps — without rewriting the same logic four times.</p>
 
   <div class="flow-demo">
     <div class="flow-row">
@@ -1153,8 +1153,7 @@ const stageData = [
 module: DesignEngine
 
 # other FishyJoes-wrapped libs this one depends on:
-requiredModules:
-  - CriFoundation
+requiredModules: [DesignCore, YourLibrary]
 
 # files/dirs to hide from Sourcery's scan:
 excludeSources:
@@ -1164,14 +1163,23 @@ excludeSources:
   },
   {
     title: "Sourcery — AST Reflection",
-    body: "Sourcery (a popular Swift code generation tool) parses the Swift source into an AST. FishyJoes feeds this AST into its own pipeline as SourceryType objects. Sourcery handles the hard part of understanding Swift syntax — FishyJoes takes over from there.",
-    code: `// Sourcery produces SourceryType objects:
+    body: "FishyJoes builds a Sourcery template at runtime by embedding <code>SourceryDataModel.swift</code> into a <code>.swifttemplate</code> file, then invokes Sourcery on <code>Sources/</code> with <code>--parseDocumentation</code> (so doc comments are captured). The template calls <code>SourceryTemplateContext(context).dump()</code>, which serialises the full AST to JSON at <code>.build/sourcery-dump/sourcery-dump.json</code>. FishyJoes then reads that file back and takes over from there.",
+    code: `// SourceryDataModel.swift — the actual types FishyJoes receives:
+
+struct SourceryTemplateContext {
+    let types: [SourceryType]
+    let functions: [SourceryMethod]
+}
+
 struct SourceryType {
-  let name: String
-  let kind: TypeKind  // struct, class, enum, protocol
-  let variables: [Variable]
-  let methods: [Method]
-  let documentation: String?  // ← FishyJoes reads annotations here
+    let kind: SourceryTypeKind   // .struct | .enum | .class | .actor | .protocol | .extension
+    let name: SourceryTypeName   // (not a plain String — see BetterType stage)
+    let documentation: [String]  // ← each /// line; FishyJoes scans for export annotations
+    let storedVariables: [SourceryVariable]
+    let computedVariables: [SourceryVariable]
+    let methods: [SourceryMethod]
+    let cases: [SourceryEnumCase] // populated for enums
+    let implements: [SourceryTypeName]
 }`
   },
   {
@@ -1191,62 +1199,78 @@ struct ExportAnnotation {
   },
   {
     title: "BetterType — Recursive type resolution",
-    body: "Sourcery's TypeName is a flat string like 'Optional<Array<UUID>>'. FishyJoes converts these into BetterType — a proper recursive enum that represents the type as a tree. This allows pattern matching at any depth, which is essential for generating correct code in all target languages.",
-    code: `// "Optional<Array<UUID>>" becomes:
-let t: BetterType = .optional(
-  .named("Array", [
-    .named("UUID", [])
-  ])
-)
-// Now you can pattern-match deeply:
-if case .optional(.named("Array", let elements)) = t { ... }`
+    body: "SourceryTypeName is a struct full of optional booleans and nested optionals — as the comment in BetterType.swift puts it, 'An Optional&lt;Int&gt; isn't an Int that happens to be optional, it's an Optional that may contain an Int.' FishyJoes converts it via a <code>.better</code> computed property into BetterType — a proper recursive enum. <code>.optional()</code>, <code>.array()</code>, <code>.dictionary()</code> etc. are convenience functions that all expand to the <code>.generic</code> case.",
+    code: `// The real BetterType enum cases:
+indirect enum BetterType {
+    case named(Name)       // e.g. .named(Name(name: "UUID", module: nil))
+    case generic(base: Name, args: [BetterType])  // Optional, Array, Dictionary…
+    case tuple([TupleElement])
+    case function([BetterType], BetterType, isAsync: Bool, isThrowing: Bool)
+    case void
+    case selfType
+}
+
+// Convenience funcs expand to .generic:
+// .optional(.named(…))  →  .generic(base: .swift("Optional"), args: […])
+// .array(.named(…))     →  .generic(base: .swift("Array"),    args: […])`
   },
   {
     title: "TranslatedTypes — Language-neutral IR",
-    body: "Each exported Swift type is converted into a TranslatedType subclass — the intermediate representation. TranslatedStruct, TranslatedProtocol, TranslatedEnum, etc. These are language-agnostic: they capture all the semantic information needed to generate idiomatic code in any target language.",
-    code: `// ~27 TranslatedType subclasses, one per Swift type category
-TranslatedStruct     // value types
-TranslatedClass      // reference types
-TranslatedProtocol   // interfaces / protocols
-TranslatedEnum       // enumerations
-TranslatedArray      // Array<T>
-TranslatedOptional   // Optional<T>
-TranslatedFuture     // async → Promise/Future/Task
-TranslatedResult     // Result<S,F> → throws`
+    body: "Each exported Swift type is converted into a TranslatedType — the language-neutral intermediate representation. These capture all semantic information needed to generate idiomatic code in every target language. Note: there is no TranslatedClass — both Swift classes and <code>exportReference</code> structs become <code>TranslatedReference</code>.",
+    code: `// ~24 TranslatedType structs, one per Swift type category:
+TranslatedStruct          // POD value types
+TranslatedReference       // Swift classes + exportReference structs
+TranslatedProtocol        // protocol / interface types
+TranslatedEnum            // enumerations
+TranslatedArray           // Array<T>
+TranslatedOptional        // Optional<T>
+TranslatedFuture          // async → Promise / Future / Task
+TranslatedResult          // Result<S,F> → throws in target languages
+TranslatedFunction        // closure types
+TranslatedTuple           // tuple types
+TranslatedPrimitive       // Int, Double, Bool, …
+TranslatedString          // String
+TranslatedData            // Data
+TranslatedDictionary      // Dictionary<K,V>
+TranslatedSet             // Set<T>
+TranslatedRange           // Range / ClosedRange
+TranslatedURL             // URL`
   },
   {
     title: "Code Generation — SourceFragments",
-    body: "Each language translator (NodeTranslator, KotlinTranslator, etc.) walks the TranslatedTypes and emits SourceFragment objects. Fragments are a builder pattern that tracks file headers, imports, and code sections, then assembles them into proper source files with correct formatting.",
-    code: `// SourceFragment builder pattern
-var fragment = SourceFragment()
-fragment.addImport("Foundation")
-fragment.addHeader(swiftLintDirectives)
-fragment.append("""
-  public class DesignElement {
-    \(generatedBody)
-  }
-""")
-let file = fragment.render(for: .kotlin)`
+    body: "Each language translator (NodeTranslator, KotlinTranslator, etc.) walks the TranslatedTypes and emits SourceFragment objects. A SourceFragment is a simple line-oriented builder with indentation tracking. Each fragment has a <code>destinationPath</code> telling FishyJoes where to write the file. When all translators are done, <code>SourceFragment.combine()</code> merges them and writes each file to disk.",
+    code: `// SourceFragment — the real API:
+let fragment = SourceFragment(destinationPath: "bindings/ts/generated/DesignElement.ts")
+
+fragment.output("export class DesignElement {")
+fragment.outputBlock("  constructor(") {           // auto-indents body, adds closing }
+    fragment.output("public readonly id: string,")
+    fragment.output("public width: number,")
+}
+fragment.blankLine()
+fragment.output("}")
+
+// fragment.contents → the assembled string
+// SourceFragment.combine(fragments:) → writes each to its destinationPath`
   },
   {
     title: "Build — Native + language packages",
-    body: "FishyJoes orchestrates a multi-step build: first it compiles the Swift code to a native dynamic library (.dylib on macOS, .so on Linux). Then it runs the language-specific build tool (npm, gradle, dotnet, dart pub) to compile the generated bindings against that library.",
-    code: `# FishyJoes runs these for you:
-swift build -c release          # native .dylib
-npm install && npm run build    # TypeScript
-./gradlew build                 # Kotlin
-dotnet build                    # C#
-dart pub get && dart build      # Dart`
+    body: "FishyJoes compiles the Swift code into a native dynamic library using <code>swift-build</code> (via <code>xcrun</code> on macOS, or <code>swiftly</code> for cross-compilation targets like WASM and Android). It then runs the language-specific build tool against the generated bindings and the compiled library.",
+    code: `# FishyJoes runs these for you (per platform):
+xcrun swift-build -c release    # native .dylib / .so
+./gradlew assemble              # Kotlin (not "build")
+dotnet restore && dotnet build  # C#
+# Node: swift-build produces the .dylib; TypeScript types are assembled separately
+# Dart: flutter/pub packaging handled at pack phase`
   },
   {
     title: "Pack — Publishable packages",
-    body: "The final step packages everything for distribution. Each language gets its standard package format: npm tarball, Maven artifact, NuGet package, or pub package. The native library is bundled inside. CI publishes these to GitHub Package Registry automatically.",
-    code: `# Output packages per language:
-dist/
-├── npm/         → @cricut/design-engine@1.0.0.tgz
-├── maven/       → com.cricut:design-engine:1.0.0
-├── nuget/       → Cricut.DesignEngine.1.0.0.nupkg
-└── pub/         → cricut_design_engine-1.0.0.tar.gz`
+    body: "The pack phase invokes each language's native packaging tool. The native library is bundled inside each package. Pass <code>--version</code> to stamp the version number across all generated package manifests before packing.",
+    code: `# Pack commands FishyJoes runs per language:
+npm pack                        # Node  → bindings/packed-npm-packages/
+gradle publishToMavenLocal      # Kotlin → local Maven repo
+dotnet pack                     # C#    → bindings/c-sharp/nupkgs/
+# Dart: packaged via npm (flutter-package.json) alongside the Node package`
   },
 ];
 
