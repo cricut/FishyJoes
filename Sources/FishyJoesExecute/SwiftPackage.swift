@@ -255,7 +255,7 @@ extension SwiftPackage.Dependency {
              .sourceControl(_, _, .range),
              .sourceControl(_, _, .exact):
             guard let constraint = versionInPubspecFormat(flexibleVersions: true) else { return nil }
-            return (tagPattern: "{{version}}", versionConstraint: constraint)
+            return (tagPattern: "{{version}}-dart-publish", versionConstraint: constraint)
         }
     }
 }

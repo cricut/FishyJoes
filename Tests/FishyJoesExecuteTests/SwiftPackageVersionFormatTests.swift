@@ -159,7 +159,7 @@ class SwiftPackageVersionFormatTests: XCTestCase {
             requirement: .revision(name: "abc123")
         )
 
-        XCTAssertEqual(upToNextMajor.tagPatternAndVersionConstraint()?.tagPattern, "{{version}}")
+        XCTAssertEqual(upToNextMajor.tagPatternAndVersionConstraint()?.tagPattern, "{{version}}-dart-publish")
         XCTAssertEqual(upToNextMajor.tagPatternAndVersionConstraint()?.versionConstraint, "^2.19.4")
         XCTAssertEqual(upToNextMajorZero.tagPatternAndVersionConstraint()?.versionConstraint, ">=0.5.0 <1.0.0")
         XCTAssertEqual(upToNextMinor.tagPatternAndVersionConstraint()?.versionConstraint, "~1.2.3")

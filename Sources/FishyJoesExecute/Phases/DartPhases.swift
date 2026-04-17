@@ -29,7 +29,8 @@ class DartPhases: IotaPhases, Phases {
                 ]
             }
             // When flexibleVersions is on, emit Dart 3.9+ `tag_pattern` + `version:` so pub
-            // resolves git tags via semver. Branch/revision requirements fall through to `ref:`.
+            // resolves semver against the release-only `-dart-publish` tags. Branch/revision
+            // requirements fall through to `ref:`.
             if options.config.flexibleVersions,
                let tagPattern = dependency.tagPatternAndVersionConstraint() {
                 return lines + [

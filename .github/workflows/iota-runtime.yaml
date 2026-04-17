@@ -3,6 +3,9 @@ name: "Iota Runtime"
 
 "on":
   workflow_dispatch:
+  push:
+    tags:
+      - '*-dart-publish'
   label:
     types:
       - created
@@ -164,15 +167,87 @@ jobs:
           path: .build/windows-iota-libs
           if-no-files-found: error
 
-  iota-publish:
-    name: "Publish C# Package and Dart Binaries"
+  prepare-dart-publish-tag:
+    name: "Prepare dart publish tag"
     runs-on: ubuntu-latest
+    if: github.event_name == 'release'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
+          fetch-depth: 0
+
+      - name: Setup Git Credentials
+        uses: de-vri-es/setup-git-credentials@v2
+        with:
+          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
+
+      - name: Configure build environment
+        run: |
+          set -euxo pipefail
+          sudo apt-get install -y zsh
+
+      - name: Determine publish tag
+        id: version
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          VERSION="${{ github.event.release.tag_name }}"
+          if [[ ! $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
+              echo "Unsupported release tag '$VERSION'" >&2
+              exit 1
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "publish_tag=$VERSION-dart-publish" >> $GITHUB_OUTPUT
+
+      - name: Check for existing publish tag
+        id: publish-tag
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          if git ls-remote --exit-code --tags origin "refs/tags/${{ steps.version.outputs.publish_tag }}" >/dev/null 2>&1; then
+              echo "exists=true" >> $GITHUB_OUTPUT
+          else
+              echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create publish tag commit
+        if: steps.publish-tag.outputs.exists != 'true'
+        shell: zsh {0}
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          PUBLISH_TAG: ${{ steps.version.outputs.publish_tag }}
+        run: |
+          set -euxo pipefail
+
+          yq -i '.version = strenv(VERSION)' dart-runtime/pubspec.yaml
+          git config user.name "$GITHUB_USER"
+          git config user.email "cricut-builduser@users.noreply.github.com"
+          git add dart-runtime/pubspec.yaml
+          git commit -m "chore: prepare dart publish tag for $VERSION"
+          git tag "$PUBLISH_TAG"
+
+      - name: Push publish tag
+        if: steps.publish-tag.outputs.exists != 'true'
+        shell: zsh {0}
+        env:
+          PUBLISH_TAG: ${{ steps.version.outputs.publish_tag }}
+        run: |
+          set -euxo pipefail
+
+          git push origin "refs/tags/$PUBLISH_TAG"
+
+  c-sharp-publish:
+    name: "Publish C# Package"
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release'
     needs:
       - build-iota-mac
       - build-iota-ubuntu
       - build-iota-windows
-    env:
-      GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -186,13 +261,6 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '6.0.x'
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18.x'
-          registry-url: 'https://npm.pkg.github.com/'
-          scope: '@cricut'
 
       - name: Configure build environment
         run: |
@@ -217,22 +285,15 @@ jobs:
 
           ls -R c-sharp-runtime/
 
-          rm -rf dart-runtime/{macos,linux,windows}/native
-          mkdir -p dart-runtime/{macos,linux,windows}/native
-          cp -dv mac_generated/* dart-runtime/macos/native/
-          cp -dv ubuntu_generated/* dart-runtime/linux/native/
-          cp -dv windows_generated/* dart-runtime/windows/native/
-
-          ls -R dart-runtime
-
       - name: Determine version
         shell: zsh {0}
         run: |
           set -euxo pipefail
 
-          VERSION=${GITHUB_REF#refs/*/}
-          if [[ ! $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)*$ ]]; then
-              VERSION="0.0.1-$(git rev-parse --short HEAD)"
+          VERSION="${{ github.event.release.tag_name }}"
+          if [[ ! $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
+              echo "Unsupported release tag '$VERSION'" >&2
+              exit 1
           fi
           echo "Detected Version is '$VERSION'"
           echo VERSION=$VERSION >> $GITHUB_ENV
@@ -247,6 +308,93 @@ jobs:
               c-sharp-runtime/Cricut.FishyJoesRuntime.csproj \
               "/p:Version=$VERSION" \
               --output c-sharp-runtime/nupkgs
+
+      - name: Upload Nuget Package
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuget-package
+          path: c-sharp-runtime/nupkgs/*.*nupkg
+          if-no-files-found: error
+
+      - name: Publish
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          dotnet nuget push ./c-sharp-runtime/nupkgs/*.*nupkg \
+            --source https://nuget.pkg.github.com/cricut \
+            --api-key ${{ github.token }} \
+            --skip-duplicate
+
+  dart-publish:
+    name: "Publish Dart Runtime"
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    needs:
+      - build-iota-mac
+      - build-iota-ubuntu
+      - build-iota-windows
+    env:
+      GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Git Credentials
+        uses: de-vri-es/setup-git-credentials@v2
+        with:
+          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          registry-url: 'https://npm.pkg.github.com/'
+          scope: '@cricut'
+
+      - name: Configure build environment
+        run: |
+          set -euxo pipefail
+          sudo apt-get install -y zsh
+
+      - name: Retrieve Artifacts
+        uses: actions/download-artifact@v4
+
+      - name: Install Artifacts
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          rm -rf dart-runtime/{macos,linux,windows}/native
+          mkdir -p dart-runtime/{macos,linux,windows}/native
+          cp -dv mac_generated/* dart-runtime/macos/native/
+          cp -dv ubuntu_generated/* dart-runtime/linux/native/
+          cp -dv windows_generated/* dart-runtime/windows/native/
+
+          ls -R dart-runtime
+
+      - name: Determine version
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+          VERSION=${TAG_NAME%-dart-publish}
+          if [[ "$VERSION" == "$TAG_NAME" ]]; then
+              echo "Publish tag '$TAG_NAME' is missing the -dart-publish suffix" >&2
+              exit 1
+          fi
+          if [[ ! $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
+              echo "Unsupported release tag '$VERSION'" >&2
+              exit 1
+          fi
+          echo "Detected Version is '$VERSION'"
+          echo VERSION=$VERSION >> $GITHUB_ENV
+
+      - name: Pack
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
 
           tar -cvzf FishyJoes-dart-binaries.tgz -C dart-runtime {macos,linux,windows}/native
 
@@ -267,13 +415,6 @@ jobs:
           ls
           tar -tf cricut-flutter-fishyjoes-runtime-*.tgz
 
-      - name: Upload Nuget Package
-        uses: actions/upload-artifact@v4
-        with:
-          name: nuget-package
-          path: c-sharp-runtime/nupkgs/*.*nupkg
-          if-no-files-found: error
-
       - name: Upload Dart Tarball
         uses: actions/upload-artifact@v4
         with:
@@ -283,28 +424,17 @@ jobs:
 
       - name: Publish
         shell: zsh {0}
-        if: github.event_name == 'release'
         env:
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.event.repository.name }}
-          TAG_NAME: ${{ github.event.release.tag_name }}
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euxo pipefail
 
-          # publish C#
-
-          dotnet nuget push ./c-sharp-runtime/nupkgs/*.*nupkg \
-            --source https://nuget.pkg.github.com/cricut \
-            --api-key ${{ github.token }} \
-            --skip-duplicate
-
-          # publish dart
-
           releaseID=$(
               gh api \
               -H "Accept: application/vnd.github.v3+json" \
-              "/repos/$OWNER/$REPO/releases/tags/$TAG_NAME" \
+              "/repos/$OWNER/$REPO/releases/tags/$VERSION" \
               -q .id
           )
 
