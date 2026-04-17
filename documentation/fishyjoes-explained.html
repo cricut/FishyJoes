@@ -765,7 +765,7 @@
     <span class="kw">public var</span> width: <span class="ty">Double</span>
     <span class="kw">public var</span> height: <span class="ty">Double</span>
 
-    <span class="cm">/// &lt;!-- FishyJoes.export() --&gt;</span>
+    <span class="cm">/// &lt;!-- FishyJoes.export(scale) --&gt;</span>
     <span class="kw">public func</span> <span class="ty">scale</span>(by factor: <span class="ty">Double</span>)
         -&gt; <span class="ty">DesignElement</span> { ... }
 }
@@ -803,8 +803,8 @@ Method(
         <div style="font-size:0.82rem;color:var(--muted);">Export a type with an explicit public name for generated bindings.</div>
       </div>
       <div class="info-card">
-        <div style="font-family:monospace;color:var(--accent);font-size:0.82rem;margin-bottom:8px;">&lt;!-- FishyJoes.export() --&gt;</div>
-        <div style="font-size:0.82rem;color:var(--muted);">Export a method/property, inheriting name from Swift declaration.</div>
+        <div style="font-family:monospace;color:var(--accent);font-size:0.82rem;margin-bottom:8px;">&lt;!-- FishyJoes.export(methodName) --&gt;</div>
+        <div style="font-size:0.82rem;color:var(--muted);">Export a method or property, giving the desired foreign name. A name is always required.</div>
       </div>
       <div class="info-card">
         <div style="font-family:monospace;color:var(--accent);font-size:0.82rem;margin-bottom:8px;">Generic overrides</div>
@@ -1019,7 +1019,7 @@ Method(
         <li><span>SourceryDataModel</span><span>Sourcery's AST types — the input to FishyJoesCore's analysis</span></li>
         <li><span>NodeAPI/</span><span>N-API C headers for the Node.js native addon layer</span></li>
         <li><span>JNI/</span><span>Java Native Interface system library headers</span></li>
-        <li><span>FishyJoesConfig</span><span>YAML-based configuration (module names, dependencies, namespace mappings)</span></li>
+        <li><span>FishyJoesConfig</span><span>Reads YAML-based configuration (module name, requiredModules, excludeSources, publishRepository, ciPreBuildHook) from `bindings/fishy-joes.yaml`</span></li>
       </ul>
     </div>
 
@@ -1035,11 +1035,21 @@ Method(
     <div class="code-block">
 <span class="cm">// FishyJoesCommonRuntime — the shared contract</span>
 <span class="kw">public protocol</span> <span class="ty">Converter</span> {
-    <span class="kw">associatedtype</span> <span class="ty">ForeignValue</span>
-
-    <span class="kw">static func</span> toForeign(<span class="ty">_</span>: <span class="ty">Self</span>) <span class="kw">throws</span> -&gt; <span class="ty">ForeignValue</span>
-    <span class="kw">static func</span> fromForeign(<span class="ty">_</span>: <span class="ty">ForeignValue</span>) <span class="kw">throws</span> -&gt; <span class="ty">Self</span>
+    <span class="cm">// The Swift type this converter handles (defaults to Self)</span>
+    <span class="kw">associatedtype</span> <span class="ty">SwiftType</span> = <span class="kw">Self</span>
 }
+
+<span class="cm">// Primitive types are their own converters:</span>
+<span class="kw">extension</span> <span class="ty">Bool</span>: <span class="ty">Converter</span> {}
+<span class="kw">extension</span> <span class="ty">Double</span>: <span class="ty">Converter</span> {}
+<span class="kw">extension</span> <span class="ty">String</span>: <span class="ty">Converter</span> {}
+<span class="cm">// ... etc.</span>
+
+<span class="cm">// Generic converters wrap element converters:</span>
+<span class="kw">public enum</span> <span class="ty">ArrayConverter</span>&lt;<span class="ty">E</span>: <span class="ty">Converter</span>&gt;: <span class="ty">Converter</span> {
+    <span class="kw">public typealias</span> <span class="ty">SwiftType</span> = [<span class="ty">E.SwiftType</span>]
+}
+<span class="cm">// Actual to/from methods live on NodeConverter, JavaConverter, etc.</span>
     </div>
   </div>
 
@@ -1169,10 +1179,14 @@ struct SourceryType {
     body: "FishyJoes reads the documentation strings from Sourcery's AST and parses <!-- FishyJoes.export() --> HTML comments. Only annotated types and members are exported — everything else is ignored. This gives developers fine-grained control over the public surface.",
     code: `// ExportAnnotation.swift
 struct ExportAnnotation {
+  let kind: Kind             // .unmodified | .asReference | .asMethod
   let name: String           // public binding name
-  let exportedType: TypeKind
-  let genericOverrides: [String: BetterType]
-  let isPublic: Bool
+  let cSharpName: String     // C#-specific override (defaults to name)
+  let isOverride: Bool       // annotate as override in languages that support it
+  let noReturn: Bool         // annotate as never-returning
+  let genericOverrides: [String: BetterType]  // concrete subs for generics
+  let omitParameters: [String]     // defaulted params to hide from bindings
+  let compatibilityOrder: [String] // ordering for backward-compat overloads
 }`
   },
   {
