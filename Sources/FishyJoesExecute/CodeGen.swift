@@ -29,6 +29,9 @@ public class CodeGen: ParsableCommand {
     @Flag(name: [.long, .customLong("wasmopt")], inversion: .prefixedNo, help: "Additional wasm optimizations (takes some time)")
     var wasmOpt = true
 
+    @Flag(name: [.long, .customLong("wasmstrip")], inversion: .prefixedNo, help: "Strip debug sections from wasm output")
+    var wasmStrip = true
+
     @Flag(name: .long, help: "build macOS libraries for both x64_64 and arm64")
     var fat = false
 
@@ -71,6 +74,7 @@ public class CodeGen: ParsableCommand {
         case cSharp
         case dart
         case wasmOpt
+        case wasmStrip
         case version
         case buildStep
         case debug

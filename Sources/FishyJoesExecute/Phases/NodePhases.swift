@@ -151,7 +151,10 @@ class NodePhases: BasePhases, Phases {
         // Install the module and its dependencies, then assemble the Javascript files required to load them
         if platform == .wasm {
             // Install Wasm bundle to the output directory, using wasm-opt to optimize Wasm bundles if available
-            if options.wasmOpt, cmd("wasm-opt", "--version").runBool() {
+            if options.wasmOpt {
+                guard cmd("wasm-opt", "--version").runBool() else {
+                    fatalError("wasm-opt is required but was not found. Install binaryen: brew install binaryen (macOS) or apt-get install binaryen (Ubuntu)")
+                }
                 let optArgs = try [
                     "\(platform.buildDir(buildConfig))/\(nodeModule.wasmMainShimName)",
                 ] + (
@@ -161,12 +164,34 @@ class NodePhases: BasePhases, Phases {
                 ]
                 try cmd("wasm-opt", arguments: optArgs).run()
             } else {
-                if options.wasmOpt {
-                    Log.warn("WARNING: wasm-opt is not installed, resulting build will be bigger and possibly slower")
-                } else {
-                    Log.info("skipping wasm-opt")
-                }
+                Log.info("skipping wasm-opt")
                 try cmd("cp", "\(platform.buildDir(buildConfig))/\(nodeModule.wasmMainShimName)", "\(outputDir)/\(nodeModule.name).wasm").run()
+            }
+            if options.wasmStrip {
+                guard cmd("wasm-strip", "--version").runBool() else {
+                    fatalError("wasm-strip is required but was not found. Install wabt: brew install wabt (macOS) or apt-get install wabt (Ubuntu)")
+                }
+                let wasmPath = "\(outputDir)/\(nodeModule.name).wasm"
+                let wasmTmpPath = "\(wasmPath).tmp"
+                let stripArgs = [
+                    "-R", ".debug_info",
+                    "-R", ".debug_abbrev",
+                    "-R", ".debug_str",
+                    "-R", ".debug_names",
+                    "-R", ".debug_line",
+                    "-R", ".debug_loc",
+                    "-R", ".debug_ranges",
+                    "-R", ".debug_pubtypes",
+                    "-R", ".debug_pubnames",
+                    "-R", ".swift1_autolink_entries",
+                    "-R", "name",
+                    wasmPath,
+                    "-o", wasmTmpPath,
+                ]
+                try cmd("wasm-strip", arguments: stripArgs).run()
+                try cmd("mv", wasmTmpPath, wasmPath).run()
+            } else {
+                Log.info("skipping wasm-strip")
             }
             try cmd("cp", "\(fishyJoesDependency.localPath)/Sources/FishyJoesNodeRuntime/Templates/wasm-napi.js", outputDir).run()
 
