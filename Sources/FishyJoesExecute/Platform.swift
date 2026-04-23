@@ -354,7 +354,7 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
             fatalError("unknown host OS")
             #endif
         case .python:
-            return "bindings/python/generated/src/cricut_\(config.module.lowercased())"
+            return "bindings/python/generated/src/cricut_\(config.module.lowercased())/lib"
         }
     }
 

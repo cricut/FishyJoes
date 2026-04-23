@@ -10,12 +10,6 @@ class PythonPhases: IotaPhases, Phases {
         #endif
     }
 
-    override func preInstallPhase() throws {
-        // Python source files are generated during the `generate` step directly into the
-        // final package layout, so preserve them here and only ensure the output exists.
-        try cmd("mkdir", "-p", platform.outputDir(options.config)).run()
-    }
-
     private func pythonSupportEnv() -> [String: String] {
         let runtimeSourcePath = "../../../../../python-runtime/src"
         var pythonPaths = ["src"]

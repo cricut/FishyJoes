@@ -37,7 +37,7 @@ package-dir = {"" = "src"}
 where = ["src"]
 
 [tool.setuptools.package-data]
-"cricut___LOWERCASE_MODULE_NAME__" = ["py.typed", "*.dll", "*.dylib", "*.so"]
+"cricut___LOWERCASE_MODULE_NAME__" = ["py.typed", "lib/*.dll", "lib/*.dylib", "lib/*.so"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

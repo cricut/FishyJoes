@@ -17,7 +17,7 @@ def load_shared_library(package: str, relative_name: str) -> SharedLibraryPath:
     """
 
     package_root = resources.files(package)
-    candidate = package_root.joinpath(relative_name)
+    candidate = package_root.joinpath("lib").joinpath(relative_name)
     with resources.as_file(candidate) as resolved:
         return SharedLibraryPath(path=Path(resolved))
 
