@@ -608,7 +608,7 @@
       <div class="flow-lang-box node">⬡ npm package</div>
       <div class="flow-lang-box kotlin">🎯 Maven artifact</div>
       <div class="flow-lang-box csharp">♟ NuGet package</div>
-      <div class="flow-lang-box dart">🎱 pub package</div>
+      <div class="flow-lang-box dart">🎱 Dart / Flutter package</div>
     </div>
   </div>
 
@@ -665,7 +665,7 @@
 <!-- ══════════════════════════════════ PIPELINE ══════════════════════════════════ -->
 <section id="pipeline" class="section">
   <h2 class="section-title">The Generation Pipeline</h2>
-  <p class="section-desc">When you run <code style="background:var(--surface);padding:2px 8px;border-radius:4px;font-family:monospace;">swift run fishy-joes generate</code>, your Swift source goes through 8 distinct phases. Click each stage to learn more.</p>
+  <p class="section-desc">The full FishyJoes workflow starts with <code style="background:var(--surface);padding:2px 8px;border-radius:4px;font-family:monospace;">generate</code>, then can continue through <code style="background:var(--surface);padding:2px 8px;border-radius:4px;font-family:monospace;">build</code>, <code style="background:var(--surface);padding:2px 8px;border-radius:4px;font-family:monospace;">test</code>, and <code style="background:var(--surface);padding:2px 8px;border-radius:4px;font-family:monospace;">pack</code>. Click each stage to learn more.</p>
 
   <div class="pipeline" id="pipeline-row">
     <div class="pipe-stage" onclick="selectStage(0)" id="stage-0">
@@ -743,7 +743,7 @@
 
   <div class="detail-box" id="stage-detail">
     <h3>Click a stage above to explore it</h3>
-    <p>Each stage in the pipeline is implemented as a distinct phase. Stages can be run independently — for example, you can pack without re-generating.</p>
+    <p>The CLI exposes generate, build, test, and pack as separate steps, while the generated code path moves through Sourcery, annotations, BetterType, TranslatedTypes, and SourceFragments.</p>
   </div>
 </section>
 
@@ -1165,7 +1165,7 @@ const stageData = [
     blocks: [
       {
         text: "Run from your library root (same directory as <code>Package.swift</code>):",
-        code: `swift run fishy-joes generate build test \\
+        code: `swift run fishy-joes generate build test pack \\
   --wasm --kotlin-fast --c-sharp --dart`
       },
       {
@@ -1173,8 +1173,8 @@ const stageData = [
         code: `---
 module: DesignEngine
 
-# other FishyJoes-wrapped libs this one depends on:
-requiredModules: [DesignCore, YourLibrary]
+# other FishyJoes-wrapped libraries this one depends on:
+requiredModules: [DesignCore]
 
 # files/dirs to hide from Sourcery's scan:
 excludeSources:
@@ -1277,9 +1277,9 @@ fragment.outputBlock("export class DesignElement {") {  // last char is '{', so 
   },
   {
     title: "Build — Native + language packages",
-    body: "FishyJoes compiles the Swift code into a native dynamic library using <code>swift-build</code> (via <code>xcrun</code> on macOS, or <code>swiftly</code> for cross-compilation targets like WASM and Android). It then runs the language-specific build tool against the generated bindings and the compiled library.",
+    body: "FishyJoes compiles the generated Swift interface package with SwiftPM. On macOS native targets it locates <code>swift-build</code> through <code>xcrun</code>; on Linux and Windows native targets it uses <code>swift build</code>; and for WASM or Android cross-compilation it can run the required Swift toolchain through <code>swiftly</code>. It then runs the language-specific build tool against the generated bindings and compiled library.",
     code: `# FishyJoes runs these for you (per platform):
-xcrun swift-build -c release    # native .dylib / .so
+swift build --configuration release  # native .dylib / .so / .dll
 ./gradlew assemble              # Kotlin (not "build")
 dotnet restore && dotnet build  # C#
 # Node: swift-build produces the .dylib; TypeScript types are assembled separately
@@ -1287,7 +1287,7 @@ dotnet restore && dotnet build  # C#
   },
   {
     title: "Pack — Publishable packages",
-    body: "The pack phase invokes each language's native packaging tool. The native library is bundled inside each package. Pass <code>--version</code> to stamp the version number across all generated package manifests before packing.",
+    body: "The pack phase invokes each language's packaging tool and bundles the native libraries that were produced for that target. <code>--version</code> is applied by the Node, C#, and Dart pack steps; Kotlin publishes whatever version is set in the generated Gradle project.",
     code: `# Pack commands FishyJoes runs per language:
 npm pack                        # Node  → bindings/packed-npm-packages/
 ./gradlew publishToMavenLocal   # Kotlin → local Maven repo
