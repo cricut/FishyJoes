@@ -1052,7 +1052,7 @@ SourceryMethod(
 <!-- ══════════════════════════════════ RUNTIME ══════════════════════════════════ -->
 <section id="runtime" class="section">
   <h2 class="section-title">Runtime Type Marshalling</h2>
-  <p class="section-desc">Generated bindings don't just call Swift — they convert every value across the language boundary. Each runtime implements a <strong>Converter</strong> protocol to handle this translation.</p>
+  <p class="section-desc">Generated bindings don't just call Swift — they convert every value across the language boundary. Runtime-specific converter protocols refine the shared <strong>Converter</strong> protocol to handle this translation.</p>
 
   <div style="margin-bottom:32px;">
     <div class="code-block">
@@ -1072,7 +1072,7 @@ SourceryMethod(
 <span class="kw">public enum</span> <span class="ty">ArrayConverter</span>&lt;<span class="ty">E</span>: <span class="ty">Converter</span>&gt;: <span class="ty">Converter</span> {
     <span class="kw">public typealias</span> <span class="ty">SwiftType</span> = [<span class="ty">E.SwiftType</span>]
 }
-<span class="cm">// Actual to/from methods live on NodeConverter, JavaConverter, etc.</span>
+<span class="cm">// Actual to/from methods live on NodeConverter, JavaConverter, IotaConverter, etc.</span>
     </div>
   </div>
 
@@ -1104,7 +1104,7 @@ SourceryMethod(
         <li>Pointer marshalling</li>
         <li>Struct layout mapping</li>
         <li>Task&lt;T&gt; async bridge</li>
-        <li>GC-safe pinned memory</li>
+        <li>GCHandle-backed object references</li>
       </ul>
     </div>
     <div class="runtime-card" style="border-color:rgba(1,117,194,0.4);">
@@ -1123,10 +1123,10 @@ SourceryMethod(
     <h3 style="font-size:1rem;margin-bottom:20px;">Call path: TypeScript calls a Swift method</h3>
     <div style="display:flex;flex-direction:column;gap:0;">
       <div style="padding:14px 20px;border-radius:8px 8px 0 0;border:1px solid var(--node);background:rgba(104,160,99,0.06);font-size:0.82rem;">
-        <strong style="color:var(--node);">1. JS/TS</strong> &nbsp; <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">const result = await element.scale(2.0)</code>
+        <strong style="color:var(--node);">1. JS/TS</strong> &nbsp; <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">const result = element.scale(2.0)</code>
       </div>
       <div style="padding:14px 20px;border:1px solid var(--border);border-top:none;background:rgba(88,166,255,0.04);font-size:0.82rem;">
-        <strong style="color:var(--accent);">2. N-API entry</strong> &nbsp; <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">napi_register_module_v1</code> (C shim) → Swift <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">@_cdecl</code> entry point in the generated Swift bridge
+        <strong style="color:var(--accent);">2. N-API callback</strong> &nbsp; Node invokes the generated method callback registered by <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">NodeClass</code>, which enters Swift through <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">FishyJoesNodeRuntime.callbackBody</code>
       </div>
       <div style="padding:14px 20px;border:1px solid var(--border);border-top:none;background:rgba(88,166,255,0.04);font-size:0.82rem;">
         <strong style="color:var(--accent);">3. NodeConverter</strong> &nbsp; <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">env.argument(at: 0, converter: Double.self)</code> → Swift <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">Double</code> (via <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">Double.fromNode</code>)
@@ -1138,7 +1138,7 @@ SourceryMethod(
         <strong style="color:var(--accent);">5. NodeConverter</strong> &nbsp; <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">DesignElement.toNode(result, env:)</code> → <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">NAPI.Value</code> (<code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">napi_value</code>)
       </div>
       <div style="padding:14px 20px;border-radius:0 0 8px 8px;border:1px solid var(--node);border-top:none;background:rgba(104,160,99,0.06);font-size:0.82rem;">
-        <strong style="color:var(--node);">6. JS/TS</strong> &nbsp; Promise resolves with a fully-typed <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">DesignElement</code> object
+        <strong style="color:var(--node);">6. JS/TS</strong> &nbsp; The synchronous call returns a fully-typed <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">DesignElement</code> object. Swift async methods use a Promise-returning path.
       </div>
     </div>
   </div>
