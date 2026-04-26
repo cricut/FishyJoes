@@ -1118,16 +1118,16 @@ Method(
         <strong style="color:var(--node);">1. JS/TS</strong> &nbsp; <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">const result = await element.scale(2.0)</code>
       </div>
       <div style="padding:14px 20px;border:1px solid var(--border);border-top:none;background:rgba(88,166,255,0.04);font-size:0.82rem;">
-        <strong style="color:var(--accent);">2. N-API</strong> &nbsp; Generated C++ addon unpacks <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">napi_value</code> → calls Swift via FFI
+        <strong style="color:var(--accent);">2. N-API entry</strong> &nbsp; <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">napi_register_module_v1</code> (C shim) → Swift <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">@_cdecl</code> entry point in the generated Swift bridge
       </div>
       <div style="padding:14px 20px;border:1px solid var(--border);border-top:none;background:rgba(88,166,255,0.04);font-size:0.82rem;">
-        <strong style="color:var(--accent);">3. NodeConverter</strong> &nbsp; <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">Double.fromForeign(napiValue)</code> → Swift <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">Double</code>
+        <strong style="color:var(--accent);">3. NodeConverter</strong> &nbsp; <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">env.argument(at: 0, converter: Double.self)</code> → Swift <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">Double</code> (via <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">Double.fromNode</code>)
       </div>
       <div style="padding:14px 20px;border:1px solid var(--border);border-top:none;background:rgba(240,81,56,0.06);font-size:0.82rem;">
         <strong style="color:var(--swift);">4. Swift</strong> &nbsp; <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">DesignElement.scale(by: 2.0)</code> executes natively
       </div>
       <div style="padding:14px 20px;border:1px solid var(--border);border-top:none;background:rgba(88,166,255,0.04);font-size:0.82rem;">
-        <strong style="color:var(--accent);">5. NodeConverter</strong> &nbsp; <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">DesignElement.toForeign(result)</code> → <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">napi_value</code>
+        <strong style="color:var(--accent);">5. NodeConverter</strong> &nbsp; <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">DesignElement.toNode(result, env:)</code> → <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">NAPI.Value</code> (<code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">napi_value</code>)
       </div>
       <div style="padding:14px 20px;border-radius:0 0 8px 8px;border:1px solid var(--node);border-top:none;background:rgba(104,160,99,0.06);font-size:0.82rem;">
         <strong style="color:var(--node);">6. JS/TS</strong> &nbsp; Promise resolves with a fully-typed <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">DesignElement</code> object
@@ -1326,34 +1326,48 @@ function toggleArch(id) {
 const langData = {
   node: {
     color: 'var(--node)',
-    tabs: ['TypeScript Types', 'N-API Glue', 'Usage'],
+    tabs: ['TypeScript Types', 'Swift N-API Bridge', 'Usage'],
     panels: [
-`<span class="cm">// Generated TypeScript types</span>
-<span class="kw">export interface</span> <span class="ty">DesignElement</span> {
-  <span class="kw">readonly</span> id: <span class="ty">string</span>;        <span class="cm">// UUID → string</span>
-  <span class="kw">readonly</span> name: <span class="ty">string</span>;
-  width: <span class="ty">number</span>;              <span class="cm">// Double → number</span>
-  height: <span class="ty">number</span>;
-  scale(factor: <span class="ty">number</span>): <span class="ty">DesignElement</span>;
-}
+`<span class="cm">// Generated .d.ts.part — everything is wrapped in</span>
+<span class="cm">// an outer namespace named after the Swift module.</span>
+<span class="kw">export declare namespace</span> <span class="ty">DesignEngine</span> {
+  <span class="kw">class</span> <span class="ty">DesignElement</span> {        <span class="cm">// could be `interface` instead,</span>
+                              <span class="cm">// depending on the Swift type kind</span>
+    <span class="kw">readonly</span> id: <span class="ty">string</span>;      <span class="cm">// UUID → string</span>
+    <span class="kw">readonly</span> name: <span class="ty">string</span>;
+    width: <span class="ty">number</span>;            <span class="cm">// Double → number</span>
+    height: <span class="ty">number</span>;
+    scale(factor: <span class="ty">number</span>): <span class="ty">DesignElement</span>;
+  }
 
-<span class="kw">export declare function</span> createDesignElement(
-  name: <span class="ty">string</span>, width: <span class="ty">number</span>, height: <span class="ty">number</span>
-): <span class="ty">DesignElement</span>;`,
-
-`<span class="cm">// Generated N-API glue (C++)</span>
-Napi::Value Scale(const Napi::CallbackInfo& info) {
-  auto env = info.Env();
-  auto* self = NodeConverter::fromNode&lt;DesignElement&gt;(info.This());
-  double factor = info[0].As&lt;Napi::Number&gt;().DoubleValue();
-  auto result = self->scale(factor);
-  return NodeConverter::toNode(env, result);
+  <span class="kw">function</span> createDesignElement(
+    name: <span class="ty">string</span>, width: <span class="ty">number</span>, height: <span class="ty">number</span>
+  ): <span class="ty">DesignElement</span>;
 }`,
 
-`<span class="cm">// TypeScript usage</span>
-<span class="kw">import</span> { createDesignElement } <span class="kw">from</span> <span class="st">'@cricut/design-engine'</span>;
+`<span class="cm">// Generated Swift bridge — NOT C++. The closure runs inside</span>
+<span class="cm">// FishyJoesNodeRuntime.callbackBody, which talks to N-API via</span>
+<span class="cm">// raw napi_* C bindings wrapped by NAPI.Env / NAPI.Value.</span>
+{ env, info <span class="kw">in</span>
+  FishyJoesNodeRuntime.callbackBody(
+    env, info, name: <span class="st">"scale"</span>, expectedArgumentCount: 1
+  ) { env <span class="kw">in</span>
+    <span class="kw">let</span> _self  = <span class="kw">try</span> env.this(converter: DesignElement.<span class="kw">self</span>)
+    <span class="kw">let</span> factor = <span class="kw">try</span> env.argument(at: 0, converter: Double.<span class="kw">self</span>)
+    <span class="kw">let</span> result = _self.scale(factor)
+    <span class="kw">return try</span> DesignElement.toNode(result, env: env.env)
+  }
+}
 
-<span class="kw">const</span> el = createDesignElement(<span class="st">'logo'</span>, 200, 100);
+<span class="cm">// Plus a 3-line C shim (NAPIRegisterModule.c) that forwards</span>
+<span class="cm">// napi_register_module_v1 to the Swift @_cdecl entry point.</span>`,
+
+`<span class="cm">// TypeScript usage — types live under the module namespace,</span>
+<span class="cm">// which is also exposed as the package's default export.</span>
+<span class="kw">import</span> DesignEngine <span class="kw">from</span> <span class="st">'@cricut/design-engine'</span>;
+<span class="cm">// (or: import { DesignEngine } from '@cricut/design-engine';)</span>
+
+<span class="kw">const</span> el = DesignEngine.createDesignElement(<span class="st">'logo'</span>, 200, 100);
 <span class="kw">const</span> scaled = el.scale(2.0);
 console.log(scaled.width); <span class="cm">// 400</span>`
     ]
