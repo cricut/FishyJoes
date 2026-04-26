@@ -1381,26 +1381,38 @@ console.log(scaled.width); <span class="cm">// 400</span>`
   },
   kotlin: {
     color: 'var(--kotlin)',
-    tabs: ['Kotlin Data Class', 'JNI Bridge', 'Usage'],
+    tabs: ['Kotlin Data Class', 'Swift JNI Bridge', 'Usage'],
     panels: [
-`<span class="cm">// Generated Kotlin data class</span>
+`<span class="cm">// Generated Kotlin: value-type structs become data classes,</span>
+<span class="cm">// reference types become 'class X private constructor(_swiftReference: Long)'.</span>
 <span class="kw">data class</span> <span class="ty">DesignElement</span>(
   <span class="kw">val</span> id: <span class="ty">String</span>,          <span class="cm">// UUID → String</span>
   <span class="kw">val</span> name: <span class="ty">String</span>,
   <span class="kw">var</span> width: <span class="ty">Double</span>,
   <span class="kw">var</span> height: <span class="ty">Double</span>
 ) {
-  <span class="kw">external fun</span> <span class="ty">scale</span>(factor: <span class="ty">Double</span>): <span class="ty">DesignElement</span>
+  <span class="cm">// Public method is a wrapper that calls the JNI native:</span>
+  <span class="kw">fun</span> <span class="ty">scale</span>(factor: <span class="ty">Double</span>): <span class="ty">DesignElement</span> = __jni_scale(factor)
+
+  <span class="kw">private external fun</span> __jni_scale(factor: <span class="ty">Double</span>): <span class="ty">DesignElement</span>
 }`,
 
-`<span class="cm">// Generated JNI bridge</span>
-JNIEXPORT jobject JNICALL
-Java_com_cricut_DesignElement_scale(
-    JNIEnv* env, jobject thiz, jdouble factor) {
-  auto* self = JavaConverter::fromJava&lt;DesignElement&gt;(env, thiz);
-  auto result = self->scale(factor);
-  return JavaConverter::toJava(env, result);
-}`,
+`<span class="cm">// Generated Swift bridge — NOT C++. A @convention(c) closure</span>
+<span class="cm">// is registered with JNI via RegisterNatives / JNINativeMethod,</span>
+<span class="cm">// so the function name is 'java_&lt;namespace&gt;_&lt;exportName&gt;', not the</span>
+<span class="cm">// Java auto-binding 'Java_com_cricut_…' format.</span>
+<span class="kw">let</span> java_DesignElement_scale: @convention(c) (
+  UnsafeMutablePointer&lt;JNIEnv?&gt;, jobject, jdouble
+) -&gt; <span class="ty">jobject</span>? = { _javaEnv, _javaThis, factor <span class="kw">in</span>
+  FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv <span class="kw">in</span>
+    <span class="kw">let</span> _self  = <span class="kw">try</span> DesignElement.fromJava(_javaThis, env: _javaEnv)
+    <span class="kw">let</span> result = _self.scale(by: factor)
+    <span class="kw">return try</span> DesignElement.toJava(result, env: _javaEnv)
+  }
+}
+
+<span class="cm">// Registered at JNI_OnLoad via:</span>
+<span class="cm">//   env.RegisterNatives(cls, [JNINativeMethod(name: "__jni_scale", ...)])</span>`,
 
 `<span class="cm">// Kotlin usage</span>
 <span class="kw">val</span> el = DesignElement(<span class="st">"logo"</span>, 200.0, 100.0)
