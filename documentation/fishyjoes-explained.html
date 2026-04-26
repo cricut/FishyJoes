@@ -932,7 +932,7 @@ SourceryMethod(
     <div class="lang-card csharp-card" onclick="selectLang('csharp')">
       <span class="lang-icon">♟</span>
       <h3 style="color:var(--csharp)">C# / .NET</h3>
-      <p>P/Invoke FFI via the Iota layer. C# classes with async Task<T> for Swift async methods.</p>
+      <p>P/Invoke FFI via the Iota layer. C# records/classes with async Task<T> for Swift async methods.</p>
     </div>
     <div class="lang-card dart-card" onclick="selectLang('dart')">
       <span class="lang-icon">🎱</span>
@@ -1339,18 +1339,15 @@ const langData = {
 `<span class="cm">// Generated .d.ts.part — everything is wrapped in</span>
 <span class="cm">// an outer namespace named after the Swift module.</span>
 <span class="kw">export declare namespace</span> <span class="ty">DesignEngine</span> {
-  <span class="kw">class</span> <span class="ty">DesignElement</span> {        <span class="cm">// could be 'interface' instead,</span>
-                              <span class="cm">// depending on the Swift type kind</span>
+  <span class="kw">export class</span> <span class="ty">DesignElement</span> {
+    constructor(id: <span class="ty">string</span>, name: <span class="ty">string</span>, width: <span class="ty">number</span>, height: <span class="ty">number</span>);
+
     <span class="kw">readonly</span> id: <span class="ty">string</span>;      <span class="cm">// UUID → string</span>
     <span class="kw">readonly</span> name: <span class="ty">string</span>;
     width: <span class="ty">number</span>;            <span class="cm">// Double → number</span>
     height: <span class="ty">number</span>;
     scale(factor: <span class="ty">number</span>): <span class="ty">DesignElement</span>;
   }
-
-  <span class="kw">function</span> createDesignElement(
-    name: <span class="ty">string</span>, width: <span class="ty">number</span>, height: <span class="ty">number</span>
-  ): <span class="ty">DesignElement</span>;
 }`,
 
 `<span class="cm">// Generated Swift bridge — NOT C++. The closure runs inside</span>
@@ -1362,7 +1359,7 @@ const langData = {
   ) { env <span class="kw">in</span>
     <span class="kw">let</span> _self  = <span class="kw">try</span> env.this(converter: DesignElement.<span class="kw">self</span>)
     <span class="kw">let</span> factor = <span class="kw">try</span> env.argument(at: 0, converter: Double.<span class="kw">self</span>)
-    <span class="kw">let</span> result = _self.scale(factor)
+    <span class="kw">let</span> result = _self.scale(by: factor)
     <span class="kw">return try</span> DesignElement.toNode(result, env: env.env)
   }
 }
@@ -1375,7 +1372,7 @@ const langData = {
 <span class="kw">import</span> DesignEngine <span class="kw">from</span> <span class="st">'@cricut/design-engine'</span>;
 <span class="cm">// (or: import { DesignEngine } from '@cricut/design-engine';)</span>
 
-<span class="kw">const</span> el = DesignEngine.createDesignElement(<span class="st">'logo'</span>, 200, 100);
+<span class="kw">const</span> el = <span class="kw">new</span> DesignEngine.DesignElement(<span class="st">'00000000-0000-0000-0000-000000000000'</span>, <span class="st">'logo'</span>, 200, 100);
 <span class="kw">const</span> scaled = el.scale(2.0);
 console.log(scaled.width); <span class="cm">// 400</span>`
     ]
@@ -1416,7 +1413,12 @@ console.log(scaled.width); <span class="cm">// 400</span>`
 <span class="cm">//   env.RegisterNatives(cls, [JNINativeMethod(name: "__jni_scale", ...)])</span>`,
 
 `<span class="cm">// Kotlin usage</span>
-<span class="kw">val</span> el = DesignElement(<span class="st">"logo"</span>, 200.0, 100.0)
+<span class="kw">val</span> el = DesignElement(
+  id = <span class="st">"00000000-0000-0000-0000-000000000000"</span>,
+  name = <span class="st">"logo"</span>,
+  width = 200.0,
+  height = 100.0
+)
 <span class="kw">val</span> scaled = el.scale(2.0)
 println(scaled.width) <span class="cm">// 400.0</span>
 
@@ -1428,19 +1430,28 @@ println(scaled.width) <span class="cm">// 400.0</span>
   },
   csharp: {
     color: 'var(--csharp)',
-    tabs: ['C# Class', 'P/Invoke', 'Usage'],
+    tabs: ['C# Record', 'P/Invoke', 'Usage'],
     panels: [
-`<span class="cm">// Generated C# class — reference types extend SwiftReference.</span>
-<span class="kw">public class</span> <span class="ty">DesignElement</span> : <span class="ty">SwiftReference</span> {
-  <span class="kw">public</span> <span class="ty">string</span> Id { <span class="kw">get</span>; }
-  <span class="kw">public</span> <span class="ty">string</span> Name { <span class="kw">get</span>; }
+`<span class="cm">// Generated C# record — exported Swift structs are value-style records.</span>
+<span class="cm">// Reference exports instead generate classes that extend SwiftReference.</span>
+<span class="kw">public record</span> <span class="ty">DesignElement</span> {
+  <span class="kw">public</span> <span class="ty">string</span> Id { <span class="kw">get</span>; <span class="kw">internal set</span>; }
+  <span class="kw">public</span> <span class="ty">string</span> Name { <span class="kw">get</span>; <span class="kw">internal set</span>; }
   <span class="kw">public double</span> Width { <span class="kw">get</span>; <span class="kw">set</span>; }
   <span class="kw">public double</span> Height { <span class="kw">get</span>; <span class="kw">set</span>; }
 
+  <span class="kw">public</span> <span class="ty">DesignElement</span>(<span class="kw">string</span> Id, <span class="kw">string</span> Name, <span class="kw">double</span> Width, <span class="kw">double</span> Height) {
+    <span class="kw">this</span>.Id = Id;
+    <span class="kw">this</span>.Name = Name;
+    <span class="kw">this</span>.Width = Width;
+    <span class="kw">this</span>.Height = Height;
+  }
+
   <span class="kw">public</span> <span class="ty">DesignElement</span> Scale(<span class="kw">double</span> factor) {
     <span class="cm">// Calls the P/Invoke declaration shown in the next tab.</span>
+    <span class="kw">using var</span> _thisHandle = <span class="kw">new</span> <span class="ty">GCRef</span>(<span class="kw">this</span>);
     <span class="kw">return</span> Check((<span class="kw">out</span> <span class="ty">CreatedRef</span> _exn) =&gt;
-      __iota_scale(Loader.shared.env, <span class="kw">this</span>, factor, <span class="kw">out</span> _exn)
+      __iota_scale(Loader.env, _thisHandle.ptr, factor, <span class="kw">out</span> _exn)
     ).Consume&lt;<span class="ty">DesignElement</span>&gt;();
   }
 }`,
@@ -1452,11 +1463,12 @@ println(scaled.width) <span class="cm">// 400.0</span>
   CallingConvention = CallingConvention.Cdecl,
   CharSet = CharSet.Unicode)]
 <span class="kw">private static extern</span> <span class="ty">CreatedRef</span> __iota_scale(
-    <span class="ty">IntPtr</span> envRef, <span class="ty">object</span> self, <span class="kw">double</span> factor,
+    <span class="ty">IntPtr</span> envRef, <span class="ty">UnownedRef</span> self, <span class="kw">double</span> factor,
     <span class="kw">out</span> <span class="ty">CreatedRef</span> exn);`,
 
 `<span class="cm">// C# usage</span>
-<span class="kw">var</span> el = <span class="kw">new</span> <span class="ty">DesignElement</span>(<span class="st">"logo"</span>, 200.0, 100.0);
+<span class="kw">var</span> el = <span class="kw">new</span> <span class="ty">DesignElement</span>(
+  <span class="st">"00000000-0000-0000-0000-000000000000"</span>, <span class="st">"logo"</span>, 200.0, 100.0);
 <span class="kw">var</span> scaled = el.Scale(2.0);
 Console.WriteLine(scaled.Width); <span class="cm">// 400.0</span>
 
@@ -1476,28 +1488,41 @@ Console.WriteLine(scaled.Width); <span class="cm">// 400.0</span>
   <span class="ty">double</span> width;
   <span class="ty">double</span> height;
 
-  <span class="ty">DesignElement</span> scale(<span class="ty">double</span> factor) {
-    <span class="kw">return</span> check((<span class="ty">OutCreatedRef</span> _exn) =&gt;
-      DesignElement.f__iota_scale(<span class="ty">Loader</span>.shared.env, <span class="kw">this</span>, factor, _exn)
+  <span class="ty">DesignElement</span>({
+    required <span class="kw">this</span>.id,
+    required <span class="kw">this</span>.name,
+    required <span class="kw">this</span>.width,
+    required <span class="kw">this</span>.height,
+  });
+
+  <span class="ty">DesignElement</span> scale(<span class="ty">double</span> factor) =&gt;
+    <span class="ty">GCRef</span>.using(<span class="kw">this</span>, (_thisHandle) =&gt;
+      consumeCreatedRef&lt;<span class="ty">DesignElement</span>&gt;(check((<span class="ty">OutCreatedRef</span> _exn) =&gt;
+        f__iota_scale(<span class="ty">Loader</span>.shared.env, _thisHandle.ptr, factor, _exn)
+      ))
     );
-  }
 }`,
 
 `<span class="cm">// Generated dart:ffi binding — FishyJoes resolves '__iota_&lt;method&gt;'</span>
 <span class="cm">// via dylib.lookupFunction at module init and stores the typed</span>
 <span class="cm">// function pointer on the class as a static 'f__iota_&lt;method&gt;'.</span>
-<span class="kw">static late</span> <span class="ty">DesignElement</span> Function(
-    <span class="ty">Env</span> env, <span class="ty">DesignElement</span> self, <span class="ty">double</span> factor, <span class="ty">OutCreatedRef</span> exn
+<span class="kw">static late</span> <span class="ty">CreatedRef</span> Function(
+    <span class="ty">Env</span> env, <span class="ty">UnownedRef</span> self, <span class="ty">double</span> factor, <span class="ty">OutCreatedRef</span> exn
 ) f__iota_scale;
 
 <span class="cm">// Wired up once at module load:</span>
 DesignElement.f__iota_scale = dylib.lookupFunction&lt;
-    <span class="cm">/* native: */</span> <span class="ty">CreatedRef</span> Function(<span class="ty">Env</span>, ffi.Pointer, ffi.Double, <span class="ty">OutCreatedRef</span>),
-    <span class="cm">/* dart:   */</span> <span class="ty">DesignElement</span> Function(<span class="ty">Env</span>, <span class="ty">DesignElement</span>, <span class="ty">double</span>, <span class="ty">OutCreatedRef</span>)
+    <span class="cm">/* native: */</span> <span class="ty">CreatedRef</span> Function(<span class="ty">Env</span>, <span class="ty">UnownedRef</span>, ffi.Double, <span class="ty">OutCreatedRef</span>),
+    <span class="cm">/* dart:   */</span> <span class="ty">CreatedRef</span> Function(<span class="ty">Env</span>, <span class="ty">UnownedRef</span>, <span class="ty">double</span>, <span class="ty">OutCreatedRef</span>)
 &gt;(<span class="st">'__iota_scale'</span>);`,
 
 `<span class="cm">// Dart / Flutter usage</span>
-<span class="kw">final</span> el = DesignElement(<span class="st">'logo'</span>, 200.0, 100.0);
+<span class="kw">final</span> el = DesignElement(
+  id: <span class="st">'00000000-0000-0000-0000-000000000000'</span>,
+  name: <span class="st">'logo'</span>,
+  width: 200.0,
+  height: 100.0,
+);
 <span class="kw">final</span> scaled = el.scale(2.0);
 print(scaled.width); <span class="cm">// 400.0</span>
 
