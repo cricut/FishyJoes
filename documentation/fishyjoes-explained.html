@@ -622,12 +622,12 @@
       <div class="lbl">Lines of hand-written glue code needed</div>
     </div>
     <div class="info-card">
-      <div class="num">6</div>
-      <div class="lbl">CI/CD workflows covering every platform</div>
+      <div class="num">5</div>
+      <div class="lbl">Generated GitHub Actions workflows for supported targets and regenerate checks</div>
     </div>
     <div class="info-card">
-      <div class="num">~24</div>
-      <div class="lbl">Swift type categories supported (struct, enum, protocol, generics…)</div>
+      <div class="num">20+</div>
+      <div class="lbl">TranslatedType implementations covering declarations, primitives, collections, async, and runtime types</div>
     </div>
   </div>
 
@@ -1184,7 +1184,7 @@ excludeSources:
   },
   {
     title: "Sourcery — AST Reflection",
-    body: "FishyJoes builds a Sourcery template at runtime by embedding <code>SourceryDataModel.swift</code> into a <code>.swifttemplate</code> file, then invokes Sourcery on <code>Sources/</code> with <code>--parseDocumentation</code> (so doc comments are captured). The template calls <code>SourceryTemplateContext(context).dump()</code>, which serialises the full AST to JSON at <code>.build/sourcery-dump/sourcery-dump.json</code>. FishyJoes then reads that file back and takes over from there.",
+    body: "FishyJoes builds a Sourcery template at runtime by embedding <code>SourceryDataModel.swift</code> into a <code>.swifttemplate</code> file, then invokes Sourcery on <code>Sources/</code> with <code>--parseDocumentation</code> (so doc comments are captured). The template calls <code>SourceryTemplateContext(context).dump()</code>, which serialises FishyJoes' selected Sourcery model to JSON at <code>.build/sourcery-dump/sourcery-dump.json</code>. FishyJoes then reads that file back and takes over from there.",
     code: `// SourceryDataModel.swift — selected fields FishyJoes receives:
 
 struct SourceryTemplateContext {
@@ -1238,7 +1238,8 @@ indirect enum BetterType {
   {
     title: "TranslatedTypes — Language-neutral IR",
     body: "Each exported Swift type is converted into a TranslatedType — the language-neutral intermediate representation. These capture all semantic information needed to generate idiomatic code in every target language. Note: there is no TranslatedClass — both Swift classes and <code>exportReference</code> structs become <code>TranslatedReference</code>.",
-    code: `// ~24 TranslatedType structs, one per Swift type category:
+    code: `// TranslatedType implementations cover exported declarations,
+// built-ins, collections, async/result wrappers, and runtime types:
 TranslatedStruct          // POD value types
 TranslatedReference       // Swift classes + exportReference structs
 TranslatedProtocol        // protocol / interface types
