@@ -950,7 +950,7 @@ SourceryMethod(
 <!-- ══════════════════════════════════ ARCHITECTURE ══════════════════════════════════ -->
 <section id="architecture" class="section">
   <h2 class="section-title">Architecture Layers</h2>
-  <p class="section-desc">FishyJoes is organised into distinct Swift packages. Click each layer to see the key files and their responsibilities.</p>
+  <p class="section-desc">FishyJoes is organised into Swift targets plus generated/runtime package directories. Click each layer to see the key files and their responsibilities.</p>
 
   <div class="arch-diagram">
 
@@ -958,13 +958,14 @@ SourceryMethod(
       <span class="arch-layer-icon">⚙️</span>
       <div style="flex:1;">
         <div class="arch-layer-title">FishyJoesExecuteMain <span class="pill">CLI Entry Point</span></div>
-        <div class="arch-layer-desc">Parses arguments, routes to sub-commands</div>
+        <div class="arch-layer-desc">Executable entry point that hands control to the CLI command tree</div>
       </div>
       <span style="color:var(--muted);">▼</span>
     </div>
     <div class="arch-expand" id="a1-exp">
       <ul>
-        <li><span>FishyJoes.swift</span><span>Routes: PackageInit | CodeGen | DownloadNodeLib | InstallToolchains</span></li>
+        <li><span>main.swift</span><span>Imports FishyJoesExecute and calls FishyJoes.main()</span></li>
+        <li><span>FishyJoes.swift</span><span>Declares subcommands: PackageInit | CodeGen | DownloadNodeLib | InstallToolchains</span></li>
         <li><span>swift-argument-parser</span><span>Dependency for @Argument, @Flag, @Option</span></li>
       </ul>
     </div>
@@ -982,7 +983,7 @@ SourceryMethod(
       <ul>
         <li><span>CodeGen.swift</span><span>Main command: runs Generate → Build → Test → Pack per platform</span></li>
         <li><span>Platform.swift</span><span>Per-platform config: WASM, Node, Kotlin, C#, Dart build settings</span></li>
-        <li><span>Phases/</span><span>GeneratePhase, BuildPhase, TestPhase, PackPhase for each target</span></li>
+        <li><span>Phases/</span><span>NodePhases, KotlinPhases, CSharpPhases, DartPhases, IotaPhases, BasePhases — each holds the build/test/pack steps for one target</span></li>
         <li><span>Resources/</span><span>Template projects for each language's binding scaffold</span></li>
         <li><span>swsh</span><span>Shell command wrapper for running gradle, npm, dotnet, etc.</span></li>
       </ul>
@@ -1001,10 +1002,11 @@ SourceryMethod(
       <ul>
         <li><span>FishyJoesContext.swift</span><span>Central context: type registry, translator instances, module metadata</span></li>
         <li><span>ExportAnnotation.swift</span><span>Parses &lt;!-- FishyJoes.export() --&gt; from doc comments</span></li>
-        <li><span>BetterType.swift</span><span>Recursive type enum; converts Sourcery's flat TypeName to a tree</span></li>
-        <li><span>TranslatedTypes/ (27 files)</span><span>One per Swift type category: struct, enum, protocol, array, optional, future…</span></li>
+        <li><span>BetterType.swift</span><span>Recursive type enum; normalizes SourceryTypeName into a consistent type tree</span></li>
+        <li><span>TranslatedTypes/ (25 files)</span><span>TranslatedType implementations for declarations, primitives, collections, async/result wrappers, and runtime types</span></li>
         <li><span>Translators/</span><span>NodeTranslator, KotlinTranslator, IotaTranslator, CSharpTranslator, DartTranslator</span></li>
-        <li><span>Unparse/</span><span>SourceFragment builder — assembles final source files with proper imports/headers</span></li>
+        <li><span>Unparse/</span><span>Language printers for generated classes, records, interfaces, annotations, and Swift source</span></li>
+        <li><span>Utilities/SourceFragment.swift</span><span>Line-oriented source builder with indentation and destination paths</span></li>
       </ul>
     </div>
     <div class="arch-arrow">↓</div>
@@ -1012,7 +1014,7 @@ SourceryMethod(
     <div class="arch-layer" onclick="toggleArch('a4')" id="a4">
       <span class="arch-layer-icon">🔌</span>
       <div style="flex:1;">
-        <div class="arch-layer-title">Runtime Packages <span class="pill">4 runtimes</span></div>
+        <div class="arch-layer-title">Runtime Targets <span class="pill">4 runtimes</span></div>
         <div class="arch-layer-desc">Type marshalling between Swift and each target language at runtime</div>
       </div>
       <span style="color:var(--muted);">▼</span>
@@ -1030,17 +1032,17 @@ SourceryMethod(
     <div class="arch-layer" onclick="toggleArch('a5')" id="a5">
       <span class="arch-layer-icon">🗂</span>
       <div style="flex:1;">
-        <div class="arch-layer-title">Support Packages</div>
+        <div class="arch-layer-title">Support Targets</div>
         <div class="arch-layer-desc">External bridging layers and configuration</div>
       </div>
       <span style="color:var(--muted);">▼</span>
     </div>
     <div class="arch-expand" id="a5-exp">
       <ul>
-        <li><span>SourceryDataModel</span><span>Sourcery's AST types — the input to FishyJoesCore's analysis</span></li>
+        <li><span>SourceryDataModel</span><span>FishyJoes' Codable snapshot of selected Sourcery type/function metadata</span></li>
         <li><span>NodeAPI/</span><span>N-API C headers for the Node.js native addon layer</span></li>
         <li><span>JNI/</span><span>Java Native Interface system library headers</span></li>
-        <li><span>FishyJoesConfig</span><span>Reads YAML-based configuration (module name, requiredModules, excludeSources, publishRepository, ciPreBuildHook) from `bindings/fishy-joes.yaml`</span></li>
+        <li><span>FishyJoesConfig</span><span>Reads YAML-based configuration (module, requiredModules, excludeSources, publishRepository, CIPreBuildHook) from bindings/fishy-joes.yaml</span></li>
       </ul>
     </div>
 
