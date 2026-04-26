@@ -880,13 +880,27 @@ Method(
       <div class="info-card" style="border-color:rgba(63,185,80,0.4);">
         <div style="color:#3fb950;font-weight:700;margin-bottom:8px;">✅ BetterType (recursive)</div>
         <div class="code-block" style="font-size:0.75rem;padding:12px;">
+          <span class="cm">// Raw form — what the enum actually stores:</span>
           .generic(base: .swift("Optional"), args: [
             .generic(base: .swift("Array"), args: [
               .named(Name(name: "UUID", module: nil))
             ])
           ])
-          <span class="cm">// A real tree — pattern match</span>
-          <span class="cm">// at any depth</span>
+
+          <span class="cm">// Same value, written with the static helpers:</span>
+          .optional(
+            .array(
+              .named(Name(name: "UUID", module: nil))
+            )
+          )
+          <span class="cm">// .optional(_:)  →  .generic(base: .swift("Optional"), args: [_])</span>
+          <span class="cm">// .array(_:)     →  .generic(base: .swift("Array"),    args: [_])</span>
+          <span class="cm">// .dictionary, .set, .result, .future are all sugar too.</span>
+
+          <span class="cm">// A real tree — pattern match at any depth:</span>
+          if case .generic(let base, let args) = t,
+             base == .swift("Optional"),
+             let inner = args.first { ... }
         </div>
       </div>
     </div>
