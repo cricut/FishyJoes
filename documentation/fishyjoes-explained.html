@@ -829,26 +829,27 @@ Method(
     </div>
     <div style="padding-left:20px;">
 
-      <div onclick="toggleNode('n1')" class="type-node" id="n1">▶ <span class="en">.named</span>(<span class="ty">String</span>, [<span class="ty">BetterType</span>]) <span class="cm">// e.g. "Array" with element types</span></div>
+      <div onclick="toggleNode('n1')" class="type-node" id="n1">▶ <span class="en">.named</span>(<span class="ty">Name</span>) <span class="cm">// non-generic named type</span></div>
       <div class="type-children" id="n1-children">
-        <div style="padding:8px 12px;color:var(--muted);font-size:0.8rem;">A named Swift type with optional generic arguments.<br>
-        Examples: <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">.named("String", [])</code>, <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">.named("Array", [.named("UUID", [])])</code><br>
-        This handles the full depth of nesting that Sourcery's flat <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">TypeName</code> cannot express cleanly.</div>
+        <div style="padding:8px 12px;color:var(--muted);font-size:0.8rem;">A non-generic Swift type, identified by its <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">Name</code> — a struct of <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">module: String?</code>, <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">namespace: [String]</code>, and <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">name: String</code>.<br>
+        Examples: <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">.named(.swift("String"))</code>, <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">.named(Name(module: nil, namespace: [], name: "UUID"))</code>.<br>
+        Generic parameters like <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">T</code>, <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">U</code> are also stored as <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">.named</code> with no module, and resolved later via the <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">generics</code> map passed to <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">tryResolve</code>.</div>
       </div>
 
-      <div onclick="toggleNode('n2')" class="type-node" id="n2">▶ <span class="en">.optional</span>(<span class="ty">BetterType</span>) <span class="cm">// Optional&lt;T&gt;</span></div>
+      <div onclick="toggleNode('n2')" class="type-node" id="n2">▶ <span class="en">.generic</span>(base: <span class="ty">Name</span>, args: [<span class="ty">BetterType</span>]) <span class="cm">// parameterised types</span></div>
       <div class="type-children" id="n2-children">
-        <div style="padding:8px 12px;color:var(--muted);font-size:0.8rem;">Wraps any type to make it optional. Recursion allows <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">Optional&lt;Array&lt;Optional&lt;String&gt;&gt;&gt;</code> to be represented correctly.</div>
+        <div style="padding:8px 12px;color:var(--muted);font-size:0.8rem;">The workhorse for every parameterised type. <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">Optional&lt;T&gt;</code>, <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">Array&lt;T&gt;</code>, <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">Dictionary&lt;K,V&gt;</code>, <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">Set&lt;T&gt;</code>, <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">Result&lt;S,F&gt;</code>, <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">Future&lt;T&gt;</code>, and user-defined generics are all <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">.generic</code> values.<br>
+        Static helpers (<code style="background:var(--bg);padding:1px 6px;border-radius:3px;">.optional(_:)</code>, <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">.array(_:)</code>, <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">.dictionary(_:_:)</code>, …) are sugar that build <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">.generic</code> instances — they are not separate cases.</div>
       </div>
 
-      <div onclick="toggleNode('n3')" class="type-node" id="n3">▶ <span class="en">.tuple</span>([(<span class="ty">String</span>?, <span class="ty">BetterType</span>)]) <span class="cm">// labeled tuples</span></div>
+      <div onclick="toggleNode('n3')" class="type-node" id="n3">▶ <span class="en">.tuple</span>([<span class="ty">TupleElement</span>]) <span class="cm">// labeled tuples</span></div>
       <div class="type-children" id="n3-children">
-        <div style="padding:8px 12px;color:var(--muted);font-size:0.8rem;">Swift tuples with optional labels. Each element is itself a <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">BetterType</code>, so nested tuples work too.</div>
+        <div style="padding:8px 12px;color:var(--muted);font-size:0.8rem;">Each <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">TupleElement</code> is <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">{ label: String, type: BetterType }</code>. The label is always a <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">String</code> — unlabelled positions get a numeric stand-in (<code style="background:var(--bg);padding:1px 6px;border-radius:3px;">"0"</code>, <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">"1"</code>, …), which the rendering code recognises by checking <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">Int(label) == nil</code>. Each element type is itself a <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">BetterType</code>, so nested tuples work too.</div>
       </div>
 
-      <div onclick="toggleNode('n4')" class="type-node" id="n4">▶ <span class="en">.function</span>([<span class="ty">BetterType</span>], <span class="ty">BetterType</span>) <span class="cm">// closure types</span></div>
+      <div onclick="toggleNode('n4')" class="type-node" id="n4">▶ <span class="en">.function</span>([<span class="ty">BetterType</span>], <span class="ty">BetterType</span>, isAsync: <span class="ty">Bool</span>, isThrowing: <span class="ty">Bool</span>) <span class="cm">// closure types</span></div>
       <div class="type-children" id="n4-children">
-        <div style="padding:8px 12px;color:var(--muted);font-size:0.8rem;">Closure/function types: a list of parameter types → a return type. Used when Swift APIs accept callbacks that need to be marshalled across the language boundary.</div>
+        <div style="padding:8px 12px;color:var(--muted);font-size:0.8rem;">Closure/function types: a list of parameter types → a return type, plus <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">isAsync</code> and <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">isThrowing</code> flags that drive codegen (e.g. <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">suspend</code> in Kotlin, <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">async</code>/<code style="background:var(--bg);padding:1px 6px;border-radius:3px;">Promise</code> in TS, exception bridging across the FFI boundary). Used when Swift APIs accept callbacks that need to be marshalled across the language boundary.</div>
       </div>
 
       <div onclick="toggleNode('n5')" class="type-node" id="n5">▶ <span class="en">.void</span> <span class="cm">// no return value</span></div>
@@ -856,9 +857,9 @@ Method(
         <div style="padding:8px 12px;color:var(--muted);font-size:0.8rem;">Maps to <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">void</code> / <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">Unit</code> / <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">Nothing</code> in target languages.</div>
       </div>
 
-      <div onclick="toggleNode('n6')" class="type-node" id="n6">▶ <span class="en">.genericParam</span>(<span class="ty">String</span>) <span class="cm">// T, U, etc.</span></div>
+      <div onclick="toggleNode('n6')" class="type-node" id="n6">▶ <span class="en">.selfType</span> <span class="cm">// Self in protocol contexts</span></div>
       <div class="type-children" id="n6-children">
-        <div style="padding:8px 12px;color:var(--muted);font-size:0.8rem;">An unresolved generic parameter. FishyJoes resolves these when export annotations provide concrete overrides, enabling specialised bindings like <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">List&lt;String&gt;</code> in Kotlin.</div>
+        <div style="padding:8px 12px;color:var(--muted);font-size:0.8rem;">Represents the Swift <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">Self</code> keyword inside a protocol — the conforming type. Resolved per-conformer when generating bindings.</div>
       </div>
     </div>
     <div>}</div>
@@ -879,11 +880,11 @@ Method(
       <div class="info-card" style="border-color:rgba(63,185,80,0.4);">
         <div style="color:#3fb950;font-weight:700;margin-bottom:8px;">✅ BetterType (recursive)</div>
         <div class="code-block" style="font-size:0.75rem;padding:12px;">
-          .optional(
-            .named("Array", [
-              .named("UUID", [])
+          .generic(base: .swift("Optional"), args: [
+            .generic(base: .swift("Array"), args: [
+              .named(Name(name: "UUID", module: nil))
             ])
-          )
+          ])
           <span class="cm">// A real tree — pattern match</span>
           <span class="cm">// at any depth</span>
         </div>
