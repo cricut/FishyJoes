@@ -1001,7 +1001,7 @@ SourceryMethod(
     <div class="arch-expand" id="a3-exp">
       <ul>
         <li><span>FishyJoesContext.swift</span><span>Central context: type registry, translator instances, module metadata</span></li>
-        <li><span>ExportAnnotation.swift</span><span>Parses &lt;!-- FishyJoes.export() --&gt; from doc comments</span></li>
+        <li><span>ExportAnnotation.swift</span><span>Parses &lt;!-- FishyJoes.export(Name) --&gt; (and the exportReference / exportAsMethod variants) from doc comments</span></li>
         <li><span>BetterType.swift</span><span>Recursive type enum; normalizes SourceryTypeName into a consistent type tree</span></li>
         <li><span>TranslatedTypes/ (25 files)</span><span>TranslatedType implementations for declarations, primitives, collections, async/result wrappers, and runtime types</span></li>
         <li><span>Translators/</span><span>NodeTranslator, KotlinTranslator, IotaTranslator, CSharpTranslator, DartTranslator</span></li>
@@ -1207,7 +1207,7 @@ struct SourceryType {
   },
   {
     title: "Export Annotations — Selective opt-in",
-    body: "FishyJoes reads the documentation strings from Sourcery's AST and parses <!-- FishyJoes.export() --> HTML comments. Types, methods, initializers, and computed properties are annotation-driven; stored properties of exported structs are emitted as value fields. This gives developers fine-grained control over most of the public surface.",
+    body: "FishyJoes reads the documentation strings from Sourcery's AST and parses <!-- FishyJoes.export(Name) --> HTML comments (plus the exportReference / exportAsMethod variants). The name is mandatory — the parser fatals if it's missing. Types, methods, initializers, and computed properties are annotation-driven; stored properties of exported structs are emitted as value fields. This gives developers fine-grained control over most of the public surface.",
     code: `// ExportAnnotation.swift
 struct ExportAnnotation {
   let kind: Kind             // .unmodified | .asReference | .asMethod
