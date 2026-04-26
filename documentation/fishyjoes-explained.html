@@ -776,17 +776,23 @@
       <div class="code-block">
 <span class="cm">// ExportAnnotation parsed from doc comment:</span>
 ExportAnnotation(
+  kind: .unmodified,           <span class="cm">// .unmodified | .asReference | .asMethod</span>
   name: <span class="st">"DesignElement"</span>,
-  exportedType: .struct,
-  genericOverrides: [],
-  isPublic: <span class="kw">true</span>
+  cSharpName: <span class="st">"DesignElement"</span>,  <span class="cm">// defaults to `name`</span>
+  isOverride: <span class="kw">false</span>,
+  noReturn: <span class="kw">false</span>,
+  genericOverrides: [:],       <span class="cm">// [String: BetterType]</span>
+  omitParameters: [],
+  compatibilityOrder: []
 )
 
-<span class="cm">// Method also exported (has annotation):</span>
-Method(
+<span class="cm">// Method also exported (has annotation) — Sourcery sees:</span>
+SourceryMethod(
   name: <span class="st">"scale"</span>,
-  params: [(<span class="st">"factor"</span>, .double)],
-  returns: .named(<span class="st">"DesignElement"</span>),
+  parameters: [
+    Parameter(name: <span class="st">"factor"</span>, typeName: <span class="ty">SourceryTypeName</span>(<span class="st">"Double"</span>), …)
+  ],
+  returnTypeName: <span class="ty">SourceryTypeName</span>(<span class="st">"DesignElement"</span>),
   isStatic: <span class="kw">false</span>,
   isThrowing: <span class="kw">false</span>,
   isAsync: <span class="kw">false</span>
