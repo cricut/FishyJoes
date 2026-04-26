@@ -1467,7 +1467,8 @@ Console.WriteLine(scaled.Width); <span class="cm">// 400.0</span>
     color: 'var(--dart)',
     tabs: ['Dart Class', 'dart:ffi', 'Usage'],
     panels: [
-`<span class="cm">// Generated Dart class</span>
+`<span class="cm">// Generated Dart class — methods go through check() + an FFI binding</span>
+<span class="cm">// resolved at startup (see next tab).</span>
 <span class="kw">class</span> <span class="ty">DesignElement</span> {
   <span class="kw">final</span> <span class="ty">String</span> id;
   <span class="kw">final</span> <span class="ty">String</span> name;
@@ -1475,18 +1476,24 @@ Console.WriteLine(scaled.Width); <span class="cm">// 400.0</span>
   <span class="ty">double</span> height;
 
   <span class="ty">DesignElement</span> scale(<span class="ty">double</span> factor) {
-    <span class="kw">return</span> _bindings.designElement_scale(_handle, factor);
+    <span class="kw">return</span> check((<span class="ty">OutCreatedRef</span> _exn) =&gt;
+      DesignElement.f__iota_scale(<span class="ty">Loader</span>.shared.env, <span class="kw">this</span>, factor, _exn)
+    );
   }
 }`,
 
-`<span class="cm">// Generated dart:ffi binding</span>
-<span class="kw">typedef</span> _ScaleNative = Pointer&lt;Void&gt; Function(
-    Pointer&lt;Void&gt;, Double);
-<span class="kw">typedef</span> _ScaleDart = Pointer&lt;Void&gt; Function(
-    Pointer&lt;Void&gt;, double);
+`<span class="cm">// Generated dart:ffi binding — FishyJoes resolves '__iota_&lt;method&gt;'</span>
+<span class="cm">// via dylib.lookupFunction at module init and stores the typed</span>
+<span class="cm">// function pointer on the class as a static 'f__iota_&lt;method&gt;'.</span>
+<span class="kw">static late</span> <span class="ty">DesignElement</span> Function(
+    <span class="ty">Env</span> env, <span class="ty">DesignElement</span> self, <span class="ty">double</span> factor, <span class="ty">OutCreatedRef</span> exn
+) f__iota_scale;
 
-<span class="kw">final</span> _scale = _lib.lookupFunction&lt;
-    _ScaleNative, _ScaleDart&gt;(<span class="st">'FJ_DesignElement_scale'</span>);`,
+<span class="cm">// Wired up once at module load:</span>
+DesignElement.f__iota_scale = dylib.lookupFunction&lt;
+    <span class="cm">/* native: */</span> <span class="ty">CreatedRef</span> Function(<span class="ty">Env</span>, ffi.Pointer, ffi.Double, <span class="ty">OutCreatedRef</span>),
+    <span class="cm">/* dart:   */</span> <span class="ty">DesignElement</span> Function(<span class="ty">Env</span>, <span class="ty">DesignElement</span>, <span class="ty">double</span>, <span class="ty">OutCreatedRef</span>)
+&gt;(<span class="st">'__iota_scale'</span>);`,
 
 `<span class="cm">// Dart / Flutter usage</span>
 <span class="kw">final</span> el = DesignElement(<span class="st">'logo'</span>, 200.0, 100.0);
