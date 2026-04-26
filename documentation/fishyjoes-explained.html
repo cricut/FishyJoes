@@ -1207,7 +1207,7 @@ struct SourceryType {
   },
   {
     title: "Export Annotations — Selective opt-in",
-    body: "FishyJoes reads the documentation strings from Sourcery's AST and parses <!-- FishyJoes.export() --> HTML comments. Only annotated types and members are exported — everything else is ignored. This gives developers fine-grained control over the public surface.",
+    body: "FishyJoes reads the documentation strings from Sourcery's AST and parses <!-- FishyJoes.export() --> HTML comments. Types, methods, initializers, and computed properties are annotation-driven; stored properties of exported structs are emitted as value fields. This gives developers fine-grained control over most of the public surface.",
     code: `// ExportAnnotation.swift
 struct ExportAnnotation {
   let kind: Kind             // .unmodified | .asReference | .asMethod
