@@ -1429,22 +1429,30 @@ println(scaled.width) <span class="cm">// 400.0</span>
     color: 'var(--csharp)',
     tabs: ['C# Class', 'P/Invoke', 'Usage'],
     panels: [
-`<span class="cm">// Generated C# class</span>
-<span class="kw">public class</span> <span class="ty">DesignElement</span> {
+`<span class="cm">// Generated C# class — reference types extend SwiftReference.</span>
+<span class="kw">public class</span> <span class="ty">DesignElement</span> : <span class="ty">SwiftReference</span> {
   <span class="kw">public</span> <span class="ty">string</span> Id { <span class="kw">get</span>; }
   <span class="kw">public</span> <span class="ty">string</span> Name { <span class="kw">get</span>; }
   <span class="kw">public double</span> Width { <span class="kw">get</span>; <span class="kw">set</span>; }
   <span class="kw">public double</span> Height { <span class="kw">get</span>; <span class="kw">set</span>; }
 
   <span class="kw">public</span> <span class="ty">DesignElement</span> Scale(<span class="kw">double</span> factor) {
-    <span class="kw">return</span> IotaRuntime.Scale(_handle, factor);
+    <span class="cm">// Calls the P/Invoke declaration shown in the next tab.</span>
+    <span class="kw">return</span> Check((<span class="kw">out</span> <span class="ty">CreatedRef</span> _exn) =&gt;
+      __iota_scale(Loader.shared.env, <span class="kw">this</span>, factor, <span class="kw">out</span> _exn)
+    ).Consume&lt;<span class="ty">DesignElement</span>&gt;();
   }
 }`,
 
-`<span class="cm">// Generated P/Invoke declaration</span>
-[<span class="ty">DllImport</span>(<span class="st">"DesignEngine"</span>)]
-<span class="kw">private static extern</span> <span class="ty">IntPtr</span> FJ_DesignElement_scale(
-    <span class="ty">IntPtr</span> handle, <span class="kw">double</span> factor);`,
+`<span class="cm">// Generated P/Invoke declaration — library is &lt;ModuleName&gt;-iota,</span>
+<span class="cm">// and FishyJoes always emits ExactSpelling, Cdecl, Unicode attributes.</span>
+[<span class="ty">DllImport</span>(<span class="st">"DesignEngine-iota"</span>,
+  ExactSpelling = <span class="kw">true</span>,
+  CallingConvention = CallingConvention.Cdecl,
+  CharSet = CharSet.Unicode)]
+<span class="kw">private static extern</span> <span class="ty">CreatedRef</span> __iota_scale(
+    <span class="ty">IntPtr</span> envRef, <span class="ty">object</span> self, <span class="kw">double</span> factor,
+    <span class="kw">out</span> <span class="ty">CreatedRef</span> exn);`,
 
 `<span class="cm">// C# usage</span>
 <span class="kw">var</span> el = <span class="kw">new</span> <span class="ty">DesignElement</span>(<span class="st">"logo"</span>, 200.0, 100.0);
