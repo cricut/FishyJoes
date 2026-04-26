@@ -790,9 +790,9 @@ ExportAnnotation(
 SourceryMethod(
   name: <span class="st">"scale"</span>,
   parameters: [
-    Parameter(name: <span class="st">"factor"</span>, typeName: <span class="ty">SourceryTypeName</span>(<span class="st">"Double"</span>), …)
+    Parameter(name: <span class="st">"factor"</span>, typeName: &lt;<span class="ty">SourceryTypeName</span> for <span class="st">"Double"</span>&gt;, …)
   ],
-  returnTypeName: <span class="ty">SourceryTypeName</span>(<span class="st">"DesignElement"</span>),
+  returnTypeName: &lt;<span class="ty">SourceryTypeName</span> for <span class="st">"DesignElement"</span>&gt;,
   isStatic: <span class="kw">false</span>,
   isThrowing: <span class="kw">false</span>,
   isAsync: <span class="kw">false</span>
@@ -813,12 +813,12 @@ SourceryMethod(
         <div style="font-size:0.82rem;color:var(--muted);">Export a method or property, giving the desired foreign name. A name is always required.</div>
       </div>
       <div class="info-card">
-        <div style="font-family:monospace;color:var(--accent);font-size:0.82rem;margin-bottom:8px;">Generic overrides</div>
-        <div style="font-size:0.82rem;color:var(--muted);">Specify concrete types for generic parameters when generating bindings (e.g. Array&lt;String&gt; instead of Array&lt;T&gt;).</div>
+        <div style="font-family:monospace;color:var(--accent);font-size:0.82rem;margin-bottom:8px;">generic: [T: [String]]</div>
+        <div style="font-size:0.82rem;color:var(--muted);">Specify concrete substitutions for generic parameters. The parser accepts tokens plus array and dictionary shorthand.</div>
       </div>
       <div class="info-card">
         <div style="font-family:monospace;color:var(--accent);font-size:0.82rem;margin-bottom:8px;">Doc-comment placement</div>
-        <div style="font-size:0.82rem;color:var(--muted);">Annotations live inside /// comments so they appear in Xcode documentation and are easy to search.</div>
+        <div style="font-size:0.82rem;color:var(--muted);">Annotations live inside /// comments so Sourcery captures them with --parseDocumentation and they stay next to the exported symbol.</div>
       </div>
     </div>
   </div>
@@ -827,7 +827,7 @@ SourceryMethod(
 <!-- ══════════════════════════════════ TYPES ══════════════════════════════════ -->
 <section id="types" class="section">
   <h2 class="section-title">The BetterType System</h2>
-  <p class="section-desc">Sourcery gives FishyJoes a flat representation of Swift type names. FishyJoes converts these into <strong>BetterType</strong> — a recursive enum that models type trees correctly, enabling proper handling of deeply-nested generics. Click nodes to explore.</p>
+  <p class="section-desc">Sourcery gives FishyJoes a TypeName model that mixes name strings with optional tuple, array, dictionary, closure, and generic details. FishyJoes converts these into <strong>BetterType</strong> — a recursive enum that models type trees consistently. Click nodes to explore.</p>
 
   <div class="type-tree">
     <div>
@@ -860,12 +860,12 @@ SourceryMethod(
 
       <div onclick="toggleNode('n5')" class="type-node" id="n5">▶ <span class="en">.void</span> <span class="cm">// no return value</span></div>
       <div class="type-children" id="n5-children">
-        <div style="padding:8px 12px;color:var(--muted);font-size:0.8rem;">Maps to <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">void</code> / <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">Unit</code> / <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">Nothing</code> in target languages.</div>
+        <div style="padding:8px 12px;color:var(--muted);font-size:0.8rem;">Maps to the no-value forms used by each target: <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">void</code> for C/JS/Dart-style surfaces, <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">Unit</code> for Kotlin, and the runtime's C# unit type.</div>
       </div>
 
       <div onclick="toggleNode('n6')" class="type-node" id="n6">▶ <span class="en">.selfType</span> <span class="cm">// Self in protocol contexts</span></div>
       <div class="type-children" id="n6-children">
-        <div style="padding:8px 12px;color:var(--muted);font-size:0.8rem;">Represents the Swift <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">Self</code> keyword inside a protocol — the conforming type. Resolved per-conformer when generating bindings.</div>
+        <div style="padding:8px 12px;color:var(--muted);font-size:0.8rem;">Represents any Swift type name whose unwrapped name is <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">Self</code>. BetterType preserves it as <code style="background:var(--bg);padding:1px 6px;border-radius:3px;">.selfType</code> so later analysis can decide whether that API shape is supported.</div>
       </div>
     </div>
     <div>}</div>
@@ -875,7 +875,7 @@ SourceryMethod(
     <h3 style="font-size:1rem;margin-bottom:16px;">Why not just use Sourcery's TypeName?</h3>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
       <div class="info-card" style="border-color:rgba(255,123,114,0.4);">
-        <div style="color:#ff7b72;font-weight:700;margin-bottom:8px;">❌ Sourcery TypeName (flat)</div>
+        <div style="color:#ff7b72;font-weight:700;margin-bottom:8px;">❌ Sourcery TypeName (awkward)</div>
         <div class="code-block" style="font-size:0.75rem;padding:12px;">
           name: "Optional&lt;Array&lt;UUID&gt;&gt;"
           <span class="cm">// Just a string — you must</span>
@@ -1185,7 +1185,7 @@ excludeSources:
   {
     title: "Sourcery — AST Reflection",
     body: "FishyJoes builds a Sourcery template at runtime by embedding <code>SourceryDataModel.swift</code> into a <code>.swifttemplate</code> file, then invokes Sourcery on <code>Sources/</code> with <code>--parseDocumentation</code> (so doc comments are captured). The template calls <code>SourceryTemplateContext(context).dump()</code>, which serialises the full AST to JSON at <code>.build/sourcery-dump/sourcery-dump.json</code>. FishyJoes then reads that file back and takes over from there.",
-    code: `// SourceryDataModel.swift — the actual types FishyJoes receives:
+    code: `// SourceryDataModel.swift — selected fields FishyJoes receives:
 
 struct SourceryTemplateContext {
     let types: [SourceryType]
@@ -1220,7 +1220,7 @@ struct ExportAnnotation {
   },
   {
     title: "BetterType — Recursive type resolution",
-    body: "SourceryTypeName is a struct full of optional booleans and nested optionals — as the comment in BetterType.swift puts it, 'An Optional&lt;Int&gt; isn't an Int that happens to be optional, it's an Optional that may contain an Int.' FishyJoes converts it via a <code>.better</code> computed property into BetterType — a proper recursive enum. <code>.optional()</code>, <code>.array()</code>, <code>.dictionary()</code> etc. are convenience functions that all expand to the <code>.generic</code> case.",
+    body: "SourceryTypeName is a wrapper around Sourcery's TypeName shape, which mixes name strings with optional tuple, array, dictionary, closure, and generic payloads. As the comment in BetterType.swift puts it, 'An Optional&lt;Int&gt; isn't an Int that happens to be optional, it's an Optional that may contain an Int.' FishyJoes converts it via a <code>.better</code> computed property into BetterType — a proper recursive enum. <code>.optional()</code>, <code>.array()</code>, <code>.dictionary()</code> etc. are convenience functions that all expand to the <code>.generic</code> case.",
     code: `// The real BetterType enum cases:
 indirect enum BetterType {
     case named(Name)       // e.g. .named(Name(name: "UUID", module: nil))
