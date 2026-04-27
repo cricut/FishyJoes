@@ -1212,6 +1212,16 @@ SourceryMethod(
       </div>
     </div>
   </div>
+
+  <div style="margin-top:32px;">
+    <h3 style="font-size:1rem;margin-bottom:8px;">Try it: Swift type → BetterType</h3>
+    <p style="color:var(--muted);font-size:0.86rem;margin-bottom:14px;">Pick a Swift type signature; see what <code style="background:var(--surface);padding:1px 6px;border-radius:4px;">SourceryTypeName.better</code> would produce.</p>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px;">
+      <label style="font-size:0.84rem;color:var(--muted);">Swift type:</label>
+      <select id="bt-picker" onchange="renderBetterTypeExample()" style="flex:1;min-width:280px;padding:10px 14px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:0.86rem;font-family:'SF Mono','Fira Code',monospace;"></select>
+    </div>
+    <div id="bt-output" class="code-block" style="margin-top:0;"></div>
+  </div>
 </section>
 
 <!-- ══════════════════════════════════ LANGUAGES ══════════════════════════════════ -->
@@ -2679,12 +2689,129 @@ function renderCapabilities() {
   `;
 }
 
+// ── BetterType translator widget ──
+const betterTypeExamples = [
+  {
+    label: "String",
+    better: `<span class="en">.named</span>(Name(name: <span class="st">"String"</span>, module: <span class="kw">nil</span>))`,
+  },
+  {
+    label: "Int?",
+    better: `<span class="en">.optional</span>(<span class="en">.named</span>(Name(name: <span class="st">"Int"</span>, module: <span class="kw">nil</span>)))
+<span class="cm">// expands to:</span>
+<span class="en">.generic</span>(base: <span class="en">.swift</span>(<span class="st">"Optional"</span>), args: [
+  <span class="en">.named</span>(Name(name: <span class="st">"Int"</span>, module: <span class="kw">nil</span>))
+])`,
+  },
+  {
+    label: "[String]",
+    better: `<span class="en">.array</span>(<span class="en">.named</span>(Name(name: <span class="st">"String"</span>, module: <span class="kw">nil</span>)))
+<span class="cm">// expands to:</span>
+<span class="en">.generic</span>(base: <span class="en">.swift</span>(<span class="st">"Array"</span>), args: [
+  <span class="en">.named</span>(Name(name: <span class="st">"String"</span>, module: <span class="kw">nil</span>))
+])`,
+  },
+  {
+    label: "[String: [UUID]]",
+    better: `<span class="en">.dictionary</span>(
+  <span class="en">.named</span>(Name(name: <span class="st">"String"</span>, module: <span class="kw">nil</span>)),
+  <span class="en">.array</span>(<span class="en">.named</span>(Name(name: <span class="st">"UUID"</span>, module: <span class="kw">nil</span>)))
+)
+<span class="cm">// expands to:</span>
+<span class="en">.generic</span>(base: <span class="en">.swift</span>(<span class="st">"Dictionary"</span>), args: [
+  <span class="en">.named</span>(Name(name: <span class="st">"String"</span>, module: <span class="kw">nil</span>)),
+  <span class="en">.generic</span>(base: <span class="en">.swift</span>(<span class="st">"Array"</span>), args: [
+    <span class="en">.named</span>(Name(name: <span class="st">"UUID"</span>, module: <span class="kw">nil</span>))
+  ])
+])`,
+  },
+  {
+    label: "(Int, String)",
+    better: `<span class="en">.tuple</span>([
+  TupleElement(label: <span class="st">"0"</span>, type: <span class="en">.named</span>(Name(name: <span class="st">"Int"</span>, module: <span class="kw">nil</span>))),
+  TupleElement(label: <span class="st">"1"</span>, type: <span class="en">.named</span>(Name(name: <span class="st">"String"</span>, module: <span class="kw">nil</span>)))
+])
+<span class="cm">// labels are stringified positions for unlabelled tuples;</span>
+<span class="cm">// renderers check Int(label) == nil to detect named labels.</span>`,
+  },
+  {
+    label: "(name: String, age: Int)",
+    better: `<span class="en">.tuple</span>([
+  TupleElement(label: <span class="st">"name"</span>, type: <span class="en">.named</span>(Name(name: <span class="st">"String"</span>, module: <span class="kw">nil</span>))),
+  TupleElement(label: <span class="st">"age"</span>,  type: <span class="en">.named</span>(Name(name: <span class="st">"Int"</span>,    module: <span class="kw">nil</span>)))
+])`,
+  },
+  {
+    label: "() async throws -> Result<Int, Error>",
+    better: `<span class="en">.function</span>(
+  [],
+  <span class="en">.result</span>(
+    <span class="en">.named</span>(Name(name: <span class="st">"Int"</span>, module: <span class="kw">nil</span>)),
+    <span class="en">.named</span>(Name(name: <span class="st">"Error"</span>, module: <span class="kw">nil</span>))
+  ),
+  isAsync: <span class="kw">true</span>,
+  isThrowing: <span class="kw">true</span>
+)
+<span class="cm">// .result expands to .generic(base: .swift("Result"), args: [...])</span>`,
+  },
+  {
+    label: "(Int, String) -> Void",
+    better: `<span class="en">.function</span>(
+  [
+    <span class="en">.named</span>(Name(name: <span class="st">"Int"</span>, module: <span class="kw">nil</span>)),
+    <span class="en">.named</span>(Name(name: <span class="st">"String"</span>, module: <span class="kw">nil</span>))
+  ],
+  <span class="en">.void</span>,
+  isAsync: <span class="kw">false</span>,
+  isThrowing: <span class="kw">false</span>
+)`,
+  },
+  {
+    label: "Set<UUID>",
+    better: `<span class="en">.set</span>(<span class="en">.named</span>(Name(name: <span class="st">"UUID"</span>, module: <span class="kw">nil</span>)))
+<span class="cm">// expands to:</span>
+<span class="en">.generic</span>(base: <span class="en">.swift</span>(<span class="st">"Set"</span>), args: [
+  <span class="en">.named</span>(Name(name: <span class="st">"UUID"</span>, module: <span class="kw">nil</span>))
+])`,
+  },
+  {
+    label: "Future<String>",
+    better: `<span class="en">.future</span>(<span class="en">.named</span>(Name(name: <span class="st">"String"</span>, module: <span class="kw">nil</span>)))
+<span class="cm">// expands to:</span>
+<span class="en">.generic</span>(base: <span class="en">.runtime</span>(<span class="st">"Future"</span>), args: [
+  <span class="en">.named</span>(Name(name: <span class="st">"String"</span>, module: <span class="kw">nil</span>))
+])
+<span class="cm">// Note: base is .runtime() not .swift() — Future is FishyJoes', not stdlib's.</span>`,
+  },
+  {
+    label: "Self  (in a protocol)",
+    better: `<span class="en">.selfType</span>
+<span class="cm">// preserved as-is so later passes can decide whether the API is supported.</span>`,
+  },
+];
+function renderBetterTypeExample() {
+  const sel = document.getElementById('bt-picker');
+  const out = document.getElementById('bt-output');
+  if (!sel || !out) return;
+  const idx = sel.selectedIndex;
+  out.innerHTML = betterTypeExamples[idx].better;
+}
+function initBetterTypePicker() {
+  const sel = document.getElementById('bt-picker');
+  if (!sel) return;
+  sel.innerHTML = betterTypeExamples.map((e,i) =>
+    `<option value="${i}">${e.label}</option>`
+  ).join('');
+  renderBetterTypeExample();
+}
+
 // auto-select first stage on page load
 document.addEventListener('DOMContentLoaded', () => {
   selectStage(0);
   selectWalkStep(0);
   renderCapCategories();
   renderCapabilities();
+  initBetterTypePicker();
   applyURLState();
 });
 selectStage(0);
