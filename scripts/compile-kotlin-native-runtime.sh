@@ -54,9 +54,7 @@ case "$(uname -s)" in
         ;;
     (*_NT*)
         swiftRuntimeDir="$(realpath "$SDKROOT/../../../.." | sed s#Platforms#Runtimes#g)"
-        for dll in "$swiftRuntimeDir/usr/bin/"*.dll; do
-            install-lib "$dll" "kotlin-runtime/src/generated/resources/windows"
-        done
+        cp -R "$swiftRuntimeDir"/usr/bin/*.dll "kotlin-runtime/src/generated/resources/windows"
 
         install-lib "FishyJoesJavaRuntime.dll" "kotlin-runtime/src/generated/resources/windows"
         ;;
