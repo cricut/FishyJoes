@@ -2789,54 +2789,54 @@ const capabilities = [
 
   // Closures
   { cat: "Closures", status: "yes", feature: "Throwing closures", notes: "", example: "(Int) throws -&gt; String" },
-  { cat: "Closures", status: "no", feature: "Non-throwing closures", notes: "Most languages can throw anywhere; semantics aren't guaranteed", example: "(Int) -&gt; String" },
+  { cat: "Closures", status: "no", feature: "Non-throwing closures", notes: "Most languages can throw anywhere; semantics aren't guaranteed", example: "(Int) -&gt; String", why: "Swift treats <code>throws</code> as part of the function type, but JS/Kotlin/C#/Dart all let any function throw. Marshalling a 'guaranteed non-throwing' Swift closure across the boundary would require trapping any foreign exception and turning it into a Swift fatalError — confusing and rarely what the caller wanted. Workaround: wrap the closure so it's <code>throws</code>." },
   { cat: "Closures", status: "yes", feature: "Async closures", notes: "Bridged via Promise / Deferred / Task / Future", example: "(Int) async -&gt; Int" },
 
   // User-defined types
   { cat: "User-defined types", status: "yes", feature: "Enums", notes: "Empty enums become namespaces", example: "case foo, bar(Int)" },
-  { cat: "User-defined types", status: "warn", feature: "Unnamed enum associated values", notes: "Generated as <code>foo._0</code>, <code>foo._1</code> in target languages", example: "case foo(Int, String)" },
-  { cat: "User-defined types", status: "warn", feature: "Enum cases must start lowercase", notes: "Enforced at codegen", example: "case myCase ✓, MyCase ✗" },
+  { cat: "User-defined types", status: "warn", feature: "Unnamed enum associated values", notes: "Generated as <code>foo._0</code>, <code>foo._1</code> in target languages", example: "case foo(Int, String)", why: "Most target languages don't model 'positional' fields on tagged unions — Kotlin sealed classes, TS discriminated unions, etc. all expect named fields. FishyJoes synthesises numeric placeholders (<code>_0</code>, <code>_1</code>). It works but reads oddly downstream — prefer named associated values where you can." },
+  { cat: "User-defined types", status: "warn", feature: "Enum cases must start lowercase", notes: "Enforced at codegen", example: "case myCase ✓, MyCase ✗", why: "Some target languages reserve PascalCase for type names; mapping a Swift case starting with a capital would shadow the enclosing type or produce ambiguous identifiers. Easier to enforce lowerCamelCase up front than to generate per-language renames." },
   { cat: "User-defined types", status: "yes", feature: "POD structs (memberwise)", notes: "All stored vars must be public; needs a public init taking all stored fields in declared order", example: "struct Point { public let x, y: Double }" },
   { cat: "User-defined types", status: "yes", feature: "Reference structs", notes: "Use <code>FishyJoes.exportReference(...)</code>; properties &amp; methods need their own annotations", example: "/// &lt;!-- exportReference(T) --&gt;" },
   { cat: "User-defined types", status: "yes", feature: "Classes", notes: "Always exported by reference", example: "public class Foo { ... }" },
-  { cat: "User-defined types", status: "no", feature: "Class inheritance", notes: "\"Probably broken, never tested\" — cans-and-cannots", example: "class B: A { }" },
-  { cat: "User-defined types", status: "no", feature: "Typealiases", notes: "Languages handle them inconsistently", example: "typealias Name = String" },
-  { cat: "User-defined types", status: "no", feature: "Most generic types", notes: "Only Optional, Result, Array, Dict, Set are pre-baked", example: "struct Box&lt;T&gt; { ... }" },
-  { cat: "User-defined types", status: "warn", feature: "Generic methods", notes: "Allowed only with single concrete instantiation via <code>generic:</code> annotation", example: "/// export(f, generic: [T: Int])" },
+  { cat: "User-defined types", status: "no", feature: "Class inheritance", notes: "\"Probably broken, never tested\" — cans-and-cannots", example: "class B: A { }", why: "FishyJoes routes classes through TranslatedReference, but the per-language renderers don't currently emit an <code>extends</code>/inheritance chain. Nobody has needed it strongly enough to drive the work, and getting it consistent across JS prototypes, JNI, and FFI is non-trivial. Workaround: model with composition." },
+  { cat: "User-defined types", status: "no", feature: "Typealiases", notes: "Languages handle them inconsistently", example: "typealias Name = String", why: "Some targets have type aliases that act like names (TS <code>type</code>, Kotlin <code>typealias</code>); others don't (Dart, partial in C#). Resolving them at codegen is doable but requires either picking the underlying type everywhere (loses intent) or emitting per-language aliases (loses consistency). Currently the choice is to do nothing." },
+  { cat: "User-defined types", status: "no", feature: "Most generic types", notes: "Only Optional, Result, Array, Dict, Set are pre-baked", example: "struct Box&lt;T&gt; { ... }", why: "User-defined generic types would need a separate TranslatedType per concrete instantiation, plus per-language plumbing (Kotlin generics, C# generics, Dart generics, TS generics) for each. The five built-ins ship with hand-written converters in each runtime; adding more is mostly a matter of someone needing it." },
+  { cat: "User-defined types", status: "warn", feature: "Generic methods", notes: "Allowed only with single concrete instantiation via <code>generic:</code> annotation", example: "/// export(f, generic: [T: Int])", why: "FishyJoes can monomorphise a generic method to one concrete substitution at codegen time. Multi-instantiation would mean emitting one foreign method per substitution — possible but the annotation syntax doesn't support it yet." },
   { cat: "User-defined types", status: "yes", feature: "Protocols", notes: "All members must be <code>throws</code>; no setters; no statics; no mutating", example: "protocol P { var x: Int { get throws } }" },
-  { cat: "User-defined types", status: "no", feature: "Protocol associated types", notes: "Most targets lack them", example: "associatedtype Item" },
+  { cat: "User-defined types", status: "no", feature: "Protocol associated types", notes: "Most targets lack them", example: "associatedtype Item", why: "Swift protocols with associated types are existentials in disguise. None of the four targets have a direct equivalent that round-trips correctly across the boundary, so FishyJoes can't pick a single representation. Workaround: model with a generic class or split into multiple non-generic protocols." },
   { cat: "User-defined types", status: "yes", feature: "Actors", notes: "Treated like classes; routed to TranslatedReference", example: "public actor State { ... }" },
 
   // Methods
   { cat: "Methods", status: "yes", feature: "Static methods on all types", notes: "", example: "static func make() -&gt; Self" },
   { cat: "Methods", status: "yes", feature: "Instance methods", notes: "", example: "func scale(by: Double)" },
   { cat: "Methods", status: "yes", feature: "Getters &amp; setters", notes: "Setters that throw are unsupported on WASM", example: "var x: Int { get set }" },
-  { cat: "Methods", status: "no", feature: "inout parameters", notes: "No equivalent in target languages", example: "func f(_ x: inout Int)" },
+  { cat: "Methods", status: "no", feature: "inout parameters", notes: "No equivalent in target languages", example: "func f(_ x: inout Int)", why: "Swift's <code>inout</code> is pass-by-reference at the call site. None of TS, Kotlin, C#, or Dart can express that on a primitive (boxed types in Java/Kotlin help only sometimes), and even when they can, the round-trip cost across the FFI boundary defeats the point. Workaround: return the new value." },
   { cat: "Methods", status: "yes", feature: "Async methods", notes: "Become Promise / Task / Deferred / Future", example: "func load() async throws" },
-  { cat: "Methods", status: "no", feature: "Top-level functions", notes: "Only enum/class statics are supported", example: "public func foo() { }" },
+  { cat: "Methods", status: "no", feature: "Top-level functions", notes: "Only enum/class statics are supported", example: "public func foo() { }", why: "FishyJoes' module structure expects every exported symbol to live under a type — classes/structs/enums become the foreign-language namespace. Top-level Swift functions have no obvious owner in target languages that don't allow free functions (Kotlin, Dart top-level fns aside; C# requires a class). Workaround: put functions on an empty <code>enum Namespace { }</code>." },
 
   // Extensions
   { cat: "Extensions", status: "yes", feature: "Extensions to types in the same library", notes: "", example: "extension Foo { func bar() { } }" },
-  { cat: "Extensions", status: "no", feature: "Extensions to standard library types", notes: "", example: "extension String { ... }" },
-  { cat: "Extensions", status: "no", feature: "Extensions to dependency types", notes: "", example: "extension OtherLib.X { }" },
+  { cat: "Extensions", status: "no", feature: "Extensions to standard library types", notes: "", example: "extension String { ... }", why: "FishyJoes generates per-type binding files; extending <code>String</code> would mean injecting methods into a built-in surface FishyJoes doesn't own (its String is the runtime's primitive converter). Workaround: write a wrapper type or a static helper in your own namespace." },
+  { cat: "Extensions", status: "no", feature: "Extensions to dependency types", notes: "", example: "extension OtherLib.X { }", why: "Cross-module extensions would land in a generated file that the dependency's own bindings already own — collisions and ordering get messy. Workaround: add the extension method to a type in your own module that wraps the dependency type." },
 
   // Default arguments
   { cat: "Default arguments", status: "yes", feature: "Int / Double literal defaults", notes: "", example: "x: Int = 0" },
   { cat: "Default arguments", status: "yes", feature: "<code>nil</code> defaults", notes: "", example: "x: String? = nil" },
   { cat: "Default arguments", status: "yes", feature: "Named non-positional arguments", notes: "", example: "func f(x: Int = 1)" },
-  { cat: "Default arguments", status: "no", feature: "Enum-case defaults", notes: "Use <code>x: Enum? = nil</code> instead", example: "x: TheEnum = .foo" },
+  { cat: "Default arguments", status: "no", feature: "Enum-case defaults", notes: "Use <code>x: Enum? = nil</code> instead", example: "x: TheEnum = .foo", why: "Default-argument literals in FishyJoes are limited to integer/double literals and <code>nil</code> — types simple enough to encode in every target's IDL. <code>Enum.case</code> as a default would need the foreign side to construct a tagged-union value at the call site, which not every target language can express compactly. Workaround: take an optional and treat <code>nil</code> as the default." },
 
   // Misc
   { cat: "Misc", status: "yes", feature: "Doc comments", notes: "", example: "/// summary" },
-  { cat: "Misc", status: "no", feature: "Doc-comment cross-references", notes: "", example: "/// See `OtherType`" },
+  { cat: "Misc", status: "no", feature: "Doc-comment cross-references", notes: "", example: "/// See `OtherType`", why: "Each target language has its own cross-reference syntax (TS <code>{@link}</code>, Kotlin KDoc <code>[ref]</code>, C# <code>&lt;see cref=&quot;…&quot;/&gt;</code>, Dart <code>[ref]</code>). FishyJoes doesn't try to translate them — the doc comment text is forwarded verbatim. References look broken on the foreign side." },
   { cat: "Misc", status: "yes", feature: "Deprecations", notes: "Bridged via per-language deprecation attribute", example: "@available(*, deprecated)" },
 
   // WASM
   { cat: "WASM", status: "yes", feature: "Swift, C, C++ source", notes: "", example: "" },
-  { cat: "WASM", status: "no", feature: "Filesystem access", notes: "WASM sandbox", example: "" },
-  { cat: "WASM", status: "warn", feature: "C libs that use setjmp", notes: "Possible but painful — see CTextFreestack", example: "" },
-  { cat: "WASM", status: "no", feature: "Threads", notes: "Possibly possible via emscripten — unresearched", example: "" },
-  { cat: "WASM", status: "no", feature: "Sibling-library interop", notes: "No dynamic linking in WASM yet", example: "" },
+  { cat: "WASM", status: "no", feature: "Filesystem access", notes: "WASM sandbox", example: "", why: "WebAssembly modules run in a sandbox without an OS-level filesystem. WASI exists but FishyJoes' WASM build doesn't currently link a WASI implementation. Workaround: pass file contents in as <code>Data</code> from the JS side." },
+  { cat: "WASM", status: "warn", feature: "C libs that use setjmp", notes: "Possible but painful — see CTextFreestack", example: "", why: "WASM doesn't have native <code>setjmp</code>/<code>longjmp</code>; emulation requires turning every call site into a labelled trampoline. <code>CTextFreestack</code> shows it can be done but you have to hand-restructure the C source." },
+  { cat: "WASM", status: "no", feature: "Threads", notes: "Possibly possible via emscripten — unresearched", example: "", why: "WASM threads exist (via shared memory + workers) but require a complete rebuild of the toolchain and runtime support. Nobody has driven this through end-to-end yet." },
+  { cat: "WASM", status: "no", feature: "Sibling-library interop", notes: "No dynamic linking in WASM yet", example: "", why: "WASM's dynamic linking story (<code>dlopen</code>) is still maturing across runtimes. FishyJoes' build relies on dynamic libraries to share Swift instances between sibling modules; without that, each WASM module is self-contained and can't directly hand objects to another." },
 ];
 
 const capStatusMap = {
@@ -2895,21 +2895,32 @@ function renderCapabilities() {
   container.innerHTML = `
     <table class="cap-table">
       <thead><tr>
-        <th></th><th>Feature</th><th>Category</th><th>Notes</th><th>Example</th>
+        <th></th><th>Feature</th><th>Category</th><th>Notes</th><th>Example</th><th></th>
       </tr></thead>
       <tbody>
-        ${filtered.map(c => `
+        ${filtered.map((c, i) => `
           <tr>
             <td class="cap-status" title="${c.status}" style="color:${capStatusMap[c.status].color}">${capStatusMap[c.status].icon}</td>
             <td class="cap-feature">${c.feature}</td>
             <td class="cap-notes">${c.cat}</td>
             <td class="cap-notes">${c.notes || '—'}</td>
             <td class="cap-example">${c.example || ''}</td>
+            <td style="width:32px;text-align:center;">${c.why ? `<button class="cap-pill" style="padding:2px 8px;font-size:0.78rem;" onclick="toggleCapWhy(${i})" id="capwhy-btn-${i}" title="Why?">?</button>` : ''}</td>
           </tr>
+          ${c.why ? `<tr id="capwhy-row-${i}" style="display:none;background:var(--bg);"><td></td><td colspan="5" style="padding:14px 18px;color:var(--muted);font-size:0.84rem;line-height:1.6;border-top:1px dashed var(--border);">${c.why}</td></tr>` : ''}
         `).join('')}
       </tbody>
     </table>
   `;
+}
+
+function toggleCapWhy(i) {
+  const row = document.getElementById('capwhy-row-' + i);
+  const btn = document.getElementById('capwhy-btn-' + i);
+  if (!row) return;
+  const open = row.style.display !== 'none';
+  row.style.display = open ? 'none' : 'table-row';
+  if (btn) btn.classList.toggle('active', !open);
 }
 
 // ── Search overlay ──
