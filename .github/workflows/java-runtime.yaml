@@ -76,7 +76,7 @@ jobs:
 
       - name: Install tools
         run: |
-          sudo apt-get install -y zsh
+          sudo apt-get install -y zsh libcurl4-openssl-dev
           swift run fishy-joes install-toolchains --swiftly --android --no-wasm
 
       - name: Build native FishyJoesJavaRuntime
