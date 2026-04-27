@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -euo pipefail
+set -euxo pipefail
 
 if [[ ! -d kotlin-runtime ]]; then
     echo "Not in root of FishyJoes"
