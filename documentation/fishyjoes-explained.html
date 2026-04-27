@@ -1710,7 +1710,7 @@ SourceryMethod(
   <p class="section-desc">A filterable view of <code style="background:var(--surface);padding:2px 8px;border-radius:4px;font-family:monospace;">documentation/cans-and-cannots.md</code>: which Swift features cross the boundary, which don't, and which work with caveats. Filter by category, status, or search by feature name.</p>
 
   <div class="cap-controls">
-    <input type="text" id="cap-search" placeholder="Search features…" oninput="renderCapabilities()">
+    <input type="text" id="cap-search" placeholder="Search features…" oninput="renderCapabilities(); if(typeof syncURL==='function')syncURL();">
     <button class="cap-pill cap-yes active" data-status="yes" onclick="toggleCapStatus(this)">✅ Supported</button>
     <button class="cap-pill cap-warn active" data-status="warn" onclick="toggleCapStatus(this)">⚠️ Caveats</button>
     <button class="cap-pill cap-no active" data-status="no" onclick="toggleCapStatus(this)">❌ Not supported</button>
@@ -1726,14 +1726,96 @@ SourceryMethod(
 
 <script>
 // ── Section navigation ──
+let _suppressURL = false;
+
 function showSection(id) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+  const section = document.getElementById(id);
+  if (!section) return;
+  section.classList.add('active');
   document.querySelectorAll('.nav-tab').forEach(t => {
     if (t.getAttribute('onclick').includes(id)) t.classList.add('active');
   });
+  syncURL();
 }
+
+// ── URL state ──
+function currentURLState() {
+  const id = document.querySelector('.section.active')?.id || 'overview';
+  const params = { tab: id };
+  if (typeof walkIdx !== 'undefined' && walkIdx !== 0) params.step = walkIdx;
+  if (typeof activeStage !== 'undefined' && activeStage !== 0) params.stage = activeStage;
+  if (typeof activeLang === 'string' && activeLang) params.lang = activeLang;
+  if (typeof activeLangTab !== 'undefined' && activeLangTab !== 0) params.langtab = activeLangTab;
+  if (id === 'capabilities') {
+    if (activeCapStatuses && activeCapStatuses.size < 3) {
+      params.status = [...activeCapStatuses].join(',');
+    }
+    if (activeCapCategories && activeCapCategories.size > 0) {
+      params.cat = [...activeCapCategories].join(',');
+    }
+    const search = document.getElementById('cap-search')?.value;
+    if (search) params.q = search;
+  }
+  return params;
+}
+
+function syncURL() {
+  if (_suppressURL) return;
+  const params = currentURLState();
+  const tab = params.tab;
+  delete params.tab;
+  const qs = new URLSearchParams();
+  for (const [k, v] of Object.entries(params)) qs.set(k, String(v));
+  const tail = qs.toString() ? '?' + qs.toString() : '';
+  const newHash = '#' + tab + tail;
+  if (location.hash !== newHash) {
+    history.replaceState(null, '', newHash);
+  }
+}
+
+function applyURLState() {
+  const raw = location.hash.replace(/^#/, '');
+  if (!raw) return;
+  const [tab, query] = raw.split('?');
+  const params = new URLSearchParams(query || '');
+  _suppressURL = true;
+  try {
+    if (tab && document.getElementById(tab)) {
+      showSection(tab);
+    }
+    if (params.has('step')) selectWalkStep(parseInt(params.get('step'), 10));
+    if (params.has('stage')) selectStage(parseInt(params.get('stage'), 10));
+    if (params.has('lang')) {
+      selectLang(params.get('lang'));
+      if (params.has('langtab')) selectLangTab(parseInt(params.get('langtab'), 10));
+    }
+    if (tab === 'capabilities') {
+      if (params.has('status')) {
+        activeCapStatuses.clear();
+        params.get('status').split(',').filter(Boolean).forEach(s => activeCapStatuses.add(s));
+        document.querySelectorAll('.cap-pill[data-status]').forEach(b => {
+          b.classList.toggle('active', activeCapStatuses.has(b.dataset.status));
+        });
+      }
+      if (params.has('cat')) {
+        activeCapCategories.clear();
+        params.get('cat').split(',').filter(Boolean).forEach(c => activeCapCategories.add(c));
+        renderCapCategories();
+      }
+      if (params.has('q')) {
+        const el = document.getElementById('cap-search');
+        if (el) el.value = params.get('q');
+      }
+      renderCapabilities();
+    }
+  } finally {
+    _suppressURL = false;
+  }
+}
+
+window.addEventListener('hashchange', applyURLState);
 
 // ── Pipeline stages ──
 const stageData = [
@@ -1875,7 +1957,9 @@ dotnet pack                     # C#    → bindings/c-sharp/nupkgs/
   },
 ];
 
+let activeStage = 0;
 function selectStage(idx) {
+  activeStage = idx;
   document.querySelectorAll('.pipe-stage').forEach((s,i) => {
     s.classList.toggle('active', i === idx);
   });
@@ -1888,6 +1972,7 @@ function selectStage(idx) {
     <p>${d.body}</p>
     ${codeHtml}
   `;
+  if (typeof syncURL === 'function') syncURL();
 }
 
 // ── Type tree toggles ──
@@ -2142,12 +2227,14 @@ function selectLang(lang) {
 
   document.querySelectorAll('.lang-card').forEach(c => c.classList.remove('active'));
   document.querySelector(`.${lang}-card`).classList.add('active');
+  if (typeof syncURL === 'function') syncURL();
 }
 
 function selectLangTab(i) {
   activeLangTab = i;
   document.querySelectorAll('.code-tab').forEach((t,j) => t.classList.toggle('active', j===i));
   document.querySelectorAll('.code-panel').forEach((p,j) => p.classList.toggle('active', j===i));
+  if (typeof syncURL === 'function') syncURL();
 }
 
 // ── Walkthrough ──
@@ -2400,6 +2487,7 @@ function selectWalkStep(i) {
   walkIdx = Math.max(0, Math.min(walkthroughSteps.length - 1, i));
   renderWalkProgress();
   renderWalkStage();
+  if (typeof syncURL === 'function') syncURL();
 }
 
 function walkPrev() { selectWalkStep(walkIdx - 1); }
@@ -2484,6 +2572,7 @@ function toggleCapStatus(btn) {
   else activeCapStatuses.add(s);
   btn.classList.toggle('active');
   renderCapabilities();
+  if (typeof syncURL === 'function') syncURL();
 }
 
 function toggleCapCategory(btn) {
@@ -2492,6 +2581,7 @@ function toggleCapCategory(btn) {
   else activeCapCategories.add(c);
   btn.classList.toggle('active');
   renderCapabilities();
+  if (typeof syncURL === 'function') syncURL();
 }
 
 function renderCapCategories() {
@@ -2546,6 +2636,7 @@ document.addEventListener('DOMContentLoaded', () => {
   selectWalkStep(0);
   renderCapCategories();
   renderCapabilities();
+  applyURLState();
 });
 selectStage(0);
 selectWalkStep(0);
