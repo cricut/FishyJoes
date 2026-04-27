@@ -67,7 +67,7 @@ if [[ "${FISHYJOES_ANDROID:-}" != "0" ]]; then
 
         platformDir=kotlin-runtime/src/generated/resources/lib/$ndkName
         mkdir -p $platformDir
-        rm -rf $platformDir/*.so
+        rm -rf $platformDir/*.so(N)
 
         androidRoots=(
             $HOME/.swiftpm/swift-sdks/$swiftAndroidSDKName.artifactbundle/swift-android/swift-resources/usr/lib/swift-$arch/android/libFoundation.so
@@ -97,7 +97,7 @@ if [[ "${FISHYJOES_UBUNTU:-}" != "0" ]]; then
 
     platformDir=kotlin-runtime/src/generated/resources/linux
     mkdir -p $platformDir
-    rm -rf $platformDir/*.so
+    rm -rf -- $platformDir/*.so(N)
     alternateLibPaths=()
     copyLibrariesAndDependencies $platformDir $ubuntuRoots
     # libxml2 is the only system library swift depends on that is not installed by default in ubuntu
