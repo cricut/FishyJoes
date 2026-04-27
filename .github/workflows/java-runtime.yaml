@@ -15,14 +15,13 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
   GITHUB_USER: cricut-builduser
   GRADLE_OPTS: -Dorg.gradle.daemon=false
 
 jobs:
   build-test-kotlin-mac:
     name: "macOS: Build and test kotlin runtime"
-    runs-on: sojo-macos
+    runs-on: macos-26
 
     steps:
       - name: Checkout
@@ -65,13 +64,6 @@ jobs:
   build-test-kotlin-ubuntu:
     name: "Ubuntu: Build and test kotlin runtime"
     runs-on: ubuntu-latest
-    env:
-      LIB_DIR: kotlin-runtime/src/generated/resources/linux
-    container:
-      image: ghcr.io/cricut/android-swift-runtime:4.0.2
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -108,7 +100,7 @@ jobs:
       - name: Patch libraries to use relative dependencies
         shell: zsh {0}
         run: |
-          cd $LIB_DIR
+          cd kotlin-runtime/src/generated/resources/linux
 
           SWIFT_RUN_PATH='$ORIGIN:/usr/lib/swift/linux'
           for LIB in lib*.so*; do
@@ -125,8 +117,6 @@ jobs:
   build-test-kotlin-windows:
     name: "Windows: Build and test kotlin runtime"
     runs-on: windows-2025
-    env:
-      LIB_DIR: kotlin-runtime/src/generated/resources/windows
     steps:
       - name: Checkout
         uses: actions/checkout@v4
