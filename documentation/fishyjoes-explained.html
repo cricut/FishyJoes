@@ -523,6 +523,94 @@
     display: block;
   }
 
+  /* ── CAPABILITIES MATRIX ── */
+  .cap-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .cap-controls input[type="text"] {
+    flex: 1;
+    min-width: 220px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-size: 0.86rem;
+  }
+  .cap-controls input[type="text"]:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+  .cap-pill {
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .cap-pill:hover { color: var(--text); }
+  .cap-pill.active {
+    color: var(--bg);
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .cap-pill.cap-yes.active { background: #3fb950; border-color: #3fb950; }
+  .cap-pill.cap-warn.active { background: #d29922; border-color: #d29922; }
+  .cap-pill.cap-no.active { background: #f85149; border-color: #f85149; }
+  .cap-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .cap-table thead th {
+    background: var(--surface2);
+    text-align: left;
+    padding: 12px 16px;
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-weight: 700;
+    border-bottom: 1px solid var(--border);
+  }
+  .cap-table tbody tr {
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    transition: background 0.15s;
+  }
+  .cap-table tbody tr:hover { background: rgba(88,166,255,0.04); }
+  .cap-table tbody tr:last-child { border-bottom: none; }
+  .cap-table td {
+    padding: 14px 16px;
+    font-size: 0.85rem;
+    vertical-align: top;
+  }
+  .cap-table td.cap-status { font-size: 1.1rem; width: 36px; text-align: center; }
+  .cap-table td.cap-feature { font-weight: 600; color: var(--text); }
+  .cap-table td.cap-notes { color: var(--muted); font-size: 0.82rem; }
+  .cap-table td.cap-example {
+    font-family: 'SF Mono','Fira Code',monospace;
+    font-size: 0.76rem;
+    color: var(--accent);
+  }
+  .cap-empty {
+    padding: 28px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.86rem;
+  }
+
   /* ── WALKTHROUGH ── */
   .walk-progress {
     display: flex;
@@ -731,6 +819,7 @@
   <button class="nav-tab" onclick="showSection('languages')">Languages</button>
   <button class="nav-tab" onclick="showSection('architecture')">Architecture</button>
   <button class="nav-tab" onclick="showSection('runtime')">Runtime</button>
+  <button class="nav-tab" onclick="showSection('capabilities')">Capabilities</button>
 </nav>
 
 <!-- ══════════════════════════════════ OVERVIEW ══════════════════════════════════ -->
@@ -1303,6 +1392,22 @@ SourceryMethod(
       </div>
     </div>
   </div>
+</section>
+
+<!-- ══════════════════════════════════ CAPABILITIES ══════════════════════════════════ -->
+<section id="capabilities" class="section">
+  <h2 class="section-title">Capabilities — Cans &amp; Cannots</h2>
+  <p class="section-desc">A filterable view of <code style="background:var(--surface);padding:2px 8px;border-radius:4px;font-family:monospace;">documentation/cans-and-cannots.md</code>: which Swift features cross the boundary, which don't, and which work with caveats. Filter by category, status, or search by feature name.</p>
+
+  <div class="cap-controls">
+    <input type="text" id="cap-search" placeholder="Search features…" oninput="renderCapabilities()">
+    <button class="cap-pill cap-yes active" data-status="yes" onclick="toggleCapStatus(this)">✅ Supported</button>
+    <button class="cap-pill cap-warn active" data-status="warn" onclick="toggleCapStatus(this)">⚠️ Caveats</button>
+    <button class="cap-pill cap-no active" data-status="no" onclick="toggleCapStatus(this)">❌ Not supported</button>
+  </div>
+  <div class="cap-controls" id="cap-cat-row"></div>
+
+  <div id="cap-table-container"></div>
 </section>
 
 <footer>
@@ -1980,10 +2085,147 @@ function selectWalkStep(i) {
 function walkPrev() { selectWalkStep(walkIdx - 1); }
 function walkNext() { selectWalkStep(walkIdx + 1); }
 
+// ── Capabilities matrix ──
+const capabilities = [
+  // Standard types
+  { cat: "Standard types", status: "yes", feature: "Void, Int, UInt, Int64, Float, Double, String", notes: "", example: "Int → number / Long / int / int" },
+  { cat: "Standard types", status: "yes", feature: "Tuples (named &amp; unnamed)", notes: "", example: "(name: String, age: Int)" },
+  { cat: "Standard types", status: "yes", feature: "Data", notes: "Maps to Buffer / ByteArray / byte[] / Uint8List", example: "Data" },
+  { cat: "Standard types", status: "yes", feature: "Optional&lt;T&gt;", notes: "", example: "name: String?" },
+  { cat: "Standard types", status: "yes", feature: "Result&lt;T, Error&gt;", notes: "Throws in target languages", example: "Result&lt;Int, MyError&gt;" },
+  { cat: "Standard types", status: "yes", feature: "Array&lt;T&gt;", notes: "", example: "[Int]" },
+  { cat: "Standard types", status: "yes", feature: "Dictionary&lt;K, V&gt;", notes: "", example: "[String: UUID]" },
+  { cat: "Standard types", status: "yes", feature: "Set&lt;T&gt;", notes: "", example: "Set&lt;String&gt;" },
+
+  // Closures
+  { cat: "Closures", status: "yes", feature: "Throwing closures", notes: "", example: "(Int) throws -&gt; String" },
+  { cat: "Closures", status: "no", feature: "Non-throwing closures", notes: "Most languages can throw anywhere; semantics aren't guaranteed", example: "(Int) -&gt; String" },
+  { cat: "Closures", status: "yes", feature: "Async closures", notes: "Bridged via Promise / Deferred / Task / Future", example: "(Int) async -&gt; Int" },
+
+  // User-defined types
+  { cat: "User-defined types", status: "yes", feature: "Enums", notes: "Empty enums become namespaces", example: "case foo, bar(Int)" },
+  { cat: "User-defined types", status: "warn", feature: "Unnamed enum associated values", notes: "Generated as <code>foo._0</code>, <code>foo._1</code> in target languages", example: "case foo(Int, String)" },
+  { cat: "User-defined types", status: "warn", feature: "Enum cases must start lowercase", notes: "Enforced at codegen", example: "case myCase ✓, MyCase ✗" },
+  { cat: "User-defined types", status: "yes", feature: "POD structs (memberwise)", notes: "All stored vars must be public; needs a public init taking all stored fields in declared order", example: "struct Point { public let x, y: Double }" },
+  { cat: "User-defined types", status: "yes", feature: "Reference structs", notes: "Use <code>FishyJoes.exportReference(...)</code>; properties &amp; methods need their own annotations", example: "/// &lt;!-- exportReference(T) --&gt;" },
+  { cat: "User-defined types", status: "yes", feature: "Classes", notes: "Always exported by reference", example: "public class Foo { ... }" },
+  { cat: "User-defined types", status: "no", feature: "Class inheritance", notes: "\"Probably broken, never tested\" — cans-and-cannots", example: "class B: A { }" },
+  { cat: "User-defined types", status: "no", feature: "Typealiases", notes: "Languages handle them inconsistently", example: "typealias Name = String" },
+  { cat: "User-defined types", status: "no", feature: "Most generic types", notes: "Only Optional, Result, Array, Dict, Set are pre-baked", example: "struct Box&lt;T&gt; { ... }" },
+  { cat: "User-defined types", status: "warn", feature: "Generic methods", notes: "Allowed only with single concrete instantiation via <code>generic:</code> annotation", example: "/// export(f, generic: [T: Int])" },
+  { cat: "User-defined types", status: "yes", feature: "Protocols", notes: "All members must be <code>throws</code>; no setters; no statics; no mutating", example: "protocol P { var x: Int { get throws } }" },
+  { cat: "User-defined types", status: "no", feature: "Protocol associated types", notes: "Most targets lack them", example: "associatedtype Item" },
+  { cat: "User-defined types", status: "yes", feature: "Actors", notes: "Treated like classes; routed to TranslatedReference", example: "public actor State { ... }" },
+
+  // Methods
+  { cat: "Methods", status: "yes", feature: "Static methods on all types", notes: "", example: "static func make() -&gt; Self" },
+  { cat: "Methods", status: "yes", feature: "Instance methods", notes: "", example: "func scale(by: Double)" },
+  { cat: "Methods", status: "yes", feature: "Getters &amp; setters", notes: "Setters that throw are unsupported on WASM", example: "var x: Int { get set }" },
+  { cat: "Methods", status: "no", feature: "inout parameters", notes: "No equivalent in target languages", example: "func f(_ x: inout Int)" },
+  { cat: "Methods", status: "yes", feature: "Async methods", notes: "Become Promise / Task / Deferred / Future", example: "func load() async throws" },
+  { cat: "Methods", status: "no", feature: "Top-level functions", notes: "Only enum/class statics are supported", example: "public func foo() { }" },
+
+  // Extensions
+  { cat: "Extensions", status: "yes", feature: "Extensions to types in the same library", notes: "", example: "extension Foo { func bar() { } }" },
+  { cat: "Extensions", status: "no", feature: "Extensions to standard library types", notes: "", example: "extension String { ... }" },
+  { cat: "Extensions", status: "no", feature: "Extensions to dependency types", notes: "", example: "extension OtherLib.X { }" },
+
+  // Default arguments
+  { cat: "Default arguments", status: "yes", feature: "Int / Double literal defaults", notes: "", example: "x: Int = 0" },
+  { cat: "Default arguments", status: "yes", feature: "<code>nil</code> defaults", notes: "", example: "x: String? = nil" },
+  { cat: "Default arguments", status: "yes", feature: "Named non-positional arguments", notes: "", example: "func f(x: Int = 1)" },
+  { cat: "Default arguments", status: "no", feature: "Enum-case defaults", notes: "Use <code>x: Enum? = nil</code> instead", example: "x: TheEnum = .foo" },
+
+  // Misc
+  { cat: "Misc", status: "yes", feature: "Doc comments", notes: "", example: "/// summary" },
+  { cat: "Misc", status: "no", feature: "Doc-comment cross-references", notes: "", example: "/// See `OtherType`" },
+  { cat: "Misc", status: "yes", feature: "Deprecations", notes: "Bridged via per-language deprecation attribute", example: "@available(*, deprecated)" },
+
+  // WASM
+  { cat: "WASM", status: "yes", feature: "Swift, C, C++ source", notes: "", example: "" },
+  { cat: "WASM", status: "no", feature: "Filesystem access", notes: "WASM sandbox", example: "" },
+  { cat: "WASM", status: "warn", feature: "C libs that use setjmp", notes: "Possible but painful — see CTextFreestack", example: "" },
+  { cat: "WASM", status: "no", feature: "Threads", notes: "Possibly possible via emscripten — unresearched", example: "" },
+  { cat: "WASM", status: "no", feature: "Sibling-library interop", notes: "No dynamic linking in WASM yet", example: "" },
+];
+
+const capStatusMap = {
+  yes:  { icon: "✅", color: "#3fb950" },
+  warn: { icon: "⚠️", color: "#d29922" },
+  no:   { icon: "❌", color: "#f85149" },
+};
+
+const activeCapStatuses = new Set(["yes", "warn", "no"]);
+const activeCapCategories = new Set();
+
+function toggleCapStatus(btn) {
+  const s = btn.dataset.status;
+  if (activeCapStatuses.has(s)) activeCapStatuses.delete(s);
+  else activeCapStatuses.add(s);
+  btn.classList.toggle('active');
+  renderCapabilities();
+}
+
+function toggleCapCategory(btn) {
+  const c = btn.dataset.cat;
+  if (activeCapCategories.has(c)) activeCapCategories.delete(c);
+  else activeCapCategories.add(c);
+  btn.classList.toggle('active');
+  renderCapabilities();
+}
+
+function renderCapCategories() {
+  const row = document.getElementById('cap-cat-row');
+  if (!row) return;
+  const cats = [...new Set(capabilities.map(c => c.cat))];
+  row.innerHTML = cats.map(c =>
+    `<button class="cap-pill ${activeCapCategories.size === 0 || activeCapCategories.has(c) ? 'active' : ''}" data-cat="${c}" onclick="toggleCapCategory(this)">${c}</button>`
+  ).join('');
+}
+
+function renderCapabilities() {
+  const container = document.getElementById('cap-table-container');
+  if (!container) return;
+  const search = (document.getElementById('cap-search')?.value || '').toLowerCase();
+  const filtered = capabilities.filter(c => {
+    if (!activeCapStatuses.has(c.status)) return false;
+    if (activeCapCategories.size > 0 && !activeCapCategories.has(c.cat)) return false;
+    if (search) {
+      const hay = (c.feature + ' ' + c.notes + ' ' + c.example + ' ' + c.cat).toLowerCase();
+      if (!hay.includes(search)) return false;
+    }
+    return true;
+  });
+  if (filtered.length === 0) {
+    container.innerHTML = `<div class="cap-empty">No capabilities match these filters.</div>`;
+    return;
+  }
+  container.innerHTML = `
+    <table class="cap-table">
+      <thead><tr>
+        <th></th><th>Feature</th><th>Category</th><th>Notes</th><th>Example</th>
+      </tr></thead>
+      <tbody>
+        ${filtered.map(c => `
+          <tr>
+            <td class="cap-status" title="${c.status}" style="color:${capStatusMap[c.status].color}">${capStatusMap[c.status].icon}</td>
+            <td class="cap-feature">${c.feature}</td>
+            <td class="cap-notes">${c.cat}</td>
+            <td class="cap-notes">${c.notes || '—'}</td>
+            <td class="cap-example">${c.example || ''}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  `;
+}
+
 // auto-select first stage on page load
 document.addEventListener('DOMContentLoaded', () => {
   selectStage(0);
   selectWalkStep(0);
+  renderCapCategories();
+  renderCapabilities();
 });
 selectStage(0);
 selectWalkStep(0);
