@@ -1449,6 +1449,49 @@ SourceryMethod(
     </div>
   </div>
 
+  <div style="margin-top:48px;">
+    <h3 style="font-size:1.05rem;margin-bottom:8px;">Async bridging — Swift <code>Future&lt;T&gt;</code> across the boundary</h3>
+    <p style="color:var(--muted);font-size:0.86rem;margin-bottom:18px;">A Swift <code style="background:var(--bg);padding:1px 6px;border-radius:4px;">async throws</code> function returns a <code style="background:var(--bg);padding:1px 6px;border-radius:4px;">Future&lt;T&gt;</code> internally. <code style="background:var(--bg);padding:1px 6px;border-radius:4px;">TranslatedFuture</code> picks the right foreign equivalent, and each runtime hops to the foreign event loop before resolving.</p>
+    <div style="overflow-x:auto;">
+      <table class="cap-table">
+        <thead><tr>
+          <th>Language</th><th>Foreign type</th><th>Swift → foreign</th><th>Foreign → Swift</th><th>Threading hop</th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td class="cap-feature" style="color:var(--node);">⬡ Node</td>
+            <td><code>Promise&lt;T&gt;</code></td>
+            <td><code>env.createPromise()</code> → <code>resolveDeferred</code> on completion</td>
+            <td><code>.then</code>/<code>.catch</code> registered as <code>napi_callback</code> C functions</td>
+            <td><code>onMainThread</code> via <code>scheduleThreadWorkHandle[env]</code></td>
+          </tr>
+          <tr>
+            <td class="cap-feature" style="color:var(--kotlin);">🎯 Kotlin</td>
+            <td><code>Deferred&lt;T&gt;</code> (CompletableDeferred)</td>
+            <td>JNI call into <code>SwiftFutureImpl.createCompletable</code>, then <code>.complete()</code> / <code>.completeExceptionally()</code></td>
+            <td>Generated Kotlin wraps a JNI callback</td>
+            <td><code>env.acquireJVMThread()</code> / <code>relinquishJVMThread()</code></td>
+          </tr>
+          <tr>
+            <td class="cap-feature" style="color:var(--csharp);">♟ C#</td>
+            <td><code>Task&lt;T&gt;</code></td>
+            <td><code>TaskCompletionSource&lt;T&gt;</code> — set result/exception</td>
+            <td><code>await</code> in generated C#; bridged via the same Iota plumbing</td>
+            <td>Caller-managed (no extra hop in the runtime)</td>
+          </tr>
+          <tr>
+            <td class="cap-feature" style="color:var(--dart);">🎱 Dart</td>
+            <td><code>Future&lt;T&gt;</code></td>
+            <td>Dart <code>Completer&lt;T&gt;</code> over FFI, <code>complete</code>/<code>completeError</code></td>
+            <td>Dart <code>Completer</code> shape exposed via FFI; resumes Swift continuation</td>
+            <td>Posted to a Dart <code>SendPort</code> via <code>Dart_PostInteger_DL</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="margin-top:14px;font-size:0.78rem;color:var(--muted);">Sources: <code>Sources/FishyJoesCore/TranslatedTypes/TranslatedFuture.swift</code> · <code>NodeConverter+Future.swift</code> · <code>JavaConverter+Future.swift</code> · <code>IotaConverter+Future.swift</code> · <code>Env+dart.swift</code></div>
+  </div>
+
   <div style="margin-top:40px;">
     <h3 style="font-size:1rem;margin-bottom:20px;">Call path: TypeScript calls a Swift method</h3>
     <div style="display:flex;flex-direction:column;gap:0;">
