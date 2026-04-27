@@ -877,10 +877,15 @@ SourceryMethod(
       <div class="info-card" style="border-color:rgba(255,123,114,0.4);">
         <div style="color:#ff7b72;font-weight:700;margin-bottom:8px;">❌ Sourcery TypeName (awkward)</div>
         <div class="code-block" style="font-size:0.75rem;padding:12px;">
-          name: "Optional&lt;Array&lt;UUID&gt;&gt;"
-          <span class="cm">// Just a string — you must</span>
-          <span class="cm">// parse it yourself to find</span>
-          <span class="cm">// the nested structure</span>
+          unwrappedTypeName: <span class="st">"Array&lt;UUID&gt;"</span>
+          isOptional: <span class="kw">true</span>
+          array: <span class="ty">Array</span>?     <span class="cm">// payload if it's an array</span>
+          dictionary: <span class="ty">Dictionary</span>?
+          tuple: <span class="ty">Tuple</span>?
+          closure: <span class="ty">Closure</span>?
+          generic: <span class="ty">Generic</span>?
+          <span class="cm">// As BetterType.swift puts it:</span>
+          <span class="cm">// "Types are trees, not structs full of booleans."</span>
         </div>
       </div>
       <div class="info-card" style="border-color:rgba(63,185,80,0.4);">
