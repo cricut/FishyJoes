@@ -14,12 +14,12 @@ jobs:
     container:
       image: ghcr.io/realm/swiftlint:0.53.0
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 1
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
-    - name: SwiftLint
-      run: |
-        swiftlint --version
-        swiftlint --reporter github-actions-logging --strict ||
-            swiftlint --reporter emoji --strict --quiet
+      - name: SwiftLint
+        run: |
+          swiftlint --version
+          swiftlint --reporter github-actions-logging --strict ||
+              swiftlint --reporter emoji --strict --quiet

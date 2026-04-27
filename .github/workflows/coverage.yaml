@@ -17,10 +17,9 @@ concurrency:
 
 jobs:
   coverage:
-    runs-on: sojo-macos
+    runs-on: macOS-26
     env:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
-      GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     steps:
@@ -49,9 +48,6 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '6'
-
-      - name: Force clear nuget cache
-        run: "dotnet nuget locals all --clear"
 
       - name: Configure build environment
         shell: zsh {0}
