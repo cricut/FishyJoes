@@ -52,7 +52,7 @@ case "$(uname -s)" in
         FISHYJOES_ANDROID=0 ./scripts/copy-linux-swift-stdlib.sh
         install-lib "libFishyJoesJavaRuntime.so" "kotlin-runtime/src/generated/resources/linux"
         ;;
-    (*_NT)
+    (*_NT*)
         swiftRuntimeDir="$(realpath "$SDKROOT/../../../.." | sed s#Platforms#Runtimes#g)"
         for dll in "$swiftRuntimeDir/usr/bin/"*.dll; do
             install-lib "$dll" "kotlin-runtime/src/generated/resources/windows"
