@@ -1492,6 +1492,57 @@ SourceryMethod(
     <div style="margin-top:14px;font-size:0.78rem;color:var(--muted);">Sources: <code>Sources/FishyJoesCore/TranslatedTypes/TranslatedFuture.swift</code> · <code>NodeConverter+Future.swift</code> · <code>JavaConverter+Future.swift</code> · <code>IotaConverter+Future.swift</code> · <code>Env+dart.swift</code></div>
   </div>
 
+  <div style="margin-top:48px;">
+    <h3 style="font-size:1.05rem;margin-bottom:8px;">Error propagation — Swift <code>throws</code> across the boundary</h3>
+    <p style="color:var(--muted);font-size:0.86rem;margin-bottom:18px;">Swift errors aren't natively representable in any of the target languages, so each runtime turns them into the foreign equivalent. A foreign exception thrown back into Swift is wrapped in <code style="background:var(--bg);padding:1px 6px;border-radius:4px;">IotaException</code> (Iota) or a similar wrapper for the others.</p>
+    <div class="runtime-grid">
+      <div class="runtime-card" style="border-color:rgba(104,160,99,0.4);">
+        <h4 style="color:var(--node);">⬡ Node</h4>
+        <ol style="list-style:decimal inside;font-size:0.82rem;color:var(--muted);padding-left:0;">
+          <li>Swift method throws</li>
+          <li><code>rethrowToNode</code> catches it</li>
+          <li>Calls <code>env.throw(String.toNode(error.description))</code></li>
+          <li>Returns <code>nil</code> from the napi_callback</li>
+          <li>Node sees pending exception → JS reject / throw</li>
+        </ol>
+        <div style="margin-top:8px;font-size:0.74rem;color:var(--muted);"><code>Sources/FishyJoesNodeRuntime/Utils.swift</code></div>
+      </div>
+      <div class="runtime-card" style="border-color:rgba(127,82,255,0.4);">
+        <h4 style="color:var(--kotlin);">🎯 Kotlin</h4>
+        <ol style="list-style:decimal inside;font-size:0.82rem;color:var(--muted);padding-left:0;">
+          <li>Swift method throws</li>
+          <li>JNI exception is set on the env</li>
+          <li>JVM raises a Java <code>Throwable</code> on return</li>
+          <li>Inbound Java exceptions are wrapped as <code>JavaThrowableError</code> on the Swift side</li>
+        </ol>
+        <div style="margin-top:8px;font-size:0.74rem;color:var(--muted);"><code>Sources/FishyJoesJavaRuntime/JavaConverter+Future.swift</code></div>
+      </div>
+      <div class="runtime-card" style="border-color:rgba(23,134,0,0.4);">
+        <h4 style="color:var(--csharp);">♟ C#</h4>
+        <ol style="list-style:decimal inside;font-size:0.82rem;color:var(--muted);padding-left:0;">
+          <li>Swift method throws → <code>out CreatedRef exn</code> populated</li>
+          <li>Generated wrapper calls <code>Check&lt;R&gt;(...)</code></li>
+          <li><code>Check</code> consumes the <code>CreatedRef</code> as a <code>SwiftReference</code></li>
+          <li>Throws it as a C# exception</li>
+        </ol>
+        <div style="margin-top:8px;font-size:0.74rem;color:var(--muted);"><code>c-sharp-runtime/src/Utilities.cs</code></div>
+      </div>
+      <div class="runtime-card" style="border-color:rgba(1,117,194,0.4);">
+        <h4 style="color:var(--dart);">🎱 Dart</h4>
+        <ol style="list-style:decimal inside;font-size:0.82rem;color:var(--muted);padding-left:0;">
+          <li>Swift method throws → <code>OutCreatedRef</code> populated</li>
+          <li>Generated wrapper calls <code>check((exn) =&gt; ...)</code></li>
+          <li><code>check</code> reads the exception ref</li>
+          <li>Dart <code>throw</code>s the unwrapped object</li>
+        </ol>
+        <div style="margin-top:8px;font-size:0.74rem;color:var(--muted);"><code>dart-runtime/lib/utilities.dart</code></div>
+      </div>
+    </div>
+    <div style="margin-top:14px;padding:14px 18px;border:1px solid var(--border);border-radius:8px;background:var(--surface);font-size:0.82rem;color:var(--muted);">
+      <strong style="color:var(--accent);">Round-trip:</strong> a foreign exception caught back in Swift surfaces as an <code>IotaException</code> (Iota) or a per-runtime equivalent, so you can re-raise it on a future <code>throw</code> across the boundary without losing fidelity. See <code>env.newError(Error)</code> in <code>Sources/FishyJoesIotaRuntime/Env.swift</code>.
+    </div>
+  </div>
+
   <div style="margin-top:40px;">
     <h3 style="font-size:1rem;margin-bottom:20px;">Call path: TypeScript calls a Swift method</h3>
     <div style="display:flex;flex-direction:column;gap:0;">
