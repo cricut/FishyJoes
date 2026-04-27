@@ -43,6 +43,21 @@ function install-lib {
     fi
 }
 
-install-lib "FishyJoesJavaRuntime.dll" "kotlin-runtime/src/generated/resources/windows" ||
-    install-lib "libFishyJoesJavaRuntime.dylib" "kotlin-runtime/src/generated/resources/mac" ||
-    install-lib "libFishyJoesJavaRuntime.so" "kotlin-runtime/src/generated/resources/linux"
+case "$(uname -s)" in
+    (Darwin)
+        # Runtime isn't included for macOS
+        install-lib "libFishyJoesJavaRuntime.dylib" "kotlin-runtime/src/generated/resources/mac"
+        ;;
+    (Linux)
+        FISHYJOES_ANDROID=0 ./scripts/copy-linux-swift-stdlib.sh
+        install-lib "libFishyJoesJavaRuntime.so" "kotlin-runtime/src/generated/resources/linux"
+        ;;
+    (*_NT_)
+        swiftRuntimeDir="$(realpath "$SDKROOT/../../../.." | sed s#Platforms#Runtimes#g)"
+        for dll in "$swiftRuntimeDir/usr/bin/"*.dll; do
+            install-lib "$dll" "kotlin-runtime/src/generated/resources/windows"
+        done
+
+        install-lib "FishyJoesJavaRuntime.dll" "kotlin-runtime/src/generated/resources/windows"
+        ;;
+esac

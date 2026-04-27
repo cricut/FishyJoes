@@ -18,20 +18,13 @@ concurrency:
 jobs:
   integration-tests-mac:
     name: "macOS: Integration tests"
-    runs-on: sojo-macos
+    runs-on: macos-26
     env:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
-      GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
-      GITHUB_USER: cricut-builduser
       CONFIGURATION: debug
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Setup JDK
         uses: actions/setup-java@v3
@@ -56,9 +49,6 @@ jobs:
         run: |
           yq --version || brew install yq
           mint --version || brew install mint
-
-      - name: Force clear nuget cache
-        run: "dotnet nuget locals all --clear"
 
       - uses: dart-lang/setup-dart@v1
 

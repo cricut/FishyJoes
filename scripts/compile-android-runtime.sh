@@ -38,4 +38,6 @@ jq -r '.swiftAndroid.targets[] | .triple + " " +  .ndkArchName' Sources/FishyJoe
         cp .build/android-build/$triple/$CONFIGURATION/libFishyJoesJavaRuntime.so $installDir/
     done
 
-# cp /VERSIONS $libdir/FishyJoesAndroidVersions.txt
+FISHYJOES_UBUNTU=0 ./scripts/copy-linux-swift-stdlib.sh
+
+cp kotlin-runtime/VERSIONS $libdir/FishyJoesAndroidVersions.txt

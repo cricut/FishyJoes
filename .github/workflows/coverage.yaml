@@ -57,7 +57,7 @@ jobs:
           yq --version || brew install yq
           mint --version || brew install mint
 
-          swift run fishy-joes install-toolchains --swiftly --wasm --android
+          swift run fishy-joes install-toolchains --swiftly --wasm --no-android
 
           (cd integration-tests/TestAPI/bindings/ts/tests; npm install)
           (cd Tests/NAPITests/node-tests; npm install)

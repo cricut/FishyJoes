@@ -64,7 +64,7 @@ jobs:
 
   build-test-kotlin-ubuntu:
     name: "Ubuntu: Build and test kotlin runtime"
-    runs-on: k8s
+    runs-on: ubuntu-latest
     env:
       LIB_DIR: kotlin-runtime/src/generated/resources/linux
     container:
@@ -75,11 +75,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Setup JDK
         uses: actions/setup-java@v3
