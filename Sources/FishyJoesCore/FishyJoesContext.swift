@@ -36,7 +36,7 @@ public class FishyJoesContext {
     ]
 
     enum TranslatedTypeOrAlias {
-        case type(TranslatedType)
+        case type(TranslatedType, usedLocally: Bool)
         case alias(BetterType)
     }
 
@@ -155,7 +155,7 @@ public class FishyJoesContext {
 
             for translatedType in moduleInfo.types {
                 let name = translatedType.sourceType
-                typeCache[name] = .type(translatedType)
+                typeCache[name] = .type(translatedType, usedLocally: false)
                 // Allow referring to it both as `SomeType` and `SomeDependency.SomeType`
                 typeCache[name.withoutModule] = .alias(name)
             }
@@ -170,7 +170,7 @@ public class FishyJoesContext {
         for translatedType in translatedTypes {
             let name = translatedType.sourceType
             precondition(typeCache[name] == nil, "duplicate definitions found for \(name)")
-            typeCache[name] = .type(translatedType)
+            typeCache[name] = .type(translatedType, usedLocally: true)
             typeCache[name.withoutModule] = .alias(name)
             moduleDefinedTypes.append(translatedType.asExternal)
         }
@@ -217,7 +217,7 @@ public class FishyJoesContext {
                 debugContext = "generating definition code for \(type.key.name)"
                 processedTypes.insert(type.key)
                 guard !generatedTypes.contains(type.key),
-                      case let .type(translatedType) = type.value
+                      case .type(let translatedType, usedLocally: true) = type.value
                 else {
                     continue
                 }
@@ -384,8 +384,20 @@ public class FishyJoesContext {
         }
 
         // Sourcery doesn't report the difference between modules and namespaces, so I think trying both is the best we can do
-        switch typeCache[type] ?? typeNameAsModuleQualified.flatMap({ typeCache[$0] }) {
-        case let .type(resolved):
+        let cacheEntry: (key: BetterType, value: TranslatedTypeOrAlias)?
+        if let resolved = typeCache[type] {
+            cacheEntry = (type, resolved)
+        } else if let qualified = typeNameAsModuleQualified, let resolved = typeCache[qualified] {
+            cacheEntry = (qualified, resolved)
+        } else {
+            cacheEntry = nil
+        }
+
+        switch cacheEntry?.value {
+        case .type(let resolved, usedLocally: false):
+            typeCache[cacheEntry!.key] = .type(resolved, usedLocally: true)
+            return resolved
+        case .type(let resolved, usedLocally: true):
             return resolved
         case let .alias(name):
             precondition(name != type, "infinite loop")
@@ -513,7 +525,7 @@ public class FishyJoesContext {
             }
         }()
         if !dontCache {
-            typeCache[type] = .type(resolved)
+            typeCache[type] = .type(resolved, usedLocally: true)
         }
         return resolved
     }
@@ -523,7 +535,7 @@ public class FishyJoesContext {
     func addToTypeCache(_ translatedType: TranslatedType) {
         let type = translatedType.sourceType
         if typeCache.keys.contains(type) { return }
-        typeCache[type] = .type(translatedType)
+        typeCache[type] = .type(translatedType, usedLocally: true)
     }
 
     func ts(method: Method, explicitThis: Bool = false) -> TypeScriptAnnotations.Method? {
