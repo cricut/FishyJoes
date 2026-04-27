@@ -1166,7 +1166,24 @@ SourceryMethod(
 <!-- ══════════════════════════════════ LANGUAGES ══════════════════════════════════ -->
 <section id="languages" class="section">
   <h2 class="section-title">Generated Language Bindings</h2>
-  <p class="section-desc">For the same annotated Swift struct, FishyJoes generates idiomatic bindings in each target language. Click a language to see what gets produced.</p>
+  <p class="section-desc">One real annotated Swift class — <code style="background:var(--surface);padding:2px 8px;border-radius:4px;font-family:monospace;">EmptyClass1</code> from <code style="background:var(--surface);padding:2px 8px;border-radius:4px;font-family:monospace;">integration-tests/TestAPI/Sources/TestAPI/Classes.swift</code> — generates the bindings shown below in each target language. Click a language to inspect its output.</p>
+
+  <div style="margin-bottom:24px;">
+    <div style="font-size:0.78rem;color:var(--swift);font-weight:700;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">🍎 Swift source (the input)</div>
+    <div class="code-block">
+<span class="cm">/// &lt;!-- FishyJoes.exportReference(EmptyClass1) --&gt;</span>
+<span class="kw">public class</span> <span class="ty">EmptyClass</span>: <span class="ty">Hashable</span> {
+    <span class="cm">/// &lt;!-- FishyJoes.export(create) --&gt;</span>
+    <span class="kw">public init</span>() { }
+
+    <span class="cm">/// &lt;!-- FishyJoes.export(blarg) --&gt;</span>
+    <span class="kw">public var</span> blarg: <span class="ty">String</span> { <span class="st">"Blarg!"</span> }
+
+    <span class="cm">/// &lt;!-- FishyJoes.export(shme) --&gt;</span>
+    <span class="kw">public func</span> shme() -&gt; <span class="ty">String</span> { <span class="st">"Shme! Hand me my hook."</span> }
+}
+    </div>
+  </div>
 
   <div class="lang-grid">
     <div class="lang-card node-card" onclick="selectLang('node')">
@@ -1177,17 +1194,17 @@ SourceryMethod(
     <div class="lang-card kotlin-card" onclick="selectLang('kotlin')">
       <span class="lang-icon">🎯</span>
       <h3 style="color:var(--kotlin)">Kotlin / Android</h3>
-      <p>JNI bridge with idiomatic Kotlin data classes, coroutines for async, null-safety.</p>
+      <p>JNI bridge with idiomatic Kotlin classes, coroutines for async, null-safety.</p>
     </div>
     <div class="lang-card csharp-card" onclick="selectLang('csharp')">
       <span class="lang-icon">♟</span>
       <h3 style="color:var(--csharp)">C# / .NET</h3>
-      <p>P/Invoke FFI via the Iota layer. C# records/classes with async Task<T> for Swift async methods.</p>
+      <p>P/Invoke FFI via the Iota layer. C# classes (or records for value types) with async Task&lt;T&gt; for Swift async methods.</p>
     </div>
     <div class="lang-card dart-card" onclick="selectLang('dart')">
       <span class="lang-icon">🎱</span>
       <h3 style="color:var(--dart)">Dart / Flutter</h3>
-      <p>dart:ffi bindings via Iota. Dart classes with Future<T> for async Swift methods.</p>
+      <p>dart:ffi bindings via Iota. Dart classes with Future&lt;T&gt; for async Swift methods.</p>
     </div>
   </div>
 
@@ -1602,200 +1619,210 @@ function toggleArch(id) {
 const langData = {
   node: {
     color: 'var(--node)',
-    tabs: ['TypeScript Types', 'Swift N-API Bridge', 'Usage'],
+    tabs: ['TypeScript .d.ts', 'Swift N-API Bridge', 'Usage'],
     panels: [
-`<span class="cm">// Generated .d.ts.part — everything is wrapped in</span>
+`<span class="cm">// Generated bindings/ts/generated/TestAPI.d.ts.part — wrapped in</span>
 <span class="cm">// an outer namespace named after the Swift module.</span>
-<span class="kw">export declare namespace</span> <span class="ty">DesignEngine</span> {
-  <span class="kw">export class</span> <span class="ty">DesignElement</span> {
-    constructor(id: <span class="ty">string</span>, name: <span class="ty">string</span>, width: <span class="ty">number</span>, height: <span class="ty">number</span>);
+<span class="kw">export declare namespace</span> <span class="ty">TestAPI</span> {
+  <span class="cm">/**
+   * &lt;!-- FishyJoes.exportReference(EmptyClass1) --&gt;
+   */</span>
+  <span class="kw">export class</span> <span class="ty">EmptyClass1</span> {
+    <span class="kw">private constructor</span>()
+    <span class="kw">private</span> _inhibitStructuralTyping: <span class="ty">any</span>
 
-    <span class="kw">readonly</span> id: <span class="ty">string</span>;      <span class="cm">// UUID → string</span>
-    <span class="kw">readonly</span> name: <span class="ty">string</span>;
-    width: <span class="ty">number</span>;            <span class="cm">// Double → number</span>
-    height: <span class="ty">number</span>;
-    scale(factor: <span class="ty">number</span>): <span class="ty">DesignElement</span>;
+    <span class="kw">readonly</span> blarg: <span class="ty">string</span>;
+
+    <span class="kw">static</span> create(): <span class="ty">TestAPI.EmptyClass1</span>;
+    shme(): <span class="ty">string</span>;
   }
 }`,
 
-`<span class="cm">// Generated Swift bridge — NOT C++. The closure runs inside</span>
-<span class="cm">// FishyJoesNodeRuntime.callbackBody, which talks to N-API via</span>
-<span class="cm">// raw napi_* C bindings wrapped by NAPI.Env / NAPI.Value.</span>
-{ env, info <span class="kw">in</span>
-  FishyJoesNodeRuntime.callbackBody(
-    env, info, name: <span class="st">"scale"</span>, expectedArgumentCount: 1
-  ) { env <span class="kw">in</span>
-    <span class="kw">let</span> _self  = <span class="kw">try</span> env.this(converter: DesignElement.<span class="kw">self</span>)
-    <span class="kw">let</span> factor = <span class="kw">try</span> env.argument(at: 0, converter: Double.<span class="kw">self</span>)
-    <span class="kw">let</span> result = _self.scale(by: factor)
-    <span class="kw">return try</span> DesignElement.toNode(result, env: env.env)
+`<span class="cm">// From bindings/swift-interfaces/.../NodeInterface/TestAPI.swift —</span>
+<span class="cm">// the closure runs inside FishyJoesNodeRuntime.callbackBody, which</span>
+<span class="cm">// talks to N-API via raw napi_* C bindings wrapped by NAPI.Env / NAPI.Value.</span>
+(
+  name: <span class="st">"shme"</span>,
+  .method { env, info <span class="kw">in</span>
+    FishyJoesNodeRuntime.callbackBody(
+      env, info, name: <span class="st">"shme"</span>,
+      expectedArgumentCount: 0, hasNamedOptions: <span class="kw">false</span>
+    ) { env <span class="kw">in</span>
+      <span class="kw">let</span> result = <span class="kw">try</span> Swift.String.toNode(
+        env.this(converter: TestAPI.EmptyClass.<span class="kw">self</span>).shme(),
+        env: env.env
+      )
+      <span class="kw">return</span> result
+    }
   }
-}
+)
 
-<span class="cm">// Plus a 3-line C shim (NAPIRegisterModule.c) that forwards</span>
+<span class="cm">// Plus a small C shim (NAPIRegisterModule.c) that forwards</span>
 <span class="cm">// napi_register_module_v1 to the Swift @_cdecl entry point.</span>`,
 
 `<span class="cm">// TypeScript usage — types live under the module namespace,</span>
 <span class="cm">// which is also exposed as the package's default export.</span>
-<span class="kw">import</span> DesignEngine <span class="kw">from</span> <span class="st">'@cricut/design-engine'</span>;
-<span class="cm">// (or: import { DesignEngine } from '@cricut/design-engine';)</span>
+<span class="kw">import</span> TestAPI <span class="kw">from</span> <span class="st">'@cricut/test-api'</span>;
+<span class="cm">// (or: import { TestAPI } from '@cricut/test-api';)</span>
 
-<span class="kw">const</span> el = <span class="kw">new</span> DesignEngine.DesignElement(<span class="st">'00000000-0000-0000-0000-000000000000'</span>, <span class="st">'logo'</span>, 200, 100);
-<span class="kw">const</span> scaled = el.scale(2.0);
-console.log(scaled.width); <span class="cm">// 400</span>`
+<span class="kw">const</span> el = TestAPI.EmptyClass1.create();
+console.log(el.blarg);  <span class="cm">// "Blarg!"</span>
+console.log(el.shme()); <span class="cm">// "Shme! Hand me my hook."</span>`
     ]
   },
   kotlin: {
     color: 'var(--kotlin)',
-    tabs: ['Kotlin Data Class', 'Swift JNI Bridge', 'Usage'],
+    tabs: ['Kotlin class', 'Swift JNI Bridge', 'Usage'],
     panels: [
-`<span class="cm">// Generated Kotlin: value-type structs become data classes,</span>
-<span class="cm">// reference types become 'class X private constructor(_swiftReference: Long)'.</span>
-<span class="kw">data class</span> <span class="ty">DesignElement</span>(
-  <span class="kw">val</span> id: <span class="ty">String</span>,          <span class="cm">// UUID → String</span>
-  <span class="kw">val</span> name: <span class="ty">String</span>,
-  <span class="kw">var</span> width: <span class="ty">Double</span>,
-  <span class="kw">var</span> height: <span class="ty">Double</span>
-) {
-  <span class="cm">// Public method is a wrapper that calls the JNI native:</span>
-  <span class="kw">fun</span> <span class="ty">scale</span>(factor: <span class="ty">Double</span>): <span class="ty">DesignElement</span> = __jni_scale(factor)
+`<span class="cm">// Generated bindings/kotlin/.../EmptyClass1.kt</span>
+<span class="cm">// Reference exports become 'class X private constructor(_swiftReference: Long)'</span>
+<span class="cm">// extending the runtime SwiftReference. Value structs become 'data class' instead.</span>
+<span class="kw">class</span> <span class="ty">EmptyClass1</span> <span class="kw">private constructor</span>(_swiftReference: <span class="ty">Long</span>):
+    com.cricut.fishyjoes.runtime.<span class="ty">SwiftReference</span>(_swiftReference) {
 
-  <span class="kw">private external fun</span> __jni_scale(factor: <span class="ty">Double</span>): <span class="ty">DesignElement</span>
+  <span class="kw">val</span> blarg: <span class="ty">String</span>
+    <span class="kw">get</span>() = __jni_get_blarg()
+  @JvmName(<span class="st">"__jni_get_blarg"</span>)
+  <span class="kw">private external fun</span> __jni_get_blarg(): <span class="ty">String</span>
+
+  <span class="kw">fun</span> shme(): <span class="ty">String</span> = __jni_shme()
+  @JvmName(<span class="st">"__jni_shme"</span>)
+  <span class="kw">private external fun</span> __jni_shme(): <span class="ty">String</span>
+
+  <span class="kw">companion object</span> {
+    <span class="kw">fun</span> create(): <span class="ty">EmptyClass1</span> = __jni_create()
+    @JvmStatic @JvmName(<span class="st">"__jni_create"</span>)
+    <span class="kw">private external fun</span> __jni_create(): <span class="ty">EmptyClass1</span>
+    <span class="kw">init</span> { loadNativeLibs() }
+  }
 }`,
 
-`<span class="cm">// Generated Swift bridge — NOT C++. A @convention(c) closure</span>
-<span class="cm">// is registered with JNI via RegisterNatives / JNINativeMethod,</span>
-<span class="cm">// so the function name is 'java_&lt;namespace&gt;_&lt;exportName&gt;', not the</span>
-<span class="cm">// Java auto-binding 'Java_com_cricut_…' format.</span>
-<span class="kw">let</span> java_DesignElement_scale: @convention(c) (
-  UnsafeMutablePointer&lt;JNIEnv?&gt;, jobject, jdouble
-) -&gt; <span class="ty">jobject</span>? = { _javaEnv, _javaThis, factor <span class="kw">in</span>
+`<span class="cm">// From bindings/swift-interfaces/.../JavaInterface/TestAPI.swift —</span>
+<span class="cm">// a @convention(c) closure registered with JNI via RegisterNatives /</span>
+<span class="cm">// JNINativeMethod, so the function name is "__jni_shme", not the</span>
+<span class="cm">// classic Java_com_cricut_… auto-binding format.</span>
+<span class="kw">let</span> java_TestAPI_EmptyClass_shme: @convention(c) (
+  UnsafeMutablePointer&lt;JNIEnv?&gt;, jobject
+) -&gt; <span class="ty">jobject</span>? = { _javaEnv, _javaThis <span class="kw">in</span>
   FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv <span class="kw">in</span>
-    <span class="kw">let</span> _self  = <span class="kw">try</span> DesignElement.fromJava(_javaThis, env: _javaEnv)
-    <span class="kw">let</span> result = _self.scale(by: factor)
-    <span class="kw">return try</span> DesignElement.toJava(result, env: _javaEnv)
+    <span class="kw">let</span> _self = <span class="kw">try</span> TestAPI.EmptyClass.fromJava(_javaThis, env: _javaEnv)
+    <span class="kw">let</span> result = _self.shme()
+    <span class="kw">return try</span> Swift.String.toJava(result, env: _javaEnv)
   }
 }
 
 <span class="cm">// Registered at JNI_OnLoad via:</span>
-<span class="cm">//   env.RegisterNatives(cls, [JNINativeMethod(name: "__jni_scale", ...)])</span>`,
+<span class="cm">//   env.RegisterNatives(cls, [JNINativeMethod(name: "__jni_shme", ...)])</span>`,
 
 `<span class="cm">// Kotlin usage</span>
-<span class="kw">val</span> el = DesignElement(
-  id = <span class="st">"00000000-0000-0000-0000-000000000000"</span>,
-  name = <span class="st">"logo"</span>,
-  width = 200.0,
-  height = 100.0
-)
-<span class="kw">val</span> scaled = el.scale(2.0)
-println(scaled.width) <span class="cm">// 400.0</span>
+<span class="kw">val</span> el = EmptyClass1.create()
+println(el.blarg)   <span class="cm">// "Blarg!"</span>
+println(el.shme())  <span class="cm">// "Shme! Hand me my hook."</span>
 
-<span class="cm">// Coroutine-friendly async methods:</span>
-<span class="kw">suspend fun</span> processAsync() {
-  <span class="kw">val</span> result = el.processAsync()
+<span class="cm">// async Swift methods become suspend funs (Deferred under the hood):</span>
+<span class="kw">suspend fun</span> demo() {
+  <span class="kw">val</span> result = el.someAsyncMethod()
 }`
     ]
   },
   csharp: {
     color: 'var(--csharp)',
-    tabs: ['C# Record', 'P/Invoke', 'Usage'],
+    tabs: ['C# class', 'P/Invoke', 'Usage'],
     panels: [
-`<span class="cm">// Generated C# record — exported Swift structs are value-style records.</span>
-<span class="cm">// Reference exports instead generate classes that extend SwiftReference.</span>
-<span class="kw">public record</span> <span class="ty">DesignElement</span> {
-  <span class="kw">public</span> <span class="ty">string</span> Id { <span class="kw">get</span>; <span class="kw">internal set</span>; }
-  <span class="kw">public</span> <span class="ty">string</span> Name { <span class="kw">get</span>; <span class="kw">internal set</span>; }
-  <span class="kw">public double</span> Width { <span class="kw">get</span>; <span class="kw">set</span>; }
-  <span class="kw">public double</span> Height { <span class="kw">get</span>; <span class="kw">set</span>; }
+`<span class="cm">// Generated bindings/c-sharp/generated/Cricut.TestAPI/EmptyClass1.cs</span>
+<span class="cm">// Reference exports extend SwiftReference; value structs become records.</span>
+<span class="kw">public class</span> <span class="ty">EmptyClass1</span> : <span class="ty">SwiftReference</span> {
+    <span class="kw">internal</span> EmptyClass1(<span class="ty">ConsumedRef</span> reference): <span class="kw">base</span>(reference) {}
 
-  <span class="kw">public</span> <span class="ty">DesignElement</span>(<span class="kw">string</span> Id, <span class="kw">string</span> Name, <span class="kw">double</span> Width, <span class="kw">double</span> Height) {
-    <span class="kw">this</span>.Id = Id;
-    <span class="kw">this</span>.Name = Name;
-    <span class="kw">this</span>.Width = Width;
-    <span class="kw">this</span>.Height = Height;
-  }
+    <span class="kw">public string</span> GetBlarg() {
+        <span class="kw">using var</span> thisHandle = <span class="kw">new</span> <span class="ty">GCRef</span>(<span class="kw">this</span>);
+        <span class="kw">return</span> Check((<span class="kw">out</span> <span class="ty">CreatedRef</span> exn) =&gt;
+          __iota_get_TestAPI_EmptyClass_blarg(Loader.env, thisHandle.ptr, <span class="kw">out</span> exn)
+            .Consume&lt;<span class="kw">string</span>&gt;()
+        );
+    }
 
-  <span class="kw">public</span> <span class="ty">DesignElement</span> Scale(<span class="kw">double</span> factor) {
-    <span class="cm">// Calls the P/Invoke declaration shown in the next tab.</span>
-    <span class="kw">using var</span> _thisHandle = <span class="kw">new</span> <span class="ty">GCRef</span>(<span class="kw">this</span>);
-    <span class="kw">return</span> Check((<span class="kw">out</span> <span class="ty">CreatedRef</span> _exn) =&gt;
-      __iota_scale(Loader.env, _thisHandle.ptr, factor, <span class="kw">out</span> _exn)
-    ).Consume&lt;<span class="ty">DesignElement</span>&gt;();
-  }
+    <span class="kw">public static</span> <span class="ty">EmptyClass1</span> Create() {
+        <span class="kw">return</span> Check((<span class="kw">out</span> <span class="ty">CreatedRef</span> _exn) =&gt;
+          __iota_TestAPI_EmptyClass_create(Loader.env, <span class="kw">out</span> _exn)
+        ).Consume&lt;<span class="ty">EmptyClass1</span>&gt;();
+    }
+
+    <span class="kw">public string</span> Shme() {
+        <span class="kw">using var</span> _thisHandle = <span class="kw">new</span> <span class="ty">GCRef</span>(<span class="kw">this</span>);
+        <span class="kw">return</span> Check((<span class="kw">out</span> <span class="ty">CreatedRef</span> _exn) =&gt;
+          __iota_TestAPI_EmptyClass_shme(Loader.env, _thisHandle.ptr, <span class="kw">out</span> _exn)
+            .Consume&lt;<span class="kw">string</span>&gt;()
+        );
+    }
 }`,
 
 `<span class="cm">// Generated P/Invoke declaration — library is &lt;ModuleName&gt;-iota,</span>
 <span class="cm">// and FishyJoes always emits ExactSpelling, Cdecl, Unicode attributes.</span>
-[<span class="ty">DllImport</span>(<span class="st">"DesignEngine-iota"</span>,
+[<span class="ty">DllImport</span>(<span class="st">"TestAPI-iota"</span>,
   ExactSpelling = <span class="kw">true</span>,
   CallingConvention = CallingConvention.Cdecl,
   CharSet = CharSet.Unicode)]
-<span class="kw">private static extern</span> <span class="ty">CreatedRef</span> __iota_scale(
-    <span class="ty">IntPtr</span> envRef, <span class="ty">UnownedRef</span> self, <span class="kw">double</span> factor,
+<span class="kw">private static extern</span> <span class="ty">CreatedRef</span> __iota_TestAPI_EmptyClass_shme(
+    <span class="ty">IntPtr</span> envRef, <span class="ty">UnownedRef</span> self,
     <span class="kw">out</span> <span class="ty">CreatedRef</span> exn);`,
 
 `<span class="cm">// C# usage</span>
-<span class="kw">var</span> el = <span class="kw">new</span> <span class="ty">DesignElement</span>(
-  <span class="st">"00000000-0000-0000-0000-000000000000"</span>, <span class="st">"logo"</span>, 200.0, 100.0);
-<span class="kw">var</span> scaled = el.Scale(2.0);
-Console.WriteLine(scaled.Width); <span class="cm">// 400.0</span>
+<span class="kw">var</span> el = <span class="ty">EmptyClass1</span>.Create();
+Console.WriteLine(el.GetBlarg()); <span class="cm">// "Blarg!"</span>
+Console.WriteLine(el.Shme());     <span class="cm">// "Shme! Hand me my hook."</span>
 
-<span class="cm">// Async methods become Task&lt;T&gt;:</span>
-<span class="kw">var</span> result = <span class="kw">await</span> el.ProcessAsync();`
+<span class="cm">// async Swift methods become Task&lt;T&gt;:</span>
+<span class="kw">var</span> result = <span class="kw">await</span> el.SomeAsyncMethodAsync();`
     ]
   },
   dart: {
     color: 'var(--dart)',
-    tabs: ['Dart Class', 'dart:ffi', 'Usage'],
+    tabs: ['Dart class', 'dart:ffi', 'Usage'],
     panels: [
-`<span class="cm">// Generated Dart class — methods go through check() + an FFI binding</span>
-<span class="cm">// resolved at startup (see next tab).</span>
-<span class="kw">class</span> <span class="ty">DesignElement</span> {
-  <span class="kw">final</span> <span class="ty">String</span> id;
-  <span class="kw">final</span> <span class="ty">String</span> name;
-  <span class="ty">double</span> width;
-  <span class="ty">double</span> height;
+`<span class="cm">// Generated bindings/dart/generated/lib/src/EmptyClass1.dart —</span>
+<span class="cm">// methods go through check() + an FFI binding resolved at startup.</span>
+<span class="kw">class</span> <span class="ty">EmptyClass1</span> <span class="kw">extends</span> <span class="ty">SwiftReference</span> {
+    EmptyClass1(ffi.Pointer reference): <span class="kw">super</span>(reference) {}
 
-  <span class="ty">DesignElement</span>({
-    required <span class="kw">this</span>.id,
-    required <span class="kw">this</span>.name,
-    required <span class="kw">this</span>.width,
-    required <span class="kw">this</span>.height,
-  });
+    <span class="ty">String</span> <span class="kw">get</span> blarg =&gt;
+        <span class="ty">GCRef</span>.using(<span class="kw">this</span>, (_thisHandle) =&gt;
+            check((exn) =&gt;
+                consumeCreatedRef&lt;<span class="ty">String</span>&gt;(
+                  f__iota_get_TestAPI_EmptyClass_blarg(
+                    <span class="ty">Loader</span>.shared.env, _thisHandle.ptr, exn))));
 
-  <span class="ty">DesignElement</span> scale(<span class="ty">double</span> factor) =&gt;
-    <span class="ty">GCRef</span>.using(<span class="kw">this</span>, (_thisHandle) =&gt;
-      consumeCreatedRef&lt;<span class="ty">DesignElement</span>&gt;(check((<span class="ty">OutCreatedRef</span> _exn) =&gt;
-        f__iota_scale(<span class="ty">Loader</span>.shared.env, _thisHandle.ptr, factor, _exn)
-      ))
-    );
+    <span class="kw">static</span> <span class="ty">EmptyClass1</span> create() =&gt;
+        consumeCreatedRef&lt;<span class="ty">EmptyClass1</span>&gt;(check((<span class="ty">OutCreatedRef</span> _exn) =&gt;
+            f__iota_TestAPI_EmptyClass_create(<span class="ty">Loader</span>.shared.env, _exn)));
+
+    <span class="ty">String</span> shme() =&gt;
+        <span class="ty">GCRef</span>.using(<span class="kw">this</span>, (_thisHandle) =&gt;
+            consumeCreatedRef&lt;<span class="ty">String</span>&gt;(check((<span class="ty">OutCreatedRef</span> _exn) =&gt;
+                f__iota_TestAPI_EmptyClass_shme(
+                  <span class="ty">Loader</span>.shared.env, _thisHandle.ptr, _exn))));
 }`,
 
 `<span class="cm">// Generated dart:ffi binding — FishyJoes resolves '__iota_&lt;method&gt;'</span>
 <span class="cm">// via dylib.lookupFunction at module init and stores the typed</span>
 <span class="cm">// function pointer on the class as a static 'f__iota_&lt;method&gt;'.</span>
 <span class="kw">static late</span> <span class="ty">CreatedRef</span> Function(
-    <span class="ty">Env</span> env, <span class="ty">UnownedRef</span> self, <span class="ty">double</span> factor, <span class="ty">OutCreatedRef</span> exn
-) f__iota_scale;
+    <span class="ty">Env</span> env, <span class="ty">UnownedRef</span> _this, <span class="ty">OutCreatedRef</span> exn
+) f__iota_TestAPI_EmptyClass_shme;
 
 <span class="cm">// Wired up once at module load:</span>
-DesignElement.f__iota_scale = dylib.lookupFunction&lt;
-    <span class="cm">/* native: */</span> <span class="ty">CreatedRef</span> Function(<span class="ty">Env</span>, <span class="ty">UnownedRef</span>, ffi.Double, <span class="ty">OutCreatedRef</span>),
-    <span class="cm">/* dart:   */</span> <span class="ty">CreatedRef</span> Function(<span class="ty">Env</span>, <span class="ty">UnownedRef</span>, <span class="ty">double</span>, <span class="ty">OutCreatedRef</span>)
-&gt;(<span class="st">'__iota_scale'</span>);`,
+EmptyClass1.f__iota_TestAPI_EmptyClass_shme = dylib.lookupFunction&lt;
+    <span class="cm">/* native: */</span> <span class="ty">CreatedRef</span> Function(<span class="ty">Env</span>, <span class="ty">UnownedRef</span>, <span class="ty">OutCreatedRef</span>),
+    <span class="cm">/* dart:   */</span> <span class="ty">CreatedRef</span> Function(<span class="ty">Env</span>, <span class="ty">UnownedRef</span>, <span class="ty">OutCreatedRef</span>)
+&gt;(<span class="st">'__iota_TestAPI_EmptyClass_shme'</span>);`,
 
 `<span class="cm">// Dart / Flutter usage</span>
-<span class="kw">final</span> el = DesignElement(
-  id: <span class="st">'00000000-0000-0000-0000-000000000000'</span>,
-  name: <span class="st">'logo'</span>,
-  width: 200.0,
-  height: 100.0,
-);
-<span class="kw">final</span> scaled = el.scale(2.0);
-print(scaled.width); <span class="cm">// 400.0</span>
+<span class="kw">final</span> el = EmptyClass1.create();
+print(el.blarg);    <span class="cm">// "Blarg!"</span>
+print(el.shme());   <span class="cm">// "Shme! Hand me my hook."</span>
 
-<span class="cm">// Async methods become Future&lt;T&gt;:</span>
-<span class="kw">final</span> result = <span class="kw">await</span> el.processAsync();`
+<span class="cm">// async Swift methods become Future&lt;T&gt;:</span>
+<span class="kw">final</span> result = <span class="kw">await</span> el.someAsyncMethod();`
     ]
   }
 };
@@ -1892,15 +1919,15 @@ const walkthroughSteps = [
 ExportAnnotation(
   kind: .asReference,           <span class="cm">// from "exportReference"</span>
   name: <span class="st">"EmptyClass1"</span>,         <span class="cm">// foreign-language name</span>
-  cSharpName: <span class="st">"EmptyClass1"</span>,   <span class="cm">// no `cSharp:` override given</span>
+  cSharpName: <span class="st">"EmptyClass1"</span>,   <span class="cm">// no 'cSharp:' override given</span>
   isOverride: <span class="kw">false</span>, noReturn: <span class="kw">false</span>,
   genericOverrides: [:], omitParameters: [], compatibilityOrder: []
 )
 
-<span class="cm">// On the `blarg` computed property:</span>
+<span class="cm">// On the 'blarg' computed property:</span>
 ExportAnnotation(kind: .unmodified, name: <span class="st">"blarg"</span>, ...)
 
-<span class="cm">// On the `shme()` method:</span>
+<span class="cm">// On the 'shme()' method:</span>
 ExportAnnotation(kind: .unmodified, name: <span class="st">"shme"</span>, ...)`
     }]
   },
@@ -1914,7 +1941,7 @@ ExportAnnotation(kind: .unmodified, name: <span class="st">"shme"</span>, ...)`
       code: `<span class="cm">// The type itself:</span>
 .named(Name(module: <span class="kw">nil</span>, namespace: [], name: <span class="st">"EmptyClass"</span>))
 
-<span class="cm">// blarg property type (`String`):</span>
+<span class="cm">// blarg property type ('String'):</span>
 .named(Name(module: <span class="kw">nil</span>, namespace: [], name: <span class="st">"String"</span>))
 
 <span class="cm">// shme() function signature ((Self) -&gt; String):</span>
