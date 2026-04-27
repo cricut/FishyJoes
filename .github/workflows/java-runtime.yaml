@@ -76,7 +76,7 @@ jobs:
 
       - name: Install tools
         run: |
-          apt-get install -y zsh
+          sudo apt-get install -y zsh
 
       - name: Build native FishyJoesJavaRuntime
         shell: zsh {0}
