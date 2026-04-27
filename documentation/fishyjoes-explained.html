@@ -1386,6 +1386,69 @@ SourceryMethod(
     </div>
   </div>
 
+  <div style="margin-top:48px;">
+    <h3 style="font-size:1.05rem;margin-bottom:8px;">Object lifecycle — keeping Swift instances alive across the boundary</h3>
+    <p style="color:var(--muted);font-size:0.86rem;margin-bottom:18px;">When a foreign-language caller holds a Swift class instance, the Swift side increments a refcount via <code style="background:var(--bg);padding:1px 6px;border-radius:4px;">env.newRef()</code>. The trick is making sure that refcount is decremented exactly when the foreign wrapper goes away. Each runtime hooks this up differently.</p>
+    <div class="runtime-grid">
+      <div class="runtime-card" style="border-color:rgba(104,160,99,0.4);">
+        <h4 style="color:var(--node);">⬡ Node — NAPI reference</h4>
+        <ul>
+          <li><code>NodeReference</code> wraps a <code>napi_ref</code></li>
+          <li>Lifetime tied to the JS object via N-API's reference API</li>
+          <li>Released when the JS wrapper is collected</li>
+          <li><code>Sources/FishyJoesNodeRuntime/NodeClass.swift</code></li>
+        </ul>
+      </div>
+      <div class="runtime-card" style="border-color:rgba(127,82,255,0.4);">
+        <h4 style="color:var(--kotlin);">🎯 Kotlin — JNI global ref</h4>
+        <ul>
+          <li><code>JavaReference.init</code> → <code>env.globalRef($0)</code></li>
+          <li><code>deinit</code> calls <code>DeleteGlobalRef</code> after acquiring the JVM thread</li>
+          <li>Survives across JNI calls (local refs would not)</li>
+          <li><code>Sources/FishyJoesJavaRuntime/JavaReference.swift</code></li>
+        </ul>
+      </div>
+      <div class="runtime-card" style="border-color:rgba(23,134,0,0.4);">
+        <h4 style="color:var(--csharp);">♟ C# — GCHandle + Dispose</h4>
+        <ul>
+          <li><code>SwiftReference</code> wraps a <code>GCHandle.Alloc</code></li>
+          <li><code>Dispose()</code> → <code>FishyJoesCommonRuntime_AnyBox_releaseRef</code></li>
+          <li><code>using var</code> recommended for short scopes</li>
+          <li><code>c-sharp-runtime/src/SwiftReference.cs</code></li>
+        </ul>
+      </div>
+      <div class="runtime-card" style="border-color:rgba(1,117,194,0.4);">
+        <h4 style="color:var(--dart);">🎱 Dart — Finalizer</h4>
+        <ul>
+          <li><code>Finalizer&lt;ffi.Pointer&gt;</code> attached to the Dart wrapper</li>
+          <li>Finalizer callback runs <code>releaseRef</code> when the wrapper is collected</li>
+          <li>No explicit dispose needed</li>
+          <li><code>dart-runtime/lib/swift_reference.dart</code></li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="margin-top:24px;padding:20px;border:1px solid var(--border);border-radius:10px;background:var(--surface);">
+      <h4 style="font-size:0.92rem;margin-bottom:10px;color:var(--accent);">Iota ownership cheat sheet</h4>
+      <p style="color:var(--muted);font-size:0.84rem;margin-bottom:14px;">When values cross the FFI boundary in the Iota runtime (used by C# and Dart), the pointer comes in one of three flavors. Each tells the receiver who is responsible for releasing it.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;">
+        <div style="padding:14px;border:1px solid var(--border);border-radius:8px;background:var(--bg);">
+          <div style="color:var(--accent);font-family:monospace;font-weight:700;margin-bottom:6px;">UnownedRef</div>
+          <div style="font-size:0.82rem;color:var(--muted);">Borrowed for the call. The caller still owns it; the callee must not release it. Used for <code>this</code> on instance methods.</div>
+        </div>
+        <div style="padding:14px;border:1px solid var(--border);border-radius:8px;background:var(--bg);">
+          <div style="color:var(--accent);font-family:monospace;font-weight:700;margin-bottom:6px;">CreatedRef</div>
+          <div style="font-size:0.82rem;color:var(--muted);">Callee-owned. The caller must consume (= take ownership of) or explicitly release it. Used for return values and <code>out</code> exceptions.</div>
+        </div>
+        <div style="padding:14px;border:1px solid var(--border);border-radius:8px;background:var(--bg);">
+          <div style="color:var(--accent);font-family:monospace;font-weight:700;margin-bottom:6px;">ConsumedRef</div>
+          <div style="font-size:0.82rem;color:var(--muted);">Caller-owned at call time, but the callee takes ownership and is responsible for releasing it. Used for arguments-by-value.</div>
+        </div>
+      </div>
+      <div style="margin-top:14px;font-size:0.78rem;color:var(--muted);">Sources: <code>c-sharp-runtime/src/Utilities.cs</code> · <code>Sources/FishyJoesIotaRuntime/Box+Iota.swift</code></div>
+    </div>
+  </div>
+
   <div style="margin-top:40px;">
     <h3 style="font-size:1rem;margin-bottom:20px;">Call path: TypeScript calls a Swift method</h3>
     <div style="display:flex;flex-direction:column;gap:0;">
