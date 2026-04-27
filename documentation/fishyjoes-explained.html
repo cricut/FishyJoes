@@ -523,6 +523,147 @@
     display: block;
   }
 
+  /* ── WALKTHROUGH ── */
+  .walk-progress {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .walk-step {
+    flex: 1;
+    min-width: 110px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s;
+  }
+  .walk-step:hover { border-color: var(--accent); }
+  .walk-step.active {
+    border-color: var(--accent);
+    background: rgba(88,166,255,0.08);
+    box-shadow: 0 0 18px rgba(88,166,255,0.12);
+  }
+  .walk-step .walk-num {
+    display: inline-block;
+    width: 22px; height: 22px;
+    line-height: 22px;
+    border-radius: 50%;
+    background: var(--surface2);
+    color: var(--muted);
+    text-align: center;
+    font-size: 0.72rem;
+    font-weight: 700;
+    margin-right: 6px;
+  }
+  .walk-step.active .walk-num { background: var(--accent); color: var(--bg); }
+  .walk-step .walk-label {
+    font-size: 0.74rem;
+    color: var(--text);
+    font-weight: 600;
+  }
+  .walk-stage {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+    padding: 28px;
+    animation: fadeUp 0.3s ease;
+    margin-bottom: 18px;
+  }
+  .walk-stage h3 {
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+    color: var(--accent);
+  }
+  .walk-stage .walk-substage {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-bottom: 18px;
+  }
+  .walk-stage p {
+    color: var(--text);
+    font-size: 0.88rem;
+    line-height: 1.7;
+    margin-bottom: 14px;
+  }
+  .walk-stage p code,
+  .walk-stage .walk-substage code {
+    font-family: 'SF Mono','Fira Code',monospace;
+    font-size: 0.82em;
+    background: var(--surface2);
+    padding: 1px 6px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+  }
+  .walk-stage .code-block {
+    margin: 12px 0;
+  }
+  .walk-stage .walk-block-label {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-top: 16px;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .walk-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 8px;
+  }
+  @media (max-width: 800px) {
+    .walk-grid { grid-template-columns: 1fr; }
+  }
+  .walk-grid .lang-tag {
+    font-size: 0.74rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+  }
+  .walk-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 10px;
+  }
+  .walk-btn {
+    padding: 10px 22px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+    font-size: 0.86rem;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+  .walk-btn:hover:not(:disabled) {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .walk-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  .walk-source-chip {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    font-family: 'SF Mono','Fira Code',monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-left: 8px;
+    text-decoration: none;
+  }
+  .walk-source-chip:hover { color: var(--accent); border-color: var(--accent); }
+
   /* scrollbar */
   ::-webkit-scrollbar { width: 6px; height: 6px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
@@ -583,6 +724,7 @@
 <!-- NAV -->
 <nav class="nav-tabs">
   <button class="nav-tab active" onclick="showSection('overview')">Overview</button>
+  <button class="nav-tab" onclick="showSection('walkthrough')">Walkthrough</button>
   <button class="nav-tab" onclick="showSection('pipeline')">Pipeline</button>
   <button class="nav-tab" onclick="showSection('annotations')">Annotations</button>
   <button class="nav-tab" onclick="showSection('types')">Type System</button>
@@ -659,6 +801,20 @@
         <div><div class="arch-layer-title" style="color:var(--dart);">Dart / Flutter</div><div class="arch-layer-desc">Via FFI (Iota)</div></div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════ WALKTHROUGH ══════════════════════════════════ -->
+<section id="walkthrough" class="section">
+  <h2 class="section-title">End-to-End Walkthrough</h2>
+  <p class="section-desc">Follow a single real declaration — <code style="background:var(--surface);padding:2px 8px;border-radius:4px;font-family:monospace;">EmptyClass1</code> from <code style="background:var(--surface);padding:2px 8px;border-radius:4px;font-family:monospace;">integration-tests/TestAPI/Sources/TestAPI/Classes.swift</code> — through every stage of the FishyJoes pipeline. Use the buttons or click a step.</p>
+
+  <div class="walk-progress" id="walk-progress"></div>
+  <div id="walk-stage-container"></div>
+  <div class="walk-nav">
+    <button class="walk-btn" id="walk-prev" onclick="walkPrev()">← Previous</button>
+    <span id="walk-counter" style="align-self:center;color:var(--muted);font-size:0.82rem;"></span>
+    <button class="walk-btn" id="walk-next" onclick="walkNext()">Next →</button>
   </div>
 </section>
 
@@ -1569,11 +1725,268 @@ function selectLangTab(i) {
   document.querySelectorAll('.code-panel').forEach((p,j) => p.classList.toggle('active', j===i));
 }
 
+// ── Walkthrough ──
+const walkthroughSteps = [
+  {
+    label: "Annotated Swift",
+    title: "1. Annotated Swift Source",
+    sub: "<code>integration-tests/TestAPI/Sources/TestAPI/Classes.swift</code>",
+    body: "The developer writes a normal Swift class and adds <code>&lt;!-- FishyJoes.export(...) --&gt;</code> directives inside <code>///</code> doc comments. The <code>exportReference</code> kind on the type tells FishyJoes to expose it by-reference; per-member <code>export</code>s pick which methods and properties cross the boundary.",
+    blocks: [{
+      label: "Swift source (verbatim)",
+      code: `<span class="cm">/// &lt;!-- FishyJoes.exportReference(EmptyClass1) --&gt;</span>
+<span class="kw">public class</span> <span class="ty">EmptyClass</span>: <span class="ty">Hashable</span> {
+    <span class="cm">/// &lt;!-- FishyJoes.export(create) --&gt;</span>
+    <span class="kw">public init</span>() { }
+
+    <span class="cm">/// &lt;!-- FishyJoes.export(blarg) --&gt;</span>
+    <span class="kw">public var</span> blarg: <span class="ty">String</span> { <span class="st">"Blarg!"</span> }
+
+    <span class="cm">/// &lt;!-- FishyJoes.export(shme) --&gt;</span>
+    <span class="kw">public func</span> shme() -&gt; <span class="ty">String</span> { <span class="st">"Shme! Hand me my hook."</span> }
+}`
+    }]
+  },
+  {
+    label: "Sourcery dump",
+    title: "2. Sourcery AST → JSON",
+    sub: "Output of <code>sourcery --parseDocumentation --output .build/sourcery-dump/</code>",
+    body: "FishyJoes builds an in-memory <code>.swifttemplate</code> that embeds <code>SourceryDataModel.swift</code> and calls <code>SourceryTemplateContext(context).dump()</code>. Sourcery walks <code>Sources/</code>, captures <code>///</code> doc lines because of <code>--parseDocumentation</code>, and writes <code>sourcery-dump.json</code>. FishyJoes reads it back as a <code>SourceryTemplateContext</code> tree.",
+    blocks: [{
+      label: "Slice of sourcery-dump.json (selected fields)",
+      code: `{
+  <span class="st">"types"</span>: [
+    {
+      <span class="st">"kind"</span>: <span class="st">"class"</span>,
+      <span class="st">"name"</span>: { <span class="st">"unwrappedTypeName"</span>: <span class="st">"EmptyClass"</span>, <span class="st">"isOptional"</span>: <span class="kw">false</span>, ... },
+      <span class="st">"globalName"</span>: <span class="st">"TestAPI.EmptyClass"</span>,
+      <span class="st">"documentation"</span>: [
+        <span class="st">"&lt;!-- FishyJoes.exportReference(EmptyClass1) --&gt;"</span>
+      ],
+      <span class="st">"based"</span>: [<span class="st">"Hashable"</span>],
+      <span class="st">"computedVariables"</span>: [
+        { <span class="st">"name"</span>: <span class="st">"blarg"</span>, <span class="st">"documentation"</span>: [<span class="st">"&lt;!-- FishyJoes.export(blarg) --&gt;"</span>], ... }
+      ],
+      <span class="st">"methods"</span>: [
+        { <span class="st">"name"</span>: <span class="st">"init()"</span>, <span class="st">"documentation"</span>: [<span class="st">"&lt;!-- FishyJoes.export(create) --&gt;"</span>], ... },
+        { <span class="st">"name"</span>: <span class="st">"shme()"</span>, <span class="st">"documentation"</span>: [<span class="st">"&lt;!-- FishyJoes.export(shme) --&gt;"</span>], ... }
+      ]
+    }
+  ]
+}`
+    }]
+  },
+  {
+    label: "Annotation parsed",
+    title: "3. ExportAnnotation parsed",
+    sub: "<code>Sources/FishyJoesCore/ExportAnnotation.swift</code>",
+    body: "For each declaration, FishyJoes scans its <code>documentation</code> lines against <code>^\\s*&lt;!--\\s*FishyJoes\\.(.*)\\((.*)\\)\\s*--&gt;\\s*$</code>. The first capture is the kind (<code>export</code> / <code>exportReference</code> / <code>exportAsMethod</code>); the second is parsed into a name plus optional attributes. Missing the name is a hard <code>fatalErr</code>.",
+    blocks: [{
+      label: "ExportAnnotation values for EmptyClass",
+      code: `<span class="cm">// On the type itself:</span>
+ExportAnnotation(
+  kind: .asReference,           <span class="cm">// from "exportReference"</span>
+  name: <span class="st">"EmptyClass1"</span>,         <span class="cm">// foreign-language name</span>
+  cSharpName: <span class="st">"EmptyClass1"</span>,   <span class="cm">// no `cSharp:` override given</span>
+  isOverride: <span class="kw">false</span>, noReturn: <span class="kw">false</span>,
+  genericOverrides: [:], omitParameters: [], compatibilityOrder: []
+)
+
+<span class="cm">// On the `blarg` computed property:</span>
+ExportAnnotation(kind: .unmodified, name: <span class="st">"blarg"</span>, ...)
+
+<span class="cm">// On the `shme()` method:</span>
+ExportAnnotation(kind: .unmodified, name: <span class="st">"shme"</span>, ...)`
+    }]
+  },
+  {
+    label: "BetterType",
+    title: "4. BetterType resolution",
+    sub: "<code>Sources/FishyJoesCore/BetterType.swift</code>",
+    body: "Sourcery's <code>SourceryTypeName</code> (a struct of optional fields and booleans) is converted via the <code>.better</code> computed property into <code>BetterType</code>, a recursive enum. For <code>EmptyClass</code> the type is named; for the <code>shme()</code> return value (<code>String</code>) it's also named.",
+    blocks: [{
+      label: "BetterType values produced",
+      code: `<span class="cm">// The type itself:</span>
+.named(Name(module: <span class="kw">nil</span>, namespace: [], name: <span class="st">"EmptyClass"</span>))
+
+<span class="cm">// blarg property type (`String`):</span>
+.named(Name(module: <span class="kw">nil</span>, namespace: [], name: <span class="st">"String"</span>))
+
+<span class="cm">// shme() function signature ((Self) -&gt; String):</span>
+.function(
+    [],                                              <span class="cm">// no params</span>
+    .named(Name(name: <span class="st">"String"</span>, module: <span class="kw">nil</span>)), <span class="cm">// returns String</span>
+    isAsync: <span class="kw">false</span>,
+    isThrowing: <span class="kw">false</span>
+)`
+    }]
+  },
+  {
+    label: "TranslatedType",
+    title: "5. TranslatedType chosen",
+    sub: "<code>FishyJoesContext.translate(typeDefinition:)</code>",
+    body: "<code>translate(typeDefinition:)</code> picks a <code>TranslatedType</code> based on the annotation kind and Swift kind. Because the annotation is <code>.asReference</code>, the type becomes a <code>TranslatedReference</code> (the same path Swift <code>class</code>es and <code>actor</code>s take). <code>TranslatedReference</code> stores the per-language names (<code>nodeName</code>, <code>kotlinName</code>, <code>cSharpType</code>, <code>dartType</code>) and a <code>jniType</code>.",
+    blocks: [{
+      label: "TranslatedReference for EmptyClass1",
+      code: `TranslatedReference(
+  sourceType:    .named(.init(name: <span class="st">"EmptyClass"</span>, module: <span class="st">"TestAPI"</span>)),
+  nodeName:      <span class="st">"TestAPI.EmptyClass1"</span>,
+  kotlinName:    <span class="st">"EmptyClass1"</span>,    kotlinPackage: <span class="st">"com.cricut.testapi"</span>,
+  cSharpType:    .named(package: <span class="st">"Cricut.TestAPI"</span>, name: <span class="st">"EmptyClass1"</span>),
+  dartType:      .named(package: <span class="st">"TestAPI"</span>,        name: <span class="st">"EmptyClass1"</span>),
+  jniType:       .object(<span class="st">"com/cricut/testapi/EmptyClass1"</span>),
+  cName:         <span class="st">"TestAPI_EmptyClass"</span>,
+  computedVariables: [<span class="cm">/* blarg, wibble */</span>],
+  ...
+)`
+    }]
+  },
+  {
+    label: "SourceFragments",
+    title: "6. SourceFragment outputs",
+    sub: "<code>Sources/FishyJoesCore/Utilities/SourceFragment.swift</code>",
+    body: "Each translator (<code>NodeTranslator</code>, <code>KotlinTranslator</code>, <code>CSharpTranslator</code>, <code>DartTranslator</code>, <code>IotaTranslator</code>, <code>JavaTranslator</code>) walks the <code>TranslatedReference</code> and appends to <code>SourceFragment</code>s tagged with a <code>destinationPath</code>. <code>SourceFragment.combine</code> groups them by path; <code>CodeGen</code> writes each blob under <code>bindings/</code>.",
+    blocks: [{
+      label: "Fragments produced for EmptyClass1 (paths)",
+      code: `ts/generated/TestAPI.d.ts.part
+kotlin/generated/src/main/kotlin/com/cricut/testapi/EmptyClass1.kt
+c-sharp/generated/Cricut.TestAPI/EmptyClass1.cs
+dart/generated/lib/src/EmptyClass1.dart
+swift-interfaces/generated/TestAPI-bindings/Sources/NodeInterface/TestAPI.swift
+swift-interfaces/generated/TestAPI-bindings/Sources/JavaInterface/TestAPI.swift
+swift-interfaces/generated/TestAPI-bindings/Sources/IotaInterface/TestAPI.swift`
+    }]
+  },
+  {
+    label: "Generated bindings",
+    title: "7. Generated bindings (per language)",
+    sub: "Side-by-side, all from <code>integration-tests/TestAPI/bindings/</code>",
+    body: "What lands on disk for the foreign-language consumer. Each surface idiomatically maps the same Swift class to a class with the same methods.",
+    grid: [
+      {
+        tag: "TypeScript",
+        color: "var(--node)",
+        code: `<span class="kw">export class</span> <span class="ty">EmptyClass1</span> {
+    <span class="kw">private constructor</span>()
+    <span class="kw">readonly</span> blarg: <span class="ty">string</span>;
+    <span class="kw">static</span> create(): <span class="ty">TestAPI.EmptyClass1</span>;
+    shme(): <span class="ty">string</span>;
+}`
+      },
+      {
+        tag: "Kotlin",
+        color: "var(--kotlin)",
+        code: `<span class="kw">class</span> <span class="ty">EmptyClass1</span> <span class="kw">private constructor</span>(_swiftReference: <span class="ty">Long</span>):
+    <span class="ty">SwiftReference</span>(_swiftReference) {
+  <span class="kw">val</span> blarg: <span class="ty">String</span> <span class="kw">get</span>() = __jni_get_blarg()
+  <span class="kw">fun</span> shme(): <span class="ty">String</span> = __jni_shme()
+  <span class="kw">companion object</span> {
+    <span class="kw">fun</span> create(): <span class="ty">EmptyClass1</span> = __jni_create()
+  }
+}`
+      },
+      {
+        tag: "C#",
+        color: "var(--csharp)",
+        code: `<span class="kw">public class</span> <span class="ty">EmptyClass1</span> : <span class="ty">SwiftReference</span> {
+  <span class="kw">public string</span> GetBlarg() { ... }
+  <span class="kw">public static</span> <span class="ty">EmptyClass1</span> Create() { ... }
+  <span class="kw">public string</span> Shme() { ... }
+  [<span class="ty">DllImport</span>(<span class="st">"TestAPI-iota"</span>, ...)]
+  <span class="kw">private static extern</span> <span class="ty">CreatedRef</span>
+    __iota_TestAPI_EmptyClass_shme(<span class="ty">IntPtr</span> envRef, <span class="ty">UnownedRef</span> self, <span class="kw">out</span> <span class="ty">CreatedRef</span> exn);
+}`
+      },
+      {
+        tag: "Dart",
+        color: "var(--dart)",
+        code: `<span class="kw">class</span> <span class="ty">EmptyClass1</span> <span class="kw">extends</span> <span class="ty">SwiftReference</span> {
+  <span class="ty">String</span> <span class="kw">get</span> blarg =&gt;
+    <span class="ty">GCRef</span>.using(<span class="kw">this</span>, (h) =&gt;
+      check((exn) =&gt; consumeCreatedRef&lt;<span class="ty">String</span>&gt;(
+        f__iota_get_TestAPI_EmptyClass_blarg(<span class="ty">Loader</span>.shared.env, h.ptr, exn))));
+  <span class="kw">static</span> <span class="ty">EmptyClass1</span> create() =&gt; ...;
+  <span class="ty">String</span> shme() =&gt; ...;
+}`
+      }
+    ]
+  },
+  {
+    label: "At runtime",
+    title: "8. At runtime — TS calls Swift",
+    sub: "What happens when the consumer calls <code>EmptyClass1.create().shme()</code>",
+    body: "The generated bindings aren't standalone — they call into a per-language runtime that owns the FFI/N-API/JNI plumbing. For Node, a method call lands in a generated Swift bridge that runs inside <code>FishyJoesNodeRuntime.callbackBody</code>; for the Iota runtime (C# / Dart) the call is a direct FFI <code>DllImport</code> / <code>lookupFunction</code>; for Kotlin it's a JNI <code>RegisterNatives</code>-bound function. In all cases a <code>SwiftReference</code> on the foreign side keeps the Swift instance alive via reference counting.",
+    blocks: [{
+      label: "TS → Swift call sequence (synchronous)",
+      code: `1. <span class="ty">JS/TS</span>     <span class="kw">const</span> r = el.shme();
+2. <span class="ty">N-API</span>     <span class="ty">node</span> invokes the generated method callback (registered by <span class="ty">NodeClass</span>)
+3. <span class="ty">Swift</span>     enters <span class="ty">FishyJoesNodeRuntime.callbackBody</span> — extracts <span class="ty">env</span>, <span class="ty">this</span>, args
+4. <span class="ty">Convert</span>   <span class="ty">env.this</span>(converter: <span class="ty">EmptyClass</span>.<span class="kw">self</span>) — peeks the <span class="ty">NodeReference</span>
+5. <span class="ty">Swift</span>     <span class="ty">EmptyClass</span>.shme() runs natively
+6. <span class="ty">Convert</span>   <span class="ty">String</span>.toNode(result, env:) → <span class="ty">napi_value</span>
+7. <span class="ty">JS/TS</span>     receives the string. (Async methods return a Promise; thrown errors
+            become a JS exception via <span class="ty">env.throw</span> in <span class="ty">rethrowToNode</span>.)`
+    }]
+  }
+];
+
+let walkIdx = 0;
+
+function renderWalkProgress() {
+  const el = document.getElementById('walk-progress');
+  if (!el) return;
+  el.innerHTML = walkthroughSteps.map((s, i) =>
+    `<button class="walk-step ${i === walkIdx ? 'active' : ''}" onclick="selectWalkStep(${i})">
+      <span class="walk-num">${i + 1}</span>
+      <span class="walk-label">${s.label}</span>
+    </button>`
+  ).join('');
+}
+
+function renderWalkStage() {
+  const container = document.getElementById('walk-stage-container');
+  if (!container) return;
+  const s = walkthroughSteps[walkIdx];
+  let blocksHtml = '';
+  if (s.blocks) {
+    blocksHtml = s.blocks.map(b =>
+      `<div class="walk-block-label">${b.label}</div><div class="code-block">${b.code}</div>`
+    ).join('');
+  }
+  if (s.grid) {
+    blocksHtml += `<div class="walk-grid">` + s.grid.map(g =>
+      `<div><div class="lang-tag" style="color:${g.color}">${g.tag}</div><div class="code-block">${g.code}</div></div>`
+    ).join('') + `</div>`;
+  }
+  container.innerHTML = `
+    <div class="walk-stage">
+      <h3>${s.title}</h3>
+      <div class="walk-substage">${s.sub}</div>
+      <p>${s.body}</p>
+      ${blocksHtml}
+    </div>
+  `;
+  document.getElementById('walk-prev').disabled = walkIdx === 0;
+  document.getElementById('walk-next').disabled = walkIdx === walkthroughSteps.length - 1;
+  document.getElementById('walk-counter').textContent = `Step ${walkIdx + 1} of ${walkthroughSteps.length}`;
+}
+
+function selectWalkStep(i) {
+  walkIdx = Math.max(0, Math.min(walkthroughSteps.length - 1, i));
+  renderWalkProgress();
+  renderWalkStage();
+}
+
+function walkPrev() { selectWalkStep(walkIdx - 1); }
+function walkNext() { selectWalkStep(walkIdx + 1); }
+
 // auto-select first stage on page load
 document.addEventListener('DOMContentLoaded', () => {
   selectStage(0);
+  selectWalkStep(0);
 });
 selectStage(0);
+selectWalkStep(0);
 </script>
 </body>
 </html>
