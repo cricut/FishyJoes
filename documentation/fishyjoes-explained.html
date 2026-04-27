@@ -1239,11 +1239,11 @@ indirect enum BetterType {
   },
   {
     title: "TranslatedTypes — Language-neutral IR",
-    body: "Each exported Swift type is converted into a TranslatedType — the language-neutral intermediate representation. These capture all semantic information needed to generate idiomatic code in every target language. Note: there is no TranslatedClass — both Swift classes and <code>exportReference</code> structs become <code>TranslatedReference</code>.",
+    body: "Each exported Swift type is converted into a TranslatedType — the language-neutral intermediate representation. These capture all semantic information needed to generate idiomatic code in every target language. Note: there is no TranslatedClass — Swift classes, actors, and <code>exportReference</code> structs all become <code>TranslatedReference</code>.",
     code: `// TranslatedType implementations cover exported declarations,
 // built-ins, collections, async/result wrappers, and runtime types:
 TranslatedStruct          // POD value types
-TranslatedReference       // Swift classes + exportReference structs
+TranslatedReference       // Swift classes, actors, and exportReference structs
 TranslatedProtocol        // protocol / interface types
 TranslatedEnum            // enumerations
 TranslatedArray           // Array<T>
