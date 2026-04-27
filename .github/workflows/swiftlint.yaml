@@ -10,7 +10,7 @@ name: "SwiftLint"
 
 jobs:
   swiftlint:
-    runs-on: k8s
+    runs-on: ubuntu-latest
     container:
       image: ghcr.io/realm/swiftlint:0.53.0
     steps:
