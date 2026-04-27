@@ -1360,7 +1360,7 @@ SourceryMethod(
     <div class="arch-layer" onclick="toggleArch('a1')" id="a1">
       <span class="arch-layer-icon">⚙️</span>
       <div style="flex:1;">
-        <div class="arch-layer-title">FishyJoesExecuteMain <span class="pill">CLI Entry Point</span></div>
+        <div class="arch-layer-title">FishyJoesExecuteMain <span class="pill">CLI Entry Point</span> <a class="walk-source-chip" href="../Sources/FishyJoesExecuteMain/">📂 Sources/FishyJoesExecuteMain/</a></div>
         <div class="arch-layer-desc">Executable entry point that hands control to the CLI command tree</div>
       </div>
       <span style="color:var(--muted);">▼</span>
@@ -1377,7 +1377,7 @@ SourceryMethod(
     <div class="arch-layer" onclick="toggleArch('a2')" id="a2">
       <span class="arch-layer-icon">🏗</span>
       <div style="flex:1;">
-        <div class="arch-layer-title">FishyJoesExecute <span class="pill">Orchestration</span></div>
+        <div class="arch-layer-title">FishyJoesExecute <span class="pill">Orchestration</span> <a class="walk-source-chip" href="../Sources/FishyJoesExecute/">📂 Sources/FishyJoesExecute/</a></div>
         <div class="arch-layer-desc">Multi-phase build pipeline, platform-specific phases</div>
       </div>
       <span style="color:var(--muted);">▼</span>
@@ -1396,7 +1396,7 @@ SourceryMethod(
     <div class="arch-layer" onclick="toggleArch('a3')" id="a3">
       <span class="arch-layer-icon">🧠</span>
       <div style="flex:1;">
-        <div class="arch-layer-title">FishyJoesCore <span class="pill">Code Analysis & Generation</span></div>
+        <div class="arch-layer-title">FishyJoesCore <span class="pill">Code Analysis & Generation</span> <a class="walk-source-chip" href="../Sources/FishyJoesCore/">📂 Sources/FishyJoesCore/</a></div>
         <div class="arch-layer-desc">Type resolution, IR, language translators, code emission</div>
       </div>
       <span style="color:var(--muted);">▼</span>
@@ -1417,7 +1417,7 @@ SourceryMethod(
     <div class="arch-layer" onclick="toggleArch('a4')" id="a4">
       <span class="arch-layer-icon">🔌</span>
       <div style="flex:1;">
-        <div class="arch-layer-title">Runtime Targets <span class="pill">4 runtimes</span></div>
+        <div class="arch-layer-title">Runtime Targets <span class="pill">4 runtimes</span> <a class="walk-source-chip" href="../Sources/FishyJoesCommonRuntime/">📂 *Runtime/</a></div>
         <div class="arch-layer-desc">Type marshalling between Swift and each target language at runtime</div>
       </div>
       <span style="color:var(--muted);">▼</span>
@@ -1435,7 +1435,7 @@ SourceryMethod(
     <div class="arch-layer" onclick="toggleArch('a5')" id="a5">
       <span class="arch-layer-icon">🗂</span>
       <div style="flex:1;">
-        <div class="arch-layer-title">Support Targets</div>
+        <div class="arch-layer-title">Support Targets <a class="walk-source-chip" href="../Sources/SourceryDataModel/">📂 SourceryDataModel/</a> <a class="walk-source-chip" href="../Sources/JNI/">📂 JNI/</a> <a class="walk-source-chip" href="../Sources/NodeAPI/">📂 NodeAPI/</a></div>
         <div class="arch-layer-desc">External bridging layers and configuration</div>
       </div>
       <span style="color:var(--muted);">▼</span>
@@ -1821,6 +1821,7 @@ window.addEventListener('hashchange', applyURLState);
 const stageData = [
   {
     title: "Your Swift Library — annotated source + fishy-joes.yaml",
+    sources: ["Sources/FishyJoesExecute/FishyJoesConfig.swift"],
     body: "FishyJoes is run from the root of your own Swift library (the same directory as its <code>Package.swift</code>). You add FishyJoes as a dependency, annotate the Swift types you want to expose with <code>/// &lt;!-- FishyJoes.export(Name) --&gt;</code> doc comments, and create a <code>bindings/fishy-joes.yaml</code> config naming your module. Then kick off the whole pipeline:",
     blocks: [
       {
@@ -1844,6 +1845,7 @@ excludeSources:
   },
   {
     title: "Sourcery — AST Reflection",
+    sources: ["Sources/FishyJoesExecute/CodeGen.swift", "Sources/SourceryDataModel/SourceryDataModel.swift"],
     body: "FishyJoes builds a Sourcery template at runtime by embedding <code>SourceryDataModel.swift</code> into a <code>.swifttemplate</code> file, then invokes Sourcery on <code>Sources/</code> with <code>--parseDocumentation</code> (so doc comments are captured). The template calls <code>SourceryTemplateContext(context).dump()</code>, which serialises FishyJoes' selected Sourcery model to JSON at <code>.build/sourcery-dump/sourcery-dump.json</code>. FishyJoes then reads that file back and takes over from there.",
     code: `// SourceryDataModel.swift — selected fields FishyJoes receives:
 
@@ -1865,6 +1867,7 @@ struct SourceryType {
   },
   {
     title: "Export Annotations — Selective opt-in",
+    sources: ["Sources/FishyJoesCore/ExportAnnotation.swift"],
     body: "FishyJoes reads the documentation strings from Sourcery's AST and parses <!-- FishyJoes.export(Name) --> HTML comments (plus the exportReference / exportAsMethod variants). The name is mandatory — the parser fatals if it's missing. Types, methods, initializers, and computed properties are annotation-driven; stored properties of exported structs are emitted as value fields. This gives developers fine-grained control over most of the public surface.",
     code: `// ExportAnnotation.swift
 struct ExportAnnotation {
@@ -1880,6 +1883,7 @@ struct ExportAnnotation {
   },
   {
     title: "BetterType — Recursive type resolution",
+    sources: ["Sources/FishyJoesCore/BetterType.swift"],
     body: "SourceryTypeName is a wrapper around Sourcery's TypeName shape, which mixes name strings with optional tuple, array, dictionary, closure, and generic payloads. As the comment in BetterType.swift puts it, 'An Optional&lt;Int&gt; isn't an Int that happens to be optional, it's an Optional that may contain an Int.' FishyJoes converts it via a <code>.better</code> computed property into BetterType — a proper recursive enum. <code>.optional()</code>, <code>.array()</code>, <code>.dictionary()</code> etc. are convenience functions that all expand to the <code>.generic</code> case.",
     code: `// The real BetterType enum cases:
 indirect enum BetterType {
@@ -1897,6 +1901,7 @@ indirect enum BetterType {
   },
   {
     title: "TranslatedTypes — Language-neutral IR",
+    sources: ["Sources/FishyJoesCore/TranslatedTypes/", "Sources/FishyJoesCore/FishyJoesContext.swift"],
     body: "Each exported Swift type is converted into a TranslatedType — the language-neutral intermediate representation. These capture all semantic information needed to generate idiomatic code in every target language. Note: there is no TranslatedClass — Swift classes, actors, and <code>exportReference</code> structs all become <code>TranslatedReference</code>.",
     code: `// TranslatedType implementations cover exported declarations,
 // built-ins, collections, async/result wrappers, and runtime types:
@@ -1920,6 +1925,7 @@ TranslatedURL             // URL`
   },
   {
     title: "Code Generation — SourceFragments",
+    sources: ["Sources/FishyJoesCore/Utilities/SourceFragment.swift", "Sources/FishyJoesCore/Translators/"],
     body: "Each language translator (NodeTranslator, KotlinTranslator, etc.) walks the TranslatedTypes and emits SourceFragment objects. A SourceFragment is a simple line-oriented builder with indentation tracking. Each fragment has a <code>destinationPath</code> telling FishyJoes where to write the file. When all translators are done, <code>SourceFragment.combine()</code> groups contents by destinationPath; the CodeGen phase then writes each grouped blob to disk.",
     code: `// SourceFragment — the real API:
 let fragment = SourceFragment(destinationPath: "ts/generated/DesignElement.ts")
@@ -1938,6 +1944,7 @@ fragment.outputBlock("export class DesignElement {") {  // last char is '{', so 
   },
   {
     title: "Build — Native + language packages",
+    sources: ["Sources/FishyJoesExecute/Platform.swift", "Sources/FishyJoesExecute/Phases/"],
     body: "FishyJoes compiles the generated Swift interface package with SwiftPM. On macOS native targets it locates <code>swift-build</code> through <code>xcrun</code>; on Linux and Windows native targets it uses <code>swift build</code>; and for WASM or Android cross-compilation it can run the required Swift toolchain through <code>swiftly</code>. It then runs the language-specific build tool against the generated bindings and compiled library.",
     code: `# FishyJoes runs these for you (per platform):
 swift build --configuration release  # native .dylib / .so / .dll
@@ -1948,6 +1955,7 @@ dotnet restore && dotnet build  # C#
   },
   {
     title: "Pack — Publishable packages",
+    sources: ["Sources/FishyJoesExecute/Phases/NodePhases.swift", "Sources/FishyJoesExecute/Phases/KotlinPhases.swift", "Sources/FishyJoesExecute/Phases/CSharpPhases.swift", "Sources/FishyJoesExecute/Phases/DartPhases.swift"],
     body: "The pack phase invokes each language's packaging tool and bundles the native libraries that were produced for that target. <code>--version</code> is applied by the Node, C#, and Dart pack steps; Kotlin publishes whatever version is set in the generated Gradle project.",
     code: `# Pack commands FishyJoes runs per language:
 npm pack                        # Node  → bindings/packed-npm-packages/
@@ -1958,6 +1966,12 @@ dotnet pack                     # C#    → bindings/c-sharp/nupkgs/
 ];
 
 let activeStage = 0;
+function renderSourceChips(paths) {
+  if (!paths || !paths.length) return '';
+  return `<div style="margin-top:14px;font-size:0.78rem;">📂 ` +
+    paths.map(p => `<a class="walk-source-chip" href="../${p}">${p}</a>`).join(' ') +
+    `</div>`;
+}
 function selectStage(idx) {
   activeStage = idx;
   document.querySelectorAll('.pipe-stage').forEach((s,i) => {
@@ -1971,6 +1985,7 @@ function selectStage(idx) {
     <h3>${d.title}</h3>
     <p>${d.body}</p>
     ${codeHtml}
+    ${renderSourceChips(d.sources)}
   `;
   if (typeof syncURL === 'function') syncURL();
 }
