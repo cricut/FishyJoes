@@ -1460,6 +1460,54 @@ SourceryMethod(
     </div>
 
   </div>
+
+  <div style="margin-top:48px;">
+    <h3 style="font-size:1.05rem;margin-bottom:8px;">What ends up on disk — generated artifacts</h3>
+    <p style="color:var(--muted);font-size:0.86rem;margin-bottom:16px;">After a successful <code style="background:var(--surface);padding:1px 6px;border-radius:4px;">generate build pack</code> run, your library's directory looks like this. See the full structure in <a class="walk-source-chip" href="bindings-structure.txt">📂 documentation/bindings-structure.txt</a>.</p>
+    <div class="code-block" style="font-size:0.78rem;line-height:1.7;">
+<span class="ty">MyLibrary/</span>
+├── <span class="kw">Package.swift</span>
+├── <span class="kw">Sources/MyLibrary/</span>           <span class="cm">// your annotated Swift code</span>
+└── <span class="ty">bindings/</span>                    <span class="cm">// everything below is FishyJoes output</span>
+    ├── <span class="kw">fishy-joes.yaml</span>          <span class="cm">// you wrote this</span>
+    │
+    ├── <span class="ty">swift-interfaces/generated/MyLibrary-bindings/Sources/</span>
+    │   ├── <span class="en">CommonInterface/</span>     <span class="cm">// shared Swift bridge code</span>
+    │   ├── <span class="en">NodeInterface/</span>       <span class="cm">// N-API @_cdecl entry points</span>
+    │   ├── <span class="en">JavaInterface/</span>       <span class="cm">// JNI @convention(c) closures</span>
+    │   ├── <span class="en">IotaInterface/</span>       <span class="cm">// FFI @_cdecl entry points (C# + Dart)</span>
+    │   └── <span class="en">WasmMainShim/</span>        <span class="cm">// reactor-mode WASM entry point</span>
+    │
+    ├── <span class="ty">ts/generated/</span>
+    │   ├── <span class="kw">MyLibrary.d.ts.part</span>   <span class="cm">// TypeScript types</span>
+    │   ├── <span class="kw">package.native-macos.json</span>
+    │   ├── <span class="kw">package.wasm.json</span>
+    │   └── <span class="kw">postinstall.native-*.sh/.cmd</span>
+    │
+    ├── <span class="ty">kotlin/generated/</span>
+    │   ├── <span class="kw">build.gradle.kts</span>
+    │   └── <span class="kw">src/main/kotlin/com/&lt;org&gt;/&lt;lib&gt;/*.kt</span>
+    │
+    ├── <span class="ty">c-sharp/generated/</span>
+    │   ├── <span class="kw">Cricut.MyLibrary.sln</span>
+    │   └── <span class="kw">Cricut.MyLibrary/*.cs</span>     <span class="cm">// classes &amp; P/Invoke decls</span>
+    │
+    ├── <span class="ty">dart/generated/</span>
+    │   ├── <span class="kw">lib/src/*.dart</span>            <span class="cm">// Dart classes &amp; FFI bindings</span>
+    │   ├── <span class="kw">linux/CMakeLists.txt</span>
+    │   ├── <span class="kw">macos/&lt;org&gt;_&lt;lib&gt;.podspec</span>
+    │   ├── <span class="kw">windows/CMakeLists.txt</span>
+    │   └── <span class="kw">flutter-package/</span>           <span class="cm">// not committed; pack output</span>
+    │
+    └── <span class="ty">.github/workflows/</span>           <span class="cm">// regenerated each run</span>
+        ├── <span class="kw">GENERATED-typescript.yaml</span>
+        ├── <span class="kw">GENERATED-kotlin.yaml</span>
+        ├── <span class="kw">GENERATED-c-sharp.yaml</span>
+        ├── <span class="kw">GENERATED-dart.yaml</span>
+        └── <span class="kw">GENERATED-regenerate-check.yaml</span>
+    </div>
+    <p style="color:var(--muted);font-size:0.78rem;margin-top:12px;">A few directories (<code>nupkgs/</code>, <code>packages/</code>, <code>flutter-package/</code>, <code>packed-npm-packages/</code>) are produced only when the <code>pack</code> step runs and are typically gitignored.</p>
+  </div>
 </section>
 
 <!-- ══════════════════════════════════ RUNTIME ══════════════════════════════════ -->
