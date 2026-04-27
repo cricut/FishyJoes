@@ -1337,6 +1337,11 @@ SourceryMethod(
     </div>
   </div>
 
+  <div style="display:flex;align-items:center;justify-content:flex-end;gap:8px;margin-bottom:14px;">
+    <span id="compare-hint" style="font-size:0.78rem;color:var(--muted);"></span>
+    <button id="compare-toggle" class="cap-pill" onclick="toggleCompareMode()">⇆ Compare two</button>
+  </div>
+
   <div class="lang-grid">
     <div class="lang-card node-card" onclick="selectLang('node')">
       <span class="lang-icon">⬡</span>
@@ -2400,26 +2405,110 @@ print(el.shme());   <span class="cm">// "Shme! Hand me my hook."</span>
 
 let activeLang = null;
 let activeLangTab = 0;
+let compareMode = false;
+let compareSelections = [];
 
-function selectLang(lang) {
+function toggleCompareMode() {
+  compareMode = !compareMode;
+  compareSelections = [];
+  document.getElementById('compare-toggle').classList.toggle('active', compareMode);
+  document.querySelectorAll('.lang-card').forEach(c => c.classList.remove('active'));
+  document.getElementById('lang-preview').classList.remove('active');
+  document.getElementById('lang-preview').innerHTML = '<div class="code-tabs" id="lang-tabs"></div><div id="lang-panels"></div>';
+  updateCompareHint();
+  if (compareMode) {
+    activeLang = null;
+  }
+}
+function updateCompareHint() {
+  const hint = document.getElementById('compare-hint');
+  if (!hint) return;
+  if (!compareMode) { hint.textContent = ''; return; }
+  if (compareSelections.length === 0) hint.textContent = 'Pick the first language…';
+  else if (compareSelections.length === 1) hint.textContent = 'Pick the second language to compare…';
+  else hint.textContent = '';
+}
+
+function renderSingleLang(lang) {
   activeLang = lang;
   activeLangTab = 0;
   const d = langData[lang];
   const preview = document.getElementById('lang-preview');
   preview.classList.add('active');
+  preview.innerHTML = `<div class="code-tabs" id="lang-tabs"></div><div id="lang-panels"></div>`;
 
-  // tabs
   document.getElementById('lang-tabs').innerHTML = d.tabs.map((t,i) =>
     `<div class="code-tab ${i===0?'active':''}" onclick="selectLangTab(${i})">${t}</div>`
   ).join('');
 
-  // panels
   document.getElementById('lang-panels').innerHTML = d.panels.map((p,i) =>
     `<pre class="code-panel ${i===0?'active':''}" id="lp${i}">${p}</pre>`
   ).join('');
 
   document.querySelectorAll('.lang-card').forEach(c => c.classList.remove('active'));
   document.querySelector(`.${lang}-card`).classList.add('active');
+}
+
+function renderCompare(a, b) {
+  const da = langData[a], db = langData[b];
+  const preview = document.getElementById('lang-preview');
+  preview.classList.add('active');
+  const tabCount = Math.min(da.tabs.length, db.tabs.length);
+  preview.innerHTML = `
+    <div class="code-tabs" id="lang-tabs">
+      ${da.tabs.slice(0, tabCount).map((t,i) =>
+        `<div class="code-tab ${i===0?'active':''}" onclick="selectCompareTab(${i})">${t}</div>`
+      ).join('')}
+    </div>
+    <div id="compare-panels"></div>
+  `;
+  activeLangTab = 0;
+  renderCompareTab(a, b, 0);
+}
+function renderCompareTab(a, b, idx) {
+  const da = langData[a], db = langData[b];
+  const c = document.getElementById('compare-panels');
+  if (!c) return;
+  c.innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;">
+      <div style="border-right:1px solid var(--border);">
+        <div style="padding:8px 16px;font-size:0.74rem;text-transform:uppercase;letter-spacing:0.05em;color:${da.color};border-bottom:1px solid var(--border);background:var(--surface2);">${a.charAt(0).toUpperCase() + a.slice(1)}</div>
+        <pre class="code-panel active" style="display:block;">${da.panels[idx] || '<span style="color:var(--muted);">(no panel)</span>'}</pre>
+      </div>
+      <div>
+        <div style="padding:8px 16px;font-size:0.74rem;text-transform:uppercase;letter-spacing:0.05em;color:${db.color};border-bottom:1px solid var(--border);background:var(--surface2);">${b.charAt(0).toUpperCase() + b.slice(1)}</div>
+        <pre class="code-panel active" style="display:block;">${db.panels[idx] || '<span style="color:var(--muted);">(no panel)</span>'}</pre>
+      </div>
+    </div>
+  `;
+}
+function selectCompareTab(i) {
+  if (compareSelections.length !== 2) return;
+  activeLangTab = i;
+  document.querySelectorAll('.code-tab').forEach((t,j) => t.classList.toggle('active', j===i));
+  renderCompareTab(compareSelections[0], compareSelections[1], i);
+}
+
+function selectLang(lang) {
+  if (compareMode) {
+    if (compareSelections.includes(lang)) {
+      compareSelections = compareSelections.filter(l => l !== lang);
+    } else {
+      compareSelections.push(lang);
+      if (compareSelections.length > 2) compareSelections.shift();
+    }
+    document.querySelectorAll('.lang-card').forEach(c => c.classList.remove('active'));
+    compareSelections.forEach(l => document.querySelector(`.${l}-card`)?.classList.add('active'));
+    updateCompareHint();
+    if (compareSelections.length === 2) {
+      renderCompare(compareSelections[0], compareSelections[1]);
+    } else {
+      const preview = document.getElementById('lang-preview');
+      preview.classList.remove('active');
+    }
+  } else {
+    renderSingleLang(lang);
+  }
   if (typeof syncURL === 'function') syncURL();
 }
 
