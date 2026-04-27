@@ -523,6 +523,96 @@
     display: block;
   }
 
+  /* ── SEARCH OVERLAY ── */
+  .search-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 200;
+    display: none;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 12vh;
+  }
+  .search-overlay.active { display: flex; }
+  .search-box {
+    width: min(640px, 92vw);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 16px 60px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+  }
+  .search-box input {
+    width: 100%;
+    padding: 16px 20px;
+    border: none;
+    background: var(--surface);
+    color: var(--text);
+    font-size: 1rem;
+    border-bottom: 1px solid var(--border);
+    outline: none;
+  }
+  .search-results {
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+  .search-result {
+    padding: 10px 20px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.1s;
+  }
+  .search-result:last-child { border-bottom: none; }
+  .search-result.active,
+  .search-result:hover { background: rgba(88, 166, 255, 0.1); }
+  .search-result .sr-label {
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 2px;
+  }
+  .search-result .sr-title {
+    font-size: 0.92rem;
+    color: var(--text);
+  }
+  .search-result mark {
+    background: rgba(88, 166, 255, 0.2);
+    color: var(--accent);
+    padding: 0 2px;
+    border-radius: 2px;
+  }
+  .search-empty {
+    padding: 20px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.86rem;
+  }
+  .search-trigger {
+    margin-left: 12px;
+    padding: 5px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--muted);
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .search-trigger:hover { color: var(--accent); border-color: var(--accent); }
+  .search-trigger kbd {
+    display: inline-block;
+    padding: 1px 6px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    font-family: 'SF Mono','Fira Code',monospace;
+    font-size: 0.7rem;
+    margin-left: 6px;
+    background: var(--bg);
+    color: var(--muted);
+  }
+
   /* ── PACKAGE GRAPH ── */
   .pkg-graph-wrap {
     border: 1px solid var(--border);
@@ -871,6 +961,7 @@
   <button class="nav-tab" onclick="showSection('architecture')">Architecture</button>
   <button class="nav-tab" onclick="showSection('runtime')">Runtime</button>
   <button class="nav-tab" onclick="showSection('capabilities')">Capabilities</button>
+  <button class="search-trigger" onclick="openSearch()" aria-label="Open search">🔍 Search <kbd>/</kbd></button>
 </nav>
 
 <!-- ══════════════════════════════════ OVERVIEW ══════════════════════════════════ -->
@@ -1765,6 +1856,13 @@ SourceryMethod(
 
   <div id="cap-table-container"></div>
 </section>
+
+<div class="search-overlay" id="search-overlay" onclick="if(event.target===this)closeSearch()">
+  <div class="search-box">
+    <input id="search-input" type="text" placeholder="Search anything…" oninput="renderSearchResults()" onkeydown="searchKeyDown(event)">
+    <div class="search-results" id="search-results"></div>
+  </div>
+</div>
 
 <footer>
   FishyJoes — maintained by Cricut's Front-end Enablement Team
@@ -2724,6 +2822,128 @@ function renderCapabilities() {
     </table>
   `;
 }
+
+// ── Search overlay ──
+let searchActiveIdx = 0;
+let searchLastResults = [];
+
+function buildSearchIndex() {
+  const idx = [];
+  // Tabs
+  document.querySelectorAll('.nav-tab').forEach(t => {
+    const m = (t.getAttribute('onclick') || '').match(/showSection\('([^']+)'/);
+    if (m) idx.push({ kind: 'Tab', title: t.textContent.trim(), action: () => showSection(m[1]) });
+  });
+  // Walkthrough steps
+  walkthroughSteps.forEach((s, i) => {
+    idx.push({ kind: 'Walkthrough', title: s.label + ' — ' + s.title, action: () => { showSection('walkthrough'); selectWalkStep(i); } });
+  });
+  // Pipeline stages
+  stageData.forEach((s, i) => {
+    idx.push({ kind: 'Pipeline', title: s.title, action: () => { showSection('pipeline'); selectStage(i); } });
+  });
+  // Languages
+  Object.keys(langData).forEach(lang => {
+    idx.push({ kind: 'Language', title: lang.charAt(0).toUpperCase() + lang.slice(1), action: () => { showSection('languages'); selectLang(lang); } });
+  });
+  // Capabilities
+  capabilities.forEach(c => {
+    const stripTags = s => s.replace(/<[^>]+>/g, '');
+    idx.push({ kind: 'Capability (' + capStatusMap[c.status].icon + ')', title: stripTags(c.feature), action: () => { showSection('capabilities'); const el = document.getElementById('cap-search'); if (el) { el.value = stripTags(c.feature); renderCapabilities(); syncURL(); } } });
+  });
+  // Architecture layers
+  document.querySelectorAll('#architecture .arch-layer-title').forEach(el => {
+    const cleaned = el.textContent.replace(/\s+/g, ' ').trim().split('📂')[0].trim();
+    if (cleaned) idx.push({ kind: 'Architecture', title: cleaned, action: () => { showSection('architecture'); el.scrollIntoView({ behavior: 'smooth', block: 'center' }); } });
+  });
+  // BetterType examples
+  betterTypeExamples.forEach((e, i) => {
+    idx.push({ kind: 'Type example', title: e.label, action: () => { showSection('types'); const sel = document.getElementById('bt-picker'); if (sel) { sel.selectedIndex = i; renderBetterTypeExample(); sel.scrollIntoView({ behavior: 'smooth', block: 'center' }); } } });
+  });
+  return idx;
+}
+
+let _searchIndex = null;
+function searchIndex() {
+  if (!_searchIndex) _searchIndex = buildSearchIndex();
+  return _searchIndex;
+}
+
+function openSearch() {
+  document.getElementById('search-overlay').classList.add('active');
+  const inp = document.getElementById('search-input');
+  inp.value = '';
+  renderSearchResults();
+  setTimeout(() => inp.focus(), 0);
+}
+function closeSearch() {
+  document.getElementById('search-overlay').classList.remove('active');
+}
+
+function escHTML(s) { return s.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c])); }
+function highlight(text, q) {
+  if (!q) return escHTML(text);
+  const escaped = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return escHTML(text).replace(new RegExp(escaped, 'ig'), m => `<mark>${m}</mark>`);
+}
+
+function renderSearchResults() {
+  const q = document.getElementById('search-input').value.trim().toLowerCase();
+  const idx = searchIndex();
+  const filtered = q
+    ? idx.filter(r => r.title.toLowerCase().includes(q) || r.kind.toLowerCase().includes(q))
+    : idx.slice(0, 20);
+  searchLastResults = filtered;
+  searchActiveIdx = 0;
+  const c = document.getElementById('search-results');
+  if (filtered.length === 0) {
+    c.innerHTML = `<div class="search-empty">No matches for "${escHTML(q)}".</div>`;
+    return;
+  }
+  c.innerHTML = filtered.slice(0, 30).map((r, i) =>
+    `<div class="search-result ${i === 0 ? 'active' : ''}" data-i="${i}" onclick="searchPick(${i})">
+      <div class="sr-label">${r.kind}</div>
+      <div class="sr-title">${highlight(r.title, q)}</div>
+    </div>`
+  ).join('');
+}
+
+function searchPick(i) {
+  const r = searchLastResults[i];
+  if (!r) return;
+  closeSearch();
+  r.action();
+}
+
+function searchKeyDown(e) {
+  const items = document.querySelectorAll('.search-result');
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    searchActiveIdx = Math.min(items.length - 1, searchActiveIdx + 1);
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    searchActiveIdx = Math.max(0, searchActiveIdx - 1);
+  } else if (e.key === 'Enter') {
+    e.preventDefault();
+    searchPick(searchActiveIdx);
+    return;
+  } else if (e.key === 'Escape') {
+    e.preventDefault();
+    closeSearch();
+    return;
+  } else {
+    return;
+  }
+  items.forEach((el, i) => el.classList.toggle('active', i === searchActiveIdx));
+  items[searchActiveIdx]?.scrollIntoView({ block: 'nearest' });
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === '/' && document.activeElement?.tagName !== 'INPUT' && document.activeElement?.tagName !== 'TEXTAREA' && document.activeElement?.tagName !== 'SELECT') {
+    e.preventDefault();
+    openSearch();
+  }
+});
 
 // ── Runtime call-path variants ──
 const callPathVariants = {
