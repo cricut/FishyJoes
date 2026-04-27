@@ -523,6 +523,57 @@
     display: block;
   }
 
+  /* ── PACKAGE GRAPH ── */
+  .pkg-graph-wrap {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+    padding: 24px;
+    margin-bottom: 32px;
+  }
+  .pkg-graph-title {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+  .pkg-graph svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .pkg-node {
+    fill: var(--bg);
+    stroke: var(--border);
+    stroke-width: 1;
+    cursor: pointer;
+    transition: fill 0.2s, stroke 0.2s;
+  }
+  .pkg-node:hover { stroke: var(--accent); }
+  .pkg-node.first { stroke: var(--swift); }
+  .pkg-node.runtime { stroke-dasharray: 0; }
+  .pkg-text {
+    fill: var(--text);
+    font-family: 'SF Mono','Fira Code',monospace;
+    font-size: 11px;
+    text-anchor: middle;
+    pointer-events: none;
+  }
+  .pkg-text-sub {
+    fill: var(--muted);
+    font-family: -apple-system, sans-serif;
+    font-size: 9px;
+    text-anchor: middle;
+    pointer-events: none;
+  }
+  .pkg-edge {
+    fill: none;
+    stroke: var(--border);
+    stroke-width: 1.5;
+  }
+  .pkg-edge-arrow { fill: var(--border); }
+
   /* ── CAPABILITIES MATRIX ── */
   .cap-controls {
     display: flex;
@@ -1217,7 +1268,92 @@ SourceryMethod(
 <!-- ══════════════════════════════════ ARCHITECTURE ══════════════════════════════════ -->
 <section id="architecture" class="section">
   <h2 class="section-title">Architecture Layers</h2>
-  <p class="section-desc">FishyJoes is organised into Swift targets plus generated/runtime package directories. Click each layer to see the key files and their responsibilities.</p>
+  <p class="section-desc">FishyJoes is organised into Swift targets plus generated/runtime package directories. The graph below shows the actual dependency edges from <code style="background:var(--surface);padding:2px 8px;border-radius:4px;font-family:monospace;">Package.swift</code>; the layers underneath group the same targets by responsibility.</p>
+
+  <div class="pkg-graph-wrap">
+    <div class="pkg-graph-title">Package.swift target dependency graph</div>
+    <div class="pkg-graph">
+      <svg viewBox="0 0 720 380" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="pkg-arrowhead" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+            <polygon points="0 0, 8 4, 0 8" class="pkg-edge-arrow"></polygon>
+          </marker>
+        </defs>
+
+        <!-- Title labels for the two halves -->
+        <text x="180" y="22" class="pkg-text-sub" style="font-size:10px;letter-spacing:0.06em;">CLI &amp; CODEGEN PIPELINE</text>
+        <text x="540" y="22" class="pkg-text-sub" style="font-size:10px;letter-spacing:0.06em;">RUNTIME LIBRARIES (consumed by generated bindings)</text>
+        <line x1="360" y1="40" x2="360" y2="360" stroke="var(--border)" stroke-dasharray="4 4"></line>
+
+        <!-- LEFT half: CLI/codegen -->
+        <!-- SourceryDataModel -->
+        <rect class="pkg-node" x="20" y="50" width="160" height="46" rx="8"></rect>
+        <text class="pkg-text" x="100" y="72">SourceryDataModel</text>
+        <text class="pkg-text-sub" x="100" y="86">shared AST schema</text>
+
+        <!-- FishyJoesConfig -->
+        <rect class="pkg-node" x="20" y="180" width="160" height="46" rx="8"></rect>
+        <text class="pkg-text" x="100" y="202">FishyJoesConfig</text>
+        <text class="pkg-text-sub" x="100" y="216">tool versions, YAML schema</text>
+
+        <!-- FishyJoesCore -->
+        <rect class="pkg-node first" x="200" y="115" width="120" height="46" rx="8"></rect>
+        <text class="pkg-text" x="260" y="137">FishyJoesCore</text>
+        <text class="pkg-text-sub" x="260" y="151">codegen engine</text>
+
+        <!-- FishyJoesExecute -->
+        <rect class="pkg-node first" x="200" y="245" width="120" height="46" rx="8"></rect>
+        <text class="pkg-text" x="260" y="267">FishyJoesExecute</text>
+        <text class="pkg-text-sub" x="260" y="281">orchestrator (CLI)</text>
+
+        <!-- FishyJoesExecuteMain -->
+        <rect class="pkg-node first" x="200" y="310" width="120" height="40" rx="8"></rect>
+        <text class="pkg-text" x="260" y="334">FishyJoesExecuteMain</text>
+
+        <!-- Edges: SourceryDataModel → Core, Config → Execute, Core → Execute, Execute → Main -->
+        <path class="pkg-edge" d="M180 73 L200 138" marker-end="url(#pkg-arrowhead)"></path>
+        <path class="pkg-edge" d="M180 203 L200 268" marker-end="url(#pkg-arrowhead)"></path>
+        <path class="pkg-edge" d="M260 161 L260 245" marker-end="url(#pkg-arrowhead)"></path>
+        <path class="pkg-edge" d="M260 291 L260 310" marker-end="url(#pkg-arrowhead)"></path>
+
+        <!-- RIGHT half: runtimes -->
+        <!-- FishyJoesCommonRuntime -->
+        <rect class="pkg-node first" x="395" y="50" width="170" height="46" rx="8"></rect>
+        <text class="pkg-text" x="480" y="72">FishyJoesCommonRuntime</text>
+        <text class="pkg-text-sub" x="480" y="86">shared Converter protocol</text>
+
+        <!-- NodeAPI / JNI ext deps (smaller, dashed) -->
+        <rect class="pkg-node runtime" x="595" y="135" width="105" height="34" rx="6" style="stroke-dasharray:3 3;"></rect>
+        <text class="pkg-text" x="647" y="156">NodeAPI</text>
+        <rect class="pkg-node runtime" x="595" y="225" width="105" height="34" rx="6" style="stroke-dasharray:3 3;"></rect>
+        <text class="pkg-text" x="647" y="246">JNI</text>
+
+        <!-- 3 runtime targets -->
+        <rect class="pkg-node" x="395" y="135" width="170" height="34" rx="6"></rect>
+        <text class="pkg-text" x="480" y="156">FishyJoesNodeRuntime</text>
+        <rect class="pkg-node" x="395" y="180" width="170" height="34" rx="6"></rect>
+        <text class="pkg-text" x="480" y="201">FishyJoesIotaRuntime  (C# &amp; Dart)</text>
+        <rect class="pkg-node" x="395" y="225" width="170" height="34" rx="6"></rect>
+        <text class="pkg-text" x="480" y="246">FishyJoesJavaRuntime</text>
+
+        <!-- Edges: Common → all 3 runtimes; NodeAPI → Node; JNI → Java -->
+        <path class="pkg-edge" d="M480 96 L480 135" marker-end="url(#pkg-arrowhead)"></path>
+        <path class="pkg-edge" d="M480 96 Q500 110 480 180" marker-end="url(#pkg-arrowhead)"></path>
+        <path class="pkg-edge" d="M480 96 Q470 130 480 225" marker-end="url(#pkg-arrowhead)"></path>
+        <path class="pkg-edge" d="M595 152 L565 152" marker-end="url(#pkg-arrowhead)"></path>
+        <path class="pkg-edge" d="M595 242 L565 242" marker-end="url(#pkg-arrowhead)"></path>
+
+        <!-- Bottom note -->
+        <text x="480" y="320" class="pkg-text-sub" style="font-size:10px;">Each runtime is also published as a per-language package</text>
+        <text x="480" y="336" class="pkg-text-sub" style="font-size:10px;">(node-runtime/, kotlin-runtime/, c-sharp-runtime/, dart-runtime/)</text>
+      </svg>
+    </div>
+    <div style="margin-top:14px;display:flex;flex-wrap:wrap;gap:18px;font-size:0.78rem;color:var(--muted);">
+      <span><span style="display:inline-block;width:14px;height:10px;border:1px solid var(--swift);border-radius:2px;vertical-align:middle;margin-right:5px;"></span>Swift target authored in this repo</span>
+      <span><span style="display:inline-block;width:14px;height:10px;border:1px dashed var(--border);border-radius:2px;vertical-align:middle;margin-right:5px;"></span>External / system-library dependency</span>
+      <span style="margin-left:auto;">Source: <code>Package.swift</code></span>
+    </div>
+  </div>
 
   <div class="arch-diagram">
 
