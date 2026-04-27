@@ -1690,27 +1690,15 @@ SourceryMethod(
   </div>
 
   <div style="margin-top:40px;">
-    <h3 style="font-size:1rem;margin-bottom:20px;">Call path: TypeScript calls a Swift method</h3>
-    <div style="display:flex;flex-direction:column;gap:0;">
-      <div style="padding:14px 20px;border-radius:8px 8px 0 0;border:1px solid var(--node);background:rgba(104,160,99,0.06);font-size:0.82rem;">
-        <strong style="color:var(--node);">1. JS/TS</strong> &nbsp; <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">const result = element.scale(2.0)</code>
-      </div>
-      <div style="padding:14px 20px;border:1px solid var(--border);border-top:none;background:rgba(88,166,255,0.04);font-size:0.82rem;">
-        <strong style="color:var(--accent);">2. N-API callback</strong> &nbsp; Node invokes the generated method callback registered by <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">NodeClass</code>, which enters Swift through <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">FishyJoesNodeRuntime.callbackBody</code>
-      </div>
-      <div style="padding:14px 20px;border:1px solid var(--border);border-top:none;background:rgba(88,166,255,0.04);font-size:0.82rem;">
-        <strong style="color:var(--accent);">3. NodeConverter</strong> &nbsp; <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">env.argument(at: 0, converter: Double.self)</code> → Swift <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">Double</code> (via <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">Double.fromNode</code>)
-      </div>
-      <div style="padding:14px 20px;border:1px solid var(--border);border-top:none;background:rgba(240,81,56,0.06);font-size:0.82rem;">
-        <strong style="color:var(--swift);">4. Swift</strong> &nbsp; <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">DesignElement.scale(by: 2.0)</code> executes natively
-      </div>
-      <div style="padding:14px 20px;border:1px solid var(--border);border-top:none;background:rgba(88,166,255,0.04);font-size:0.82rem;">
-        <strong style="color:var(--accent);">5. NodeConverter</strong> &nbsp; <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">DesignElement.toNode(result, env:)</code> → <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">NAPI.Value</code> (<code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">napi_value</code>)
-      </div>
-      <div style="padding:14px 20px;border-radius:0 0 8px 8px;border:1px solid var(--node);border-top:none;background:rgba(104,160,99,0.06);font-size:0.82rem;">
-        <strong style="color:var(--node);">6. JS/TS</strong> &nbsp; The synchronous call returns a fully-typed <code style="background:var(--bg);padding:2px 8px;border-radius:4px;font-size:0.78rem;">DesignElement</code> object. Swift async methods use a Promise-returning path.
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:20px;">
+      <h3 style="font-size:1rem;">Call path: TypeScript calls a Swift method</h3>
+      <div style="display:flex;gap:6px;">
+        <button class="cap-pill active" data-callvariant="sync" onclick="selectCallVariant('sync')">Sync result</button>
+        <button class="cap-pill" data-callvariant="async" onclick="selectCallVariant('async')">Async result</button>
+        <button class="cap-pill" data-callvariant="throws" onclick="selectCallVariant('throws')">Throws</button>
       </div>
     </div>
+    <div id="call-path-container"></div>
   </div>
 </section>
 
@@ -2689,6 +2677,63 @@ function renderCapabilities() {
   `;
 }
 
+// ── Runtime call-path variants ──
+const callPathVariants = {
+  sync: [
+    { who: "JS/TS",          color: "node",   text: "<code>const r = el.shme();</code>" },
+    { who: "N-API callback", color: "accent", text: "Node invokes the generated method callback registered by <code>NodeClass</code>; enters Swift via <code>FishyJoesNodeRuntime.callbackBody</code>" },
+    { who: "NodeConverter",  color: "accent", text: "<code>env.this(converter: EmptyClass.self)</code> peeks the <code>NodeReference</code> back to a Swift instance" },
+    { who: "Swift",          color: "swift",  text: "<code>EmptyClass.shme()</code> runs natively and returns a <code>String</code>" },
+    { who: "NodeConverter",  color: "accent", text: "<code>String.toNode(result, env:)</code> → <code>NAPI.Value</code> (<code>napi_value</code>)" },
+    { who: "JS/TS",          color: "node",   text: "Synchronous call returns the typed string." },
+  ],
+  async: [
+    { who: "JS/TS",          color: "node",   text: "<code>const r = await el.someAsyncMethod();</code>" },
+    { who: "N-API callback", color: "accent", text: "Generated callback enters Swift via <code>FishyJoesNodeRuntime.callbackBody</code>; immediately calls <code>env.createPromise()</code> → <code>(NAPI.Promise, NAPI.Deferred)</code>" },
+    { who: "Swift",          color: "swift",  text: "<code>EmptyClass.someAsyncMethod()</code> returns a <code>Future&lt;String&gt;</code>; the runtime calls <code>.sink { … }</code> capturing the deferred" },
+    { who: "Return",         color: "accent", text: "Promise is returned to JS immediately; Swift's continuation runs on its own queue" },
+    { who: "Completion",     color: "swift",  text: "When the future resolves, the sink closure schedules back via <code>onMainThread { env in … }</code> (Node's event loop)" },
+    { who: "NodeConverter",  color: "accent", text: "<code>String.toNode(result, env:)</code> → <code>NAPI.Value</code>; <code>env.resolveDeferred(deferred, value)</code> resolves the JS promise" },
+    { who: "JS/TS",          color: "node",   text: "<code>await</code> resumes with the result. (On error, see the throws variant.)" },
+  ],
+  throws: [
+    { who: "JS/TS",          color: "node",   text: "<code>el.someThrowingMethod();</code>" },
+    { who: "N-API callback", color: "accent", text: "Generated callback enters via <code>FishyJoesNodeRuntime.callbackBody</code>, which wraps the body in <code>rethrowToNode</code>" },
+    { who: "Swift",          color: "swift",  text: "Method throws a Swift <code>Error</code>" },
+    { who: "rethrowToNode",  color: "accent", text: "Catches the error; if it's an <code>IotaException</code> wrapping a foreign object, that object is rethrown; otherwise <code>String.toNode(error.description)</code> + <code>env.throw(...)</code>" },
+    { who: "Return",         color: "accent", text: "<code>callbackBody</code> returns <code>nil</code> from the napi_callback; Node sees a pending exception" },
+    { who: "JS/TS",          color: "node",   text: "JS throws (or, for async methods, the Promise rejects)" },
+  ],
+};
+const callPathColors = {
+  node:   { border: 'var(--node)',   bg: 'rgba(104,160,99,0.06)' },
+  accent: { border: 'var(--border)', bg: 'rgba(88,166,255,0.04)' },
+  swift:  { border: 'var(--border)', bg: 'rgba(240,81,56,0.06)' },
+};
+let activeCallVariant = 'sync';
+function selectCallVariant(v) {
+  activeCallVariant = v;
+  document.querySelectorAll('button[data-callvariant]').forEach(b => {
+    b.classList.toggle('active', b.dataset.callvariant === v);
+  });
+  renderCallPath();
+}
+function renderCallPath() {
+  const c = document.getElementById('call-path-container');
+  if (!c) return;
+  const steps = callPathVariants[activeCallVariant];
+  c.innerHTML = `<div style="display:flex;flex-direction:column;gap:0;">` + steps.map((s, i) => {
+    const colors = callPathColors[s.color];
+    const isFirst = i === 0;
+    const isLast = i === steps.length - 1;
+    const radius = isFirst ? '8px 8px 0 0' : (isLast ? '0 0 8px 8px' : '0');
+    const top = isFirst ? `1px solid ${colors.border}` : 'none';
+    return `<div style="padding:14px 20px;border-radius:${radius};border:1px solid ${colors.border === 'var(--border)' ? 'var(--border)' : colors.border};border-top:${top};background:${colors.bg};font-size:0.82rem;">
+      <strong style="color:${s.color === 'accent' ? 'var(--accent)' : 'var(--' + s.color + ')'};">${i + 1}. ${s.who}</strong> &nbsp; ${s.text}
+    </div>`;
+  }).join('') + `</div>`;
+}
+
 // ── BetterType translator widget ──
 const betterTypeExamples = [
   {
@@ -2812,6 +2857,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderCapCategories();
   renderCapabilities();
   initBetterTypePicker();
+  renderCallPath();
   applyURLState();
 });
 selectStage(0);
