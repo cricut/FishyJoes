@@ -1,11 +1,13 @@
 #!/bin/zsh
-set -euxo pipefail
+set -euo pipefail
 
 # This is meant to be run in the root of the FishyJoes repository
 
 source kotlin-runtime/VERSIONS
 
 alternateLibPaths=()
+# names of all copied libaries will be copied into this file
+libListFile=/dev/null
 
 # copyLibrariesAndDependencies installDestination lib1.so lib2.so ...
 # copies all libraries into the destination and any dependencies that can be found in the same directory
@@ -41,6 +43,7 @@ function copyLibrariesAndDependencies {
 
         echo "copying $lib"
         cp $lib $destination/
+        echo $(basename $lib) >> $libListFile
         for dep in $(patchelf --print-needed $lib); do
             unprocessedLibs+=("$(dirname $lib)/$dep")
         done
@@ -96,6 +99,7 @@ if [[ "${FISHYJOES_UBUNTU:-}" != "0" ]]; then
     ubuntuRoots=(
         $runtimeLibraryPath/libFoundation.so
         $runtimeLibraryPath/libFoundationXML.so
+        /usr/lib/x86_64-linux-gnu/libxml2.so.2
 
         # Uncomment this if networking is needed
         # $runtimeLibraryPath/libFoundationNetworking.so
@@ -104,11 +108,11 @@ if [[ "${FISHYJOES_UBUNTU:-}" != "0" ]]; then
     platformDir=kotlin-runtime/src/generated/resources/linux
     mkdir -p $platformDir
     alternateLibPaths=()
-    copyLibrariesAndDependencies $platformDir $ubuntuRoots
-    # libxml2 is the only system library swift depends on that is not installed by default in ubuntu
-    cp /usr/lib/x86_64-linux-gnu/libxml2.so.2 kotlin-runtime/src/generated/resources/linux/
 
     # Put list of dependency libraries into text file, so they can be extracted from the jar before loading main library
-    (cd kotlin-runtime/src/generated/resources/linux && ls *.so*) |
-        tee kotlin-runtime/src/generated/resources/linux/stdlib.txt
+    libListFile=kotlin-runtime/src/generated/resources/linux/stdlib.txt
+    printf '' >$libListFile
+
+    copyLibrariesAndDependencies $platformDir $ubuntuRoots
+    cat $libListFile
 fi
