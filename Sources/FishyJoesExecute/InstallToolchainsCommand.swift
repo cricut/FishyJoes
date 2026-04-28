@@ -124,16 +124,7 @@ struct InstallToolchainsCommand: ParsableCommand {
                     ("~/.swiftpm" as NSString).expandingTildeInPath
 
                 Log.info("Linking android NDK to swift SDK")
-                try? cmd("ls", "\(spmDir)").run()
-                try? cmd("ls", "\(spmDir)/swift-sdks").run()
-                try? cmd("ls", "\(spmDir)/swift-sdks/swift-\(sdk).artifactbundle").run()
-                try? cmd("ls", "\(spmDir)/swift-sdks/swift-\(sdk).artifactbundle/swift-android").run()
-                try? cmd("ls", "\(spmDir)/swift-sdks/swift-\(sdk).artifactbundle/swift-android/scripts").run()
-                try? cmd("ls", "\(spmDir)/swift-sdks/swift-\(sdk).artifactbundle/swift-android/scripts/setup-android-sdk.sh").run()
-                try cmd(
-                    "bash", "-ex",
-                    "\(spmDir)/.swiftpm/swift-sdks/swift-\(sdk).artifactbundle/swift-android/scripts/setup-android-sdk.sh"
-                ).run()
+                try cmd("\(spmDir)/swift-sdks/swift-\(sdk).artifactbundle/swift-android/scripts/setup-android-sdk.sh").run()
             } else {
                 Log.warn("ANDROID_NDK_HOME is unset, skipping linking of NDK. Android compilation may not work.")
                 Log.warn("running 'sdkmanager --list_installed --verbose' may have the path")
