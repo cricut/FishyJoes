@@ -120,7 +120,9 @@ struct InstallToolchainsCommand: ParsableCommand {
 
             if ProcessInfo.processInfo.environment["ANDROID_NDK_HOME"] != nil {
                 Log.info("Linking android NDK to swift SDK")
+                try? cmd("ls", "\(NSHomeDirectory())/.swiftpm/swift-sdks/swift-\(sdk).artifactbundle/swift-android/scripts/setup-android-sdk.sh").run()
                 try cmd(
+                    "bash", "-ex",
                     "\(NSHomeDirectory())/.swiftpm/swift-sdks/swift-\(sdk).artifactbundle/swift-android/scripts/setup-android-sdk.sh"
                 ).run()
             } else {

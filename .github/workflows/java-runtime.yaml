@@ -88,15 +88,7 @@ jobs:
           export ANDROID_NDK_HOME="/usr/lib/android-sdk/ndk/$ndkVersion"
           echo "ANDROID_NDK_HOME=$ANDROID_NDK_HOME" >> "$GITHUB_ENV"
 
-          echo $ANDROID_NDK_HOME
-          ls $ANDROID_NDK_HOME || true
-          ls /opt/android-sdk/ndk/ || true
-          sdkmanager --list_installed --verbose || true
-
-          swift run fishy-joes install-toolchains --swiftly --android --no-wasm || {
-            bash -x /home/runner/.swiftpm/swift-sdks/swift-6.2-RELEASE-android-0.1.artifactbundle/swift-android/scripts/setup-android-sdk.sh
-            exit 1
-          }
+          swift run fishy-joes install-toolchains --swiftly --android --no-wasm
 
       - name: Build native FishyJoesJavaRuntime
         shell: zsh {0}
