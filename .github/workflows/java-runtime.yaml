@@ -81,10 +81,9 @@ jobs:
           source kotlin-runtime/VERSIONS
           sudo apt-get install -y zsh google-android-cmdline-tools-13.0-installer libcurl4-openssl-dev
 
-          sdkmanager --install "ndk-bundle"
           # https://developer.android.com/studio/projects/install-ndk#install_ndk_and_cmake_automatically
-          ( yes || true ) | sdkmanager --licenses >/dev/null
-          sdkmanager --install "ndk;$ndkVersion"
+          ( yes || true ) | sudo sdkmanager --licenses >/dev/null
+          sudo sdkmanager --install "ndk;$ndkVersion"
           export ANDROID_NDK_HOME="/opt/android-sdk/ndk/$ndkVersion"
           echo "ANDROID_NDK_HOME=$ANDROID_NDK_HOME" >> "$GITHUB_ENV"
 
