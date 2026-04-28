@@ -412,12 +412,11 @@ jobs:
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
-      # Must use Java 17 instead of Java 11 because Gradle requires it to build the Android sample app
       - name: Setup JDK
         uses: actions/setup-java@v3
         with:
           distribution: zulu
-          java-version: 17
+          java-version: 20
 
       - name: Retrieve artifacts
         uses: actions/download-artifact@v4

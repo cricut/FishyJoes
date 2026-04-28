@@ -36,7 +36,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: zulu
-          java-version: 11
+          java-version: 20
 
       - name: Build native FishyJoesJavaRuntime
         shell: zsh {0}
@@ -72,7 +72,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: zulu
-          java-version: 11
+          java-version: 20
 
       - name: Install tools
         run: |
@@ -142,7 +142,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: zulu
-          java-version: 11
+          java-version: 20
 
       - name: Pre-resolve Required SwiftPM Packages
         continue-on-error: true
@@ -190,7 +190,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: zulu
-          java-version: 11
+          java-version: 20
 
       - name: Configure build environment
         run: |

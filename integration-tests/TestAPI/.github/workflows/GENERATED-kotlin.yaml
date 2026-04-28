@@ -20,7 +20,7 @@ env:
   GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
   GITHUB_USER: cricut-builduser
   GRADLE_OPTS: -Dorg.gradle.daemon=false
-  JAVA_VERSION: 11
+  JAVA_VERSION: 20
   FISHYJOES: 1
 
 jobs:
