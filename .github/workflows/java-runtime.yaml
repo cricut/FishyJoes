@@ -88,6 +88,8 @@ jobs:
           export ANDROID_NDK_HOME="/usr/lib/android-sdk/ndk/$ndkVersion"
           echo "ANDROID_NDK_HOME=$ANDROID_NDK_HOME" >> "$GITHUB_ENV"
 
+          find / -name libFoundation.so
+
           swift run fishy-joes install-toolchains --swiftly --android --no-wasm
 
       - name: Build native FishyJoesJavaRuntime
