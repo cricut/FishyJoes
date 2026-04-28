@@ -108,9 +108,7 @@ if [[ "${FISHYJOES_UBUNTU:-}" != "0" ]]; then
     alternateLibPaths=()
     copyLibrariesAndDependencies $platformDir $ubuntuRoots
     # libxml2 is the only system library swift depends on that is not installed by default in ubuntu
-    echo $PKG_CONFIG_PATH
-    find /usr -name 'libxml*.pc'
-    cp "$(pkg-config libxml-2.0 --variable=libdir)/libxml2.so.2" kotlin-runtime/src/generated/resources/linux/
+    cp /usr/lib/x86_64-linux-gnu/libxml2.so.2 kotlin-runtime/src/generated/resources/linux/
 
     # Put list of dependency libraries into text file, so they can be extracted from the jar before loading main library
     (cd kotlin-runtime/src/generated/resources/linux && ls *.so*) |
