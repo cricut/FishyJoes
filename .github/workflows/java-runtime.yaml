@@ -90,7 +90,7 @@ jobs:
 
           swift run fishy-joes install-toolchains --swiftly --android --no-wasm
 
-          source "~/.local/share/swiftly/env.sh"
+          source ~/.local/share/swiftly/env.sh
           echo "SWIFTLY_HOME_DIR=$SWIFTLY_HOME_DIR" >> "$GITHUB_ENV"
           echo "$SWIFTLY_BIN_PATH" >> "$GITHUB_PATH"
 
