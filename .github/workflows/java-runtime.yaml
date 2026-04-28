@@ -20,6 +20,7 @@ env:
 
 jobs:
   build-test-kotlin-mac:
+    if: false
     name: "macOS: Build and test kotlin runtime"
     runs-on: macos-26
 
@@ -87,6 +88,12 @@ jobs:
           export ANDROID_NDK_HOME="/opt/android-sdk/ndk/$ndkVersion"
           echo "ANDROID_NDK_HOME=$ANDROID_NDK_HOME" >> "$GITHUB_ENV"
 
+          echo $ANDROID_NDK_HOME
+          ls $ANDROID_NDK_HOME || true
+          ls /opt/android-sdk/ndk/ || true
+          sdkmanager --list_installed --verbose || true
+          exit 1
+
           swift run fishy-joes install-toolchains --swiftly --android --no-wasm
 
       - name: Build native FishyJoesJavaRuntime
@@ -130,6 +137,7 @@ jobs:
           if-no-files-found: error
 
   build-test-kotlin-windows:
+    if: false
     name: "Windows: Build and test kotlin runtime"
     runs-on: windows-2025
     steps:
