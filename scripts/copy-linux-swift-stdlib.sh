@@ -93,12 +93,13 @@ fi
 # Copy ubuntu libs
 
 if [[ "${FISHYJOES_UBUNTU:-}" != "0" ]]; then
+    runtimeLibraryPath=$(swift -print-target-info | jq -r '.paths.runtimeLibraryPaths[0]')
     ubuntuRoots=(
-        /usr/lib/swift/linux/libFoundation.so
-        /usr/lib/swift/linux/libFoundationXML.so
+        $runtimeLibraryPath/libFoundation.so
+        $runtimeLibraryPath/libFoundationXML.so
 
         # Uncomment this if networking is needed
-        # /usr/lib/swift/linux/libFoundationNetworking.so
+        # $runtimeLibraryPath/libFoundationNetworking.so
     )
 
     platformDir=kotlin-runtime/src/generated/resources/linux
@@ -107,7 +108,7 @@ if [[ "${FISHYJOES_UBUNTU:-}" != "0" ]]; then
     alternateLibPaths=()
     copyLibrariesAndDependencies $platformDir $ubuntuRoots
     # libxml2 is the only system library swift depends on that is not installed by default in ubuntu
-    cp /usr/lib/x86_64-linux-gnu/libxml2.so.2 kotlin-runtime/src/generated/resources/linux/
+    cp "$(pkg-config libxml-2.0 --variable=libdir)/libxml2.so.2" kotlin-runtime/src/generated/resources/linux/
 
     # Put list of dependency libraries into text file, so they can be extracted from the jar before loading main library
     (cd kotlin-runtime/src/generated/resources/linux && ls *.so*) |
