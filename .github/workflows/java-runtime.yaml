@@ -92,7 +92,6 @@ jobs:
           ls $ANDROID_NDK_HOME || true
           ls /opt/android-sdk/ndk/ || true
           sdkmanager --list_installed --verbose || true
-          exit 1
 
           swift run fishy-joes install-toolchains --swiftly --android --no-wasm
 
