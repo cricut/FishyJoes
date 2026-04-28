@@ -20,7 +20,7 @@ env:
 
 jobs:
   build-test-kotlin-mac:
-    if: false
+    # if: false
     name: "macOS: Build and test kotlin runtime"
     runs-on: macos-26
 
@@ -135,7 +135,7 @@ jobs:
           if-no-files-found: error
 
   build-test-kotlin-windows:
-    if: false
+    # if: false
     name: "Windows: Build and test kotlin runtime"
     runs-on: windows-2025
     steps:

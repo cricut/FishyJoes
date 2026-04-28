@@ -1,9 +1,12 @@
 #!/bin/zsh
 set -euo pipefail
 
-# This is meant to be run in the root of the FishyJoes repository
+if [[ ! -d kotlin-runtime ]]; then
+    echo "Not in root of FishyJoes"
+    exit 1
+fi
 
-source kotlin-runtime/VERSIONS
+source ./scripts/_read-tool-versions.sh --verbose
 
 alternateLibPaths=()
 # names of all copied libaries will be copied into this file
@@ -52,7 +55,7 @@ function copyLibrariesAndDependencies {
 
 if [[ "${FISHYJOES_ANDROID:-}" != "0" ]]; then
     # Copy android libs
-    for arch in $androidArchs; do
+    for arch in armv7 x86_64 aarch64; do
         case $arch in
             armv7)
                 ndkName=armeabi-v7a;
@@ -78,14 +81,14 @@ if [[ "${FISHYJOES_ANDROID:-}" != "0" ]]; then
         fi
 
         androidRoots=(
-            $spmDir/swift-sdks/$swiftAndroidSDKName.artifactbundle/swift-android/swift-resources/usr/lib/swift-$arch/android/libFoundation.so
-            $spmDir/swift-sdks/$swiftAndroidSDKName.artifactbundle/swift-android/swift-resources/usr/lib/swift-$arch/android/libFoundationXML.so
-            $spmDir/swift-sdks/$swiftAndroidSDKName.artifactbundle/swift-android/swift-resources/usr/lib/swift-$arch/android/libswiftSwiftOnoneSupport.so
+            $spmDir/swift-sdks/$swiftAndroidSDK.artifactbundle/swift-android/swift-resources/usr/lib/swift-$arch/android/libFoundation.so
+            $spmDir/swift-sdks/$swiftAndroidSDK.artifactbundle/swift-android/swift-resources/usr/lib/swift-$arch/android/libFoundationXML.so
+            $spmDir/swift-sdks/$swiftAndroidSDK.artifactbundle/swift-android/swift-resources/usr/lib/swift-$arch/android/libswiftSwiftOnoneSupport.so
 
             # Uncomment this if networking is needed
-            # $spmDir/swift-sdks/$swiftAndroidSDKName.artifactbundle/swift-android/usr/lib/swift/android/libFoundationNetworking.so
+            # $spmDir/swift-sdks/$swiftAndroidSDK.artifactbundle/swift-android/usr/lib/swift/android/libFoundationNetworking.so
         )
-        alternateLibPaths=($spmDir/swift-sdks/$swiftAndroidSDKName.artifactbundle/swift-android/ndk-sysroot/usr/lib/$triple)
+        alternateLibPaths=($spmDir/swift-sdks/$swiftAndroidSDK.artifactbundle/swift-android/ndk-sysroot/usr/lib/$triple)
         copyLibrariesAndDependencies $platformDir $androidRoots
 
         patchelf --page-size 16384 --add-needed libz.so $platformDir/libFoundationXML.so

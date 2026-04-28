@@ -1,6 +1,0 @@
-androidArchs=(aarch64 armv7 x86_64)
-swiftVersion=6.2
-androidAPIVersion=24
-ndkVersion=27.3.13750724
-swiftAndroidSDKName=swift-6.2-RELEASE-android-0.1
-swiftAndroidSDKChecksum=ca7e09f09a591b6a661a39134aaf53b1b59d5e3a193b271ab1f20effdfc6e88e

@@ -84,7 +84,7 @@ struct InstallToolchainsCommand: ParsableCommand {
                 Log.info("Installing swift-wasm sdk \(sdk)")
                 try Swiftly.run(
                     toolchain: toolchain, "swift", "sdk", "install",
-                    "https://github.com/swiftwasm/swift/releases/download/swift-wasm-\(sdk)/swift-wasm-\(sdk)-\(triple).artifactbundle.zip",
+                    ToolVersions.shared.swiftWasm.sdkURL,
                     "--checksum", ToolVersions.shared.swiftWasm.sdkChecksum
                 ).run()
             }
@@ -113,7 +113,7 @@ struct InstallToolchainsCommand: ParsableCommand {
                 Log.info("Installing swift-android sdk \(sdk)")
                 try Swiftly.run(
                     toolchain: toolchain, "swift", "sdk", "install",
-                    "https://github.com/swift-android-sdk/swift-android-sdk/releases/download/\(toolchain)/swift-\(sdk).artifactbundle.tar.gz",
+                    ToolVersions.shared.swiftAndroid.sdkURL,
                     "--checksum", ToolVersions.shared.swiftAndroid.sdkChecksum
                 ).run()
             }
