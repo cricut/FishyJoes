@@ -81,9 +81,9 @@ if [[ "${FISHYJOES_ANDROID:-}" != "0" ]]; then
         fi
 
         androidRoots=(
-            $spmDir/swift-sdks/$swiftAndroidSDK.artifactbundle/swift-android/swift-resources/usr/lib/swift-$arch/android/libFoundation.so
-            $spmDir/swift-sdks/$swiftAndroidSDK.artifactbundle/swift-android/swift-resources/usr/lib/swift-$arch/android/libFoundationXML.so
-            $spmDir/swift-sdks/$swiftAndroidSDK.artifactbundle/swift-android/swift-resources/usr/lib/swift-$arch/android/libswiftSwiftOnoneSupport.so
+            $spmDir/swift-sdks/swift-$swiftAndroidSDK.artifactbundle/swift-android/swift-resources/usr/lib/swift-$arch/android/libFoundation.so
+            $spmDir/swift-sdks/swift-$swiftAndroidSDK.artifactbundle/swift-android/swift-resources/usr/lib/swift-$arch/android/libFoundationXML.so
+            $spmDir/swift-sdks/swift-$swiftAndroidSDK.artifactbundle/swift-android/swift-resources/usr/lib/swift-$arch/android/libswiftSwiftOnoneSupport.so
 
             # Uncomment this if networking is needed
             # $spmDir/swift-sdks/$swiftAndroidSDK.artifactbundle/swift-android/usr/lib/swift/android/libFoundationNetworking.so
